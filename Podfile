@@ -26,15 +26,15 @@ def shared_pods
     pod "Fabric",               "~> 1.6.10" # Swift 3.0: -
     pod "Crashlytics",          "~> 3.8.2"  # Swift 3.0: -
     pod "TwitterKit",           "~> 2.3.0"  # Swift 3.0: -
-    pod "Branch",               "~> 0.12.12"# Swift 3.0: -
+    pod "Branch",               "~> 0.12.18"# Swift 3.0: -
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.8.5"  # Swift 3.0: -
     pod "AppsFlyerFramework",   "~> 4.5.12"  # Swift 3.0: -
-    pod "Leanplum-iOS-SDK",     "~> 1.4.0"  # Swift 3.0: -
+    pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Swift 3.0: -
 
 	# letgo Core
-    pod "LGCoreKit",            "1.6.0"     #:path => "../lgcorekit"
+    pod "LGCoreKit",            "1.6.1"     #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -

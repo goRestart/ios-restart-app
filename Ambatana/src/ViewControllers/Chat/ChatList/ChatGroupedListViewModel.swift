@@ -166,13 +166,12 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         var queueError: RepositoryError?
         dispatch_async(chatReloadQueue, { [weak self] in
             guard let strongSelf = self else { return }
-
             for page in strongSelf.firstPage..<strongSelf.nextPage {
                 let result = synchronize({ completion in
                     self?.index(page, completion: { (result: Result<[T], RepositoryError>) -> () in
                         completion(result)
                     })
-                    }, timeoutWith: Result<[T], RepositoryError>(error: RepositoryError.Network))
+                    }, timeoutWith: Result<[T], RepositoryError>(error: RepositoryError.setupNetworkGenericError()))
 
                 if let value = result.value {
                     reloadedObjects += value
@@ -188,8 +187,12 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
             dispatch_async(dispatch_get_main_queue()) {
                 // Status update
                 if let error = queueError {
-                    let emptyVM = strongSelf.emptyViewModelForError(error)
-                    strongSelf.status = .Error(emptyVM)
+                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
+                        strongSelf.status = .Error(emptyVM)
+                    }
+                    else {
+                        strongSelf.retrieveFirstPage()
+                    }
                 } else if let emptyVM = strongSelf.emptyStatusViewModel where reloadedObjects.isEmpty {
                     strongSelf.status = .Empty(emptyVM)
                 } else {
@@ -219,6 +222,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     func retrievePage(page: Int) {
         let firstPage = (page == 1)
         isLoading = true
+        var hasToRetrieveFirstPage: Bool = false
         chatGroupedDelegate?.chatGroupedListViewModelDidStartRetrievingObjectList()
 
         index(page) { [weak self] result in
@@ -242,9 +246,13 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
             } else if let error = result.error {
+                
                 if firstPage && strongSelf.objectCount == 0 {
-                    let emptyVM = strongSelf.emptyViewModelForError(error)
-                    strongSelf.status = .Error(emptyVM)
+                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
+                        strongSelf.status = .Error(emptyVM)
+                    } else {
+                        hasToRetrieveFirstPage = true
+                    }
                 } else {
                     strongSelf.status = .Data
                 }
@@ -252,22 +260,25 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(page)
             }
             strongSelf.isLoading = false
+            //TODO: Check if we could move strongSelf.isLoading to top.
+            if hasToRetrieveFirstPage {
+                strongSelf.retrieveFirstPage()
+            }
         }
-
         didFinishLoading()
     }
 
 
     // MARK: - Private methods
 
-    private func emptyViewModelForError(error: RepositoryError) -> LGEmptyViewModel {
+    private func emptyViewModelForError(error: RepositoryError) -> LGEmptyViewModel? {
         let retryAction: () -> () = { [weak self] in
             self?.retrieveFirstPage()
         }
-        let emptyVM: LGEmptyViewModel
+        var emptyVM: LGEmptyViewModel?
         switch error {
-        case .Network:
-            emptyVM = LGEmptyViewModel.networkErrorWithRetry(retryAction)
+        case let .Network(_, onBackground):
+            emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(retryAction)
         case .Internal, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
         }

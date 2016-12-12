@@ -23,6 +23,11 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func viewControllerToShowShareOptions() -> UIViewController
 }
 
+extension MKMapView {
+    // Create a unique isntance of MKMapView due to: http://stackoverflow.com/questions/36417350/mkmapview-using-a-lot-of-memory-each-time-i-load-its-view
+    @nonobjc static let sharedInstance = MKMapView()
+}
+
 class ProductCarouselMoreInfoView: UIView {
 
     private static let relatedItemsHeight: CGFloat = 80
@@ -33,7 +38,6 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var transTitleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
-    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
@@ -46,6 +50,8 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var dragViewTitle: UILabel!
     @IBOutlet weak var dragViewImage: UIImageView!
 
+    let mapView: MKMapView = MKMapView.sharedInstance
+
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
@@ -55,8 +61,6 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var relatedItemsViewMoreButton: UIButton!
     private var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight,
                                                           frame: CGRect.zero)
-
-
     private let disposeBag = DisposeBag()
     private var currentVmDisposeBag = DisposeBag()
     private var viewModel: ProductViewModel?
@@ -122,6 +126,11 @@ class ProductCarouselMoreInfoView: UIView {
     func dismissed() {
         scrollView.contentOffset = CGPoint.zero
         descriptionLabel.collapsed = true
+    }
+    
+    deinit {
+        // Force mapView removal
+        mapView.removeFromSuperview()
     }
 }
 
@@ -263,11 +272,21 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 // MARK: - Private
 
 private extension ProductCarouselMoreInfoView {
-
-
-    // MARK: > Setup (initial)
-
     func setupUI(featureFlags: FeatureFlaggeable) {
+        if mapView.superview != nil {
+            mapView.removeFromSuperview()
+        }
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        scrollViewContent.addSubview(mapView)
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: scrollViewContent, attribute: .Trailing, relatedBy: .Equal,
+                                                           toItem: mapView, attribute: .Trailing, multiplier: 1, constant: 15))
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: scrollViewContent, attribute: .Leading, relatedBy: .Equal,
+                                                           toItem: mapView, attribute: .Leading, multiplier: 1, constant: -15))
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Height, relatedBy: .Equal,
+                                                           toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 150))
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Top, relatedBy: .Equal,
+                                                           toItem: addressLabel, attribute: .Bottom, multiplier: 1, constant: 8))
+
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
         
         titleLabel.textColor = UIColor.whiteColor()
@@ -292,7 +311,7 @@ private extension ProductCarouselMoreInfoView {
         
         mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
         mapView.clipsToBounds = true
-        
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
         descriptionLabel.textColor = UIColor.grayLight
         descriptionLabel.addGestureRecognizer(tapGesture)
