@@ -33,4 +33,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var postingMultiPictureEnabled: Bool = true
     var relatedProductsOnMoreInfo: Bool = true
     var periscopeImprovement: Bool = false
+    var newQuickAnswers: Bool = false
 }
