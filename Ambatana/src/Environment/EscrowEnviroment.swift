@@ -34,5 +34,5 @@ class EscrowEnvironment: AppEnvironment {
     let leanplumEnvKey = ""
     
     // Config
-    var configURL = "https://www.escrowverification.com/config/ios.json"
+    var configURL = "https://escrow-images.s3.amazonaws.com/config/ios.json"
 }
