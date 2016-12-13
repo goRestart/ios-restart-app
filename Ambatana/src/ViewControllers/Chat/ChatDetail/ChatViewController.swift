@@ -360,14 +360,15 @@ extension ChatViewController: UIGestureRecognizerDelegate {
 
         if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .NotAvailable {
             let image = UIImage(named: "ic_quick_answers")
-            let quickAnswersAction = UIAction(interface: .Image(image), action: { [weak self] in
+            let tint: UIColor? = viewModel.directAnswersState.value == .Visible ? nil : UIColor.primaryColor
+            let quickAnswersAction = UIAction(interface: .Image(image, tint), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
                 }, accessibilityId: .ChatViewQuickAnswersButton)
             actions.append(quickAnswersAction)
         }
 
         let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
-        let kbAction = UIAction(interface: .Image(image), action: { [weak self] in
+        let kbAction = UIAction(interface: .Image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
         }, accessibilityId: .ChatViewStickersButton)

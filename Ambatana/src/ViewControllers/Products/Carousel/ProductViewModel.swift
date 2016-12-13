@@ -600,7 +600,7 @@ extension ProductViewModel {
     private func buildFavoriteNavBarAction() -> UIAction {
         let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
             .imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                 self?.switchFavoriteAction()
                 }, source: .Favourite)
@@ -609,7 +609,7 @@ extension ProductViewModel {
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() },
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
                         accessibilityId: .ProductCarouselNavBarActionsButton)
     }
 

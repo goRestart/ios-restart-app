@@ -264,6 +264,9 @@ extension TextViewController: UITextViewDelegate {
             guard let image = action.image else { continue }
             let button = UIButton()
             button.setImage(image, forState: .Normal)
+            if let tint = action.imageTint {
+                button.tintColor = tint
+            }
             button.rx_tap.subscribeNext(action.action).addDisposableTo(leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
