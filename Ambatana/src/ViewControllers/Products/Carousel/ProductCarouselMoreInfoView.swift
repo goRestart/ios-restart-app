@@ -124,6 +124,10 @@ class ProductCarouselMoreInfoView: UIView {
         if !relatedItemsContainer.hidden {
             relatedProductsView.productId.value = viewModel?.product.value.objectId
         }
+        // Re-layout mapView in case the shared instance was added to another view
+        if (mapView.superview == nil) {
+            layoutMapView(inside: mapExpanded ? mapViewContainerExpandable : mapViewContainer)
+        }
     }
 
     func dismissed() {
