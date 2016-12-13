@@ -365,24 +365,11 @@ class ChatViewModel: BaseViewModel {
         }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
         let cfgManager = configManager
-        let myMessagesReviewable = myMessagesCount.asObservable()
-            .map { $0 >= cfgManager.myMessagesCountForRating }
-            .distinctUntilChanged()
-        let otherMessagesReviewable = otherMessagesCount.asObservable()
-            .map { $0 >= cfgManager.otherMessagesCountForRating }
-            .distinctUntilChanged()
-        let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }.distinctUntilChanged()
-
-        let isEmptyMyMessages = myMessagesCount.asObservable()
-            .map { $0 == 0 }
-            .distinctUntilChanged()
-        
-        let isEmptyOtherMessages = otherMessagesCount.asObservable()
-            .map { $0 == 0 }
-            .distinctUntilChanged()
-        
+        let myMessagesReviewable = myMessagesCount.asObservable().map { $0 >= cfgManager.myMessagesCountForRating }
+        let otherMessagesReviewable = otherMessagesCount.asObservable().map { $0 >= cfgManager.otherMessagesCountForRating }
+        let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }
         Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
-            .bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
+            .distinctUntilChanged().bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
 
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
@@ -393,11 +380,13 @@ class ChatViewModel: BaseViewModel {
             self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
         }.addDisposableTo(disposeBag)
         
-        conversation.asObservable().map{$0.lastMessageSentAt == nil}.bindNext{ [weak self] result in
+        conversation.asObservable().map{ $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
             self?.shouldTrackFirstMessage = result
-            }.addDisposableTo(disposeBag)
-        
-        Observable.combineLatest(isEmptyMyMessages, isEmptyOtherMessages) { $0 && $1 }
+        }.addDisposableTo(disposeBag)
+
+        let emptyMyMessages = myMessagesCount.asObservable().map { $0 == 0 }
+        let emptyOtherMessages = otherMessagesCount.asObservable().map { $0 == 0 }
+        Observable.combineLatest(emptyMyMessages, emptyOtherMessages){ $0 && $1 }.distinctUntilChanged()
             .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
@@ -417,8 +406,6 @@ class ChatViewModel: BaseViewModel {
                 self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
         }.addDisposableTo(disposeBag)
 
-        setupChatEventsRx()
-
         if !featureFlags.newQuickAnswers {
             // New quick answers don't depende on saved state
             userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
@@ -436,6 +423,8 @@ class ChatViewModel: BaseViewModel {
                                             }
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
+
+        setupChatEventsRx()
     }
 
     func updateMessagesCounts(changeInMessages: CollectionChange<ChatViewMessage>) {
