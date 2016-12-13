@@ -185,10 +185,10 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     private func configureMapView() {
         guard let coordinate = viewModel?.productLocation.value else { return }
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2,
-                                                        Constants.accurateRegionRadius*2)
-        mapView.setRegion(region, animated: true)
-
+        vmRegion = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
+        guard let region = vmRegion else { return }
+        
+        mapView.setRegion(region, animated: false)
         setupMapExpanded(false)
 
         mapZoomBlocker = MapZoomBlocker(mapView: mapView, minLatDelta: region.span.latitudeDelta,
