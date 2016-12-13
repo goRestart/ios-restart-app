@@ -36,19 +36,16 @@ class EnvironmentsHelper {
     }
 
     init() {
-        self.coreEnvironment = getCoreEnvironment()
     #if GOD_MODE
-        self.checkEnvironmentChange()
+        self.coreEnvironment = getCoreEnvironment()
     #endif
+        self.checkEnvironmentChange()
     }
 
     func getCoreEnvironment() -> EnvironmentType {
         //First check xcode environment
         let envArgs = NSProcessInfo.processInfo().environment
-        if envArgs["-environment-letgo"] != nil {
-            setSettingsEnvironment(.Production, key: EnvironmentsHelper.settingsEnvironmentKey)
-            return .Production
-        } else if envArgs["-environment-prod"] != nil {
+        if envArgs["-environment-prod"] != nil {
             setSettingsEnvironment(.Production, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .Production
         } else if envArgs["-environment-dev"] != nil {
