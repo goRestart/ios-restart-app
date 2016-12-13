@@ -127,7 +127,7 @@ class TextViewController: KeyboardViewController {
         tableBottomMargin = margin
         if animated {
             UIView.animateWithDuration(TextViewController.animationTime, delay: 0, options: [.BeginFromCurrentState],
-                                       animations: { [weak self] in tableSuperView?.layoutIfNeeded()}, completion: nil)
+                                       animations: { tableSuperView?.layoutIfNeeded() }, completion: nil)
         }
     }
 
