@@ -20,6 +20,7 @@ enum UserSource {
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
+    func vmOpenFavorites()
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
     func vmShowNativeShare(socialMessage: SocialMessage)
 }
@@ -70,7 +71,7 @@ class UserViewModel: BaseViewModel {
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
 
     let productListViewModel: Variable<ProductListViewModel>
-
+    
     weak var delegate: UserViewModelDelegate?
     weak var navigator: TabNavigator?
     weak var profileNavigator: ProfileTabNavigator? {
@@ -170,6 +171,7 @@ class UserViewModel: BaseViewModel {
 
         if itsMe {
             resetLists()
+            cleanFavoriteBadgeIfNeeded()
         } else {
             retrieveUserAccounts()
         }
@@ -225,10 +227,12 @@ extension UserViewModel {
         trackShareStart()
     }
     
-    func shouldCleanFavoriteBadge() -> Bool {
-        guard let  favoriteCounter = notificationsManager.favoriteCount.value else {return false}
-        guard favoriteCounter > 0 else { return false}
-        return isMyUser
+    func cleanFavoriteBadgeIfNeeded() {
+        guard let  favoriteCounter = notificationsManager.favoriteCount.value else {return }
+        guard favoriteCounter > 0 else { return }
+        notificationsManager.clearFavoriteCounter()
+        delegate?.vmOpenFavorites()
+        tab.value = .Favorites
     }
 }
 
