@@ -51,6 +51,7 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var dragViewImage: UIImageView!
 
     private let mapView: MKMapView = MKMapView.sharedInstance
+    private var vmRegion: MKCoordinateRegion? = nil
     @IBOutlet weak var mapViewContainer: UIView!
     private var mapViewContainerExpandable: UIView?
     
@@ -187,6 +188,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2,
                                                         Constants.accurateRegionRadius*2)
         mapView.setRegion(region, animated: true)
+
         setupMapExpanded(false)
 
         mapZoomBlocker = MapZoomBlocker(mapView: mapView, minLatDelta: region.span.latitudeDelta,
@@ -238,6 +240,9 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
                 self.layoutMapView(inside: self.mapViewContainer)
                 self.mapViewContainerExpandable?.removeFromSuperview()
                 self.mapZoomBlocker?.stop()
+                if let region = self.vmRegion {
+                    self.mapView.setRegion(region, animated: true)
+                }
         })
     }
 
