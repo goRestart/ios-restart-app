@@ -71,7 +71,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
             directAnswersView.setupOnTopOfView(sibling)
             bigView = directAnswersView
         } else {
-            buildCollectionOverView(sibling)
+            buildCollectionAboveView(sibling)
             guard let collectionView = collectionView else { return }
             setupCollection(collectionView)
         }
@@ -141,14 +141,14 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
     // MARK: - Private methods
 
-    private func buildCollectionOverView(sibling: UIView) {
+    private func buildCollectionAboveView(sibling: UIView) {
         let view = UICollectionView(frame: CGRect(x: 0, y: sibling.top - directAnswersCollectionHeight,
             width: DirectAnswersPresenter.defaultWidth, height: directAnswersCollectionHeight),
             collectionViewLayout: UICollectionViewFlowLayout())
         view.translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
         view.backgroundColor = UIColor.clearColor()
-        parentView.addSubview(view)
+        parentView.insertSubview(view, belowSubview: sibling)
         let bottom = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Bottom, relatedBy:
             NSLayoutRelation.Equal, toItem: sibling, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0)
         let left = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,

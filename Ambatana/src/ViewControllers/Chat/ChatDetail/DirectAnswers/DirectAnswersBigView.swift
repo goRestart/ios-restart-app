@@ -75,7 +75,7 @@ class DirectAnswersBigView: UIView {
     func setupOnTopOfView(sibling: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
-        parentView.addSubview(self)
+        parentView.insertSubview(self, belowSubview: sibling)
         fitHorizontallyToParent()
         bottomConstraint = toTopOf(sibling, margin: hidden ? -accurateHeight : 0)
     }

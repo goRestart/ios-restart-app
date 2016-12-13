@@ -358,9 +358,9 @@ class ChatViewModel: BaseViewModel {
         let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
         Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .Loading }
-            guard strongSelf.isBuyer else { return $0 ? .Visible : .Hidden }
+            guard strongSelf.isBuyer else { return .Hidden } // Seller doesn't have related products
             if $0 { return .Visible }
-            guard let didntAnswer = $1 else { return .Loading }
+            guard let didntAnswer = $1 else { return .Loading } // If still checking if seller didn't answer. set loading state
             return didntAnswer ? .Visible : .Hidden
         }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
@@ -407,7 +407,7 @@ class ChatViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         if !featureFlags.newQuickAnswers {
-            // New quick answers don't depende on saved state
+            // New quick answers doesn't depend on saved state
             userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
         }
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
@@ -939,7 +939,9 @@ extension ChatViewModel {
                 strongSelf.updateMessages(newMessages: value, isFirstPage: true)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
-                strongSelf.checkShouldShowDirectAnswers(value)
+                if strongSelf.featureFlags.newQuickAnswers {
+                    strongSelf.checkShouldShowDirectAnswers(value)
+                }
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }

@@ -362,7 +362,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
             let image = UIImage(named: "ic_quick_answers")
             let quickAnswersAction = UIAction(interface: .Image(image), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
-                }, accessibilityId: .ChatViewStickersButton)
+                }, accessibilityId: .ChatViewQuickAnswersButton)
             actions.append(quickAnswersAction)
         }
 
