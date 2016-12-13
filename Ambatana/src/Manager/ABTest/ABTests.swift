@@ -32,13 +32,30 @@ public struct ABTests {
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
     static var newQuickAnswers = BoolABDynamicVar(key: "newQuickAnswers", defaultValue: false)
+    static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder, directPostInOnboarding,
-                productDetailShareMode, notificationCenterEnabled, shareButtonWithIcon, chatHeadBubbles,
-                saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
-                keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting,
-                postingMultiPictureEnabled, periscopeImprovement, newQuickAnswers]
+        return [showNPSSurvey,
+                messageOnFavoriteRound2,
+                interestedUsersMode,
+                filtersReorder,
+                directPostInOnboarding,
+                productDetailShareMode,
+                notificationCenterEnabled,
+                shareButtonWithIcon,
+                chatHeadBubbles,
+                saveMailLogout,
+                expressChatBanner,
+                showLiquidProductsToNewUser,
+                postAfterDeleteMode,
+                keywordsTravelCollection,
+                commercializerAfterPosting,
+                relatedProductsOnMoreInfo,
+                shareAfterPosting,
+                postingMultiPictureEnabled,
+                periscopeImprovement,
+                newQuickAnswers,
+                favoriteWithBadgeOnProfile]
     }
 
     static func registerVariables() {

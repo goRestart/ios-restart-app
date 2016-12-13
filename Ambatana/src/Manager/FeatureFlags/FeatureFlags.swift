@@ -33,6 +33,7 @@ protocol FeatureFlaggeable {
     var relatedProductsOnMoreInfo: Bool { get }
     var periscopeImprovement: Bool { get }
     var newQuickAnswers: Bool { get }
+    var favoriteWithBadgeOnProfile: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -201,6 +202,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.periscopeImprovement
         }
         return ABTests.periscopeImprovement.value
+    }
+    
+    var favoriteWithBadgeOnProfile: Bool {
+        if Bumper.enabled {
+            return Bumper.favoriteWithBadgeOnProfile
+        }
+        return ABTests.favoriteWithBadgeOnProfile.value
     }
 
     var newQuickAnswers: Bool {

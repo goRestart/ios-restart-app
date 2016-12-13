@@ -34,4 +34,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var relatedProductsOnMoreInfo: Bool = true
     var periscopeImprovement: Bool = false
     var newQuickAnswers: Bool = false
+    var favoriteWithBadgeOnProfile: Bool = false
 }
