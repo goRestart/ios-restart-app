@@ -66,6 +66,7 @@ struct Constants {
     static let pushPermissionRepeatTime: NSTimeInterval = (60 * 60 * 24) // 1 day
 
     // Product posting
+    static let maxImageCount = 5
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
 
@@ -103,7 +104,4 @@ struct Constants {
     // interested bubble
     static let maxInterestedBubblesPerSessionOriginal = 2
     static let maxInterestedBubblesPerSessionLimitedPrints = 3
-
-    // Websocket chat 
-    static let websocketChatDisconnectTimeout: NSTimeInterval = 15
 }

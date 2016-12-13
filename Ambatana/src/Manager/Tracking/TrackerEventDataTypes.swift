@@ -252,6 +252,7 @@ public enum EventParameterName: String {
     case Enabled              = "enabled"
     case LastSearch           = "last-search"
     case ExpressChatTrigger   = "express-chat-trigger"
+    case NumberPhotosPosting  = "number-photos-posting"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -366,6 +367,7 @@ public enum EventParameterMessageType: String {
     case Favorite   = "favorite"
     case QuickAnswer = "quick-answer"
     case ExpressChat = "express-chat"
+    case PeriscopeDirect = "periscope-direct"
 }
 
 public enum EventParameterLoginError {

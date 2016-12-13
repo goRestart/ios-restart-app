@@ -42,11 +42,14 @@ enum WebSocketError: ErrorType {
 protocol WebSocketClient {
     var eventBus: PublishSubject<ChatEvent> { get }
     var socketStatus: Variable<WebSocketStatus> { get }
-    
+
+    var openCompletion: (() -> ())? { get set }
+    var closeCompletion: (() -> ())? { get set }
+
     func suspendOperations()
 
-    func startWebSocket(endpoint: String, completion: (() -> ())?)
-    func closeWebSocket(completion: (() -> ())?)
+    func startWebSocket(endpoint: String)
+    func closeWebSocket()
     func sendQuery(request: WebSocketQueryRequestConvertible, completion: (Result<[String: AnyObject], WebSocketError> -> Void)?)
     func sendCommand(request: WebSocketCommandRequestConvertible, completion: (Result<Void, WebSocketError> -> Void)?)
     func sendEvent(request: WebSocketEventRequestConvertible)

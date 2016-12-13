@@ -30,6 +30,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shareAfterPosting: Bool = false
     var freePostingModeAllowed: Bool = true
     var commercializerAfterPosting: Bool = true
+    var postingMultiPictureEnabled: Bool = true
     var relatedProductsOnMoreInfo: Bool = true
     var periscopeImprovement: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false

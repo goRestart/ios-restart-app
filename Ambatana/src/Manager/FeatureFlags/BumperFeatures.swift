@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PostingMultiPictureEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self])
     } 
 
     static var websocketChat: Bool {
@@ -21,8 +21,8 @@ extension Bumper  {
     }
 
     static var notificationsSection: Bool {
-        guard let value = Bumper.valueForKey(NotificationsSection.key) else { return false }
-        return NotificationsSection(rawValue: value)?.asBool ?? false
+        guard let value = Bumper.valueForKey(NotificationsSection.key) else { return true }
+        return NotificationsSection(rawValue: value)?.asBool ?? true
     }
 
     static var userReviews: Bool {
@@ -110,6 +110,11 @@ extension Bumper  {
         return ShareAfterPosting(rawValue: value)?.asBool ?? false
     }
 
+    static var postingMultiPictureEnabled: Bool {
+        guard let value = Bumper.valueForKey(PostingMultiPictureEnabled.key) else { return false }
+        return PostingMultiPictureEnabled(rawValue: value)?.asBool ?? false
+    }
+
     static var periscopeImprovement: Bool {
         guard let value = Bumper.valueForKey(PeriscopeImprovement.key) else { return false }
         return PeriscopeImprovement(rawValue: value)?.asBool ?? false
@@ -132,9 +137,9 @@ enum WebsocketChat: String, BumperFeature  {
 }
 
 enum NotificationsSection: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return NotificationsSection.No.rawValue }
-    static var enumValues: [NotificationsSection] { return [.No, .Yes]}
+    case Yes, No
+    static var defaultValue: String { return NotificationsSection.Yes.rawValue }
+    static var enumValues: [NotificationsSection] { return [.Yes, .No]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Notifications Section" } 
     var asBool: Bool { return self == .Yes }
@@ -324,6 +329,15 @@ enum ShareAfterPosting: String, BumperFeature  {
     static var enumValues: [ShareAfterPosting] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show sharing screen after posting (forced)" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum PostingMultiPictureEnabled: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return PostingMultiPictureEnabled.No.rawValue }
+    static var enumValues: [PostingMultiPictureEnabled] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Posting multi picture enabled" } 
     var asBool: Bool { return self == .Yes }
 }
 

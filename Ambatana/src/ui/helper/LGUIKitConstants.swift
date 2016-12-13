@@ -64,4 +64,7 @@ struct LGUIKitConstants {
         return 1 / UIScreen.mainScreen().scale
     }
     static let enabledButtonHeight: CGFloat = 44
+    
+    //0.9 so it will consider images that are slightly vertical as horizontal ones (for better rendering)
+    static let horizontalImageMinAspectRatio: CGFloat = 0.9
 }

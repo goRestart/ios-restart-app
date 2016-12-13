@@ -139,7 +139,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     func enableSaveButton() -> Bool {
         return isValidUsername(username)
     }
-    
+
     func userNameSaved() {
         navigator?.closeChangeUsername()
     }

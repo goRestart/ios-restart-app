@@ -215,10 +215,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         collectionView.dataSource = self
         collectionView.delegate = self
         //Duplicating registered cells to avoid reuse of colindant cells
-        collectionView.registerClass(ProductCarouselCell.self,
-                                     forCellWithReuseIdentifier: cellIdentifierForIndex(0))
-        collectionView.registerClass(ProductCarouselCell.self,
-                                     forCellWithReuseIdentifier: cellIdentifierForIndex(1))
+        registerProductCarouselCells()
         collectionView.directionalLockEnabled = true
         collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
@@ -681,7 +678,7 @@ extension ProductCarouselViewController {
         viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
         chatTextView.placeholder = viewModel.directChatPlaceholder
         if viewModel.shouldShowTextOnChatView() {
-            chatTextView.setInitialText()
+            chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         } else {
             chatTextView.clear()
             chatTextView.resignFirstResponder()
@@ -693,8 +690,9 @@ extension ProductCarouselViewController {
             }.addDisposableTo(activeDisposeBag)
 
         chatTextView.rx_send.bindNext { [weak self, weak viewModel] textToSend in
-            viewModel?.sendDirectMessage(textToSend)
-            self?.chatTextView.clear()
+            guard let strongSelf = self else { return }
+            viewModel?.sendDirectMessage(textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
+            strongSelf.chatTextView.clear()
             }.addDisposableTo(activeDisposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
@@ -970,9 +968,17 @@ extension ProductCarouselViewController {
 // MARK: > CollectionView delegates
 
 extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    private static let productCarouselCellCount = 3
+
+    func registerProductCarouselCells() {
+        for i in 0..<ProductCarouselViewController.productCarouselCellCount {
+            collectionView.registerClass(ProductCarouselCell.self,
+                                         forCellWithReuseIdentifier: cellIdentifierForIndex(i))
+        }
+    }
 
     func cellIdentifierForIndex(index: Int) -> String {
-        let extra: String = (index % 2) == 0 ? "0" : "1"
+        let extra = String(index % ProductCarouselViewController.productCarouselCellCount)
         return ProductCarouselCell.identifier+extra
     }
 

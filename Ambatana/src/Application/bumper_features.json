@@ -6,7 +6,7 @@
 	},
 	{
 		"name": "NotificationsSection",
-		"values": ["No", "Yes"],
+		"values": ["Yes", "No"],
 		"description": "Notifications Section"
 	},
     {
@@ -103,5 +103,10 @@
         "name": "FavoriteWithBadgeOnProfile",
         "values": ["No", "Yes"],
         "description": "Badge on profile when favorite"
-    }
+    },
+    {
+        "name": "PostingMultiPictureEnabled",
+        "values": ["No", "Yes"],
+        "description": "Posting multi picture enabled"
+    }    
  ]
