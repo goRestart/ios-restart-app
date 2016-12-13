@@ -114,7 +114,7 @@ class ChatViewController: TextViewController {
     }
     
     
-    // MARK: - Slack methods
+    // MARK: - TextViewController methods
     
     override func sendButtonPressed() {
         let message = textView.text
@@ -122,7 +122,7 @@ class ChatViewController: TextViewController {
     }
     
     /**
-     Slack Caches the text in the textView if you close the view before sending
+     TextViewController Caches the text in the textView if you close the view before sending
      Need to override this method to set the cache key to the product id
      so the cache is not shared between products chats
      

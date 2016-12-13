@@ -67,83 +67,31 @@ class ChatViewModel: BaseViewModel {
     }
 
     // Public Model info
-    var title = Variable<String>("")
-    var productName = Variable<String>("")
-    var productImageUrl = Variable<NSURL?>(nil)
-    var productPrice = Variable<String>("")
-    var productIsFree = Variable<Bool>(false)
-    var interlocutorAvatarURL = Variable<NSURL?>(nil)
-    var interlocutorName = Variable<String>("")
-    var interlocutorId = Variable<String?>(nil)
-    var stickers = Variable<[Sticker]>([])
-    var keyForTextCaching: String { return userDefaultsSubKey }
-    var relatedProducts: [Product] = []
-    var shouldTrackFirstMessage: Bool = false
-
-    var shouldShowExpressBanner = Variable<Bool>(false)
-    var firstInteractionDone = Variable<Bool>(false)
-    var expressBannerTimerFinished = Variable<Bool>(false)
-    var hasRelatedProducts = Variable<Bool>(false)
-    var expressMessagesAlreadySent = Variable<Bool>(false)
-
-    private var buyerId: String? {
-        let myUserId = myUserRepository.myUser?.objectId
-        let interlocutorId = conversation.value.interlocutor?.objectId
-        let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
-        return currentBuyer
-    }
-
-    private var shouldShowSafetyTips: Bool {
-        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
-    }
-    
-    private var didReceiveMessageFromOtherUser: Bool {
-        for message in messages.value {
-            if message.talkerId == conversation.value.interlocutor?.objectId {
-                return true
-            }
-        }
-        return false
-    }
-
-    private var interlocutorEnabled: Bool {
-        switch chatStatus.value {
-        case .Forbidden, .UserDeleted, .UserPendingDelete:
-            return false
-        case .Available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
-            return true
-        }
-    }
-
-    var shouldShowUserReviewTooltip: Bool {
-        // we don't want both tooltips at the same time.  !st stickers, then rating
-        return !KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] &&
-            KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown]
-    }
-    
-    // Rx Variables
-    let interlocutorIsMuted = Variable<Bool>(false)
-    let interlocutorHasMutedYou = Variable<Bool>(false)
+    let title = Variable<String>("")
+    let productName = Variable<String>("")
+    let productImageUrl = Variable<NSURL?>(nil)
+    let productPrice = Variable<String>("")
+    let productIsFree = Variable<Bool>(false)
+    let interlocutorAvatarURL = Variable<NSURL?>(nil)
+    let interlocutorName = Variable<String>("")
+    let interlocutorId = Variable<String?>(nil)
+    let stickers = Variable<[Sticker]>([])
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
-    let relatedProductsState = Variable<ChatRelatedItemsState>(.Loading)
     let directAnswersState = Variable<DirectAnswersState>(.NotAvailable)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
-    private let sellerDidntAnswer = Variable<Bool?>(nil)
-    private let conversation: Variable<ChatConversation>
-    private var interlocutor: User?
-    private let myMessagesCount = Variable<Int>(0)
-    private let otherMessagesCount = Variable<Int>(0)
-    private let isEmptyConversation = Variable<Bool>(true)
-    private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
-    private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
-    private let userDirectAnswersEnabled = Variable<Bool>(false)
     let shouldShowReviewButton = Variable<Bool>(false)
     let userReviewTooltipVisible = Variable<Bool>(false)
 
+    var relatedProducts: [Product] = []
+    var shouldTrackFirstMessage: Bool = false
+    let shouldShowExpressBanner = Variable<Bool>(false)
 
-    // Private    
+    var keyForTextCaching: String { return userDefaultsSubKey }
+
+    
+    // Private
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
     private let productRepository: ProductRepository
@@ -157,6 +105,22 @@ class ChatViewModel: BaseViewModel {
     
     private let keyValueStorage: KeyValueStorage
 
+    private let firstInteractionDone = Variable<Bool>(false)
+    private let expressBannerTimerFinished = Variable<Bool>(false)
+    private let hasRelatedProducts = Variable<Bool>(false)
+    private let expressMessagesAlreadySent = Variable<Bool>(false)
+    private let interlocutorIsMuted = Variable<Bool>(false)
+    private let interlocutorHasMutedYou = Variable<Bool>(false)
+    private let relatedProductsState = Variable<ChatRelatedItemsState>(.Loading)
+    private let sellerDidntAnswer = Variable<Bool?>(nil)
+    private let conversation: Variable<ChatConversation>
+    private var interlocutor: User?
+    private let myMessagesCount = Variable<Int>(0)
+    private let otherMessagesCount = Variable<Int>(0)
+    private let isEmptyConversation = Variable<Bool>(true)
+    private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    private let userDirectAnswersEnabled = Variable<Bool>(false)
 
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
@@ -183,6 +147,35 @@ class ChatViewModel: BaseViewModel {
     private var safetyTipsAction: () -> Void {
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
+        }
+    }
+
+    private var buyerId: String? {
+        let myUserId = myUserRepository.myUser?.objectId
+        let interlocutorId = conversation.value.interlocutor?.objectId
+        let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
+        return currentBuyer
+    }
+
+    private var shouldShowSafetyTips: Bool {
+        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
+    }
+
+    private var didReceiveMessageFromOtherUser: Bool {
+        for message in messages.value {
+            if message.talkerId == conversation.value.interlocutor?.objectId {
+                return true
+            }
+        }
+        return false
+    }
+
+    private var interlocutorEnabled: Bool {
+        switch chatStatus.value {
+        case .Forbidden, .UserDeleted, .UserPendingDelete:
+            return false
+        case .Available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
+            return true
         }
     }
 
