@@ -198,9 +198,10 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     }
     
     func expandMap() {
-        guard mapExpanded == false else { return }
-        
-        mapViewContainerExpandable = UIView()
+        guard !mapExpanded else { return }
+        if mapViewContainerExpandable == nil {
+            mapViewContainerExpandable = UIView()
+        }
         guard let mapViewContainerExpandable = mapViewContainerExpandable else { return }
         addSubview(mapViewContainerExpandable)
         mapViewContainerExpandable.frame = convertRect(mapViewContainer.frame, fromView: scrollViewContent)

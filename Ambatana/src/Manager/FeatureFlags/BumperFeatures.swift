@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PostingMultiPictureEnabled.self, PeriscopeImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -108,6 +108,11 @@ extension Bumper  {
     static var shareAfterPosting: Bool {
         guard let value = Bumper.valueForKey(ShareAfterPosting.key) else { return false }
         return ShareAfterPosting(rawValue: value)?.asBool ?? false
+    }
+
+    static var postingMultiPictureEnabled: Bool {
+        guard let value = Bumper.valueForKey(PostingMultiPictureEnabled.key) else { return false }
+        return PostingMultiPictureEnabled(rawValue: value)?.asBool ?? false
     }
 
     static var periscopeImprovement: Bool {
@@ -319,6 +324,15 @@ enum ShareAfterPosting: String, BumperFeature  {
     static var enumValues: [ShareAfterPosting] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show sharing screen after posting (forced)" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum PostingMultiPictureEnabled: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return PostingMultiPictureEnabled.No.rawValue }
+    static var enumValues: [PostingMultiPictureEnabled] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Posting multi picture enabled" } 
     var asBool: Bool { return self == .Yes }
 }
 
