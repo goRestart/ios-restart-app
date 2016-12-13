@@ -179,6 +179,10 @@ extension UserViewHeader {
         userRelationLabel.text = userRelationText
         updateInfoAndAccountsVisibility()
     }
+    
+    func setFavoriteTab() {
+        tab.value = .Favorites
+    }
 
     private func modeUpdated() {
         verifiedSimpleContainer.hidden = false
@@ -365,6 +369,7 @@ extension UserViewHeader {
     }
 
     private func setIndicatorAtTab(tab: UserViewHeaderTab, animated: Bool) {
+        layoutIfNeeded()
         let leading = CGFloat(tab.rawValue) * sellingButton.frame.width
         indicatorViewLeadingConstraint.constant = leading
         if animated {

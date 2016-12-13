@@ -75,11 +75,19 @@ class UserViewController: BaseViewController {
 
     private let headerExpandedPercentage = Variable<CGFloat>(1)
     private let disposeBag: DisposeBag
+    private var notificationsManager: NotificationsManager
+    private var featureFlags: FeatureFlaggeable
 
 
     // MARK: - Lifecycle
 
-    init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false) {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false, notificationsManager: NotificationsManager, featureFlags: FeatureFlaggeable) {
+        self.notificationsManager = notificationsManager
+        self.featureFlags = featureFlags
         let size = CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight)
         self.navBarUserView = UserView.userView(.CompactBorder(size: size))
         self.headerGestureRecognizer = UIPanGestureRecognizer()
@@ -89,17 +97,20 @@ class UserViewController: BaseViewController {
         self.socialSharer = socialSharer
         self.cellDrawer = ProductCellDrawer()
         self.disposeBag = DisposeBag()
+        
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent(substyle: .Light))
-
+        
         self.viewModel.delegate = self
         self.hidesBottomBarWhenPushed = hidesBottomBarWhenPushed
         self.automaticallyAdjustsScrollViewInsets = false
         self.hasTabBar = viewModel.isMyProfile
     }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    
+    convenience init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false) {
+        let notificationsManager = NotificationsManager.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(viewModel: viewModel, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed, notificationsManager: notificationsManager, featureFlags: featureFlags)
     }
 
     override func viewDidLoad() {
@@ -120,7 +131,8 @@ class UserViewController: BaseViewController {
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
-
+      
+        
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
             let currentAlpha: CGFloat = navBarUserViewAlpha
@@ -132,7 +144,7 @@ class UserViewController: BaseViewController {
             }
         }
     }
-
+    
     override func viewWillDisappearToBackground(toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
 
@@ -185,6 +197,10 @@ extension UserViewController: UserViewModelDelegate {
 
     func vmShowNativeShare(socialMessage: SocialMessage) {
         socialSharer.share(socialMessage, shareType: .Native, viewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
+    }
+    
+    func vmOpenFavorites() {
+        headerContainer.header?.setFavoriteTab()
     }
 }
 
