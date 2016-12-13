@@ -60,7 +60,8 @@ class DirectAnswersBigView: UIView {
     }
 
     override func intrinsicContentSize() -> CGSize {
-        let height = DirectAnswersBigView.itemHeight + DirectAnswersBigView.itemHeight*CGFloat(answerButtons.count) + DirectAnswersBigView.itemMargin
+        let height = DirectAnswersBigView.itemHeight + DirectAnswersBigView.itemHeight*CGFloat(answerButtons.count) +
+            DirectAnswersBigView.itemMargin
         return CGSize(width: DirectAnswersBigView.defaultWidth, height: height)
     }
 
