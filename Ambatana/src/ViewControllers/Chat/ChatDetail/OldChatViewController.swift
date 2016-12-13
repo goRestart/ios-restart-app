@@ -139,17 +139,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        // Just to reserve the space for directAnswersView
-        return directAnswersPresenter.height + relatedProductsView.visibleHeight.value
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        // Empty transparent header just below directAnswersView
-        return UIView(frame: CGRect())
-    }
-    
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard indexPath.row < viewModel.objectCount else {
             return UITableViewCell()
@@ -287,8 +277,8 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
         relatedProductsView.delegate = viewModel
         relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
-            self?.tableView.reloadData()
-            }.addDisposableTo(disposeBag)
+            self?.configureBottomMargin(animated: true)
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupDirectAnswers() {
@@ -301,7 +291,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
             guard let strongSelf = self else { return }
             let visible = state == .Visible
             strongSelf.directAnswersPresenter.hidden = !visible
-            strongSelf.tableView.reloadData()
+            strongSelf.configureBottomMargin(animated: true)
             if strongSelf.featureFlags.newQuickAnswers {
                 strongSelf.reloadLeftActions()
                 if visible {
@@ -372,6 +362,11 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         if let tooltip = stickersTooltip where view.subviews.contains(tooltip) {
             tooltip.removeFromSuperview()
         }
+    }
+
+    private func configureBottomMargin(animated animated: Bool) {
+        let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
+        setTableBottomMargin(total, animated: animated)
     }
 
     

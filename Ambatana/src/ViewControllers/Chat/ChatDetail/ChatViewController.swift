@@ -230,8 +230,8 @@ class ChatViewController: TextViewController {
         relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
         relatedProductsView.delegate = viewModel
         relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
-            self?.tableView.reloadData()
-            }.addDisposableTo(disposeBag)
+            self?.configureBottomMargin(animated: true)
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupDirectAnswers() {
@@ -257,7 +257,12 @@ class ChatViewController: TextViewController {
         }
     }
 
-    
+    private func configureBottomMargin(animated animated: Bool) {
+        let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
+        setTableBottomMargin(total, animated: animated)
+    }
+
+
     // MARK: > Navigation
     
     dynamic private func productInfoPressed() {
@@ -488,7 +493,7 @@ extension ChatViewController {
             guard let strongSelf = self else { return }
             let visible = state == .Visible
             strongSelf.directAnswersPresenter.hidden = !visible
-            strongSelf.tableView.reloadData()
+            strongSelf.configureBottomMargin(animated: true)
             if strongSelf.featureFlags.newQuickAnswers {
                 strongSelf.reloadLeftActions()
                 if visible {
@@ -514,16 +519,6 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        // Just to reserve the space for directAnswersView
-        return directAnswersPresenter.height + relatedProductsView.visibleHeight.value
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        // Empty transparent header just below directAnswersView
-        return UIView(frame: CGRect())
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
