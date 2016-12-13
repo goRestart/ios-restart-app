@@ -141,7 +141,8 @@ extension ApiClient {
     func errorFromAlamofireResponse<T>(response: Response<T, NSError>) -> ApiError? {
         guard let error = response.result.error else { return nil }
         if error.domain == NSURLErrorDomain {
-            return .Network(errorCode: error.code)
+            let onBackground = error.code == -997
+            return .Network(errorCode: error.code, onBackground: onBackground)
         } else if let statusCode = response.response?.statusCode {
             return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode)
         } else {

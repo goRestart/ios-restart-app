@@ -231,6 +231,10 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.openProductOwnerProfile()
     }
 
+    func openChatWithSeller() {
+        currentProductViewModel?.chatWithSeller()
+    }
+    
     func didOpenMoreInfo() {
         currentProductViewModel?.trackVisitMoreInfo()
         KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true

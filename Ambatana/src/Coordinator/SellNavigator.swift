@@ -13,7 +13,7 @@ protocol PostProductNavigator: class {
     func cancelPostProduct()
     func closePostProductAndPostInBackground(product: Product, images: [File], showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo)
-    func closePostProductAndPostLater(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo)
+    func closePostProductAndPostLater(product: Product, images: [UIImage], trackingInfo: PostProductTrackingInfo)
 }
 
 protocol ProductPostedNavigator: class {

@@ -29,8 +29,10 @@ protocol FeatureFlaggeable {
     var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
+    var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var monetizationEnabled: Bool { get }
+    var periscopeImprovement: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -180,11 +182,25 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.commercializerAfterPosting.value
     }
 
+    var postingMultiPictureEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.postingMultiPictureEnabled
+        }
+        return ABTests.postingMultiPictureEnabled.value
+    }
+
     var relatedProductsOnMoreInfo: Bool {
         if Bumper.enabled {
             return Bumper.relatedProductsOnMoreInfo
         }
         return ABTests.relatedProductsOnMoreInfo.value
+    }
+    
+    var periscopeImprovement: Bool {
+        if Bumper.enabled {
+            return Bumper.periscopeImprovement
+        }
+        return ABTests.periscopeImprovement.value
     }
 
     var monetizationEnabled: Bool {

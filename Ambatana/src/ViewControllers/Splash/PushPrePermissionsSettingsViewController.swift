@@ -50,7 +50,8 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         setupUI()
         setupStrings()
     }
-    
+
+
     // MARK: - UI
     
     func setupUI() {

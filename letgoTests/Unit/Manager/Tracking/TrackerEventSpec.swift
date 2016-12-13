@@ -1348,17 +1348,17 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("Product Detail Chat Button") {
+            describe("Product Detail Open Chat") {
                 beforeEach {
                     let mockProduct = MockProduct()
                     mockProduct.objectId = "12345"
                     mockProduct.price = .Negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
-                    sut = TrackerEvent.productDetailChatButton(mockProduct, typePage: .ProductDetail)
+                    sut = TrackerEvent.productDetailOpenChat(mockProduct, typePage: .ProductDetail)
                 }
                 it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("product-detail-chat-button"))
+                    expect(sut.name.rawValue).to(equal("product-detail-open-chat"))
                 }
                 it("contains product-id param") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
@@ -1631,6 +1631,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-description") {
                     let data = sut.params!.stringKeyParams["product-description"] as? Bool
                     expect(data).to(equal(false))
+                }
+                it("contains number-photos-posting") {
+                    let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
+                    expect(data).to(equal(0))
                 }
                 it("contains button-name") {
                     let data = sut.params!.stringKeyParams["button-name"] as? String
