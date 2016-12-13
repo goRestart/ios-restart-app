@@ -1187,4 +1187,17 @@ extension ProductViewModel: PurchasesShopperDelegate {
 
         delegate?.vmShowAlert(purchase.title, message: text, cancelLabel: LGLocalizedString.commonCancel, actions: [payAction])
     }
+
+    // Payment
+    func shopperPurchaseDidStart() {
+        // Update UI
+    }
+
+    func shopperPurchaseDidFinish() {
+        // Update UI
+    }
+
+    func shopperPurchaseDidFail() {
+        // Update UI
+    }
 }
