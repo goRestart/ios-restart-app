@@ -272,11 +272,10 @@ class ProductViewModel: BaseViewModel {
         }
 
         // TODO: check if the product is bumpeable and if it is, get the product ids
-        //       with the product Ids launch a request to itunes (to see which are available and get the prices)
-        //       this will launch the delegate func that will present the user the UI to finally choose and make the purchase
         if featureFlags.monetizationEnabled {
             // also, if the product is bumpeable && there are in-app purchase products
-            purchasesShopper.productsRequestStartwithIds(["letgo.ios.bumpup"])
+            guard let productId = product.value.objectId else { return }
+            purchasesShopper.productsRequestStartForProduct(productId, withIds: ["letgo.ios.bumpup"])
         }
     }
     
@@ -1175,7 +1174,9 @@ private extension ProductViewModelStatus {
 // MARK: PurchasesShopperDelegate
 
 extension ProductViewModel: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestWithProducts(products: [MonetizationProduct]) {
+    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [MonetizationProduct]) {
+        guard let requestProdId = productId, currentProdId = product.value.objectId where
+            requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
         // TODO: temp UI to test the payments
         let text = "_\(purchase.description) at \(purchase.price)"

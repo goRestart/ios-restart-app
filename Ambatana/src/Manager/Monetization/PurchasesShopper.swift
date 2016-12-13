@@ -11,7 +11,7 @@ import StoreKit
 
 
 protocol PurchasesShopperDelegate: class {
-    func shopperFinishedProductsRequestWithProducts(products: [MonetizationProduct])
+    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [MonetizationProduct])
 
     // Payment
     func shopperPurchaseDidStart()
@@ -49,13 +49,14 @@ class PurchasesShopper: NSObject {
 
     static let sharedInstance: PurchasesShopper = PurchasesShopper()
 
-    private var products: [MonetizationProduct]
+    private var monetizationProducts: [MonetizationProduct]
+    private var currentProductId: String?
     var productsRequest: SKProductsRequest
 
     weak var delegate: PurchasesShopperDelegate?
 
     override init() {
-        self.products = []
+        self.monetizationProducts = []
         self.productsRequest = SKProductsRequest()
         super.init()
         productsRequest.delegate = self
@@ -65,7 +66,10 @@ class PurchasesShopper: NSObject {
     /**
         Check products with itunes connect
      */
-    func productsRequestStartwithIds(ids: [String]) {
+    func productsRequestStartForProduct(productId: String, withIds ids: [String]) {
+        guard productId != currentProductId else { return }
+        productsRequest.cancel()
+        currentProductId = productId
         productsRequest = SKProductsRequest(productIdentifiers: Set(ids))
         productsRequest.delegate = self
         productsRequest.start()
@@ -106,9 +110,9 @@ extension PurchasesShopper: SKProductsRequestDelegate {
 //            // Handle any invalid product identifiers. ( ? )
 //        }
 
-        products = response.products.flatMap { MonetizationProduct(product: $0) }
+        monetizationProducts = response.products.flatMap { MonetizationProduct(product: $0) }
 
-        delegate?.shopperFinishedProductsRequestWithProducts(products)
+        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: monetizationProducts)
     }
 }
 
