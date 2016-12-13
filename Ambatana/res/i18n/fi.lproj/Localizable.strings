@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Onneksi olkoon! Tuotteesi merkittiin pois annetuksi onnistuneesti";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
 "product_more_info_open_button" = "LISÄTIEDOT";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "SINUA SAATTAISI KIINNOSTAA:";
+"product_more_info_related_view_more" = "Näytä lisää";
 "product_more_info_tooltip_part_1" = "Paina";
 "product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";
@@ -452,9 +452,12 @@
 "product_post_free_confirmation_another_button" = "Anna toinen tuote pois";
 "product_post_gallery_load_image_error_subtitle" = "Valitse toinen kuva ja yritä uudelleen.";
 "product_post_gallery_load_image_error_title" = "Kuvan lataaminen ei onnistu";
+"product_post_gallery_multiple_pics_selected" = "%i kuvaa valittu";
 "product_post_gallery_permissions_button" = "Salli";
 "product_post_gallery_permissions_subtitle" = "Valitaksesi olemassa olevan kuvan, sinun on annettava lupa käyttää Kuvia";
 "product_post_gallery_permissions_title" = "Anna lupa Kuvien käyttöön";
+"product_post_gallery_select_pictures_subtitle" = "Valitse enintään 5 kuvaa ladattavaksi";
+"product_post_gallery_select_pictures_title" = "Valitse kuvat";
 "product_post_gallery_tab" = "KIRJASTO";
 "product_post_generic_error" = "Tuotettasi julkaistessa tapahtui virhe.";
 "product_post_incentive_bike" = "Pyöriä";
@@ -501,7 +504,7 @@
 "product_sell_again_free_confirm_message" = "Merkitse tuotteesi saatavilla olevaksi, jotta kaikki letgon käyttäjät tietävät asiasta";
 "product_sell_again_free_confirm_ok_button" = "Anna pois";
 "product_sell_again_free_confirm_title" = "Merkitse saatavilla olevaksi";
-"product_sell_again_free_success_message" = "Onneksi olkoon! Tuotteesi on jälleen saatavilla pois annettavaksi";
+"product_sell_again_free_success_message" = "Onneksi olkoon! Tuotteesi on jälleen saatavilla pois annettavaksi.";
 "product_sell_again_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti saatavilla olevaksi!";
 "product_sell_camera_permissions_error" = "Ottaaksesi kuvan, anna letgolle lupa käyttää kameraasi asetuksissasi.";
 "product_sell_camera_restricted_error" = "Kamerasi käyttöä ei ole sallittu. Ole hyvä ja tarkista asetuksesi ja yritä uudelleen.";
@@ -573,6 +576,7 @@
 "rating_view_remind_later_button" = "Muistuta minua myöhemmin";
 "rating_view_title_label" = "Rakastatko letgota?";
 "rating_view_title_label_uppercase" = "ANNA MEILLE 5 TÄHTEÄ!";
+"related_items_title" = "Samankaltaisia tuotteita";
 "report_user_counterfeit" = "Väärennettyjä tuotteita";
 "report_user_error_already_reported" = "Olet jo ilmiantanut tämän käyttäjän!";
 "report_user_inactive" = "Passiivinen";
@@ -634,7 +638,7 @@
 "settings_change_location_button" = "Sijainti";
 "settings_change_password_button" = "Salasana";
 "settings_change_profile_picture_button" = "Kuva";
-"settings_change_profile_picture_error_generic" = "Profiilikuvaa asetettaessa tapahtui virhe.";
+"settings_change_profile_picture_error_generic" = "Profiilikuvaa vaihdettaessa tapahtui virhe.";
 "settings_change_profile_picture_loading" = "Profiilikuvaasi asetetaan, ole hyvä ja odota...";
 "settings_change_username_button" = "Nimi";
 "settings_help_button" = "Apua";

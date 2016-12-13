@@ -7,7 +7,6 @@
 //
 
 import CoreLocation
-import StoreKit
 import FBSDKShareKit
 import LGCoreKit
 import Result
@@ -275,11 +274,10 @@ class ProductViewModel: BaseViewModel {
         }
 
         // TODO: check if the product is bumpeable and if it is, get the product ids
-        //       with the product Ids launch a request to itunes (to see which are available and get the prices)
-        //       this will launch the delegate func that will present the user the UI to finally choose and make the purchase
         if featureFlags.monetizationEnabled {
             // also, if the product is bumpeable && there are in-app purchase products
-            purchasesShopper.productsRequestStartwithIds(["letgo.ios.bumpup"])
+            guard let productId = product.value.objectId else { return }
+            purchasesShopper.productsRequestStartForProduct(productId, withIds: ["letgo.ios.bumpup"])
         }
     }
     
@@ -481,9 +479,13 @@ extension ProductViewModel {
         navigator?.openProductChat(product.value)
     }
 
-    func sendDirectMessage(text: String) {
+    func sendDirectMessage(text: String, isDefaultText: Bool) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.Text(text))
+            if isDefaultText {
+                self?.sendMessage(.PeriscopeDirect(text))
+            } else {
+                self?.sendMessage(.Text(text))
+            }
         }
     }
 
@@ -551,6 +553,10 @@ extension ProductViewModel {
     func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard let socialMessage = socialMessage.value else { return }
         socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
+    }
+    
+    func shouldShowTextOnChatView() -> Bool {
+       return featureFlags.periscopeImprovement
     }
 }
 
@@ -928,7 +934,7 @@ extension ProductViewModel {
             [weak self] result in
             if let firstMessage = result.value, alreadyTrackedFirstMessageSent = self?.alreadyTrackedFirstMessageSent {
                 self?.trackHelper.trackMessageSent(firstMessage && !alreadyTrackedFirstMessageSent,
-                                                   messageType: type.chatType)
+                                                   messageType: type.chatTrackerType)
                 self?.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
@@ -1178,17 +1184,31 @@ private extension ProductViewModelStatus {
 // MARK: PurchasesShopperDelegate
 
 extension ProductViewModel: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestWithProducts(products: [SKProduct]) {
+    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [MonetizationProduct]) {
+        guard let requestProdId = productId, currentProdId = product.value.objectId where
+            requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
         // TODO: temp UI to test the payments
-        let text = "_\(purchase.localizedDescription) at \(purchase.price)"
+        let text = "_\(purchase.description) at \(purchase.price)"
 
         let payAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
                                     action: { [weak self] in
-                                        print("💸🐵💰🐵💰🐵💰🐵💰🐵💰💸")
                                         self?.purchasesShopper.requestPaymentForProduct(purchase)
             })
 
-        delegate?.vmShowAlert(purchase.localizedTitle, message: text, cancelLabel: "_Cancel", actions: [payAction])
+        delegate?.vmShowAlert(purchase.title, message: text, cancelLabel: LGLocalizedString.commonCancel, actions: [payAction])
+    }
+
+    // Payment
+    func shopperPurchaseDidStart() {
+        // Update UI
+    }
+
+    func shopperPurchaseDidFinish() {
+        // Update UI
+    }
+
+    func shopperPurchaseDidFail() {
+        // Update UI
     }
 }

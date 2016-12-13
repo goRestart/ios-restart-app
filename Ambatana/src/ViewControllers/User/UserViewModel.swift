@@ -557,11 +557,11 @@ extension UserViewModel: ProductListViewModelDataDelegate {
                        error: RepositoryError) {
         guard page == 0 && !hasProducts else { return }
 
-        var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                                                            action: { [weak viewModel] in viewModel?.refresh() })
-        emptyViewModel.icon = nil
-
-        viewModel.setErrorState(emptyViewModel)
+        if var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                                                                           action: { [weak viewModel] in viewModel?.refresh() }) {
+            emptyViewModel.icon = nil
+            viewModel.setErrorState(emptyViewModel)
+        }
     }
 
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
