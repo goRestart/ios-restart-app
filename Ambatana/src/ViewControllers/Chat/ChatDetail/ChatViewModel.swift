@@ -1245,6 +1245,9 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
     
     func directAnswersDidTapAnswer(controller: DirectAnswersPresenter, answer: DirectAnswer) {
+        if featureFlags.newQuickAnswers {
+            delegate?.vmShowKeyboard()
+        }
         if let actionBlock = answer.action {
             actionBlock()
         }
