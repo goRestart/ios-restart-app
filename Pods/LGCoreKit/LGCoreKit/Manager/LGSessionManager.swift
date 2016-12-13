@@ -80,8 +80,8 @@ class LGSessionManager: InternalSessionManager {
     // Router
     let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
 
+    private var disconnectChatTimer = NSTimer()
     private let events = PublishSubject<SessionEvent>()
-
     private let disposeBag = DisposeBag()
 
     var loggedIn: Bool {
@@ -101,8 +101,14 @@ class LGSessionManager: InternalSessionManager {
         self.installationRepository = installationRepository
         self.favoritesDAO = favoritesDAO
         self.reachability = reachability
+
         configureReachability()
         setupRx()
+
+        self.websocketClient.openCompletion = { [weak self] in
+            self?.authenticateWebSocket(nil)
+        }
+        self.websocketClient.closeCompletion = nil
     }
 
 
@@ -247,24 +253,32 @@ class LGSessionManager: InternalSessionManager {
         disconnectChat()
     }
 
+    func applicationDidEnterBackground() {
+        disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(LGCoreKitConstants.websocketChatDisconnectTimeout,
+                                                                     target: self, selector: #selector(disconnectChat),
+                                                                     userInfo: nil, repeats: false)
+    }
+
+    func applicationDidBecomeActive() {
+        disconnectChatTimer.invalidate()
+        connectChat()
+    }
 
     /**
      Connects the chat (will be done automatically too after login, startup)
      */
-    func connectChat(completion: SessionEmptyCompletion?) {
+    func connectChat() {
         guard LGCoreKit.activateWebsocket else { return }
+        guard loggedIn else { return }
 
-        // WebsocketClient will call directly to completion if already connected
-        websocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) { [weak self] in
-            self?.authenticateWebSocket(completion)
-        }
+        websocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL)
     }
 
     /*
      Disconnects the chat
      */
-    func disconnectChat() {
-        websocketClient.closeWebSocket(nil)
+    dynamic func disconnectChat() {
+        websocketClient.closeWebSocket()
     }
 
 
@@ -348,7 +362,7 @@ class LGSessionManager: InternalSessionManager {
     private func configureReachability() {
         guard let _ = reachability else { return }
         reachability?.onReachable = { [weak self] in
-            self?.connectChat(nil)
+            self?.connectChat()
         }
         reachability?.start()
     }
@@ -475,8 +489,7 @@ class LGSessionManager: InternalSessionManager {
         LGCoreKit.setupAfterLoggedIn { [weak self] in
             self?.events.onNext(.Login)
         }
-
-        connectChat(nil)
+        connectChat()
     }
 
     /**

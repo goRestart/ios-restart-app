@@ -498,14 +498,14 @@
 "product_sell_again_confirm_message" = "Souhaitez-vous marquer ce bien comme disponible afin que les acheteurs puissent le voir à nouveau ?";
 "product_sell_again_confirm_ok_button" = "Le vendre à nouveau";
 "product_sell_again_confirm_title" = "Le vendre à nouveau";
-"product_sell_again_error_generic" = "Une erreur est survenue. Veuillez réessayer.";
+"product_sell_again_error_generic" = "Une erreur est survenue lors de l'indication de votre bien comme disponible. Veuillez réessayer.";
 "product_sell_again_free_button" = "Redonner";
 "product_sell_again_free_confirm_cancel_button" = "Annuler";
-"product_sell_again_free_confirm_message" = "Marquez votre bien comme disponible pour que les utilisateurs letgo le sachent";
+"product_sell_again_free_confirm_message" = "Voulez-vous indiquer que votre bien est disponible ?";
 "product_sell_again_free_confirm_ok_button" = "Donner";
 "product_sell_again_free_confirm_title" = "Marquez comme disponible";
 "product_sell_again_free_success_message" = "Félicitations ! Votre bien est de nouveau disponible pour être donné.";
-"product_sell_again_success_message" = "Félicitations, votre bien est bien en vente !";
+"product_sell_again_success_message" = "Félicitations, votre bien a bien été indiqué comme disponible !";
 "product_sell_camera_permissions_error" = "Pour prendre une photo, donner accès à votre appareil photo à letgo dans les réglages.";
 "product_sell_camera_restricted_error" = "L'accès à votre appareil photo est restreint. Veuillez vérifier vos réglages et réessayer.";
 "product_sell_photolibrary_permissions_error" = "Pour uploader une photo, donnez l'accès à votre galerie d'images à letgo dans vos réglages.";

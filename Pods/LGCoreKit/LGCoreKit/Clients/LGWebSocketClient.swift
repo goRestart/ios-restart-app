@@ -51,8 +51,8 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     private var activeRequests: [String: WebSocketRequestConvertible] = [:]
     private var activeAuthRequests: [String: (Result<Void, WebSocketError> -> Void)] = [:]
 
-    private var openClosure: (() -> ())?
-    private var closeClosure: (() -> ())?
+    var openCompletion: (() -> ())?
+    var closeCompletion: (() -> ())?
     private var pingTimer: NSTimer?
 
     weak var sessionManager: InternalSessionManager?
@@ -100,31 +100,29 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         ws?.open()
     }
     
-    func startWebSocket(endpoint: String, completion: (() -> ())?) {
+    func startWebSocket(endpoint: String) {
         switch socketStatus.value {
-        case .Open, .Opening:
+        case .Open:
             logMessage(LogLevel.Debug, type: .WebSockets, message: "Chat already connected to: \(endpoint)")
-            completion?()
-            return
+        case .Opening:
+            logMessage(LogLevel.Debug, type: .WebSockets, message: "Chat ALREADY connecting to: \(endpoint)")
         case .Closed, .Closing:
             logMessage(LogLevel.Debug, type: .WebSockets, message: "Trying to connect to: \(endpoint)")
             socketStatus.value = .Opening
-            openClosure = completion
             endpointURL = NSURL(string: endpoint)
             reconnectWebSocket(with: endpointURL)
         }
     }
     
-    func closeWebSocket(completion: (() -> ())?) {
+    func closeWebSocket() {
         switch socketStatus.value {
-        case .Closed, .Closing:
+        case .Closed:
             logMessage(LogLevel.Debug, type: .WebSockets, message: "Chat already closed")
-            completion?()
-            return
+        case .Closing:
+            logMessage(LogLevel.Debug, type: .WebSockets, message: "Chat ALREADY closing")
         case .Open, .Opening:
             logMessage(LogLevel.Debug, type: .WebSockets, message: "Closing Chat WebSocket")
             socketStatus.value = .Closing
-            closeClosure = completion
             ws?.closeWithCode(SRStatusCodeNormal.rawValue, reason: "Manual close")
         }
     }
@@ -237,7 +235,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
             }
             return
         case .IsScammer:
-            closeWebSocket(nil)
+            closeWebSocket()
             sessionManager?.logout()
         case .UserNotVerified:
             socketStatus.value = .Open(authenticated: .NotVerified)
@@ -267,17 +265,15 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     
     @objc func webSocketDidOpen(webSocket: SRWebSocket!) {
         socketStatus.value = .Open(authenticated: .NotAuthenticated)
-        openClosure?()
-        openClosure = nil
+        openCompletion?()
         logMessage(.Debug, type: .WebSockets, message: "Opened")
         setupTimer()
     }
     
     @objc func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
         logMessage(.Debug, type: .WebSockets, message: "Closed")
-        closeClosure?()
-        closeClosure = nil
-        
+        closeCompletion?()
+
         if socketStatus.value == .Opening {
             // Close event while opening means websocket is unreachable or connection was refused.
             socketStatus.value = .Closed

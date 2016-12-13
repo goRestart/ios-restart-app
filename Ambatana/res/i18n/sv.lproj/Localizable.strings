@@ -498,10 +498,10 @@
 "product_sell_again_confirm_message" = "Vill du markera den här produkten som tillgänglig så att den är synlig för köpare igen?";
 "product_sell_again_confirm_ok_button" = "Sälj den igen";
 "product_sell_again_confirm_title" = "Sälj den igen";
-"product_sell_again_error_generic" = "Ett fel uppstod vid markering av produkten som tillgänglig. Var god försök igen senare.";
+"product_sell_again_error_generic" = "Ett fel uppstod när produkten skulle markeras som tillgänglig. Var god försök igen.";
 "product_sell_again_free_button" = "Markera som tillgänglig";
 "product_sell_again_free_confirm_cancel_button" = "Avbryt";
-"product_sell_again_free_confirm_message" = "Markera din produkt som tillgänglig så att alla letgo-användare vet";
+"product_sell_again_free_confirm_message" = "Vill du markera din produkt som tillgänglig?";
 "product_sell_again_free_confirm_ok_button" = "Skänk bort";
 "product_sell_again_free_confirm_title" = "Markera som tillgänglig";
 "product_sell_again_free_success_message" = "Grattis! Din produkt är tillgänglig för att skänka bort igen.";
