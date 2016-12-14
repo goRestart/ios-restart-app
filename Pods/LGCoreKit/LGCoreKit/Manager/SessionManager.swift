@@ -85,11 +85,10 @@ public protocol SessionManager: class {
     */
     func logout()
 
-
     /**
     Connects the chat (will be done automatically too after login, startup)
     */
-    func connectChat(completion: SessionEmptyCompletion?)
+    func connectChat()
 
     /*
     Disconnects the chat
@@ -127,6 +126,9 @@ protocol InternalSessionManager: SessionManager {
      Initializes `SessionManager`. Will cleanup tokens in case of clean installation
      */
     func initialize()
+
+    func applicationDidEnterBackground()
+    func applicationDidBecomeActive()
 
     // MARK: - Internal methods
 

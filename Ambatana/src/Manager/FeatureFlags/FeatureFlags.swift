@@ -28,6 +28,7 @@ protocol FeatureFlaggeable {
     var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
+    var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var periscopeImprovement: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
@@ -172,6 +173,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.commercializerAfterPosting
         }
         return ABTests.commercializerAfterPosting.value
+    }
+
+    var postingMultiPictureEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.postingMultiPictureEnabled
+        }
+        return ABTests.postingMultiPictureEnabled.value
     }
 
     var relatedProductsOnMoreInfo: Bool {

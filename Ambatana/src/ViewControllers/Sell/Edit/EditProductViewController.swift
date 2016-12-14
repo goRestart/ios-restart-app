@@ -264,7 +264,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Collection View Data Source methods
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.maxImageCount
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)

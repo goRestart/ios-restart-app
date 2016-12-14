@@ -131,11 +131,8 @@ class UserViewController: BaseViewController {
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
+      
         
-        if let favoriteCounter = notificationsManager.favoriteCount.value where favoriteCounter > 0  {
-            notificationsManager.clearFavoriteCounter()
-            headerContainer.header?.setFavoriteTab()
-        }
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
             let currentAlpha: CGFloat = navBarUserViewAlpha
@@ -200,6 +197,10 @@ extension UserViewController: UserViewModelDelegate {
 
     func vmShowNativeShare(socialMessage: SocialMessage) {
         socialSharer.share(socialMessage, shareType: .Native, viewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
+    }
+    
+    func vmOpenFavorites() {
+        headerContainer.header?.setFavoriteTab()
     }
 }
 
