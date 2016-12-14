@@ -95,9 +95,17 @@ extension UIView {
         return constraint
     }
 
-    func setWidthConstraint(height: CGFloat) -> NSLayoutConstraint {
-        let constraint = NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: height)
+    func setWidthConstraint(width: CGFloat) -> NSLayoutConstraint {
+        let constraint = NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: width)
         addConstraint(constraint)
         return constraint
     }
+
+    func setWidthConstraint(multiplier multiplier: CGFloat, constant: CGFloat) -> NSLayoutConstraint {
+        guard let superview = superview else { return NSLayoutConstraint() }
+        let constraint = NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: superview, attribute: .Width, multiplier: multiplier, constant: constant)
+        superview.addConstraint(constraint)
+        return constraint
+    }
+
 }

@@ -40,21 +40,18 @@ enum AlertType {
 class LGAlertViewController: UIViewController {
 
     static let buttonsMargin: CGFloat = 5
-    static let buttonsContainerMaxHeight: CGFloat = 44
+    static let buttonsHeight: CGFloat = 44
     static let buttonsContainerTopSeparation: CGFloat = 20
 
     @IBOutlet weak var alertIcon: UIImageView!
     @IBOutlet weak var alertContentView: UIView!
     @IBOutlet weak var alertTitleLabel: UILabel!
     @IBOutlet weak var alertTextLabel: UILabel!
-    @IBOutlet weak var alertMainButton: UIButton!
-    @IBOutlet weak var alertSecondaryButton: UIButton!
 
     @IBOutlet weak var alertContainerCenterYConstraint: NSLayoutConstraint!
     @IBOutlet weak var alertContentTopSeparationConstraint: NSLayoutConstraint!
     @IBOutlet weak var alertTitleTopSeparationConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonsContainer: UIView!
-    @IBOutlet weak var buttonsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint!
 
     private let alertType: AlertType
@@ -119,28 +116,38 @@ class LGAlertViewController: UIViewController {
     }
 
     private func setupButtons(actions: [UIAction]?) {
+
+        buttonsContainer.subviews.forEach { $0.removeFromSuperview() }
+
         // Actions must have interface == .Button
         let buttonActions: [UIAction] = actions?.filter { $0.buttonStyle != nil } ?? []
         // No actions -> No buttons
         guard buttonActions.count > 0 else {
-            buttonsContainerViewHeightConstraint.constant = 0
             buttonsContainerViewTopSeparationConstraint.constant = 0
-            alertMainButton.hidden = true
-            alertSecondaryButton.hidden = true
             return
         }
-
-        let multiplier: CGFloat = 1 / CGFloat(buttonActions.count)
-        let widthConstraint = NSLayoutConstraint(item: alertMainButton, attribute: .Width, relatedBy: .Equal,
-                                                 toItem: buttonsContainer, attribute: .Width, multiplier: multiplier,
-                                                 constant: -LGAlertViewController.buttonsMargin)
-        buttonsContainer.addConstraint(widthConstraint)
-
-        buttonsContainerViewHeightConstraint.constant = LGAlertViewController.buttonsContainerMaxHeight
         buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
-        bindButtonWithAction(alertMainButton, action: buttonActions[0])
-        if buttonActions.count > 1 {
-            bindButtonWithAction(alertSecondaryButton, action: buttonActions[1])
+
+        let widthMultiplier: CGFloat = 1 / CGFloat(buttonActions.count)
+        let widthConstant: CGFloat = buttonActions.count == 1 ? 0 : -(LGAlertViewController.buttonsMargin/2)
+        var previous: UIView? = nil
+        for action in buttonActions {
+            let button = UIButton(type: .Custom)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            buttonsContainer.addSubview(button)
+            button.fitVerticallyToParent()
+            button.setHeightConstraint(LGAlertViewController.buttonsHeight)
+            button.setWidthConstraint(multiplier: widthMultiplier, constant: widthConstant)
+            if let previous = previous {
+                button.toRightOf(previous, margin: LGAlertViewController.buttonsMargin)
+            } else {
+                button.alignParentLeft()
+            }
+            bindButtonWithAction(button, action: action)
+            previous = button
+        }
+        if let lastBtn = previous {
+            lastBtn.alignParentRight()
         }
     }
 
