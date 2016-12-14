@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate, GIDSignInUIDelegate {
+class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var claimLabel: UILabel!
@@ -54,47 +54,22 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
     // MARK: - Actions
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
-        viewModel.abandon()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        viewModel.closeButtonPressed()
     }
 
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
-        viewModel.logInWithFacebook()
+        viewModel.connectFBButtonPressed()
     }
     @IBAction func connectGoogleButtonPressed(sender: AnyObject) {
-        viewModel.logInWithGoogle()
+        viewModel.connectGoogleButtonPressed()
     }
 
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        presentSignupWithViewModel(viewModel.loginSignupViewModelForSignUp())
+        viewModel.signUpButtonPressed()
     }
 
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        presentSignupWithViewModel(viewModel.loginSignupViewModelForLogin())
-    }
-
-
-    // MARK: - MainSignUpViewModelDelegate
-
-    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.preDismissAction?()
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-        }
-    }
-
-    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel) {
-        dismissLoadingMessageAlert()
-    }
-
-    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message, time: 3)
-        }
+        viewModel.logInButtonPressed()
     }
 
 
@@ -150,5 +125,20 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
         }
         let navC = UINavigationController(rootViewController: vc)
         presentViewController(navC, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: - SignUpViewModelDelegate
+
+extension PopupSignUpViewController: SignUpViewModelDelegate {
+
+    func vmOpenSignup(viewModel: SignUpLogInViewModel) {
+        presentSignupWithViewModel(viewModel)
+    }
+
+    func vmFinish(completedLogin completed: Bool) {
+        preDismissAction?()
+        dismissViewControllerAnimated(true, completion: completed ? afterLoginAction : nil)
     }
 }

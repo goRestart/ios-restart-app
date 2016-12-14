@@ -26,11 +26,10 @@ enum LoginAppearance {
     case Dark, Light
 }
 
-protocol SignUpViewModelDelegate: class {
-    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel)
-    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel)
-    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel)
-    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String)
+// This should become a navigator
+protocol SignUpViewModelDelegate: BaseViewModelDelegate {
+    func vmOpenSignup(viewModel: SignUpLogInViewModel)
+    func vmFinish(completedLogin completed: Bool)
 }
 
 class SignUpViewModel: BaseViewModel {
@@ -114,10 +113,38 @@ class SignUpViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func logInWithFacebook() {
+    func closeButtonPressed() {
+        let trackerEvent = TrackerEvent.loginAbandon(loginSource)
+        tracker.trackEvent(trackerEvent)
+
+        delegate?.vmFinish(completedLogin: false)
+    }
+
+    func connectFBButtonPressed() {
+        logInWithFacebook()
+    }
+
+    func connectGoogleButtonPressed() {
+        logInWithGoogle()
+    }
+
+    func signUpButtonPressed() {
+        let vm = SignUpLogInViewModel(source: loginSource, action: .Signup)
+        delegate?.vmOpenSignup(vm)
+    }
+
+    func logInButtonPressed() {
+        let vm = SignUpLogInViewModel(source: loginSource, action: .Login)
+        delegate?.vmOpenSignup(vm)
+    }
+
+
+    // MARK: - Private methods
+
+    private func logInWithFacebook() {
         fbLoginHelper.login({ [weak self] _ in
             guard let strongSelf = self else { return }
-            strongSelf.delegate?.viewModelDidStartLoggingIn(strongSelf)
+            strongSelf.delegate?.vmShowLoading(nil)
             }, loginCompletion: { [weak self] result in
                 let error = self?.processAuthResult(result, accountProvider: .Facebook)
                 switch result {
@@ -132,11 +159,11 @@ class SignUpViewModel: BaseViewModel {
             })
     }
 
-    func logInWithGoogle() {
+    private func logInWithGoogle() {
         googleLoginHelper.login({ [weak self] in
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
-            self?.delegate?.viewModelDidStartLoggingIn(strongSelf)
+            strongSelf.delegate?.vmShowLoading(nil)
         }) { [weak self] result in
             let error = self?.processAuthResult(result, accountProvider: .Google)
             switch result {
@@ -151,42 +178,28 @@ class SignUpViewModel: BaseViewModel {
         }
     }
 
-    func abandon() {
-        let trackerEvent = TrackerEvent.loginAbandon(loginSource)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func loginSignupViewModelForLogin() -> SignUpLogInViewModel {
-        return SignUpLogInViewModel(source: loginSource, action: .Login)
-    }
-
-    func loginSignupViewModelForSignUp() -> SignUpLogInViewModel {
-        return SignUpLogInViewModel(source: loginSource, action: .Signup)
-    }
-
-
-    // MARK: - Private methods
-
     private func processAuthResult(result: ExternalServiceAuthResult,
                                    accountProvider: AccountProvider) -> EventParameterLoginError? {
         var loginError: EventParameterLoginError? = nil
         switch result {
         case let .Success(myUser):
             savePreviousEmailOrUsername(accountProvider, username: myUser.name)
-            delegate?.viewModeldidFinishLoginIn(self)
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.delegate?.vmFinish(completedLogin: true)
+            }
         case .Cancelled:
-            delegate?.viewModeldidCancelLoginIn(self)
+            delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
         case .Network:
-            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .Network
-        case .Forbidden:
-            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+        case .Scammer:
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .Forbidden
         case .NotFound:
-            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .UserNotFoundOrWrongPassword
         case .BadRequest:
-            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .BadRequest
         case .Conflict(let cause):
             var message = ""
@@ -198,10 +211,10 @@ class SignUpViewModel: BaseViewModel {
             case .RequestAlreadyProcessed:
                 message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
             }
-            delegate?.viewModel(self, didFailLoginIn: message)
+            delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             loginError = .EmailTaken
         case let .Internal(description):
-            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .Internal(description: description)
         }
         return loginError

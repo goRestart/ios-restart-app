@@ -87,21 +87,15 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     }
 
     @IBAction func facebookButtonPressed(sender: AnyObject) {
-        signUpViewModel.logInWithFacebook()
+        signUpViewModel.connectFBButtonPressed()
     }
 
     @IBAction func googleButtonPressed(sender: AnyObject) {
-        signUpViewModel.logInWithGoogle()
+        signUpViewModel.connectGoogleButtonPressed()
     }
 
     @IBAction func emailButtonPressed(sender: AnyObject) {
-        let vm = SignUpLogInViewModel(source: .Install, action: .Signup)
-        let vc = SignUpLogInViewController(viewModel: vm, appearance: .Dark, keyboardFocus: true)
-        vc.afterLoginAction = { [weak self] in
-            self?.openNextStep()
-        }
-        let nav = UINavigationController(rootViewController: vc)
-        presentViewController(nav, animated: true, completion: nil)
+        signUpViewModel.signUpButtonPressed()
     }
 }
 
@@ -119,24 +113,17 @@ extension TourLoginViewController: UITextViewDelegate {
 // MARK: - SignUpViewModelDelegate
 
 extension TourLoginViewController: SignUpViewModelDelegate {
-    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
+    func vmOpenSignup(viewModel: SignUpLogInViewModel) {
+        let vc = SignUpLogInViewController(viewModel: viewModel, appearance: .Dark, keyboardFocus: true)
+        vc.afterLoginAction = { [weak self] in
             self?.openNextStep()
         }
+        let nav = UINavigationController(rootViewController: vc)
+        presentViewController(nav, animated: true, completion: nil)
     }
 
-    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel) {
-        dismissLoadingMessageAlert()
-    }
-
-    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message, time: 3)
-        }
+    func vmFinish(completedLogin completed: Bool) {
+        openNextStep()
     }
 }
 

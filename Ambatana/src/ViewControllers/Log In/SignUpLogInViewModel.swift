@@ -462,7 +462,7 @@ public class SignUpLogInViewModel: BaseViewModel {
         case .Network:
             delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginError = .Network
-        case .Forbidden:
+        case .Scammer:
             delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginError = .Forbidden
         case .NotFound:
