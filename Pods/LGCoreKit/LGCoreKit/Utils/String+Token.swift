@@ -10,10 +10,8 @@ import JWT
 
 extension String {
     var tokenAuthLevel: AuthLevel? {
-        guard let payload = try? JWT.decode(self, algorithm: .HS256(""), verify: false),
-            data = payload["data"] as? [String: AnyObject], roles = data["roles"] as? [String] else {
-                return nil
-        }
+        guard let roles = tokenRoles else { return nil }
+
         if roles.contains("user") {
             return .User
         } else if roles.contains("app") {
@@ -21,5 +19,19 @@ extension String {
         } else {
             return .None
         }
+    }
+
+    var isPasswordRecoveryToken: Bool {
+        guard let roles = tokenRoles else { return false }
+
+        return roles.contains("password_recovery")
+    }
+
+    private var tokenRoles: [String]? {
+        guard let payload = try? JWT.decode(self, algorithm: .HS256(""), verify: false),
+            data = payload["data"] as? [String: AnyObject] else {
+                return nil
+        }
+        return data["roles"] as? [String]
     }
 }
