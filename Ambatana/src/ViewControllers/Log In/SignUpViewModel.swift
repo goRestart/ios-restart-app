@@ -193,7 +193,9 @@ class SignUpViewModel: BaseViewModel {
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .Network
         case .Scammer:
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showScammerAlert()
+            }
             loginError = .Forbidden
         case .NotFound:
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
@@ -218,6 +220,22 @@ class SignUpViewModel: BaseViewModel {
             loginError = .Internal(description: description)
         }
         return loginError
+    }
+
+    private func showScammerAlert() {
+        let image = UIImage(named: "ic_moderation_alert")
+        let contact = UIAction(
+            interface: .Button(LGLocalizedString.loginScammerAlertContactButton, .Primary(fontSize: .Medium)),
+            action: {
+                
+            })
+        let keepBrowsing = UIAction(
+            interface: .Button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .Secondary(fontSize: .Medium, withBorder: false)),
+            action: {
+
+            })
+        delegate?.vmShowAlertWithTitle(LGLocalizedString.loginScammerAlertTitle, text: LGLocalizedString.loginScammerAlertMessage,
+                                       alertType: .IconAlert(icon: image), buttonsLayout: .Vertical, actions: [contact, keepBrowsing])
     }
 
     private func trackLoginFBOK() {

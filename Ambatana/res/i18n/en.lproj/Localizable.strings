@@ -130,6 +130,9 @@
 // Change password send error passwords mismatch. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
 
+// Change password send error link expired (when trying to reset a pwd through an expired email link)
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+
 // Change password send ok. Check image @ "change_password_send_error_generic" segment
 "change_password_send_ok" = "Password changed successfully.";
 
@@ -857,6 +860,18 @@
 
 // Log in title. Check image @ "log_in_email_field_hint" segment
 "log_in_title" = "Sign in with email";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_contact_button" = "Contact Us";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
 
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
