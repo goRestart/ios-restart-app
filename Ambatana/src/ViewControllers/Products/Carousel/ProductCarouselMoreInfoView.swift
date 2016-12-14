@@ -115,7 +115,7 @@ class ProductCarouselMoreInfoView: UIView {
         self.viewModel = viewModel
         currentVmDisposeBag = DisposeBag()
         configureContent(currentVmDisposeBag)
-        configureMapView()
+        configureMapView(with: viewModel)
         configureStatsRx(currentVmDisposeBag)
         configureBottomPanel()
     }
@@ -124,10 +124,7 @@ class ProductCarouselMoreInfoView: UIView {
         if !relatedItemsContainer.hidden {
             relatedProductsView.productId.value = viewModel?.product.value.objectId
         }
-        // Re-layout mapView in case the shared instance was added to another view
-        if (mapView.superview == nil) {
-            setupMapView(inside: mapExpanded ? mapViewContainerExpandable : mapViewContainer)
-        }
+        setupMapViewIfNeeded()
     }
 
     func dismissed() {
@@ -156,6 +153,14 @@ extension ProductCarouselMoreInfoView {
 
 extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
+    private func setupMapViewIfNeeded() {
+        let container = mapExpanded ? mapViewContainerExpandable : mapViewContainer
+        guard mapView.superview != container else { return }
+        setupMapView(inside: container)
+        guard let coordinate = viewModel?.productLocation.value else { return }
+        addRegion(with: coordinate, zoomBlocker: true)
+    }
+    
     private func setupMapView(inside container: UIView) {
         layoutMapView(inside: container)
         addMapGestures()
@@ -203,22 +208,25 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         mapView.pitchEnabled = enabled
     }
 
-    // Configuration for each VM
-    private func configureMapView() {
+    private func configureMapView(with viewModel: ProductViewModel?) {
         guard let coordinate = viewModel?.productLocation.value else { return }
+        addRegion(with: coordinate, zoomBlocker: true)
+        setupMapExpanded(false)
+        locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
+                                radius: Constants.accurateRegionRadius)
+    }
+    
+    private func addRegion(with coordinate: LGLocationCoordinates2D, zoomBlocker: Bool) {
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         vmRegion = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
         guard let region = vmRegion else { return }
-        
         mapView.setRegion(region, animated: false)
-        setupMapExpanded(false)
-
-        mapZoomBlocker = MapZoomBlocker(mapView: mapView, minLatDelta: region.span.latitudeDelta,
-                                        minLonDelta: region.span.longitudeDelta)
-        mapZoomBlocker?.delegate = self
-
-        locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
-                                radius: Constants.accurateRegionRadius)
+        
+        if zoomBlocker {
+            mapZoomBlocker = MapZoomBlocker(mapView: mapView, minLatDelta: region.span.latitudeDelta,
+                                            minLonDelta: region.span.longitudeDelta)
+            mapZoomBlocker?.delegate = self
+        }
     }
     
     func expandMap() {
