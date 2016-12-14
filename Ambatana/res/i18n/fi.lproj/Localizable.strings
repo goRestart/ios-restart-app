@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Uusi salasana";
 "change_password_send_error_generic" = "Salasanaa vaihdettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "change_password_send_error_invalid_password_with_max" = "Ole hyvä ja syötä kelvollinen salasana. Siinä pitää olla %d-%d merkkiä.";
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
 "change_password_send_error_passwords_mismatch" = "Salasanat eivät täsmää. Ole hyvä ja yritä uudelleen.";
 "change_password_send_ok" = "Salasana vaihdettu onnistuneesti.";
 "change_password_title" = "Vaihda salasana";
@@ -498,10 +499,10 @@
 "product_sell_again_confirm_message" = "Haluatko merkitä tämä tuotteen saatavilla olevaksi, jolloin se näkyy jälleen ostajille?";
 "product_sell_again_confirm_ok_button" = "Myy uudelleen";
 "product_sell_again_confirm_title" = "Myy uudelleen";
-"product_sell_again_error_generic" = "Virhe tapahtui merkittäessä tuotettasi saatavilla olevaksi. Ole hyvä ja yritä myöhemmin uudelleen.";
+"product_sell_again_error_generic" = "Virhe tapahtui merkittäessä tuotettasi saatavilla olevaksi. Ole hyvä ja yritä uudelleen.";
 "product_sell_again_free_button" = "Merkitse vapaaksi";
 "product_sell_again_free_confirm_cancel_button" = "Peruuta";
-"product_sell_again_free_confirm_message" = "Merkitse tuotteesi saatavilla olevaksi, jotta kaikki letgon käyttäjät tietävät asiasta";
+"product_sell_again_free_confirm_message" = "Haluatko merkitä tuotteesi saatavilla olevaksi?";
 "product_sell_again_free_confirm_ok_button" = "Anna pois";
 "product_sell_again_free_confirm_title" = "Merkitse saatavilla olevaksi";
 "product_sell_again_free_success_message" = "Onneksi olkoon! Tuotteesi on jälleen saatavilla pois annettavaksi.";

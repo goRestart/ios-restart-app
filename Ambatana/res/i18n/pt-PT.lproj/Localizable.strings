@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Nova password";
 "change_password_send_error_generic" = "Ocorreu um erro ao alterar a password. Por favor tente novamente.";
 "change_password_send_error_invalid_password_with_max" = "Por favor insira uma password válida que deverá conter entre %d e %d caracteres.";
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
 "change_password_send_error_passwords_mismatch" = "As passwords não coincidem. Por favor tente novamente.";
 "change_password_send_ok" = "Password alterada com sucesso.";
 "change_password_title" = "Alterar password";

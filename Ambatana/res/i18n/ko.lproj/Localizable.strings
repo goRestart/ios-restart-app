@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "새로운 비밀번호";
 "change_password_send_error_generic" = "비밀번호를 변경하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "change_password_send_error_invalid_password_with_max" = "사용가능한 %d자 이상 %d자 미만의 비밀번호를 입력해주세요.";
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
 "change_password_send_error_passwords_mismatch" = "비밀번호가 일치하지 않습니다. 다시 시도해주세요.";
 "change_password_send_ok" = "비밀번호가 성공적으로 변경되었습니다.";
 "change_password_title" = "비밀번호 변경";

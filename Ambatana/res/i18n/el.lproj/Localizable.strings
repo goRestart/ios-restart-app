@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Νέος Κωδικός Πρόσβασης";
 "change_password_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αλλαγή του κωδικού πρόσβασης.Παρακαλώ προσπαθήστε ξανά.";
 "change_password_send_error_invalid_password_with_max" = "Παρακαλώ, εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
 "change_password_send_error_passwords_mismatch" = "Οι κωδικοί πρόσβασης δεν ταιριάζουν. Παρακαλώ προσπαθήστε ξανά.";
 "change_password_send_ok" = "Ο κωδικός πρόσβασης άλλαξε επιτυχώς!";
 "change_password_title" = "Αλλαγή κωδικού πρόσβασης";

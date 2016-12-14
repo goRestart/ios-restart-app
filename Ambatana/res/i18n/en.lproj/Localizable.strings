@@ -130,6 +130,9 @@
 // Change password send error passwords mismatch. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
 
+// Change password send error link expired (when trying to reset a pwd through an expired email link)
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+
 // Change password send ok. Check image @ "change_password_send_error_generic" segment
 "change_password_send_ok" = "Password changed successfully.";
 

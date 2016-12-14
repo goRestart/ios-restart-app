@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Új jelszó";
 "change_password_send_error_generic" = "Hiba történt a jelszó megváltoztatása során. Próbálkozz újra!";
 "change_password_send_error_invalid_password_with_max" = "Kérjük, érvényes jelszót adj meg. A hossza %d és %d között lehet.";
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
 "change_password_send_error_passwords_mismatch" = "A jelszavak nem egyeznek. Próbálkozz újra!";
 "change_password_send_ok" = "Sikeres jelszóváltoztatás.";
 "change_password_title" = "Jelszóváltás";

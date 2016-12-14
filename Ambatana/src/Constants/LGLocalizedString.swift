@@ -183,6 +183,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_password_send_error_passwords_mismatch", comment: "")
 	}
 
+	static var changePasswordSendErrorLinkExpired: String {
+		return NSLocalizedString("change_password_send_error_link_expired", comment: "")
+	}
+
 	static var changePasswordSendOk: String {
 		return NSLocalizedString("change_password_send_ok", comment: "")
 	}

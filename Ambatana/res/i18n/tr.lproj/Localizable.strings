@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Yeni şifre";
 "change_password_send_error_generic" = "Şifre değiştirilirken bir hata oluştu. Lütfen tekrar dene.";
 "change_password_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
 "change_password_send_error_passwords_mismatch" = "Şifreler eşleşmiyor. Lütfen tekrar dene.";
 "change_password_send_ok" = "Şifren başarıyla değiştirildi.";
 "change_password_title" = "Şifre değiştir";
