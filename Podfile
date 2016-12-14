@@ -34,7 +34,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Swift 3.0: -
 
 	# letgo Core
-    pod "LGCoreKit",            "1.6.2"     #:path => "../lgcorekit"
+    pod "LGCoreKit",            "1.6.4"     #:path => "../lgcorekit"
 
 	# letgo Collapsible label
     pod "LGCollapsibleLabel",   "0.2.0"     # :path => "../collapsiblelabel"
