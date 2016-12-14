@@ -126,7 +126,7 @@ class ProductCarouselMoreInfoView: UIView {
         }
         // Re-layout mapView in case the shared instance was added to another view
         if (mapView.superview == nil) {
-            layoutMapView(inside: mapExpanded ? mapViewContainerExpandable : mapViewContainer)
+            setupMapView(inside: mapExpanded ? mapViewContainerExpandable : mapViewContainer)
         }
     }
 
@@ -136,10 +136,8 @@ class ProductCarouselMoreInfoView: UIView {
     }
     
     deinit {
-        // Force mapView removal
-        mapZoomBlocker?.mapView = nil
-        mapView.gestureRecognizers?.forEach { mapView.removeGestureRecognizer($0) }
-        mapView.removeFromSuperview()
+        // MapView is a shared instance and all references must be removed
+        cleanMapView()
     }
 }
 
@@ -158,6 +156,11 @@ extension ProductCarouselMoreInfoView {
 
 extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
+    private func setupMapView(inside container: UIView) {
+        layoutMapView(inside: container)
+        addMapGestures()
+    }
+    
     private func layoutMapView(inside container: UIView) {
         if mapView.superview != nil {
             mapView.removeFromSuperview()
@@ -172,6 +175,21 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
             toItem: container, attribute: .Top, multiplier: 1, constant: 0))
         container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal,
             toItem: container, attribute: .Bottom, multiplier: 1, constant: 8))
+    }
+    
+    private func addMapGestures() {
+        removeMapGestures()
+        mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapMap)))
+    }
+    
+    private func removeMapGestures() {
+        mapView.gestureRecognizers?.forEach { mapView.removeGestureRecognizer($0) }
+    }
+    
+    private func cleanMapView() {
+        mapZoomBlocker?.mapView = nil
+        removeMapGestures()
+        mapView.removeFromSuperview()
     }
     
     private dynamic func didTapMap() {
@@ -221,11 +239,11 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         var expandedFrame = mapViewContainerExpandable.frame
         expandedFrame.origin.y = bigMapMargin
         expandedFrame.size.height = height - bigMapBottomMargin
-        UIView.animateWithDuration(0.3, animations: {
-            self.mapViewContainerExpandable?.frame = expandedFrame
-            self.mapViewContainerExpandable?.layoutIfNeeded()
-            }, completion: { completed in
-                self.setupMapExpanded(true)
+        UIView.animateWithDuration(0.3, animations: { [weak self] in
+            self?.mapViewContainerExpandable?.frame = expandedFrame
+            self?.mapViewContainerExpandable?.layoutIfNeeded()
+            }, completion: { [weak self] completed in
+                self?.setupMapExpanded(true)
         })
     }
     
@@ -233,19 +251,20 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         guard mapExpanded else { return }
         
         let compressedFrame = convertRect(mapViewContainer.frame, fromView: scrollViewContent)
-        UIView.animateWithDuration(0.3, animations: {
-            self.mapViewContainerExpandable?.frame = compressedFrame
-            self.mapViewContainerExpandable?.layoutIfNeeded()
-            }, completion: { completed in
-                self.setupMapExpanded(false)
-                if let locationZone = self.locationZone {
-                    self.mapView.removeOverlay(locationZone)
+        UIView.animateWithDuration(0.3, animations: { [weak self] in
+            self?.mapViewContainerExpandable?.frame = compressedFrame
+            self?.mapViewContainerExpandable?.layoutIfNeeded()
+            }, completion: { [weak self] completed in
+                guard let strongSelf = self else { return }
+                strongSelf.setupMapExpanded(false)
+                if let locationZone = strongSelf.locationZone {
+                    strongSelf.mapView.removeOverlay(locationZone)
                 }
-                self.layoutMapView(inside: self.mapViewContainer)
-                self.mapViewContainerExpandable?.removeFromSuperview()
-                self.mapZoomBlocker?.stop()
-                if let region = self.vmRegion {
-                    self.mapView.setRegion(region, animated: true)
+                strongSelf.layoutMapView(inside: strongSelf.mapViewContainer)
+                strongSelf.mapViewContainerExpandable?.removeFromSuperview()
+                strongSelf.mapZoomBlocker?.stop()
+                if let region = strongSelf.vmRegion {
+                    strongSelf.mapView.setRegion(region, animated: true)
                 }
         })
     }
@@ -287,7 +306,11 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 
 private extension ProductCarouselMoreInfoView {
     func setupUI(featureFlags: FeatureFlaggeable) {
-        setupMapView()
+        
+        setupMapView(inside: mapViewContainer)
+        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
+        mapView.clipsToBounds = true
+        
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
         
         titleLabel.textColor = UIColor.whiteColor()
@@ -341,14 +364,6 @@ private extension ProductCarouselMoreInfoView {
         }
         
         scrollView.delegate = self
-    }
-    
-    private func setupMapView() {
-        layoutMapView(inside: mapViewContainer)
-        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
-        mapView.clipsToBounds = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapMap))
-        mapView.addGestureRecognizer(tap)
     }
 
     private func setupStatsView() {
