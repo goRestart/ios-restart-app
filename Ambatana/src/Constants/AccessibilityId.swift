@@ -495,6 +495,9 @@ enum AccessibilityId: String {
     // Chat Heads
     case ChatHeadsAvatars
     case ChatHeadsDelete
+    
+    // Bubble notifications
+    case BubbleButton
 }
 
 extension UIAccessibilityIdentification {

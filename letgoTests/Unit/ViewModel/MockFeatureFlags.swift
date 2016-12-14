@@ -15,7 +15,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var notificationsSection: Bool = false
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
-    var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode = .NoMessage
     var interestedUsersMode: InterestedUsersMode = .NoNotification
     var filtersReorder: Bool = false
     var directPostInOnboarding: Bool = false
@@ -35,4 +34,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var periscopeImprovement: Bool = false
     var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
+    var favoriteWithBubbleToChat: Bool = false
 }

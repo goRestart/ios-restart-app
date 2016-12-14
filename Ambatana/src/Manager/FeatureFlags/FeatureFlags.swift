@@ -14,7 +14,6 @@ protocol FeatureFlaggeable {
     var notificationsSection: Bool { get }
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
-    var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
     var interestedUsersMode: InterestedUsersMode { get }
     var filtersReorder: Bool { get }
     var directPostInOnboarding: Bool { get }
@@ -34,6 +33,7 @@ protocol FeatureFlaggeable {
     var periscopeImprovement: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
+    var favoriteWithBubbleToChat: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -83,13 +83,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showNPSSurvey
         }
         return ABTests.showNPSSurvey.value
-    }
-
-     var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode {
-        if Bumper.enabled {
-            return Bumper.messageOnFavoriteRound2Mode
-        }
-        return MessageOnFavoriteRound2Mode.fromPosition(ABTests.messageOnFavoriteRound2.value)
     }
 
      var interestedUsersMode: InterestedUsersMode {
@@ -209,6 +202,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.favoriteWithBadgeOnProfile
         }
         return ABTests.favoriteWithBadgeOnProfile.value
+    }
+    
+    var favoriteWithBubbleToChat: Bool {
+        if Bumper.enabled {
+            return Bumper.favoriteWithBubbleToChat
+        }
+        return ABTests.favoriteWithBubbleToChat.value
     }
 
     var newQuickAnswers: Bool {
