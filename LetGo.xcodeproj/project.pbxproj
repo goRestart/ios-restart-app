@@ -573,6 +573,10 @@
 		72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
 		72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
+		7EF6F6B91DF5D0E0002A0277 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6F6B81DF5D0E0002A0277 /* BaseCoordinator.swift */; };
+		7EF6F6BA1DF5D0E0002A0277 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6F6B81DF5D0E0002A0277 /* BaseCoordinator.swift */; };
+		7EF6F6BC1DF5D0FF002A0277 /* BaseNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6F6BB1DF5D0FF002A0277 /* BaseNavigator.swift */; };
+		7EF6F6BD1DF5D0FF002A0277 /* BaseNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6F6BB1DF5D0FF002A0277 /* BaseNavigator.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
@@ -1559,6 +1563,8 @@
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
+		7EF6F6B81DF5D0E0002A0277 /* BaseCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
+		7EF6F6BB1DF5D0FF002A0277 /* BaseNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigator.swift; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
 		9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2406,10 +2412,12 @@
 		507622851CD0EB1D004E5D0D /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				507622871CD0EB1D004E5D0D /* Coordinator.swift */,
+				7EF6F6B81DF5D0E0002A0277 /* BaseCoordinator.swift */,
+				7EF6F6BB1DF5D0FF002A0277 /* BaseNavigator.swift */,
 				50146BBF1D4F5F5B00B0F635 /* Tabs */,
 				507622861CD0EB1D004E5D0D /* AppCoordinator.swift */,
 				506846461CD390CA00FA00C2 /* AppNavigator.swift */,
-				507622871CD0EB1D004E5D0D /* Coordinator.swift */,
 				2E2A5E111D5C784B0047ED45 /* ExpressChatCoordinator.swift */,
 				2E2A5E131D5C78600047ED45 /* ExpressChatNavigator.swift */,
 				50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */,
@@ -4402,6 +4410,7 @@
 				C7B5884D1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
 				C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */,
 				6A5E1A061D548F5400F92692 /* VersionChecker.swift in Sources */,
+				7EF6F6B91DF5D0E0002A0277 /* BaseCoordinator.swift in Sources */,
 				6ADF0ADE1D705043009AEC4A /* NPSViewController.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Product+Title.swift in Sources */,
 				C7F18A9F1C89D62600D23319 /* GalleryImageCell.swift in Sources */,
@@ -4533,6 +4542,7 @@
 				C79643111D4F5AFA000C5FCE /* RelatedProductsView.swift in Sources */,
 				5095988D1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				C7B5885D1CE1DE1C009B3975 /* OldChatViewModel.swift in Sources */,
+				7EF6F6BC1DF5D0FF002A0277 /* BaseNavigator.swift in Sources */,
 				C7363FBC1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift in Sources */,
 				C7B588A61CE1E025009B3975 /* ChatListViewModel.swift in Sources */,
 				503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */,
@@ -4819,6 +4829,7 @@
 				C74234071D5A01440082D1CD /* LocalMessage.swift in Sources */,
 				6A5E1A071D548F5400F92692 /* VersionChecker.swift in Sources */,
 				504652F31CC0F398003F5070 /* Product+Title.swift in Sources */,
+				7EF6F6BA1DF5D0E0002A0277 /* BaseCoordinator.swift in Sources */,
 				6ADF0ADF1D705043009AEC4A /* NPSViewController.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C75B5DC81D59E09500112368 /* ProductDetailOnboardingView.swift in Sources */,
@@ -4950,6 +4961,7 @@
 				C749316F1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				2E2C7B341C859F4E00F46E8F /* PromoteProductViewModel.swift in Sources */,
+				7EF6F6BD1DF5D0FF002A0277 /* BaseNavigator.swift in Sources */,
 				C7B5885E1CE1DE1C009B3975 /* OldChatViewModel.swift in Sources */,
 				5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				2E2A5E161D5C81250047ED45 /* ExpressChatCoordinator.swift in Sources */,

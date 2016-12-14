@@ -119,9 +119,9 @@ class ProductViewModel: BaseViewModel {
     let showInterestedBubble = Variable<Bool>(false)
     var interestedBubbleTitle: String?
     var isFirstProduct: Bool = false
-
-    private var favoriteMessageSent: Bool = false
+    
     private var alreadyTrackedFirstMessageSent: Bool = false
+    private static let bubbleTagGroup = "favorite.bubble.group"
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.Hidden)
@@ -815,8 +815,24 @@ extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
-            checkSendFavoriteMessage()
+            if featureFlags.favoriteWithBubbleToChat {
+                navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
+            }
         }
+    }
+    
+    private func favoriteBubbleNotificationData() -> BubbleNotificationData {
+        let action = UIAction(interface: .Text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
+            guard let product = self?.product.value else { return }
+            self?.navigator?.openProductChat(product)
+        }, accessibilityId: .BubbleButton)
+        let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
+                                          text: LGLocalizedString.productBubbleFavoriteButton,
+                                          infoText: LGLocalizedString.productBubbleFavoriteText,
+                                          action: action,
+                                          iconURL: nil,
+                                          iconImage: UIImage(named: "user_placeholder"))
+        return data
     }
 
     private func report() {
@@ -971,27 +987,6 @@ extension ProductViewModel {
 
     func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
         return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct, featureFlags: featureFlags) && active
-    }
-}
-
-
-// MARK: - Message on favorite
-
-private extension ProductViewModel {
-    private func checkSendFavoriteMessage() {
-        guard !favoriteMessageSent else { return }
-
-        switch featureFlags.messageOnFavoriteRound2 {
-        case .NoMessage:
-            return
-        case .DirectMessage:
-            sendFavoriteMessage()
-        }
-    }
-
-    private func sendFavoriteMessage() {
-        sendMessage(.FavoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
-        favoriteMessageSent = true
     }
 }
 
