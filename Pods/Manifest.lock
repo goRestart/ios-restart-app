@@ -11,11 +11,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.18):
-    - Branch/Core (= 0.12.18)
-    - Branch/without-IDFA (= 0.12.18)
-  - Branch/Core (0.12.18)
-  - Branch/without-IDFA (0.12.18)
+  - Branch (0.12.20):
+    - Branch/Core (= 0.12.20)
+    - Branch/without-IDFA (= 0.12.20)
+  - Branch/Core (0.12.20)
+  - Branch/without-IDFA (0.12.20)
   - bumper (0.2.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -138,7 +138,6 @@ PODS:
   - RxSwift (2.6.1)
   - RxTests (2.6.1):
     - RxSwift (~> 2.6)
-  - SlackTextViewController (1.9.4)
   - SocketRocket (0.5.1)
   - SwiftyUserDefaults (2.2.1)
   - TMReachability (3.2)
@@ -181,7 +180,6 @@ DEPENDENCIES:
   - RxCocoa (~> 2.6.0)
   - RxSwift (~> 2.6.0)
   - RxTests (~> 2.6.0)
-  - SlackTextViewController (= 1.9.4)
   - SwiftyUserDefaults (~> 2.2.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (~> 2.3.0)
@@ -215,7 +213,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: 495b343632cda4d1a42e13f25d5adfb91d0ee52a
   Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 94efdf8da4cd28fa8fb9c877dc19cb6be2204e66
+  Branch: a2c085213fd3953c241ad63aa49f4435bfc84da7
   bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
@@ -261,13 +259,12 @@ SPEC CHECKSUMS:
   RxCocoa: 3bb2820fd2a1ba48a70d38926bec0803838ae802
   RxSwift: 0147fbf94e65c6085da9540de92848189ac1c3f6
   RxTests: ddd7dac9e9379d7eea5383447949ed4eafd0b0fc
-  SlackTextViewController: d490f354dba963bc469a6b9ce3213978eaed67a5
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 1b027542ddf822fcabe2d180fe0f66cc0c4b3768
+PODFILE CHECKSUM: e8f5ff3aa7e912e7f246a18a4cd293c48cfbfc42
 
 COCOAPODS: 1.1.0.rc.3

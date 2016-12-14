@@ -16,10 +16,9 @@
 #import "BranchContentDiscoveryManifest.h"
 #import "BranchContentDiscoverer.h"
 
+
 @interface BranchOpenRequest ()
-
 @property (assign, nonatomic) BOOL isInstall;
-
 @end
 
 

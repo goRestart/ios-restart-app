@@ -265,21 +265,21 @@ extension UserViewModel {
 
     private func buildShareNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             self?.shareButtonPressed()
         }, accessibilityId: .UserNavBarShareButton)
     }
 
     private func buildSettingsNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_settings")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             self?.openSettings()
         }, accessibilityId: .UserNavBarSettingsButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             guard let strongSelf = self else { return }
 
             var actions = [UIAction]()

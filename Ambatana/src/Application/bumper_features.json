@@ -100,6 +100,11 @@
         "description": "Badge on profile when favorite"
     },
     {
+        "name": "NewQuickAnswers",
+        "values": ["No", "Yes"],
+        "description": "Use quick answers v2"
+    },
+    {
         "name": "PostingMultiPictureEnabled",
         "values": ["No", "Yes"],
         "description": "Posting multi picture enabled"

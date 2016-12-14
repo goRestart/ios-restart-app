@@ -31,6 +31,7 @@ protocol FeatureFlaggeable {
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var periscopeImprovement: Bool { get }
+    var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
 }
@@ -208,6 +209,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.favoriteWithBubbleToChat
         }
         return ABTests.favoriteWithBubbleToChat.value
+    }
+
+    var newQuickAnswers: Bool {
+        if Bumper.enabled {
+            return Bumper.newQuickAnswers
+        }
+        return ABTests.newQuickAnswers.value
     }
 
 

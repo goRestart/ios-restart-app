@@ -30,15 +30,32 @@ public struct ABTests {
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
+    static var newQuickAnswers = BoolABDynamicVar(key: "newQuickAnswers", defaultValue: false)
     static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
     static var favoriteWithBubbleToChat = BoolABDynamicVar(key: "favoriteWithBubbleToChat", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey, interestedUsersMode, filtersReorder, directPostInOnboarding,
-                productDetailShareMode, notificationCenterEnabled, shareButtonWithIcon, chatHeadBubbles,
-                saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
-                keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting,
-                periscopeImprovement, favoriteWithBadgeOnProfile, favoriteWithBubbleToChat, postingMultiPictureEnabled]
+        return [showNPSSurvey,
+                interestedUsersMode,
+                filtersReorder,
+                directPostInOnboarding,
+                productDetailShareMode,
+                notificationCenterEnabled,
+                shareButtonWithIcon,
+                chatHeadBubbles,
+                saveMailLogout,
+                expressChatBanner,
+                showLiquidProductsToNewUser,
+                postAfterDeleteMode,
+                keywordsTravelCollection,
+                commercializerAfterPosting,
+                relatedProductsOnMoreInfo,
+                shareAfterPosting,
+                postingMultiPictureEnabled,
+                periscopeImprovement,
+                newQuickAnswers,
+                favoriteWithBadgeOnProfile,
+                favoriteWithBubbleToChat]
     }
 
     static func registerVariables() {
