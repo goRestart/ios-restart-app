@@ -37,6 +37,10 @@ enum AlertType {
     }
 }
 
+enum AlertButtonsLayout {
+    case Horizontal, Vertical
+}
+
 class LGAlertViewController: UIViewController {
 
     static let buttonsMargin: CGFloat = 5
@@ -55,6 +59,7 @@ class LGAlertViewController: UIViewController {
     @IBOutlet weak var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint!
 
     private let alertType: AlertType
+    private let buttonsLayout: AlertButtonsLayout
 
     private let alertTitle: String?
     private let alertText: String?
@@ -66,11 +71,12 @@ class LGAlertViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init?(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+    init?(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout = .Horizontal, actions: [UIAction]?) {
         self.alertTitle = title
         self.alertText = text
         self.alertActions = actions
         self.alertType = alertType
+        self.buttonsLayout = buttonsLayout
         super.init(nibName: "LGAlertViewController", bundle: nil)
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
@@ -128,6 +134,15 @@ class LGAlertViewController: UIViewController {
         }
         buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
 
+        switch buttonsLayout {
+        case .Horizontal:
+            buildButtonsHorizontally(buttonActions)
+        case .Vertical:
+            buildButtonsVertically(buttonActions)
+        }
+    }
+
+    private func buildButtonsHorizontally(buttonActions: [UIAction]) {
         let widthMultiplier: CGFloat = 1 / CGFloat(buttonActions.count)
         let widthConstant: CGFloat = buttonActions.count == 1 ? 0 : -(LGAlertViewController.buttonsMargin/2)
         var previous: UIView? = nil
@@ -148,6 +163,27 @@ class LGAlertViewController: UIViewController {
         }
         if let lastBtn = previous {
             lastBtn.alignParentRight()
+        }
+    }
+
+    private func buildButtonsVertically(buttonActions: [UIAction]) {
+        var previous: UIView? = nil
+        for action in buttonActions {
+            let button = UIButton(type: .Custom)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            buttonsContainer.addSubview(button)
+            button.fitHorizontallyToParent()
+            button.setHeightConstraint(LGAlertViewController.buttonsHeight)
+            if let previous = previous {
+                button.toBottomOf(previous, margin: LGAlertViewController.buttonsMargin)
+            } else {
+                button.alignParentTop()
+            }
+            bindButtonWithAction(button, action: action)
+            previous = button
+        }
+        if let lastBtn = previous {
+            lastBtn.alignParentBottom()
         }
     }
 
