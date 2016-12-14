@@ -48,7 +48,7 @@ final class UserRatingCoordinator: Coordinator {
     // MARK: - Private
 
     private func close(animated animated: Bool, rating: Int?, completion: (() -> Void)?) {
-        let finished = rating == nil
+        let finished = rating != nil
         let dismiss: () -> Void = { [weak self] in
             self?.viewController.dismissViewControllerAnimated(animated) { [weak self] in
                 guard let strongSelf = self else { return }
