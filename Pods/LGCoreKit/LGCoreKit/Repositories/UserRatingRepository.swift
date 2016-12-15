@@ -74,5 +74,5 @@ public protocol UserRatingRepository {
      - parameter rating:     the rating to report
      - parameter completion: the completion closure
     */
-    func reportRating(rating: UserRating, completion: UserRatingEmptyCompletion?)
+    func reportRating(rating: UserRating, completion: UserRatingCompletion?)
 }

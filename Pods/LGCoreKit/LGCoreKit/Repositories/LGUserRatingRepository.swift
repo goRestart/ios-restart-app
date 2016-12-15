@@ -120,17 +120,17 @@ public class LGUserRatingRepository: UserRatingRepository {
      - parameter rating:     the rating to report
      - parameter completion: the completion closure
      */
-    public func reportRating(rating: UserRating, completion: UserRatingEmptyCompletion?) {
+    public func reportRating(rating: UserRating, completion: UserRatingCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
-            completion?(UserRatingEmptyResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UserRatingResult(error: .Internal(message: "Missing objectId in MyUser")))
             return
         }
         guard let ratingId = rating.objectId else {
-            completion?(UserRatingEmptyResult(error: .Internal(message: "Missing objectId in rating object")))
+            completion?(UserRatingResult(error: .Internal(message: "Missing objectId in rating object")))
             return
         }
         guard rating.userToId == myUserId else {
-            completion?(UserRatingEmptyResult(error: .Internal(message: "MyUser is not the rating receiver")))
+            completion?(UserRatingResult(error: .Internal(message: "MyUser is not the rating receiver")))
             return
         }
         dataSource.report(ratingId) { result in
