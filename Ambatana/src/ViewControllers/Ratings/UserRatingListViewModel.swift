@@ -127,7 +127,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
             let reportAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
                 self?.userRatingListRequester.reportRating(rating, completion: { result in
                     if let ratingUpdated = result.value {
-                        self?.ratings[indexPath.row] = ratingUpdated
+                        self?.replaceRating(ratingUpdated)
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
                             completion: nil)
                     } else if let _ = result.error {
