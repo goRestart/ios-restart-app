@@ -44,7 +44,6 @@ enum AlertButtonsLayout {
 class LGAlertViewController: UIViewController {
 
     static let buttonsMargin: CGFloat = 5
-    static let buttonsHeight: LGUIKitConstants.mediumButtonHeight
     static let buttonsContainerTopSeparation: CGFloat = 20
 
     @IBOutlet weak var alertIcon: UIImageView!
@@ -151,7 +150,7 @@ class LGAlertViewController: UIViewController {
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
             button.fitVerticallyToParent()
-            button.setHeightConstraint(LGAlertViewController.buttonsHeight)
+            button.setHeightConstraint(LGUIKitConstants.mediumButtonHeight)
             button.setWidthConstraint(multiplier: widthMultiplier, constant: widthConstant)
             if let previous = previous {
                 button.toRightOf(previous, margin: LGAlertViewController.buttonsMargin)
@@ -173,7 +172,7 @@ class LGAlertViewController: UIViewController {
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
             button.fitHorizontallyToParent()
-            button.setHeightConstraint(LGAlertViewController.buttonsHeight)
+            button.setHeightConstraint(LGUIKitConstants.mediumButtonHeight)
             if let previous = previous {
                 button.toBottomOf(previous, margin: LGAlertViewController.buttonsMargin)
             } else {
