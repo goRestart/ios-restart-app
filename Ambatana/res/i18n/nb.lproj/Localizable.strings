@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "Glemt ditt passord?";
 "log_in_send_button" = "Logg inn";
 "log_in_title" = "Registrer deg med e-post";
+"login_scammer_alert_contact_button" = "Contact Us";
+"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
+"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
+"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
 "main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";
 "main_sign_up_error_request_already_sent" = "Din forespørsel er allerede prosessert. Vennligst vent før du prøver igjen.";
 "main_sign_up_error_user_rejected" = "E-postadressen du valgte er ugyldig. Vennligst sjekk og prøv igjen.";

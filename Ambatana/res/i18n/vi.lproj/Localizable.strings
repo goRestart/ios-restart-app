@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "Quên mật khẩu?";
 "log_in_send_button" = "Đăng nhập";
 "log_in_title" = "Đăng nhập bằng email";
+"login_scammer_alert_contact_button" = "Contact Us";
+"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
+"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
+"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua—bằng cách trò chuyện!";
 "main_sign_up_error_request_already_sent" = "Yêu cầu của bạn đã được xử lý. Vui lòng chờ trước khi thử lại.";
 "main_sign_up_error_user_rejected" = "Email bạn nhập không đúng. Vui lòng kiểm tra và thử lại.";

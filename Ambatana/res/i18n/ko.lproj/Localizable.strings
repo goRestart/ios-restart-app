@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "암호를 잊어버리셨나요?";
 "log_in_send_button" = "로그인";
 "log_in_title" = "이메일로 로그인";
+"login_scammer_alert_contact_button" = "Contact Us";
+"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
+"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
+"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
 "main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
 "main_sign_up_error_request_already_sent" = "사용자의 요청은 이미 진행되었습니다. 다시 시도하기 전에 잠시만 기다려주세요.";
 "main_sign_up_error_user_rejected" = "입력하신 이메일이 일치하지 않습니다. 다시 확인하시고 입력해주세요.";

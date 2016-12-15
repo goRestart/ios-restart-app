@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "Je wachtwoord vergeten?";
 "log_in_send_button" = "Inloggen";
 "log_in_title" = "Aanmelden met e-mail";
+"login_scammer_alert_contact_button" = "Contact Us";
+"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
+"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
+"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
 "main_sign_up_error_request_already_sent" = "Je aanvraag is al verwerkt. Gelieve te wachten voordat je het opnieuw probeert.";
 "main_sign_up_error_user_rejected" = "Het e-mailadres dat je hebt ingevoerd is onjuist. Controleer het en probeer het opnieuw.";

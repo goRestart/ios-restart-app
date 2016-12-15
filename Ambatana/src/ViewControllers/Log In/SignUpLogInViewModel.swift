@@ -19,6 +19,7 @@ protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSendButtonEnabledState(enabled: Bool)
     func vmUpdateShowPasswordVisible(visible: Bool)
     func vmFinish(completedAccess completed: Bool)
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL)
     func vmShowRecaptcha(viewModel: RecaptchaViewModel)
     func vmShowHiddenPasswordAlert()
 }
@@ -100,6 +101,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
+    private let installationRepository: InstallationRepository
     private let locationManager: LocationManager
 
     private var newsletterParameter: EventParameterNewsletter {
@@ -113,11 +115,12 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, locationManager: LocationManager, keyValueStorage: KeyValueStorageable,
-         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper, tracker: Tracker,
-         featureFlags: FeatureFlaggeable, locale: NSLocale,
-         source: EventParameterLoginSourceValue, action: LoginActionType) {
+    init(sessionManager: SessionManager, installationRepository: InstallationRepository, locationManager: LocationManager,
+         keyValueStorage: KeyValueStorageable, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper,
+         tracker: Tracker, featureFlags: FeatureFlaggeable, locale: NSLocale, source: EventParameterLoginSourceValue,
+         action: LoginActionType) {
         self.sessionManager = sessionManager
+        self.installationRepository = installationRepository
         self.locationManager = locationManager
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
@@ -148,6 +151,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
         let sessionManager = Core.sessionManager
+        let installationRepository = Core.installationRepository
         let locationManager = Core.locationManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let googleLoginHelper = GoogleLoginHelper()
@@ -155,9 +159,9 @@ public class SignUpLogInViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let locale = NSLocale.currentLocale()
-        self.init(sessionManager: sessionManager, locationManager: locationManager, keyValueStorage: keyValueStorage,
-                  googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper, tracker: tracker,
-                  featureFlags: featureFlags, locale: locale, source: source, action: action)
+        self.init(sessionManager: sessionManager, installationRepository: installationRepository, locationManager: locationManager,
+                  keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
+                  tracker: tracker, featureFlags: featureFlags, locale: locale, source: source, action: action)
     }
     
     
@@ -361,7 +365,12 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .Unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest,
+        case .Scammer:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showScammerAlert(self?.email)
+            }
+            return
+        case .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest,
              .UserNotVerified:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
@@ -398,7 +407,12 @@ public class SignUpLogInViewModel: BaseViewModel {
                 self?.delegate?.vmShowRecaptcha(vm)
             }
             return
-        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
+        case .Scammer:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showScammerAlert(self?.email)
+            }
+            return
+        case .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -452,7 +466,9 @@ public class SignUpLogInViewModel: BaseViewModel {
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .Network
         case .Scammer:
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showScammerAlert(self?.email)
+            }
             loginError = .Forbidden
         case .NotFound:
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
@@ -477,6 +493,16 @@ public class SignUpLogInViewModel: BaseViewModel {
             loginError = .Internal(description: description)
         }
         return loginError
+    }
+
+    private func showScammerAlert(userEmail: String?) {
+        guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+             installation: installationRepository.installation, moderation: true) else {
+                delegate?.vmFinish(completedAccess: false)
+                return
+        }
+        
+        delegate?.vmFinishAndShowScammerAlert(url)
     }
     
     

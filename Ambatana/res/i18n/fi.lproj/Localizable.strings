@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "Unohditko salasanasi?";
 "log_in_send_button" = "Kirjaudu sisään";
 "log_in_title" = "Kirjaudu sisään sähköpostilla";
+"login_scammer_alert_contact_button" = "Contact Us";
+"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
+"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
+"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
 "main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";
 "main_sign_up_error_request_already_sent" = "Pyyntösi on jo käsitelty. Ole hyvä ja odota, ennen kuin yrität uudelleen.";
 "main_sign_up_error_user_rejected" = "Syöttämäsi sähköposti on väärä. Tarkista osoite ja yritä uudelleen.";

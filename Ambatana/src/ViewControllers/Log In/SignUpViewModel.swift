@@ -30,6 +30,7 @@ enum LoginAppearance {
 protocol SignUpViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSignup(viewModel: SignUpLogInViewModel)
     func vmFinish(completedLogin completed: Bool)
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL)
 }
 
 class SignUpViewModel: BaseViewModel {
@@ -60,6 +61,8 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
+    private let myUserRepository: MyUserRepository
+    private let installationRepository: InstallationRepository
     private let keyValueStorage: KeyValueStorageable
     private let featureFlags: FeatureFlaggeable
     private let tracker: Tracker
@@ -77,10 +80,12 @@ class SignUpViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
-         tracker: Tracker, appearance: LoginAppearance, source: EventParameterLoginSourceValue,
-         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper) {
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
+         keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable, tracker: Tracker, appearance: LoginAppearance,
+         source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper) {
         self.sessionManager = sessionManager
+        self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.tracker = tracker
@@ -100,14 +105,16 @@ class SignUpViewModel: BaseViewModel {
     
     convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         let sessionManager = Core.sessionManager
+        let myUserRepository = Core.myUserRepository
+        let installationRepository = Core.installationRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let googleLoginHelper = GoogleLoginHelper()
         let fbLoginHelper = FBLoginHelper()
-        self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
-                  tracker: tracker, appearance: appearance, source: source,
-                  googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, installationRepository: installationRepository,
+                  keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: appearance,
+                  source: source, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
     }
 
 
@@ -223,19 +230,13 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func showScammerAlert() {
-        let image = UIImage(named: "ic_moderation_alert")
-        let contact = UIAction(
-            interface: .Button(LGLocalizedString.loginScammerAlertContactButton, .Primary(fontSize: .Medium)),
-            action: {
-                
-            })
-        let keepBrowsing = UIAction(
-            interface: .Button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .Secondary(fontSize: .Medium, withBorder: false)),
-            action: {
+        guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+            installation: installationRepository.installation, moderation: true) else {
+                delegate?.vmFinish(completedLogin: false)
+                return
+            }
 
-            })
-        delegate?.vmShowAlertWithTitle(LGLocalizedString.loginScammerAlertTitle, text: LGLocalizedString.loginScammerAlertMessage,
-                                       alertType: .IconAlert(icon: image), buttonsLayout: .Vertical, actions: [contact, keepBrowsing])
+        delegate?.vmFinishAndShowScammerAlert(url)
     }
 
     private func trackLoginFBOK() {

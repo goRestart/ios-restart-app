@@ -18,6 +18,7 @@ protocol BaseViewModelDelegate: class {
     func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
     func vmShowActionSheet(cancelLabel: String, actions: [UIAction])
+    func vmOpenInternalUrl(url: NSURL)
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                                  elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
@@ -71,6 +72,10 @@ extension UIViewController: BaseViewModelDelegate {
     func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout,
                               actions: [UIAction]?) {
         showAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
+    }
+
+    func vmOpenInternalUrl(url: NSURL) {
+        openInternalUrl(url)
     }
 
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,

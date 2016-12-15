@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "Forgot your password?";
 "log_in_send_button" = "Log In";
 "log_in_title" = "Sign in with email";
+"login_scammer_alert_contact_button" = "Contact Us";
+"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
+"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
+"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
 "main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";

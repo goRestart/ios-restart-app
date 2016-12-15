@@ -625,6 +625,24 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
         dismissViewControllerAnimated(true, completion: completed ? afterLoginAction : nil)
     }
 
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL) {
+        let parentController = presentingViewController
+        let contact = UIAction(
+            interface: .Button(LGLocalizedString.loginScammerAlertContactButton, .Primary(fontSize: .Medium)),
+            action: {
+                parentController?.openInternalUrl(contactUrl)
+        })
+        let keepBrowsing = UIAction(
+            interface: .Button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .Secondary(fontSize: .Medium, withBorder: false)),
+            action: {})
+        dismissViewControllerAnimated(false) {
+            parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
+                                                 text: LGLocalizedString.loginScammerAlertMessage,
+                                                 alertType: .IconAlert(icon: UIImage(named: "ic_moderation_alert")),
+                                                 buttonsLayout: .Vertical, actions:  [contact, keepBrowsing])
+        }
+    }
+
     func vmShowRecaptcha(viewModel: RecaptchaViewModel) {
         viewModel.navigator = self
         let vc = RecaptchaViewController(viewModel: viewModel)

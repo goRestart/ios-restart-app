@@ -66,26 +66,46 @@ class LetgoURLHelper {
     static func buildHelpURL(user: MyUser?, installation: Installation?) -> NSURL? {
         guard let  url = LetgoURLHelper.composeURL(Constants.helpURL) else { return nil }
         guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
-        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation)
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
+                                                                                  moderation: false)
         return urlComponents.URL
     }
 
-    static func buildContactUsURL(user: MyUser?, installation: Installation?) -> NSURL? {
+    static func buildContactUsURL(user user: MyUser?, installation: Installation?, moderation: Bool = false) -> NSURL? {
         guard let  url = LetgoURLHelper.composeURL(Constants.contactUs) else { return nil }
         guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
-        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation)
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
+                                                                                  moderation: moderation)
         return urlComponents.URL
     }
+
+    static func buildContactUsURL(userEmail email: String?, installation: Installation?, moderation: Bool = false) -> NSURL? {
+        guard let  url = LetgoURLHelper.composeURL(Constants.contactUs) else { return nil }
+        guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(nil, userName: nil, email: email,
+                                                                                  installationId: installation?.objectId,
+                                                                                  moderation: moderation)
+        return urlComponents.URL
+    }
+
+    private static func buildContactParameters(user: MyUser?, installation: Installation?, moderation: Bool) -> String? {
+        return buildContactParameters(user?.objectId, userName: user?.name, email: user?.email,
+                                      installationId: installation?.objectId, moderation: moderation)
+    }
     
-    private static func buildContactParameters(user: MyUser?, installation: Installation?) -> String? {
+    private static func buildContactParameters(userId: String?, userName: String?, email: String?, installationId: String?
+        , moderation: Bool) -> String? {
         var param: [String: String] = [:]
         param["app_version"] = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
         param["os_version"] = UIDevice.currentDevice().systemVersion
         param["device_model"] = DeviceUtil.hardwareDescription()
-        param["user_id"] = user?.objectId
-        param["user_name"] = user?.name
-        param["user_email"] = user?.email
-        param["installation_id"] = installation?.objectId
+        param["user_id"] = userId
+        param["user_name"] = userName
+        param["user_email"] = email
+        param["installation_id"] = installationId
+        if moderation {
+            param["moderation"] = "true"
+        }
         return param.map{"\($0)=\($1)"}
             .joinWithSeparator("&")
             .encodeString()
