@@ -12,6 +12,7 @@ public enum EnvironmentType: String {
     case Staging
     case Canary
     case Production
+    case Escrow
 }
 
 class EnvironmentProxy: Environment {
@@ -38,6 +39,8 @@ class EnvironmentProxy: Environment {
             environment = CanaryEnvironment()
         case .Production:
             environment = ProductionEnvironment()
+        case .Escrow:
+            environment = EscrowEnvironment()
         }
     }
 
