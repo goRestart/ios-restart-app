@@ -16,6 +16,7 @@ import Result
 class SignUpViewModelSpec: QuickSpec {
     var loading: Bool = false
     var finishedSuccessfully: Bool = false
+    var finishedScammer: Bool = false
     
     override func spec() {
 
@@ -45,6 +46,7 @@ class SignUpViewModelSpec: QuickSpec {
 
                 self.loading = false
                 self.finishedSuccessfully = false
+                self.finishedScammer = false
             }
 
             describe("initialization") {
@@ -189,22 +191,46 @@ class SignUpViewModelSpec: QuickSpec {
                 }
 
                 context("error") {
-                    beforeEach {
-                        googleLoginHelper.loginResult = .Scammer
-                        sut.connectGoogleButtonPressed()
-                        expect(self.loading).toEventually(beFalse())
-                    }
+                    context("standard") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .NotFound
+                            sut.connectGoogleButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
 
-                    it("does not save a user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider).to(beNil())
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-google events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                        }
                     }
-                    it("does not save a previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username).to(beNil())
-                    }
-                    it("tracks login-screen & login-signup-error-google events") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                    context("scammer") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .Scammer
+                            sut.connectGoogleButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-google events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                        }
+                        it("asks to show scammer error alert") {
+                            expect(self.finishedScammer).to(beTrue())
+                        }
                     }
                 }
             }
@@ -263,22 +289,46 @@ class SignUpViewModelSpec: QuickSpec {
                 }
 
                 context("error") {
-                    beforeEach {
-                        fbLoginHelper.loginResult = .Scammer
-                        sut.connectFBButtonPressed()
-                        expect(self.loading).toEventually(beFalse())
-                    }
+                    context("standard") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .NotFound
+                            sut.connectFBButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
 
-                    it("does not save a user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider).to(beNil())
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-facebook events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                        }
                     }
-                    it("does not save a previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username).to(beNil())
-                    }
-                    it("tracks login-screen & login-signup-error-facebook events") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                    context("scammer") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .Scammer
+                            sut.connectFBButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-facebook events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                        }
+                        it("asks to show scammer error alert") {
+                            expect(self.finishedScammer).to(beTrue())
+                        }
                     }
                 }
             }
@@ -296,6 +346,7 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
 
     func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
         finishedSuccessfully = false
+        finishedScammer = true
     }
 
 

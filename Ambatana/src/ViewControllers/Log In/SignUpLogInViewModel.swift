@@ -369,6 +369,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .Email)
             }
+            trackLoginEmailFailedWithError(eventParameterForSessionError(error))
             return
         case .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest,
              .UserNotVerified:
