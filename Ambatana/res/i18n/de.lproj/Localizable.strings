@@ -287,10 +287,10 @@
 "log_in_reset_password_button" = "Kennwort vergessen?";
 "log_in_send_button" = "Anmelden";
 "log_in_title" = "Mit E-Mail-Adresse anmelden";
-"login_scammer_alert_contact_button" = "Contact Us";
-"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
-"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
-"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
+"login_scammer_alert_contact_button" = "Schreib uns";
+"login_scammer_alert_keep_browsing_button" = "Mehr entdecken";
+"login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί από λάθος, επικοινωνήστε μαζί μας.";
+"login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
 "main_sign_up_error_request_already_sent" = "Deine Anfrage wurde bereits bearbeitet. Bitte warte ein wenig, bevor du es erneut versuchst.";
 "main_sign_up_error_user_rejected" = "Die eingegebene E-Mail-Adresse ist falsch. Bitte überprüfe deine Eingabe und versuche es erneut.";

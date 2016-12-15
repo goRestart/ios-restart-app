@@ -41,7 +41,7 @@
 "change_password_new_password_field_hint" = "Nueva contraseña";
 "change_password_send_error_generic" = "Se ha producido un error al cambiar la contraseña. Por favor, inténtalo de nuevo.";
 "change_password_send_error_invalid_password_with_max" = "Por favor, introduce una contraseña válida. Debe tener entre %d y %d caracteres.";
-"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+"change_password_send_error_link_expired" = "¡Ups! Este enlace ha caducado.";
 "change_password_send_error_passwords_mismatch" = "¡Ups! La contraseña no coincide. Por favor, inténtalo de nuevo.";
 "change_password_send_ok" = "Has cambiado la contraseña.";
 "change_password_title" = "Cambiar contraseña";
@@ -287,10 +287,10 @@
 "log_in_reset_password_button" = "¿Olvidaste tu contraseña?";
 "log_in_send_button" = "Iniciar Sesión";
 "log_in_title" = "Iniciar sesión con email";
-"login_scammer_alert_contact_button" = "Contact Us";
-"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
-"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
-"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
+"login_scammer_alert_contact_button" = "Contáctanos";
+"login_scammer_alert_keep_browsing_button" = "Sigue navegando";
+"login_scammer_alert_message" = "Tu cuenta está siendo revisada por el equipo de letgo. Si crees que se trata de un error, contacta con nosotros.";
+"login_scammer_alert_title" = "CUENTA EN REVISIÓN";
 "main_sign_up_claim_label" = "Empieza a vender y comprar por chat";
 "main_sign_up_error_request_already_sent" = "Tu petición ya ha sido procesada. Por favor, espera antes de volver a intentarlo.";
 "main_sign_up_error_user_rejected" = "El email que has introducido es erróneo. Por favor, revísalo e inténtalo de nuevo.";

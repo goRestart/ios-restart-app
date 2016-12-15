@@ -41,7 +41,7 @@
 "change_password_new_password_field_hint" = "Uusi salasana";
 "change_password_send_error_generic" = "Salasanaa vaihdettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "change_password_send_error_invalid_password_with_max" = "Ole hyvä ja syötä kelvollinen salasana. Siinä pitää olla %d-%d merkkiä.";
-"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+"change_password_send_error_link_expired" = "Ikävä kyllä tämä linkki on vanhentunut!";
 "change_password_send_error_passwords_mismatch" = "Salasanat eivät täsmää. Ole hyvä ja yritä uudelleen.";
 "change_password_send_ok" = "Salasana vaihdettu onnistuneesti.";
 "change_password_title" = "Vaihda salasana";
@@ -287,10 +287,10 @@
 "log_in_reset_password_button" = "Unohditko salasanasi?";
 "log_in_send_button" = "Kirjaudu sisään";
 "log_in_title" = "Kirjaudu sisään sähköpostilla";
-"login_scammer_alert_contact_button" = "Contact Us";
-"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
-"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
-"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
+"login_scammer_alert_contact_button" = "Ota meihin yhteyttä";
+"login_scammer_alert_keep_browsing_button" = "Jatka selaamista";
+"login_scammer_alert_message" = "letgo-tiimi suorittaa tilillesi tarkastusta. Mikäli uskot, että tilisi on ilmiannettu aiheettomasti, ota meihin yhteyttä.";
+"login_scammer_alert_title" = "TILI TARKASTUKSEN ALAISENA";
 "main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";
 "main_sign_up_error_request_already_sent" = "Pyyntösi on jo käsitelty. Ole hyvä ja odota, ennen kuin yrität uudelleen.";
 "main_sign_up_error_user_rejected" = "Syöttämäsi sähköposti on väärä. Tarkista osoite ja yritä uudelleen.";

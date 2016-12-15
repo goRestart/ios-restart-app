@@ -871,7 +871,7 @@
 "login_scammer_alert_contact_button" = "Contact Us";
 
 // Alert shown to users that fail to login due to scammer error
-"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
+"login_scammer_alert_keep_browsing_button" = "Skip";
 
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";

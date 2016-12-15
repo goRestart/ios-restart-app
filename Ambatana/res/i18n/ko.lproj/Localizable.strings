@@ -41,7 +41,7 @@
 "change_password_new_password_field_hint" = "새로운 비밀번호";
 "change_password_send_error_generic" = "비밀번호를 변경하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "change_password_send_error_invalid_password_with_max" = "사용가능한 %d자 이상 %d자 미만의 비밀번호를 입력해주세요.";
-"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+"change_password_send_error_link_expired" = "죄송하지만 이 링크는 만료되었습니다!";
 "change_password_send_error_passwords_mismatch" = "비밀번호가 일치하지 않습니다. 다시 시도해주세요.";
 "change_password_send_ok" = "비밀번호가 성공적으로 변경되었습니다.";
 "change_password_title" = "비밀번호 변경";
@@ -287,10 +287,10 @@
 "log_in_reset_password_button" = "암호를 잊어버리셨나요?";
 "log_in_send_button" = "로그인";
 "log_in_title" = "이메일로 로그인";
-"login_scammer_alert_contact_button" = "Contact Us";
-"login_scammer_alert_keep_browsing_button" = "Keep Browsing";
-"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
-"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
+"login_scammer_alert_contact_button" = "문의하기";
+"login_scammer_alert_keep_browsing_button" = "계속 검색하기";
+"login_scammer_alert_message" = "letgo팀이 회원님의 계정을 검토하고 있습니다. 만약 잘못된 사항이 있다면, 저희에게 연락하여 주십시오.";
+"login_scammer_alert_title" = "계정을 검토하고 있습니다";
 "main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
 "main_sign_up_error_request_already_sent" = "사용자의 요청은 이미 진행되었습니다. 다시 시도하기 전에 잠시만 기다려주세요.";
 "main_sign_up_error_user_rejected" = "입력하신 이메일이 일치하지 않습니다. 다시 확인하시고 입력해주세요.";
