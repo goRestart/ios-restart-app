@@ -44,7 +44,7 @@ enum AlertButtonsLayout {
 class LGAlertViewController: UIViewController {
 
     static let buttonsMargin: CGFloat = 5
-    static let buttonsHeight: CGFloat = 44
+    static let buttonsHeight: LGUIKitConstants.mediumButtonHeight
     static let buttonsContainerTopSeparation: CGFloat = 20
 
     @IBOutlet weak var alertIcon: UIImageView!
