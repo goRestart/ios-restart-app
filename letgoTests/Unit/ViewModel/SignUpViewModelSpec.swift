@@ -16,12 +16,14 @@ import Result
 class SignUpViewModelSpec: QuickSpec {
     var loading: Bool = false
     var finishedSuccessfully: Bool = false
+    var finishedScammer: Bool = false
     
     override func spec() {
 
         describe("SignUpViewModelSpec") {
             var sut: SignUpViewModel!
             var sessionManager: MockSessionManager!
+            var installationRepository: MockInstallationRepository!
             var keyValueStorage: MockKeyValueStorage!
             var featureFlags: MockFeatureFlags!
             var tracker: MockTracker!
@@ -30,19 +32,21 @@ class SignUpViewModelSpec: QuickSpec {
 
             beforeEach {
                 sessionManager = MockSessionManager()
+                installationRepository = MockInstallationRepository()
                 keyValueStorage = MockKeyValueStorage()
                 featureFlags = MockFeatureFlags()
                 tracker = MockTracker()
                 let myUser = MockMyUser()
                 googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
                 fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
-                sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                    featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
-                    googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
+                    keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                    source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                 sut.delegate = self
 
                 self.loading = false
                 self.finishedSuccessfully = false
+                self.finishedScammer = false
             }
 
             describe("initialization") {
@@ -65,9 +69,9 @@ class SignUpViewModelSpec: QuickSpec {
                             keyValueStorage[.previousUserAccountProvider] = "letgo"
                             keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                            sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                                featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
-                                googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
+                                keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                                source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                         }
 
                         it("does not have a previous facebook username") {
@@ -83,9 +87,9 @@ class SignUpViewModelSpec: QuickSpec {
                             keyValueStorage[.previousUserAccountProvider] = "facebook"
                             keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                            sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                                featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
-                                googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
+                                keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                                source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                         }
 
                         it("has a previous facebook username") {
@@ -101,9 +105,9 @@ class SignUpViewModelSpec: QuickSpec {
                             keyValueStorage[.previousUserAccountProvider] = "google"
                             keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                            sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                                featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
-                                googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
+                                keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                                source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                         }
 
                         it("does not have a previous facebook username") {
@@ -119,9 +123,9 @@ class SignUpViewModelSpec: QuickSpec {
                     beforeEach {
                         featureFlags.saveMailLogout = false
 
-                        sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                            featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                        sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
+                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                            source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("does not have a previous facebook username") {
@@ -147,7 +151,7 @@ class SignUpViewModelSpec: QuickSpec {
                         beforeEach {
                             featureFlags.saveMailLogout = true
 
-                            sut.logInWithGoogle()
+                            sut.connectGoogleButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
 
@@ -168,7 +172,7 @@ class SignUpViewModelSpec: QuickSpec {
                         beforeEach {
                             featureFlags.saveMailLogout = false
 
-                            sut.logInWithGoogle()
+                            sut.connectGoogleButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
 
@@ -187,22 +191,46 @@ class SignUpViewModelSpec: QuickSpec {
                 }
 
                 context("error") {
-                    beforeEach {
-                        googleLoginHelper.loginResult = .Forbidden
-                        sut.logInWithGoogle()
-                        expect(self.loading).toEventually(beFalse())
-                    }
+                    context("standard") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .NotFound
+                            sut.connectGoogleButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
 
-                    it("does not save a user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider).to(beNil())
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-google events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                        }
                     }
-                    it("does not save a previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username).to(beNil())
-                    }
-                    it("tracks login-screen & login-signup-error-google events") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                    context("scammer") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .Scammer
+                            sut.connectGoogleButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-google events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                        }
+                        it("asks to show scammer error alert") {
+                            expect(self.finishedScammer).to(beTrue())
+                        }
                     }
                 }
             }
@@ -221,7 +249,7 @@ class SignUpViewModelSpec: QuickSpec {
                         beforeEach {
                             featureFlags.saveMailLogout = true
 
-                            sut.logInWithFacebook()
+                            sut.connectFBButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
 
@@ -242,7 +270,7 @@ class SignUpViewModelSpec: QuickSpec {
                         beforeEach {
                             featureFlags.saveMailLogout = false
 
-                            sut.logInWithFacebook()
+                            sut.connectFBButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
 
@@ -261,22 +289,46 @@ class SignUpViewModelSpec: QuickSpec {
                 }
 
                 context("error") {
-                    beforeEach {
-                        fbLoginHelper.loginResult = .Forbidden
-                        sut.logInWithFacebook()
-                        expect(self.loading).toEventually(beFalse())
-                    }
+                    context("standard") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .NotFound
+                            sut.connectFBButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
 
-                    it("does not save a user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider).to(beNil())
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-facebook events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                        }
                     }
-                    it("does not save a previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username).to(beNil())
-                    }
-                    it("tracks login-screen & login-signup-error-facebook events") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                    context("scammer") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .Scammer
+                            sut.connectFBButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-facebook events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                        }
+                        it("asks to show scammer error alert") {
+                            expect(self.finishedScammer).to(beTrue())
+                        }
                     }
                 }
             }
@@ -285,19 +337,38 @@ class SignUpViewModelSpec: QuickSpec {
 }
 
 extension SignUpViewModelSpec: SignUpViewModelDelegate {
-    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel) {
+
+    func vmOpenSignup(viewModel: SignUpLogInViewModel) {}
+
+    func vmFinish(completedLogin completed: Bool) {
+        finishedSuccessfully = completed
+    }
+
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+        finishedSuccessfully = false
+        finishedScammer = true
+    }
+
+
+    // BaseViewModelDelegate
+    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {}
+    func vmShowLoading(loadingMessage: String?) {
         loading = true
     }
-    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel) {
+    func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         loading = false
-        finishedSuccessfully = true
+        afterMessageCompletion?()
     }
-    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel) {
-        loading = false
-        finishedSuccessfully = false
-    }
-    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String) {
-        loading = false
-        finishedSuccessfully = false
-    }
+    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
+    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
+    func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {}
+    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {}
+    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {}
+    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+    func vmPop() {}
+    func vmDismiss(completion: (() -> Void)?){}
 }

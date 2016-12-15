@@ -41,7 +41,7 @@
 "change_password_new_password_field_hint" = "Nytt lösenord";
 "change_password_send_error_generic" = "Ett fel uppstod vid byte av lösenord. Var vänlig försök igen.";
 "change_password_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
-"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+"change_password_send_error_link_expired" = "Tyvärr, denna länk har upphört!";
 "change_password_send_error_passwords_mismatch" = "Lösenorden matchar inte. Var god försök igen.";
 "change_password_send_ok" = "Lösenordet har ändrats.";
 "change_password_title" = "Ändra lösenord";
@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "Glömt ditt lösenord?";
 "log_in_send_button" = "Logga in";
 "log_in_title" = "Logga in med e-post";
+"login_scammer_alert_contact_button" = "Kontakta Oss";
+"login_scammer_alert_keep_browsing_button" = "Surfa vidare";
+"login_scammer_alert_message" = "Ditt konto är under granskning av letgo. Om du tror att det har anmälts av misstag, kontakta oss.";
+"login_scammer_alert_title" = "KONTOT ÄR UNDER GRANSKNING";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
 "main_sign_up_error_request_already_sent" = "Din begäran har redan registrerats. Vänligen vänta innan du försöker igen.";
 "main_sign_up_error_user_rejected" = "Den e-postadress du skrev in är inte korrekt. Kolla den och försök igen.";

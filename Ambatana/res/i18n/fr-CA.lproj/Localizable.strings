@@ -41,7 +41,7 @@
 "change_password_new_password_field_hint" = "Nouveau mot de passe";
 "change_password_send_error_generic" = "Une erreur est survenue lors du changement de mot de passe. Veuillez réessayer.";
 "change_password_send_error_invalid_password_with_max" = "Veuillez indiquer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
-"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+"change_password_send_error_link_expired" = "Nous sommes désolés, ce lien a expiré !";
 "change_password_send_error_passwords_mismatch" = "Les mots de passe ne correspondent pas. Veuillez réessayer.";
 "change_password_send_ok" = "Mot de passe modifié avec succès.";
 "change_password_title" = "Changer le mot de passe";
@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "Mot de passe oublié ?";
 "log_in_send_button" = "Se Connecter";
 "log_in_title" = "Se Connecter par courriel";
+"login_scammer_alert_contact_button" = "Contactez-nous";
+"login_scammer_alert_keep_browsing_button" = "Continuez à Naviguer";
+"login_scammer_alert_message" = "Votre compte est en cours de vérification par l'équipe letgo. Si vous pensez qu'il s'agit d'une erreur, contactez-nous.";
+"login_scammer_alert_title" = "COMPTE EN COURS DE VÉRIFICATION";
 "main_sign_up_claim_label" = "Commencez à vendre et à acheter - en clavardant !";
 "main_sign_up_error_request_already_sent" = "Votre demande a déjà été traitée. Veuillez attendre avant de réessayer.";
 "main_sign_up_error_user_rejected" = "Le courriel que vous avez indiqué est incorrect. Veuillez le vérifier et réessayer.";

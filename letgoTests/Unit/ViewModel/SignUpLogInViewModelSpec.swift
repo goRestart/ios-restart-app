@@ -16,12 +16,14 @@ import Result
 class SignUpLogInViewModelSpec: QuickSpec {
     var loading: Bool = false
     var finishedSuccessfully: Bool = false
+    var finishedScammer: Bool = false
 
     override func spec() {
         describe("SignUpLogInViewModelSpec") {
             var sut: SignUpLogInViewModel!
 
             var sessionManager: MockSessionManager!
+            var installationRepository: MockInstallationRepository!
             var locationManager: MockLocationManager!
             var keyValueStorage: MockKeyValueStorage!
             var tracker: MockTracker!
@@ -31,6 +33,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
             beforeEach {
                 sessionManager = MockSessionManager()
+                installationRepository = MockInstallationRepository()
                 locationManager = MockLocationManager()
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
@@ -40,8 +43,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
                 let locale = NSLocale(localeIdentifier: "es_ES")
 
-                sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
-                    keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
+                    locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                     locale: locale, source: .Install, action: .Signup)
                 sut.delegate = self
@@ -83,8 +86,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
                             let locale = NSLocale(localeIdentifier: "es_ES")
-                            sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
-                                keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
+                                locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                                 fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                                 locale: locale, source: .Install, action: .Signup)
                         }
@@ -106,8 +109,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
                             let locale = NSLocale(localeIdentifier: "es_ES")
-                            sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
-                                keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
+                                locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                                 fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                                 locale: locale, source: .Install, action: .Signup)
                         }
@@ -129,8 +132,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
                             let locale = NSLocale(localeIdentifier: "es_ES")
-                            sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
-                                keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
+                                locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                                 fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                                 locale: locale, source: .Install, action: .Signup)
                         }
@@ -152,8 +155,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         featureFlags.saveMailLogout = false
 
                         let locale = NSLocale(localeIdentifier: "es_ES")
-                        sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
-                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                        sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
+                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                             locale: locale, source: .Install, action: .Signup)
                     }
@@ -173,8 +176,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("phone locale is in Turkey") {
                     beforeEach {
                         let locale = NSLocale(localeIdentifier: "tr_TR")
-                        sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
-                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                        sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
+                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                             locale: locale, source: .Install, action: .Signup)
                     }
@@ -188,8 +191,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     beforeEach {
                         let locale = NSLocale(localeIdentifier: "es_ES")
                         locationManager.currentPostalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: "")
-                        sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
-                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                        sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
+                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                             locale: locale, source: .Install, action: .Signup)
                     }
@@ -204,8 +207,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         let locale = NSLocale(localeIdentifier: "es_ES")
                         locationManager.currentPostalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "es", country: "")
 
-                        sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
-                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                        sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
+                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                             locale: locale, source: .Install, action: .Signup)
                     }
@@ -276,26 +279,54 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 }
 
                 context("error") {
-                    beforeEach {
-                        let email = "albert@letgo.com"
-                        sessionManager.myUserResult = SessionMyUserResult(error: .Network)
+                    context("standard") {
+                        beforeEach {
+                            let email = "albert@letgo.com"
+                            sessionManager.myUserResult = SessionMyUserResult(error: .Network)
 
-                        sut.email = email
-                        sut.password = "123456"
-                        sut.logIn()
-                        expect(self.loading).toEventually(beFalse())
-                    }
+                            sut.email = email
+                            sut.password = "123456"
+                            sut.logIn()
+                            expect(self.loading).toEventually(beFalse())
+                        }
 
-                    it("does not save a user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider).to(beNil())
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-error event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-error"]
+                        }
                     }
-                    it("does not save a previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username).to(beNil())
-                    }
-                    it("tracks a login-error event") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-error"]
+                    context("scammer") {
+                        beforeEach {
+                            let email = "albert@letgo.com"
+                            sessionManager.myUserResult = SessionMyUserResult(error: .Scammer)
+
+                            sut.email = email
+                            sut.password = "123456"
+                            sut.logIn()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-error event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-error"]
+                        }
+                        it("asks to show scammer error alert") {
+                            expect(self.finishedScammer).to(beTrue())
+                        }
                     }
                 }
             }
@@ -354,22 +385,46 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 }
 
                 context("error") {
-                    beforeEach {
-                        googleLoginHelper.loginResult = .Forbidden
-                        sut.logInWithGoogle()
-                        expect(self.loading).toEventually(beFalse())
-                    }
+                    context("standard") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .NotFound
+                            sut.logInWithGoogle()
+                            expect(self.loading).toEventually(beFalse())
+                        }
 
-                    it("does not save a user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider).to(beNil())
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-signup-error-google event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-google"]
+                        }
                     }
-                    it("does not save a previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username).to(beNil())
-                    }
-                    it("tracks a login-signup-error-google event") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-google"]
+                    context("scammer") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .Scammer
+                            sut.logInWithGoogle()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-signup-error-google event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-google"]
+                        }
+                        it("asks to show scammer error alert") {
+                            expect(self.finishedScammer).to(beTrue())
+                        }
                     }
                 }
             }
@@ -429,22 +484,46 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 }
 
                 context("error") {
-                    beforeEach {
-                        fbLoginHelper.loginResult = .Forbidden
-                        sut.logInWithFacebook()
-                        expect(self.loading).toEventually(beFalse())
-                    }
+                    context("standard") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .NotFound
+                            sut.logInWithFacebook()
+                            expect(self.loading).toEventually(beFalse())
+                        }
 
-                    it("does not save a user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider).to(beNil())
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-signup-error-facebook event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-facebook"]
+                        }
                     }
-                    it("does not save a previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username).to(beNil())
-                    }
-                    it("tracks a login-signup-error-facebook event") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-facebook"]
+                    context("scammer") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .Scammer
+                            sut.logInWithFacebook()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-signup-error-facebook event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-facebook"]
+                        }
+                        it("asks to show scammer error alert") {
+                            expect(self.finishedScammer).to(beTrue())
+                        }
                     }
                 }
             }
@@ -453,64 +532,38 @@ class SignUpLogInViewModelSpec: QuickSpec {
 }
 
 extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
-    // visual
-    func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
 
+    func vmUpdateSendButtonEnabledState(enabled: Bool) {}
+    func vmUpdateShowPasswordVisible(visible: Bool) {}
+    func vmFinish(completedAccess completed: Bool) {
+        finishedSuccessfully = completed
     }
-
-    func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool) {
-
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+        finishedSuccessfully = false
+        finishedScammer = true
     }
-    func viewModelShowHiddenPasswordAlert(viewModel: SignUpLogInViewModel) {
+    func vmShowRecaptcha(viewModel: RecaptchaViewModel) {}
+    func vmShowHiddenPasswordAlert() {}
 
-    }
-    func viewModelShowGodModeError(viewModel: SignUpLogInViewModel) {
-
-    }
-
-    // signup
-    func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
+    // BaseViewModelDelegate
+    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {}
+    func vmShowLoading(loadingMessage: String?) {
         loading = true
     }
-    func viewModelDidSignUp(viewModel: SignUpLogInViewModel) {
+    func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         loading = false
-        finishedSuccessfully = true
+        afterMessageCompletion?()
     }
-    func viewModelDidFailSigningUp(viewModel: SignUpLogInViewModel, message: String) {
-        loading = false
-        finishedSuccessfully = false
-    }
-    func viewModelShowRecaptcha(viewModel: RecaptchaViewModel) {
-
-    }
-
-    // login
-    func viewModelDidStartLoginIn(viewModel: SignUpLogInViewModel) {
-        loading = true
-    }
-    func viewModelDidLogIn(viewModel: SignUpLogInViewModel) {
-        loading = false
-        finishedSuccessfully = true
-    }
-    func viewModelDidFailLoginIn(viewModel: SignUpLogInViewModel, message: String) {
-        loading = false
-        finishedSuccessfully = false
-    }
-
-    // fb login
-    func viewModelDidStartAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        loading = true
-    }
-    func viewModelDidAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        loading = false
-        finishedSuccessfully = true
-    }
-    func viewModelDidCancelAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        loading = false
-        finishedSuccessfully = false
-    }
-    func viewModel(viewModel: SignUpLogInViewModel, didFailAuthWithExternalService message: String) {
-        loading = false
-        finishedSuccessfully = false
-    }
+    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
+    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
+    func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {}
+    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {}
+    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {}
+    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+    func vmPop() {}
+    func vmDismiss(completion: (() -> Void)?){}
 }

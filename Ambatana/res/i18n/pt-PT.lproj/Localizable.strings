@@ -41,7 +41,7 @@
 "change_password_new_password_field_hint" = "Nova password";
 "change_password_send_error_generic" = "Ocorreu um erro ao alterar a password. Por favor tente novamente.";
 "change_password_send_error_invalid_password_with_max" = "Por favor insira uma password válida que deverá conter entre %d e %d caracteres.";
-"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+"change_password_send_error_link_expired" = "Lamentamos mas este link expirou!";
 "change_password_send_error_passwords_mismatch" = "As passwords não coincidem. Por favor tente novamente.";
 "change_password_send_ok" = "Password alterada com sucesso.";
 "change_password_title" = "Alterar password";
@@ -287,6 +287,10 @@
 "log_in_reset_password_button" = "Esqueceu-se da password?";
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
+"login_scammer_alert_contact_button" = "Contacte-nos";
+"login_scammer_alert_keep_browsing_button" = "Continue a navegar";
+"login_scammer_alert_message" = "A sua conta está a ser analisada pela equipa letgo. Se acredita que foi marcada por engano, entre em contacto connosco.";
+"login_scammer_alert_title" = "CONTA A SER ANALISADA";
 "main_sign_up_claim_label" = "Comece a vender e a comprar - via chat!";
 "main_sign_up_error_request_already_sent" = "O seu pedido já foi processado. Por favor aguarde antes de tentar novamente.";
 "main_sign_up_error_user_rejected" = "O email inserido está incorreto. Por favor verifique e tente de novo.";

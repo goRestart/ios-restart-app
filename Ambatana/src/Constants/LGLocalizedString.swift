@@ -1167,6 +1167,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("log_in_title", comment: "")
 	}
 
+	static var loginScammerAlertTitle: String {
+		return NSLocalizedString("login_scammer_alert_title", comment: "")
+	}
+
+	static var loginScammerAlertMessage: String {
+		return NSLocalizedString("login_scammer_alert_message", comment: "")
+	}
+
+	static var loginScammerAlertContactButton: String {
+		return NSLocalizedString("login_scammer_alert_contact_button", comment: "")
+	}
+
+	static var loginScammerAlertKeepBrowsingButton: String {
+		return NSLocalizedString("login_scammer_alert_keep_browsing_button", comment: "")
+	}
+
 	static var mainSignUpClaimLabel: String {
 		return NSLocalizedString("main_sign_up_claim_label", comment: "")
 	}
