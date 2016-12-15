@@ -1145,9 +1145,9 @@ private extension ChatConversation {
 private extension ChatInfoViewStatus {
     var userReviewEnabled: Bool {
         switch self {
-        case .Forbidden, .Blocked, .BlockedBy, .UserPendingDelete, .UserDeleted, .ProductDeleted:
+        case .Forbidden, .Blocked, .BlockedBy, .UserPendingDelete, .UserDeleted:
             return false
-        case .Available, .ProductSold:
+        case .Available, .ProductSold, .ProductDeleted:
             return true
         }
     }
