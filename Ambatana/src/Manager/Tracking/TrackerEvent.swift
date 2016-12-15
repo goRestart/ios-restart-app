@@ -131,6 +131,24 @@ public struct TrackerEvent {
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
 
+    static func loginBlockedAccountStart(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountStart, params: params)
+    }
+
+    static func loginBlockedAccountContactUs(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountContactUs, params: params)
+    }
+
+    static func loginBlockedAccountKeepBrowsing(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountKeepBrowsing, params: params)
+    }
+
     static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
         var params = EventParameters()
 

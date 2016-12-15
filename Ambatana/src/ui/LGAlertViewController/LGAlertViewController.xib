@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LGAlertViewController" customModule="LetGo" customModuleProvider="target">
@@ -11,24 +15,21 @@
                 <outlet property="alertContentTopSeparationConstraint" destination="HD8-C0-zxf" id="cPL-rx-esG"/>
                 <outlet property="alertContentView" destination="BbW-3n-dOK" id="VFI-ka-opw"/>
                 <outlet property="alertIcon" destination="xSZ-TZ-E8g" id="rkn-ni-2Y6"/>
-                <outlet property="alertMainButton" destination="oPh-WE-yQ3" id="Xs3-AY-X9M"/>
-                <outlet property="alertSecondaryButton" destination="qeS-5t-HZ4" id="jDu-nd-bKd"/>
                 <outlet property="alertTextLabel" destination="3G5-xS-3su" id="xmO-xn-GRt"/>
                 <outlet property="alertTitleLabel" destination="0gQ-Gj-Fic" id="PSA-YW-N6W"/>
                 <outlet property="alertTitleTopSeparationConstraint" destination="vDC-MR-otL" id="xjN-cH-Xtv"/>
                 <outlet property="buttonsContainer" destination="bRn-kI-uhG" id="Zs0-5w-2qU"/>
-                <outlet property="buttonsContainerViewHeightConstraint" destination="PBE-7H-htv" id="qZR-Jr-deL"/>
                 <outlet property="buttonsContainerViewTopSeparationConstraint" destination="woX-z2-s9S" id="Fxs-ll-H2A"/>
                 <outlet property="view" destination="iN0-l3-epB" id="pxG-5E-IaL"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vQP-kW-TwI" userLabel="Location Alert Container View">
-                    <rect key="frame" x="165" y="150" width="270" height="300"/>
+                    <rect key="frame" x="53" y="184" width="270" height="300"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BbW-3n-dOK">
                             <rect key="frame" x="0.0" y="55" width="270" height="245"/>
@@ -36,46 +37,23 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_CHANGE LOCATION" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gQ-Gj-Fic">
                                     <rect key="frame" x="15" y="75" width="240" height="21"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ To change where your product is posted, allow access to your location" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3G5-xS-3su">
                                     <rect key="frame" x="15" y="105" width="240" height="61"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bRn-kI-uhG">
                                     <rect key="frame" x="15" y="186" width="240" height="44"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oPh-WE-yQ3">
-                                            <rect key="frame" x="0.0" y="0.0" width="70" height="44"/>
-                                            <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                            <state key="normal" title="Button">
-                                                <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </state>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qeS-5t-HZ4">
-                                            <rect key="frame" x="80" y="0.0" width="70" height="44"/>
-                                            <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                            <state key="normal" title="Button">
-                                                <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </state>
-                                        </button>
-                                    </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="oPh-WE-yQ3" secondAttribute="bottom" id="3ZI-nB-aGE"/>
-                                        <constraint firstAttribute="bottom" secondItem="qeS-5t-HZ4" secondAttribute="bottom" id="9qz-PN-F3s"/>
-                                        <constraint firstItem="oPh-WE-yQ3" firstAttribute="leading" secondItem="bRn-kI-uhG" secondAttribute="leading" id="CLE-75-9V6"/>
-                                        <constraint firstAttribute="height" constant="44" id="PBE-7H-htv"/>
-                                        <constraint firstItem="qeS-5t-HZ4" firstAttribute="leading" secondItem="oPh-WE-yQ3" secondAttribute="trailing" constant="10" id="Xri-fw-ql7"/>
-                                        <constraint firstItem="oPh-WE-yQ3" firstAttribute="top" secondItem="bRn-kI-uhG" secondAttribute="top" id="oDD-x6-5ZZ"/>
-                                        <constraint firstItem="qeS-5t-HZ4" firstAttribute="width" secondItem="oPh-WE-yQ3" secondAttribute="width" id="rzh-Ux-Eit"/>
-                                        <constraint firstItem="qeS-5t-HZ4" firstAttribute="top" secondItem="bRn-kI-uhG" secondAttribute="top" id="sCH-af-la9"/>
+                                        <constraint firstAttribute="height" constant="44" placeholder="YES" id="8uh-eP-iSF"/>
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="0gQ-Gj-Fic" firstAttribute="leading" secondItem="BbW-3n-dOK" secondAttribute="leading" constant="15" id="Mne-nj-ing"/>
                                 <constraint firstItem="bRn-kI-uhG" firstAttribute="leading" secondItem="BbW-3n-dOK" secondAttribute="leading" constant="15" id="Rdn-9Z-Qs4"/>
@@ -110,7 +88,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="vQP-kW-TwI" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="XqZ-yr-Nxn"/>
                 <constraint firstItem="vQP-kW-TwI" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="by7-qC-BDA"/>

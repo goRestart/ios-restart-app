@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Nytt passord";
 "change_password_send_error_generic" = "En feil oppstod ved endring av passord. Vennligst prøv igjen.";
 "change_password_send_error_invalid_password_with_max" = "Vennligst legg til et gyldig passord. Det må inneholde mellom %d og %d tegn.";
+"change_password_send_error_link_expired" = "Beklager, denne lenken har utløpt!";
 "change_password_send_error_passwords_mismatch" = "Passordene er ikke like. Vennligst prøv igjen.";
 "change_password_send_ok" = "Endring av passordet var vellykket.";
 "change_password_title" = "Endre passord";
@@ -286,6 +287,10 @@
 "log_in_reset_password_button" = "Glemt ditt passord?";
 "log_in_send_button" = "Logg inn";
 "log_in_title" = "Registrer deg med e-post";
+"login_scammer_alert_contact_button" = "Kontakt oss";
+"login_scammer_alert_keep_browsing_button" = "Fortsett å bla i produktene";
+"login_scammer_alert_message" = "Din konto gjennomgås av letgo's team. Vennligst kontakt oss hvis du mener at din konto har blitt flagget ved en feiltakelse.";
+"login_scammer_alert_title" = "KONTO GJENNOMGÅS";
 "main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";
 "main_sign_up_error_request_already_sent" = "Din forespørsel er allerede prosessert. Vennligst vent før du prøver igjen.";
 "main_sign_up_error_user_rejected" = "E-postadressen du valgte er ugyldig. Vennligst sjekk og prøv igjen.";
