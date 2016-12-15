@@ -11,11 +11,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.19):
-    - Branch/Core (= 0.12.19)
-    - Branch/without-IDFA (= 0.12.19)
-  - Branch/Core (0.12.19)
-  - Branch/without-IDFA (0.12.19)
+  - Branch (0.12.18):
+    - Branch/Core (= 0.12.18)
+    - Branch/without-IDFA (= 0.12.18)
+  - Branch/Core (0.12.18)
+  - Branch/without-IDFA (0.12.18)
   - bumper (0.2.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -101,7 +101,7 @@ PODS:
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.1)
   - LGCollapsibleLabel (0.2.0)
-  - LGCoreKit (1.6.2):
+  - LGCoreKit (1.6.5):
     - Alamofire (~> 3.5.0)
     - Argo (= 3.1.0)
     - CocoaLumberjack/Swift (~> 2.4.0)
@@ -113,20 +113,20 @@ PODS:
     - RxSwift (~> 2.6.0)
     - SocketRocket (= 0.5.1)
   - Nimble (4.1.0)
-  - OHHTTPStubs (5.2.2):
-    - OHHTTPStubs/Default (= 5.2.2)
-  - OHHTTPStubs/Core (5.2.2)
-  - OHHTTPStubs/Default (5.2.2):
+  - OHHTTPStubs (5.2.3):
+    - OHHTTPStubs/Default (= 5.2.3)
+  - OHHTTPStubs/Core (5.2.3)
+  - OHHTTPStubs/Default (5.2.3):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.2.2):
+  - OHHTTPStubs/JSON (5.2.3):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.2.2):
+  - OHHTTPStubs/NSURLSession (5.2.3):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.2.2)
-  - OHHTTPStubs/Swift (5.2.2):
+  - OHHTTPStubs/OHPathHelpers (5.2.3)
+  - OHHTTPStubs/Swift (5.2.3):
     - OHHTTPStubs/Core
   - Quick (0.9.3)
   - ReachabilitySwift (2.4)
@@ -172,7 +172,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.1)
   - LGCollapsibleLabel (= 0.2.0)
-  - LGCoreKit (= 1.6.2)
+  - LGCoreKit (= 1.6.5)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
@@ -215,7 +215,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: 495b343632cda4d1a42e13f25d5adfb91d0ee52a
   Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 75ed1785250502588cfb4a5de40a5136bdaa1573
+  Branch: 94efdf8da4cd28fa8fb9c877dc19cb6be2204e66
   bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
@@ -251,9 +251,9 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 21bac3f21444768e3a892c9e5cbada6fe7abaa5d
   LGCollapsibleLabel: f1631ac1274b268731e3f6a74b121e97a97626da
-  LGCoreKit: 405606b9720e0082979a77364a9202928504d64f
+  LGCoreKit: d42540c7fecf9862e8cd09b96f47c1c813099f21
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
-  OHHTTPStubs: 34d9d0994e64fcf8552dbfade5ce82ada913ee31
+  OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
   ReachabilitySwift: dc7452dab85ff881904215e1a113326ad8d07beb
   Result: 18e1a7597fbcca5923c565b40a25a98afafdee02
@@ -268,6 +268,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 707d295732914b3184a59107d4acdd6948913c54
+PODFILE CHECKSUM: e1a3cd2471e71d27f50f582fc049333fb5ff1856
 
 COCOAPODS: 1.1.0.rc.3

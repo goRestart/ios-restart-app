@@ -23,5 +23,5 @@ protocol UserRatingDataSource {
     func show(userId: String, userFromId: String, type: UserRatingType, completion: UserRatingDataSourceCompletion?)
     func create(userId: String, userFromId: String, value: Int, comment: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?)
     func update(ratingId: String, value: Int?, comment: String?, completion: UserRatingDataSourceCompletion?)
-    func report(ratingId: String, completion: UserRatingDataSourceEmptyCompletion?)
+    func report(ratingId: String, completion: UserRatingDataSourceCompletion?)
 }
