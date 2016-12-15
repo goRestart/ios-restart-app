@@ -298,6 +298,8 @@ extension UserViewController {
                     imageView.image = empty
                 }
             }
+            averageRatingView.superview?.layoutIfNeeded()
+            averageRatingView.rounded = true
         } else {
             averageRatingContainerViewHeight.constant = 0
         }
@@ -307,8 +309,7 @@ extension UserViewController {
         super.viewDidLayoutSubviews()
         productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
 
-        let height = averageRatingView.bounds.height
-        averageRatingView.layer.cornerRadius = height / 2
+        averageRatingView.rounded = true
     }
 
     private func scrollDidChange(contentOffsetInsetY: CGFloat) {
