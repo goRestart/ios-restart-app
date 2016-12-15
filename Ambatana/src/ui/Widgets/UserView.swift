@@ -93,6 +93,8 @@ class UserView: UIView {
     @IBOutlet weak var textInfoContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var ratingsContainerHeight: NSLayoutConstraint!
+    @IBOutlet var ratingImages: [UIImageView]!
 
     private var style: UserViewStyle = .Full
     private var avatarURL: NSURL?   // Used as an "image id" to avoid loading the avatar of the previous user
