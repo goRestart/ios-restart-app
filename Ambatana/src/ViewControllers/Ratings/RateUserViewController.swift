@@ -178,6 +178,7 @@ extension RateUserViewController: UITextViewDelegate {
 
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard let textViewText = textView.text else { return true }
+        guard textViewText.characters.count + (text.characters.count - range.length) <= Constants.userRatingDescriptionMaxLength else { return false }
         let cleanReplacement = text.stringByRemovingEmoji()
         let finalText = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: cleanReplacement)
         if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
