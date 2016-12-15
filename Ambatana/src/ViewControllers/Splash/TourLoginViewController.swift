@@ -126,7 +126,7 @@ extension TourLoginViewController: SignUpViewModelDelegate {
         openNextStep()
     }
 
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL) {
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
         // Nothing to do on onboarding. User will notice next time
         openNextStep()
     }

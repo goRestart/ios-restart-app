@@ -30,7 +30,7 @@ enum LoginAppearance {
 protocol SignUpViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSignup(viewModel: SignUpLogInViewModel)
     func vmFinish(completedLogin completed: Bool)
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL)
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker)
 }
 
 class SignUpViewModel: BaseViewModel {
@@ -61,7 +61,6 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
-    private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
     private let keyValueStorage: KeyValueStorageable
     private let featureFlags: FeatureFlaggeable
@@ -80,11 +79,10 @@ class SignUpViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
+    init(sessionManager: SessionManager, installationRepository: InstallationRepository,
          keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable, tracker: Tracker, appearance: LoginAppearance,
          source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper) {
         self.sessionManager = sessionManager
-        self.myUserRepository = myUserRepository
         self.installationRepository = installationRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
@@ -105,14 +103,13 @@ class SignUpViewModel: BaseViewModel {
     
     convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         let sessionManager = Core.sessionManager
-        let myUserRepository = Core.myUserRepository
         let installationRepository = Core.installationRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let googleLoginHelper = GoogleLoginHelper()
         let fbLoginHelper = FBLoginHelper()
-        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, installationRepository: installationRepository,
+        self.init(sessionManager: sessionManager, installationRepository: installationRepository,
                   keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: appearance,
                   source: source, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
     }
@@ -201,7 +198,7 @@ class SignUpViewModel: BaseViewModel {
             loginError = .Network
         case .Scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert()
+                self?.showScammerAlert(accountProvider.accountNetwork)
             }
             loginError = .Forbidden
         case .NotFound:
@@ -229,14 +226,14 @@ class SignUpViewModel: BaseViewModel {
         return loginError
     }
 
-    private func showScammerAlert() {
+    private func showScammerAlert(network: EventParameterAccountNetwork) {
         guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
             installation: installationRepository.installation, moderation: true) else {
                 delegate?.vmFinish(completedLogin: false)
                 return
             }
 
-        delegate?.vmFinishAndShowScammerAlert(url)
+        delegate?.vmFinishAndShowScammerAlert(url, network: network, tracker: tracker)
     }
 
     private func trackLoginFBOK() {

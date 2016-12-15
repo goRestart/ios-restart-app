@@ -625,17 +625,21 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
         dismissViewControllerAnimated(true, completion: completed ? afterLoginAction : nil)
     }
 
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL) {
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
         let parentController = presentingViewController
         let contact = UIAction(
             interface: .Button(LGLocalizedString.loginScammerAlertContactButton, .Primary(fontSize: .Medium)),
             action: {
+                tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
                 parentController?.openInternalUrl(contactUrl)
         })
         let keepBrowsing = UIAction(
             interface: .Button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .Secondary(fontSize: .Medium, withBorder: false)),
-            action: {})
+            action: {
+                tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+        })
         dismissViewControllerAnimated(false) {
+            tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
             parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
                                                  text: LGLocalizedString.loginScammerAlertMessage,
                                                  alertType: .IconAlert(icon: UIImage(named: "ic_moderation_alert")),

@@ -19,7 +19,7 @@ protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSendButtonEnabledState(enabled: Bool)
     func vmUpdateShowPasswordVisible(visible: Bool)
     func vmFinish(completedAccess completed: Bool)
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL)
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker)
     func vmShowRecaptcha(viewModel: RecaptchaViewModel)
     func vmShowHiddenPasswordAlert()
 }
@@ -367,7 +367,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
         case .Scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert(self?.email)
+                self?.showScammerAlert(self?.email, network: .Email)
             }
             return
         case .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest,
@@ -409,7 +409,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             return
         case .Scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert(self?.email)
+                self?.showScammerAlert(self?.email, network: .Email)
             }
             return
         case .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
@@ -467,7 +467,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             loginError = .Network
         case .Scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert(self?.email)
+                self?.showScammerAlert(self?.email, network: accountProvider.accountNetwork)
             }
             loginError = .Forbidden
         case .NotFound:
@@ -495,14 +495,14 @@ public class SignUpLogInViewModel: BaseViewModel {
         return loginError
     }
 
-    private func showScammerAlert(userEmail: String?) {
+    private func showScammerAlert(userEmail: String?, network: EventParameterAccountNetwork) {
         guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
              installation: installationRepository.installation, moderation: true) else {
                 delegate?.vmFinish(completedAccess: false)
                 return
         }
         
-        delegate?.vmFinishAndShowScammerAlert(url)
+        delegate?.vmFinishAndShowScammerAlert(url, network: network, tracker: tracker)
     }
     
     
