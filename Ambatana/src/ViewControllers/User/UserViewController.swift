@@ -38,10 +38,10 @@ class UserViewController: BaseViewController {
     private static let userLabelsContainerMarginLong: CGFloat = 90
     private static let userLabelsContainerMarginShort: CGFloat = 50
 
-    private var navBarUserView: UserView?
+    private var navBarUserView: UserView
     private var navBarUserViewAlpha: CGFloat = 0.0 {
         didSet {
-            navBarUserView?.alpha = navBarUserViewAlpha
+            navBarUserView.alpha = navBarUserViewAlpha
         }
     }
 
@@ -63,7 +63,6 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var averageRatingView: UIView!
     @IBOutlet var userLabelsSideMargin: [NSLayoutConstraint]!
-    @IBOutlet var averageRatingImageViews: [UIImageView]!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
@@ -122,14 +121,12 @@ class UserViewController: BaseViewController {
         view.backgroundColor = viewModel.backgroundColor.value
 
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-        if let navBarUserView = navBarUserView {
-            let currentAlpha: CGFloat = navBarUserViewAlpha
-            navBarUserView.hidden = true
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
-                dispatch_get_main_queue()) {
-                    navBarUserView.alpha = currentAlpha
-                    navBarUserView.hidden = false
-            }
+        let currentAlpha: CGFloat = navBarUserViewAlpha
+        navBarUserView.hidden = true
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
+                       dispatch_get_main_queue()) { [weak self] in
+                        self?.navBarUserView.alpha = currentAlpha
+                        self?.navBarUserView.hidden = false
         }
     }
 
@@ -218,8 +215,8 @@ extension UserViewController {
     }
 
     private func setupAccessibilityIds() {
-        navBarUserView?.titleLabel.accessibilityId = .UserHeaderCollapsedNameLabel
-        navBarUserView?.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
+        navBarUserView.titleLabel.accessibilityId = .UserHeaderCollapsedNameLabel
+        navBarUserView.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
         userNameLabel.accessibilityId = .UserHeaderExpandedNameLabel
         userLocationLabel.accessibilityId = .UserHeaderExpandedLocationLabel
 
@@ -249,11 +246,9 @@ extension UserViewController {
     }
 
     private func setupNavigationBar() {
-        if let navBarUserView = navBarUserView {
-            navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
-            setNavBarTitleStyle(.Custom(navBarUserView))
-            navBarUserViewAlpha = 0
-        }
+        navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
+        setNavBarTitleStyle(.Custom(navBarUserView))
+        navBarUserViewAlpha = 0
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
         setNavBarBackButton(backIcon)
@@ -282,22 +277,7 @@ extension UserViewController {
         let rating = ratingAverage ?? 0
         if rating > 0 {
             averageRatingContainerViewHeight.constant = UserViewController.ratingAverageContainerHeightVisible
-
-            let full = UIImage(named: "ic_star_avg_full")
-            let half = UIImage(named: "ic_star_avg_half")
-            let empty = UIImage(named: "ic_star_avg_empty")
-            averageRatingImageViews.forEach { imageView in
-                let tag = Float(imageView.tag)
-                let diff = tag - rating
-
-                if diff <= 0 {
-                    imageView.image = full
-                } else if diff <= 0.5 {
-                    imageView.image = half
-                } else {
-                    imageView.image = empty
-                }
-            }
+            averageRatingView.setupRatingContainer(rating: rating)
             averageRatingView.superview?.layoutIfNeeded()
             averageRatingView.rounded = true
         } else {
@@ -460,6 +440,7 @@ extension UserViewController {
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
             self?.setupRatingAverage(userRatingAverage)
         }.addDisposableTo(disposeBag)
+        viewModel.userRatingAverage.asObservable().bindTo(navBarUserView.userRatings).addDisposableTo(disposeBag)
 
         viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
             self?.headerContainer.header?.setRatingCount(userRatingCount)

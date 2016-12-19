@@ -6,6 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
+
 protocol UserViewDelegate: class {
     func userViewAvatarPressed(userView: UserView)
     func userViewAvatarLongPressStarted(userView: UserView)
@@ -93,14 +95,20 @@ class UserView: UIView {
     @IBOutlet weak var textInfoContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var ratingsContainer: UIView!
     @IBOutlet weak var ratingsContainerHeight: NSLayoutConstraint!
-    @IBOutlet var ratingImages: [UIImageView]!
+
+    let userRatings = Variable<Float?>(nil)
+
+    private static let ratinsViewVisibleHeight: CGFloat = 12
 
     private var style: UserViewStyle = .Full
     private var avatarURL: NSURL?   // Used as an "image id" to avoid loading the avatar of the previous user
                                     //if the current doesn't has one
 
     weak var delegate: UserViewDelegate?
+
+    private let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
@@ -194,6 +202,17 @@ class UserView: UIView {
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(avatarLongPressed(_:)))
         addGestureRecognizer(longPressGesture)
+
+        userRatings.asObservable().bindNext { [weak self] userRating in
+            let rating = userRating ?? 0
+            if rating > 0 {
+                self?.ratingsContainerHeight.constant = UserView.ratinsViewVisibleHeight
+                self?.ratingsContainer.setupRatingContainer(rating: rating)
+            } else {
+                self?.ratingsContainerHeight.constant = 0
+            }
+            self?.subtitleLabel.hidden = rating > 0
+        }.addDisposableTo(disposeBag)
 
         setAccesibilityIds()
     }

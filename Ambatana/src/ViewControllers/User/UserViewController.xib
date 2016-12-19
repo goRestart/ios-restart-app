@@ -13,7 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="averageRatingContainerViewHeight" destination="kuw-6a-PeO" id="EmM-BP-wgP"/>
-                <outlet property="averageRatingView" destination="vc2-g1-bIT" id="WBc-2W-f3l"/>
+                <outlet property="averageRatingView" destination="vc2-g1-bIT" id="cKj-Wy-UcL"/>
                 <outlet property="headerContainer" destination="3Kp-we-Xh1" id="f4J-GU-py2"/>
                 <outlet property="headerContainerBottom" destination="3Pl-0d-BZp" id="kOk-BW-kKF"/>
                 <outlet property="headerContainerHeight" destination="N3e-nv-cas" id="Gx5-Ol-4oK"/>
@@ -28,11 +28,6 @@
                 <outlet property="userLocationLabel" destination="rlh-Aj-lzp" id="bea-FG-mLv"/>
                 <outlet property="userNameLabel" destination="be4-ac-vae" id="eaK-Ge-DrE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outletCollection property="averageRatingImageViews" destination="VoE-Mm-Awo" collectionClass="NSMutableArray" id="16t-Lc-4Ax"/>
-                <outletCollection property="averageRatingImageViews" destination="CsO-1l-LAW" collectionClass="NSMutableArray" id="knW-2d-d8m"/>
-                <outletCollection property="averageRatingImageViews" destination="omf-dl-pXI" collectionClass="NSMutableArray" id="gQd-5X-1aB"/>
-                <outletCollection property="averageRatingImageViews" destination="4Xv-hz-pIY" collectionClass="NSMutableArray" id="1z3-Qc-Rmq"/>
-                <outletCollection property="averageRatingImageViews" destination="j9f-X1-VAR" collectionClass="NSMutableArray" id="yln-62-p88"/>
                 <outletCollection property="userLabelsSideMargin" destination="mCh-JL-coW" collectionClass="NSMutableArray" id="Qql-zW-aYw"/>
                 <outletCollection property="userLabelsSideMargin" destination="n8n-dh-X6g" collectionClass="NSMutableArray" id="T7m-4d-XzM"/>
             </connections>
