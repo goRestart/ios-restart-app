@@ -26,7 +26,7 @@ def shared_pods
     pod "Fabric",               "~> 1.6.10" # Swift 3.0: -
     pod "Crashlytics",          "~> 3.8.2"  # Swift 3.0: -
     pod "TwitterKit",           "~> 2.3.0"  # Swift 3.0: -
-    pod "Branch",               "~> 0.12.18"# Swift 3.0: -
+    pod "Branch",               "~> 0.12.20"# Swift 3.0: -
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.8.5"  # Swift 3.0: -

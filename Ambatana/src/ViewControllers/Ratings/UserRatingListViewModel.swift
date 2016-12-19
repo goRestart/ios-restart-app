@@ -85,6 +85,11 @@ class UserRatingListViewModel: BaseViewModel {
         guard index < objectCount else { return nil }
         return ratings[index]
     }
+    
+    private func replaceRating(rating: UserRating) {
+        guard let index = ratings.indexOf ({ $0.objectId == rating.objectId }) else { return }
+        ratings[index] = rating
+    }
 }
 
 extension UserRatingListViewModel : UserRatingListRequesterDelegate {
@@ -108,7 +113,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
     func actionButtonPressedForCellAtIndex(indexPath: NSIndexPath) {
         guard let rating = ratingAtIndex(indexPath.row) else { return }
         let userFrom = rating.userFrom
-
+        
         var actions: [UIAction] = []
 
         let reviewAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReviewUser), action: { [weak self] in
@@ -121,7 +126,8 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         if rating.status == .Published {
             let reportAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
                 self?.userRatingListRequester.reportRating(rating, completion: { result in
-                    if let _ = result.value {
+                    if let ratingUpdated = result.value {
+                        self?.replaceRating(ratingUpdated)
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
                             completion: nil)
                     } else if let _ = result.error {
@@ -148,3 +154,4 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         }
     }
 }
+

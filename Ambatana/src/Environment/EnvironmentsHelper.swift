@@ -29,7 +29,7 @@ class EnvironmentsHelper {
             return .Production
         case .Production:
             return .Production
-        case .Escrow:   // TODO: Fix when merging w latest version
+        case .Escrow: // When we merged release into develop we will return .Escrow
             return .Production
         }
     }
@@ -95,8 +95,8 @@ class EnvironmentsHelper {
             userDefaults.setValue(SettingsEnvironment.Canary.rawValue, forKey: key)
         case .Production:
             userDefaults.setValue(SettingsEnvironment.Production.rawValue, forKey: key)
-        case .Escrow:   // TODO: Fix when merging w latest version
-            break
+        case .Escrow: // When we merged release into develop we will set .Escrow.rawValue
+            userDefaults.setValue(SettingsEnvironment.Production.rawValue, forKey: key)
         }
     }
 }

@@ -162,7 +162,7 @@ class UserViewModel: BaseViewModel {
         if itsMe {
             resetLists()
         } else {
-            retrieveUserAccounts()
+            retrieveUserData()
         }
 
         refreshIfLoading()
@@ -355,14 +355,16 @@ extension UserViewModel {
 // MARK: > Requests
 
 extension UserViewModel {
-    private func retrieveUserAccounts() {
+    private func retrieveUserData() {
         guard userAccounts.value == nil else { return }
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
             self?.updateAccounts(user)
+            self?.updateRatings(user)
         }
     }
+    
 
     private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
@@ -447,11 +449,8 @@ extension UserViewModel {
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
 
-            if strongSelf.featureFlags.userReviews {
-                strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
-                strongSelf.userRatingCount.value = user?.ratingCount
-            }
-
+            strongSelf.updateRatings(user)
+            
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
 
@@ -482,6 +481,14 @@ extension UserViewModel {
                                                     googleVerified: googleVerified,
                                                     emailLinked: emailLinked,
                                                     emailVerified: emailVerified)
+    }
+    
+    private func updateRatings(user: User?) {
+        guard let user = user else { return }
+        if featureFlags.userReviews {
+            userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
+            userRatingCount.value = user.ratingCount
+        }
     }
 
     private func setupUserRelationRxBindings() {
