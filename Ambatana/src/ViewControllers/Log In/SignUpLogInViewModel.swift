@@ -15,30 +15,13 @@ public enum LoginActionType: Int{
     case Signup, Login
 }
 
-protocol SignUpLogInViewModelDelegate: class {
-    
-    // visual
-    func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool)
-    func viewModelShowHiddenPasswordAlert(viewModel: SignUpLogInViewModel)
-    func viewModelShowGodModeError(viewModel: SignUpLogInViewModel)
-    
-    // signup
-    func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel)
-    func viewModelDidSignUp(viewModel: SignUpLogInViewModel)
-    func viewModelDidFailSigningUp(viewModel: SignUpLogInViewModel, message: String)
-    func viewModelShowRecaptcha(viewModel: RecaptchaViewModel)
-
-    // login
-    func viewModelDidStartLoginIn(viewModel: SignUpLogInViewModel)
-    func viewModelDidLogIn(viewModel: SignUpLogInViewModel)
-    func viewModelDidFailLoginIn(viewModel: SignUpLogInViewModel, message: String)
-
-    // fb login
-    func viewModelDidStartAuthWithExternalService(viewModel: SignUpLogInViewModel)
-    func viewModelDidAuthWithExternalService(viewModel: SignUpLogInViewModel)
-    func viewModelDidCancelAuthWithExternalService(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFailAuthWithExternalService message: String)
+protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
+    func vmUpdateSendButtonEnabledState(enabled: Bool)
+    func vmUpdateShowPasswordVisible(visible: Bool)
+    func vmFinish(completedAccess completed: Bool)
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker)
+    func vmShowRecaptcha(viewModel: RecaptchaViewModel)
+    func vmShowHiddenPasswordAlert()
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
@@ -55,33 +38,38 @@ public class SignUpLogInViewModel: BaseViewModel {
     // Action Type
     var currentActionType : LoginActionType {
         didSet {
-            delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
+            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
         }
     }
     
     // Input
     var username: String {
         didSet {
-            delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
+            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
         }
     }
     var email: String {
         didSet {
             email = email.trim
-            delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
+            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
         }
     }
     var password: String {
         didSet {
-            delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
-            delegate?.viewModel(self, updateShowPasswordVisible: showPasswordShouldBeVisible)
+            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
+            delegate?.vmUpdateShowPasswordVisible(showPasswordVisible)
         }
     }
     var termsAccepted: Bool
     var newsletterAccepted: Bool
 
-    var showPasswordShouldBeVisible : Bool {
+    var showPasswordVisible : Bool {
         return password.characters.count > 0
+    }
+
+    private var sendButtonEnabled: Bool {
+        return  email.characters.count > 0 && password.characters.count > 0 &&
+            (currentActionType == .Login || ( currentActionType == .Signup && username.characters.count > 0))
     }
 
     var termsAndConditionsEnabled: Bool
@@ -113,6 +101,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
+    private let installationRepository: InstallationRepository
     private let locationManager: LocationManager
 
     private var newsletterParameter: EventParameterNewsletter {
@@ -126,11 +115,12 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, locationManager: LocationManager, keyValueStorage: KeyValueStorageable,
-         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper, tracker: Tracker,
-         featureFlags: FeatureFlaggeable, locale: NSLocale,
-         source: EventParameterLoginSourceValue, action: LoginActionType) {
+    init(sessionManager: SessionManager, installationRepository: InstallationRepository, locationManager: LocationManager,
+         keyValueStorage: KeyValueStorageable, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper,
+         tracker: Tracker, featureFlags: FeatureFlaggeable, locale: NSLocale, source: EventParameterLoginSourceValue,
+         action: LoginActionType) {
         self.sessionManager = sessionManager
+        self.installationRepository = installationRepository
         self.locationManager = locationManager
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
@@ -161,6 +151,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
         let sessionManager = Core.sessionManager
+        let installationRepository = Core.installationRepository
         let locationManager = Core.locationManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let googleLoginHelper = GoogleLoginHelper()
@@ -168,9 +159,9 @@ public class SignUpLogInViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let locale = NSLocale.currentLocale()
-        self.init(sessionManager: sessionManager, locationManager: locationManager, keyValueStorage: keyValueStorage,
-                  googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper, tracker: tracker,
-                  featureFlags: featureFlags, locale: locale, source: source, action: action)
+        self.init(sessionManager: sessionManager, installationRepository: installationRepository, locationManager: locationManager,
+                  keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
+                  tracker: tracker, featureFlags: featureFlags, locale: locale, source: source, action: action)
     }
     
     
@@ -185,25 +176,25 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     public func signUp(recaptchaToken: String?) {
-        delegate?.viewModelDidStartSigningUp(self)
+        delegate?.vmShowLoading(nil)
 
         let fullName = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         if usernameContainsLetgoString(fullName) {
-            delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpSendErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorGeneric, afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.UsernameTaken)
         } else if fullName.characters.count < Constants.fullNameMinLength {
-            delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength))
+            delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength), afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.InvalidUsername)
         } else if !email.isEmail() {
-            delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpSendErrorInvalidEmail)
+            delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidEmail, afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.InvalidEmail)
         } else if password.characters.count < Constants.passwordMinLength ||
             password.characters.count > Constants.passwordMaxLength {
-                delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
-                    Constants.passwordMaxLength))
+            delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+                Constants.passwordMaxLength), afterMessageCompletion: nil)
                 trackSignupEmailFailedWithError(.InvalidPassword)
         } else if termsAndConditionsEnabled && !termsAccepted {
-            delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpAcceptanceError)
+            delegate?.vmHideLoading(LGLocalizedString.signUpAcceptanceError, afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.TermsNotAccepted)
         } else {
             let completion: (Result<MyUser, SessionManagerError>) -> () = { [weak self] signUpResult in
@@ -216,7 +207,9 @@ public class SignUpLogInViewModel: BaseViewModel {
                     self?.tracker.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
                         newsletter: strongSelf.newsletterParameter))
 
-                    strongSelf.delegate?.viewModelDidSignUp(strongSelf)
+                    strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
+                        self?.delegate?.vmFinish(completedAccess: true)
+                    }
                 } else if let sessionManagerError = signUpResult.error {
                     switch sessionManagerError {
                     case .Conflict(let cause):
@@ -228,7 +221,9 @@ public class SignUpLogInViewModel: BaseViewModel {
                                     let rememberedAccount = strongSelf.previousEmail.value != nil
                                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
                                     self?.tracker.trackEvent(trackerEvent)
-                                    strongSelf.delegate?.viewModelDidLogIn(strongSelf)
+                                    strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
+                                        self?.delegate?.vmFinish(completedAccess: true)
+                                    }
                                 } else if let _ = loginResult.error {
                                     strongSelf.processSignUpSessionError(sessionManagerError)
                                 }
@@ -259,17 +254,17 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     public func logIn() {
         if email == "admin" && password == "wat" {
-            delegate?.viewModelShowHiddenPasswordAlert(self)
+            delegate?.vmShowHiddenPasswordAlert()
             return
         }
-        
-        delegate?.viewModelDidStartLoginIn(self)
+
+        delegate?.vmShowLoading(nil)
 
         if !email.isEmail() {
-            delegate?.viewModelDidFailLoginIn(self, message: LGLocalizedString.logInErrorSendErrorInvalidEmail)
+            delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorInvalidEmail, afterMessageCompletion: nil)
             trackLoginEmailFailedWithError(.InvalidEmail)
         } else if password.characters.count < Constants.passwordMinLength {
-            delegate?.viewModelDidFailLoginIn(self, message: LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword)
+            delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword, afterMessageCompletion: nil)
             trackLoginEmailFailedWithError(.InvalidPassword)
         } else {
             sessionManager.login(email, password: password) { [weak self] loginResult in
@@ -282,7 +277,9 @@ public class SignUpLogInViewModel: BaseViewModel {
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
                     self?.tracker.trackEvent(trackerEvent)
 
-                    strongSelf.delegate?.viewModelDidLogIn(strongSelf)
+                    strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
+                        self?.delegate?.vmFinish(completedAccess: true)
+                    }
                 } else if let sessionManagerError = loginResult.error {
                     strongSelf.processLoginSessionError(sessionManagerError)
                 }
@@ -294,14 +291,13 @@ public class SignUpLogInViewModel: BaseViewModel {
         if password == "mellongod" {
             KeyValueStorage.sharedInstance[.isGod] = true
         } else {
-            delegate?.viewModelShowGodModeError(self)
+            delegate?.vmShowAutoFadingMessage("You are not worthy", completion: nil)
         }
     }
     
     public func logInWithFacebook() {
         fbLoginHelper.login({ [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
+            self?.delegate?.vmShowLoading(nil)
         }, loginCompletion: { [weak self] result in
             let error = self?.processExternalServiceAuthResult(result, accountProvider: .Facebook)
             switch result {
@@ -319,8 +315,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     public func logInWithGoogle() {
         googleLoginHelper.login({ [weak self] in
             // Google OAuth completed. Token obtained
-            guard let strongSelf = self else { return }
-            self?.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
+            self?.delegate?.vmShowLoading(nil)
         }) { [weak self] result in
             let error = self?.processExternalServiceAuthResult(result, accountProvider: .Google)
             switch result {
@@ -337,11 +332,6 @@ public class SignUpLogInViewModel: BaseViewModel {
 
 
     // MARK: - Private methods
-
-    private func sendButtonShouldBeEnabled() -> Bool {
-        return  email.characters.count > 0 && password.characters.count > 0 &&
-            (currentActionType == .Login || ( currentActionType == .Signup && username.characters.count > 0))
-    }
     
     private func usernameContainsLetgoString(theUsername: String) -> Bool {
         let lowerCaseUsername = theUsername.lowercaseString
@@ -375,11 +365,17 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .Unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest,
+        case .Scammer:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showScammerAlert(self?.email, network: .Email)
+            }
+            trackLoginEmailFailedWithError(eventParameterForSessionError(error))
+            return
+        case .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest,
              .UserNotVerified:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
-        delegate?.viewModelDidFailLoginIn(self, message: message)
+        delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         trackLoginEmailFailedWithError(eventParameterForSessionError(error))
     }
 
@@ -407,14 +403,20 @@ public class SignUpLogInViewModel: BaseViewModel {
         case .NonExistingEmail:
             message = LGLocalizedString.signUpSendErrorInvalidEmail
         case .UserNotVerified:
-            // In this case we don't want
-            let vm = RecaptchaViewModel()
-            delegate?.viewModelShowRecaptcha(vm)
+            delegate?.vmHideLoading(nil) { [weak self] in
+                let vm = RecaptchaViewModel()
+                self?.delegate?.vmShowRecaptcha(vm)
+            }
             return
-        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
+        case .Scammer:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showScammerAlert(self?.email, network: .Email)
+            }
+            return
+        case .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
-        delegate?.viewModelDidFailSigningUp(self, message: message)
+        delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         trackSignupEmailFailedWithError(eventParameterForSessionError(error))
     }
 
@@ -456,20 +458,24 @@ public class SignUpLogInViewModel: BaseViewModel {
         switch result {
         case let .Success(myUser):
             savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
-            delegate?.viewModelDidAuthWithExternalService(self)
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.delegate?.vmFinish(completedAccess: true)
+            }
         case .Cancelled:
-            delegate?.viewModelDidCancelAuthWithExternalService(self)
+            delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
         case .Network:
-            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .Network
-        case .Forbidden:
-            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+        case .Scammer:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showScammerAlert(self?.email, network: accountProvider.accountNetwork)
+            }
             loginError = .Forbidden
         case .NotFound:
-            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .UserNotFoundOrWrongPassword
         case .BadRequest:
-            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .BadRequest
         case .Conflict(let cause):
             var message = ""
@@ -481,13 +487,23 @@ public class SignUpLogInViewModel: BaseViewModel {
             case .RequestAlreadyProcessed:
                 message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
             }
-            delegate?.viewModel(self, didFailAuthWithExternalService: message)
+            delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             loginError = .EmailTaken
         case let .Internal(description):
-            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .Internal(description: description)
         }
         return loginError
+    }
+
+    private func showScammerAlert(userEmail: String?, network: EventParameterAccountNetwork) {
+        guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+             installation: installationRepository.installation, moderation: true) else {
+                delegate?.vmFinish(completedAccess: false)
+                return
+        }
+        
+        delegate?.vmFinishAndShowScammerAlert(url, network: network, tracker: tracker)
     }
     
     

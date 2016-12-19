@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Nieuw wachtwoord";
 "change_password_send_error_generic" = "Er is een fout opgetreden bij het wijzigen van het wachtwoord. Probeer het nog eens.";
 "change_password_send_error_invalid_password_with_max" = "Voer a.u.b. een geldig wachtwoord in, het moeten tussen %d en %d tekens bevatten.";
+"change_password_send_error_link_expired" = "Sorry, deze link is verlopen!";
 "change_password_send_error_passwords_mismatch" = "Wachtwoorden komen niet overeen. Probeer het opnieuw.";
 "change_password_send_ok" = "Wachtwoord wijzigen is geslaagd.";
 "change_password_title" = "Wijzig Wachtwoord";
@@ -286,6 +287,10 @@
 "log_in_reset_password_button" = "Je wachtwoord vergeten?";
 "log_in_send_button" = "Inloggen";
 "log_in_title" = "Aanmelden met e-mail";
+"login_scammer_alert_contact_button" = "Neem contact met ons op";
+"login_scammer_alert_keep_browsing_button" = "Blijven Browsen";
+"login_scammer_alert_message" = "Je account wordt beoordeeld door het letgo team. Als je van mening bent dat het ten onrechte werd gemarkeerd, neem dan contact met ons op.";
+"login_scammer_alert_title" = "ACCOUNT WORDT BEOORDEELD";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
 "main_sign_up_error_request_already_sent" = "Je aanvraag is al verwerkt. Gelieve te wachten voordat je het opnieuw probeert.";
 "main_sign_up_error_user_rejected" = "Het e-mailadres dat je hebt ingevoerd is onjuist. Controleer het en probeer het opnieuw.";

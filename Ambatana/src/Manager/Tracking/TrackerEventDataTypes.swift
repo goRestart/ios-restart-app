@@ -24,6 +24,9 @@ public enum EventName: String {
     case LoginGoogleError                   = "login-signup-error-google"
     case SignupError                        = "signup-error"
     case PasswordResetError                 = "password-reset-error"
+    case LoginBlockedAccountStart           = "login-blocked-account-start"
+    case LoginBlockedAccountContactUs       = "login-blocked-account-contact-us"
+    case LoginBlockedAccountKeepBrowsing    = "login-blocked-account-keep-browsing"
 
     case ProductList                        = "product-list"
     case ExploreCollection                  = "explore-collection"

@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Neues Kennwort";
 "change_password_send_error_generic" = "Beim Ändern des Kennworts ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "change_password_send_error_invalid_password_with_max" = "Bitte gib ein gültiges Kennwort ein. Es muss zwischen %d und %d Zeichen lang sein.";
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
 "change_password_send_error_passwords_mismatch" = "Die Kennwörter stimmen nicht überein. Bitte versuche es erneut.";
 "change_password_send_ok" = "Kennwort erfolgreich geändert.";
 "change_password_title" = "Kennwort ändern";
@@ -286,6 +287,10 @@
 "log_in_reset_password_button" = "Kennwort vergessen?";
 "log_in_send_button" = "Anmelden";
 "log_in_title" = "Mit E-Mail-Adresse anmelden";
+"login_scammer_alert_contact_button" = "Schreib uns";
+"login_scammer_alert_keep_browsing_button" = "Mehr entdecken";
+"login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί από λάθος, επικοινωνήστε μαζί μας.";
+"login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
 "main_sign_up_error_request_already_sent" = "Deine Anfrage wurde bereits bearbeitet. Bitte warte ein wenig, bevor du es erneut versuchst.";
 "main_sign_up_error_user_rejected" = "Die eingegebene E-Mail-Adresse ist falsch. Bitte überprüfe deine Eingabe und versuche es erneut.";
