@@ -67,10 +67,10 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     }
 
     private func showTerms() {
-            viewModel.openInternalUrl(.Terms)
+        viewModel.openInternalUrl(.Terms)
     }
 
     private func showPrivacy() {
-            viewModel.openInternalUrl(.Privacy)
+        viewModel.openInternalUrl(.Privacy)
     }
 }
