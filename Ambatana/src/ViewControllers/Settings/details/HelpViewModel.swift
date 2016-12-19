@@ -35,7 +35,11 @@ public class HelpViewModel: BaseViewModel {
     }
     
     override func backButtonPressed() -> Bool {
-        navigator?.closeHelp()
+        if let navigator = navigator {
+            navigator.closeHelp()
+        } else {
+            return false // Return false for native behavior
+        }
         return true
     }
     

@@ -18,8 +18,8 @@
 #pragma mark BNCStrongMatchHelper iOS 8.0
 
 
-// Stub the class for older Xcode versions, methods don't actually do anything.
-#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+// This is a stub the class for older Xcode versions. These methods don't do anything.
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED < 90000 // iOS < 9.0
 
 @implementation BNCStrongMatchHelper
 
@@ -43,15 +43,39 @@
 
 
 #else   // ------------------------------------------------------------------------------ iOS >= 9.0
+#import <SafariServices/SafariServices.h>
+
+
+#pragma mark - BNCMatchView
+
+
+@interface BNCMatchView : UIView
+@end
+
+
+@implementation BNCMatchView
+
+- (instancetype) initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    self.alpha = 0.0;
+    return self;
+}
+
+- (void) setAlpha:(CGFloat)alpha {
+    [super setAlpha:0.0];
+}
+
+- (CGFloat) alpha {
+    return 1.0;
+}
+
+@end
 
 
 #pragma mark - BNCMatchViewController
 
 
-#import <SafariServices/SafariServices.h>
-
-
-// This is a class interface that will be dynamically subclassed to the SFSafariViewController
+// This is a class interface that will be dynamically subclassed from SFSafariViewController
 @interface BNCMatchViewController : UIViewController
 @end
 
@@ -64,17 +88,14 @@
 }
 
 - (BOOL) canBecomeFirstResponder {
-    //NSLog(@"Can be!!! Responder.");
     return NO;
 }
 
 - (BOOL) becomeFirstResponder {
-    //NSLog(@"First!! Responder.");
     return NO;
 }
 
 - (UIResponder*) nextResponder {
-    //NSLog(@"Next!! Responder.");
     return nil;
 }
 
@@ -91,6 +112,7 @@
 @property (assign, nonatomic) BOOL requestInProgress;
 @property (assign, nonatomic) BOOL shouldDelayInstallRequest;
 @property (strong, nonatomic) UIWindow *primaryWindow;
+@property (strong, nonatomic) BNCMatchView *matchView;
 @property (strong, nonatomic) BNCMatchViewController *matchViewController;
 @end
 
@@ -122,12 +144,16 @@
     } else {
         appDomainLinkURL = BNC_LINK_URL;
     }
-    NSMutableString *urlString = [[NSMutableString alloc] initWithFormat:@"%@/_strong_match?os=%@", appDomainLinkURL, [BNCSystemObserver getOS]];
+    NSMutableString *urlString =
+        [[NSMutableString alloc] initWithFormat:@"%@/_strong_match?os=%@",
+            appDomainLinkURL, [BNCSystemObserver getOS]];
     
     BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
     BOOL isRealHardwareId;
     NSString *hardwareIdType;
-    NSString *hardwareId = [BNCSystemObserver getUniqueHardwareId:&isRealHardwareId isDebug:preferenceHelper.isDebug andType:&hardwareIdType];
+    NSString *hardwareId =
+        [BNCSystemObserver getUniqueHardwareId:&isRealHardwareId
+            isDebug:preferenceHelper.isDebug andType:&hardwareIdType];
     if (!hardwareId || !isRealHardwareId) {
         [preferenceHelper logWarning:@"Cannot use cookie-based matching while setDebug is enabled"];
         return nil;
@@ -136,22 +162,28 @@
     [urlString appendFormat:@"&%@=%@", BRANCH_REQUEST_KEY_HARDWARE_ID, hardwareId];
 
     if (preferenceHelper.deviceFingerprintID) {
-        [urlString appendFormat:@"&%@=%@", BRANCH_REQUEST_KEY_DEVICE_FINGERPRINT_ID, preferenceHelper.deviceFingerprintID];
+        [urlString appendFormat:@"&%@=%@",
+            BRANCH_REQUEST_KEY_DEVICE_FINGERPRINT_ID,
+            preferenceHelper.deviceFingerprintID];
     }
 
     if ([BNCSystemObserver getAppVersion]) {
-        [urlString appendFormat:@"&%@=%@", BRANCH_REQUEST_KEY_APP_VERSION, [BNCSystemObserver getAppVersion]];
+        [urlString appendFormat:@"&%@=%@",
+            BRANCH_REQUEST_KEY_APP_VERSION,
+            [BNCSystemObserver getAppVersion]];
     }
     
     [urlString appendFormat:@"&branch_key=%@", branchKey];
-    
     [urlString appendFormat:@"&sdk=ios%@", SDK_VERSION];
     
     if (redirectUrl) {
-        [urlString appendFormat:@"&redirect_url=%@", [redirectUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [urlString appendFormat:@"&redirect_url=%@",
+            [redirectUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     }
 
-    return [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString *escapedURL =
+        [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    return [NSURL URLWithString:escapedURL];
 }
 
 - (void)createStrongMatchWithBranchKey:(NSString *)branchKey {
@@ -238,6 +270,7 @@
         objc_registerClassPair(BNCMatchViewControllerSubclass);
     }
 
+    NSLog(@"Safari initializing."); //  eDebug
     self.matchViewController = [[BNCMatchViewControllerSubclass alloc] initWithURL:matchURL];
     if (!self.matchViewController) return NO;
     
@@ -245,20 +278,31 @@
     self.matchViewController.delegate = self;
     self.matchViewController.view.frame = self.primaryWindow.bounds;
 
+    self.matchView = [[BNCMatchView alloc] initWithFrame:self.primaryWindow.bounds];
+    self.matchView.alpha = 1.0;
+    [self.matchView addSubview:self.matchViewController.view];
+
     [self.primaryWindow.rootViewController addChildViewController:self.matchViewController];
-    [self.primaryWindow insertSubview:self.matchViewController.view atIndex:0];
+    UIView *parentView = self.primaryWindow.rootViewController.view ?: self.primaryWindow;
+    [parentView insertSubview:self.matchView atIndex:0];
+
     [self.matchViewController didMoveToParentViewController:self.primaryWindow.rootViewController];
 
     return YES;
 }
 
 - (void) unloadViewController {
-    //NSLog(@"unloadViewController");
+    NSLog(@"Safari unloadViewController");  // eDebug
+    
     [self.matchViewController willMoveToParentViewController:nil];
     [self.matchViewController.view removeFromSuperview];
     [self.matchViewController removeFromParentViewController];
      self.matchViewController.delegate = nil;
      self.matchViewController = nil;
+
+    [self.matchView removeFromSuperview];
+     self.matchView = nil;
+
      self.primaryWindow = nil;
 
     [BNCPreferenceHelper preferenceHelper].lastStrongMatchDate = [NSDate date];
@@ -268,7 +312,7 @@
 
 - (void)safariViewController:(SFSafariViewController *)controller
       didCompleteInitialLoad:(BOOL)didLoadSuccessfully {
-    NSLog(@"Safari Did load. Success: %d.", didLoadSuccessfully);
+    NSLog(@"Safari Did load. Success: %d.", didLoadSuccessfully);   //  eDebug
     [self unloadViewController];
 }
 
