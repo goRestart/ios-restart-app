@@ -288,7 +288,7 @@
 "log_in_send_button" = "Σύνδεση";
 "log_in_title" = "Σύνδεση μέσω email";
 "login_scammer_alert_contact_button" = "Επικοινωνήστε Μαζί Μας";
-"login_scammer_alert_keep_browsing_button" = "Συνέχεια Πλοήγησης";
+"login_scammer_alert_keep_browsing_button" = "Παράλειψη";
 "login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί καταλάθως, επικοινωνήστε μαζί μας.";
 "login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";

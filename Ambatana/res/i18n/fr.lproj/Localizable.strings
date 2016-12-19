@@ -288,7 +288,7 @@
 "log_in_send_button" = "Se Connecter";
 "log_in_title" = "Se Connecter avec email";
 "login_scammer_alert_contact_button" = "Contactez Nous";
-"login_scammer_alert_keep_browsing_button" = "Continuer à Naviguer";
+"login_scammer_alert_keep_browsing_button" = "Passer";
 "login_scammer_alert_message" = "Votre compte est en cours de vérification par l'équipe letgo. Si vous pensez qu'il s'agit d'une erreur, contactez-nous.";
 "login_scammer_alert_title" = "COMPTE EN COURS DE VÉRIFICATION";
 "main_sign_up_claim_label" = "Commencez à vendre et acheter - en chattant !";

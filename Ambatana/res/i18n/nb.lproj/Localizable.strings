@@ -288,7 +288,7 @@
 "log_in_send_button" = "Logg inn";
 "log_in_title" = "Registrer deg med e-post";
 "login_scammer_alert_contact_button" = "Kontakt oss";
-"login_scammer_alert_keep_browsing_button" = "Fortsett å bla i produktene";
+"login_scammer_alert_keep_browsing_button" = "Hopp over";
 "login_scammer_alert_message" = "Din konto gjennomgås av letgo's team. Vennligst kontakt oss hvis du mener at din konto har blitt flagget ved en feiltakelse.";
 "login_scammer_alert_title" = "KONTO GJENNOMGÅS";
 "main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";

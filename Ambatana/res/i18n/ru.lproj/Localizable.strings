@@ -288,7 +288,7 @@
 "log_in_send_button" = "Войти";
 "log_in_title" = "Войти через e-mail";
 "login_scammer_alert_contact_button" = "Связаться с нами";
-"login_scammer_alert_keep_browsing_button" = "Продолжить просмотр";
+"login_scammer_alert_keep_browsing_button" = "Пропустить";
 "login_scammer_alert_message" = "Ваш аккаунт проверяется командой letgo. Если вы считаете, что он попал под проверку по ошибке, свяжитесь с нами.";
 "login_scammer_alert_title" = "АККАУНТ НА ПРОВЕРКЕ";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";

@@ -288,7 +288,7 @@
 "log_in_send_button" = "Inloggen";
 "log_in_title" = "Aanmelden met e-mail";
 "login_scammer_alert_contact_button" = "Neem contact met ons op";
-"login_scammer_alert_keep_browsing_button" = "Blijven Browsen";
+"login_scammer_alert_keep_browsing_button" = "Overslaan";
 "login_scammer_alert_message" = "Je account wordt beoordeeld door het letgo team. Als je van mening bent dat het ten onrechte werd gemarkeerd, neem dan contact met ons op.";
 "login_scammer_alert_title" = "ACCOUNT WORDT BEOORDEELD";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";

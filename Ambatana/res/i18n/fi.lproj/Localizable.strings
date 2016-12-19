@@ -288,7 +288,7 @@
 "log_in_send_button" = "Kirjaudu sisään";
 "log_in_title" = "Kirjaudu sisään sähköpostilla";
 "login_scammer_alert_contact_button" = "Ota meihin yhteyttä";
-"login_scammer_alert_keep_browsing_button" = "Jatka selaamista";
+"login_scammer_alert_keep_browsing_button" = "Ohita";
 "login_scammer_alert_message" = "letgo-tiimi suorittaa tilillesi tarkastusta. Mikäli uskot, että tilisi on ilmiannettu aiheettomasti, ota meihin yhteyttä.";
 "login_scammer_alert_title" = "TILI TARKASTUKSEN ALAISENA";
 "main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";

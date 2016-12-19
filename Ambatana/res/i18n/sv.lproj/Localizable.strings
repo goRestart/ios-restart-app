@@ -288,7 +288,7 @@
 "log_in_send_button" = "Logga in";
 "log_in_title" = "Logga in med e-post";
 "login_scammer_alert_contact_button" = "Kontakta Oss";
-"login_scammer_alert_keep_browsing_button" = "Surfa vidare";
+"login_scammer_alert_keep_browsing_button" = "Hoppa över";
 "login_scammer_alert_message" = "Ditt konto är under granskning av letgo. Om du tror att det har anmälts av misstag, kontakta oss.";
 "login_scammer_alert_title" = "KONTOT ÄR UNDER GRANSKNING";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";

@@ -288,7 +288,7 @@
 "log_in_send_button" = "Accedi";
 "log_in_title" = "Accedi tramite email";
 "login_scammer_alert_contact_button" = "Contattaci";
-"login_scammer_alert_keep_browsing_button" = "Continua la navigazione";
+"login_scammer_alert_keep_browsing_button" = "Salta";
 "login_scammer_alert_message" = "Il tuo account è in fase di revisione dal team letgo. Se credi che sia stato segnalato per errore, contattaci.";
 "login_scammer_alert_title" = "ACCOUNT IN FASE DI REVISIONE";
 "main_sign_up_claim_label" = "Inizia a vendere e comprare, chattando!";

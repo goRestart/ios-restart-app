@@ -288,7 +288,7 @@
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
 "login_scammer_alert_contact_button" = "Contacte-nos";
-"login_scammer_alert_keep_browsing_button" = "Continue a navegar";
+"login_scammer_alert_keep_browsing_button" = "Pular";
 "login_scammer_alert_message" = "A sua conta está a ser analisada pela equipa letgo. Se acredita que foi marcada por engano, entre em contacto connosco.";
 "login_scammer_alert_title" = "CONTA A SER ANALISADA";
 "main_sign_up_claim_label" = "Comece a vender e a comprar - via chat!";
