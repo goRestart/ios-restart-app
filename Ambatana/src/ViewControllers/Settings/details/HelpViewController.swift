@@ -8,7 +8,7 @@
 
 import SafariServices
 
-public class HelpViewController: BaseViewController, UIWebViewDelegate {
+public class HelpViewController: BaseViewController, UIWebViewDelegate, HelpViewModelDelegate {
 
     // UI
     @IBOutlet weak var webView: UIWebView!
@@ -21,7 +21,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     public required init(viewModel: HelpViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "HelpViewController")
-        
+        viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
     }
     
@@ -36,7 +36,6 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.delegate = self
         // Navigation Bar
         setNavBarTitle(LGLocalizedString.helpTitle)
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
@@ -61,25 +60,11 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
             preferredStyle: .ActionSheet)
         alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .Default,
-            handler: { [weak self] action in self?.showTermsPressed() }))
+            handler: { [weak self] action in self?.viewModel.termsButtonPressed() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .Default,
-            handler: { [weak self] action in self?.showPrivacyPressed() }))
+            handler: { [weak self] action in self?.viewModel.privacyButtonPressed() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
-    }
-
-    private func showTermsPressed() {
-        viewModel.termsButtonPressed()
-    }
-
-    private func showPrivacyPressed() {
-        viewModel.privacyButtonPressed()
-    }
-}
-
-extension HelpViewController: HelpViewModelDelegate {
-    func openURL(url: NSURL) {
-        openInternalUrl(url)
     }
 }
 

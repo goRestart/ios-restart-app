@@ -15,8 +15,7 @@ enum HelpURLType {
     case Privacy
 }
 
-protocol HelpViewModelDelegate: class {
-    func openURL(url: NSURL)
+protocol HelpViewModelDelegate: BaseViewModelDelegate {
 }
 
 public class HelpViewModel: BaseViewModel {
@@ -57,7 +56,7 @@ public class HelpViewModel: BaseViewModel {
         if let navigator = navigator {
             navigator.openURL(url)
         } else {
-            delegate?.openURL(url)
+            delegate?.vmOpenInternalURL(url)
         }
     }
     
@@ -66,7 +65,7 @@ public class HelpViewModel: BaseViewModel {
         if let navigator = navigator {
             navigator.openURL(url)
         } else {
-            delegate?.openURL(url)
+            delegate?.vmOpenInternalURL(url)
         }
     }
 }
