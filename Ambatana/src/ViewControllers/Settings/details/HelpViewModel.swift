@@ -15,11 +15,16 @@ enum HelpURLType {
     case Privacy
 }
 
+protocol HelpViewModelDelegate: class {
+    func openURL(url: NSURL)
+}
+
 public class HelpViewModel: BaseViewModel {
    
     let myUserRepository: MyUserRepository
     let installationRepository: InstallationRepository
     weak var navigator: HelpNavigator?
+    weak var delegate: HelpViewModelDelegate?
     
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository, installationRepository: Core.installationRepository)
@@ -47,23 +52,21 @@ public class HelpViewModel: BaseViewModel {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
     }
     
-    func urlFromURLType(type: HelpURLType) -> NSURL?{
-        switch type {
-        case .Privacy:
-           return privacyURL
-        case .Terms:
-            return termsAndConditionsURL
+    func termsButtonPressed() {
+        guard let url = termsAndConditionsURL else { return }
+        if let navigator = navigator {
+            navigator.openURL(url)
+        } else {
+            delegate?.openURL(url)
         }
     }
     
-    func openInternalUrl(type: HelpURLType) {
-        switch type {
-        case .Privacy:
-            guard let url = privacyURL else { return }
-            navigator?.openURL(url)
-        case .Terms:
-            guard let url = termsAndConditionsURL else { return }
-            navigator?.openURL(url)
+    func privacyButtonPressed() {
+        guard let url = privacyURL else { return }
+        if let navigator = navigator {
+            navigator.openURL(url)
+        } else {
+            delegate?.openURL(url)
         }
     }
 }
