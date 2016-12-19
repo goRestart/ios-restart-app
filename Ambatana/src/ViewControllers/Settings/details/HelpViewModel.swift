@@ -47,6 +47,15 @@ public class HelpViewModel: BaseViewModel {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
     }
     
+    func urlFromURLType(type: HelpURLType) -> NSURL?{
+        switch type {
+        case .Privacy:
+           return privacyURL
+        case .Terms:
+            return termsAndConditionsURL
+        }
+    }
+    
     func openInternalUrl(type: HelpURLType) {
         switch type {
         case .Privacy:

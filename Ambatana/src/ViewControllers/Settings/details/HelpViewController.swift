@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import SafariServices
+
 public class HelpViewController: BaseViewController, UIWebViewDelegate {
 
     // UI
@@ -67,10 +69,33 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     }
 
     private func showTerms() {
+        if let _ = viewModel.navigator {
             viewModel.openInternalUrl(.Terms)
+        } else {
+            openURL(.Terms)
+        }
     }
 
     private func showPrivacy() {
+        if let _ = viewModel.navigator {
             viewModel.openInternalUrl(.Privacy)
+        } else {
+            openURL(.Privacy)
+        }
+    }
+    
+    // It should be removed when SignUpCoordinator done.
+    private func openURL(type: HelpURLType) {
+        if let url = viewModel.urlFromURLType(type) {
+            if #available(iOS 9.0, *) {
+                let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+                svc.view.tintColor = UIColor.primaryColor
+                navigationController?.presentViewController(svc, animated: true, completion: nil)
+            } else {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
     }
 }
+
+
