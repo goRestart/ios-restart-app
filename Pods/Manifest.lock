@@ -11,11 +11,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.18):
-    - Branch/Core (= 0.12.18)
-    - Branch/without-IDFA (= 0.12.18)
-  - Branch/Core (0.12.18)
-  - Branch/without-IDFA (0.12.18)
+  - Branch (0.12.20):
+    - Branch/Core (= 0.12.20)
+    - Branch/without-IDFA (= 0.12.20)
+  - Branch/Core (0.12.20)
+  - Branch/without-IDFA (0.12.20)
   - bumper (0.2.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -152,7 +152,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 3.8.5)
   - AppsFlyerFramework (~> 4.5.12)
   - Argo (= 3.1.0)
-  - Branch (~> 0.12.18)
+  - Branch (~> 0.12.19)
   - bumper (= 0.2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.5)
   - CocoaLumberjack/Swift (~> 2.4.0)
@@ -215,7 +215,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: 495b343632cda4d1a42e13f25d5adfb91d0ee52a
   Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 94efdf8da4cd28fa8fb9c877dc19cb6be2204e66
+  Branch: a2c085213fd3953c241ad63aa49f4435bfc84da7
   bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
@@ -268,6 +268,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: e1a3cd2471e71d27f50f582fc049333fb5ff1856
+PODFILE CHECKSUM: 2421d10ddff73b75ec8bcc884c41ab7c1bc183a5
 
 COCOAPODS: 1.1.0.rc.3

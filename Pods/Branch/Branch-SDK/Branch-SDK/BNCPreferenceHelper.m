@@ -482,22 +482,28 @@ static NSString * const BNC_BRANCH_FABRIC_APP_KEY_KEY = @"branch_key";
 }
 
 - (NSMutableDictionary *)instrumentationDictionary {
-    if (!_instrumentationDictionary) {
-        _instrumentationDictionary = [NSMutableDictionary dictionary];
+    @synchronized (self) {
+        if (!_instrumentationDictionary) {
+            _instrumentationDictionary = [NSMutableDictionary dictionary];
+        }
+        return _instrumentationDictionary;
     }
-    return _instrumentationDictionary;
 }
 
 - (void)addInstrumentationDictionaryKey:(NSString *)key value:(NSString *)value {
-    if (key && value) {
-        [self.instrumentationDictionary setObject:value forKey:key];
+    @synchronized (self) {
+        if (key && value) {
+            [self.instrumentationDictionary setObject:value forKey:key];
+        }
     }
 }
 
 - (void)clearInstrumentationDictionary {
-    NSArray *keys = [_instrumentationDictionary allKeys];
-    for (int i = 0 ; i < [keys count]; i++) {
-        [_instrumentationDictionary removeObjectForKey:keys[i]];
+    @synchronized (self) {
+        NSArray *keys = [_instrumentationDictionary allKeys];
+        for (int i = 0 ; i < [keys count]; i++) {
+            [_instrumentationDictionary removeObjectForKey:keys[i]];
+        }
     }
 }
 
