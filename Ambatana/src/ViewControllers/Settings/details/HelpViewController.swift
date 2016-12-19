@@ -61,18 +61,18 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
             preferredStyle: .ActionSheet)
         alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .Default,
-            handler: { [weak self] action in self?.showTerms() }))
+            handler: { [weak self] action in self?.showTermsPressed() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .Default,
-            handler: { [weak self] action in self?.showPrivacy() }))
+            handler: { [weak self] action in self?.showPrivacyPressed() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
-    private func showTerms() {
+    private func showTermsPressed() {
         viewModel.termsButtonPressed()
     }
 
-    private func showPrivacy() {
+    private func showPrivacyPressed() {
         viewModel.privacyButtonPressed()
     }
 }
