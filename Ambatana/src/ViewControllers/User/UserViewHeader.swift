@@ -118,10 +118,7 @@ class UserViewHeader: UIView {
             UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState],
                                        animations: { [weak self] in
                                         self?.itemsAlpha = alpha
-            }, completion: nil)
-
-            avatarButton.enabled = !collapsed
-            ratingsButton.enabled = !collapsed
+                }, completion: { [weak self] _ in self?.itemsAlpha = alpha })
         }
     }
 
