@@ -114,7 +114,7 @@ class CGFloatLGSpec: QuickSpec {
                     }
                     it("Gives 0.5") {
                         //Rounding is required as floats are not representing exact 'double' numbers.
-                        expect(sut.roundNearest(0.00001)) == CGFloat(0.5).roundNearest(0.00001)
+                        expect(sut) == CGFloat(0.5).roundNearest(0.00001)
                     }
                 }
                 describe("in the half of start and end (0.4 to [0.2,0.6])") {
@@ -123,7 +123,7 @@ class CGFloatLGSpec: QuickSpec {
                     }
                     it("Gives 0.5") {
                         //Rounding is required as floats are not representing exact 'double' numbers.
-                        expect(sut.roundNearest(0.00001)) == CGFloat(0.5).roundNearest(0.00001)
+                        expect(sut) == CGFloat(0.5).roundNearest(0.00001)
                     }
                 }
             }
