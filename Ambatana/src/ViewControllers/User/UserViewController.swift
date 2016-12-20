@@ -484,7 +484,6 @@ extension UserViewController {
         // Header elements alpha selection
         headerExpandedPercentage.asObservable()
             .distinctUntilChanged().subscribeNext { [weak self] expandedPerc in
-                print("ExpandedPercentage: \(expandedPerc)")
                 if expandedPerc > 1 {
                     self?.navBarUserViewAlpha = 0
                     let headerAlphas = 1 - expandedPerc.percentageBetween(start: 1.0,
