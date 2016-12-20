@@ -814,6 +814,7 @@
 		C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D98D1C650F38000EE5CA /* ReportUserCellDrawer.swift */; };
 		C7841AF41E07DFFA004A8242 /* UIView+Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7841AF31E07DFFA004A8242 /* UIView+Rating.swift */; };
 		C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7841AF31E07DFFA004A8242 /* UIView+Rating.swift */; };
+		C7841AF71E091E5C004A8242 /* CGFloat+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7841AF61E091E5C004A8242 /* CGFloat+LGSpec.swift */; };
 		C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C78448DC1BD5196E00C76199 /* LetGo.entitlements */; };
 		C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */; };
 		C788EED41CC6935600B9E26F /* UserProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED31CC6935600B9E26F /* UserProductListRequester.swift */; };
@@ -1703,6 +1704,7 @@
 		C783D9881C64C15B000EE5CA /* ReportUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportUserCell.xib; sourceTree = "<group>"; };
 		C783D98D1C650F38000EE5CA /* ReportUserCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportUserCellDrawer.swift; sourceTree = "<group>"; };
 		C7841AF31E07DFFA004A8242 /* UIView+Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Rating.swift"; sourceTree = "<group>"; };
+		C7841AF61E091E5C004A8242 /* CGFloat+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+LGSpec.swift"; sourceTree = "<group>"; };
 		C78448DC1BD5196E00C76199 /* LetGo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LetGo.entitlements; sourceTree = "<group>"; };
 		C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		C788EED31CC6935600B9E26F /* UserProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProductListRequester.swift; sourceTree = "<group>"; };
@@ -3181,6 +3183,7 @@
 			children = (
 				50C9E4CB1B7353E6001E4E92 /* Manager */,
 				C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */,
+				C7841AF61E091E5C004A8242 /* CGFloat+LGSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -5238,6 +5241,7 @@
 				7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */,
 				50F344F21D3CDEA2000A8774 /* MockChatProduct.swift in Sources */,
 				C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */,
+				C7841AF71E091E5C004A8242 /* CGFloat+LGSpec.swift in Sources */,
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
 				2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */,
 				2E3081D51D86A40400930E98 /* MockProductListRequester.swift in Sources */,
