@@ -12,13 +12,7 @@ import StoreKit
 
 protocol PurchasesShopperDelegate: class {
     func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [MonetizationProduct])
-
-    // Payment
-    func shopperPurchaseDidStart()
-    func shopperPurchaseDidFinish()
-    func shopperPurchaseDidFail()
 }
-
 
 struct MonetizationProduct {
     var id: String {
@@ -60,11 +54,13 @@ class PurchasesShopper: NSObject {
         self.productsRequest = SKProductsRequest()
         super.init()
         productsRequest.delegate = self
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
     }
 
     /**
-        Check products with itunes connect
+    Checks purchases available on appstore
+
+     - parameter productId: ID of the listing for wich will request the appstore products
+     - parameter ids: array of ids of the appstore products
      */
     func productsRequestStartForProduct(productId: String, withIds ids: [String]) {
         guard productId != currentProductId else { return }
@@ -75,27 +71,13 @@ class PurchasesShopper: NSObject {
         productsRequest.start()
     }
 
+    /**
+     Request a payment to the appstore
+
+     - parameter product: info of the product to purchase on the appstore
+     */
     func requestPaymentForProduct(product: MonetizationProduct) {
-        let payment = SKMutablePayment(product: product.product)
-        payment.quantity = 1
-        SKPaymentQueue.defaultQueue().addPayment(payment)
-    }
-
-
-    // Payment
-
-    private func purchaseStartedForTransaction(transaction: SKPaymentTransaction) {
-        delegate?.shopperPurchaseDidStart()
-    }
-
-    func purchaseFailedForTransaction(transaction: SKPaymentTransaction) {
-        delegate?.shopperPurchaseDidFail()
-        SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-    }
-
-    func purchaseFinishedForTransaction(transaction: SKPaymentTransaction) {
-        delegate?.shopperPurchaseDidFinish()
-        SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+        // request payment to appstore
     }
 }
 
@@ -104,49 +86,8 @@ class PurchasesShopper: NSObject {
 
 extension PurchasesShopper: SKProductsRequestDelegate {
     dynamic func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
-
         // TODO: manage "invalidProductIdentifiers"
-//        for invalidIdentifier in response.invalidProductIdentifiers {
-//            // Handle any invalid product identifiers. ( ? )
-//        }
-
         monetizationProducts = response.products.flatMap { MonetizationProduct(product: $0) }
-
         delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: monetizationProducts)
-    }
-}
-
-
-// MARK: - SKPaymentTransactionObserver
-
-extension PurchasesShopper: SKPaymentTransactionObserver {
-
-    // https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW4
-
-    // Sent when the transaction array has changed (additions or state changes).  Client should check state of transactions and finish as appropriate.
-    func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .Purchasing:
-                // Transaction is being added to the server queue.
-                // Update your UI to reflect the in-progress status, and wait to be called again.
-                purchaseStartedForTransaction(transaction)
-            case .Failed:
-                // Transaction was cancelled or failed before being added to the server queue.
-                // Use the value of the error property to present a message to the user. For a list of error constants, see SKErrorDomain in Store Kit Constants Reference.
-                purchaseFailedForTransaction(transaction)
-            case .Purchased:
-                // Transaction is in queue, user has been charged.  Client should complete the transaction.
-                // Provide the purchased functionality
-                purchaseFinishedForTransaction(transaction)
-            case .Restored, .Deferred:
-                // - Restored: Transaction was restored from user's purchase history.  Client should complete the transaction.
-                // Restore the previously purchased functionality
-                // - Deferred: The transaction is in the queue, but its final status is pending external action.
-                // Update your UI to reflect the deferred status, and wait to be called again.
-                break
-            }
-        }
     }
 }

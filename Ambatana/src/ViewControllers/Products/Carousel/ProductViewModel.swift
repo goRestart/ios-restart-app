@@ -1186,27 +1186,6 @@ extension ProductViewModel: PurchasesShopperDelegate {
         guard let requestProdId = productId, currentProdId = product.value.objectId where
             requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
-        // TODO: temp UI to test the payments
-        let text = "_\(purchase.description) at \(purchase.price)"
-
-        let payAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
-                                    action: { [weak self] in
-                                        self?.purchasesShopper.requestPaymentForProduct(purchase)
-            })
-
-        delegate?.vmShowAlert(purchase.title, message: text, cancelLabel: LGLocalizedString.commonCancel, actions: [payAction])
-    }
-
-    // Payment
-    func shopperPurchaseDidStart() {
-        // Update UI
-    }
-
-    func shopperPurchaseDidFinish() {
-        // Update UI
-    }
-
-    func shopperPurchaseDidFail() {
-        // Update UI
+        // "purchase" is the product to buy in appstore in case the user wants to bump up 
     }
 }
