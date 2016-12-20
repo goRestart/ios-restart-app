@@ -365,7 +365,7 @@ extension TabCoordinator: ProductDetailNavigator {
     }
 
     func openFullScreenShare(product: Product, socialMessage: SocialMessage) {
-        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
+        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: false, bumpDelegate: nil)
         let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
         navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
     }
@@ -403,6 +403,19 @@ extension TabCoordinator: ProductDetailNavigator {
         vm.navigator = self
         let vc = SimpleProductsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, bumpDelegate: BumpUpDelegate?) {
+        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: true,
+                                                   bumpDelegate: bumpDelegate)
+        let bumpUpFreeVC = BumpUpFreeViewController(viewModel: shareProductVM)
+        navigationController.presentViewController(bumpUpFreeVC, animated: true, completion: nil)
+    }
+
+    func openPayBumpUpForProduct(product: Product, price: String, bumpsLeft: Int, bumpDelegate: BumpUpDelegate?) {
+        let payBumpUpVM = BumpUpPayViewModel(product: product, price: price, bumpsLeft: bumpsLeft, bumpDelegate: bumpDelegate)
+        let payBumpUpVC = BumpUpPayViewController(viewModel: payBumpUpVM)
+        navigationController.presentViewController(payBumpUpVC, animated: true, completion: nil)
     }
 }
 

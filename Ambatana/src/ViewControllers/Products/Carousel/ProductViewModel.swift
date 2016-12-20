@@ -30,6 +30,10 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmShareDidFailedWith(error: String)
     func vmViewControllerToShowShareOptions() -> UIViewController
+
+    // Bump Up
+    func vmShowFreeBumpUpView(bumpDelegate: BumpUpDelegate?)
+    func vmShowPaymentBumpUpView(price: String, bumpsLeft: Int, bumpDelegate: BumpUpDelegate?)
 }
 
 
@@ -121,6 +125,8 @@ class ProductViewModel: BaseViewModel {
     var isFirstProduct: Bool = false
 
     let showBumpUpBubble = Variable<Bool>(false)
+    var bumpUpBubbleInfo: BumpUpInfo?
+    var bumpUpPurchaseableProduct: MonetizationProduct?
 
     private var favoriteMessageSent: Bool = false
     private var alreadyTrackedFirstMessageSent: Bool = false
@@ -276,6 +282,7 @@ class ProductViewModel: BaseViewModel {
         // TODO: check if the product is bumpeable and if it is, get the product ids
         if featureFlags.monetizationEnabled {
             // also, if the product is bumpeable && there are in-app purchase products
+
             guard let productId = product.value.objectId else { return }
             purchasesShopper.productsRequestStartForProduct(productId, withIds: ["letgo.ios.bumpup"])
         }
@@ -316,6 +323,27 @@ class ProductViewModel: BaseViewModel {
             strongSelf.trackHelper.product = product
 
             strongSelf.setStatus(product.viewModelStatus(strongSelf.featureFlags))
+
+            // Mockup Data 👾 -----
+            let freeBumpUp = false
+            let price = "$1,99"
+            let bumpsLeft = 3
+            // Mockup Data 👾 -----
+
+            let freeBlock = { [weak self] in
+                self?.delegate?.vmShowFreeBumpUpView(self)
+            }
+            let showPaymentViewBlock = { [weak self] in
+                self?.delegate?.vmShowPaymentBumpUpView(price, bumpsLeft: bumpsLeft, bumpDelegate: self)
+            }
+            let payBumpBlock = { [weak self] in
+                self?.bumpUpProduct()
+            }
+            let primaryBlock = freeBumpUp ? freeBlock : showPaymentViewBlock
+            let buttonBlock = freeBumpUp ? freeBlock : payBumpBlock
+            strongSelf.bumpUpBubbleInfo = BumpUpInfo(free: freeBumpUp, timeLeftToNextBump: 0, price: price, bumpsLeft: bumpsLeft,
+                primaryBlock: primaryBlock, buttonBlock: buttonBlock)
+            strongSelf.showBumpUpBubble.value = product.isMine && product.status == .Approved && strongSelf.featureFlags.monetizationEnabled // && bumpeable!
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
@@ -557,6 +585,12 @@ extension ProductViewModel {
     
     func shouldShowTextOnChatView() -> Bool {
        return featureFlags.periscopeImprovement
+    }
+
+    func bumpUpProduct() {
+        print("TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
+        guard let purchase = bumpUpPurchaseableProduct else { return }
+        purchasesShopper.requestPaymentForProduct(purchase)
     }
 }
 
@@ -1181,6 +1215,12 @@ private extension ProductViewModelStatus {
 }
 
 
+extension ProductViewModel: BumpUpDelegate {
+    func vmBumpUpProduct() {
+        bumpUpProduct()
+    }
+}
+
 // MARK: PurchasesShopperDelegate
 
 extension ProductViewModel: PurchasesShopperDelegate {
@@ -1188,15 +1228,8 @@ extension ProductViewModel: PurchasesShopperDelegate {
         guard let requestProdId = productId, currentProdId = product.value.objectId where
             requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
-        // TODO: temp UI to test the payments
-        let text = "_\(purchase.description) at \(purchase.price)"
 
-        let payAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
-                                    action: { [weak self] in
-                                        self?.purchasesShopper.requestPaymentForProduct(purchase)
-            })
-
-        delegate?.vmShowAlert(purchase.title, message: text, cancelLabel: LGLocalizedString.commonCancel, actions: [payAction])
+        bumpUpPurchaseableProduct = purchase
     }
 
     // Payment

@@ -9,7 +9,7 @@
 import Foundation
 
 struct CarouselUI {
-    static let interestedBubbleHeight: CGFloat = 50
+    static let bubbleHeight: CGFloat = 50
     static let shareButtonVerticalSpacing: CGFloat = 5
     static let shareButtonHorizontalSpacing: CGFloat = 3
 

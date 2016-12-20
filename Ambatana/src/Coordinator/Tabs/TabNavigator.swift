@@ -52,6 +52,8 @@ protocol ProductDetailNavigator: TabNavigator {
     func openFullScreenShare(product: Product, socialMessage: SocialMessage)
     func openRelatedItems(product: Product, productVisitSource: EventParameterProductVisitSource)
     func closeAfterDelete()
+    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, bumpDelegate: BumpUpDelegate?)
+    func openPayBumpUpForProduct(product: Product, price: String, bumpsLeft: Int, bumpDelegate: BumpUpDelegate?)
 }
 
 protocol SimpleProductsNavigator: class {

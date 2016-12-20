@@ -209,7 +209,7 @@ extension SellCoordinator: ProductPostedNavigator {
     func closeProductPostedAndOpenShare(product: Product, socialMessage: SocialMessage) {
         close(ProductPostedViewController.self, animated: true) { [weak self] in
             guard let strongSelf = self, parentVC = strongSelf.parentViewController else { return }
-            let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
+            let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: false, bumpDelegate: nil)
             let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
             shareProductVM.navigator = self
             strongSelf.viewController = shareProductVC

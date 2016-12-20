@@ -13,8 +13,8 @@ import LGCoreKit
 protocol ShareProductViewModelDelegate: BaseViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController
     func viewControllerShouldClose()
+    func vmDidFinishSharing()
 }
-
 
 class ShareProductViewModel: BaseViewModel {
     let shareTypes: [ShareType]
@@ -25,25 +25,37 @@ class ShareProductViewModel: BaseViewModel {
 
     weak var delegate: ShareProductViewModelDelegate?
     weak var navigator: ShareProductNavigator?
+    weak var bumpDelegate: BumpUpDelegate?
 
     var socialMessage: SocialMessage
+    var title: String
+    var subtitle: String
     var link: String {
         return socialMessage.copyLinkText ?? Constants.websiteURL
     }
 
-    convenience init(product: Product, socialMessage: SocialMessage) {
-        self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage,
-                  locale: NSLocale.currentLocale(), locationManager: Core.locationManager, tracker: TrackerProxy.sharedInstance)
+    convenience init(product: Product, socialMessage: SocialMessage, bumpUp: Bool, bumpDelegate: BumpUpDelegate?) {
+        self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage, bumpUp: bumpUp,
+                  bumpDelegate: bumpDelegate, locale: NSLocale.currentLocale(), locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, locale: NSLocale,
-         locationManager: LocationManager, tracker: Tracker) {
+    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, bumpUp: Bool, bumpDelegate: BumpUpDelegate?,
+         locale: NSLocale, locationManager: LocationManager, tracker: Tracker) {
         self.product = product
         self.socialSharer = socialSharer
         self.tracker = tracker
         self.socialMessage = socialMessage
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
+        if bumpUp {
+            self.title = LGLocalizedString.bumpUpViewFreeTitle
+            self.subtitle = LGLocalizedString.bumpUpViewFreeSubtitle
+        } else {
+            self.title = LGLocalizedString.productShareFullscreenTitle
+            self.subtitle = LGLocalizedString.productShareFullscreenSubtitle
+        }
+        self.bumpDelegate = bumpDelegate
         super.init()
 
         self.socialSharer?.delegate = self
@@ -77,7 +89,7 @@ extension ShareProductViewModel: SocialSharerDelegate {
             delegate?.vmShowAutoFadingMessage(message) { [weak self] in
                 switch state {
                 case .Completed:
-                    self?.delegate?.vmDismiss(nil)
+                    self?.delegate?.vmDidFinishSharing()
                 case .Cancelled, .Failed:
                     break
                 }
@@ -120,5 +132,14 @@ extension ShareProductViewModel: SocialSharerDelegate {
             break
         }
         return nil
+    }
+}
+
+
+// MARK: Bump Up Methods
+
+extension ShareProductViewModel {
+    func bumpUpProduct() {
+        bumpDelegate?.vmBumpUpProduct()
     }
 }
