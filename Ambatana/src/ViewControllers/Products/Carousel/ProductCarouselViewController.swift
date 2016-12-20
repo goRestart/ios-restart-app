@@ -157,6 +157,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupZoomRx()
         setAccessibilityIds()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if moreInfoState.value == .Shown {
+            moreInfoView?.viewWillShow()
+        }
+    }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
