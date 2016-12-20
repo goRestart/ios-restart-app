@@ -43,14 +43,24 @@ class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCel
 
 
     private func checkAutoHide(cell: T, message: ChatViewMessage) {
+       
         guard let timeInterval = message.sentAt?.timeIntervalSinceNow where autoHide  else { return }
         let diffTime = autoHideTime + timeInterval
         guard 0.0..<autoHideTime ~= diffTime else {
             cell.contentView.alpha = 0
+            cell.contentView.hidden = true
             return
         }
+        cell.contentView.hidden = false
         cell.contentView.alpha = 1
+        
+        // keep a message hash on content view to be sure that completions happens on the correct cell.
+        let messageTag = message.sentAt?.hash ?? 0
+        cell.contentView.tag = messageTag
         UIView.animateWithDuration(autoHideFadeTime, delay: diffTime, options: .CurveEaseIn,
-                                   animations: { cell.contentView.alpha = 0 }, completion:nil)
+                                   animations: { cell.contentView.alpha = 0 }, completion: { _ in
+                                    guard cell.contentView.tag == messageTag else { return }
+                                    cell.contentView.hidden = true
+        })
     }
 }
