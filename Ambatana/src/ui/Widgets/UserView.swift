@@ -100,7 +100,7 @@ class UserView: UIView {
 
     let userRatings = Variable<Float?>(nil)
 
-    private static let ratinsViewVisibleHeight: CGFloat = 12
+    private static let ratingsViewVisibleHeight: CGFloat = 12
 
     private var style: UserViewStyle = .Full
     private var avatarURL: NSURL?   // Used as an "image id" to avoid loading the avatar of the previous user
@@ -206,7 +206,7 @@ class UserView: UIView {
         userRatings.asObservable().bindNext { [weak self] userRating in
             let rating = userRating ?? 0
             if rating > 0 {
-                self?.ratingsContainerHeight.constant = UserView.ratinsViewVisibleHeight
+                self?.ratingsContainerHeight.constant = UserView.ratingsViewVisibleHeight
                 self?.ratingsContainer.setupRatingContainer(rating: rating)
             } else {
                 self?.ratingsContainerHeight.constant = 0
