@@ -44,7 +44,7 @@ class UserRatingListRequester {
 
     // MARK: public methods
 
-    func reportRating(rating: UserRating, completion: UserRatingEmptyCompletion?) {
+    func reportRating(rating: UserRating, completion: UserRatingCompletion?) {
         userRatingRepository.reportRating(rating, completion: completion)
     }
 }

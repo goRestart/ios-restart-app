@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import RxSwift
 
-class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate, GIDSignInUIDelegate {
+class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate {
 
     // Data
     var afterLoginAction: (() -> Void)?
@@ -109,8 +109,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     // MARK: - Actions
     
     func closeButtonPressed() {
-        viewModel.abandon()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        viewModel.closeButtonPressed()
     }
     
     func helpButtonPressed() {
@@ -119,51 +118,24 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     }
      
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
-        viewModel.logInWithFacebook()
+        viewModel.connectFBButtonPressed()
     }
     
     @IBAction func connectGoogleButtonPressed(sender: AnyObject) {
-        viewModel.logInWithGoogle()
+        viewModel.connectGoogleButtonPressed()
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        let vc = SignUpLogInViewController(viewModel: viewModel.loginSignupViewModelForSignUp())
-        vc.afterLoginAction = afterLoginAction
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.signUpButtonPressed()
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        let vc = SignUpLogInViewController(viewModel: viewModel.loginSignupViewModelForLogin())
-        vc.afterLoginAction = afterLoginAction
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.logInButtonPressed()
     }
     
     @IBAction func contactUsButtonPressed() {
         let vc = HelpViewController()
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
-    // MARK: - MainSignUpViewModelDelegate
-    
-    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-        }
-    }
-
-    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel) {
-        dismissLoadingMessageAlert()
-    }
-
-    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message, time: 3)
-        }
     }
     
     
@@ -259,6 +231,48 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         legalTextView.delegate = self
     }
 }
+
+
+// MARK: - SignUpViewModelDelegate
+
+// This should be done on a coordinator through a navigator from viewModel
+extension MainSignUpViewController: SignUpViewModelDelegate {
+
+    func vmOpenSignup(viewModel: SignUpLogInViewModel) {
+        let vc = SignUpLogInViewController(viewModel: viewModel)
+        vc.afterLoginAction = afterLoginAction
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func vmFinish(completedLogin completed: Bool) {
+        dismissViewControllerAnimated(true, completion: completed ? afterLoginAction : nil)
+    }
+
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+        let parentController = presentingViewController
+        let contact = UIAction(
+            interface: .Button(LGLocalizedString.loginScammerAlertContactButton, .Primary(fontSize: .Medium)),
+            action: {
+                tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
+                parentController?.openInternalUrl(contactUrl)
+            })
+        let keepBrowsing = UIAction(
+            interface: .Button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .Secondary(fontSize: .Medium, withBorder: false)),
+            action: {
+                tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+            })
+        dismissViewControllerAnimated(false) {
+            tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
+            parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
+                                                 text: LGLocalizedString.loginScammerAlertMessage,
+                                                 alertType: .IconAlert(icon: UIImage(named: "ic_moderation_alert")),
+                                                 buttonsLayout: .Vertical, actions:  [contact, keepBrowsing])
+        }
+    }
+}
+
+
+// MARK: - Accesibility
 
 extension MainSignUpViewController {
     func setAccesibilityIds() {

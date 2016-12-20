@@ -323,8 +323,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         if moreInfoView?.frame.origin.y < 0 {
             viewModel.close()
         } else {
-            if let moreInfoView = moreInfoView where moreInfoView.bigMapVisible {
-                hideBigMap()
+            if let moreInfoView = moreInfoView where moreInfoView.mapExpanded {
+                compressMap()
             } else {
                 hideMoreInfo()
             }
@@ -915,9 +915,9 @@ extension ProductCarouselViewController {
         })
     }
 
-    func hideBigMap() {
-        guard let moreInfoView = moreInfoView where moreInfoView.bigMapVisible else { return }
-        moreInfoView.hideBigMap()
+    func compressMap() {
+        guard let moreInfoView = moreInfoView where moreInfoView.mapExpanded else { return }
+        moreInfoView.compressMap()
     }
 }
 

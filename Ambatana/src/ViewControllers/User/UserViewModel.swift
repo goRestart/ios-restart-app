@@ -20,6 +20,7 @@ enum UserSource {
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
+    func vmOpenFavorites()
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
     func vmShowNativeShare(socialMessage: SocialMessage)
 }
@@ -35,6 +36,7 @@ class UserViewModel: BaseViewModel {
     private let userRepository: UserRepository
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
+    private let notificationsManager: NotificationsManager
 
     // Data & VMs
     private let user: Variable<User?>
@@ -69,7 +71,7 @@ class UserViewModel: BaseViewModel {
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
 
     let productListViewModel: Variable<ProductListViewModel>
-
+    
     weak var delegate: UserViewModelDelegate?
     weak var navigator: TabNavigator?
     weak var profileNavigator: ProfileTabNavigator? {
@@ -94,8 +96,10 @@ class UserViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let notificationsManager = NotificationsManager.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: true, user: nil, source: source, featureFlags: featureFlags)
+                  tracker: tracker, isMyProfile: true, user: nil, source: source, featureFlags: featureFlags,
+                  notificationsManager: notificationsManager)
     }
 
     convenience init(user: User, source: UserSource) {
@@ -104,8 +108,10 @@ class UserViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let notificationsManager = NotificationsManager.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags)
+                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags,
+                  notificationsManager: notificationsManager)
     }
     
     convenience init(chatInterlocutor: ChatInterlocutor, source: UserSource) {
@@ -114,13 +120,16 @@ class UserViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
 		let featureFlags = FeatureFlags.sharedInstance
+        let notificationsManager = NotificationsManager.sharedInstance
         let user = LocalUser(chatInterlocutor: chatInterlocutor)
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags)
+                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags,
+                  notificationsManager: notificationsManager)
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable) {
+         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable,
+         notificationsManager: NotificationsManager) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
@@ -129,6 +138,7 @@ class UserViewModel: BaseViewModel {
         self.user = Variable<User?>(user)
         self.source = source
         self.featureFlags = featureFlags
+        self.notificationsManager = notificationsManager
         self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved],
                                                                             itemsPerPage: Constants.numProductsPerPageDefault)
         self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
@@ -161,8 +171,9 @@ class UserViewModel: BaseViewModel {
 
         if itsMe {
             resetLists()
+            cleanFavoriteBadgeIfNeeded()
         } else {
-            retrieveUserAccounts()
+            retrieveUserData()
         }
 
         refreshIfLoading()
@@ -215,6 +226,14 @@ extension UserViewModel {
         delegate?.vmShowNativeShare(socialMessage)
         trackShareStart()
     }
+    
+    func cleanFavoriteBadgeIfNeeded() {
+        guard let  favoriteCounter = notificationsManager.favoriteCount.value else {return }
+        guard favoriteCounter > 0 else { return }
+        notificationsManager.clearFavoriteCounter()
+        delegate?.vmOpenFavorites()
+        tab.value = .Favorites
+    }
 }
 
 
@@ -246,21 +265,21 @@ extension UserViewModel {
 
     private func buildShareNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             self?.shareButtonPressed()
         }, accessibilityId: .UserNavBarShareButton)
     }
 
     private func buildSettingsNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_settings")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             self?.openSettings()
         }, accessibilityId: .UserNavBarSettingsButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             guard let strongSelf = self else { return }
 
             var actions = [UIAction]()
@@ -355,14 +374,16 @@ extension UserViewModel {
 // MARK: > Requests
 
 extension UserViewModel {
-    private func retrieveUserAccounts() {
+    private func retrieveUserData() {
         guard userAccounts.value == nil else { return }
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
             self?.updateAccounts(user)
+            self?.updateRatings(user)
         }
     }
+    
 
     private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
@@ -447,11 +468,8 @@ extension UserViewModel {
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
 
-            if strongSelf.featureFlags.userReviews {
-                strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
-                strongSelf.userRatingCount.value = user?.ratingCount
-            }
-
+            strongSelf.updateRatings(user)
+            
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
 
@@ -482,6 +500,14 @@ extension UserViewModel {
                                                     googleVerified: googleVerified,
                                                     emailLinked: emailLinked,
                                                     emailVerified: emailVerified)
+    }
+    
+    private func updateRatings(user: User?) {
+        guard let user = user else { return }
+        if featureFlags.userReviews {
+            userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
+            userRatingCount.value = user.ratingCount
+        }
     }
 
     private func setupUserRelationRxBindings() {

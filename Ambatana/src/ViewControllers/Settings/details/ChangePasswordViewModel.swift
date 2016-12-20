@@ -12,22 +12,22 @@ import Result
 enum ChangePasswordError: ErrorType {
     case InvalidPassword
     case PasswordMismatch
-    case InvalidToken
 
     case Network
     case Internal
-    case NotFound
-    case Unauthorized
+    case ResetPasswordLinkExpired
 
-    init(repositoryError: RepositoryError) {
+    init(repositoryError: RepositoryError, handleUnauthorizedAsLinkExpired: Bool) {
         switch repositoryError {
         case .Network:
-            self = .Internal
-        case .NotFound:
-            self = .NotFound
+            self = .Network
         case .Unauthorized:
-            self = .Unauthorized
-        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+            if handleUnauthorizedAsLinkExpired {
+                self = .ResetPasswordLinkExpired
+            } else {
+                self = .Internal
+            }
+        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError, .NotFound:
             self = .Internal
         }
     }
@@ -94,24 +94,10 @@ public class ChangePasswordViewModel: BaseViewModel {
             
             delegate?.viewModelDidStartSendingPassword(self)
             
-            let commonCompletion = { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
-                guard let strongSelf = self else { return }
-                guard let delegate = strongSelf.delegate else { return }
-                
-                var result = Result<MyUser, ChangePasswordError>(error: .Internal)
-                if let value = updatePwdResult.value {
-                    result = Result<MyUser, ChangePasswordError>(value: value)
-                } else if let repositoryError = updatePwdResult.error {
-                    let error = ChangePasswordError(repositoryError: repositoryError)
-                    result = Result<MyUser, ChangePasswordError>(error: error)
-                }
-                delegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
-            }
-            
             if let token = token {
-                myUserRepository.resetPassword(password, token: token, completion: commonCompletion)
+                resetPassword(password, token: token)
             } else {
-                myUserRepository.updatePassword(password, completion: commonCompletion)
+                updatePassword(password)
             }
         }
         else if !isValidPassword() {
@@ -119,9 +105,38 @@ public class ChangePasswordViewModel: BaseViewModel {
         } else {
             delegate?.viewModel(self, didFailValidationWithError: .PasswordMismatch)
         }
-        
     }
-    
+
+    private func resetPassword(password: String, token: String) {
+        myUserRepository.resetPassword(password, token: token) { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
+            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
+
+            var result = Result<MyUser, ChangePasswordError>(error: .Internal)
+            if let value = updatePwdResult.value {
+                result = Result<MyUser, ChangePasswordError>(value: value)
+            } else if let repositoryError = updatePwdResult.error {
+                let error = ChangePasswordError(repositoryError: repositoryError, handleUnauthorizedAsLinkExpired: true)
+                result = Result<MyUser, ChangePasswordError>(error: error)
+            }
+            delegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
+        }
+    }
+
+    private func updatePassword(password: String) {
+        myUserRepository.updatePassword(password) { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
+            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
+
+            var result = Result<MyUser, ChangePasswordError>(error: .Internal)
+            if let value = updatePwdResult.value {
+                result = Result<MyUser, ChangePasswordError>(value: value)
+            } else if let repositoryError = updatePwdResult.error {
+                let error = ChangePasswordError(repositoryError: repositoryError, handleUnauthorizedAsLinkExpired: false)
+                result = Result<MyUser, ChangePasswordError>(error: error)
+            }
+            delegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
+        }
+    }
+
     public func isValidCombination() -> Bool {
         if password != confirmPassword { // passwords do not match.
             return false

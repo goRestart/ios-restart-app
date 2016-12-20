@@ -16,10 +16,11 @@ class NotificationsManager {
 
     // Rx
     let unreadMessagesCount = Variable<Int?>(nil)
+    let favoriteCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
     var globalCount: Observable<Int?> {
         return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
-            (unreadMessages: Int?, notifications: Int?) in
+                                        (unreadMessages: Int?, notifications: Int?) in
             let chatCount = unreadMessages ?? 0
             let notificationsCount = notifications ?? 0
             return chatCount + notificationsCount
@@ -33,7 +34,7 @@ class NotificationsManager {
                                             return enabled
         })
     }
-
+    
     private let disposeBag = DisposeBag()
 
     private let sessionManager: SessionManager
@@ -83,6 +84,7 @@ class NotificationsManager {
 
     func updateCounters() {
         requestChatCounters()
+        requestFavoriteCounter()
         requestNotificationCounters()
     }
 
@@ -92,6 +94,37 @@ class NotificationsManager {
 
     func updateNotificationCounters() {
         requestNotificationCounters()
+    }
+    
+    func requestFavoriteCounter() {
+        favoriteCount.value = keyValueStorage.productsMarkAsFavorite > 0 ? 1 : nil
+    }
+    
+    
+    func increaseFavoriteCounter() {
+        guard featureFlags.favoriteWithBadgeOnProfile else { return }
+        let actualValue = keyValueStorage.productsMarkAsFavorite ?? 0
+        let increasedFavoriteValue = actualValue + 1
+        keyValueStorage.productsMarkAsFavorite = increasedFavoriteValue
+        favoriteCount.value = 1
+    }
+    
+    func decreaseFavoriteCounter() {
+        guard featureFlags.favoriteWithBadgeOnProfile else { return }
+        let actualValue = keyValueStorage.productsMarkAsFavorite ?? 0
+        let decreasedFavoriteValue = actualValue - 1
+        if decreasedFavoriteValue > 0 {
+            keyValueStorage.productsMarkAsFavorite = decreasedFavoriteValue
+            favoriteCount.value = 1
+        } else {
+            clearFavoriteCounter()
+        }
+        
+    }
+    
+    func clearFavoriteCounter() {
+        keyValueStorage.productsMarkAsFavorite = nil
+        favoriteCount.value = nil
     }
 
     // MARK: - Private

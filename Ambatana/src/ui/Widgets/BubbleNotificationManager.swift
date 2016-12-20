@@ -29,18 +29,15 @@ class BubbleNotificationManager {
         . duration <= 0 : notification stays there until the user interacts with it.
      */
 
-    func showBubble(data: BubbleNotificationData, duration: NSTimeInterval?) {
-
-        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else { return }
-        guard let window = appDelegate.window else { return }
-
-        let frame = CGRect(x: 0, y: 0, width: window.frame.width, height: BubbleNotification.initialHeight)
+    func showBubble(data: BubbleNotificationData, duration: NSTimeInterval?, view: UIView) {
+        
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotification.initialHeight)
         let bubble = BubbleNotification(frame: frame, data: data)
         bubble.delegate = self
 
         bubble.translatesAutoresizingMaskIntoConstraints = false
-        window.addSubview(bubble)
-        bubble.setupOnView(window)
+        view.addSubview(bubble)
+        bubble.setupOnView(view)
 
         if let tag = data.tagGroup {
             if taggedNotifications[tag] == nil {

@@ -13,7 +13,6 @@ public struct ABTests {
     static let trackingData = Variable<[String]>([])
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
-    static var messageOnFavoriteRound2 = IntABDynamicVar(key: "messageOnFavoriteRound2", defaultValue: 0)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
@@ -31,13 +30,32 @@ public struct ABTests {
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
+    static var newQuickAnswers = BoolABDynamicVar(key: "newQuickAnswers", defaultValue: false)
+    static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
+    static var favoriteWithBubbleToChat = BoolABDynamicVar(key: "favoriteWithBubbleToChat", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder, directPostInOnboarding,
-                productDetailShareMode, notificationCenterEnabled, shareButtonWithIcon, chatHeadBubbles,
-                saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
-                keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting,
-                postingMultiPictureEnabled, periscopeImprovement]
+        return [showNPSSurvey,
+                interestedUsersMode,
+                filtersReorder,
+                directPostInOnboarding,
+                productDetailShareMode,
+                notificationCenterEnabled,
+                shareButtonWithIcon,
+                chatHeadBubbles,
+                saveMailLogout,
+                expressChatBanner,
+                showLiquidProductsToNewUser,
+                postAfterDeleteMode,
+                keywordsTravelCollection,
+                commercializerAfterPosting,
+                relatedProductsOnMoreInfo,
+                shareAfterPosting,
+                postingMultiPictureEnabled,
+                periscopeImprovement,
+                newQuickAnswers,
+                favoriteWithBadgeOnProfile,
+                favoriteWithBubbleToChat]
     }
 
     static func registerVariables() {

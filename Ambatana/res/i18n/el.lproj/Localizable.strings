@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Νέος Κωδικός Πρόσβασης";
 "change_password_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αλλαγή του κωδικού πρόσβασης.Παρακαλώ προσπαθήστε ξανά.";
 "change_password_send_error_invalid_password_with_max" = "Παρακαλώ, εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
+"change_password_send_error_link_expired" = "Συγγνώμη, ο σύνδεσμος έχει λήξει!";
 "change_password_send_error_passwords_mismatch" = "Οι κωδικοί πρόσβασης δεν ταιριάζουν. Παρακαλώ προσπαθήστε ξανά.";
 "change_password_send_ok" = "Ο κωδικός πρόσβασης άλλαξε επιτυχώς!";
 "change_password_title" = "Αλλαγή κωδικού πρόσβασης";
@@ -286,6 +287,10 @@
 "log_in_reset_password_button" = "Ξεχάσατε τον κωδικό σας;";
 "log_in_send_button" = "Σύνδεση";
 "log_in_title" = "Σύνδεση μέσω email";
+"login_scammer_alert_contact_button" = "Επικοινωνήστε Μαζί Μας";
+"login_scammer_alert_keep_browsing_button" = "Συνέχεια Πλοήγησης";
+"login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί καταλάθως, επικοινωνήστε μαζί μας.";
+"login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
 "main_sign_up_error_request_already_sent" = "Το αίτημά σας έχει ήδη προχωρήσει. Παρακαλώ περιμένετε πριν προσπαθήσετε ξανά.";
 "main_sign_up_error_user_rejected" = "Το email που εισάγατε είναι λανθασμένο. Παρακαλώ ελέγξτε το και δοκιμάστε ξανά.";
