@@ -15,5 +15,8 @@ enum AuthLevel: Int {
 
 struct Token {
     let value: String?
+    var actualValue: String? {
+        return value?.lastComponentSeparatedByCharacter(" ")
+    }
     var level: AuthLevel
 }
