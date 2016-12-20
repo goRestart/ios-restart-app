@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-public class HelpViewController: BaseViewController, UIWebViewDelegate {
+import SafariServices
+
+public class HelpViewController: BaseViewController, UIWebViewDelegate, HelpViewModelDelegate {
 
     // UI
     @IBOutlet weak var webView: UIWebView!
@@ -19,7 +21,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     public required init(viewModel: HelpViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "HelpViewController")
-        
+        viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
     }
     
@@ -34,7 +36,6 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Navigation Bar
         setNavBarTitle(LGLocalizedString.helpTitle)
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
@@ -59,18 +60,11 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
             preferredStyle: .ActionSheet)
         alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .Default,
-            handler: { [weak self] action in self?.showTerms() }))
+            handler: { [weak self] action in self?.viewModel.termsButtonPressed() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .Default,
-            handler: { [weak self] action in self?.showPrivacy() }))
+            handler: { [weak self] action in self?.viewModel.privacyButtonPressed() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-
-    private func showTerms() {
-        viewModel.openInternalUrl(.Terms)
-    }
-
-    private func showPrivacy() {
-        viewModel.openInternalUrl(.Privacy)
-    }
 }
+
