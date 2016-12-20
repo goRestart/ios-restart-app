@@ -55,6 +55,48 @@
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
+// Text for bubble in free bump
+"bump_up_bubble_free_text" = "Bump up for free to sell faster";
+
+// Text for bubble in payment bump
+"bump_up_bubble_pay_text" = "Bump up to sell faster";
+
+// Text for bubble while waiting for next bump
+"bump_up_bubble_wait_text" = "to bump up again";
+
+// Title for bubble button
+"bump_up_bubble_free_button_title" = "Bump up";
+
+// Free bump up success message
+"bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
+
+// Payment bump up success message
+"bump_up_pay_success" = "Bumped up! Now your item has extra visibility.";
+
+// Error when bumping
+"bump_up_error_bump_generic" = "An error occurred while bumping up your item. Please try again.";
+
+// Token error when bumping
+"bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
+
+// Title for free bump up view
+"bump_up_view_free_title" = "BUMP UP YOUR LISTING";
+
+// Subtitle for free bump up view
+"bump_up_view_free_subtitle" = "The more you share, the more visibility your listing will have.";
+
+// Title for payment bump up view
+"bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
+
+// Subtitle for payment bump up view
+"bump_up_view_pay_subtitle" = "Give your listing higher visibility for 24 hours by moving it to the top.";
+
+// Button title for payment bump up view
+"bump_up_view_pay_button_title" = "Activate for %@";
+
+// Text for "bumps left" label for payment bump up view
+"bump_up_view_pay_bumps_left_text" = "You have %i bump ups left";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -129,6 +171,9 @@
 
 // Change password send error passwords mismatch. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
+
+// Change password send error link expired (when trying to reset a pwd through an expired email link)
+"change_password_send_error_link_expired" = "Sorry, this link has expired!";
 
 // Change password send ok. Check image @ "change_password_send_error_generic" segment
 "change_password_send_ok" = "Password changed successfully.";
@@ -857,6 +902,18 @@
 
 // Log in title. Check image @ "log_in_email_field_hint" segment
 "log_in_title" = "Sign in with email";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_contact_button" = "Contact Us";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_keep_browsing_button" = "Skip";
 
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";

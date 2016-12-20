@@ -83,6 +83,62 @@ struct LGLocalizedString {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}
 
+	static var bumpUpBubbleFreeText: String {
+		return NSLocalizedString("bump_up_bubble_free_text", comment: "")
+	}
+
+	static var bumpUpBubblePayText: String {
+		return NSLocalizedString("bump_up_bubble_pay_text", comment: "")
+	}
+
+	static var bumpUpBubbleWaitText: String {
+		return NSLocalizedString("bump_up_bubble_wait_text", comment: "")
+	}
+
+	static var bumpUpBubbleFreeButtonTitle: String {
+		return NSLocalizedString("bump_up_bubble_free_button_title", comment: "")
+	}
+
+	static var bumpUpFreeSuccess: String {
+		return NSLocalizedString("bump_up_free_success", comment: "")
+	}
+
+	static var bumpUpPaySuccess: String {
+		return NSLocalizedString("bump_up_pay_success", comment: "")
+	}
+
+	static var bumpUpErrorBumpGeneric: String {
+		return NSLocalizedString("bump_up_error_bump_generic", comment: "")
+	}
+
+	static var bumpUpErrorBumpToken: String {
+		return NSLocalizedString("bump_up_error_bump_token", comment: "")
+	}
+
+	static var bumpUpViewFreeTitle: String {
+		return NSLocalizedString("bump_up_view_free_title", comment: "")
+	}
+
+	static var bumpUpViewFreeSubtitle: String {
+		return NSLocalizedString("bump_up_view_free_subtitle", comment: "")
+	}
+
+	static var bumpUpViewPayTitle: String {
+		return NSLocalizedString("bump_up_view_pay_title", comment: "")
+	}
+
+	static var bumpUpViewPaySubtitle: String {
+		return NSLocalizedString("bump_up_view_pay_subtitle", comment: "")
+	}
+
+	static func bumpUpViewPayButtonTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("bump_up_view_pay_button_title", comment: ""), var1)
+	}
+
+	static var bumpUpViewPayBumpsLeftText: String {
+		return NSLocalizedString("bump_up_view_pay_bumps_left_text", comment: "")
+	}
+
 	static var categoriesBabyAndChild: String {
 		return NSLocalizedString("categories_baby_and_child", comment: "")
 	}
@@ -181,6 +237,10 @@ struct LGLocalizedString {
 
 	static var changePasswordSendErrorPasswordsMismatch: String {
 		return NSLocalizedString("change_password_send_error_passwords_mismatch", comment: "")
+	}
+
+	static var changePasswordSendErrorLinkExpired: String {
+		return NSLocalizedString("change_password_send_error_link_expired", comment: "")
 	}
 
 	static var changePasswordSendOk: String {
@@ -1161,6 +1221,22 @@ struct LGLocalizedString {
 
 	static var logInTitle: String {
 		return NSLocalizedString("log_in_title", comment: "")
+	}
+
+	static var loginScammerAlertTitle: String {
+		return NSLocalizedString("login_scammer_alert_title", comment: "")
+	}
+
+	static var loginScammerAlertMessage: String {
+		return NSLocalizedString("login_scammer_alert_message", comment: "")
+	}
+
+	static var loginScammerAlertContactButton: String {
+		return NSLocalizedString("login_scammer_alert_contact_button", comment: "")
+	}
+
+	static var loginScammerAlertKeepBrowsingButton: String {
+		return NSLocalizedString("login_scammer_alert_keep_browsing_button", comment: "")
 	}
 
 	static var mainSignUpClaimLabel: String {
