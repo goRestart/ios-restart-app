@@ -203,8 +203,10 @@ class SocialShareView: UIView {
             }
 
             if index % gridColumns == gridColumns - 1 {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .Equal,
-                    toItem: container, attribute: .Right, multiplier: 1.0, constant: 0))
+                let constraint = NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .GreaterThanOrEqual,
+                                                    toItem: container, attribute: .Right, multiplier: 1.0, constant: 0)
+                constraint.priority = UILayoutPriorityDefaultHigh
+                container.addConstraint(constraint)
                 top = button
                 previous = nil
             } else {
