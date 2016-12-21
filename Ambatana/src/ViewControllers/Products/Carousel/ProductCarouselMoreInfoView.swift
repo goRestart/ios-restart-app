@@ -53,7 +53,8 @@ class ProductCarouselMoreInfoView: UIView {
     private let mapView: MKMapView = MKMapView.sharedInstance
     private var vmRegion: MKCoordinateRegion? = nil
     @IBOutlet weak var mapViewContainer: UIView!
-    private var mapViewContainerExpandable: UIView?
+    private var mapViewContainerExpandable: UIView? = nil
+    private var mapViewTapGesture: UITapGestureRecognizer? = nil
     
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
@@ -184,7 +185,9 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     
     private func addMapGestures() {
         removeMapGestures()
-        mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapMap)))
+        mapViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMap))
+        guard let mapViewTapGesture = mapViewTapGesture else { return }
+        mapView.addGestureRecognizer(mapViewTapGesture)
     }
     
     private func removeMapGestures() {
@@ -192,9 +195,15 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     }
     
     private func cleanMapView() {
+        // Clean only references related to current More Info View
         mapZoomBlocker?.mapView = nil
-        removeMapGestures()
-        mapView.removeFromSuperview()
+        if let mapViewTapGesture = mapViewTapGesture, gestures = mapView.gestureRecognizers
+            where gestures.contains(mapViewTapGesture) {
+                mapView.removeGestureRecognizer(mapViewTapGesture)
+        }
+        if mapView.superview == mapViewContainer || mapView.superview == mapViewContainerExpandable {
+            mapView.removeFromSuperview()
+        }
     }
     
     private dynamic func didTapMap() {
