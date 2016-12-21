@@ -536,6 +536,48 @@ class TrackerEventSpec: QuickSpec {
                     expect(description) == error.details
                 }
             }
+
+            describe("Login Blocked Account Start") {
+                beforeEach {
+                    sut = TrackerEvent.loginBlockedAccountStart(.Email)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("login-blocked-account-start"))
+                }
+                it("contains the Account network parameter") {
+                    let network = sut.params!.stringKeyParams["account-network"] as! String
+                    expect(network) == "email"
+                }
+            }
+
+            describe("Login Blocked Account Contact us") {
+                beforeEach {
+                    sut = TrackerEvent.loginBlockedAccountContactUs(.Email)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("login-blocked-account-contact-us"))
+                }
+                it("contains the Account network parameter") {
+                    let network = sut.params!.stringKeyParams["account-network"] as! String
+                    expect(network) == "email"
+                }
+            }
+
+            describe("Login Blocked Account Keep browsing") {
+                beforeEach {
+                    sut = TrackerEvent.loginBlockedAccountKeepBrowsing(.Email)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("login-blocked-account-keep-browsing"))
+                }
+                it("contains the Account network parameter") {
+                    let network = sut.params!.stringKeyParams["account-network"] as! String
+                    expect(network) == "email"
+                }
+            }
             
             describe("signup error") {
                 let error = EventParameterLoginError.Internal(description: "details")
@@ -1631,6 +1673,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-description") {
                     let data = sut.params!.stringKeyParams["product-description"] as? Bool
                     expect(data).to(equal(false))
+                }
+                it("contains number-photos-posting") {
+                    let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
+                    expect(data).to(equal(0))
                 }
                 it("contains button-name") {
                     let data = sut.params!.stringKeyParams["button-name"] as? String

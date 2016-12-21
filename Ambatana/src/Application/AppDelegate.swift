@@ -42,7 +42,6 @@ final class AppDelegate: UIResponder {
     private let appIsActive = Variable<Bool?>(nil)
     private var didOpenApp = false
     private let disposeBag = DisposeBag()
-    private var disconnectChatTimer = NSTimer()
 }
 
 
@@ -134,6 +133,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         keyValueStorage?[.didEnterBackground] = true
         appIsActive.value = false
+        LGCoreKit.applicationDidEnterBackground()
         productRepository?.updateProductViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
@@ -142,7 +142,7 @@ extension AppDelegate: UIApplicationDelegate {
         /* Called as part of the transition from the background to the active state; here you can undo many of the
         changes made on entering the background.*/
 
-        LGCoreKit.refreshData()
+        LGCoreKit.applicationWillEnterForeground()
         TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
     }
 
@@ -151,7 +151,8 @@ extension AppDelegate: UIApplicationDelegate {
         If the application was previously in the background, optionally refresh the user interface.*/
 
         keyValueStorage?[.didEnterBackground] = false
-        appIsActive.value = true 
+        appIsActive.value = true
+        LGCoreKit.applicationDidBecomeActive()
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openNPSSurvey()
@@ -305,18 +306,15 @@ private extension AppDelegate {
         }
 
         // Location manager starts when app is active & has not run (not in the tour)
-        appActive.asObservable().distinctUntilChanged().filter { [weak self] active in
+        let appActiveAfterTour = appActive.asObservable().distinctUntilChanged().filter { [weak self] active in
             (self?.didOpenApp ?? false)
-        }.subscribeNext { [weak self] enabled in
+        }
+        appActiveAfterTour.subscribeNext { [weak self] enabled in
             guard let `self` = self else { return }
             if enabled {
-                self.disconnectChatTimer.invalidate()
                 self.locationManager?.startSensorLocationUpdates()
-                self.sessionManager?.connectChat(nil)
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
-                self.disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.websocketChatDisconnectTimeout,
-                    target: self, selector: #selector(self.disconnectChat), userInfo: nil, repeats: false)
             }
         }.addDisposableTo(disposeBag)
 
@@ -326,10 +324,6 @@ private extension AppDelegate {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
         }.addDisposableTo(disposeBag)
-    }
-    
-    @objc func disconnectChat() {
-        self.sessionManager?.disconnectChat()
     }
 }
 

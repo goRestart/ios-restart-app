@@ -183,6 +183,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_password_send_error_passwords_mismatch", comment: "")
 	}
 
+	static var changePasswordSendErrorLinkExpired: String {
+		return NSLocalizedString("change_password_send_error_link_expired", comment: "")
+	}
+
 	static var changePasswordSendOk: String {
 		return NSLocalizedString("change_password_send_ok", comment: "")
 	}
@@ -1163,6 +1167,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("log_in_title", comment: "")
 	}
 
+	static var loginScammerAlertTitle: String {
+		return NSLocalizedString("login_scammer_alert_title", comment: "")
+	}
+
+	static var loginScammerAlertMessage: String {
+		return NSLocalizedString("login_scammer_alert_message", comment: "")
+	}
+
+	static var loginScammerAlertContactButton: String {
+		return NSLocalizedString("login_scammer_alert_contact_button", comment: "")
+	}
+
+	static var loginScammerAlertKeepBrowsingButton: String {
+		return NSLocalizedString("login_scammer_alert_keep_browsing_button", comment: "")
+	}
+
 	static var mainSignUpClaimLabel: String {
 		return NSLocalizedString("main_sign_up_claim_label", comment: "")
 	}
@@ -1843,6 +1863,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_load_image_error_title", comment: "")
 	}
 
+	static var productPostGalleryMultiplePicsSelected: String {
+		return NSLocalizedString("product_post_gallery_multiple_pics_selected", comment: "")
+	}
+
 	static var productPostGalleryPermissionsButton: String {
 		return NSLocalizedString("product_post_gallery_permissions_button", comment: "")
 	}
@@ -1853,6 +1877,14 @@ struct LGLocalizedString {
 
 	static var productPostGalleryPermissionsTitle: String {
 		return NSLocalizedString("product_post_gallery_permissions_title", comment: "")
+	}
+
+	static var productPostGallerySelectPicturesTitle: String {
+		return NSLocalizedString("product_post_gallery_select_pictures_title", comment: "")
+	}
+
+	static var productPostGallerySelectPicturesSubtitle: String {
+		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
 	}
 
 	static var productPostGalleryTab: String {

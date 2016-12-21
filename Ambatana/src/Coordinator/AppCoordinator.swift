@@ -11,9 +11,8 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-final class AppCoordinator: NSObject {
+final class AppCoordinator: BaseCoordinator {
     var child: Coordinator?
-    var presentedAlertController: UIAlertController?
 
     let tabBarCtl: TabBarController
     private let selectedTab: Variable<Tab>
@@ -35,7 +34,7 @@ final class AppCoordinator: NSObject {
 
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
-    private let bubbleNotifManager: BubbleNotificationManager
+    private let bubbleNotificationManager: BubbleNotificationManager
     private let tracker: Tracker
     private let deepLinksRouter: DeepLinksRouter
 
@@ -121,7 +120,7 @@ final class AppCoordinator: NSObject {
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
         self.ratingManager = ratingManager
-        self.bubbleNotifManager = bubbleManager
+        self.bubbleNotificationManager = bubbleManager
         self.tracker = tracker
 
         self.deepLinksRouter = deepLinksRouter
@@ -138,7 +137,7 @@ final class AppCoordinator: NSObject {
         self.telephonyNetwork = telephonyNetwork
         self.locationManager = locationManager
 
-        super.init()
+        super.init(viewController: tabBarCtl, bubbleNotificationManager: bubbleNotificationManager)
         setupTabBarController()
         setupTabCoordinators()
         setupDeepLinkingRx()
@@ -847,7 +846,7 @@ private extension AppCoordinator {
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))
-                self?.bubbleNotifManager.showBubble(data, duration: 3)
+                self?.showBubble(with: data, duration: 3)
             }
         } else {
             // Old chat cannot retrieve chat because it would mark messages as read.
@@ -860,7 +859,7 @@ private extension AppCoordinator {
             let data = BubbleNotificationData(tagGroup: conversationId,
                                               text: message,
                                               action: action)
-            bubbleNotifManager.showBubble(data, duration: 3)
+            showBubble(with: data, duration: 3)
         }
     }
 }

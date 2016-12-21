@@ -215,10 +215,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         collectionView.dataSource = self
         collectionView.delegate = self
         //Duplicating registered cells to avoid reuse of colindant cells
-        collectionView.registerClass(ProductCarouselCell.self,
-                                     forCellWithReuseIdentifier: cellIdentifierForIndex(0))
-        collectionView.registerClass(ProductCarouselCell.self,
-                                     forCellWithReuseIdentifier: cellIdentifierForIndex(1))
+        registerProductCarouselCells()
         collectionView.directionalLockEnabled = true
         collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
@@ -326,8 +323,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         if moreInfoView?.frame.origin.y < 0 {
             viewModel.close()
         } else {
-            if let moreInfoView = moreInfoView where moreInfoView.bigMapVisible {
-                hideBigMap()
+            if let moreInfoView = moreInfoView where moreInfoView.mapExpanded {
+                compressMap()
             } else {
                 hideMoreInfo()
             }
@@ -918,9 +915,9 @@ extension ProductCarouselViewController {
         })
     }
 
-    func hideBigMap() {
-        guard let moreInfoView = moreInfoView where moreInfoView.bigMapVisible else { return }
-        moreInfoView.hideBigMap()
+    func compressMap() {
+        guard let moreInfoView = moreInfoView where moreInfoView.mapExpanded else { return }
+        moreInfoView.compressMap()
     }
 }
 
@@ -971,9 +968,17 @@ extension ProductCarouselViewController {
 // MARK: > CollectionView delegates
 
 extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    private static let productCarouselCellCount = 3
+
+    func registerProductCarouselCells() {
+        for i in 0..<ProductCarouselViewController.productCarouselCellCount {
+            collectionView.registerClass(ProductCarouselCell.self,
+                                         forCellWithReuseIdentifier: cellIdentifierForIndex(i))
+        }
+    }
 
     func cellIdentifierForIndex(index: Int) -> String {
-        let extra: String = (index % 2) == 0 ? "0" : "1"
+        let extra = String(index % ProductCarouselViewController.productCarouselCellCount)
         return ProductCarouselCell.identifier+extra
     }
 

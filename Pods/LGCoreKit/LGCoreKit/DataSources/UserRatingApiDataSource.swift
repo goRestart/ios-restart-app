@@ -82,9 +82,9 @@ class UserRatingApiDataSource: UserRatingDataSource {
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
-    func report(ratingId: String, completion: UserRatingDataSourceEmptyCompletion?) {
+    func report(ratingId: String, completion: UserRatingDataSourceCompletion?) {
         let request = UserRatingRouter.Report(objectId: ratingId)
-        apiClient.request(request, completion: completion)
+        apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
 

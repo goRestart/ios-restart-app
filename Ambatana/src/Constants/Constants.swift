@@ -12,7 +12,7 @@ struct Constants {
     static let passwordMinLength = 4
     static let passwordMaxLength = 20
     static let productDescriptionMaxLength = 1500
-    static let userRatingDescriptionMaxLength = 250
+    static let userRatingDescriptionMaxLength = 256
     static let userRatingMinStarsToOptionalDescr = 3
 
     // Map
@@ -66,6 +66,7 @@ struct Constants {
     static let pushPermissionRepeatTime: NSTimeInterval = (60 * 60 * 24) // 1 day
 
     // Product posting
+    static let maxImageCount = 5
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
 
@@ -103,7 +104,4 @@ struct Constants {
     // interested bubble
     static let maxInterestedBubblesPerSessionOriginal = 2
     static let maxInterestedBubblesPerSessionLimitedPrints = 3
-
-    // Websocket chat 
-    static let websocketChatDisconnectTimeout: NSTimeInterval = 15
 }

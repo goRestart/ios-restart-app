@@ -20,11 +20,6 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "MessageOnFavoriteRound2Mode",
-        "values": ["NoMessage", "DirectMessage"],
-        "description": "Message after favorite: The Return"
-	},
-    {
         "name": "InterestedUsersMode",
         "values": ["NoNotification", "Original", "LimitedPrints"],
         "description": "Interested users bubble mode"
@@ -95,8 +90,28 @@
         "description": "Show sharing screen after posting (forced)"
     },
     {
-    "name": "PeriscopeImprovement",
-    "values": ["No", "Yes"],
-    "description": "periscope chat improvements"
+        "name": "PeriscopeImprovement",
+        "values": ["No", "Yes"],
+        "description": "periscope chat improvements"
+    },
+    {
+        "name": "FavoriteWithBadgeOnProfile",
+        "values": ["No", "Yes"],
+        "description": "Badge on profile when favorite"
+    },
+    {
+        "name": "NewQuickAnswers",
+        "values": ["No", "Yes"],
+        "description": "Use quick answers v2"
+    },
+    {
+        "name": "PostingMultiPictureEnabled",
+        "values": ["No", "Yes"],
+        "description": "Posting multi picture enabled"
+    },
+    {
+        "name": "FavoriteWithBubbleToChat",
+        "values": ["No", "Yes"],
+        "description": "Bubble to chat when favorite"
     }
  ]

@@ -11,11 +11,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.18):
-    - Branch/Core (= 0.12.18)
-    - Branch/without-IDFA (= 0.12.18)
-  - Branch/Core (0.12.18)
-  - Branch/without-IDFA (0.12.18)
+  - Branch (0.12.20):
+    - Branch/Core (= 0.12.20)
+    - Branch/without-IDFA (= 0.12.20)
+  - Branch/Core (0.12.20)
+  - Branch/without-IDFA (0.12.20)
   - bumper (0.2.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -101,7 +101,7 @@ PODS:
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.1)
   - LGCollapsibleLabel (0.2.0)
-  - LGCoreKit (1.6.0):
+  - LGCoreKit (1.6.5):
     - Alamofire (~> 3.5.0)
     - Argo (= 3.1.0)
     - CocoaLumberjack/Swift (~> 2.4.0)
@@ -138,7 +138,6 @@ PODS:
   - RxSwift (2.6.1)
   - RxTests (2.6.1):
     - RxSwift (~> 2.6)
-  - SlackTextViewController (1.9.4)
   - SocketRocket (0.5.1)
   - SwiftyUserDefaults (2.2.1)
   - TMReachability (3.2)
@@ -152,7 +151,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 3.8.5)
   - AppsFlyerFramework (~> 4.5.12)
   - Argo (= 3.1.0)
-  - Branch (~> 0.12.12)
+  - Branch (~> 0.12.20)
   - bumper (= 0.2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.5)
   - CocoaLumberjack/Swift (~> 2.4.0)
@@ -170,9 +169,9 @@ DEPENDENCIES:
   - GoogleIDFASupport (~> 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - KMPlaceholderTextView (~> 1.2.2)
-  - Leanplum-iOS-SDK (~> 1.4.0)
+  - Leanplum-iOS-SDK (~> 1.4.1)
   - LGCollapsibleLabel (= 0.2.0)
-  - LGCoreKit (= 1.6.0)
+  - LGCoreKit (= 1.6.5)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
@@ -181,7 +180,6 @@ DEPENDENCIES:
   - RxCocoa (~> 2.6.0)
   - RxSwift (~> 2.6.0)
   - RxTests (~> 2.6.0)
-  - SlackTextViewController (= 1.9.4)
   - SwiftyUserDefaults (~> 2.2.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (~> 2.3.0)
@@ -215,7 +213,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: 495b343632cda4d1a42e13f25d5adfb91d0ee52a
   Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 94efdf8da4cd28fa8fb9c877dc19cb6be2204e66
+  Branch: a2c085213fd3953c241ad63aa49f4435bfc84da7
   bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
@@ -251,7 +249,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 21bac3f21444768e3a892c9e5cbada6fe7abaa5d
   LGCollapsibleLabel: f1631ac1274b268731e3f6a74b121e97a97626da
-  LGCoreKit: 56aaff03c486bd258cae0a8e859a7e16dba83af3
+  LGCoreKit: d42540c7fecf9862e8cd09b96f47c1c813099f21
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
@@ -261,13 +259,12 @@ SPEC CHECKSUMS:
   RxCocoa: 3bb2820fd2a1ba48a70d38926bec0803838ae802
   RxSwift: 0147fbf94e65c6085da9540de92848189ac1c3f6
   RxTests: ddd7dac9e9379d7eea5383447949ed4eafd0b0fc
-  SlackTextViewController: d490f354dba963bc469a6b9ce3213978eaed67a5
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: af6c9d955a75384f8e48fd04ef5370540e6ca00b
+PODFILE CHECKSUM: f10a55ab97eca0aabeeb1bded1e6920fa2f2a342
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.1.0.rc.3

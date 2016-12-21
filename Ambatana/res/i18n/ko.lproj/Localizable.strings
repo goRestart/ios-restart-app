@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "새로운 비밀번호";
 "change_password_send_error_generic" = "비밀번호를 변경하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "change_password_send_error_invalid_password_with_max" = "사용가능한 %d자 이상 %d자 미만의 비밀번호를 입력해주세요.";
+"change_password_send_error_link_expired" = "죄송하지만 이 링크는 만료되었습니다!";
 "change_password_send_error_passwords_mismatch" = "비밀번호가 일치하지 않습니다. 다시 시도해주세요.";
 "change_password_send_ok" = "비밀번호가 성공적으로 변경되었습니다.";
 "change_password_title" = "비밀번호 변경";
@@ -286,6 +287,10 @@
 "log_in_reset_password_button" = "암호를 잊어버리셨나요?";
 "log_in_send_button" = "로그인";
 "log_in_title" = "이메일로 로그인";
+"login_scammer_alert_contact_button" = "문의하기";
+"login_scammer_alert_keep_browsing_button" = "계속 검색하기";
+"login_scammer_alert_message" = "letgo팀이 회원님의 계정을 검토하고 있습니다. 만약 잘못된 사항이 있다면, 저희에게 연락하여 주십시오.";
+"login_scammer_alert_title" = "계정을 검토하고 있습니다";
 "main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
 "main_sign_up_error_request_already_sent" = "사용자의 요청은 이미 진행되었습니다. 다시 시도하기 전에 잠시만 기다려주세요.";
 "main_sign_up_error_user_rejected" = "입력하신 이메일이 일치하지 않습니다. 다시 확인하시고 입력해주세요.";
@@ -417,8 +422,8 @@
 "product_mark_as_sold_free_success_message" = "축하드립니다! 상품이 증정완료로 표시되었습니다";
 "product_mark_as_sold_success_message" = "축하드립니다, 고객님의 제품이 품절로 표시되었습니다.";
 "product_more_info_open_button" = "더 많은 정보";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "다음 항목에 관심이 가실 수도 있습니다:";
+"product_more_info_related_view_more" = "더보기";
 "product_more_info_tooltip_part_1" = "탭";
 "product_more_info_tooltip_part_2" = "%@ 더 많은 정보 확인하기";
 "product_negotiable_price" = "흥정가능한";
@@ -452,9 +457,12 @@
 "product_post_free_confirmation_another_button" = "다른 상품을 증정하세요";
 "product_post_gallery_load_image_error_subtitle" = "다른 사진을 선택하시고 다시 시도해주세요";
 "product_post_gallery_load_image_error_title" = "사진을 불러올 수 없습니다";
+"product_post_gallery_multiple_pics_selected" = "%! 사진들이 선택됨";
 "product_post_gallery_permissions_button" = "허가";
 "product_post_gallery_permissions_subtitle" = "가지고 계신 사진을 선택하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_gallery_permissions_title" = "사진 사용 허가";
+"product_post_gallery_select_pictures_subtitle" = "업로드를 위해 최대 5장의 사진을 선택해주세요";
+"product_post_gallery_select_pictures_title" = "사진 선택";
 "product_post_gallery_tab" = "사진첩";
 "product_post_generic_error" = "회원님의 상품을 게시하는데 오류가 발생했습니다.";
 "product_post_incentive_bike" = "자전거";
@@ -498,11 +506,11 @@
 "product_sell_again_error_generic" = "판매가능으로 표시하는 동안에 오류가 발생했습니다. 다시 시도해주세요";
 "product_sell_again_free_button" = "다시 가능함으로 표시하기";
 "product_sell_again_free_confirm_cancel_button" = "취소";
-"product_sell_again_free_confirm_message" = "letgo 사용자들이 알 수 있도록 상품 증정 가능 표시를 해주세요";
+"product_sell_again_free_confirm_message" = "상품 증정 가능 표시를 하시겠습니까?";
 "product_sell_again_free_confirm_ok_button" = "증정";
 "product_sell_again_free_confirm_title" = "증정가능으로 표시";
-"product_sell_again_free_success_message" = "축하드립니다! 상품을 다시 증정하실 수 있게 되었습니다";
-"product_sell_again_success_message" = "축하드립니다, 회원님의 상품이 성공적으로 판매 가능으로 표시되었습니다!";
+"product_sell_again_free_success_message" = "축하드립니다! 상품을 다시 증정하실 수 있게 되었습니다.";
+"product_sell_again_success_message" = "축하드립니다! 회원님의 상품이 성공적으로 판매 가능으로 표시되었습니다.";
 "product_sell_camera_permissions_error" = "사진을 촬영하기 위해, 설정에서 letgo에 카메라 사용 허가를 설정하여주십시오.";
 "product_sell_camera_restricted_error" = "카메라 접근이 제한되어 있습니다. 설정을 확인하시고 다시 시도해주세요.";
 "product_sell_photolibrary_permissions_error" = "사진을 업로드하기위해, 설정에서 letgo가 사진첩에 접근할 수 있도록 허가해주십시오.";
@@ -573,6 +581,7 @@
 "rating_view_remind_later_button" = "다음에 알려주세요";
 "rating_view_title_label" = "렛고가 마음에 드시나요?";
 "rating_view_title_label_uppercase" = "저희에게 별 5개를 주세요!";
+"related_items_title" = "관련상품";
 "report_user_counterfeit" = "짝퉁상품";
 "report_user_error_already_reported" = "회원님은 이 사용자를 이미 신고하셨습니다!";
 "report_user_inactive" = "비활성화";
@@ -634,7 +643,7 @@
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";
 "settings_change_profile_picture_button" = "사진";
-"settings_change_profile_picture_error_generic" = "프로필 사진을 등록하는 동안 오류가 발생했습니다.";
+"settings_change_profile_picture_error_generic" = "프로필 사진을 변경하는 동안 오류가 발생했습니다.";
 "settings_change_profile_picture_loading" = "프로필사진을 등록중입니다. 잠시만 기다려주세요...";
 "settings_change_username_button" = "이름";
 "settings_help_button" = "도움";

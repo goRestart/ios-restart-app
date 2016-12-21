@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Yeni şifre";
 "change_password_send_error_generic" = "Şifre değiştirilirken bir hata oluştu. Lütfen tekrar dene.";
 "change_password_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
+"change_password_send_error_link_expired" = "Üzgünüz, bu link zaman aşımına uğradı!";
 "change_password_send_error_passwords_mismatch" = "Şifreler eşleşmiyor. Lütfen tekrar dene.";
 "change_password_send_ok" = "Şifren başarıyla değiştirildi.";
 "change_password_title" = "Şifre değiştir";
@@ -286,6 +287,10 @@
 "log_in_reset_password_button" = "Şifremi unuttum";
 "log_in_send_button" = "Giriş yap";
 "log_in_title" = "E-posta ile Kaydol";
+"login_scammer_alert_contact_button" = "Bize ulaşın";
+"login_scammer_alert_keep_browsing_button" = "Gezinmeye Devam Et";
+"login_scammer_alert_message" = "Hesabın letgo Ekibi tarafından inceleme altına alınmıştır. Eğer bu durumda bir yanlışlık olduğunu düşünüyorsan bizimle iletişime geçebilirsin.";
+"login_scammer_alert_title" = "HESAP İNCELEME ALTINDA";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
 "main_sign_up_error_request_already_sent" = "İsteğin işleme alınmıştır. Tekrar denemeden önce lütfen bekle.";
 "main_sign_up_error_user_rejected" = "Girmiş olduğun email hatalıdır. Lütfen kontrol edip tekrar dene.";
@@ -417,8 +422,8 @@
 "product_mark_as_sold_free_success_message" = "Tebrikler! Ürünün başarıyla ücretsiz verildi olarak işaretlendi";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
 "product_more_info_open_button" = "DAHA FAZLA BİLGİ";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "BU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
+"product_more_info_related_view_more" = "Daha fazla bilgi";
 "product_more_info_tooltip_part_1" = "dokun";
 "product_more_info_tooltip_part_2" = "Daha fazla bilgi için %@";
 "product_negotiable_price" = "Pazarlık edilebilir";
@@ -452,11 +457,14 @@
 "product_post_free_confirmation_another_button" = "Başka bir ürünü ücretsiz ver";
 "product_post_gallery_load_image_error_subtitle" = "Başka bir fotoğraf seç ve tekrar dene.";
 "product_post_gallery_load_image_error_title" = "Fotoğraf yüklenemedi";
+"product_post_gallery_multiple_pics_selected" = "%i fotoğraf seçildi";
 "product_post_gallery_permissions_button" = "İzin Ver";
 "product_post_gallery_permissions_subtitle" = "Mevcut bir fotoğrafı seçmek için, Resimlerine erişime izin vermelisin";
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";
+"product_post_gallery_select_pictures_subtitle" = "5 görsele kadar seçip yükle";
+"product_post_gallery_select_pictures_title" = "Fotoğrafları seç";
 "product_post_gallery_tab" = "KÜTÜPHANE";
-"product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı.";
+"product_post_generic_error" = "Ürünün yüklenirken bir hata oluştu.";
 "product_post_incentive_bike" = "Bisikletler";
 "product_post_incentive_car" = "Arabalar";
 "product_post_incentive_dresser" = "Şifonyerler";
@@ -498,11 +506,11 @@
 "product_sell_again_error_generic" = "Ürünün mevcut olarak işaretlenirken bir hata oluştu. Lütfen tekrar dene.";
 "product_sell_again_free_button" = "Mevcut olarak işaretle";
 "product_sell_again_free_confirm_cancel_button" = "İptal";
-"product_sell_again_free_confirm_message" = "Ürününü mevcut olarak işaretle ki tüm letgo kullanıcıları haberdar olsun";
+"product_sell_again_free_confirm_message" = "Ürününü mevcut olarak işaretlemek ister misin?";
 "product_sell_again_free_confirm_ok_button" = "Ücretsiz Ver";
 "product_sell_again_free_confirm_title" = "Mevcut olarak işaretle";
-"product_sell_again_free_success_message" = "Tebrikler! Ürünün tekrar ücretsiz verilmeye uygun";
-"product_sell_again_success_message" = "Tebrikler, ürünün başarıyla mevcut olarak işaretlendi!";
+"product_sell_again_free_success_message" = "Tebrikler! Ürünün tekrar ücretsiz verilmeye uygun.";
+"product_sell_again_success_message" = "Tebrikler! Ürünün mevcut olarak işaretlendi!";
 "product_sell_camera_permissions_error" = "Resim çekebilmek için, ayarlara giderek letgo'nun kamerana erişmesine izin ver.";
 "product_sell_camera_restricted_error" = "Kamerana erişim yok. Lütfen ayarlarını kontrol et ve tekrar dene.";
 "product_sell_photolibrary_permissions_error" = "Bir resim yüklemek için, ayarlara giderek letgo'nun Fotoğraf Galerine erişmesine izin ver.";
@@ -513,7 +521,7 @@
 "product_share_fullscreen_subtitle" = "Ürünlerini paylaşanların harika insan olma ihtimalinin paylaşmayanlara göre  daha yüksek olduğunu biliyor muydun?";
 "product_share_fullscreen_title" = "PAYLAŞMAK KAZANMAKTIR!";
 "product_share_generic_error" = "Ürün paylaşılırken hata oluştu. Lütfen daha sonra tekrar dene.";
-"product_share_generic_ok" = "Ürün başarılıyla paylaşıldı.";
+"product_share_generic_ok" = "Ürün başarıyla paylaşıldı.";
 "product_share_navbar_button" = "Paylaş";
 "product_share_posted_by" = "%@ tarafından yayınlandı";
 "product_share_sms_error" = "Mesajın gönderilirken bir hata oluştu.";
@@ -573,6 +581,7 @@
 "rating_view_remind_later_button" = "Daha sonra hatırlat";
 "rating_view_title_label" = "Bizi seviyor musun?";
 "rating_view_title_label_uppercase" = "BİZE 5 YILDIZ VER!";
+"related_items_title" = "Benzer ürünler";
 "report_user_counterfeit" = "Sahte ürünler";
 "report_user_error_already_reported" = "Bu kullanıcıyı daha önce şikayet etmiştin!";
 "report_user_inactive" = "Aktif değil";
@@ -634,7 +643,7 @@
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";
 "settings_change_profile_picture_button" = "Fotoğraf";
-"settings_change_profile_picture_error_generic" = "Profil resmi oluşturulurken bir hata oluştu.";
+"settings_change_profile_picture_error_generic" = "Profil resmini değiştirirken bir hata oluştu.";
 "settings_change_profile_picture_loading" = "Profil resmin oluşturuluyor, lütfen bekle...";
 "settings_change_username_button" = "İsim";
 "settings_help_button" = "Yardım";

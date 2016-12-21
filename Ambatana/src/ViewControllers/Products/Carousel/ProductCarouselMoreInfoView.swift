@@ -23,6 +23,11 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func viewControllerToShowShareOptions() -> UIViewController
 }
 
+extension MKMapView {
+    // Create a unique isntance of MKMapView due to: http://stackoverflow.com/questions/36417350/mkmapview-using-a-lot-of-memory-each-time-i-load-its-view
+    @nonobjc static let sharedInstance = MKMapView()
+}
+
 class ProductCarouselMoreInfoView: UIView {
 
     private static let relatedItemsHeight: CGFloat = 80
@@ -33,7 +38,6 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var transTitleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
-    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
@@ -46,6 +50,11 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var dragViewTitle: UILabel!
     @IBOutlet weak var dragViewImage: UIImageView!
 
+    private let mapView: MKMapView = MKMapView.sharedInstance
+    private var vmRegion: MKCoordinateRegion? = nil
+    @IBOutlet weak var mapViewContainer: UIView!
+    private var mapViewContainerExpandable: UIView?
+    
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
@@ -53,18 +62,17 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var relatedItemsContainer: UIView!
     @IBOutlet weak var relatedItemsTitle: UILabel!
     @IBOutlet weak var relatedItemsViewMoreButton: UIButton!
+
+    
     private var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight,
                                                           frame: CGRect.zero)
-
-
     private let disposeBag = DisposeBag()
     private var currentVmDisposeBag = DisposeBag()
     private var viewModel: ProductViewModel?
-    private let overlayMap = MKMapView()
     private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
     private let bigMapBottomMargin: CGFloat = 210
-    private(set) var bigMapVisible = false
+    private(set) var mapExpanded: Bool = false
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
 
@@ -94,7 +102,6 @@ class ProductCarouselMoreInfoView: UIView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)!.first as! ProductCarouselMoreInfoView
         view.setupUI(featureFlags)
         view.setupStatsView()
-        view.setupOverlayMapView()
         view.setAccessibilityIds()
         view.addGestures()
         return view
@@ -108,7 +115,7 @@ class ProductCarouselMoreInfoView: UIView {
         self.viewModel = viewModel
         currentVmDisposeBag = DisposeBag()
         configureContent(currentVmDisposeBag)
-        configureMapView()
+        configureMapView(with: viewModel)
         configureStatsRx(currentVmDisposeBag)
         configureBottomPanel()
     }
@@ -117,11 +124,17 @@ class ProductCarouselMoreInfoView: UIView {
         if !relatedItemsContainer.hidden {
             relatedProductsView.productId.value = viewModel?.product.value.objectId
         }
+        setupMapViewIfNeeded()
     }
 
     func dismissed() {
         scrollView.contentOffset = CGPoint.zero
         descriptionLabel.collapsed = true
+    }
+    
+    deinit {
+        // MapView is a shared instance and all references must be removed
+        cleanMapView()
     }
 }
 
@@ -130,7 +143,7 @@ class ProductCarouselMoreInfoView: UIView {
 
 extension ProductCarouselMoreInfoView {
     func addGestures() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(compressMap))
         visualEffectView.addGestureRecognizer(tap)
     }
 }
@@ -140,91 +153,128 @@ extension ProductCarouselMoreInfoView {
 
 extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
-    // Initial setup
-    func setupOverlayMapView() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
-        mapView.addGestureRecognizer(tap)
-        
-        overlayMap.frame = convertRect(mapView.frame, fromView: scrollViewContent)
-        overlayMap.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
-        overlayMap.clipsToBounds = true
-        overlayMap.region = mapView.region
-
-        let tapHide = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
-        overlayMap.addGestureRecognizer(tapHide)
-
-        overlayMap.alpha = 0
-
-        addSubview(overlayMap)
+    private func setupMapViewIfNeeded() {
+        let container = mapExpanded ? mapViewContainerExpandable : mapViewContainer
+        guard mapView.superview != container else { return }
+        setupMapView(inside: container)
+        guard let coordinate = viewModel?.productLocation.value else { return }
+        addRegion(with: coordinate, zoomBlocker: true)
+    }
+    
+    private func setupMapView(inside container: UIView) {
+        layoutMapView(inside: container)
+        addMapGestures()
+    }
+    
+    private func layoutMapView(inside container: UIView) {
+        if mapView.superview != nil {
+            mapView.removeFromSuperview()
+        }
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(mapView)
+        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Left, relatedBy: .Equal,
+            toItem: container, attribute: .Left, multiplier: 1, constant: 0))
+        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Right, relatedBy: .Equal,
+            toItem: container, attribute: .Right, multiplier: 1, constant: 0))
+        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Top, relatedBy: .Equal,
+            toItem: container, attribute: .Top, multiplier: 1, constant: 0))
+        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal,
+            toItem: container, attribute: .Bottom, multiplier: 1, constant: 8))
+    }
+    
+    private func addMapGestures() {
+        removeMapGestures()
+        mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapMap)))
+    }
+    
+    private func removeMapGestures() {
+        mapView.gestureRecognizers?.forEach { mapView.removeGestureRecognizer($0) }
+    }
+    
+    private func cleanMapView() {
+        mapZoomBlocker?.mapView = nil
+        removeMapGestures()
+        mapView.removeFromSuperview()
+    }
+    
+    private dynamic func didTapMap() {
+        mapExpanded ? compressMap() : expandMap()
     }
 
-    // Configuration for each VM
-    func configureMapView() {
+    private func setupMapExpanded(enabled: Bool) {
+        mapExpanded = enabled
+        mapView.zoomEnabled = enabled
+        mapView.scrollEnabled = enabled
+        mapView.pitchEnabled = enabled
+    }
+
+    private func configureMapView(with viewModel: ProductViewModel?) {
         guard let coordinate = viewModel?.productLocation.value else { return }
-        let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2,
-                                                        Constants.accurateRegionRadius*2)
-        mapView.setRegion(region, animated: true)
-        mapView.zoomEnabled = false
-        mapView.scrollEnabled = false
-        mapView.pitchEnabled = false
-
-        mapZoomBlocker = MapZoomBlocker(mapView: overlayMap, minLatDelta: region.span.latitudeDelta,
-                                        minLonDelta: region.span.longitudeDelta)
-        mapZoomBlocker?.delegate = self
-
+        addRegion(with: coordinate, zoomBlocker: true)
+        setupMapExpanded(false)
         locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
                                 radius: Constants.accurateRegionRadius)
     }
     
-    func showBigMap() {
-        guard !bigMapVisible else { return }
-        bigMapVisible = true
-        delegate?.requestFocus()
-        if let locationZone = locationZone {
-            overlayMap.addOverlay(locationZone)
-        }
-        overlayMap.frame = convertRect(mapView.frame, fromView: scrollViewContent)
-        overlayMap.region = mapView.region
-        overlayMap.alpha = 1
-
-        var newFrame = overlayMap.frame
-        newFrame.origin.y = bigMapMargin
-        newFrame.size.height = height - bigMapBottomMargin
-        UIView.animateWithDuration(0.3) { [weak self] in
-            self?.overlayMap.frame = newFrame
+    private func addRegion(with coordinate: LGLocationCoordinates2D, zoomBlocker: Bool) {
+        let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        vmRegion = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
+        guard let region = vmRegion else { return }
+        mapView.setRegion(region, animated: false)
+        
+        if zoomBlocker {
+            mapZoomBlocker = MapZoomBlocker(mapView: mapView, minLatDelta: region.span.latitudeDelta,
+                                            minLonDelta: region.span.longitudeDelta)
+            mapZoomBlocker?.delegate = self
         }
     }
     
-    func hideBigMap() {
-        hideBigMapAnimated(true)
+    func expandMap() {
+        guard !mapExpanded else { return }
+        if mapViewContainerExpandable == nil {
+            mapViewContainerExpandable = UIView()
+        }
+        guard let mapViewContainerExpandable = mapViewContainerExpandable else { return }
+        addSubview(mapViewContainerExpandable)
+        mapViewContainerExpandable.frame = convertRect(mapViewContainer.frame, fromView: scrollViewContent)
+        layoutMapView(inside: mapViewContainerExpandable)
+        
+        if let locationZone = self.locationZone {
+            mapView.addOverlay(locationZone)
+        }
+        
+        self.delegate?.requestFocus()
+        var expandedFrame = mapViewContainerExpandable.frame
+        expandedFrame.origin.y = bigMapMargin
+        expandedFrame.size.height = height - bigMapBottomMargin
+        UIView.animateWithDuration(0.3, animations: { [weak self] in
+            self?.mapViewContainerExpandable?.frame = expandedFrame
+            self?.mapViewContainerExpandable?.layoutIfNeeded()
+            }, completion: { [weak self] completed in
+                self?.setupMapExpanded(true)
+        })
     }
-
-    func hideBigMapAnimated(animated: Bool) {
-        guard bigMapVisible else { return }
-        bigMapVisible = false
-        if let locationZone = locationZone {
-            overlayMap.removeOverlay(locationZone)
-        }
-        let span = mapView.region.span
-        let newRegion = MKCoordinateRegion(center: overlayMap.region.center, span: span)
-        mapView.region = newRegion
-        let newFrame = convertRect(mapView.frame, fromView: scrollViewContent)
-
-        let animations: () -> () = { [weak self] in
-            self?.overlayMap.frame = newFrame
-        }
-        let completion: (Bool) -> () = { [weak self] completed in
-            self?.overlayMap.alpha = 0
-            self?.configureMapView()
-            self?.mapZoomBlocker?.stop()
-        }
-        if animated {
-            UIView.animateWithDuration(0.3, animations: animations, completion: completion)
-        } else {
-            animations()
-            completion(true)
-        }
+    
+    func compressMap() {
+        guard mapExpanded else { return }
+        
+        let compressedFrame = convertRect(mapViewContainer.frame, fromView: scrollViewContent)
+        UIView.animateWithDuration(0.3, animations: { [weak self] in
+            self?.mapViewContainerExpandable?.frame = compressedFrame
+            self?.mapViewContainerExpandable?.layoutIfNeeded()
+            }, completion: { [weak self] completed in
+                guard let strongSelf = self else { return }
+                strongSelf.setupMapExpanded(false)
+                if let locationZone = strongSelf.locationZone {
+                    strongSelf.mapView.removeOverlay(locationZone)
+                }
+                strongSelf.layoutMapView(inside: strongSelf.mapViewContainer)
+                strongSelf.mapViewContainerExpandable?.removeFromSuperview()
+                strongSelf.mapZoomBlocker?.stop()
+                if let region = strongSelf.vmRegion {
+                    strongSelf.mapView.setRegion(region, animated: true)
+                }
+        })
     }
 
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
@@ -263,11 +313,12 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 // MARK: - Private
 
 private extension ProductCarouselMoreInfoView {
-
-
-    // MARK: > Setup (initial)
-
     func setupUI(featureFlags: FeatureFlaggeable) {
+        
+        setupMapView(inside: mapViewContainer)
+        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
+        mapView.clipsToBounds = true
+        
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
         
         titleLabel.textColor = UIColor.whiteColor()
@@ -289,10 +340,7 @@ private extension ProductCarouselMoreInfoView {
         
         distanceLabel.textColor = UIColor.whiteColor()
         distanceLabel.font = UIFont.productDistanceFont
-        
-        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
-        mapView.clipsToBounds = true
-        
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
         descriptionLabel.textColor = UIColor.grayLight
         descriptionLabel.addGestureRecognizer(tapGesture)

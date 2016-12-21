@@ -13,7 +13,7 @@ enum ExternalServiceAuthResult {
     case Success(myUser: MyUser)
     case Cancelled
     case Network
-    case Forbidden
+    case Scammer
     case NotFound
     case Conflict(cause: ConflictCause)
     case BadRequest
@@ -37,12 +37,12 @@ enum ExternalServiceAuthResult {
             self = .Internal(description: "TooManyRequests")
         case .UserNotVerified:
             self = .Internal(description: "UserNotVerified")
-        case .Network:
-            self = .Network
         case .NotFound:
             self = .NotFound
         case .Scammer:
-            self = .Forbidden
+            self = .Scammer
+        case .Network:
+            self = .Network
         }
     }
 }

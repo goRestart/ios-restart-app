@@ -66,6 +66,10 @@ final class TourNotificationsViewController: BaseViewController {
                                                          name: UIApplicationDidBecomeActiveNotification, object: nil)
         viewModel.viewDidLoad()
     }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
     func didRegisterUserNotificationSettings() {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))

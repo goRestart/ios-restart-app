@@ -33,6 +33,7 @@ public struct LGCoreKitConstants {
     static let viewedProductsThreshold = 5 // the view counts will be sent in batch when there are
                                             // at least 5 of them or when app goes to background
     static let chatPingTimeInterval = 180.0
+    static let websocketChatDisconnectTimeout: NSTimeInterval = 15
 
     static let networkBackgroundIdentifier = "com.letgo.ios.background"
 }

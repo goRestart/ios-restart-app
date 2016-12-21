@@ -10,18 +10,18 @@ private let coreDomain = "com.letgo.ios.LGCoreKit"
 
 // 100000..<300000
 enum CoreReportNetworking: ReportType {
-    case BadRequest                             // 140000
-    case Unauthorized(authLevel: AuthLevel)     // 1401XX
-    case NotFound                               // 140400
-    case Conflict                               // 140900
-    case Scammer                                // 141800
-    case UnprocessableEntity                    // 142200
-    case UserNotVerified                        // 142400
-    case InternalServerError                    // 150000
+    case BadRequest                                     // 140000
+    case Unauthorized(authLevel: AuthLevel)             // 1401XX
+    case NotFound                                       // 140400
+    case Conflict                                       // 140900
+    case Scammer                                        // 141800
+    case UnprocessableEntity                            // 142200
+    case UserNotVerified                                // 142400
+    case InternalServerError                            // 150000
 
-    case InvalidJWT                             // 160000
+    case InvalidJWT(reason: CoreReportInvalidJWTReason) // 1600XX
 
-    case Other(httpCode: Int)                   // 2XXX00
+    case Other(httpCode: Int)                           // 2XXX00
 
     var domain: String {
         return coreDomain
@@ -52,8 +52,14 @@ enum CoreReportNetworking: ReportType {
             return 142400
         case .InternalServerError:
             return 150000
-        case .InvalidJWT:
-            return 160000
+        case let .InvalidJWT(reason):
+            let baseCode = 160000
+            switch reason {
+            case .WrongFormat:
+                return baseCode + 1
+            case .UnknownAuthLevel:
+                return baseCode + 2
+            }
         case let .Other(code):
             return 200000 + code * 100
         }
@@ -85,6 +91,11 @@ enum CoreReportNetworking: ReportType {
         }
         return nil
     }
+}
+
+enum CoreReportInvalidJWTReason {
+    case WrongFormat
+    case UnknownAuthLevel
 }
 
 // 300000..<400000

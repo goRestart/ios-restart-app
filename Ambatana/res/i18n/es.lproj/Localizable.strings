@@ -41,6 +41,7 @@
 "change_password_new_password_field_hint" = "Nueva contraseña";
 "change_password_send_error_generic" = "Se ha producido un error al cambiar la contraseña. Por favor, inténtalo de nuevo.";
 "change_password_send_error_invalid_password_with_max" = "Por favor, introduce una contraseña válida. Debe tener entre %d y %d caracteres.";
+"change_password_send_error_link_expired" = "¡Ups! Este enlace ha caducado.";
 "change_password_send_error_passwords_mismatch" = "¡Ups! La contraseña no coincide. Por favor, inténtalo de nuevo.";
 "change_password_send_ok" = "Has cambiado la contraseña.";
 "change_password_title" = "Cambiar contraseña";
@@ -286,6 +287,10 @@
 "log_in_reset_password_button" = "¿Olvidaste tu contraseña?";
 "log_in_send_button" = "Iniciar Sesión";
 "log_in_title" = "Iniciar sesión con email";
+"login_scammer_alert_contact_button" = "Contáctanos";
+"login_scammer_alert_keep_browsing_button" = "Sigue navegando";
+"login_scammer_alert_message" = "Tu cuenta está siendo revisada por el equipo de letgo. Si crees que se trata de un error, contacta con nosotros.";
+"login_scammer_alert_title" = "CUENTA EN REVISIÓN";
 "main_sign_up_claim_label" = "Empieza a vender y comprar por chat";
 "main_sign_up_error_request_already_sent" = "Tu petición ya ha sido procesada. Por favor, espera antes de volver a intentarlo.";
 "main_sign_up_error_user_rejected" = "El email que has introducido es erróneo. Por favor, revísalo e inténtalo de nuevo.";
@@ -417,8 +422,8 @@
 "product_mark_as_sold_free_success_message" = "¡Enhorabuena! Tu artículo ha sido marcado como regalado";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_more_info_open_button" = "MÁS INFO";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
+"product_more_info_related_view_more" = "Ver más";
 "product_more_info_tooltip_part_1" = "Pulsa";
 "product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";
@@ -452,9 +457,12 @@
 "product_post_free_confirmation_another_button" = "Regalar otro artículo";
 "product_post_gallery_load_image_error_subtitle" = "Selecciona otra foto o inténtalo de nuevo.";
 "product_post_gallery_load_image_error_title" = "No se ha podido cargar la foto";
+"product_post_gallery_multiple_pics_selected" = "%i fotos seleccionadas";
 "product_post_gallery_permissions_button" = "Permitir";
 "product_post_gallery_permissions_subtitle" = "Para elegir una foto existente, debes permitir el acceso a Fotos";
 "product_post_gallery_permissions_title" = "Permitir el acceso a Fotos";
+"product_post_gallery_select_pictures_subtitle" = "Selecciona hasta 5 imágenes para subir";
+"product_post_gallery_select_pictures_title" = "Elegir fotos";
 "product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Se ha producido un error al publicar tu producto.";
 "product_post_incentive_bike" = "Bicis";
@@ -498,11 +506,11 @@
 "product_sell_again_error_generic" = "Se ha producido un error al marcar tu artículo como disponible. Por favor, inténtalo de nuevo.";
 "product_sell_again_free_button" = "Regalar de nuevo";
 "product_sell_again_free_confirm_cancel_button" = "Cancelar";
-"product_sell_again_free_confirm_message" = "Marca tu artículo como disponible para que lo sepan todos los usuarios de letgo";
+"product_sell_again_free_confirm_message" = "¿Quieres marcar tu producto como disponible?";
 "product_sell_again_free_confirm_ok_button" = "Regalar";
 "product_sell_again_free_confirm_title" = "Marcar como disponible";
-"product_sell_again_free_success_message" = "¡Enhorabuena! Tu artículo ya está disponible para regalar de nuevo";
-"product_sell_again_success_message" = "¡Enhorabuena, tu artículo vuelve a estar disponible!";
+"product_sell_again_free_success_message" = "¡Enhorabuena! Tu artículo ya está disponible para regalar de nuevo.";
+"product_sell_again_success_message" = "¡Enhorabuena! Tu artículo vuelve a estar disponible.";
 "product_sell_camera_permissions_error" = "Para hacer una foto, tienes que darle a letgo acceso a tu Cámara en tus ajustes.";
 "product_sell_camera_restricted_error" = "El acceso a tu Cámara está restringido. Por favor, comprueba tus ajustes e inténtalo de nuevo.";
 "product_sell_photolibrary_permissions_error" = "Para subir una foto, tienes que darle a letgo acceso a tus Fotos en tus ajustes.";
@@ -573,6 +581,7 @@
 "rating_view_remind_later_button" = "Recuérdamelo más tarde";
 "rating_view_title_label" = "¿Te gusta letgo?";
 "rating_view_title_label_uppercase" = "¡PUNTÚANOS CON 5 ESTRELLAS!";
+"related_items_title" = "Artículos relacionados";
 "report_user_counterfeit" = "Productos falsificados";
 "report_user_error_already_reported" = "¡Ya has denunciado a este usuario!";
 "report_user_inactive" = "Inactivo";
@@ -634,7 +643,7 @@
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";
 "settings_change_profile_picture_button" = "Foto";
-"settings_change_profile_picture_error_generic" = "Se ha producido un error al modificar la foto de tu perfil.";
+"settings_change_profile_picture_error_generic" = "Se ha producido un error al modificar la foto de perfil.";
 "settings_change_profile_picture_loading" = "Actualizando tu foto de perfil...";
 "settings_change_username_button" = "Nombre";
 "settings_help_button" = "Ayuda";

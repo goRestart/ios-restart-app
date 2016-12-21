@@ -141,11 +141,11 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closePostProductAndPostLater(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo) {
+    func closePostProductAndPostLater(product: Product, images: [UIImage], trackingInfo: PostProductTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
         close(PostProductViewController.self, animated: true) { [weak self] in
-            let productPostedVM = ProductPostedViewModel(productToPost: product, productImage: image,
+            let productPostedVM = ProductPostedViewModel(productToPost: product, productImages: images,
                                                          trackingInfo: trackingInfo)
             productPostedVM.navigator = self
             let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)

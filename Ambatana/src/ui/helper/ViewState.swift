@@ -29,10 +29,10 @@ extension LGEmptyViewModel {
         return icon.size.height
     }
 
-    public static func respositoryErrorWithRetry(error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel {
+    public static func respositoryErrorWithRetry(error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel? {
         switch error {
-        case .Network:
-            return LGEmptyViewModel.networkErrorWithRetry(action)
+        case let .Network(_, onBackground):
+            return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(action)
         case .Internal, .Forbidden, .Unauthorized, .NotFound, .TooManyRequests, .UserNotVerified, .ServerError:
             return LGEmptyViewModel.genericErrorWithRetry(action)
         }

@@ -131,6 +131,24 @@ public struct TrackerEvent {
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
 
+    static func loginBlockedAccountStart(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountStart, params: params)
+    }
+
+    static func loginBlockedAccountContactUs(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountContactUs, params: params)
+    }
+
+    static func loginBlockedAccountKeepBrowsing(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountKeepBrowsing, params: params)
+    }
+
     static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
         var params = EventParameters()
 
@@ -384,11 +402,6 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellSharedFB, params: params)
     }
 
-    static func productSellComplete(product: Product, freePostingModeAllowed: Bool) -> TrackerEvent {
-        return productSellComplete(product, buttonName: nil, sellButtonPosition: nil, negotiable: nil, pictureSource: nil,
-                                   freePostingModeAllowed: freePostingModeAllowed)
-    }
-
     static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {
@@ -397,6 +410,7 @@ public struct TrackerEvent {
         params[.ProductId] = product.objectId ?? ""
         params[.CategoryId] = product.category.rawValue
         params[.ProductName] = product.name ?? ""
+        params[.NumberPhotosPosting] = product.images.count
         params[.SellButtonPosition] = sellButtonPosition?.rawValue
         params[.ProductDescription] = !(product.descr?.isEmpty ?? true)
         if let buttonName = buttonName {
