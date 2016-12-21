@@ -14,8 +14,4 @@ extension NSLocale {
             return (objectForKey(NSLocaleCountryCode) as? String ?? "").lowercaseString
         }
     }
-    
-    var isNotTurkish: Bool {
-        return lg_countryCode != "tr"
-    }
 }

@@ -518,7 +518,7 @@ private extension AppCoordinator {
         locationManager.locationEvents.filter { $0 == .LocationUpdate }.take(1).bindNext {
             [weak self] location in
             guard let strongSelf = self else { return }
-            if strongSelf.telephonyNetwork.isTurkishCarrier() && NSLocale.currentLocale().isNotTurkish {
+            if strongSelf.telephonyNetwork.isTurkishCarrier() && strongSelf.locationManager.currentPostalAddress?.countryCode != "TR" {
                 strongSelf.askUserToUpdateLocationManually()
             }
             }.addDisposableTo(disposeBag)
