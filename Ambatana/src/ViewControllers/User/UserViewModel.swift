@@ -356,7 +356,6 @@ extension UserViewModel {
 
 extension UserViewModel {
     private func retrieveUserData() {
-        guard userAccounts.value == nil else { return }
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
