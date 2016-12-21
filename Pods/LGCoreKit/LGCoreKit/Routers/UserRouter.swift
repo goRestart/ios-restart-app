@@ -41,7 +41,7 @@ enum UserRouter: URLRequestAuthenticable {
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Show:
-            return .Installation
+            return .Nonexistent
         case .IndexBlocked, .BlockUser, .UnblockUser, .UserRelation, .SaveReport:
             return .User
         }

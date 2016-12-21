@@ -321,8 +321,11 @@ class LGSessionManager: InternalSessionManager {
      Sets up after logging-out.
      */
     func tearDownSession(kicked kicked: Bool) {
+        let previouslyLogged = loggedIn
         cleanSession()
-        events.onNext(.Logout(kickedOut: kicked))
+        if previouslyLogged {
+            events.onNext(.Logout(kickedOut: kicked))
+        }
     }
 
     func authenticateWebSocket(completion: (Result<Void, SessionManagerError> -> ())?) {
