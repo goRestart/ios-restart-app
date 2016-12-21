@@ -197,8 +197,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     private func cleanMapView() {
         // Clean only references related to current More Info View
         mapZoomBlocker?.mapView = nil
-        if let mapViewTapGesture = mapViewTapGesture,
-            let gestures = mapView.gestureRecognizers
+        if let mapViewTapGesture = mapViewTapGesture, gestures = mapView.gestureRecognizers
             where gestures.contains(mapViewTapGesture) {
                 mapView.removeGestureRecognizer(mapViewTapGesture)
         }
