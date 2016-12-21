@@ -14,6 +14,7 @@ protocol UserRatingListViewModelDelegate : BaseViewModelDelegate {
     func vmDidLoadUserRatings(ratings: [UserRating])
     func vmDidFailLoadingUserRatings(firstPage: Bool)
     func vmShowUserRating(source: RateUserSource, data: RateUserData)
+    func vmRefresh()
 }
 
 
@@ -125,14 +126,16 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
 
         if rating.status == .Published {
             let reportAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
+                self?.delegate?.vmShowLoading(nil)
                 self?.userRatingListRequester.reportRating(rating, completion: { result in
                     if let ratingUpdated = result.value {
                         self?.replaceRating(ratingUpdated)
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
-                            completion: nil)
+                        self?.delegate?.vmRefresh()
+                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
+                            afterMessageCompletion: nil)
                     } else if let _ = result.error {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.ratingListActionReportReviewErrorMessage,
-                            completion: nil)
+                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewErrorMessage,
+                            afterMessageCompletion: nil)
                     }
                 })
             }, accessibilityId: .RatingListCellReport)

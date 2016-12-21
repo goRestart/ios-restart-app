@@ -101,16 +101,16 @@
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_rating_pending" translatesAutoresizingMaskIntoConstraints="NO" id="alo-Mq-i8r" userLabel="rating type icon">
-                        <rect key="frame" x="76" y="51" width="12" height="12"/>
+                        <rect key="frame" x="76" y="52" width="12" height="12"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="12" id="AU6-uT-4Rz"/>
                             <constraint firstAttribute="width" constant="12" id="eZc-Gc-ub1"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4XA-8j-HPJ">
-                        <rect key="frame" x="92" y="49" width="212" height="16"/>
+                        <rect key="frame" x="92" y="49" width="212" height="18"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="16" id="yl5-d9-nUc"/>
+                            <constraint firstAttribute="height" constant="18" id="yl5-d9-nUc"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -137,7 +137,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" semanticContentAttribute="forceLeftToRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gNQ-wo-Y1G">
-                        <rect key="frame" x="76" y="73" width="228" height="25"/>
+                        <rect key="frame" x="76" y="75" width="228" height="23"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" id="4yA-Tb-opo"/>
                         </constraints>
