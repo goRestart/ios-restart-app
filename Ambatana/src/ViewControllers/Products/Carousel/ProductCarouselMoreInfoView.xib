@@ -97,7 +97,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="330" placeholderIntrinsicHeight="75" translatesAutoresizingMaskIntoConstraints="NO" id="N8I-fW-fvF" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="28" width="330" height="107"/>
+                                            <rect key="frame" x="0.0" y="28" width="330" height="75"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="75" id="u6E-rD-dyG"/>
@@ -111,7 +111,7 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="N8I-fW-fvF" secondAttribute="bottom" id="lR8-9z-FMJ"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="N8I-fW-fvF" secondAttribute="bottom" id="lR8-9z-FMJ"/>
                                         <constraint firstAttribute="trailing" secondItem="tVU-MY-f3B" secondAttribute="trailing" id="np5-WP-bKB"/>
                                         <constraint firstItem="N8I-fW-fvF" firstAttribute="leading" secondItem="bmO-mK-0l1" secondAttribute="leading" id="rbh-aX-Fci"/>
                                         <constraint firstItem="N8I-fW-fvF" firstAttribute="top" secondItem="tVU-MY-f3B" secondAttribute="bottom" constant="10" id="rsd-uO-ow6"/>
