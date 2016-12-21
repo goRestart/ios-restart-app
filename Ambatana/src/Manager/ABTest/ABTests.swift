@@ -31,13 +31,14 @@ public struct ABTests {
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
+    static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: true)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder, directPostInOnboarding,
                 productDetailShareMode, notificationCenterEnabled, shareButtonWithIcon, chatHeadBubbles,
                 saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
                 keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting,
-                postingMultiPictureEnabled, periscopeImprovement]
+                postingMultiPictureEnabled, periscopeImprovement, userReviews]
     }
 
     static func registerVariables() {
