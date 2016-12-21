@@ -209,6 +209,7 @@ extension ChatTextView: UITextFieldDelegate {
             clear()
         }
         initialTextActive = false
+        guard !string.hasEmojis() else { return false }
         return true
     }
 }
