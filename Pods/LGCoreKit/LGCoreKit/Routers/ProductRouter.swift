@@ -74,7 +74,7 @@ enum ProductRouter: URLRequestAuthenticable {
             return .User
         case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts, .IndexDiscoverProducts,
              .IndexTrending, ShowStats, UpdateStats:
-            return .Installation
+            return .Nonexistent
         }
     }
 

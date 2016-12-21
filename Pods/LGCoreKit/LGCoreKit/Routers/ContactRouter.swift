@@ -15,7 +15,7 @@ enum ContactRouter: URLRequestAuthenticable {
     case Send(params: [String : AnyObject])
 
     var requiredAuthLevel: AuthLevel {
-        return .Installation
+        return .Nonexistent
     }
 
     var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }

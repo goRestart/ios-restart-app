@@ -34,7 +34,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Swift 3.0: -
 
 	# letgo Core
-    pod "LGCoreKit",            "1.6.6" # :path => "../lgcorekit"
+    pod "LGCoreKit",            :git => 'https://github.com/letgoapp/letgo-ios-lgcorekit', :commit => '17909ba7432358c4d56fe98309659e20c6789765' #:path => "../lgcorekit" #"1.6.6" #
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -
