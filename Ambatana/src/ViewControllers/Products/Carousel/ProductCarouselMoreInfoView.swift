@@ -77,8 +77,8 @@ class ProductCarouselMoreInfoView: UIView {
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
 
-    private let statsContainerViewHeight: CGFloat = 24.0
-    private let statsContainerViewTop: CGFloat = 30.0
+    private let statsContainerViewHeight: CGFloat = 24
+    private let statsContainerViewTop: CGFloat = 26
     private var initialDragYposition: CGFloat = 0
     private var scrollBottomInset: CGFloat {
         guard let status = viewModel?.status.value else { return 0 }
