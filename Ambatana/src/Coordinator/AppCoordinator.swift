@@ -214,8 +214,7 @@ extension AppCoordinator: AppNavigator {
     }
     
     func openChangeLocation() {
-        // TODO: Should navigate to change Location.
-        print("😨😨😨😨😨😨😨😨😨😨😨😨😨😨😨😨😨")
+        profileTabBarCoordinator.openEditLocation()
     }
 
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
@@ -519,10 +518,9 @@ private extension AppCoordinator {
         locationManager.locationEvents.filter { $0 == .LocationUpdate }.take(1).bindNext {
             [weak self] location in
             guard let strongSelf = self else { return }
-          //  if strongSelf.telephonyNetwork.isTurkishCarrier() && NSLocale.currentLocale().isNotTurkish {
-                print("REMOVE: Turkish carrier")
+            if strongSelf.telephonyNetwork.isTurkishCarrier() && NSLocale.currentLocale().isNotTurkish {
                 strongSelf.askUserToUpdateLocationManually()
-          //  }
+            }
             }.addDisposableTo(disposeBag)
        }
 
