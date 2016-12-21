@@ -89,19 +89,15 @@ class SocialShareView: UIView {
 
     private func setupContainer() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.setContentHuggingPriority(500, forAxis: .Horizontal)
-        containerView.setContentCompressionResistancePriority(501, forAxis: .Horizontal)
         addSubview(containerView)
         addConstraint(NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal,
             toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
         addConstraint(NSLayoutConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal,
             toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Left, relatedBy: .GreaterThanOrEqual,
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Left, relatedBy: .Equal,
             toItem: self, attribute: .Left, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Right, relatedBy: .GreaterThanOrEqual,
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Right, relatedBy: .Equal,
             toItem: self, attribute: .Right, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .CenterX, relatedBy: .Equal,
-            toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
     }
 
     private func setAvailableButtons() {
@@ -169,8 +165,10 @@ class SocialShareView: UIView {
             container.addConstraint(NSLayoutConstraint(item: button, attribute: .Bottom, relatedBy: .Equal,
                 toItem: container, attribute: .Bottom, multiplier: 1.0, constant: 0))
             if index == buttons.count - 1 {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .Equal,
-                    toItem: container, attribute: .Right, multiplier: 1.0, constant: 0))
+                let constraint = NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .GreaterThanOrEqual,
+                                                    toItem: container, attribute: .Right, multiplier: 1.0, constant: 0)
+                constraint.priority = UILayoutPriorityDefaultHigh
+                container.addConstraint(constraint)
             }
             previous = button
         }
