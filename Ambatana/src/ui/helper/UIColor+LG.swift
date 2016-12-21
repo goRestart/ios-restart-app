@@ -272,28 +272,21 @@ extension UIColor {
 
     // Avatar Colors
     private static let avatarRed = rosa
-    private static let avatarOrange = UIColor(rgb: 0xF3B685)
-    private static let avatarYellow = UIColor(rgb: 0xF5CD77)
     private static let avatarGreen = UIColor(rgb: 0xA6c488)
     private static let avatarBlue = paleTeal
     private static let avatarDarkBlue = UIColor(rgb: 0x86B0DE)
     private static let avatarPurple = UIColor(rgb: 0xBEA8D2)
-    private static let avatarBrown = UIColor(rgb: 0xC9B5B8)
 
     // Bg Colors
     private static let bgRed = UIColor(rgb: 0xfc4259)
-    private static let bgOrange = UIColor(rgb: 0xed9859)
-    private static let bgYellow = UIColor(rgb: 0xf0b74a)
     private static let bgGreen = UIColor(rgb: 0x82ab5a)
     private static let bgBlue = UIColor(rgb: 0x3da2ac)
     private static let bgDarkBlue = UIColor(rgb: 0x5690cf)
     private static let bgPurple = UIColor(rgb: 0xa285bd)
-    private static let bgBrown = UIColor(rgb: 0xb29196)
 
-    private static let avatarColors: [UIColor] = [avatarOrange, avatarYellow, avatarGreen, avatarBlue,
-                                                  avatarDarkBlue, avatarPurple, avatarBrown]
+    private static let avatarColors: [UIColor] = [avatarGreen, avatarBlue, avatarDarkBlue, avatarPurple]
 
-    private static let bgColors: [UIColor] = [bgOrange, bgYellow, bgGreen, bgBlue, bgDarkBlue, bgPurple, bgBrown]
+    private static let bgColors: [UIColor] = [bgGreen, bgBlue, bgDarkBlue, bgPurple]
 
 
     static func avatarColorForString(string: String?) -> UIColor {
