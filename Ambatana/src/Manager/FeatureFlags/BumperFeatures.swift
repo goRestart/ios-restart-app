@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -73,11 +73,6 @@ extension Bumper  {
     static var expressChatBanner: Bool {
         guard let value = Bumper.valueForKey(ExpressChatBanner.key) else { return false }
         return ExpressChatBanner(rawValue: value)?.asBool ?? false
-    }
-
-    static var showLiquidProductsToNewUser: Bool {
-        guard let value = Bumper.valueForKey(ShowLiquidProductsToNewUser.key) else { return false }
-        return ShowLiquidProductsToNewUser(rawValue: value)?.asBool ?? false
     }
 
     static var postAfterDeleteMode: PostAfterDeleteMode {
@@ -251,15 +246,6 @@ enum ExpressChatBanner: String, BumperFeature  {
     static var enumValues: [ExpressChatBanner] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show express chat banner in chat detail" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum ShowLiquidProductsToNewUser: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return ShowLiquidProductsToNewUser.No.rawValue }
-    static var enumValues: [ShowLiquidProductsToNewUser] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show liquid products to new user" } 
     var asBool: Bool { return self == .Yes }
 }
 

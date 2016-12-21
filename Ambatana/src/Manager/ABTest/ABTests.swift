@@ -22,7 +22,6 @@ public struct ABTests {
     static var chatHeadBubbles = BoolABDynamicVar(key: "chatHeadBubbles", defaultValue: false)
     static var saveMailLogout = BoolABDynamicVar(key: "saveMailLogout", defaultValue: false)
     static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
-    static var showLiquidProductsToNewUser = BoolABDynamicVar(key: "showLiquidProductsToNewUser", defaultValue: false)
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
     static var commercializerAfterPosting = BoolABDynamicVar(key: "commercializerAfterPosting", defaultValue: false)
@@ -45,7 +44,6 @@ public struct ABTests {
                 chatHeadBubbles,
                 saveMailLogout,
                 expressChatBanner,
-                showLiquidProductsToNewUser,
                 postAfterDeleteMode,
                 keywordsTravelCollection,
                 commercializerAfterPosting,

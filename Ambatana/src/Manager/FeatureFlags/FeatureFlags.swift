@@ -21,7 +21,6 @@ protocol FeatureFlaggeable {
     var productDetailShareMode: ProductDetailShareMode { get }
     var chatHeadBubbles: Bool { get }
     var saveMailLogout: Bool { get }
-    var showLiquidProductsToNewUser: Bool { get }
     var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
@@ -132,13 +131,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.saveMailLogout
         }
         return ABTests.saveMailLogout.value
-    }
-
-    var showLiquidProductsToNewUser: Bool {
-        if Bumper.enabled {
-            return Bumper.showLiquidProductsToNewUser
-        }
-        return ABTests.showLiquidProductsToNewUser.value
     }
 
     var expressChatBanner: Bool {
