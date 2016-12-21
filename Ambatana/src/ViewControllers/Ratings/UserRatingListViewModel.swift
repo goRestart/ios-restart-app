@@ -75,7 +75,7 @@ class UserRatingListViewModel: BaseViewModel {
         return UserRatingCellData(userName: rating.userFrom.name ?? "", userAvatar: rating.userFrom.avatar?.fileURL,
                                       userAvatarPlaceholder: avatarPlaceholder, ratingType: rating.type,
                                       ratingValue: rating.value, ratingDescription: rating.comment, ratingDate: ratingDate,
-                                      isMyRating: isMyRatingsList)
+                                      isMyRating: isMyRatingsList, pendingReview: rating.status == .PendingReview)
     }
 
 
