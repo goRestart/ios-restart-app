@@ -18,7 +18,7 @@
 "app_share_whatsapp_button" = "Invita via Whatsapp";
 "block_user_error_generic" = "Si è verificato un errore durante il tentativo di bloccare questo utente.";
 "bump_up_bubble_free_button_title" = "Promuovi";
-"bump_up_bubble_free_text" = "Promuovi gratuitamente per vendere più velocemente";
+"bump_up_bubble_free_text" = "Bump up for free to sell faster";
 "bump_up_bubble_pay_text" = "Promuovi per vendere più rapidamente";
 "bump_up_bubble_wait_text" = "per promuovere di nuovo";
 "bump_up_error_bump_generic" = "Si è verificato un errore durante il tentativo di promuovere il tuo prodotto. Riprova.";
@@ -26,10 +26,10 @@
 "bump_up_free_success" = "Promosso! Continua a promuovere il tuo annuncio e sarà sempre più visibile.";
 "bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una visibilità extra.";
 "bump_up_view_free_subtitle" = "Più condivisioni corrispondono a una maggiore visibilità per il tuo annuncio.";
-"bump_up_view_free_title" = "PROMUOVI IL TUO ANNUNCIO";
+"bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 "bump_up_view_pay_bumps_left_text" = "Puoi promuovere il tuo prodotto ancora per %i volte.";
 "bump_up_view_pay_button_title" = "Attiva per %@";
-"bump_up_view_pay_subtitle" = "Offri una maggiore visibilità al tuo annuncio per 24 ore spostandolo in alto.";
+"bump_up_view_pay_subtitle" = "Give your listing higher visibility for 24 hours by moving it to the top.";
 "bump_up_view_pay_title" = "PROMUOVI PER VENDERE PIÙ RAPIDAMENTE";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_cars_and_motors" = "Auto e Motori";
@@ -586,7 +586,7 @@
 "rating_list_action_report_review_success_message" = "La tua segnalazione è stata inviata!";
 "rating_list_action_review_user" = "Recensisci utente";
 "rating_list_loading_error_message" = "Si è verificato un errore durante il caricamento dei giudizi";
-"rating_list_rating_status_pending" = "Questa recensione è in fase di verifica";
+"rating_list_rating_status_pending" = "This review is being verified";
 "rating_list_rating_type_buyer_text_label" = "%@ ha acquistato un prodotto";
 "rating_list_rating_type_conversation_text_label" = "%@ ha chattato riguardo a un prodotto";
 "rating_list_rating_type_seller_text_label" = "%@ ha venduto un prodotto";

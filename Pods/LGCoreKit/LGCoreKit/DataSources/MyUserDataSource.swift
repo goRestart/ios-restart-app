@@ -8,13 +8,16 @@
 
 import Result
 
+typealias MyUserApiResult = Result<MyUser, ApiError>
+typealias MyUserApiCompletion = MyUserApiResult -> Void
+
 protocol MyUserDataSource {
     /**
     Retrieves my user with the given my user identifier.
     - parameter myUserId: My user identifier.
     - parameter completion: The completion closure.
     */
-    func show(myUserId: String, completion: ((Result<MyUser, ApiError>) -> ())?)
+    func show(myUserId: String, completion: MyUserApiCompletion?)
 
     /**
     Creates a user with the given email, password and location.
@@ -28,7 +31,7 @@ protocol MyUserDataSource {
     - parameter completion: The completion closure.
     */
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
-        postalAddress: PostalAddress?, localeIdentifier: String, completion: ((Result<MyUser, ApiError>) -> ())?)
+        postalAddress: PostalAddress?, localeIdentifier: String, completion: MyUserApiCompletion?)
 
     /**
     Updates a my user with the given parameters.
@@ -36,7 +39,7 @@ protocol MyUserDataSource {
     - parameter params: The parameters to be updated.
     - parameter completion: The completion closure.
     */
-    func update(myUserId: String, params: [String : AnyObject], completion: ((Result<MyUser, ApiError>) -> ())?)
+    func update(myUserId: String, params: [String : AnyObject], completion: MyUserApiCompletion?)
 
     /**
     Uploads a new user avatar.
@@ -45,7 +48,7 @@ protocol MyUserDataSource {
     - parameter completion: The completion closure.
     */
     func uploadAvatar(avatar: NSData, myUserId: String, progressBlock: ((Int) -> ())?,
-        completion: ((Result<MyUser, ApiError>) -> ())?)
+        completion: MyUserApiCompletion?)
     
     /**
     Resets the user password with the one given using the token as Authorization header for the API.
@@ -56,7 +59,7 @@ protocol MyUserDataSource {
     - parameter completion: Completion closure
     */
     func resetPassword(userId: String, params: [String: AnyObject], token: String,
-        completion: ((Result<MyUser, ApiError>) -> ())?)
+        completion: MyUserApiCompletion?)
 
 
     /**

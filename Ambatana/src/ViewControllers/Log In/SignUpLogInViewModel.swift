@@ -549,8 +549,6 @@ private extension SignUpLogInViewModel {
     }
 
     private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, userEmailOrName: String?) {
-        guard featureFlags.saveMailLogout else { return }
-
         switch accountProvider {
         case .Email:
             previousEmail.value = userEmailOrName
@@ -568,8 +566,6 @@ private extension SignUpLogInViewModel {
     }
 
     private func savePreviousEmailOrUsername(accountProvider: AccountProvider, userEmailOrName: String?) {
-        guard featureFlags.saveMailLogout else { return }
-
         keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
         keyValueStorage[.previousUserEmailOrName] = userEmailOrName
     }

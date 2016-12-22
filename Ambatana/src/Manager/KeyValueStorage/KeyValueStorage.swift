@@ -190,17 +190,6 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    var shouldShowCommercializerAfterPosting: Bool {
-        get {
-            return currentUserProperties?.shouldShowCommercializerAfterPosting ??
-                UserDefaultsUser.shouldShowCommercializerAfterPostingDefaultValue
-        }
-        set {
-            guard var userProperties = currentUserProperties else { return }
-            userProperties.shouldShowCommercializerAfterPosting = newValue
-            currentUserProperties = userProperties
-        }
-    }
 
     var userShouldShowExpressChat: Bool {
         get {

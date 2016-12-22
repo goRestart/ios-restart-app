@@ -586,7 +586,7 @@
 "rating_list_action_report_review_success_message" = "A sua denuncia foi enviada!";
 "rating_list_action_review_user" = "Comentar utilizador";
 "rating_list_loading_error_message" = "Ocorreu um erro ao carregar as classificações.";
-"rating_list_rating_status_pending" = "Esta avaliação está a ser verificada";
+"rating_list_rating_status_pending" = "This review is being verified";
 "rating_list_rating_type_buyer_text_label" = "%@ comprou um produto";
 "rating_list_rating_type_conversation_text_label" = "%@ conversou sobre um produto";
 "rating_list_rating_type_seller_text_label" = "%@ vendeu um produto";

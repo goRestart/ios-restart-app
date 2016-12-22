@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -40,16 +40,6 @@ extension Bumper  {
         return InterestedUsersMode(rawValue: value) ?? .NoNotification 
     }
 
-    static var filtersReorder: Bool {
-        guard let value = Bumper.valueForKey(FiltersReorder.key) else { return false }
-        return FiltersReorder(rawValue: value)?.asBool ?? false
-    }
-
-    static var directPostInOnboarding: Bool {
-        guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
-        return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
-    }
-
     static var shareButtonWithIcon: Bool {
         guard let value = Bumper.valueForKey(ShareButtonWithIcon.key) else { return true }
         return ShareButtonWithIcon(rawValue: value)?.asBool ?? true
@@ -60,24 +50,9 @@ extension Bumper  {
         return ProductDetailShareMode(rawValue: value) ?? .Native 
     }
 
-    static var chatHeadBubbles: Bool {
-        guard let value = Bumper.valueForKey(ChatHeadBubbles.key) else { return false }
-        return ChatHeadBubbles(rawValue: value)?.asBool ?? false
-    }
-
-    static var saveMailLogout: Bool {
-        guard let value = Bumper.valueForKey(SaveMailLogout.key) else { return false }
-        return SaveMailLogout(rawValue: value)?.asBool ?? false
-    }
-
     static var expressChatBanner: Bool {
         guard let value = Bumper.valueForKey(ExpressChatBanner.key) else { return false }
         return ExpressChatBanner(rawValue: value)?.asBool ?? false
-    }
-
-    static var showLiquidProductsToNewUser: Bool {
-        guard let value = Bumper.valueForKey(ShowLiquidProductsToNewUser.key) else { return false }
-        return ShowLiquidProductsToNewUser(rawValue: value)?.asBool ?? false
     }
 
     static var postAfterDeleteMode: PostAfterDeleteMode {
@@ -88,11 +63,6 @@ extension Bumper  {
     static var keywordsTravelCollection: KeywordsTravelCollection {
         guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .Standard }
         return KeywordsTravelCollection(rawValue: value) ?? .Standard 
-    }
-
-    static var commercializerAfterPosting: Bool {
-        guard let value = Bumper.valueForKey(CommercializerAfterPosting.key) else { return false }
-        return CommercializerAfterPosting(rawValue: value)?.asBool ?? false
     }
 
     static var relatedProductsOnMoreInfo: Bool {
@@ -184,24 +154,6 @@ enum InterestedUsersMode: String, BumperFeature  {
     }
 }
 
-enum FiltersReorder: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return FiltersReorder.No.rawValue }
-    static var enumValues: [FiltersReorder] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Product filters reorder" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum DirectPostInOnboarding: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return DirectPostInOnboarding.No.rawValue }
-    static var enumValues: [DirectPostInOnboarding] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Last Onboarding step opens the camera" } 
-    var asBool: Bool { return self == .Yes }
-}
-
 enum ShareButtonWithIcon: String, BumperFeature  {
     case Yes, No
     static var defaultValue: String { return ShareButtonWithIcon.Yes.rawValue }
@@ -227,39 +179,12 @@ enum ProductDetailShareMode: String, BumperFeature  {
     }
 }
 
-enum ChatHeadBubbles: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return ChatHeadBubbles.No.rawValue }
-    static var enumValues: [ChatHeadBubbles] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Chat head bubbles" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum SaveMailLogout: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return SaveMailLogout.No.rawValue }
-    static var enumValues: [SaveMailLogout] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Remembers email or FB/Google username on logout" } 
-    var asBool: Bool { return self == .Yes }
-}
-
 enum ExpressChatBanner: String, BumperFeature  {
     case No, Yes
     static var defaultValue: String { return ExpressChatBanner.No.rawValue }
     static var enumValues: [ExpressChatBanner] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show express chat banner in chat detail" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum ShowLiquidProductsToNewUser: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return ShowLiquidProductsToNewUser.No.rawValue }
-    static var enumValues: [ShowLiquidProductsToNewUser] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show liquid products to new user" } 
     var asBool: Bool { return self == .Yes }
 }
 
@@ -293,15 +218,6 @@ enum KeywordsTravelCollection: String, BumperFeature  {
             default: return .Standard
         }
     }
-}
-
-enum CommercializerAfterPosting: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return CommercializerAfterPosting.No.rawValue }
-    static var enumValues: [CommercializerAfterPosting] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Commercializer after posting" } 
-    var asBool: Bool { return self == .Yes }
 }
 
 enum RelatedProductsOnMoreInfo: String, BumperFeature  {

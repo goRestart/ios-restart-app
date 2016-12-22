@@ -23,8 +23,10 @@ class UserViewController: BaseViewController {
     private static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
     private static let headerCollapsedHeight: CGFloat = 44
 
-    private static let expandedPercentageUserInfoSwitch: CGFloat = 0.85
-    private static let expandedPercentageUserInfoDisappear: CGFloat = 1.2
+    private static let navbarHeaderMaxThresold: CGFloat = 0.5
+    private static let userLabelsMinThreshold: CGFloat = 0.5
+    private static let headerMinThreshold: CGFloat = 0.7
+    private static let userLabelsAndHeaderMaxThreshold: CGFloat = 1.5
 
     private static let userBgTintViewHeaderExpandedAlpha: CGFloat = 0.54
     private static let userBgTintViewHeaderCollapsedAlpha: CGFloat = 1.0
@@ -38,10 +40,10 @@ class UserViewController: BaseViewController {
     private static let userLabelsContainerMarginLong: CGFloat = 90
     private static let userLabelsContainerMarginShort: CGFloat = 50
 
-    private var navBarUserView: UserView?
+    private var navBarUserView: UserView
     private var navBarUserViewAlpha: CGFloat = 0.0 {
         didSet {
-            navBarUserView?.alpha = navBarUserViewAlpha
+            navBarUserView.alpha = navBarUserViewAlpha
         }
     }
 
@@ -63,7 +65,6 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var averageRatingView: UIView!
     @IBOutlet var userLabelsSideMargin: [NSLayoutConstraint]!
-    @IBOutlet var averageRatingImageViews: [UIImageView]!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
@@ -134,14 +135,11 @@ class UserViewController: BaseViewController {
       
         
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-        if let navBarUserView = navBarUserView {
-            let currentAlpha: CGFloat = navBarUserViewAlpha
-            navBarUserView.hidden = true
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
-                dispatch_get_main_queue()) {
-                    navBarUserView.alpha = currentAlpha
-                    navBarUserView.hidden = false
-            }
+        let currentAlpha: CGFloat = navBarUserViewAlpha
+        navBarUserView.hidden = true
+        delay(0.01) { [weak self] in
+            self?.navBarUserView.alpha = currentAlpha
+            self?.navBarUserView.hidden = false
         }
     }
     
@@ -234,8 +232,8 @@ extension UserViewController {
     }
 
     private func setupAccessibilityIds() {
-        navBarUserView?.titleLabel.accessibilityId = .UserHeaderCollapsedNameLabel
-        navBarUserView?.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
+        navBarUserView.titleLabel.accessibilityId = .UserHeaderCollapsedNameLabel
+        navBarUserView.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
         userNameLabel.accessibilityId = .UserHeaderExpandedNameLabel
         userLocationLabel.accessibilityId = .UserHeaderExpandedLocationLabel
 
@@ -265,11 +263,9 @@ extension UserViewController {
     }
 
     private func setupNavigationBar() {
-        if let navBarUserView = navBarUserView {
-            navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
-            setNavBarTitleStyle(.Custom(navBarUserView))
-            navBarUserViewAlpha = 0
-        }
+        navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
+        setNavBarTitleStyle(.Custom(navBarUserView))
+        navBarUserViewAlpha = 0
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
         setNavBarBackButton(backIcon)
@@ -298,22 +294,9 @@ extension UserViewController {
         let rating = ratingAverage ?? 0
         if rating > 0 {
             averageRatingContainerViewHeight.constant = UserViewController.ratingAverageContainerHeightVisible
-
-            let full = UIImage(named: "ic_star_avg_full")
-            let half = UIImage(named: "ic_star_avg_half")
-            let empty = UIImage(named: "ic_star_avg_empty")
-            averageRatingImageViews.forEach { imageView in
-                let tag = Float(imageView.tag)
-                let diff = tag - rating
-
-                if diff <= 0 {
-                    imageView.image = full
-                } else if diff <= 0.5 {
-                    imageView.image = half
-                } else {
-                    imageView.image = empty
-                }
-            }
+            averageRatingView.setupRatingContainer(rating: rating)
+            averageRatingView.superview?.layoutIfNeeded()
+            averageRatingView.rounded = true
         } else {
             averageRatingContainerViewHeight.constant = 0
         }
@@ -323,8 +306,7 @@ extension UserViewController {
         super.viewDidLayoutSubviews()
         productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
 
-        let height = averageRatingView.bounds.height
-        averageRatingView.layer.cornerRadius = height / 2
+        averageRatingView.rounded = true
     }
 
     private func scrollDidChange(contentOffsetInsetY: CGFloat) {
@@ -475,6 +457,7 @@ extension UserViewController {
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
             self?.setupRatingAverage(userRatingAverage)
         }.addDisposableTo(disposeBag)
+        viewModel.userRatingAverage.asObservable().bindTo(navBarUserView.userRatings).addDisposableTo(disposeBag)
 
         viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
             self?.headerContainer.header?.setRatingCount(userRatingCount)
@@ -514,28 +497,23 @@ extension UserViewController {
             return alpha
         }.bindTo(userBgEffectView.rx_alpha).addDisposableTo(disposeBag)
 
-        // Header collapse switch
-        headerExpandedPercentage.asObservable().map { $0 <= UserViewController.expandedPercentageUserInfoSwitch }
-            .distinctUntilChanged().subscribeNext { [weak self] collapsed in
-                self?.headerContainer.header?.collapsed = collapsed
-
-                UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
-                    let topAlpha: CGFloat = collapsed ? 1 : 0
-                    let bottomAlpha: CGFloat = collapsed ? 0 : 1
-                    self?.navBarUserViewAlpha = topAlpha
-                    self?.userLabelsContainer.alpha = bottomAlpha
-                    }, completion: nil)
-        }.addDisposableTo(disposeBag)
-
-        // Header disappear
-        headerExpandedPercentage.asObservable().map { $0 >= UserViewController.expandedPercentageUserInfoDisappear }
-            .distinctUntilChanged().subscribeNext { [weak self] hidden in
-                self?.headerContainer.header?.collapsed = hidden
-
-                UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
-                    self?.userLabelsContainer.alpha = hidden ? 0 : 1
-                }, completion: nil)
-        }.addDisposableTo(disposeBag)
+        // Header elements alpha selection
+        headerExpandedPercentage.asObservable()
+            .distinctUntilChanged().subscribeNext { [weak self] expandedPerc in
+                if expandedPerc > 1 {
+                    self?.navBarUserViewAlpha = 0
+                    let headerAlphas = 1 - expandedPerc.percentageBetween(start: 1.0,
+                        end: UserViewController.userLabelsAndHeaderMaxThreshold)
+                    self?.headerContainer.header?.itemsAlpha = headerAlphas
+                    self?.userLabelsContainer.alpha = headerAlphas
+                } else {
+                    self?.navBarUserViewAlpha = 1 - expandedPerc.percentageTo(UserViewController.navbarHeaderMaxThresold)
+                    self?.headerContainer.header?.itemsAlpha =
+                        expandedPerc.percentageBetween(start: UserViewController.headerMinThreshold, end: 1.0)
+                    self?.userLabelsContainer.alpha =
+                        expandedPerc.percentageBetween(start: UserViewController.userLabelsMinThreshold, end: 1.0)
+                }
+            }.addDisposableTo(disposeBag)
 
         // Header sticky to expanded/collapsed
         let listViewDragging = productListView.isDragging.asObservable().distinctUntilChanged()

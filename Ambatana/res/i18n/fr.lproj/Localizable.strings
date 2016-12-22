@@ -27,7 +27,7 @@
 "bump_up_pay_success" = "Renvoyé vers le haut ! Votre bien bénéficie maintenant d'une meilleure visibilité.";
 "bump_up_view_free_subtitle" = "Plus vous partagez, plus votre annonce sera visible.";
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
-"bump_up_view_pay_bumps_left_text" = "Il vous reste %i renvois vers le haut.";
+"bump_up_view_pay_bumps_left_text" = "Il vous reste %i renvois vers le haut";
 "bump_up_view_pay_button_title" = "Activer pour %@";
 "bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce pendant 24 heures en la renvoyant vers le haut.";
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS RAPIDEMENT";
@@ -586,7 +586,7 @@
 "rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
 "rating_list_action_review_user" = "Noter utilisateur";
 "rating_list_loading_error_message" = "Une erreur est survenue lors du chargement des notes.";
-"rating_list_rating_status_pending" = "Cette note est en cours de vérification";
+"rating_list_rating_status_pending" = "This review is being verified";
 "rating_list_rating_type_buyer_text_label" = "%@ a acheté votre bien";
 "rating_list_rating_type_conversation_text_label" = "%@ a chatté à propos d'un bien";
 "rating_list_rating_type_seller_text_label" = "%@ a vendu un bien";
