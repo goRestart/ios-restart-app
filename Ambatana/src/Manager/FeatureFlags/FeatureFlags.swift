@@ -15,7 +15,6 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var interestedUsersMode: InterestedUsersMode { get }
-    var directPostInOnboarding: Bool { get }
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
     var expressChatBanner: Bool { get }
@@ -86,13 +85,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.interestedUsersMode
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
-    }
-
-     var directPostInOnboarding: Bool {
-        if Bumper.enabled {
-            return Bumper.directPostInOnboarding
-        }
-        return ABTests.directPostInOnboarding.value
     }
     
      var shareButtonWithIcon: Bool {

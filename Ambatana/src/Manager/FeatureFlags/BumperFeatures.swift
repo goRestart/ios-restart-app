@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -38,11 +38,6 @@ extension Bumper  {
     static var interestedUsersMode: InterestedUsersMode {
         guard let value = Bumper.valueForKey(InterestedUsersMode.key) else { return .NoNotification }
         return InterestedUsersMode(rawValue: value) ?? .NoNotification 
-    }
-
-    static var directPostInOnboarding: Bool {
-        guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
-        return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
     }
 
     static var shareButtonWithIcon: Bool {
@@ -162,15 +157,6 @@ enum InterestedUsersMode: String, BumperFeature  {
             default: return .NoNotification
         }
     }
-}
-
-enum DirectPostInOnboarding: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return DirectPostInOnboarding.No.rawValue }
-    static var enumValues: [DirectPostInOnboarding] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Last Onboarding step opens the camera" } 
-    var asBool: Bool { return self == .Yes }
 }
 
 enum ShareButtonWithIcon: String, BumperFeature  {
