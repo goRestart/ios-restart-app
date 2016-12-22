@@ -15,18 +15,13 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var interestedUsersMode: InterestedUsersMode { get }
-    var filtersReorder: Bool { get }
-    var directPostInOnboarding: Bool { get }
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
-    var chatHeadBubbles: Bool { get }
-    var saveMailLogout: Bool { get }
     var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
-    var commercializerAfterPosting: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var periscopeImprovement: Bool { get }
@@ -90,20 +85,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
     }
-
-     var filtersReorder: Bool {
-        if Bumper.enabled {
-            return Bumper.filtersReorder
-        }
-        return ABTests.filtersReorder.value
-    }
-
-     var directPostInOnboarding: Bool {
-        if Bumper.enabled {
-            return Bumper.directPostInOnboarding
-        }
-        return ABTests.directPostInOnboarding.value
-    }
     
      var shareButtonWithIcon: Bool {
         if Bumper.enabled {
@@ -117,20 +98,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.productDetailShareMode
         }
         return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
-    }
-
-     var chatHeadBubbles: Bool {
-        if Bumper.enabled {
-            return Bumper.chatHeadBubbles
-        }
-        return ABTests.chatHeadBubbles.value
-    }
-
-    var saveMailLogout: Bool {
-        if Bumper.enabled {
-            return Bumper.saveMailLogout
-        }
-        return ABTests.saveMailLogout.value
     }
 
     var expressChatBanner: Bool {
@@ -159,13 +126,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.shareAfterPosting
         }
         return ABTests.shareAfterPosting.value
-    }
-
-    var commercializerAfterPosting: Bool {
-        if Bumper.enabled {
-            return Bumper.commercializerAfterPosting
-        }
-        return ABTests.commercializerAfterPosting.value
     }
 
     var postingMultiPictureEnabled: Bool {
