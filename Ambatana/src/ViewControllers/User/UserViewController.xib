@@ -1,15 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="averageRatingContainerViewHeight" destination="kuw-6a-PeO" id="EmM-BP-wgP"/>
-                <outlet property="averageRatingView" destination="vc2-g1-bIT" id="WBc-2W-f3l"/>
+                <outlet property="averageRatingView" destination="vc2-g1-bIT" id="cKj-Wy-UcL"/>
                 <outlet property="headerContainer" destination="3Kp-we-Xh1" id="f4J-GU-py2"/>
                 <outlet property="headerContainerBottom" destination="3Pl-0d-BZp" id="kOk-BW-kKF"/>
                 <outlet property="headerContainerHeight" destination="N3e-nv-cas" id="Gx5-Ol-4oK"/>
@@ -24,51 +28,46 @@
                 <outlet property="userLocationLabel" destination="rlh-Aj-lzp" id="bea-FG-mLv"/>
                 <outlet property="userNameLabel" destination="be4-ac-vae" id="eaK-Ge-DrE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outletCollection property="averageRatingImageViews" destination="VoE-Mm-Awo" collectionClass="NSMutableArray" id="16t-Lc-4Ax"/>
-                <outletCollection property="averageRatingImageViews" destination="CsO-1l-LAW" collectionClass="NSMutableArray" id="knW-2d-d8m"/>
-                <outletCollection property="averageRatingImageViews" destination="omf-dl-pXI" collectionClass="NSMutableArray" id="gQd-5X-1aB"/>
-                <outletCollection property="averageRatingImageViews" destination="4Xv-hz-pIY" collectionClass="NSMutableArray" id="1z3-Qc-Rmq"/>
-                <outletCollection property="averageRatingImageViews" destination="j9f-X1-VAR" collectionClass="NSMutableArray" id="yln-62-p88"/>
                 <outletCollection property="userLabelsSideMargin" destination="mCh-JL-coW" collectionClass="NSMutableArray" id="Qql-zW-aYw"/>
                 <outletCollection property="userLabelsSideMargin" destination="n8n-dh-X6g" collectionClass="NSMutableArray" id="T7m-4d-XzM"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qzg-je-AY2" userLabel="Product List View Background">
-                    <rect key="frame" x="0.0" y="256" width="600" height="344"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="0.0" y="256" width="375" height="411"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOJ-t3-gBZ" userLabel="Product List View" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jUL-st-g1H" userLabel="Pattern View">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hy6-gu-q5k" userLabel="User Bg View">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n6I-hr-OoB">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                         </imageView>
                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OrV-Pm-AHl" userLabel="User Bg Visual Effect View">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="eac-7n-MfQ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                             <blurEffect style="light"/>
                         </visualEffectView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ueY-4k-2z8">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="n6I-hr-OoB" secondAttribute="trailing" id="1E0-RW-300"/>
                         <constraint firstItem="n6I-hr-OoB" firstAttribute="leading" secondItem="Hy6-gu-q5k" secondAttribute="leading" id="5Mr-vD-oxL"/>
@@ -85,23 +84,23 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Kp-we-Xh1" customClass="UserViewHeaderContainer" customModule="LetGo" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="150" width="600" height="150"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="0.0" y="150" width="375" height="150"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="150" id="N3e-nv-cas"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r4n-rR-ucf">
-                    <rect key="frame" x="50" y="30" width="500" height="70"/>
+                    <rect key="frame" x="50" y="30" width="275" height="70"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="be4-ac-vae">
-                            <rect key="frame" x="0.0" y="0.0" width="500" height="21"/>
+                            <rect key="frame" x="0.0" y="0.0" width="275" height="21"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmB-KE-ViC" userLabel="Average Rating Container View">
-                            <rect key="frame" x="201" y="21" width="98" height="32"/>
+                            <rect key="frame" x="89" y="21" width="98" height="32"/>
                             <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vc2-g1-bIT" userLabel="Average Rating View">
                                     <rect key="frame" x="0.0" y="6" width="98" height="22"/>
@@ -131,7 +130,7 @@
                                             <rect key="frame" x="75" y="5" width="12" height="12"/>
                                         </imageView>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstItem="CsO-1l-LAW" firstAttribute="leading" secondItem="VoE-Mm-Awo" secondAttribute="trailing" constant="4" id="3zC-wM-Um4"/>
                                         <constraint firstAttribute="trailing" secondItem="omf-dl-pXI" secondAttribute="trailing" constant="11" id="4G1-Rs-rl2"/>
@@ -158,16 +157,16 @@
                             </subviews>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="vc2-g1-bIT" secondAttribute="trailing" id="59B-c6-fAb"/>
-                                <constraint firstItem="vc2-g1-bIT" firstAttribute="top" secondItem="vmB-KE-ViC" secondAttribute="top" constant="6" id="Pzg-Ef-Ml0"/>
-                                <constraint firstAttribute="bottom" secondItem="vc2-g1-bIT" secondAttribute="bottom" constant="4" id="R2M-u8-4g6"/>
+                                <constraint firstItem="vc2-g1-bIT" firstAttribute="top" secondItem="vmB-KE-ViC" secondAttribute="top" priority="751" constant="6" id="Pzg-Ef-Ml0"/>
+                                <constraint firstAttribute="bottom" secondItem="vc2-g1-bIT" secondAttribute="bottom" priority="751" constant="4" id="R2M-u8-4g6"/>
                                 <constraint firstItem="vc2-g1-bIT" firstAttribute="leading" secondItem="vmB-KE-ViC" secondAttribute="leading" id="XLh-gK-3ND"/>
                                 <constraint firstAttribute="height" constant="32" id="kuw-6a-PeO"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rlh-Aj-lzp">
-                            <rect key="frame" x="0.0" y="53" width="500" height="17"/>
+                            <rect key="frame" x="0.0" y="53" width="275" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
@@ -186,7 +185,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="top" secondItem="3Kp-we-Xh1" secondAttribute="bottom" constant="-300" id="3Pl-0d-BZp"/>
                 <constraint firstItem="r4n-rR-ucf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="6Uh-4X-OE4"/>

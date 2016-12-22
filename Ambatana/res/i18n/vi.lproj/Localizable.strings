@@ -17,6 +17,20 @@
 "app_share_title_alternative" = "CHIA SẺ BẰNG TÌNH YÊU THƯƠNG";
 "app_share_whatsapp_button" = "Mời qua Whatsapp";
 "block_user_error_generic" = "Có lỗi xảy ra trong khi chặn người dùng này.";
+"bump_up_bubble_free_button_title" = "Đẩy lên";
+"bump_up_bubble_free_text" = "Đẩy lên miễn phí để bán nhanh hơn";
+"bump_up_bubble_pay_text" = "Đẩy lên để bán nhanh hơn";
+"bump_up_bubble_wait_text" = "để đẩy lên lại";
+"bump_up_error_bump_generic" = "Có lỗi trong khi đẩy sản phẩm của bạn lên. Xin vui lòng thử lại.";
+"bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng sản phẩm chưa được nổi bật. Xin vui lòng thử lại.";
+"bump_up_free_success" = "Đẩy lên! Hãy liên tục đẩy sản phẩm lên để dễ thấy hơn nữa.";
+"bump_up_pay_success" = "Đẩy lên! Sản phẩm của bạn hiện đã dễ thấy hơn.";
+"bump_up_view_free_subtitle" = "Càng được chia sẻ nhiều, bài đăng của bạn càng dễ thấy.";
+"bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
+"bump_up_view_pay_bumps_left_text" = "Bạn còn %i lượt đẩy lên.";
+"bump_up_view_pay_button_title" = "Kích hoạt cho %@";
+"bump_up_view_pay_subtitle" = "Để bài đăng của bạn dễ nhìn hơn trong 24 giờ bằng cách đẩy lên đầu.";
+"bump_up_view_pay_title" = "ĐẨY BÀI ĐĂNG ĐỂ BÁN NHANH HƠN";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";
 "categories_cars_and_motors" = "Ô tô và Xe máy";
 "categories_electronics" = "Đồ điện tử";
@@ -288,7 +302,7 @@
 "log_in_send_button" = "Đăng nhập";
 "log_in_title" = "Đăng nhập bằng email";
 "login_scammer_alert_contact_button" = "Liên hệ";
-"login_scammer_alert_keep_browsing_button" = "Tiếp tục Duyệt";
+"login_scammer_alert_keep_browsing_button" = "Bỏ qua";
 "login_scammer_alert_message" = "Tài khoản của bạn đang được letgo xem xét. Nếu bạn tin tài khoản của mình bị cảnh báo sai, hãy liên hệ với chúng tôi.";
 "login_scammer_alert_title" = "TÀI KHOẢN ĐANG ĐƯỢC XEM XÉT";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua—bằng cách trò chuyện!";
@@ -572,6 +586,7 @@
 "rating_list_action_report_review_success_message" = "Báo cáo của bạn đã được gửi đi!";
 "rating_list_action_review_user" = "Xem người dùng";
 "rating_list_loading_error_message" = "Có lỗi xảy ra khi tải các đánh giá";
+"rating_list_rating_status_pending" = "This review is being verified";
 "rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
 "rating_list_rating_type_conversation_text_label" = "%@ đã trò chuyện về một sản phẩm";
 "rating_list_rating_type_seller_text_label" = "%@ đã bán một sản phẩm";

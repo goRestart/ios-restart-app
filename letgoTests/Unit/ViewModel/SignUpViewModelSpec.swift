@@ -294,4 +294,5 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
                         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
     func vmPop() {}
     func vmDismiss(completion: (() -> Void)?){}
+    func vmOpenInternalURL(url: NSURL) {}
 }

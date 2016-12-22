@@ -29,7 +29,7 @@ enum UserRatingRouter: URLRequestAuthenticable {
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Index:
-            return .Installation
+            return .Nonexistent
         case .Show, .Create, .Update, .Report:
             return .User
         }

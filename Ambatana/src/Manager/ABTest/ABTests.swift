@@ -24,6 +24,7 @@ public struct ABTests {
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
+    static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: true)
     static var newQuickAnswers = BoolABDynamicVar(key: "newQuickAnswers", defaultValue: false)
     static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
     static var favoriteWithBubbleToChat = BoolABDynamicVar(key: "favoriteWithBubbleToChat", defaultValue: false)
@@ -41,6 +42,7 @@ public struct ABTests {
                 shareAfterPosting,
                 postingMultiPictureEnabled,
                 periscopeImprovement,
+                userReviews,
                 newQuickAnswers,
                 favoriteWithBadgeOnProfile,
                 favoriteWithBubbleToChat]

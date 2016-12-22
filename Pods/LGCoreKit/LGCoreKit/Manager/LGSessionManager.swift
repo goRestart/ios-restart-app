@@ -242,7 +242,7 @@ class LGSessionManager: InternalSessionManager {
      Logs the user out.
      */
     func logout() {
-        if let userToken = tokenDAO.token.value?.componentsSeparatedByString(" ").last
+        if let userToken = tokenDAO.token.actualValue
             where tokenDAO.level >= .User {
             let request = SessionRouter.Delete(userToken: userToken)
             apiClient.request(request, decoder: {$0}, completion: nil)
@@ -301,7 +301,7 @@ class LGSessionManager: InternalSessionManager {
      */
     func renewUserToken(completion: (Result<Authentication, ApiError> -> ())?) {
         guard let userToken = tokenDAO.get(level: .User),
-            userTokenValue = userToken.value?.componentsSeparatedByString(" ").last else {
+            userTokenValue = userToken.actualValue else {
                 completion?(Result<Authentication, ApiError>(error: .Internal(description: "Missing user token")))
                 return
         }
@@ -321,12 +321,15 @@ class LGSessionManager: InternalSessionManager {
      Sets up after logging-out.
      */
     func tearDownSession(kicked kicked: Bool) {
+        let previouslyLogged = loggedIn
         cleanSession()
-        events.onNext(.Logout(kickedOut: kicked))
+        if previouslyLogged {
+            events.onNext(.Logout(kickedOut: kicked))
+        }
     }
 
     func authenticateWebSocket(completion: (Result<Void, SessionManagerError> -> ())?) {
-        let tokenString = tokenDAO.token.value?.componentsSeparatedByString(" ").last
+        let tokenString = tokenDAO.token.actualValue
         guard let token = tokenString where tokenDAO.level >= .User else {
             completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
             return

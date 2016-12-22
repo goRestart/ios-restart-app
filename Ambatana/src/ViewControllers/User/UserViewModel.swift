@@ -170,6 +170,7 @@ class UserViewModel: BaseViewModel {
         updatePermissionsWarning()
 
         if itsMe {
+            refreshMyUserData()
             resetLists()
             cleanFavoriteBadgeIfNeeded()
         } else {
@@ -375,7 +376,6 @@ extension UserViewModel {
 
 extension UserViewModel {
     private func retrieveUserData() {
-        guard userAccounts.value == nil else { return }
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
@@ -383,7 +383,10 @@ extension UserViewModel {
             self?.updateRatings(user)
         }
     }
-    
+
+    private func refreshMyUserData() {
+        myUserRepository.refresh(nil) //Completion not required as we're listening rx_myUser
+    }
 
     private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }

@@ -25,6 +25,8 @@ protocol BaseViewModelDelegate: class {
 
     func vmPop()
     func vmDismiss(completion: (() -> Void)?)
+    
+    func vmOpenInternalURL(url: NSURL)
 }
 
 extension UIViewController: BaseViewModelDelegate {
@@ -77,5 +79,9 @@ extension UIViewController: BaseViewModelDelegate {
                         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
         ifLoggedInThen(source, loginStyle: loginStyle, preDismissAction: nil, loggedInAction: loggedInAction,
                        elsePresentSignUpWithSuccessAction: afterLogInAction)
+    }
+    
+    func vmOpenInternalURL(url: NSURL) {
+        openInternalUrl(url)
     }
 }

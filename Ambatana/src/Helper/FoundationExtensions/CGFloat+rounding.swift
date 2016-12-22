@@ -21,5 +21,33 @@ extension CGFloat {
         let n = 1/nearest
         return round(self * n) / n
     }
+
+
+    /**
+     Maps a percentage inside 0 and maximum:
+     
+     CGFloat(1.0).percentageTo(0.5) -> 1.0
+     CGFloat(0.5).percentageTo(0.5) -> 1.0
+     CGFloat(0.25).percentageTo(0.5) -> 0.5
+     CGFloat(0).percentageTo(0.5) -> 0.0
+    */
+    func percentageTo(maximum: CGFloat) -> CGFloat {
+        guard self < maximum else { return 1 }
+        return self / maximum
+    }
+
+    /**
+     Maps a percentage inside start and end:
+
+     CGFloat(1.0).percentageBetween(start: 0.5, end: 1.5) -> 0.5
+     CGFloat(1.2).percentageBetween(start: 1.0, end: 1.4) -> 0.5
+     CGFloat(0.9).percentageBetween(start: 1.0, end: 1.4) -> 0
+     CGFloat(1.5).percentageBetween(start: 1.0, end: 1.4) -> 1
+     */
+    func percentageBetween(start start: CGFloat, end: CGFloat) -> CGFloat {
+        guard self > start else { return 0 }
+        guard self < end else { return 1 }
+        return (self - start) / (end - start)
+    }
 }
 

@@ -69,7 +69,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.userReviews
         }
-        return false
+        return ABTests.userReviews.value
     }
 
      var showNPSSurvey: Bool {

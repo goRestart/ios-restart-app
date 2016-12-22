@@ -32,7 +32,7 @@ enum CommercializerRouter: URLRequestAuthenticable {
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Index, .IndexTemplates:
-            return .Installation
+            return .Nonexistent
         case .Create, .IndexAvailableProducts:
             return .User
         }
