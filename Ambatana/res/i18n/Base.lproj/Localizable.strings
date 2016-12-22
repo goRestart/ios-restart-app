@@ -55,6 +55,48 @@
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
+// Text for bubble in free bump
+"bump_up_bubble_free_text" = "Bump up for free to sell faster";
+
+// Text for bubble in payment bump
+"bump_up_bubble_pay_text" = "Bump up to sell faster";
+
+// Text for bubble while waiting for next bump
+"bump_up_bubble_wait_text" = "to bump up again";
+
+// Title for bubble button
+"bump_up_bubble_free_button_title" = "Bump up";
+
+// Free bump up success message
+"bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
+
+// Payment bump up success message
+"bump_up_pay_success" = "Bumped up! Now your item has extra visibility.";
+
+// Error when bumping
+"bump_up_error_bump_generic" = "An error occurred while bumping up your item. Please try again.";
+
+// Token error when bumping
+"bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
+
+// Title for free bump up view
+"bump_up_view_free_title" = "BUMP UP YOUR LISTING";
+
+// Subtitle for free bump up view
+"bump_up_view_free_subtitle" = "The more you share, the more visibility your listing will have.";
+
+// Title for payment bump up view
+"bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
+
+// Subtitle for payment bump up view
+"bump_up_view_pay_subtitle" = "Give your listing higher visibility for 24 hours by moving it to the top.";
+
+// Button title for payment bump up view
+"bump_up_view_pay_button_title" = "Activate for %@";
+
+// Text for "bumps left" label for payment bump up view
+"bump_up_view_pay_bumps_left_text" = "You have %i bump ups left.";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -107,7 +149,7 @@
 "change_location_error_updating_location_message" = "An error occurred while updating your location.";
 
 // Change location unknown location message. Message displayal is like the other error messages
-"change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
+"change_location_recommend_update_location_message" = "We recommend updating your location to see the best deals near you!";
 
 // Change location search field hint. Check image @ "change_location_title" segment
 "change_location_search_field_hint" = "Enter city or zip code";
@@ -1722,6 +1764,9 @@
 
 // Text for rating of type "seller" ( %s will be the username)
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";
+
+// Text when a rating is pending review
+"rating_list_rating_status_pending" = "This review is being verified";
 
 // Title for rating list view
 "rating_list_title" = "Reviews";

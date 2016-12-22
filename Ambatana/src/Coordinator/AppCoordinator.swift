@@ -575,7 +575,7 @@ private extension AppCoordinator {
                 self?.openChangeLocation()
             }
             })
-            navCtl.showAlert(nil, message: "New message text for location",
+            navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
     }
 }

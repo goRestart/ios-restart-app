@@ -17,6 +17,20 @@
 "app_share_title_alternative" = "사랑을 공유하세요";
 "app_share_whatsapp_button" = "Whatsapp으로 초대하기";
 "block_user_error_generic" = "사용자를 차단하는데 오류가 발생했습니다.";
+"bump_up_bubble_free_button_title" = "강조하기";
+"bump_up_bubble_free_text" = "빠르게 판매하기 위해 무료로 강조해보세요";
+"bump_up_bubble_pay_text" = "빠른 판매를 위해 강조하세요";
+"bump_up_bubble_wait_text" = "다시 강조하기";
+"bump_up_error_bump_generic" = "상품을 강조하는 동안에 오류가 발생했습니다. 다시 시도해주세요.";
+"bump_up_error_bump_token" = "결제를 진행하고자 하였지만, 상품을 선택하시지 않으셨습니다. 다시 시도해주세요.";
+"bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
+"bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
+"bump_up_view_free_subtitle" = "더 많이 공유할 수록, 판매 상품이 더 잘보이게 될 것입니다.";
+"bump_up_view_free_title" = "리스팅 강조하기";
+"bump_up_view_pay_bumps_left_text" = "사용자께서는 강조 기회가 %번 남으셨습니다.";
+"bump_up_view_pay_button_title" = "%@ 활성화";
+"bump_up_view_pay_subtitle" = "상품을 상단으로 이동하여 24시간동안 더 많이 확인할 수 있게 하세요.";
+"bump_up_view_pay_title" = "빠른 판매를 위해 강조하세요";
 "categories_baby_and_child" = "유아동";
 "categories_cars_and_motors" = "자동차 및 모터";
 "categories_electronics" = "가전제품";
@@ -288,7 +302,7 @@
 "log_in_send_button" = "로그인";
 "log_in_title" = "이메일로 로그인";
 "login_scammer_alert_contact_button" = "문의하기";
-"login_scammer_alert_keep_browsing_button" = "계속 검색하기";
+"login_scammer_alert_keep_browsing_button" = "넘기기";
 "login_scammer_alert_message" = "letgo팀이 회원님의 계정을 검토하고 있습니다. 만약 잘못된 사항이 있다면, 저희에게 연락하여 주십시오.";
 "login_scammer_alert_title" = "계정을 검토하고 있습니다";
 "main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
@@ -572,6 +586,7 @@
 "rating_list_action_report_review_success_message" = "신고가 발송되었습니다!";
 "rating_list_action_review_user" = "사용자 리뷰";
 "rating_list_loading_error_message" = "평점을 불러오는 동안 오류가 발생했습니다.";
+"rating_list_rating_status_pending" = "이 리뷰는 확인 중입니다";
 "rating_list_rating_type_buyer_text_label" = "%@께서 상품을 구매하였습니다";
 "rating_list_rating_type_conversation_text_label" = "%@께서 상품에 관하여 채팅을 보냈습니다";
 "rating_list_rating_type_seller_text_label" = "%@께서 상품을 판매하였습니다";
