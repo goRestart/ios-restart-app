@@ -302,7 +302,7 @@
 "log_in_send_button" = "Giriş yap";
 "log_in_title" = "E-posta ile Kaydol";
 "login_scammer_alert_contact_button" = "Bize ulaşın";
-"login_scammer_alert_keep_browsing_button" = "Geç";
+"login_scammer_alert_keep_browsing_button" = "Kapat";
 "login_scammer_alert_message" = "Hesabın letgo Ekibi tarafından inceleme altına alınmıştır. Eğer bu durumda bir yanlışlık olduğunu düşünüyorsan bizimle iletişime geçebilirsin.";
 "login_scammer_alert_title" = "HESAP İNCELEME ALTINDA";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
