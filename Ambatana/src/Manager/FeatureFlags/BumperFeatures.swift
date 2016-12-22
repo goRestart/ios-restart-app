@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -63,11 +63,6 @@ extension Bumper  {
     static var keywordsTravelCollection: KeywordsTravelCollection {
         guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .Standard }
         return KeywordsTravelCollection(rawValue: value) ?? .Standard 
-    }
-
-    static var commercializerAfterPosting: Bool {
-        guard let value = Bumper.valueForKey(CommercializerAfterPosting.key) else { return false }
-        return CommercializerAfterPosting(rawValue: value)?.asBool ?? false
     }
 
     static var relatedProductsOnMoreInfo: Bool {
@@ -223,15 +218,6 @@ enum KeywordsTravelCollection: String, BumperFeature  {
             default: return .Standard
         }
     }
-}
-
-enum CommercializerAfterPosting: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return CommercializerAfterPosting.No.rawValue }
-    static var enumValues: [CommercializerAfterPosting] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Commercializer after posting" } 
-    var asBool: Bool { return self == .Yes }
 }
 
 enum RelatedProductsOnMoreInfo: String, BumperFeature  {

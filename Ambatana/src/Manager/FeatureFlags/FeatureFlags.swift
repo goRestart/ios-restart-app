@@ -22,7 +22,6 @@ protocol FeatureFlaggeable {
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
-    var commercializerAfterPosting: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var periscopeImprovement: Bool { get }
@@ -127,13 +126,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.shareAfterPosting
         }
         return ABTests.shareAfterPosting.value
-    }
-
-    var commercializerAfterPosting: Bool {
-        if Bumper.enabled {
-            return Bumper.commercializerAfterPosting
-        }
-        return ABTests.commercializerAfterPosting.value
     }
 
     var postingMultiPictureEnabled: Bool {

@@ -226,38 +226,6 @@ extension AppCoordinator: AppNavigator {
 }
 
 
-// MARK: - PromoteProductViewControllerDelegate
-
-extension AppCoordinator: PromoteProductViewControllerDelegate {
-    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
-        promoteProductPostActions(promotionSource)
-    }
-
-    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
-        if promotionSource == .ProductSell {
-            keyValueStorage.shouldShowCommercializerAfterPosting = false
-        }
-        promoteProductPostActions(promotionSource)
-    }
-}
-
-private extension AppCoordinator {
-    func promoteProductPostActions(source: PromotionSource) {
-        if source.hasPostPromotionActions {
-            if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-            } else if ratingManager.shouldShowRating {
-                showAppRatingViewIfNeeded(.ProductSellComplete)
-            }
-        }
-    }
-
-    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
-        return tabBarCtl.showAppRatingViewIfNeeded(source)
-    }
-}
-
-
 // MARK: - CoordinatorDelegate
 
 extension AppCoordinator: CoordinatorDelegate {
@@ -274,7 +242,6 @@ extension AppCoordinator: SellCoordinatorDelegate {
     func sellCoordinator(coordinator: SellCoordinator, didFinishWithProduct product: Product) {
         refreshSelectedProductsRefreshable()
 
-        guard !openPromoteIfNeeded(product: product) else { return }
         openAfterSellDialogIfNeeded()
     }
 }
@@ -311,27 +278,6 @@ private extension AppCoordinator {
         refreshable.productsRefresh()
     }
 
-    func openPromoteIfNeeded(product product: Product) -> Bool {
-        // TODO: Promote Coordinator (move tracking into promote coordinator)
-        guard featureFlags.commercializerAfterPosting else { return false }
-
-        // We do not promote if it's a failure or if it's a success w/o country code
-        guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
-        guard keyValueStorage.shouldShowCommercializerAfterPosting else { return false }
-        // We do not promote if we do not have promo themes for the given country code
-        let themes = commercializerRepository.templatesForCountryCode(countryCode)
-        guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
-                                                      promotionSource: .ProductSell) else { return false }
-        let promoteVC = PromoteProductViewController(viewModel: promoteVM)
-        promoteVC.delegate = self
-        tabBarCtl.presentViewController(promoteVC, animated: true, completion: nil)
-
-        // Tracking
-        tracker.trackEvent(TrackerEvent.commercializerStart(productId, typePage: .Sell))
-
-        return true
-    }
-
     func openAfterSellDialogIfNeeded() -> Bool {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.Sell) {
             pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
@@ -342,6 +288,10 @@ private extension AppCoordinator {
             return false
         }
         return true
+    }
+
+    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
+        return tabBarCtl.showAppRatingViewIfNeeded(source)
     }
 }
 

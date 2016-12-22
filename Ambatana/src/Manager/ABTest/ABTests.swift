@@ -20,7 +20,6 @@ public struct ABTests {
     static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
-    static var commercializerAfterPosting = BoolABDynamicVar(key: "commercializerAfterPosting", defaultValue: false)
     static var relatedProductsOnMoreInfo = BoolABDynamicVar(key: "relatedProductsOnMoreInfo", defaultValue: false)
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
@@ -38,7 +37,6 @@ public struct ABTests {
                 expressChatBanner,
                 postAfterDeleteMode,
                 keywordsTravelCollection,
-                commercializerAfterPosting,
                 relatedProductsOnMoreInfo,
                 shareAfterPosting,
                 postingMultiPictureEnabled,
