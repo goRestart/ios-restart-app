@@ -60,11 +60,6 @@
         "description": "Show express chat banner in chat detail"
     },
     {
-        "name": "ShowLiquidProductsToNewUser",
-        "values": ["No", "Yes"],
-        "description": "show liquid products to new user"
-    },
-    {
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"

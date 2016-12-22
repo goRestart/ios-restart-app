@@ -291,7 +291,7 @@ class MainProductsViewModel: BaseViewModel {
 
     private func setup() {
         listViewModel.dataDelegate = self
-        productListRequester.filters = setupFiltersForRequester()
+        productListRequester.filters = filters
 
         productListRequester.queryString = searchType?.query
         setupSessionAndLocation()
@@ -313,7 +313,7 @@ class MainProductsViewModel: BaseViewModel {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
 
-        productListRequester.filters = setupFiltersForRequester()
+        productListRequester.filters = filters
         infoBubbleVisible.value = false
         errorMessage.value = nil
         listViewModel.resetUI()
@@ -328,18 +328,6 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
         }
-    }
-    
-    private func setupFiltersForRequester() -> ProductFilters {
-        guard featureFlags.showLiquidProductsToNewUser else { return filters }
-        guard keyValueStorage[.sessionNumber] == MainProductsViewModel.firstVersionNumber else { return filters }
-        var filtersForRequester: ProductFilters = filters
-        let query = searchType?.query ?? ""
-        if query.isEmpty && filters.selectedCategories.isEmpty {
-            let mainCategories: [ProductCategory] = [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
-            filtersForRequester.selectedCategories = mainCategories
-        }
-        return filtersForRequester
     }
 }
 
