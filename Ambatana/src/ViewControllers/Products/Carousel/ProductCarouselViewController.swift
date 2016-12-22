@@ -131,7 +131,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.featureFlags = featureFlags
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
+                   navBarBackgroundStyle: .Transparent(substyle: .Dark), swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
@@ -149,7 +149,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        swipeBackGesture(enabled: false)
         addSubviews()
         setupUI()
         setupNavigationBar()

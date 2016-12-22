@@ -190,10 +190,6 @@ extension UIViewController {
         let views = ["toastView": toastView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
     }
-    
-    func swipeBackGesture(enabled enabled: Bool) {
-        navigationController?.interactivePopGestureRecognizer?.enabled = enabled
-    }
 }
 
 
@@ -400,11 +396,12 @@ public class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     var hasTabBar: Bool = false
-
+    
     // UI
     private let statusBarStyle: UIStatusBarStyle
     private let previousStatusBarStyle: UIStatusBarStyle
     private let navBarBackgroundStyle: NavBarBackgroundStyle
+    private var swipeBackGestureEnabled: Bool
     var floatingSellButtonHidden: Bool
     private(set) var viewLoaded: Bool = false
 
@@ -412,13 +409,14 @@ public class BaseViewController: UIViewController, TabBarShowable {
     // MARK: Lifecycle
 
     init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .Default,
-         navBarBackgroundStyle: NavBarBackgroundStyle = .Default) {
+         navBarBackgroundStyle: NavBarBackgroundStyle = .Default, swipeBackGestureEnabled: Bool = true) {
         self.viewModel = viewModel
         self.subviews = []
         self.statusBarStyle = statusBarStyle
         self.previousStatusBarStyle = UIApplication.sharedApplication().statusBarStyle
         self.navBarBackgroundStyle = navBarBackgroundStyle
         self.floatingSellButtonHidden = false
+        self.swipeBackGestureEnabled = swipeBackGestureEnabled
         super.init(nibName: nibNameOrNil, bundle: nil)
 
         // Setup
@@ -507,7 +505,9 @@ public class BaseViewController: UIViewController, TabBarShowable {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplicationDidEnterBackgroundNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
         }
-
+        
+        navigationController?.interactivePopGestureRecognizer?.enabled = swipeBackGestureEnabled
+        
         updateReachableAndToastViewVisibilityIfNeeded()
         active = true
     }
