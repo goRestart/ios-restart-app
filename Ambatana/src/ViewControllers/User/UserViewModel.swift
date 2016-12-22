@@ -160,6 +160,7 @@ class UserViewModel: BaseViewModel {
         updatePermissionsWarning()
 
         if itsMe {
+            refreshMyUserData()
             resetLists()
         } else {
             retrieveUserData()
@@ -363,7 +364,10 @@ extension UserViewModel {
             self?.updateRatings(user)
         }
     }
-    
+
+    private func refreshMyUserData() {
+        myUserRepository.refresh(nil) //Completion not required as we're listening rx_myUser
+    }
 
     private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
