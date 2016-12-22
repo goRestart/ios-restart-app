@@ -160,6 +160,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupZoomRx()
         setAccessibilityIds()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if moreInfoState.value == .Shown {
+            moreInfoView?.viewWillShow()
+        }
+    }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -337,8 +345,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         if moreInfoView?.frame.origin.y < 0 {
             viewModel.close()
         } else {
-            if let moreInfoView = moreInfoView where moreInfoView.bigMapVisible {
-                hideBigMap()
+            if let moreInfoView = moreInfoView where moreInfoView.mapExpanded {
+                compressMap()
             } else {
                 hideMoreInfo()
             }
@@ -939,9 +947,9 @@ extension ProductCarouselViewController {
         })
     }
 
-    func hideBigMap() {
-        guard let moreInfoView = moreInfoView where moreInfoView.bigMapVisible else { return }
-        moreInfoView.hideBigMap()
+    func compressMap() {
+        guard let moreInfoView = moreInfoView where moreInfoView.mapExpanded else { return }
+        moreInfoView.compressMap()
     }
 }
 
@@ -1045,7 +1053,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0)
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
-        directChatTable.isCellHiddenBlock = { return !$0.contentView.hidden }
+        directChatTable.isCellHiddenBlock = { return $0.contentView.hidden }
         directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.openChatWithSeller() }
 
         chatTextView.translatesAutoresizingMaskIntoConstraints = false

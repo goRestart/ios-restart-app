@@ -126,10 +126,10 @@ class ProductViewModel: BaseViewModel {
 
     let showBumpUpBubble = Variable<Bool>(false)
     var bumpUpBubbleInfo: BumpUpInfo?
-    var bumpUpPurchaseableProduct: MonetizationProduct?
+    var bumpUpPurchaseableProduct: PurchaseableProduct?
 
-    private var favoriteMessageSent: Bool = false
     private var alreadyTrackedFirstMessageSent: Bool = false
+    private static let bubbleTagGroup = "favorite.bubble.group"
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.Hidden)
@@ -148,6 +148,7 @@ class ProductViewModel: BaseViewModel {
     private let bubbleManager: BubbleNotificationManager
     private let featureFlags: FeatureFlaggeable
     private let purchasesShopper: PurchasesShopper
+    private var notificationsManager: NotificationsManager
 
     // Retrieval status
     private var relationRetrieved = false
@@ -172,14 +173,14 @@ class ProductViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         let featureFlags = FeatureFlags.sharedInstance
-        
+        let notificationsManager = NotificationsManager.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance, featureFlags: featureFlags,
-                  purchasesShopper: PurchasesShopper.sharedInstance)
+                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
@@ -187,7 +188,7 @@ class ProductViewModel: BaseViewModel {
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager,
-         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper) {
+         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper, notificationsManager: NotificationsManager) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -206,6 +207,7 @@ class ProductViewModel: BaseViewModel {
         self.interestedBubbleManager = interestedBubbleManager
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
+        self.notificationsManager = notificationsManager
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -647,7 +649,7 @@ extension ProductViewModel {
     private func buildFavoriteNavBarAction() -> UIAction {
         let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
             .imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                 self?.switchFavoriteAction()
                 }, source: .Favourite)
@@ -656,7 +658,7 @@ extension ProductViewModel {
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() },
+        return UIAction(interface: .Image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
                         accessibilityId: .ProductCarouselNavBarActionsButton)
     }
 
@@ -691,7 +693,6 @@ extension ProductViewModel {
         if isDeletable {
             actions.append(buildDeleteButton())
         }
-
 
         delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
@@ -837,12 +838,14 @@ extension ProductViewModel {
 
 extension ProductViewModel {
     private func switchFavoriteAction() {
+        
         favoriteButtonState.value = .Disabled
         if isFavorite.value {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.isFavorite.value = product.favorite
+                    strongSelf.notificationsManager.decreaseFavoriteCounter()
                 }
                 strongSelf.favoriteButtonState.value = .Enabled
             }
@@ -852,7 +855,7 @@ extension ProductViewModel {
                 if let product = result.value {
                     strongSelf.isFavorite.value = product.favorite
                     self?.trackHelper.trackSaveFavoriteCompleted()
-
+                    strongSelf.notificationsManager.increaseFavoriteCounter()
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
@@ -860,8 +863,24 @@ extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
-            checkSendFavoriteMessage()
+            if featureFlags.favoriteWithBubbleToChat {
+                navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
+            }
         }
+    }
+    
+    private func favoriteBubbleNotificationData() -> BubbleNotificationData {
+        let action = UIAction(interface: .Text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
+            guard let product = self?.product.value else { return }
+            self?.navigator?.openProductChat(product)
+        }, accessibilityId: .BubbleButton)
+        let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
+                                          text: LGLocalizedString.productBubbleFavoriteButton,
+                                          infoText: LGLocalizedString.productBubbleFavoriteText,
+                                          action: action,
+                                          iconURL: nil,
+                                          iconImage: UIImage(named: "user_placeholder"))
+        return data
     }
 
     private func report() {
@@ -1016,27 +1035,6 @@ extension ProductViewModel {
 
     func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
         return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct, featureFlags: featureFlags) && active
-    }
-}
-
-
-// MARK: - Message on favorite
-
-private extension ProductViewModel {
-    private func checkSendFavoriteMessage() {
-        guard !favoriteMessageSent else { return }
-
-        switch featureFlags.messageOnFavoriteRound2 {
-        case .NoMessage:
-            return
-        case .DirectMessage:
-            sendFavoriteMessage()
-        }
-    }
-
-    private func sendFavoriteMessage() {
-        sendMessage(.FavoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
-        favoriteMessageSent = true
     }
 }
 
@@ -1224,7 +1222,7 @@ extension ProductViewModel: BumpUpDelegate {
 // MARK: PurchasesShopperDelegate
 
 extension ProductViewModel: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [MonetizationProduct]) {
+    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [PurchaseableProduct]) {
         guard let requestProdId = productId, currentProdId = product.value.objectId where
             requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
@@ -1237,11 +1235,9 @@ extension ProductViewModel: PurchasesShopperDelegate {
         // Update UI
     }
 
-    func shopperPurchaseDidFinish() {
-        // Update UI
-    }
-
-    func shopperPurchaseDidFail() {
-        // Update UI
+    func shopperFailedProductsRequestForProductId(productId: String?, withError: NSError) {
+        guard let requestProdId = productId, currentProdId = product.value.objectId where
+            requestProdId == currentProdId else { return }
+        // update error UI
     }
 }

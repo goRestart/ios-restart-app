@@ -8,12 +8,26 @@
 
 import LGCoreKit
 
-enum AppReport: Int, ReportType {
-    case None
+// 0..<100000
+enum AppReport: ReportType {
+
+    case Monetization(error: MonetizationReportError)   // 1000..<2000
+
     var domain: String {
         return Constants.appDomain
     }
+
     var code: Int {
-        return rawValue
+        switch self {
+        case .Monetization(let error):
+            switch error {
+            case .InvalidAppstoreProductIdentifiers:
+                return 1001
+            }
+        }
     }
+}
+
+enum MonetizationReportError {
+    case InvalidAppstoreProductIdentifiers
 }

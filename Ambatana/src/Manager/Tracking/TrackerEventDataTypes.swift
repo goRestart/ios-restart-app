@@ -24,6 +24,9 @@ public enum EventName: String {
     case LoginGoogleError                   = "login-signup-error-google"
     case SignupError                        = "signup-error"
     case PasswordResetError                 = "password-reset-error"
+    case LoginBlockedAccountStart           = "login-blocked-account-start"
+    case LoginBlockedAccountContactUs       = "login-blocked-account-contact-us"
+    case LoginBlockedAccountKeepBrowsing    = "login-blocked-account-keep-browsing"
 
     case ProductList                        = "product-list"
     case ExploreCollection                  = "explore-collection"
@@ -52,7 +55,6 @@ public enum EventName: String {
     case ProductReport                      = "product-detail-report"
     
     case ProductSellStart                   = "product-sell-start"
-    case ProductSellFormValidationFailed    = "product-sell-form-validation-failed"
     case ProductSellSharedFB                = "product-sell-shared-fb"
     case ProductSellComplete                = "product-sell-complete"
     case ProductSellComplete24h             = "product-sell-complete-24h"
@@ -146,10 +148,6 @@ public enum EventName: String {
     case NotificationCenterComplete         = "notification-center-complete"
 
     case MarketingPushNotifications         = "marketing-push-notifications"
-    
-    case ChatHeadsStart                     = "chat-bubble-start"
-    case ChatHeadsOpen                      = "chat-bubble-complete"
-    case ChatHeadsDelete                    = "chat-bubble-delete"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"

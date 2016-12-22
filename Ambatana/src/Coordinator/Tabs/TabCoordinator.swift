@@ -13,7 +13,7 @@ protocol TabCoordinatorDelegate: class {
     func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
 }
 
-class TabCoordinator: NSObject {
+class TabCoordinator: BaseCoordinator {
     var child: Coordinator?
 
     let rootViewController: UIViewController
@@ -25,6 +25,7 @@ class TabCoordinator: NSObject {
     let oldChatRepository: OldChatRepository
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorage
+    let bubbleNotificationManager: BubbleNotificationManager
     let tracker: Tracker
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
@@ -35,7 +36,7 @@ class TabCoordinator: NSObject {
     // MARK: - Lifecycle
 
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
-         oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
+         oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository, bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
          featureFlags: FeatureFlaggeable) {
         self.productRepository = productRepository
@@ -43,13 +44,14 @@ class TabCoordinator: NSObject {
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.rootViewController = rootViewController
         self.featureFlags = featureFlags
         self.navigationController = UINavigationController(rootViewController: rootViewController)
 
-        super.init()
+        super.init(viewController: rootViewController, bubbleNotificationManager: bubbleNotificationManager)
         self.navigationController.delegate = self
     }
 

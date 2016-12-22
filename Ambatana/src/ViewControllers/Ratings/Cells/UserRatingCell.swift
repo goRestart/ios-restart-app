@@ -43,6 +43,7 @@ struct UserRatingCellData {
     var ratingDescription: String?
     var ratingDate: NSDate
     var isMyRating: Bool
+    var pendingReview: Bool
 }
 
 protocol UserRatingCellDelegate: class {
@@ -51,13 +52,17 @@ protocol UserRatingCellDelegate: class {
 
 class UserRatingCell: UITableViewCell {
 
+    private static let ratingTypeLeadingWIcon: CGFloat = 16
+
     static var emptyStarImage = "ic_star"
     static var fullStarImage = "ic_star_filled"
 
     @IBOutlet weak var userAvatar: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet var stars: [UIImageView]!
+    @IBOutlet weak var ratingTypeIcon: UIImageView!
     @IBOutlet weak var ratingTypeLabel: UILabel!
+    @IBOutlet weak var ratingTypeLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var actionsButton: UIButton!
@@ -98,12 +103,16 @@ class UserRatingCell: UITableViewCell {
 
     func setupRatingCellWithData(data: UserRatingCellData, indexPath: NSIndexPath) {
         let tag = indexPath.hash
-
         cellIndex = indexPath
 
         userNameLabel.text = data.userName
-        ratingTypeLabel.text = data.ratingType.ratingTypeText(data.userName)
-        ratingTypeLabel.textColor = data.ratingType.ratingTypeTextColor
+
+        ratingTypeLabelLeadingConstraint.constant = data.pendingReview ? UserRatingCell.ratingTypeLeadingWIcon : 0
+        ratingTypeIcon.hidden = !data.pendingReview
+        ratingTypeLabel.textColor = data.pendingReview ? UIColor.blackText : data.ratingType.ratingTypeTextColor
+        ratingTypeLabel.text = data.pendingReview ? LGLocalizedString.ratingListRatingStatusPending :
+            data.ratingType.ratingTypeText(data.userName)
+
         if let description = data.ratingDescription where description != "" {
             timeLabelTopConstraint.constant = 5
             descriptionLabel.text = description

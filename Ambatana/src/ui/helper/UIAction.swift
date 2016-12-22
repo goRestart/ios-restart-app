@@ -35,7 +35,7 @@ enum UIActionInterfaceStyle {
 enum UIActionInterface {
     case Text(String)
     case StyledText(String, UIActionInterfaceStyle)
-    case Image(UIImage?)
+    case Image(UIImage?, UIColor?) // Color will be the tint color if != nil
     case TextImage(String, UIImage?)
     case Button(String, ButtonStyle)
 }
@@ -64,12 +64,25 @@ struct UIAction {
         switch interface {
         case .Text, .StyledText, .Button:
             return nil
-        case let .Image(image):
-            return image
+        case let .Image(image, tint):
+            if let _ = tint {
+                return image?.imageWithRenderingMode(.AlwaysTemplate)
+            } else {
+                return image
+            }
         case let .TextImage(_, image):
             return image
         }
     }
+    var imageTint: UIColor? {
+        switch interface {
+        case .Text, .StyledText, .Button, .TextImage:
+            return nil
+        case let .Image(_, tint):
+            return tint
+        }
+    }
+
     var style: UIActionInterfaceStyle {
         switch interface {
         case .Text, .Image, .TextImage, .Button:

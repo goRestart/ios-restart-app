@@ -14,6 +14,7 @@ protocol UserRatingListViewModelDelegate : BaseViewModelDelegate {
     func vmDidLoadUserRatings(ratings: [UserRating])
     func vmDidFailLoadingUserRatings(firstPage: Bool)
     func vmShowUserRating(source: RateUserSource, data: RateUserData)
+    func vmRefresh()
 }
 
 
@@ -75,7 +76,7 @@ class UserRatingListViewModel: BaseViewModel {
         return UserRatingCellData(userName: rating.userFrom.name ?? "", userAvatar: rating.userFrom.avatar?.fileURL,
                                       userAvatarPlaceholder: avatarPlaceholder, ratingType: rating.type,
                                       ratingValue: rating.value, ratingDescription: rating.comment, ratingDate: ratingDate,
-                                      isMyRating: isMyRatingsList)
+                                      isMyRating: isMyRatingsList, pendingReview: rating.status == .PendingReview)
     }
 
 
@@ -84,6 +85,11 @@ class UserRatingListViewModel: BaseViewModel {
     private func ratingAtIndex(index: Int) -> UserRating? {
         guard index < objectCount else { return nil }
         return ratings[index]
+    }
+    
+    private func replaceRating(rating: UserRating) {
+        guard let index = ratings.indexOf ({ $0.objectId == rating.objectId }) else { return }
+        ratings[index] = rating
     }
 }
 
@@ -108,7 +114,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
     func actionButtonPressedForCellAtIndex(indexPath: NSIndexPath) {
         guard let rating = ratingAtIndex(indexPath.row) else { return }
         let userFrom = rating.userFrom
-
+        
         var actions: [UIAction] = []
 
         let reviewAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReviewUser), action: { [weak self] in
@@ -120,13 +126,16 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
 
         if rating.status == .Published {
             let reportAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
+                self?.delegate?.vmShowLoading(nil)
                 self?.userRatingListRequester.reportRating(rating, completion: { result in
-                    if let _ = result.value {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
-                            completion: nil)
+                    if let ratingUpdated = result.value {
+                        self?.replaceRating(ratingUpdated)
+                        self?.delegate?.vmRefresh()
+                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
+                            afterMessageCompletion: nil)
                     } else if let _ = result.error {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.ratingListActionReportReviewErrorMessage,
-                            completion: nil)
+                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewErrorMessage,
+                            afterMessageCompletion: nil)
                     }
                 })
             }, accessibilityId: .RatingListCellReport)
@@ -148,3 +157,4 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         }
     }
 }
+

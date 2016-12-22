@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PostingMultiPictureEnabled.self, PeriscopeImprovement.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -35,24 +35,9 @@ extension Bumper  {
         return ShowNPSSurvey(rawValue: value)?.asBool ?? false
     }
 
-    static var messageOnFavoriteRound2Mode: MessageOnFavoriteRound2Mode {
-        guard let value = Bumper.valueForKey(MessageOnFavoriteRound2Mode.key) else { return .NoMessage }
-        return MessageOnFavoriteRound2Mode(rawValue: value) ?? .NoMessage 
-    }
-
     static var interestedUsersMode: InterestedUsersMode {
         guard let value = Bumper.valueForKey(InterestedUsersMode.key) else { return .NoNotification }
         return InterestedUsersMode(rawValue: value) ?? .NoNotification 
-    }
-
-    static var filtersReorder: Bool {
-        guard let value = Bumper.valueForKey(FiltersReorder.key) else { return false }
-        return FiltersReorder(rawValue: value)?.asBool ?? false
-    }
-
-    static var directPostInOnboarding: Bool {
-        guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
-        return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
     }
 
     static var shareButtonWithIcon: Bool {
@@ -65,24 +50,9 @@ extension Bumper  {
         return ProductDetailShareMode(rawValue: value) ?? .Native 
     }
 
-    static var chatHeadBubbles: Bool {
-        guard let value = Bumper.valueForKey(ChatHeadBubbles.key) else { return false }
-        return ChatHeadBubbles(rawValue: value)?.asBool ?? false
-    }
-
-    static var saveMailLogout: Bool {
-        guard let value = Bumper.valueForKey(SaveMailLogout.key) else { return false }
-        return SaveMailLogout(rawValue: value)?.asBool ?? false
-    }
-
     static var expressChatBanner: Bool {
         guard let value = Bumper.valueForKey(ExpressChatBanner.key) else { return false }
         return ExpressChatBanner(rawValue: value)?.asBool ?? false
-    }
-
-    static var showLiquidProductsToNewUser: Bool {
-        guard let value = Bumper.valueForKey(ShowLiquidProductsToNewUser.key) else { return false }
-        return ShowLiquidProductsToNewUser(rawValue: value)?.asBool ?? false
     }
 
     static var postAfterDeleteMode: PostAfterDeleteMode {
@@ -93,11 +63,6 @@ extension Bumper  {
     static var keywordsTravelCollection: KeywordsTravelCollection {
         guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .Standard }
         return KeywordsTravelCollection(rawValue: value) ?? .Standard 
-    }
-
-    static var commercializerAfterPosting: Bool {
-        guard let value = Bumper.valueForKey(CommercializerAfterPosting.key) else { return false }
-        return CommercializerAfterPosting(rawValue: value)?.asBool ?? false
     }
 
     static var relatedProductsOnMoreInfo: Bool {
@@ -115,14 +80,29 @@ extension Bumper  {
         return MonetizationEnabled(rawValue: value)?.asBool ?? false
     }
 
+    static var periscopeImprovement: Bool {
+        guard let value = Bumper.valueForKey(PeriscopeImprovement.key) else { return false }
+        return PeriscopeImprovement(rawValue: value)?.asBool ?? false
+    }
+
+    static var favoriteWithBadgeOnProfile: Bool {
+        guard let value = Bumper.valueForKey(FavoriteWithBadgeOnProfile.key) else { return false }
+        return FavoriteWithBadgeOnProfile(rawValue: value)?.asBool ?? false
+    }
+
+    static var newQuickAnswers: Bool {
+        guard let value = Bumper.valueForKey(NewQuickAnswers.key) else { return false }
+        return NewQuickAnswers(rawValue: value)?.asBool ?? false
+    }
+
     static var postingMultiPictureEnabled: Bool {
         guard let value = Bumper.valueForKey(PostingMultiPictureEnabled.key) else { return false }
         return PostingMultiPictureEnabled(rawValue: value)?.asBool ?? false
     }
 
-    static var periscopeImprovement: Bool {
-        guard let value = Bumper.valueForKey(PeriscopeImprovement.key) else { return false }
-        return PeriscopeImprovement(rawValue: value)?.asBool ?? false
+    static var favoriteWithBubbleToChat: Bool {
+        guard let value = Bumper.valueForKey(FavoriteWithBubbleToChat.key) else { return false }
+        return FavoriteWithBubbleToChat(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -163,21 +143,6 @@ enum ShowNPSSurvey: String, BumperFeature  {
     var asBool: Bool { return self == .Yes }
 }
 
-enum MessageOnFavoriteRound2Mode: String, BumperFeature  {
-    case NoMessage, DirectMessage
-    static var defaultValue: String { return MessageOnFavoriteRound2Mode.NoMessage.rawValue }
-    static var enumValues: [MessageOnFavoriteRound2Mode] { return [.NoMessage, .DirectMessage]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Message after favorite: The Return" } 
-    static func fromPosition(position: Int) -> MessageOnFavoriteRound2Mode {
-        switch position { 
-            case 0: return .NoMessage
-            case 1: return .DirectMessage
-            default: return .NoMessage
-        }
-    }
-}
-
 enum InterestedUsersMode: String, BumperFeature  {
     case NoNotification, Original, LimitedPrints
     static var defaultValue: String { return InterestedUsersMode.NoNotification.rawValue }
@@ -192,24 +157,6 @@ enum InterestedUsersMode: String, BumperFeature  {
             default: return .NoNotification
         }
     }
-}
-
-enum FiltersReorder: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return FiltersReorder.No.rawValue }
-    static var enumValues: [FiltersReorder] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Product filters reorder" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum DirectPostInOnboarding: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return DirectPostInOnboarding.No.rawValue }
-    static var enumValues: [DirectPostInOnboarding] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Last Onboarding step opens the camera" } 
-    var asBool: Bool { return self == .Yes }
 }
 
 enum ShareButtonWithIcon: String, BumperFeature  {
@@ -237,39 +184,12 @@ enum ProductDetailShareMode: String, BumperFeature  {
     }
 }
 
-enum ChatHeadBubbles: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return ChatHeadBubbles.No.rawValue }
-    static var enumValues: [ChatHeadBubbles] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Chat head bubbles" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum SaveMailLogout: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return SaveMailLogout.No.rawValue }
-    static var enumValues: [SaveMailLogout] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Remembers email or FB/Google username on logout" } 
-    var asBool: Bool { return self == .Yes }
-}
-
 enum ExpressChatBanner: String, BumperFeature  {
     case No, Yes
     static var defaultValue: String { return ExpressChatBanner.No.rawValue }
     static var enumValues: [ExpressChatBanner] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show express chat banner in chat detail" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum ShowLiquidProductsToNewUser: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return ShowLiquidProductsToNewUser.No.rawValue }
-    static var enumValues: [ShowLiquidProductsToNewUser] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show liquid products to new user" } 
     var asBool: Bool { return self == .Yes }
 }
 
@@ -305,15 +225,6 @@ enum KeywordsTravelCollection: String, BumperFeature  {
     }
 }
 
-enum CommercializerAfterPosting: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return CommercializerAfterPosting.No.rawValue }
-    static var enumValues: [CommercializerAfterPosting] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Commercializer after posting" } 
-    var asBool: Bool { return self == .Yes }
-}
-
 enum RelatedProductsOnMoreInfo: String, BumperFeature  {
     case No, Yes
     static var defaultValue: String { return RelatedProductsOnMoreInfo.No.rawValue }
@@ -341,6 +252,33 @@ enum MonetizationEnabled: String, BumperFeature  {
     var asBool: Bool { return self == .Yes }
 }
 
+enum PeriscopeImprovement: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return PeriscopeImprovement.No.rawValue }
+    static var enumValues: [PeriscopeImprovement] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "periscope chat improvements" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum FavoriteWithBadgeOnProfile: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return FavoriteWithBadgeOnProfile.No.rawValue }
+    static var enumValues: [FavoriteWithBadgeOnProfile] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Badge on profile when favorite" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum NewQuickAnswers: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return NewQuickAnswers.No.rawValue }
+    static var enumValues: [NewQuickAnswers] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Use quick answers v2" } 
+    var asBool: Bool { return self == .Yes }
+}
+
 enum PostingMultiPictureEnabled: String, BumperFeature  {
     case No, Yes
     static var defaultValue: String { return PostingMultiPictureEnabled.No.rawValue }
@@ -350,12 +288,12 @@ enum PostingMultiPictureEnabled: String, BumperFeature  {
     var asBool: Bool { return self == .Yes }
 }
 
-enum PeriscopeImprovement: String, BumperFeature  {
+enum FavoriteWithBubbleToChat: String, BumperFeature  {
     case No, Yes
-    static var defaultValue: String { return PeriscopeImprovement.No.rawValue }
-    static var enumValues: [PeriscopeImprovement] { return [.No, .Yes]}
+    static var defaultValue: String { return FavoriteWithBubbleToChat.No.rawValue }
+    static var enumValues: [FavoriteWithBubbleToChat] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "periscope chat improvements" } 
+    static var description: String { return "Bubble to chat when favorite" } 
     var asBool: Bool { return self == .Yes }
 }
 

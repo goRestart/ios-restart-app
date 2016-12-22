@@ -13,6 +13,7 @@ protocol BaseViewModelDelegate: class {
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?)
 
     func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?)
+    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?)
     func vmShowAlert(title: String?, message: String?, actions: [UIAction])
     func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
@@ -24,6 +25,8 @@ protocol BaseViewModelDelegate: class {
 
     func vmPop()
     func vmDismiss(completion: (() -> Void)?)
+    
+    func vmOpenInternalURL(url: NSURL)
 }
 
 extension UIViewController: BaseViewModelDelegate {
@@ -62,14 +65,23 @@ extension UIViewController: BaseViewModelDelegate {
     func vmDismiss(completion: (() -> Void)?) {
         dismissViewControllerAnimated(true, completion: completion)
     }
-    
+
     func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
         showAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
+    }
+
+    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout,
+                              actions: [UIAction]?) {
+        showAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
     }
 
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
         ifLoggedInThen(source, loginStyle: loginStyle, preDismissAction: nil, loggedInAction: loggedInAction,
                        elsePresentSignUpWithSuccessAction: afterLogInAction)
+    }
+    
+    func vmOpenInternalURL(url: NSURL) {
+        openInternalUrl(url)
     }
 }

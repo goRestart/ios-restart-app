@@ -117,13 +117,20 @@ class UserViewHeader: UIView {
             let alpha: CGFloat = collapsed ? 0 : 1
             UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState],
                                        animations: { [weak self] in
-                self?.avatarRatingsContainerView.alpha = alpha
-                self?.userRelationView.alpha = alpha
-                self?.verifiedSimpleContainer.alpha = alpha
-            }, completion: nil)
+                                        self?.itemsAlpha = alpha
+                }, completion: { [weak self] _ in self?.itemsAlpha = alpha })
+        }
+    }
 
-            avatarButton.enabled = !collapsed
-            ratingsButton.enabled = !collapsed
+    var itemsAlpha: CGFloat = 1.0 {
+        didSet {
+            guard oldValue != itemsAlpha else { return }
+            avatarRatingsContainerView.alpha = itemsAlpha
+            userRelationView.alpha = itemsAlpha
+            verifiedSimpleContainer.alpha = itemsAlpha
+
+            avatarButton.enabled = itemsAlpha != 0
+            ratingsButton.enabled = itemsAlpha != 0
         }
     }
 
@@ -178,6 +185,10 @@ extension UserViewHeader {
     func setUserRelationText(userRelationText: String?) {
         userRelationLabel.text = userRelationText
         updateInfoAndAccountsVisibility()
+    }
+    
+    func setFavoriteTab() {
+        tab.value = .Favorites
     }
 
     private func modeUpdated() {
@@ -365,6 +376,7 @@ extension UserViewHeader {
     }
 
     private func setIndicatorAtTab(tab: UserViewHeaderTab, animated: Bool) {
+        layoutIfNeeded()
         let leading = CGFloat(tab.rawValue) * sellingButton.frame.width
         indicatorViewLeadingConstraint.constant = leading
         if animated {

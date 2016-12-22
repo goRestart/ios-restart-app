@@ -118,8 +118,8 @@ extension ApiClient {
             case .User:
                 renewUserTokenOrEnqueueRequest(req, decoder: decoder, completion: completion)
             case .Nonexistent:
-                // Should never happen
                 logMessage(.Error, type: [CoreLoggingOptions.Networking], message: response.logMessage)
+                completion?(ResultResult<T, ApiError>.t(error: .Unauthorized))
             }
         } else if let error = errorFromAlamofireResponse(response) {
             logMessage(.Verbose, type: [CoreLoggingOptions.Networking], message: response.logMessage)
@@ -406,13 +406,24 @@ private extension ApiClient {
      - returns: The token with value as `"Bearer <token>"`.
      */
     func decodeAuthInfo(authInfo: String) -> Token? {
-        guard let token = authInfo.componentsSeparatedByString(" ").last,
-            authLevel = token.tokenAuthLevel else {
-                logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
-                           message: "Invalid JWT; authentication-info: \(authInfo)")
-                report(CoreReportNetworking.InvalidJWT, message: "authentication-info: \(authInfo)")
-                return nil
+        guard let token = authInfo.lastComponentSeparatedByCharacter(" ") else {
+            logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+                       message: "Invalid JWT with wrong format; authentication-info: \(authInfo)")
+            report(CoreReportNetworking.InvalidJWT(reason: .WrongFormat),
+                   message: "authentication-info: \(authInfo)")
+            return nil
         }
+        guard let authLevel = token.tokenAuthLevel else {
+            if !token.isPasswordRecoveryToken {
+                logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+                           message: "Invalid JWT with unknown auth level; authentication-info: \(authInfo)")
+                report(CoreReportNetworking.InvalidJWT(reason: .UnknownAuthLevel),
+                       message: "authentication-info: \(authInfo)")
+            }
+            return nil
+        }
+
+
         return Token(value: authInfo, level: authLevel)
     }
 }
@@ -422,7 +433,7 @@ private extension ApiClient {
 
 private extension Token {
     var version: Int? {
-        guard let token = value?.componentsSeparatedByString(" ").last,
+        guard let token = actualValue,
             payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false) else { return nil }
         let version = payload["btv"] as? Int
         return version

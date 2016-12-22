@@ -2375,6 +2375,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("rating_list_rating_type_seller_text_label", comment: ""), var1)
 	}
 
+	static var ratingListRatingStatusPending: String {
+		return NSLocalizedString("rating_list_rating_status_pending", comment: "")
+	}
+
 	static var ratingListTitle: String {
 		return NSLocalizedString("rating_list_title", comment: "")
 	}

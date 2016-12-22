@@ -20,24 +20,9 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "MessageOnFavoriteRound2Mode",
-        "values": ["NoMessage", "DirectMessage"],
-        "description": "Message after favorite: The Return"
-	},
-    {
         "name": "InterestedUsersMode",
         "values": ["NoNotification", "Original", "LimitedPrints"],
         "description": "Interested users bubble mode"
-	},
-    {
-        "name": "FiltersReorder",
-        "values": ["No", "Yes"],
-        "description": "Product filters reorder"
-	},
-    {
-        "name": "DirectPostInOnboarding",
-        "values": ["No", "Yes"],
-        "description": "Last Onboarding step opens the camera"
 	},
     {
         "name": "ShareButtonWithIcon",
@@ -50,24 +35,9 @@
         "description": "How the share options are presented in product detail"
 	},
     {
-        "name": "ChatHeadBubbles",
-        "values": ["No", "Yes"],
-        "description": "Chat head bubbles"
-    },
-    {
-        "name": "SaveMailLogout",
-        "values": ["No", "Yes"],
-        "description": "Remembers email or FB/Google username on logout"
-    },
-    {
         "name": "ExpressChatBanner",
         "values": ["No", "Yes"],
         "description": "Show express chat banner in chat detail"
-    },
-    {
-        "name": "ShowLiquidProductsToNewUser",
-        "values": ["No", "Yes"],
-        "description": "show liquid products to new user"
     },
     {
         "name": "PostAfterDeleteMode",
@@ -78,11 +48,6 @@
         "name": "KeywordsTravelCollection",
         "values": ["Standard", "CarsPrior", "BrandsPrior"],
         "description": "Keywords prioritize on Travel Collection"
-    },
-    {
-        "name": "CommercializerAfterPosting",
-        "values": ["No", "Yes"],
-        "description": "Commercializer after posting"
     },
     {
         "name": "RelatedProductsOnMoreInfo",
@@ -100,13 +65,28 @@
         "description": "USer can make in-app purchases"
     },
     {
+        "name": "PeriscopeImprovement",
+        "values": ["No", "Yes"],
+        "description": "periscope chat improvements"
+    },
+    {
+        "name": "FavoriteWithBadgeOnProfile",
+        "values": ["No", "Yes"],
+        "description": "Badge on profile when favorite"
+    },
+    {
+        "name": "NewQuickAnswers",
+        "values": ["No", "Yes"],
+        "description": "Use quick answers v2"
+    },
+    {
         "name": "PostingMultiPictureEnabled",
         "values": ["No", "Yes"],
         "description": "Posting multi picture enabled"
     },
     {
-        "name": "PeriscopeImprovement",
+        "name": "FavoriteWithBubbleToChat",
         "values": ["No", "Yes"],
-        "description": "periscope chat improvements"
+        "description": "Bubble to chat when favorite"
     }
  ]

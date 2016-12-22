@@ -15,23 +15,21 @@ class MockFeatureFlags: FeatureFlaggeable {
     var notificationsSection: Bool = false
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
-    var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode = .NoMessage
     var interestedUsersMode: InterestedUsersMode = .NoNotification
     var filtersReorder: Bool = false
     var directPostInOnboarding: Bool = false
     var shareButtonWithIcon: Bool = false
     var productDetailShareMode: ProductDetailShareMode = .Native
-    var chatHeadBubbles: Bool = false
-    var saveMailLogout: Bool = false
-    var showLiquidProductsToNewUser: Bool = false
     var expressChatBanner: Bool = true
     var postAfterDeleteMode: PostAfterDeleteMode = .Original
     var keywordsTravelCollection: KeywordsTravelCollection = .Standard
     var shareAfterPosting: Bool = false
     var freePostingModeAllowed: Bool = true
-    var commercializerAfterPosting: Bool = true
     var postingMultiPictureEnabled: Bool = true
     var relatedProductsOnMoreInfo: Bool = true
     var monetizationEnabled: Bool = false
     var periscopeImprovement: Bool = false
+    var newQuickAnswers: Bool = false
+    var favoriteWithBadgeOnProfile: Bool = false
+    var favoriteWithBubbleToChat: Bool = false
 }

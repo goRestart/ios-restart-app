@@ -50,7 +50,7 @@ class PostProductCameraViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     
     private var skipCustomPermissions: Bool {
-        return sourcePosting == .OnboardingCamera && featureFlags.directPostInOnboarding
+        return sourcePosting == .OnboardingCamera || sourcePosting == .OnboardingButton
     }
 
     // MARK: - Lifecycle
@@ -183,10 +183,8 @@ class PostProductCameraViewModel: BaseViewModel {
     }
     
     private func setupFirstShownLiterals() {
-        firstTimeTitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
-            LGLocalizedString.productPostCameraFirstTimeAlertTitle
-        firstTimeSubtitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
-            LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
+        firstTimeTitle = LGLocalizedString.productPostCameraFirstTimeAlertTitle
+        firstTimeSubtitle = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }
 
     private func checkCameraState() {

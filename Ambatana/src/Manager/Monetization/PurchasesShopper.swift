@@ -6,147 +6,89 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
 import StoreKit
 
 
 protocol PurchasesShopperDelegate: class {
-    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [MonetizationProduct])
-
-    // Payment
-    func shopperPurchaseDidStart()
-    func shopperPurchaseDidFinish()
-    func shopperPurchaseDidFail()
+    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [PurchaseableProduct])
+    func shopperFailedProductsRequestForProductId(productId: String?, withError: NSError)
 }
-
-
-struct MonetizationProduct {
-    var id: String {
-        return product.productIdentifier
-    }
-    var price: String {
-        let priceFormatter = NSNumberFormatter()
-        priceFormatter.formatterBehavior = .Behavior10_4
-        priceFormatter.numberStyle = .CurrencyStyle
-        priceFormatter.locale = product.priceLocale
-        return priceFormatter.stringFromNumber(product.price) ?? ""
-    }
-    var title: String {
-        return product.localizedTitle
-    }
-    var description: String {
-        return product.localizedDescription
-    }
-    private var product: SKProduct
-
-    init(product: SKProduct) {
-        self.product = product
-    }
-}
-
 
 class PurchasesShopper: NSObject {
 
     static let sharedInstance: PurchasesShopper = PurchasesShopper()
 
-    private var monetizationProducts: [MonetizationProduct]
-    private var currentProductId: String?
-    var productsRequest: SKProductsRequest
+    private(set) var currentProductId: String?
+    private var productsRequest: PurchaseableProductsRequest
+
+    private var requestFactory: PurchaseableProductsRequestFactory
 
     weak var delegate: PurchasesShopperDelegate?
 
-    override init() {
-        self.monetizationProducts = []
-        self.productsRequest = SKProductsRequest()
+    var productsDict: [String : [SKProduct]] = [:]
+
+    override convenience init() {
+        let factory = AppstoreProductsRequestFactory()
+        self.init(requestFactory: factory)
+    }
+
+    init(requestFactory: PurchaseableProductsRequestFactory) {
+        self.requestFactory = requestFactory
+        self.productsRequest = requestFactory.generatePurchaseableProductsRequest([])
         super.init()
         productsRequest.delegate = self
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
     }
 
     /**
-        Check products with itunes connect
+    Checks purchases available on appstore
+
+     - parameter productId: ID of the listing for wich will request the appstore products
+     - parameter ids: array of ids of the appstore products
      */
     func productsRequestStartForProduct(productId: String, withIds ids: [String]) {
         guard productId != currentProductId else { return }
         productsRequest.cancel()
         currentProductId = productId
-        productsRequest = SKProductsRequest(productIdentifiers: Set(ids))
+
+        productsRequest = requestFactory.generatePurchaseableProductsRequest(ids)
         productsRequest.delegate = self
         productsRequest.start()
     }
 
-    func requestPaymentForProduct(product: MonetizationProduct) {
-        let payment = SKMutablePayment(product: product.product)
-        payment.quantity = 1
-        SKPaymentQueue.defaultQueue().addPayment(payment)
-    }
+    /**
+     Request a payment to the appstore
 
+     - parameter product: info of the product to purchase on the appstore
+     */
+    func requestPaymentForProduct(productId: String) {
+        guard let appstoreProduct = productsDict[productId] else { return }
+        // request payment to appstore with "appstoreProduct"
 
-    // Payment
-
-    private func purchaseStartedForTransaction(transaction: SKPaymentTransaction) {
-        delegate?.shopperPurchaseDidStart()
-    }
-
-    func purchaseFailedForTransaction(transaction: SKPaymentTransaction) {
-        delegate?.shopperPurchaseDidFail()
-        SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-    }
-
-    func purchaseFinishedForTransaction(transaction: SKPaymentTransaction) {
-        delegate?.shopperPurchaseDidFinish()
-        SKPaymentQueue.defaultQueue().finishTransaction(transaction)
     }
 }
 
 
 // MARK: - SKProductsRequestDelegate
 
-extension PurchasesShopper: SKProductsRequestDelegate {
-    dynamic func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+extension PurchasesShopper: PurchaseableProductsRequestDelegate {
+    func productsRequest(request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse) {
 
-        // TODO: manage "invalidProductIdentifiers"
-//        for invalidIdentifier in response.invalidProductIdentifiers {
-//            // Handle any invalid product identifiers. ( ? )
-//        }
+        guard let currentProductId = currentProductId else { return }
 
-        monetizationProducts = response.products.flatMap { MonetizationProduct(product: $0) }
-
-        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: monetizationProducts)
-    }
-}
-
-
-// MARK: - SKPaymentTransactionObserver
-
-extension PurchasesShopper: SKPaymentTransactionObserver {
-
-    // https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW4
-
-    // Sent when the transaction array has changed (additions or state changes).  Client should check state of transactions and finish as appropriate.
-    func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .Purchasing:
-                // Transaction is being added to the server queue.
-                // Update your UI to reflect the in-progress status, and wait to be called again.
-                purchaseStartedForTransaction(transaction)
-            case .Failed:
-                // Transaction was cancelled or failed before being added to the server queue.
-                // Use the value of the error property to present a message to the user. For a list of error constants, see SKErrorDomain in Store Kit Constants Reference.
-                purchaseFailedForTransaction(transaction)
-            case .Purchased:
-                // Transaction is in queue, user has been charged.  Client should complete the transaction.
-                // Provide the purchased functionality
-                purchaseFinishedForTransaction(transaction)
-            case .Restored, .Deferred:
-                // - Restored: Transaction was restored from user's purchase history.  Client should complete the transaction.
-                // Restore the previously purchased functionality
-                // - Deferred: The transaction is in the queue, but its final status is pending external action.
-                // Update your UI to reflect the deferred status, and wait to be called again.
-                break
-            }
+        let invalidIds = response.invalidProductIdentifiers
+        if !invalidIds.isEmpty {
+            let strInvalidIds: String = invalidIds.reduce("", combine: { (a,b) in "\(a),\(b)"})
+            let message = "Invalid ids: \(strInvalidIds)"
+            logMessage(.Error, type: [.Monetization], message: message)
+            report(AppReport.Monetization(error: .InvalidAppstoreProductIdentifiers), message: message)
         }
+
+        productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }
+        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
+    }
+
+    func productsRequest(request: PurchaseableProductsRequest, didFailWithError error: NSError) {
+        delegate?.shopperFailedProductsRequestForProductId(currentProductId, withError: error)
     }
 }

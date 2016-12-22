@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StickersSelectorViewController" customModule="LetGo" customModuleProvider="target">
@@ -19,21 +20,18 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ooc-fb-qIr">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ktU-fj-cFQ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <frame key="frameInset"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
                     <blurEffect style="dark"/>
                 </visualEffectView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Select the sticker you want to send to Anthony S." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYB-Kr-gvH" userLabel="titleLabel">
-                    <rect key="frame" x="50" y="34" width="275" height="41"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hTh-4M-Lft" userLabel="closeBtn">
-                    <rect key="frame" x="310" y="602" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="0wt-LE-nru"/>
                         <constraint firstAttribute="height" constant="50" id="cMs-92-Xqr"/>
@@ -44,7 +42,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="LYB-Kr-gvH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="50" id="A1y-rx-QIg"/>
                 <constraint firstAttribute="bottom" secondItem="Ooc-fb-qIr" secondAttribute="bottom" id="CJz-gC-hw5"/>
@@ -56,7 +54,6 @@
                 <constraint firstAttribute="trailing" secondItem="hTh-4M-Lft" secondAttribute="trailing" constant="15" id="qAY-mK-Zfw"/>
                 <constraint firstAttribute="trailing" secondItem="Ooc-fb-qIr" secondAttribute="trailing" id="yW0-QA-Qoi"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="761.5" y="449.5"/>
         </view>
         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fCh-WP-Ymh">

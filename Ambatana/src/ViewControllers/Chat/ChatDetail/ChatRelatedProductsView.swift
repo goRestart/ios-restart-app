@@ -62,7 +62,7 @@ class ChatRelatedProductsView: UIView {
                        width: ChatRelatedProductsView.defaultWidth, height: ChatRelatedProductsView.relatedProductsHeight)
         translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
-        parentView.addSubview(self)
+        parentView.insertSubview(self, belowSubview: sibling)
         let top = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: sibling, attribute: .Top,
                                      multiplier: 1.0, constant: 0)
         let left = NSLayoutConstraint(item: self, attribute: .Left, relatedBy: .Equal, toItem: sibling, attribute: .Left,

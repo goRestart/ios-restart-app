@@ -131,6 +131,24 @@ public struct TrackerEvent {
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
 
+    static func loginBlockedAccountStart(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountStart, params: params)
+    }
+
+    static func loginBlockedAccountContactUs(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountContactUs, params: params)
+    }
+
+    static func loginBlockedAccountKeepBrowsing(network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .LoginBlockedAccountKeepBrowsing, params: params)
+    }
+
     static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
         var params = EventParameters()
 
@@ -366,13 +384,6 @@ public struct TrackerEvent {
         params[.ButtonName] = buttonName?.rawValue
         params[.SellButtonPosition] = sellButtonPosition.rawValue
         return TrackerEvent(name: .ProductSellStart, params: params)
-    }
-
-    static func productSellFormValidationFailed(description: String) -> TrackerEvent {
-        var params = EventParameters()
-        // Validation failure description
-        params[.Description] = description
-        return TrackerEvent(name: .ProductSellFormValidationFailed, params: params)
     }
 
     static func productSellSharedFB(product: Product?) -> TrackerEvent {
@@ -763,11 +774,6 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProfileUnblock, params: params)
     }
 
-    static func locationMapShown() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .LocationMap, params: params)
-    }
-
     static func commercializerStart(productId: String?, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.ProductId] = productId ?? ""
@@ -930,18 +936,6 @@ public struct TrackerEvent {
         params[.UserId] = userId
         params[.Enabled] = enabled
         return TrackerEvent(name: .MarketingPushNotifications, params: params)
-    }
-
-    static func chatHeadsStart() -> TrackerEvent {
-        return TrackerEvent(name: .ChatHeadsStart, params: EventParameters())
-    }
-
-    static func chatHeadsOpen() -> TrackerEvent {
-        return TrackerEvent(name: .ChatHeadsOpen, params: EventParameters())
-    }
-
-    static func chatHeadsDelete() -> TrackerEvent {
-        return TrackerEvent(name: .ChatHeadsDelete, params: EventParameters())
     }
 
 

@@ -95,7 +95,7 @@
 "bump_up_view_pay_button_title" = "Activate for %@";
 
 // Text for "bumps left" label for payment bump up view
-"bump_up_view_pay_bumps_left_text" = "You have %i bump ups left";
+"bump_up_view_pay_bumps_left_text" = "You have %i bump ups left.";
 
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
@@ -1764,6 +1764,9 @@
 
 // Text for rating of type "seller" ( %s will be the username)
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";
+
+// Text when a rating is pending review
+"rating_list_rating_status_pending" = "This review is being verified";
 
 // Title for rating list view
 "rating_list_title" = "Reviews";

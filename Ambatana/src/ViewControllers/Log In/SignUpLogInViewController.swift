@@ -7,8 +7,6 @@
 //
 
 import JBKenBurnsView
-import LGCoreKit
-import Result
 import RxSwift
 import UIKit
 
@@ -428,7 +426,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         emailIconImageView.hidden = false
         emailTextField.hidden = false
 
-        showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
+        showPasswordButton.hidden = !(viewModel.showPasswordVisible)
     }
 
     private func setupRx() {
@@ -614,98 +612,59 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
 extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
 
-
-    func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
+    func vmUpdateSendButtonEnabledState(enabled: Bool) {
         sendButton.enabled = enabled
     }
 
-    func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool) {
+    func vmUpdateShowPasswordVisible(visible: Bool) {
         showPasswordButton.hidden = !visible
     }
 
-    func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
-        showLoadingMessageAlert()
+    func vmFinish(completedAccess completed: Bool) {
+        preDismissAction?()
+        dismissViewControllerAnimated(true, completion: completed ? afterLoginAction : nil)
     }
 
-    func viewModelDidSignUp(viewModel: SignUpLogInViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.preDismissAction?()
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
+    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+        let parentController = presentingViewController
+        let contact = UIAction(
+            interface: .Button(LGLocalizedString.loginScammerAlertContactButton, .Primary(fontSize: .Medium)),
+            action: {
+                tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
+                parentController?.openInternalUrl(contactUrl)
+        })
+        let keepBrowsing = UIAction(
+            interface: .Button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .Secondary(fontSize: .Medium, withBorder: false)),
+            action: {
+                tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+        })
+        dismissViewControllerAnimated(false) {
+            tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
+            parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
+                                                 text: LGLocalizedString.loginScammerAlertMessage,
+                                                 alertType: .IconAlert(icon: UIImage(named: "ic_moderation_alert")),
+                                                 buttonsLayout: .Vertical, actions:  [contact, keepBrowsing])
         }
     }
 
-    func viewModelDidFailSigningUp(viewModel: SignUpLogInViewModel, message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message)
-        }
-    }
-
-    func viewModelShowRecaptcha(viewModel: RecaptchaViewModel) {
+    func vmShowRecaptcha(viewModel: RecaptchaViewModel) {
         viewModel.navigator = self
         let vc = RecaptchaViewController(viewModel: viewModel)
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.presentViewController(vc, animated: true, completion: nil)
-        }
+        presentViewController(vc, animated: true, completion: nil)
     }
 
-    func viewModelDidStartLoginIn(viewModel: SignUpLogInViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModelDidLogIn(viewModel: SignUpLogInViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.preDismissAction?()
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-        }
-    }
-
-    func viewModelDidFailLoginIn(viewModel: SignUpLogInViewModel, message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message)
-        }
-    }
-
-
-    func viewModelShowHiddenPasswordAlert(viewModel: SignUpLogInViewModel) {
+    func vmShowHiddenPasswordAlert() {
         let alertController = UIAlertController(title: "🔑", message: "Speak friend and enter", preferredStyle: .Alert)
-        alertController.addTextFieldWithConfigurationHandler { (textField) in
+        alertController.addTextFieldWithConfigurationHandler { textField in
             textField.placeholder = "Password"
             textField.secureTextEntry = true
         }
-        let loginAction = UIAlertAction(title: "Login", style: .Default) { (_) in
+        let loginAction = UIAlertAction(title: "Login", style: .Default) { [weak self] _ in
             let passwordTextField = alertController.textFields![0] as UITextField
-            viewModel.godLogIn(passwordTextField.text ?? "")
+            self?.viewModel.godLogIn(passwordTextField.text ?? "")
         }
         alertController.addAction(loginAction)
         presentViewController(alertController, animated: true, completion: nil)
-    }
-
-    func viewModelShowGodModeError(viewModel: SignUpLogInViewModel) {
-        showAutoFadingOutMessageAlert("You are not worthy")
-    }
-
-
-    // Facebook / Google
-
-    func viewModelDidAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.preDismissAction?()
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-        }
-    }
-
-    func viewModelDidStartAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModelDidCancelAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        dismissLoadingMessageAlert()
-    }
-
-    func viewModel(viewModel: SignUpLogInViewModel, didFailAuthWithExternalService message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message)
-        }
     }
 }
 
