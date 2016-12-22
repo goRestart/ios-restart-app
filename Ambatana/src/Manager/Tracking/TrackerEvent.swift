@@ -386,13 +386,6 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
 
-    static func productSellFormValidationFailed(description: String) -> TrackerEvent {
-        var params = EventParameters()
-        // Validation failure description
-        params[.Description] = description
-        return TrackerEvent(name: .ProductSellFormValidationFailed, params: params)
-    }
-
     static func productSellSharedFB(product: Product?) -> TrackerEvent {
         var params = EventParameters()
         // Product name
@@ -779,11 +772,6 @@ public struct TrackerEvent {
         params[.TypePage] = typePage.rawValue
         params[.UserToId] = unblockedUsersIds.joinWithSeparator(",")
         return TrackerEvent(name: .ProfileUnblock, params: params)
-    }
-
-    static func locationMapShown() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .LocationMap, params: params)
     }
 
     static func commercializerStart(productId: String?, typePage: EventParameterTypePage) -> TrackerEvent {

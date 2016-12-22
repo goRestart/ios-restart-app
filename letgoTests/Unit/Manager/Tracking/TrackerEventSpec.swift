@@ -1607,22 +1607,6 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellFormValidationFailed") {
-                it("has its event name") {
-                    _ = MockUser()
-                    sut = TrackerEvent.productSellFormValidationFailed("whatever")
-                    expect(sut.name.rawValue).to(equal("product-sell-form-validation-failed"))
-                }
-                it("contains the description related params") {
-                    sut = TrackerEvent.productSellFormValidationFailed("whatever")
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["description"]).notTo(beNil())
-                    let description = sut.params!.stringKeyParams["description"] as? String
-                    expect(description).to(equal("whatever"))
-                }
-            }
-
             describe("productSellSharedFB") {
                 it("has its event name") {
                     let product = MockProduct()

@@ -55,7 +55,6 @@ public enum EventName: String {
     case ProductReport                      = "product-detail-report"
     
     case ProductSellStart                   = "product-sell-start"
-    case ProductSellFormValidationFailed    = "product-sell-form-validation-failed"
     case ProductSellSharedFB                = "product-sell-shared-fb"
     case ProductSellComplete                = "product-sell-complete"
     case ProductSellComplete24h             = "product-sell-complete-24h"
