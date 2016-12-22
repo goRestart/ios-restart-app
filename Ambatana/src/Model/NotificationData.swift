@@ -6,14 +6,16 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
 
 enum NotificationDataType {
     case Welcome(city: String?)
-    case ProductFavorite(userId: String?, userName: String?, productTitle: String?, userImage: String?)
-    case ProductSold(productImage: String?)
-    case Rating(userId: String?, userName: String?, userImage: String?)
-    case RatingUpdated(userId: String?, userName: String?, userImage: String?)
+    case ProductFavorite(product: NotificationProduct, user: NotificationUser)
+    case ProductSold(product: NotificationProduct, user: NotificationUser)
+    case Rating(user: NotificationUser)
+    case RatingUpdated(user: NotificationUser)
+    case BuyersInterested(product: NotificationProduct, buyers: [NotificationUser])
+    case ProductSuggested(product: NotificationProduct, seller: NotificationUser)
 }
 
 struct NotificationData {

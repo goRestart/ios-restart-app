@@ -6,10 +6,7 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Foundation
-
 struct EscrowEnvironment: Environment {
-    // API
     let apiBaseURL = "https://api.escrowverification.com"
     let bouncerBaseURL = "https://bouncer.escrowverification.com/api"
     let commercializerBaseURL = "https://commercializer.escrowverification.com/"
@@ -17,4 +14,5 @@ struct EscrowEnvironment: Environment {
     let chatBaseURL = "chat.escrowverification.com"
     let webSocketURL = "wss://chat.escrowverification.com/socket"
     let notificationsBaseURL = "https://notifications.escrowverification.com/api"
+    let passiveBuyersBaseURL = "https://passivebuyers.letgo.com/api"
 }

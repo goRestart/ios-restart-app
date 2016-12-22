@@ -101,6 +101,8 @@ final class CoreDI: InternalDI {
 
         let userRatingDataSource = UserRatingApiDataSource(apiClient: self.apiClient)
         self.userRatingRepository = LGUserRatingRepository(dataSource: userRatingDataSource, myUserRepository: myUserRepository)
+        let passiveBuyersDataSource = PassiveBuyersApiDataSource(apiClient: self.apiClient)
+        self.passiveBuyersRepository = LGPassiveBuyersRepository(dataSource: passiveBuyersDataSource)
         
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
@@ -167,6 +169,7 @@ final class CoreDI: InternalDI {
     let stickersRepository: StickersRepository
     let trendingSearchesRepository: TrendingSearchesRepository
     let userRatingRepository: UserRatingRepository
+    let passiveBuyersRepository: PassiveBuyersRepository
     lazy var categoryRepository: CategoryRepository = {
         return LGCategoryRepository()
     }()

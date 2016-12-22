@@ -114,6 +114,9 @@ final class DIProxy: InternalDI {
     var userRatingRepository: UserRatingRepository {
         return di.userRatingRepository
     }
+    var passiveBuyersRepository: PassiveBuyersRepository {
+        return di.passiveBuyersRepository
+    }
     static var tokenDAO: TokenDAO {
         return diType.tokenDAO
     }

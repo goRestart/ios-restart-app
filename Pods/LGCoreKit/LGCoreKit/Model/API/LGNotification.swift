@@ -52,20 +52,15 @@ extension LGNotification : Decodable {
 
 
 extension NotificationType: Decodable {
-
-    struct JSONKeys {
-        static let productId = ["data" , "product_id"]
-        static let productTitle = ["data", "product_title"]
-        static let productImage = ["data", "product_image"]
-        static let userId = ["data" , "user_id"]
-        static let userName = ["data" , "username"]
-        static let userImage = ["data" , "user_image"]
-        static let ratingValue = ["data" , "rating_value"]
-        static let comments = ["data" , "comments"]
+    private struct JSONKeys {
+        static let buyers = "buyers"
+        static let ratingValue = "rating_value"
+        static let comments = "comments"
     }
 
     public static func decode(j: JSON) -> Decoded<NotificationType> {
         guard let type: String = j.decode("type") else { return Decoded<NotificationType>.fromOptional(nil) }
+        guard let data: JSON = j.decode("data") else { return Decoded<NotificationType>.fromOptional(nil) }
 
         let result: Decoded<NotificationType>
         switch type {
@@ -81,12 +76,8 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(NotificationType.Like)
-                <^> j <| JSONKeys.productId
-                <*> j <|? JSONKeys.productImage
-                <*> j <|? JSONKeys.productTitle
-                <*> j <| JSONKeys.userId
-                <*> j <|? JSONKeys.userImage
-                <*> j <|? JSONKeys.userName
+                <^> LGNotificationProduct.decode(data)
+                <*> LGNotificationUser.decode(data)
         case "sold":
             /**
              "data" : {
@@ -99,12 +90,8 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(NotificationType.Sold)
-                <^> j <| JSONKeys.productId
-                <*> j <|? JSONKeys.productImage
-                <*> j <|? JSONKeys.productTitle
-                <*> j <| JSONKeys.userId
-                <*> j <|? JSONKeys.userImage
-                <*> j <|? JSONKeys.userName
+                <^> LGNotificationProduct.decode(data)
+                <*> LGNotificationUser.decode(data)
         case "review":
             /**
              "data" : {
@@ -116,11 +103,9 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(NotificationType.Rating)
-                <^> j <| JSONKeys.userId
-                <*> j <|? JSONKeys.userImage
-                <*> j <|? JSONKeys.userName
-                <*> j <| JSONKeys.ratingValue
-                <*> j <|? JSONKeys.comments
+                <^> LGNotificationUser.decode(data)
+                <*> data <| JSONKeys.ratingValue
+                <*> data <|? JSONKeys.comments
         case "review_updated":
             /**
              "data" : {
@@ -132,11 +117,39 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(NotificationType.RatingUpdated)
-                <^> j <| JSONKeys.userId
-                <*> j <|? JSONKeys.userImage
-                <*> j <|? JSONKeys.userName
-                <*> j <| JSONKeys.ratingValue
-                <*> j <|? JSONKeys.comments
+                <^> LGNotificationUser.decode(data)
+                <*> data <| JSONKeys.ratingValue
+                <*> data <|? JSONKeys.comments
+        case "buyers_interested":
+            /*
+             "data": {
+                "product_id": "51be9a62-9b7a-43ab-9401-7bbd5c360f1d",
+                "product_title": "aut",
+                "product_image": "http://cdn.letgo.com/images\/ba\/16\/08\/b4\/c3b3200dee3a8fd0906680fd255779a6.jpg",
+                "buyers": [{
+                    "user_id": "4352e516-e098-4b06-83d8-892ca9621c33",
+                    "username": "Counting Crows",
+                    "user_image": "https://s3.amazonaws.com/letgo-avatars-pro/images/abbc9384-9790-4bbb-9db2-1c3522889e96\/tfss-18b35ad8-5d50-4a5c-bec3-aef7174b31d2-W2Zf69six7.jpg"
+                },...]
+             }
+             */
+            result = curry(buyersInterested)
+                <^> LGNotificationProduct.decode(data)
+                <*> data <|| JSONKeys.buyers
+        case "product_suggested":
+            /*
+             "data": {
+                "user_id": "4352e516-e098-4b06-83d8-892ca9621c33",
+                "username": "Counting Crows",
+                "user_image": "https://s3.amazonaws.com/letgo-avatars-pro/images/abbc9384-9790-4bbb-9db2-1c3522889e96\/tfss-18b35ad8-5d50-4a5c-bec3-aef7174b31d2-W2Zf69six7.jpg",
+                "product_id": "51be9a62-9b7a-43ab-9401-7bbd5c360f1d",
+                "product_title": "aut",
+                "product_image": "http://cdn.letgo.com/images\/ba\/16\/08\/b4\/c3b3200dee3a8fd0906680fd255779a6.jpg"
+             }
+            */
+            result = curry(NotificationType.ProductSuggested)
+                <^> LGNotificationProduct.decode(data)
+                <*> LGNotificationUser.decode(data)
         default:
             return Decoded<NotificationType>.fromOptional(nil)
         }
@@ -145,5 +158,9 @@ extension NotificationType: Decodable {
             logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "NotificationType parse error: \(error)")
         }
         return result
+    }
+
+    private static func buyersInterested(product: NotificationProduct, buyers: [LGNotificationUser]) -> NotificationType {
+        return NotificationType.BuyersInterested(product: product, buyers: buyers.flatMap({$0}))
     }
 }
