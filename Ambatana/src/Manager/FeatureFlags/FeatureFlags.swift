@@ -35,7 +35,7 @@ protocol FeatureFlaggeable {
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
-    var locationMatchesCountry: Bool { get }
+    var locationNoMatchesCountry: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -233,11 +233,11 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
     
-    var locationMatchesCountry: Bool {
+    var locationNoMatchesCountry: Bool {
         guard let countryCode = countryCode else { return false }
         switch countryCode {
         case .Turkey:
-            return locationManager.countryMatchWith(countryInfo)
+            return locationManager.countryNoMatchWith(countryInfo)
         }
     }
 

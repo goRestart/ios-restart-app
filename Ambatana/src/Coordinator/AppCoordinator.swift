@@ -515,7 +515,7 @@ private extension AppCoordinator {
         locationManager.locationEvents.filter { $0 == .LocationUpdate }.take(1).bindNext {
             [weak self] _ in
             guard let strongSelf = self else { return }
-            if let currentLocation = strongSelf.locationManager.currentLocation where currentLocation.isAuto && strongSelf.featureFlags.locationMatchesCountry {
+            if let currentLocation = strongSelf.locationManager.currentLocation where currentLocation.isAuto && strongSelf.featureFlags.locationNoMatchesCountry {
                 strongSelf.askUserToUpdateLocationManually()
             }
             }.addDisposableTo(disposeBag)
