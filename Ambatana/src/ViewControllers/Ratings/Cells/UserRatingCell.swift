@@ -118,7 +118,7 @@ class UserRatingCell: UITableViewCell {
             descriptionLabel.text = description
         }
 
-        actionsButton.hidden = !data.isMyRating
+        actionsButton.hidden = !data.isMyRating || data.pendingReview
 
         userAvatar.image = data.userAvatarPlaceholder
         if let avatarURL = data.userAvatar {
