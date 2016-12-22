@@ -230,8 +230,6 @@ class FeatureFlags: FeatureFlaggeable {
         switch countryCode {
         case .Turkey:
             return false
-        default:
-            return true
         }
     }
     
@@ -240,8 +238,6 @@ class FeatureFlags: FeatureFlaggeable {
         switch countryCode {
         case .Turkey:
             return locationManager.countryMatchWith(countryInfo)
-        default:
-            return false
         }
     }
 

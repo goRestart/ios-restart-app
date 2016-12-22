@@ -10,7 +10,4 @@ import Foundation
 
 enum CountryCode: String {
     case Turkey = "tr"
-    case US = "us"
-    case Spain = "es"
-    case Canada = "ca"
 }
