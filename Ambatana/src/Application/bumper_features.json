@@ -60,6 +60,11 @@
         "description": "Show sharing screen after posting (forced)"
     },
     {
+        "name": "MonetizationEnabled",
+        "values": ["No", "Yes"],
+        "description": "USer can make in-app purchases"
+    },
+    {
         "name": "PeriscopeImprovement",
         "values": ["No", "Yes"],
         "description": "periscope chat improvements"

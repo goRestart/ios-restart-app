@@ -139,6 +139,7 @@ class ProductViewModel: BaseViewModel {
     private let interestedBubbleManager: InterestedBubbleManager
     private let bubbleManager: BubbleNotificationManager
     private let featureFlags: FeatureFlaggeable
+    private let purchasesShopper: PurchasesShopper
     private var notificationsManager: NotificationsManager
 
     // Retrieval status
@@ -171,7 +172,7 @@ class ProductViewModel: BaseViewModel {
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance, featureFlags: featureFlags,
-                  notificationsManager: notificationsManager)
+                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
@@ -179,7 +180,7 @@ class ProductViewModel: BaseViewModel {
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager,
-         featureFlags: FeatureFlaggeable, notificationsManager: NotificationsManager) {
+         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper, notificationsManager: NotificationsManager) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -197,6 +198,7 @@ class ProductViewModel: BaseViewModel {
         self.bubbleManager = bubbleManager
         self.interestedBubbleManager = interestedBubbleManager
         self.featureFlags = featureFlags
+        self.purchasesShopper = purchasesShopper
         self.notificationsManager = notificationsManager
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -226,6 +228,7 @@ class ProductViewModel: BaseViewModel {
         super.init()
 
         socialSharer.delegate = self
+        purchasesShopper.delegate = self
         setupRxBindings()
     }
     
@@ -268,6 +271,13 @@ class ProductViewModel: BaseViewModel {
                 self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
                 self?.commercializers.value = value
             }
+        }
+
+        // TODO: check if the product is bumpeable and if it is, get the product ids
+        if featureFlags.monetizationEnabled {
+            // also, if the product is bumpeable && there are in-app purchase products
+            guard let productId = product.value.objectId else { return }
+            purchasesShopper.productsRequestStartForProduct(productId, withIds: ["letgo.ios.bumpup"])
         }
     }
     
@@ -630,6 +640,7 @@ extension ProductViewModel {
         }
     }
 
+
     private func showOptionsMenu() {
         var actions = [UIAction]()
         let isMine = product.value.isMine
@@ -646,6 +657,7 @@ extension ProductViewModel {
         if isDeletable {
             actions.append(buildDeleteButton())
         }
+
         delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
 
@@ -1161,5 +1173,23 @@ private extension ProductViewModelStatus {
         case .Sold, .OtherSold, .NotAvailable, .OtherAvailable, .OtherSoldFree, .OtherAvailableFree, .SoldFree, .AvailableFree:
             return self
         }
+    }
+}
+
+
+// MARK: PurchasesShopperDelegate
+
+extension ProductViewModel: PurchasesShopperDelegate {
+    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [PurchaseableProduct]) {
+        guard let requestProdId = productId, currentProdId = product.value.objectId where
+            requestProdId == currentProdId else { return }
+        guard let purchase = products.first else { return }
+        // "purchase" is the product to buy in appstore in case the user wants to bump up 
+    }
+
+    func shopperFailedProductsRequestForProductId(productId: String?, withError: NSError) {
+        guard let requestProdId = productId, currentProdId = product.value.objectId where
+            requestProdId == currentProdId else { return }
+        // update error UI
     }
 }
