@@ -688,6 +688,7 @@ extension OldChatViewController: ChatProductViewDelegate {
     }
 
     func productViewDidTapUserReview() {
+        showKeyboard(false, animated: true)
         viewModel.reviewUserPressed()
     }
 

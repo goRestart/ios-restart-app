@@ -85,6 +85,10 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
         tabBarController.openUserRating(source, data: data)
     }
+
+    func vmRefresh() {
+        tableView.reloadData()
+    }
 }
 
 // MARK: UITableView Delegate

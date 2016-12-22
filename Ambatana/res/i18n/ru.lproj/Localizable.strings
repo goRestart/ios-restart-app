@@ -17,6 +17,20 @@
 "app_share_title_alternative" = "ПОДЕЛИТЬСЯ ЛЮБОВЬЮ";
 "app_share_whatsapp_button" = "Пригласить через Whatsapp";
 "block_user_error_generic" = "При блокировке произошла ошибка.";
+"bump_up_bubble_free_button_title" = "Поднять";
+"bump_up_bubble_free_text" = "Поднять бесплатно для быстрой продажи";
+"bump_up_bubble_pay_text" = "Поднять, чтобы продать быстрее";
+"bump_up_bubble_wait_text" = "до нового продвижения";
+"bump_up_error_bump_generic" = "При продвижении товара произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"bump_up_error_bump_token" = "Ваш платеж обработан, но товар еще не поднят. Пожалуйста, попробуйте еще раз.";
+"bump_up_free_success" = "Поднято! Продолжайте поднимать ваше объявление, и его будет видно еще лучше.";
+"bump_up_pay_success" = "Поднято! Теперь ваш товар лучше виден.";
+"bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
+"bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
+"bump_up_view_pay_bumps_left_text" = "У вас осталось %i продвижений.";
+"bump_up_view_pay_button_title" = "Активировать за %@";
+"bump_up_view_pay_subtitle" = "Дает вашему объявлению больше просмотров на 24 часа, поднимая его наверх в списке.";
+"bump_up_view_pay_title" = "ПОДНИМИТЕ ДЛЯ БЫСТРОЙ ПРОДАЖИ";
 "categories_baby_and_child" = "Все для детей";
 "categories_cars_and_motors" = "Автомобили и Запчасти";
 "categories_electronics" = "Электроника";
@@ -288,7 +302,7 @@
 "log_in_send_button" = "Войти";
 "log_in_title" = "Войти через e-mail";
 "login_scammer_alert_contact_button" = "Связаться с нами";
-"login_scammer_alert_keep_browsing_button" = "Продолжить просмотр";
+"login_scammer_alert_keep_browsing_button" = "Пропустить";
 "login_scammer_alert_message" = "Ваш аккаунт проверяется командой letgo. Если вы считаете, что он попал под проверку по ошибке, свяжитесь с нами.";
 "login_scammer_alert_title" = "АККАУНТ НА ПРОВЕРКЕ";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
@@ -572,6 +586,7 @@
 "rating_list_action_report_review_success_message" = "Ваша жалоба была отправлена!";
 "rating_list_action_review_user" = "Оценить пользователя";
 "rating_list_loading_error_message" = "При загрузке оценок произошла ошибка.";
+"rating_list_rating_status_pending" = "This review is being verified";
 "rating_list_rating_type_buyer_text_label" = "%@ купил товар";
 "rating_list_rating_type_conversation_text_label" = "%@ спрашивал о товаре";
 "rating_list_rating_type_seller_text_label" = "%@ продал товар";

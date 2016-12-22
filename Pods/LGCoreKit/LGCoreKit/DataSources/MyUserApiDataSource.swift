@@ -22,14 +22,14 @@ class MyUserApiDataSource: MyUserDataSource {
     
     // MARK: - MyUserDataSource
 
-    func show(myUserId: String, completion: ((Result<MyUser, ApiError>) -> ())?) {
+    func show(myUserId: String, completion: MyUserApiCompletion?) {
         let request = MyUserRouter.Show(myUserId: myUserId)
         apiClient.request(request, decoder: decoder, completion: completion)
     }
 
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
                          postalAddress: PostalAddress?, localeIdentifier: String,
-                         completion: ((Result<MyUser, ApiError>) -> ())?) {
+                         completion: MyUserApiCompletion?) {
         let JSONKeys = LGMyUser.ApiMyUserKeys()
 
         var data: [String: AnyObject] = [:]
@@ -52,12 +52,12 @@ class MyUserApiDataSource: MyUserDataSource {
         apiClient.request(request, decoder: decoder, completion: completion)
     }
 
-    func update(myUserId: String, params: [String : AnyObject], completion: ((Result<MyUser, ApiError>) -> ())?) {
+    func update(myUserId: String, params: [String : AnyObject], completion: MyUserApiCompletion?) {
         let request = MyUserRouter.Update(myUserId: myUserId, params: params)
         apiClient.request(request, decoder: decoder, completion: completion)
     }
 
-    func uploadAvatar(avatar: NSData, myUserId: String, progressBlock: ((Int) -> ())?, completion: ((Result<MyUser, ApiError>) -> ())?) {
+    func uploadAvatar(avatar: NSData, myUserId: String, progressBlock: ((Int) -> ())?, completion: MyUserApiCompletion?) {
 
         let JSONKeys = LGMyUser.ApiMyUserKeys()
 
@@ -75,7 +75,7 @@ class MyUserApiDataSource: MyUserDataSource {
     }
 
     func resetPassword(userId: String, params: [String: AnyObject], token: String,
-        completion: ((Result<MyUser, ApiError>) -> ())?) {
+        completion: MyUserApiCompletion?) {
             let request = MyUserRouter.ResetPassword(myUserId: userId, params: params, token: token)
             apiClient.request(request, decoder: decoder, completion: completion)
     }

@@ -25,16 +25,6 @@
         "description": "Interested users bubble mode"
 	},
     {
-        "name": "FiltersReorder",
-        "values": ["No", "Yes"],
-        "description": "Product filters reorder"
-	},
-    {
-        "name": "DirectPostInOnboarding",
-        "values": ["No", "Yes"],
-        "description": "Last Onboarding step opens the camera"
-	},
-    {
         "name": "ShareButtonWithIcon",
         "values": ["Yes", "No"],
         "description": "Share button with an icon"
@@ -44,16 +34,6 @@
         "values": ["Native", "InPlace", "FullScreen"],
         "description": "How the share options are presented in product detail"
 	},
-    {
-        "name": "ChatHeadBubbles",
-        "values": ["No", "Yes"],
-        "description": "Chat head bubbles"
-    },
-    {
-        "name": "SaveMailLogout",
-        "values": ["No", "Yes"],
-        "description": "Remembers email or FB/Google username on logout"
-    },
     {
         "name": "ExpressChatBanner",
         "values": ["No", "Yes"],
@@ -68,11 +48,6 @@
         "name": "KeywordsTravelCollection",
         "values": ["Standard", "CarsPrior", "BrandsPrior"],
         "description": "Keywords prioritize on Travel Collection"
-    },
-    {
-        "name": "CommercializerAfterPosting",
-        "values": ["No", "Yes"],
-        "description": "Commercializer after posting"
     },
     {
         "name": "RelatedProductsOnMoreInfo",

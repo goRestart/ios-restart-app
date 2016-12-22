@@ -22,7 +22,7 @@ class CustomTouchesTableView: UITableView {
             return super.hitTest(point, withEvent: event)
         }
         
-        let actualVisibleCells = visibleCells.filter { isCellHiddenBlock($0) }
+        let actualVisibleCells = visibleCells.filter { !isCellHiddenBlock($0) }
         for cell in actualVisibleCells {
             let convertedPoint = cell.convertPoint(point, fromView: self)
             let insideCell = cell.pointInside(convertedPoint, withEvent: event)

@@ -406,7 +406,7 @@ private extension ApiClient {
      - returns: The token with value as `"Bearer <token>"`.
      */
     func decodeAuthInfo(authInfo: String) -> Token? {
-        guard let token = authInfo.componentsSeparatedByString(" ").last else {
+        guard let token = authInfo.lastComponentSeparatedByCharacter(" ") else {
             logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
                        message: "Invalid JWT with wrong format; authentication-info: \(authInfo)")
             report(CoreReportNetworking.InvalidJWT(reason: .WrongFormat),
@@ -433,7 +433,7 @@ private extension ApiClient {
 
 private extension Token {
     var version: Int? {
-        guard let token = value?.componentsSeparatedByString(" ").last,
+        guard let token = actualValue,
             payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false) else { return nil }
         let version = payload["btv"] as? Int
         return version

@@ -83,6 +83,62 @@ struct LGLocalizedString {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}
 
+	static var bumpUpBubbleFreeText: String {
+		return NSLocalizedString("bump_up_bubble_free_text", comment: "")
+	}
+
+	static var bumpUpBubblePayText: String {
+		return NSLocalizedString("bump_up_bubble_pay_text", comment: "")
+	}
+
+	static var bumpUpBubbleWaitText: String {
+		return NSLocalizedString("bump_up_bubble_wait_text", comment: "")
+	}
+
+	static var bumpUpBubbleFreeButtonTitle: String {
+		return NSLocalizedString("bump_up_bubble_free_button_title", comment: "")
+	}
+
+	static var bumpUpFreeSuccess: String {
+		return NSLocalizedString("bump_up_free_success", comment: "")
+	}
+
+	static var bumpUpPaySuccess: String {
+		return NSLocalizedString("bump_up_pay_success", comment: "")
+	}
+
+	static var bumpUpErrorBumpGeneric: String {
+		return NSLocalizedString("bump_up_error_bump_generic", comment: "")
+	}
+
+	static var bumpUpErrorBumpToken: String {
+		return NSLocalizedString("bump_up_error_bump_token", comment: "")
+	}
+
+	static var bumpUpViewFreeTitle: String {
+		return NSLocalizedString("bump_up_view_free_title", comment: "")
+	}
+
+	static var bumpUpViewFreeSubtitle: String {
+		return NSLocalizedString("bump_up_view_free_subtitle", comment: "")
+	}
+
+	static var bumpUpViewPayTitle: String {
+		return NSLocalizedString("bump_up_view_pay_title", comment: "")
+	}
+
+	static var bumpUpViewPaySubtitle: String {
+		return NSLocalizedString("bump_up_view_pay_subtitle", comment: "")
+	}
+
+	static func bumpUpViewPayButtonTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("bump_up_view_pay_button_title", comment: ""), var1)
+	}
+
+	static var bumpUpViewPayBumpsLeftText: String {
+		return NSLocalizedString("bump_up_view_pay_bumps_left_text", comment: "")
+	}
+
 	static var categoriesBabyAndChild: String {
 		return NSLocalizedString("categories_baby_and_child", comment: "")
 	}
@@ -2317,6 +2373,10 @@ struct LGLocalizedString {
 
 	static func ratingListRatingTypeSellerTextLabel(var1: String) -> String {
 		return String(format: NSLocalizedString("rating_list_rating_type_seller_text_label", comment: ""), var1)
+	}
+
+	static var ratingListRatingStatusPending: String {
+		return NSLocalizedString("rating_list_rating_status_pending", comment: "")
 	}
 
 	static var ratingListTitle: String {

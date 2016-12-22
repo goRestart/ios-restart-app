@@ -17,6 +17,20 @@
 "app_share_title_alternative" = "MUTLULUĞU PAYLAŞ";
 "app_share_whatsapp_button" = "Whatsapp ile davet et";
 "block_user_error_generic" = "Kullanıcı engellenirken bir hata oluştu.";
+"bump_up_bubble_free_button_title" = "Öne çıkar";
+"bump_up_bubble_free_text" = "Daha hızlı satmak için öne çıkar";
+"bump_up_bubble_pay_text" = "Daha hızlı satmak için öne çıkar";
+"bump_up_bubble_wait_text" = "tekrar öne çıkarmak için";
+"bump_up_error_bump_generic" = "Ürünün öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
+"bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ürünün henüz yayınlanmadı. Lütfen tekrar dene.";
+"bump_up_free_success" = "Öne çıkarıldı! İlanını öne çıkarmaya devam et ki daha da çok kişi görsün.";
+"bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
+"bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";
+"bump_up_view_free_title" = "ÜRÜNÜNÜ ÖNE ÇIKAR";
+"bump_up_view_pay_bumps_left_text" = "%i adet öne çıkarma hakkın kaldı.";
+"bump_up_view_pay_button_title" = "%@ için etkinleştir";
+"bump_up_view_pay_subtitle" = "Ürününü 24 saat için üste çıkararak daha fazla kişiye göster.";
+"bump_up_view_pay_title" = "DAHA HIZLI SATMAK İÇİN ÖNE ÇIKAR";
 "categories_baby_and_child" = "Bebek ve Çocuk";
 "categories_cars_and_motors" = "Araba ve Motosikletler";
 "categories_electronics" = "Elektronik";
@@ -288,7 +302,7 @@
 "log_in_send_button" = "Giriş yap";
 "log_in_title" = "E-posta ile Kaydol";
 "login_scammer_alert_contact_button" = "Bize ulaşın";
-"login_scammer_alert_keep_browsing_button" = "Gezinmeye Devam Et";
+"login_scammer_alert_keep_browsing_button" = "Geç";
 "login_scammer_alert_message" = "Hesabın letgo Ekibi tarafından inceleme altına alınmıştır. Eğer bu durumda bir yanlışlık olduğunu düşünüyorsan bizimle iletişime geçebilirsin.";
 "login_scammer_alert_title" = "HESAP İNCELEME ALTINDA";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
@@ -572,6 +586,7 @@
 "rating_list_action_report_review_success_message" = "Şikayetin bildirildi!";
 "rating_list_action_review_user" = "Kullanıcıyı değerlendir";
 "rating_list_loading_error_message" = "Yorumlar yüklenirken bir hata oluştu.";
+"rating_list_rating_status_pending" = "This review is being verified";
 "rating_list_rating_type_buyer_text_label" = "%@ bir ürün aldı";
 "rating_list_rating_type_conversation_text_label" = "%@ bir ürün hakkında sohbet etti";
 "rating_list_rating_type_seller_text_label" = "%@ bir ürün sattı";

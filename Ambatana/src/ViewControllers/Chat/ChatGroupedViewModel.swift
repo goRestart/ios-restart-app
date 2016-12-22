@@ -53,7 +53,6 @@ class ChatGroupedViewModel: BaseViewModel {
     private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
     private let sessionManager: SessionManager
-    private let chatHeadManager: ChatHeadManager
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
     private let featureFlags: FeatureFlaggeable
@@ -79,14 +78,12 @@ class ChatGroupedViewModel: BaseViewModel {
 
     override convenience init() {
         self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository,
-                  sessionManager: Core.sessionManager, chatHeadManager: ChatHeadManager.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  sessionManager: Core.sessionManager, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-         sessionManager: SessionManager, chatHeadManager: ChatHeadManager, featureFlags: FeatureFlaggeable) {
+    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, sessionManager: SessionManager,
+         featureFlags: FeatureFlaggeable) {
         self.sessionManager = sessionManager
-        self.chatHeadManager = chatHeadManager
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.featureFlags = featureFlags
@@ -117,11 +114,6 @@ class ChatGroupedViewModel: BaseViewModel {
         }
         setupRxBindings()
         setupVerificationPendingEmptyVM()
-    }
-
-    override func didBecomeActive(firstTime: Bool) {
-        super.didBecomeActive(firstTime)
-        chatHeadManager.updateChatHeadDatas()
     }
 
     func setupVerificationPendingEmptyVM() {
