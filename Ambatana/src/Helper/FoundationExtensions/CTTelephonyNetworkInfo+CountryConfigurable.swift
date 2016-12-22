@@ -1,5 +1,5 @@
 //
-//  Carrier+LG.swift
+//  CTTelephonyNetworkInfo+CountryConfigurable.swift
 //  LetGo
 //
 //  Created by Juan Iglesias on 07/12/16.

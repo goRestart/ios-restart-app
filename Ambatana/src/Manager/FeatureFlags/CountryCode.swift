@@ -1,5 +1,5 @@
 //
-//  Countries.swift
+//  CountryCode.swift
 //  LetGo
 //
 //  Created by Juan Iglesias on 22/12/16.
