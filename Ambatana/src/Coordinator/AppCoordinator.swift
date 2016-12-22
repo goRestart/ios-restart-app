@@ -443,7 +443,7 @@ private extension AppCoordinator {
         guard navCtl.isAtRootViewController else { return }
         
         let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default), action: { [weak self] in
-            self?.ifLoggedInAction { [weak self] in
+            self?.ifLoggedInAction(.Profile) { [weak self] in
                 self?.openTab(.Profile) { [weak self] in
                     self?.openChangeLocation()
                 }
@@ -453,8 +453,8 @@ private extension AppCoordinator {
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
     }
     
-    private func ifLoggedInAction(action: () -> ()) {
-        viewController?.ifLoggedInThen(.Profile, loginStyle: .FullScreen, loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
+    private func ifLoggedInAction(tab: EventParameterLoginSourceValue, action: () -> ()) {
+        viewController?.ifLoggedInThen(tab, loginStyle: .FullScreen, loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
     }
 }
 
