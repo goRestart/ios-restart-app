@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -58,11 +58,6 @@ extension Bumper  {
     static var productDetailShareMode: ProductDetailShareMode {
         guard let value = Bumper.valueForKey(ProductDetailShareMode.key) else { return .Native }
         return ProductDetailShareMode(rawValue: value) ?? .Native 
-    }
-
-    static var chatHeadBubbles: Bool {
-        guard let value = Bumper.valueForKey(ChatHeadBubbles.key) else { return false }
-        return ChatHeadBubbles(rawValue: value)?.asBool ?? false
     }
 
     static var expressChatBanner: Bool {
@@ -215,15 +210,6 @@ enum ProductDetailShareMode: String, BumperFeature  {
             default: return .Native
         }
     }
-}
-
-enum ChatHeadBubbles: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return ChatHeadBubbles.No.rawValue }
-    static var enumValues: [ChatHeadBubbles] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Chat head bubbles" } 
-    var asBool: Bool { return self == .Yes }
 }
 
 enum ExpressChatBanner: String, BumperFeature  {

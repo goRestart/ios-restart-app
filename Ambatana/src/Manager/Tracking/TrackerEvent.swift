@@ -950,18 +950,6 @@ public struct TrackerEvent {
         return TrackerEvent(name: .MarketingPushNotifications, params: params)
     }
 
-    static func chatHeadsStart() -> TrackerEvent {
-        return TrackerEvent(name: .ChatHeadsStart, params: EventParameters())
-    }
-
-    static func chatHeadsOpen() -> TrackerEvent {
-        return TrackerEvent(name: .ChatHeadsOpen, params: EventParameters())
-    }
-
-    static func chatHeadsDelete() -> TrackerEvent {
-        return TrackerEvent(name: .ChatHeadsDelete, params: EventParameters())
-    }
-
 
     // MARK: - Private methods
 

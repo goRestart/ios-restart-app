@@ -45,11 +45,6 @@
         "description": "How the share options are presented in product detail"
 	},
     {
-        "name": "ChatHeadBubbles",
-        "values": ["No", "Yes"],
-        "description": "Chat head bubbles"
-    },
-    {
         "name": "ExpressChatBanner",
         "values": ["No", "Yes"],
         "description": "Show express chat banner in chat detail"

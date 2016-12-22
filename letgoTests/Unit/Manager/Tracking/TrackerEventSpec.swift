@@ -2692,30 +2692,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == true
                 }
             }
-            describe("chat heads start") {
-                beforeEach {
-                    sut = TrackerEvent.chatHeadsStart()
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("chat-bubble-start"))
-                }
-            }
-            describe("chat heads open") {
-                beforeEach {
-                    sut = TrackerEvent.chatHeadsOpen()
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("chat-bubble-complete"))
-                }
-            }
-            describe("chat heads delete") {
-                beforeEach {
-                    sut = TrackerEvent.chatHeadsDelete()
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("chat-bubble-delete"))
-                }
-            }
         }
     }
 }

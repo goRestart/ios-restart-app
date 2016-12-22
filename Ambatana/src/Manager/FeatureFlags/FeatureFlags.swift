@@ -19,7 +19,6 @@ protocol FeatureFlaggeable {
     var directPostInOnboarding: Bool { get }
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
-    var chatHeadBubbles: Bool { get }
     var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
@@ -116,13 +115,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.productDetailShareMode
         }
         return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
-    }
-
-     var chatHeadBubbles: Bool {
-        if Bumper.enabled {
-            return Bumper.chatHeadBubbles
-        }
-        return ABTests.chatHeadBubbles.value
     }
 
     var expressChatBanner: Bool {
