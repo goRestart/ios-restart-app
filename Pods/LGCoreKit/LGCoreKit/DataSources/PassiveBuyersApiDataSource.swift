@@ -27,7 +27,7 @@ class PassiveBuyersApiDataSource: PassiveBuyersDataSource {
         apiClient.request(request, decoder: decoder, completion: completion)
     }
 
-    func contact(productId productId: String, buyerIds: [String], completion: ((Result<Void, ApiError>) -> ())?) {
+    func contact(productId productId: String, buyerIds: [String], completion: PassiveBuyersDataSourceEmptyCompletion?) {
         let params: [String: AnyObject] = ["buyers": buyerIds]
         let request = PassiveBuyersRouter.CreateContacts(productId: productId, params: params)
         apiClient.request(request, completion: completion)

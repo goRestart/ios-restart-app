@@ -26,23 +26,19 @@ final class LGPassiveBuyersRepository: PassiveBuyersRepository {
         }
     }
 
-    func contactAllBuyers(passiveBuyersInfo passiveBuyersInfo: PassiveBuyersInfo, completion: ((Result<Void, RepositoryError>) -> ())?) {
+    func contactAllBuyers(passiveBuyersInfo passiveBuyersInfo: PassiveBuyersInfo, completion: PassiveBuyersEmptyCompletion?) {
         guard let productId = passiveBuyersInfo.objectId else {
-            completion?(Result<Void, RepositoryError>(error: .Internal(message: "Missing objectId in passiveBuyersInfo")))
+            completion?(PassiveBuyersEmptyResult(error: .Internal(message: "Missing objectId in passiveBuyersInfo")))
             return
         }
         let buyerIds = passiveBuyersInfo.passiveBuyers.flatMap { $0.objectId }
         guard !buyerIds.isEmpty else {
-            completion?(Result<Void, RepositoryError>(error: .Internal(message: "Empty buyerIds in passiveBuyersInfo")))
+            completion?(PassiveBuyersEmptyResult(error: .Internal(message: "Empty buyerIds in passiveBuyersInfo")))
             return
         }
 
         dataSource.contact(productId: productId, buyerIds: buyerIds) { result in
-            if let error = result.error {
-                completion?(Result<Void, RepositoryError>(error: RepositoryError(apiError: error)))
-            } else if let _ = result.value {
-                completion?(Result<Void, RepositoryError>(value: ()))
-            }
+            handleApiResult(result, completion: completion)
         }
     }
 }

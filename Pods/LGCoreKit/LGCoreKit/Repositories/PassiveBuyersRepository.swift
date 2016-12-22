@@ -12,6 +12,9 @@ import RxSwift
 public typealias PassiveBuyersResult = Result<PassiveBuyersInfo, RepositoryError>
 public typealias PassiveBuyersCompletion = PassiveBuyersResult -> Void
 
+public typealias PassiveBuyersEmptyResult = Result<Void, RepositoryError>
+public typealias PassiveBuyersEmptyCompletion = PassiveBuyersEmptyResult -> Void
+
 public protocol PassiveBuyersRepository {
     /**
      Retrieves a product passive buyers info.
@@ -27,5 +30,5 @@ public protocol PassiveBuyersRepository {
      - parameter passiveBuyersInfo: The passive buyers info
      - parameter completion:        The completion closure
      */
-    func contactAllBuyers(passiveBuyersInfo passiveBuyersInfo: PassiveBuyersInfo, completion: (Result<Void, RepositoryError> -> ())?)
+    func contactAllBuyers(passiveBuyersInfo passiveBuyersInfo: PassiveBuyersInfo, completion: PassiveBuyersEmptyCompletion?)
 }

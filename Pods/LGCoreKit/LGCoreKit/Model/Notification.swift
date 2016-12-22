@@ -6,9 +6,6 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-
 public enum NotificationType {
     case Like(product: NotificationProduct, user: NotificationUser)
     case Sold(product: NotificationProduct, user: NotificationUser)

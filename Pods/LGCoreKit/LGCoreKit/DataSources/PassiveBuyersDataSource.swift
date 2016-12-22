@@ -11,7 +11,10 @@ import Result
 typealias PassiveBuyersDataSourceResult = Result<PassiveBuyersInfo, ApiError>
 typealias PassiveBuyersDataSourceCompletion = PassiveBuyersDataSourceResult -> Void
 
+typealias PassiveBuyersDataSourceEmptyResult = Result<Void, ApiError>
+typealias PassiveBuyersDataSourceEmptyCompletion = PassiveBuyersDataSourceEmptyResult -> Void
+
 protocol PassiveBuyersDataSource {
     func show(productId productId: String, completion: PassiveBuyersDataSourceCompletion?)
-    func contact(productId productId: String, buyerIds: [String], completion: ((Result<Void, ApiError>) -> ())?)
+    func contact(productId productId: String, buyerIds: [String], completion: PassiveBuyersDataSourceEmptyCompletion?)
 }
