@@ -21,7 +21,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shareButtonWithIcon: Bool = false
     var productDetailShareMode: ProductDetailShareMode = .Native
     var chatHeadBubbles: Bool = false
-    var saveMailLogout: Bool = false
     var expressChatBanner: Bool = true
     var postAfterDeleteMode: PostAfterDeleteMode = .Original
     var keywordsTravelCollection: KeywordsTravelCollection = .Standard

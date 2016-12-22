@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -63,11 +63,6 @@ extension Bumper  {
     static var chatHeadBubbles: Bool {
         guard let value = Bumper.valueForKey(ChatHeadBubbles.key) else { return false }
         return ChatHeadBubbles(rawValue: value)?.asBool ?? false
-    }
-
-    static var saveMailLogout: Bool {
-        guard let value = Bumper.valueForKey(SaveMailLogout.key) else { return false }
-        return SaveMailLogout(rawValue: value)?.asBool ?? false
     }
 
     static var expressChatBanner: Bool {
@@ -228,15 +223,6 @@ enum ChatHeadBubbles: String, BumperFeature  {
     static var enumValues: [ChatHeadBubbles] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Chat head bubbles" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum SaveMailLogout: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return SaveMailLogout.No.rawValue }
-    static var enumValues: [SaveMailLogout] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Remembers email or FB/Google username on logout" } 
     var asBool: Bool { return self == .Yes }
 }
 

@@ -20,7 +20,6 @@ protocol FeatureFlaggeable {
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
     var chatHeadBubbles: Bool { get }
-    var saveMailLogout: Bool { get }
     var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
@@ -124,13 +123,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.chatHeadBubbles
         }
         return ABTests.chatHeadBubbles.value
-    }
-
-    var saveMailLogout: Bool {
-        if Bumper.enabled {
-            return Bumper.saveMailLogout
-        }
-        return ABTests.saveMailLogout.value
     }
 
     var expressChatBanner: Bool {

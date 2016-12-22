@@ -20,7 +20,6 @@ public struct ABTests {
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
     static var shareButtonWithIcon = BoolABDynamicVar(key: "shareButtonWithIcon", defaultValue: false)
     static var chatHeadBubbles = BoolABDynamicVar(key: "chatHeadBubbles", defaultValue: false)
-    static var saveMailLogout = BoolABDynamicVar(key: "saveMailLogout", defaultValue: false)
     static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
@@ -42,7 +41,6 @@ public struct ABTests {
                 notificationCenterEnabled,
                 shareButtonWithIcon,
                 chatHeadBubbles,
-                saveMailLogout,
                 expressChatBanner,
                 postAfterDeleteMode,
                 keywordsTravelCollection,
