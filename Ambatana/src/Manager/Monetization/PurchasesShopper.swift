@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
 import StoreKit
 
 
@@ -76,7 +76,14 @@ extension PurchasesShopper: PurchaseableProductsRequestDelegate {
 
         guard let currentProductId = currentProductId else { return }
 
-        // TODO: manage "invalidProductIdentifiers"
+        let invalidIds = response.invalidProductIdentifiers
+        if !invalidIds.isEmpty {
+            let strInvalidIds: String = invalidIds.reduce("", combine: { (a,b) in "\(a),\(b)"})
+            let message = "Invalid ids: \(strInvalidIds)"
+            logMessage(.Error, type: [.Monetization], message: message)
+            report(AppReport.Monetization(error: .InvalidAppstoreProductIdentifiers), message: message)
+        }
+
         productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }
         delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
     }
