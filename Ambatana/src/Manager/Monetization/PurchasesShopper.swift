@@ -11,47 +11,31 @@ import StoreKit
 
 
 protocol PurchasesShopperDelegate: class {
-    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [MonetizationProduct])
+    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [PurchaseableProduct])
+    func shopperFailedProductsRequestForProductId(productId: String?, withError: NSError)
 }
-
-struct MonetizationProduct {
-    var id: String {
-        return product.productIdentifier
-    }
-    var price: String {
-        let priceFormatter = NSNumberFormatter()
-        priceFormatter.formatterBehavior = .Behavior10_4
-        priceFormatter.numberStyle = .CurrencyStyle
-        priceFormatter.locale = product.priceLocale
-        return priceFormatter.stringFromNumber(product.price) ?? ""
-    }
-    var title: String {
-        return product.localizedTitle
-    }
-    var description: String {
-        return product.localizedDescription
-    }
-    private var product: SKProduct
-
-    init(product: SKProduct) {
-        self.product = product
-    }
-}
-
 
 class PurchasesShopper: NSObject {
 
     static let sharedInstance: PurchasesShopper = PurchasesShopper()
 
-    private var monetizationProducts: [MonetizationProduct]
-    private var currentProductId: String?
-    var productsRequest: SKProductsRequest
+    private(set) var currentProductId: String?
+    private var productsRequest: PurchaseableProductsRequest
+
+    private var requestFactory: PurchaseableProductsRequestFactory
 
     weak var delegate: PurchasesShopperDelegate?
 
-    override init() {
-        self.monetizationProducts = []
-        self.productsRequest = SKProductsRequest()
+    var productsDict: [String : [SKProduct]] = [:]
+
+    override convenience init() {
+        let factory = AppstoreProductsRequestFactory()
+        self.init(requestFactory: factory)
+    }
+
+    init(requestFactory: PurchaseableProductsRequestFactory) {
+        self.requestFactory = requestFactory
+        self.productsRequest = requestFactory.generatePurchaseableProductsRequest([])
         super.init()
         productsRequest.delegate = self
     }
@@ -66,7 +50,8 @@ class PurchasesShopper: NSObject {
         guard productId != currentProductId else { return }
         productsRequest.cancel()
         currentProductId = productId
-        productsRequest = SKProductsRequest(productIdentifiers: Set(ids))
+
+        productsRequest = requestFactory.generatePurchaseableProductsRequest(ids)
         productsRequest.delegate = self
         productsRequest.start()
     }
@@ -76,18 +61,27 @@ class PurchasesShopper: NSObject {
 
      - parameter product: info of the product to purchase on the appstore
      */
-    func requestPaymentForProduct(product: MonetizationProduct) {
-        // request payment to appstore
+    func requestPaymentForProduct(productId: String) {
+        guard let appstoreProduct = productsDict[productId] else { return }
+        // request payment to appstore with "appstoreProduct"
+
     }
 }
 
 
 // MARK: - SKProductsRequestDelegate
 
-extension PurchasesShopper: SKProductsRequestDelegate {
-    dynamic func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+extension PurchasesShopper: PurchaseableProductsRequestDelegate {
+    func productsRequest(request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse) {
+
+        guard let currentProductId = currentProductId else { return }
+
         // TODO: manage "invalidProductIdentifiers"
-        monetizationProducts = response.products.flatMap { MonetizationProduct(product: $0) }
-        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: monetizationProducts)
+        productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }
+        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
+    }
+
+    func productsRequest(request: PurchaseableProductsRequest, didFailWithError error: NSError) {
+        delegate?.shopperFailedProductsRequestForProductId(currentProductId, withError: error)
     }
 }

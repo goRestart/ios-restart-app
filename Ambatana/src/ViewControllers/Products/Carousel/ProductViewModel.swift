@@ -658,7 +658,6 @@ extension ProductViewModel {
             actions.append(buildDeleteButton())
         }
 
-
         delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
 
@@ -1181,10 +1180,16 @@ private extension ProductViewModelStatus {
 // MARK: PurchasesShopperDelegate
 
 extension ProductViewModel: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [MonetizationProduct]) {
+    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [PurchaseableProduct]) {
         guard let requestProdId = productId, currentProdId = product.value.objectId where
             requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
         // "purchase" is the product to buy in appstore in case the user wants to bump up 
+    }
+
+    func shopperFailedProductsRequestForProductId(productId: String?, withError: NSError) {
+        guard let requestProdId = productId, currentProdId = product.value.objectId where
+            requestProdId == currentProdId else { return }
+        // update error UI
     }
 }
