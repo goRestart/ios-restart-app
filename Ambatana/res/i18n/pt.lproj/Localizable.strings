@@ -48,7 +48,7 @@
 "change_location_error_search_location_message" = "We were unable to find that location. Please try again.";
 "change_location_error_unknown_location_message" = "No results for %@";
 "change_location_error_updating_location_message" = "An error occurred while updating your location.";
-"change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
+"change_location_recommend_update_location_message" = "We recommend updating your location to see the best deals near you!";
 "change_location_search_field_hint" = "Enter city or zip code";
 "change_location_title" = "Change Location";
 "change_password_confirm_password_field_hint" = "Confirm password";
