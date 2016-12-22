@@ -244,13 +244,6 @@ class FeatureFlags: FeatureFlaggeable {
     
     // MARK: - Private
     
-    /// Checks location & phone region.
-    private func matchesLocationOrRegion(code: CountryCode) -> Bool {
-        let systemCountryCode = locale.lg_countryCode
-        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
-        return systemCountryCode == code.rawValue || countryCode == code.rawValue
-    }
-    
     /// Return CountryCode from location or phone Region
     private var countryCode: CountryCode? {
         let systemCountryCode = locale.lg_countryCode
