@@ -10,7 +10,6 @@ import FBSDKCoreKit
 import LGCoreKit
 import RxSwift
 import UIKit
-import CoreTelephony
 
 final class AppCoordinator: BaseCoordinator {
     var child: Coordinator?
@@ -571,12 +570,18 @@ private extension AppCoordinator {
         guard navCtl.isAtRootViewController else { return }
         
         let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default), action: { [weak self] in
-            self?.openTab(.Profile) { [weak self] in
-                self?.openChangeLocation()
+            self?.ifLoggedInAction { [weak self] in
+                self?.openTab(.Profile) { [weak self] in
+                    self?.openChangeLocation()
+                }
             }
             })
-            navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+        navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+    }
+    
+    private func ifLoggedInAction(action: () -> ()) {
+        viewController?.ifLoggedInThen(.Profile, loginStyle: .FullScreen, loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
     }
 }
 
