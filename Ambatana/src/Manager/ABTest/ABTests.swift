@@ -14,7 +14,6 @@ public struct ABTests {
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
-    static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
     static var productDetailShareMode = IntABDynamicVar(key: "productDetailShareMode", defaultValue: 0)
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
@@ -34,7 +33,6 @@ public struct ABTests {
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey,
                 interestedUsersMode,
-                filtersReorder,
                 directPostInOnboarding,
                 productDetailShareMode,
                 notificationCenterEnabled,

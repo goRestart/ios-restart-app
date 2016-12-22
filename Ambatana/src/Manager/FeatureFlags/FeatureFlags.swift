@@ -15,7 +15,6 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var interestedUsersMode: InterestedUsersMode { get }
-    var filtersReorder: Bool { get }
     var directPostInOnboarding: Bool { get }
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
@@ -87,13 +86,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.interestedUsersMode
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
-    }
-
-     var filtersReorder: Bool {
-        if Bumper.enabled {
-            return Bumper.filtersReorder
-        }
-        return ABTests.filtersReorder.value
     }
 
      var directPostInOnboarding: Bool {

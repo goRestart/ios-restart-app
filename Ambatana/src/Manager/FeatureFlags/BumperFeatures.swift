@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -38,11 +38,6 @@ extension Bumper  {
     static var interestedUsersMode: InterestedUsersMode {
         guard let value = Bumper.valueForKey(InterestedUsersMode.key) else { return .NoNotification }
         return InterestedUsersMode(rawValue: value) ?? .NoNotification 
-    }
-
-    static var filtersReorder: Bool {
-        guard let value = Bumper.valueForKey(FiltersReorder.key) else { return false }
-        return FiltersReorder(rawValue: value)?.asBool ?? false
     }
 
     static var directPostInOnboarding: Bool {
@@ -167,15 +162,6 @@ enum InterestedUsersMode: String, BumperFeature  {
             default: return .NoNotification
         }
     }
-}
-
-enum FiltersReorder: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return FiltersReorder.No.rawValue }
-    static var enumValues: [FiltersReorder] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Product filters reorder" } 
-    var asBool: Bool { return self == .Yes }
 }
 
 enum DirectPostInOnboarding: String, BumperFeature  {

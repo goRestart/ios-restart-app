@@ -25,11 +25,6 @@
         "description": "Interested users bubble mode"
 	},
     {
-        "name": "FiltersReorder",
-        "values": ["No", "Yes"],
-        "description": "Product filters reorder"
-	},
-    {
         "name": "DirectPostInOnboarding",
         "values": ["No", "Yes"],
         "description": "Last Onboarding step opens the camera"

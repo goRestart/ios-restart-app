@@ -177,7 +177,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     private func generateSections() -> [FilterSection] {
-        var updatedSections = FilterSection.allValues(featureFlags)
+        var updatedSections = FilterSection.allValues
         guard let idx = updatedSections.indexOf(FilterSection.Price) where priceCellsDisabled else { return updatedSections }
         updatedSections.removeAtIndex(idx)
         return updatedSections
