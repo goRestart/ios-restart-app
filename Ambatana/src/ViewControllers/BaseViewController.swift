@@ -190,6 +190,10 @@ extension UIViewController {
         let views = ["toastView": toastView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
     }
+    
+    func swipeBackGesture(enabled enabled: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.enabled = enabled
+    }
 }
 
 
@@ -442,7 +446,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
         viewLoaded = true
         setNavBarBackButton(nil)
         setupToastView()
-
+        
         //Listen to status bar changes
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.statusBarDidShow(_:)),
             name: StatusBarNotification.StatusBarWillShow.rawValue, object: nil)

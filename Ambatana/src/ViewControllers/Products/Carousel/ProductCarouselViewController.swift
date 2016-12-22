@@ -149,6 +149,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        swipeBackGesture(enabled: false)
         addSubviews()
         setupUI()
         setupNavigationBar()
