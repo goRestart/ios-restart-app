@@ -349,8 +349,8 @@ enum AccessibilityId: String {
     case ChatViewMoreOptionsButton
     case ChatViewBackButton
     case ChatViewStickersButton
+    case ChatViewQuickAnswersButton
     case ChatViewSendButton
-    case ChatViewCloseStickersButton
     case ChatViewTextInputBar
 
     // DirectAnswers
@@ -495,6 +495,9 @@ enum AccessibilityId: String {
     // Chat Heads
     case ChatHeadsAvatars
     case ChatHeadsDelete
+    
+    // Bubble notifications
+    case BubbleButton
 }
 
 extension UIAccessibilityIdentification {

@@ -33,7 +33,7 @@ enum BackAction {
     case ExpressChat(products: [Product])
 }
 
-protocol TabNavigator: class {
+protocol TabNavigator: BaseNavigator {
     func openSell(source: PostingSource)
     func openUser(data: UserDetailData)
     func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)

@@ -9,13 +9,12 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-
     pod "AlamofireImage",       "~> 2.5.0"  # Swift 3.0: 3.x
     pod "Argo",                 "3.1.0"     # Swift 3.0: N/A
 
-	pod "FBSDKLoginKit",        "~> 4.15.1" # Swift 3.0: -
-	pod "FBSDKCoreKit",         "~> 4.15.1" # Swift 3.0: -
-	pod "FBSDKShareKit",		"~> 4.15.1" # Swift 3.0: -
+    pod "FBSDKLoginKit",        "~> 4.15.1" # Swift 3.0: -
+    pod "FBSDKCoreKit",         "~> 4.15.1" # Swift 3.0: -
+    pod "FBSDKShareKit",		"~> 4.15.1" # Swift 3.0: -
 
     pod "RxSwift",              "~> 2.6.0"  # Swift 3.0: 3.x
     pod "RxCocoa",              "~> 2.6.0"  # Swift 3.0: 3.x
@@ -28,43 +27,40 @@ def shared_pods
     pod "TwitterKit",           "~> 2.3.0"  # Swift 3.0: -
     pod "Branch",               "~> 0.12.20"# Swift 3.0: -
 
-	# Tracking
-	pod "Amplitude-iOS",        "~> 3.8.5"  # Swift 3.0: -
+    # Tracking
+    pod "Amplitude-iOS",        "~> 3.8.5"  # Swift 3.0: -
     pod "AppsFlyerFramework",   "~> 4.5.12" # Swift 3.0: -
     pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Swift 3.0: -
 
-	# letgo Core
-    pod "LGCoreKit",            "1.7.0"     #:path => "../lgcorekit"
+      # letgo Core
+    pod "LGCoreKit",            "1.7.0" # :path => "../lgcorekit"
 
-	# Slack Chat controller
-    pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -
-
-	# letgo Collapsible label
-    pod "LGCollapsibleLabel",   "0.2.0" # :path => "../collapsiblelabel"
+    	# letgo Collapsible label
+    pod "LGCollapsibleLabel",   "0.2.0"     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
-    pod "bumper",               "0.2.0" #:path => "../bumper"
+    pod "bumper",               "0.2.0"     #:path => "../bumper"
 
-	# Collection View Custom Layout
-	pod "CHTCollectionViewWaterfallLayout", "~> 0.9.5"  # Swift 3.0: -
+    	# Collection View Custom Layout
+    pod "CHTCollectionViewWaterfallLayout", "~> 0.9.5"  # Swift 3.0: -
 
-	# Device info helper
-	pod "DeviceUtil",         "~> 1.3.8"  # Swift 3.0: -
+    # Device info helper
+    pod "DeviceUtil",           "~> 1.3.8"  # Swift 3.0: -
 
-	# Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
-    pod "Google/SignIn",            "~> 3.0.3"     # Swift 3.0: -
+    # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
+    pod "Google/SignIn",        "~> 3.0.3"     # Swift 3.0: -
 
-    pod "Firebase/AppIndexing",     "~> 3.7.1"     # Swift 3.0: -
-    pod "GoogleIDFASupport",        "~> 3.14.0"    # Swift 3.0: -
+    pod "Firebase/AppIndexing", "~> 3.7.1"     # Swift 3.0: -
+    pod "GoogleIDFASupport",    "~> 3.14.0"    # Swift 3.0: -
 
-	# Custom camera
-	pod "FastttCamera",         "~> 0.3.4"         # Swift 3.0: -
+    # Custom camera
+    pod "FastttCamera",         "~> 0.3.4"         # Swift 3.0: -
 
-	# Ken Burns effect
-	pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -
+    # Ken Burns effect
+    pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -
 
-	# Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
-	pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'   # Swift 3.0: -
+    # Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
+    pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'   # Swift 3.0: -
 
     # Logging
     pod "CocoaLumberjack/Swift", "~> 2.4.0" # Swift 3.0: N/A

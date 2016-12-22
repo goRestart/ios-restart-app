@@ -17,9 +17,10 @@ class EnvironmentsHelper {
         case Production = "Production"
         case Staging = "Staging"
         case Canary = "Canary"
+        case Escrow = "Escrow"
     }
 
-    private(set) var coreEnvironment: EnvironmentType
+    private(set) var coreEnvironment: EnvironmentType = .Production
 
     var appEnvironment: AppEnvironmentType {
         switch coreEnvironment {
@@ -29,17 +30,16 @@ class EnvironmentsHelper {
             return .Production
         case .Production:
             return .Production
-        case .Escrow: // When we merged release into develop we will return .Escrow
-            return .Production
+        case .Escrow:
+            return .Escrow
         }
     }
 
     init() {
-        self.coreEnvironment = .Production
     #if GOD_MODE
         self.coreEnvironment = getCoreEnvironment()
-        self.checkEnvironmentChange()
     #endif
+        self.checkEnvironmentChange()
     }
 
     func getCoreEnvironment() -> EnvironmentType {
@@ -51,6 +51,9 @@ class EnvironmentsHelper {
         } else if envArgs["-environment-dev"] != nil {
             setSettingsEnvironment(.Staging, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .Staging
+        } else if envArgs["-environment-escrow"] != nil {
+            setSettingsEnvironment(.Escrow, key: EnvironmentsHelper.settingsEnvironmentKey)
+            return .Escrow
         }
 
         //Last check settings
@@ -83,6 +86,8 @@ class EnvironmentsHelper {
             return .Canary
         case .Staging:
             return .Staging
+        case .Escrow:
+            return .Escrow
         }
     }
 
@@ -95,8 +100,8 @@ class EnvironmentsHelper {
             userDefaults.setValue(SettingsEnvironment.Canary.rawValue, forKey: key)
         case .Production:
             userDefaults.setValue(SettingsEnvironment.Production.rawValue, forKey: key)
-        case .Escrow: // When we merged release into develop we will set .Escrow.rawValue
-            userDefaults.setValue(SettingsEnvironment.Production.rawValue, forKey: key)
+        case .Escrow:
+            userDefaults.setValue(SettingsEnvironment.Escrow.rawValue, forKey: key)
         }
     }
 }
