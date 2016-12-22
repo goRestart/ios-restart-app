@@ -10,6 +10,7 @@ import FBSDKCoreKit
 import LGCoreKit
 import RxSwift
 import UIKit
+import CoreTelephony
 
 final class AppCoordinator: BaseCoordinator {
     var child: Coordinator?
@@ -30,7 +31,6 @@ final class AppCoordinator: BaseCoordinator {
     private let sessionManager: SessionManager
     private let chatHeadManager: ChatHeadManager
     private let keyValueStorage: KeyValueStorage
-    private let telephonyNetwork: TelephonyNetworkConfigurable
 
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
@@ -78,7 +78,6 @@ final class AppCoordinator: BaseCoordinator {
         let userRatingRepository = Core.userRatingRepository
         let featureFlags = FeatureFlags.sharedInstance
         let locationManager = Core.locationManager
-        let telephonyNetwork = TelephonyNetworkConfig()
 
         self.init(tabBarController: tabBarController, chatHeadOverlay: chatHeadOverlay, configManager: configManager,
                   sessionManager: sessionManager, chatHeadManager: chatHeadManager, keyValueStorage: keyValueStorage,
@@ -87,7 +86,7 @@ final class AppCoordinator: BaseCoordinator {
                   productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
                   oldChatRepository: oldChatRepository, chatRepository: chatRepository,
                   commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository,
-                  locationManager: locationManager, featureFlags: featureFlags, telephonyNetwork: telephonyNetwork)
+                  locationManager: locationManager, featureFlags: featureFlags)
         tabBarViewModel.navigator = self
     }
 
@@ -97,8 +96,7 @@ final class AppCoordinator: BaseCoordinator {
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable,
-         telephonyNetwork: TelephonyNetworkConfigurable ) {
+         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.Home)
@@ -134,7 +132,6 @@ final class AppCoordinator: BaseCoordinator {
         self.userRatingRepository = userRatingRepository
         
         self.featureFlags = featureFlags
-        self.telephonyNetwork = telephonyNetwork
         self.locationManager = locationManager
 
         super.init(viewController: tabBarCtl, bubbleNotificationManager: bubbleNotificationManager)
@@ -516,9 +513,9 @@ private extension AppCoordinator {
         }.addDisposableTo(disposeBag)
         
         locationManager.locationEvents.filter { $0 == .LocationUpdate }.take(1).bindNext {
-            [weak self] location in
+            [weak self] _ in
             guard let strongSelf = self else { return }
-            if strongSelf.telephonyNetwork.isTurkishCarrier() && strongSelf.locationManager.currentPostalAddress?.countryCode != "TR" {
+            if let currentLocation = strongSelf.locationManager.currentLocation where currentLocation.isAuto && strongSelf.featureFlags.locationMatchesCountry {
                 strongSelf.askUserToUpdateLocationManually()
             }
             }.addDisposableTo(disposeBag)
@@ -578,7 +575,7 @@ private extension AppCoordinator {
                 self?.openChangeLocation()
             }
             })
-            navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+            navCtl.showAlert(nil, message: "New message text for location",
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
     }
 }
