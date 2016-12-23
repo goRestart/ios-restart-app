@@ -141,14 +141,6 @@ class NotificationsViewModel: BaseViewModel {
 private extension NotificationsViewModel {
 
     private func buildNotification(notification: Notification) -> NotificationData? {
-//        case Welcome(city: String?)
-//        case ProductFavorite(product: NotificationProduct, user: NotificationUser)
-//        case ProductSold(product: NotificationProduct, user: NotificationUser)
-//        case Rating(user: NotificationUser)
-//        case RatingUpdated(user: NotificationUser)
-//        case BuyersInterested(product: NotificationProduct, buyers: [NotificationUser])
-//        case ProductSuggested(product: NotificationProduct, user: NotificationUser)
-
         switch notification.type {
         case let .Rating(user, _, _):
             guard featureFlags.userReviews else { return nil }
@@ -172,8 +164,8 @@ private extension NotificationsViewModel {
                     let data = UserDetailData.Id(userId: user.id, source: .Notifications)
                     self?.navigator?.openUser(data)
                 })
-        case let .Sold(product, user):
-            return NotificationData(type: .ProductSold(product: product, user: user), date: notification.createdAt,
+        case let .Sold(product, _):
+            return NotificationData(type: .ProductSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         let data = ProductDetailData.Id(productId: product.id)
