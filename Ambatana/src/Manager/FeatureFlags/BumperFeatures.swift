@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -73,6 +73,11 @@ extension Bumper  {
     static var shareAfterPosting: Bool {
         guard let value = Bumper.valueForKey(ShareAfterPosting.key) else { return false }
         return ShareAfterPosting(rawValue: value)?.asBool ?? false
+    }
+
+    static var monetizationEnabled: Bool {
+        guard let value = Bumper.valueForKey(MonetizationEnabled.key) else { return false }
+        return MonetizationEnabled(rawValue: value)?.asBool ?? false
     }
 
     static var periscopeImprovement: Bool {
@@ -235,6 +240,15 @@ enum ShareAfterPosting: String, BumperFeature  {
     static var enumValues: [ShareAfterPosting] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show sharing screen after posting (forced)" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum MonetizationEnabled: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return MonetizationEnabled.No.rawValue }
+    static var enumValues: [MonetizationEnabled] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "USer can make in-app purchases" } 
     var asBool: Bool { return self == .Yes }
 }
 

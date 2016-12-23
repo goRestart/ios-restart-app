@@ -239,7 +239,7 @@ private extension AppDelegate {
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
 
         #if GOD_MODE
-            Debug.loggingOptions = [.Navigation, .Tracking, .DeepLink]
+            Debug.loggingOptions = [.Navigation, .Tracking, .DeepLink, .Monetization]
         #endif
         
         LGCoreKit.loggingOptions = [.Networking, .Persistence, .Token, .Session, .WebSockets]

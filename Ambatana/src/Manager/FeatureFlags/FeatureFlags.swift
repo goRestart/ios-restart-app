@@ -24,6 +24,7 @@ protocol FeatureFlaggeable {
     var freePostingModeAllowed: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
+    var monetizationEnabled: Bool { get }
     var periscopeImprovement: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
@@ -168,6 +169,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newQuickAnswers
         }
         return ABTests.newQuickAnswers.value
+    }
+
+    var monetizationEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.monetizationEnabled
+        }
+        return false
     }
 
 
