@@ -109,8 +109,7 @@ public class RelationInfoView: UIView {
     @IBOutlet weak var chatInfoIcon: UIImageView!
     @IBOutlet weak var chatInfoLabel: UILabel!
 
-    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var relationInfoHeightConstraint: NSLayoutConstraint!
 
     public static func relationInfoView() -> RelationInfoView {
         guard let view =  NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil)?
@@ -130,7 +129,7 @@ public class RelationInfoView: UIView {
         setupBasicUI()
 
         // Status dependant setup
-        heightConstraint.constant = status.heightValue
+        relationInfoHeightConstraint.constant = status.heightValue
         backgroundColor = status.bgColor
         chatInfoLabel.textColor = status.infoTextColor
         chatInfoLabel.text = status.infoText(otherUserName: otherUserName)
