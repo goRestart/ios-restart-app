@@ -27,7 +27,7 @@
 "bump_up_pay_success" = "Ganz oben! Dein Produkt ist nun besonders sichtbar.";
 "bump_up_view_free_subtitle" = "Je öfter du es teilst, umso sichtbarer wird dein Angebot";
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
-"bump_up_view_pay_bumps_left_text" = "Du kannst noch %i Angebote hochholen";
+"bump_up_view_pay_bumps_left_text" = "Du kannst noch %i Angebote hochholen.";
 "bump_up_view_pay_button_title" = "Für %@ aktivieren";
 "bump_up_view_pay_subtitle" = "Mache dein Angebot für 24 Stunden besonders sichtbar, indem du es ganz nach oben holst.";
 "bump_up_view_pay_title" = "NACH OBEN HOLEN, UM SCHNELLER ZU VERKAUFEN";
@@ -374,6 +374,9 @@
 "onboarding_posting_title_a" = "Verdiene bares Geld!";
 "onboarding_posting_title_b" = "Stelle dein erstes Produkt ein";
 "onboarding_posting_title_c" = "Möchtest du welche verkaufen?";
+"passive_buyers_button" = "Contact %d buyers";
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
@@ -586,7 +589,7 @@
 "rating_list_action_report_review_success_message" = "Deine Nachricht wurde abgeschickt!";
 "rating_list_action_review_user" = "Nutzer bewerten";
 "rating_list_loading_error_message" = "Beim Laden der Bewertungen ist ein Fehler aufgetreten.";
-"rating_list_rating_status_pending" = "This review is being verified";
+"rating_list_rating_status_pending" = "Diese Bewertung wird überprüft";
 "rating_list_rating_type_buyer_text_label" = "%@ hat einen Artikel gekauft";
 "rating_list_rating_type_conversation_text_label" = "%@ hat über den Artikel gesprochen";
 "rating_list_rating_type_seller_text_label" = "%@ hat einen Artikel verkauft";

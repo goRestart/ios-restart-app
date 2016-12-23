@@ -374,6 +374,9 @@
 "onboarding_posting_title_a" = "Commencez à Gagner de l'Argent !";
 "onboarding_posting_title_b" = "Publiez votre premier produit";
 "onboarding_posting_title_c" = "En avez-vous à vendre ?";
+"passive_buyers_button" = "Contact %d buyers";
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "Poser une Question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
@@ -586,7 +589,7 @@
 "rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
 "rating_list_action_review_user" = "Évaluer l'utilisateur";
 "rating_list_loading_error_message" = "Une erreur est survenue lors du chargement des évaluations.";
-"rating_list_rating_status_pending" = "This review is being verified";
+"rating_list_rating_status_pending" = "Cette évaluation est en cours de vérification";
 "rating_list_rating_type_buyer_text_label" = "%@ a acheté un produit";
 "rating_list_rating_type_conversation_text_label" = "%@ a clavardé à propos d'un produit";
 "rating_list_rating_type_seller_text_label" = "%@ a vendu un produit";

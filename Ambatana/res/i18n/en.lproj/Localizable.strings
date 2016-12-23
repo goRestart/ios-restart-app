@@ -1122,6 +1122,15 @@
 // Onboarding incentivize posting variant C button
 "onboarding_posting_button_c" = "Yes, I have things to sell";
 
+// Passive buyers screen for seller
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
+
+// Passive buyers screen for seller
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+
+// Passive buyers screen for seller
+"passive_buyers_button" = "Contact %d buyers";
+
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
 

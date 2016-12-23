@@ -1515,6 +1515,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("onboarding_posting_button_c", comment: "")
 	}
 
+	static var passiveBuyersTitle: String {
+		return NSLocalizedString("passive_buyers_title", comment: "")
+	}
+
+	static var passiveBuyersMessage: String {
+		return NSLocalizedString("passive_buyers_message", comment: "")
+	}
+
+	static func passiveBuyersButton(var1: Int) -> String {
+		return String(format: NSLocalizedString("passive_buyers_button", comment: ""), var1)
+	}
+
 	static var productAskAQuestionButton: String {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")
 	}

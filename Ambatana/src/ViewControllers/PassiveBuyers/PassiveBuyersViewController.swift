@@ -40,6 +40,8 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setupUI()
+        loadData()
     }
 
     override func viewDidLayoutSubviews() {
@@ -77,6 +79,27 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         messageLabel.toBottomOf(titleLabel, margin: 10)
         messageLabel.fitHorizontallyToParent(margin: 40)
         messageLabel.alignParentBottom(margin: 20)
+
+        productImage.clipsToBounds = true
+        productImage.cornerRadius = LGUIKitConstants.defaultCornerRadius
+
+        titleLabel.textColor = UIColor.blackText
+        titleLabel.font = UIFont.systemMediumFont(size: 17)
+
+        messageLabel.textColor = UIColor.darkGrayText
+        messageLabel.font = UIFont.mediumBodyFont
+    }
+
+    private func loadData() {
+        productImage.image = UIImage(named: "product_placeholder")
+        if let imageUrl = viewModel.productImage {
+            productImage.lg_setImageWithURL(imageUrl)
+        }
+
+        titleLabel.text = LGLocalizedString.passiveBuyersTitle
+        messageLabel.text = LGLocalizedString.passiveBuyersMessage
+
+        contactButton.setTitle(LGLocalizedString.passiveBuyersButton(viewModel.buyersCount), forState: .Normal)
     }
 }
 
@@ -87,7 +110,6 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
     private func setupTable() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.contentInset.top = 64
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
