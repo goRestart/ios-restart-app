@@ -1063,7 +1063,7 @@
 "notifications_type_product_suggested" = "%@ just published an item you might be interested in";
 
 // Notifications product suggested
-"notifications_type_product_suggested_w_title" = "%$1@ just published an item you might be interested in: \"%$2@\"";
+"notifications_type_product_suggested_w_title" = "%1$@ just published an item you might be interested in: \"%2$@\"";
 
 // Notifications product suggested button
 "notifications_type_product_suggested_button" = "See the item";
@@ -1072,7 +1072,7 @@
 "notifications_type_buyers_interested" = "%d buyers might be interested in your product";
 
 // Notifications buyers interested
-"notifications_type_buyers_interested_w_title" = "%$1d buyers might be interested in your product: \"%$2@\"";
+"notifications_type_buyers_interested_w_title" = "%1$d buyers might be interested in your product: \"%2$@\"";
 
 // Notifications buyers interested button
 "notifications_type_buyers_interested_button" = "Find out who they are";
