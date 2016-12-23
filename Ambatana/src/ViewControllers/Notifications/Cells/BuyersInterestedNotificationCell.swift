@@ -50,7 +50,7 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
         cellContainer.clipsToBounds = true
         cellContainer.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
 
-        primaryImage.rounded = true
+        primaryImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         timeLabel.font = UIFont.notificationTimeFont
         actionLabel.font = UIFont.notificationSubtitleFont
 
@@ -61,8 +61,8 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
         primaryImage.accessibilityId = .NotificationsCellPrimaryImage
 
         actionButton.userInteractionEnabled = false
-        actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: false))
-        actionButton.contentEdgeInsets = UIEdgeInsets() //Resetting edge insets to align left
+        actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
+//        actionButton.contentEdgeInsets = UIEdgeInsets() //Resetting edge insets to align left
 
         userImageViews.forEach { $0.rounded = true }
     }
