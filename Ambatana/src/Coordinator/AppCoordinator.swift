@@ -184,14 +184,9 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSell(source: PostingSource) {
-
-        let vc = PassiveBuyersViewController(viewModel: PassiveBuyersViewModel())
-        viewController?.presentViewController(vc, animated: true, completion: nil)
-
-
-//        let sellCoordinator = SellCoordinator(source: source)
-//        sellCoordinator.delegate = self
-//        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        let sellCoordinator = SellCoordinator(source: source)
+        sellCoordinator.delegate = self
+        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
     func openUserRating(source: RateUserSource, data: RateUserData) {

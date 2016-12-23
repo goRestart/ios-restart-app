@@ -9,27 +9,8 @@
 import LGCoreKit
 
 
-
 protocol PassiveBuyersViewModelDelegate: BaseViewModelDelegate {
 
-}
-
-
-//TODO: REMOVE!! JUST TO TEST
-private struct FakePassiveBuyers: PassiveBuyersInfo {
-    var objectId: String? = nil
-    var productImage: File? = nil
-    var passiveBuyers: [PassiveBuyersUser] = [FakePassiveBuyer(name: "User 1"), FakePassiveBuyer(name: "User 2"), FakePassiveBuyer(name: "User 3"), FakePassiveBuyer(name: "User 4")]
-}
-
-private struct FakePassiveBuyer: PassiveBuyersUser {
-    var objectId: String? = nil
-    let name: String?
-    var avatar: File? = nil
-
-    init(name: String) {
-        self.name = name
-    }
 }
 
 
@@ -39,11 +20,6 @@ class PassiveBuyersViewModel: BaseViewModel {
 
     private let passiveBuyers: PassiveBuyersInfo
     private let passiveBuyersRepository: PassiveBuyersRepository
-
-    //TODO: REMOVE!! JUST TO TEST
-    convenience override init() {
-        self.init(passiveBuyers: FakePassiveBuyers())
-    }
 
     convenience init(passiveBuyers: PassiveBuyersInfo) {
         self.init(passiveBuyers: passiveBuyers, passiveBuyersRepository: Core.passiveBuyersRepository)
