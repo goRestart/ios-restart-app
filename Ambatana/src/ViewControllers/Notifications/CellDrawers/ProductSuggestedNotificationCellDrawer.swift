@@ -1,0 +1,36 @@
+//
+//  ProductSuggestedNotificationCellDrawer.swift
+//  LetGo
+//
+//  Created by Albert Hernández López on 23/12/16.
+//  Copyright © 2016 Ambatana. All rights reserved.
+//
+
+import LGCoreKit
+
+class ProductSuggestedNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell> {
+
+    override func draw(cell: NotificationCell, data: NotificationData) {
+
+        switch data.type {
+        case let .ProductSuggested(product, seller: seller):
+            let userName = seller.name
+            if let productTitle = product.title where !productTitle.isEmpty {
+                cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWNameWTitle(userName ?? "", productTitle)
+            } else {
+                cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWName(userName ?? "")
+            }
+            cell.iconImage.image = UIImage(named: "ic_favorite")
+            let placeholder = LetgoAvatar.avatarWithID(seller.id, name: userName)
+            if let urlStr = seller.avatar, imageUrl = NSURL(string: urlStr) {
+                cell.primaryImage.lg_setImageWithURL(imageUrl, placeholderImage: placeholder)
+            } else {
+                cell.primaryImage.image = placeholder
+            }
+            cell.timeLabel.text = data.date.relativeTimeString(true)
+            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeLikeButton, forState: .Normal)
+        default:
+            return
+        }
+    }
+}

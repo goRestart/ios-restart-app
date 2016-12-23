@@ -199,6 +199,14 @@
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
+		5013403E1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013403D1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift */; };
+		5013403F1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013403D1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift */; };
+		501340411E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501340401E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift */; };
+		501340421E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501340401E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift */; };
+		501340451E0D447400AD27CA /* BuyersInterestedNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501340431E0D447400AD27CA /* BuyersInterestedNotificationCell.swift */; };
+		501340461E0D447400AD27CA /* BuyersInterestedNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501340431E0D447400AD27CA /* BuyersInterestedNotificationCell.swift */; };
+		501340471E0D447400AD27CA /* BuyersInterestedNotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501340441E0D447400AD27CA /* BuyersInterestedNotificationCell.xib */; };
+		501340481E0D447400AD27CA /* BuyersInterestedNotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501340441E0D447400AD27CA /* BuyersInterestedNotificationCell.xib */; };
 		50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
 		50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
 		50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */; };
@@ -1342,6 +1350,10 @@
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
+		5013403D1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyersInterestedNotificationCellDrawer.swift; sourceTree = "<group>"; };
+		501340401E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductSuggestedNotificationCellDrawer.swift; sourceTree = "<group>"; };
+		501340431E0D447400AD27CA /* BuyersInterestedNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyersInterestedNotificationCell.swift; sourceTree = "<group>"; };
+		501340441E0D447400AD27CA /* BuyersInterestedNotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuyersInterestedNotificationCell.xib; sourceTree = "<group>"; };
 		50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigator.swift; sourceTree = "<group>"; };
 		50146BC61D4F5F6D00B0F635 /* MainTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabCoordinator.swift; sourceTree = "<group>"; };
@@ -3102,6 +3114,8 @@
 				C7740DEA1DC34DBC00988036 /* RatingNotificationCellDrawer.swift */,
 				C711A1A61CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift */,
 				C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */,
+				5013403D1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift */,
+				501340401E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift */,
 			);
 			path = CellDrawers;
 			sourceTree = "<group>";
@@ -3164,6 +3178,8 @@
 		C727FBC81CD10C82002BC643 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				501340431E0D447400AD27CA /* BuyersInterestedNotificationCell.swift */,
+				501340441E0D447400AD27CA /* BuyersInterestedNotificationCell.xib */,
 				C727FBCF1CD10E77002BC643 /* NotificationCell.swift */,
 				C727FBD01CD10E77002BC643 /* NotificationCell.xib */,
 				C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */,
@@ -4025,6 +4041,7 @@
 				C7DE8AC91C888761005CF37E /* EditProductViewController.xib in Resources */,
 				6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C727FBD31CD10E77002BC643 /* NotificationCell.xib in Resources */,
+				501340471E0D447400AD27CA /* BuyersInterestedNotificationCell.xib in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
 				2E06EAEE1D7051BA00A40704 /* FilterPriceCell.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
@@ -4154,6 +4171,7 @@
 				C7DE8ACA1C888761005CF37E /* EditProductViewController.xib in Resources */,
 				6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */,
+				501340481E0D447400AD27CA /* BuyersInterestedNotificationCell.xib in Resources */,
 				C7F18A981C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
 				2E06EAF01D70595E00A40704 /* FilterPriceCell.xib in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
@@ -4577,6 +4595,7 @@
 				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				C72794461D549342009C25AB /* HelpViewModel.swift in Sources */,
 				2E2208E51DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
+				501340451E0D447400AD27CA /* BuyersInterestedNotificationCell.swift in Sources */,
 				6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2E9716A61D5A08AB009B3A32 /* ExpressChatViewModel.swift in Sources */,
 				2E3047F51CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
@@ -4714,6 +4733,7 @@
 				C7DE8ABE1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
 				2E2CE4531DC0FD26006D3E7E /* ShareProductViewModel.swift in Sources */,
+				5013403E1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				6A9C9EBE1CCF959E009D866C /* UIButton+LetgoStyles.swift in Sources */,
 				C75B5DD11D59E0C500112368 /* ProductCarouselCell.swift in Sources */,
@@ -4871,6 +4891,7 @@
 				5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
+				501340411E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */,
 				5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */,
 				2EF4E3B31D3688AB00A09DFD /* LGConfigRetrieveService.swift in Sources */,
 				2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */,
@@ -5004,6 +5025,7 @@
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
 				2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
+				501340461E0D447400AD27CA /* BuyersInterestedNotificationCell.swift in Sources */,
 				C72794471D549342009C25AB /* HelpViewModel.swift in Sources */,
 				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
@@ -5141,6 +5163,7 @@
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
 				2E2CE4561DC0FD2B006D3E7E /* ShareProductViewModel.swift in Sources */,
+				5013403F1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift in Sources */,
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
 				C75B5DD21D59E0C500112368 /* ProductCarouselCell.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
@@ -5298,6 +5321,7 @@
 				5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A951C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
+				501340421E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */,
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
 				2E28B12D1D991330001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				2E2D53E31D369B0500348D12 /* LGConfigRetrieveService.swift in Sources */,
