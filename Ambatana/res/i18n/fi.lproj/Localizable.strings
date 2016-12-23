@@ -586,7 +586,7 @@
 "rating_list_action_report_review_success_message" = "Ilmiantosi on lähetetty!";
 "rating_list_action_review_user" = "Arvostele käyttäjä";
 "rating_list_loading_error_message" = "Luokituksia ladattaessa tapahtui virhe.";
-"rating_list_rating_status_pending" = "This review is being verified";
+"rating_list_rating_status_pending" = "Tämä arvostelu odottaa vahvistusta";
 "rating_list_rating_type_buyer_text_label" = "%@ osti tuotteen";
 "rating_list_rating_type_conversation_text_label" = "%@ keskusteli tuotteesta";
 "rating_list_rating_type_seller_text_label" = "%@ myi tuotteen";

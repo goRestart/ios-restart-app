@@ -126,8 +126,12 @@ extension TabCoordinator: TabNavigator {
 
     func openRatingList(userId: String) {
         let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
-        let vc = UserRatingListViewController(viewModel: vm)
+        let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    var hidesBottomBarWhenPushed: Bool {
+        return navigationController.viewControllers.count == 1
     }
 }
 
@@ -247,7 +251,6 @@ private extension TabCoordinator {
 
         let vm = UserViewModel(user: user, source: source)
         vm.navigator = self
-        let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
     }
@@ -256,8 +259,6 @@ private extension TabCoordinator {
     func openUser(interlocutor: ChatInterlocutor) {
         let vm = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
         vm.navigator = self
-
-        let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
     }

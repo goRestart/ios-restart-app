@@ -586,7 +586,7 @@
 "rating_list_action_report_review_success_message" = "Báo cáo của bạn đã được gửi đi!";
 "rating_list_action_review_user" = "Xem người dùng";
 "rating_list_loading_error_message" = "Có lỗi xảy ra khi tải các đánh giá";
-"rating_list_rating_status_pending" = "This review is being verified";
+"rating_list_rating_status_pending" = "Đánh giá này đang được xác minh";
 "rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
 "rating_list_rating_type_conversation_text_label" = "%@ đã trò chuyện về một sản phẩm";
 "rating_list_rating_type_seller_text_label" = "%@ đã bán một sản phẩm";

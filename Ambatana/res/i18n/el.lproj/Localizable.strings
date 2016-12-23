@@ -586,7 +586,7 @@
 "rating_list_action_report_review_success_message" = "Η αναφορά σας έχει σταλεί";
 "rating_list_action_review_user" = "Κάντε κριτική σε χρήστη";
 "rating_list_loading_error_message" = "Παρουσιάστηκε σφάλμα κατά τη φόρτωση της κριτικής.";
-"rating_list_rating_status_pending" = "This review is being verified";
+"rating_list_rating_status_pending" = "Η κριτική είναι επιβεβαιωμένη";
 "rating_list_rating_type_buyer_text_label" = "Ο %@ αγόρασε ένα προϊόν";
 "rating_list_rating_type_conversation_text_label" = "Ο %@ συζήτησε για ένα προϊόν";
 "rating_list_rating_type_seller_text_label" = "Ο %@ πούλησε ένα προϊόν";
