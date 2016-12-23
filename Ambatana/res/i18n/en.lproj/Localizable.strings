@@ -149,7 +149,7 @@
 "change_location_error_updating_location_message" = "An error occurred while updating your location.";
 
 // Change location unknown location message. Message displayal is like the other error messages
-"change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
+"change_location_recommend_update_location_message" = "We recommend updating your location to see the best deals near you!";
 
 // Change location search field hint. Check image @ "change_location_title" segment
 "change_location_search_field_hint" = "Enter city or zip code";

@@ -8,6 +8,7 @@
 
 import bumper
 import LGCoreKit
+import CoreTelephony
 
 protocol FeatureFlaggeable {
     var websocketChat: Bool { get }
@@ -29,6 +30,7 @@ protocol FeatureFlaggeable {
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
+    var locationNoMatchesCountry: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -37,8 +39,9 @@ class FeatureFlags: FeatureFlaggeable {
     
     private let locale: NSLocale
     private let locationManager: LocationManager
+    private let countryInfo: CountryConfigurable
     
-    init(locale: NSLocale, locationManager: LocationManager) {
+    init(locale: NSLocale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
@@ -52,11 +55,12 @@ class FeatureFlags: FeatureFlaggeable {
 
         self.locale = locale
         self.locationManager = locationManager
+        self.countryInfo = countryInfo
     }
 
     
     convenience init() {
-        self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
+        self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
     }
 
 
@@ -182,16 +186,28 @@ class FeatureFlags: FeatureFlaggeable {
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        return !matchesLocationOrRegion("tr")
+        guard let countryCode = countryCode else { return true }
+        switch countryCode {
+        case .Turkey:
+            return false
+        }
+    }
+    
+    var locationNoMatchesCountry: Bool {
+        guard let countryCode = countryCode else { return false }
+        switch countryCode {
+        case .Turkey:
+            return locationManager.countryNoMatchWith(countryInfo)
+        }
     }
 
     
     // MARK: - Private
     
-    /// Checks location & phone region.
-    private func matchesLocationOrRegion(code: String) -> Bool {
+    /// Return CountryCode from location or phone Region
+    private var countryCode: CountryCode? {
         let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
-        return systemCountryCode == code || countryCode == code
+        return CountryCode(rawValue: countryCode)
     }
 }
