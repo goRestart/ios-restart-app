@@ -13,15 +13,16 @@ class ProductFavoriteNotificationCellDrawer: BaseNotificationCellDrawer<Notifica
     override func draw(cell: NotificationCell, data: NotificationData) {
 
         switch data.type {
-        case let .ProductFavorite(userId, userName, productTitle, userImage):
-            if let productTitle = productTitle where !productTitle.isEmpty {
+        case let .ProductFavorite(product, user):
+            let userName = user.name
+            if let productTitle = product.title where !productTitle.isEmpty {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWNameWTitle(userName ?? "", productTitle)
             } else {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWName(userName ?? "")
             }
             cell.iconImage.image = UIImage(named: "ic_favorite")
-            let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
-            if let urlStr = userImage, imageUrl = NSURL(string: urlStr) {
+            let placeholder = LetgoAvatar.avatarWithID(user.id, name: userName)
+            if let urlStr = user.avatar, imageUrl = NSURL(string: urlStr) {
                 cell.primaryImage.lg_setImageWithURL(imageUrl, placeholderImage: placeholder)
             } else {
                 cell.primaryImage.image = placeholder
