@@ -175,13 +175,14 @@ private extension NotificationsViewModel {
             return NotificationData(type: .BuyersInterested(product: product, buyers: buyers),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        // TODO: https://ambatana.atlassian.net/browse/ABIOS-2055
+                                        // TODO: https://ambatana.atlassian.net/browse/ABIOS-2057
                                     })
         case let .ProductSuggested(product, seller):
             return NotificationData(type: .ProductSuggested(product: product, seller: seller),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        // TODO: https://ambatana.atlassian.net/browse/ABIOS-2055
+                                        let data = ProductDetailData.Id(productId: product.id)
+                                        self?.navigator?.openProduct(data, source: .Notifications)
                                     })
         }
     }
