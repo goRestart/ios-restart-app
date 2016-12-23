@@ -603,6 +603,8 @@ public enum EventParameterNotificationType: String {
     case ProductSold = "favorite-sold"
     case Rating = "rating"
     case RatingUpdated = "rating-updated"
+    case BuyersInterested = "buyers-interested"
+    case ProductSuggested = "product-suggested"
 }
 
 public enum EventParameterRelatedShownReason: String {
