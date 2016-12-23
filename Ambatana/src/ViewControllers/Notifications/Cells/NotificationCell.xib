@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,36 +16,42 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="123"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="320" height="122"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="122"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="we2-oN-zHR" userLabel="cellContainer">
+                        <rect key="frame" x="10" y="0.0" width="300" height="112.5"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="0Z9-NZ-mNU" userLabel="primaryImage">
+                                <rect key="frame" x="15" y="15" width="36" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="bLd-eV-z4u"/>
                                     <constraint firstAttribute="height" constant="36" id="x8B-Ka-VMi"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PVg-Os-BWQ" userLabel="primaryImageBtn">
+                                <rect key="frame" x="5" y="5" width="56" height="56"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="primaryImagePressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="dHC-rc-RKL"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Sold &quot;City Bike&quot;" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dN-bO-yj4" userLabel="actionLabel">
+                                <rect key="frame" x="61" y="15" width="139.5" height="42.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="2 days ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sUm-Zb-uuo" userLabel="timeLabel">
+                                <rect key="frame" x="210.5" y="15" width="74.5" height="18"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RY4-JC-UIh">
+                                <rect key="frame" x="61" y="67.5" width="84" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="FCa-eM-X7J"/>
                                 </constraints>
@@ -52,6 +61,7 @@
                                 </state>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dollar_sold" translatesAutoresizingMaskIntoConstraints="NO" id="OlS-WW-JAb" userLabel="iconImg">
+                                <rect key="frame" x="273" y="38" width="12" height="12"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="OlS-WW-JAb" secondAttribute="height" multiplier="1:1" id="B1H-qh-v04"/>
