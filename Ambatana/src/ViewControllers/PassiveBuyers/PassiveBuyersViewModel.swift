@@ -19,9 +19,18 @@ protocol PassiveBuyersViewModelDelegate: BaseViewModelDelegate {
 private struct FakePassiveBuyers: PassiveBuyersInfo {
     var objectId: String? = nil
     var productImage: File? = nil
-    var passiveBuyers: [PassiveBuyersUser] = []
+    var passiveBuyers: [PassiveBuyersUser] = [FakePassiveBuyer(name: "User 1"), FakePassiveBuyer(name: "User 2"), FakePassiveBuyer(name: "User 3"), FakePassiveBuyer(name: "User 4")]
 }
 
+private struct FakePassiveBuyer: PassiveBuyersUser {
+    var objectId: String? = nil
+    let name: String?
+    var avatar: File? = nil
+
+    init(name: String) {
+        self.name = name
+    }
+}
 
 
 class PassiveBuyersViewModel: BaseViewModel {
@@ -72,7 +81,16 @@ class PassiveBuyersViewModel: BaseViewModel {
     }
 
     func contactButtonPressed() {
-
+        delegate?.vmShowLoading(nil)
+        passiveBuyersRepository.contactAllBuyers(passiveBuyersInfo: passiveBuyers) { [weak self] result in
+            if let _ = result.value {
+                self?.delegate?.vmHideLoading(LGLocalizedString.passiveBuyersContactSuccess) { [weak self] in
+                    self?.delegate?.vmDismiss(nil)
+                }
+            } else {
+                self?.delegate?.vmHideLoading(LGLocalizedString.passiveBuyersContactError, afterMessageCompletion: nil)
+            }
+        }
     }
 
 

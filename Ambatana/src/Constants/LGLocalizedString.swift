@@ -1431,6 +1431,30 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("notifications_type_rating_updated", comment: ""), var1)
 	}
 
+	static func notificationsTypeProductSuggested(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_product_suggested", comment: ""), var1)
+	}
+
+	static func notificationsTypeProductSuggestedWTitle(var1: String, _ var2: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_product_suggested_w_title", comment: ""), var1, var2)
+	}
+
+	static var notificationsTypeProductSuggestedButton: String {
+		return NSLocalizedString("notifications_type_product_suggested_button", comment: "")
+	}
+
+	static func notificationsTypeBuyersInterested(var1: Int) -> String {
+		return String(format: NSLocalizedString("notifications_type_buyers_interested", comment: ""), var1)
+	}
+
+	static func notificationsTypeBuyersInterestedWTitle(var1: Int, _ var2: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_buyers_interested_w_title", comment: ""), var1, var2)
+	}
+
+	static var notificationsTypeBuyersInterestedButton: String {
+		return NSLocalizedString("notifications_type_buyers_interested_button", comment: "")
+	}
+
 	static var notificationsTypeWelcomeSubtitle: String {
 		return NSLocalizedString("notifications_type_welcome_subtitle", comment: "")
 	}
@@ -1525,6 +1549,14 @@ struct LGLocalizedString {
 
 	static func passiveBuyersButton(var1: Int) -> String {
 		return String(format: NSLocalizedString("passive_buyers_button", comment: ""), var1)
+	}
+
+	static var passiveBuyersContactError: String {
+		return NSLocalizedString("passive_buyers_contact_error", comment: "")
+	}
+
+	static var passiveBuyersContactSuccess: String {
+		return NSLocalizedString("passive_buyers_contact_success", comment: "")
 	}
 
 	static var productAskAQuestionButton: String {

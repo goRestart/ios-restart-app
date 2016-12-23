@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import RxSwift
 
 class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDelegate {
+
+    private static let headerTopMargin: CGFloat = 64
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topContainer: UIView!
@@ -16,12 +19,14 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
     @IBOutlet weak var contactButton: UIButton!
 
     private let header = UIView()
-    private var headerTopMargin = NSLayoutConstraint()
+    private var headerTopMarginConstraint = NSLayoutConstraint()
     private let productImage = UIImageView()
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
 
     private let viewModel: PassiveBuyersViewModel
+
+    private let disposeBag = DisposeBag()
 
 
     // MARK: - View Lifecycle
@@ -44,22 +49,35 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         loadData()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidFirstLayoutSubviews() {
+        super.viewDidFirstLayoutSubviews()
         tableView.contentInset.top = header.bottom
     }
+
 
     // MARK: - Private methods
 
     private func setupUI() {
+        view.backgroundColor = UIColor.grayBackground
+        topContainer.backgroundColor = UIColor.grayBackground
+        topContainer.alpha = 0
+        closeButton.setImage(UIImage(named: "navbar_close")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+
         setupHeader()
         setupTable()
+
+        contactButton.setStyle(.Primary(fontSize: .Big))
+
+        closeButton.rx_tap.subscribeNext { [weak self] in self?.viewModel.closeButtonPressed()}
+            .addDisposableTo(disposeBag)
+        contactButton.rx_tap.subscribeNext { [weak self] in self?.viewModel.contactButtonPressed()}
+            .addDisposableTo(disposeBag)
     }
 
     private func setupHeader() {
         header.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(header, belowSubview: tableView)
-        headerTopMargin = header.alignParentTop(margin: 64)
+        headerTopMarginConstraint = header.alignParentTop(margin: PassiveBuyersViewController.headerTopMargin)
         header.fitHorizontallyToParent(margin: 0)
 
         productImage.translatesAutoresizingMaskIntoConstraints = false
@@ -85,9 +103,13 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
 
         titleLabel.textColor = UIColor.blackText
         titleLabel.font = UIFont.systemMediumFont(size: 17)
+        titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .Center
 
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.mediumBodyFont
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .Center
     }
 
     private func loadData() {
@@ -100,6 +122,8 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         messageLabel.text = LGLocalizedString.passiveBuyersMessage
 
         contactButton.setTitle(LGLocalizedString.passiveBuyersButton(viewModel.buyersCount), forState: .Normal)
+
+        tableView.reloadData()
     }
 }
 
@@ -110,13 +134,31 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
     private func setupTable() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 50
+
+        let cellNib = UINib(nibName: PassiveBuyerCell.reusableID, bundle: nil)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: PassiveBuyerCell.reusableID)
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.buyersCount
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let buyerCell = tableView.dequeueReusableCellWithIdentifier(PassiveBuyerCell.reusableID,
+                                    forIndexPath: indexPath) as? PassiveBuyerCell else { return UITableViewCell() }
+        let image = viewModel.buyerImageAtIndex(indexPath.row)
+        let name = viewModel.buyerNameAtIndex(indexPath.row)
+
+        buyerCell.setupWith(image, name: name, firstCell: indexPath.row == 0,
+                            lastCell: indexPath.row == viewModel.buyersCount - 1)
+        return buyerCell
+    }
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let scroll = scrollView.contentOffset.y + scrollView.contentInset.top
+        headerTopMarginConstraint.constant = PassiveBuyersViewController.headerTopMargin - scroll
+
+        topContainer.alpha = scroll.percentageBetween(start: productImage.top, end: productImage.bottom)
     }
 }
