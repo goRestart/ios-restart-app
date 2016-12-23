@@ -124,8 +124,12 @@ extension TabCoordinator: TabNavigator {
 
     func openRatingList(userId: String) {
         let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
-        let vc = UserRatingListViewController(viewModel: vm)
+        let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    var hidesBottomBarWhenPushed: Bool {
+        return navigationController.viewControllers.count == 1
     }
 }
 

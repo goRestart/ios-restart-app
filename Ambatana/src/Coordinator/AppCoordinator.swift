@@ -760,7 +760,9 @@ private extension AppCoordinator {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
         let viewModel = UserRatingListViewModel(userId: myUserId, tabNavigator: profileTabBarCoordinator)
 
-        let viewController = UserRatingListViewController(viewModel: viewModel)
+        let hidesBottomBarWhenPushed = navCtl.viewControllers.count == 1
+        let viewController = UserRatingListViewController(viewModel: viewModel,
+                                                          hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navCtl.pushViewController(viewController, animated: true)
     }
 
