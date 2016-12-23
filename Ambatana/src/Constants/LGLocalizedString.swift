@@ -1403,8 +1403,8 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("notifications_type_like_w_name", comment: ""), var1)
 	}
 
-	static var notificationsTypeLikeWNameWTitle: String {
-		return NSLocalizedString("notifications_type_like_w_name_w_title", comment: "")
+	static func notificationsTypeLikeWNameWTitle(var1: String, _ var2: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like_w_name_w_title", comment: ""), var1, var2)
 	}
 
 	static var notificationsTypeLikeButton: String {
