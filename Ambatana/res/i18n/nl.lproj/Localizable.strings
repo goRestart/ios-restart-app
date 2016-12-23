@@ -345,9 +345,13 @@
 "notifications_permissions_settings_yes_button" = "Ja, Activeer";
 "notifications_permissions_yes_button" = "Ja, Stuur me Notificaties";
 "notifications_title" = "Notificaties";
+"notifications_type_buyers_interested" = "%d buyers might be interested in your product: \"%@\"";
+"notifications_type_buyers_interested_button" = "Find out who they are";
 "notifications_type_like_button" = "Bekijk hun profiel";
 "notifications_type_like_w_name" = "%@ heeft jouw product gefavoriseerd";
 "notifications_type_like_w_name_w_title" = "%@ heeft jouw product gefavoriseerd: \"%@\"";
+"notifications_type_product_suggested" = "%$1@ just published an item you might be interested in: \"%$2@\"";
+"notifications_type_product_suggested_button" = "See the item";
 "notifications_type_rating" = "%@ heeft jou beoordeeld";
 "notifications_type_rating_button" = "Bekijk jouw beoordelingen";
 "notifications_type_rating_updated" = "%@ heeft zijn/haar beoordeling bijgewerkt";
@@ -374,6 +378,9 @@
 "onboarding_posting_title_a" = "Begin met geld te verdienen!";
 "onboarding_posting_title_b" = "Plaats je eerste product";
 "onboarding_posting_title_c" = "Heb jij er te koop staan?";
+"passive_buyers_button" = "Contact %d buyers";
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";

@@ -345,9 +345,13 @@
 "notifications_permissions_settings_yes_button" = "Да, активировать";
 "notifications_permissions_yes_button" = "Да, уведомлять меня";
 "notifications_title" = "Уведомления";
+"notifications_type_buyers_interested" = "%d buyers might be interested in your product: \"%@\"";
+"notifications_type_buyers_interested_button" = "Find out who they are";
 "notifications_type_like_button" = "Проверить профиль";
 "notifications_type_like_w_name" = "%@ добавил ваш товар в избранное";
 "notifications_type_like_w_name_w_title" = "%@ добавил ваш товар в избранное: \"%@\"";
+"notifications_type_product_suggested" = "%$1@ just published an item you might be interested in: \"%$2@\"";
+"notifications_type_product_suggested_button" = "See the item";
 "notifications_type_rating" = "%@ оценил вас";
 "notifications_type_rating_button" = "Посмотреть свои отзывы";
 "notifications_type_rating_updated" = "%@ обновил свой отзыв";
@@ -374,6 +378,9 @@
 "onboarding_posting_title_a" = "Начинайте получать деньги!";
 "onboarding_posting_title_b" = "Разместите свой первый товар";
 "onboarding_posting_title_c" = "Eсть что-либо на продажу?";
+"passive_buyers_button" = "Contact %d buyers";
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";

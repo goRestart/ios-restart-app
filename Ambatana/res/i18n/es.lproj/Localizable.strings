@@ -345,9 +345,13 @@
 "notifications_permissions_settings_yes_button" = "Sí, activar";
 "notifications_permissions_yes_button" = "Sí, Notificadme";
 "notifications_title" = "Notificaciones";
+"notifications_type_buyers_interested" = "%d buyers might be interested in your product: \"%@\"";
+"notifications_type_buyers_interested_button" = "Find out who they are";
 "notifications_type_like_button" = "Visitar su perfil";
 "notifications_type_like_w_name" = "%@ ha marcado tu producto como favorito";
 "notifications_type_like_w_name_w_title" = "%@ ha marcado tu producto como favorito: \"%@\"";
+"notifications_type_product_suggested" = "%$1@ just published an item you might be interested in: \"%$2@\"";
+"notifications_type_product_suggested_button" = "See the item";
 "notifications_type_rating" = "%@ te ha valorado";
 "notifications_type_rating_button" = "Ver tus valoraciones";
 "notifications_type_rating_updated" = "%@ ha actualizado su valoración";
@@ -374,6 +378,9 @@
 "onboarding_posting_title_a" = "¡Empieza a ganar dinero!";
 "onboarding_posting_title_b" = "Publica tu primer artículo";
 "onboarding_posting_title_c" = "¿Tienes alguno para vender?";
+"passive_buyers_button" = "Contact %d buyers";
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";

@@ -345,9 +345,13 @@
 "notifications_permissions_settings_yes_button" = "Có, hãy Kích hoạt";
 "notifications_permissions_yes_button" = "Có, hãy Thông báo cho tôi";
 "notifications_title" = "Thông báo";
+"notifications_type_buyers_interested" = "%d buyers might be interested in your product: \"%@\"";
+"notifications_type_buyers_interested_button" = "Find out who they are";
 "notifications_type_like_button" = "Xem hồ sơ của họ";
 "notifications_type_like_w_name" = "%@ đã thích món đồ của bạn";
 "notifications_type_like_w_name_w_title" = "%@ đã thích món đồ của bạn: \"%@\"";
+"notifications_type_product_suggested" = "%$1@ just published an item you might be interested in: \"%$2@\"";
+"notifications_type_product_suggested_button" = "See the item";
 "notifications_type_rating" = "%@ vừa đánh giá bạn";
 "notifications_type_rating_button" = "Xem đánh giá về bạn";
 "notifications_type_rating_updated" = "%@ vừa cập nhật đánh giá của mình";
@@ -374,6 +378,9 @@
 "onboarding_posting_title_a" = "Bắt đầu Kiếm Tiền mặt!";
 "onboarding_posting_title_b" = "Đăng sản phẩm đầu tiên của bạn";
 "onboarding_posting_title_c" = "Có gì đó để bán?";
+"passive_buyers_button" = "Contact %d buyers";
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";

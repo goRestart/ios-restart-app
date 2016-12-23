@@ -345,9 +345,13 @@
 "notifications_permissions_settings_yes_button" = "네, 설정합니다";
 "notifications_permissions_yes_button" = "네, 알려주세요";
 "notifications_title" = "알림";
+"notifications_type_buyers_interested" = "%d buyers might be interested in your product: \"%@\"";
+"notifications_type_buyers_interested_button" = "Find out who they are";
 "notifications_type_like_button" = "프로필 확인하세요";
 "notifications_type_like_w_name" = "%@이 상품에 관심을 표시했습니다";
 "notifications_type_like_w_name_w_title" = "%@관심가는 상품:\"%@\"";
+"notifications_type_product_suggested" = "%$1@ just published an item you might be interested in: \"%$2@\"";
+"notifications_type_product_suggested_button" = "See the item";
 "notifications_type_rating" = "%@가 회원님을 확인했습니다";
 "notifications_type_rating_button" = "리뷰 확인하기";
 "notifications_type_rating_updated" = "%@께서 리뷰를 업데이트 하였습니다";
@@ -374,6 +378,9 @@
 "onboarding_posting_title_a" = "현찰을 벌어보세요!";
 "onboarding_posting_title_b" = "첫 번째 상품을 게시하세요";
 "onboarding_posting_title_c" = "판매하실 상품이 있으신가요?";
+"passive_buyers_button" = "Contact %d buyers";
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";

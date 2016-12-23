@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell> {
+class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersInterestedNotificationCell> {
 
     override func draw(cell: NotificationCell, data: NotificationData) {
 

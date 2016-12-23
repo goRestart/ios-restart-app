@@ -1403,8 +1403,8 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("notifications_type_like_w_name", comment: ""), var1)
 	}
 
-	static func notificationsTypeLikeWNameWTitle(var1: String, _ var2: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_like_w_name_w_title", comment: ""), var1, var2)
+	static var notificationsTypeLikeWNameWTitle: String {
+		return NSLocalizedString("notifications_type_like_w_name_w_title", comment: "")
 	}
 
 	static var notificationsTypeLikeButton: String {
@@ -1429,6 +1429,22 @@ struct LGLocalizedString {
 
 	static func notificationsTypeRatingUpdated(var1: String) -> String {
 		return String(format: NSLocalizedString("notifications_type_rating_updated", comment: ""), var1)
+	}
+
+	static var notificationsTypeProductSuggested: String {
+		return NSLocalizedString("notifications_type_product_suggested", comment: "")
+	}
+
+	static var notificationsTypeProductSuggestedButton: String {
+		return NSLocalizedString("notifications_type_product_suggested_button", comment: "")
+	}
+
+	static func notificationsTypeBuyersInterested(var1: Int, _ var2: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_buyers_interested", comment: ""), var1, var2)
+	}
+
+	static var notificationsTypeBuyersInterestedButton: String {
+		return NSLocalizedString("notifications_type_buyers_interested_button", comment: "")
 	}
 
 	static var notificationsTypeWelcomeSubtitle: String {
@@ -1513,6 +1529,18 @@ struct LGLocalizedString {
 
 	static var onboardingPostingButtonC: String {
 		return NSLocalizedString("onboarding_posting_button_c", comment: "")
+	}
+
+	static var passiveBuyersTitle: String {
+		return NSLocalizedString("passive_buyers_title", comment: "")
+	}
+
+	static var passiveBuyersMessage: String {
+		return NSLocalizedString("passive_buyers_message", comment: "")
+	}
+
+	static func passiveBuyersButton(var1: Int) -> String {
+		return String(format: NSLocalizedString("passive_buyers_button", comment: ""), var1)
 	}
 
 	static var productAskAQuestionButton: String {

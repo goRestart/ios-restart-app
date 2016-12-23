@@ -345,9 +345,13 @@
 "notifications_permissions_settings_yes_button" = "Evet, Etkinleştir";
 "notifications_permissions_yes_button" = "Evet, Haberdar Et";
 "notifications_title" = "Bildirimler";
+"notifications_type_buyers_interested" = "%d buyers might be interested in your product: \"%@\"";
+"notifications_type_buyers_interested_button" = "Find out who they are";
 "notifications_type_like_button" = "Profillerine bak";
 "notifications_type_like_w_name" = "%@ ürününü favorilerine ekledi";
 "notifications_type_like_w_name_w_title" = "%@ şu ürününü favorilerine ekledi: \"%@\"";
+"notifications_type_product_suggested" = "%$1@ just published an item you might be interested in: \"%$2@\"";
+"notifications_type_product_suggested_button" = "See the item";
 "notifications_type_rating" = "%@ sana değerlendirme notu verdi";
 "notifications_type_rating_button" = "Değerlendirme notlarını gör";
 "notifications_type_rating_updated" = "%@ değerlendirme notunu güncelledi";
@@ -374,6 +378,9 @@
 "onboarding_posting_title_a" = "Nakit Kazanmaya Başla!";
 "onboarding_posting_title_b" = "İlk ürününü yayınla";
 "onboarding_posting_title_c" = "Satılık bir şeyin var mı?";
+"passive_buyers_button" = "Contact %d buyers";
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";
