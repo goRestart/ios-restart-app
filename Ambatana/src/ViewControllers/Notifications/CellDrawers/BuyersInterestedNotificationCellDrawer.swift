@@ -29,8 +29,31 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
             }
             cell.timeLabel.text = data.date.relativeTimeString(true)
             cell.actionButton.setTitle(LGLocalizedString.notificationsTypeLikeButton, forState: .Normal)
+
+            setupUserImageViews(cell, buyers: buyers)
         default:
             return
+        }
+    }
+
+    private func setupUserImageViews(cell: BuyersInterestedNotificationCell, buyers: [NotificationUser]) {
+        for (index, imageView) in cell.userImageViews.enumerate() {
+            let buyer: NotificationUser? = index < buyers.count ? buyers[index] : nil
+            setupUserImageView(imageView, buyer: buyer)
+        }
+    }
+
+    private func setupUserImageView(imageView: UIImageView, buyer: NotificationUser?) {
+        guard let buyer = buyer else {
+            imageView.image = nil
+            return
+        }
+
+        let placeholder = LetgoAvatar.avatarWithID(buyer.id, name: buyer.name)
+        if let urlStr = buyer.avatar, url = NSURL(string: urlStr) {
+            imageView.lg_setImageWithURL(url, placeholderImage: placeholder)
+        } else {
+            imageView.image = placeholder
         }
     }
 }

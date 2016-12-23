@@ -16,6 +16,8 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var actionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet var userImageViews: [UIImageView]!
+
 
     var primaryImageAction: (() -> Void)?
 
