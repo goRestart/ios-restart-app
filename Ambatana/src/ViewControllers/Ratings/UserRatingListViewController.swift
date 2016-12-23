@@ -21,14 +21,11 @@ class UserRatingListViewController: BaseViewController {
 
     // MARK: Lifecycle
 
-    convenience init(viewModel: UserRatingListViewModel) {
-        self.init(viewModel: viewModel, nibName: "UserRatingListViewController")
-    }
-
-    required init(viewModel: UserRatingListViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: UserRatingListViewModel, hidesBottomBarWhenPushed: Bool) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: "UserRatingListViewController")
         self.viewModel.delegate = self
+        self.hidesBottomBarWhenPushed = hidesBottomBarWhenPushed
     }
 
     required init?(coder: NSCoder) {
