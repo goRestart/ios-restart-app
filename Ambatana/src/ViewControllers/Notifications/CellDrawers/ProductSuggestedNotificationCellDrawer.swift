@@ -14,13 +14,13 @@ class ProductSuggestedNotificationCellDrawer: BaseNotificationCellDrawer<Notific
 
         switch data.type {
         case let .ProductSuggested(product, seller: seller):
-            let userName = seller.name
+            let userName = seller.name ?? ""
             if let productTitle = product.title where !productTitle.isEmpty {
-                cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWNameWTitle(userName ?? "", productTitle)
+                cell.actionLabel.text = LGLocalizedString.notificationsTypeProductSuggestedWTitle(userName, productTitle)
             } else {
-                cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWName(userName ?? "")
+                cell.actionLabel.text = LGLocalizedString.notificationsTypeProductSuggested(userName)
             }
-            cell.iconImage.image = UIImage(named: "ic_favorite")
+            cell.iconImage.image = UIImage(named: "ic_fire")
             let placeholder = LetgoAvatar.avatarWithID(seller.id, name: userName)
             if let urlStr = seller.avatar, imageUrl = NSURL(string: urlStr) {
                 cell.primaryImage.lg_setImageWithURL(imageUrl, placeholderImage: placeholder)
@@ -28,7 +28,7 @@ class ProductSuggestedNotificationCellDrawer: BaseNotificationCellDrawer<Notific
                 cell.primaryImage.image = placeholder
             }
             cell.timeLabel.text = data.date.relativeTimeString(true)
-            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeLikeButton, forState: .Normal)
+            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeProductSuggestedButton, forState: .Normal)
         default:
             return
         }
