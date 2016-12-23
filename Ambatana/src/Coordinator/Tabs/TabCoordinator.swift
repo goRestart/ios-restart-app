@@ -130,6 +130,11 @@ extension TabCoordinator: TabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func openPassiveBuyers(productId: String, actionCompletedBlock: (() -> Void)?) {
+        // TODO: https://ambatana.atlassian.net/browse/ABIOS-2057
+        actionCompletedBlock?()
+    }
+
     var hidesBottomBarWhenPushed: Bool {
         return navigationController.viewControllers.count == 1
     }

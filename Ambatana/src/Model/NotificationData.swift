@@ -19,15 +19,20 @@ enum NotificationDataType {
 }
 
 struct NotificationData {
+    let id: String?
     let type: NotificationDataType
     let date: NSDate
     let isRead: Bool
-    let primaryAction: (() -> Void)
+    var primaryAction: (() -> Void)?
+    let primaryActionCompleted: Bool?
 
-    init(type: NotificationDataType, date: NSDate, isRead: Bool, primaryAction: (() -> Void)) {
+    init(id: String?, type: NotificationDataType, date: NSDate, isRead: Bool,
+         primaryAction: (() -> Void)?, primaryActionCompleted: Bool? = nil) {
+        self.id = id
         self.type = type
         self.date = date
         self.isRead = isRead
         self.primaryAction = primaryAction
+        self.primaryActionCompleted = primaryActionCompleted
     }
 }
