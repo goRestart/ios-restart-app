@@ -16,6 +16,7 @@ final class ChatsTabCoordinator: TabCoordinator {
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
         let myUserRepository = Core.myUserRepository
+        let passiveBuyersRepository = Core.passiveBuyersRepository
         let bubbleNotificationManager =  BubbleNotificationManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
@@ -24,7 +25,9 @@ final class ChatsTabCoordinator: TabCoordinator {
         let rootViewController = ChatGroupedViewController(viewModel: chatGroupedVM)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
-                  myUserRepository: myUserRepository, bubbleNotificationManager: bubbleNotificationManager,
+                  myUserRepository: myUserRepository,
+                  passiveBuyersRepository: passiveBuyersRepository,
+                  bubbleNotificationManager: bubbleNotificationManager,
                   keyValueStorage: keyValueStorage, tracker: tracker,
                   rootViewController: rootViewController, featureFlags: featureFlags)
 

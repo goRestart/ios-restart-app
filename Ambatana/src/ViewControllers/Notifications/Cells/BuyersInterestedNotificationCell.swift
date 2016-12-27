@@ -1,15 +1,14 @@
 //
-//  NotificationCell.swift
+//  BuyersInterestedNotificationCell.swift
 //  LetGo
 //
-//  Created by Eli Kohen on 27/04/16.
+//  Created by Albert Hernández on 23/12/16.
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
 import UIKit
 
-class NotificationCell: UITableViewCell, ReusableCell {
-    static let highlightedAlpha: CGFloat = 0.6
+class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var cellContainer: UIView!
     @IBOutlet weak var primaryImage: UIImageView!
@@ -17,6 +16,8 @@ class NotificationCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var actionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet var userImageViews: [UIImageView]!
+
 
     var primaryImageAction: (() -> Void)?
 
@@ -49,7 +50,7 @@ class NotificationCell: UITableViewCell, ReusableCell {
         cellContainer.clipsToBounds = true
         cellContainer.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
 
-        primaryImage.rounded = true
+        primaryImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         timeLabel.font = UIFont.notificationTimeFont
         actionLabel.font = UIFont.notificationSubtitleFont
 
@@ -60,8 +61,9 @@ class NotificationCell: UITableViewCell, ReusableCell {
         primaryImage.accessibilityId = .NotificationsCellPrimaryImage
 
         actionButton.userInteractionEnabled = false
-        actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: false))
-        actionButton.contentEdgeInsets = UIEdgeInsets() //Resetting edge insets to align left
+        actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
+
+        userImageViews.forEach { $0.rounded = true }
     }
 
     private func resetUI() {
