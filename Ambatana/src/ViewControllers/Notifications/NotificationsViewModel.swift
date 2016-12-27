@@ -139,7 +139,7 @@ class NotificationsViewModel: BaseViewModel {
         guard data.id != nil else { return }
         guard let index = notificationsData.indexOf({ $0.id != nil && $0.id == data.id }) else { return }
         let completedData = NotificationData(id: data.id, type: data.type, date: data.date, isRead: data.isRead,
-                                             primaryAction: data.primaryAction, primaryActionCompleted: true)
+                                             primaryAction: nil, primaryActionCompleted: true)
         notificationsData[index] = completedData
         viewState.value = .Data
     }
