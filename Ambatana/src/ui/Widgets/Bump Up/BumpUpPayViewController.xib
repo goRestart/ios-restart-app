@@ -15,6 +15,7 @@
             <connections>
                 <outlet property="bumpUpButton" destination="YEx-lm-lxS" id="ndk-e4-z0t"/>
                 <outlet property="bumpsLeftLabel" destination="zTh-KV-av0" id="EH3-ji-ktb"/>
+                <outlet property="closeButton" destination="zGi-8O-6bQ" id="zu7-qa-FWS"/>
                 <outlet property="featuredLabel" destination="Tvk-gx-4wa" id="rbI-b0-z3K"/>
                 <outlet property="imageContainer" destination="R4d-2I-7yM" id="h79-Wl-F4h"/>
                 <outlet property="productImageView" destination="W0X-r6-1Ce" id="oOl-Nx-QiQ"/>

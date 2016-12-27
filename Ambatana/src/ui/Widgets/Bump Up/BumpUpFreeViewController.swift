@@ -14,6 +14,7 @@ class BumpUpFreeViewController: BaseViewController {
     private static let titleVerticalOffsetWithImage: CGFloat = 50
     private static let titleVerticalOffsetWithoutImage: CGFloat = -100
 
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var imageContainer: UIView!
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -42,6 +43,7 @@ class BumpUpFreeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setAccessibilityIds()
     }
 
     // MARK: private methods
@@ -92,6 +94,14 @@ class BumpUpFreeViewController: BaseViewController {
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
         viewModel.closeActionPressed()
+    }
+
+    private func setAccessibilityIds() {
+        closeButton.accessibilityId = .FreeBumpUpCloseButton
+        productImageView.accessibilityId = .FreeBumpUpImage
+        titleLabel.accessibilityId = .FreeBumpUpTitleLabel
+        subtitleLabel.accessibilityId = .FreeBumpUpSubtitleLabel
+        socialShareView.accessibilityId = .FreeBumpUpSocialShareView
     }
 }
 

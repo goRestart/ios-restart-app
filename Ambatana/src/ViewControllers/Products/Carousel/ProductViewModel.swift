@@ -592,7 +592,7 @@ extension ProductViewModel {
     func bumpUpProduct() {
         print("TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
         guard let purchase = bumpUpPurchaseableProduct else { return }
-        purchasesShopper.requestPaymentForProduct(purchase)
+        purchasesShopper.requestPaymentForProduct(purchase.productIdentifier)
     }
 }
 

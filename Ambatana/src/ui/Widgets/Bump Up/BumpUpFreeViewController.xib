@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BumpUpFreeViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="closeButton" destination="Tjb-8g-nxG" id="cCA-V3-mro"/>
                 <outlet property="imageContainer" destination="3oi-OT-gRE" id="fcz-VM-5yB"/>
                 <outlet property="productImageView" destination="OPZ-2K-eaZ" id="GEe-Bs-rOc"/>
                 <outlet property="shareButtonsContainer" destination="JCp-X9-hD2" id="lji-Oc-lV3"/>

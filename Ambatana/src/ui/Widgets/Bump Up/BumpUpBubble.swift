@@ -33,7 +33,7 @@ class BumpUpBubble: UIView {
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
-    private var textlabel: UILabel = UILabel()
+    private var textLabel: UILabel = UILabel()
     private var bumpButton: UIButton = UIButton(type: .Custom)
 
     private var localizedText: String = ""
@@ -59,6 +59,7 @@ class BumpUpBubble: UIView {
         setupRx()
         setupUI()
         setupConstraints()
+        setAccessibilityIds()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -108,13 +109,13 @@ class BumpUpBubble: UIView {
             strongSelf.text.value = strongSelf.bubbleText(secondsLeft)
         }.addDisposableTo(disposeBag)
 
-        text.asObservable().bindTo(textlabel.rx_attributedText).addDisposableTo(disposeBag)
+        text.asObservable().bindTo(textLabel.rx_attributedText).addDisposableTo(disposeBag)
     }
 
     private func setupUI() {
         backgroundColor = UIColor.white
-        textlabel.numberOfLines = 0
-        textlabel.minimumScaleFactor = 0.5
+        textLabel.numberOfLines = 0
+        textLabel.minimumScaleFactor = 0.5
         iconImageView.image = UIImage(named: "red_chevron_up")
         iconImageView.contentMode = .ScaleAspectFit
         bumpButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
@@ -130,7 +131,7 @@ class BumpUpBubble: UIView {
     private func setupConstraints() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        textlabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
         bumpButton.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(containerView)
@@ -148,7 +149,7 @@ class BumpUpBubble: UIView {
         addConstraints([containerTopConstraint, containerBottomConstraint, containerLeftConstraint,
             containerRightConstraint])
 
-        containerView.addSubview(textlabel)
+        containerView.addSubview(textLabel)
         containerView.addSubview(iconImageView)
         containerView.addSubview(bumpButton)
 
@@ -166,14 +167,14 @@ class BumpUpBubble: UIView {
         let iconCenterY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal,
                                              toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
         let iconToLabelTrailing = NSLayoutConstraint(item: iconImageView, attribute: .Right, relatedBy: .Equal,
-                                                     toItem: textlabel, attribute: .Left, multiplier: 1, constant: -10)
+                                                     toItem: textLabel, attribute: .Left, multiplier: 1, constant: -10)
 
         // text label
-        let labelTopConstraint = NSLayoutConstraint(item: textlabel, attribute: .Top, relatedBy: .Equal,
+        let labelTopConstraint = NSLayoutConstraint(item: textLabel, attribute: .Top, relatedBy: .Equal,
                                                     toItem: containerView, attribute: .Top, multiplier: 1, constant: 0)
-        let labelBottomConstraint = NSLayoutConstraint(item: textlabel, attribute: .Bottom, relatedBy: .Equal,
+        let labelBottomConstraint = NSLayoutConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal,
                                                        toItem: containerView, attribute: .Bottom, multiplier: 1, constant: 0)
-        let labelToButtonTrailing = NSLayoutConstraint(item: textlabel, attribute: .Right, relatedBy: .Equal,
+        let labelToButtonTrailing = NSLayoutConstraint(item: textLabel, attribute: .Right, relatedBy: .Equal,
                                                       toItem: bumpButton, attribute: .Left, multiplier: 1, constant: -10)
 
         // button
@@ -230,5 +231,10 @@ class BumpUpBubble: UIView {
         let secs = timeSeconds%60
         return "\(hours):\(mins):\(secs)"
     }
-}
 
+    private func setAccessibilityIds() {
+        accessibilityId = .BumpUpBubble
+        bumpButton.accessibilityId = .BumpUpBubbleButton
+        textLabel.accessibilityId = .BumpUpBubbleLabel
+    }
+}

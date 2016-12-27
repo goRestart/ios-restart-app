@@ -498,6 +498,25 @@ enum AccessibilityId: String {
     
     // Bubble notifications
     case BubbleButton
+
+    // Monetization
+    // Bubble
+    case BumpUpBubble
+    case BumpUpBubbleButton
+    case BumpUpBubbleLabel
+    // Free bump up screen
+    case FreeBumpUpCloseButton
+    case FreeBumpUpImage
+    case FreeBumpUpTitleLabel
+    case FreeBumpUpSubtitleLabel
+    case FreeBumpUpSocialShareView
+    // Payment bump up screen
+    case PaymentBumpUpCloseButton
+    case PaymentBumpUpImage
+    case PaymentBumpUpTitleLabel
+    case PaymentBumpUpSubtitleLabel
+    case PaymentBumpUpButton
+    case PaymentBumpUpBumpsLeftLabel
 }
 
 extension UIAccessibilityIdentification {

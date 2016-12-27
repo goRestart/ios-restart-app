@@ -13,6 +13,7 @@ class BumpUpPayViewController: BaseViewController {
     private static let titleVerticalOffsetWithImage: CGFloat = 100
     private static let titleVerticalOffsetWithoutImage: CGFloat = -100
 
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var imageContainer: UIView!
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var featuredLabel: UILabel!
@@ -41,6 +42,7 @@ class BumpUpPayViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setAccessibilityIds()
     }
 
     // MARK: - Private methods
@@ -89,6 +91,15 @@ class BumpUpPayViewController: BaseViewController {
 
     @IBAction func bumpUpButtonPressed(sender: AnyObject) {
         viewModel.bumpUpPressed()
+    }
+
+    private func setAccessibilityIds() {
+        closeButton.accessibilityId = .PaymentBumpUpCloseButton
+        productImageView.accessibilityId = .PaymentBumpUpImage
+        titleLabel.accessibilityId = .PaymentBumpUpTitleLabel
+        subtitleLabel.accessibilityId = .PaymentBumpUpSubtitleLabel
+        bumpUpButton.accessibilityId = .PaymentBumpUpButton
+        bumpsLeftLabel.accessibilityId = .PaymentBumpUpBumpsLeftLabel
     }
 }
 

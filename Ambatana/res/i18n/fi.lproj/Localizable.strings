@@ -345,9 +345,16 @@
 "notifications_permissions_settings_yes_button" = "Kyllä, aktivoi";
 "notifications_permissions_yes_button" = "Kyllä, lähetä ilmoituksia";
 "notifications_title" = "Ilmoitukset";
+"notifications_type_buyers_interested" = "%d ostajaa saattaisi olla kiinnostunut tuotteestasi";
+"notifications_type_buyers_interested_button" = "Katso keitä he ovat";
+"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_w_title" = "%1$d ostajaa saattaisi olla kiinnostunut tuotteestasi: \"%2$@\"";
 "notifications_type_like_button" = "Käy katsomassa käyttäjän profiili";
 "notifications_type_like_w_name" = "%@ merkitsi tuotteesi suosikikseen";
-"notifications_type_like_w_name_w_title" = "%@ merkitsi tuotteesi \"%@\" suosikikseen";
+"notifications_type_like_w_name_w_title" = "%1$@ merkitsi tuotteesi \"%2$@\" suosikikseen";
+"notifications_type_product_suggested" = "%@ julkaisi juuri tuotteen, josta saattaisit olla kiinnostunut";
+"notifications_type_product_suggested_button" = "Katso tuote";
+"notifications_type_product_suggested_w_title" = "%1$@ julkaisi juuri tuotteen, josta saattaisit olla kiinnostunut: \"%2$@\"";
 "notifications_type_rating" = "%@ on arvostellut sinut";
 "notifications_type_rating_button" = "Katso arvostelusi";
 "notifications_type_rating_updated" = "%@ on päivittänyt arvosteluaan";
@@ -374,6 +381,9 @@
 "onboarding_posting_title_a" = "Aloita tienaaminen!";
 "onboarding_posting_title_b" = "Julkaise ensimmäinen tuotteesi";
 "onboarding_posting_title_c" = "Olisiko sinulla myydä?";
+"passive_buyers_button" = "Ota yhteyttä %d ostajaan";
+"passive_buyers_message" = "Ota yhteyttä näihin ostajiin, jotka ovat kiinnostuneita vastaavista tuotteista";
+"passive_buyers_title" = "NÄMÄ OSTAJAT SAATTAISIVAT OLLA KIINNOSTUNEITA";
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
@@ -586,7 +596,7 @@
 "rating_list_action_report_review_success_message" = "Ilmiantosi on lähetetty!";
 "rating_list_action_review_user" = "Arvostele käyttäjä";
 "rating_list_loading_error_message" = "Luokituksia ladattaessa tapahtui virhe.";
-"rating_list_rating_status_pending" = "This review is being verified";
+"rating_list_rating_status_pending" = "Tämä arvostelu odottaa vahvistusta";
 "rating_list_rating_type_buyer_text_label" = "%@ osti tuotteen";
 "rating_list_rating_type_conversation_text_label" = "%@ keskusteli tuotteesta";
 "rating_list_rating_type_seller_text_label" = "%@ myi tuotteen";

@@ -149,7 +149,7 @@
 "change_location_error_updating_location_message" = "An error occurred while updating your location.";
 
 // Change location unknown location message. Message displayal is like the other error messages
-"change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
+"change_location_recommend_update_location_message" = "We recommend updating your location to see the best deals near you!";
 
 // Change location search field hint. Check image @ "change_location_title" segment
 "change_location_search_field_hint" = "Enter city or zip code";
@@ -1039,7 +1039,7 @@
 "notifications_type_like_w_name" = "%@ favorited your product";
 
 // User likes your product
-"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
+"notifications_type_like_w_name_w_title" = "%1$@ favorited your product: \"%2$@\"";
 
 // User likes your product
 "notifications_type_like_button" = "Check out their profile";
@@ -1058,6 +1058,27 @@
 
 // User has updated your rating
 "notifications_type_rating_updated" = "%@ has updated their review";
+
+// Notifications product suggested
+"notifications_type_product_suggested" = "%@ just published an item you might be interested in";
+
+// Notifications product suggested
+"notifications_type_product_suggested_w_title" = "%1$@ just published an item you might be interested in: \"%2$@\"";
+
+// Notifications product suggested button
+"notifications_type_product_suggested_button" = "See the item";
+
+// Notifications buyers interested
+"notifications_type_buyers_interested" = "%d buyers might be interested in your product";
+
+// Notifications buyers interested
+"notifications_type_buyers_interested_w_title" = "%1$d buyers might be interested in your product: \"%2$@\"";
+
+// Notifications buyers interested button
+"notifications_type_buyers_interested_button" = "Find out who they are";
+
+// Notifications buyers interested button action has been performed
+"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
 
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby";
@@ -1121,6 +1142,21 @@
 
 // Onboarding incentivize posting variant C button
 "onboarding_posting_button_c" = "Yes, I have things to sell";
+
+// Passive buyers screen for seller
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
+
+// Passive buyers screen for seller
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+
+// Passive buyers screen for seller
+"passive_buyers_button" = "Contact %d buyers";
+
+//  Passive buyers screen for seller -> Contact error
+"passive_buyers_contact_error" = "An error ocurrer while contacting the buyers. Please try again later";
+
+//  Passive buyers screen for seller -> Contact success
+"passive_buyers_contact_success" = "All buyers received the contact request.";
 
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
