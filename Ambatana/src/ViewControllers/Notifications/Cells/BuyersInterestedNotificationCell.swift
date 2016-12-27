@@ -62,7 +62,6 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
 
         actionButton.userInteractionEnabled = false
         actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
-//        actionButton.contentEdgeInsets = UIEdgeInsets() //Resetting edge insets to align left
 
         userImageViews.forEach { $0.rounded = true }
     }
