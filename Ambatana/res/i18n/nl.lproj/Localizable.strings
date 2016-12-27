@@ -383,6 +383,7 @@
 "onboarding_posting_title_c" = "Heb jij er te koop staan?";
 "passive_buyers_button" = "Neem contact op met %d kopers";
 "passive_buyers_message" = "Neem contact op met kopers die geïnteresseerd zijn in soortgelijke producten";
+"passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "DEZE KOPERS ZIJN MISSCHIEN GEÏNTERESSEERD";
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";

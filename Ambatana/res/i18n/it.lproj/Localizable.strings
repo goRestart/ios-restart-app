@@ -383,6 +383,7 @@
 "onboarding_posting_title_c" = "Hai niente da vendere?";
 "passive_buyers_button" = "Contatta %d acquirenti";
 "passive_buyers_message" = "Contatta questi acquirenti, interessanti a prodotti simili";
+"passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "QUESTI ACQUIRENTI POTREBBERO ESSERE INTERESSATI";
 "product_ask_a_question_button" = "Fai una Domanda";
 "product_auto_generated_title_label" = "Titolo generato automaticamente da letgo";

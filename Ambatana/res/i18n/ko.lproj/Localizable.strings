@@ -383,6 +383,7 @@
 "onboarding_posting_title_c" = "판매하실 상품이 있으신가요?";
 "passive_buyers_button" = "%d 구매자들에게 연락하기";
 "passive_buyers_message" = "유사한 상품에 관심을 가지고 있는 구매자들에게 연락해보세요";
+"passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "다음 구매자들이 관심있는 것 같습니다";
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";

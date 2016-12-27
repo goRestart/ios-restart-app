@@ -383,6 +383,7 @@
 "onboarding_posting_title_c" = "Olisiko sinulla myydä?";
 "passive_buyers_button" = "Ota yhteyttä %d ostajaan";
 "passive_buyers_message" = "Ota yhteyttä näihin ostajiin, jotka ovat kiinnostuneita vastaavista tuotteista";
+"passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "NÄMÄ OSTAJAT SAATTAISIVAT OLLA KIINNOSTUNEITA";
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";

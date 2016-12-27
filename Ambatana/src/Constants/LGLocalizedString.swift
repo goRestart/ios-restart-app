@@ -1555,6 +1555,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("passive_buyers_button", comment: ""), var1)
 	}
 
+	static var passiveBuyersNotAvailable: String {
+		return NSLocalizedString("passive_buyers_not_available", comment: "")
+	}
+
 	static var passiveBuyersContactError: String {
 		return NSLocalizedString("passive_buyers_contact_error", comment: "")
 	}

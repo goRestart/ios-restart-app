@@ -383,6 +383,7 @@
 "onboarding_posting_title_c" = "Có gì đó để bán?";
 "passive_buyers_button" = "Liên hệ với %d người mua";
 "passive_buyers_message" = "Liên hệ với những người mua quan tâm đến sản phẩm tương tự";
+"passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "NHỮNG NGƯỜI MUA NÀY CÓ THỂ QUAN TÂM";
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
