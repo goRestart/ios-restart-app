@@ -619,9 +619,8 @@ private extension AppCoordinator {
             }
         case let .PassiveBuyers(productId):
             afterDelayClosure = { [weak self] in
-                Core.passiveBuyersRepository.show(productId: productId, completion: { (passiveBuyersResult) in
-                    
-                    self?.openTab(.Notifications, force: false, completion: nil)
+                self?.openTab(.Notifications, completion: { 
+                    self?.selectedTabCoordinator?.openPassiveBuyers(productId, actionCompletedBlock: nil)
                 })
             }
         }
