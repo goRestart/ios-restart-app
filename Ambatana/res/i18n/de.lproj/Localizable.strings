@@ -383,6 +383,7 @@
 "onboarding_posting_title_c" = "Möchtest du welche verkaufen?";
 "passive_buyers_button" = "Contact %d buyers";
 "passive_buyers_message" = "Contact these buyers who are interested in similar products";
+"passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";

@@ -1152,6 +1152,9 @@
 // Passive buyers screen for seller
 "passive_buyers_button" = "Contact %d buyers";
 
+// Passive buyers screen for seller load error
+"passive_buyers_not_available" = "Oops! Buyers not found.";
+
 //  Passive buyers screen for seller -> Contact error
 "passive_buyers_contact_error" = "An error ocurrer while contacting the buyers. Please try again later";
 
