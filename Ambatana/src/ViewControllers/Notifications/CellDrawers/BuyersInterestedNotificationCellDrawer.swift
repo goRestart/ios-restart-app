@@ -50,7 +50,7 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
             cell.actionButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: hSpacing, bottom: 0, right: -hSpacing)
             cell.actionButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 2*hSpacing, bottom: 0, right: 3*hSpacing)
         } else {
-            title = LGLocalizedString.notificationsTypeLikeButton
+            title = LGLocalizedString.notificationsTypeBuyersInterestedButton
             icon = nil
             cell.actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
         }
