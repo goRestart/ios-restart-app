@@ -76,6 +76,6 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
 
     private func refreshState() {
         let highlighedState = self.highlighted || self.selected
-        cellContainer.alpha = highlighedState ? 0.6 : 1.0
+        cellContainer.alpha = highlighedState ? LGUIKitConstants.highlightedStateAlpha : 1.0
     }
 }
