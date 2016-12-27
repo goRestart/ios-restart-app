@@ -24,6 +24,7 @@ class TabCoordinator: BaseCoordinator {
     let chatRepository: ChatRepository
     let oldChatRepository: OldChatRepository
     let myUserRepository: MyUserRepository
+    let passiveBuyersRepository: PassiveBuyersRepository
     let keyValueStorage: KeyValueStorage
     let bubbleNotificationManager: BubbleNotificationManager
     let tracker: Tracker
@@ -36,7 +37,8 @@ class TabCoordinator: BaseCoordinator {
     // MARK: - Lifecycle
 
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
-         oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository, bubbleNotificationManager: BubbleNotificationManager,
+         oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
+         passiveBuyersRepository: PassiveBuyersRepository, bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
          featureFlags: FeatureFlaggeable) {
         self.productRepository = productRepository
@@ -44,6 +46,7 @@ class TabCoordinator: BaseCoordinator {
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
+        self.passiveBuyersRepository = passiveBuyersRepository
         self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
@@ -128,6 +131,33 @@ extension TabCoordinator: TabNavigator {
         let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
         let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openPassiveBuyers(productId: String, actionCompletedBlock: (() -> Void)?) {
+        navigationController.showLoadingMessageAlert()
+        passiveBuyersRepository.show(productId: productId) { [weak self] result in
+            if let passiveBuyersInfo = result.value {
+                self?.navigationController.dismissLoadingMessageAlert {
+                    self?.openPassiveBuyers(passiveBuyersInfo, actionCompletedBlock: actionCompletedBlock)
+                }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                    message = LGLocalizedString.passiveBuyersNotAvailable
+                }
+                self?.navigationController.dismissLoadingMessageAlert {
+                    self?.navigationController.showAutoFadingOutMessageAlert(message)
+                }
+            }
+        }
+    }
+
+    private func openPassiveBuyers(passiveBuyersInfo: PassiveBuyersInfo, actionCompletedBlock: (() -> Void)?) {
+        // TODO: move this inside passive buyers screen https://ambatana.atlassian.net/browse/ABIOS-2057
+//        actionCompletedBlock?()
     }
 
     var hidesBottomBarWhenPushed: Bool {
