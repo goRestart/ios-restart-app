@@ -617,6 +617,13 @@ private extension AppCoordinator {
                     self?.openUserRatingForUserFromRating(ratingId)
                 }
             }
+        case let .PassiveBuyers(productId):
+            afterDelayClosure = { [weak self] in
+                Core.passiveBuyersRepository.show(productId: productId, completion: { (passiveBuyersResult) in
+                    
+                    self?.openTab(.Notifications, force: false, completion: nil)
+                })
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -637,7 +644,7 @@ private extension AppCoordinator {
 
         switch deepLink.action {
         case .Home, .Sell, .Product, .User, .Conversations, .Search, .ResetPassword, .Commercializer,
-             .CommercializerReady, .UserRatings, .UserRating:
+             .CommercializerReady, .UserRatings, .UserRating, .PassiveBuyers:
             return // Do nothing
         case let .Conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
