@@ -14,9 +14,6 @@ public typealias UserRatingsCompletion = UserRatingsResult -> Void
 public typealias UserRatingResult = Result<UserRating, RepositoryError>
 public typealias UserRatingCompletion = UserRatingResult -> Void
 
-public typealias UserRatingEmptyResult = Result<Void, RepositoryError>
-public typealias UserRatingEmptyCompletion = UserRatingEmptyResult -> Void
-
 
 public protocol UserRatingRepository {
 

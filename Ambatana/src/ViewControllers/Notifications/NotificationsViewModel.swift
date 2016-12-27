@@ -142,34 +142,46 @@ private extension NotificationsViewModel {
 
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
-        case let .Rating(userId, userImageUrl, userName, _, _):
+        case let .Rating(user, _, _):
             guard featureFlags.userReviews else { return nil }
-            return NotificationData(type: .Rating(userId: userId, userName: userName, userImage: userImageUrl),
+            return NotificationData(type: .Rating(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
-        case let .RatingUpdated(userId, userImageUrl, userName, _, _):
+        case let .RatingUpdated(user, _, _):
             guard featureFlags.userReviews else { return nil }
-            return NotificationData(type: .RatingUpdated(userId: userId, userName: userName, userImage: userImageUrl),
+            return NotificationData(type: .RatingUpdated(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
-        case let .Like(_, _, productTitle, userId, userImageUrl, userName):
+        case let .Like(product, user):
             return NotificationData(
-                type: .ProductFavorite(userId: userId, userName: userName, productTitle: productTitle, userImage: userImageUrl),
+                type: .ProductFavorite(product: product, user: user),
                 date: notification.createdAt, isRead: notification.isRead,
                 primaryAction: { [weak self] in
-                    let data = UserDetailData.Id(userId: userId, source: .Notifications)
+                    let data = UserDetailData.Id(userId: user.id, source: .Notifications)
                     self?.navigator?.openUser(data)
                 })
-        case let .Sold(productId, productImageUrl, _, _, _, _):
-            return NotificationData(type: .ProductSold(productImage: productImageUrl), date: notification.createdAt,
+        case let .Sold(product, _):
+            return NotificationData(type: .ProductSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.Id(productId: productId)
+                                        let data = ProductDetailData.Id(productId: product.id)
                                         self?.navigator?.openProduct(data, source: .Notifications)
+                                    })
+        case let .BuyersInterested(product, buyers):
+            return NotificationData(type: .BuyersInterested(product: product, buyers: buyers),
+                                    date: notification.createdAt, isRead: notification.isRead,
+                                    primaryAction: { [weak self] in
+                                        // TODO: https://ambatana.atlassian.net/browse/ABIOS-2055
+                                    })
+        case let .ProductSuggested(product, seller):
+            return NotificationData(type: .ProductSuggested(product: product, seller: seller),
+                                    date: notification.createdAt, isRead: notification.isRead,
+                                    primaryAction: { [weak self] in
+                                        // TODO: https://ambatana.atlassian.net/browse/ABIOS-2055
                                     })
         }
     }
@@ -210,6 +222,10 @@ private extension NotificationDataType {
             return .RatingUpdated
         case .Welcome:
             return .Welcome
+        case .BuyersInterested:
+            return .BuyersInterested
+        case .ProductSuggested:
+            return .ProductSuggested
         }
     }
 }

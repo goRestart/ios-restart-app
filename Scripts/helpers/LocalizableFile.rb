@@ -2,11 +2,11 @@ class FormatSpecifiers
     attr_reader :specifiers
     def initialize(string)
         @specifiers = []
-        
-        matches = string.scan(/%((\d)\$)?(@|d|D|u|U|x|X|o|O|f|e|E|g|G|c|C|s|S|p|a|A|F|ld|lx|lu|zx)/)
-        matches.sort! { |a,b| a[1] <=> b[1] }
+
+        matches = string.scan(/%((\d\$)?(@|d|D|u|U|x|X|o|O|f|e|E|g|G|c|C|s|S|p|a|A|F|ld|lx|lu|zx))/)
+        matches.sort! { |a,b| a[0] <=> b[0] }
         matches.each { |match|
-            @specifiers.push(match[2])
+            @specifiers.push(match[0])
         }
     end
     
@@ -40,7 +40,9 @@ class FormatSpecifiers
     end
 
     def type_for_specifier(specifier)
-        case specifier
+        # strip $n if any
+        tmpSpecifier = specifier.sub(/\d\$/, "")
+        case tmpSpecifier
         when '@', 's', 'S'
             return "String"
         when 'd','D','u','U','x','X','o','O'

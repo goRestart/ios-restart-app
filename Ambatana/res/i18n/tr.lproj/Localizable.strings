@@ -302,7 +302,7 @@
 "log_in_send_button" = "Giriş yap";
 "log_in_title" = "E-posta ile Kaydol";
 "login_scammer_alert_contact_button" = "Bize ulaşın";
-"login_scammer_alert_keep_browsing_button" = "Geç";
+"login_scammer_alert_keep_browsing_button" = "Kapat";
 "login_scammer_alert_message" = "Hesabın letgo Ekibi tarafından inceleme altına alınmıştır. Eğer bu durumda bir yanlışlık olduğunu düşünüyorsan bizimle iletişime geçebilirsin.";
 "login_scammer_alert_title" = "HESAP İNCELEME ALTINDA";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
@@ -586,7 +586,7 @@
 "rating_list_action_report_review_success_message" = "Şikayetin bildirildi!";
 "rating_list_action_review_user" = "Kullanıcıyı değerlendir";
 "rating_list_loading_error_message" = "Yorumlar yüklenirken bir hata oluştu.";
-"rating_list_rating_status_pending" = "This review is being verified";
+"rating_list_rating_status_pending" = "Bu yorum değerlendirilmektedir";
 "rating_list_rating_type_buyer_text_label" = "%@ bir ürün aldı";
 "rating_list_rating_type_conversation_text_label" = "%@ bir ürün hakkında sohbet etti";
 "rating_list_rating_type_seller_text_label" = "%@ bir ürün sattı";

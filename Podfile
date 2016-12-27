@@ -32,8 +32,8 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.5.12" # Swift 3.0: -
     pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Swift 3.0: -
 
-      # letgo Core
-    pod "LGCoreKit",            "1.7.0" # :path => "../lgcorekit"
+    # letgo Core
+    pod "LGCoreKit",            "1.8.0" #:path => "../lgcorekit" || :git => 'https://github.com/letgoapp/letgo-ios-lgcorekit', :commit => 'cfa387afa7deef4287b2c86164bae201dc0ae2a4'
 
     	# letgo Collapsible label
     pod "LGCollapsibleLabel",   "0.2.0"     # :path => "../collapsiblelabel"

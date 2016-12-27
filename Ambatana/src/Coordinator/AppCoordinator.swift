@@ -123,7 +123,6 @@ final class AppCoordinator: BaseCoordinator {
         self.userRatingRepository = userRatingRepository
         
         self.featureFlags = featureFlags
-        
         self.locationManager = locationManager
 
         super.init(viewController: tabBarCtl, bubbleNotificationManager: bubbleNotificationManager)
@@ -194,6 +193,10 @@ extension AppCoordinator: AppNavigator {
         let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
         userRatingCoordinator.delegate = self
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
+    
+    func openChangeLocation() {
+        profileTabBarCoordinator.openEditLocation()
     }
 
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
@@ -414,7 +417,15 @@ private extension AppCoordinator {
             [weak self] _ in
             self?.askUserToUpdateLocation()
         }.addDisposableTo(disposeBag)
-    }
+        
+        locationManager.locationEvents.filter { $0 == .LocationUpdate }.take(1).bindNext {
+            [weak self] _ in
+            guard let strongSelf = self else { return }
+            if let currentLocation = strongSelf.locationManager.currentLocation where currentLocation.isAuto && strongSelf.featureFlags.locationNoMatchesCountry {
+                strongSelf.askUserToUpdateLocationManually()
+            }
+            }.addDisposableTo(disposeBag)
+       }
 
     func askUserToUpdateLocation() {
         guard let navCtl = selectedNavigationController else { return }
@@ -425,6 +436,25 @@ private extension AppCoordinator {
             })
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+    }
+    
+    func askUserToUpdateLocationManually() {
+        guard let navCtl = selectedNavigationController else { return }
+        guard navCtl.isAtRootViewController else { return }
+        
+        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default), action: { [weak self] in
+            self?.ifLoggedInAction(.Profile) { [weak self] in
+                self?.openTab(.Profile) { [weak self] in
+                    self?.openChangeLocation()
+                }
+            }
+            })
+        navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+                         cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+    }
+    
+    private func ifLoggedInAction(tab: EventParameterLoginSourceValue, action: () -> ()) {
+        viewController?.ifLoggedInThen(tab, loginStyle: .FullScreen, loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
     }
 }
 
@@ -631,7 +661,9 @@ private extension AppCoordinator {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
         let viewModel = UserRatingListViewModel(userId: myUserId, tabNavigator: profileTabBarCoordinator)
 
-        let viewController = UserRatingListViewController(viewModel: viewModel)
+        let hidesBottomBarWhenPushed = navCtl.viewControllers.count == 1
+        let viewController = UserRatingListViewController(viewModel: viewModel,
+                                                          hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navCtl.pushViewController(viewController, animated: true)
     }
 

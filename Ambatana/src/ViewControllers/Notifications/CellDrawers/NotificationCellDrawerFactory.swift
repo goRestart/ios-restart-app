@@ -22,6 +22,9 @@ public class NotificationCellDrawerFactory {
             return RatingNotificationCellDrawer()
         case .Welcome:
             return WelcomeNotificationCellDrawer()
+        case .BuyersInterested, .ProductSuggested:
+            // TODO: https://ambatana.atlassian.net/browse/ABIOS-2055
+            return WelcomeNotificationCellDrawer()
         }
     }
 

@@ -18,7 +18,7 @@ class PurchasesShopperSpec: QuickSpec {
         var sut: PurchasesShopper!
         var requestFactory: MockProductsRequestFactory!
 
-        fdescribe("PurchasesShopperSpec") {
+        describe("PurchasesShopperSpec") {
             beforeEach {
                 self.requestsFinished = []
                 requestFactory = MockProductsRequestFactory()

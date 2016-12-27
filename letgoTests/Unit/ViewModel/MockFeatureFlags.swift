@@ -32,4 +32,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false
+    var locationNoMatchesCountry: Bool = false
 }
