@@ -1403,7 +1403,7 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("notifications_type_like_w_name", comment: ""), var1)
 	}
 
-	static func notificationsTypeLikeWNameWTitle(var1: String, _ var2: String) -> String {
+	static func notificationsTypeLikeWNameWTitle(var1: AnyObject, _ var2: AnyObject) -> String {
 		return String(format: NSLocalizedString("notifications_type_like_w_name_w_title", comment: ""), var1, var2)
 	}
 
@@ -1435,7 +1435,7 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("notifications_type_product_suggested", comment: ""), var1)
 	}
 
-	static func notificationsTypeProductSuggestedWTitle(var1: String, _ var2: String) -> String {
+	static func notificationsTypeProductSuggestedWTitle(var1: AnyObject, _ var2: AnyObject) -> String {
 		return String(format: NSLocalizedString("notifications_type_product_suggested_w_title", comment: ""), var1, var2)
 	}
 
@@ -1447,12 +1447,16 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("notifications_type_buyers_interested", comment: ""), var1)
 	}
 
-	static func notificationsTypeBuyersInterestedWTitle(var1: Int, _ var2: String) -> String {
+	static func notificationsTypeBuyersInterestedWTitle(var1: AnyObject, _ var2: AnyObject) -> String {
 		return String(format: NSLocalizedString("notifications_type_buyers_interested_w_title", comment: ""), var1, var2)
 	}
 
 	static var notificationsTypeBuyersInterestedButton: String {
 		return NSLocalizedString("notifications_type_buyers_interested_button", comment: "")
+	}
+
+	static var notificationsTypeBuyersInterestedButtonDone: String {
+		return NSLocalizedString("notifications_type_buyers_interested_button_done", comment: "")
 	}
 
 	static var notificationsTypeWelcomeSubtitle: String {
@@ -1549,6 +1553,14 @@ struct LGLocalizedString {
 
 	static func passiveBuyersButton(var1: Int) -> String {
 		return String(format: NSLocalizedString("passive_buyers_button", comment: ""), var1)
+	}
+
+	static var passiveBuyersContactError: String {
+		return NSLocalizedString("passive_buyers_contact_error", comment: "")
+	}
+
+	static var passiveBuyersContactSuccess: String {
+		return NSLocalizedString("passive_buyers_contact_success", comment: "")
 	}
 
 	static var productAskAQuestionButton: String {
