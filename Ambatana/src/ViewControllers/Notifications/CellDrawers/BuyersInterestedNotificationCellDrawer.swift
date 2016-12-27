@@ -28,12 +28,34 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
                 cell.primaryImage.image = placeholder
             }
             cell.timeLabel.text = data.date.relativeTimeString(true)
-            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeLikeButton, forState: .Normal)
 
+            setActionState(cell, completed: data.primaryActionCompleted)
             setupUserImageViews(cell, buyers: buyers)
         default:
             return
         }
+    }
+
+    private func setActionState(cell: BuyersInterestedNotificationCell, completed: Bool?) {
+        let title: String
+        let icon: UIImage?
+        if let completed = completed where completed {
+            title = LGLocalizedString.notificationsTypeBuyersInterestedButtonDone
+            icon = UIImage(named: "ic_check_gray")
+
+            cell.actionButton.layer.borderWidth = 0
+            cell.actionButton.setTitleColor(UIColor.gray, forState: .Normal)
+
+            let hSpacing: CGFloat = 5
+            cell.actionButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: hSpacing, bottom: 0, right: -hSpacing)
+            cell.actionButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 2*hSpacing, bottom: 0, right: 3*hSpacing)
+        } else {
+            title = LGLocalizedString.notificationsTypeLikeButton
+            icon = nil
+            cell.actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
+        }
+        cell.actionButton.setTitle(title, forState: .Normal)
+        cell.actionButton.setImage(icon, forState: .Normal)
     }
 
     private func setupUserImageViews(cell: BuyersInterestedNotificationCell, buyers: [NotificationUser]) {
