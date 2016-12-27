@@ -200,7 +200,7 @@ extension LGLayout {
         return self
     }
     
-    func FirstBaseline(to attribute: NSLayoutAttribute = .FirstBaseline, by constant: CGFloat = 0,
+    func firstBaseline(to attribute: NSLayoutAttribute = .FirstBaseline, by constant: CGFloat = 0,
                        priority: UILayoutPriority = UILayoutPriorityRequired,
                        constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
         constraint(item1: item1, attritube1: .FirstBaseline, item2: item2, attritube2: attribute,
