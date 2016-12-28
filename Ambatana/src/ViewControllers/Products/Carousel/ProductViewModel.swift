@@ -327,7 +327,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.setStatus(product.viewModelStatus(strongSelf.featureFlags))
 
             // Mockup Data 👾 -----
-            let freeBumpUp = false
+            let freeBumpUp = true
             let price = "$1,99"
             let bumpsLeft = 3
             // Mockup Data 👾 -----
@@ -591,7 +591,7 @@ extension ProductViewModel {
     }
 
     func bumpUpProduct() {
-        print("TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
+        logMessage(.Info, type: [.Monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
         guard let purchase = bumpUpPurchaseableProduct else { return }
         purchasesShopper.requestPaymentForProduct(purchase.productIdentifier)
     }

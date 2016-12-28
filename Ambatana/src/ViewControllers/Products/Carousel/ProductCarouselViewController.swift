@@ -1172,9 +1172,6 @@ extension ProductCarouselViewController {
         guard bumpUpBannerIsVisible else { return }
         bumpUpBannerIsVisible = false
         bubbleBottom = -CarouselUI.bubbleHeight
-        UIView.animateWithDuration(0.01, animations: { [weak self] in
-            self?.view.layoutIfNeeded()
-        }, completion: nil)
     }
 }
 

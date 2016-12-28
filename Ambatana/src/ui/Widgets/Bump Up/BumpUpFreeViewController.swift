@@ -49,8 +49,6 @@ class BumpUpFreeViewController: BaseViewController {
     // MARK: private methods
 
     func setupUI() {
-        view.layoutIfNeeded()
-
         if let imageUrl = viewModel.product.images.first?.fileURL {
             productImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
                 [weak self] (result, url) -> Void in
@@ -117,11 +115,6 @@ extension BumpUpFreeViewController: ShareProductViewModelDelegate {
     }
 
     func viewControllerShouldClose() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    func vmDidFinishSharing() {
-        viewModel.bumpUpProduct()
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

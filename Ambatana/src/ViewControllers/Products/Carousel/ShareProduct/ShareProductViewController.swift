@@ -125,10 +125,6 @@ extension ShareProductViewController: ShareProductViewModelDelegate {
     func viewControllerShouldClose() {
         dismissViewControllerAnimated(true, completion: nil)
     }
-
-    func vmDidFinishSharing() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
 }
 
 extension ShareProductViewController {

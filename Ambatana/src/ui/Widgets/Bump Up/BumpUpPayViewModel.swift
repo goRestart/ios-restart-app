@@ -58,7 +58,7 @@ class BumpUpPayViewModel: BaseViewModel {
     // MARK: - Private methods
 
     func bumpUpProduct() {
-        print("TRY TO Bump with purchase: \(purchaseableProduct)")
+        logMessage(.Info, type: [.Monetization], message: "TRY TO Bump with purchase: \(purchaseableProduct)")
         purchasesShopper.requestPaymentForProduct(purchaseableProduct.productIdentifier)
     }
 }

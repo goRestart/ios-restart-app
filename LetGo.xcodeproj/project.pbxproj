@@ -2201,7 +2201,7 @@
 			name = ChatWrapper;
 			sourceTree = "<group>";
 		};
-		2EB32D611DF184CB00E01E93 /* Bump Up */ = {
+		2EB32D611DF184CB00E01E93 /* BumpUp */ = {
 			isa = PBXGroup;
 			children = (
 				2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */,
@@ -2211,7 +2211,7 @@
 				2E3E097E1E07F165005E55C7 /* BumpUpPayViewController.xib */,
 				2E3E09831E07FD33005E55C7 /* BumpUpPayViewModel.swift */,
 			);
-			name = "Bump Up";
+			name = BumpUp;
 			sourceTree = "<group>";
 		};
 		2ECEAD0F1B9E0DB300C8B40C /* App Rating */ = {
@@ -2464,7 +2464,7 @@
 		505B06A41B15A9910049F9CD /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				2EB32D611DF184CB00E01E93 /* Bump Up */,
+				2EB32D611DF184CB00E01E93 /* BumpUp */,
 				2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */,
 				2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */,
 				2E5B95571D9579C500318A40 /* InterestedBubble.swift */,

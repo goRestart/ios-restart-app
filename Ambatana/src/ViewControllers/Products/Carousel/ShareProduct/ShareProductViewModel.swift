@@ -13,7 +13,6 @@ import LGCoreKit
 protocol ShareProductViewModelDelegate: BaseViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController
     func viewControllerShouldClose()
-    func vmDidFinishSharing()
 }
 
 class ShareProductViewModel: BaseViewModel {
@@ -32,7 +31,8 @@ class ShareProductViewModel: BaseViewModel {
     var link: String {
         return socialMessage.copyLinkText ?? Constants.websiteURL
     }
-    var purchasesShopper: PurchasesShopper?
+    private var purchasesShopper: PurchasesShopper?
+    private var bumpUp: Bool
 
     convenience init(product: Product, socialMessage: SocialMessage, bumpUp: Bool) {
         let purchasesShopper: PurchasesShopper? = bumpUp ? PurchasesShopper.sharedInstance : nil
@@ -50,6 +50,7 @@ class ShareProductViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
+        self.bumpUp = bumpUp
         if bumpUp {
             self.title = LGLocalizedString.bumpUpViewFreeTitle
             self.subtitle = LGLocalizedString.bumpUpViewFreeSubtitle
@@ -90,7 +91,10 @@ extension ShareProductViewModel: SocialSharerDelegate {
             delegate?.vmShowAutoFadingMessage(message) { [weak self] in
                 switch state {
                 case .Completed:
-                    self?.delegate?.vmDidFinishSharing()
+                    self?.delegate?.vmDismiss {
+                        guard let isBumpUp = self?.bumpUp where isBumpUp else { return }
+                        self?.bumpUpProduct()
+                    }
                 case .Cancelled, .Failed:
                     break
                 }
@@ -141,7 +145,7 @@ extension ShareProductViewModel: SocialSharerDelegate {
 
 extension ShareProductViewModel {
     func bumpUpProduct() {
-        print("TRY TO Bump FREE")
+        logMessage(.Info, type: [.Monetization], message: "TRY TO Bump FREE")
         guard let productId = product.objectId else { return }
         purchasesShopper?.requestFreeBumpUpForProduct(productId)
     }
