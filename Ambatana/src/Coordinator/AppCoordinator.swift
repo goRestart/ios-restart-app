@@ -619,8 +619,8 @@ private extension AppCoordinator {
             }
         case let .PassiveBuyers(productId):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Notifications, completion: { 
-                    self?.selectedTabCoordinator?.openPassiveBuyers(productId, actionCompletedBlock: nil)
+                self?.openTab(.Notifications, completion: {
+                    self?.openPassiveBuyers(productId)
                 })
             }
         }
@@ -742,6 +742,11 @@ private extension AppCoordinator {
                                               action: action)
             showBubble(with: data, duration: 3)
         }
+    }
+
+    private func openPassiveBuyers(productId: String) {
+        guard let notificationsTabCoordinator = selectedTabCoordinator as? NotificationsTabCoordinator else { return }
+        notificationsTabCoordinator.openPassiveBuyers(productId, actionCompletedBlock: nil)
     }
 }
 

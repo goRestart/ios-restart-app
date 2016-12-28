@@ -100,6 +100,7 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
 
         productImage.clipsToBounds = true
         productImage.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        productImage.contentMode = .ScaleAspectFill
 
         titleLabel.textColor = UIColor.blackText
         titleLabel.font = UIFont.systemMediumFont(size: 17)
@@ -134,7 +135,7 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
     private func setupTable() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 50
+        tableView.rowHeight = PassiveBuyerCell.cellHeight
 
         let cellNib = UINib(nibName: PassiveBuyerCell.reusableID, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: PassiveBuyerCell.reusableID)

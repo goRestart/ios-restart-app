@@ -42,7 +42,6 @@ protocol TabNavigator: BaseNavigator {
     func openAppInvite()
     func canOpenAppInvite() -> Bool
     func openRatingList(userId: String)
-    func openPassiveBuyers(productId: String, actionCompletedBlock: (() -> Void)?)
 }
 
 protocol ProductDetailNavigator: TabNavigator {

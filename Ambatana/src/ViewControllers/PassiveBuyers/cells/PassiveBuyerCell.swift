@@ -10,6 +10,9 @@ import UIKit
 
 class PassiveBuyerCell: UITableViewCell, ReusableCell {
 
+    static let cellHeight: CGFloat = 50
+    private static let imageHeight: CGFloat = 36
+
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
 
@@ -48,7 +51,7 @@ class PassiveBuyerCell: UITableViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        userImage.rounded = true
+        userImage.cornerRadius = PassiveBuyerCell.imageHeight / 2
         userName.textColor = UIColor.blackText
         userName.font = UIFont.bigBodyFont
     }
