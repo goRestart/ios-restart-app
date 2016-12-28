@@ -347,7 +347,7 @@
 "notifications_title" = "Ειδοποιήσεις";
 "notifications_type_buyers_interested" = "%d αγοραστές μπορεί να ενδιαφέρονται για το προϊόν σας";
 "notifications_type_buyers_interested_button" = "Μάθετε ποιοι είναι";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Επικοινωνήσατε με τους αγοραστές!";
 "notifications_type_buyers_interested_w_title" = "%1$d αγοραστές μπορεί να ενδιαφέρονται γι' αυτό το προϊόν: \"%2$@\"";
 "notifications_type_like_button" = "Δείτε το προφίλ τους";
 "notifications_type_like_w_name" = "%@ favorited your product";
@@ -382,8 +382,10 @@
 "onboarding_posting_title_b" = "Δημοσιεύστε το πρώτο σας προϊόν";
 "onboarding_posting_title_c" = "Έχετε τίποτα να πουλήσετε;";
 "passive_buyers_button" = "Επικοινωνήστε με %d αγοραστές";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Επικοινωνήστε με τους αγοραστές που ενδιαφέρονται για συναφή προϊόντα";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Όπα! Οι αγοραστές δε βρέθηκαν.";
 "passive_buyers_title" = "ΑΥΤΟΙ ΟΙ ΑΓΟΡΑΣΤΕΣ ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΟΝΤΑΙ";
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";

@@ -382,6 +382,8 @@
 "onboarding_posting_title_b" = "Разместите свой первый товар";
 "onboarding_posting_title_c" = "Eсть что-либо на продажу?";
 "passive_buyers_button" = "Связиться с %d покупателями";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Свяжитесь с покупателями, которые интересовались похожими товарами";
 "passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "ЭТИ ПОКУПАТЕЛИ МОГУТ БЫТЬ ЗАИНТЕРЕСОВАНЫ";

@@ -382,8 +382,10 @@
 "onboarding_posting_title_b" = "Publica tu primer artículo";
 "onboarding_posting_title_c" = "¿Tienes alguno para vender?";
 "passive_buyers_button" = "Contactar con %d compradores";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Contacta con estos compradores que se han interesado por productos similares";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "¡Ups! Compradores no encontrados.";
 "passive_buyers_title" = "ESTOS COMPRADORES PODRÍAN ESTAR INTERESADOS";
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";

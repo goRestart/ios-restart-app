@@ -347,7 +347,7 @@
 "notifications_title" = "Ilmoitukset";
 "notifications_type_buyers_interested" = "%d ostajaa saattaisi olla kiinnostunut tuotteestasi";
 "notifications_type_buyers_interested_button" = "Katso keitä he ovat";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Ostajiin on otettu yhteyttä!";
 "notifications_type_buyers_interested_w_title" = "%1$d ostajaa saattaisi olla kiinnostunut tuotteestasi: \"%2$@\"";
 "notifications_type_like_button" = "Käy katsomassa käyttäjän profiili";
 "notifications_type_like_w_name" = "%@ merkitsi tuotteesi suosikikseen";
@@ -382,8 +382,10 @@
 "onboarding_posting_title_b" = "Julkaise ensimmäinen tuotteesi";
 "onboarding_posting_title_c" = "Olisiko sinulla myydä?";
 "passive_buyers_button" = "Ota yhteyttä %d ostajaan";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Ota yhteyttä näihin ostajiin, jotka ovat kiinnostuneita vastaavista tuotteista";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Hups! Ostajia ei löytynyt.";
 "passive_buyers_title" = "NÄMÄ OSTAJAT SAATTAISIVAT OLLA KIINNOSTUNEITA";
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
