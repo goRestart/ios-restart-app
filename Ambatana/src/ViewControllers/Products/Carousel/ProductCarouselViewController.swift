@@ -297,13 +297,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
 
     func setupBumpUpBanner() {
-        bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
         bubbleContainer.addSubview(bumpUpBanner)
-        let views = ["bumpUpBanner": bumpUpBanner]
-        bubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bumpUpBanner]|",
-            options: [], metrics: nil, views: views))
-        bubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[bumpUpBanner]|",
-            options: [], metrics: nil, views: views))
+        bumpUpBanner.layout(with: bubbleContainer).fill().apply()
     }
 
     private func setupExpandableButtonsViewIfNeeded() {
