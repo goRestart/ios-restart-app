@@ -25,7 +25,6 @@ class ShareProductViewModel: BaseViewModel {
 
     weak var delegate: ShareProductViewModelDelegate?
     weak var navigator: ShareProductNavigator?
-    weak var bumpDelegate: BumpUpDelegate?
 
     var socialMessage: SocialMessage
     var title: String
@@ -33,19 +32,22 @@ class ShareProductViewModel: BaseViewModel {
     var link: String {
         return socialMessage.copyLinkText ?? Constants.websiteURL
     }
+    var purchasesShopper: PurchasesShopper?
 
-    convenience init(product: Product, socialMessage: SocialMessage, bumpUp: Bool, bumpDelegate: BumpUpDelegate?) {
+    convenience init(product: Product, socialMessage: SocialMessage, bumpUp: Bool) {
+        let purchasesShopper: PurchasesShopper? = bumpUp ? PurchasesShopper.sharedInstance : nil
         self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage, bumpUp: bumpUp,
-                  bumpDelegate: bumpDelegate, locale: NSLocale.currentLocale(), locationManager: Core.locationManager,
-                  tracker: TrackerProxy.sharedInstance)
+                  locale: NSLocale.currentLocale(), locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance, purchasesShopper: purchasesShopper)
     }
 
-    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, bumpUp: Bool, bumpDelegate: BumpUpDelegate?,
-         locale: NSLocale, locationManager: LocationManager, tracker: Tracker) {
+    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, bumpUp: Bool,
+         locale: NSLocale, locationManager: LocationManager, tracker: Tracker, purchasesShopper: PurchasesShopper?) {
         self.product = product
         self.socialSharer = socialSharer
         self.tracker = tracker
         self.socialMessage = socialMessage
+        self.purchasesShopper = purchasesShopper
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         if bumpUp {
@@ -55,7 +57,6 @@ class ShareProductViewModel: BaseViewModel {
             self.title = LGLocalizedString.productShareFullscreenTitle
             self.subtitle = LGLocalizedString.productShareFullscreenSubtitle
         }
-        self.bumpDelegate = bumpDelegate
         super.init()
 
         self.socialSharer?.delegate = self
@@ -140,6 +141,8 @@ extension ShareProductViewModel: SocialSharerDelegate {
 
 extension ShareProductViewModel {
     func bumpUpProduct() {
-        bumpDelegate?.vmBumpUpProduct()
+        print("TRY TO Bump FREE")
+        guard let productId = product.objectId else { return }
+        purchasesShopper?.requestFreeBumpUpForProduct(productId)
     }
 }

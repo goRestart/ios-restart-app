@@ -32,8 +32,8 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmViewControllerToShowShareOptions() -> UIViewController
 
     // Bump Up
-    func vmShowFreeBumpUpView(bumpDelegate: BumpUpDelegate?)
-    func vmShowPaymentBumpUpView(price: String, bumpsLeft: Int, bumpDelegate: BumpUpDelegate?)
+    func vmShowFreeBumpUpView()
+    func vmShowPaymentBumpUpView(price: String, bumpsLeft: Int)
 }
 
 
@@ -332,13 +332,16 @@ class ProductViewModel: BaseViewModel {
             let bumpsLeft = 3
             // Mockup Data 👾 -----
 
-            let freeBlock = { [weak self] in
-                self?.delegate?.vmShowFreeBumpUpView(self)
+            let freeBlock = {
+                self?.delegate?.vmShowFreeBumpUpView()
             }
-            let showPaymentViewBlock = { [weak self] in
-                self?.delegate?.vmShowPaymentBumpUpView(price, bumpsLeft: bumpsLeft, bumpDelegate: self)
+
+            let purchaseableProduct = strongSelf.bumpUpPurchaseableProduct
+            let showPaymentViewBlock = {
+                guard let actualPurchaseableProduct = purchaseableProduct else { return }
+                self?.delegate?.vmShowPaymentBumpUpView(price, bumpsLeft: bumpsLeft)
             }
-            let payBumpBlock = { [weak self] in
+            let payBumpBlock = {
                 self?.bumpUpProduct()
             }
             let primaryBlock = freeBumpUp ? freeBlock : showPaymentViewBlock
@@ -1212,12 +1215,6 @@ private extension ProductViewModelStatus {
     }
 }
 
-
-extension ProductViewModel: BumpUpDelegate {
-    func vmBumpUpProduct() {
-        bumpUpProduct()
-    }
-}
 
 // MARK: PurchasesShopperDelegate
 

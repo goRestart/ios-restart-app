@@ -399,7 +399,7 @@ extension TabCoordinator: ProductDetailNavigator {
     }
 
     func openFullScreenShare(product: Product, socialMessage: SocialMessage) {
-        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: false, bumpDelegate: nil)
+        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: false)
         let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
         navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
     }
@@ -439,15 +439,14 @@ extension TabCoordinator: ProductDetailNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, bumpDelegate: BumpUpDelegate?) {
-        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: true,
-                                                   bumpDelegate: bumpDelegate)
+    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage) {
+        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: true)
         let bumpUpFreeVC = BumpUpFreeViewController(viewModel: shareProductVM)
         navigationController.presentViewController(bumpUpFreeVC, animated: true, completion: nil)
     }
 
-    func openPayBumpUpForProduct(product: Product, price: String, bumpsLeft: Int, bumpDelegate: BumpUpDelegate?) {
-        let payBumpUpVM = BumpUpPayViewModel(product: product, price: price, bumpsLeft: bumpsLeft, bumpDelegate: bumpDelegate)
+    func openPayBumpUpForProduct(product: Product, price: String, bumpsLeft: Int, purchaseableProduct: PurchaseableProduct) {
+        let payBumpUpVM = BumpUpPayViewModel(product: product, price: price, bumpsLeft: bumpsLeft, purchaseableProduct: purchaseableProduct)
         let payBumpUpVC = BumpUpPayViewController(viewModel: payBumpUpVM)
         navigationController.presentViewController(payBumpUpVC, animated: true, completion: nil)
     }

@@ -14,34 +14,51 @@ protocol BumpUpPayViewModelDelegate: BaseViewModelDelegate {
     func viewControllerShouldClose()
 }
 
-protocol BumpUpDelegate: class {
-    func vmBumpUpProduct()
-}
 
 class BumpUpPayViewModel: BaseViewModel {
 
     var product: Product
     var price: String
     var bumpsLeft: Int
+    var purchaseableProduct: PurchaseableProduct
+    var purchasesShopper: PurchasesShopper
 
     weak var delegate: BumpUpPayViewModelDelegate?
-    weak var bumpDelegate: BumpUpDelegate?
+
 
     // MARK: - Lifecycle
 
-    init(product: Product, price: String, bumpsLeft: Int, bumpDelegate: BumpUpDelegate?) {
+    convenience init(product: Product, price: String, bumpsLeft: Int, purchaseableProduct: PurchaseableProduct) {
+        let purchasesShopper = PurchasesShopper.sharedInstance
+        self.init(product: product, price: price, bumpsLeft: bumpsLeft, purchaseableProduct: purchaseableProduct,
+                  purchasesShopper: purchasesShopper)
+    }
+
+    init(product: Product, price: String, bumpsLeft: Int, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper) {
         self.price = price
         self.product = product
         self.bumpsLeft = bumpsLeft
-        self.bumpDelegate = bumpDelegate
+        self.purchaseableProduct = purchaseableProduct
+        self.purchasesShopper = purchasesShopper
     }
 
+
+    // MARK: - Public methods
+
     func bumpUpPressed() {
-        bumpDelegate?.vmBumpUpProduct()
+        bumpUpProduct()
         delegate?.viewControllerShouldClose()
     }
 
     func closeActionPressed() {
         delegate?.viewControllerShouldClose()
+    }
+
+
+    // MARK: - Private methods
+
+    func bumpUpProduct() {
+        print("TRY TO Bump with purchase: \(purchaseableProduct)")
+        purchasesShopper.requestPaymentForProduct(purchaseableProduct.productIdentifier)
     }
 }
