@@ -39,7 +39,7 @@ class RecaptchaViewModel: BaseViewModel {
     }
 
     var url: NSURL? {
-        return LetgoURLHelper.buildRecaptchaURL(transparent: isTransparentMode)
+        return LetgoURLHelper.buildRecaptchaURL(transparent: transparentMode)
     }
 
     func closeButtonPressed() {

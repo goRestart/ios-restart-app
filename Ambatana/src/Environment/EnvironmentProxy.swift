@@ -93,4 +93,12 @@ public class EnvironmentProxy: AppEnvironment {
     var configURL: String {
         return environment.configURL
     }
+
+    var websiteBaseUrl: String {
+        return environment.websiteBaseUrl
+    }
+
+    var websiteBaseUrlWithLocaleParams: String {
+        return environment.websiteBaseUrlWithLocaleParams
+    }
 }

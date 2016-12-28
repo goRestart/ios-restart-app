@@ -22,7 +22,7 @@ public protocol SocialMessage {
     var twitterComposer: TWTRComposer { get }
     var smsShareText: String { get }
     var copyLinkText: String { get }
-    var nativeShareItems: [AnyObject]? { get }
+    var nativeShareItems: [AnyObject] { get }
     
     static var utmMediumKey: String { get }
     static var utmMediumValue: String { get }
@@ -93,9 +93,12 @@ struct ProductSocialMessage: SocialMessage {
         self.init(title: socialTitle, product: product, isMine: productIsMine)
     }
 
-    var nativeShareItems: [AnyObject]? {
-        guard let shareUrl = shareUrl(.Native) else { return nil }
-        return [shareUrl, fullMessage()]
+    var nativeShareItems: [AnyObject] {
+        if let shareUrl = shareUrl(.Native) {
+            return [shareUrl, fullMessage()]
+        } else {
+            return [fullMessage()]
+        }
     }
 
     var whatsappShareText: String {
@@ -180,16 +183,16 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     private func branchUrl(source: ShareSource?) -> NSURL? {
-        guard !productId.isEmpty else { return NSURL(string: Constants.websiteURL) }
+        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL(localize: false) }
         let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
-            else { return NSURL(string: Constants.websiteURL) }
+            else { return LetgoURLHelper.buildHomeURL(localize: false) }
         return NSURL(string: branchUrl)
     }
 
     private var letgoUrl: NSURL? {
-        guard !productId.isEmpty else { return NSURL(string: Constants.websiteURL) }
-        return NSURL(string: String(format: Constants.productURL, arguments: [productId]))
+        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL(localize: false) }
+        return LetgoURLHelper.buildProductURL(productId: productId)
     }
 
     private var branchObject: BranchUniversalObject {
@@ -197,7 +200,7 @@ struct ProductSocialMessage: SocialMessage {
             BranchUniversalObject(canonicalIdentifier: "products/"+productId)
         branchUniversalObject.title = title
         branchUniversalObject.contentDescription = body()
-        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL+"/products/"+productId
+        branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL+"/products/"+productId
         if let imageURL = imageURL?.absoluteString {
             branchUniversalObject.imageUrl = imageURL
         }
@@ -236,9 +239,12 @@ struct AppShareSocialMessage: SocialMessage {
         imageUrl = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
     }
 
-    var nativeShareItems: [AnyObject]? {
-        guard let shareUrl = branchUrl(.Native) else { return nil }
-        return [shareUrl, LGLocalizedString.appShareMessageText]
+    var nativeShareItems: [AnyObject] {
+        if let shareUrl = branchUrl(.Native) {
+            return [shareUrl, LGLocalizedString.appShareMessageText]
+        } else {
+            return [LGLocalizedString.appShareMessageText]
+        }
     }
 
     var whatsappShareText: String {
@@ -299,7 +305,7 @@ struct AppShareSocialMessage: SocialMessage {
     private func branchUrl(source: ShareSource?) -> NSURL? {
         let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
-            else { return NSURL(string: Constants.websiteURL) }
+            else { return LetgoURLHelper.buildHomeURL(localize: false) }
         return NSURL(string: branchUrl)
     }
     
@@ -308,7 +314,7 @@ struct AppShareSocialMessage: SocialMessage {
             BranchUniversalObject(canonicalIdentifier: "app_share")
         branchUniversalObject.title = LGLocalizedString.appShareSubjectText
         branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
-        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL
+        branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL
         if let imageURL = imageUrl?.absoluteString {
             branchUniversalObject.imageUrl = imageURL
         }
@@ -324,7 +330,7 @@ struct AppShareSocialMessage: SocialMessage {
         linkProperties.tags = ["ios_app"]
         linkProperties.addControlParam("$deeplink_path", withValue: "home")
         
-        let letgoUrlString = addCampaignInfoToString(Constants.websiteURL, source: source)
+        let letgoUrlString = addCampaignInfoToString(LetgoURLHelper.buildHomeURLString(), source: source)
         let letgoUrlStringAppStore = addCampaignInfoToString(Constants.appStoreURL, source: source)
         let letgoUrlStringPlayStore = addCampaignInfoToString(Constants.playStoreURL, source: source)
         
@@ -364,8 +370,12 @@ struct UserSocialMessage: SocialMessage {
         }
     }
 
-    var nativeShareItems: [AnyObject]? {
-        return [branchUrl(.Native), messageText]
+    var nativeShareItems: [AnyObject] {
+        if let branchUrl = branchUrl(.Native) {
+            return [branchUrl, messageText]
+        } else {
+            return [messageText]
+        }
     }
 
     var whatsappShareText: String {
@@ -381,7 +391,7 @@ struct UserSocialMessage: SocialMessage {
     }
 
     var copyLinkText: String {
-        return branchUrl(.CopyLink).absoluteString ?? ""
+        return branchUrl(.CopyLink)?.absoluteString ?? ""
     }
 
     var emailShareSubject: String {
@@ -389,7 +399,7 @@ struct UserSocialMessage: SocialMessage {
     }
 
     var emailShareBody: String {
-        guard let urlStr = branchUrl(.Email).absoluteString else {
+        guard let urlStr = branchUrl(.Email)?.absoluteString else {
             return messageText
         }
         return messageText + "\n\n" + urlStr
@@ -418,24 +428,19 @@ struct UserSocialMessage: SocialMessage {
     }
 
     private func fullMessageWUrl(source: ShareSource) -> String {
-        guard let urlString = branchUrl(source).absoluteString else {
+        guard let urlString = branchUrl(source)?.absoluteString else {
             return messageText
         }
         return messageText.isEmpty ? urlString : messageText + ":\n" + urlString
     }
 
-    private var letgoURL: NSURL {
-        if !userId.isEmpty {
-            return NSURL(string: String(format: Constants.userURL, arguments: [userId])) ?? NSURL()
-        } else {
-            return NSURL(string: Constants.websiteURL) ?? NSURL()
-        }
+    private var letgoURL: NSURL? {
+        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL(localize: false)
     }
 
-    private func branchUrl(source: ShareSource?) -> NSURL {
+    private func branchUrl(source: ShareSource?) -> NSURL? {
         let linkProperties = branchLinkProperties(source)
-        guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
-            else { return letgoURL }
+        guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties) else { return letgoURL }
         return NSURL(string: branchUrl) ?? letgoURL
     }
 
@@ -444,7 +449,7 @@ struct UserSocialMessage: SocialMessage {
             BranchUniversalObject(canonicalIdentifier: "users/\(userId)")
         branchUniversalObject.title = titleText
         branchUniversalObject.contentDescription = messageText
-        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL+"/users/"+userId
+        branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL+"/users/"+userId
         if let imageURL = avatar?.absoluteString {
             branchUniversalObject.imageUrl = imageURL
         }
@@ -460,7 +465,7 @@ struct UserSocialMessage: SocialMessage {
         linkProperties.tags = ["ios_app"]
         linkProperties.addControlParam("$deeplink_path", withValue: "users/\(userId)")
 
-        guard let urlStr = letgoURL.absoluteString else { return linkProperties }
+        guard let urlStr = letgoURL?.absoluteString else { return linkProperties }
 
         let letgoUrlString = addCampaignInfoToString(urlStr, source: source)
         linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
@@ -485,9 +490,13 @@ struct CommercializerSocialMessage: SocialMessage {
         self.thumbUrl = NSURL(string: thumbUrl ?? "")
     }
 
-    var nativeShareItems: [AnyObject]? {
-        guard let shareUrl = shareUrl else { return nil }
-        return [shareUrl, shareText(nil, includeUrl: false)]
+    var nativeShareItems: [AnyObject] {
+        let shareTxt = shareText(nil, includeUrl: false)
+        if let shareUrl = shareUrl {
+            return [shareUrl, shareTxt]
+        } else {
+            return [shareTxt]
+        }
     }
 
     var emailShareSubject: String {

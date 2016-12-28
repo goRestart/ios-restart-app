@@ -94,10 +94,10 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     private var termsAndConditionsURL: NSURL? {
-        return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
+        return LetgoURLHelper.buildTermsAndConditionsURL()
     }
     private var privacyURL: NSURL? {
-        return LetgoURLHelper.composeURL(Constants.privacyURL)
+        return LetgoURLHelper.buildPrivacyURL()
     }
 
     private let sessionManager: SessionManager
