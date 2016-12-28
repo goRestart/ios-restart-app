@@ -31,6 +31,13 @@ enum AccessibilityId: String {
     case MainProductsInfoBubbleLabel
     case MainProductsSuggestionSearchesTable
 
+    // Passive buyers
+    case PassiveBuyersTitle
+    case PassiveBuyersMessage
+    case PassiveBuyersContactButton
+    case PassiveBuyersTable
+    case PassiveBuyerCellName
+
     // Product List View
     case ProductListViewFirstLoadView
     case ProductListViewFirstLoadActivityIndicator

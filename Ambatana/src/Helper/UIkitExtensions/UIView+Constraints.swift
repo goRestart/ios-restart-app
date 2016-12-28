@@ -53,6 +53,18 @@ extension UIView {
         return constraint
     }
 
+    func centerParentHorizontal(offset offset: CGFloat = 0) -> NSLayoutConstraint {
+        let constraint = NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem: superview, attribute: .CenterX, multiplier: 1, constant: offset)
+        superview?.addConstraint(constraint)
+        return constraint
+    }
+
+    func centerParentVertical(offset offset: CGFloat = 0) -> NSLayoutConstraint {
+        let constraint = NSLayoutConstraint(item: self, attribute: .CenterY, relatedBy: .Equal, toItem: superview, attribute: .CenterY, multiplier: 1, constant: offset)
+        superview?.addConstraint(constraint)
+        return constraint
+    }
+
     func toRightOf(view: UIView, margin: CGFloat = 0) -> NSLayoutConstraint {
         let constraint = NSLayoutConstraint(item: self, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: margin)
         superview?.addConstraint(constraint)

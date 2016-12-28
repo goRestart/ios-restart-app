@@ -347,7 +347,7 @@
 "notifications_title" = "Meddelanden";
 "notifications_type_buyers_interested" = "%d köpare skulle kunna vara intresserads av din produkt";
 "notifications_type_buyers_interested_button" = "Se vem de är";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Köpare kontaktad!";
 "notifications_type_buyers_interested_w_title" = "%1$d köpare skulle kunna vara intresserade av din produkt: \"%2$@\"";
 "notifications_type_like_button" = "Kolla deras profil";
 "notifications_type_like_w_name" = "%@ favoritmarkerade din produkt";
@@ -382,8 +382,10 @@
 "onboarding_posting_title_b" = "Lägg upp din första produkt";
 "onboarding_posting_title_c" = "Har du någon att sälja?";
 "passive_buyers_button" = "Kontakta %d köpare";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Kontakta dessa köpare som är intresserade av liknande produkter";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Oups! Köpare kunde inte hittas.";
 "passive_buyers_title" = "DESSA KÖPARE KAN VARA INTRESSERADE";
 "product_ask_a_question_button" = "Ställ en fråga";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";

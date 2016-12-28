@@ -382,6 +382,8 @@
 "onboarding_posting_title_b" = "İlk ürününü yayınla";
 "onboarding_posting_title_c" = "Satılık bir şeyin var mı?";
 "passive_buyers_button" = "%d alıcıyla iletişime geç";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Benzer ürünlerle ilgilenebilecek bu alıcılarla iletişime geç";
 "passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "BU ALICILAR İLGİLENİYOR OLABİLİR";

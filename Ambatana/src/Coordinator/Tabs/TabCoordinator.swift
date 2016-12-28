@@ -24,7 +24,6 @@ class TabCoordinator: BaseCoordinator {
     let chatRepository: ChatRepository
     let oldChatRepository: OldChatRepository
     let myUserRepository: MyUserRepository
-    let passiveBuyersRepository: PassiveBuyersRepository
     let keyValueStorage: KeyValueStorage
     let bubbleNotificationManager: BubbleNotificationManager
     let tracker: Tracker
@@ -38,7 +37,7 @@ class TabCoordinator: BaseCoordinator {
 
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
-         passiveBuyersRepository: PassiveBuyersRepository, bubbleNotificationManager: BubbleNotificationManager,
+         bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
          featureFlags: FeatureFlaggeable) {
         self.productRepository = productRepository
@@ -46,7 +45,6 @@ class TabCoordinator: BaseCoordinator {
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
-        self.passiveBuyersRepository = passiveBuyersRepository
         self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
@@ -63,6 +61,13 @@ class TabCoordinator: BaseCoordinator {
             return convDataDisplayer.isDisplayingConversationData(data)
         }
         return false
+    }
+
+    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
+                                     completion: (() -> Void)?) {
+        guard child == nil else { return }
+        child = coordinator
+        coordinator.open(parent: parent, animated: animated, completion: completion)
     }
 }
 
@@ -133,34 +138,6 @@ extension TabCoordinator: TabNavigator {
         let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
         let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
-    }
-
-    // TODO: remove actionCompletedBlock when status comes from back-end
-    func openPassiveBuyers(productId: String, actionCompletedBlock: (() -> Void)?) {
-        navigationController.showLoadingMessageAlert()
-        passiveBuyersRepository.show(productId: productId) { [weak self] result in
-            if let passiveBuyersInfo = result.value {
-                self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openPassiveBuyers(passiveBuyersInfo, actionCompletedBlock: actionCompletedBlock)
-                }
-            } else if let error = result.error {
-                let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
-                    message = LGLocalizedString.passiveBuyersNotAvailable
-                }
-                self?.navigationController.dismissLoadingMessageAlert {
-                    self?.navigationController.showAutoFadingOutMessageAlert(message)
-                }
-            }
-        }
-    }
-
-    private func openPassiveBuyers(passiveBuyersInfo: PassiveBuyersInfo, actionCompletedBlock: (() -> Void)?) {
-        // TODO: move this inside passive buyers screen https://ambatana.atlassian.net/browse/ABIOS-2057
-//        actionCompletedBlock?()
     }
 
     var hidesBottomBarWhenPushed: Bool {
@@ -375,13 +352,6 @@ private extension TabCoordinator {
             message = LGLocalizedString.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message)
-    }
-
-    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
-                                     completion: (() -> Void)?) {
-        guard child == nil else { return }
-        child = coordinator
-        coordinator.open(parent: parent, animated: animated, completion: completion)
     }
 }
 
