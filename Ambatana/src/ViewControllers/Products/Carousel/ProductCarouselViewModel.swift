@@ -40,6 +40,8 @@ class ProductCarouselViewModel: BaseViewModel {
 
     var shareTypes: [ShareType]
     var socialSharer: SocialSharer
+    private let featureFlags: FeatureFlaggeable
+    private let showKeyboardOnFirstAppearIfNeeded: Bool
 
     private var activeDisposeBag = DisposeBag()
 
@@ -70,6 +72,10 @@ class ProductCarouselViewModel: BaseViewModel {
         }
     }
 
+    var showKeyboardOnFirstAppearance: Bool {
+        return source == .Notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
+    }
+
     private let source: EventParameterProductVisitSource
     private let productListRequester: ProductListRequester?
     private var productsViewModels: [String: ProductViewModel] = [:]
@@ -81,53 +87,67 @@ class ProductCarouselViewModel: BaseViewModel {
     // MARK: - Init
 
     convenience init(product: LocalProduct, productListRequester: ProductListRequester?,
-                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource) {
+                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource,
+                     showKeyboardOnFirstAppearIfNeeded: Bool) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
         let locale = NSLocale.currentLocale()
         let socialSharer = SocialSharer()
+        let featureFlags = FeatureFlags.sharedInstance
 
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: nil,
                   productListRequester: productListRequester, navigator: navigator, source: source,
-                  locale: locale, locationManager: locationManager, socialSharer: socialSharer)
+                  locale: locale, locationManager: locationManager,
+                  socialSharer: socialSharer, featureFlags: featureFlags,
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
         syncFirstProduct()
     }
 
     convenience init(product: Product, thumbnailImage: UIImage?, productListRequester: ProductListRequester?,
-                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource) {
+                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource,
+                     showKeyboardOnFirstAppearIfNeeded: Bool) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
         let locale = NSLocale.currentLocale()
         let socialSharer = SocialSharer()
+        let featureFlags = FeatureFlags.sharedInstance
 
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester, navigator: navigator, source: source,
-                  locale: locale, locationManager: locationManager, socialSharer: socialSharer)
+                  locale: locale, locationManager: locationManager,
+                  socialSharer: socialSharer, featureFlags: featureFlags,
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
                      productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
-                     source: EventParameterProductVisitSource) {
+                     source: EventParameterProductVisitSource,
+                     showKeyboardOnFirstAppearIfNeeded: Bool) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
         let locale = NSLocale.currentLocale()
         let socialSharer = SocialSharer()
+        let featureFlags = FeatureFlags.sharedInstance
 
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: productListModels, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, productListRequester: productListRequester, navigator: navigator,
-                  source: source, locale: locale, locationManager: locationManager, socialSharer: socialSharer)
+                  source: source, locale: locale, locationManager: locationManager,
+                  socialSharer: socialSharer, featureFlags: featureFlags,
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
          productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
-         source: EventParameterProductVisitSource, locale: NSLocale, locationManager: LocationManager, socialSharer: SocialSharer) {
+         source: EventParameterProductVisitSource, locale: NSLocale, locationManager: LocationManager,
+         socialSharer: SocialSharer, featureFlags: FeatureFlaggeable,
+         showKeyboardOnFirstAppearIfNeeded: Bool) {
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
@@ -143,6 +163,8 @@ class ProductCarouselViewModel: BaseViewModel {
         self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         self.socialSharer = socialSharer
+        self.featureFlags = featureFlags
+        self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded
         super.init()
         self.socialSharer.delegate = self
         self.startIndex = indexForProduct(initialProduct) ?? 0

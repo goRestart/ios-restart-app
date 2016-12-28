@@ -36,7 +36,8 @@ enum BackAction {
 protocol TabNavigator: BaseNavigator {
     func openSell(source: PostingSource)
     func openUser(data: UserDetailData)
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource,
+                     showKeyboardOnFirstAppearIfNeeded: Bool)
     func openChat(data: ChatDetailData)
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
@@ -57,7 +58,8 @@ protocol ProductDetailNavigator: TabNavigator {
 
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource,
+                     showKeyboardOnFirstAppearIfNeeded: Bool)
 }
 
 protocol ChatDetailNavigator: TabNavigator {
