@@ -12,7 +12,7 @@ final class NotificationsTabCoordinator: TabCoordinator {
 
     let passiveBuyersRepository: PassiveBuyersRepository
 
-    private var passsiveBuyersCompletion: (() -> Void)?
+    private var passiveBuyersCompletion: (() -> Void)?
 
     convenience init() {
         let passiveBuyersRepository = Core.passiveBuyersRepository
@@ -81,7 +81,7 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
     }
 
     private func openPassiveBuyers(passiveBuyersInfo: PassiveBuyersInfo, actionCompletedBlock: (() -> Void)?) {
-        passsiveBuyersCompletion = actionCompletedBlock
+        passiveBuyersCompletion = actionCompletedBlock
 
         let passiveBuyersCoordinator = PassiveBuyersCoordinator(passiveBuyersInfo: passiveBuyersInfo)
         passiveBuyersCoordinator.delegate = self
@@ -94,11 +94,11 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
 
 extension NotificationsTabCoordinator: PassiveBuyersCoordinatorDelegate {
     func passiveBuyersCoordinatorDidCancel(coordinator: PassiveBuyersCoordinator) {
-        passsiveBuyersCompletion = nil
+        passiveBuyersCompletion = nil
     }
 
     func passiveBuyersCoordinatorDidFinish(coordinator: PassiveBuyersCoordinator) {
-        passsiveBuyersCompletion?()
-        passsiveBuyersCompletion = nil
+        passiveBuyersCompletion?()
+        passiveBuyersCompletion = nil
     }
 }
