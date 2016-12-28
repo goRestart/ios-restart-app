@@ -1455,6 +1455,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_type_buyers_interested_button", comment: "")
 	}
 
+	static var notificationsTypeBuyersInterestedButtonDone: String {
+		return NSLocalizedString("notifications_type_buyers_interested_button_done", comment: "")
+	}
+
 	static var notificationsTypeWelcomeSubtitle: String {
 		return NSLocalizedString("notifications_type_welcome_subtitle", comment: "")
 	}
@@ -1549,6 +1553,10 @@ struct LGLocalizedString {
 
 	static func passiveBuyersButton(var1: Int) -> String {
 		return String(format: NSLocalizedString("passive_buyers_button", comment: ""), var1)
+	}
+
+	static var passiveBuyersNotAvailable: String {
+		return NSLocalizedString("passive_buyers_not_available", comment: "")
 	}
 
 	static var passiveBuyersContactError: String {

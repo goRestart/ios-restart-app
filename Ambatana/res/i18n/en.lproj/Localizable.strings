@@ -1077,6 +1077,9 @@
 // Notifications buyers interested button
 "notifications_type_buyers_interested_button" = "Find out who they are";
 
+// Notifications buyers interested button action has been performed
+"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby";
 
@@ -1148,6 +1151,9 @@
 
 // Passive buyers screen for seller
 "passive_buyers_button" = "Contact %d buyers";
+
+// Passive buyers screen for seller load error
+"passive_buyers_not_available" = "Oops! Buyers not found.";
 
 //  Passive buyers screen for seller -> Contact error
 "passive_buyers_contact_error" = "An error ocurrer while contacting the buyers. Please try again later";

@@ -113,6 +113,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
     
     func actionButtonPressedForCellAtIndex(indexPath: NSIndexPath) {
         guard let rating = ratingAtIndex(indexPath.row) else { return }
+        guard rating.status == .Published else { return }
         let userFrom = rating.userFrom
         
         var actions: [UIAction] = []
@@ -121,26 +122,23 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
             guard let userData = RateUserData(user: userFrom) else { return }
             self?.delegate?.vmShowUserRating(.UserRatingList, data: userData)
         }, accessibilityId: .RatingListCellReview)
+        actions.append(reviewAction)
 
-        actions = [reviewAction]
-
-        if rating.status == .Published {
-            let reportAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
-                self?.delegate?.vmShowLoading(nil)
-                self?.userRatingListRequester.reportRating(rating, completion: { result in
-                    if let ratingUpdated = result.value {
-                        self?.replaceRating(ratingUpdated)
-                        self?.delegate?.vmRefresh()
-                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
-                            afterMessageCompletion: nil)
-                    } else if let _ = result.error {
-                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewErrorMessage,
-                            afterMessageCompletion: nil)
-                    }
-                })
-            }, accessibilityId: .RatingListCellReport)
-            actions.append(reportAction)
-        }
+        let reportAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
+            self?.delegate?.vmShowLoading(nil)
+            self?.userRatingListRequester.reportRating(rating, completion: { result in
+                if let ratingUpdated = result.value {
+                    self?.replaceRating(ratingUpdated)
+                    self?.delegate?.vmRefresh()
+                    self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
+                        afterMessageCompletion: nil)
+                } else if let _ = result.error {
+                    self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewErrorMessage,
+                        afterMessageCompletion: nil)
+                }
+            })
+        }, accessibilityId: .RatingListCellReport)
+        actions.append(reportAction)
 
         let cancelAction = UIAction(interface: .Text(LGLocalizedString.commonCancel), action: {})
         delegate?.vmShowActionSheet(cancelAction, actions: actions)

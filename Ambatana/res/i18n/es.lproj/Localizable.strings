@@ -347,6 +347,7 @@
 "notifications_title" = "Notificaciones";
 "notifications_type_buyers_interested" = "A %d compradores les podría interesar tu producto";
 "notifications_type_buyers_interested_button" = "Descubrir quién son";
+"notifications_type_buyers_interested_button_done" = "¡Compradores contactados!";
 "notifications_type_buyers_interested_w_title" = "A %1$d compradores les podría interesar tu producto: \"%2$@\"";
 "notifications_type_like_button" = "Visitar su perfil";
 "notifications_type_like_w_name" = "%@ ha marcado tu producto como favorito";
@@ -382,6 +383,7 @@
 "onboarding_posting_title_c" = "¿Tienes alguno para vender?";
 "passive_buyers_button" = "Contactar con %d compradores";
 "passive_buyers_message" = "Contacta con estos compradores que se han interesado por productos similares";
+"passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "ESTOS COMPRADORES PODRÍAN ESTAR INTERESADOS";
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
