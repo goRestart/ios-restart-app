@@ -32,6 +32,7 @@ protocol FeatureFlaggeable {
     var favoriteWithBubbleToChat: Bool { get }
     var locationNoMatchesCountry: Bool { get }
     var captchaTransparent: Bool { get }
+    var passiveBuyersShowKeyboard: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -186,6 +187,13 @@ class FeatureFlags: FeatureFlaggeable {
     var captchaTransparent: Bool {
         if Bumper.enabled {
             return Bumper.captchaTransparent
+        }
+        return false
+    }
+
+    var passiveBuyersShowKeyboard: Bool {
+        if Bumper.enabled {
+            return Bumper.passiveBuyersShowKeyboard
         }
         return false
     }

@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self])
     } 
 
     static var websocketChat: Bool {
@@ -108,6 +108,11 @@ extension Bumper  {
     static var captchaTransparent: Bool {
         guard let value = Bumper.valueForKey(CaptchaTransparent.key) else { return false }
         return CaptchaTransparent(rawValue: value)?.asBool ?? false
+    }
+
+    static var passiveBuyersShowKeyboard: Bool {
+        guard let value = Bumper.valueForKey(PassiveBuyersShowKeyboard.key) else { return false }
+        return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -308,6 +313,15 @@ enum CaptchaTransparent: String, BumperFeature  {
     static var enumValues: [CaptchaTransparent] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Captcha transparent" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum PassiveBuyersShowKeyboard: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return PassiveBuyersShowKeyboard.No.rawValue }
+    static var enumValues: [PassiveBuyersShowKeyboard] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Passive buyers products suggested notification opens product with keyboard opened" } 
     var asBool: Bool { return self == .Yes }
 }
 

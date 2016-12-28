@@ -382,6 +382,8 @@
 "onboarding_posting_title_b" = "Đăng sản phẩm đầu tiên của bạn";
 "onboarding_posting_title_c" = "Có gì đó để bán?";
 "passive_buyers_button" = "Liên hệ với %d người mua";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Liên hệ với những người mua quan tâm đến sản phẩm tương tự";
 "passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "NHỮNG NGƯỜI MUA NÀY CÓ THỂ QUAN TÂM";

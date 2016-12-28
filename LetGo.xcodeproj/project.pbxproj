@@ -679,6 +679,10 @@
 		C727FBD21CD10E77002BC643 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBCF1CD10E77002BC643 /* NotificationCell.swift */; };
 		C727FBD31CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
 		C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
+		C73075081E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */; };
+		C730750A1E13ABE600EF9A05 /* PassiveBuyersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */; };
+		C730750B1E13BBCF00EF9A05 /* PassiveBuyersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */; };
+		C730750C1E13BBD300EF9A05 /* PassiveBuyersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */; };
 		C73189C21DB9248F005A93EE /* BaseNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */; };
 		C73189C31DB92493005A93EE /* BaseNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */; };
 		C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */; };
@@ -758,6 +762,10 @@
 		C749C7851C10813400F7118E /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C749C7831C10813400F7118E /* ProductCell.xib */; };
 		C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78C1C10830600F7118E /* CellDrawer.swift */; };
 		C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */; };
+		C74BC2421E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */; };
+		C74BC2431E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */; };
+		C74BC2441E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */; };
+		C74BC2451E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */; };
 		C74BDB411D7F121600B59482 /* StickersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BDB401D7F121600B59482 /* StickersManager.swift */; };
 		C74BDB421D7F121600B59482 /* StickersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BDB401D7F121600B59482 /* StickersManager.swift */; };
 		C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */; };
@@ -797,6 +805,12 @@
 		C75B5DD41D59E0C500112368 /* ProductCarouselCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B5DCF1D59E0C500112368 /* ProductCarouselCellModel.swift */; };
 		C75B5DD51D59E0C500112368 /* ProductCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B5DD01D59E0C500112368 /* ProductCarouselImageCell.swift */; };
 		C75B5DD61D59E0C500112368 /* ProductCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B5DD01D59E0C500112368 /* ProductCarouselImageCell.swift */; };
+		C75C543D1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */; };
+		C75C543E1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */; };
+		C75C543F1E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */; };
+		C75C54401E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */; };
+		C75C54431E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */; };
+		C75C54441E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */; };
 		C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
 		C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
 		C7732F6A1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */; };
@@ -1659,6 +1673,8 @@
 		C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
 		C727FBCF1CD10E77002BC643 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		C727FBD01CD10E77002BC643 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
+		C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersCoordinator.swift; sourceTree = "<group>"; };
+		C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersNavigator.swift; sourceTree = "<group>"; };
 		C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderContainer.swift; sourceTree = "<group>"; };
 		C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListHeaderContainer.xib; sourceTree = "<group>"; };
@@ -1706,6 +1722,8 @@
 		C749C7831C10813400F7118E /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		C749C78C1C10830600F7118E /* CellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDrawer.swift; sourceTree = "<group>"; };
 		C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCellDrawer.swift; sourceTree = "<group>"; };
+		C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyerCell.swift; sourceTree = "<group>"; };
+		C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PassiveBuyerCell.xib; sourceTree = "<group>"; };
 		C74BDB401D7F121600B59482 /* StickersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersManager.swift; sourceTree = "<group>"; };
 		C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LGSpec.swift"; sourceTree = "<group>"; };
 		C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoCell.swift; sourceTree = "<group>"; };
@@ -1726,6 +1744,9 @@
 		C75B5DCE1D59E0C500112368 /* ProductCarouselCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselCell.swift; sourceTree = "<group>"; };
 		C75B5DCF1D59E0C500112368 /* ProductCarouselCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselCellModel.swift; sourceTree = "<group>"; };
 		C75B5DD01D59E0C500112368 /* ProductCarouselImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselImageCell.swift; sourceTree = "<group>"; };
+		C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersViewController.swift; sourceTree = "<group>"; };
+		C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PassiveBuyersViewController.xib; sourceTree = "<group>"; };
+		C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersViewModel.swift; sourceTree = "<group>"; };
 		C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchDeepLink.swift; sourceTree = "<group>"; };
 		C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewController.swift; sourceTree = "<group>"; };
 		C7732F691D87FA3400EAD5B7 /* TourPostingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourPostingViewController.xib; sourceTree = "<group>"; };
@@ -2336,6 +2357,7 @@
 				D4BFE5AC1B640C13006A8CB6 /* Main */,
 				50560B8D1B25D18F0021D8D9 /* Navigation */,
 				C727FBBB1CCFC4C9002BC643 /* Notifications */,
+				C75C543A1E0D2CD9003F219D /* PassiveBuyers */,
 				50560B8F1B25D18F0021D8D9 /* Products */,
 				C749316B1D34FCE100E117F1 /* Ratings */,
 				C783D9791C64BB5D000EE5CA /* ReportUsers */,
@@ -2492,6 +2514,8 @@
 				C74931781D3533DE00E117F1 /* UserRatingNavigator.swift */,
 				C7732F711D883C7700EAD5B7 /* OnboardingCoordinator.swift */,
 				C7732F741D8842B800EAD5B7 /* OnboardingNavigator.swift */,
+				C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */,
+				C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -3288,6 +3312,26 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		C75C543A1E0D2CD9003F219D /* PassiveBuyers */ = {
+			isa = PBXGroup;
+			children = (
+				C75C54411E0D2D0E003F219D /* cells */,
+				C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */,
+				C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */,
+				C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */,
+			);
+			path = PassiveBuyers;
+			sourceTree = "<group>";
+		};
+		C75C54411E0D2D0E003F219D /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */,
+				C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */,
+			);
+			path = cells;
+			sourceTree = "<group>";
+		};
 		C77593D91BF0B7BD0097D62F /* Filters */ = {
 			isa = PBXGroup;
 			children = (
@@ -3941,6 +3985,7 @@
 				C7DE8AD31C888761005CF37E /* SellProductCell.xib in Resources */,
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				2E50E9A91D057E92002DC4C1 /* LGAlertViewController.xib in Resources */,
+				C75C543F1E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */,
 				C74931701D34FD0200E117F1 /* RateUserViewController.xib in Resources */,
 				C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
@@ -3952,6 +3997,7 @@
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
+				C74BC2441E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
 				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
@@ -4071,6 +4117,7 @@
 				C7DE8AD41C888761005CF37E /* SellProductCell.xib in Resources */,
 				C7DB42491C5138B500400945 /* LetGo.entitlements in Resources */,
 				2E50E9AA1D057E92002DC4C1 /* LGAlertViewController.xib in Resources */,
+				C75C54401E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */,
 				C74931711D34FD0200E117F1 /* RateUserViewController.xib in Resources */,
 				C7DB424A1C5138B500400945 /* FiltersViewController.xib in Resources */,
 				C75B55FC1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
@@ -4082,6 +4129,7 @@
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
 				C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
+				C74BC2451E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */,
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				2E373FAE1D3E6F4500AC811C /* UserRatingCell.xib in Resources */,
 				5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
@@ -4543,6 +4591,7 @@
 				C711A1A71CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
 				508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886B1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
+				C74BC2421E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
 				C749C7841C10813400F7118E /* ProductCell.swift in Sources */,
 				6A5691531D255D27000B7365 /* ProductCellModel.swift in Sources */,
 				C75B5DC11D59E09500112368 /* ProductCarouselViewController.swift in Sources */,
@@ -4550,6 +4599,7 @@
 				C77D64681CBD250700A22510 /* Tab.swift in Sources */,
 				2E3047E11CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
 				C72794361D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
+				C75C54431E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				6A672C131CCFB22900AB9175 /* UIColor+LG.swift in Sources */,
 				D4C53C971B334B0B0087AAE1 /* UIViewController+User.swift in Sources */,
@@ -4647,6 +4697,7 @@
 				508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */,
 				5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */,
 				C7363FBA1BFA3E6500A4BF6F /* DistanceType+LG.swift in Sources */,
+				C75C543D1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */,
 				C7F6F7521CB5081F000147F9 /* CommercialShareViewController.swift in Sources */,
 				C7B5889E1CE1E025009B3975 /* ChatGroupedListView.swift in Sources */,
 				D412E07F1B4EFF2800683FFD /* ProductListViewModel.swift in Sources */,
@@ -4696,6 +4747,7 @@
 				C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				C7B588831CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
+				C730750A1E13ABE600EF9A05 /* PassiveBuyersNavigator.swift in Sources */,
 				C7732F721D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				C739D94A1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
@@ -4809,6 +4861,7 @@
 				C74016D91D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				C711A1A91CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */,
+				C73075081E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift in Sources */,
 				C7F22D801DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				C754E0131CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */,
@@ -4974,6 +5027,7 @@
 				508D48681CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C7DB419B1C5138B500400945 /* ProductCell.swift in Sources */,
+				C74BC2431E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
 				6A5691541D255D27000B7365 /* ProductCellModel.swift in Sources */,
 				C75B5DC21D59E09500112368 /* ProductCarouselViewController.swift in Sources */,
 				C7B5884A1CE1DE1C009B3975 /* ChatViewController.swift in Sources */,
@@ -4981,6 +5035,7 @@
 				2E3047E21CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
 				C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
 				6A5E19DF1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
+				C75C54441E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */,
 				6A672C141CCFB22900AB9175 /* UIColor+LG.swift in Sources */,
 				503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */,
 				C7DB419F1C5138B500400945 /* UIViewController+User.swift in Sources */,
@@ -5010,6 +5065,7 @@
 				6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */,
 				C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				C74931741D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
+				C730750C1E13BBD300EF9A05 /* PassiveBuyersCoordinator.swift in Sources */,
 				5063949E1C8DA9000091C831 /* BaseViewModelDelegate.swift in Sources */,
 				C783D98A1C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				6A5E19F51D548F5400F92692 /* CountryHelper+Product.swift in Sources */,
@@ -5078,6 +5134,7 @@
 				2E373FAB1D3E6F3900AC811C /* UserRatingListViewController.swift in Sources */,
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				50D67B981D0AFF24003AC0A5 /* TabBarShowable.swift in Sources */,
+				C75C543E1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */,
 				508C3F7A1C984BCA00CF431F /* UserViewHeader.swift in Sources */,
 				C7DB41CF1C5138B500400945 /* RememberPasswordViewController.swift in Sources */,
 				C7DB41D01C5138B500400945 /* DistanceType+LG.swift in Sources */,
@@ -5093,6 +5150,7 @@
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				C7DB41DA1C5138B500400945 /* Constants.swift in Sources */,
 				5095988A1C8733B70026AE2D /* Logger.swift in Sources */,
+				C730750B1E13BBCF00EF9A05 /* PassiveBuyersNavigator.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
 				C7415EEC1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
 				C7111F061CA438C2000C5C5A /* UriScheme.swift in Sources */,

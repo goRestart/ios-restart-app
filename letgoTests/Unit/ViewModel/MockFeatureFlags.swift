@@ -34,4 +34,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var favoriteWithBubbleToChat: Bool = false
     var locationNoMatchesCountry: Bool = false
     var captchaTransparent: Bool = false
+    var passiveBuyersShowKeyboard: Bool = false
 }

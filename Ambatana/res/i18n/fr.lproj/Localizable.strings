@@ -347,7 +347,7 @@
 "notifications_title" = "Notifications";
 "notifications_type_buyers_interested" = "%d acheteurs pourraient être intéressés par votre bien";
 "notifications_type_buyers_interested_button" = "Découvrez qui ils sont";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Acheteurs contactés !";
 "notifications_type_buyers_interested_w_title" = "%1$d acheteurs pourraient être intéressés par votre bien : \"%2$@\"";
 "notifications_type_like_button" = "Découvrez son profil";
 "notifications_type_like_w_name" = "%@ a mis votre bien en favoris";
@@ -382,8 +382,10 @@
 "onboarding_posting_title_b" = "Postez votre premier bien";
 "onboarding_posting_title_c" = "En avez-vous à vendre ?";
 "passive_buyers_button" = "Contactez %d acheteurs";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Contactez ces acheteurs qui sont intéressés par des biens similaires";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Oups ! Acheteurs introuvables.";
 "passive_buyers_title" = "CES ACHETEURS POURRAIENT ÊTRE INTÉRESSÉS";
 "product_ask_a_question_button" = "Poser une question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";

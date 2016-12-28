@@ -626,7 +626,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .Profile)
+        navigator?.openProduct(data, source: .Profile, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 

@@ -382,8 +382,10 @@
 "onboarding_posting_title_b" = "Publiser ditt første produkt";
 "onboarding_posting_title_c" = "Har du noe å selge?";
 "passive_buyers_button" = "Kontakt %d kjøpere";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Contact disse kjøperne som er interesserte i lignende produkter";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Oops! Kunne ikke finne kjøper.";
 "passive_buyers_title" = "DISSE KJØPERNE KAN VÆRE INTERESSERTE";
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
