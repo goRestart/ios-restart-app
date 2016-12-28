@@ -133,6 +133,7 @@ extension TabCoordinator: TabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    // TODO: remove actionCompletedBlock when status comes from back-end
     func openPassiveBuyers(productId: String, actionCompletedBlock: (() -> Void)?) {
         navigationController.showLoadingMessageAlert()
         passiveBuyersRepository.show(productId: productId) { [weak self] result in
