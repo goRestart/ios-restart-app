@@ -59,8 +59,11 @@ class LetgoURLHelper {
         return LetgoURLHelper.defaultLang
     }
 
-    static func buildRecaptchaURL() -> NSURL? {
-        return LetgoURLHelper.composeURL(Constants.recaptchaURL)
+    static func buildRecaptchaURL(transparent transparent: Bool) -> NSURL? {
+        guard let url = LetgoURLHelper.composeURL(Constants.helpURL) else { return nil }
+        guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildRecaptchParameters(transparent)
+        return urlComponents.URL
     }
 
     static func buildHelpURL(user: MyUser?, installation: Installation?) -> NSURL? {
@@ -109,5 +112,10 @@ class LetgoURLHelper {
         return param.map{"\($0)=\($1)"}
             .joinWithSeparator("&")
             .encodeString()
+    }
+
+    private static func buildRecaptchParameters(transparent: Bool) -> String {
+        let value = transparent ? "true": "false"
+        return "\transparent=\(value)"
     }
 }
