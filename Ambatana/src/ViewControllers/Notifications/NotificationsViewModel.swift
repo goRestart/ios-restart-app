@@ -81,7 +81,7 @@ class NotificationsViewModel: BaseViewModel {
     func selectedItemAtIndex(index: Int) {
         guard let data = dataAtIndex(index) else { return }
         trackItemPressed(data.type.eventType)
-        data.primaryAction()
+        data.primaryAction?()
     }
 
 
@@ -133,6 +133,16 @@ class NotificationsViewModel: BaseViewModel {
     private func afterReloadOk() {
         notificationsManager.updateNotificationCounters()
     }
+
+    private func markCompleted(data: NotificationData) {
+        guard let primaryActionCompleted = data.primaryActionCompleted where !primaryActionCompleted else { return }
+        guard data.id != nil else { return }
+        guard let index = notificationsData.indexOf({ $0.id != nil && $0.id == data.id }) else { return }
+        let completedData = NotificationData(id: data.id, type: data.type, date: data.date, isRead: data.isRead,
+                                             primaryAction: nil, primaryActionCompleted: true)
+        notificationsData[index] = completedData
+        viewState.value = .Data
+    }
 }
 
 
@@ -144,50 +154,61 @@ private extension NotificationsViewModel {
         switch notification.type {
         case let .Rating(user, _, _):
             guard featureFlags.userReviews else { return nil }
-            return NotificationData(type: .Rating(user: user),
+            return NotificationData(id: notification.objectId,
+                                    type: .Rating(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
         case let .RatingUpdated(user, _, _):
             guard featureFlags.userReviews else { return nil }
-            return NotificationData(type: .RatingUpdated(user: user),
+            return NotificationData(id: notification.objectId,
+                                    type: .RatingUpdated(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
         case let .Like(product, user):
-            return NotificationData(
-                type: .ProductFavorite(product: product, user: user),
-                date: notification.createdAt, isRead: notification.isRead,
-                primaryAction: { [weak self] in
-                    let data = UserDetailData.Id(userId: user.id, source: .Notifications)
-                    self?.navigator?.openUser(data)
-                })
+            return NotificationData(id: notification.objectId,
+                                    type: .ProductFavorite(product: product, user: user),
+                                    date: notification.createdAt, isRead: notification.isRead,
+                                    primaryAction: { [weak self] in
+                                        let data = UserDetailData.Id(userId: user.id, source: .Notifications)
+                                        self?.navigator?.openUser(data)
+                                    })
         case let .Sold(product, _):
-            return NotificationData(type: .ProductSold(productImage: product.image), date: notification.createdAt,
+            return NotificationData(id: notification.objectId,
+                                    type: .ProductSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         let data = ProductDetailData.Id(productId: product.id)
                                         self?.navigator?.openProduct(data, source: .Notifications)
                                     })
         case let .BuyersInterested(product, buyers):
-            return NotificationData(type: .BuyersInterested(product: product, buyers: buyers),
+            var data = NotificationData(id: notification.objectId,
+                                    type: .BuyersInterested(product: product, buyers: buyers),
                                     date: notification.createdAt, isRead: notification.isRead,
-                                    primaryAction: { [weak self] in
-                                        // TODO: https://ambatana.atlassian.net/browse/ABIOS-2055
-                                    })
+                                    primaryAction: nil,
+                                    primaryActionCompleted: false)
+            data.primaryAction = { [weak self] in
+                self?.navigator?.openPassiveBuyers(product.id, actionCompletedBlock: { [weak self] in
+                    self?.markCompleted(data)
+                })
+            }
+            return data
         case let .ProductSuggested(product, seller):
-            return NotificationData(type: .ProductSuggested(product: product, seller: seller),
+            return NotificationData(id: notification.objectId,
+                                    type: .ProductSuggested(product: product, seller: seller),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        // TODO: https://ambatana.atlassian.net/browse/ABIOS-2055
+                                        let data = ProductDetailData.Id(productId: product.id)
+                                        self?.navigator?.openProduct(data, source: .Notifications)
                                     })
         }
     }
 
     private func buildWelcomeNotification() -> NotificationData {
-        return NotificationData(type: .Welcome(city: locationManager.currentPostalAddress?.city),
+        return NotificationData(id: nil, type: .Welcome(city: locationManager.currentPostalAddress?.city),
                                 date: NSDate(), isRead: true, primaryAction: { [weak self] in
                                     self?.navigator?.openSell(.Notifications)
                                 })
