@@ -33,4 +33,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false
     var locationNoMatchesCountry: Bool = false
+    var captchaTransparent: Bool = false
 }

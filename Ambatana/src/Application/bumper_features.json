@@ -88,5 +88,10 @@
         "name": "FavoriteWithBubbleToChat",
         "values": ["No", "Yes"],
         "description": "Bubble to chat when favorite"
+    },
+    {
+        "name": "CaptchaTransparent",
+        "values": ["No", "Yes"],
+        "description": "Captcha transparent"
     }
  ]
