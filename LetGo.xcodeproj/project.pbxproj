@@ -679,6 +679,10 @@
 		C727FBD21CD10E77002BC643 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBCF1CD10E77002BC643 /* NotificationCell.swift */; };
 		C727FBD31CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
 		C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
+		C73075081E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */; };
+		C730750A1E13ABE600EF9A05 /* PassiveBuyersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */; };
+		C730750B1E13BBCF00EF9A05 /* PassiveBuyersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */; };
+		C730750C1E13BBD300EF9A05 /* PassiveBuyersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */; };
 		C73189C21DB9248F005A93EE /* BaseNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */; };
 		C73189C31DB92493005A93EE /* BaseNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */; };
 		C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */; };
@@ -1669,6 +1673,8 @@
 		C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
 		C727FBCF1CD10E77002BC643 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		C727FBD01CD10E77002BC643 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
+		C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersCoordinator.swift; sourceTree = "<group>"; };
+		C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersNavigator.swift; sourceTree = "<group>"; };
 		C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderContainer.swift; sourceTree = "<group>"; };
 		C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListHeaderContainer.xib; sourceTree = "<group>"; };
@@ -2508,6 +2514,8 @@
 				C74931781D3533DE00E117F1 /* UserRatingNavigator.swift */,
 				C7732F711D883C7700EAD5B7 /* OnboardingCoordinator.swift */,
 				C7732F741D8842B800EAD5B7 /* OnboardingNavigator.swift */,
+				C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */,
+				C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -4739,6 +4747,7 @@
 				C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				C7B588831CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
+				C730750A1E13ABE600EF9A05 /* PassiveBuyersNavigator.swift in Sources */,
 				C7732F721D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				C739D94A1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
@@ -4852,6 +4861,7 @@
 				C74016D91D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				C711A1A91CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */,
+				C73075081E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift in Sources */,
 				C7F22D801DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				C754E0131CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */,
@@ -5055,6 +5065,7 @@
 				6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */,
 				C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				C74931741D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
+				C730750C1E13BBD300EF9A05 /* PassiveBuyersCoordinator.swift in Sources */,
 				5063949E1C8DA9000091C831 /* BaseViewModelDelegate.swift in Sources */,
 				C783D98A1C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				6A5E19F51D548F5400F92692 /* CountryHelper+Product.swift in Sources */,
@@ -5139,6 +5150,7 @@
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				C7DB41DA1C5138B500400945 /* Constants.swift in Sources */,
 				5095988A1C8733B70026AE2D /* Logger.swift in Sources */,
+				C730750B1E13BBCF00EF9A05 /* PassiveBuyersNavigator.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
 				C7415EEC1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
 				C7111F061CA438C2000C5C5A /* UriScheme.swift in Sources */,

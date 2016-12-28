@@ -15,7 +15,8 @@ protocol PassiveBuyersViewModelDelegate: BaseViewModelDelegate {
 
 
 class PassiveBuyersViewModel: BaseViewModel {
-    
+
+    weak var navigator: PassiveBuyersNavigator?
     weak var delegate: PassiveBuyersViewModelDelegate?
 
     private let passiveBuyers: PassiveBuyersInfo
@@ -53,7 +54,7 @@ class PassiveBuyersViewModel: BaseViewModel {
     // MARK: - Actions
 
     func closeButtonPressed() {
-        delegate?.vmDismiss(nil)
+        navigator?.passiveBuyersCancel()
     }
 
     func contactButtonPressed() {
@@ -61,7 +62,7 @@ class PassiveBuyersViewModel: BaseViewModel {
         passiveBuyersRepository.contactAllBuyers(passiveBuyersInfo: passiveBuyers) { [weak self] result in
             if let _ = result.value {
                 self?.delegate?.vmHideLoading(LGLocalizedString.passiveBuyersContactSuccess) { [weak self] in
-                    self?.delegate?.vmDismiss(nil)
+                    self?.navigator?.passiveBuyersCompleted()
                 }
             } else {
                 self?.delegate?.vmHideLoading(LGLocalizedString.passiveBuyersContactError, afterMessageCompletion: nil)
