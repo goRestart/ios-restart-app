@@ -462,9 +462,10 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
-        navigator?.openProduct(data, source: productVisitSource)
+        navigator?.openProduct(data, source: productVisitSource,
+                               showKeyboardOnFirstAppearIfNeeded: false)
     }
-    
+
     func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
         guard searchType == nil else { return products }
         guard products.count > bannerCellPosition else { return products }

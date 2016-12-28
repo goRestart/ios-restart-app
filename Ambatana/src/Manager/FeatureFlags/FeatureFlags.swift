@@ -31,6 +31,7 @@ protocol FeatureFlaggeable {
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
     var locationNoMatchesCountry: Bool { get }
+    var passiveBuyersShowKeyboard: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -178,6 +179,13 @@ class FeatureFlags: FeatureFlaggeable {
     var monetizationEnabled: Bool {
         if Bumper.enabled {
             return Bumper.monetizationEnabled
+        }
+        return false
+    }
+
+    var passiveBuyersShowKeyboard: Bool {
+        if Bumper.enabled {
+            return Bumper.passiveBuyersShowKeyboard
         }
         return false
     }

@@ -166,6 +166,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         }
     }
 
+    override func viewDidFirstAppear(animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        if viewModel.showKeyboardOnFirstAppearance {
+            chatTextView.becomeFirstResponder()
+        }
+    }
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)

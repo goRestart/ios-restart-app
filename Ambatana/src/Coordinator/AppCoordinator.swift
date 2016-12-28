@@ -562,7 +562,8 @@ private extension AppCoordinator {
             }
         case let .Product(productId):
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openProduct(ProductDetailData.Id(productId: productId), source: .OpenApp)
+                self?.selectedTabCoordinator?.openProduct(ProductDetailData.Id(productId: productId), source: .OpenApp,
+                                                          showKeyboardOnFirstAppearIfNeeded: false)
             }
         case let .User(userId):
             if userId == myUserRepository.myUser?.objectId {

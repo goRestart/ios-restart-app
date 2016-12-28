@@ -74,7 +74,8 @@ extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: false, index: index)
-        navigator?.openProduct(data, source: productVisitSource)
+        navigator?.openProduct(data, source: productVisitSource,
+                               showKeyboardOnFirstAppearIfNeeded: false)
     }
 
     func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
