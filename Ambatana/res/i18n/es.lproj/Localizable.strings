@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "REPARTE FELICIDAD";
 "app_share_whatsapp_button" = "Invitar por Whatsapp";
 "block_user_error_generic" = "Se ha producido un error al bloquear a este usuario.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "Destacar";
 "bump_up_bubble_free_text" = "Destaca gratis para vender más rápido";
 "bump_up_bubble_pay_text" = "Destaca para vender más rápido";
@@ -142,7 +146,7 @@
 "chat_safety_tips_message" = "• Queda en persona y paga en efectivo.\n\n• Mantén las conversaciones dentro del chat de letgo.\n\n• ¿Demasiado bueno para ser cierto? Encuentra otro comprador o vendedor.";
 "chat_safety_tips_title" = "CONSEJOS DE SEGURIDAD";
 "chat_send_button" = "Enviar";
-"chat_send_error_generic" = "Se ha producido un error al enviar tu mensaje. Inténtalo de nuevo.";
+"chat_send_error_generic" = "Se ha producido un error al enviar tu mensaje. Por favor, inténtalo de nuevo.";
 "chat_stickers_tooltip_add_stickers" = "Añade stickers divertidos";
 "chat_stickers_tooltip_new" = "¡NUEVO!";
 "chat_unblock_user" = "Desbloquear usuario";
@@ -382,8 +386,10 @@
 "onboarding_posting_title_b" = "Publica tu primer artículo";
 "onboarding_posting_title_c" = "¿Tienes alguno para vender?";
 "passive_buyers_button" = "Contactar con %d compradores";
+"passive_buyers_contact_error" = "Se ha producido un error al contactar con los compradores. Por favor, inténtalo de nuevo.";
+"passive_buyers_contact_success" = "¡Compradores contactados!";
 "passive_buyers_message" = "Contacta con estos compradores que se han interesado por productos similares";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "¡Ups! Compradores no encontrados.";
 "passive_buyers_title" = "ESTOS COMPRADORES PODRÍAN ESTAR INTERESADOS";
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";

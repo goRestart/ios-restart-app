@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Uitnodigen via Whatsapp";
 "block_user_error_generic" = "Er is een fout opgetreden tijdens het blokkeren van deze gebruiker.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "Omhoog plaatsen";
 "bump_up_bubble_free_text" = "Gratis omhoog plaatsen om sneller te verkopen";
 "bump_up_bubble_pay_text" = "Omhoog plaatsen om sneller te verkopen";
@@ -347,7 +351,7 @@
 "notifications_title" = "Notificaties";
 "notifications_type_buyers_interested" = "%d kopers zijn misschien geïnteresseerd in jouw product";
 "notifications_type_buyers_interested_button" = "Ontdek wie het zijn";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Kopers gecontacteerd!";
 "notifications_type_buyers_interested_w_title" = "%1$d kopers zijn misschien geïnteresseerd in jouw product: \"%2$@\"";
 "notifications_type_like_button" = "Bekijk hun profiel";
 "notifications_type_like_w_name" = "%@ heeft jouw product gefavoriseerd";
@@ -382,8 +386,10 @@
 "onboarding_posting_title_b" = "Plaats je eerste product";
 "onboarding_posting_title_c" = "Heb jij er te koop staan?";
 "passive_buyers_button" = "Neem contact op met %d kopers";
+"passive_buyers_contact_error" = "Er is een fout opgetreden bij het contact opnemen met kopers. Probeer het opnieuw.";
+"passive_buyers_contact_success" = "Kopers gecontacteerd!";
 "passive_buyers_message" = "Neem contact op met kopers die geïnteresseerd zijn in soortgelijke producten";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Oeps! Kopers niet gevonden.";
 "passive_buyers_title" = "DEZE KOPERS ZIJN MISSCHIEN GEÏNTERESSEERD";
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";

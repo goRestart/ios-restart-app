@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "PARTAGEZ L'APPLI";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
 "block_user_error_generic" = "Une erreur est survenue lors du blocage de cet utilisateur.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "Renvoyer vers le haut";
 "bump_up_bubble_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
 "bump_up_bubble_pay_text" = "Renvoyer vers le haut pour vendre pus vite";
@@ -347,7 +351,7 @@
 "notifications_title" = "Notifications";
 "notifications_type_buyers_interested" = "%d acheteurs pourraient être intéressés par votre bien";
 "notifications_type_buyers_interested_button" = "Découvrez qui ils sont";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Acheteurs contactés !";
 "notifications_type_buyers_interested_w_title" = "%1$d acheteurs pourraient être intéressés par votre bien : \"%2$@\"";
 "notifications_type_like_button" = "Découvrez son profil";
 "notifications_type_like_w_name" = "%@ a mis votre bien en favoris";
@@ -382,8 +386,10 @@
 "onboarding_posting_title_b" = "Postez votre premier bien";
 "onboarding_posting_title_c" = "En avez-vous à vendre ?";
 "passive_buyers_button" = "Contactez %d acheteurs";
+"passive_buyers_contact_error" = "Une erreur est survenue lors du contact avec les acheteurs. Veuillez réessayer.";
+"passive_buyers_contact_success" = "Acheteurs contactés !";
 "passive_buyers_message" = "Contactez ces acheteurs qui sont intéressés par des biens similaires";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Oups ! Acheteurs introuvables.";
 "passive_buyers_title" = "CES ACHETEURS POURRAIENT ÊTRE INTÉRESSÉS";
 "product_ask_a_question_button" = "Poser une question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";

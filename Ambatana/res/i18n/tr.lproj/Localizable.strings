@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "MUTLULUĞU PAYLAŞ";
 "app_share_whatsapp_button" = "Whatsapp ile davet et";
 "block_user_error_generic" = "Kullanıcı engellenirken bir hata oluştu.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "Öne çıkar";
 "bump_up_bubble_free_text" = "Daha hızlı satmak için öne çıkar";
 "bump_up_bubble_pay_text" = "Daha hızlı satmak için öne çıkar";
@@ -382,6 +386,8 @@
 "onboarding_posting_title_b" = "İlk ürününü yayınla";
 "onboarding_posting_title_c" = "Satılık bir şeyin var mı?";
 "passive_buyers_button" = "%d alıcıyla iletişime geç";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Benzer ürünlerle ilgilenebilecek bu alıcılarla iletişime geç";
 "passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "BU ALICILAR İLGİLENİYOR OLABİLİR";

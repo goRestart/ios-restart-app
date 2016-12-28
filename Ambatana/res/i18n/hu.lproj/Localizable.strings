@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "VIDD HÍRÜL";
 "app_share_whatsapp_button" = "Meghívás WhatsAppon";
 "block_user_error_generic" = "Hiba történt a felhasználó blokkolása során.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "Felugrasztás";
 "bump_up_bubble_free_text" = "Ingyenesen felugraszthatva gyorsabban eladhatsz";
 "bump_up_bubble_pay_text" = "Felugrasztva gyorsabban eladhatsz";
@@ -382,6 +386,8 @@
 "onboarding_posting_title_b" = "Hirdesd meg első portékádat";
 "onboarding_posting_title_c" = "Neked van eladó?";
 "passive_buyers_button" = "Kapcsolatfelvétel %d vásárlóval";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Lépj kapcsolatba hasonló portékák után érdeklődő vásárlókkal";
 "passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "EZEK A VÁSÁRLÓK ÉRDEKLŐDNEK";

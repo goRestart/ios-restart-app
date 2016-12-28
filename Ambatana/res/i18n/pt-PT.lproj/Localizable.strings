@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "PARTILHE O AMOR";
 "app_share_whatsapp_button" = "Convide via Whatsapp";
 "block_user_error_generic" = "Ocorreu um erro ao bloquear este utilizador.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "Priorizar";
 "bump_up_bubble_free_text" = "Dê prioridade gratuitamente para vender mais rápido";
 "bump_up_bubble_pay_text" = "Dê prioridade para vender mais rápido";
@@ -347,7 +351,7 @@
 "notifications_title" = "Notificações";
 "notifications_type_buyers_interested" = "%d compradores poderão estar interessados no seu produto";
 "notifications_type_buyers_interested_button" = "Descubra quem são";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Compradores contactados!";
 "notifications_type_buyers_interested_w_title" = "%1$d compradores poderão estar interessados no seu produto: \"%2$@\"";
 "notifications_type_like_button" = "Veja o seu perfil";
 "notifications_type_like_w_name" = "%@ marcou o seu produto como favorito";
@@ -382,8 +386,10 @@
 "onboarding_posting_title_b" = "Publique o seu primeiro produto";
 "onboarding_posting_title_c" = "Tem para vender?";
 "passive_buyers_button" = "Contactar %d compradores";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Contacte estes compradores interessados em produtos semelhantes";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Ups! Compradores não encontrados.";
 "passive_buyers_title" = "ESTES COMPRADORES PODEM ESTAR INTERESSADOS";
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";

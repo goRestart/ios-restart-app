@@ -56,16 +56,16 @@
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
 // Text for bubble in free bump
-"bump_up_bubble_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
 
 // Text for bubble in payment bump
-"bump_up_bubble_pay_text" = "Bump up to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
 
 // Text for bubble while waiting for next bump
-"bump_up_bubble_wait_text" = "to bump up again";
+"bump_up_banner_wait_text" = "to bump up again";
 
 // Title for bubble button
-"bump_up_bubble_free_button_title" = "Bump up";
+"bump_up_banner_free_button_title" = "Bump up";
 
 // Free bump up success message
 "bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
@@ -1156,10 +1156,10 @@
 "passive_buyers_not_available" = "Oops! Buyers not found.";
 
 //  Passive buyers screen for seller -> Contact error
-"passive_buyers_contact_error" = "An error ocurrer while contacting the buyers. Please try again later";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
 
 //  Passive buyers screen for seller -> Contact success
-"passive_buyers_contact_success" = "All buyers received the contact request.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";

@@ -501,9 +501,9 @@ enum AccessibilityId: String {
 
     // Monetization
     // Bubble
-    case BumpUpBubble
-    case BumpUpBubbleButton
-    case BumpUpBubbleLabel
+    case BumpUpBanner
+    case BumpUpBannerButton
+    case BumpUpBannerLabel
     // Free bump up screen
     case FreeBumpUpCloseButton
     case FreeBumpUpImage

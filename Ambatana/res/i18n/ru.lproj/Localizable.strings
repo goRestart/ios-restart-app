@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "ПОДЕЛИТЬСЯ ЛЮБОВЬЮ";
 "app_share_whatsapp_button" = "Пригласить через Whatsapp";
 "block_user_error_generic" = "При блокировке произошла ошибка.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "Поднять";
 "bump_up_bubble_free_text" = "Поднять бесплатно для быстрой продажи";
 "bump_up_bubble_pay_text" = "Поднять, чтобы продать быстрее";
@@ -382,6 +386,8 @@
 "onboarding_posting_title_b" = "Разместите свой первый товар";
 "onboarding_posting_title_c" = "Eсть что-либо на продажу?";
 "passive_buyers_button" = "Связиться с %d покупателями";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Свяжитесь с покупателями, которые интересовались похожими товарами";
 "passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "ЭТИ ПОКУПАТЕЛИ МОГУТ БЫТЬ ЗАИНТЕРЕСОВАНЫ";

@@ -104,8 +104,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var interestedBubbleIsVisible: Bool = false
     private var interestedBubbleTimer: NSTimer = NSTimer()
 
-    private var bumpUpBubble = BumpUpBubble()
-    private var bumpUpBubbleIsVisible: Bool = false
+    private var bumpUpBanner = BumpUpBanner()
+    private var bumpUpBannerIsVisible: Bool = false
 
     private var expandableButtonsView: ExpandableButtonsView?
 
@@ -282,7 +282,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
-        setupBumpUpBubble()
+        setupBumpUpBanner()
         setupExpandableButtonsViewIfNeeded()
     }
 
@@ -296,13 +296,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             options: [], metrics: nil, views: views))
     }
 
-    func setupBumpUpBubble() {
-        bumpUpBubble.translatesAutoresizingMaskIntoConstraints = false
-        bubbleContainer.addSubview(bumpUpBubble)
-        let views = ["bumpUpBubble": bumpUpBubble]
-        bubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bumpUpBubble]|",
+    func setupBumpUpBanner() {
+        bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
+        bubbleContainer.addSubview(bumpUpBanner)
+        let views = ["bumpUpBanner": bumpUpBanner]
+        bubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bumpUpBanner]|",
             options: [], metrics: nil, views: views))
-        bubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[bumpUpBubble]|",
+        bubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[bumpUpBanner]|",
             options: [], metrics: nil, views: views))
     }
 
@@ -503,7 +503,7 @@ extension ProductCarouselViewController {
         refreshFavoriteButton(viewModel)
         setupMoreInfo()
         refreshInterestedBubble(viewModel)
-        refreshBumpUpBubble(viewModel)
+        refreshBumpUpBanner(viewModel)
         refreshExpandableButtonsView()
     }
 
@@ -747,12 +747,12 @@ extension ProductCarouselViewController {
             }.addDisposableTo(activeDisposeBag)
     }
 
-    private func refreshBumpUpBubble(viewModel: ProductViewModel) {
-        bumpUpBubble.layoutIfNeeded()
-        closeBumpUpBubble()
-        viewModel.showBumpUpBubble.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
-            let info = viewModel?.bumpUpBubbleInfo
-            self?.showBumpUpBubble(info)
+    private func refreshBumpUpBanner(viewModel: ProductViewModel) {
+        bumpUpBanner.layoutIfNeeded()
+        closeBumpUpBanner()
+        viewModel.showBumpUpBanner.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
+            let info = viewModel?.bumpUpBannerInfo
+            self?.showBumpUpBanner(info)
             }.addDisposableTo(activeDisposeBag)
     }
 
@@ -1154,12 +1154,12 @@ extension ProductCarouselViewController {
 // MARK: > Bump Up bubble
 
 extension ProductCarouselViewController {
-    func showBumpUpBubble(bumpInfo: BumpUpInfo?){
+    func showBumpUpBanner(bumpInfo: BumpUpInfo?){
         guard let actualBumpInfo = bumpInfo else { return}
-        guard !bumpUpBubbleIsVisible else { return }
-        bubbleContainer.bringSubviewToFront(bumpUpBubble)
-        bumpUpBubbleIsVisible = true
-        bumpUpBubble.updateInfo(actualBumpInfo)
+        guard !bumpUpBannerIsVisible else { return }
+        bubbleContainer.bringSubviewToFront(bumpUpBanner)
+        bumpUpBannerIsVisible = true
+        bumpUpBanner.updateInfo(actualBumpInfo)
         delay(0.1) { [weak self] in
             self?.bubbleBottom = 0
             UIView.animateWithDuration(0.3, animations: {
@@ -1168,9 +1168,9 @@ extension ProductCarouselViewController {
         }
     }
 
-    func closeBumpUpBubble() {
-        guard bumpUpBubbleIsVisible else { return }
-        bumpUpBubbleIsVisible = false
+    func closeBumpUpBanner() {
+        guard bumpUpBannerIsVisible else { return }
+        bumpUpBannerIsVisible = false
         bubbleBottom = -CarouselUI.bubbleHeight
         UIView.animateWithDuration(0.01, animations: { [weak self] in
             self?.view.layoutIfNeeded()

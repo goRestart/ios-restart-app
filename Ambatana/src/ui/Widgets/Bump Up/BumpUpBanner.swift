@@ -1,5 +1,5 @@
 //
-//  BumpUpBubble.swift
+//  BumpUpBanner.swift
 //  LetGo
 //
 //  Created by Dídac on 02/12/16.
@@ -27,7 +27,7 @@ struct BumpUpInfo {
     }
 }
 
-class BumpUpBubble: UIView {
+class BumpUpBanner: UIView {
 
     static let iconSize: CGFloat = 20
 
@@ -77,7 +77,7 @@ class BumpUpBubble: UIView {
         if let price = info.price where !isFree {
             bumpButton.setTitle(price, forState: .Normal)
         } else {
-            bumpButton.setTitle(LGLocalizedString.bumpUpBubbleFreeButtonTitle, forState: .Normal)
+            bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, forState: .Normal)
         }
 
         buttonBlock = info.buttonBlock
@@ -100,11 +100,11 @@ class BumpUpBubble: UIView {
             guard let strongSelf = self else { return }
             if secondsLeft < 1 {
                 strongSelf.timer.invalidate()
-                strongSelf.localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBubbleFreeText : LGLocalizedString.bumpUpBubblePayText
+                strongSelf.localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
                 strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
             } else {
                 strongSelf.iconImageView.image = UIImage(named: "clock")
-                strongSelf.localizedText = LGLocalizedString.bumpUpBubbleWaitText
+                strongSelf.localizedText = LGLocalizedString.bumpUpBannerWaitText
             }
             strongSelf.text.value = strongSelf.bubbleText(secondsLeft)
         }.addDisposableTo(disposeBag)
@@ -155,10 +155,10 @@ class BumpUpBubble: UIView {
 
         let iconWidthConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Width, relatedBy: .Equal,
                                                      toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
-                                                     constant: BumpUpBubble.iconSize)
+                                                     constant: BumpUpBanner.iconSize)
         let iconHeightConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal,
                                                       toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
-                                                      constant: BumpUpBubble.iconSize)
+                                                      constant: BumpUpBanner.iconSize)
         iconImageView.addConstraints([iconWidthConstraint, iconHeightConstraint])
 
         // icon
@@ -233,8 +233,8 @@ class BumpUpBubble: UIView {
     }
 
     private func setAccessibilityIds() {
-        accessibilityId = .BumpUpBubble
-        bumpButton.accessibilityId = .BumpUpBubbleButton
-        textLabel.accessibilityId = .BumpUpBubbleLabel
+        accessibilityId = .BumpUpBanner
+        bumpButton.accessibilityId = .BumpUpBannerButton
+        textLabel.accessibilityId = .BumpUpBannerLabel
     }
 }

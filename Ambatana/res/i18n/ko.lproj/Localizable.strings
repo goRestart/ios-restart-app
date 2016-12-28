@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "사랑을 공유하세요";
 "app_share_whatsapp_button" = "Whatsapp으로 초대하기";
 "block_user_error_generic" = "사용자를 차단하는데 오류가 발생했습니다.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "강조하기";
 "bump_up_bubble_free_text" = "빠르게 판매하기 위해 무료로 강조해보세요";
 "bump_up_bubble_pay_text" = "빠른 판매를 위해 강조하세요";
@@ -347,7 +351,7 @@
 "notifications_title" = "알림";
 "notifications_type_buyers_interested" = "%d 구매자들이 상품에 관심있는 것 같습니다";
 "notifications_type_buyers_interested_button" = "누구인지 알아보세요";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "구매자가 연락을 하였습니다!";
 "notifications_type_buyers_interested_w_title" = "%1$d 구매자들이 상품에 관심이 있는 것 같습니다: \"%2$@\"";
 "notifications_type_like_button" = "프로필 확인하세요";
 "notifications_type_like_w_name" = "%@이 상품에 관심을 표시했습니다";
@@ -382,8 +386,10 @@
 "onboarding_posting_title_b" = "첫 번째 상품을 게시하세요";
 "onboarding_posting_title_c" = "판매하실 상품이 있으신가요?";
 "passive_buyers_button" = "%d 구매자들에게 연락하기";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "유사한 상품에 관심을 가지고 있는 구매자들에게 연락해보세요";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "이런! 구매자를 찾을 수 없습니다";
 "passive_buyers_title" = "다음 구매자들이 관심있는 것 같습니다";
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";

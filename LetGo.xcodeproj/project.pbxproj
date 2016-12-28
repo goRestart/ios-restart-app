@@ -17,7 +17,7 @@
 		2E0C96451DEDCAFA00068B6D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0C96441DEDCAFA00068B6D /* StoreKit.framework */; };
 		2E0F26501E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */; };
 		2E0F26511E0ACD5D00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */; };
-		2E0F26591E0C425900D97898 /* BumpUpBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBubble.swift */; };
+		2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */; };
 		2E119E0B1D1C37040053BA9F /* LGUIKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */; };
 		2E119E0C1D1C37040053BA9F /* LGUIKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */; };
 		2E131C671DEDE446004D26DC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0C96441DEDCAFA00068B6D /* StoreKit.framework */; };
@@ -165,7 +165,7 @@
 		2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
 		2E9716AE1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */; };
 		2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */; };
-		2EB32D631DF184FF00E01E93 /* BumpUpBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBubble.swift */; };
+		2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */; };
 		2EB32D661DF1CBC900E01E93 /* Monetization.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */; };
 		2EBC92031E098DE7007F0F82 /* PurchasesShopperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92021E098DE7007F0F82 /* PurchasesShopperSpec.swift */; };
 		2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92041E0A77A5007F0F82 /* AppstoreProductsRequest.swift */; };
@@ -1330,7 +1330,7 @@
 		2E9716A21D5A0535009B3A32 /* ExpressChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatCell.xib; sourceTree = "<group>"; };
 		2E9716A51D5A08AB009B3A32 /* ExpressChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewModel.swift; sourceTree = "<group>"; };
 		2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatWrapper.swift; path = ChatWrapper/ChatWrapper.swift; sourceTree = "<group>"; };
-		2EB32D621DF184FF00E01E93 /* BumpUpBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpBubble.swift; path = "Bump Up/BumpUpBubble.swift"; sourceTree = "<group>"; };
+		2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpBanner.swift; path = "Bump Up/BumpUpBanner.swift"; sourceTree = "<group>"; };
 		2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Monetization.xcassets; sourceTree = "<group>"; };
 		2EBC92021E098DE7007F0F82 /* PurchasesShopperSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchasesShopperSpec.swift; sourceTree = "<group>"; };
 		2EBC92041E0A77A5007F0F82 /* AppstoreProductsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppstoreProductsRequest.swift; path = Monetization/AppstoreProductsRequest.swift; sourceTree = "<group>"; };
@@ -2204,7 +2204,7 @@
 		2EB32D611DF184CB00E01E93 /* Bump Up */ = {
 			isa = PBXGroup;
 			children = (
-				2EB32D621DF184FF00E01E93 /* BumpUpBubble.swift */,
+				2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */,
 				2E3348FB1E02AB86008281D1 /* BumpUpFreeViewController.swift */,
 				2E3348FC1E02AB86008281D1 /* BumpUpFreeViewController.xib */,
 				2E3E097D1E07F165005E55C7 /* BumpUpPayViewController.swift */,
@@ -4810,7 +4810,7 @@
 				C7740DF41DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
-				2EB32D631DF184FF00E01E93 /* BumpUpBubble.swift in Sources */,
+				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */,
 				C73C163B1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
 				C75B5DD31D59E0C500112368 /* ProductCarouselCellModel.swift in Sources */,
@@ -5258,7 +5258,7 @@
 				C75B5DCC1D59E09500112368 /* ProductViewModel.swift in Sources */,
 				2EE4BD1C1CD8E71A00EAADF9 /* RatingManager.swift in Sources */,
 				2E5350421CF8A0C6003B06CC /* ProductStatsView.swift in Sources */,
-				2E0F26591E0C425900D97898 /* BumpUpBubble.swift in Sources */,
+				2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */,
 				2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C754E0191CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,

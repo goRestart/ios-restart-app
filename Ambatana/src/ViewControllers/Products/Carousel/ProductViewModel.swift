@@ -124,8 +124,8 @@ class ProductViewModel: BaseViewModel {
     var interestedBubbleTitle: String?
     var isFirstProduct: Bool = false
 
-    let showBumpUpBubble = Variable<Bool>(false)
-    var bumpUpBubbleInfo: BumpUpInfo?
+    let showBumpUpBanner = Variable<Bool>(false)
+    var bumpUpBannerInfo: BumpUpInfo?
     var bumpUpPurchaseableProduct: PurchaseableProduct?
 
     private var alreadyTrackedFirstMessageSent: Bool = false
@@ -336,9 +336,7 @@ class ProductViewModel: BaseViewModel {
                 self?.delegate?.vmShowFreeBumpUpView()
             }
 
-            let purchaseableProduct = strongSelf.bumpUpPurchaseableProduct
             let showPaymentViewBlock = {
-                guard let actualPurchaseableProduct = purchaseableProduct else { return }
                 self?.delegate?.vmShowPaymentBumpUpView(price, bumpsLeft: bumpsLeft)
             }
             let payBumpBlock = {
@@ -346,9 +344,9 @@ class ProductViewModel: BaseViewModel {
             }
             let primaryBlock = freeBumpUp ? freeBlock : showPaymentViewBlock
             let buttonBlock = freeBumpUp ? freeBlock : payBumpBlock
-            strongSelf.bumpUpBubbleInfo = BumpUpInfo(free: freeBumpUp, timeLeftToNextBump: 0, price: price, bumpsLeft: bumpsLeft,
+            strongSelf.bumpUpBannerInfo = BumpUpInfo(free: freeBumpUp, timeLeftToNextBump: 0, price: price, bumpsLeft: bumpsLeft,
                 primaryBlock: primaryBlock, buttonBlock: buttonBlock)
-            strongSelf.showBumpUpBubble.value = product.isMine && product.status == .Approved && strongSelf.featureFlags.monetizationEnabled // && bumpeable!
+            strongSelf.showBumpUpBanner.value = product.isMine && product.status == .Approved && strongSelf.featureFlags.monetizationEnabled // && bumpeable!
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite

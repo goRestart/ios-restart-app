@@ -17,6 +17,10 @@
 "app_share_title_alternative" = "ΜΟΙΡΑΣΤΕ ΑΓΑΠΗ";
 "app_share_whatsapp_button" = "Προσκαλέστε μέσω Whatsapp";
 "block_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το μπλοκάρισμα του χρήστη.";
+"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_wait_text" = "to bump up again";
 "bump_up_bubble_free_button_title" = "Προωθήστε";
 "bump_up_bubble_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
 "bump_up_bubble_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
@@ -347,7 +351,7 @@
 "notifications_title" = "Ειδοποιήσεις";
 "notifications_type_buyers_interested" = "%d αγοραστές μπορεί να ενδιαφέρονται για το προϊόν σας";
 "notifications_type_buyers_interested_button" = "Μάθετε ποιοι είναι";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Επικοινωνήσατε με τους αγοραστές!";
 "notifications_type_buyers_interested_w_title" = "%1$d αγοραστές μπορεί να ενδιαφέρονται γι' αυτό το προϊόν: \"%2$@\"";
 "notifications_type_like_button" = "Δείτε το προφίλ τους";
 "notifications_type_like_w_name" = "%@ favorited your product";
@@ -382,8 +386,10 @@
 "onboarding_posting_title_b" = "Δημοσιεύστε το πρώτο σας προϊόν";
 "onboarding_posting_title_c" = "Έχετε τίποτα να πουλήσετε;";
 "passive_buyers_button" = "Επικοινωνήστε με %d αγοραστές";
+"passive_buyers_contact_error" = "Παρουσιάστηκε σφάλμα κατά την επικοινωνία με τους αγοραστές. Παρακαλώ δοκιμάστε ξανά.";
+"passive_buyers_contact_success" = "Επικοινωνήσατε με τους αγοραστές!";
 "passive_buyers_message" = "Επικοινωνήστε με τους αγοραστές που ενδιαφέρονται για συναφή προϊόντα";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Όπα! Οι αγοραστές δε βρέθηκαν.";
 "passive_buyers_title" = "ΑΥΤΟΙ ΟΙ ΑΓΟΡΑΣΤΕΣ ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΟΝΤΑΙ";
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
