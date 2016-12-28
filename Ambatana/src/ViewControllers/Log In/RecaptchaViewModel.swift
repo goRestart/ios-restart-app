@@ -17,18 +17,15 @@ class RecaptchaViewModel: BaseViewModel {
 
     weak var navigator: RecaptchaNavigator?
     private let tracker: Tracker
-    let backgroundImage: UIImage?
-    var isTransparentMode: Bool {
-        return backgroundImage != nil
+    let transparentMode: Bool
+
+    convenience init(transparentMode: Bool) {
+        self.init(tracker: TrackerProxy.sharedInstance, transparentMode: transparentMode)
     }
 
-    convenience init(backgroundImage: UIImage?) {
-        self.init(tracker: TrackerProxy.sharedInstance, backgroundImage: backgroundImage)
-    }
-
-    init(tracker: Tracker, backgroundImage: UIImage?) {
+    init(tracker: Tracker, transparentMode: Bool) {
         self.tracker = tracker
-        self.backgroundImage = backgroundImage
+        self.transparentMode = transparentMode
     }
 
     override func didBecomeActive(firstTime: Bool) {

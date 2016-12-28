@@ -404,7 +404,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.signUpSendErrorInvalidEmail
         case .UserNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
-                let vm = RecaptchaViewModel(backgroundImage: nil)
+                let vm = RecaptchaViewModel(transparentMode: self?.featureFlags.captchaTransparent ?? false)
                 self?.delegate?.vmShowRecaptcha(vm)
             }
             return

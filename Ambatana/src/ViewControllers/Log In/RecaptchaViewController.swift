@@ -16,11 +16,13 @@ class RecaptchaViewController: BaseViewController {
     @IBOutlet weak var closeButton: UIButton!
 
     private let viewModel: RecaptchaViewModel
+    private let backgroundImage: UIImage?
 
     private var currentURL: NSURL?
 
-    init(viewModel: RecaptchaViewModel) {
+    init(viewModel: RecaptchaViewModel, backgroundImage: UIImage?) {
         self.viewModel = viewModel
+        self.backgroundImage = backgroundImage
         super.init(viewModel: viewModel, nibName: "RecaptchaViewController")
         automaticallyAdjustsScrollViewInsets = false
     }
@@ -48,10 +50,10 @@ class RecaptchaViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        let bgImage = viewModel.backgroundImage
-        bgImageView.image = viewModel.backgroundImage
-        bgOverlayView.hidden = bgImage != nil
-        let closeButtonImageName = viewModel.isTransparentMode ? "ic_close" : "ic_close_red"
+        bgImageView.image = backgroundImage
+        let isTransparentMode = backgroundImage != nil
+        bgOverlayView.hidden = !isTransparentMode
+        let closeButtonImageName = isTransparentMode ? "ic_close" : "ic_close_red"
         closeButton.setImage(UIImage(named: closeButtonImageName), forState: .Normal)
     }
 
