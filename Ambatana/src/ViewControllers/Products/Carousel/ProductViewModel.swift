@@ -1049,7 +1049,7 @@ extension ProductViewModel: RelatedProductsViewDelegate {
         trackHelper.trackMoreInfoRelatedItemsComplete(index)
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
-        navigator?.openProduct(data, source: .MoreInfoRelated)
+        navigator?.openProduct(data, source: .MoreInfoRelated, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 

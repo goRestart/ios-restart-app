@@ -182,7 +182,8 @@ private extension NotificationsViewModel {
                                     isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         let data = ProductDetailData.Id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .Notifications)
+                                        self?.navigator?.openProduct(data, source: .Notifications,
+                                                                     showKeyboardOnFirstAppearIfNeeded: false)
                                     })
         case let .BuyersInterested(product, buyers):
             var data = NotificationData(id: notification.objectId,
@@ -202,7 +203,8 @@ private extension NotificationsViewModel {
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         let data = ProductDetailData.Id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .Notifications)
+                                        self?.navigator?.openProduct(data, source: .Notifications,
+                                                                     showKeyboardOnFirstAppearIfNeeded: true)
                                     })
         }
     }
