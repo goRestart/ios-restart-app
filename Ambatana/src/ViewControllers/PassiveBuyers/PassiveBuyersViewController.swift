@@ -72,6 +72,8 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
             .addDisposableTo(disposeBag)
         contactButton.rx_tap.subscribeNext { [weak self] in self?.viewModel.contactButtonPressed()}
             .addDisposableTo(disposeBag)
+
+        setAccesibilityIds()
     }
 
     private func setupHeader() {
@@ -161,5 +163,17 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
         headerTopMarginConstraint.constant = PassiveBuyersViewController.headerTopMargin - scroll
 
         topContainer.alpha = scroll.percentageBetween(start: productImage.top, end: productImage.bottom)
+    }
+}
+
+
+// MARK: - Accesibility Ids
+
+private extension PassiveBuyersViewController {
+    func setAccesibilityIds() {
+        titleLabel.accessibilityId = .PassiveBuyersTitle
+        messageLabel.accessibilityId = .PassiveBuyersMessage
+        contactButton.accessibilityId = .PassiveBuyersContactButton
+        tableView.accessibilityId = .PassiveBuyersTable
     }
 }

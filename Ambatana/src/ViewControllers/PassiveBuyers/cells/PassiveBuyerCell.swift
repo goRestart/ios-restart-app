@@ -54,6 +54,8 @@ class PassiveBuyerCell: UITableViewCell, ReusableCell {
         userImage.cornerRadius = PassiveBuyerCell.imageHeight / 2
         userName.textColor = UIColor.blackText
         userName.font = UIFont.bigBodyFont
+
+        userName.accessibilityId = .PassiveBuyerCellName
     }
 
 
