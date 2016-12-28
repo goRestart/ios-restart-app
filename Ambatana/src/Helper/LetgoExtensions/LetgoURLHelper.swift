@@ -60,7 +60,7 @@ class LetgoURLHelper {
     }
 
     static func buildRecaptchaURL(transparent transparent: Bool) -> NSURL? {
-        guard let url = LetgoURLHelper.composeURL(Constants.helpURL) else { return nil }
+        guard let url = LetgoURLHelper.composeURL(Constants.recaptchaURL) else { return nil }
         guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildRecaptchParameters(transparent)
         return urlComponents.URL
@@ -116,6 +116,6 @@ class LetgoURLHelper {
 
     private static func buildRecaptchParameters(transparent: Bool) -> String {
         let value = transparent ? "true": "false"
-        return "\transparent=\(value)"
+        return "transparent=\(value)"
     }
 }

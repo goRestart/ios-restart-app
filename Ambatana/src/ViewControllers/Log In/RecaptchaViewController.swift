@@ -9,7 +9,8 @@
 import UIKit
 
 class RecaptchaViewController: BaseViewController {
-    
+    @IBOutlet weak var bgImageView: UIImageView!
+    @IBOutlet weak var bgOverlayView: UIView!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var closeButton: UIButton!
@@ -30,6 +31,7 @@ class RecaptchaViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         setAccesibilityIds()
         webView.delegate = self
 
@@ -44,6 +46,14 @@ class RecaptchaViewController: BaseViewController {
 
 
     // MARK: - Private methods
+
+    private func setupUI() {
+        let bgImage = viewModel.backgroundImage
+        bgImageView.image = viewModel.backgroundImage
+        bgOverlayView.hidden = bgImage != nil
+        let closeButtonImageName = viewModel.isTransparentMode ? "ic_close" : "ic_close_red"
+        closeButton.setImage(UIImage(named: closeButtonImageName), forState: .Normal)
+    }
 
     private func loadUrl(url: NSURL) {
         activityIndicator.startAnimating()

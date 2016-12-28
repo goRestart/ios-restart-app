@@ -1,14 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecaptchaViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicator" destination="BWv-ys-egW" id="eZO-hR-D8s"/>
+                <outlet property="bgImageView" destination="EIy-Bd-h8t" id="5VO-LL-2ei"/>
+                <outlet property="bgOverlayView" destination="jjf-HJ-Enn" id="nNx-M8-LTa"/>
                 <outlet property="closeButton" destination="i7k-KB-U2I" id="6gf-11-ctl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="webView" destination="v4Y-NG-pbW" id="aXd-B7-1nd"/>
@@ -19,10 +24,19 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4Y-NG-pbW">
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EIy-Bd-h8t">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jjf-HJ-Enn">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <webView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4Y-NG-pbW">
+                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </webView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i7k-KB-U2I" userLabel="closeButton">
+                    <rect key="frame" x="0.0" y="20" width="56" height="44"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="56" id="08B-sH-gr8"/>
                         <constraint firstAttribute="height" constant="44" id="xJM-Qq-Jc1"/>
@@ -33,14 +47,23 @@
                     </connections>
                 </button>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="BWv-ys-egW">
+                    <rect key="frame" x="169" y="315" width="37" height="37"/>
                     <color key="color" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </activityIndicatorView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="EIy-Bd-h8t" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3AT-sE-pIj"/>
+                <constraint firstAttribute="bottom" secondItem="EIy-Bd-h8t" secondAttribute="bottom" id="6Pd-fc-6PN"/>
                 <constraint firstItem="v4Y-NG-pbW" firstAttribute="top" secondItem="i7k-KB-U2I" secondAttribute="bottom" id="7uj-Co-pN6"/>
+                <constraint firstItem="EIy-Bd-h8t" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="APP-71-C6F"/>
+                <constraint firstAttribute="bottom" secondItem="jjf-HJ-Enn" secondAttribute="bottom" id="Fdp-Lj-LnH"/>
+                <constraint firstAttribute="trailing" secondItem="jjf-HJ-Enn" secondAttribute="trailing" id="GOj-Fr-OcR"/>
                 <constraint firstItem="i7k-KB-U2I" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="KYT-Ub-cuA"/>
                 <constraint firstItem="BWv-ys-egW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="SjQ-dD-NKJ"/>
+                <constraint firstItem="jjf-HJ-Enn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="apC-Yc-1QA"/>
+                <constraint firstItem="jjf-HJ-Enn" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="b4b-SM-5PM"/>
+                <constraint firstAttribute="trailing" secondItem="EIy-Bd-h8t" secondAttribute="trailing" id="iHF-K5-lmN"/>
                 <constraint firstItem="BWv-ys-egW" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="iKY-Ek-K9k"/>
                 <constraint firstItem="i7k-KB-U2I" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="oRw-4B-24v"/>
                 <constraint firstAttribute="trailing" secondItem="v4Y-NG-pbW" secondAttribute="trailing" id="qMi-gz-dyl"/>
