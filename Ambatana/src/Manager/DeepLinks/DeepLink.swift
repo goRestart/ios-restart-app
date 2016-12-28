@@ -44,6 +44,7 @@ enum DeepLinkAction {
     case CommercializerReady(productId: String, templateId: String)
     case UserRatings
     case UserRating(ratingId: String)
+    case PassiveBuyers(productId: String)
 }
 
 enum DeepLinkOrigin {
