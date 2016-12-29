@@ -254,12 +254,7 @@ private extension SocialSharer {
     }
 
     func shareInNative(socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
-        guard let activityItems = socialMessage.nativeShareItems else {
-            delegate?.shareStartedIn(.Native)
-            delegate?.shareFinishedIn(.Native, withState: .Failed)
-            return
-        }
-
+        let activityItems = socialMessage.nativeShareItems
         let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet

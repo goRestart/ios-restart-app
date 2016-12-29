@@ -649,7 +649,12 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
 
     func vmShowRecaptcha(viewModel: RecaptchaViewModel) {
         viewModel.navigator = self
-        let vc = RecaptchaViewController(viewModel: viewModel)
+
+        let snapshot: UIImage? = viewModel.transparentMode ? presentingViewController?.view.takeSnapshot() : nil
+        let vc = RecaptchaViewController(viewModel: viewModel, backgroundImage: snapshot)
+        if viewModel.transparentMode {
+            vc.modalTransitionStyle = .CrossDissolve
+        }
         presentViewController(vc, animated: true, completion: nil)
     }
 

@@ -31,6 +31,7 @@ protocol FeatureFlaggeable {
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
     var locationNoMatchesCountry: Bool { get }
+    var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
 }
 
@@ -179,6 +180,13 @@ class FeatureFlags: FeatureFlaggeable {
     var monetizationEnabled: Bool {
         if Bumper.enabled {
             return Bumper.monetizationEnabled
+        }
+        return false
+    }
+
+    var captchaTransparent: Bool {
+        if Bumper.enabled {
+            return Bumper.captchaTransparent
         }
         return false
     }

@@ -28,7 +28,7 @@ class ShareProductViewModel: BaseViewModel {
 
     var socialMessage: SocialMessage
     var link: String {
-        return socialMessage.copyLinkText ?? Constants.websiteURL
+        return socialMessage.copyLinkText
     }
 
     convenience init(product: Product, socialMessage: SocialMessage) {

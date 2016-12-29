@@ -90,6 +90,11 @@
         "description": "Bubble to chat when favorite"
     },
     {
+        "name": "CaptchaTransparent",
+        "values": ["No", "Yes"],
+        "description": "Captcha transparent"
+    },
+    {
         "name": "PassiveBuyersShowKeyboard",
         "values": ["No", "Yes"],
         "description": "Passive buyers products suggested notification opens product with keyboard opened"

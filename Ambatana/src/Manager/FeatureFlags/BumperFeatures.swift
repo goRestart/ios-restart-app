@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, PassiveBuyersShowKeyboard.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self])
     } 
 
     static var websocketChat: Bool {
@@ -103,6 +103,11 @@ extension Bumper  {
     static var favoriteWithBubbleToChat: Bool {
         guard let value = Bumper.valueForKey(FavoriteWithBubbleToChat.key) else { return false }
         return FavoriteWithBubbleToChat(rawValue: value)?.asBool ?? false
+    }
+
+    static var captchaTransparent: Bool {
+        guard let value = Bumper.valueForKey(CaptchaTransparent.key) else { return false }
+        return CaptchaTransparent(rawValue: value)?.asBool ?? false
     }
 
     static var passiveBuyersShowKeyboard: Bool {
@@ -299,6 +304,15 @@ enum FavoriteWithBubbleToChat: String, BumperFeature  {
     static var enumValues: [FavoriteWithBubbleToChat] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Bubble to chat when favorite" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum CaptchaTransparent: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return CaptchaTransparent.No.rawValue }
+    static var enumValues: [CaptchaTransparent] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Captcha transparent" } 
     var asBool: Bool { return self == .Yes }
 }
 
