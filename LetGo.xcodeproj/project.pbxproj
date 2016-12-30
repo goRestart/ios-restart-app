@@ -614,6 +614,8 @@
 		C708C83D1CDB590400AA87B3 /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708C83A1CDB590400AA87B3 /* AppRatingView.swift */; };
 		C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C708C83B1CDB590400AA87B3 /* AppRatingView.xib */; };
 		C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C708C83B1CDB590400AA87B3 /* AppRatingView.xib */; };
+		C70BC6881E16B3C100EC74E9 /* UISwitch+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */; };
+		C70BC6891E16B47700EC74E9 /* UISwitch+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */; };
 		C70EA18D1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */; };
 		C70EA18E1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */; };
 		C70EA18F1D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */; };
@@ -1638,6 +1640,7 @@
 		C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
 		C708C83A1CDB590400AA87B3 /* AppRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRatingView.swift; sourceTree = "<group>"; };
 		C708C83B1CDB590400AA87B3 /* AppRatingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppRatingView.xib; sourceTree = "<group>"; };
+		C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISwitch+Rx.swift"; sourceTree = "<group>"; };
 		C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersSelectorViewController.swift; sourceTree = "<group>"; };
 		C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickersSelectorViewController.xib; sourceTree = "<group>"; };
 		C7111EF81CA43822000C5C5A /* DeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouter.swift; sourceTree = "<group>"; };
@@ -2980,6 +2983,7 @@
 				6A5E19D11D548F5400F92692 /* UIBarItem+Rx.swift */,
 				6A5E19D21D548F5400F92692 /* UIButton+Rx.swift */,
 				6A5E19D31D548F5400F92692 /* UILabel+Rx.swift */,
+				C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */,
 			);
 			path = RxExtensions;
 			sourceTree = "<group>";
@@ -4925,6 +4929,7 @@
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				C7841AF41E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				2E32AD151D6B0F2300AC8501 /* BubbleNotificationManager.swift in Sources */,
+				C70BC6881E16B3C100EC74E9 /* UISwitch+Rx.swift in Sources */,
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				C7415EDB1DE898580003D6C1 /* SimpleProductsViewModel.swift in Sources */,
 				50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */,
@@ -5361,6 +5366,7 @@
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
 				C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				2E32AD161D6B107100AC8501 /* BubbleNotificationManager.swift in Sources */,
+				C70BC6891E16B47700EC74E9 /* UISwitch+Rx.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				C7415EDC1DE898580003D6C1 /* SimpleProductsViewModel.swift in Sources */,
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
