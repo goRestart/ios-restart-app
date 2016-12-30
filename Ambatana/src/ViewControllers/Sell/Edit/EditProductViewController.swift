@@ -10,6 +10,7 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 import RxSwift
+import KMPlaceholderTextView
 
 
 class EditProductViewController: BaseViewController, UITextFieldDelegate,
@@ -28,9 +29,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     enum TextFieldTag: Int {
         case ProductTitle = 1000, ProductPrice, ProductDescription
     }
-    
-    let descrPlaceholder = LGLocalizedString.sellDescriptionFieldHint
-    let descrPlaceholderColor = UIColor(rgb: 0xC7C7CD)
+
     let sellProductCellReuseIdentifier = "SellProductCell"
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -63,9 +62,9 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var priceTextField: LGTextField!
     
     @IBOutlet weak var descriptionView: UIView!
-    @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var descriptionCharCountLabel: UILabel!
     @IBOutlet weak var titleDisclaimerActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var descriptionTextView: KMPlaceholderTextView!
 
     @IBOutlet weak var setLocationTitleLabel: UILabel!
     @IBOutlet weak var setLocationLocationLabel: UILabel!
@@ -222,14 +221,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
 
     // MARK: - UITextViewDelegate Methods
-
-    func textViewDidBeginEditing(textView: UITextView) {
-        // clear text view placeholder
-        if textView.text == descrPlaceholder && textView.textColor ==  descrPlaceholderColor {
-            textView.text = nil
-            textView.textColor = UIColor.blackColor()
-        }
-    }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         // textView is inside a container, so we need to know which container is focused (to scroll to visible when keyboard was up)
@@ -237,24 +228,15 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         return true
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = descrPlaceholder
-            textView.textColor = descrPlaceholderColor
-        }
-    }
-    
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if let textViewText = textView.text {
             let cleanReplacement = text.stringByRemovingEmoji()
             let finalText = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: cleanReplacement)
-            if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
-                viewModel.descr = finalText.isEmpty ? nil : finalText
-                if text.hasEmojis() {
-                    //Forcing the new text (without emojis) by returning false
-                    textView.text = finalText
-                    return false
-                }
+            viewModel.descr = finalText.isEmpty ? nil : finalText
+            if text.hasEmojis() {
+                //Forcing the new text (without emojis) by returning false
+                textView.text = finalText
+                return false
             }
         }
         return true
@@ -415,14 +397,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.ProductPrice.rawValue
         priceTextField.insetX = 16.0
-        
-        if viewModel.descr?.characters.count > 0 {
-            descriptionTextView.text = viewModel.descr
-            descriptionTextView.textColor = UIColor.blackColor()
-        } else {
-            descriptionTextView.text = descrPlaceholder
-            descriptionTextView.textColor = descrPlaceholderColor
-        }
+
+        descriptionTextView.text = viewModel.descr ?? ""
+        descriptionTextView.textColor = UIColor.blackText
+        descriptionTextView.placeholder = LGLocalizedString.sellDescriptionFieldHint
+        descriptionTextView.placeholderColor = UIColor.gray
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0)
         descriptionTextView.tintColor = UIColor.primaryColor
         descriptionTextView.tag = TextFieldTag.ProductDescription.rawValue
@@ -565,11 +544,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
     private func updateTapRecognizer(add: Bool) {
         guard let tapRec = hideKbTapRecognizer else { return }
-        if let recognizers = scrollView.gestureRecognizers where recognizers.contains(tapRec) {
-            scrollView.removeGestureRecognizer(tapRec)
+        scrollView.removeGestureRecognizer(tapRec)
+        if add {
+            scrollView.addGestureRecognizer(tapRec)
         }
-        guard add else { return }
-        scrollView.addGestureRecognizer(tapRec)
     }
 
     override func popBackViewController() {
