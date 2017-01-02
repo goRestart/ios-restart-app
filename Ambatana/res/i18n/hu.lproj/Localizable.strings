@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "VIDD HÍRÜL";
 "app_share_whatsapp_button" = "Meghívás WhatsAppon";
 "block_user_error_generic" = "Hiba történt a felhasználó blokkolása során.";
-"bump_up_bubble_free_button_title" = "Felugrasztás";
-"bump_up_bubble_free_text" = "Ingyenesen felugraszthatva gyorsabban eladhatsz";
-"bump_up_bubble_pay_text" = "Felugrasztva gyorsabban eladhatsz";
-"bump_up_bubble_wait_text" = "a következő ugrasztásig";
+"bump_up_banner_free_button_title" = "Felugrasztás";
+"bump_up_banner_free_text" = "Ingyenesen felugraszthatva gyorsabban eladhatsz";
+"bump_up_banner_pay_text" = "Felugrasztva gyorsabban eladhatod";
+"bump_up_banner_wait_text" = "a következő ugrasztásig";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed felugrasztása során. Próbálkozz újra.";
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád még nincs kiemelve. Próbálkozz újra.";
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
@@ -264,6 +264,8 @@
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
 "edit_product_suggesting_title" = "Cím ajánlása...";
 "edit_product_title" = "Portéka szerkesztése";
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 "filters_distance_not_set" = "nincs megadva";
 "filters_navbar_reset" = "Mégse";
 "filters_price_from" = "Ettől:";
@@ -305,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Kihagy";
 "login_scammer_alert_message" = "Fiókodat a letgo csapata éppen ellenőrzi. Ha úgy gondolod, hogy ezt alaptalanul tesszük, vedd fel velünk a kapcsolatot.";
 "login_scammer_alert_title" = "FIÓK ELLENŐRZÉS ALATT";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
 "main_sign_up_error_request_already_sent" = "Kérésed már feldolgozás alatt van. Várj egy kicsit, mielőtt újra próbálkoznál.";
 "main_sign_up_error_user_rejected" = "A megadott e-mail cím helytelen. Ellenőrizd, majd próbálkozz újra.";
@@ -347,7 +351,7 @@
 "notifications_title" = "Értesítések";
 "notifications_type_buyers_interested" = "%d vásárlót érdekelhet a portékád";
 "notifications_type_buyers_interested_button" = "Derítsd ki, kik azok";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Vásárlók értesítve!";
 "notifications_type_buyers_interested_w_title" = "%1$d vásárlót érdekelhet portékád: „%2$@”";
 "notifications_type_like_button" = "Profil megtekintése";
 "notifications_type_like_w_name" = "%@ kedvencként jelölte portékádat";
@@ -382,10 +386,10 @@
 "onboarding_posting_title_b" = "Hirdesd meg első portékádat";
 "onboarding_posting_title_c" = "Neked van eladó?";
 "passive_buyers_button" = "Kapcsolatfelvétel %d vásárlóval";
-"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
-"passive_buyers_contact_success" = "Buyers contacted!";
+"passive_buyers_contact_error" = "Hiba történt a vásárlók értesítése során. Próbálkozz újra!";
+"passive_buyers_contact_success" = "Vásárlók értesítve!";
 "passive_buyers_message" = "Lépj kapcsolatba hasonló portékák után érdeklődő vásárlókkal";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Hoppá! A vásárlók nem találhatók.";
 "passive_buyers_title" = "EZEK A VÁSÁRLÓK ÉRDEKLŐDNEK";
 "product_ask_a_question_button" = "Kérdezek valamit";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";

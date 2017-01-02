@@ -83,6 +83,10 @@ class MainProductsViewModel: BaseViewModel {
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
     }
+    
+    var shouldUseNavigationBarFilterIconWithLetters: Bool {
+        return featureFlags.filterIconWithLetters
+    }
 
     let mainProductsHeader = Variable<MainProductsHeader>([])
 

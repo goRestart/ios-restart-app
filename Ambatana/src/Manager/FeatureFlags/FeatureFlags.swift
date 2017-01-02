@@ -33,6 +33,7 @@ protocol FeatureFlaggeable {
     var locationNoMatchesCountry: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
+    var filterIconWithLetters: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -196,6 +197,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.passiveBuyersShowKeyboard
         }
         return false
+    }
+    
+    var filterIconWithLetters: Bool {
+        if Bumper.enabled {
+            return Bumper.filterIconWithLetters
+        }
+        return ABTests.filterIconWithLetters.value
     }
 
 

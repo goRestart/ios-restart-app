@@ -83,20 +83,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}
 
-	static var bumpUpBubbleFreeText: String {
-		return NSLocalizedString("bump_up_bubble_free_text", comment: "")
+	static var bumpUpBannerFreeText: String {
+		return NSLocalizedString("bump_up_banner_free_text", comment: "")
 	}
 
-	static var bumpUpBubblePayText: String {
-		return NSLocalizedString("bump_up_bubble_pay_text", comment: "")
+	static var bumpUpBannerPayText: String {
+		return NSLocalizedString("bump_up_banner_pay_text", comment: "")
 	}
 
-	static var bumpUpBubbleWaitText: String {
-		return NSLocalizedString("bump_up_bubble_wait_text", comment: "")
+	static var bumpUpBannerWaitText: String {
+		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
 	}
 
-	static var bumpUpBubbleFreeButtonTitle: String {
-		return NSLocalizedString("bump_up_bubble_free_button_title", comment: "")
+	static var bumpUpBannerFreeButtonTitle: String {
+		return NSLocalizedString("bump_up_banner_free_button_title", comment: "")
 	}
 
 	static var bumpUpFreeSuccess: String {
@@ -1075,6 +1075,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_title", comment: "")
 	}
 
+	static var editProductUnsavedChangesAlert: String {
+		return NSLocalizedString("edit_product_unsaved_changes_alert", comment: "")
+	}
+
+	static var editProductUnsavedChangesAlertOk: String {
+		return NSLocalizedString("edit_product_unsaved_changes_alert_ok", comment: "")
+	}
+
 	static var filtersDistanceNotSet: String {
 		return NSLocalizedString("filters_distance_not_set", comment: "")
 	}
@@ -1305,6 +1313,14 @@ struct LGLocalizedString {
 
 	static var mainSignUpTermsConditionsTermsPart: String {
 		return NSLocalizedString("main_sign_up_terms_conditions_terms_part", comment: "")
+	}
+
+	static var mainProductsInviteNavigationBarButton: String {
+		return NSLocalizedString("main_products_invite_navigation_bar_button", comment: "")
+	}
+
+	static var mainProductsFilterNavigationBarButton: String {
+		return NSLocalizedString("main_products_filter_navigation_bar_button", comment: "")
 	}
 
 	static var notificationsEmptySubtitle: String {
