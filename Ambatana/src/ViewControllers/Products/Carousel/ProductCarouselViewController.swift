@@ -301,16 +301,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     private func setupExpandableButtonsViewIfNeeded() {
         guard featureFlags.productDetailShareMode == .InPlace else { return }
-        guard let socialMessage = viewModel.currentProductViewModel?.socialMessage.value else { return }
         let expandableButtons = ExpandableButtonsView(buttonSide: 36, buttonSpacing: 7)
         expandableButtonsView = expandableButtons
 
         for type in viewModel.shareTypes {
             guard SocialSharer.canShareIn(type) else { continue }
             expandableButtons.addButton(image: type.smallImage, accessibilityId: type.accesibilityId) { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: strongSelf,
-                                                        barButtonItem: nil)
+                guard let vc = self, socialMessage = self?.viewModel.currentProductViewModel?.socialMessage.value else { return }
+                self?.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: vc, barButtonItem: nil)
             }
         }
 
@@ -496,7 +494,7 @@ extension ProductCarouselViewController {
         refreshFavoriteButton(viewModel)
         setupMoreInfo()
         refreshInterestedBubble(viewModel)
-        refreshExpandableButtonsView()
+        refreshExpandableButtonsView(viewModel)
     }
 
     private func finishedTransition() {
@@ -739,9 +737,12 @@ extension ProductCarouselViewController {
             }.addDisposableTo(activeDisposeBag)
     }
 
-    private func refreshExpandableButtonsView() {
-        guard let expandableButtonsView = expandableButtonsView where expandableButtonsView.expanded.value else { return }
-        expandableButtonsView.switchExpanded(animated: false)
+    private func refreshExpandableButtonsView(viewModel: ProductViewModel) {
+        guard let expandableButtonsView = expandableButtonsView else { return }
+        expandableButtonsView.hidden = viewModel.socialMessage.value == nil
+        if expandableButtonsView.expanded.value {
+            expandableButtonsView.switchExpanded(animated: false)
+        }
     }
 }
 
