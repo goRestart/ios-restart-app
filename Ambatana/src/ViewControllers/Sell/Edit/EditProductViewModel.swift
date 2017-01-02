@@ -439,10 +439,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
             if let actualProduct = result.value {
                 strongSelf.savedProduct = actualProduct
                 strongSelf.trackComplete(actualProduct)
-                strongSelf.loadingProgress.value = nil
                 strongSelf.finishedSaving()
             } else if let error = result.error {
-                strongSelf.loadingProgress.value = nil
                 let newError = ProductCreateValidationError(repoError: error)
                 strongSelf.showError(newError)
             }
