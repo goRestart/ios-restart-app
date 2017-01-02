@@ -83,20 +83,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}
 
-	static var bumpUpBubbleFreeText: String {
-		return NSLocalizedString("bump_up_bubble_free_text", comment: "")
+	static var bumpUpBannerFreeText: String {
+		return NSLocalizedString("bump_up_banner_free_text", comment: "")
 	}
 
-	static var bumpUpBubblePayText: String {
-		return NSLocalizedString("bump_up_bubble_pay_text", comment: "")
+	static var bumpUpBannerPayText: String {
+		return NSLocalizedString("bump_up_banner_pay_text", comment: "")
 	}
 
-	static var bumpUpBubbleWaitText: String {
-		return NSLocalizedString("bump_up_bubble_wait_text", comment: "")
+	static var bumpUpBannerWaitText: String {
+		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
 	}
 
-	static var bumpUpBubbleFreeButtonTitle: String {
-		return NSLocalizedString("bump_up_bubble_free_button_title", comment: "")
+	static var bumpUpBannerFreeButtonTitle: String {
+		return NSLocalizedString("bump_up_banner_free_button_title", comment: "")
 	}
 
 	static var bumpUpFreeSuccess: String {

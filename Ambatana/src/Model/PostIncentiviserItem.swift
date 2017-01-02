@@ -87,21 +87,26 @@ enum PostIncentiviserItem: Int {
     }
 
     var searchCount: String? {
+        return searchCount(NSDate())
+    }
+
+    func searchCount(date: NSDate) -> String? {
         let fmt = NSNumberFormatter()
         fmt.numberStyle = .DecimalStyle
         fmt.locale = NSLocale.currentLocale()
-        guard let stringNumber = fmt.stringFromNumber(self.baseSearchCount + searchCountIncrement()) else { return nil }
+        guard let stringNumber = fmt.stringFromNumber(self.baseSearchCount + searchCountIncrement(date)) else { return nil }
         return stringNumber
     }
 
 
     // MARK: private methods
 
-    private func searchCountIncrement() -> Int {
-        let currentCalendar = NSCalendar.currentCalendar()
-        let components = currentCalendar.components([.Month,.Day], fromDate: NSDate())
+    private func searchCountIncrement(date: NSDate) -> Int {
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Month,.Day], fromDate: date)
         let dailyIncrement = baseSearchCount/200
-        let increment = dailyIncrement + (self.rawValue * components.day) / (components.month / self.rawValue) // "randomizing" like a baws
+        let monthDivision = max(components.month / self.rawValue, 1)
+        let increment = dailyIncrement + (self.rawValue * components.day) / monthDivision // "randomizing" like a baws
         return increment
     }
 }
