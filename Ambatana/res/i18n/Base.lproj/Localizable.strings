@@ -56,16 +56,16 @@
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
 // Text for bubble in free bump
-"bump_up_bubble_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
 
 // Text for bubble in payment bump
-"bump_up_bubble_pay_text" = "Bump up to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
 
 // Text for bubble while waiting for next bump
-"bump_up_bubble_wait_text" = "to bump up again";
+"bump_up_banner_wait_text" = "to bump up again";
 
 // Title for bubble button
-"bump_up_bubble_free_button_title" = "Bump up";
+"bump_up_banner_free_button_title" = "Bump up";
 
 // Free bump up success message
 "bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
