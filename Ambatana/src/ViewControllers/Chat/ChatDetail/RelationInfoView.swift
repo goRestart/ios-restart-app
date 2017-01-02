@@ -104,12 +104,12 @@ public enum ChatInfoViewStatus: Int {
 public class RelationInfoView: UIView {
 
     static let defaultHeight: CGFloat = 28
+    private static let visibleMaxHeight: CGFloat = 60
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var chatInfoIcon: UIImageView!
     @IBOutlet weak var chatInfoLabel: UILabel!
-
-    @IBOutlet weak var relationInfoHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var relationInfoViewMaxHeight: NSLayoutConstraint!
 
     public static func relationInfoView() -> RelationInfoView {
         guard let view =  NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil)?
@@ -129,7 +129,8 @@ public class RelationInfoView: UIView {
         setupBasicUI()
 
         // Status dependant setup
-        relationInfoHeightConstraint.constant = status.heightValue
+        hidden = status.isHidden
+        relationInfoViewMaxHeight.constant = status.isHidden ? 0 : RelationInfoView.visibleMaxHeight
         backgroundColor = status.bgColor
         chatInfoLabel.textColor = status.infoTextColor
         chatInfoLabel.text = status.infoText(otherUserName: otherUserName)

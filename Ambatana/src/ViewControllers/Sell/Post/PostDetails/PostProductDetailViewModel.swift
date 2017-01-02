@@ -58,6 +58,10 @@ class PostProductDetailViewModel: BaseViewModel {
         super.init()
     }
 
+    func freeCellPressed() {
+        isFree.value = !isFree.value
+    }
+
     func doneButtonPressed() {
         delegate?.postProductDetailDone(self)
     }
