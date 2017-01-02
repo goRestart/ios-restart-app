@@ -376,22 +376,22 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
             hasChanges = true
         }
-        if (initialProduct.name ?? "") != (title ?? "") {
+        else if (initialProduct.name ?? "") != (title ?? "") {
             hasChanges = true
         }
-        if let priceString = price where initialProduct.price.value != Double(priceString) {
+        else if let priceString = price where initialProduct.price.value != Double(priceString) {
             hasChanges = true
         }
-        if (initialProduct.descr ?? "") != (descr ?? "") {
+        else if (initialProduct.descr ?? "") != (descr ?? "") {
             hasChanges = true
         }
-        if initialProduct.category != category {
+        else if initialProduct.category != category {
             hasChanges = true
         }
-        if initialProduct.location != location {
+        else if initialProduct.location != location {
             hasChanges = true
         }
-        if initialProduct.price.free != isFreePosting.value {
+        else if initialProduct.price.free != isFreePosting.value {
             hasChanges = true
         }
         saveButtonEnabled.value = hasChanges
