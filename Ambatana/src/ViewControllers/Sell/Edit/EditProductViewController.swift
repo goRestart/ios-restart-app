@@ -29,8 +29,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     enum TextFieldTag: Int {
         case ProductTitle = 1000, ProductPrice, ProductDescription
     }
-
-    let sellProductCellReuseIdentifier = "SellProductCell"
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -81,8 +79,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet weak var loadingProgressView: UIProgressView!
-
-    var lines: [CALayer] = []
 
     var hideKbTapRecognizer: UITapGestureRecognizer?
 
@@ -252,7 +248,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
         
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sellProductCellReuseIdentifier,
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductCell.reusableID,
                 forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
             cell.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
             if indexPath.item < viewModel.numberOfImages {
@@ -429,8 +425,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         // CollectionView
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
-        let cellNib = UINib(nibName: "SellProductCell", bundle: nil)
-        self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
+        let cellNib = UINib(nibName: SellProductCell.reusableID, bundle: nil)
+        self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: SellProductCell.reusableID)
         
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
         view.bringSubviewToFront(loadingView)
