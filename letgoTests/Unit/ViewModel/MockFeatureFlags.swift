@@ -35,4 +35,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var locationNoMatchesCountry: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
+    var filterIconWithLetters: Bool = false
 }

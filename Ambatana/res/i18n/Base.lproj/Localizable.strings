@@ -778,7 +778,7 @@
 "edit_product_location_alert_title" = "CHANGE LOCATION";
 
 // Edit product send button. Check image @ "sell_send_error_invalid_category" segment
-"edit_product_send_button" = "Update";
+"edit_product_send_button" = "Save changes";
 
 // Edit product send error uploading product. Message displayal is like the other error messages.
 "edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
@@ -791,6 +791,12 @@
 
 // Edit product title. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_title" = "Edit Product";
+
+// When closing edit product with unsaved changes
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+
+// When closing edit product with unsaved changes -> Ok button
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 
 // When there's no distance filter set
 "filters_distance_not_set" = "not set";
@@ -965,6 +971,12 @@
 
 // "Terms of Service" Part of the complete text
 "main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
+
+// Navigation bar button 'Invite'' 
+"main_products_invite_navigation_bar_button" = "Invite";
+
+// Navigation bar button 'Filter'
+"main_products_filter_navigation_bar_button" = "Filter";
 
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";

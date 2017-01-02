@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "ΜΟΙΡΑΣΤΕ ΑΓΑΠΗ";
 "app_share_whatsapp_button" = "Προσκαλέστε μέσω Whatsapp";
 "block_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το μπλοκάρισμα του χρήστη.";
-"bump_up_bubble_free_button_title" = "Προωθήστε";
-"bump_up_bubble_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
-"bump_up_bubble_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
-"bump_up_bubble_wait_text" = "για να προωθήσετε ξανά";
+"bump_up_banner_free_button_title" = "Προωθήστε";
+"bump_up_banner_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
+"bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
+"bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση του αντικειμένου σας. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά το αντικείμενό σας δεν έχει προταθεί ακόμη. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_free_success" = "Επιτυχής προώθηση! Συνεχίστε την προώθηση και οι καταχωρήσεις σας θα είναι ακόμη πιο ορατές.";
@@ -264,6 +264,8 @@
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
 "edit_product_suggesting_title" = "Προαιρετικός τίτλος...";
 "edit_product_title" = "Επεξεργασία Προϊόντος";
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
 "filters_navbar_reset" = "Επαναφορα";
 "filters_price_from" = "Από";
@@ -305,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Παράλειψη";
 "login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί καταλάθως, επικοινωνήστε μαζί μας.";
 "login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
 "main_sign_up_error_request_already_sent" = "Το αίτημά σας έχει ήδη προχωρήσει. Παρακαλώ περιμένετε πριν προσπαθήσετε ξανά.";
 "main_sign_up_error_user_rejected" = "Το email που εισάγατε είναι λανθασμένο. Παρακαλώ ελέγξτε το και δοκιμάστε ξανά.";
@@ -382,8 +386,8 @@
 "onboarding_posting_title_b" = "Δημοσιεύστε το πρώτο σας προϊόν";
 "onboarding_posting_title_c" = "Έχετε τίποτα να πουλήσετε;";
 "passive_buyers_button" = "Επικοινωνήστε με %d αγοραστές";
-"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
-"passive_buyers_contact_success" = "Buyers contacted!";
+"passive_buyers_contact_error" = "Παρουσιάστηκε σφάλμα κατά την επικοινωνία με τους αγοραστές. Παρακαλώ δοκιμάστε ξανά.";
+"passive_buyers_contact_success" = "Επικοινωνήσατε με τους αγοραστές!";
 "passive_buyers_message" = "Επικοινωνήστε με τους αγοραστές που ενδιαφέρονται για συναφή προϊόντα";
 "passive_buyers_not_available" = "Όπα! Οι αγοραστές δε βρέθηκαν.";
 "passive_buyers_title" = "ΑΥΤΟΙ ΟΙ ΑΓΟΡΑΣΤΕΣ ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΟΝΤΑΙ";

@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "JAA RAKKAUTESI";
 "app_share_whatsapp_button" = "Kutsu Whatsappilla";
 "block_user_error_generic" = "Tätä käyttäjää estettäessä tapahtui virhe.";
-"bump_up_bubble_free_button_title" = "Nosta";
-"bump_up_bubble_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
-"bump_up_bubble_pay_text" = "Nosta myydäksesi nopeammin";
-"bump_up_bubble_wait_text" = "seuraavaan nostoon";
+"bump_up_banner_free_button_title" = "Nosta";
+"bump_up_banner_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
+"bump_up_banner_pay_text" = "Nosta myydäksesi nopeammin";
+"bump_up_banner_wait_text" = "seuraavaan nostoon";
 "bump_up_error_bump_generic" = "Tuotettasi nostettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole vielä nostettu esiin. Ole hyvä ja yritä uudelleen.";
 "bump_up_free_success" = "Nostettu! Nosta tuotettasi useamminkin listalla ylöspäin, jolloin se saa vielä enemmän näkyvyyttä.";
@@ -264,6 +264,8 @@
 "edit_product_send_ok" = "Onneksi olkoon! Tuotteesi päivitettiin onnistuneesti. Se ilmestyy näkyviin listoillemme hetken kuluttua.";
 "edit_product_suggesting_title" = "Ehdotetaan otsikkoa...";
 "edit_product_title" = "Muokkaa tuotetta";
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 "filters_distance_not_set" = "ei rajattu";
 "filters_navbar_reset" = "Nollaa";
 "filters_price_from" = "Alkaen";
@@ -305,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Ohita";
 "login_scammer_alert_message" = "letgo-tiimi suorittaa tilillesi tarkastusta. Mikäli uskot, että tilisi on ilmiannettu aiheettomasti, ota meihin yhteyttä.";
 "login_scammer_alert_title" = "TILI TARKASTUKSEN ALAISENA";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";
 "main_sign_up_error_request_already_sent" = "Pyyntösi on jo käsitelty. Ole hyvä ja odota, ennen kuin yrität uudelleen.";
 "main_sign_up_error_user_rejected" = "Syöttämäsi sähköposti on väärä. Tarkista osoite ja yritä uudelleen.";
@@ -382,8 +386,8 @@
 "onboarding_posting_title_b" = "Julkaise ensimmäinen tuotteesi";
 "onboarding_posting_title_c" = "Olisiko sinulla myydä?";
 "passive_buyers_button" = "Ota yhteyttä %d ostajaan";
-"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
-"passive_buyers_contact_success" = "Buyers contacted!";
+"passive_buyers_contact_error" = "Otettaessa yhteyttä ostajiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"passive_buyers_contact_success" = "Ostajiin on otettu yhteyttä!";
 "passive_buyers_message" = "Ota yhteyttä näihin ostajiin, jotka ovat kiinnostuneita vastaavista tuotteista";
 "passive_buyers_not_available" = "Hups! Ostajia ei löytynyt.";
 "passive_buyers_title" = "NÄMÄ OSTAJAT SAATTAISIVAT OLLA KIINNOSTUNEITA";

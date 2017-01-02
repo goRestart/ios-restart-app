@@ -104,7 +104,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setupInfoBubble()
         setupTagsView()
         setupSearchAndTrending()
-        setFiltersNavbarButton()
+        setFiltersNavBarButton()
         setInviteNavBarButton()
         setupRxBindings()
         setAccessibilityIds()
@@ -212,7 +212,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     dynamic private func endEdit() {
         suggestionsSearchesContainer.hidden = true
-        setFiltersNavbarButton()
+        setFiltersNavBarButton()
         setInviteNavBarButton()
         navbarSearch.endEdit()
     }
@@ -255,23 +255,33 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         showTagsView(showTags)
         
         //Update tags button
-        setFiltersNavbarButton()
+        setFiltersNavBarButton()
     }
     
-    private func setFiltersNavbarButton() {
-        var filtersIcon = "ic_filters"
-        if let tagsViewController = self.tagsViewController {
-            filtersIcon = tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active"
+    private func setFiltersNavBarButton() {
+        let tagsIsEmpty = tagsViewController?.tags.isEmpty ?? false
+        if viewModel.shouldUseNavigationBarFilterIconWithLetters {
+            let icon = UIBarButtonItem(title: LGLocalizedString.mainProductsFilterNavigationBarButton,
+                                       style: .Plain,
+                                       target: self,
+                                       action: #selector(filtersButtonPressed(_:)))
+            icon.setTitleTextAttributes([NSFontAttributeName:tagsIsEmpty ? UIFont.regularBarButtonFont : UIFont.boldBarButtonFont],
+                                        forState: .Normal)
+            navigationItem.rightBarButtonItem = icon
+        } else {
+            setLetGoRightButtonWith(imageName: tagsIsEmpty ? "ic_filters" : "ic_filters_active",
+                                    renderingMode: .AlwaysOriginal, selector: "filtersButtonPressed:")
         }
-        setLetGoRightButtonWith(imageName: filtersIcon, renderingMode: .AlwaysOriginal, selector: "filtersButtonPressed:")
     }
     
     private func setInviteNavBarButton() {
         guard isRootViewController() else { return }
         guard viewModel.shouldShowInviteButton else { return }
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: LGLocalizedString.appShareInviteText, style: .Plain,
-                                                           target: self, action: #selector(openInvite))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: LGLocalizedString.mainProductsInviteNavigationBarButton,
+                                                           style: .Plain, 
+                                                           target: self, 
+                                                           action: #selector(openInvite))
     }
     
     dynamic private func openInvite() {
