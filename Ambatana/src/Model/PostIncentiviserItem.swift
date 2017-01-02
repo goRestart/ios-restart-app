@@ -98,10 +98,14 @@ enum PostIncentiviserItem: Int {
     // MARK: private methods
 
     private func searchCountIncrement() -> Int {
-        let currentCalendar = NSCalendar.currentCalendar()
-        let components = currentCalendar.components([.Month,.Day], fromDate: NSDate())
+        return searchCountIncrement(NSCalendar.currentCalendar())
+    }
+
+    private func searchCountIncrement(calendar: NSCalendar) -> Int {
+        let components = calendar.components([.Month,.Day], fromDate: NSDate())
         let dailyIncrement = baseSearchCount/200
-        let increment = dailyIncrement + (self.rawValue * components.day) / (components.month / self.rawValue) // "randomizing" like a baws
+        let monthDivision = max(components.month / self.rawValue, 1)
+        let increment = dailyIncrement + (self.rawValue * components.day) / monthDivision // "randomizing" like a baws
         return increment
     }
 }
