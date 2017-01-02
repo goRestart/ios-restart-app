@@ -11,8 +11,8 @@ import RxCocoa
 
 extension UISwitch {
     public var rx_valueAnimated: AnyObserver<Bool> {
-        return UIBindingObserver(UIElement: self) { uiSwitch, on in
-            uiSwitch.setOn(on, animated: true)
+        return UIBindingObserver(UIElement: self) { uiSwitch, value in
+            uiSwitch.setOn(value, animated: true)
         }.asObserver()
     }
 }
