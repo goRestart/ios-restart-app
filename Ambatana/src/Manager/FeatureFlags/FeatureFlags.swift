@@ -188,14 +188,14 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.captchaTransparent
         }
-        return false
+        return ABTests.captchaTransparent.value
     }
 
     var passiveBuyersShowKeyboard: Bool {
         if Bumper.enabled {
             return Bumper.passiveBuyersShowKeyboard
         }
-        return false
+        return ABTests.passiveBuyersShowKeyboard.value
     }
 
 
