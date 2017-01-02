@@ -516,6 +516,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bindTo(loadingView.rx_hidden).addDisposableTo(disposeBag)
         viewModel.loadingProgress.asObservable().ignoreNil().bindTo(loadingProgressView.rx_progress).addDisposableTo(disposeBag)
+
+        viewModel.saveButtonEnabled.asObservable().bindTo(sendButton.rx_enabled).addDisposableTo(disposeBag)
         
         var previousKbOrigin: CGFloat = CGFloat.max
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
