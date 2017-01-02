@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "ПОДЕЛИТЬСЯ ЛЮБОВЬЮ";
 "app_share_whatsapp_button" = "Пригласить через Whatsapp";
 "block_user_error_generic" = "При блокировке произошла ошибка.";
-"bump_up_bubble_free_button_title" = "Поднять";
-"bump_up_bubble_free_text" = "Поднять бесплатно для быстрой продажи";
-"bump_up_bubble_pay_text" = "Поднять, чтобы продать быстрее";
-"bump_up_bubble_wait_text" = "до нового продвижения";
+"bump_up_banner_free_button_title" = "Поднять";
+"bump_up_banner_free_text" = "Поднять бесплатно для быстрой продажи";
+"bump_up_banner_pay_text" = "Поднять, чтобы продать быстрее";
+"bump_up_banner_wait_text" = "до нового продвижения";
 "bump_up_error_bump_generic" = "При продвижении товара произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "bump_up_error_bump_token" = "Ваш платеж обработан, но товар еще не поднят. Пожалуйста, попробуйте еще раз.";
 "bump_up_free_success" = "Поднято! Продолжайте поднимать ваше объявление, и его будет видно еще лучше.";
@@ -264,6 +264,8 @@
 "edit_product_send_ok" = "Поздравляем! Ваш товар был успешно обновлен. В скором времени он появится в списке.";
 "edit_product_suggesting_title" = "Предлагаемый заголовок...";
 "edit_product_title" = "Редактировать товар";
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 "filters_distance_not_set" = "не установлен";
 "filters_navbar_reset" = "Сброс";
 "filters_price_from" = "От";
@@ -347,7 +349,7 @@
 "notifications_title" = "Уведомления";
 "notifications_type_buyers_interested" = "%d покупателей может заинтересовать ваш товар";
 "notifications_type_buyers_interested_button" = "Посмотрите, кто они";
-"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+"notifications_type_buyers_interested_button_done" = "Покупатели оповещены!";
 "notifications_type_buyers_interested_w_title" = "%1$d покупателей может заинтересовать ваш товар: \"%2$@\"";
 "notifications_type_like_button" = "Проверить профиль";
 "notifications_type_like_w_name" = "%@ добавил ваш товар в избранное";
@@ -382,10 +384,10 @@
 "onboarding_posting_title_b" = "Разместите свой первый товар";
 "onboarding_posting_title_c" = "Eсть что-либо на продажу?";
 "passive_buyers_button" = "Связиться с %d покупателями";
-"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
-"passive_buyers_contact_success" = "Buyers contacted!";
+"passive_buyers_contact_error" = "При оповещении покупателей произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"passive_buyers_contact_success" = "Покупатели оповещены!";
 "passive_buyers_message" = "Свяжитесь с покупателями, которые интересовались похожими товарами";
-"passive_buyers_not_available" = "Oops! Buyers not found.";
+"passive_buyers_not_available" = "Упс! Покупатели не найдены.";
 "passive_buyers_title" = "ЭТИ ПОКУПАТЕЛИ МОГУТ БЫТЬ ЗАИНТЕРЕСОВАНЫ";
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";

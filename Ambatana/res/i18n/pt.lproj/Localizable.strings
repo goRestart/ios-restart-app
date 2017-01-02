@@ -259,11 +259,13 @@
 "direct_answers_show" = "Show Quick Answers";
 "edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
 "edit_product_location_alert_title" = "CHANGE LOCATION";
-"edit_product_send_button" = "Update";
+"edit_product_send_button" = "Save changes";
 "edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
 "edit_product_send_ok" = "Congratulations! Your product was successfully updated. It will appear in our listings shortly.";
 "edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Edit Product";
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 "filters_distance_not_set" = "not set";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "From";

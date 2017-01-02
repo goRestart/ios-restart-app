@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "DEL KJÆRLIGHETEN";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
 "block_user_error_generic" = "En feil oppstod ved blokkering av denne brukeren.";
-"bump_up_bubble_free_button_title" = "Promoter ditt produkt";
-"bump_up_bubble_free_text" = "Promoter gratis for å selge raskere";
-"bump_up_bubble_pay_text" = "Promoter ditt produkt for et raskere salg";
-"bump_up_bubble_wait_text" = "for å promotere ditt produkt igjen";
+"bump_up_banner_free_button_title" = "Promoter ditt produkt";
+"bump_up_banner_free_text" = "Promoter gratis for å selge raskere";
+"bump_up_banner_pay_text" = "Promoter ditt produkt for et raskere salg";
+"bump_up_banner_wait_text" = "for å promotere ditt produkt igjen";
 "bump_up_error_bump_generic" = "En feil oppstod ved promotering av produktet ditt. Vennligst prøv igjen.";
 "bump_up_error_bump_token" = "Din betaling er prosessert, men ditt produkt er ikke promotert enda.";
 "bump_up_free_success" = "Produktet er promotert! Fortsett å fremme din annonse, og den vil bli enda mer synlig.";
@@ -264,6 +264,8 @@
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
 "edit_product_suggesting_title" = "Foreslår tittel...";
 "edit_product_title" = "Endre produkt";
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 "filters_distance_not_set" = "ikke satt";
 "filters_navbar_reset" = "Tilbakestill";
 "filters_price_from" = "Fra";

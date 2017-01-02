@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "PARTAGEZ L'APPLI";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
 "block_user_error_generic" = "Une erreur est survenue lors du blocage de cet utilisateur.";
-"bump_up_bubble_free_button_title" = "Renvoyer vers le haut";
-"bump_up_bubble_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
-"bump_up_bubble_pay_text" = "Renvoyer vers le haut pour vendre pus vite";
-"bump_up_bubble_wait_text" = "à attendre";
+"bump_up_banner_free_button_title" = "Renvoyer vers le haut";
+"bump_up_banner_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
+"bump_up_banner_pay_text" = "Renvoyer vers le haut pour vendre pus vite";
+"bump_up_banner_wait_text" = "à attendre";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors du renvoi vers le haut de votre bien. Veuillez réessayer.";
 "bump_up_error_bump_token" = "Votre paiement a été effectué mais votre bien n'a pas encore été mis en avant. Veuillez réessayer.";
 "bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
@@ -264,6 +264,8 @@
 "edit_product_send_ok" = "Félicitations ! Votre bien a été modifié. Il apparaîtra dans l'application sous peu.";
 "edit_product_suggesting_title" = "Suggestion de titre...";
 "edit_product_title" = "Modifier le Bien";
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 "filters_distance_not_set" = "Aucun";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "De";
@@ -382,8 +384,8 @@
 "onboarding_posting_title_b" = "Postez votre premier bien";
 "onboarding_posting_title_c" = "En avez-vous à vendre ?";
 "passive_buyers_button" = "Contactez %d acheteurs";
-"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
-"passive_buyers_contact_success" = "Buyers contacted!";
+"passive_buyers_contact_error" = "Une erreur est survenue lors du contact avec les acheteurs. Veuillez réessayer.";
+"passive_buyers_contact_success" = "Acheteurs contactés !";
 "passive_buyers_message" = "Contactez ces acheteurs qui sont intéressés par des biens similaires";
 "passive_buyers_not_available" = "Oups ! Acheteurs introuvables.";
 "passive_buyers_title" = "CES ACHETEURS POURRAIENT ÊTRE INTÉRESSÉS";

@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "TEILE DAS ERLEBNIS";
 "app_share_whatsapp_button" = "Via Whatsapp einladen";
 "block_user_error_generic" = "Beim Blockieren dieses Nutzers ist ein Fehler aufgetreten.";
-"bump_up_bubble_free_button_title" = "Nach oben holen";
-"bump_up_bubble_free_text" = "Kostenlos hochholen, um schneller zu verkaufen";
-"bump_up_bubble_pay_text" = "Hochholen, um schneller zu verkaufen";
-"bump_up_bubble_wait_text" = "um es wieder hochzuholen";
+"bump_up_banner_free_button_title" = "Hochholen";
+"bump_up_banner_free_text" = "Kostenlos hochholen, um schneller zu verkaufen";
+"bump_up_banner_pay_text" = "Hochholen, um schneller zu verkaufen";
+"bump_up_banner_wait_text" = "um es wieder hochzuholen";
 "bump_up_error_bump_generic" = "Wir konnten dein Produkt nicht nach oben holen. Bitte versuche es erneut.";
 "bump_up_error_bump_token" = "Deine Zahlung wurde verarbeitet, aber dein Produkt wurde noch nicht nach oben geholt. Bitte versuche es erneut.";
 "bump_up_free_success" = "Ganz oben! Hole dein Angebot nach oben und mache es damit noch sichtbarer.";
@@ -264,6 +264,8 @@
 "edit_product_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich aktualisiert. Er wird in Kürze in unseren Listen erscheinen.";
 "edit_product_suggesting_title" = "Titelvorschlag...";
 "edit_product_title" = "Produkt bearbeiten";
+"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
+"edit_product_unsaved_changes_alert_ok" = "Discard";
 "filters_distance_not_set" = "nicht eingestellt";
 "filters_navbar_reset" = "Zurücksetzen";
 "filters_price_from" = "Von";
@@ -382,8 +384,8 @@
 "onboarding_posting_title_b" = "Stelle dein erstes Produkt ein";
 "onboarding_posting_title_c" = "Möchtest du welche verkaufen?";
 "passive_buyers_button" = "Kontaktiere %d Käufer";
-"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
-"passive_buyers_contact_success" = "Buyers contacted!";
+"passive_buyers_contact_error" = "Beim Kontaktieren der Käufer ist ein Fehler aufgetreten. Bitte versuche es erneut.";
+"passive_buyers_contact_success" = "Käufer kontaktiert!";
 "passive_buyers_message" = "Kontaktiere diese Käufer, die an ähnlichen Produkten interessiert sind";
 "passive_buyers_not_available" = "Hoppla! Käufer nicht gefunden.";
 "passive_buyers_title" = "DIESE KÄUFER SIND MÖGLICHERWEISE INTERESSIERT";

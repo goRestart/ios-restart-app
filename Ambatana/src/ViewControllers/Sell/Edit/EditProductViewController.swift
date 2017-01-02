@@ -604,6 +604,10 @@ extension EditProductViewController: EditProductViewModelDelegate {
         let vc = EditLocationViewController(viewModel: locationViewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
+
+    func vmHideKeyboard() {
+        activeField?.endEditing(true)
+    }
 }
 
 

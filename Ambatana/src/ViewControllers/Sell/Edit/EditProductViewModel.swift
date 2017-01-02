@@ -26,6 +26,7 @@ protocol EditProductViewModelDelegate : BaseViewModelDelegate {
     func vmDidAddOrDeleteImage()
     func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel)
     func vmShareOnFbWith(content content: FBSDKShareLinkContent)
+    func vmHideKeyboard()
 }
 
 enum EditProductImageType {
@@ -216,7 +217,11 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     // MARK: - methods
 
     func closeButtonPressed() {
-        closeEdit()
+        if hasAnyChange() {
+            showCloseWChangesAlert()
+        } else {
+            closeEdit()
+        }
     }
 
     var numberOfImages: Int {
@@ -355,6 +360,31 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }.addDisposableTo(disposeBag)
     }
 
+    private func hasAnyChange() -> Bool {
+        if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
+            return true
+        }
+        if (initialProduct.name ?? "") != (title ?? "") {
+            return true
+        }
+        if let priceString = price where initialProduct.price.value != Double(priceString) {
+            return true
+        }
+        if (initialProduct.descr ?? "") != (descr ?? "") {
+            return true
+        }
+        if initialProduct.category != category {
+            return true
+        }
+        if initialProduct.location != location {
+            return true
+        }
+        if initialProduct.price.free != isFreePosting.value {
+            return true
+        }
+        return false
+    }
+
     private func validate() -> ProductCreateValidationError? {
         
         if images.count < 1 {
@@ -434,7 +464,23 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
+    private func showCloseWChangesAlert() {
+        let cancelAction = UIAction(
+            interface: .Button(LGLocalizedString.commonCancel, .Secondary(fontSize: .Medium, withBorder: true)),
+            action: {})
+        let discardAction = UIAction(
+            interface: .Button(LGLocalizedString.editProductUnsavedChangesAlertOk, .Primary(fontSize: .Medium)),
+            action: { [weak self] in
+                self?.closeEdit()
+        })
+
+        delegate?.vmHideKeyboard()
+        delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.editProductUnsavedChangesAlert,
+                                       alertType: .PlainAlert, actions: [cancelAction, discardAction])
+    }
+
     private func closeEdit() {
+        delegate?.vmHideKeyboard()
         delegate?.vmDismiss { [weak self] in
             self?.closeCompletion?(self?.savedProduct)
         }
