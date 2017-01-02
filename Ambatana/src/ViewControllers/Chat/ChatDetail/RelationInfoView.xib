@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,11 +24,8 @@
                                 <constraint firstAttribute="height" constant="15" id="t0e-nU-waB"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This user has blocked you" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaa-NA-rE7">
-                            <rect key="frame" x="23" y="4" width="179" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="21" id="alK-c6-5GT"/>
-                            </constraints>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This user has blocked you" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaa-NA-rE7">
+                            <rect key="frame" x="23" y="5.5" width="179" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -40,17 +37,19 @@
                         <constraint firstItem="PuM-yb-IAQ" firstAttribute="leading" secondItem="uTg-RT-Vpd" secondAttribute="leading" id="d3w-hU-wwg"/>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="ivm-mF-Owu"/>
                         <constraint firstItem="aaa-NA-rE7" firstAttribute="leading" secondItem="PuM-yb-IAQ" secondAttribute="trailing" constant="8" id="jG0-LC-Dzx"/>
-                        <constraint firstItem="aaa-NA-rE7" firstAttribute="centerY" secondItem="uTg-RT-Vpd" secondAttribute="centerY" id="zAI-FZ-3Kg"/>
+                        <constraint firstAttribute="bottom" secondItem="aaa-NA-rE7" secondAttribute="bottom" constant="5" id="ogE-hM-pOV"/>
+                        <constraint firstItem="aaa-NA-rE7" firstAttribute="top" secondItem="uTg-RT-Vpd" secondAttribute="top" constant="5" id="tdl-Q2-1C3"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.22546875476837158" green="0.22546195983886719" blue="0.22546583414077759" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="height" constant="28" id="ALR-eR-kgj"/>
+                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="8Hi-Dj-aA2"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uTg-RT-Vpd" secondAttribute="trailing" constant="15" id="8go-ZP-TlC"/>
                 <constraint firstItem="uTg-RT-Vpd" firstAttribute="top" secondItem="N9O-mK-a49" secondAttribute="top" id="BdO-Um-BCa"/>
                 <constraint firstItem="uTg-RT-Vpd" firstAttribute="centerX" secondItem="N9O-mK-a49" secondAttribute="centerX" id="Bl5-Lm-mMD"/>
+                <constraint firstItem="uTg-RT-Vpd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="N9O-mK-a49" secondAttribute="leading" constant="15" id="DF4-va-8MS"/>
                 <constraint firstAttribute="bottom" secondItem="uTg-RT-Vpd" secondAttribute="bottom" id="WWS-vP-0c1"/>
-                <constraint firstItem="uTg-RT-Vpd" firstAttribute="centerY" secondItem="N9O-mK-a49" secondAttribute="centerY" id="l4N-RA-qhC"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -60,7 +59,7 @@
                 <outlet property="chatInfoIcon" destination="PuM-yb-IAQ" id="nc8-PX-yEX"/>
                 <outlet property="chatInfoLabel" destination="aaa-NA-rE7" id="HVA-Lm-fP6"/>
                 <outlet property="containerView" destination="uTg-RT-Vpd" id="Zc8-qO-lgU"/>
-                <outlet property="relationInfoHeightConstraint" destination="ALR-eR-kgj" id="il6-9T-xwS"/>
+                <outlet property="relationInfoViewMaxHeight" destination="8Hi-Dj-aA2" id="KCV-oJ-IdJ"/>
             </connections>
             <point key="canvasLocation" x="718" y="391.5"/>
         </view>
