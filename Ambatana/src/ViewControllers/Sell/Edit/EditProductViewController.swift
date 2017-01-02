@@ -15,7 +15,7 @@ import KMPlaceholderTextView
 
 class EditProductViewController: BaseViewController, UITextFieldDelegate,
     UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
-    UINavigationControllerDelegate, FBSDKSharingDelegate {
+    UINavigationControllerDelegate {
     
     // UI
     private static let loadingTitleDisclaimerLeadingConstraint: CGFloat = 8
@@ -147,7 +147,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
-        viewModel.checkProductFields()
+        viewModel.sendButtonPressed()
     }
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
@@ -513,6 +513,9 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.isFreePosting.asObservable().bindNext{[weak self] active in
             self?.updateFreePostViews(active)
             }.addDisposableTo(disposeBag)
+
+        viewModel.loadingProgress.asObservable().map { $0 == nil }.bindTo(loadingView.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.loadingProgress.asObservable().ignoreNil().bindTo(loadingProgressView.rx_progress).addDisposableTo(disposeBag)
         
         var previousKbOrigin: CGFloat = CGFloat.max
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
@@ -545,16 +548,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             scrollView.addGestureRecognizer(tapRec)
         }
     }
-
-    override func popBackViewController() {
-        super.popBackViewController()
-    }
     
-    internal func editCompleted() {
-        showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { [weak self] in
-            self?.dismiss(nil)
-        }
-    }
     
     // MARK: - Private methods
     
@@ -572,49 +566,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
 
     dynamic func closeButtonPressed() {
-        dismiss()
-    }
-
-    private func dismiss(action: (() -> ())? = nil) {
-        dismissViewControllerAnimated(true) { [weak self] in
-
-            // TODO: Refactor w EditCoordinator
-            self?.viewModel.didClose()
-            action?()
-        }
+        viewModel.closeButtonPressed()
     }
     
     private dynamic func scrollViewTapped() {
         activeField?.endEditing(true)
-    }
-    
-    // MARK: - Share in facebook.
-    
-    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        viewModel.shouldEnableTracking()
-        viewModel.trackSharedFB()
-        // @ahl: delayed is needed thanks to facebook
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.editCompleted()
-        }
-    }
-    
-    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        viewModel.shouldEnableTracking()
-        // @ahl: delayed is needed thanks to facebook
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook) {
-                self.editCompleted()
-            }
-        }
-    }
-    
-    func sharerDidCancel(sharer: FBSDKSharing!) {
-        viewModel.shouldEnableTracking()
-        // @ahl: delayed is needed thanks to facebook
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.editCompleted()
-        }
     }
 }
 
@@ -623,13 +579,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
 extension EditProductViewController: EditProductViewModelDelegate {
 
-
     func vmDidSelectCategoryWithName(categoryName: String) {
         categorySelectedLabel.text = categoryName
     }
 
     func vmShouldUpdateDescriptionWithCount(count: Int) {
-
         if count <= 0 {
             descriptionCharCountLabel.textColor = UIColor.primaryColor
         } else {
@@ -642,67 +596,30 @@ extension EditProductViewController: EditProductViewModelDelegate {
         imageCollectionView.reloadSections(NSIndexSet(index: 0))
     }
 
-    func vmDidStartSavingProduct() {
-        loadingView.hidden = false
-        loadingProgressView.setProgress(0, animated: false)
-    }
-
-    func vmDidUpdateProgressWithPercentage(percentage: Float) {
-        loadingProgressView.setProgress(percentage, animated: false)
-    }
-
-    func vmDidFinishSavingProductWithResult(result: ProductResult) {
-        loadingView.hidden = true
-
-        if viewModel.shouldShareInFB {
-            viewModel.shouldDisableTracking()
-            let content = viewModel.fbShareContent
-            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-        } else {
-            editCompleted()
-        }
-    }
-
-    func vmDidFailWithError(error: ProductCreateValidationError) {
-        loadingView.hidden = true
-
-        var completion: ((Void) -> Void)? = nil
-
-        let message: String
-        switch (error) {
-        case .Network, .Internal, .ServerError:
-            self.viewModel.shouldDisableTracking()
-            message = LGLocalizedString.editProductSendErrorUploadingProduct
-            completion = {
-                self.viewModel.shouldEnableTracking()
-            }
-        case .NoImages:
-            message = LGLocalizedString.sellSendErrorInvalidImageCount
-        case .NoTitle:
-            message = LGLocalizedString.sellSendErrorInvalidTitle
-        case .NoPrice:
-            message = LGLocalizedString.sellSendErrorInvalidPrice
-        case .NoDescription:
-            message = LGLocalizedString.sellSendErrorInvalidDescription
-        case .LongDescription:
-            message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
-        case .NoCategory:
-            message = LGLocalizedString.sellSendErrorInvalidCategory
-        }
-        self.showAutoFadingOutMessageAlert(message, completion: completion)
-    }
-
-    func vmFieldCheckSucceeded() {
-        ifLoggedInThen(.Sell, loggedInAction: { [weak self] in
-            self?.viewModel.save()
-            }, elsePresentSignUpWithSuccessAction: { [weak self] in
-                self?.viewModel.save()
-            })
+    func vmShareOnFbWith(content content: FBSDKShareLinkContent) {
+        FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
     }
 
     func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel) {
         let vc = EditLocationViewController(viewModel: locationViewModel)
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+
+// MARK: - FBSDKSharingDelegate 
+
+extension EditProductViewController: FBSDKSharingDelegate {
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        viewModel.fbSharingFinishedOk()
+    }
+
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        viewModel.fbSharingFinishedWithError()
+    }
+
+    func sharerDidCancel(sharer: FBSDKSharing!) {
+        viewModel.fbSharingCancelled()
     }
 }
 
