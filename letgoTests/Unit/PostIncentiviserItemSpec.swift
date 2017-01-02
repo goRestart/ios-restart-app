@@ -18,7 +18,7 @@ class PostIncentiviserItemSpec: QuickSpec {
         var sut: [PostIncentiviserItem]!
         var date: NSDate!
 
-        fdescribe("PostIncentiviserItemSpec") {
+        describe("PostIncentiviserItemSpec") {
 
             beforeEach {
                 sut = [.PS4, .TV, .Bike, .Motorcycle, .Dresser, .Car, .KidsClothes, .Furniture, .Toys]
