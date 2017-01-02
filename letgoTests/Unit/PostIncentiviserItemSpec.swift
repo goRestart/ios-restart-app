@@ -29,9 +29,8 @@ class PostIncentiviserItemSpec: QuickSpec {
                     date = self.dateWithMonth(1)
                 }
                 it("Gives values for all items") {
-                    var previous = ""
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -41,7 +40,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -51,7 +50,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -61,7 +60,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -71,7 +70,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -81,7 +80,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -91,7 +90,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -101,7 +100,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -111,7 +110,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -121,7 +120,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -131,7 +130,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
@@ -141,7 +140,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        $0.searchCount(date)
+                        expect($0.searchCount(date)).notTo(beNil())
                     }
                 }
             }
