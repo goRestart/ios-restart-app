@@ -56,16 +56,16 @@
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
 // Text for bubble in free bump
-"bump_up_bubble_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_free_text" = "Bump up for free to sell faster";
 
 // Text for bubble in payment bump
-"bump_up_bubble_pay_text" = "Bump up to sell faster";
+"bump_up_banner_pay_text" = "Bump up to sell faster";
 
 // Text for bubble while waiting for next bump
-"bump_up_bubble_wait_text" = "to bump up again";
+"bump_up_banner_wait_text" = "to bump up again";
 
 // Title for bubble button
-"bump_up_bubble_free_button_title" = "Bump up";
+"bump_up_banner_free_button_title" = "Bump up";
 
 // Free bump up success message
 "bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
@@ -1039,7 +1039,7 @@
 "notifications_type_like_w_name" = "%@ favorited your product";
 
 // User likes your product
-"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
+"notifications_type_like_w_name_w_title" = "%1$@ favorited your product: \"%2$@\"";
 
 // User likes your product
 "notifications_type_like_button" = "Check out their profile";
@@ -1058,6 +1058,27 @@
 
 // User has updated your rating
 "notifications_type_rating_updated" = "%@ has updated their review";
+
+// Notifications product suggested
+"notifications_type_product_suggested" = "%@ just published an item you might be interested in";
+
+// Notifications product suggested
+"notifications_type_product_suggested_w_title" = "%1$@ just published an item you might be interested in: \"%2$@\"";
+
+// Notifications product suggested button
+"notifications_type_product_suggested_button" = "See the item";
+
+// Notifications buyers interested
+"notifications_type_buyers_interested" = "%d buyers might be interested in your product";
+
+// Notifications buyers interested
+"notifications_type_buyers_interested_w_title" = "%1$d buyers might be interested in your product: \"%2$@\"";
+
+// Notifications buyers interested button
+"notifications_type_buyers_interested_button" = "Find out who they are";
+
+// Notifications buyers interested button action has been performed
+"notifications_type_buyers_interested_button_done" = "Buyers contacted!";
 
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby";
@@ -1121,6 +1142,24 @@
 
 // Onboarding incentivize posting variant C button
 "onboarding_posting_button_c" = "Yes, I have things to sell";
+
+// Passive buyers screen for seller
+"passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
+
+// Passive buyers screen for seller
+"passive_buyers_message" = "Contact these buyers who are interested in similar products";
+
+// Passive buyers screen for seller
+"passive_buyers_button" = "Contact %d buyers";
+
+// Passive buyers screen for seller load error
+"passive_buyers_not_available" = "Oops! Buyers not found.";
+
+//  Passive buyers screen for seller -> Contact error
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+
+//  Passive buyers screen for seller -> Contact success
+"passive_buyers_contact_success" = "Buyers contacted!";
 
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
