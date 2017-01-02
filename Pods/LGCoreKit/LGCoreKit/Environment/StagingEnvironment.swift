@@ -6,10 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import Foundation
-
 struct StagingEnvironment: Environment {
-    // API
     let apiBaseURL = "http://api.stg.letgo.com"
     let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"
     let commercializerBaseURL = "http://commercializer.stg.letgo.com"
@@ -17,4 +14,5 @@ struct StagingEnvironment: Environment {
     let chatBaseURL = "https://chat.stg.letgo.com"
     let webSocketURL = "wss://chat.stg.letgo.com/socket"
     let notificationsBaseURL = "http://notifications.stg.letgo.com/api"
+    let passiveBuyersBaseURL = "http://passivebuyers.stg.letgo.com/api"
 }

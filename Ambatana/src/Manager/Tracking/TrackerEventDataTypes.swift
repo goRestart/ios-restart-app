@@ -55,7 +55,6 @@ public enum EventName: String {
     case ProductReport                      = "product-detail-report"
     
     case ProductSellStart                   = "product-sell-start"
-    case ProductSellFormValidationFailed    = "product-sell-form-validation-failed"
     case ProductSellSharedFB                = "product-sell-shared-fb"
     case ProductSellComplete                = "product-sell-complete"
     case ProductSellComplete24h             = "product-sell-complete-24h"
@@ -149,10 +148,6 @@ public enum EventName: String {
     case NotificationCenterComplete         = "notification-center-complete"
 
     case MarketingPushNotifications         = "marketing-push-notifications"
-    
-    case ChatHeadsStart                     = "chat-bubble-start"
-    case ChatHeadsOpen                      = "chat-bubble-complete"
-    case ChatHeadsDelete                    = "chat-bubble-delete"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -608,6 +603,8 @@ public enum EventParameterNotificationType: String {
     case ProductSold = "favorite-sold"
     case Rating = "rating"
     case RatingUpdated = "rating-updated"
+    case BuyersInterested = "buyers-interested"
+    case ProductSuggested = "product-suggested"
 }
 
 public enum EventParameterRelatedShownReason: String {

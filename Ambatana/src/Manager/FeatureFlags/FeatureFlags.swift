@@ -8,30 +8,31 @@
 
 import bumper
 import LGCoreKit
+import CoreTelephony
 
 protocol FeatureFlaggeable {
     var websocketChat: Bool { get }
     var notificationsSection: Bool { get }
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
-    var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
     var interestedUsersMode: InterestedUsersMode { get }
-    var filtersReorder: Bool { get }
-    var directPostInOnboarding: Bool { get }
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
-    var chatHeadBubbles: Bool { get }
-    var saveMailLogout: Bool { get }
-    var showLiquidProductsToNewUser: Bool { get }
     var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
-    var commercializerAfterPosting: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
+    var monetizationEnabled: Bool { get }
     var periscopeImprovement: Bool { get }
+    var newQuickAnswers: Bool { get }
+    var favoriteWithBadgeOnProfile: Bool { get }
+    var favoriteWithBubbleToChat: Bool { get }
+    var locationNoMatchesCountry: Bool { get }
+    var captchaTransparent: Bool { get }
+    var passiveBuyersShowKeyboard: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -40,8 +41,9 @@ class FeatureFlags: FeatureFlaggeable {
     
     private let locale: NSLocale
     private let locationManager: LocationManager
+    private let countryInfo: CountryConfigurable
     
-    init(locale: NSLocale, locationManager: LocationManager) {
+    init(locale: NSLocale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
@@ -55,11 +57,12 @@ class FeatureFlags: FeatureFlaggeable {
 
         self.locale = locale
         self.locationManager = locationManager
+        self.countryInfo = countryInfo
     }
 
     
     convenience init() {
-        self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
+        self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
     }
 
 
@@ -83,32 +86,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.showNPSSurvey.value
     }
 
-     var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode {
-        if Bumper.enabled {
-            return Bumper.messageOnFavoriteRound2Mode
-        }
-        return MessageOnFavoriteRound2Mode.fromPosition(ABTests.messageOnFavoriteRound2.value)
-    }
-
      var interestedUsersMode: InterestedUsersMode {
         if Bumper.enabled {
             return Bumper.interestedUsersMode
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
-    }
-
-     var filtersReorder: Bool {
-        if Bumper.enabled {
-            return Bumper.filtersReorder
-        }
-        return ABTests.filtersReorder.value
-    }
-
-     var directPostInOnboarding: Bool {
-        if Bumper.enabled {
-            return Bumper.directPostInOnboarding
-        }
-        return ABTests.directPostInOnboarding.value
     }
     
      var shareButtonWithIcon: Bool {
@@ -123,27 +105,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.productDetailShareMode
         }
         return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
-    }
-
-     var chatHeadBubbles: Bool {
-        if Bumper.enabled {
-            return Bumper.chatHeadBubbles
-        }
-        return ABTests.chatHeadBubbles.value
-    }
-
-    var saveMailLogout: Bool {
-        if Bumper.enabled {
-            return Bumper.saveMailLogout
-        }
-        return ABTests.saveMailLogout.value
-    }
-
-    var showLiquidProductsToNewUser: Bool {
-        if Bumper.enabled {
-            return Bumper.showLiquidProductsToNewUser
-        }
-        return ABTests.showLiquidProductsToNewUser.value
     }
 
     var expressChatBanner: Bool {
@@ -174,13 +135,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.shareAfterPosting.value
     }
 
-    var commercializerAfterPosting: Bool {
-        if Bumper.enabled {
-            return Bumper.commercializerAfterPosting
-        }
-        return ABTests.commercializerAfterPosting.value
-    }
-
     var postingMultiPictureEnabled: Bool {
         if Bumper.enabled {
             return Bumper.postingMultiPictureEnabled
@@ -201,21 +155,75 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.periscopeImprovement.value
     }
+    
+    var favoriteWithBadgeOnProfile: Bool {
+        if Bumper.enabled {
+            return Bumper.favoriteWithBadgeOnProfile
+        }
+        return ABTests.favoriteWithBadgeOnProfile.value
+    }
+    
+    var favoriteWithBubbleToChat: Bool {
+        if Bumper.enabled {
+            return Bumper.favoriteWithBubbleToChat
+        }
+        return ABTests.favoriteWithBubbleToChat.value
+    }
+
+    var newQuickAnswers: Bool {
+        if Bumper.enabled {
+            return Bumper.newQuickAnswers
+        }
+        return ABTests.newQuickAnswers.value
+    }
+
+    var monetizationEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.monetizationEnabled
+        }
+        return false
+    }
+
+    var captchaTransparent: Bool {
+        if Bumper.enabled {
+            return Bumper.captchaTransparent
+        }
+        return false
+    }
+
+    var passiveBuyersShowKeyboard: Bool {
+        if Bumper.enabled {
+            return Bumper.passiveBuyersShowKeyboard
+        }
+        return false
+    }
 
 
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        return !matchesLocationOrRegion("tr")
+        guard let countryCode = countryCode else { return true }
+        switch countryCode {
+        case .Turkey:
+            return false
+        }
+    }
+    
+    var locationNoMatchesCountry: Bool {
+        guard let countryCode = countryCode else { return false }
+        switch countryCode {
+        case .Turkey:
+            return locationManager.countryNoMatchWith(countryInfo)
+        }
     }
 
     
     // MARK: - Private
     
-    /// Checks location & phone region.
-    private func matchesLocationOrRegion(code: String) -> Bool {
+    /// Return CountryCode from location or phone Region
+    private var countryCode: CountryCode? {
         let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
-        return systemCountryCode == code || countryCode == code
+        return CountryCode(rawValue: countryCode)
     }
 }

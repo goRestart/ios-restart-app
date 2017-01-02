@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "PARTILHE O AMOR";
 "app_share_whatsapp_button" = "Convide via Whatsapp";
 "block_user_error_generic" = "Ocorreu um erro ao bloquear este utilizador.";
-"bump_up_banner_free_button_title" = "Priorizar";
-"bump_up_banner_free_text" = "Dê prioridade gratuitamente para vender mais rápido";
-"bump_up_banner_pay_text" = "Dê prioridade para vender mais rápido";
-"bump_up_banner_wait_text" = "para priorizar de novo";
+"bump_up_bubble_free_button_title" = "Priorizar";
+"bump_up_bubble_free_text" = "Dê prioridade gratuitamente para vender mais rápido";
+"bump_up_bubble_pay_text" = "Dê prioridade para vender mais rápido";
+"bump_up_bubble_wait_text" = "para priorizar de novo";
 "bump_up_error_bump_generic" = "Surgiu um erro ao dar prioridade ao seu item. Tente de novo.";
 "bump_up_error_bump_token" = "O seu pagamento está a ser processado mas o item ainda não foi destacado. Tente de novo.";
 "bump_up_free_success" = "Priorizado! Continue a dar prioridade à sua publicação e terá ainda mais visibilidade.";
@@ -382,8 +382,8 @@
 "onboarding_posting_title_b" = "Publique o seu primeiro produto";
 "onboarding_posting_title_c" = "Tem para vender?";
 "passive_buyers_button" = "Contactar %d compradores";
-"passive_buyers_contact_error" = "Surgiu um erro ao contactar os compradores. Tente de novo.";
-"passive_buyers_contact_success" = "Compradores contactados!";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Contacte estes compradores interessados em produtos semelhantes";
 "passive_buyers_not_available" = "Ups! Compradores não encontrados.";
 "passive_buyers_title" = "ESTES COMPRADORES PODEM ESTAR INTERESSADOS";

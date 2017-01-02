@@ -24,7 +24,8 @@ class DevelopmentEnvironment: AppEnvironment {
 
     // Config
     let configFileName = "ios-devel"
-    
+    let configURL = "https://letgo-images-devel.s3.amazonaws.com/config/ios.json"
+
     // Twitter
     let twitterConsumerKey = "krEbU50JQnxY9WkNp6zevuOpK"
     let twitterConsumerSecret = "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI"
@@ -33,6 +34,7 @@ class DevelopmentEnvironment: AppEnvironment {
     let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"
     let leanplumEnvKey = "dev_4pEk10FFVnVlZLhlVAmV2yrM1M7huTZgLQMntH61dyk"
 
-    // Config
-    var configURL = "https://letgo-images-devel.s3.amazonaws.com/config/ios.json"
+    // Website
+    let websiteBaseUrl = "https://www.stg.letgo.com"
+    let websiteBaseUrlWithLocaleParams = "https://%@.stg.letgo.com/%@"
 }

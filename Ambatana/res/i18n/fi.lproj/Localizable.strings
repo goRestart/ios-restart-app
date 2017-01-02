@@ -17,10 +17,10 @@
 "app_share_title_alternative" = "JAA RAKKAUTESI";
 "app_share_whatsapp_button" = "Kutsu Whatsappilla";
 "block_user_error_generic" = "Tätä käyttäjää estettäessä tapahtui virhe.";
-"bump_up_banner_free_button_title" = "Nosta";
-"bump_up_banner_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
-"bump_up_banner_pay_text" = "Nosta myydäksesi nopeammin";
-"bump_up_banner_wait_text" = "seuraavaan nostoon";
+"bump_up_bubble_free_button_title" = "Nosta";
+"bump_up_bubble_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
+"bump_up_bubble_pay_text" = "Nosta myydäksesi nopeammin";
+"bump_up_bubble_wait_text" = "seuraavaan nostoon";
 "bump_up_error_bump_generic" = "Tuotettasi nostettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole vielä nostettu esiin. Ole hyvä ja yritä uudelleen.";
 "bump_up_free_success" = "Nostettu! Nosta tuotettasi useamminkin listalla ylöspäin, jolloin se saa vielä enemmän näkyvyyttä.";
@@ -382,8 +382,8 @@
 "onboarding_posting_title_b" = "Julkaise ensimmäinen tuotteesi";
 "onboarding_posting_title_c" = "Olisiko sinulla myydä?";
 "passive_buyers_button" = "Ota yhteyttä %d ostajaan";
-"passive_buyers_contact_error" = "Otettaessa yhteyttä ostajiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
-"passive_buyers_contact_success" = "Ostajiin on otettu yhteyttä!";
+"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
+"passive_buyers_contact_success" = "Buyers contacted!";
 "passive_buyers_message" = "Ota yhteyttä näihin ostajiin, jotka ovat kiinnostuneita vastaavista tuotteista";
 "passive_buyers_not_available" = "Hups! Ostajia ei löytynyt.";
 "passive_buyers_title" = "NÄMÄ OSTAJAT SAATTAISIVAT OLLA KIINNOSTUNEITA";

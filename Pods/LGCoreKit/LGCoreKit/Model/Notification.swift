@@ -7,12 +7,12 @@
 //
 
 public enum NotificationType {
-    case Like(productId: String, productImageUrl: String?, productTitle: String?, userId: String, userImageUrl: String?,
-        userName: String?)
-    case Sold(productId: String, productImageUrl: String?, productTitle: String?, userId: String, userImageUrl: String?,
-        userName: String?)
-    case Rating(userId: String, userImageUrl: String?, userName: String?, value: Int, comments: String?)
-    case RatingUpdated(userId: String, userImageUrl: String?, userName: String?, value: Int, comments: String?)
+    case Like(product: NotificationProduct, user: NotificationUser)
+    case Sold(product: NotificationProduct, user: NotificationUser)
+    case Rating(user: NotificationUser, value: Int, comments: String?)
+    case RatingUpdated(user: NotificationUser, value: Int, comments: String?)
+    case BuyersInterested(product: NotificationProduct, buyers: [NotificationUser])
+    case ProductSuggested(product: NotificationProduct, seller: NotificationUser)
 }
 
 public protocol Notification: BaseModel {

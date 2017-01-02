@@ -13,7 +13,7 @@ protocol TabCoordinatorDelegate: class {
     func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
 }
 
-class TabCoordinator: NSObject {
+class TabCoordinator: BaseCoordinator {
     var child: Coordinator?
 
     let rootViewController: UIViewController
@@ -25,6 +25,7 @@ class TabCoordinator: NSObject {
     let oldChatRepository: OldChatRepository
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorage
+    let bubbleNotificationManager: BubbleNotificationManager
     let tracker: Tracker
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
@@ -36,6 +37,7 @@ class TabCoordinator: NSObject {
 
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
+         bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
          featureFlags: FeatureFlaggeable) {
         self.productRepository = productRepository
@@ -43,13 +45,14 @@ class TabCoordinator: NSObject {
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.rootViewController = rootViewController
         self.featureFlags = featureFlags
         self.navigationController = UINavigationController(rootViewController: rootViewController)
 
-        super.init()
+        super.init(viewController: rootViewController, bubbleNotificationManager: bubbleNotificationManager)
         self.navigationController.delegate = self
     }
 
@@ -58,6 +61,13 @@ class TabCoordinator: NSObject {
             return convDataDisplayer.isDisplayingConversationData(data)
         }
         return false
+    }
+
+    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
+                                     completion: (() -> Void)?) {
+        guard child == nil else { return }
+        child = coordinator
+        coordinator.open(parent: parent, animated: animated, completion: completion)
     }
 }
 
@@ -81,13 +91,15 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource) {
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource,
+                     showKeyboardOnFirstAppearIfNeeded: Bool) {
         switch data {
         case let .Id(productId):
-            openProduct(productId: productId, source: source)
+            openProduct(productId: productId, source: source,
+                        showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
         case let .ProductAPI(product, thumbnailImage, originFrame):
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
-                        index: 0, discover: false)
+                        index: 0, discover: false, showKeyboardOnFirstAppearIfNeeded: false)
         case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
             openProduct(product, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
@@ -134,12 +146,14 @@ extension TabCoordinator: TabNavigator {
 }
 
 private extension TabCoordinator {
-    func openProduct(productId productId: String, source: EventParameterProductVisitSource) {
+    func openProduct(productId productId: String, source: EventParameterProductVisitSource,
+                     showKeyboardOnFirstAppearIfNeeded: Bool) {
         navigationController.showLoadingMessageAlert()
         productRepository.retrieve(productId) { [weak self] result in
             if let product = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openProduct(product: product, source: source, index: 0, discover: false)
+                    self?.openProduct(product: product, source: source, index: 0, discover: false,
+                                      showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
                 }
             } else if let error = result.error {
                 let message: String
@@ -158,7 +172,7 @@ private extension TabCoordinator {
 
     func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
                              source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int,
-                             discover: Bool) {
+                             discover: Bool, showKeyboardOnFirstAppearIfNeeded: Bool) {
         guard let productId = product.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
@@ -181,21 +195,25 @@ private extension TabCoordinator {
         let requester = ProductListMultiRequester(requesters: requestersArray)
 
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
-                                      productListRequester: requester, navigator: self, source: source)
+                                          productListRequester: requester, navigator: self, source: source,
+                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
     func openProduct(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterProductVisitSource, index: Int) {
+        let showKeyboardOnFirstAppearIfNeeded = false
         if showRelated {
             //Same as single product opening
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, requester: requester, index: index, discover: true)
+                        source: source, requester: requester, index: index, discover: true,
+                        showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
                                               thumbnailImage: thumbnailImage, productListRequester: requester,
-                                              navigator: self, source: source)
+                                              navigator: self, source: source,
+                                              showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
             openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
         }
 
@@ -208,7 +226,7 @@ private extension TabCoordinator {
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,  navigator: self,
-                                          source: source)
+                                          source: source, showKeyboardOnFirstAppearIfNeeded: false)
         openProduct(vm, thumbnailImage: nil, originFrame: nil, productId: productId)
     }
 
@@ -334,13 +352,6 @@ private extension TabCoordinator {
             message = LGLocalizedString.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message)
-    }
-
-    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
-                                     completion: (() -> Void)?) {
-        guard child == nil else { return }
-        child = coordinator
-        coordinator.open(parent: parent, animated: animated, completion: completion)
     }
 }
 

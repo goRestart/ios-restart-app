@@ -17,4 +17,5 @@ protocol Environment {
     var chatBaseURL: String { get }
     var webSocketURL: String { get }
     var notificationsBaseURL: String { get }
+    var passiveBuyersBaseURL: String { get }
 }

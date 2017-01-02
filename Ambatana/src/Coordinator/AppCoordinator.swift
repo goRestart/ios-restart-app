@@ -11,13 +11,11 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-final class AppCoordinator: NSObject {
+final class AppCoordinator: BaseCoordinator {
     var child: Coordinator?
-    var presentedAlertController: UIAlertController?
 
     let tabBarCtl: TabBarController
     private let selectedTab: Variable<Tab>
-    let chatHeadOverlay: ChatHeadOverlayView
 
     private let mainTabBarCoordinator: MainTabCoordinator
     private let secondTabBarCoordinator: TabCoordinator
@@ -29,12 +27,11 @@ final class AppCoordinator: NSObject {
 
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
-    private let chatHeadManager: ChatHeadManager
     private let keyValueStorage: KeyValueStorage
 
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
-    private let bubbleNotifManager: BubbleNotificationManager
+    private let bubbleNotificationManager: BubbleNotificationManager
     private let tracker: Tracker
     private let deepLinksRouter: DeepLinksRouter
 
@@ -58,10 +55,8 @@ final class AppCoordinator: NSObject {
     convenience init(configManager: ConfigManager) {
         let tabBarViewModel = TabBarViewModel()
         let tabBarController = TabBarController(viewModel: tabBarViewModel)
-        let chatHeadOverlay = ChatHeadOverlayView()
 
         let sessionManager = Core.sessionManager
-        let chatHeadManager = ChatHeadManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
         let ratingManager = RatingManager.sharedInstance
@@ -79,28 +74,25 @@ final class AppCoordinator: NSObject {
         let featureFlags = FeatureFlags.sharedInstance
         let locationManager = Core.locationManager
 
-        self.init(tabBarController: tabBarController, chatHeadOverlay: chatHeadOverlay, configManager: configManager,
-                  sessionManager: sessionManager, chatHeadManager: chatHeadManager, keyValueStorage: keyValueStorage,
-                  pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
-                  deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, tracker: tracker,
-                  productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
-                  oldChatRepository: oldChatRepository, chatRepository: chatRepository,
+        self.init(tabBarController: tabBarController, configManager: configManager, sessionManager: sessionManager,
+                  keyValueStorage: keyValueStorage, pushPermissionsManager: pushPermissionsManager,
+                  ratingManager: ratingManager, deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager,
+                  tracker: tracker, productRepository: productRepository, userRepository: userRepository,
+                  myUserRepository: myUserRepository, oldChatRepository: oldChatRepository, chatRepository: chatRepository,
                   commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository,
                   locationManager: locationManager, featureFlags: featureFlags)
         tabBarViewModel.navigator = self
     }
 
-    init(tabBarController: TabBarController, chatHeadOverlay: ChatHeadOverlayView, configManager: ConfigManager,
-         sessionManager: SessionManager, chatHeadManager: ChatHeadManager, keyValueStorage: KeyValueStorage,
-         pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
-         bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
-         userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
-         chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
+    init(tabBarController: TabBarController, configManager: ConfigManager, sessionManager: SessionManager,
+         keyValueStorage: KeyValueStorage, pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager,
+         deepLinksRouter: DeepLinksRouter, bubbleManager: BubbleNotificationManager, tracker: Tracker,
+         productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
+         oldChatRepository: OldChatRepository, chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
          userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.Home)
-        self.chatHeadOverlay = chatHeadOverlay
         
         self.mainTabBarCoordinator = MainTabCoordinator()
         self.categoriesTabBarCoordinator = CategoriesTabCoordinator()
@@ -114,11 +106,10 @@ final class AppCoordinator: NSObject {
 
         self.configManager = configManager
         self.sessionManager = sessionManager
-        self.chatHeadManager = chatHeadManager
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
         self.ratingManager = ratingManager
-        self.bubbleNotifManager = bubbleManager
+        self.bubbleNotificationManager = bubbleManager
         self.tracker = tracker
 
         self.deepLinksRouter = deepLinksRouter
@@ -132,15 +123,13 @@ final class AppCoordinator: NSObject {
         self.userRatingRepository = userRatingRepository
         
         self.featureFlags = featureFlags
-        
         self.locationManager = locationManager
 
-        super.init()
+        super.init(viewController: tabBarCtl, bubbleNotificationManager: bubbleNotificationManager)
         setupTabBarController()
         setupTabCoordinators()
         setupDeepLinkingRx()
         setupCoreEventsRx()
-        setupChatHeads()
         setupLeanplumPopUp()
     }
 
@@ -156,7 +145,7 @@ extension AppCoordinator: AppNavigator {
 
     func open() {
         guard !openOnboarding() else { return }
-        afterOpenAppEvents()
+        delegate?.appNavigatorDidOpenApp()
         
         if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
             openExternalDeepLink(deepLink, initialDeepLink: true)
@@ -175,11 +164,6 @@ extension AppCoordinator: AppNavigator {
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
         return true
-    }
-
-    private func afterOpenAppEvents() {
-        chatHeadManager.initialize()
-        delegate?.appNavigatorDidOpenApp()
     }
 
     func openForceUpdateAlertIfNeeded() {
@@ -209,6 +193,10 @@ extension AppCoordinator: AppNavigator {
         let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
         userRatingCoordinator.delegate = self
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
+    
+    func openChangeLocation() {
+        profileTabBarCoordinator.openEditLocation()
     }
 
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
@@ -241,38 +229,6 @@ extension AppCoordinator: AppNavigator {
 }
 
 
-// MARK: - PromoteProductViewControllerDelegate
-
-extension AppCoordinator: PromoteProductViewControllerDelegate {
-    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
-        promoteProductPostActions(promotionSource)
-    }
-
-    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
-        if promotionSource == .ProductSell {
-            keyValueStorage.shouldShowCommercializerAfterPosting = false
-        }
-        promoteProductPostActions(promotionSource)
-    }
-}
-
-private extension AppCoordinator {
-    func promoteProductPostActions(source: PromotionSource) {
-        if source.hasPostPromotionActions {
-            if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-            } else if ratingManager.shouldShowRating {
-                showAppRatingViewIfNeeded(.ProductSellComplete)
-            }
-        }
-    }
-
-    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
-        return tabBarCtl.showAppRatingViewIfNeeded(source)
-    }
-}
-
-
 // MARK: - CoordinatorDelegate
 
 extension AppCoordinator: CoordinatorDelegate {
@@ -289,7 +245,6 @@ extension AppCoordinator: SellCoordinatorDelegate {
     func sellCoordinator(coordinator: SellCoordinator, didFinishWithProduct product: Product) {
         refreshSelectedProductsRefreshable()
 
-        guard !openPromoteIfNeeded(product: product) else { return }
         openAfterSellDialogIfNeeded()
     }
 }
@@ -299,7 +254,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
 extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
-        afterOpenAppEvents()
+        delegate?.appNavigatorDidOpenApp()
         if let source = source where posting {
             openSell(source)
         }
@@ -326,27 +281,6 @@ private extension AppCoordinator {
         refreshable.productsRefresh()
     }
 
-    func openPromoteIfNeeded(product product: Product) -> Bool {
-        // TODO: Promote Coordinator (move tracking into promote coordinator)
-        guard featureFlags.commercializerAfterPosting else { return false }
-
-        // We do not promote if it's a failure or if it's a success w/o country code
-        guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
-        guard keyValueStorage.shouldShowCommercializerAfterPosting else { return false }
-        // We do not promote if we do not have promo themes for the given country code
-        let themes = commercializerRepository.templatesForCountryCode(countryCode)
-        guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
-                                                      promotionSource: .ProductSell) else { return false }
-        let promoteVC = PromoteProductViewController(viewModel: promoteVM)
-        promoteVC.delegate = self
-        tabBarCtl.presentViewController(promoteVC, animated: true, completion: nil)
-
-        // Tracking
-        tracker.trackEvent(TrackerEvent.commercializerStart(productId, typePage: .Sell))
-
-        return true
-    }
-
     func openAfterSellDialogIfNeeded() -> Bool {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.Sell) {
             pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
@@ -357,6 +291,10 @@ private extension AppCoordinator {
             return false
         }
         return true
+    }
+
+    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
+        return tabBarCtl.showAppRatingViewIfNeeded(source)
     }
 }
 
@@ -423,35 +361,6 @@ extension AppCoordinator: UITabBarControllerDelegate {
 }
 
 
-// MARK: - ChatHeadGroupViewDelegate
-
-extension AppCoordinator: ChatHeadGroupViewDelegate {
-    func chatHeadGroup(view: ChatHeadGroupView, openChatDetailWithId id: String) {
-        let data = ConversationData.Conversation(conversationId: id)
-        
-        openTab(.Chats, completion: nil)
-        chatsTabBarCoordinator.openChat(.DataIds(data: data))
-
-        tracker.trackEvent(TrackerEvent.chatHeadsOpen())
-    }
-
-    func chatHeadGroupOpenChatList(view: ChatHeadGroupView) {
-        openTab(.Chats, completion: nil)
-
-        tracker.trackEvent(TrackerEvent.chatHeadsOpen())
-    }
-}
-
-
-// MARK: - ChatHeadOverlayViewDelegate
-
-extension AppCoordinator: ChatHeadOverlayViewDelegate {
-    func chatHeadOverlayViewUserDidDismiss(view: ChatHeadOverlayView) {
-        tracker.trackEvent(TrackerEvent.chatHeadsDelete())
-    }
-}
-
-
 // MARK: - Private methods
 // MARK: > Setup / tear down
 
@@ -508,41 +417,15 @@ private extension AppCoordinator {
             [weak self] _ in
             self?.askUserToUpdateLocation()
         }.addDisposableTo(disposeBag)
-    }
-
-    func setupChatHeads() {
-        let view: UIView = tabBarCtl.tabBar.superview ?? tabBarCtl.view
-        chatHeadOverlay.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(chatHeadOverlay)
-
-        let views: [String: AnyObject] = ["cho": chatHeadOverlay]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[cho]-0-|",
-                                                                          options: [], metrics: nil, views: views)
-        view.addConstraints(hConstraints)
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[cho]-0-|",
-                                                                          options: [], metrics: nil, views: views)
-        view.addConstraints(vConstraints)
-
-        chatHeadOverlay.delegate = self
-        chatHeadOverlay.setChatHeadGroupViewDelegate(self)
-        chatHeadManager.setChatHeadOverlayView(chatHeadOverlay)
-
-        // Chat heads should be hidden depending on the tab
-        let chatHeadsHidden = selectedTab.asObservable()
-            .map { $0.chatHeadsHidden }
-            .distinctUntilChanged()
-        chatHeadsHidden.bindTo(chatHeadOverlay.rx_hidden).addDisposableTo(disposeBag)
-
-        // Chat heads tracker event happens when chat head overlay is not hidden & its chat heads are visible
-        let chatHeadsStart = Observable.combineLatest(chatHeadsHidden, chatHeadOverlay.chatHeadsVisible.asObservable()) { !$0 && $1 }
-            .distinctUntilChanged()
-            .filter { $0 }
-
-        chatHeadsStart.subscribeNext { [weak self] shown in
-            self?.tracker.trackEvent(TrackerEvent.chatHeadsStart())
+        
+        locationManager.locationEvents.filter { $0 == .LocationUpdate }.take(1).bindNext {
+            [weak self] _ in
+            guard let strongSelf = self else { return }
+            if let currentLocation = strongSelf.locationManager.currentLocation where currentLocation.isAuto && strongSelf.featureFlags.locationNoMatchesCountry {
+                strongSelf.askUserToUpdateLocationManually()
+            }
             }.addDisposableTo(disposeBag)
-    }
-
+       }
 
     func askUserToUpdateLocation() {
         guard let navCtl = selectedNavigationController else { return }
@@ -554,7 +437,25 @@ private extension AppCoordinator {
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
     }
-
+    
+    func askUserToUpdateLocationManually() {
+        guard let navCtl = selectedNavigationController else { return }
+        guard navCtl.isAtRootViewController else { return }
+        
+        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default), action: { [weak self] in
+            self?.ifLoggedInAction(.Profile) { [weak self] in
+                self?.openTab(.Profile) { [weak self] in
+                    self?.openChangeLocation()
+                }
+            }
+            })
+        navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+                         cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+    }
+    
+    private func ifLoggedInAction(tab: EventParameterLoginSourceValue, action: () -> ()) {
+        viewController?.ifLoggedInThen(tab, loginStyle: .FullScreen, loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
+    }
 }
 
 extension AppCoordinator: CustomLeanplumPresenter {
@@ -661,7 +562,8 @@ private extension AppCoordinator {
             }
         case let .Product(productId):
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openProduct(ProductDetailData.Id(productId: productId), source: .OpenApp)
+                self?.selectedTabCoordinator?.openProduct(ProductDetailData.Id(productId: productId), source: .OpenApp,
+                                                          showKeyboardOnFirstAppearIfNeeded: false)
             }
         case let .User(userId):
             if userId == myUserRepository.myUser?.objectId {
@@ -716,6 +618,12 @@ private extension AppCoordinator {
                     self?.openUserRatingForUserFromRating(ratingId)
                 }
             }
+        case let .PassiveBuyers(productId):
+            afterDelayClosure = { [weak self] in
+                self?.openTab(.Notifications, completion: {
+                    self?.openPassiveBuyers(productId)
+                })
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -736,7 +644,7 @@ private extension AppCoordinator {
 
         switch deepLink.action {
         case .Home, .Sell, .Product, .User, .Conversations, .Search, .ResetPassword, .Commercializer,
-             .CommercializerReady, .UserRatings, .UserRating:
+             .CommercializerReady, .UserRatings, .UserRating, .PassiveBuyers:
             return // Do nothing
         case let .Conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -820,7 +728,7 @@ private extension AppCoordinator {
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))
-                self?.bubbleNotifManager.showBubble(data, duration: 3)
+                self?.showBubble(with: data, duration: 3)
             }
         } else {
             // Old chat cannot retrieve chat because it would mark messages as read.
@@ -833,8 +741,13 @@ private extension AppCoordinator {
             let data = BubbleNotificationData(tagGroup: conversationId,
                                               text: message,
                                               action: action)
-            bubbleNotifManager.showBubble(data, duration: 3)
+            showBubble(with: data, duration: 3)
         }
+    }
+
+    private func openPassiveBuyers(productId: String) {
+        guard let notificationsTabCoordinator = selectedTabCoordinator as? NotificationsTabCoordinator else { return }
+        notificationsTabCoordinator.openPassiveBuyers(productId, actionCompletedBlock: nil)
     }
 }
 

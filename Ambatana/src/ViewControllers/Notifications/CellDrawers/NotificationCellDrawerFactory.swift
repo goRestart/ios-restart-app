@@ -22,11 +22,16 @@ public class NotificationCellDrawerFactory {
             return RatingNotificationCellDrawer()
         case .Welcome:
             return WelcomeNotificationCellDrawer()
+        case .BuyersInterested:
+            return BuyersInterestedNotificationCellDrawer()
+        case .ProductSuggested:
+            return ProductSuggestedNotificationCellDrawer()
         }
     }
 
     static func registerCells(tableView: UITableView) {
         BaseNotificationCellDrawer<NotificationCell>.registerCell(tableView)
+        BaseNotificationCellDrawer<BuyersInterestedNotificationCell>.registerCell(tableView)
         WelcomeNotificationCellDrawer.registerCell(tableView)
     }
 }

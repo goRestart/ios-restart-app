@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import LGCoreKit
-
 protocol AppEnvironment {
     // General
     var appleAppId: String { get }
@@ -26,6 +24,7 @@ protocol AppEnvironment {
 
     // Config
     var configFileName: String { get }
+    var configURL: String { get }
 
     // Twitter
     var twitterConsumerKey: String { get }
@@ -35,6 +34,22 @@ protocol AppEnvironment {
     var leanplumAppId: String { get }
     var leanplumEnvKey: String { get }
 
-    // Config
-    var configURL: String { get }
+    // Website
+    var websiteBaseUrl: String { get }
+    var websiteBaseUrlWithLocaleParams: String { get }
+}
+
+extension AppEnvironment {
+    func websiteUrl(endpoint: String) -> String {
+        return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
+    }
+    func localizedWebsiteUrl(country: String, language: String, endpoint: String? = nil) -> String {
+        let format: String
+        if let endpoint = endpoint {
+            format = "\(websiteBaseUrlWithLocaleParams)\(endpoint)"
+        } else {
+            format = "\(websiteBaseUrlWithLocaleParams)"
+        }
+        return String(format: format, arguments: [country, language])
+    }
 }

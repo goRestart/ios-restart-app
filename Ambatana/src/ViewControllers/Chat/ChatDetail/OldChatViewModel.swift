@@ -20,8 +20,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidFailSendingMessage()
     func vmDidSucceedSendingMessage(index: Int)
-    
-    func vmDidUpdateDirectAnswers()
+
     func vmShowRelatedProducts(productId: String?)
     func vmDidUpdateProduct(messageToShow message: String?)
 
@@ -59,16 +58,13 @@ enum AskQuestionSource {
 
 public class OldChatViewModel: BaseViewModel, Paginable {
     
-    
-    // MARK: > Public data
-    
-    var fromMakeOffer = false
-    
-    
-    // MARK: > Controller data
-    
+    // MARK: - Properties
+    // MARK: > Protocols
+
     weak var delegate: OldChatViewModelDelegate?
     weak var navigator: ChatDetailNavigator?
+
+    // MARK: > Public data
 
     var title: String? {
         return product.title
@@ -98,7 +94,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return otherUser?.name
     }
 
-    var stickers: [Sticker] = []
+    private(set) var stickers: [Sticker] = [] {
+        didSet {
+            delegate?.vmDidUpdateStickers()
+        }
+    }
 
     var userRelation: UserUserRelation? {
         didSet {
@@ -107,17 +107,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 delegate?.vmHideKeyboard(animated: true)
                 showDirectAnswers(false)
             } else {
-                showDirectAnswers(shouldShowDirectAnswers)
+                showDirectAnswers(userDirectAnswersEnabled.value)
             }
             delegate?.vmUpdateChatInteraction(chatEnabled)
         }
     }
 
-
-    var shouldShowDirectAnswers: Bool {
-        return directAnswersAvailable &&
-            keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-    }
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
@@ -152,10 +147,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .Approved, .Pending:
             return .Available
         }
-    }
-
-    var directAnswersAvailable: Bool {
-        return chatEnabled && !relatedProductsEnabled.value
     }
 
     var chatEnabled: Bool {
@@ -324,17 +315,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return !isLoading && isLastPage
     }
 
-    // MARK: - express chat banner
+    // MARK: > express chat banner
     var shouldShowExpressBanner = Variable<Bool>(false)
     var firstInteractionDone = Variable<Bool>(false)
     var expressBannerTimerFinished = Variable<Bool>(false)
     var hasRelatedProducts = Variable<Bool>(false)
     var expressMessagesAlreadySent = Variable<Bool>(false)
 
-    // MARK: - related products
-    var relatedProductsEnabled = Variable<Bool>(false)
-    var chatStatusEnablesRelatedProducts = Variable<Bool>(false)
-    var sellerDidntAnswer = Variable<Bool>(false)
+    // MARK: > related products
+    let relatedProductsState = Variable<ChatRelatedItemsState>(.Loading)
+    let chatStatusEnablesRelatedProducts = Variable<Bool>(false)
+    let sellerDidntAnswer = Variable<Bool?>(nil)
+
+    // MARK: > Direct answers
+    private let userDirectAnswersEnabled = Variable<Bool>(false)
+    let directAnswersState = Variable<DirectAnswersState>(.NotAvailable)
 
     private let disposeBag = DisposeBag()
     
@@ -409,7 +404,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if firstTime {
             retrieveRelatedProducts()
             chatStatusEnablesRelatedProducts.value = statusEnableRelatedProducts()
-            checkShowRelatedProducts()
             launchExpressChatTimer()
             expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
         }
@@ -459,18 +453,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return false
         }
     }
-
-    func checkShowRelatedProducts() {
-        guard relatedProductsEnabled.value else { return }
-        delegate?.vmShowRelatedProducts(product.objectId)
-    }
     
     func didAppear() {
-        if fromMakeOffer &&
-            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat(buyer: isBuyer)){
-            fromMakeOffer = false
-            delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
-        } else if !chatEnabled {
+        if !chatEnabled {
             delegate?.vmHideKeyboard(animated: true)
         } else if autoKeyboardEnabled {
             delegate?.vmShowKeyboard()
@@ -487,7 +472,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .Available, .Blocked, .BlockedBy, .ProductSold, .UserPendingDelete, .UserDeleted:
             delegate?.vmHideKeyboard(animated: false)
             let data = ProductDetailData.ProductAPI(product: product, thumbnailImage: nil, originFrame: nil)
-            navigator?.openProduct(data, source: .Chat)
+            navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
         }
     }
     
@@ -525,8 +510,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
 
         //Direct answers
-        if chat.isSaved && directAnswersAvailable {
-            texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
+        if chat.isSaved && !featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+            let visible = directAnswersState.value == .Visible
+            texts.append(visible ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
             actions.append({ [weak self] in self?.toggleDirectAnswers() })
         }
@@ -587,6 +573,16 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard let productId = product.objectId else { return }
         navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: true)
     }
+
+    func directAnswersButtonPressed() {
+        toggleDirectAnswers()
+    }
+
+    func keyboardShown() {
+        if featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+            showDirectAnswers(false)
+        }
+    }
     
     // MARK: - private methods
     
@@ -610,15 +606,19 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         stickersRepository.show { [weak self] result in
             if let value = result.value {
                 self?.stickers = value
-                self?.delegate?.vmDidUpdateStickers()
             }
         }
     }
 
     private func setupRx() {
-
-        Observable.combineLatest(chatStatusEnablesRelatedProducts.asObservable(), sellerDidntAnswer.asObservable()) { $0 || $1 }
-            .bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
+        Observable.combineLatest(chatStatusEnablesRelatedProducts.asObservable(), sellerDidntAnswer.asObservable()) { [weak self] in
+            guard let strongSelf = self else { return .Loading }
+            guard strongSelf.isBuyer else { return .Hidden } // Seller doesn't have related products
+            if $0 { return .Visible }
+            guard let didntAnswer = $1 else { return .Loading } // If still checking if seller didn't answer. set loading state
+            return didntAnswer ? .Visible : .Hidden
+        }
+        .bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
                                                               expressBannerTimerFinished.asObservable()) { $0 || $1 }
@@ -630,12 +630,40 @@ public class OldChatViewModel: BaseViewModel, Paginable {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsEnabled.asObservable(),
+            relatedProductsState.asObservable().map { (state: ChatRelatedItemsState) -> Bool in return state == .Visible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
                 guard let strongSelf = self else { return }
                 self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
         }.addDisposableTo(disposeBag)
+
+        relatedProductsState.asObservable().bindNext { [weak self] state in
+            switch state {
+            case .Loading, .Hidden:
+                self?.delegate?.vmShowRelatedProducts(nil)
+            case .Visible:
+                self?.delegate?.vmShowRelatedProducts(self?.product.objectId)
+            }
+        }.addDisposableTo(disposeBag)
+
+        if !featureFlags.newQuickAnswers {
+            // New quick answers doesn't depend on saved state
+            userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        }
+        let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(
+            relatedProductsState.asObservable(),
+            userDirectAnswersEnabled.asObservable(),
+            resultSelector: { [weak self] relatedState, directAnswers in
+                guard let chatEnabled = self?.chatEnabled else { return .NotAvailable }
+                switch relatedState {
+                case .Loading, .Visible:
+                    return .NotAvailable
+                case .Hidden:
+                    guard chatEnabled else { return .NotAvailable }
+                    return directAnswers ? .Visible : .Hidden
+            }
+        }).distinctUntilChanged()
+        directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
 
         setupDeepLinksRx()
     }
@@ -930,10 +958,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
     
-    private func toggleDirectAnswers() {
-        showDirectAnswers(!shouldShowDirectAnswers)
-    }
-    
     private func delete() {
         guard !isDeleted else { return }
         
@@ -1080,7 +1104,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         } else {
             loadedMessages += chatMessages
         }
-
     }
 
     private func afterRetrieveChatMessagesEvents() {
@@ -1116,8 +1139,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
          */
         sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
             (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
-
-        checkShowRelatedProducts()
     }
 }
 
@@ -1132,37 +1153,60 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
         }
         if featureFlags.freePostingModeAllowed && product.price.free {
             if isBuyer {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
+                if !featureFlags.newQuickAnswers {
+                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction))
+                }
+                return directAnswers
             } else {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction)]
+                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
+                if !featureFlags.newQuickAnswers {
+                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction))
+                }
+                return directAnswers
             }
         } else {
             if isBuyer {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                if featureFlags.newQuickAnswers {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillAvailable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerCondition, action: emptyAction)]
+                } else {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                }
             } else {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                            self?.onProductSoldDirectAnswer()
-                            })]
+                if featureFlags.newQuickAnswers {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                                self?.onProductSoldDirectAnswer()
+                                }),
+                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction)]
+                } else {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                                self?.onProductSoldDirectAnswer()
+                                })]
+                }
             }
         }
     }
     
     func directAnswersDidTapAnswer(controller: DirectAnswersPresenter, answer: DirectAnswer) {
+        if featureFlags.newQuickAnswers {
+            delegate?.vmShowKeyboard()
+        }
         if let actionBlock = answer.action {
             actionBlock()
         }
@@ -1172,10 +1216,16 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {
         showDirectAnswers(false)
     }
-    
+
+    private func toggleDirectAnswers() {
+        showDirectAnswers(!userDirectAnswersEnabled.value)
+    }
+
     private func showDirectAnswers(show: Bool) {
-        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        delegate?.vmDidUpdateDirectAnswers()
+        if !featureFlags.newQuickAnswers {
+            keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
+        }
+        userDirectAnswersEnabled.value = show
     }
 }
 
@@ -1256,7 +1306,7 @@ extension OldChatViewModel: ChatRelatedProductsViewDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .Chat)
+        navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 

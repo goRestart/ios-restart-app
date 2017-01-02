@@ -190,17 +190,6 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    var shouldShowCommercializerAfterPosting: Bool {
-        get {
-            return currentUserProperties?.shouldShowCommercializerAfterPosting ??
-                UserDefaultsUser.shouldShowCommercializerAfterPostingDefaultValue
-        }
-        set {
-            guard var userProperties = currentUserProperties else { return }
-            userProperties.shouldShowCommercializerAfterPosting = newValue
-            currentUserProperties = userProperties
-        }
-    }
 
     var userShouldShowExpressChat: Bool {
         get {
@@ -246,6 +235,18 @@ extension KeyValueStorage {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.marketingNotifications = newValue
+            currentUserProperties = userProperties
+        }
+    }
+    
+    var productsMarkAsFavorite: Int? {
+        get {
+            return currentUserProperties?.productsMarkAsFavorite ??
+                UserDefaultsUser.productsMarkAsFavoriteDafaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.productsMarkAsFavorite = newValue
             currentUserProperties = userProperties
         }
     }

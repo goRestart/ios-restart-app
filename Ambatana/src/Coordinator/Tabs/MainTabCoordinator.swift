@@ -16,6 +16,7 @@ class MainTabCoordinator: TabCoordinator {
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
         let myUserRepository = Core.myUserRepository
+        let bubbleNotificationManager =  BubbleNotificationManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
@@ -23,8 +24,10 @@ class MainTabCoordinator: TabCoordinator {
         let rootViewController = MainProductsViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
-                  myUserRepository: myUserRepository, keyValueStorage: keyValueStorage,
-                  tracker: tracker, rootViewController: rootViewController, featureFlags: featureFlags)
+                  myUserRepository: myUserRepository,
+                  bubbleNotificationManager: bubbleNotificationManager,
+                  keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController,
+                  featureFlags: featureFlags)
 
         viewModel.navigator = self
     }

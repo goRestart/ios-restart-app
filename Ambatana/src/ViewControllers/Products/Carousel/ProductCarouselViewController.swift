@@ -131,7 +131,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.featureFlags = featureFlags
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
+                   navBarBackgroundStyle: .Transparent(substyle: .Dark), swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
@@ -163,6 +163,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         
         if moreInfoState.value == .Shown {
             moreInfoView?.viewWillShow()
+        }
+    }
+
+    override func viewDidFirstAppear(animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        if viewModel.showKeyboardOnFirstAppearance {
+            chatTextView.becomeFirstResponder()
         }
     }
 

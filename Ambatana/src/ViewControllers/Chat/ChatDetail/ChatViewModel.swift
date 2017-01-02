@@ -11,7 +11,6 @@ import RxSwift
 import CollectionVariable
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
-    func vmDidUpdateDirectAnswers()
     func vmShowRelatedProducts(productId: String?)
 
     func vmDidFailSendingMessage()
@@ -42,6 +41,14 @@ struct EmptyConversation: ChatConversation {
     var amISelling: Bool 
 }
 
+enum ChatRelatedItemsState {
+    case Loading, Visible, Hidden
+}
+
+enum DirectAnswersState {
+    case NotAvailable, Visible, Hidden
+}
+
 class ChatViewModel: BaseViewModel {
     
     
@@ -60,89 +67,31 @@ class ChatViewModel: BaseViewModel {
     }
 
     // Public Model info
-    var title = Variable<String>("")
-    var productName = Variable<String>("")
-    var productImageUrl = Variable<NSURL?>(nil)
-    var productPrice = Variable<String>("")
-    var productIsFree = Variable<Bool>(false)
-    var interlocutorAvatarURL = Variable<NSURL?>(nil)
-    var interlocutorName = Variable<String>("")
-    var interlocutorId = Variable<String?>(nil)
-    var stickers = Variable<[Sticker]>([])
-    var keyForTextCaching: String { return userDefaultsSubKey }
-    var relatedProducts: [Product] = []
-    var shouldTrackFirstMessage: Bool = false
-
-    var shouldShowExpressBanner = Variable<Bool>(false)
-    var firstInteractionDone = Variable<Bool>(false)
-    var expressBannerTimerFinished = Variable<Bool>(false)
-    var hasRelatedProducts = Variable<Bool>(false)
-    var expressMessagesAlreadySent = Variable<Bool>(false)
-
-    private var buyerId: String? {
-        let myUserId = myUserRepository.myUser?.objectId
-        let interlocutorId = conversation.value.interlocutor?.objectId
-        let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
-        return currentBuyer
-    }
-
-    private var shouldShowSafetyTips: Bool {
-        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
-    }
-    
-    private var didReceiveMessageFromOtherUser: Bool {
-        for message in messages.value {
-            if message.talkerId == conversation.value.interlocutor?.objectId {
-                return true
-            }
-        }
-        return false
-    }
-
-    var interlocutorEnabled: Bool {
-        switch chatStatus.value {
-        case .Forbidden, .UserDeleted, .UserPendingDelete:
-            return false
-        case .Available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
-            return true
-        }
-    }
-
-    var shouldShowDirectAnswers: Bool {
-        return directAnswersAvailable && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-    }
-
-    private var directAnswersAvailable: Bool {
-        return chatEnabled.value && !relatedProductsEnabled.value
-    }
-
-    var shouldShowUserReviewTooltip: Bool {
-        // we don't want both tooltips at the same time.  !st stickers, then rating
-        return !KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] &&
-            KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown]
-    }
-    
-    // Rx Variables
-    let interlocutorIsMuted = Variable<Bool>(false)
-    let interlocutorHasMutedYou = Variable<Bool>(false)
+    let title = Variable<String>("")
+    let productName = Variable<String>("")
+    let productImageUrl = Variable<NSURL?>(nil)
+    let productPrice = Variable<String>("")
+    let productIsFree = Variable<Bool>(false)
+    let interlocutorAvatarURL = Variable<NSURL?>(nil)
+    let interlocutorName = Variable<String>("")
+    let interlocutorId = Variable<String?>(nil)
+    let stickers = Variable<[Sticker]>([])
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
-    let relatedProductsEnabled = Variable<Bool>(false)
+    let directAnswersState = Variable<DirectAnswersState>(.NotAvailable)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
-    private let sellerDidntAnswer = Variable<Bool>(false)
-    private let conversation: Variable<ChatConversation>
-    private var interlocutor: User?
-    private let myMessagesCount = Variable<Int>(0)
-    private let otherMessagesCount = Variable<Int>(0)
-    private let isEmptyConversation = Variable<Bool>(true)
-    private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
-    private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     let shouldShowReviewButton = Variable<Bool>(false)
     let userReviewTooltipVisible = Variable<Bool>(false)
 
+    var relatedProducts: [Product] = []
+    var shouldTrackFirstMessage: Bool = false
+    let shouldShowExpressBanner = Variable<Bool>(false)
 
-    // Private    
+    var keyForTextCaching: String { return userDefaultsSubKey }
+
+    
+    // Private
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
     private let productRepository: ProductRepository
@@ -156,6 +105,22 @@ class ChatViewModel: BaseViewModel {
     
     private let keyValueStorage: KeyValueStorage
 
+    private let firstInteractionDone = Variable<Bool>(false)
+    private let expressBannerTimerFinished = Variable<Bool>(false)
+    private let hasRelatedProducts = Variable<Bool>(false)
+    private let expressMessagesAlreadySent = Variable<Bool>(false)
+    private let interlocutorIsMuted = Variable<Bool>(false)
+    private let interlocutorHasMutedYou = Variable<Bool>(false)
+    private let relatedProductsState = Variable<ChatRelatedItemsState>(.Loading)
+    private let sellerDidntAnswer = Variable<Bool?>(nil)
+    private let conversation: Variable<ChatConversation>
+    private var interlocutor: User?
+    private let myMessagesCount = Variable<Int>(0)
+    private let otherMessagesCount = Variable<Int>(0)
+    private let isEmptyConversation = Variable<Bool>(true)
+    private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    private let userDirectAnswersEnabled = Variable<Bool>(false)
 
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
@@ -182,6 +147,35 @@ class ChatViewModel: BaseViewModel {
     private var safetyTipsAction: () -> Void {
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
+        }
+    }
+
+    private var buyerId: String? {
+        let myUserId = myUserRepository.myUser?.objectId
+        let interlocutorId = conversation.value.interlocutor?.objectId
+        let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
+        return currentBuyer
+    }
+
+    private var shouldShowSafetyTips: Bool {
+        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
+    }
+
+    private var didReceiveMessageFromOtherUser: Bool {
+        for message in messages.value {
+            if message.talkerId == conversation.value.interlocutor?.objectId {
+                return true
+            }
+        }
+        return false
+    }
+
+    private var interlocutorEnabled: Bool {
+        switch chatStatus.value {
+        case .Forbidden, .UserDeleted, .UserPendingDelete:
+            return false
+        case .Available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
+            return true
         }
     }
 
@@ -259,6 +253,8 @@ class ChatViewModel: BaseViewModel {
     }
 
     func didAppear() {
+        // On new quick answers, if visible we shouldn't show keyboard
+        if featureFlags.newQuickAnswers && directAnswersState.value == .Visible { return }
         if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
         }
@@ -350,33 +346,30 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
-        relatedProductsEnabled.asObservable().bindNext { [weak self] enabled in
-            self?.delegate?.vmShowRelatedProducts(enabled ? self?.conversation.value.product?.objectId : nil)
+        relatedProductsState.asObservable().bindNext { [weak self] state in
+            switch state {
+            case .Loading, .Hidden:
+                self?.delegate?.vmShowRelatedProducts(nil)
+            case .Visible:
+                self?.delegate?.vmShowRelatedProducts(self?.conversation.value.product?.objectId)
+            }
         }.addDisposableTo(disposeBag)
 
         let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
-        Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { $0 || $1 }
-            .bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
+        Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
+            guard let strongSelf = self else { return .Loading }
+            guard strongSelf.isBuyer else { return .Hidden } // Seller doesn't have related products
+            if $0 { return .Visible }
+            guard let didntAnswer = $1 else { return .Loading } // If still checking if seller didn't answer. set loading state
+            return didntAnswer ? .Visible : .Hidden
+        }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
         let cfgManager = configManager
-        let myMessagesReviewable = myMessagesCount.asObservable()
-            .map { $0 >= cfgManager.myMessagesCountForRating }
-            .distinctUntilChanged()
-        let otherMessagesReviewable = otherMessagesCount.asObservable()
-            .map { $0 >= cfgManager.otherMessagesCountForRating }
-            .distinctUntilChanged()
-        let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }.distinctUntilChanged()
-
-        let isEmptyMyMessages = myMessagesCount.asObservable()
-            .map { $0 == 0 }
-            .distinctUntilChanged()
-        
-        let isEmptyOtherMessages = otherMessagesCount.asObservable()
-            .map { $0 == 0 }
-            .distinctUntilChanged()
-        
+        let myMessagesReviewable = myMessagesCount.asObservable().map { $0 >= cfgManager.myMessagesCountForRating }
+        let otherMessagesReviewable = otherMessagesCount.asObservable().map { $0 >= cfgManager.otherMessagesCountForRating }
+        let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }
         Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
-            .bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
+            .distinctUntilChanged().bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
 
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
@@ -387,11 +380,13 @@ class ChatViewModel: BaseViewModel {
             self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
         }.addDisposableTo(disposeBag)
         
-        conversation.asObservable().map{$0.lastMessageSentAt == nil}.bindNext{ [weak self] result in
+        conversation.asObservable().map{ $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
             self?.shouldTrackFirstMessage = result
-            }.addDisposableTo(disposeBag)
-        
-        Observable.combineLatest(isEmptyMyMessages, isEmptyOtherMessages) { $0 && $1 }
+        }.addDisposableTo(disposeBag)
+
+        let emptyMyMessages = myMessagesCount.asObservable().map { $0 == 0 }
+        let emptyOtherMessages = otherMessagesCount.asObservable().map { $0 == 0 }
+        Observable.combineLatest(emptyMyMessages, emptyOtherMessages){ $0 && $1 }.distinctUntilChanged()
             .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
@@ -404,12 +399,30 @@ class ChatViewModel: BaseViewModel {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsEnabled.asObservable(),
+            relatedProductsState.asObservable().map { $0 == .Visible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
                 guard let strongSelf = self else { return }
                 self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
         }.addDisposableTo(disposeBag)
+
+        if !featureFlags.newQuickAnswers {
+            // New quick answers doesn't depend on saved state
+            userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        }
+        let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
+                                        relatedProductsState.asObservable(),
+                                        userDirectAnswersEnabled.asObservable(),
+                                        resultSelector: { chatEnabled, relatedState, directAnswers in
+                                            switch relatedState {
+                                            case .Loading, .Visible:
+                                                return .NotAvailable
+                                            case .Hidden:
+                                                guard chatEnabled else { return .NotAvailable }
+                                                return directAnswers ? .Visible : .Hidden
+                                            }
+                                        }).distinctUntilChanged()
+        directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
 
         setupChatEventsRx()
     }
@@ -478,7 +491,7 @@ class ChatViewModel: BaseViewModel {
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             delegate?.vmHideKeyboard(false)
             let data = ProductDetailData.ProductChat(chatConversation: conversation.value)
-            navigator?.openProduct(data, source: .Chat)
+            navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
         }
     }
     
@@ -545,6 +558,16 @@ class ChatViewModel: BaseViewModel {
     func bannerActionButtonTapped() {
         guard let productId = conversation.value.product?.objectId else { return }
         navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: true)
+    }
+
+    func directAnswersButtonPressed() {
+        toggleDirectAnswers()
+    }
+
+    func keyboardShown() {
+        if featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+            showDirectAnswers(false)
+        }
     }
 }
 
@@ -733,9 +756,9 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if directAnswersAvailable {
-                let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
-                    LGLocalizedString.directAnswersShow
+            if !featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+                let visible = directAnswersState.value == .Visible
+                let directAnswersText = visible ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow
                 let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
                                                    action: toggleDirectAnswers)
                 actions.append(directAnswersAction)
@@ -765,10 +788,6 @@ extension ChatViewModel {
         }
         
         delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
-    }
-    
-    private func toggleDirectAnswers() {
-        showDirectAnswers(!shouldShowDirectAnswers)
     }
     
     private func deleteAction() {
@@ -920,6 +939,9 @@ extension ChatViewModel {
                 strongSelf.updateMessages(newMessages: value, isFirstPage: true)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
+                if strongSelf.featureFlags.newQuickAnswers {
+                    strongSelf.checkShouldShowDirectAnswers(value)
+                }
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -1003,6 +1025,15 @@ extension ChatViewModel {
          */
         sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
             (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
+    }
+
+    private func checkShouldShowDirectAnswers(messages: [ChatMessage]) {
+        // If there's no previous message from me, we should show direct answers
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        for message in messages {
+            guard message.talkerId != myUserId else { return }
+        }
+        userDirectAnswersEnabled.value = true
     }
 }
 
@@ -1162,39 +1193,61 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             self?.clearProductSoldDirectAnswer()
         }
         if featureFlags.freePostingModeAllowed && productIsFree.value {
-
             if !conversation.value.amISelling {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
+                if !featureFlags.newQuickAnswers {
+                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction))
+                }
+                return directAnswers
             } else {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction)]
+                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
+                if !featureFlags.newQuickAnswers {
+                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction))
+                }
+                return directAnswers
             }
         } else {
             if !conversation.value.amISelling {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                if featureFlags.newQuickAnswers {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillAvailable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerCondition, action: emptyAction)]
+                } else {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                }
             } else {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                            self?.onProductSoldDirectAnswer()
-                            })]
+                if featureFlags.newQuickAnswers {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                                self?.onProductSoldDirectAnswer()
+                                }),
+                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction)]
+                } else {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                                self?.onProductSoldDirectAnswer()
+                                })]
+                }
             }
         }
     }
     
     func directAnswersDidTapAnswer(controller: DirectAnswersPresenter, answer: DirectAnswer) {
+        if featureFlags.newQuickAnswers {
+            delegate?.vmShowKeyboard()
+        }
         if let actionBlock = answer.action {
             actionBlock()
         }
@@ -1204,10 +1257,16 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {
         showDirectAnswers(false)
     }
-    
+
+    private func toggleDirectAnswers() {
+        showDirectAnswers(!userDirectAnswersEnabled.value)
+    }
+
     private func showDirectAnswers(show: Bool) {
-        KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        delegate?.vmDidUpdateDirectAnswers()
+        if !featureFlags.newQuickAnswers {
+            KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
+        }
+        userDirectAnswersEnabled.value = show
     }
     
     private func clearProductSoldDirectAnswer() {
@@ -1259,7 +1318,7 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .Chat)
+        navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 

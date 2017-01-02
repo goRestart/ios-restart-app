@@ -12,8 +12,14 @@ import RxSwift
 
 class TextViewController: KeyboardViewController {
 
+
     var viewMargins: CGFloat = 10
     var textViewMargin: CGFloat = 5
+    var tableBottomMargin: CGFloat = 0 {
+        didSet {
+            tableBottomMarginConstraint.constant = tableBottomMargin
+        }
+    }
 
     var textMaxLines: UInt = 6
     var invertedTable = true {
@@ -50,6 +56,7 @@ class TextViewController: KeyboardViewController {
         }
     }
 
+    private static let animationTime: NSTimeInterval = 0.2
     private static var keyTextCache = [String : String]()
 
     private let maxTextViewBarHeight: CGFloat = 1000
@@ -57,13 +64,14 @@ class TextViewController: KeyboardViewController {
     private var textViewBarBottom = NSLayoutConstraint()
     private var textViewRightConstraint = NSLayoutConstraint()
     private var textViewHeight = NSLayoutConstraint()
+    private var tableBottomMarginConstraint = NSLayoutConstraint()
     private var leftActionsDisposeBag = DisposeBag()
     private let disposeBag = DisposeBag()
 
 
     override init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .Default,
-                  navBarBackgroundStyle: NavBarBackgroundStyle = .Default){
-        super.init(viewModel: viewModel, nibName: nibNameOrNil, statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
+                  navBarBackgroundStyle: NavBarBackgroundStyle = .Default, swipeBackGestureEnabled: Bool = true){
+        super.init(viewModel: viewModel, nibName: nibNameOrNil, statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle, swipeBackGestureEnabled: swipeBackGestureEnabled)
     }
 
     required init?(coder: NSCoder) {
@@ -82,9 +90,8 @@ class TextViewController: KeyboardViewController {
         guard textViewBarHidden != hidden else { return }
         textViewBarHidden = hidden
         if animated {
-            UIView.animateWithDuration(0.2) { [weak self] in
-                self?.view.layoutIfNeeded()
-            }
+            UIView.animateWithDuration(TextViewController.animationTime, delay: 0, options: [.BeginFromCurrentState],
+                                       animations: { [weak self] in self?.view.layoutIfNeeded()}, completion: nil)
         }
     }
 
@@ -115,6 +122,15 @@ class TextViewController: KeyboardViewController {
         }
     }
 
+    func setTableBottomMargin(margin: CGFloat, animated: Bool) {
+        let tableSuperView = tableView.superview
+        tableBottomMargin = margin
+        if animated {
+            UIView.animateWithDuration(TextViewController.animationTime, delay: 0, options: [.BeginFromCurrentState],
+                                       animations: { tableSuperView?.layoutIfNeeded() }, completion: nil)
+        }
+    }
+
 
     // MARK: - Methods to override
 
@@ -133,6 +149,9 @@ class TextViewController: KeyboardViewController {
         view.backgroundColor = UIColor.whiteColor()
         setupTextArea()
         setupTable()
+        view.bringSubviewToFront(textViewBar)
+
+        updateLeftActions()
     }
 }
 
@@ -146,9 +165,10 @@ extension TextViewController {
         view.addSubview(tableView)
         tableView.fitHorizontallyToParent()
         tableView.alignParentTop()
-        tableView.toTopOf(textViewBar)
+        tableBottomMarginConstraint = tableView.toTopOf(textViewBar, margin: tableBottomMargin)
         tableView.backgroundColor = UIColor.clearColor()
         tableView.separatorStyle = .None
+        tableView.clipsToBounds = false
         updateInverted()
 
         tableView.keyboardDismissMode = .OnDrag
@@ -207,13 +227,7 @@ extension TextViewController: UITextViewDelegate {
         sendButton.toRightOf(textView, margin: viewMargins)
         sendButton.setHeightConstraint(minHeight)
 
-        let topSeparator = UIView()
-        topSeparator.translatesAutoresizingMaskIntoConstraints = false
-        textViewBar.addSubview(topSeparator)
-        topSeparator.fitHorizontallyToParent()
-        topSeparator.alignParentTop()
-        topSeparator.backgroundColor = UIColor.lineGray
-        topSeparator.setHeightConstraint(LGUIKitConstants.onePixelSize)
+        textViewBar.addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
 
         textViewBarBottom = textViewBar.toTopOf(keyboardView, margin: textViewBarHidden ? -textViewBar.height : 0)
 
@@ -241,9 +255,8 @@ extension TextViewController: UITextViewDelegate {
             let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
             guard strongSelf.textViewRightConstraint.constant != rightConstraint else { return }
             self?.textViewRightConstraint.constant = rightConstraint
-            UIView.animateWithDuration(0.2) { [weak self] in
-                self?.view.layoutIfNeeded()
-            }
+            UIView.animateWithDuration(TextViewController.animationTime, delay: 0, options: [.BeginFromCurrentState],
+                animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
         }.addDisposableTo(disposeBag)
 
         textView.rx_text.bindNext { [weak self] text in
@@ -268,6 +281,9 @@ extension TextViewController: UITextViewDelegate {
             guard let image = action.image else { continue }
             let button = UIButton()
             button.setImage(image, forState: .Normal)
+            if let tint = action.imageTint {
+                button.tintColor = tint
+            }
             button.rx_tap.subscribeNext(action.action).addDisposableTo(leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
@@ -284,6 +300,7 @@ extension TextViewController: UITextViewDelegate {
         if let lastButton = prevButton {
             lastButton.alignParentRight()
         }
+        textViewBar.layoutIfNeeded()
     }
 
     private func fitTextView() {
@@ -291,7 +308,8 @@ extension TextViewController: UITextViewDelegate {
         guard textViewHeight.constant != appropriateHeight else { return }
         textViewHeight.constant = appropriateHeight
         if textView.isFirstResponder() {
-            UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseInOut, .LayoutSubviews, .BeginFromCurrentState],
+            UIView.animateWithDuration(TextViewController.animationTime, delay: 0,
+                                       options: [.CurveEaseInOut, .LayoutSubviews, .BeginFromCurrentState],
                                        animations: { [weak self] in
                                             self?.textView.scrollToCaret(animated: false)
                                         }, completion: nil)

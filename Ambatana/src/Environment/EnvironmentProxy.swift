@@ -9,6 +9,7 @@
 public enum AppEnvironmentType: String {
     case Development
     case Production
+    case Escrow
 }
 
 public class EnvironmentProxy: AppEnvironment {
@@ -33,6 +34,8 @@ public class EnvironmentProxy: AppEnvironment {
             environment = DevelopmentEnvironment()
         case .Production:
             environment = ProductionEnvironment()
+        case .Escrow:
+            environment = EscrowEnvironment()
         }
     }
 
@@ -89,5 +92,13 @@ public class EnvironmentProxy: AppEnvironment {
 
     var configURL: String {
         return environment.configURL
+    }
+
+    var websiteBaseUrl: String {
+        return environment.websiteBaseUrl
+    }
+
+    var websiteBaseUrlWithLocaleParams: String {
+        return environment.websiteBaseUrlWithLocaleParams
     }
 }

@@ -54,10 +54,10 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private var termsAndConditionsURL: NSURL? {
-        return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
+        return LetgoURLHelper.buildTermsAndConditionsURL()
     }
     private var privacyURL: NSURL? {
-        return LetgoURLHelper.composeURL(Constants.privacyURL)
+        return LetgoURLHelper.buildPrivacyURL()
     }
 
     private let sessionManager: SessionManager
@@ -269,8 +269,6 @@ private extension SignUpViewModel {
     }
 
     private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, username: String?) {
-        guard featureFlags.saveMailLogout else { return }
-
         switch accountProvider {
         case .Email:
             previousFacebookUsername.value = nil
@@ -285,8 +283,6 @@ private extension SignUpViewModel {
     }
 
     private func savePreviousEmailOrUsername(accountProvider: AccountProvider, username: String?) {
-        guard featureFlags.saveMailLogout else { return }
-
         keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
         keyValueStorage[.previousUserEmailOrName] = username
     }

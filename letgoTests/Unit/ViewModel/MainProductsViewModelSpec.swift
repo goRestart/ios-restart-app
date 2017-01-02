@@ -28,27 +28,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 filters = ProductFilters()
             }
           
-            describe("Initialization") {
-                
-                context("with feature flag: showLiquid ProductsToNewUser enabled") {
-                    beforeEach {
-                        mockFeatureFlags.showLiquidProductsToNewUser = true
-                    }
-                    it("has firstDate nil (first time in Letgo)") {
-                        keyValueStorage[.sessionNumber] = 1
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
-                        expect(sut.currentActiveFilters?.selectedCategories) == [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
-                    }
-                    it("has firstDate no nil (more than one time in Letgo)") {
-                        keyValueStorage[.sessionNumber] =  2
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
-                        expect(sut.currentActiveFilters?.selectedCategories) == []
-                    }
-                }
-                context("with feature flag: showLiquidProductsToNewUser disabled") {
-                    beforeEach {
-                        mockFeatureFlags.showLiquidProductsToNewUser = false
-                    }
+            context("Initialization") {
                     it("has firstDate nil (first time in Letgo)") {
                         keyValueStorage[.sessionNumber] = 1
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
@@ -59,10 +39,9 @@ class MainProductsViewModelSpec: QuickSpec {
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         expect(sut.currentActiveFilters?.selectedCategories) == []
                     }
-                }
             }
             
-            describe("Filter edition") {
+            context("Filter edition") {
                 var userFilters: ProductFilters!
                 var filtersViewModel: FiltersViewModel!
                 
@@ -72,47 +51,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     userFilters.distanceRadius = 50
                     userFilters.selectedCategories = []
                 }
-                context("with feature flag: showLiquidProductsToNewUser enabled") {
-                    
                     beforeEach {
-                        mockFeatureFlags.showLiquidProductsToNewUser = true
-                        keyValueStorage[.sessionNumber] = 1
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
-                    }
-                    context("when user set some filters") {
-                        
-                        beforeEach {
-                            sut.viewModelDidUpdateFilters(filtersViewModel, filters: userFilters)
-                        }
-                        it("has filters with liquid categories") {
-                            expect(sut.currentActiveFilters?.selectedCategories) == [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
-                        }
-                        it("has filters set by user") {
-                            //TODO: We should implement equalable in ProductFilters to compare currentActiveFilters with userFilters.
-                            expect(sut.currentActiveFilters?.distanceRadius) == 50
-                        }
-                        it("has no user categories") {
-                            expect(sut.userActiveFilters?.selectedCategories) == []
-                        }
-                    }
-                    
-                    context("when user set filters and remove them") {
-                        beforeEach {
-                            let userFiltersRemoved = ProductFilters()
-                            sut.viewModelDidUpdateFilters(filtersViewModel, filters: userFiltersRemoved)
-                        }
-                        it("has not filters set by user") {
-                            expect(sut.userActiveFilters?.selectedCategories) == []
-                        }
-                        it("has liquid categories on request") {
-                            expect(sut.currentActiveFilters?.selectedCategories) == [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
-                        }
-                    }
-                }
-                context("with feature flag: showLiquidProductsToNewUser disabled") {
-                    
-                    beforeEach {
-                        mockFeatureFlags.showLiquidProductsToNewUser = false
                         keyValueStorage[.sessionNumber] = 1
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                     }
@@ -144,7 +83,6 @@ class MainProductsViewModelSpec: QuickSpec {
                             expect(sut.currentActiveFilters?.selectedCategories) == []
                         }
                     }
-                }
             }
         }
     }
