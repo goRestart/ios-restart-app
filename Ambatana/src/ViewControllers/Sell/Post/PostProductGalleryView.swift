@@ -20,6 +20,12 @@ protocol PostProductGalleryViewDelegate: class {
     func productGallerySelectionFull(selectionFull: Bool)
 }
 
+enum MessageInfoType {
+    case NoMessage
+    case NoImages
+    case WrongImage
+}
+
 class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     @IBOutlet var contentView: UIView!
@@ -162,16 +168,29 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
         infoButton.setStyle(.Primary(fontSize: .Medium))
 
-        resetLoadImageErrorViewInfo()
+        configMessageView(.NoMessage)
 
         setAccesibilityIds()
         setupRX()
         setupAlbumSelection()
     }
 
-    private func resetLoadImageErrorViewInfo() {
-        loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
-        loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
+    private func configMessageView(type: MessageInfoType) {
+        var title: String
+        var subtitle: String
+        switch type {
+        case .NoMessage:
+            title = ""
+            subtitle = ""
+        case .NoImages:
+            title = LGLocalizedString.productPostGallerySelectPicturesTitle
+            subtitle = LGLocalizedString.productPostGallerySelectPicturesSubtitle
+        case .WrongImage:
+            title = LGLocalizedString.productPostGalleryLoadImageErrorTitle
+            subtitle = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
+        }
+        loadImageErrorTitleLabel.text = title
+        loadImageErrorSubtitleLabel.text = subtitle
     }
 }
 
@@ -312,6 +331,7 @@ extension PostProductGalleryView {
             case .LoadImageError:
                 self?.infoContainer.hidden = true
                 self?.loadImageErrorView.hidden = false
+                self?.configMessageView(.WrongImage)
                 self?.postButton.enabled = false
             case .Loading:
                 self?.imageLoadActivityIndicator.startAnimating()
@@ -338,11 +358,10 @@ extension PostProductGalleryView {
             strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
 
             if imgsSelected.count == 0 {
-                strongSelf.loadImageErrorTitleLabel.text = LGLocalizedString.productPostGallerySelectPicturesTitle
-                strongSelf.loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGallerySelectPicturesSubtitle
+                strongSelf.configMessageView(.NoImages)
                 strongSelf.loadImageErrorView.hidden = false
             } else {
-                strongSelf.resetLoadImageErrorViewInfo()
+                strongSelf.configMessageView(.NoMessage)
                 strongSelf.loadImageErrorView.hidden = true
             }
             strongSelf.collectionView.userInteractionEnabled = true
