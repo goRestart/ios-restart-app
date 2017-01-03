@@ -33,6 +33,7 @@ protocol FeatureFlaggeable {
     var locationNoMatchesCountry: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
+    var filterIconWithLetters: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -188,14 +189,21 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.captchaTransparent
         }
-        return false
+        return ABTests.captchaTransparent.value
     }
 
     var passiveBuyersShowKeyboard: Bool {
         if Bumper.enabled {
             return Bumper.passiveBuyersShowKeyboard
         }
-        return false
+        return ABTests.passiveBuyersShowKeyboard.value
+    }
+    
+    var filterIconWithLetters: Bool {
+        if Bumper.enabled {
+            return Bumper.filterIconWithLetters
+        }
+        return ABTests.filterIconWithLetters.value
     }
 
 

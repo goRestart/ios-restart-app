@@ -307,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Hopp over";
 "login_scammer_alert_message" = "Din konto gjennomgås av letgo's team. Vennligst kontakt oss hvis du mener at din konto har blitt flagget ved en feiltakelse.";
 "login_scammer_alert_title" = "KONTO GJENNOMGÅS";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";
 "main_sign_up_error_request_already_sent" = "Din forespørsel er allerede prosessert. Vennligst vent før du prøver igjen.";
 "main_sign_up_error_user_rejected" = "E-postadressen du valgte er ugyldig. Vennligst sjekk og prøv igjen.";

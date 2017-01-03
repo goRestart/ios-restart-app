@@ -307,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Kapat";
 "login_scammer_alert_message" = "Hesabın letgo Ekibi tarafından inceleme altına alınmıştır. Eğer bu durumda bir yanlışlık olduğunu düşünüyorsan bizimle iletişime geçebilirsin.";
 "login_scammer_alert_title" = "HESAP İNCELEME ALTINDA";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
 "main_sign_up_error_request_already_sent" = "İsteğin işleme alınmıştır. Tekrar denemeden önce lütfen bekle.";
 "main_sign_up_error_user_rejected" = "Girmiş olduğun email hatalıdır. Lütfen kontrol edip tekrar dene.";

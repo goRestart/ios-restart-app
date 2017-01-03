@@ -307,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Bỏ qua";
 "login_scammer_alert_message" = "Tài khoản của bạn đang được letgo xem xét. Nếu bạn tin tài khoản của mình bị cảnh báo sai, hãy liên hệ với chúng tôi.";
 "login_scammer_alert_title" = "TÀI KHOẢN ĐANG ĐƯỢC XEM XÉT";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua—bằng cách trò chuyện!";
 "main_sign_up_error_request_already_sent" = "Yêu cầu của bạn đã được xử lý. Vui lòng chờ trước khi thử lại.";
 "main_sign_up_error_user_rejected" = "Email bạn nhập không đúng. Vui lòng kiểm tra và thử lại.";

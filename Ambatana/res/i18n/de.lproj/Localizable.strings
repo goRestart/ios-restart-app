@@ -307,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Überspringen";
 "login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί από λάθος, επικοινωνήστε μαζί μας.";
 "login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
 "main_sign_up_error_request_already_sent" = "Deine Anfrage wurde bereits bearbeitet. Bitte warte ein wenig, bevor du es erneut versuchst.";
 "main_sign_up_error_user_rejected" = "Die eingegebene E-Mail-Adresse ist falsch. Bitte überprüfe deine Eingabe und versuche es erneut.";

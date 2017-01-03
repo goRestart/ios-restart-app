@@ -30,6 +30,7 @@ public struct ABTests {
     static var favoriteWithBubbleToChat = BoolABDynamicVar(key: "favoriteWithBubbleToChat", defaultValue: false)
     static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
+    static var filterIconWithLetters = BoolABDynamicVar(key: "filterIconWithLetters", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey,
@@ -49,7 +50,8 @@ public struct ABTests {
                 favoriteWithBadgeOnProfile,
                 favoriteWithBubbleToChat,
                 passiveBuyersShowKeyboard,
-                captchaTransparent]
+                captchaTransparent,
+                filterIconWithLetters]
     }
 
     static func registerVariables() {

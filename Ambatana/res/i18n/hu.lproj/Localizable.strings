@@ -307,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Kihagy";
 "login_scammer_alert_message" = "Fiókodat a letgo csapata éppen ellenőrzi. Ha úgy gondolod, hogy ezt alaptalanul tesszük, vedd fel velünk a kapcsolatot.";
 "login_scammer_alert_title" = "FIÓK ELLENŐRZÉS ALATT";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
 "main_sign_up_error_request_already_sent" = "Kérésed már feldolgozás alatt van. Várj egy kicsit, mielőtt újra próbálkoznál.";
 "main_sign_up_error_user_rejected" = "A megadott e-mail cím helytelen. Ellenőrizd, majd próbálkozz újra.";

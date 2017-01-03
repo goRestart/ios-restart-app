@@ -307,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Skip";
 "login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
 "login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
 "main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";

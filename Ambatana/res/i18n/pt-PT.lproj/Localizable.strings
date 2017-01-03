@@ -307,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Pular";
 "login_scammer_alert_message" = "A sua conta está a ser analisada pela equipa letgo. Se acredita que foi marcada por engano, entre em contacto connosco.";
 "login_scammer_alert_title" = "CONTA A SER ANALISADA";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Comece a vender e a comprar - via chat!";
 "main_sign_up_error_request_already_sent" = "O seu pedido já foi processado. Por favor aguarde antes de tentar novamente.";
 "main_sign_up_error_user_rejected" = "O email inserido está incorreto. Por favor verifique e tente de novo.";

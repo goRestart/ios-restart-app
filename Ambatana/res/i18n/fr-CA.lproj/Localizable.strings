@@ -307,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Passer";
 "login_scammer_alert_message" = "Votre compte est en cours de vérification par l'équipe letgo. Si vous pensez qu'il s'agit d'une erreur, contactez-nous.";
 "login_scammer_alert_title" = "COMPTE EN COURS DE VÉRIFICATION";
+"main_products_filter_navigation_bar_button" = "Filter";
+"main_products_invite_navigation_bar_button" = "Invite";
 "main_sign_up_claim_label" = "Commencez à vendre et à acheter - en clavardant !";
 "main_sign_up_error_request_already_sent" = "Votre demande a déjà été traitée. Veuillez attendre avant de réessayer.";
 "main_sign_up_error_user_rejected" = "Le courriel que vous avez indiqué est incorrect. Veuillez le vérifier et réessayer.";

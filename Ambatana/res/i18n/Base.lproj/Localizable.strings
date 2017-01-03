@@ -972,11 +972,11 @@
 // "Terms of Service" Part of the complete text
 "main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 
-// Navigation bar button 'INVITE' 
-"main_products_invite_navigation_bar_button" = "INVITE";
+// Navigation bar button 'Invite'' 
+"main_products_invite_navigation_bar_button" = "Invite";
 
-// Navigation bar button 'FILTER'
-"main_products_filter_navigation_bar_button" = "FILTER";
+// Navigation bar button 'Filter'
+"main_products_filter_navigation_bar_button" = "Filter";
 
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";

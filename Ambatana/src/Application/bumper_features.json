@@ -98,5 +98,10 @@
         "name": "PassiveBuyersShowKeyboard",
         "values": ["No", "Yes"],
         "description": "Passive buyers products suggested notification opens product with keyboard opened"
+    },
+    {
+        "name": "FilterIconWithLetters",
+        "values": ["No", "Yes"],
+        "description": "Show filter icon as 'FILTERS'"
     }
  ]
