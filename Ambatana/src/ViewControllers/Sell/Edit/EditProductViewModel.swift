@@ -331,14 +331,14 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     func fbSharingFinishedOk() {
         shouldTrack = true
         trackSharedFB()
-        delay(0.25) { [weak self] in
+        delay(Constants.fbSdkRequiredDelay) { [weak self] in
             self?.showSuccessMessageAndClose()
         }
     }
 
     func fbSharingFinishedWithError() {
         shouldTrack = true
-        delay(0.25) { [weak self] in
+        delay(Constants.fbSdkRequiredDelay) { [weak self] in
             self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.sellSendErrorSharingFacebook) { [weak self] in
                 self?.showSuccessMessageAndClose()
             }
@@ -347,7 +347,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     func fbSharingCancelled() {
         shouldTrack = true
-        delay(0.25) { [weak self] in
+        delay(Constants.fbSdkRequiredDelay) { [weak self] in
             self?.showSuccessMessageAndClose()
         }
     }
