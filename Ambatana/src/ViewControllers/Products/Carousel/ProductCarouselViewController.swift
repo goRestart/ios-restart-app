@@ -111,7 +111,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     var pendingMovement: CarouselMovement?
 
     private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
-    private let keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance
     
     private let featureFlags: FeatureFlaggeable
 
