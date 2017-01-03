@@ -21,7 +21,7 @@ protocol PostProductGalleryViewDelegate: class {
 }
 
 enum MessageInfoType {
-    case Empty
+    case NoMessage
     case NoImages
     case WrongImage
 }
@@ -168,7 +168,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
         infoButton.setStyle(.Primary(fontSize: .Medium))
 
-        configMessageView(.Empty)
+        configMessageView(.NoMessage)
 
         setAccesibilityIds()
         setupRX()
@@ -179,7 +179,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         var title: String
         var subtitle: String
         switch type {
-        case .Empty:
+        case .NoMessage:
             title = ""
             subtitle = ""
         case .NoImages:
@@ -361,7 +361,7 @@ extension PostProductGalleryView {
                 strongSelf.configMessageView(.NoImages)
                 strongSelf.loadImageErrorView.hidden = false
             } else {
-                strongSelf.configMessageView(.Empty)
+                strongSelf.configMessageView(.NoMessage)
                 strongSelf.loadImageErrorView.hidden = true
             }
             strongSelf.collectionView.userInteractionEnabled = true
