@@ -61,7 +61,9 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     private var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
         didSet {
             buttonBottomTrailingConstraint?.constant = buttonsRightMargin
-            chatContainerTrailingConstraint?.constant = buttonsRightMargin
+            if !chatTextView.isFirstResponder() {
+                chatContainerTrailingConstraint?.constant = buttonsRightMargin
+            }
         }
     }
     private var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
