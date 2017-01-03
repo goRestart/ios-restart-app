@@ -113,4 +113,7 @@ struct Constants {
     // interested bubble
     static let maxInterestedBubblesPerSessionOriginal = 2
     static let maxInterestedBubblesPerSessionLimitedPrints = 3
+
+    // FBSDK
+    static let fbSdkRequiredDelay: NSTimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
 }
