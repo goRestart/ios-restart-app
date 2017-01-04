@@ -97,6 +97,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         removeStickersTooltip()
+        removeIgnoreTouchesForTooltip()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -367,6 +368,11 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     private func configureBottomMargin(animated animated: Bool) {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
+    }
+    
+    func removeIgnoreTouchesForTooltip() {
+        guard let tooltip = self.productView.userRatingTooltip else { return }
+        self.navigationController?.navigationBar.endForceTouchesFor(tooltip)
     }
 
     

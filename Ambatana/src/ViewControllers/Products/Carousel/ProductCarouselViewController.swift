@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-class ProductCarouselViewController: BaseViewController, AnimatableTransition {
+class ProductCarouselViewController: KeyboardViewController, AnimatableTransition {
 
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -61,7 +61,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
         didSet {
             buttonBottomTrailingConstraint?.constant = buttonsRightMargin
-            chatContainerTrailingConstraint?.constant = buttonsRightMargin
+            if !chatTextView.isFirstResponder() {
+                chatContainerTrailingConstraint?.constant = buttonsRightMargin
+            }
         }
     }
     private var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
@@ -78,7 +80,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var contentBottomMargin: CGFloat = 0 {
         didSet {
             interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
-
         }
     }
 
@@ -110,7 +111,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     var pendingMovement: CarouselMovement?
 
     private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
-    private let keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance
     
     private let featureFlags: FeatureFlaggeable
 
@@ -177,6 +177,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewWillDisappear(animated)
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         forceCloseInterestedBubble()
+        removeIgnoreTouchesForMoreInfo()
     }
     
     override func viewWillAppearFromBackground(fromBackground: Bool) {
@@ -284,12 +285,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         editButton.rounded = true
 
+        mainResponder = chatTextView
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
         setupExpandableButtonsViewIfNeeded()
     }
 
     func setupInterestedBubble() {
+        interestedBubble.hidden = !interestedBubbleIsVisible
         interestedBubble.translatesAutoresizingMaskIntoConstraints = false
         interestedBubbleContainer.addSubview(interestedBubble)
         let views = ["bubble": interestedBubble]
@@ -935,6 +938,11 @@ extension ProductCarouselViewController {
         guard let moreInfoView = moreInfoView where moreInfoView.mapExpanded else { return }
         moreInfoView.compressMap()
     }
+    
+    func removeIgnoreTouchesForMoreInfo() {
+        guard let button = moreInfoView?.dragView else { return }
+        self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
+    }
 }
 
 
@@ -1052,20 +1060,15 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
             self?.viewModel.currentProductViewModel?.stickersButton()
         }.addDisposableTo(disposeBag)
 
-        var previousKbOrigin: CGFloat = CGFloat.max
-        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+        keyboardChanges.bindNext { [weak self] change in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
-            let animationTime = strongSelf.keyboardHelper.animationTime
-            guard viewHeight >= origin else { return }
-            self?.contentBottomMargin = viewHeight - origin
-            let showingKb = origin < previousKbOrigin
-            strongSelf.chatContainerTrailingConstraint.constant = showingKb ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
-            UIView.animateWithDuration(Double(animationTime)) {
-                strongSelf.stickersButton.alpha = showingKb ? 0 : 1
+            self?.contentBottomMargin = viewHeight - change.origin
+            strongSelf.chatContainerTrailingConstraint.constant = change.visible ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
+            UIView.animateWithDuration(Double(change.animationTime)) {
+                strongSelf.stickersButton.alpha = change.visible ? 0 : 1
                 strongSelf.view.layoutIfNeeded()
             }
-            previousKbOrigin = origin
         }.addDisposableTo(disposeBag)
     }
 
@@ -1105,6 +1108,7 @@ extension ProductCarouselViewController {
         interestedBubbleTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(timerCloseInterestedBubble),
                                                                        userInfo: nil, repeats: false)
         interestedBubbleIsVisible = true
+        interestedBubble.hidden = false
         interestedBubble.updateInfo(text)
         delay(0.1) { [weak self] in
             self?.interestedBubbleBottom = 0
@@ -1129,7 +1133,9 @@ extension ProductCarouselViewController {
         interestedBubbleBottom = -CarouselUI.interestedBubbleHeight
         UIView.animateWithDuration(duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
-        }, completion: nil)
+            }, completion: { [weak self] _ in
+                self?.interestedBubble.hidden = true
+            })
     }
 }
 

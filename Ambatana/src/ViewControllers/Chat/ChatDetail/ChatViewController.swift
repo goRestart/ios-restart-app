@@ -94,6 +94,7 @@ class ChatViewController: TextViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         removeStickersTooltip()
+        removeIgnoreTouchesForTooltip()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -261,6 +262,12 @@ class ChatViewController: TextViewController {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
     }
+    
+    func removeIgnoreTouchesForTooltip() {
+        guard let tooltip = self.productView.userRatingTooltip else { return }
+        self.navigationController?.navigationBar.endForceTouchesFor(tooltip)
+    }
+
 
 
     // MARK: > Navigation
