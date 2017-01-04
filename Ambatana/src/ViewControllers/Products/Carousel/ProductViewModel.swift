@@ -11,7 +11,6 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 import RxSwift
-//import CollectionVariable  //TODO: RE-ENABLE after swift 3 migration
 
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {

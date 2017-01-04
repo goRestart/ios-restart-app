@@ -9,7 +9,6 @@
 import UIKit
 import FBSDKShareKit
 import RxSwift
-//import CollectionVariable  //TODO: RE-ENABLE after swift 3 migration
 
 class SettingsViewController: BaseViewController {
 

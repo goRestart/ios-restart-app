@@ -8,7 +8,6 @@
 
 import LGCoreKit
 import RxSwift
-//import CollectionVariable  //TODO: RE-ENABLE after swift 3 migration
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowRelatedProducts(_ productId: String?)
