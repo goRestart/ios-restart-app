@@ -105,7 +105,7 @@ final class LGProductRepository: ProductRepository {
                 completion?(ProductsResult(error: RepositoryError(apiError: error)))
             } else if let value = result.value {
                 if let myUserId = self?.myUserRepository.myUser?.objectId, myUserId == userId {
-                    self?.favoritesDAO.save(value)
+                    self?.favoritesDAO.save(products: value)
                 }
                 var products = value
                 if let favorites = self?.favoritesDAO.favorites,
@@ -273,7 +273,7 @@ final class LGProductRepository: ProductRepository {
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
                 newProduct.favorite = true
-                self?.favoritesDAO.save(product)
+                self?.favoritesDAO.save(product: product)
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -296,7 +296,7 @@ final class LGProductRepository: ProductRepository {
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
                 newProduct.favorite = false
-                self?.favoritesDAO.remove(product)
+                self?.favoritesDAO.remove(product: product)
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -318,7 +318,7 @@ final class LGProductRepository: ProductRepository {
 
         dataSource.retrieveRelation(productId, userId: userId) { result in
             handleApiResult(result, success: { [weak self] value in
-                value.isFavorited ? self?.favoritesDAO.save(productId) : self?.favoritesDAO.remove(productId)
+                value.isFavorited ? self?.favoritesDAO.save(productId: productId) : self?.favoritesDAO.remove(productId: productId)
                 }, completion: completion)
         }
     }

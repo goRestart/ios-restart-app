@@ -39,8 +39,8 @@ final class FavoritesUDDAO: FavoritesDAO {
     
     - parameter productIDs: Products IDs favorited
     */
-    func save(_ productIDs: [String]) {
-        favoritesSet = favoritesSet.union(Set(productIDs))
+    func save(productIds: [String]) {
+        favoritesSet = favoritesSet.union(Set(productIds))
         sync()
     }
     
@@ -49,7 +49,8 @@ final class FavoritesUDDAO: FavoritesDAO {
     
     - parameter productId: Product ID no longer favorited.
     */
-    func remove(_ productId: String) {
+    
+    func remove(productId: String) {
         favoritesSet.remove(productId)
         sync()
     }

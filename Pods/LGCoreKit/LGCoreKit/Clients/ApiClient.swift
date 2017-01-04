@@ -408,7 +408,7 @@ private extension ApiClient {
         }
         return decodeAuthInfo(authorization)
     }
-    init(radius: Float, diameter: FLoat)
+
     /**
      Decodes the given auth info and returns a token.
      - parameter authInfo: The auth info.
@@ -456,7 +456,6 @@ extension DataResponse {
     var apiErrorCode: Int? {
         guard let data = self.data, data.count > 0 else { return nil }
         guard let value = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
-        
         let code: LGApiErrorCode? = decode(value)
         guard let codeString = code?.code else { return nil }
         return Int(codeString)
