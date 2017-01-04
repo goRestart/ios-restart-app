@@ -10,7 +10,7 @@ import UIKit
 
 class LoadingIndicator: UIView {
 
-    open var color: UIColor = UIColor.white {
+    var color: UIColor = UIColor.white {
         didSet {
             loadingShape.strokeColor = color.cgColor
             okIcon.tintColor = color
@@ -27,7 +27,7 @@ class LoadingIndicator: UIView {
 
     // MARK: - View Lifecycle
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         setupView()
@@ -152,7 +152,7 @@ class LoadingIndicator: UIView {
 // MARK: - CAAnimationDelegate
 
 extension LoadingIndicator: CAAnimationDelegate {
-    public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if let propAnim = anim as? CAPropertyAnimation, let keyPath = propAnim.keyPath, keyPath == "strokeEnd" {
             loadingShape.removeAnimation(forKey: "rotation")
             if let finalState = pendingFinalState {

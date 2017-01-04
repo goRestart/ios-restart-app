@@ -6,13 +6,13 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
-public enum FilterSection: Int {
+enum FilterSection: Int {
     case location, categories, distance, sortBy, within, price
 }
 
 extension FilterSection {
     
-    public var name : String {
+    var name : String {
         switch(self) {
         case .location:
 

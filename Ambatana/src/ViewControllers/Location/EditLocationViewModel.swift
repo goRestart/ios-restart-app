@@ -338,14 +338,14 @@ class EditLocationViewModel: BaseViewModel {
 }
 
 extension PostalAddressRetrievalService {
-    public func rx_retrieveAddressForCoordinates(_ coordinates: CLLocationCoordinate2D?, fromGps: Bool)
+    func rx_retrieveAddressForCoordinates(_ coordinates: CLLocationCoordinate2D?, fromGps: Bool)
         -> Observable<(Place, Bool)> {
             guard let coordinates = coordinates else { return rx_retrieveAddressForLocation(nil, fromGps: fromGps) }
             let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
             return rx_retrieveAddressForLocation(location, fromGps: fromGps)
     }
 
-    public func rx_retrieveAddressForLocation(_ location: CLLocation?, fromGps: Bool) -> Observable<(Place, Bool)> {
+    func rx_retrieveAddressForLocation(_ location: CLLocation?, fromGps: Bool) -> Observable<(Place, Bool)> {
         return Observable.create({ observer -> Disposable in
             guard let location = location else {
                 observer.onError(PostalAddressRetrievalServiceError.Internal)

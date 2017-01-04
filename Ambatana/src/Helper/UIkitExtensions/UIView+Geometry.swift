@@ -13,7 +13,7 @@ import UIKit
 extension CGRect: ExpressibleByStringLiteral {
     
     /// The top coordinate of the rect.
-    public var top: CGFloat {
+    var top: CGFloat {
         get {
             return origin.y
         }
@@ -23,7 +23,7 @@ extension CGRect: ExpressibleByStringLiteral {
     }
     
     // The left-side coordinate of the rect.
-    public var left: CGFloat {
+    var left: CGFloat {
         get {
             return origin.x
         }
@@ -34,7 +34,7 @@ extension CGRect: ExpressibleByStringLiteral {
     
     // The bottom coordinate of the rect. Setting this will change origin.y of the rect according to
     // the height of the rect.
-    public var bottom: CGFloat {
+    var bottom: CGFloat {
         get {
             return origin.y + size.height
         }
@@ -45,7 +45,7 @@ extension CGRect: ExpressibleByStringLiteral {
     
     // The right-side coordinate of the rect. Setting this will change origin.x of the rect according to
     // the width of the rect.
-    public var right: CGFloat {
+    var right: CGFloat {
         get {
             return origin.x + size.width
         }
@@ -55,7 +55,7 @@ extension CGRect: ExpressibleByStringLiteral {
     }
     
     // The center x coordinate of the rect.
-    public var centerX: CGFloat {
+    var centerX: CGFloat {
         get {
             return origin.x + size.width / 2
         }
@@ -65,7 +65,7 @@ extension CGRect: ExpressibleByStringLiteral {
     }
     
     // The center y coordinate of the rect.
-    public var centerY: CGFloat {
+    var centerY: CGFloat {
         get {
             return origin.y + size.height / 2
         }
@@ -75,7 +75,7 @@ extension CGRect: ExpressibleByStringLiteral {
     }
     
     // The center of the rect.
-    public var center: CGPoint {
+    var center: CGPoint {
         get {
             return CGPoint(x: centerX, y: centerY)
         }
@@ -85,9 +85,9 @@ extension CGRect: ExpressibleByStringLiteral {
         }
     }
     
-    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+    typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
 
-    public init(stringLiteral value: StringLiteralType) {
+    init(stringLiteral value: StringLiteralType) {
         self.init()
         let rect: CGRect
         if value[value.startIndex] != "{" {
@@ -105,21 +105,21 @@ extension CGRect: ExpressibleByStringLiteral {
         self.origin = rect.origin;
     }
     
-    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(stringLiteral: value)
     }
     
-    public typealias UnicodeScalarLiteralType = StringLiteralType
+    typealias UnicodeScalarLiteralType = StringLiteralType
 
-    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(stringLiteral: value)
     }
 }
 
 extension CGPoint: ExpressibleByStringLiteral {
-    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+    typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
-    public init(stringLiteral value: StringLiteralType) {
+    init(stringLiteral value: StringLiteralType) {
         self.init()
         
         let point:CGPoint;
@@ -132,13 +132,13 @@ extension CGPoint: ExpressibleByStringLiteral {
         self.y = point.y;
     }
     
-    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(stringLiteral: value)
     }
     
-    public typealias UnicodeScalarLiteralType = StringLiteralType
+    typealias UnicodeScalarLiteralType = StringLiteralType
 
-    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(stringLiteral: value)
     }
 }
@@ -146,7 +146,7 @@ extension CGPoint: ExpressibleByStringLiteral {
 extension UIView {
     
     /// The top coordinate of the UIView.
-    public var top: CGFloat {
+    var top: CGFloat {
         get {
             return frame.top
         }
@@ -158,7 +158,7 @@ extension UIView {
     }
     
     /// The left coordinate of the UIView.
-    public var left: CGFloat {
+    var left: CGFloat {
         get {
             return frame.left
         }
@@ -170,7 +170,7 @@ extension UIView {
     }
     
     /// The bottom coordinate of the UIView.
-    public var bottom: CGFloat {
+    var bottom: CGFloat {
         get {
             return frame.bottom
         }
@@ -182,7 +182,7 @@ extension UIView {
     }
     
     /// The right coordinate of the UIView.
-    public var right: CGFloat {
+    var right: CGFloat {
         get {
             return frame.right
         }
@@ -194,7 +194,7 @@ extension UIView {
     }
     
     // The width of the UIView.
-    public var width: CGFloat {
+    var width: CGFloat {
         get {
             return frame.width
         }
@@ -206,7 +206,7 @@ extension UIView {
     }
     
     // The height of the UIView.
-    public var height: CGFloat {
+    var height: CGFloat {
         get {
             return frame.height
         }
@@ -218,7 +218,7 @@ extension UIView {
     }
     
     /// The horizontal center coordinate of the UIView.
-    public var centerX: CGFloat {
+    var centerX: CGFloat {
         get {
             return frame.centerX
         }
@@ -230,7 +230,7 @@ extension UIView {
     }
     
     /// The vertical center coordinate of the UIView.
-    public var centerY: CGFloat {
+    var centerY: CGFloat {
         get {
             return frame.centerY
         }

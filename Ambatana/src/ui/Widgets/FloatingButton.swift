@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum FloatingIconPosition {
+enum FloatingIconPosition {
     case left
     case right
 }

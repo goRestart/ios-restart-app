@@ -17,12 +17,12 @@ class ChatSafetyTipsView: UIView {
     @IBOutlet weak var okButton: UIButton!
     
     // > Data
-    open var dismissBlock: ((Void) -> Void)?
+    var dismissBlock: ((Void) -> Void)?
 
 
     // MARK: - Lifecycle
     
-    open static func chatSafetyTipsView() -> ChatSafetyTipsView? {
+    static func chatSafetyTipsView() -> ChatSafetyTipsView? {
         let view = Bundle.main.loadNibNamed("ChatSafetyTipsView", owner: self, options: nil)!.first as? ChatSafetyTipsView
         if let actualView = view {
             actualView.setupUI()

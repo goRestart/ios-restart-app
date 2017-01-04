@@ -11,7 +11,7 @@ import LGCoreKit
 import Result
 import RxSwift
 
-public enum LoginActionType: Int{
+enum LoginActionType: Int{
     case signup, login
 }
 
@@ -167,15 +167,15 @@ class SignUpLogInViewModel: BaseViewModel {
     
     // MARK: - Public methods
     
-    open func erasePassword() {
+    func erasePassword() {
         password = ""
     }
 
-    open func signUp() {
+    func signUp() {
         signUp(nil)
     }
     
-    open func signUp(_ recaptchaToken: String?) {
+    func signUp(_ recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
 
         let fullName = username.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -248,11 +248,11 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
 
-    open func recaptchaTokenObtained(_ token: String) {
+    func recaptchaTokenObtained(_ token: String) {
         signUp(token)
     }
     
-    open func logIn() {
+    func logIn() {
         if email == "admin" && password == "wat" {
             delegate?.vmShowHiddenPasswordAlert()
             return
@@ -287,7 +287,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
-    open func godLogIn(_ password: String) {
+    func godLogIn(_ password: String) {
         if password == "mellongod" {
             KeyValueStorage.sharedInstance[.isGod] = true
         } else {
@@ -295,7 +295,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
-    open func logInWithFacebook() {
+    func logInWithFacebook() {
         fbLoginHelper.login({ [weak self] _ in
             self?.delegate?.vmShowLoading(nil)
         }, loginCompletion: { [weak self] result in
@@ -312,7 +312,7 @@ class SignUpLogInViewModel: BaseViewModel {
         })
     }
 
-    open func logInWithGoogle() {
+    func logInWithGoogle() {
         googleLoginHelper.login({ [weak self] in
             // Google OAuth completed. Token obtained
             self?.delegate?.vmShowLoading(nil)

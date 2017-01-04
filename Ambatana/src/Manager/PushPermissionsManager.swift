@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-public enum PrePermissionType {
+enum PrePermissionType {
     case productListBanner
     case sell
     case chat(buyer: Bool)
@@ -18,7 +18,7 @@ public enum PrePermissionType {
 
 class PushPermissionsManager: NSObject {
 
-    open static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
+    static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
     var pushPermissionsSettingsMode: Bool {
         return KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert]
     }
@@ -34,7 +34,7 @@ class PushPermissionsManager: NSObject {
     - parameter viewController: the VC taht will show the alert
     - parameter prePermissionType: what kind of alert will be shown
     */
-    open func shouldShowPushPermissionsAlertFromViewController(_ prePermissionType: PrePermissionType) -> Bool {
+    func shouldShowPushPermissionsAlertFromViewController(_ prePermissionType: PrePermissionType) -> Bool {
         // If the user is already registered for notifications, we shouldn't ask anything.
         guard !UIApplication.shared.areRemoteNotificationsEnabled else {
             return false
@@ -47,12 +47,12 @@ class PushPermissionsManager: NSObject {
         }
     }
 
-    open func showPushPermissionsAlert(prePermissionType type: PrePermissionType) {
+    func showPushPermissionsAlert(prePermissionType type: PrePermissionType) {
         guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
         checkForSystemPushPermissions()
     }
 
-    open func application(_ application: UIApplication,
+    func application(_ application: UIApplication,
                             didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         guard didShowSystemPermissions else { return }
 
@@ -65,7 +65,7 @@ class PushPermissionsManager: NSObject {
         }
     }
 
-    open func showPrePermissionsViewFrom(_ viewController: UIViewController, type: PrePermissionType,
+    func showPrePermissionsViewFrom(_ viewController: UIViewController, type: PrePermissionType,
                                            completion: (() -> ())?) -> UIViewController? {
         guard shouldShowPushPermissionsAlertFromViewController(type) else { return nil }
 
@@ -197,7 +197,7 @@ class PushPermissionsManager: NSObject {
 // MARK: - PrePermissionType helpers
 
 extension PrePermissionType {
-    public var title: String {
+    var title: String {
         switch self {
         case .onboarding:
             return LGLocalizedString.notificationsPermissions1TitleV2
@@ -210,7 +210,7 @@ extension PrePermissionType {
         }
     }
 
-    public var subtitle: String {
+    var subtitle: String {
         switch self {
         case .onboarding:
             return LGLocalizedString.notificationsPermissions1Subtitle
@@ -223,7 +223,7 @@ extension PrePermissionType {
         }
     }
 
-    public var pushMessage: String {
+    var pushMessage: String {
         switch self {
         case .onboarding:
             return LGLocalizedString.notificationsPermissions1Push
@@ -236,7 +236,7 @@ extension PrePermissionType {
         }
     }
     
-    public var trackingParam: EventParameterTypePage {
+    var trackingParam: EventParameterTypePage {
         switch self {
         case .onboarding:
             return .Install

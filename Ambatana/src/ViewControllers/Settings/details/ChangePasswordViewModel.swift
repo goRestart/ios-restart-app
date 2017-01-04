@@ -49,13 +49,13 @@ class ChangePasswordViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private var token: String?
     
-    open var password: String {
+    var password: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSaveButton())
         }
     }
 
-    open var confirmPassword: String {
+    var confirmPassword: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSaveButton())
         }
@@ -88,7 +88,7 @@ class ChangePasswordViewModel: BaseViewModel {
     
     // MARK: - public methods
         
-    open func changePassword() {
+    func changePassword() {
         // check if username is ok (func in extension?)
         if isValidCombination() && isValidPassword() {
             
@@ -137,14 +137,14 @@ class ChangePasswordViewModel: BaseViewModel {
         }
     }
 
-    open func isValidCombination() -> Bool {
+    func isValidCombination() -> Bool {
         if password != confirmPassword { // passwords do not match.
             return false
         }
         return true
     }
     
-    open func isValidPassword() -> Bool {
+    func isValidPassword() -> Bool {
         if password.characters.count < Constants.passwordMinLength ||
             password.characters.count > Constants.passwordMaxLength ||
             confirmPassword.characters.count < Constants.passwordMinLength ||
@@ -155,7 +155,7 @@ class ChangePasswordViewModel: BaseViewModel {
     }
 
     
-    open func passwordChangedCorrectly() {
+    func passwordChangedCorrectly() {
         navigator?.closeChangePassword()
     }
     

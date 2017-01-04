@@ -43,7 +43,7 @@ class HelpViewModel: BaseViewModel {
         return true
     }
     
-    open var url: URL? {
+    var url: URL? {
         return LetgoURLHelper.buildHelpURL(myUserRepository.myUser, installation: installationRepository.installation)
     }
 

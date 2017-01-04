@@ -11,7 +11,7 @@ import TwitterKit
 import LGCoreKit
 import Branch
 
-public protocol SocialMessage {
+protocol SocialMessage {
     var whatsappShareText: String { get }
     var telegramShareText: String { get }
     var emailShareSubject: String { get }

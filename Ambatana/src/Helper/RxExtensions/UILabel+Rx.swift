@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 
 extension UILabel {
-    public var rx_optionalText: AnyObserver<String?> {
+    var rx_optionalText: AnyObserver<String?> {
         return UIBindingObserver(UIElement: self) { label, text in
             label.text = text
         }.asObserver()

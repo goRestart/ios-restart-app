@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public protocol ConfigDAO {
+protocol ConfigDAO {
     func retrieve() -> Config?
     func save(_ configFile: Config)
 }

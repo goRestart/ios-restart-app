@@ -9,11 +9,11 @@
 import LGCoreKit
 
 extension ProductTimeCriteria {
-    public static var defaultOption : ProductTimeCriteria {
+    static var defaultOption : ProductTimeCriteria {
         return .All
     }
     
-    public var name : String {
+    var name : String {
         switch(self) {
         case .Day:
             return LGLocalizedString.filtersWithinDay
@@ -26,6 +26,6 @@ extension ProductTimeCriteria {
         }
     }
     
-    public static func allValues() -> [ProductTimeCriteria] { return [.Day, .Week, .Month, .All] }
+    static func allValues() -> [ProductTimeCriteria] { return [.Day, .Week, .Month, .All] }
 
 }

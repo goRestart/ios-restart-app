@@ -11,13 +11,13 @@ import RxCocoa
 import RxSwift
 
 extension LGCollapsibleLabel {
-    public var rx_mainText: AnyObserver<String> {
+    var rx_mainText: AnyObserver<String> {
         return UIBindingObserver(UIElement: self) { label, mainText in
             label.mainText = mainText
             label.setNeedsLayout()
         }.asObserver()
     }
-    public var rx_optionalMainText: AnyObserver<String?> {
+    var rx_optionalMainText: AnyObserver<String?> {
         return UIBindingObserver(UIElement: self) { label, mainText in
             label.mainText = mainText ?? ""
             label.setNeedsLayout()

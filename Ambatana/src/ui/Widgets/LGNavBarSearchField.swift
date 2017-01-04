@@ -42,7 +42,7 @@ class LGNavBarSearchField: UIView {
     @IBOutlet var magnifierIconLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var magnifierIconCenterXConstraint: NSLayoutConstraint!
 
-    open var initialSearchValue = ""
+    var initialSearchValue = ""
 
     private var correctLayout : Bool {
         return self.frame.origin.x > 0.0
@@ -52,7 +52,7 @@ class LGNavBarSearchField: UIView {
     private var pendingLayout = false
     private var editMode = false
     
-    open static func setupNavBarSearchFieldWithText(_ text: String?) -> LGNavBarSearchField {
+    static func setupNavBarSearchFieldWithText(_ text: String?) -> LGNavBarSearchField {
         guard let view = Bundle.main.loadNibNamed("LGNavBarSearchField", owner: self, options: nil)!.first as?
             LGNavBarSearchField else { return LGNavBarSearchField() }
         view.setupTextFieldWithText(text)
@@ -60,7 +60,7 @@ class LGNavBarSearchField: UIView {
         return view
     }
     
-    open override func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         
         setupContentView()

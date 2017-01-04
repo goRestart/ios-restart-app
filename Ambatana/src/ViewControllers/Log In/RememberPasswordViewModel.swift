@@ -50,7 +50,7 @@ class RememberPasswordViewModel: BaseViewModel {
     
     // MARK: - Public methods
     
-    open func resetPassword() {
+    func resetPassword() {
         if !email.isEmail() {
             delegate?.viewModel(self, didFailResetPassword: LGLocalizedString.resetPasswordSendErrorInvalidEmail)
         }

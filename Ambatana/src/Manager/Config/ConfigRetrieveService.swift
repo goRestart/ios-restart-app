@@ -8,11 +8,11 @@
 
 import Result
 
-public enum ConfigRetrieveServiceError: Error, CustomStringConvertible {
+enum ConfigRetrieveServiceError: Error, CustomStringConvertible {
     case network
     case `internal`
 
-    public var description: String {
+    var description: String {
         switch (self) {
         case .network:
             return "Network"
@@ -22,10 +22,10 @@ public enum ConfigRetrieveServiceError: Error, CustomStringConvertible {
     }
 }
 
-public typealias ConfigRetrieveServiceResult = Result<Config, ConfigRetrieveServiceError>
-public typealias ConfigRetrieveServiceCompletion = (ConfigRetrieveServiceResult) -> Void
+typealias ConfigRetrieveServiceResult = Result<Config, ConfigRetrieveServiceError>
+typealias ConfigRetrieveServiceCompletion = (ConfigRetrieveServiceResult) -> Void
 
-public protocol ConfigRetrieveService {
+protocol ConfigRetrieveService {
 
     /**
         Retrieves the config file.

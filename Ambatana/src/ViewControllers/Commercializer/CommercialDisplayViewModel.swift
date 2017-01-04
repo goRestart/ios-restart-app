@@ -33,7 +33,7 @@ class CommercialDisplayViewModel: BaseViewModel {
 
     // MARK: - Lifercycle
 
-    public init?(commercializers: [Commercializer], productId: String?, source: EventParameterTypePage, isMyVideo: Bool) {
+    init?(commercializers: [Commercializer], productId: String?, source: EventParameterTypePage, isMyVideo: Bool) {
         self.commercialsList = commercializers
         self.productId = productId ?? ""
         self.source = source

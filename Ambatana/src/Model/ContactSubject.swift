@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-public enum ContactSubject {
+enum ContactSubject {
     case profileEdit, productEdit, location, login, report, other
     
     var name: String {

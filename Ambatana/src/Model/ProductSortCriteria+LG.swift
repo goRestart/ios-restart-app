@@ -9,11 +9,11 @@
 import LGCoreKit
 
 extension ProductSortCriteria {
-    public static var defaultOption : ProductSortCriteria? {
+    static var defaultOption : ProductSortCriteria? {
         return nil
     }
     
-    public var name : String {
+    var name : String {
         switch(self) {
         case .Distance:
             return LGLocalizedString.filtersSortClosest
@@ -26,7 +26,7 @@ extension ProductSortCriteria {
         }
     }
     
-    public static func allValues() -> [ProductSortCriteria] {
+    static func allValues() -> [ProductSortCriteria] {
         return [.Creation, .Distance, .PriceAsc, .PriceDesc]
     }
 }

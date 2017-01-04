@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-public protocol ProductDetailOnboardingViewDelegate: class {
+protocol ProductDetailOnboardingViewDelegate: class {
     func productDetailOnboardingDidAppear()
     func productDetailOnboardingDidDisappear()
 }
@@ -30,21 +30,21 @@ class ProductDetailOnboardingView: UIView {
 
     // MARK: - Lifecycle
 
-    open static func instanceFromNibWithState() -> ProductDetailOnboardingView { 
+    static func instanceFromNibWithState() -> ProductDetailOnboardingView { 
         let view = Bundle.main.loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)!
             .first as! ProductDetailOnboardingView
         return view
     }
 
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    open func setupUI() {
+    func setupUI() {
         setupFingersView()
         setupViewsVisibility()
         setupTapRecognizers()

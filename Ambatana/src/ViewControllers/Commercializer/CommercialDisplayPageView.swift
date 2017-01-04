@@ -26,24 +26,24 @@ class CommercialDisplayPageView: UIView {
     
     // MARK: - Lifecycle
 
-    open static func instanceFromNib() -> CommercialDisplayPageView {
+    static func instanceFromNib() -> CommercialDisplayPageView {
         return Bundle.main.loadNibNamed("CommercialDisplayPageView", owner: self, options: nil)!.first as! CommercialDisplayPageView
     }
 
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    open override func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         videoPlayer.frame = bounds
     }
 
-    open func setupVideoPlayerWithUrl(_ url: URL) {
+    func setupVideoPlayerWithUrl(_ url: URL) {
         videoPlayer.frame = bounds
         videoPlayer.setupUI()
         addSubview(videoPlayer)
@@ -57,15 +57,15 @@ class CommercialDisplayPageView: UIView {
         videoPlayer.pausePlayer()
     }
 
-    open func setupThumbnailWithUrl(_ thumbUrl: URL) {
+    func setupThumbnailWithUrl(_ thumbUrl: URL) {
         thumbnailImageView.lg_setImageWithURL(thumbUrl, placeholderImage: nil)
     }
 
-    open func pauseVideo() {
+    func pauseVideo() {
         videoPlayer.pausePlayer()
     }
 
-    open func playVideo() {
+    func playVideo() {
         videoPlayer.startPlayer()
     }
 
@@ -80,17 +80,17 @@ class CommercialDisplayPageView: UIView {
 
 extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
 
-    public func playerDidSwitchPlaying(_ isPlaying: Bool) {
+    func playerDidSwitchPlaying(_ isPlaying: Bool) {
         videoPlayer.controlsAreVisible = true
     }
 
-    public func playerDidReceiveTap() {}
+    func playerDidReceiveTap() {}
 
-    public func playerDidFinishPlaying() {
+    func playerDidFinishPlaying() {
         if fullScreen { playerDidPressFullscreen() }
     }
 
-    public func playerDidPressFullscreen() {
+    func playerDidPressFullscreen() {
 
         let transform: CGAffineTransform
         if fullScreen {

@@ -12,7 +12,7 @@ class BaseView: UIView {
 
     private var viewModel: BaseViewModel!
 
-    open var active: Bool = false {
+    var active: Bool = false {
         didSet {
             if oldValue != active {
                 viewModel.active = active
@@ -31,21 +31,21 @@ class BaseView: UIView {
     
     // MARK: - Lifecycle
     
-    public init(viewModel: BaseViewModel, frame: CGRect) {
+    init(viewModel: BaseViewModel, frame: CGRect) {
         self.viewModel = viewModel
         super.init(frame: frame)
     }
 
-    public init?(viewModel: BaseViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: BaseViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(coder: aDecoder)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open func switchViewModel(_ viewModel: BaseViewModel) {
+    func switchViewModel(_ viewModel: BaseViewModel) {
         self.viewModel.active = false
         self.viewModel = viewModel
         self.viewModel.active = self.active

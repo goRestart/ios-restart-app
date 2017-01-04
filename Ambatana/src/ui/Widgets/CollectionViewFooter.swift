@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum CollectionViewFooterStatus {
+enum CollectionViewFooterStatus {
     case loading, error, lastPage
 }
 
@@ -52,8 +52,8 @@ class CollectionViewFooter: UICollectionReusableView, ReusableCell {
     }
 
     // > Data
-    open var retryButtonBlock: (() -> Void)?
-    open var status: CollectionViewFooterStatus {
+    var retryButtonBlock: (() -> Void)?
+    var status: CollectionViewFooterStatus {
         didSet {
             let activityIndicatorAnimating: Bool
             let retryButtonHidden: Bool
@@ -86,12 +86,12 @@ class CollectionViewFooter: UICollectionReusableView, ReusableCell {
     
     // MARK: - Lifecycle
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         self.status = .lastPage
         super.init(frame: frame)
     }
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.status = .lastPage
         super.init(coder: aDecoder)
     }

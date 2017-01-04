@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum TooltipStyle {
+enum TooltipStyle {
     case black(closeEnabled: Bool)
     case blue(closeEnabled: Bool)
 
@@ -117,11 +117,11 @@ class Tooltip: UIView {
         super.init(frame: frame)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    open override func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         targetGlobalCenter = superView.convert(targetView.center, to: nil)
         peakOffset = peakFinalOffset()
@@ -318,7 +318,7 @@ class Tooltip: UIView {
  - parameter containerView: the view where the tooltip will be added
  */
 
-public func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, containerView: UIView,
+func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, containerView: UIView,
                                                margin: CGFloat = 0) {
 
     let targetGlobalCenter = containerView.convert(targetView.center, to: nil)

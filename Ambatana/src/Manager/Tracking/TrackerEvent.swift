@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-public struct TrackerEvent {
+struct TrackerEvent {
     private(set) var name: EventName
     var actualName: String {
         get {

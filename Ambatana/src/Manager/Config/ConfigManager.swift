@@ -24,9 +24,9 @@ class ConfigManager {
         }
     }
 
-    open var updateTimeout: Double    // seconds
+    var updateTimeout: Double    // seconds
 
-    open var shouldForceUpdate: Bool {
+    var shouldForceUpdate: Bool {
         guard let actualConfig = config else {
             return false
         }
@@ -38,24 +38,24 @@ class ConfigManager {
         return false
     }
 
-    open var myMessagesCountForRating: Int {
+    var myMessagesCountForRating: Int {
         return config?.myMessagesCountForRating ?? Constants.myMessagesCountForRating
     }
 
-    open var otherMessagesCountForRating: Int {
+    var otherMessagesCountForRating: Int {
         return config?.otherMessagesCountForRating ?? Constants.otherMessagesCountForRating
     }
 
 
     // MARK: - Lifecycle
 
-    public convenience init() {
+    convenience init() {
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
         let dao = LGConfigDAO(bundle: Bundle.main, configFileName: configFileName)
         self.init(dao: dao)
     }
 
-    public convenience init(dao: ConfigDAO) {
+    convenience init(dao: ConfigDAO) {
 
         let config = dao.retrieve()
         let configURL = config?.configURL ?? EnvironmentProxy.sharedInstance.configURL
@@ -66,7 +66,7 @@ class ConfigManager {
         self.init(service: service, dao: dao, appCurrentVersion: appVersion)
     }
 
-    public init(service: ConfigRetrieveService, dao: ConfigDAO, appCurrentVersion: String) {
+    init(service: ConfigRetrieveService, dao: ConfigDAO, appCurrentVersion: String) {
         self.service = service
         self.dao = dao
         self.appCurrentVersion = appCurrentVersion
@@ -77,7 +77,7 @@ class ConfigManager {
 
     // MARK : - Public methods
 
-    open func updateWithCompletion(_ completion: (() -> Void)?) {
+    func updateWithCompletion(_ completion: (() -> Void)?) {
 
         var didNotifyCompletion = false
         let delayTime = DispatchTime.now() + Double(Int64(updateTimeout * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)

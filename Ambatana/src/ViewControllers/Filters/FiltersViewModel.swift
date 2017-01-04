@@ -10,7 +10,7 @@ import UIKit
 import LGCoreKit
 import RxSwift
 
-public enum FilterCategoryItem: Equatable {
+enum FilterCategoryItem: Equatable {
     case category(category: ProductCategory)
     case free
 
@@ -46,7 +46,7 @@ public enum FilterCategoryItem: Equatable {
     }
 }
 
-public func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
+func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
     switch (a, b) {
     case (.Category(let catA), .Category(let catB)) where catA.rawValue == catB.rawValue: return true
     case (.free, .free): return true

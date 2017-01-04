@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension ProductCategory {
     
-    public var name : String {
+    var name : String {
         switch(self) {
         case .Unassigned:
             return LGLocalizedString.categoriesUnassigned
@@ -33,7 +33,7 @@ extension ProductCategory {
         }
     }
         
-    public var image : UIImage? {
+    var image : UIImage? {
         switch (self) {
         case .Unassigned:
             return nil
@@ -56,7 +56,7 @@ extension ProductCategory {
         }
     }
     
-    public var imageSmallInactive : UIImage? {
+    var imageSmallInactive : UIImage? {
         switch (self) {
         case .Unassigned:
             return nil
@@ -79,7 +79,7 @@ extension ProductCategory {
         }
     }
     
-    public var color : UIColor {
+    var color : UIColor {
         switch (self) {
         case .Unassigned:
             return UIColor.unassignedCategory

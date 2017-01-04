@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 extension UISwitch {
-    public var rx_valueAnimated: AnyObserver<Bool> {
+    var rx_valueAnimated: AnyObserver<Bool> {
         return UIBindingObserver(UIElement: self) { uiSwitch, value in
             uiSwitch.setOn(value, animated: true)
         }.asObserver()

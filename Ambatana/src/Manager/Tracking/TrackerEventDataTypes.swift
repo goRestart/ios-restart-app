@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-public enum EventName: String {
+enum EventName: String {
     case Location                           = "location"
     
     case LoginVisit                         = "login-screen"
@@ -172,7 +172,7 @@ public enum EventName: String {
     }
 }
 
-public enum EventParameterName: String {
+enum EventParameterName: String {
     case CategoryId           = "category-id"           // 0 if there's no category
     case ProductId            = "product-id"
     case ProductCity          = "product-city"
@@ -253,7 +253,7 @@ public enum EventParameterName: String {
     case NumberPhotosPosting  = "number-photos-posting"
 }
 
-public enum EventParameterLoginSourceValue: String {
+enum EventParameterLoginSourceValue: String {
     case Sell = "posting"
     case Chats = "messages"
     case Profile = "view-profile"
@@ -268,24 +268,24 @@ public enum EventParameterLoginSourceValue: String {
     case DirectSticker = "direct-sticker"
 }
 
-public enum EventParameterSellSourceValue: String {
+enum EventParameterSellSourceValue: String {
     case MarkAsSold = "product-detail"
     case Delete = "product-delete"
 }
 
-public enum EventParameterProductItemType: String {
+enum EventParameterProductItemType: String {
     case Real = "1"
     case Dummy = "0"
 }
 
-public enum EventParameterLocationType: String {
+enum EventParameterLocationType: String {
     case Manual = "manual"
     case Sensor = "sensor"
     case IPLookUp = "iplookup"
     case Regional = "regional"
 }
 
-public enum EventParameterButtonNameType: String {
+enum EventParameterButtonNameType: String {
     case Close = "close"
     case Skip = "skip"
     case Done = "done"
@@ -293,24 +293,24 @@ public enum EventParameterButtonNameType: String {
     case StartMakingCash = "start-making-cash"
 }
 
-public enum EventParameterButtonType: String {
+enum EventParameterButtonType: String {
     case Button = "button"
     case ItemPicture = "item-picture"
 }
 
-public enum EventParameterButtonPosition: String {
+enum EventParameterButtonPosition: String {
     case Top = "top"
     case Bottom = "bottom"
     case None = "N/A"
 }
 
-public enum EventParameterSellButtonPosition: String {
+enum EventParameterSellButtonPosition: String {
     case TabBar = "tabbar-camera"
     case FloatingButton = "big-button"
     case None = "N/A"
 }
 
-public enum EventParameterShareNetwork: String {
+enum EventParameterShareNetwork: String {
     case Email = "email"
     case Facebook = "facebook"
     case Whatsapp = "whatsapp"
@@ -323,42 +323,42 @@ public enum EventParameterShareNetwork: String {
     case NotAvailable = "N/A"
 }
 
-public enum EventParameterNegotiablePrice: String {
+enum EventParameterNegotiablePrice: String {
     case Yes = "yes"
     case No = "no"
 }
 
-public enum EventParameterPictureSource: String {
+enum EventParameterPictureSource: String {
     case Camera = "camera"
     case Gallery = "gallery"
 }
 
-public enum EventParameterSortBy: String {
+enum EventParameterSortBy: String {
     case Distance = "distance"
     case CreationDate = "creation-date"
     case PriceAsc = "price-asc"
     case PriceDesc = "price-desc"
 }
 
-public enum EventParameterPostedWithin: String {
+enum EventParameterPostedWithin: String {
     case Day = "day"
     case Week = "week"
     case Month = "month"
     case All = ""
 }
 
-public enum EventParameterHasPriceFilter: String {
+enum EventParameterHasPriceFilter: String {
     case True = "true"
     case False = "false"
 }
 
-public enum EventParameterQuickAnswerValue: String {
+enum EventParameterQuickAnswerValue: String {
     case True = "true"
     case False = "false"
     case None = "N/A"
 }
 
-public enum EventParameterMessageType: String {
+enum EventParameterMessageType: String {
     case Text       = "text"
     case Offer      = "offer"
     case Sticker    = "sticker"
@@ -368,7 +368,7 @@ public enum EventParameterMessageType: String {
     case PeriscopeDirect = "periscope-direct"
 }
 
-public enum EventParameterLoginError {
+enum EventParameterLoginError {
     
     case network
     case `internal`(description: String)
@@ -389,7 +389,7 @@ public enum EventParameterLoginError {
     case blacklistedDomain
     case badRequest
 
-    public var description: String {
+    var description: String {
         switch self {
         case .network:
             return "Network"
@@ -431,7 +431,7 @@ public enum EventParameterLoginError {
 
     }
 
-    public var details: String? {
+    var details: String? {
         switch self {
         case let .internal(description):
             return description
@@ -443,7 +443,7 @@ public enum EventParameterLoginError {
     }
 }
 
-public enum EventParameterPostProductError {
+enum EventParameterPostProductError {
     case network
     case `internal`
     case serverError(code: Int?)
@@ -469,7 +469,7 @@ public enum EventParameterPostProductError {
     }
 }
 
-public enum EventParameterEditedFields: String {
+enum EventParameterEditedFields: String {
     case Picture = "picture"
     case Title = "title"
     case Price = "price"
@@ -480,7 +480,7 @@ public enum EventParameterEditedFields: String {
     case FreePosting = "free-posting"
 }
 
-public enum EventParameterTypePage: String {
+enum EventParameterTypePage: String {
     case ProductList = "product-list"
     case ProductListBanner = "product-list-banner"
     case Chat = "chat"
@@ -507,36 +507,36 @@ public enum EventParameterTypePage: String {
     case ProductDelete = "product-delete"
 }
 
-public enum EventParameterPermissionType: String {
+enum EventParameterPermissionType: String {
     case Push = "push-notification"
     case Location = "gps"
     case Camera = "camera"
 }
 
-public enum EventParameterPermissionAlertType: String {
+enum EventParameterPermissionAlertType: String {
     case Custom = "custom"
     case NativeLike = "native-alike"
     case FullScreen = "full-screen"
 }
 
-public enum EventParameterNewsletter: String {
+enum EventParameterNewsletter: String {
     case True = "true"
     case False = "false"
     case Unset = "N/A"
 }
 
-public enum EventParameterTab: String {
+enum EventParameterTab: String {
     case Selling = "selling"
     case Sold = "sold"
     case Favorites = "favorites"
 }
 
-public enum EventParameterSearchCompleteSuccess: String {
+enum EventParameterSearchCompleteSuccess: String {
     case Success = "yes"
     case Failed = "no"
 }
 
-public enum EventParameterReportReason: String {
+enum EventParameterReportReason: String {
     case Offensive = "offensive"
     case Scammer = "scammer"
     case Mia = "mia"
@@ -548,31 +548,31 @@ public enum EventParameterReportReason: String {
     case Other = "other"
 }
 
-public enum EventParameterCommercializerError: String {
+enum EventParameterCommercializerError: String {
     case Network = "commercializer-network"
     case Internal = "commercializer-internal"
     case Duplicated = "commercializer-duplicated"
 }
 
-public enum EventParameterPermissionGoToSettings: String {
+enum EventParameterPermissionGoToSettings: String {
     case True = "true"
     case NotAvailable = "N/A"
 }
 
-public enum ProductVisitUserAction: String {
+enum ProductVisitUserAction: String {
     case Tap = "tap"
     case SwipeLeft = "swipe-left"
     case SwipeRight = "swipe-right"
     case None = "N/A"
 }
 
-public enum EventParameterRatingSource: String {
+enum EventParameterRatingSource: String {
     case Chat = "chat"
     case ProductSellComplete = "product-sell-complete"
     case MarkedSold = "marked-sold"
 }
 
-public enum EventParameterProductVisitSource: String {
+enum EventParameterProductVisitSource: String {
     case ProductList = "product-list"
     case MoreInfoRelated = "more-info-related"
     case Collection = "collection"
@@ -586,18 +586,18 @@ public enum EventParameterProductVisitSource: String {
     case Notifications = "notifications"
 }
 
-public enum EventParameterAccountNetwork: String {
+enum EventParameterAccountNetwork: String {
     case Facebook = "facebook"
     case Google = "google"
     case Email = "email"
 }
 
-public enum EventParameterProfileType: String {
+enum EventParameterProfileType: String {
     case Public = "public"
     case Private = "private"
 }
 
-public enum EventParameterNotificationType: String {
+enum EventParameterNotificationType: String {
     case Welcome = "welcome"
     case Favorite = "favorite"
     case ProductSold = "favorite-sold"
@@ -607,7 +607,7 @@ public enum EventParameterNotificationType: String {
     case ProductSuggested = "product-suggested"
 }
 
-public enum EventParameterRelatedShownReason: String {
+enum EventParameterRelatedShownReason: String {
     case ProductSold = "product-sold"
     case ProductDeleted = "product-deleted"
     case UserDeleted = "user-deleted"
@@ -632,22 +632,22 @@ public enum EventParameterRelatedShownReason: String {
     }
 }
 
-public enum EventParameterFreePosting: String {
+enum EventParameterFreePosting: String {
     case True = "true"
     case False = "false"
     case Unset = "N/A"
 }
 
-public enum EventParameterExpressChatTrigger: String {
+enum EventParameterExpressChatTrigger: String {
     case Automatic = "automatic"
     case Manual = "manual"
 }
 
-public struct EventParameters {
+struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
     
     // transforms the params to [String: AnyObject]
-    public var stringKeyParams: [String: AnyObject] {
+    var stringKeyParams: [String: AnyObject] {
         get {
             var res = [String: AnyObject]()
             for (paramName, value) in params {

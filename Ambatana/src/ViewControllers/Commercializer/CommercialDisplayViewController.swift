@@ -41,11 +41,11 @@ class CommercialDisplayViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    public convenience init(viewModel: CommercialDisplayViewModel) {
+    convenience init(viewModel: CommercialDisplayViewModel) {
         self.init(viewModel: viewModel, nibName: "CommercialDisplayViewController")
     }
 
-    public required init(viewModel: CommercialDisplayViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: CommercialDisplayViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.pages = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
@@ -53,11 +53,11 @@ class CommercialDisplayViewController: BaseViewController {
         modalTransitionStyle = .crossDissolve
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         viewModel.viewLoaded()
@@ -66,12 +66,12 @@ class CommercialDisplayViewController: BaseViewController {
         setupShareUI()
     }
 
-    open override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         topPageConstraints.forEach { $0.constant = playerView.top }
     }
 
-    open override func viewDidFirstAppear(_ animated: Bool) {
+    override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
         playSelected()
     }
@@ -189,7 +189,7 @@ class CommercialDisplayViewController: BaseViewController {
 
 extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDisplayPageViewDelegate {
 
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let previousVC = pages[pageControl.currentPage]
         previousVC.videoPlayer.controlsAreVisible = true
         previousVC.pauseVideo()
@@ -198,7 +198,7 @@ extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDispl
         viewModel.selectCommercialAtIndex(pageControl.currentPage)
     }
 
-    public func playSelected() {
+    func playSelected() {
         let currentVC = pages[pageControl.currentPage]
         currentVC.playVideo()
     }

@@ -11,7 +11,7 @@ import AVFoundation
 import AVKit
 
 
-public protocol VideoPlayerContainerViewDelegate: class {
+protocol VideoPlayerContainerViewDelegate: class {
     func playerDidSwitchPlaying(_ isPlaying: Bool)
     func playerDidFinishPlaying()
     func playerDidReceiveTap()
@@ -77,11 +77,11 @@ class VideoPlayerContainerView: UIView {
     
     // MARK: - Lifecycle
 
-    open static func instanceFromNib() -> VideoPlayerContainerView {
+    static func instanceFromNib() -> VideoPlayerContainerView {
         return Bundle.main.loadNibNamed("VideoPlayerContainerView", owner: self, options: nil)!.first as! VideoPlayerContainerView
     }
 
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         self.videoPlayerVC = AVPlayerViewController()
         self.player = AVPlayer()
         self.audioButton = UIButton(type: .custom)
@@ -95,7 +95,7 @@ class VideoPlayerContainerView: UIView {
                                                          name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.videoPlayerVC = AVPlayerViewController()
         self.player = AVPlayer()
         self.audioButton = UIButton(type: .custom)
@@ -126,12 +126,12 @@ class VideoPlayerContainerView: UIView {
         updateVideoPlayerWithURL(currentURL)
     }
 
-    open func pausePlayer() {
+    func pausePlayer() {
         if isPlaying { switchPlaying() }
         invalidateTimer()
     }
 
-    open func startPlayer() {
+    func startPlayer() {
         if !isPlaying { switchPlaying() }
         setControlsVisible(true)
         startSliderUpdateTimer()
@@ -154,7 +154,7 @@ class VideoPlayerContainerView: UIView {
     }
 
 
-    open func setupUI() {
+    func setupUI() {
         playerFailedLabel.text = LGLocalizedString.commercializerLoadVideoFailedErrorMessage
         setupVideoPlayerViewController()
         refreshUI()
@@ -170,20 +170,20 @@ class VideoPlayerContainerView: UIView {
         }
     }
 
-    open func onAudioButtonPressed() {
+    func onAudioButtonPressed() {
         switchAudio()
     }
 
-    open func onPlayButtonPressed() {
+    func onPlayButtonPressed() {
         startSliderUpdateTimer()
         switchPlaying()
     }
 
-    open func onFullScreenButtonPressed() {
+    func onFullScreenButtonPressed() {
         delegate?.playerDidPressFullscreen()
     }
 
-    open func progressValueChanged() {
+    func progressValueChanged() {
         guard let item = player.currentItem else { return }
         let duration = CMTimeGetSeconds(item.duration)
         let newTime = CMTimeMakeWithSeconds(Double(progressSlider.value)*duration, item.currentTime().timescale)
@@ -228,7 +228,7 @@ class VideoPlayerContainerView: UIView {
         progressSlider.alpha = controlsAreVisible ? 1.0 : 0.0
     }
 
-    open func updateVideoPlayerWithURL(_ videoUrl: URL) {
+    func updateVideoPlayerWithURL(_ videoUrl: URL) {
         currentItemURL = videoUrl
         let playerItem = AVPlayerItem(url: videoUrl)
         removePlayerStatusObserver()
@@ -448,7 +448,7 @@ class VideoPlayerContainerView: UIView {
 
     // MARK: - Player observer for keypath
 
-    override open func observeValue(forKeyPath keyPath: String?, of object: Any?,
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?,
         change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
             guard let keyPath = keyPath, keyPath == "status" && player == object as? AVPlayer else { return }
             if player.status == .failed {

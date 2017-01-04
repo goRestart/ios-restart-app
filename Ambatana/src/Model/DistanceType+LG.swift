@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension DistanceType {
     
-    public static func systemDistanceType() -> DistanceType {
+    static func systemDistanceType() -> DistanceType {
 
         let distanceType: DistanceType
         // use whatever the locale says

@@ -10,8 +10,8 @@ import Foundation
 import LGCoreKit
 import Result
 
-public typealias ChatWrapperResult = Result<Bool, RepositoryError>
-public typealias ChatWrapperCompletion = (ChatWrapperResult) -> Void
+typealias ChatWrapperResult = Result<Bool, RepositoryError>
+typealias ChatWrapperCompletion = (ChatWrapperResult) -> Void
 
 enum ChatWrapperMessageType {
     case Text(String)

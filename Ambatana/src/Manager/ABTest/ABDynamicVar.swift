@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-public enum ABType {
+enum ABType {
     case bool
     case int
     case string

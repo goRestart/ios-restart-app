@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 extension LGLocation {
-    public var isAuto: Bool {
+    var isAuto: Bool {
         guard let locationType = type else { return false }
         switch locationType {
         case .Manual:

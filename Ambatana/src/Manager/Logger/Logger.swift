@@ -8,13 +8,13 @@
 
 import CocoaLumberjack
 
-public struct AppLoggingOptions: OptionSet, CustomStringConvertible {
-    public let rawValue : Int
+struct AppLoggingOptions: OptionSet, CustomStringConvertible {
+    let rawValue : Int
 
 
     // MARK: - CustomStringConvertible
 
-    public var description: String {
+    var description: String {
         var options: [String] = []
         if contains(AppLoggingOptions.Navigation) {
             options.append("⛵️")
@@ -34,18 +34,18 @@ public struct AppLoggingOptions: OptionSet, CustomStringConvertible {
 
     // MARK: - OptionSetType
 
-    public init(rawValue:Int) {
+    init(rawValue:Int) {
         self.rawValue = rawValue
     }
 
 
     // MARK: - Options
 
-    public static var None = AppLoggingOptions(rawValue: 0)
-    public static var Navigation = AppLoggingOptions(rawValue: 1)
-    public static var Tracking = AppLoggingOptions(rawValue: 2)
-    public static var DeepLink = AppLoggingOptions(rawValue: 4)
-    public static var Monetization = AppLoggingOptions(rawValue: 8)
+    static var None = AppLoggingOptions(rawValue: 0)
+    static var Navigation = AppLoggingOptions(rawValue: 1)
+    static var Tracking = AppLoggingOptions(rawValue: 2)
+    static var DeepLink = AppLoggingOptions(rawValue: 4)
+    static var Monetization = AppLoggingOptions(rawValue: 8)
 }
 
 enum LogLevel {

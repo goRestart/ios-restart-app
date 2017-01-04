@@ -11,7 +11,7 @@ class LGConfigDAO : ConfigDAO {
 
     // MARK: - Lifecycle
 
-    public init(bundle: Bundle, configFileName: String) {
+    init(bundle: Bundle, configFileName: String) {
         let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0] as NSString
         fileCachePath = cachePath.appending("/\(configFileName).json")
 
@@ -31,7 +31,7 @@ class LGConfigDAO : ConfigDAO {
 
     // MARK: - Public methods
 
-    open func retrieve() -> Config? {
+    func retrieve() -> Config? {
 
         let fm = FileManager.default
 
@@ -49,7 +49,7 @@ class LGConfigDAO : ConfigDAO {
         return Config(data: data)
     }
 
-    open func save(_ configFile: Config) {
+    func save(_ configFile: Config) {
 
         // create json from cfgFile: UpdateFileCfg
         let json = configFile.jsonRepresentation()

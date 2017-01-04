@@ -38,11 +38,11 @@ UICollectionViewDelegateFlowLayout {
 
     // MARK: Lifecycle
 
-    public convenience init(viewModel: PromoteProductViewModel) {
+    convenience init(viewModel: PromoteProductViewModel) {
         self.init(viewModel: viewModel, nibName: "PromoteProductViewController")
     }
 
-    public required init(viewModel: PromoteProductViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: PromoteProductViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.videoContainerView = VideoPlayerContainerView.instanceFromNib()
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
@@ -51,7 +51,7 @@ UICollectionViewDelegateFlowLayout {
         modalTransitionStyle = .crossDissolve
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -59,20 +59,20 @@ UICollectionViewDelegateFlowLayout {
         NotificationCenter.default.removeObserver(self)
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         viewModel.viewDidLoad()
     }
 
-    open override func viewDidFirstAppear(_ animated: Bool) {
+    override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
         videoContainerView.frame = playerView.bounds
         videoContainerView.setupUI()
         playerView.addSubview(videoContainerView)
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         if viewModel.shouldShowOnboarding {
@@ -80,7 +80,7 @@ UICollectionViewDelegateFlowLayout {
         }
     }
 
-    open override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if !viewModel.shouldShowOnboarding {
@@ -99,7 +99,7 @@ UICollectionViewDelegateFlowLayout {
         videoContainerView.didBecomeActive()
     }
 
-    open override func viewWillLayoutSubviews() {
+    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         // Adjust gradient layer
@@ -150,11 +150,11 @@ UICollectionViewDelegateFlowLayout {
 
     // MARK: - UICollectionView Delegate & DataSource
 
-    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.themesCount ?? 0
     }
 
-    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
 
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThemeCollectionCell",
@@ -174,12 +174,12 @@ UICollectionViewDelegateFlowLayout {
             return cell
     }
 
-    open func collectionView(_ collectionView: UICollectionView,
+    func collectionView(_ collectionView: UICollectionView,
                                shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return viewModel.availableThemeAtIndex(indexPath.item)
     }
 
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         hideIntro()
         switchFullscreen()
         viewModel.playThemeAtIndex(indexPath.item)
@@ -190,22 +190,22 @@ UICollectionViewDelegateFlowLayout {
 
     // MARK: UICollectionViewDelegateFlowLayout
 
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int) -> UIEdgeInsets {
             return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
             return 10
     }
 
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             return 10
     }
 
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellWidth = (collectionView.frame.width-30)/2
         guard cellWidth > 0 else { return CGSize.zero }
@@ -285,29 +285,29 @@ extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
 
 extension PromoteProductViewController : PromoteProductViewModelDelegate {
 
-    public func viewModelDidRetrieveThemesListSuccessfully() {
+    func viewModelDidRetrieveThemesListSuccessfully() {
         collectionView.reloadData()
     }
 
-    public func viewModelDidRetrieveThemesListWithError(_ errorMessage: String) {
+    func viewModelDidRetrieveThemesListWithError(_ errorMessage: String) {
         collectionView.reloadData()
     }
 
-    public func viewModelVideoDidSwitchFullscreen(_ isFullscreen: Bool) {
+    func viewModelVideoDidSwitchFullscreen(_ isFullscreen: Bool) {
         fullScreenButton.isHidden = !isFullscreen
     }
 
-    public func viewModelDidSelectThemeAtIndex(_ index: Int) {
+    func viewModelDidSelectThemeAtIndex(_ index: Int) {
         guard let url = viewModel.videoUrlForThemeAtIndex(index) else { return }
         videoContainerView.updateVideoPlayerWithURL(url)
         refreshUI()
     }
 
-    public func viewModelStartSendingVideoForProcessing() {
+    func viewModelStartSendingVideoForProcessing() {
         showLoadingMessageAlert()
     }
 
-    public func viewModelSentVideoForProcessing(_ processingViewModel: ProcessingVideoDialogViewModel,
+    func viewModelSentVideoForProcessing(_ processingViewModel: ProcessingVideoDialogViewModel,
         status: VideoProcessStatus) {
             dismissLoadingMessageAlert { [weak self] in
 
@@ -346,22 +346,22 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
 
 extension PromoteProductViewController: VideoPlayerContainerViewDelegate {
 
-    public func playerDidSwitchPlaying(_ isPlaying: Bool) {
+    func playerDidSwitchPlaying(_ isPlaying: Bool) {
         guard !isPlaying && !viewModel.isFullscreen else { return }
         switchFullscreen()
     }
 
-    public func playerDidReceiveTap() {
+    func playerDidReceiveTap() {
         // when tapping video player only get into fullscreen, not out
         if !viewModel.isFullscreen { switchFullscreen() }
     }
 
-    public func playerDidFinishPlaying() {
+    func playerDidFinishPlaying() {
         if viewModel.isFullscreen { switchFullscreen() }
         if fullScreen { playerDidPressFullscreen() }
     }
 
-    public func playerDidPressFullscreen() {
+    func playerDidPressFullscreen() {
         let transform: CGAffineTransform
         if fullScreen {
             fullScreen = false

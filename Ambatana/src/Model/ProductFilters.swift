@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-public enum FilterPriceRange: Equatable {
+enum FilterPriceRange: Equatable {
     case freePrice
     case priceRange(min: Int?, max: Int?)
 
@@ -40,7 +40,7 @@ public enum FilterPriceRange: Equatable {
     }
 }
 
-public func ==(a: FilterPriceRange, b: FilterPriceRange) -> Bool {
+func ==(a: FilterPriceRange, b: FilterPriceRange) -> Bool {
     switch (a, b) {
     case (let .priceRange(minA, maxA), let .priceRange(minB, maxB)) where minA == minB && maxA == maxB : return true
     case (.freePrice, .freePrice): return true
@@ -48,7 +48,7 @@ public func ==(a: FilterPriceRange, b: FilterPriceRange) -> Bool {
     }
 }
 
-public struct ProductFilters {
+struct ProductFilters {
     
     var place: Place?
     var distanceRadius: Int?

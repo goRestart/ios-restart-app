@@ -29,7 +29,7 @@ extension LGEmptyViewModel {
         return icon.size.height
     }
 
-    public static func respositoryErrorWithRetry(_ error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel? {
+    static func respositoryErrorWithRetry(_ error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel? {
         switch error {
         case let .Network(_, onBackground):
             return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(action)

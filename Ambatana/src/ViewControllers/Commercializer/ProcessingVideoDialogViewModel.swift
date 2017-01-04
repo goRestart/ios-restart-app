@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-public enum VideoProcessStatus {
+enum VideoProcessStatus {
     case processOK
     case processFail
 }

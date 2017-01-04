@@ -10,7 +10,7 @@
 class BaseViewModel {
 
     private var activeFirstTime = true
-    open var active: Bool = false {
+    var active: Bool = false {
         didSet {
             if oldValue != active {
                 didSetActive(active)

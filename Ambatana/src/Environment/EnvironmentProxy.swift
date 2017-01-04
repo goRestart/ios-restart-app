@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-public enum AppEnvironmentType: String {
+enum AppEnvironmentType: String {
     case Development
     case Production
     case Escrow
@@ -28,7 +28,7 @@ class EnvironmentProxy: AppEnvironment {
 
     // MARK: - Public methods
 
-    open func setEnvironmentType(_ type: AppEnvironmentType) {
+    func setEnvironmentType(_ type: AppEnvironmentType) {
         switch type {
         case .Development:
             environment = DevelopmentEnvironment()

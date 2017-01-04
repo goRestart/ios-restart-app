@@ -13,7 +13,7 @@ import LGCoreKit
 class Config: ResponseObjectSerializable {
 
     // Constant
-    open static let currentVersionInfoJSONKey = "currentVersionInfo"
+    static let currentVersionInfoJSONKey = "currentVersionInfo"
     private static let buildNumberJSONKey = "buildNumber"
     private static let forceUpdateVersionsJSONKey = "forceUpdateVersions"
     private static let configURLJSONKey = "configURL"
@@ -22,24 +22,24 @@ class Config: ResponseObjectSerializable {
     private static let myMessagesCountJSONKey = "myMessagesCountForRating"
     private static let otherMessagesCountJSONKey = "otherMessagesCountForRating"
 
-    open private(set) var buildNumber : Int
-    open private(set) var forceUpdateVersions : [Int]
-    open private(set) var configURL : String
-    open private(set) var quadKeyZoomLevel: Int
-    open private(set) var myMessagesCountForRating: Int    // # of messages I must have sent to be able to rate an user
-    open private(set) var otherMessagesCountForRating: Int // # of messages another user must have sent to me to be able to rate him
+    private(set) var buildNumber : Int
+    private(set) var forceUpdateVersions : [Int]
+    private(set) var configURL : String
+    private(set) var quadKeyZoomLevel: Int
+    private(set) var myMessagesCountForRating: Int    // # of messages I must have sent to be able to rate an user
+    private(set) var otherMessagesCountForRating: Int // # of messages another user must have sent to me to be able to rate him
 
 
     // MARK : - Lifecycle
 
-    public convenience init() {
+    convenience init() {
         self.init(buildNumber: 0, forceUpdateVersions: [], configURL: "",
                   quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
                   myMessagesCountForRating: Constants.myMessagesCountForRating,
                   otherMessagesCountForRating: Constants.otherMessagesCountForRating)
     }
 
-    public init(buildNumber : Int, forceUpdateVersions : [Int], configURL : String, quadKeyZoomLevel: Int,
+    init(buildNumber : Int, forceUpdateVersions : [Int], configURL : String, quadKeyZoomLevel: Int,
                 myMessagesCountForRating: Int, otherMessagesCountForRating: Int) {
         self.buildNumber = buildNumber
         self.forceUpdateVersions = forceUpdateVersions
@@ -49,20 +49,20 @@ class Config: ResponseObjectSerializable {
         self.otherMessagesCountForRating = otherMessagesCountForRating
     }
 
-    public required convenience init?(response: HTTPURLResponse, representation: AnyObject) {
+    required convenience init?(response: HTTPURLResponse, representation: AnyObject) {
 
         let json = JSON(representation)
         self.init(json: json)
     }
 
-    public required convenience init?(data: Data) {
+    required convenience init?(data: Data) {
         guard let json = JSON.parse(data: data) else {
             return nil
         }
         self.init(json: json)
     }
 
-    public required convenience init(json: JSON) {
+    required convenience init(json: JSON) {
         self.init()
 
         if let currentVersionInfo: JSON = json.decode(Config.currentVersionInfoJSONKey) {
@@ -94,7 +94,7 @@ class Config: ResponseObjectSerializable {
 
     // MARK : - Public Methods
 
-    open func jsonRepresentation() -> AnyObject {
+    func jsonRepresentation() -> AnyObject {
 
         var tmpFinalDic : [String:AnyObject] = [:]
         var tmpCurrentVersionDic : [String:AnyObject] = [:]

@@ -11,21 +11,21 @@ import Result
 
 class LGConfigRetrieveService: ConfigRetrieveService {
 
-    open private(set) var configURL : String
+    private(set) var configURL : String
 
     // MARK: - Lifecycle
 
-    public convenience init() {
+    convenience init() {
         self.init(url: EnvironmentProxy.sharedInstance.configURL)
     }
 
-    public init(url: String?) {
+    init(url: String?) {
         configURL = url ?? EnvironmentProxy.sharedInstance.configURL
     }
 
     // MARK: - Public Methods
 
-    open func retrieveConfigWithCompletion(_ completion: ConfigRetrieveServiceCompletion?) {
+    func retrieveConfigWithCompletion(_ completion: ConfigRetrieveServiceCompletion?) {
         Alamofire.request(.GET, configURL)
             .validate(statusCode: 200..<400)
             .responseObject { (configFileResponse: Response<Config, NSError>) -> Void in

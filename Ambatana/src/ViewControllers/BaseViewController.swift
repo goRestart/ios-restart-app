@@ -84,7 +84,7 @@ extension UINavigationBar {
         viewsToIgnoreTouchesFor = views
     }
     
-    override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let pointInside = super.point(inside: point, with: event)
 
         for view in viewsToIgnoreTouchesFor {
@@ -401,7 +401,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     private var firstAppear: Bool = true
     private var firstWillAppear: Bool = true
     private var firstLayout: Bool = true
-    open var active: Bool = false {
+    var active: Bool = false {
         didSet {
             // Notify the VM & the views
             viewModel?.active = active
@@ -419,7 +419,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     private let navBarBackgroundStyle: NavBarBackgroundStyle
     private var swipeBackGestureEnabled: Bool
     var floatingSellButtonHidden: Bool
-    private(set) open var viewLoaded: Bool = false
+    private(set) var viewLoaded: Bool = false
 
 
     // MARK: Lifecycle
@@ -440,7 +440,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         setReachabilityEnabled(true)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -455,7 +455,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         }
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         viewLoaded = true
         setNavBarBackButton(nil)
@@ -466,7 +466,7 @@ class BaseViewController: UIViewController, TabBarShowable {
             name: NSNotification.Name(rawValue: StatusBarNotification.StatusBarWillShow.rawValue), object: nil)
     }
     
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearFromBackground(false)
         if firstWillAppear {
@@ -475,12 +475,12 @@ class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    open override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewWillDisappearToBackground(false)
     }
     
-    open override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if firstAppear {
             viewDidFirstAppear(animated)
@@ -488,7 +488,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         }
     }
 
-    open override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if firstLayout {
             viewDidFirstLayoutSubviews()
@@ -496,15 +496,15 @@ class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    open func viewWillFirstAppear(_ animated: Bool) {
+    func viewWillFirstAppear(_ animated: Bool) {
         // implement in subclasses
     }
 
-    open func viewDidFirstAppear(_ animated: Bool) {
+    func viewDidFirstAppear(_ animated: Bool) {
         // implement in subclasses
     }
 
-    open func viewDidFirstLayoutSubviews() {
+    func viewDidFirstLayoutSubviews() {
         // implement in subclasses
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum ChatInfoViewStatus: Int {
+enum ChatInfoViewStatus: Int {
 
     case forbidden
     case blocked
@@ -111,7 +111,7 @@ class RelationInfoView: UIView {
     @IBOutlet weak var chatInfoLabel: UILabel!
     @IBOutlet weak var relationInfoViewMaxHeight: NSLayoutConstraint!
 
-    open static func relationInfoView() -> RelationInfoView {
+    static func relationInfoView() -> RelationInfoView {
         guard let view =  Bundle.main.loadNibNamed("RelationInfoView", owner: self, options: nil)?
             .first as? RelationInfoView else { return RelationInfoView() }
         return view
@@ -121,7 +121,7 @@ class RelationInfoView: UIView {
         super.init(frame: frame)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
