@@ -18,8 +18,8 @@ struct LGCountryInfo: CountryInfo {
     let lat: Double
     let lon: Double
 
-    var locale: NSLocale? {
-        return NSLocale(localeIdentifier: defaultLocale)
+    var locale: Locale? {
+        return Locale(identifier: defaultLocale)
     }
 
     var coordinate: CLLocationCoordinate2D? {
@@ -29,7 +29,7 @@ struct LGCountryInfo: CountryInfo {
         return kCLLocationCoordinate2DInvalid
     }
 
-    static func fromDictionary(dict: NSDictionary) -> LGCountryInfo? {
+    static func fromDictionary(_ dict: NSDictionary) -> LGCountryInfo? {
         guard let id = dict["id"] as? Int else { return nil }
         guard let countryCode = dict["countryCode"] as? String else { return nil }
         guard let defaultLocale = dict["defaultLocale"] as? String else { return nil }

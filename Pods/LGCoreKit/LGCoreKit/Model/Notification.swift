@@ -7,16 +7,16 @@
 //
 
 public enum NotificationType {
-    case Like(product: NotificationProduct, user: NotificationUser)
-    case Sold(product: NotificationProduct, user: NotificationUser)
-    case Rating(user: NotificationUser, value: Int, comments: String?)
-    case RatingUpdated(user: NotificationUser, value: Int, comments: String?)
-    case BuyersInterested(product: NotificationProduct, buyers: [NotificationUser])
-    case ProductSuggested(product: NotificationProduct, seller: NotificationUser)
+    case like(product: NotificationProduct, user: NotificationUser)
+    case sold(product: NotificationProduct, user: NotificationUser)
+    case rating(user: NotificationUser, value: Int, comments: String?)
+    case ratingUpdated(user: NotificationUser, value: Int, comments: String?)
+    case buyersInterested(product: NotificationProduct, buyers: [NotificationUser])
+    case productSuggested(product: NotificationProduct, seller: NotificationUser)
 }
 
-public protocol Notification: BaseModel {
-    var createdAt: NSDate { get }
+public protocol NotificationModel: BaseModel {
+    var createdAt: Date { get }
     var isRead: Bool { get }
     var type: NotificationType { get }
 }

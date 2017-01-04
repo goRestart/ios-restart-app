@@ -22,14 +22,14 @@ class PassiveBuyersApiDataSource: PassiveBuyersDataSource {
 
     // MARK: - PassiveBuyersDataSource
 
-    func show(productId productId: String, completion: PassiveBuyersDataSourceCompletion?) {
-        let request = PassiveBuyersRouter.Show(productId: productId)
+    func show(productId: String, completion: PassiveBuyersDataSourceCompletion?) {
+        let request = PassiveBuyersRouter.show(productId: productId)
         apiClient.request(request, decoder: decoder, completion: completion)
     }
 
-    func contact(productId productId: String, buyerIds: [String], completion: PassiveBuyersDataSourceEmptyCompletion?) {
-        let params: [String: AnyObject] = ["buyers": buyerIds]
-        let request = PassiveBuyersRouter.CreateContacts(productId: productId, params: params)
+    func contact(productId: String, buyerIds: [String], completion: PassiveBuyersDataSourceEmptyCompletion?) {
+        let params: [String: Any] = ["buyers": buyerIds]
+        let request = PassiveBuyersRouter.createContacts(productId: productId, params: params)
         apiClient.request(request, completion: completion)
     }
 }
@@ -39,7 +39,7 @@ class PassiveBuyersApiDataSource: PassiveBuyersDataSource {
 // MARK: > Decoders
 
 private extension PassiveBuyersApiDataSource {
-    func decoder(object: AnyObject) -> PassiveBuyersInfo? {
+    func decoder(_ object: Any) -> PassiveBuyersInfo? {
         let passiveBuyersInfo: LGPassiveBuyersInfo? = decode(object)
         return passiveBuyersInfo
     }

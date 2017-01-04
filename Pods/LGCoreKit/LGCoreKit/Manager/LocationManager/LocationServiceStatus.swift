@@ -9,32 +9,32 @@
 import CoreLocation
 
 public enum LocationServicesAuthStatus {
-    case NotDetermined
-    case Restricted
-    case Denied
-    case Authorized
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
 }
 
 public enum LocationServiceStatus: Equatable {
-    case Disabled
-    case Enabled(LocationServicesAuthStatus)
+    case disabled
+    case enabled(LocationServicesAuthStatus)
 
     public init(enabled: Bool, authStatus: CLAuthorizationStatus) {
         if !enabled {
-            self = .Disabled
+            self = .disabled
         }
         else {
             switch authStatus {
-            case .NotDetermined:
-                self = Enabled(.NotDetermined)
-            case .Restricted:
-                self = Enabled(.Restricted)
-            case .Denied:
-                self = Enabled(.Denied)
-            case .AuthorizedAlways:
-                self = Enabled(.Authorized)
-            case .AuthorizedWhenInUse:
-                self = Enabled(.Authorized)
+            case .notDetermined:
+                self = .enabled(.notDetermined)
+            case .restricted:
+                self = .enabled(.restricted)
+            case .denied:
+                self = .enabled(.denied)
+            case .authorizedAlways:
+                self = .enabled(.authorized)
+            case .authorizedWhenInUse:
+                self = .enabled(.authorized)
             }
         }
     }
@@ -43,9 +43,9 @@ public enum LocationServiceStatus: Equatable {
 public func ==(lhs: LocationServiceStatus, rhs: LocationServiceStatus) -> Bool {
 
     switch (lhs, rhs) {
-    case (.Disabled, .Disabled):
+    case (.disabled, .disabled):
         return true
-    case (.Enabled(let rAuthStatus), .Enabled(let lAuthStatus)):
+    case (.enabled(let rAuthStatus), .enabled(let lAuthStatus)):
         return rAuthStatus == lAuthStatus
     default:
         return false

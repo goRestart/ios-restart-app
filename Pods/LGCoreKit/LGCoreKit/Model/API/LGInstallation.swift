@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 protocol LGInstallationKeys {
     var objectId: String { get }
@@ -60,11 +61,11 @@ extension LGInstallation : Decodable {
             "updated_at": "2015-12-03T17:50:59.923Z"
         }
     */
-    static func decode(j: JSON) -> Decoded<LGInstallation> {
+    static func decode(_ j: JSON) -> Decoded<LGInstallation> {
         return decode(j, keys: ApiInstallationKeys())
     }
 
-    static func decode(j: JSON, keys: LGInstallationKeys) -> Decoded<LGInstallation> {
+    static func decode(_ j: JSON, keys: LGInstallationKeys) -> Decoded<LGInstallation> {
         let init1 = curry(LGInstallation.init)
                             <^> j <|? keys.objectId
                             <*> j <| keys.appIdentifier
@@ -75,7 +76,7 @@ extension LGInstallation : Decodable {
                             <*> j <|? keys.deviceToken
 
         if let error = result.error {
-            print("LGInstallation parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGInstallation parse error: \(error)")
         }
 
         return result
@@ -94,7 +95,7 @@ extension LGInstallation {
         let deviceToken = "deviceToken"
     }
 
-    static func decode(dictionary: [String: AnyObject]) -> LGInstallation? {
+    static func decode(_ dictionary: [String: Any]) -> LGInstallation? {
         let j = JSON(dictionary)
         return decode(j, keys: UDInstallationKeys()).value
     }

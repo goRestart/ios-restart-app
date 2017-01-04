@@ -10,9 +10,9 @@
 Optional that can contain NSNull.
 */
 enum Nullable<Wrapped>: Unwrappable {
-    case None
-    case Null
-    case Some(Wrapped)
+    case none
+    case null
+    case some(Wrapped)
 
 
     /**
@@ -20,20 +20,20 @@ enum Nullable<Wrapped>: Unwrappable {
     - parameter value: The value.
     - returns: `Some` with the given value or `Null`.
     */
-    static func value(value: Wrapped?) -> Nullable<Wrapped> {
+    static func value(_ value: Wrapped?) -> Nullable<Wrapped> {
         if let value = value {
-            return Nullable<Wrapped>.Some(value)
+            return Nullable<Wrapped>.some(value)
         }
         else {
-            return Nullable<Wrapped>.Null
+            return Nullable<Wrapped>.null
         }
     }
 
-    static func literal(value: AnyObject) -> Nullable<Wrapped> {
+    static func literal(_ value: Any) -> Nullable<Wrapped> {
         if let value = value as? Wrapped {
-            return Nullable<Wrapped>.Some(value)
+            return Nullable<Wrapped>.some(value)
         } else {
-            return Nullable<Wrapped>.None
+            return Nullable<Wrapped>.none
         }
     }
 }
@@ -42,13 +42,13 @@ enum Nullable<Wrapped>: Unwrappable {
 // MARK: - Unwrappable
 
 extension Nullable {
-    func unwrap() -> AnyObject? {
+    func unwrap() -> Any? {
         switch self {
-        case .Some(let value):
-            return value as? AnyObject
-        case .None:
+        case .some(let value):
+            return value
+        case .none:
             return nil
-        case .Null:
+        case .null:
             return NSNull()
         }
     }
@@ -57,16 +57,16 @@ extension Nullable {
 
 // MARK: - NilLiteralConvertible
 
-extension Nullable: NilLiteralConvertible {
+extension Nullable: ExpressibleByNilLiteral {
     init(nilLiteral: ()) {
-        self = Nullable<Wrapped>.None
+        self = Nullable<Wrapped>.none
     }
 }
 
 
 // MARK: - StringLiteralConvertible
 
-extension Nullable: StringLiteralConvertible {
+extension Nullable: ExpressibleByStringLiteral {
     init(stringLiteral value: String) {
         self = Nullable.literal(value)
     }
@@ -83,7 +83,7 @@ extension Nullable: StringLiteralConvertible {
 
 // MARK: - BooleanLiteralConvertible
 
-extension Nullable: BooleanLiteralConvertible {
+extension Nullable: ExpressibleByBooleanLiteral {
     init(booleanLiteral value: Bool) {
         self = Nullable.literal(value)
     }
@@ -92,7 +92,7 @@ extension Nullable: BooleanLiteralConvertible {
 
 // MARK: - IntegerLiteralConvertible
 
-extension Nullable: IntegerLiteralConvertible {
+extension Nullable: ExpressibleByIntegerLiteral {
     init(integerLiteral value: Int) {
         self = Nullable.literal(value)
     }
@@ -101,7 +101,7 @@ extension Nullable: IntegerLiteralConvertible {
 
 // MARK: - FloatLiteralConvertible
 
-extension Nullable: FloatLiteralConvertible {
+extension Nullable: ExpressibleByFloatLiteral {
     init(floatLiteral value: Double) {
         self = Nullable.literal(value)
     }
@@ -110,8 +110,8 @@ extension Nullable: FloatLiteralConvertible {
 
 // MARK: - ArrayLiteralConvertible
 
-extension Nullable: ArrayLiteralConvertible {
-    init(arrayLiteral elements: AnyObject...) {
+extension Nullable: ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: Any...) {
         self = Nullable.literal(elements)
     }
 }
@@ -119,9 +119,9 @@ extension Nullable: ArrayLiteralConvertible {
 
 // MARK: - DictionaryLiteralConvertible
 
-extension Nullable: DictionaryLiteralConvertible {
-    init(dictionaryLiteral elements: (String, AnyObject)...) {
-        var dict: [String: AnyObject] = [:]
+extension Nullable: ExpressibleByDictionaryLiteral {
+    init(dictionaryLiteral elements: (String, Any)...) {
+        var dict: [String: Any] = [:]
         for element in elements {
             dict[element.0] = element.1
         }

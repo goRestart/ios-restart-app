@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGApiErrorCode: ApiErrorCode {
     let code: String
@@ -23,12 +24,12 @@ extension LGApiErrorCode : Decodable {
             "title": "User already exists"
         }
      */
-    static func decode(j: JSON) -> Decoded<LGApiErrorCode> {
+    static func decode(_ j: JSON) -> Decoded<LGApiErrorCode> {
         let result =  curry(LGApiErrorCode.init)
             <^> j <| "code"
             <*> j <| "title"
         if let error = result.error {
-            print("LGApiErrorCode parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGApiErrorCode parse error: \(error)")
         }
         return result
     }

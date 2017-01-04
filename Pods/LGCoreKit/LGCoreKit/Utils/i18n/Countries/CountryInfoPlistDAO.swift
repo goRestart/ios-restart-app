@@ -14,7 +14,7 @@ class CountryInfoPlistDAO: CountryInfoDAO {
     init() {
         let fileName = "CountryInfo-v1"
         let fileExtension = "plist"
-        let plistPath = NSBundle.LGCoreKitBundle().pathForResource(fileName, ofType: fileExtension)!
+        let plistPath = Bundle.LGCoreKitBundle().path(forResource: fileName, ofType: fileExtension)!
 
         guard let infosRaw = NSArray(contentsOfFile: plistPath) else { return }
 
@@ -31,11 +31,11 @@ class CountryInfoPlistDAO: CountryInfoDAO {
 
     // MARK: - CountryCurrencyInfoDAO
 
-    func fetchCountryInfoWithCurrencyCode(currencyCode: String) -> CountryInfo? {
+    func fetchCountryInfoWithCurrencyCode(_ currencyCode: String) -> CountryInfo? {
         return infosByCurrencyCode[currencyCode]
     }
 
-    func fetchCountryInfoWithCountryCode(countryCode: String) -> CountryInfo? {
+    func fetchCountryInfoWithCountryCode(_ countryCode: String) -> CountryInfo? {
         return infosByCountryCode[countryCode]
     }
 }

@@ -8,8 +8,8 @@
 
 import Foundation
 
-extension NSBundle: AppVersion {
+extension Bundle: AppVersion {
     var shortVersionString: String {
-        return objectForInfoDictionaryKey("CFBundleShortVersionString") as? String ?? ""
+        return object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
     }
 }

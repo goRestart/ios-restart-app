@@ -20,7 +20,7 @@ final class DIProxy: InternalDI {
     // MARK: - Lifecycle
     
     init(backgroundEnabled: Bool = true) {
-        self.di = DIProxy.buildDI(DIProxy.diType, backgroundEnabled: backgroundEnabled)
+        self.di = DIProxy.buildDI(type: DIProxy.diType, backgroundEnabled: backgroundEnabled)
     }
     
     
@@ -30,7 +30,7 @@ final class DIProxy: InternalDI {
     This method is only used from test target, backgroundEnabled needs to be false
     */
     func setType(type: InternalDI.Type) {
-        self.di = DIProxy.buildDI(type, backgroundEnabled: false)
+        self.di = DIProxy.buildDI(type: type, backgroundEnabled: false)
         DIProxy.diType = type
     }
     
@@ -141,7 +141,7 @@ final class DIProxy: InternalDI {
     var countryHelper: CountryHelper {
         return di.countryHelper
     }
-    var dateFormatter: NSDateFormatter {
+    var dateFormatter: DateFormatter {
         return di.dateFormatter
     }
     var reporter: ReporterProxy {

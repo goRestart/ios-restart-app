@@ -10,15 +10,15 @@ import Result
 import RxSwift
 
 public typealias SessionMyUserResult = Result<MyUser, SessionManagerError>
-public typealias SessionMyUserCompletion = SessionMyUserResult -> Void
+public typealias SessionMyUserCompletion = (SessionMyUserResult) -> Void
 
 public typealias SessionEmptyResult = Result<Void, SessionManagerError>
-public typealias SessionEmptyCompletion = SessionEmptyResult -> Void
+public typealias SessionEmptyCompletion = (SessionEmptyResult) -> Void
 
 
 public enum SessionEvent {
-    case Login
-    case Logout(kickedOut: Bool)
+    case login
+    case logout(kickedOut: Bool)
 }
 
 public protocol SessionManager: class {
@@ -35,7 +35,7 @@ public protocol SessionManager: class {
     - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
     - parameter completion: The completion closure.
     */
-    func signUp(email: String, password: String, name: String, newsletter: Bool?,
+    func signUp(_ email: String, password: String, name: String, newsletter: Bool?,
         completion: SessionMyUserCompletion?)
 
     /**
@@ -47,7 +47,7 @@ public protocol SessionManager: class {
      - parameter recaptchaToken: Recaptcha token.
      - parameter completion: The completion closure.
      */
-    func signUp(email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
+    func signUp(_ email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
                        completion: SessionMyUserCompletion?)
 
     /**
@@ -56,14 +56,14 @@ public protocol SessionManager: class {
     - parameter password: The password.
     - parameter completion: The completion closure.
     */
-    func login(email: String, password: String, completion: SessionMyUserCompletion?)
+    func login(_ email: String, password: String, completion: SessionMyUserCompletion?)
 
     /**
     Logs the user in via Facebook.
     - parameter token: The Facebook token.
     - parameter completion: The completion closure.
     */
-    func loginFacebook(token: String, completion: SessionMyUserCompletion?)
+    func loginFacebook(_ token: String, completion: SessionMyUserCompletion?)
     
     /**
      Logs the user in via Google
@@ -71,14 +71,14 @@ public protocol SessionManager: class {
      - parameter token:      The Google token
      - parameter completion: The completion closure
      */
-    func loginGoogle(token: String, completion: SessionMyUserCompletion?)
+    func loginGoogle(_ token: String, completion: SessionMyUserCompletion?)
 
     /**
     Requests a password recovery.
     - parameter email: The email.
     - parameter completion: The completion closure.
     */
-    func recoverPassword(email: String, completion: SessionEmptyCompletion?)
+    func recoverPassword(_ email: String, completion: SessionEmptyCompletion?)
 
     /**
     Logs the user out.
@@ -103,18 +103,18 @@ public protocol SessionManager: class {
  Defines the user session providers in letgo API.
  */
 enum UserSessionProvider {
-    case Email(email: String, password: String)
-    case Facebook(facebookToken: String)
-    case Google(googleToken: String)
+    case email(email: String, password: String)
+    case facebook(facebookToken: String)
+    case google(googleToken: String)
 
     var accountProvider: AccountProvider {
         switch self {
-        case .Email:
-            return .Email
-        case .Facebook:
-            return .Facebook
-        case .Google:
-            return .Google
+        case .email:
+            return .email
+        case .facebook:
+            return .facebook
+        case .google:
+            return .google
         }
     }
 }
@@ -136,7 +136,7 @@ protocol InternalSessionManager: SessionManager {
      Authenticates (or creates if needed) the given installation.
      - parameter completion:    The completion closure.
      */
-    func authenticateInstallation(completion: (Result<Installation, ApiError> -> ())?)
+    func authenticateInstallation(_ completion: ((Result<Installation, ApiError>) -> ())?)
 
     /**
      Renews the user token.
@@ -145,13 +145,13 @@ protocol InternalSessionManager: SessionManager {
 
      - parameter completion:    The completion closure.
      */
-    func renewUserToken(completion: (Result<Authentication, ApiError> -> ())?)
+    func renewUserToken(_ completion: ((Result<Authentication, ApiError>) -> ())?)
 
     /**
      Sets up after logging-out.
      */
-    func tearDownSession(kicked kicked: Bool)
+    func tearDownSession(kicked: Bool)
 
-    func authenticateWebSocket(completion: SessionEmptyCompletion?)
+    func authenticateWebSocket(_ completion: SessionEmptyCompletion?)
 }
 

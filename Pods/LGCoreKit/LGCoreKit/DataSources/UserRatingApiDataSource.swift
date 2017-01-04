@@ -25,42 +25,42 @@ class UserRatingApiDataSource: UserRatingDataSource {
         self.apiClient = apiClient
     }
 
-    func index(userId: String, offset: Int, limit: Int, completion: UserRatingsDataSourceCompletion?) {
-        var params: [String: AnyObject] = [:]
+    func index(_ userId: String, offset: Int, limit: Int, completion: UserRatingsDataSourceCompletion?) {
+        var params: [String: Any] = [:]
         params["offset"] = offset
         params["limit"] = limit
         params[userFilter] = userId
-        let request = UserRatingRouter.Index(params: params)
+        let request = UserRatingRouter.index(params: params)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoderArray, completion: completion)
     }
 
-    func show(ratingId: String, completion: UserRatingDataSourceCompletion?) {
-        let request = UserRatingRouter.Show(objectId: ratingId)
+    func show(_ ratingId: String, completion: UserRatingDataSourceCompletion?) {
+        let request = UserRatingRouter.show(objectId: ratingId)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
-    func show(userId: String, userFromId: String, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
-        var params: [String: AnyObject] = [:]
+    func show(_ userId: String, userFromId: String, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
+        var params: [String: Any] = [:]
         params[userFilter] = userId
         params[userFromFilter] = userFromId
         params[typeFilter] = type.apiValue
         switch type {
-        case .Conversation:
+        case .conversation:
             break
-        case let .Buyer(productId):
+        case let .buyer(productId):
             params[productFilter] = productId
-        case let .Seller(productId):
+        case let .seller(productId):
             params[productFilter] = productId
         }
-        let request = UserRatingRouter.Index(params: params)
+        let request = UserRatingRouter.index(params: params)
         // UserRating with same (userId, userFromId, type) is unique so result should have one (or zero) results
         apiClient.request(request, decoder: UserRatingApiDataSource.decoderArray) { result in
             switch result {
-            case let .Failure(error):
+            case let .failure(error):
                 completion?(UserRatingDataSourceResult(error: error))
-            case let .Success(ratingArray):
+            case let .success(ratingArray):
                 guard let rating = ratingArray.first else {
-                    completion?(UserRatingDataSourceResult(error: .NotFound))
+                    completion?(UserRatingDataSourceResult(error: .notFound))
                     return
                 }
                 completion?(UserRatingDataSourceResult(rating))
@@ -68,48 +68,48 @@ class UserRatingApiDataSource: UserRatingDataSource {
         }
     }
 
-    func create(userId: String, userFromId: String, value: Int, comment: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
+    func create(_ userId: String, userFromId: String, value: Int, comment: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
         let data = UserRatingApiDataSource.encodeUserRatingParams(userId: userId, userFromId: userFromId,
                                                                   value: value, comment: comment, type: type)
-        let request = UserRatingRouter.Create(params: data)
+        let request = UserRatingRouter.create(params: data)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
-    func update(ratingId: String, value: Int?, comment: String?, completion: UserRatingDataSourceCompletion?) {
+    func update(_ ratingId: String, value: Int?, comment: String?, completion: UserRatingDataSourceCompletion?) {
         let data = UserRatingApiDataSource.encodeUserRatingParams(userId: nil, userFromId: nil,
                                                                   value: value, comment: comment, type: nil)
-        let request = UserRatingRouter.Update(objectId: ratingId, params: data)
+        let request = UserRatingRouter.update(objectId: ratingId, params: data)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
-    func report(ratingId: String, completion: UserRatingDataSourceCompletion?) {
-        let request = UserRatingRouter.Report(objectId: ratingId)
+    func report(_ ratingId: String, completion: UserRatingDataSourceCompletion?) {
+        let request = UserRatingRouter.report(objectId: ratingId)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
 
     // MARK: - Decoder
 
-    private static func decoderArray(object: AnyObject) -> [UserRating]? {
+    private static func decoderArray(_ object: Any) -> [UserRating]? {
         guard let ratings : [LGUserRating] = decode(object) else { return nil }
         return ratings.map{$0}
     }
 
-    private static func decoder(object: AnyObject) -> UserRating? {
+    private static func decoder(_ object: Any) -> UserRating? {
         guard let userRating : LGUserRating = decode(object) else { return nil }
         return userRating
     }
 
     // MARK: - Encoder
 
-    private static func encodeUserRatingParams(userId userId: String?, userFromId: String?, value: Int?,
-                                                     comment: String?, type: UserRatingType?) -> [String : AnyObject] {
-        var result: [String : AnyObject] = [:]
+    private static func encodeUserRatingParams(userId: String?, userFromId: String?, value: Int?,
+                                                   comment: String?, type: UserRatingType?) -> [String : Any] {
+        var result: [String : Any] = [:]
         result["type"] = type?.apiValue
         result["user_id"] = userFromId
         result["user_rated_id"] = userId
         result["value"] = value
-        var attributes: [String : AnyObject] = [:]
+        var attributes: [String : Any] = [:]
         attributes["product_id"] = type?.productId
         attributes["comment"] = comment
         if !attributes.isEmpty {
@@ -123,11 +123,11 @@ class UserRatingApiDataSource: UserRatingDataSource {
 private extension UserRatingType {
     var productId: String? {
         switch self {
-        case .Conversation:
+        case .conversation:
             return nil
-        case let .Seller(productId):
+        case let .seller(productId):
             return productId
-        case let .Buyer(productId):
+        case let .buyer(productId):
             return productId
         }
     }

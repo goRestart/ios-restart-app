@@ -11,9 +11,9 @@ import Result
 import RxSwift
 
 public enum LocationEvent {
-    case LocationUpdate
-    case MovedFarFromSavedManualLocation
-    case ChangedPermissions
+    case locationUpdate
+    case movedFarFromSavedManualLocation
+    case changedPermissions
 }
 
 public protocol LocationManager {
@@ -60,13 +60,13 @@ public protocol LocationManager {
     - parameter postalAddress: The postal address.
     - parameter userUpdateCompletion: The `MyUser` update completion closure.
     */
-    func setManualLocation(location: CLLocation, postalAddress: PostalAddress, completion: MyUserCompletion?)
+    func setManualLocation(_ location: CLLocation, postalAddress: PostalAddress, completion: MyUserCompletion?)
 
     /**
     Sets the location as automatic.
     - parameter userUpdateCompletion: The `MyUser` update completion closure.
     */
-    func setAutomaticLocation(userUpdateCompletion: MyUserCompletion?)
+    func setAutomaticLocation(_ userUpdateCompletion: MyUserCompletion?)
 
     /**
     Returns the current location service status.

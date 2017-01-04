@@ -9,11 +9,11 @@
 public class ReporterProxy: Reporter {
     var reporters: [Reporter] = []
 
-    public func addReporter(reporter: Reporter) {
+    public func addReporter(_ reporter: Reporter) {
         reporters.append(reporter)
     }
 
-    public func report(domain: Domain, code: Int, message: String) {
+    public func report(_ domain: Domain, code: Int, message: String) {
         reporters.forEach { $0.report(domain, code: code, message: message) }
     }
 }
@@ -23,6 +23,6 @@ public protocol ReportType {
     var code: Int { get }
 }
 
-public func report(reportType: ReportType, message: String) {
+public func report(_ reportType: ReportType, message: String) {
     InternalCore.reporter.report(reportType.domain, code: reportType.code, message: message)
 }

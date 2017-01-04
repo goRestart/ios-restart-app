@@ -23,9 +23,9 @@ public class CLPostalAddressRetrievalService: PostalAddressRetrievalService {
 
     // MARK: - PostalAddressRetrievalService
 
-    public func retrieveAddressForLocation(coordinates: LGLocationCoordinates2D, completion: PostalAddressRetrievalServiceCompletion?) {
+    public func retrieveAddressForLocation(_ coordinates: LGLocationCoordinates2D, completion: PostalAddressRetrievalServiceCompletion?) {
         let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-        geocoder.reverseGeocodeLocation(location) { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
+        geocoder.reverseGeocodeLocation(location) { (placemarks, error) -> Void in
             // Success
             if let actualPlacemarks = placemarks {
                 var place = Place()
@@ -37,10 +37,10 @@ public class CLPostalAddressRetrievalService: PostalAddressRetrievalService {
             }
             // Error
             else if let _ = error {
-                completion?(PostalAddressRetrievalServiceResult(error: .Network))
+                completion?(PostalAddressRetrievalServiceResult(error: .network))
             }
             else {
-                completion?(PostalAddressRetrievalServiceResult(error: .Internal))
+                completion?(PostalAddressRetrievalServiceResult(error: .internalError))
             }
         }
     }

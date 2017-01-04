@@ -20,20 +20,20 @@ final class LGPassiveBuyersRepository: PassiveBuyersRepository {
 
     // MARK: - PassiveBuyersRepository
 
-    func show(productId productId: String, completion: PassiveBuyersCompletion?) {
+    func show(productId: String, completion: PassiveBuyersCompletion?) {
         dataSource.show(productId: productId) { result in
             handleApiResult(result, completion: completion)
         }
     }
 
-    func contactAllBuyers(passiveBuyersInfo passiveBuyersInfo: PassiveBuyersInfo, completion: PassiveBuyersEmptyCompletion?) {
+    func contactAllBuyers(passiveBuyersInfo: PassiveBuyersInfo, completion: PassiveBuyersEmptyCompletion?) {
         guard let productId = passiveBuyersInfo.objectId else {
-            completion?(PassiveBuyersEmptyResult(error: .Internal(message: "Missing objectId in passiveBuyersInfo")))
+            completion?(PassiveBuyersEmptyResult(error: .internalError(message: "Missing objectId in passiveBuyersInfo")))
             return
         }
         let buyerIds = passiveBuyersInfo.passiveBuyers.flatMap { $0.objectId }
         guard !buyerIds.isEmpty else {
-            completion?(PassiveBuyersEmptyResult(error: .Internal(message: "Empty buyerIds in passiveBuyersInfo")))
+            completion?(PassiveBuyersEmptyResult(error: .internalError(message: "Empty buyerIds in passiveBuyersInfo")))
             return
         }
 

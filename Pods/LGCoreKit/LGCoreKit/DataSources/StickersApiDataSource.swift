@@ -22,16 +22,16 @@ class StickersApiDataSource: StickersDataSource {
     
     // MARK: - Actions
     
-    func show(locale: NSLocale, completion: StickersDataSourceCompletion?) {
-        let request = StickersRouter.Show(locale: locale.localeIdentifier)
+    func show(_ locale: Locale, completion: StickersDataSourceCompletion?) {
+        let request = StickersRouter.show(locale: locale.identifier)
         apiClient.request(request, decoder: StickersApiDataSource.decoderArray, completion: completion)
     }
     
     
     // MARK: - Decoders
     
-    private static func decoderArray(object: AnyObject) -> [Sticker]? {
-        guard let json = object as? [String: AnyObject] else { return nil }
+    private static func decoderArray(_ object: Any) -> [Sticker]? {
+        guard let json = object as? [String: Any] else { return nil }
         guard let stickersJSON = json["stickers"] else { return nil }
         guard let stickers = Array<LGSticker>.decode(JSON(stickersJSON)).value else { return nil }
         return stickers.map{ $0 }

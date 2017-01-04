@@ -19,13 +19,11 @@ public class LGCoreKit {
     public static var activateWebsocket = false
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
 
-
-
-    public static func initialize(launchOptions: [NSObject: AnyObject]?) {
+    public static func initialize(_ launchOptions: [AnyHashable: Any]?) {
         initialize(launchOptions, environmentType: .Production)
     }
 
-    public static func initialize(launchOptions: [NSObject: AnyObject]?, environmentType: EnvironmentType) {
+    public static func initialize(_ launchOptions: [AnyHashable: Any]?, environmentType: EnvironmentType) {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentType)
 
         // Managers setup
@@ -55,7 +53,7 @@ public class LGCoreKit {
         InternalCore.internalSessionManager.applicationDidEnterBackground()
     }
 
-    static func setupAfterLoggedIn(completion: (() -> ())?) {
+    static func setupAfterLoggedIn(_ completion: (() -> ())?) {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else {
             completion?()
             return

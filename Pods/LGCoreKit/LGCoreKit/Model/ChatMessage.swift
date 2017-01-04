@@ -9,12 +9,12 @@
 import Argo
 
 public enum ChatMessageType: String {
-    case Text = "text"
-    case Offer = "offer"
-    case Sticker = "sticker"
-    case QuickAnswer = "quick_answer"
-    case ExpressChat = "express_chat"
-    case FavoritedProduct  = "favorited_product"
+    case text = "text"
+    case offer = "offer"
+    case sticker = "sticker"
+    case quickAnswer = "quick_answer"
+    case expressChat = "express_chat"
+    case favoritedProduct  = "favorited_product"
 }
 
 public enum ChatMessageWarning: String, Decodable {
@@ -24,9 +24,9 @@ public enum ChatMessageWarning: String, Decodable {
 public protocol ChatMessage: BaseModel {
     var talkerId: String { get }
     var text: String { get }
-    var sentAt: NSDate? { get }
-    var receivedAt: NSDate? { get }
-    var readAt: NSDate? { get }
+    var sentAt: Date? { get }
+    var receivedAt: Date? { get }
+    var readAt: Date? { get }
     var type: ChatMessageType { get }
     var warnings: [ChatMessageWarning] { get }
 
@@ -35,16 +35,16 @@ public protocol ChatMessage: BaseModel {
 
 extension ChatMessage {
     public var messageStatus: ChatMessageStatus {
-        if let _ = readAt { return .Read }
-        if let _ = receivedAt { return .Received }
-        if let _ = sentAt { return .Sent }
-        return .Unknown
+        if let _ = readAt { return .read }
+        if let _ = receivedAt { return .received }
+        if let _ = sentAt { return .sent }
+        return .unknown
     }
 }
 
 public enum ChatMessageStatus {
-    case Sent
-    case Received
-    case Read
-    case Unknown
+    case sent
+    case received
+    case read
+    case unknown
 }

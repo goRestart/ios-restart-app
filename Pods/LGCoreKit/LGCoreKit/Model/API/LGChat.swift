@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import UIKit
 import Argo
 import Curry
+import Runes
 
 struct LGChat: Chat {
 
     // Global iVars
     var objectId: String?
-    let updatedAt: NSDate?
+    let updatedAt: Date?
 
     // Chat iVars
     let product: Product
@@ -28,7 +28,7 @@ struct LGChat: Chat {
 
 extension LGChat : Decodable {
 
-    static func newLGChat(objectId: String?, updatedAt: NSDate?, product: LGProduct, userFrom: LGUser,
+    static func newLGChat(_ objectId: String?, updatedAt: Date?, product: LGProduct, userFrom: LGUser,
         userTo: LGUser, msgUnreadCount: Int, messages: [LGMessage]?, forbidden: Bool, status: Int) -> LGChat {
 
             let theMessages : [Message]
@@ -38,7 +38,7 @@ extension LGChat : Decodable {
             else{
                 theMessages = []
             }
-            let archivedStatus = ChatArchivedStatus(rawValue: status) ?? .Active
+            let archivedStatus = ChatArchivedStatus(rawValue: status) ?? .active
             return LGChat(objectId: objectId, updatedAt: updatedAt, product: product, userFrom: userFrom,
                 userTo: userTo, msgUnreadCount: msgUnreadCount, messages: theMessages, forbidden: forbidden,
                 archivedStatus: archivedStatus)
@@ -60,7 +60,7 @@ extension LGChat : Decodable {
     }
     
     */
-    static func decode(j: JSON) -> Decoded<LGChat> {
+    static func decode(_ j: JSON) -> Decoded<LGChat> {
         
         let init1 = curry(LGChat.newLGChat)
                             <^> j <|? "id"

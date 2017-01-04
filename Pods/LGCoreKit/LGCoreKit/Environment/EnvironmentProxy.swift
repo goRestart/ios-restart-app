@@ -31,7 +31,7 @@ class EnvironmentProxy: Environment {
 
     // MARK: - Public methods
 
-    func setEnvironmentType(type: EnvironmentType) {
+    func setEnvironmentType(_ type: EnvironmentType) {
         switch type {
         case .Staging:
             environment = StagingEnvironment()

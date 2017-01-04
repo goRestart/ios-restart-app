@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGUserRating: UserRating {
     let objectId: String?
@@ -17,11 +18,11 @@ struct LGUserRating: UserRating {
     let value: Int
     let comment: String?
     let status: UserRatingStatus
-    let createdAt: NSDate
-    let updatedAt: NSDate
+    let createdAt: Date
+    let updatedAt: Date
 
     init(objectId: String, userToId: String, userFrom: LGUser, type: UserRatingType, value: Int, comment: String?,
-         status: UserRatingStatus, createdAt: NSDate, updatedAt: NSDate) {
+         status: UserRatingStatus, createdAt: Date, updatedAt: Date) {
         self.objectId = objectId
         self.userToId = userToId
         self.userFrom = userFrom
@@ -61,20 +62,21 @@ extension LGUserRating: Decodable {
          "updated_at": DateTime (UserRating updatedAt, i.e - "2016-07-12T18:27:51+0200")
      }
      */
-    static func decode(j: JSON) -> Decoded<LGUserRating> {
-        let result = curry(LGUserRating.init)
+    static func decode(_ j: JSON) -> Decoded<LGUserRating> {
+        let result1 = curry(LGUserRating.init)
             <^> j <| "uuid"
             <*> j <| "user_to_id"
             <*> j <| "user_from"
             <*> UserRatingType.decode(j)
             <*> j <| "value"
+        let result = result1
             <*> j <|? "comment"
             <*> j <| "status"
             <*> j <| "created_at"
             <*> j <| "updated_at"
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGUserRating parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGUserRating parse error: \(error)")
         }
 
         return result
@@ -84,24 +86,24 @@ extension LGUserRating: Decodable {
 extension UserRatingStatus: Decodable {}
 
 extension UserRatingType: Decodable {
-    public static func decode(j: JSON) -> Decoded<UserRatingType> {
+    public static func decode(_ j: JSON) -> Decoded<UserRatingType> {
         let decodedType: Decoded<UserRatingApiType> = j <| "type"
         guard let type = decodedType.value else { return Decoded<UserRatingType>.fromOptional(nil) }
 
         let result: Decoded<UserRatingType>
         switch type {
-        case .Conversation:
-            result = Decoded<UserRatingType>.fromOptional(.Conversation)
-        case .Seller:
-            result = curry(UserRatingType.Seller)
+        case .conversation:
+            result = Decoded<UserRatingType>.fromOptional(.conversation)
+        case .seller:
+            result = curry(UserRatingType.seller)
                 <^> j <| "product_id"
-        case .Buyer:
-            result = curry(UserRatingType.Buyer)
+        case .buyer:
+            result = curry(UserRatingType.buyer)
                 <^> j <| "product_id"
         }
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "UserRatingType parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "UserRatingType parse error: \(error)")
         }
         return result
     }
@@ -110,12 +112,12 @@ extension UserRatingType: Decodable {
 extension UserRatingType {
     private var apiType: UserRatingApiType {
         switch self {
-        case .Conversation:
-            return .Conversation
-        case .Seller:
-            return .Seller
-        case .Buyer:
-            return .Buyer
+        case .conversation:
+            return .conversation
+        case .seller:
+            return .seller
+        case .buyer:
+            return .buyer
         }
     }
 
@@ -125,9 +127,9 @@ extension UserRatingType {
 }
 
 private enum UserRatingApiType: Int {
-    case Conversation = 1
-    case Seller = 2
-    case Buyer = 3
+    case conversation = 1
+    case seller = 2
+    case buyer = 3
 }
 
 extension UserRatingApiType: Decodable {}

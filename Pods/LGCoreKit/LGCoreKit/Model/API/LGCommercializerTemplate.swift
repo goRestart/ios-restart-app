@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGCommercializerTemplate: CommercializerTemplate {
     
@@ -26,7 +27,7 @@ struct LGCommercializerTemplate: CommercializerTemplate {
 
 extension LGCommercializerTemplate : Decodable {
 
-    static func decode(j: JSON) -> Decoded<LGCommercializerTemplate> {
+    static func decode(_ j: JSON) -> Decoded<LGCommercializerTemplate> {
         
         let init1 = curry(LGCommercializerTemplate.init)
                             <^> j <|? "template_id"
@@ -40,7 +41,7 @@ extension LGCommercializerTemplate : Decodable {
 
         
         if let error = result.error {
-            print("LGCommercializer parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGCommercializer parse error: \(error)")
         }
         
         return result

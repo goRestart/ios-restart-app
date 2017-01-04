@@ -23,9 +23,9 @@ final class LGFileRepository: FileRepository {
 
     // MARK: - Upload
 
-    func upload(images: [UIImage], progress: ((Float) -> ())?, completion: FilesCompletion?) {
+    func upload(_ images: [UIImage], progress: ((Float) -> ())?, completion: FilesCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(FilesResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(FilesResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
@@ -46,14 +46,14 @@ final class LGFileRepository: FileRepository {
         )
     }
 
-    func upload(image: UIImage, progress: (Float -> ())?, completion: FileCompletion?) {
+    func upload(_ image: UIImage, progress: ((Float) -> ())?, completion: FileCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(FileResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(FileResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
         guard let data = image.resizeImageData() else {
-            completion?(FileResult(error: .Internal(message: "Failed to encode UIImage to NSData")))
+            completion?(FileResult(error: .internalError(message: "Failed to encode UIImage to NSData")))
             return
         }
 
@@ -64,7 +64,7 @@ final class LGFileRepository: FileRepository {
 
     // MARK: - Private
 
-    private func uploadFile(userId: String, data: NSData, imageName: String, progress: (Float -> ())?,
+    private func uploadFile(_ userId: String, data: Data, imageName: String, progress: ((Float) -> ())?,
                             completion: FileCompletion?) {
         fileDataSource.uploadFile(userId, data: data, imageName: imageName, progress: progress) { result in
             if let value = result.value {
@@ -76,8 +76,8 @@ final class LGFileRepository: FileRepository {
         }
     }
 
-    private func imagesData(images: [UIImage]) -> [(String, NSData)] {
-        var imageNameAndDatas: [(String, NSData)] = []
+    private func imagesData(_ images: [UIImage]) -> [(String, Data)] {
+        var imageNameAndDatas: [(String, Data)] = []
         for image in images {
             if let data = image.resizeImageData() {
                 let imageNameAndData = ("image", data)
@@ -87,15 +87,15 @@ final class LGFileRepository: FileRepository {
         return imageNameAndDatas
     }
 
-    private func uploadImages(userId: String, imageNameAndDatas: [(String, NSData)], step: (Int) -> Void,
+    private func uploadImages(_ userId: String, imageNameAndDatas: [(String, Data)], step: @escaping (Int) -> Void,
                               completion: FilesCompletion?) {
         guard imageNameAndDatas.count > 0 else {
-            completion?(FilesResult(error: .Internal(message: "imageNameAndDatas empty")))
+            completion?(FilesResult(error: .internalError(message: "imageNameAndDatas empty")))
             return
         }
 
-        let fileUploadQueue = dispatch_queue_create("FileUploadQueue", DISPATCH_QUEUE_SERIAL)
-        dispatch_async(fileUploadQueue, {
+        let fileUploadQueue = DispatchQueue(label: "FileUploadQueue", attributes: [])
+        fileUploadQueue.async(execute: {
 
             var fileImages: [File] = []
 
@@ -107,11 +107,11 @@ final class LGFileRepository: FileRepository {
                         completion: { result in
                             synchCompletion(result)
                     })
-                    }, timeoutWith: FileResult(error: .Internal(message: "Timeout uploading image")))
+                }, timeoutWith: FileResult(error: .internalError(message: "Timeout uploading image")))
 
                 if let file = fileUploadResult.value {
                     fileImages.append(file)
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         step(fileImages.count)
                         if fileImages.count >= imageNameAndDatas.count {
                             completion?(FilesResult(value: fileImages))
@@ -119,8 +119,8 @@ final class LGFileRepository: FileRepository {
                     }
                 }
                 else {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        let error = fileUploadResult.error ?? .Internal(message: "unknown error uploading file")
+                    DispatchQueue.main.async {
+                        let error = fileUploadResult.error ?? .internalError(message: "unknown error uploading file")
                         completion?(FilesResult(error: error))
                     }
                     break

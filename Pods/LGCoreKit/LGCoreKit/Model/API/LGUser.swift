@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGUser: User {
 
@@ -37,7 +38,7 @@ struct LGUser: User {
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
         self.accounts = accounts?.map { $0 as Account }
-        self.status = status ?? .Active
+        self.status = status ?? .active
         self.isDummy = isDummy
     }
     
@@ -55,7 +56,7 @@ extension LGUser {
     init() {
         let postalAddress = PostalAddress.emptyAddress()
         self.init(objectId: nil, name: nil, avatar: nil, postalAddress: postalAddress, ratingAverage: nil,
-                  ratingCount: nil, accounts: nil, status: .Active, isDummy: false)
+                  ratingCount: nil, accounts: nil, status: .active, isDummy: false)
     }
 }
 
@@ -88,7 +89,7 @@ extension LGUser : Decodable {
         "status": "active"
     }
     */
-    static func decode(j: JSON) -> Decoded<LGUser> {
+    static func decode(_ j: JSON) -> Decoded<LGUser> {
         let init1 = curry(LGUser.init)
             <^> j <|? "id"
             <*> j <|? "name"
@@ -102,7 +103,7 @@ extension LGUser : Decodable {
             <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGUser parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGUser parse error: \(error)")
         }
 
         return result

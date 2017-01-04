@@ -21,9 +21,9 @@ extension CLPlacemark {
             place.location = LGLocationCoordinates2D(coordinates: placemarkLocation.coordinate)
         }
 
-        let address = postalAddressStringFromAddressDictionary(self.addressDictionary, addCountryName: false)
+        let address = postalAddressStringFromAddressDictionary(self.addressDictionary as Dictionary<NSObject, AnyObject>?, addCountryName: false)
         let postalAddress = PostalAddress(address: address, city: self.locality, zipCode: self.postalCode,
-                                          state: self.administrativeArea, countryCode: self.ISOcountryCode, country: self.country)
+                                          state: self.administrativeArea, countryCode: self.isoCountryCode, country: self.country)
 
         place.postalAddress = postalAddress
 
@@ -31,7 +31,7 @@ extension CLPlacemark {
         if let name = self.name {
             resumedData += name
             // if the user searches for the city, then the city will appear twice in the resumedData string
-            if let city = self.locality where city != name {
+            if let city = self.locality, city != name {
                 resumedData += ", \(city)"
             }
         }
@@ -54,25 +54,25 @@ extension CLPlacemark {
     - parameter addressDict: A postal address dictionary.
     - returns: A localized postal address string.
     */
-    private func postalAddressStringFromAddressDictionary(addressDict: Dictionary<NSObject,AnyObject>?,
+    private func postalAddressStringFromAddressDictionary(_ addressDict: Dictionary<AnyHashable,Any>?,
         addCountryName: Bool) -> String? {
             guard let addressDict = addressDict else { return nil }
             let addressString: String
             if #available(iOS 9.0, *) {
                 let address = CNMutablePostalAddress()
-                address.street = addressDict[kABPersonAddressStreetKey] as? String ?? ""
-                address.state = addressDict[kABPersonAddressStateKey] as? String ?? ""
+                address.street = addressDict[CNPostalAddressStreetKey] as? String ?? ""
+                address.state = addressDict[CNPostalAddressStateKey] as? String ?? ""
                 address.postalCode = addressDict["ZIP"] as? String ?? ""
-                address.city = addressDict[kABPersonAddressCityKey] as? String ?? ""
-                address.ISOCountryCode = addressDict[kABPersonAddressCountryCodeKey] as? String ?? ""
+                address.city = addressDict[CNPostalAddressCityKey] as? String ?? ""
+                address.isoCountryCode = addressDict[CNPostalAddressISOCountryCodeKey] as? String ?? ""
                 if addCountryName {
-                    address.country = addressDict[kABPersonAddressCountryKey] as? String ?? ""
+                    address.country = addressDict[CNPostalAddressCountryKey] as? String ?? ""
                 }
-                addressString = CNPostalAddressFormatter.stringFromPostalAddress(address, style: .MailingAddress)
+                addressString = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
             } else {
                 addressString = ABCreateStringWithAddressDictionary(addressDict, addCountryName)
             }
-            return addressString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            return addressString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 }
 

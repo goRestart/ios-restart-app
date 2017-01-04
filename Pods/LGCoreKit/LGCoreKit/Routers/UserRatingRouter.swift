@@ -10,17 +10,17 @@ enum UserRatingRouter: URLRequestAuthenticable {
 
     static let ratingsEndpoint = "/rating"
 
-    case Show(objectId: String)
-    case Index(params: [String : AnyObject])
-    case Create(params: [String : AnyObject])
-    case Update(objectId: String, params: [String : AnyObject])
-    case Report(objectId: String)
+    case show(objectId: String)
+    case index(params: [String : Any])
+    case create(params: [String : Any])
+    case update(objectId: String, params: [String : Any])
+    case report(objectId: String)
 
     var endpoint: String {
         switch self {
-        case .Show, .Index, .Create, .Update:
+        case .show, .index, .create, .update:
             return UserRatingRouter.ratingsEndpoint
-        case let .Report(objectId):
+        case let .report(objectId):
             return UserRatingRouter.ratingsEndpoint+"/\(objectId)/report"
 
         }
@@ -28,28 +28,27 @@ enum UserRatingRouter: URLRequestAuthenticable {
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Index:
-            return .Nonexistent
-        case .Show, .Create, .Update, .Report:
-            return .User
+        case .index:
+            return .nonexistent
+        case .show, .create, .update, .report:
+            return .user
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .Show(objectId):
-            return Router<UserRatingsBaseURL>.Show(endpoint: endpoint, objectId: objectId).URLRequest
-        case let .Index(params):
-            return Router<UserRatingsBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
-        case let .Create(params):
-            return Router<UserRatingsBaseURL>.Create(endpoint: endpoint, params: params, encoding: nil).URLRequest
-        case let .Update(objectId, params):
-            return Router<UserRatingsBaseURL>.Update(endpoint: endpoint, objectId: objectId, params: params,
-                                                     encoding: nil).URLRequest
-        case .Report:
-            return Router<UserRatingsBaseURL>.BatchUpdate(endpoint: endpoint, params: [:], encoding: nil).URLRequest
+        case let .show(objectId):
+            return try Router<UserRatingsBaseURL>.show(endpoint: endpoint, objectId: objectId).asURLRequest()
+        case let .index(params):
+            return try Router<UserRatingsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .create(params):
+            return try Router<UserRatingsBaseURL>.create(endpoint: endpoint, params: params, encoding: nil).asURLRequest()
+        case let .update(objectId, params):
+            return try Router<UserRatingsBaseURL>.update(endpoint: endpoint, objectId: objectId, params: params, encoding: nil).asURLRequest()
+        case .report:
+            return try Router<UserRatingsBaseURL>.batchUpdate(endpoint: endpoint, params: [:], encoding: nil).asURLRequest()
         }
     }
 }

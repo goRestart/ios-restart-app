@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGCommercializer: Commercializer {
     
@@ -23,16 +24,16 @@ struct LGCommercializer: Commercializer {
     var templateId: String?
     var title: String?
     var duration: Int?
-    var updatedAt : NSDate?
-    var createdAt : NSDate?
+    var updatedAt : Date?
+    var createdAt : Date?
     
 }
 
 extension LGCommercializer : Decodable {
     
-    static func newLGCommercializer(status: CommercializerStatus, videoHighURL: String?, videoLowURL: String?,
+    static func newLGCommercializer(_ status: CommercializerStatus, videoHighURL: String?, videoLowURL: String?,
                                     thumbURL: String?, shareURL: String?, templateId: String?, title: String?,
-                                    duration: Int?, updatedAt: NSDate?, createdAt: NSDate?)
+                                    duration: Int?, updatedAt: Date?, createdAt: Date?)
         -> LGCommercializer {
             return LGCommercializer(objectId: nil, status: status, videoHighURL: videoHighURL, videoLowURL: videoLowURL,
                                     thumbURL: thumbURL, shareURL: shareURL, templateId: templateId, title: title,
@@ -62,7 +63,7 @@ extension LGCommercializer : Decodable {
      }
      
      */
-    static func decode(j: JSON) -> Decoded<LGCommercializer> {
+    static func decode(_ j: JSON) -> Decoded<LGCommercializer> {
         
         let init1 = curry(LGCommercializer.newLGCommercializer)
                             <^> LGArgo.parseCommercializerStatus(j, key: "status")
@@ -78,7 +79,7 @@ extension LGCommercializer : Decodable {
         
         
         if let error = result.error {
-            print("LGCommercializer parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGCommercializer parse error: \(error)")
         }
         
         return result

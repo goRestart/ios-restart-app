@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGUnreadNotificationsCounts: UnreadNotificationsCounts {
     let productSold: Int
@@ -35,7 +36,7 @@ extension LGUnreadNotificationsCounts: Decodable {
          "total": 50
      }
      */
-    static func decode(j: JSON) -> Decoded<LGUnreadNotificationsCounts> {
+    static func decode(_ j: JSON) -> Decoded<LGUnreadNotificationsCounts> {
         let result = curry(LGUnreadNotificationsCounts.init)
             <^> j <|? "total"
             <*> j <|? "sold"
@@ -44,7 +45,7 @@ extension LGUnreadNotificationsCounts: Decodable {
             <*> j <|? "review_updated"
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGUnreadNotificationsCounts parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGUnreadNotificationsCounts parse error: \(error)")
         }
 
         return result

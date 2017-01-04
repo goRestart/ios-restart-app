@@ -8,12 +8,13 @@
 
 import Argo
 import Curry
+import Runes
 
 public struct LGMessage: Message {
 
     // Global iVars
     public var objectId: String?
-    public var createdAt: NSDate?
+    public var createdAt: Date?
 
     // Message iVars
     public var text: String
@@ -22,7 +23,7 @@ public struct LGMessage: Message {
     public var warningStatus: MessageWarningStatus
     public var isRead: Bool
     
-    init(objectId: Int?, createdAt: NSDate?, text: String, type: Int?, userId: String, status: Int?, isRead: Bool?){
+    init(objectId: Int?, createdAt: Date?, text: String, type: Int?, userId: String, status: Int?, isRead: Bool?){
         if let intId = objectId {
             self.objectId = String(intId)
         }
@@ -30,24 +31,24 @@ public struct LGMessage: Message {
         self.text = text
 
         if let intType = type {
-            self.type = MessageType(rawValue: intType) ?? .Text
+            self.type = MessageType(rawValue: intType) ?? .text
         } else {
-            self.type = .Text
+            self.type = .text
         }
         self.userId = userId
 
         let intStatus = status ?? 0
-        self.warningStatus = MessageWarningStatus(rawValue: intStatus) ?? .Normal
+        self.warningStatus = MessageWarningStatus(rawValue: intStatus) ?? .normal
         self.isRead = isRead ?? false
     }
 }
 
 extension LGMessage {
     public init() {
-        self.type = .Text
+        self.type = .text
         self.text = ""
         self.userId = ""
-        self.warningStatus = .Normal
+        self.warningStatus = .normal
         self.isRead = false
     }
 }
@@ -66,7 +67,7 @@ extension LGMessage : Decodable {
             "is_read": 0
         }
     */
-    public static func decode(j: JSON) -> Decoded<LGMessage> {
+    public static func decode(_ j: JSON) -> Decoded<LGMessage> {
         
         let init1 = curry(LGMessage.init)
                             <^> j <|? "id"
@@ -78,7 +79,7 @@ extension LGMessage : Decodable {
                             <*> j <|? "is_read"
         
         if let error = result.error {
-            print("LGMessage parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGMessage parse error: \(error)")
         }
 
         return result

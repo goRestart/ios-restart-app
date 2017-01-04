@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGPassiveBuyersUser: PassiveBuyersUser {
     let objectId: String?
@@ -29,14 +30,14 @@ extension LGPassiveBuyersUser: Decodable {
         "avatar": "http:\/\/test\/avatar2.jpg"
      }
      */
-    static func decode(j: JSON) -> Decoded<LGPassiveBuyersUser> {
+    static func decode(_ j: JSON) -> Decoded<LGPassiveBuyersUser> {
         let result = curry(LGPassiveBuyersUser.init)
             <^> j <|? "user_id"
             <*> j <|? "username"
             <*> j <|? "avatar"
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGPassiveBuyersUser parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGPassiveBuyersUser parse error: \(error)")
         }
         return result
     }

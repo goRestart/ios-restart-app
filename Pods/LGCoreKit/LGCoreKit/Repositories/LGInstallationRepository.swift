@@ -17,8 +17,8 @@ class LGInstallationRepository: InternalInstallationRepository {
     let dataSource: InstallationDataSource
 
     let appVersion: AppVersion
-    let locale: NSLocale
-    let timeZone: NSTimeZone
+    let locale: Locale
+    let timeZone: TimeZone
 
     var success: (Installation) -> ()
 
@@ -26,7 +26,7 @@ class LGInstallationRepository: InternalInstallationRepository {
     // MARK: - Lifecycle
 
     init(deviceIdDao: DeviceIdDAO, dao: InstallationDAO, dataSource: InstallationDataSource,
-         appVersion: AppVersion, locale: NSLocale, timeZone: NSTimeZone) {
+         appVersion: AppVersion, locale: Locale, timeZone: TimeZone) {
         self.deviceIdDao = deviceIdDao
         self.dao = dao
         self.dataSource = dataSource
@@ -64,10 +64,10 @@ class LGInstallationRepository: InternalInstallationRepository {
      - parameter token:      New Push token to update in API
      - parameter completion: Closure to execute when the opeartion finishes
      */
-    func updatePushToken(token: String, completion: ((Result<Installation, RepositoryError>) -> ())?) {
+    func updatePushToken(_ token: String, completion: ((Result<Installation, RepositoryError>) -> ())?) {
         let JSONKeys = LGInstallation.ApiInstallationKeys()
 
-        var params: [String: AnyObject] = [:]
+        var params: [String: Any] = [:]
         if let installation = installation {
             guard installation.deviceToken != token else {
                 completion?(Result<Installation, RepositoryError>(value: installation))
@@ -110,7 +110,7 @@ class LGInstallationRepository: InternalInstallationRepository {
 
      - parameter completion: The completion closure.
      */
-    func update(completion: ((Result<Installation, ApiError>) -> ())?) {
+    func update(_ completion: ((Result<Installation, ApiError>) -> ())?) {
         let params = buildInstallationCreateParams()
         update(installationId, params: params, completion: completion)
     }
@@ -120,7 +120,7 @@ class LGInstallationRepository: InternalInstallationRepository {
 
      - parameter completion: Completion Closure to call when the operation finishes. Could be a success or an error
      */
-    func create(completion: ((Result<Installation, ApiError>) -> ())?) {
+    func create(_ completion: ((Result<Installation, ApiError>) -> ())?) {
         let params = buildInstallationCreateParams()
         create(params, completion: completion)
     }
@@ -144,7 +144,7 @@ class LGInstallationRepository: InternalInstallationRepository {
      - parameter installation: Dictionary of parameters to create the Installation
      - parameter completion:   Closure to execute when the operation finishes
      */
-    private func create(installation: [String: AnyObject], completion: ((Result<Installation, ApiError>) -> ())?) {
+    private func create(_ installation: [String: Any], completion: ((Result<Installation, ApiError>) -> ())?) {
         dataSource.create(installation) { [weak self] result in
             if let value = result.value {
                 self?.success(value)
@@ -162,7 +162,7 @@ class LGInstallationRepository: InternalInstallationRepository {
      - parameter params:         Dictionary containing the properties to be updated
      - parameter completion:     Closure to execute after completion
      */
-    private func update(installationId: String, params: [String: AnyObject],
+    private func update(_ installationId: String, params: [String: Any],
                         completion: ((Result<Installation, ApiError>) -> ())?) {
         dataSource.update(installationId, params: params) { [weak self] result in
             if let value = result.value {
@@ -179,15 +179,15 @@ class LGInstallationRepository: InternalInstallationRepository {
 
      - returns: Installation params.
      */
-    private func buildInstallationCreateParams() -> [String: AnyObject] {
-        var dict = [String: AnyObject]()
+    private func buildInstallationCreateParams() -> [String: Any] {
+        var dict = [String: Any]()
         let JSONKeys = LGInstallation.ApiInstallationKeys()
         dict[JSONKeys.objectId] = deviceIdDao.deviceId
-        dict[JSONKeys.appIdentifier] = NSBundle.mainBundle().bundleIdentifier ?? ""
+        dict[JSONKeys.appIdentifier] = (Bundle.main.bundleIdentifier ?? "")
         dict[JSONKeys.appVersion] = appVersion.shortVersionString
         dict[JSONKeys.deviceType] = "ios"
-        dict[JSONKeys.timeZone] = timeZone.name
-        dict[JSONKeys.localeIdentifier] = locale.localeIdentifier
+        dict[JSONKeys.timeZone] = timeZone.identifier
+        dict[JSONKeys.localeIdentifier] = locale.identifier
         return dict
     }
 
@@ -197,17 +197,17 @@ class LGInstallationRepository: InternalInstallationRepository {
      - parameter installation:  The installation to update from.
      - returns:                 Installation params.
      */
-    private func buildInstallationUpdateParams(installation: Installation) -> [String: AnyObject] {
+    private func buildInstallationUpdateParams(_ installation: Installation) -> [String: Any] {
         let JSONKeys = LGInstallation.ApiInstallationKeys()
-        var params: [String: AnyObject] = [:]
+        var params: [String: Any] = [:]
         if installation.appVersion != appVersion.shortVersionString {
             params[JSONKeys.appVersion] = appVersion.shortVersionString
         }
-        if installation.localeIdentifier != locale.localeIdentifier {
-            params[JSONKeys.localeIdentifier] = locale.localeIdentifier
+        if installation.localeIdentifier != locale.identifier {
+            params[JSONKeys.localeIdentifier] = locale.identifier
         }
-        if installation.timeZone != timeZone.name {
-            params[JSONKeys.timeZone] = timeZone.name
+        if installation.timeZone != timeZone.identifier {
+            params[JSONKeys.timeZone] = timeZone.identifier
         }
         return params
     }

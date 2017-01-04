@@ -11,45 +11,45 @@ enum CommercializerRouter: URLRequestAuthenticable {
     static let videoTemplatesURL = "/api/video_templates"
     static let productsURL = "/api/products"
     
-    case IndexTemplates
-    case Index(productId: String)
-    case Create(productId: String, parameters: [String: AnyObject])
-    case IndexAvailableProducts(userId: String)
+    case indexTemplates
+    case index(productId: String)
+    case create(productId: String, parameters: [String: Any])
+    case indexAvailableProducts(userId: String)
     
     var endpoint: String {
         switch self {
-        case .IndexTemplates:
+        case .indexTemplates:
             return CommercializerRouter.videoTemplatesURL
-        case .Index:
+        case .index:
             return CommercializerRouter.productsURL
-        case let .Create(productId, _):
+        case let .create(productId, _):
             return CommercializerRouter.productsURL + "/\(productId)"
-        case let .IndexAvailableProducts(userId):
+        case let .indexAvailableProducts(userId):
             return CommercializerRouter.productsURL + "/\(userId)" + "/user"
         }
     }
     
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Index, .IndexTemplates:
-            return .Nonexistent
-        case .Create, .IndexAvailableProducts:
-            return .User
+        case .index, .indexTemplates:
+            return .nonexistent
+        case .create, .indexAvailableProducts:
+            return .user
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
     
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case .IndexTemplates:
-            return Router<CommercializerBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
-        case let .Index(productId):
-            return Router<CommercializerBaseURL>.Show(endpoint: endpoint, objectId: productId).URLRequest
-        case let .Create(_, parameters):
-            return Router<CommercializerBaseURL>.Create(endpoint: endpoint, params: parameters, encoding: nil).URLRequest
-        case .IndexAvailableProducts:
-            return Router<CommercializerBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
+        case .indexTemplates:
+            return try Router<CommercializerBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
+        case let .index(productId):
+            return try Router<CommercializerBaseURL>.show(endpoint: endpoint, objectId: productId).asURLRequest()
+        case let .create(_, parameters):
+            return try Router<CommercializerBaseURL>.create(endpoint: endpoint, params: parameters, encoding: nil).asURLRequest()
+        case .indexAvailableProducts:
+            return try Router<CommercializerBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
         }
     }
 }

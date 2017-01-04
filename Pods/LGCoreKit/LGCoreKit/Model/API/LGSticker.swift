@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGSticker: Sticker {
     let url: String
@@ -17,7 +18,7 @@ struct LGSticker: Sticker {
     init(url: String, name: String, type: StickerType?) {
         self.url = url
         self.name = name
-        self.type = type ?? .Chat
+        self.type = type ?? .chat
     }
 }
 
@@ -30,14 +31,14 @@ extension LGSticker : Decodable {
      "name": ":love_it:"
      }
      */
-    static func decode(j: JSON) -> Decoded<LGSticker> {
+    static func decode(_ j: JSON) -> Decoded<LGSticker> {
         let result = curry(LGSticker.init)
             <^> j <| "url"
             <*> j <| "name"
             <*> j <|? "type"
         
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGSticker parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGSticker parse error: \(error)")
         }
         
         return result
@@ -45,16 +46,16 @@ extension LGSticker : Decodable {
 }
 
 extension LGSticker: UserDefaultsDecodable {
-    static func decode(dictionary: [String: AnyObject]) -> LGSticker? {
-        guard let url = dictionary["url"] as? String, name = dictionary["name"] as? String else { return nil }
-        var type = StickerType.Chat
-        if let typeString = dictionary["type"] as? String, stType = StickerType(rawValue: typeString) {
+    static func decode(_ dictionary: [String: Any]) -> LGSticker? {
+        guard let url = dictionary["url"] as? String, let name = dictionary["name"] as? String else { return nil }
+        var type = StickerType.chat
+        if let typeString = dictionary["type"] as? String, let stType = StickerType(rawValue: typeString) {
             type = stType
         }
         return LGSticker(url: url, name: name, type: type)
     }
     
-    func encode() -> [String: AnyObject] {
+    func encode() -> [String: Any] {
         return ["url": url, "name": name, "type": type.rawValue]
     }
 }

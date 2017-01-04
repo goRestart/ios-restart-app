@@ -14,6 +14,6 @@ protocol UUIDGenerator {
 
 class LGUUID: UUIDGenerator {
     var UUIDString: String {
-        return NSUUID().UUIDString.lowercaseString
+        return NSUUID().uuidString.lowercased()
     }
 }

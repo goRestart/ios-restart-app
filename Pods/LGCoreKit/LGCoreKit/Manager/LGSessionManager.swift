@@ -27,17 +27,17 @@ import RxSwift
  - parameter success: A completion block that is executed only on successful result.
  - parameter completion: A completion block that is executed on both successful & failure result.
  */
-func handleApiResult<T>(result: Result<T, ApiError>, completion: ((Result<T, SessionManagerError>) -> ())?) {
+func handleApiResult<T>(_ result: Result<T, ApiError>, completion: ((Result<T, SessionManagerError>) -> ())?) {
     handleApiResult(result, success: nil, failed: nil, completion: completion)
 }
 
-func handleApiResult<T>(result: Result<T, ApiError>,
+func handleApiResult<T>(_ result: Result<T, ApiError>,
                      success: ((T) -> ())?,
                      completion: ((Result<T, SessionManagerError>) -> ())?) {
     handleApiResult(result, success: success, failed: nil, completion: completion)
 }
 
-func handleApiResult<T>(result: Result<T, ApiError>,
+func handleApiResult<T>(_ result: Result<T, ApiError>,
                      success: ((T) -> ())?,
                      failed: ((ApiError) -> ())?,
                      completion: ((Result<T, SessionManagerError>) -> ())?) {
@@ -80,12 +80,12 @@ class LGSessionManager: InternalSessionManager {
     // Router
     let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
 
-    private var disconnectChatTimer = NSTimer()
+    private var disconnectChatTimer = Timer()
     private let events = PublishSubject<SessionEvent>()
     private let disposeBag = DisposeBag()
 
     var loggedIn: Bool {
-        return myUserRepository.myUser != nil && tokenDAO.token.level == .User
+        return myUserRepository.myUser != nil && tokenDAO.token.level == .user
     }
 
     // MARK: - Lifecycle
@@ -123,8 +123,8 @@ class LGSessionManager: InternalSessionManager {
             tokenDAO.reset()
         }
         if !loggedIn {
-            logMessage(.Error, type: CoreLoggingOptions.Session, message: "Forced session cleanup (not logged in)")
-            report(CoreReportSession.ForcedSessionCleanup, message: "Forced session cleanup (not logged in)")
+            logMessage(.error, type: CoreLoggingOptions.Session, message: "Forced session cleanup (not logged in)")
+            report(CoreReportSession.forcedSessionCleanup, message: "Forced session cleanup (not logged in)")
 
             cleanSession()
         }
@@ -140,10 +140,10 @@ class LGSessionManager: InternalSessionManager {
      - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
      - parameter completion: The completion closure.
      */
-    func signUp(email: String, password: String, name: String, newsletter: Bool?,
+    func signUp(_ email: String, password: String, name: String, newsletter: Bool?,
                        completion: SessionMyUserCompletion?) {
 
-        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Sign up email")
+        logMessage(.info, type: CoreLoggingOptions.Session, message: "Sign up email")
 
         let location = deviceLocationDAO.deviceLocation?.location
         let postalAddress = deviceLocationDAO.deviceLocation?.postalAddress
@@ -152,7 +152,7 @@ class LGSessionManager: InternalSessionManager {
                                             [weak self] createResult in
                                             if let myUser = createResult.value {
 
-                                                let provider = UserSessionProvider.Email(email: email, password: password)
+                                                let provider = UserSessionProvider.email(email: email, password: password)
                                                 self?.authenticateUser(provider) { [weak self] authResult in
                                                     if let auth = authResult.value {
                                                         self?.setupAfterUserAuthentication(auth)
@@ -179,7 +179,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter recaptchaToken: Recaptcha token.
      - parameter completion: The completion closure.
      */
-    func signUp(email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
+    func signUp(_ email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
                        completion: SessionMyUserCompletion?) {
         verifyWithRecaptcha(recaptchaToken) { [weak self] result in
             if let _ = result.value {
@@ -197,8 +197,8 @@ class LGSessionManager: InternalSessionManager {
      - parameter password: The password.
      - parameter completion: The completion closure.
      */
-    func login(email: String, password: String, completion: SessionMyUserCompletion?) {
-        let provider: UserSessionProvider = .Email(email: email, password: password)
+    func login(_ email: String, password: String, completion: SessionMyUserCompletion?) {
+        let provider: UserSessionProvider = .email(email: email, password: password)
         login(provider, completion: completion)
     }
 
@@ -207,8 +207,8 @@ class LGSessionManager: InternalSessionManager {
      - parameter token: The Facebook token.
      - parameter completion: The completion closure.
      */
-    func loginFacebook(token: String, completion: SessionMyUserCompletion?) {
-        let provider: UserSessionProvider = .Facebook(facebookToken: token)
+    func loginFacebook(_ token: String, completion: SessionMyUserCompletion?) {
+        let provider: UserSessionProvider = .facebook(facebookToken: token)
         login(provider, completion: completion)
     }
 
@@ -218,8 +218,8 @@ class LGSessionManager: InternalSessionManager {
      - parameter token:      The Google token
      - parameter completion: The completion closure
      */
-    func loginGoogle(token: String, completion: SessionMyUserCompletion?) {
-        let provider: UserSessionProvider = .Google(googleToken: token)
+    func loginGoogle(_ token: String, completion: SessionMyUserCompletion?) {
+        let provider: UserSessionProvider = .google(googleToken: token)
         login(provider, completion: completion)
     }
 
@@ -228,11 +228,11 @@ class LGSessionManager: InternalSessionManager {
      - parameter email: The email.
      - parameter completion: The completion closure.
      */
-    func recoverPassword(email: String, completion: SessionEmptyCompletion?) {
-        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Recover password")
+    func recoverPassword(_ email: String, completion: SessionEmptyCompletion?) {
+        logMessage(.info, type: CoreLoggingOptions.Session, message: "Recover password")
 
-        let request = SessionRouter.RecoverPassword(email: email)
-        let decoder: AnyObject -> Void? = { object in return Void() }
+        let request = SessionRouter.recoverPassword(email: email)
+        let decoder: (Any) -> Void? = { object in return Void() }
         apiClient.request(request, decoder: decoder) { result in
             handleApiResult(result, success: nil, completion: completion)
         }
@@ -242,19 +242,18 @@ class LGSessionManager: InternalSessionManager {
      Logs the user out.
      */
     func logout() {
-        if let userToken = tokenDAO.token.actualValue
-            where tokenDAO.level >= .User {
-            let request = SessionRouter.Delete(userToken: userToken)
+        if let userToken = tokenDAO.token.actualValue, tokenDAO.level >= .user {
+            let request = SessionRouter.delete(userToken: userToken)
             apiClient.request(request, decoder: {$0}, completion: nil)
         }
-        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log out")
+        logMessage(.info, type: CoreLoggingOptions.Session, message: "Log out")
 
         tearDownSession(kicked: false)
         disconnectChat()
     }
 
     func applicationDidEnterBackground() {
-        disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(LGCoreKitConstants.websocketChatDisconnectTimeout,
+        disconnectChatTimer = Timer.scheduledTimer(timeInterval: LGCoreKitConstants.websocketChatDisconnectTimeout,
                                                                      target: self, selector: #selector(disconnectChat),
                                                                      userInfo: nil, repeats: false)
     }
@@ -288,7 +287,7 @@ class LGSessionManager: InternalSessionManager {
      Authenticates (or creates if needed) the given installation.
      - parameter completion:    The completion closure.
      */
-    func authenticateInstallation(completion: (Result<Installation, ApiError> -> ())?) {
+    func authenticateInstallation(_ completion: ((Result<Installation, ApiError>) -> ())?) {
         authenticateInstallation(createIfNotFound: true, completion: completion)
     }
 
@@ -299,10 +298,10 @@ class LGSessionManager: InternalSessionManager {
 
      - parameter completion:    The completion closure.
      */
-    func renewUserToken(completion: (Result<Authentication, ApiError> -> ())?) {
-        guard let userToken = tokenDAO.get(level: .User),
-            userTokenValue = userToken.actualValue else {
-                completion?(Result<Authentication, ApiError>(error: .Internal(description: "Missing user token")))
+    func renewUserToken(_ completion: ((Result<Authentication, ApiError>) -> ())?) {
+        guard let userToken = tokenDAO.get(level: .user),
+            let userTokenValue = userToken.actualValue else {
+                completion?(Result<Authentication, ApiError>(error: .internalError(description: "Missing user token")))
                 return
         }
 
@@ -320,22 +319,22 @@ class LGSessionManager: InternalSessionManager {
     /**
      Sets up after logging-out.
      */
-    func tearDownSession(kicked kicked: Bool) {
+    func tearDownSession(kicked: Bool) {
         let previouslyLogged = loggedIn
         cleanSession()
         if previouslyLogged {
-            events.onNext(.Logout(kickedOut: kicked))
+            events.onNext(.logout(kickedOut: kicked))
         }
     }
 
-    func authenticateWebSocket(completion: (Result<Void, SessionManagerError> -> ())?) {
+    func authenticateWebSocket(_ completion: ((Result<Void, SessionManagerError>) -> ())?) {
         let tokenString = tokenDAO.token.actualValue
-        guard let token = tokenString where tokenDAO.level >= .User else {
-            completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
+        guard let token = tokenString, tokenDAO.level >= .user else {
+            completion?(Result<Void, SessionManagerError>(error: .unauthorized))
             return
         }
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
+            completion?(Result<Void, SessionManagerError>(error: .unauthorized))
             return
         }
 
@@ -378,11 +377,11 @@ class LGSessionManager: InternalSessionManager {
      create an Installation and if successful will try to authenticate again.
      - parameter completion:        The completion closure.
      */
-    private func authenticateInstallation(createIfNotFound createIfNotFound: Bool,
-                                                           completion: (Result<Installation, ApiError> -> ())?) {
-        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Authenticate installation")
+    private func authenticateInstallation(createIfNotFound: Bool,
+                                                           completion: ((Result<Installation, ApiError>) -> ())?) {
+        logMessage(.info, type: CoreLoggingOptions.Session, message: "Authenticate installation")
 
-        let request = SessionRouter.CreateInstallation(installationId: installationRepository.installationId)
+        let request = SessionRouter.createInstallation(installationId: installationRepository.installationId)
         apiClient.request(request, decoder: LGSessionManager.authDecoder) { [weak self] authResult in
             if let auth = authResult.value {
                 self?.setupAfterInstallationAuthentication(auth, completion: completion)
@@ -393,11 +392,11 @@ class LGSessionManager: InternalSessionManager {
                 }
 
                 switch error {
-                case .Network, .Internal, .BadRequest, .Unauthorized, .Forbidden, .Conflict, .Scammer, .UnprocessableEntity,
-                     .InternalServerError, .NotModified, .TooManyRequests, .UserNotVerified, .Other:
+                case .network, .internalError, .badRequest, .unauthorized, .forbidden, .conflict, .scammer, .unprocessableEntity,
+                     .internalServerError, .notModified, .tooManyRequests, .userNotVerified, .other:
                     completion?(Result<Installation, ApiError>(error: error))
-                case .NotFound:
-                    logMessage(.Info, type: CoreLoggingOptions.Session, message: "Installation not found")
+                case .notFound:
+                    logMessage(.info, type: CoreLoggingOptions.Session, message: "Installation not found")
                     self?.createAndAuthenticateInstallation(completion)
                 }
             }
@@ -408,7 +407,7 @@ class LGSessionManager: InternalSessionManager {
      Creates an installation and if successful then authenticates it.
      - parameter completion:   The completion closure.
      */
-    private func createAndAuthenticateInstallation(completion: (Result<Installation, ApiError> -> ())?) {
+    private func createAndAuthenticateInstallation(_ completion: ((Result<Installation, ApiError>) -> ())?) {
         installationRepository.create { [weak self] result in
             if let _ = result.value {
                 self?.authenticateInstallation(createIfNotFound: false, completion: completion)
@@ -423,11 +422,11 @@ class LGSessionManager: InternalSessionManager {
      - parameter auth:          The authentication.
      - parameter completion:    The completion closure.
      */
-    private func setupAfterInstallationAuthentication(auth: Authentication,
-                                                      completion: (Result<Installation, ApiError> -> ())?) {
+    private func setupAfterInstallationAuthentication(_ auth: Authentication,
+                                                      completion: ((Result<Installation, ApiError>) -> ())?) {
         // auth is not including "Bearer ", so we include it manually
         let value = "Bearer " + auth.token
-        let installationToken = Token(value: value, level: .Installation)
+        let installationToken = Token(value: value, level: .installation)
         tokenDAO.save(installationToken)
 
         // If the installation is cached then there's no need to update/retrieve it, otherwise update it
@@ -446,11 +445,11 @@ class LGSessionManager: InternalSessionManager {
      - parameter provider: The session provider.
      - parameter completion: The completion closure.
      */
-    private func authenticateUser(provider: UserSessionProvider,
+    private func authenticateUser(_ provider: UserSessionProvider,
                                   completion: ((Result<Authentication, ApiError>) -> ())?) {
-        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Authenticate user")
+        logMessage(.info, type: CoreLoggingOptions.Session, message: "Authenticate user")
 
-        let request = SessionRouter.CreateUser(provider: provider)
+        let request = SessionRouter.createUser(provider: provider)
         apiClient.request(request, decoder: LGSessionManager.authDecoder, completion: completion)
     }
 
@@ -459,8 +458,8 @@ class LGSessionManager: InternalSessionManager {
      - parameter provider: The session provider.
      - parameter completion: The completion closure.
      */
-    private func login(provider: UserSessionProvider, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
-        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log in \(provider.accountProvider.rawValue)")
+    private func login(_ provider: UserSessionProvider, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
+        logMessage(.info, type: CoreLoggingOptions.Session, message: "Log in \(provider.accountProvider.rawValue)")
 
         authenticateUser(provider) { [weak self] authResult in
             if let auth = authResult.value {
@@ -486,11 +485,11 @@ class LGSessionManager: InternalSessionManager {
      - parameter myUser: My user.
      - parameter provider: The session provider.
      */
-    private func setupSession(myUser: MyUser) {
+    private func setupSession(_ myUser: MyUser) {
         myUserRepository.save(myUser)
         myUserRepository.updateIfLocaleChanged()
         LGCoreKit.setupAfterLoggedIn { [weak self] in
-            self?.events.onNext(.Login)
+            self?.events.onNext(.login)
         }
         connectChat()
     }
@@ -499,31 +498,31 @@ class LGSessionManager: InternalSessionManager {
      Sets up after authenticating a user.
      - parameter auth: The authentication.
      */
-    private func setupAfterUserAuthentication(auth: Authentication) {
+    private func setupAfterUserAuthentication(_ auth: Authentication) {
         // auth is not including "Bearer ", so we include it manually
         let value = "Bearer " + auth.token
-        let userToken = Token(value: value, level: .User)
+        let userToken = Token(value: value, level: .user)
         tokenDAO.save(userToken)
     }
 
 
     // MARK: > Verify
 
-    private func verifyWithRecaptcha(recaptchaToken: String, completion: (Result<Void, ApiError> -> ())?) {
-        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Verify with recaptcha")
+    private func verifyWithRecaptcha(_ recaptchaToken: String, completion: ((Result<Void, ApiError>) -> ())?) {
+        logMessage(.info, type: CoreLoggingOptions.Session, message: "Verify with recaptcha")
 
-        let request = SessionRouter.Verify(recaptchaToken: recaptchaToken)
+        let request = SessionRouter.verify(recaptchaToken: recaptchaToken)
         apiClient.request(request, decoder: LGSessionManager.authDecoder) { [weak self] result in
-            if let auth = result.value, authLevel = auth.token.tokenAuthLevel {
+            if let auth = result.value, let authLevel = auth.token.tokenAuthLevel {
                 switch authLevel {
-                case .Installation:
+                case .installation:
                     self?.setupAfterInstallationAuthentication(auth, completion: nil)
                     completion?(Result<Void, ApiError>(value: Void()))
-                case .User:
+                case .user:
                     self?.setupAfterUserAuthentication(auth)
                     completion?(Result<Void, ApiError>(value: Void()))
-                case .Nonexistent:
-                    completion?(Result<Void, ApiError>(error: .Internal(description: "Received token w/o roles")))
+                case .nonexistent:
+                    completion?(Result<Void, ApiError>(error: .internalError(description: "Received token w/o roles")))
                 }
             } else if let error = result.error {
                 completion?(Result<Void, ApiError>(error: error))
@@ -538,7 +537,7 @@ class LGSessionManager: InternalSessionManager {
      Cleans the session. Erases all user related stuff.
      */
     private func cleanSession() {
-        logMessage(.Verbose, type: CoreLoggingOptions.Session, message: "Session cleaned up")
+        logMessage(.verbose, type: CoreLoggingOptions.Session, message: "Session cleaned up")
         tokenDAO.deleteUserToken()
         myUserRepository.deleteUser()
         favoritesDAO.clean()
@@ -552,7 +551,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter myUser: My user.
      - parameter provider: The session provider.
      */
-    private static func authDecoder(object: AnyObject) -> Authentication? {
+    private static func authDecoder(_ object: Any) -> Authentication? {
         let json = JSON(object)
         return LGAuthentication.decode(json).value
     }

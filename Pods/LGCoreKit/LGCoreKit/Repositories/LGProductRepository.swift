@@ -35,8 +35,8 @@ final class LGProductRepository: ProductRepository {
         self.viewedProductIds = []
     }
 
-    func buildNewProduct(name: String?, description: String?, price: ProductPrice, category: ProductCategory) -> Product? {
-        guard let myUser = myUserRepository.myUser, lgLocation = locationManager.currentLocation else { return nil }
+    func buildNewProduct(_ name: String?, description: String?, price: ProductPrice, category: ProductCategory) -> Product? {
+        guard let myUser = myUserRepository.myUser, let lgLocation = locationManager.currentLocation else { return nil }
 
         let currency: Currency
         let postalAddress = locationManager.currentPostalAddress ?? PostalAddress.emptyAddress()
@@ -46,8 +46,8 @@ final class LGProductRepository: ProductRepository {
             currency = LGCoreKitConstants.defaultCurrency
         }
         let location = LGLocationCoordinates2D(location: lgLocation)
-        let languageCode = NSLocale.currentLocale().localeIdentifier
-        let status = ProductStatus.Pending
+        let languageCode = Locale.current.identifier
+        let status = ProductStatus.pending
 
         return LGProduct(objectId: nil, updatedAt: nil, createdAt: nil, name: name, nameAuto: nil, descr: description,
                          price: price, currency: currency, location: location, postalAddress: postalAddress,
@@ -55,7 +55,7 @@ final class LGProductRepository: ProductRepository {
                          thumbnailSize: nil, images: [], user: myUser)
     }
 
-    func updateProduct(product: Product, name: String?, description: String?, price: ProductPrice,
+    func updateProduct(_ product: Product, name: String?, description: String?, price: ProductPrice,
                        currency: Currency, location: LGLocationCoordinates2D?, postalAddress: PostalAddress?,
                        category: ProductCategory) -> Product {
         var product = LGProduct(product: product)
@@ -71,7 +71,7 @@ final class LGProductRepository: ProductRepository {
 
         product.category = category
         if product.languageCode == nil {
-            product.languageCode = NSLocale.currentLocale().localeIdentifier
+            product.languageCode = Locale.current.identifier
         }
         return product
     }
@@ -79,32 +79,32 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - Product CRUD
 
-    func index(params: RetrieveProductsParams, completion: ProductsCompletion?)  {
+    func index(_ params: RetrieveProductsParams, completion: ProductsCompletion?)  {
         dataSource.index(params.letgoApiParams, completion: updateCompletion(completion))
     }
 
-    func index(userId userId: String, params: RetrieveProductsParams, completion: ProductsCompletion?)  {
+    func index(userId: String, params: RetrieveProductsParams, completion: ProductsCompletion?)  {
         dataSource.indexForUser(userId, parameters: params.userProductApiParams,
                                 completion: updateCompletion(completion))
     }
 
-    func indexRelated(productId productId: String, params: RetrieveProductsParams, completion: ProductsCompletion?)  {
+    func indexRelated(productId: String, params: RetrieveProductsParams, completion: ProductsCompletion?)  {
         dataSource.indexRelatedProducts(productId, parameters: params.relatedProductsApiParams,
                                         completion: updateCompletion(completion))
     }
 
-    func indexDiscover(productId productId: String, params: RetrieveProductsParams, completion: ProductsCompletion?)  {
+    func indexDiscover(productId: String, params: RetrieveProductsParams, completion: ProductsCompletion?)  {
         dataSource.indexDiscoverProducts(productId, parameters: params.relatedProductsApiParams,
                                          completion: updateCompletion(completion))
     }
 
-    func indexFavorites(userId: String, completion: ProductsCompletion?) {
+    func indexFavorites(_ userId: String, completion: ProductsCompletion?) {
 
         dataSource.indexFavorites(userId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductsResult(error: RepositoryError(apiError: error)))
             } else if let value = result.value {
-                if let myUserId = self?.myUserRepository.myUser?.objectId where myUserId == userId {
+                if let myUserId = self?.myUserRepository.myUser?.objectId, myUserId == userId {
                     self?.favoritesDAO.save(value)
                 }
                 var products = value
@@ -117,7 +117,7 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func retrieve(productId: String, completion: ProductCompletion?) {
+    func retrieve(_ productId: String, completion: ProductCompletion?) {
         let favorites = favoritesDAO.favorites
         dataSource.retrieve(productId) { result in
             if let error = result.error {
@@ -132,7 +132,7 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func create(product: Product, images: [UIImage], progress: (Float -> Void)?, completion: ProductCompletion?) {
+    func create(_ product: Product, images: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?) {
 
         fileRepository.upload(images, progress: progress) { [weak self] result in
             if let value = result.value {
@@ -143,7 +143,7 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func create(product: Product, images: [File], completion: ProductCompletion?) {
+    func create(_ product: Product, images: [File], completion: ProductCompletion?) {
 
         var product = LGProduct(product: product)
         product.images = images
@@ -157,11 +157,11 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func update(product: Product, images: [UIImage], progress: (Float -> Void)?, completion: ProductCompletion?) {
+    func update(_ product: Product, images: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?) {
         update(product, oldImages: [], newImages: images, progress: progress, completion: completion)
     }
 
-    func update(product: Product, oldImages: [File], newImages: [UIImage], progress: (Float -> Void)?,
+    func update(_ product: Product, oldImages: [File], newImages: [UIImage], progress: ((Float) -> Void)?,
                 completion: ProductCompletion?) {
         fileRepository.upload(newImages, progress: progress) { [weak self] result in
             if let value = result.value {
@@ -173,10 +173,10 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func update(product: Product, images: [File], completion: ProductCompletion?) {
+    func update(_ product: Product, images: [File], completion: ProductCompletion?) {
 
         guard let productId = product.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
@@ -188,10 +188,10 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func delete(product: Product, completion: ProductCompletion?) {
+    func delete(_ product: Product, completion: ProductCompletion?) {
 
         guard let productId = product.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
@@ -207,7 +207,7 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - Mark product as (un)sold
 
-    func markProductAsSold(productId: String, completion: ProductVoidCompletion?) {
+    func markProductAsSold(_ productId: String, completion: ProductVoidCompletion?) {
         dataSource.markAs(sold: true, productId: productId) { result in
             if let error = result.error {
                 completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
@@ -217,10 +217,10 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func markProductAsSold(product: Product, completion: ProductCompletion?) {
+    func markProductAsSold(_ product: Product, completion: ProductCompletion?) {
 
         guard let productId = product.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
@@ -229,16 +229,16 @@ final class LGProductRepository: ProductRepository {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
-                newProduct.status = .Sold
+                newProduct.status = .sold
                 completion?(ProductResult(value: newProduct))
             }
         }
     }
 
-    func markProductAsUnsold(product: Product, completion: ProductCompletion?) {
+    func markProductAsUnsold(_ product: Product, completion: ProductCompletion?) {
 
         guard let productId = product.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
@@ -247,7 +247,7 @@ final class LGProductRepository: ProductRepository {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
-                newProduct.status = .Approved
+                newProduct.status = .approved
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -256,14 +256,14 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - (un)Favorite product
 
-    func saveFavorite(product: Product, completion: ProductCompletion?) {
+    func saveFavorite(_ product: Product, completion: ProductCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
         guard let productId = product.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
@@ -279,14 +279,14 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func deleteFavorite(product: Product, completion: ProductCompletion?) {
+    func deleteFavorite(_ product: Product, completion: ProductCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
         guard let productId = product.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
@@ -302,7 +302,7 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func updateFavoritesInfo(products: [Product]) -> [Product] {
+    func updateFavoritesInfo(_ products: [Product]) -> [Product] {
         let favorites = favoritesDAO.favorites
         return setFavorites(products, favorites: favorites)
     }
@@ -310,9 +310,9 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - User-Product relation
 
-    func retrieveUserProductRelation(productId: String, completion: ProductUserRelationCompletion?) {
+    func retrieveUserProductRelation(_ productId: String, completion: ProductUserRelationCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(ProductUserRelationResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(ProductUserRelationResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
@@ -326,14 +326,14 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - Product report
 
-    func saveReport(product: Product, completion: ProductCompletion?) {
+    func saveReport(_ product: Product, completion: ProductCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
         guard let productId = product.objectId else {
-            completion?(ProductResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
@@ -349,7 +349,7 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - Products limbo
 
-    func indexLimbo(completion: ProductsCompletion?) {
+    func indexLimbo(_ completion: ProductsCompletion?) {
         guard let _ = myUserRepository.myUser?.objectId else {
             completion?(Result<[Product], RepositoryError>(value: []))
             return
@@ -376,17 +376,17 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - Products trending
 
-    func indexTrending(params: IndexTrendingProductsParams, completion: ProductsCompletion?) {
+    func indexTrending(_ params: IndexTrendingProductsParams, completion: ProductsCompletion?) {
         dataSource.indexTrending(params.letgoApiParams, completion: updateCompletion(completion))
     }
 
 
     // MARK: - Product Stats
 
-    func retrieveStats(product: Product, completion: ProductStatsCompletion?) {
+    func retrieveStats(_ product: Product, completion: ProductStatsCompletion?) {
 
         guard let productId = product.objectId else {
-            completion?(ProductStatsResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductStatsResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
         dataSource.retrieveStats(productId) { result in
@@ -398,10 +398,10 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func incrementViews(product: Product, completion: ProductVoidCompletion?) {
+    func incrementViews(_ product: Product, completion: ProductVoidCompletion?) {
 
         guard let productId = product.objectId else {
-            completion?(ProductVoidResult(error: .Internal(message: "Missing objectId in Product")))
+            completion?(ProductVoidResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
         viewedProductIds.insert(productId)
@@ -423,7 +423,7 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - Private funcs
 
-    private func setFavorites(products: [Product], favorites: [String]) -> [Product] {
+    private func setFavorites(_ products: [Product], favorites: [String]) -> [Product] {
 
         var newProducts: [Product] = []
 
@@ -437,7 +437,7 @@ final class LGProductRepository: ProductRepository {
         return newProducts
     }
 
-    private func updateCompletion(completion: ProductsCompletion?) -> ProductsDataSourceCompletion {
+    private func updateCompletion(_ completion: ProductsCompletion?) -> ProductsDataSourceCompletion {
         let favorites = favoritesDAO.favorites
         let defaultCompletion: ProductsDataSourceCompletion = { [weak self] result in
             if let error = result.error {
@@ -450,7 +450,7 @@ final class LGProductRepository: ProductRepository {
         return defaultCompletion
     }
 
-    private func updateProductViewsBatch(productIds: [String], completion: ProductVoidCompletion?) {
+    private func updateProductViewsBatch(_ productIds: [String], completion: ProductVoidCompletion?) {
         dataSource.updateStats(productIds, action: "incr-views") { result in
             if let error = result.error {
                 completion?(ProductVoidResult(error: RepositoryError(apiError: error)))

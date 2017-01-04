@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 public struct LGProductStats : ProductStats {
     public var viewsCount: Int
@@ -25,7 +26,7 @@ extension LGProductStats: Decodable {
      "count_views": 0
      }
      */
-    public static func decode(j: JSON) -> Decoded<LGProductStats> {
+    public static func decode(_ j: JSON) -> Decoded<LGProductStats> {
 
         return curry(LGProductStats.init)
             <^> j <| "count_views"

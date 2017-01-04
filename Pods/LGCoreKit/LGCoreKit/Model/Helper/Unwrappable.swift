@@ -10,7 +10,7 @@
 Unwraps an optional.
 */
 protocol Unwrappable {
-    func unwrap() -> AnyObject?
+    func unwrap() -> Any?
 }
 
 /**
@@ -18,8 +18,8 @@ Unwraps a `Dictionary<String: Unwrappable>`.
 - parameter dictionary: A dictionary.
 - returns: The unwrapped dictionary.
 */
-func unwrap(dictionary: [String: Unwrappable]) -> [String: AnyObject] {
-    var params: [String: AnyObject] = [:]
+func unwrap(_ dictionary: [String: Unwrappable]) -> [String: Any] {
+    var params: [String: Any] = [:]
     for (key, value) in dictionary {
         if let myOptional = value.unwrap() {
             params[key] = myOptional

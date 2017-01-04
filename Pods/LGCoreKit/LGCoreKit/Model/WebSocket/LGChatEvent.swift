@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGChatEvent: ChatEvent {
     var objectId: String?
@@ -24,14 +25,14 @@ extension LGChatEvent: Decodable {
      // Specific data of the chat event
      }
      */
-    static func decode(j: JSON) -> Decoded<LGChatEvent> {
+    static func decode(_ j: JSON) -> Decoded<LGChatEvent> {
         let result = curry(LGChatEvent.init)
             <^> j <|? "id"
             <*> j <|? ["data", "conversation_id"]
             <*> ChatEventType.decode(j)
         
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGChatEvent parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGChatEvent parse error: \(error)")
         }
         
         return result
@@ -39,7 +40,7 @@ extension LGChatEvent: Decodable {
 }
 
 extension ChatEventType: Decodable {
-    public static func decode(j: JSON) -> Decoded<ChatEventType> {
+    public static func decode(_ j: JSON) -> Decoded<ChatEventType> {
         guard let type: String = j.decode("type") else { return Decoded<ChatEventType>.fromOptional(nil) }
         
         let result: Decoded<ChatEventType>
@@ -53,7 +54,7 @@ extension ChatEventType: Decodable {
              "conversation_id": [uuid],
              }
              */
-            return Decoded<ChatEventType>.Success(.InterlocutorTypingStarted)
+            return Decoded<ChatEventType>.success(.interlocutorTypingStarted)
             
         case "interlocutor_typing_stopped":
             /**
@@ -62,7 +63,7 @@ extension ChatEventType: Decodable {
              "conversation_id": [uuid],
              }
              */
-            return Decoded<ChatEventType>.Success(.InterlocutorTypingStopped)
+            return Decoded<ChatEventType>.success(.interlocutorTypingStopped)
             
         case "interlocutor_message_sent":
             /**
@@ -74,7 +75,7 @@ extension ChatEventType: Decodable {
              "text": [string]
              }
              */
-            result = curry(ChatEventType.InterlocutorMessageSent)
+            result = curry(ChatEventType.interlocutorMessageSent)
                 <^> j <| ["data", "message_id"]
                 <*> j <| ["data", "sent_at"]
                 <*> j <| ["data", "text"]
@@ -89,7 +90,7 @@ extension ChatEventType: Decodable {
              "message_ids": [ [uuid], … ]
              }
              */
-            result = curry(ChatEventType.InterlocutorReceptionConfirmed)
+            result = curry(ChatEventType.interlocutorReceptionConfirmed)
                 <^> j <|| ["data", "message_ids"]
             return result
             
@@ -101,12 +102,12 @@ extension ChatEventType: Decodable {
              "message_ids": [ [uuid], … ]
              }
              */
-            result = curry(ChatEventType.InterlocutorReadConfirmed)
+            result = curry(ChatEventType.interlocutorReadConfirmed)
                 <^> j <|| ["data", "message_ids"]
             return result
         
         case "authentication_token_expired":
-            return Decoded<ChatEventType>.Success(.AuthenticationTokenExpired)
+            return Decoded<ChatEventType>.success(.authenticationTokenExpired)
             
             
         default:

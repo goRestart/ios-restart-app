@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 public struct PostalAddress: Equatable {
     public let address: String?
@@ -50,7 +51,7 @@ extension PostalAddress : Decodable {
             "country" : "España"
         }
     */
-    public static func decode(j: JSON) -> Decoded<PostalAddress> {
+    public static func decode(_ j: JSON) -> Decoded<PostalAddress> {
         return curry(PostalAddress.init)
             <^> j <|? "address"
             <*> j <|? "city"

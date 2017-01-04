@@ -23,132 +23,131 @@ final class ProductApiDataSource: ProductDataSource {
     
     // MARK: Product CRUD
     
-    func index(parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?) {
-        let request = ProductRouter.Index(params: parameters)
+    func index(_ parameters: [String: Any], completion: ProductsDataSourceCompletion?) {
+        let request = ProductRouter.index(params: parameters)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
     
-    func indexForUser(userId: String, parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?) {
-        let request = ProductRouter.IndexForUser(userId: userId, params: parameters)
+    func indexForUser(_ userId: String, parameters: [String: Any], completion: ProductsDataSourceCompletion?) {
+        let request = ProductRouter.indexForUser(userId: userId, params: parameters)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
     
-    func indexFavorites(userId: String, completion: ProductsDataSourceCompletion?) {
-        let request = ProductRouter.IndexFavorites(userId: userId)
-        apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
-    }
-
-    func indexRelatedProducts(productId: String, parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?) {
-        let request = ProductRouter.IndexRelatedProducts(productId: productId, params: parameters)
+    func indexFavorites(_ userId: String, completion: ProductsDataSourceCompletion?) {
+        let request = ProductRouter.indexFavorites(userId: userId)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
 
-    func indexDiscoverProducts(productId: String, parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?) {
-        let request = ProductRouter.IndexDiscoverProducts(productId: productId, params: parameters)
+    func indexRelatedProducts(_ productId: String, parameters: [String: Any], completion: ProductsDataSourceCompletion?) {
+        let request = ProductRouter.indexRelatedProducts(productId: productId, params: parameters)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
 
-    func retrieve(productId: String, completion: ProductDataSourceCompletion?) {
-        let request = ProductRouter.Show(productId: productId)
+    func indexDiscoverProducts(_ productId: String, parameters: [String: Any], completion: ProductsDataSourceCompletion?) {
+        let request = ProductRouter.indexDiscoverProducts(productId: productId, params: parameters)
+        apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
+    }
+
+    func retrieve(_ productId: String, completion: ProductDataSourceCompletion?) {
+        let request = ProductRouter.show(productId: productId)
         apiClient.request(request, decoder: ProductApiDataSource.decoder, completion: completion)
     }
     
-    func create(product: [String: AnyObject], completion: ProductDataSourceCompletion?) {
-        let request = ProductRouter.Create(params: product)
+    func create(_ product: [String: Any], completion: ProductDataSourceCompletion?) {
+        let request = ProductRouter.create(params: product)
         apiClient.request(request, decoder: ProductApiDataSource.decoder, completion: completion)
     }
     
-    func update(productId: String, product: [String: AnyObject], completion: ProductDataSourceCompletion?) {
-        let request = ProductRouter.Update(productId: productId, params: product)
+    func update(_ productId: String, product: [String: Any], completion: ProductDataSourceCompletion?) {
+        let request = ProductRouter.update(productId: productId, params: product)
         apiClient.request(request, decoder: ProductApiDataSource.decoder, completion: completion)
     }
     
-    func markAs(sold sold: Bool, productId: String, completion: ProductDataSourceEmptyCompletion?) {
-        let status = sold ? ProductStatus.Sold.rawValue : ProductStatus.Approved.rawValue
-        let params: [String: AnyObject] = ["status": status]
-        let request = ProductRouter.Patch(productId: productId, params: params)
+    func markAs(sold: Bool, productId: String, completion: ProductDataSourceEmptyCompletion?) {
+        let status = sold ? ProductStatus.sold.rawValue : ProductStatus.approved.rawValue
+        let params: [String: Any] = ["status": status]
+        let request = ProductRouter.patch(productId: productId, params: params)
         apiClient.request(request, completion: completion)
     }
     
-    func delete(productId: String, completion: ProductDataSourceEmptyCompletion?) {
-        let request = ProductRouter.Delete(productId: productId)
+    func delete(_ productId: String, completion: ProductDataSourceEmptyCompletion?) {
+        let request = ProductRouter.delete(productId: productId)
         apiClient.request(request, completion: completion)
     }
     
     
     // MARK: Product-User relation
     
-    func retrieveRelation(productId: String, userId: String, completion: ProductDataSourceUserRelationCompletion?) {
-        let request = ProductRouter.UserRelation(userId: userId, productId: productId) 
+    func retrieveRelation(_ productId: String, userId: String, completion: ProductDataSourceUserRelationCompletion?) {
+        let request = ProductRouter.userRelation(userId: userId, productId: productId) 
         apiClient.request(request, decoder: ProductApiDataSource.decoderUserRelation, completion: completion)
     }
     
-    func saveReport(productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?) {
-        let request = ProductRouter.SaveReport(userId: userId, productId: productId)
+    func saveReport(_ productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?) {
+        let request = ProductRouter.saveReport(userId: userId, productId: productId)
         apiClient.request(request, completion: completion)
     }
     
     
     // MARK: Favorites
     
-    func deleteFavorite(productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?) {
-        let request = ProductRouter.DeleteFavorite(userId: userId, productId: productId)
+    func deleteFavorite(_ productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?) {
+        let request = ProductRouter.deleteFavorite(userId: userId, productId: productId)
         apiClient.request(request, completion: completion)
     }
     
-    func saveFavorite(productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?) {
-        let request = ProductRouter.SaveFavorite(userId: userId, productId: productId)
+    func saveFavorite(_ productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?) {
+        let request = ProductRouter.saveFavorite(userId: userId, productId: productId)
         apiClient.request(request, completion: completion)
     }
 
 
     // MARK: Limbo
 
-    func indexLimbo(productIds: [String], completion: ProductsDataSourceCompletion?) {
-        let params: [String: AnyObject] = ["ids": productIds]
-        let request = ProductRouter.IndexLimbo(params: params)
+    func indexLimbo(_ productIds: [String], completion: ProductsDataSourceCompletion?) {
+        let params: [String: Any] = ["ids": productIds]
+        let request = ProductRouter.indexLimbo(params: params)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
 
     // MARK: Trending
 
-    func indexTrending(parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?) {
-        let request = ProductRouter.IndexTrending(params: parameters)
+    func indexTrending(_ parameters: [String: Any], completion: ProductsDataSourceCompletion?) {
+        let request = ProductRouter.indexTrending(params: parameters)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
 
     // MARK: Stats
 
-    func retrieveStats(productId: String, completion: ProductDataSourceProductStatsCompletion?) {
-        let request = ProductRouter.ShowStats(productId: productId, params: [:])
+    func retrieveStats(_ productId: String, completion: ProductDataSourceProductStatsCompletion?) {
+        let request = ProductRouter.showStats(productId: productId, params: [:])
         apiClient.request(request, decoder: ProductApiDataSource.decoderProductStats, completion: completion)
     }
     
-    func updateStats(productIds: [String], action: String, completion: ProductDataSourceEmptyCompletion?) {
-        let params : [String : AnyObject] = ["productIds" : productIds,
-                                             "action" : action]
-        let request = ProductRouter.UpdateStats(params: params)
+    func updateStats(_ productIds: [String], action: String, completion: ProductDataSourceEmptyCompletion?) {
+        let params : [String : Any] = ["productIds" : productIds, "action" : action]
+        let request = ProductRouter.updateStats(params: params)
         apiClient.request(request, completion: completion)
     }
 
     // MARK: Decode products
     
-    private static func decoderArray(object: AnyObject) -> [Product]? {
+    private static func decoderArray(_ object: Any) -> [Product]? {
         guard let theProduct : [LGProduct] = decode(object) else { return nil }
         return theProduct.map{$0}
     }
     
-    private static func decoder(object: AnyObject) -> Product? {
+    private static func decoder(_ object: Any) -> Product? {
         let product: LGProduct? = decode(object)
         return product
     }
     
-    static func decoderUserRelation(object: AnyObject) -> UserProductRelation? {
+    static func decoderUserRelation(_ object: Any) -> UserProductRelation? {
         let relation: LGUserProductRelation? = decode(object)
         return relation
     }
 
-    static func decoderProductStats(object: AnyObject) -> ProductStats? {
+    static func decoderProductStats(_ object: Any) -> ProductStats? {
         let stats: LGProductStats? = decode(object)
         return stats
     }

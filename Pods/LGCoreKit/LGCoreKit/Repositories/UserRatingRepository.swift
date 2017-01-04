@@ -9,10 +9,10 @@
 import Result
 
 public typealias UserRatingsResult = Result<[UserRating], RepositoryError>
-public typealias UserRatingsCompletion = UserRatingsResult -> Void
+public typealias UserRatingsCompletion = (UserRatingsResult) -> Void
 
 public typealias UserRatingResult = Result<UserRating, RepositoryError>
-public typealias UserRatingCompletion = UserRatingResult -> Void
+public typealias UserRatingCompletion = (UserRatingResult) -> Void
 
 
 public protocol UserRatingRepository {
@@ -25,7 +25,7 @@ public protocol UserRatingRepository {
      - parameter limit: Number of items in each page
      - parameter completion: The completion closure
      */
-    func index(userId: String, offset: Int, limit: Int, completion: UserRatingsCompletion?)
+    func index(_ userId: String, offset: Int, limit: Int, completion: UserRatingsCompletion?)
 
     /**
      Retrieves the rating the logged user has made to the given user
@@ -33,7 +33,7 @@ public protocol UserRatingRepository {
      - parameter ratingId: id of the rating to retrieve
      - parameter completion: The completion closure
      */
-    func show(ratingId: String, completion: UserRatingCompletion?)
+    func show(_ ratingId: String, completion: UserRatingCompletion?)
 
     /**
      Retrieves the rating the logged user has made to the given user
@@ -42,7 +42,7 @@ public protocol UserRatingRepository {
      - parameter type: Rating type
      - parameter completion: The completion closure
      */
-    func show(userId: String, type: UserRatingType, completion: UserRatingCompletion?)
+    func show(_ userId: String, type: UserRatingType, completion: UserRatingCompletion?)
 
     /**
      Adds a new rating to the given user
@@ -53,7 +53,7 @@ public protocol UserRatingRepository {
      - parameter type:       rating type (Conversation, Seller(productId), Buyer(productId))
      - parameter completion: The completion closure
      */
-    func createRating(userId: String, value: Int, comment: String?, type: UserRatingType,
+    func createRating(_ userId: String, value: Int, comment: String?, type: UserRatingType,
                              completion: UserRatingCompletion?)
     /**
      Updates the given rating
@@ -63,7 +63,7 @@ public protocol UserRatingRepository {
      - parameter comment:    new rating comment
      - parameter completion: the completion closure
      */
-    func updateRating(rating: UserRating, value: Int?, comment: String?, completion: UserRatingCompletion?)
+    func updateRating(_ rating: UserRating, value: Int?, comment: String?, completion: UserRatingCompletion?)
 
     /**
      Reports a received rating
@@ -71,5 +71,5 @@ public protocol UserRatingRepository {
      - parameter rating:     the rating to report
      - parameter completion: the completion closure
     */
-    func reportRating(rating: UserRating, completion: UserRatingCompletion?)
+    func reportRating(_ rating: UserRating, completion: UserRatingCompletion?)
 }

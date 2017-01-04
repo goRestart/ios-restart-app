@@ -12,121 +12,121 @@ import RxSwift
 
 public enum ConflictCause {
 
-    case UserExists
-    case EmailRejected
-    case RequestAlreadyProcessed
+    case userExists
+    case emailRejected
+    case requestAlreadyProcessed
 
-    case NotSpecified
-    case Other(code: Int)
+    case notSpecified
+    case other(code: Int)
 
-    static func causeWithCode(code: Int?) -> ConflictCause {
-        guard let code = code else { return .NotSpecified }
+    static func causeWithCode(_ code: Int?) -> ConflictCause {
+        guard let code = code else { return .notSpecified }
         switch code {
         case 1005:
-            return .UserExists
+            return .userExists
         case 1009:
-            return .EmailRejected
+            return .emailRejected
         case 1102:
-            return .RequestAlreadyProcessed
+            return .requestAlreadyProcessed
         default:
-            return .Other(code: code)
+            return .other(code: code)
         }
     }
 }
 
 public enum BadRequestCause {
 
-    case NonAcceptableParams
+    case nonAcceptableParams
 
-    case NotSpecified
-    case Other(code: Int)
+    case notSpecified
+    case other(code: Int)
 
-    static func causeWithCode(code: Int?) -> BadRequestCause {
-        guard let code = code else { return .NotSpecified }
+    static func causeWithCode(_ code: Int?) -> BadRequestCause {
+        guard let code = code else { return .notSpecified }
         switch code {
         case 2007:
-            return .NonAcceptableParams
+            return .nonAcceptableParams
         default:
-            return .Other(code: code)
+            return .other(code: code)
         }
     }
 }
 
 
-public enum ApiError: ErrorType {
+public enum ApiError: Error {
     // errorCode references NSURLError codes (i.e. NSURLErrorUnknown)
-    case Network(errorCode: Int, onBackground: Bool)
-    case Internal(description: String)
+    case network(errorCode: Int, onBackground: Bool)
+    case internalError(description: String)
 
-    case BadRequest(cause: BadRequestCause)
-    case Unauthorized
-    case NotFound
-    case Forbidden
-    case Conflict(cause: ConflictCause)
-    case Scammer
-    case UnprocessableEntity
-    case UserNotVerified
-    case TooManyRequests
-    case InternalServerError(httpCode: Int)
-    case NotModified
-    case Other(httpCode: Int)
+    case badRequest(cause: BadRequestCause)
+    case unauthorized
+    case notFound
+    case forbidden
+    case conflict(cause: ConflictCause)
+    case scammer
+    case unprocessableEntity
+    case userNotVerified
+    case tooManyRequests
+    case internalServerError(httpCode: Int)
+    case notModified
+    case other(httpCode: Int)
 
-    static func errorForCode(code: Int, apiCode: Int?) -> ApiError {
+    static func errorForCode(_ code: Int, apiCode: Int?) -> ApiError {
         switch code {
         case 304:
-            return .NotModified
+            return .notModified
         case 400:
-            return .BadRequest(cause: BadRequestCause.causeWithCode(apiCode))
+            return .badRequest(cause: BadRequestCause.causeWithCode(apiCode))
         case 401:   // Wrong credentials
-            return .Unauthorized
+            return .unauthorized
         case 403:
-            return .Forbidden
+            return .forbidden
         case 404:
-            return .NotFound
+            return .notFound
         case 409:
-            return .Conflict(cause: ConflictCause.causeWithCode(apiCode))
+            return .conflict(cause: ConflictCause.causeWithCode(apiCode))
         case 418:   // I'm a teapot! 🍵
-            return .Scammer
+            return .scammer
         case 422:
-            return .UnprocessableEntity
+            return .unprocessableEntity
         case 424: // Failed dependency 🤔
-            return .UserNotVerified
+            return .userNotVerified
         case 429:
-            return .TooManyRequests
+            return .tooManyRequests
         case 500..<600:
-            return .InternalServerError(httpCode: code)
+            return .internalServerError(httpCode: code)
         default:
-            return .Other(httpCode: code)
+            return .other(httpCode: code)
         }
     }
 
     var httpStatusCode: Int? {
         switch self {
-        case .Network, .Internal:
+        case .network, .internalError:
             return nil
-        case let .Other(httpCode):
+        case let .other(httpCode):
             return httpCode
-        case .NotModified:
+        case .notModified:
             return 304
-        case .BadRequest:
+        case .badRequest:
             return 400
-        case .Unauthorized:
+        case .unauthorized:
             return 401
-        case .NotFound:
+        case .notFound:
             return 404
-        case .Forbidden:
+        case .forbidden:
             return 403
-        case .Conflict:
+        case .conflict:
             return 409
-        case .Scammer:
+        case .scammer:
             return 418
-        case .UnprocessableEntity:
+        case .unprocessableEntity:
             return 422
-        case .UserNotVerified:
+        case .userNotVerified:
             return 424
-        case .TooManyRequests:
+        case .tooManyRequests:
             return 429
-        case let .InternalServerError(httpCode):
+        case let .internalServerError(httpCode):
             return httpCode
         }
     }
@@ -145,28 +145,28 @@ extension URLRequestAuthenticable {
 
 class AFApiClient: ApiClient {
 
-    let alamofireManager: Manager
+    let alamofireManager: Alamofire.SessionManager
     weak var sessionManager: InternalSessionManager?
     weak var installationRepository: InstallationRepository?
 
     let tokenDAO: TokenDAO
 
     var renewingInstallation: Bool
-    let installationQueue: NSOperationQueue
+    let installationQueue: OperationQueue
 
     let renewingUser = Variable<Bool>(false)
-    var userQueue: NSOperationQueue
+    var userQueue: OperationQueue
 
 
     // MARK: - Lifecycle
     
-    init(alamofireManager: Manager, tokenDAO: TokenDAO) {
+    init(alamofireManager: Alamofire.SessionManager, tokenDAO: TokenDAO) {
         self.alamofireManager = alamofireManager
         self.tokenDAO = tokenDAO
         self.renewingInstallation = false
-        self.installationQueue = NSOperationQueue()
+        self.installationQueue = OperationQueue()
         self.renewingUser.value = false
-        self.userQueue = NSOperationQueue()
+        self.userQueue = OperationQueue()
 
         installationQueue.maxConcurrentOperationCount = 1
         userQueue.maxConcurrentOperationCount = 1
@@ -175,45 +175,48 @@ class AFApiClient: ApiClient {
     
     // MARK: - ApiClient
     
-    func privateRequest<T>(req: URLRequestAuthenticable, decoder: AnyObject -> T?,
+    func privateRequest<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
 
-        logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: req.logMessage)
+        logMessage(.verbose, type: CoreLoggingOptions.Networking, message: req.logMessage)
+
         alamofireManager.request(req).validate(statusCode: req.acceptedStatus).responseObject(decoder) {
-            [weak self] (response: Response<T, NSError>) in
+            [weak self] (response: DataResponse<T>) in
             self?.handlePrivateApiResponse(req, decoder: decoder, response: response, completion: completion)
         }
     }
 
-    func upload<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?,
-        multipart: MultipartFormData -> Void, completion: ((ResultResult<T, ApiError>.t) -> ())?,
-        progress: ((written: Int64, totalWritten: Int64, totalExpectedToWrite: Int64) -> Void)?) {
+    func upload<T>(_ request: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
+        multipart: @escaping (MultipartFormData) -> Void, completion: ((ResultResult<T, ApiError>.t) -> ())?,
+        progress: ((Progress) -> Void)?) {
             
             guard request.requiredAuthLevel <= tokenDAO.level else {
-                completion?(ResultResult<T, ApiError>.t(error: .Unauthorized))
-                report(CoreReportSession.InsufficientTokenLevel, message: "when uploading")
+                completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
+                report(CoreReportSession.insufficientTokenLevel, message: "when uploading")
                 return
             }
 
-            logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: request.logMessage)
-            
-            alamofireManager.upload(request, multipartFormData: multipart) { result in
-                
+            logMessage(.verbose, type: CoreLoggingOptions.Networking, message: request.logMessage)
+
+            alamofireManager.upload(multipartFormData: multipart, with: request) { result in
                 switch result {
-                case let .Success(upload, _, _):
-                    upload.validate(statusCode: 200..<400)
-                        .responseObject(decoder) { [weak self] (response: Response<T, NSError>) in
+                case let .success(upload, _, _):
+                    let dataRequest = upload.validate(statusCode: 200..<400)
+                        .responseObject(decoder) { [weak self] (response: DataResponse<T>) in
                             if let actualError = self?.errorFromAlamofireResponse(response) {
-                                logMessage(.Info, type: CoreLoggingOptions.Networking, message: response.logMessage)
+                                logMessage(.info, type: CoreLoggingOptions.Networking, message: response.logMessage)
                                 completion?(ResultResult<T, ApiError>.t(error: actualError))
                             } else if let uploadFileResponse = response.result.value {
-                                logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: response.logMessage)
+                                logMessage(.verbose, type: CoreLoggingOptions.Networking, message: response.logMessage)
                                 completion?(ResultResult<T, ApiError>.t(value: uploadFileResponse))
                             }
-                        }.progress(progress)
-                case .Failure:
+                        }
+                    if let progress = progress {
+                        dataRequest.downloadProgress(closure: progress)
+                    }
+                case .failure:
                     let description = "Multipart form data encoding failed"
-                    completion?(ResultResult<T, ApiError>.t(error: .Internal(description: description)))
+                    completion?(ResultResult<T, ApiError>.t(error: .internalError(description: description)))
                 }
             }
     }
