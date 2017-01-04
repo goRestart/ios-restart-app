@@ -259,13 +259,13 @@
 "direct_answers_show" = "자주 대답하는 목록 보이기";
 "edit_product_location_alert_text" = "당신의 상품이 게시된 지역을 변경하기 위해서, 위치 탐색을 허가해주세요";
 "edit_product_location_alert_title" = "위치 변경";
-"edit_product_send_button" = "업데이트";
+"edit_product_send_button" = "변경사항 저장하기";
 "edit_product_send_error_uploading_product" = "고객님의 제품을 업데이트하는동안 오류가 발생했습니다.";
 "edit_product_send_ok" = "축하드려요! 고객님의 제품이 성공적으로 게시되었습니다. 잠시 후에 목록에 상품이 보여질 것입니다.";
 "edit_product_suggesting_title" = "추천 제목은...";
 "edit_product_title" = "제품 수정";
-"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
-"edit_product_unsaved_changes_alert_ok" = "Discard";
+"edit_product_unsaved_changes_alert" = "이 변경사항을 취소하시겠습니까?";
+"edit_product_unsaved_changes_alert_ok" = "취소하기";
 "filters_distance_not_set" = "설정하지 않기";
 "filters_navbar_reset" = "리셋";
 "filters_price_from" = "부터";
@@ -307,8 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "넘기기";
 "login_scammer_alert_message" = "letgo팀이 회원님의 계정을 검토하고 있습니다. 만약 잘못된 사항이 있다면, 저희에게 연락하여 주십시오.";
 "login_scammer_alert_title" = "계정을 검토하고 있습니다";
-"main_products_filter_navigation_bar_button" = "Filter";
-"main_products_invite_navigation_bar_button" = "Invite";
+"main_products_filter_navigation_bar_button" = "필터링하기";
+"main_products_invite_navigation_bar_button" = "초대하기";
 "main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
 "main_sign_up_error_request_already_sent" = "사용자의 요청은 이미 진행되었습니다. 다시 시도하기 전에 잠시만 기다려주세요.";
 "main_sign_up_error_user_rejected" = "입력하신 이메일이 일치하지 않습니다. 다시 확인하시고 입력해주세요.";

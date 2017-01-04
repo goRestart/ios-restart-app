@@ -259,13 +259,13 @@
 "direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
 "edit_product_location_alert_text" = "Για να αλλάξετε την τοποθεσία που βρίσκεται το προϊόν σας, επιτρέψτε την πρόσβαση στην τοποθεσία σας";
 "edit_product_location_alert_title" = "ΑΛΛΑΓΗ ΤΟΠΟΘΕΣΙΑΣ";
-"edit_product_send_button" = "Ενημέρωση";
+"edit_product_send_button" = "Αποθήκευση αλλαγών";
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
 "edit_product_suggesting_title" = "Προαιρετικός τίτλος...";
 "edit_product_title" = "Επεξεργασία Προϊόντος";
-"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
-"edit_product_unsaved_changes_alert_ok" = "Discard";
+"edit_product_unsaved_changes_alert" = "Είστε σίγουροι πώς θέλετε να απορρίψετε αυτές τις αλλαγές;";
+"edit_product_unsaved_changes_alert_ok" = "Απορρίψτε";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
 "filters_navbar_reset" = "Επαναφορα";
 "filters_price_from" = "Από";
@@ -307,8 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Παράλειψη";
 "login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί καταλάθως, επικοινωνήστε μαζί μας.";
 "login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
-"main_products_filter_navigation_bar_button" = "Filter";
-"main_products_invite_navigation_bar_button" = "Invite";
+"main_products_filter_navigation_bar_button" = "Φιλτράρετε";
+"main_products_invite_navigation_bar_button" = "Προσκαλέστε";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
 "main_sign_up_error_request_already_sent" = "Το αίτημά σας έχει ήδη προχωρήσει. Παρακαλώ περιμένετε πριν προσπαθήσετε ξανά.";
 "main_sign_up_error_user_rejected" = "Το email που εισάγατε είναι λανθασμένο. Παρακαλώ ελέγξτε το και δοκιμάστε ξανά.";

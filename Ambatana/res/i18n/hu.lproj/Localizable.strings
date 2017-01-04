@@ -259,13 +259,13 @@
 "direct_answers_show" = "Gyorsválaszok megjelenítése";
 "edit_product_location_alert_text" = "Hogy megváltoztathasd a portéka meghirdetésének helyét, engedélyezned kell a hozzáférést tartózkodási helyedhez";
 "edit_product_location_alert_title" = "TARTÓZKODÁSI HELY MÓDOSÍTÁSA";
-"edit_product_send_button" = "Frissítés";
+"edit_product_send_button" = "Módosítások mentése";
 "edit_product_send_error_uploading_product" = "Hiba történt a portéka frissítése során.";
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
 "edit_product_suggesting_title" = "Cím ajánlása...";
 "edit_product_title" = "Portéka szerkesztése";
-"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
-"edit_product_unsaved_changes_alert_ok" = "Discard";
+"edit_product_unsaved_changes_alert" = "Biztosan elveted a módosításokat?";
+"edit_product_unsaved_changes_alert_ok" = "Elvetés";
 "filters_distance_not_set" = "nincs megadva";
 "filters_navbar_reset" = "Mégse";
 "filters_price_from" = "Ettől:";
@@ -307,8 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Kihagy";
 "login_scammer_alert_message" = "Fiókodat a letgo csapata éppen ellenőrzi. Ha úgy gondolod, hogy ezt alaptalanul tesszük, vedd fel velünk a kapcsolatot.";
 "login_scammer_alert_title" = "FIÓK ELLENŐRZÉS ALATT";
-"main_products_filter_navigation_bar_button" = "Filter";
-"main_products_invite_navigation_bar_button" = "Invite";
+"main_products_filter_navigation_bar_button" = "Szűrés";
+"main_products_invite_navigation_bar_button" = "Meghívás";
 "main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
 "main_sign_up_error_request_already_sent" = "Kérésed már feldolgozás alatt van. Várj egy kicsit, mielőtt újra próbálkoznál.";
 "main_sign_up_error_user_rejected" = "A megadott e-mail cím helytelen. Ellenőrizd, majd próbálkozz újra.";

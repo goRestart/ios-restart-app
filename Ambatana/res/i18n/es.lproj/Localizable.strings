@@ -259,13 +259,13 @@
 "direct_answers_show" = "Mostrar respuestas rápidas";
 "edit_product_location_alert_text" = "Para cambiar dónde se publica tu producto, permite acceso a tu ubicación";
 "edit_product_location_alert_title" = "CAMBIAR UBICACIÓN";
-"edit_product_send_button" = "Actualizar";
+"edit_product_send_button" = "Guardar cambios";
 "edit_product_send_error_uploading_product" = "Se ha producido un error al actualizar tu artículo.";
 "edit_product_send_ok" = "¡Enhorabuena! Tu artículo se ha actualizado. Aparecerá en nuestro tablón de anuncios enseguida.";
 "edit_product_suggesting_title" = "Sugiriendo título...";
 "edit_product_title" = "Editar artículo";
-"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
-"edit_product_unsaved_changes_alert_ok" = "Discard";
+"edit_product_unsaved_changes_alert" = "¿Estás seguro de querer descartar tus cambios?";
+"edit_product_unsaved_changes_alert_ok" = "Descartar";
 "filters_distance_not_set" = "no definida";
 "filters_navbar_reset" = "Borrar";
 "filters_price_from" = "De";
@@ -307,8 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Saltar";
 "login_scammer_alert_message" = "Tu cuenta está siendo revisada por el equipo de letgo. Si crees que se trata de un error, contacta con nosotros.";
 "login_scammer_alert_title" = "CUENTA EN REVISIÓN";
-"main_products_filter_navigation_bar_button" = "Filter";
-"main_products_invite_navigation_bar_button" = "Invite";
+"main_products_filter_navigation_bar_button" = "Filtrar";
+"main_products_invite_navigation_bar_button" = "Invitar";
 "main_sign_up_claim_label" = "Empieza a vender y comprar por chat";
 "main_sign_up_error_request_already_sent" = "Tu petición ya ha sido procesada. Por favor, espera antes de volver a intentarlo.";
 "main_sign_up_error_user_rejected" = "El email que has introducido es erróneo. Por favor, revísalo e inténtalo de nuevo.";

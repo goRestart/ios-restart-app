@@ -264,8 +264,8 @@
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
 "edit_product_suggesting_title" = "Föreslår titel...";
 "edit_product_title" = "Redigera produkt";
-"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
-"edit_product_unsaved_changes_alert_ok" = "Discard";
+"edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
+"edit_product_unsaved_changes_alert_ok" = "Släng bort";
 "filters_distance_not_set" = "inte vald";
 "filters_navbar_reset" = "Återställ";
 "filters_price_from" = "Från";
@@ -307,8 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Hoppa över";
 "login_scammer_alert_message" = "Ditt konto är under granskning av letgo. Om du tror att det har anmälts av misstag, kontakta oss.";
 "login_scammer_alert_title" = "KONTOT ÄR UNDER GRANSKNING";
-"main_products_filter_navigation_bar_button" = "Filter";
-"main_products_invite_navigation_bar_button" = "Invite";
+"main_products_filter_navigation_bar_button" = "Filtrera";
+"main_products_invite_navigation_bar_button" = "Bjud in";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
 "main_sign_up_error_request_already_sent" = "Din begäran har redan registrerats. Vänligen vänta innan du försöker igen.";
 "main_sign_up_error_user_rejected" = "Den e-postadress du skrev in är inte korrekt. Kolla den och försök igen.";
