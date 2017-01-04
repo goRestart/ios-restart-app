@@ -17,7 +17,6 @@ PODS:
     - Branch/without-IDFA (= 0.12.20)
   - Branch/Core (0.12.20)
   - Branch/without-IDFA (0.12.20)
-  - bumper (0.2.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
@@ -151,7 +150,6 @@ DEPENDENCIES:
   - AppsFlyerFramework (~> 4.5.12)
   - Argo (~> 4.1.1)
   - Branch (~> 0.12.20)
-  - bumper (= 0.2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.5)
   - CocoaLumberjack/Swift (~> 3.0.0)
   - Crashlytics (~> 3.8.2)
@@ -211,7 +209,6 @@ SPEC CHECKSUMS:
   Argo: 014ac072f97462bc1a9b83d302edb351488a532f
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: a2c085213fd3953c241ad63aa49f4435bfc84da7
-  bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
@@ -261,6 +258,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 135d9678f6b8f1320845ad5de3e7f306d47f34e8
+PODFILE CHECKSUM: 0ac515020dffe74b74cb9a1dae4dbf24ea50a77a
 
 COCOAPODS: 1.1.1

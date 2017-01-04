@@ -39,7 +39,7 @@ def shared_pods
 #    pod "LGCollapsibleLabel",   "0.2.0"     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
-    pod "bumper",               "0.2.0"     #:path => "../bumper"
+#    pod "bumper",               "0.2.0"     #:path => "../bumper"
 
     	# Collection View Custom Layout
     pod "CHTCollectionViewWaterfallLayout", "~> 0.9.5"  # Obj-c

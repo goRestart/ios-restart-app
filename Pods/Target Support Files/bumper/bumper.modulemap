@@ -1,6 +1,0 @@
-framework module bumper {
-  umbrella header "bumper-umbrella.h"
-
-  export *
-  module * { export * }
-}
