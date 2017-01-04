@@ -60,7 +60,7 @@ class DeepLinksRouter {
 
     // MARK: > Uri schemes
 
-    func openUrl(_ url: URL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func openUrl(_ url: URL, sourceApplication: String?, annotation: Any?) -> Bool {
         // If branch handles the deeplink we don't need to do anything as we will get the branch object through their callback
         if Branch.getInstance().handleDeepLink(url) { return true }
 
@@ -71,7 +71,7 @@ class DeepLinksRouter {
 
     // MARK: > Universal links
 
-    func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+    func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([Any]?) -> Void) -> Bool {
         logMessage(.verbose, type: AppLoggingOptions.DeepLink, message: "Continue user activity: \(userActivity.webpageURL)")
         if let appsflyerDeepLink = AppsFlyerDeepLink.buildFromUserActivity(userActivity) {
             deepLinks.onNext(appsflyerDeepLink.deepLink)

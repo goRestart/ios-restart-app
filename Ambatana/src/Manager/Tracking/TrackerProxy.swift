@@ -73,7 +73,7 @@ final class TrackerProxy: Tracker {
     }
 
     func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?,
-        annotation: AnyObject?) {
+        annotation: Any?) {
             trackers.forEach {
                 $0.application(application, openURL: url, sourceApplication: sourceApplication,
                 annotation: annotation)

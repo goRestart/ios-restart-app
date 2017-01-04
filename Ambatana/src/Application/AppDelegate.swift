@@ -28,20 +28,20 @@ import Firebase
 final class AppDelegate: UIResponder {
     var window: UIWindow?
 
-    private var configManager: ConfigManager?
-    private var crashManager: CrashManager?
-    private var keyValueStorage: KeyValueStorage?
+    fileprivate var configManager: ConfigManager?
+    fileprivate var crashManager: CrashManager?
+    fileprivate var keyValueStorage: KeyValueStorage?
 
-    private var productRepository: ProductRepository?
-    private var locationManager: LocationManager?
-    private var sessionManager: SessionManager?
-    private var featureFlags: FeatureFlaggeable?
+    fileprivate var productRepository: ProductRepository?
+    fileprivate var locationManager: LocationManager?
+    fileprivate var sessionManager: SessionManager?
+    fileprivate var featureFlags: FeatureFlaggeable?
 
-    private var navigator: AppNavigator?
+    fileprivate var navigator: AppNavigator?
 
-    private let appIsActive = Variable<Bool?>(nil)
-    private var didOpenApp = false
-    private let disposeBag = DisposeBag()
+    fileprivate let appIsActive = Variable<Bool?>(nil)
+    fileprivate var didOpenApp = false
+    fileprivate let disposeBag = DisposeBag()
 }
 
 
@@ -91,7 +91,7 @@ extension AppDelegate: UIApplicationDelegate {
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
         let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
-                                                                  didFinishLaunchingWithOptions: launchOptions)
+                                                                  didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
 
@@ -106,7 +106,7 @@ extension AppDelegate: UIApplicationDelegate {
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
         let sourceApplication: String? = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String
-        let annotation: AnyObject? = options[UIApplicationOpenURLOptionsKey.annotation] as AnyObject?
+        let annotation: Any? = options[UIApplicationOpenURLOptionsKey.annotation]
         return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation, options: options)
     }
 
@@ -331,7 +331,7 @@ private extension AppDelegate {
 // MARK: > Deep linking
 
 private extension AppDelegate {
-    func app(_ app: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject?, options: [String : AnyObject]?) -> Bool {
+    func app(_ app: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?, options: [UIApplicationOpenURLOptionsKey : Any]?) -> Bool {
 
         TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication,
                                                 annotation: annotation)

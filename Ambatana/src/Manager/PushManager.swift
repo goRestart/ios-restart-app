@@ -65,7 +65,7 @@ final class PushManager {
     }
 
     func application(_ application: UIApplication,
-                            didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+                            didFailToRegisterForRemoteNotificationsWithError error: Error) {
         installationRepository.updatePushToken("", completion: nil)
     }
 
