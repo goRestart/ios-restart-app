@@ -19,7 +19,6 @@ def shared_pods
     pod "RxSwift",              "~> 3.0.1"
     pod "RxCocoa",              "~> 3.0.0"
     pod "RxBlocking",           "~> 3.0.0"
-#    pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => 'd99e7a8dfaad32823c207e40fca7c2f2c3894ead'
 
     #Fabric
     pod "Fabric",               "~> 1.6.10" # Obj-c
