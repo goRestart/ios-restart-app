@@ -61,6 +61,14 @@ extension UINavigationBar {
         views.append(view)
         outOfBoundsViewsToForceTouches = views
     }
+    
+    func EndForceTouchesFor(view: UIView) {
+        var views = outOfBoundsViewsToForceTouches
+        if let indexToRemove = views.indexOf(view) {
+            views.removeAtIndex(indexToRemove)
+        }
+        outOfBoundsViewsToForceTouches = views
+    }
 
     func ignoreTouchesFor(view: UIView) {
         var views = viewsToIgnoreTouchesFor
@@ -68,11 +76,12 @@ extension UINavigationBar {
         viewsToIgnoreTouchesFor = views
     }
     
-    func allowTouchesFor(view: UIView) {
+    func endIgnoreTouchesFor(view: UIView) {
         var views = viewsToIgnoreTouchesFor
-        if let indexToRemove = views.indexOf(view) where views.count > indexToRemove {
+        if let indexToRemove = views.indexOf(view) {
             views.removeAtIndex(indexToRemove)
         }
+        viewsToIgnoreTouchesFor = views
     }
     
     override public func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {

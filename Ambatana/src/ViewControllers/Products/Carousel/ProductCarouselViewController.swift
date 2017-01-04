@@ -939,7 +939,7 @@ extension ProductCarouselViewController {
     
     func removeIgnoreTouchesForMoreInfo() {
         guard let button = moreInfoView?.dragView else { return }
-        self.navigationController?.navigationBar.allowTouchesFor(button)
+        self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
     }
 }
 
