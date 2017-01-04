@@ -31,7 +31,7 @@ class CategoryCell: UICollectionViewCell {
     
     // Sets up the UI
     private func setupUI() {
-        self.contentView.layer.borderColor = UIColor.lineGray.CGColor
+        self.contentView.layer.borderColor = UIColor.lineGray.cgColor
         self.contentView.layer.borderWidth = 0.25
     }
     

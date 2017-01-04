@@ -7,11 +7,11 @@
 //
 
 public enum VideoProcessStatus {
-    case ProcessOK
-    case ProcessFail
+    case processOK
+    case processFail
 }
 
-public class ProcessingVideoDialogViewModel: BaseViewModel {
+class ProcessingVideoDialogViewModel: BaseViewModel {
 
     var promotionSource: PromotionSource
     var videoProcessStatus: VideoProcessStatus

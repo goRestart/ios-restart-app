@@ -40,11 +40,11 @@ class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
-    private let locale: NSLocale
+    private let locale: Locale
     private let locationManager: LocationManager
     private let countryInfo: CountryConfigurable
     
-    init(locale: NSLocale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
+    init(locale: Locale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
@@ -63,7 +63,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     
     convenience init() {
-        self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
+        self.init(locale: Locale.currentLocale(), locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
     }
 
 

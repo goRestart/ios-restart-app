@@ -49,33 +49,33 @@ final class AmplitudeTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) {
         Amplitude.instance().trackingSessionEvents = false
         Amplitude.instance().initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
         setupABTestsRx()
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject?) {
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
     }
 
-    func setInstallation(installation: Installation?) {
+    func setInstallation(_ installation: Installation?) {
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropInstallationIdKey, value: installation?.objectId ?? "")
+        identify.set(AmplitudeTracker.userPropInstallationIdKey, value: installation?.objectId as NSObject?? ?? "" as NSObject!)
         Amplitude.instance().identify(identify)
     }
 
-    func setUser(user: MyUser?) {
+    func setUser(_ user: MyUser?) {
         let userId: String
-        if let email = user?.email where !email.isEmpty {
+        if let email = user?.email, !email.isEmpty {
             userId = email
         } else {
             userId = user?.objectId ?? ""
@@ -84,15 +84,15 @@ final class AmplitudeTracker: Tracker {
 
         var isDummy = false
         let dummyRange = (user?.email ?? "").rangeOfString(AmplitudeTracker.dummyEmailPrefix)
-        if let isDummyRange = dummyRange where isDummyRange.startIndex == (user?.email ?? "").startIndex {
+        if let isDummyRange = dummyRange, isDummyRange.startIndex == (user?.email ?? "").startIndex {
             isDummy = true
         }
 
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropIdKey, value: user?.objectId ?? "")
+        identify.set(AmplitudeTracker.userPropIdKey, value: user?.objectId as NSObject?? ?? "" as NSObject!)
         let userType = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
-        identify.set(AmplitudeTracker.userPropTypeKey, value: userType)
-        identify.set(AmplitudeTracker.userPropUserRating, value: user?.ratingAverage)
+        identify.set(AmplitudeTracker.userPropTypeKey, value: userType as NSObject!)
+        identify.set(AmplitudeTracker.userPropUserRating, value: user?.ratingAverage as NSObject!)
         Amplitude.instance().identify(identify)
 
         loggedIn = user != nil
@@ -101,7 +101,7 @@ final class AmplitudeTracker: Tracker {
         }
     }
     
-    func trackEvent(event: TrackerEvent) {
+    func trackEvent(_ event: TrackerEvent) {
         switch event.name {
         case .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail:
             if loggedIn {
@@ -115,30 +115,30 @@ final class AmplitudeTracker: Tracker {
         }
     }
 
-    func setLocation(location: LGLocation?) {
+    func setLocation(_ location: LGLocation?) {
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropLatitudeKey, value: location?.coordinate.latitude)
-        identify.set(AmplitudeTracker.userPropLongitudeKey, value: location?.coordinate.longitude)
+        identify.set(AmplitudeTracker.userPropLatitudeKey, value: location?.coordinate.latitude as NSObject!)
+        identify.set(AmplitudeTracker.userPropLongitudeKey, value: location?.coordinate.longitude as NSObject!)
         Amplitude.instance().identify(identify)
     }
 
-    func setNotificationsPermission(enabled: Bool) {
+    func setNotificationsPermission(_ enabled: Bool) {
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropPushEnabled, value: enabled ? "true" : "false")
+        identify.set(AmplitudeTracker.userPropPushEnabled, value: enabled ? "true" : "false" as NSObject!)
         Amplitude.instance().identify(identify)
     }
 
-    func setGPSPermission(enabled: Bool) {
+    func setGPSPermission(_ enabled: Bool) {
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropGpsEnabled, value: enabled ? "true" : "false")
+        identify.set(AmplitudeTracker.userPropGpsEnabled, value: enabled ? "true" : "false" as NSObject!)
         Amplitude.instance().identify(identify)
     }
 
-    func setMarketingNotifications(enabled: Bool) {
+    func setMarketingNotifications(_ enabled: Bool) {
         let identify = AMPIdentify()
         let value = enabled ? AmplitudeTracker.userPropMktPushNotificationValueOn :
             AmplitudeTracker.userPropMktPushNotificationValueOff
-        identify.set(AmplitudeTracker.userPropMktPushNotificationKey, value: value)
+        identify.set(AmplitudeTracker.userPropMktPushNotificationKey, value: value as NSObject!)
         Amplitude.instance().identify(identify)
     }
 
@@ -148,7 +148,7 @@ final class AmplitudeTracker: Tracker {
     private func setupABTestsRx() {
         ABTests.trackingData.asObservable().bindNext { trackingData in
             let identify = AMPIdentify()
-            identify.set(AmplitudeTracker.userPropABTests, value: trackingData)
+            identify.set(AmplitudeTracker.userPropABTests, value: trackingData as NSObject!)
             Amplitude.instance().identify(identify)
         }.addDisposableTo(disposeBag)
     }

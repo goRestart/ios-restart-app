@@ -30,14 +30,14 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
             super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewControllerMini",
-                       statusBarStyle: .LightContent)
-        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
+                       statusBarStyle: .lightContent)
+        case .iPhone6, .iPhone6Plus, .biggerUnknown:
             super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewController",
-                       statusBarStyle: .LightContent)
+                       statusBarStyle: .lightContent)
         }
         
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,7 +55,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     // MARK: - UI
     
     func setupUI() {
-        yesButton.setStyle(.Primary(fontSize: .Medium))
+        yesButton.setStyle(.primary(fontSize: .medium))
         
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
@@ -65,7 +65,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
             secondSectionLabel.font = UIFont.tourNotificationsSubtitleMiniFont
             notificationsLabel.font = UIFont.notificationsSettingsCellTextMiniFont
             allowNotificationsLabel.font = UIFont.notificationsSettingsCellTextMiniFont
-        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
+        case .iPhone6, .iPhone6Plus, .biggerUnknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
             firstSectionLabel.font = UIFont.tourNotificationsSubtitleFont
@@ -82,7 +82,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         notificationsLabel.text = LGLocalizedString.notificationsPermissionsSettingsCell1
         secondSectionLabel.attributedText = secondSectionAttributedTitle()
         allowNotificationsLabel.text = LGLocalizedString.notificationsPermissionsSettingsCell2
-        yesButton.setTitle(LGLocalizedString.notificationsPermissionsSettingsYesButton, forState: .Normal)
+        yesButton.setTitle(LGLocalizedString.notificationsPermissionsSettingsYesButton, for: UIControlState())
     }
     
     
@@ -90,7 +90,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         let attributes = [NSForegroundColorAttributeName: UIColor.primaryColor]
         let title = NSMutableAttributedString(string: "1. ", attributes: attributes)
         let t = NSAttributedString(string: LGLocalizedString.notificationsPermissionsSettingsSection1, attributes: nil)
-        title.appendAttributedString(t)
+        title.append(t)
         return title
     }
     
@@ -98,25 +98,25 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         let attributes = [NSForegroundColorAttributeName: UIColor.primaryColor]
         let title = NSMutableAttributedString(string: "2. ", attributes: attributes)
         let t = NSAttributedString(string: LGLocalizedString.notificationsPermissionsSettingsSection2, attributes: nil)
-        title.appendAttributedString(t)
+        title.append(t)
         return title
     }
     
     
     // MARK: - Actions
     
-    @IBAction func yesButtonPressed(sender: AnyObject) {
+    @IBAction func yesButtonPressed(_ sender: AnyObject) {
         PushPermissionsManager.sharedInstance.openPushNotificationSettings()
         viewModel.userDidTapYesButton()
         close()
     }
     
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapNoButton()
         close()
     }
     
     func close() {
-        dismissViewControllerAnimated(true, completion: completion)
+        dismiss(animated: true, completion: completion)
     }
 }

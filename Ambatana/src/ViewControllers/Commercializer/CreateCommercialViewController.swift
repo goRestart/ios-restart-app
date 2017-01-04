@@ -15,7 +15,7 @@ class CreateCommercialViewController: BaseViewController {
     @IBOutlet weak var emptyView: LGEmptyView!
     
     private let viewModel : CreateCommercialViewModel
-    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     let disposeBag = DisposeBag()
     
     
@@ -43,13 +43,13 @@ class CreateCommercialViewController: BaseViewController {
     func setupUI() {
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
-        activityIndicator.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
+        activityIndicator.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin]
         view.addSubview(activityIndicator)
         
         let themeCell = UINib(nibName: "CreateCommercialProductCell", bundle: nil)
-        collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "CreateCommercialProductCell")
-        collectionView.backgroundColor = UIColor.whiteColor()
-        collectionView.contentInset = UIEdgeInsetsZero
+        collectionView.register(themeCell, forCellWithReuseIdentifier: "CreateCommercialProductCell")
+        collectionView.backgroundColor = UIColor.white
+        collectionView.contentInset = UIEdgeInsets.zero
         collectionView.alwaysBounceVertical = true
         automaticallyAdjustsScrollViewInsets = false
         
@@ -91,24 +91,24 @@ class CreateCommercialViewController: BaseViewController {
     }
     
     func showEmptyView() {
-        emptyView.hidden = false
-        collectionView.hidden = true
-        titleLabel.hidden = true
+        emptyView.isHidden = false
+        collectionView.isHidden = true
+        titleLabel.isHidden = true
     }
     
     func hideEmptyView() {
-        emptyView.hidden = true
-        collectionView.hidden = false
-        titleLabel.hidden = false
+        emptyView.isHidden = true
+        collectionView.isHidden = false
+        titleLabel.isHidden = false
     }
     
     func hideAll() {
-        emptyView.hidden = true
-        collectionView.hidden = true
-        titleLabel.hidden = true
+        emptyView.isHidden = true
+        collectionView.isHidden = true
+        titleLabel.isHidden = true
     }
     
-    private func showActivityIndicator(show: Bool) {
+    private func showActivityIndicator(_ show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
 }
@@ -128,24 +128,24 @@ extension CreateCommercialViewController: CreateCommercialViewModelDelegate {
 
 extension CreateCommercialViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.products.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
             
-            let collectionCell = collectionView.dequeueReusableCellWithReuseIdentifier("CreateCommercialProductCell",
-                                                                                       forIndexPath: indexPath)
+            let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreateCommercialProductCell",
+                                                                                       for: indexPath)
             guard let cell = collectionCell as? CreateCommercialProductCell else { return UICollectionViewCell() }
             
-            if let urlString = viewModel.thumbnailAt(indexPath.row), let url = NSURL(string: urlString) {
+            if let urlString = viewModel.thumbnailAt(indexPath.row), let url = URL(string: urlString) {
                 cell.imageView.lg_setImageWithURL(url)
             }
             return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let productId = viewModel.productIdAt(indexPath.row) else { return }
         guard let templates = viewModel.commercializerTemplates(indexPath.row) else { return }
         guard let vm = PromoteProductViewModel(productId: productId, themes: templates, commercializers: nil,
@@ -160,11 +160,11 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
 // MARK: > PromoteProductViewControllerDelegate
 
 extension CreateCommercialViewController: PromoteProductViewControllerDelegate {
-    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
-        navigationController?.popToRootViewControllerAnimated(true)
+    func promoteProductViewControllerDidFinishFromSource(_ promotionSource: PromotionSource) {
+        navigationController?.popToRootViewController(animated: true)
     }
     
-    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
+    func promoteProductViewControllerDidCancelFromSource(_ promotionSource: PromotionSource) {
     }
 }
 
@@ -172,23 +172,23 @@ extension CreateCommercialViewController: PromoteProductViewControllerDelegate {
 // MARK: > UICollectionViewDelegateFlowLayout
 
 extension CreateCommercialViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 13, bottom: 13, right: 13)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 13
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 13
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellWidth = (collectionView.frame.width-39)/2
         return CGSize(width: cellWidth, height: cellWidth)
     }

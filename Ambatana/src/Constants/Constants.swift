@@ -36,10 +36,10 @@ struct Constants {
     static let websiteContactUsEndpoint = "/contact_app"
     static let websitePrivacyEndpoint = "/privacy_app"
     static let websiteTermsEndpoint = "/terms_app"
-    static func websiteProductEndpoint(productId: String) -> String {
+    static func websiteProductEndpoint(_ productId: String) -> String {
         return String(format: "/product/%@", arguments: [productId])
     }
-    static func websiteUserEndpoint(userId: String) -> String {
+    static func websiteUserEndpoint(_ userId: String) -> String {
         return String(format: "/user/%@", arguments: [userId])
     }
 
@@ -55,7 +55,7 @@ struct Constants {
     static let productListMaxMonthsLabel = 3.0
     static let productListFooterHeight: CGFloat = 70
     static let productListFixedInsets: CGFloat = 6
-    static let productListNewLabelThreshold: NSTimeInterval = 60 * 60 * 24 // 1 day
+    static let productListNewLabelThreshold: TimeInterval = 60 * 60 * 24 // 1 day
     static let numProductsPerPageDefault = 20
     static let numProductsPerPageBig = 40
     static let productsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
@@ -72,7 +72,7 @@ struct Constants {
     static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
 
     // Pre Permissions
-    static let pushPermissionRepeatTime: NSTimeInterval = (60 * 60 * 24) // 1 day
+    static let pushPermissionRepeatTime: TimeInterval = (60 * 60 * 24) // 1 day
 
     // Product posting
     static let maxImageCount = 5
@@ -84,11 +84,11 @@ struct Constants {
 
     // Domain
     static var appDomain: String {
-        return NSBundle.mainBundle().bundleIdentifier ?? "com.letgo.ios"
+        return Bundle.main.bundleIdentifier ?? "com.letgo.ios"
     }
 
     // Rating
-    static let ratingRepeatTime: NSTimeInterval = (60 * 60 * 24 * 3) // 3 days
+    static let ratingRepeatTime: TimeInterval = (60 * 60 * 24 * 3) // 3 days
 
     // Product Detail
     static let minimumStatsCountToShow = 5
@@ -99,8 +99,8 @@ struct Constants {
     static let maxUserNameLength = 18
 
     // Edit Product
-    static let cloudsightTimeThreshold: NSTimeInterval = 900        // just ask for automatic generated name the first 15 mins
-    static let cloudsightRequestRepeatInterval: NSTimeInterval = 2  // repeat the request every 2 seconds
+    static let cloudsightTimeThreshold: TimeInterval = 900        // just ask for automatic generated name the first 15 mins
+    static let cloudsightRequestRepeatInterval: TimeInterval = 2  // repeat the request every 2 seconds
 
     // Config
     static let defaultConfigTimeOut: Double = 3    // seconds
@@ -115,5 +115,5 @@ struct Constants {
     static let maxInterestedBubblesPerSessionLimitedPrints = 3
 
     // FBSDK
-    static let fbSdkRequiredDelay: NSTimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
+    static let fbSdkRequiredDelay: TimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
 }

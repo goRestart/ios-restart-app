@@ -9,10 +9,10 @@
 import LGCoreKit
 
 enum ViewState {
-    case Loading
-    case Data
-    case Empty(LGEmptyViewModel)
-    case Error(LGEmptyViewModel)
+    case loading
+    case data
+    case empty(LGEmptyViewModel)
+    case error(LGEmptyViewModel)
 }
 
 
@@ -29,7 +29,7 @@ extension LGEmptyViewModel {
         return icon.size.height
     }
 
-    public static func respositoryErrorWithRetry(error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel? {
+    public static func respositoryErrorWithRetry(_ error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel? {
         switch error {
         case let .Network(_, onBackground):
             return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(action)

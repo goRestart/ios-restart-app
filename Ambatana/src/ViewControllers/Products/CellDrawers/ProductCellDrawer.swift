@@ -9,7 +9,7 @@
 import LGCoreKit
 
 class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
-    func draw(model: ProductData, style: CellStyle, inCell cell: ProductCell) {
+    func draw(_ model: ProductData, style: CellStyle, inCell cell: ProductCell) {
         if let thumbURL = model.thumbUrl {
             cell.setImageUrl(thumbURL)
         }

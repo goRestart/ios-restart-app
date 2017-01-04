@@ -8,7 +8,7 @@
 
 public protocol ConfigDAO {
     func retrieve() -> Config?
-    func save(configFile: Config)
+    func save(_ configFile: Config)
 }
 
 

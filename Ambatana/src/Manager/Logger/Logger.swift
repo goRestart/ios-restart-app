@@ -8,7 +8,7 @@
 
 import CocoaLumberjack
 
-public struct AppLoggingOptions: OptionSetType, CustomStringConvertible {
+public struct AppLoggingOptions: OptionSet, CustomStringConvertible {
     public let rawValue : Int
 
 
@@ -28,7 +28,7 @@ public struct AppLoggingOptions: OptionSetType, CustomStringConvertible {
         if contains(AppLoggingOptions.Monetization) {
             options.append("💰")
         }
-        return options.joinWithSeparator("+")
+        return options.joined(separator: "+")
     }
 
 
@@ -49,24 +49,24 @@ public struct AppLoggingOptions: OptionSetType, CustomStringConvertible {
 }
 
 enum LogLevel {
-    case Verbose, Debug, Info, Warning, Error
+    case verbose, debug, info, warning, error
 }
 
 
-func logMessage(level: LogLevel, type: AppLoggingOptions, message: String) {
+func logMessage(_ level: LogLevel, type: AppLoggingOptions, message: String) {
     guard Debug.loggingOptions.contains(type) else { return }
 
     let logText = "[\(type.description)] \(message)"
     switch level {
-    case .Verbose:
+    case .verbose:
         DDLogVerbose(logText)
-    case .Debug:
+    case .debug:
         DDLogDebug(logText)
-    case .Info:
+    case .info:
         DDLogInfo(logText)
-    case .Warning:
+    case .warning:
         DDLogWarn(logText)
-    case .Error:
+    case .error:
         DDLogError(logText)
     }
 }

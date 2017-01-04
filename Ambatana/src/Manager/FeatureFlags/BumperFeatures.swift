@@ -164,7 +164,7 @@ enum InterestedUsersMode: String, BumperFeature  {
     static var enumValues: [InterestedUsersMode] { return [.NoNotification, .Original, .LimitedPrints]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Interested users bubble mode" } 
-    static func fromPosition(position: Int) -> InterestedUsersMode {
+    static func fromPosition(_ position: Int) -> InterestedUsersMode {
         switch position { 
             case 0: return .NoNotification
             case 1: return .Original
@@ -189,7 +189,7 @@ enum ProductDetailShareMode: String, BumperFeature  {
     static var enumValues: [ProductDetailShareMode] { return [.Native, .InPlace, .FullScreen]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "How the share options are presented in product detail" } 
-    static func fromPosition(position: Int) -> ProductDetailShareMode {
+    static func fromPosition(_ position: Int) -> ProductDetailShareMode {
         switch position { 
             case 0: return .Native
             case 1: return .InPlace
@@ -214,7 +214,7 @@ enum PostAfterDeleteMode: String, BumperFeature  {
     static var enumValues: [PostAfterDeleteMode] { return [.Original, .FullScreen, .Alert]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Posting incentivation after delete" } 
-    static func fromPosition(position: Int) -> PostAfterDeleteMode {
+    static func fromPosition(_ position: Int) -> PostAfterDeleteMode {
         switch position { 
             case 0: return .Original
             case 1: return .FullScreen
@@ -230,7 +230,7 @@ enum KeywordsTravelCollection: String, BumperFeature  {
     static var enumValues: [KeywordsTravelCollection] { return [.Standard, .CarsPrior, .BrandsPrior]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Keywords prioritize on Travel Collection" } 
-    static func fromPosition(position: Int) -> KeywordsTravelCollection {
+    static func fromPosition(_ position: Int) -> KeywordsTravelCollection {
         switch position { 
             case 0: return .Standard
             case 1: return .CarsPrior

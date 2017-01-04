@@ -12,13 +12,13 @@ import AVKit
 
 
 public protocol VideoPlayerContainerViewDelegate: class {
-    func playerDidSwitchPlaying(isPlaying: Bool)
+    func playerDidSwitchPlaying(_ isPlaying: Bool)
     func playerDidFinishPlaying()
     func playerDidReceiveTap()
     func playerDidPressFullscreen()
 }
 
-public class VideoPlayerContainerView: UIView {
+class VideoPlayerContainerView: UIView {
 
     @IBOutlet weak var playerFailedView: UIView!
     @IBOutlet weak var playerFailedLabel: UILabel!
@@ -36,10 +36,10 @@ public class VideoPlayerContainerView: UIView {
 
     private var timeWhenInactive: Double = 0.0
 
-    private var currentItemURL: NSURL? = nil
+    private var currentItemURL: URL? = nil
 
     private var playerObserverActive:Bool = false
-    private var videoTimer: NSTimer?
+    private var videoTimer: Timer?
     private var updateSliderFromVideoEnabled: Bool {
         return autoHideControlsEnabled
     }
@@ -58,7 +58,7 @@ public class VideoPlayerContainerView: UIView {
     }
     var videoIsMuted: Bool = true {
         didSet {
-            player.muted = videoIsMuted
+            player.isMuted = videoIsMuted
             refreshUI()
         }
     }
@@ -71,53 +71,53 @@ public class VideoPlayerContainerView: UIView {
         let imgName = isPlaying ? "ic_pause_video" : "ic_play_video"
         return UIImage(named: imgName) ?? UIImage()
     }
-    private var autoHideControlsTimer: NSTimer?
+    private var autoHideControlsTimer: Timer?
     private var autoHideControlsEnabled: Bool = true
 
     
     // MARK: - Lifecycle
 
-    public static func instanceFromNib() -> VideoPlayerContainerView {
-        return NSBundle.mainBundle().loadNibNamed("VideoPlayerContainerView", owner: self, options: nil)!.first as! VideoPlayerContainerView
+    open static func instanceFromNib() -> VideoPlayerContainerView {
+        return Bundle.main.loadNibNamed("VideoPlayerContainerView", owner: self, options: nil)!.first as! VideoPlayerContainerView
     }
 
     public override init(frame: CGRect) {
         self.videoPlayerVC = AVPlayerViewController()
         self.player = AVPlayer()
-        self.audioButton = UIButton(type: .Custom)
-        self.playButton = UIButton(type: .Custom)
+        self.audioButton = UIButton(type: .custom)
+        self.playButton = UIButton(type: .custom)
         self.progressSlider = UISlider()
-        self.fullScreenButton = UIButton(type: .Custom)
+        self.fullScreenButton = UIButton(type: .custom)
         super.init(frame: frame)
 
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(VideoPlayerContainerView.playerDidFinishPlaying(_:)),
-                                                         name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+                                                         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         self.videoPlayerVC = AVPlayerViewController()
         self.player = AVPlayer()
-        self.audioButton = UIButton(type: .Custom)
-        self.playButton = UIButton(type: .Custom)
+        self.audioButton = UIButton(type: .custom)
+        self.playButton = UIButton(type: .custom)
         self.progressSlider = UISlider()
-        self.fullScreenButton = UIButton(type: .Custom)
+        self.fullScreenButton = UIButton(type: .custom)
         super.init(coder: aDecoder)
 
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(VideoPlayerContainerView.playerDidFinishPlaying(_:)),
-                                                         name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+                                                         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     deinit {
         removePlayerStatusObserver()
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
 
     // MARK: - Public methods
 
-    @IBAction func onPlayerFailedButtonPressed(sender: AnyObject) {
+    @IBAction func onPlayerFailedButtonPressed(_ sender: AnyObject) {
         reloadSelectedTheme()
     }
 
@@ -126,12 +126,12 @@ public class VideoPlayerContainerView: UIView {
         updateVideoPlayerWithURL(currentURL)
     }
 
-    public func pausePlayer() {
+    open func pausePlayer() {
         if isPlaying { switchPlaying() }
         invalidateTimer()
     }
 
-    public func startPlayer() {
+    open func startPlayer() {
         if !isPlaying { switchPlaying() }
         setControlsVisible(true)
         startSliderUpdateTimer()
@@ -145,7 +145,7 @@ public class VideoPlayerContainerView: UIView {
         progressSlider.value = Float(timeWhenInactive/duration)
 
         let newTime = CMTimeMakeWithSeconds(Double(progressSlider.value)*duration, item.currentTime().timescale)
-        player.seekToTime(newTime)
+        player.seek(to: newTime)
     }
 
     func didBecomeInactive() {
@@ -154,7 +154,7 @@ public class VideoPlayerContainerView: UIView {
     }
 
 
-    public func setupUI() {
+    open func setupUI() {
         playerFailedLabel.text = LGLocalizedString.commercializerLoadVideoFailedErrorMessage
         setupVideoPlayerViewController()
         refreshUI()
@@ -170,24 +170,24 @@ public class VideoPlayerContainerView: UIView {
         }
     }
 
-    public func onAudioButtonPressed() {
+    open func onAudioButtonPressed() {
         switchAudio()
     }
 
-    public func onPlayButtonPressed() {
+    open func onPlayButtonPressed() {
         startSliderUpdateTimer()
         switchPlaying()
     }
 
-    public func onFullScreenButtonPressed() {
+    open func onFullScreenButtonPressed() {
         delegate?.playerDidPressFullscreen()
     }
 
-    public func progressValueChanged() {
+    open func progressValueChanged() {
         guard let item = player.currentItem else { return }
         let duration = CMTimeGetSeconds(item.duration)
         let newTime = CMTimeMakeWithSeconds(Double(progressSlider.value)*duration, item.currentTime().timescale)
-        player.seekToTime(newTime)
+        player.seek(to: newTime)
     }
 
     func disableUpdateVideoProgress() {
@@ -199,7 +199,7 @@ public class VideoPlayerContainerView: UIView {
     }
 
     func updateSliderFromVideo() {
-        guard let item = player.currentItem where updateSliderFromVideoEnabled else { return }
+        guard let item = player.currentItem, updateSliderFromVideoEnabled else { return }
         let currentTime = CMTimeGetSeconds(item.currentTime())
         let duration = CMTimeGetSeconds(item.duration)
         progressSlider.value = Float(currentTime/duration)
@@ -215,31 +215,31 @@ public class VideoPlayerContainerView: UIView {
         if let videoTimer = videoTimer {
             videoTimer.invalidate()
         }
-        videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
+        videoTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self,
             selector: #selector(VideoPlayerContainerView.updateSliderFromVideo), userInfo: nil, repeats: true)
     }
 
     private func refreshUI() {
-        audioButton.setImage(imageForAudioButton, forState: .Normal)
-        playButton.setImage(imageForPlayButton, forState: .Normal)
+        audioButton.setImage(imageForAudioButton, for: UIControlState())
+        playButton.setImage(imageForPlayButton, for: UIControlState())
         audioButton.alpha = audioButtonIsVisible ? 1.0 : 0.0
         fullScreenButton.alpha = audioButtonIsVisible ? 1.0 : 0.0
         playButton.alpha = controlsAreVisible ? 1.0 : 0.0
         progressSlider.alpha = controlsAreVisible ? 1.0 : 0.0
     }
 
-    public func updateVideoPlayerWithURL(videoUrl: NSURL) {
+    open func updateVideoPlayerWithURL(_ videoUrl: URL) {
         currentItemURL = videoUrl
-        let playerItem = AVPlayerItem(URL: videoUrl)
+        let playerItem = AVPlayerItem(url: videoUrl)
         removePlayerStatusObserver()
         player = AVPlayer(playerItem: playerItem)
 
         startSliderUpdateTimer()
 
-        player.muted = videoIsMuted
+        player.isMuted = videoIsMuted
         videoPlayerVC.player = player
 
-        player.addObserver(self, forKeyPath: "status", options: .New, context: nil)
+        player.addObserver(self, forKeyPath: "status", options: .new, context: nil)
         playerObserverActive = true
 
         isPlaying = true
@@ -253,7 +253,7 @@ public class VideoPlayerContainerView: UIView {
     private func setupVideoPlayerViewController() {
 
         videoPlayerVC.showsPlaybackControls = false
-        videoPlayerVC.view.userInteractionEnabled = true
+        videoPlayerVC.view.isUserInteractionEnabled = true
         videoPlayerVC.view.frame = CGRect(x: 0, y: 0, width: self.frame.size.width,
             height: self.frame.size.height)
         self.addSubview(videoPlayerVC.view)
@@ -278,105 +278,105 @@ public class VideoPlayerContainerView: UIView {
 
         videoPlayerVC.view.addSubview(touchFriendlyView)
 
-        let touchFriendlyViewTop = NSLayoutConstraint(item: touchFriendlyView, attribute: .Top, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Top, multiplier: 1, constant: 0)
+        let touchFriendlyViewTop = NSLayoutConstraint(item: touchFriendlyView, attribute: .top, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .top, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewTop)
-        let touchFriendlyViewBottom = NSLayoutConstraint(item: touchFriendlyView, attribute: .Bottom, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Bottom, multiplier: 1, constant: 0)
+        let touchFriendlyViewBottom = NSLayoutConstraint(item: touchFriendlyView, attribute: .bottom, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .bottom, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewBottom)
-        let touchFriendlyViewLeft = NSLayoutConstraint(item: touchFriendlyView, attribute: .Left, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Left, multiplier: 1, constant: 0)
+        let touchFriendlyViewLeft = NSLayoutConstraint(item: touchFriendlyView, attribute: .left, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .left, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewLeft)
-        let touchFriendlyViewRight = NSLayoutConstraint(item: touchFriendlyView, attribute: .Right, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: 0)
+        let touchFriendlyViewRight = NSLayoutConstraint(item: touchFriendlyView, attribute: .right, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .right, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewRight)
     }
 
     private func setupVideoPlayerAudioButton() {
         audioButton.addTarget(self, action: #selector(VideoPlayerContainerView.onAudioButtonPressed),
-                              forControlEvents: .TouchUpInside)
+                              for: .touchUpInside)
         audioButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(audioButton)
 
-        let audioButtonWidth = NSLayoutConstraint(item: audioButton, attribute: .Width, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: 30)
+        let audioButtonWidth = NSLayoutConstraint(item: audioButton, attribute: .width, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: 30)
         audioButton.addConstraint(audioButtonWidth)
-        let audioButtonHeight = NSLayoutConstraint(item: audioButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: 30)
+        let audioButtonHeight = NSLayoutConstraint(item: audioButton, attribute: .height, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: 30)
         audioButton.addConstraint(audioButtonHeight)
 
-        let audioButtonTop = NSLayoutConstraint(item: audioButton, attribute: .Top, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Top, multiplier: 1, constant: 10)
+        let audioButtonTop = NSLayoutConstraint(item: audioButton, attribute: .top, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .top, multiplier: 1, constant: 10)
         videoPlayerVC.view.addConstraint(audioButtonTop)
-        let audioButtonRight = NSLayoutConstraint(item: audioButton, attribute: .Right, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -10)
+        let audioButtonRight = NSLayoutConstraint(item: audioButton, attribute: .right, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .right, multiplier: 1, constant: -10)
         videoPlayerVC.view.addConstraint(audioButtonRight)
     }
 
     private func setupVideoPlayerPlayPauseButton() {
         playButton.addTarget(self, action: #selector(VideoPlayerContainerView.onPlayButtonPressed),
-                             forControlEvents: .TouchUpInside)
+                             for: .touchUpInside)
         playButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(playButton)
 
-        let playButtonWidth = NSLayoutConstraint(item: playButton, attribute: .Width, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: 40)
+        let playButtonWidth = NSLayoutConstraint(item: playButton, attribute: .width, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: 40)
         playButton.addConstraint(playButtonWidth)
-        let playButtonHeight = NSLayoutConstraint(item: playButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: 40)
+        let playButtonHeight = NSLayoutConstraint(item: playButton, attribute: .height, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: 40)
         playButton.addConstraint(playButtonHeight)
-        let playButtonXCenter = NSLayoutConstraint(item: playButton, attribute: .CenterX, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .CenterX, multiplier: 1, constant: 0)
+        let playButtonXCenter = NSLayoutConstraint(item: playButton, attribute: .centerX, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .centerX, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(playButtonXCenter)
-        let playButtonYCenter = NSLayoutConstraint(item: playButton, attribute: .CenterY, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .CenterY, multiplier: 1, constant: 0)
+        let playButtonYCenter = NSLayoutConstraint(item: playButton, attribute: .centerY, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .centerY, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(playButtonYCenter)
     }
 
     private func setupVideoPlayerProgressSlider() {
-        progressSlider.transform = CGAffineTransformMakeScale(0.8, 0.8);
+        progressSlider.transform = CGAffineTransform(scaleX: 0.8, y: 0.8);
         progressSlider.tintColor = UIColor.primaryColor
         progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.progressValueChanged),
-                                 forControlEvents: .ValueChanged)
+                                 for: .valueChanged)
         progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.disableUpdateVideoProgress),
-                                 forControlEvents: .TouchDown)
+                                 for: .touchDown)
         progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.enableUpdateVideoProgress),
-                                 forControlEvents: .TouchUpInside)
+                                 for: .touchUpInside)
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(progressSlider)
 
-        let sliderBottom = NSLayoutConstraint(item: progressSlider, attribute: .Bottom, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Bottom, multiplier: 1, constant: -10)
+        let sliderBottom = NSLayoutConstraint(item: progressSlider, attribute: .bottom, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .bottom, multiplier: 1, constant: -10)
         videoPlayerVC.view.addConstraint(sliderBottom)
-        let sliderLeft = NSLayoutConstraint(item: progressSlider, attribute: .Left, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Left, multiplier: 1, constant: 20)
+        let sliderLeft = NSLayoutConstraint(item: progressSlider, attribute: .left, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .left, multiplier: 1, constant: 20)
         videoPlayerVC.view.addConstraint(sliderLeft)
-        let sliderRight = NSLayoutConstraint(item: progressSlider, attribute: .Right, relatedBy: .Equal,
-            toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -20)
+        let sliderRight = NSLayoutConstraint(item: progressSlider, attribute: .right, relatedBy: .equal,
+            toItem: videoPlayerVC.view, attribute: .right, multiplier: 1, constant: -20)
         videoPlayerVC.view.addConstraint(sliderRight)
     }
 
     private func setupVideoPlayerFullscreenButton() {
         fullScreenButton.addTarget(self, action: #selector(VideoPlayerContainerView.onFullScreenButtonPressed),
-                             forControlEvents: .TouchUpInside)
-        fullScreenButton.setImage(UIImage(named: "ic_video_fullscreen"), forState: .Normal)
+                             for: .touchUpInside)
+        fullScreenButton.setImage(UIImage(named: "ic_video_fullscreen"), for: UIControlState())
         fullScreenButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(fullScreenButton)
 
-        fullScreenButton.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .Width, relatedBy: .Equal, toItem: nil,
-                                                 attribute: .NotAnAttribute, multiplier: 1, constant: 25))
-        fullScreenButton.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                                  attribute: .NotAnAttribute, multiplier: 1, constant: 22))
+        fullScreenButton.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .width, relatedBy: .equal, toItem: nil,
+                                                 attribute: .notAnAttribute, multiplier: 1, constant: 25))
+        fullScreenButton.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .height, relatedBy: .equal, toItem: nil,
+                                                  attribute: .notAnAttribute, multiplier: 1, constant: 22))
 
-        videoPlayerVC.view.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .Right, relatedBy: .Equal,
-                                                   toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -12))
-        videoPlayerVC.view.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .Bottom, relatedBy: .Equal,
-                                                   toItem: videoPlayerVC.view, attribute: .Bottom, multiplier: 1, constant: -12))
+        videoPlayerVC.view.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .right, relatedBy: .equal,
+                                                   toItem: videoPlayerVC.view, attribute: .right, multiplier: 1, constant: -12))
+        videoPlayerVC.view.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .bottom, relatedBy: .equal,
+                                                   toItem: videoPlayerVC.view, attribute: .bottom, multiplier: 1, constant: -12))
     }
 
-    dynamic private func playerDidFinishPlaying(notification: NSNotification) {
+    dynamic private func playerDidFinishPlaying(_ notification: Notification) {
         isPlaying = false
-        player.seekToTime(kCMTimeZero)
+        player.seek(to: kCMTimeZero)
         setControlsVisible(true, force: true)
         refreshUI()
         delegate?.playerDidFinishPlaying()
@@ -417,16 +417,16 @@ public class VideoPlayerContainerView: UIView {
     }
 
     private func startAutoHidingControlsTimer() {
-        autoHideControlsTimer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self,
+        autoHideControlsTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self,
                         selector: #selector(VideoPlayerContainerView.autoHideControls), userInfo: nil, repeats: false)
-        if let autoHideControlsTimer = autoHideControlsTimer where !controlsAreVisible || !autoHideControlsEnabled {
+        if let autoHideControlsTimer = autoHideControlsTimer, !controlsAreVisible || !autoHideControlsEnabled {
             autoHideControlsTimer.invalidate()
         }
     }
 
-    private func setControlsVisible(visible: Bool, force: Bool = false) {
+    private func setControlsVisible(_ visible: Bool, force: Bool = false) {
 
-        if let timer = autoHideControlsTimer where !controlsAreVisible {
+        if let timer = autoHideControlsTimer, !controlsAreVisible {
             timer.invalidate()
         }
 
@@ -435,28 +435,28 @@ public class VideoPlayerContainerView: UIView {
         if visible {
             startAutoHidingControlsTimer()
         }
-        UIView.animateWithDuration(0.2) { [weak self] in
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
             if let strongSelf = self {
                 strongSelf.playButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
                 strongSelf.audioButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
                 strongSelf.fullScreenButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
                 strongSelf.progressSlider.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
             }
-        }
+        }) 
     }
 
 
     // MARK: - Player observer for keypath
 
-    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
-        change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-            guard let keyPath = keyPath where keyPath == "status" && player == object as? AVPlayer else { return }
-            if player.status == .Failed {
-                playerFailedView.hidden = false
-                videoPlayerVC.view.hidden = true
-            } else if player.status == .ReadyToPlay {
-                playerFailedView.hidden = true
-                videoPlayerVC.view.hidden = false
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+            guard let keyPath = keyPath, keyPath == "status" && player == object as? AVPlayer else { return }
+            if player.status == .failed {
+                playerFailedView.isHidden = false
+                videoPlayerVC.view.isHidden = true
+            } else if player.status == .readyToPlay {
+                playerFailedView.isHidden = true
+                videoPlayerVC.view.isHidden = false
             }
             removePlayerStatusObserver()
     }

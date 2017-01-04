@@ -17,7 +17,7 @@ class InterestedBubbleManager {
 
     private var interestedBubbleShownForProducts: [String] = []
 
-    func showInterestedBubbleForProduct(id: String) {
+    func showInterestedBubbleForProduct(_ id: String) {
         interestedBubbleShownForProducts.append(id)
     }
 
@@ -36,7 +36,7 @@ class InterestedBubbleManager {
      
      */
 
-    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool, featureFlags: FeatureFlaggeable) -> Bool {
+    func shouldShowInterestedBubbleForProduct(_ id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool, featureFlags: FeatureFlaggeable) -> Bool {
 
         var featureFlagDependantValue: Bool = true
         switch featureFlags.interestedUsersMode {
@@ -52,7 +52,7 @@ class InterestedBubbleManager {
         return !interestedBubbleAlreadyShownForProduct(id) && featureFlagDependantValue
     }
 
-    private func interestedBubbleAlreadyShownForProduct(id: String) -> Bool {
+    private func interestedBubbleAlreadyShownForProduct(_ id: String) -> Bool {
         return interestedBubbleShownForProducts.contains(id)
     }
 }

@@ -18,8 +18,8 @@ extension SKProductsResponse: PurchaseableProductsResponse {
 }
 
 protocol PurchaseableProductsRequestDelegate: class {
-    func productsRequest(request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse)
-    func productsRequest(request: PurchaseableProductsRequest, didFailWithError error: NSError)
+    func productsRequest(_ request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse)
+    func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: NSError)
 }
 
 class AppstoreProductsRequest: NSObject, PurchaseableProductsRequest {
@@ -47,16 +47,16 @@ class AppstoreProductsRequest: NSObject, PurchaseableProductsRequest {
 }
 
 extension AppstoreProductsRequest: SKProductsRequestDelegate {
-    dynamic func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+    dynamic func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         self.request = request
         delegate?.productsRequest(self, didReceiveResponse: response)
     }
 
-    dynamic func requestDidFinish(request: SKRequest) {
+    dynamic func requestDidFinish(_ request: SKRequest) {
 
     }
 
-    dynamic func request(request: SKRequest, didFailWithError error: NSError) {
-        delegate?.productsRequest(self, didFailWithError: error)
+    dynamic func request(_ request: SKRequest, didFailWithError error: Error) {
+        delegate?.productsRequest(self, didFailWithError: error as NSError)
     }
 }

@@ -86,4 +86,4 @@ func _forceCompilerToStopDoingInsaneOptimizationsThatBreakCode(_ scheduler: Sche
     }
 }
 
-fileprivate var driverObserveOnScheduler: SchedulerType = MainScheduler.instance
+private var driverObserveOnScheduler: SchedulerType = MainScheduler.instance

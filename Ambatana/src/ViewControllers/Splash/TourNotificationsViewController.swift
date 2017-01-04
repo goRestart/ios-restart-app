@@ -40,12 +40,12 @@ final class TourNotificationsViewController: BaseViewController {
         switch DeviceFamily.current {
         case .iPhone4:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewControllerMini",
-                       statusBarStyle: .LightContent)
-        case .iPhone5, .iPhone6, .iPhone6Plus, .BiggerUnknown:
-            super.init(viewModel: viewModel, nibName: "TourNotificationsViewController", statusBarStyle: .LightContent)
+                       statusBarStyle: .lightContent)
+        case .iPhone5, .iPhone6, .iPhone6Plus, .biggerUnknown:
+            super.init(viewModel: viewModel, nibName: "TourNotificationsViewController", statusBarStyle: .lightContent)
         }
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -57,24 +57,24 @@ final class TourNotificationsViewController: BaseViewController {
         setupUI()
         setupAccessibilityIds()
         setupTexts()
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
             selector: #selector(TourNotificationsViewController.didRegisterUserNotificationSettings),
-            name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
+            name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(didBecomeActive),
-                                                         name: UIApplicationDidBecomeActiveNotification, object: nil)
+                                                         name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         viewModel.viewDidLoad()
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     func didRegisterUserNotificationSettings() {
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
-            guard let viewAlpha = self?.view.alpha where viewAlpha > 0 else { return }
+        let time = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
+            guard let viewAlpha = self?.view.alpha, viewAlpha > 0 else { return }
             self?.openNextStep()
         }
     }
@@ -91,39 +91,39 @@ final class TourNotificationsViewController: BaseViewController {
     func openNextStep() {
         guard let step = viewModel.nextStep() else { return }
         switch step {
-        case .Location:
+        case .location:
             showTourLocation()
-        case .NoStep:
-            dismissViewControllerAnimated(true, completion: completion)
+        case .noStep:
+            dismiss(animated: true, completion: completion)
         }
     }
     
     
     // MARK: - IBActions
     
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         noButtonPressed(sender)
     }
    
-    @IBAction func noButtonPressed(sender: AnyObject) {
+    @IBAction func noButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapNoButton()
         openNextStep()
     }
     
-    @IBAction func yesButtonPressed(sender: AnyObject) {
+    @IBAction func yesButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapYesButton()
-        PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Onboarding)
+        PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .onboarding)
         pushDialogWasShown = true
     }
     
     func showTourLocation() {
         let vm = TourLocationViewModel(source: .Install)
         let vc = TourLocationViewController(viewModel: vm)
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.1, options: UIViewAnimationOptions(), animations: {
             self.view.alpha = 0
         }, completion: nil)
         
-        presentViewController(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
     }
     
     
@@ -134,7 +134,7 @@ final class TourNotificationsViewController: BaseViewController {
         subtitleLabel.text = viewModel.subtitle
         notificationMessageLabel.text = viewModel.pushText
         
-        notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, forState: .Normal)
+        notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, for: UIControlState())
         notificationTimeLabel.text = LGLocalizedString.commonTimeNowLabel
 
         alertOkLabel.text = LGLocalizedString.commonOk
@@ -142,7 +142,7 @@ final class TourNotificationsViewController: BaseViewController {
     
     func setupUI() {
         iphoneBckgImage.image = viewModel.infoImage
-        notifyButton.setStyle(.Primary(fontSize: .Medium))
+        notifyButton.setStyle(.primary(fontSize: .medium))
 
         switch DeviceFamily.current {
         case .iPhone4:
@@ -153,13 +153,13 @@ final class TourNotificationsViewController: BaseViewController {
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
             iphoneRightHeightConstraint.constant = TourNotificationsViewController.iphone5InfoHeight
-        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
+        case .iPhone6, .iPhone6Plus, .biggerUnknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
 
-        pushContainer.hidden = !viewModel.showPushInfo
-        alertContainer.hidden = !viewModel.showAlertInfo
+        pushContainer.isHidden = !viewModel.showPushInfo
+        alertContainer.isHidden = !viewModel.showAlertInfo
         let tap = UITapGestureRecognizer(target: self, action: #selector(yesButtonPressed(_:)))
         alertContainer.addGestureRecognizer(tap)
     }

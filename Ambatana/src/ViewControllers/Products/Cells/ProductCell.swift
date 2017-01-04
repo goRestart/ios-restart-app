@@ -25,14 +25,14 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var stripeIcon: UIImageView!
     @IBOutlet weak var stripeIconWidth: NSLayoutConstraint!
 
-    private var indexPath: NSIndexPath?
+    private var indexPath: IndexPath?
     
     var likeButtonEnabled: Bool = true
     var chatButtonEnabled: Bool = true
 
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            alpha = highlighted ? 0.8 : 1.0
+            alpha = isHighlighted ? 0.8 : 1.0
         }
     }
 
@@ -54,10 +54,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public / internal methods
 
-    func setImageUrl(imageUrl: NSURL) {
+    func setImageUrl(_ imageUrl: URL) {
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
-            if let (_, cached) = result.value where !cached {
+            if let (_, cached) = result.value, !cached {
                 self?.thumbnailImageView.alpha = 0
                 UIView.animateWithDuration(0.4, animations: { self?.thumbnailImageView.alpha = 1 })
             }
@@ -68,9 +68,9 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = UIImage(named: "ic_heart")
         stripeLabel.text = LGLocalizedString.productFreePrice
-        stripeImageView.hidden = false
-        stripeInfoView.hidden = false
-        stripeImageView.hidden = false
+        stripeImageView.isHidden = false
+        stripeInfoView.isHidden = false
+        stripeImageView.isHidden = false
     }
 
 
@@ -80,11 +80,11 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     private func setupUI() {
         cellContent.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
         let rotation = CGFloat(M_PI_4)
-        stripeInfoView.transform = CGAffineTransformMakeRotation(rotation)
+        stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
         stripeLabel.textColor = UIColor.redText
         // HIDDEN for the moment while we experiment with 3 columns
-        stripeInfoView.hidden = true
-        stripeImageView.hidden = true
+        stripeInfoView.isHidden = true
+        stripeImageView.isHidden = true
     }
 
     // Resets the UI to the initial state

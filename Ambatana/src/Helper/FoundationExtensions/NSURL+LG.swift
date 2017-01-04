@@ -6,18 +6,18 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-extension NSURL {
+extension URL {
 
     var queryParameters: [String : String] {
         var result : [String : String] = [:]
         guard let query = self.query else { return result }
 
-        let mergedKeyValues = query.componentsSeparatedByString("&")
+        let mergedKeyValues = query.components(separatedBy: "&")
         for mergedKeyValue in mergedKeyValues {
-            let keyValue = mergedKeyValue.componentsSeparatedByString("=")
+            let keyValue = mergedKeyValue.components(separatedBy: "=")
             guard keyValue.count == 2 else { continue }
             guard let key = keyValue[0].stringByRemovingPercentEncoding,
-                value = keyValue[1].stringByRemovingPercentEncoding else { continue }
+                let value = keyValue[1].stringByRemovingPercentEncoding else { continue }
             result[key] = value
         }
         return result
@@ -26,7 +26,7 @@ extension NSURL {
     var components: [String] {
         guard var result = self.pathComponents else { return [] }
         if !result.isEmpty {
-            result.removeAtIndex(0)
+            result.remove(at: 0)
         }
         return result
     }

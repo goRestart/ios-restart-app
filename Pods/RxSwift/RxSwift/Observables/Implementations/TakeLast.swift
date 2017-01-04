@@ -44,8 +44,8 @@ class TakeLastSink<ElementType, O: ObserverType> : Sink<O>, ObserverType where O
 }
 
 class TakeLast<Element>: Producer<Element> {
-    fileprivate let _source: Observable<Element>
-    fileprivate let _count: Int
+    private let _source: Observable<Element>
+    private let _count: Int
     
     init(source: Observable<Element>, count: Int) {
         if count < 0 {

@@ -44,7 +44,7 @@ class FilterCategoryCell: UICollectionViewCell {
     private func resetUI() {
         categoryIcon.image = nil
         titleLabel.text = ""
-        rightSeparator.hidden = true
+        rightSeparator.isHidden = true
     }
 
     private func setAccessibilityIds() {

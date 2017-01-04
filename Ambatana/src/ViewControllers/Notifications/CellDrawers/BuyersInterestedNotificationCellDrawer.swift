@@ -10,11 +10,11 @@ import LGCoreKit
 
 class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersInterestedNotificationCell> {
 
-    override func draw(cell: BuyersInterestedNotificationCell, data: NotificationData) {
+    override func draw(_ cell: BuyersInterestedNotificationCell, data: NotificationData) {
         switch data.type {
         case let .BuyersInterested(product, buyers):
             let buyersCount = buyers.count
-            if let productTitle = product.title where !productTitle.isEmpty {
+            if let productTitle = product.title, !productTitle.isEmpty {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeBuyersInterestedWTitle(buyersCount, productTitle)
             } else {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeBuyersInterested(buyersCount)
@@ -22,7 +22,7 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
             cell.iconImage.image = UIImage(named: "ic_user")
 
             let placeholder = UIImage(named: "product_placeholder")
-            if let urlStr = product.image, imageUrl = NSURL(string: urlStr) {
+            if let urlStr = product.image, let imageUrl = URL(string: urlStr) {
                 cell.primaryImage.lg_setImageWithURL(imageUrl, placeholderImage: placeholder)
             } else {
                 cell.primaryImage.image = placeholder
@@ -36,15 +36,15 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
         }
     }
 
-    private func setActionState(cell: BuyersInterestedNotificationCell, completed: Bool?) {
+    private func setActionState(_ cell: BuyersInterestedNotificationCell, completed: Bool?) {
         let title: String
         let icon: UIImage?
-        if let completed = completed where completed {
+        if let completed = completed, completed {
             title = LGLocalizedString.notificationsTypeBuyersInterestedButtonDone
             icon = UIImage(named: "ic_check_gray")
 
             cell.actionButton.layer.borderWidth = 0
-            cell.actionButton.setTitleColor(UIColor.gray, forState: .Normal)
+            cell.actionButton.setTitleColor(UIColor.gray, for: UIControlState())
 
             let hSpacing: CGFloat = 5
             cell.actionButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: hSpacing, bottom: 0, right: -hSpacing)
@@ -52,27 +52,27 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
         } else {
             title = LGLocalizedString.notificationsTypeBuyersInterestedButton
             icon = nil
-            cell.actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
+            cell.actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
         }
-        cell.actionButton.setTitle(title, forState: .Normal)
-        cell.actionButton.setImage(icon, forState: .Normal)
+        cell.actionButton.setTitle(title, for: UIControlState())
+        cell.actionButton.setImage(icon, for: UIControlState())
     }
 
-    private func setupUserImageViews(cell: BuyersInterestedNotificationCell, buyers: [NotificationUser]) {
-        for (index, imageView) in cell.userImageViews.enumerate() {
+    private func setupUserImageViews(_ cell: BuyersInterestedNotificationCell, buyers: [NotificationUser]) {
+        for (index, imageView) in cell.userImageViews.enumerated() {
             let buyer: NotificationUser? = index < buyers.count ? buyers[index] : nil
             setupUserImageView(imageView, buyer: buyer)
         }
     }
 
-    private func setupUserImageView(imageView: UIImageView, buyer: NotificationUser?) {
+    private func setupUserImageView(_ imageView: UIImageView, buyer: NotificationUser?) {
         guard let buyer = buyer else {
             imageView.image = nil
             return
         }
 
         let placeholder = LetgoAvatar.avatarWithID(buyer.id, name: buyer.name)
-        if let urlStr = buyer.avatar, url = NSURL(string: urlStr) {
+        if let urlStr = buyer.avatar, let url = URL(string: urlStr) {
             imageView.lg_setImageWithURL(url, placeholderImage: placeholder)
         } else {
             imageView.image = placeholder

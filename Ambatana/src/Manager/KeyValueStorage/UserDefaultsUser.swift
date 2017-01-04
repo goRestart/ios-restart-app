@@ -15,7 +15,7 @@ struct UserDefaultsUser {
     static let chatSafetyTipsShownDefaultValue = false
     static let chatShowDirectAnswersDefaultValue = [String:Bool]()
     static let ratingAlreadyRatedDefaultValue = false
-    static let ratingRemindMeLaterDateDefaultValue: NSDate? = nil
+    static let ratingRemindMeLaterDateDefaultValue: Date? = nil
     static let postProductLastGalleryAlbumSelectedDefaultValue: String? = nil
     static let postProductLastTabSelectedDefaultValue = 1
     static let postProductPostedPreviouslyDefaultValue = false
@@ -32,7 +32,7 @@ struct UserDefaultsUser {
     var chatSafetyTipsShown: Bool
     var chatShowDirectAnswers: [String:Bool] // <id>: <value>
     var ratingAlreadyRated: Bool
-    var ratingRemindMeLaterDate: NSDate?
+    var ratingRemindMeLaterDate: Date?
     var postProductLastGalleryAlbumSelected: String?
     var postProductLastTabSelected: Int
     var postProductPostedPreviously: Bool
@@ -76,7 +76,7 @@ struct UserDefaultsUser {
     }
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
-         ratingRemindMeLaterDate: NSDate?, chatShowDirectAnswers: [String: Bool],
+         ratingRemindMeLaterDate: Date?, chatShowDirectAnswers: [String: Bool],
          postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int, postProductPostedPreviously: Bool,
          commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool,
          shouldShowExpressChat: Bool, productsWithExpressChatAlreadyShown: [String],
@@ -104,7 +104,7 @@ struct UserDefaultsUser {
 // MARK: - UserDefaultsDecodable
 
 extension UserDefaultsUser: UserDefaultsDecodable {
-    static func decode(dictionary: [String: AnyObject]) -> UserDefaultsUser? {
+    static func decode(_ dictionary: [String: AnyObject]) -> UserDefaultsUser? {
         let appShared = dictionary.decode(UserDefaultsUserKey.AppShared.rawValue,
                                           defaultValue: UserDefaultsUser.appSharedDefaultValue)
         let userLocationApproximate = dictionary.decode(UserDefaultsUserKey.UserLocationApproximate.rawValue,
@@ -115,7 +115,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                       defaultValue: UserDefaultsUser.chatShowDirectAnswersDefaultValue)
         let ratingAlreadyRated = dictionary.decode(UserDefaultsUserKey.RatingAlreadyRated.rawValue,
                                                    defaultValue: UserDefaultsUser.ratingAlreadyRatedDefaultValue)
-        let ratingRemindMeLaterDate: NSDate? = dictionary.decode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue,
+        let ratingRemindMeLaterDate: Date? = dictionary.decode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue,
                                                                  defaultValue: UserDefaultsUser.ratingRemindMeLaterDateDefaultValue)
         let postProductLastGalleryAlbumSelected: String? = dictionary.decode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue,
                                                                              defaultValue: UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue)
@@ -151,28 +151,28 @@ extension UserDefaultsUser: UserDefaultsDecodable {
 
     func encode() -> [String: AnyObject] {
         var dict = [String: AnyObject]()
-        dict.encode(UserDefaultsUserKey.AppShared.rawValue, value: appShared)
-        dict.encode(UserDefaultsUserKey.UserLocationApproximate.rawValue, value: userLocationApproximate)
-        dict.encode(UserDefaultsUserKey.ChatSafetyTipsShown.rawValue, value: chatSafetyTipsShown)
-        dict.encode(UserDefaultsUserKey.ChatDirectAnswersShow.rawValue, value: chatShowDirectAnswers)
-        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
+        dict.encode(UserDefaultsUserKey.AppShared.rawValue, value: appShared as AnyObject)
+        dict.encode(UserDefaultsUserKey.UserLocationApproximate.rawValue, value: userLocationApproximate as AnyObject)
+        dict.encode(UserDefaultsUserKey.ChatSafetyTipsShown.rawValue, value: chatSafetyTipsShown as AnyObject)
+        dict.encode(UserDefaultsUserKey.ChatDirectAnswersShow.rawValue, value: chatShowDirectAnswers as AnyObject)
+        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated as AnyObject)
         if let ratingRemindMeLaterDate = ratingRemindMeLaterDate {
-            dict.encode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate)
+            dict.encode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate as AnyObject)
         }
-        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
+        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated as AnyObject)
         if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
-            dict.encode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected)
+            dict.encode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected as AnyObject)
         }
-        dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastTabSelected)
-        dict.encode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue, value: postProductPostedPreviously)
-        dict.encode(UserDefaultsUserKey.CommercializersPending.rawValue, value: commercializersPending)
-        dict.encode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
-        dict.encode(UserDefaultsUserKey.ShouldShowExpressChat.rawValue, value: shouldShowExpressChat)
-        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown)
-        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent)
-        dict.encode(UserDefaultsUserKey.MarketingNotifications.rawValue, value: marketingNotifications)
+        dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastTabSelected as AnyObject)
+        dict.encode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue, value: postProductPostedPreviously as AnyObject)
+        dict.encode(UserDefaultsUserKey.CommercializersPending.rawValue, value: commercializersPending as AnyObject)
+        dict.encode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked as AnyObject)
+        dict.encode(UserDefaultsUserKey.ShouldShowExpressChat.rawValue, value: shouldShowExpressChat as AnyObject)
+        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown as AnyObject)
+        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent as AnyObject)
+        dict.encode(UserDefaultsUserKey.MarketingNotifications.rawValue, value: marketingNotifications as AnyObject)
         if let productsMarkAsFavorite = productsMarkAsFavorite {
-            dict.encode(UserDefaultsUserKey.ProductsMarkAsFavorite.rawValue, value: productsMarkAsFavorite)
+            dict.encode(UserDefaultsUserKey.ProductsMarkAsFavorite.rawValue, value: productsMarkAsFavorite as AnyObject)
         }
         return dict
     }
@@ -211,11 +211,11 @@ private enum UserDefaultsUserKey: String {
 
 // MARK: > Dictionary helper
 
-private extension Dictionary where Key: StringLiteralConvertible, Value: AnyObject {
-    func decode<T>(key: Key, defaultValue: T) -> T {
+private extension Dictionary where Key: ExpressibleByStringLiteral, Value: AnyObject {
+    func decode<T>(_ key: Key, defaultValue: T) -> T {
         return (self[key] as? T) ?? defaultValue
     }
-    mutating func encode(key: Key, value: Value) {
+    mutating func encode(_ key: Key, value: Value) {
         self[key] = value
     }
 }

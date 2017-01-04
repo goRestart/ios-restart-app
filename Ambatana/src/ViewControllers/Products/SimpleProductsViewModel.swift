@@ -43,7 +43,7 @@ class SimpleProductsViewModel: BaseViewModel {
         productListViewModel.dataDelegate = self
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
         if firstTime {
@@ -60,14 +60,14 @@ class SimpleProductsViewModel: BaseViewModel {
 
 
 extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
-    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+    func productListMV(_ viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                        error: RepositoryError) {
 
     }
-    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+    func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
 
     }
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+    func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard let product = viewModel.productAtIndex(index) else { return }
         let cellModels = viewModel.objects
@@ -78,9 +78,9 @@ extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
                                showKeyboardOnFirstAppearIfNeeded: false)
     }
 
-    func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
+    func vmProcessReceivedProductPage(_ products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
         return products
     }
-    func vmDidSelectSellBanner(type: String) {}
-    func vmDidSelectCollection(type: CollectionCellType) {}
+    func vmDidSelectSellBanner(_ type: String) {}
+    func vmDidSelectCollection(_ type: CollectionCellType) {}
 }

@@ -33,10 +33,10 @@ class ShareProductViewModel: BaseViewModel {
 
     convenience init(product: Product, socialMessage: SocialMessage) {
         self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage,
-                  locale: NSLocale.currentLocale(), locationManager: Core.locationManager, tracker: TrackerProxy.sharedInstance)
+                  locale: NSLocale.current, locationManager: Core.locationManager, tracker: TrackerProxy.sharedInstance)
     }
 
-    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, locale: NSLocale,
+    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, locale: Locale,
          locationManager: LocationManager, tracker: Tracker) {
         self.product = product
         self.socialSharer = socialSharer
@@ -53,7 +53,7 @@ class ShareProductViewModel: BaseViewModel {
 
     func copyLink() {
         guard let vc = delegate?.vmViewControllerToShare() else { return }
-        socialSharer?.share(socialMessage, shareType: .CopyLink, viewController: vc)
+        socialSharer?.share(socialMessage, shareType: .copyLink, viewController: vc)
     }
     
     func closeActionPressed() {
@@ -69,16 +69,16 @@ class ShareProductViewModel: BaseViewModel {
 // MARK: - SocialShareFacadeDelegate
 
 extension ShareProductViewModel: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
+    func shareStartedIn(_ shareType: ShareType) {
     }
 
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         if let message = messageForShareIn(shareType, finishedWithState: state) {
             delegate?.vmShowAutoFadingMessage(message) { [weak self] in
                 switch state {
-                case .Completed:
+                case .completed:
                     self?.delegate?.vmDismiss(nil)
-                case .Cancelled, .Failed:
+                case .cancelled, .failed:
                     break
                 }
             }
@@ -86,12 +86,12 @@ extension ShareProductViewModel: SocialSharerDelegate {
 
         let event: TrackerEvent?
         switch state {
-        case .Completed:
+        case .completed:
             event = TrackerEvent.productShareComplete(product, network: shareType.trackingShareNetwork,
                                                       typePage: .ProductDetail)
-        case .Failed:
+        case .failed:
             event = nil
-        case .Cancelled:
+        case .cancelled:
             event = TrackerEvent.productShareCancel(product, network: shareType.trackingShareNetwork,
                                                     typePage: .ProductDetail)
         }
@@ -100,21 +100,21 @@ extension ShareProductViewModel: SocialSharerDelegate {
         }
     }
 
-    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
+    private func messageForShareIn(_ shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
         switch (shareType, state) {
-        case (.Email, .Failed):
+        case (.email, .failed):
             return LGLocalizedString.productShareEmailError
-        case (.Facebook, .Failed):
+        case (.facebook, .failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.FBMessenger, .Failed):
+        case (.fbMessenger, .failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.SMS, .Completed):
+        case (.sms, .completed):
             return LGLocalizedString.productShareSmsOk
-        case (.SMS, .Failed):
+        case (.sms, .failed):
             return LGLocalizedString.productShareSmsError
-        case (.CopyLink, .Completed):
+        case (.copyLink, .completed):
             return LGLocalizedString.productShareCopylinkOk
-        case (_, .Completed):
+        case (_, .completed):
             return LGLocalizedString.productShareGenericOk
         default:
             break

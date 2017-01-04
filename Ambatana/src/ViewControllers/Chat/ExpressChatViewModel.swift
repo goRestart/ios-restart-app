@@ -60,7 +60,7 @@ class ExpressChatViewModel: BaseViewModel {
         self.trackerProxy = trackerProxy
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         setupRx()
         selectedItemsCount.value = productListCount
         trackExpressChatStart()
@@ -69,18 +69,18 @@ class ExpressChatViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func titleForItemAtIndex(index: Int) -> String {
+    func titleForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
         return productList[index].title ?? ""
     }
 
-    func imageURLForItemAtIndex(index: Int) -> NSURL {
-        guard index < productListCount else { return NSURL() }
-        guard let imageUrl = productList[index].thumbnail?.fileURL else { return NSURL() }
+    func imageURLForItemAtIndex(_ index: Int) -> URL {
+        guard index < productListCount else { return URL() }
+        guard let imageUrl = productList[index].thumbnail?.fileURL else { return URL() }
         return imageUrl
     }
 
-    func priceForItemAtIndex(index: Int) -> String {
+    func priceForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
         return productList[index].priceString()
     }
@@ -98,30 +98,30 @@ class ExpressChatViewModel: BaseViewModel {
         navigator?.sentMessage(sourceProductId, count: selectedItemsCount.value)
     }
 
-    func closeExpressChat(showAgain: Bool) {
+    func closeExpressChat(_ showAgain: Bool) {
         if !showAgain {
             trackExpressChatDontAsk()
         }
         navigator?.closeExpressChat(showAgain, forProduct: sourceProductId)
     }
 
-    func selectItemAtIndex(index: Int) {
+    func selectItemAtIndex(_ index: Int) {
         guard index < productListCount else { return }
         let product = productList[index]
         let selectedIndex = selectedProductsContains(product)
         guard selectedIndex >= selectedItemsCount.value else { return }
-        selectedProducts.value.insert(product, atIndex: 0)
+        selectedProducts.value.insert(product, at: 0)
     }
 
-    func deselectItemAtIndex(index: Int) {
+    func deselectItemAtIndex(_ index: Int) {
         guard index < productListCount else { return }
         let product = productList[index]
         let selectedIndex = selectedProductsContains(product)
         guard selectedIndex < selectedItemsCount.value else { return }
-        selectedProducts.value.removeAtIndex(selectedIndex)
+        selectedProducts.value.remove(at: selectedIndex)
     }
 
-    private func selectedProductsContains(product: Product) -> Int {
+    private func selectedProductsContains(_ product: Product) -> Int {
         var index = 0
         for selectedProduct in selectedProducts.value {
             if selectedProduct.objectId == product.objectId { return index }
@@ -161,7 +161,7 @@ extension ExpressChatViewModel {
         trackerProxy.trackEvent(event)
     }
 
-    func singleMessageExtraTrackings(shouldAskAskQuestion: Bool, product: Product) {
+    func singleMessageExtraTrackings(_ shouldAskAskQuestion: Bool, product: Product) {
         if shouldAskAskQuestion {
             let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .Text, typePage: .ExpressChat)
             trackerProxy.trackEvent(askQuestionEvent)
@@ -172,7 +172,7 @@ extension ExpressChatViewModel {
         trackerProxy.trackEvent(messageSentEvent)
     }
 
-    func trackExpressChatComplete(numChats: Int) {
+    func trackExpressChatComplete(_ numChats: Int) {
         let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
         let event = TrackerEvent.expressChatComplete(numChats, trigger: trigger)
         trackerProxy.trackEvent(event)

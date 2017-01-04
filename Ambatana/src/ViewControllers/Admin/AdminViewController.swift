@@ -33,59 +33,59 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.dataSource = self
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.backgroundColor = UIColor(white: 0.9, alpha: 1)
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: AdminViewController.cellIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: AdminViewController.cellIdentifier)
         view.addSubview(tableView)
         title = "🙏 God Panel 🙏"
         
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.plain,
             target: self, action: #selector(AdminViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         title = "🙏 God Panel 🙏"
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         title = "God Panel"
     }
 
     func closeButtonPressed() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
 
     // MARK: - TableView
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: AdminViewController.cellIdentifier)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: AdminViewController.cellIdentifier)
         cell.textLabel?.text = titleForCellAtIndexPath(indexPath)
         cell.detailTextLabel?.text = subtitleForCellAtIndexPath(indexPath)
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
             openFlex()
         case 1:
             openFeatureToggle()
         default:
-            UIPasteboard.generalPasteboard().string = subtitleForCellAtIndexPath(indexPath) ?? ""
+            UIPasteboard.general.string = subtitleForCellAtIndexPath(indexPath) ?? ""
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
     
     // MARK: - Private
     
     private func openFlex() {
-        FLEXManager.sharedManager().showExplorer()
+        FLEXManager.shared().showExplorer()
     }
     
     private func openFeatureToggle() {
@@ -93,7 +93,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func titleForCellAtIndexPath(indexPath: NSIndexPath) -> String {
+    private func titleForCellAtIndexPath(_ indexPath: IndexPath) -> String {
         switch indexPath.row {
         case 0:
             return "👾 FLEX"
@@ -110,7 +110,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    private func subtitleForCellAtIndexPath(indexPath: NSIndexPath) -> String {
+    private func subtitleForCellAtIndexPath(_ indexPath: IndexPath) -> String {
         let propertyNotFound = "None"
         switch indexPath.row {
         case 2:

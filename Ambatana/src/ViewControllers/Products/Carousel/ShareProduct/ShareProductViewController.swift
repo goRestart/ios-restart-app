@@ -56,11 +56,11 @@ class ShareProductViewController: BaseViewController {
 
     // MARK: - Public Methods
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeActionPressed()
     }
 
-    @IBAction func copyButtonPressed(sender: AnyObject) {
+    @IBAction func copyButtonPressed(_ sender: AnyObject) {
         viewModel.copyLink()
     }
 
@@ -89,7 +89,7 @@ class ShareProductViewController: BaseViewController {
         socialShareView.socialSharer = viewModel.socialSharer
         socialShareView.delegate = self
         socialShareView.buttonsSide = ShareProductViewController.shareButtonWidth
-        socialShareView.style = .Line
+        socialShareView.style = .line
     }
 
     private func setupGradientView() {
@@ -104,7 +104,7 @@ class ShareProductViewController: BaseViewController {
             shadowLayer.endPoint = CGPoint(x: 1, y: 0.5)
 
             shadowLayer.frame = gradientView.bounds
-            gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+            gradientView.layer.insertSublayer(shadowLayer, at: 0)
         }
     }
 }
@@ -123,7 +123,7 @@ extension ShareProductViewController: ShareProductViewModelDelegate {
     }
     
     func viewControllerShouldClose() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 

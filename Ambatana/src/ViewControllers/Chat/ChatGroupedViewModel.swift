@@ -10,41 +10,41 @@ import LGCoreKit
 import RxSwift
 
 protocol ChatGroupedViewModelDelegate: class {
-    func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel)
-    func viewModelShouldOpenSell(viewModel: ChatGroupedViewModel)
+    func viewModelShouldOpenHome(_ viewModel: ChatGroupedViewModel)
+    func viewModelShouldOpenSell(_ viewModel: ChatGroupedViewModel)
 }
 
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
-        case All = 0, Selling = 1, Buying = 2, BlockedUsers = 3
+        case all = 0, selling = 1, buying = 2, blockedUsers = 3
 
         var chatsType: ChatsType? {
             switch(self) {
-            case .All:
+            case .all:
                 return .All
-            case .Selling:
+            case .selling:
                 return .Selling
-            case .Buying:
+            case .buying:
                 return .Buying
-            case .BlockedUsers:
+            case .blockedUsers:
                 return nil
             }
         }
 
-        func editButtonText(editing: Bool) -> String {
+        func editButtonText(_ editing: Bool) -> String {
             guard !editing else { return LGLocalizedString.commonCancel }
 
             switch(self) {
-            case .All, .Selling, .Buying:
+            case .all, .selling, .buying:
                 return LGLocalizedString.chatListDelete
-            case .BlockedUsers:
+            case .blockedUsers:
                 return LGLocalizedString.chatListUnblock
             }
         }
 
         static var allValues: [Tab] {
-            return [.All, .Selling, .Buying, .BlockedUsers]
+            return [.all, .selling, .buying, .blockedUsers]
         }
     }
 
@@ -138,15 +138,15 @@ class ChatGroupedViewModel: BaseViewModel {
 
     let currentTab = Variable<Tab>(.Buying)
 
-    func showInfoBadgeAtIndex(index: Int) -> Bool {
+    func showInfoBadgeAtIndex(_ index: Int) -> Bool {
         guard let chatListVM = viewModelAtIndex(index) else { return false }
         return chatListVM.hasMessagesToRead
     }
 
-    func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
+    func titleForTabAtIndex(_ index: Int, selected: Bool) -> NSAttributedString {
         guard let tab = Tab(rawValue: index) else { return NSMutableAttributedString() }
 
-        let color: UIColor = selected ? UIColor.primaryColor : UIColor.blackColor()
+        let color: UIColor = selected ? UIColor.primaryColor : UIColor.black
 
         var titleAttributes = [String : AnyObject]()
         titleAttributes[NSForegroundColorAttributeName] = color
@@ -154,49 +154,49 @@ class ChatGroupedViewModel: BaseViewModel {
 
         let string: NSAttributedString
         switch tab {
-        case .All:
+        case .all:
             string = NSAttributedString(string: LGLocalizedString.chatListAllTitle, attributes: titleAttributes)
-        case .Buying:
+        case .buying:
             string = NSAttributedString(string: LGLocalizedString.chatListBuyingTitle, attributes: titleAttributes)
-        case .Selling:
+        case .selling:
             string = NSAttributedString(string: LGLocalizedString.chatListSellingTitle, attributes: titleAttributes)
-        case .BlockedUsers:
+        case .blockedUsers:
             string = NSAttributedString(string: LGLocalizedString.chatListBlockedUsersTitle, attributes: titleAttributes)
         }
         return string
     }
     
-    func accessibilityIdentifierForTabButtonAtIndex(index: Int) -> AccessibilityId? {
+    func accessibilityIdentifierForTabButtonAtIndex(_ index: Int) -> AccessibilityId? {
         guard let tab = Tab(rawValue: index) else { return nil }
         switch tab {
-        case .All: return .ChatListViewTabAll
-        case .Buying: return .ChatListViewTabBuying
-        case .Selling: return .ChatListViewTabSelling
-        case .BlockedUsers: return .ChatListViewTabBlockedUsers
+        case .all: return .ChatListViewTabAll
+        case .buying: return .ChatListViewTabBuying
+        case .selling: return .ChatListViewTabSelling
+        case .blockedUsers: return .ChatListViewTabBlockedUsers
         }
     }
     
-    func accessibilityIdentifierForTableViewAtIndex(index: Int) -> AccessibilityId? {
+    func accessibilityIdentifierForTableViewAtIndex(_ index: Int) -> AccessibilityId? {
         guard let tab = Tab(rawValue: index) else { return nil }
         switch tab {
-        case .All: return .ChatListViewTabAllTableView
-        case .Buying: return .ChatListViewTabBuyingTableView
-        case .Selling: return .ChatListViewTabSellingTableView
-        case .BlockedUsers: return .ChatListViewTabBlockedUsersTableView
+        case .all: return .ChatListViewTabAllTableView
+        case .buying: return .ChatListViewTabBuyingTableView
+        case .selling: return .ChatListViewTabSellingTableView
+        case .blockedUsers: return .ChatListViewTabBlockedUsersTableView
         }
     }
     
-    func blockedUserPressed(user: User) {
+    func blockedUserPressed(_ user: User) {
         let data = UserDetailData.UserAPI(user: user, source: .Chat)
         tabNavigator?.openUser(data)
     }
 
-    func oldChatListViewModelForTabAtIndex(index: Int) -> OldChatListViewModel? {
+    func oldChatListViewModelForTabAtIndex(_ index: Int) -> OldChatListViewModel? {
         guard let chatListVM = viewModelAtIndex(index) else { return nil }
         return chatListVM as? OldChatListViewModel
     }
 
-    func wsChatListViewModelForTabAtIndex(index: Int) -> WSChatListViewModel? {
+    func wsChatListViewModelForTabAtIndex(_ index: Int) -> WSChatListViewModel? {
         guard let chatListVM = viewModelAtIndex(index) else { return nil }
         return chatListVM as? WSChatListViewModel
     }
@@ -208,19 +208,19 @@ class ChatGroupedViewModel: BaseViewModel {
         currentPageViewModel.value?.reloadCurrentPagesWithCompletion(nil)
     }
 
-    func setCurrentPageEditing(editing: Bool) {
+    func setCurrentPageEditing(_ editing: Bool) {
         currentPageViewModel.value?.editing.value = editing
     }
 
 
     // MARK: - Private
 
-    private func viewModelAtIndex(index: Int) -> ChatListViewModel? {
+    private func viewModelAtIndex(_ index: Int) -> ChatListViewModel? {
         guard 0..<chatListViewModels.count ~= index else { return nil }
         return chatListViewModels[index]
     }
 
-    private func buildChatListAll(chatsType: ChatsType) -> ChatListViewModel {
+    private func buildChatListAll(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
             title: LGLocalizedString.chatListAllEmptyTitle,
@@ -245,7 +245,7 @@ class ChatGroupedViewModel: BaseViewModel {
         return chatListViewModel
     }
 
-    private func buildChatListSelling(chatsType: ChatsType) -> ChatListViewModel {
+    private func buildChatListSelling(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
             title: LGLocalizedString.chatListSellingEmptyTitle,
@@ -266,7 +266,7 @@ class ChatGroupedViewModel: BaseViewModel {
         return chatListViewModel
     }
 
-    private func buildChatListBuying(chatsType: ChatsType) -> ChatListViewModel {
+    private func buildChatListBuying(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
             title: LGLocalizedString.chatListBuyingEmptyTitle,

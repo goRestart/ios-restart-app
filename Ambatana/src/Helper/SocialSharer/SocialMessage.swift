@@ -39,7 +39,7 @@ extension SocialMessage {
     static var utmCampaignKey: String { return "utm_campaign" }
     static var utmSourceValue: String { return "ios_app" }
     
-    func addCampaignInfoToString(string: String, source: ShareSource?) -> String {
+    func addCampaignInfoToString(_ string: String, source: ShareSource?) -> String {
         guard !string.isEmpty else { return "" }
         // The share source is the medium for the deeplink
         let mediumValue = source?.rawValue ?? ""
@@ -70,7 +70,7 @@ struct ProductSocialMessage: SocialMessage {
     private let productUserName: String
     private let productTitle: String
     private let productDescription: String
-    private let imageURL: NSURL?
+    private let imageURL: URL?
     private let productId: String
     private let isMine: Bool
     static var utmCampaignValue = "product-detail-share"
@@ -95,9 +95,9 @@ struct ProductSocialMessage: SocialMessage {
 
     var nativeShareItems: [AnyObject] {
         if let shareUrl = shareUrl(.Native) {
-            return [shareUrl, fullMessage()]
+            return [shareUrl as AnyObject, fullMessage() as AnyObject]
         } else {
-            return [fullMessage()]
+            return [fullMessage() as AnyObject]
         }
     }
 
@@ -140,7 +140,7 @@ struct ProductSocialMessage: SocialMessage {
         return fbShareLinkContent(.FBMessenger)
     }
 
-    private func fbShareLinkContent(source: ShareSource) -> FBSDKShareLinkContent {
+    private func fbShareLinkContent(_ source: ShareSource) -> FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
         
         shareContent.contentTitle = title + (isMine ? "" : " " + LGLocalizedString.productSharePostedBy(productUserName))
@@ -161,7 +161,7 @@ struct ProductSocialMessage: SocialMessage {
         return twitterComposer
     }
 
-    private func fullMessageWUrl(source: ShareSource) -> String {
+    private func fullMessageWUrl(_ source: ShareSource) -> String {
         let urlString = shareUrl(source)?.absoluteString ?? ""
         return title + " " + urlString + " - " + body()
     }
@@ -178,21 +178,21 @@ struct ProductSocialMessage: SocialMessage {
         return body
     }
 
-    private func shareUrl(source: ShareSource?) -> NSURL? {
+    private func shareUrl(_ source: ShareSource?) -> URL? {
         return branchUrl(source)
     }
 
-    private func branchUrl(source: ShareSource?) -> NSURL? {
-        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
+    private func branchUrl(_ source: ShareSource?) -> URL? {
+        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() as URL? }
         let linkProperties = branchLinkProperties(source)
-        guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
-            else { return LetgoURLHelper.buildHomeURL() }
-        return NSURL(string: branchUrl)
+        guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
+            else { return LetgoURLHelper.buildHomeURL() as URL? }
+        return URL(string: branchUrl)
     }
 
-    private var letgoUrl: NSURL? {
-        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
-        return LetgoURLHelper.buildProductURL(productId: productId)
+    private var letgoUrl: URL? {
+        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() as URL? }
+        return LetgoURLHelper.buildProductURL(productId: productId) as URL?
     }
 
     private var branchObject: BranchUniversalObject {
@@ -207,7 +207,7 @@ struct ProductSocialMessage: SocialMessage {
         return branchUniversalObject
     }
 
-    private func branchLinkProperties(source: ShareSource?) -> BranchLinkProperties {
+    private func branchLinkProperties(_ source: ShareSource?) -> BranchLinkProperties {
         let linkProperties = BranchLinkProperties()
         linkProperties.feature = "product-detail-share"
         if let source = source {
@@ -232,18 +232,18 @@ struct ProductSocialMessage: SocialMessage {
 
 struct AppShareSocialMessage: SocialMessage {
 
-    private let imageUrl: NSURL?
+    private let imageUrl: URL?
     static var utmCampaignValue = "app-invite-friend"
 
     init() {
-        imageUrl = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+        imageUrl = URL(string: Constants.facebookAppInvitePreviewImageURL)
     }
 
     var nativeShareItems: [AnyObject] {
         if let shareUrl = branchUrl(.Native) {
-            return [shareUrl, LGLocalizedString.appShareMessageText]
+            return [shareUrl as AnyObject, LGLocalizedString.appShareMessageText as AnyObject]
         } else {
-            return [LGLocalizedString.appShareMessageText]
+            return [LGLocalizedString.appShareMessageText as AnyObject]
         }
     }
 
@@ -296,17 +296,17 @@ struct AppShareSocialMessage: SocialMessage {
         return twitterComposer
     }
     
-    private func fullMessageWUrl(source: ShareSource) -> String {
+    private func fullMessageWUrl(_ source: ShareSource) -> String {
         let fullMessage = LGLocalizedString.appShareMessageText
         let urlString = branchUrl(source)?.absoluteString ?? ""
         return fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
     }
     
-    private func branchUrl(source: ShareSource?) -> NSURL? {
+    private func branchUrl(_ source: ShareSource?) -> URL? {
         let linkProperties = branchLinkProperties(source)
-        guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
-            else { return LetgoURLHelper.buildHomeURL() }
-        return NSURL(string: branchUrl)
+        guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
+            else { return LetgoURLHelper.buildHomeURL() as URL? }
+        return URL(string: branchUrl)
     }
     
     private var branchObject: BranchUniversalObject {
@@ -321,7 +321,7 @@ struct AppShareSocialMessage: SocialMessage {
         return branchUniversalObject
     }
     
-    private func branchLinkProperties(source: ShareSource?) -> BranchLinkProperties {
+    private func branchLinkProperties(_ source: ShareSource?) -> BranchLinkProperties {
         let linkProperties = BranchLinkProperties()
         linkProperties.feature = AppShareSocialMessage.utmCampaignValue
         if let source = source {
@@ -349,7 +349,7 @@ struct UserSocialMessage: SocialMessage {
     static var utmCampaignValue = "profile-share"
 
     private let userName: String?
-    private let avatar: NSURL?
+    private let avatar: URL?
     private let userId: String
     private let titleText: String
     private let messageText: String
@@ -361,7 +361,7 @@ struct UserSocialMessage: SocialMessage {
         if itsMe {
             titleText = LGLocalizedString.userShareTitleTextMine
             messageText = LGLocalizedString.userShareMessageMine
-        } else if let userName = user.name where !userName.isEmpty {
+        } else if let userName = user.name, !userName.isEmpty {
             titleText = LGLocalizedString.userShareTitleTextOtherWName(userName)
             messageText = LGLocalizedString.userShareMessageOtherWName(userName)
         } else {
@@ -372,9 +372,9 @@ struct UserSocialMessage: SocialMessage {
 
     var nativeShareItems: [AnyObject] {
         if let branchUrl = branchUrl(.Native) {
-            return [branchUrl, messageText]
+            return [branchUrl as AnyObject, messageText as AnyObject]
         } else {
-            return [messageText]
+            return [messageText as AnyObject]
         }
     }
 
@@ -427,21 +427,21 @@ struct UserSocialMessage: SocialMessage {
         return twitterComposer
     }
 
-    private func fullMessageWUrl(source: ShareSource) -> String {
+    private func fullMessageWUrl(_ source: ShareSource) -> String {
         guard let urlString = branchUrl(source)?.absoluteString else {
             return messageText
         }
         return messageText.isEmpty ? urlString : messageText + ":\n" + urlString
     }
 
-    private var letgoURL: NSURL? {
-        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL()
+    private var letgoURL: URL? {
+        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL() as URL?
     }
 
-    private func branchUrl(source: ShareSource?) -> NSURL? {
+    private func branchUrl(_ source: ShareSource?) -> URL? {
         let linkProperties = branchLinkProperties(source)
-        guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties) else { return letgoURL }
-        return NSURL(string: branchUrl) ?? letgoURL
+        guard let branchUrl = branchObject.getShortUrl(with: linkProperties) else { return letgoURL }
+        return URL(string: branchUrl) ?? letgoURL
     }
 
     private var branchObject: BranchUniversalObject {
@@ -456,7 +456,7 @@ struct UserSocialMessage: SocialMessage {
         return branchUniversalObject
     }
 
-    private func branchLinkProperties(source: ShareSource?) -> BranchLinkProperties {
+    private func branchLinkProperties(_ source: ShareSource?) -> BranchLinkProperties {
         let linkProperties = BranchLinkProperties()
         linkProperties.feature = UserSocialMessage.utmCampaignValue
         if let source = source {
@@ -481,21 +481,21 @@ struct UserSocialMessage: SocialMessage {
 
 struct CommercializerSocialMessage: SocialMessage {
 
-    private let shareUrl: NSURL?
-    private let thumbUrl: NSURL?
+    private let shareUrl: URL?
+    private let thumbUrl: URL?
     static var utmCampaignValue = "product-detail-share"
 
     init(shareUrl: String, thumbUrl: String?) {
-        self.shareUrl = NSURL(string: shareUrl)
-        self.thumbUrl = NSURL(string: thumbUrl ?? "")
+        self.shareUrl = URL(string: shareUrl)
+        self.thumbUrl = URL(string: thumbUrl ?? "")
     }
 
     var nativeShareItems: [AnyObject] {
         let shareTxt = shareText(nil, includeUrl: false)
         if let shareUrl = shareUrl {
-            return [shareUrl, shareTxt]
+            return [shareUrl as AnyObject, shareTxt as AnyObject]
         } else {
-            return [shareTxt]
+            return [shareTxt as AnyObject]
         }
     }
 
@@ -554,19 +554,19 @@ struct CommercializerSocialMessage: SocialMessage {
         return completeURL(urlString, withSource: .CopyLink)
     }
 
-    private func shareText(utmSource: ShareSource?, includeUrl: Bool = true) -> String {
+    private func shareText(_ utmSource: ShareSource?, includeUrl: Bool = true) -> String {
         var shareBody = LGLocalizedString.commercializerShareMessageText
-        guard let urlString = shareUrl?.absoluteString where includeUrl else { return shareBody }
+        guard let urlString = shareUrl?.absoluteString, includeUrl else { return shareBody }
         shareBody += ":\n"
         return shareBody + completeURL(urlString, withSource: utmSource)
     }
 
-    private func completeURL(url: NSURL?, withSource source: ShareSource?) -> NSURL? {
+    private func completeURL(_ url: URL?, withSource source: ShareSource?) -> URL? {
         guard let urlString = url?.absoluteString else { return url }
-        return NSURL(string: completeURL(urlString, withSource: source))
+        return URL(string: completeURL(urlString, withSource: source))
     }
 
-    private func completeURL(url: String, withSource source: ShareSource?) -> String {
+    private func completeURL(_ url: String, withSource source: ShareSource?) -> String {
         guard let sourceValue = source?.rawValue else { return url }
         return  url + "?" + CommercializerSocialMessage.utmMediumKey + "=" + CommercializerSocialMessage.utmMediumValue +
             "&" + CommercializerSocialMessage.utmSourceKey + "=" + sourceValue

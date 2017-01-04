@@ -10,13 +10,13 @@ import Foundation
 import LGCoreKit
 
 enum ProductCarouselCellModel {
-    case ProductCell(product: Product)
+    case productCell(product: Product)
     
     init(product: Product) {
         self = .ProductCell(product: product)
     }
     
-    static func adapter(model: ProductCellModel) -> ProductCarouselCellModel? {
+    static func adapter(_ model: ProductCellModel) -> ProductCarouselCellModel? {
         switch model {
         case .ProductCell(let product):
             return ProductCarouselCellModel.ProductCell(product: product)

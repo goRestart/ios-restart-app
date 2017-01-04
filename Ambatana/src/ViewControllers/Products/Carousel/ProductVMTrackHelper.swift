@@ -30,7 +30,7 @@ class ProductVMTrackHelper {
 
 extension ProductViewModel {
 
-    func trackVisit(visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) {
+    func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) {
         trackHelper.trackVisit(visitUserAction, source: source)
     }
 
@@ -40,11 +40,11 @@ extension ProductViewModel {
 
     // MARK: Share
 
-    func trackShareStarted(shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
+    func trackShareStarted(_ shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
         trackHelper.trackShareStarted(shareType, buttonPosition: buttonPosition)
     }
 
-    func trackShareCompleted(shareType: ShareType, buttonPosition: EventParameterButtonPosition, state: SocialShareState) {
+    func trackShareCompleted(_ shareType: ShareType, buttonPosition: EventParameterButtonPosition, state: SocialShareState) {
         trackHelper.trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
     }
 }
@@ -53,21 +53,21 @@ extension ProductViewModel {
 // MARK: - Share
 
 extension ProductVMTrackHelper {
-    func trackShareStarted(shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
+    func trackShareStarted(_ shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(product, network: shareType?.trackingShareNetwork,
                                                      buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackShareCompleted(shareType: ShareType, buttonPosition: EventParameterButtonPosition, state: SocialShareState) {
+    func trackShareCompleted(_ shareType: ShareType, buttonPosition: EventParameterButtonPosition, state: SocialShareState) {
         let event: TrackerEvent?
         switch state {
-        case .Completed:
+        case .completed:
             event = TrackerEvent.productShareComplete(product, network: shareType.trackingShareNetwork,
                                                       typePage: .ProductDetail)
-        case .Failed:
+        case .failed:
             event = nil
-        case .Cancelled:
+        case .cancelled:
             event = TrackerEvent.productShareCancel(product, network: shareType.trackingShareNetwork,
                                                     typePage: .ProductDetail)
         }
@@ -82,7 +82,7 @@ extension ProductVMTrackHelper {
 
 extension ProductVMTrackHelper {
 
-    func trackVisit(visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) {
+    func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) {
         let trackerEvent = TrackerEvent.productDetailVisit(product, visitUserAction: visitUserAction, source: source)
         tracker.trackEvent(trackerEvent)
     }
@@ -107,7 +107,7 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
+    func trackMarkSoldCompleted(_ source: EventParameterSellSourceValue) {
         let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(trackerEvent)
     }
@@ -122,7 +122,7 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackChatWithSeller(source: EventParameterTypePage) {
+    func trackChatWithSeller(_ source: EventParameterTypePage) {
         let trackerEvent = TrackerEvent.productDetailOpenChat(product, typePage: source)
         tracker.trackEvent(trackerEvent)
     }
@@ -132,7 +132,7 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMessageSent(isFirstMessage: Bool, messageType: EventParameterMessageType) {
+    func trackMessageSent(_ isFirstMessage: Bool, messageType: EventParameterMessageType) {
         if isFirstMessage {
             let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
                                                               typePage: .ProductDetail)
@@ -144,12 +144,12 @@ extension ProductVMTrackHelper {
 
     }
 
-    func trackInterestedUsersBubble(number: Int, productId: String) {
+    func trackInterestedUsersBubble(_ number: Int, productId: String) {
         let interestedUsersEvent = TrackerEvent.productDetailInterestedUsers(number, productId: productId)
         tracker.trackEvent(interestedUsersEvent)
     }
 
-    func trackMoreInfoRelatedItemsComplete(itemPosition: Int) {
+    func trackMoreInfoRelatedItemsComplete(_ itemPosition: Int) {
         let event = TrackerEvent.moreInfoRelatedItemsComplete(product, itemPosition: itemPosition)
         tracker.trackEvent(event)
     }

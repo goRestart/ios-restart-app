@@ -41,7 +41,7 @@ class FilteredProductListRequester: ProductListRequester {
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
     
-    func retrieveFirstPage(completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ProductsCompletion?) {
         offset = initialOffset
         if let currentLocation = locationManager.currentLocation {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
@@ -49,7 +49,7 @@ class FilteredProductListRequester: ProductListRequester {
         }
         
         retrieve() { [weak self] result in
-            guard let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
+            guard let indexProducts = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
                 completion?(result)
                 return
@@ -63,7 +63,7 @@ class FilteredProductListRequester: ProductListRequester {
         }
     }
     
-    func retrieveNextPage(completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ProductsCompletion?) {
         retrieve() { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
@@ -72,15 +72,15 @@ class FilteredProductListRequester: ProductListRequester {
         }
     }
     
-    private func retrieve(completion: ProductsCompletion?) {
+    private func retrieve(_ completion: ProductsCompletion?) {
         productRepository.index(retrieveProductsParams, completion: completion)
     }
 
-    func isLastPage(resultCount: Int) -> Bool {
+    func isLastPage(_ resultCount: Int) -> Bool {
         return resultCount == 0
     }
 
-    func updateInitialOffset(newOffset: Int) {
+    func updateInitialOffset(_ newOffset: Int) {
         initialOffset = newOffset
     }
 
@@ -108,7 +108,7 @@ class FilteredProductListRequester: ProductListRequester {
         return filters?.selectedCategories != nil || filters?.selectedWithin != nil || filters?.distanceRadius != nil
     }
 
-    func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double {
 
         var meters = 0.0
         if let coordinates = queryCoordinates {
@@ -125,7 +125,7 @@ class FilteredProductListRequester: ProductListRequester {
 
 private extension FilteredProductListRequester {
 
-    private var queryCoordinates: LGLocationCoordinates2D? {
+    var queryCoordinates: LGLocationCoordinates2D? {
         if let coordinates = filters?.place?.location {
             return coordinates
         } else if let firstCallCoordinates = queryFirstCallCoordinates {
@@ -138,7 +138,7 @@ private extension FilteredProductListRequester {
         return nil
     }
 
-    private var retrieveProductsParams: RetrieveProductsParams {
+    var retrieveProductsParams: RetrieveProductsParams {
         var params: RetrieveProductsParams = RetrieveProductsParams()
         params.numProducts = itemsPerPage
         params.offset = offset
@@ -152,9 +152,9 @@ private extension FilteredProductListRequester {
         params.distanceType = filters?.distanceType
         if let priceRange = filters?.priceRange {
             switch priceRange {
-            case .FreePrice:
+            case .freePrice:
                 params.freePrice = true
-            case let .PriceRange(min, max):
+            case let .priceRange(min, max):
                 params.minPrice = min
                 params.maxPrice = max
             }
@@ -162,12 +162,12 @@ private extension FilteredProductListRequester {
         return params
     }
 
-    private var prependLimbo: Bool {
+    var prependLimbo: Bool {
         return isEmptyQueryAndDefaultFilters
     }
 
-    private var isEmptyQueryAndDefaultFilters: Bool {
-        if let queryString = queryString where !queryString.isEmpty { return false }
+    var isEmptyQueryAndDefaultFilters: Bool {
+        if let queryString = queryString, !queryString.isEmpty { return false }
         guard let filters = filters else { return true }
         return filters.isDefault()
     }

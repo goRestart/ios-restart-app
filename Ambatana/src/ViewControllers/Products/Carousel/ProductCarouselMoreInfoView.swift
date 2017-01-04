@@ -12,13 +12,13 @@ import RxSwift
 import LGCollapsibleLabel
 
 enum MoreInfoState {
-    case Hidden
-    case Moving
-    case Shown
+    case hidden
+    case moving
+    case shown
 }
 
 protocol ProductCarouselMoreInfoDelegate: class {
-    func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat)
+    func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat)
     func requestFocus()
     func viewControllerToShowShareOptions() -> UIViewController
 }
@@ -99,8 +99,8 @@ class ProductCarouselMoreInfoView: UIView {
         return moreInfoView(FeatureFlags.sharedInstance)
     }
 
-    static func moreInfoView(featureFlags: FeatureFlaggeable) -> ProductCarouselMoreInfoView {
-        let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)!.first as! ProductCarouselMoreInfoView
+    static func moreInfoView(_ featureFlags: FeatureFlaggeable) -> ProductCarouselMoreInfoView {
+        let view = Bundle.main.loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)!.first as! ProductCarouselMoreInfoView
         view.setupUI(featureFlags)
         view.setupStatsView()
         view.setAccessibilityIds()
@@ -112,7 +112,7 @@ class ProductCarouselMoreInfoView: UIView {
         super.init(coder: aDecoder)
     }
 
-    func setViewModel(viewModel: ProductViewModel) {
+    func setViewModel(_ viewModel: ProductViewModel) {
         self.viewModel = viewModel
         currentVmDisposeBag = DisposeBag()
         configureContent(currentVmDisposeBag)
@@ -122,7 +122,7 @@ class ProductCarouselMoreInfoView: UIView {
     }
 
     func viewWillShow() {
-        if !relatedItemsContainer.hidden {
+        if !relatedItemsContainer.isHidden {
             relatedProductsView.productId.value = viewModel?.product.value.objectId
         }
         setupMapViewIfNeeded()
@@ -157,7 +157,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     private func setupMapViewIfNeeded() {
         let container = mapExpanded ? mapViewContainerExpandable : mapViewContainer
         guard mapView.superview != container else { return }
-        setupMapView(inside: container)
+        setupMapView(inside: container!)
         guard let coordinate = viewModel?.productLocation.value else { return }
         addRegion(with: coordinate, zoomBlocker: true)
     }
@@ -173,14 +173,14 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         }
         mapView.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(mapView)
-        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Left, relatedBy: .Equal,
-            toItem: container, attribute: .Left, multiplier: 1, constant: 0))
-        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Right, relatedBy: .Equal,
-            toItem: container, attribute: .Right, multiplier: 1, constant: 0))
-        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Top, relatedBy: .Equal,
-            toItem: container, attribute: .Top, multiplier: 1, constant: 0))
-        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal,
-            toItem: container, attribute: .Bottom, multiplier: 1, constant: 8))
+        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .left, relatedBy: .equal,
+            toItem: container, attribute: .left, multiplier: 1, constant: 0))
+        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .right, relatedBy: .equal,
+            toItem: container, attribute: .right, multiplier: 1, constant: 0))
+        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .top, relatedBy: .equal,
+            toItem: container, attribute: .top, multiplier: 1, constant: 0))
+        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .bottom, relatedBy: .equal,
+            toItem: container, attribute: .bottom, multiplier: 1, constant: 8))
     }
     
     private func addMapGestures() {
@@ -197,8 +197,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     private func cleanMapView() {
         // Clean only references related to current More Info View
         mapZoomBlocker?.mapView = nil
-        if let mapViewTapGesture = mapViewTapGesture, gestures = mapView.gestureRecognizers
-            where gestures.contains(mapViewTapGesture) {
+        if let mapViewTapGesture = mapViewTapGesture, let gestures = mapView.gestureRecognizers, gestures.contains(mapViewTapGesture) {
                 mapView.removeGestureRecognizer(mapViewTapGesture)
         }
         if mapView.superview == mapViewContainer || mapView.superview == mapViewContainerExpandable {
@@ -210,18 +209,18 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         mapExpanded ? compressMap() : expandMap()
     }
 
-    private func setupMapExpanded(enabled: Bool) {
+    private func setupMapExpanded(_ enabled: Bool) {
         mapExpanded = enabled
-        mapView.zoomEnabled = enabled
-        mapView.scrollEnabled = enabled
-        mapView.pitchEnabled = enabled
+        mapView.isZoomEnabled = enabled
+        mapView.isScrollEnabled = enabled
+        mapView.isPitchEnabled = enabled
     }
 
     private func configureMapView(with viewModel: ProductViewModel?) {
         guard let coordinate = viewModel?.productLocation.value else { return }
         addRegion(with: coordinate, zoomBlocker: true)
         setupMapExpanded(false)
-        locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
+        locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
                                 radius: Constants.accurateRegionRadius)
     }
     
@@ -245,18 +244,18 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         }
         guard let mapViewContainerExpandable = mapViewContainerExpandable else { return }
         addSubview(mapViewContainerExpandable)
-        mapViewContainerExpandable.frame = convertRect(mapViewContainer.frame, fromView: scrollViewContent)
+        mapViewContainerExpandable.frame = convert(mapViewContainer.frame, from: scrollViewContent)
         layoutMapView(inside: mapViewContainerExpandable)
         
         if let locationZone = self.locationZone {
-            mapView.addOverlay(locationZone)
+            mapView.add(locationZone)
         }
         
         self.delegate?.requestFocus()
         var expandedFrame = mapViewContainerExpandable.frame
         expandedFrame.origin.y = bigMapMargin
         expandedFrame.size.height = height - bigMapBottomMargin
-        UIView.animateWithDuration(0.3, animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapViewContainerExpandable?.frame = expandedFrame
             self?.mapViewContainerExpandable?.layoutIfNeeded()
             }, completion: { [weak self] completed in
@@ -267,15 +266,15 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     func compressMap() {
         guard mapExpanded else { return }
         
-        let compressedFrame = convertRect(mapViewContainer.frame, fromView: scrollViewContent)
-        UIView.animateWithDuration(0.3, animations: { [weak self] in
+        let compressedFrame = convert(mapViewContainer.frame, from: scrollViewContent)
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapViewContainerExpandable?.frame = compressedFrame
             self?.mapViewContainerExpandable?.layoutIfNeeded()
             }, completion: { [weak self] completed in
                 guard let strongSelf = self else { return }
                 strongSelf.setupMapExpanded(false)
                 if let locationZone = strongSelf.locationZone {
-                    strongSelf.mapView.removeOverlay(locationZone)
+                    strongSelf.mapView.remove(locationZone)
                 }
                 strongSelf.layoutMapView(inside: strongSelf.mapViewContainer)
                 strongSelf.mapViewContainerExpandable?.removeFromSuperview()
@@ -286,7 +285,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         })
     }
 
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {
             let renderer = MKCircleRenderer(overlay: overlay)
             renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
@@ -298,16 +297,16 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
 extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         initialDragYposition = min(max(scrollView.contentOffset.y, 0), bottomScrollLimit)
     }
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let bottomOverScroll = max(scrollView.contentOffset.y - bottomScrollLimit, 0)
         visualEffectViewBottom.constant = -bottomOverScroll
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let topOverScroll = abs(min(0, scrollView.contentOffset.y))
         let bottomOverScroll = max(scrollView.contentOffset.y - bottomScrollLimit, 0)
         delegate?.didEndScrolling(topOverScroll, bottomOverScroll: bottomOverScroll)
@@ -322,7 +321,7 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 // MARK: - Private
 
 private extension ProductCarouselMoreInfoView {
-    func setupUI(featureFlags: FeatureFlaggeable) {
+    func setupUI(_ featureFlags: FeatureFlaggeable) {
         
         setupMapView(inside: mapViewContainer)
         mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
@@ -330,24 +329,24 @@ private extension ProductCarouselMoreInfoView {
         
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
         
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.productTitleFont
         
-        priceLabel.textColor = UIColor.whiteColor()
+        priceLabel.textColor = UIColor.white
         priceLabel.font = UIFont.productPriceFont
         
-        autoTitleLabel.textColor = UIColor.whiteColor()
+        autoTitleLabel.textColor = UIColor.white
         autoTitleLabel.font = UIFont.productTitleDisclaimersFont
         autoTitleLabel.alpha = 0.5
         
-        transTitleLabel.textColor = UIColor.whiteColor()
+        transTitleLabel.textColor = UIColor.white
         transTitleLabel.font = UIFont.productTitleDisclaimersFont
         transTitleLabel.alpha = 0.5
         
-        addressLabel.textColor = UIColor.whiteColor()
+        addressLabel.textColor = UIColor.white
         addressLabel.font = UIFont.productAddresFont
         
-        distanceLabel.textColor = UIColor.whiteColor()
+        distanceLabel.textColor = UIColor.white
         distanceLabel.font = UIFont.productDistanceFont
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
@@ -360,30 +359,30 @@ private extension ProductCarouselMoreInfoView {
 
         setupSocialShareView()
         setupRelatedItems()
-        socialShareContainer.hidden = featureFlags.relatedProductsOnMoreInfo
-        relatedItemsContainer.hidden = !featureFlags.relatedProductsOnMoreInfo
+        socialShareContainer.isHidden = featureFlags.relatedProductsOnMoreInfo
+        relatedItemsContainer.isHidden = !featureFlags.relatedProductsOnMoreInfo
 
         dragView.rounded = true
-        dragView.layer.borderColor = UIColor.white.CGColor
+        dragView.layer.borderColor = UIColor.white.cgColor
         dragView.layer.borderWidth = 1
-        dragView.backgroundColor = UIColor.clearColor()
+        dragView.backgroundColor = UIColor.clear
         
         dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
         dragViewTitle.textColor = UIColor.white
         dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
         
         [dragView, dragViewTitle, dragViewImage].forEach { view in
-            view.layer.shadowColor = UIColor.black.CGColor
-            view.layer.shadowOpacity = 0.5
-            view.layer.shadowRadius = 1
-            view.layer.shadowOffset = CGSize.zero
-            view.layer.masksToBounds = false
+            view?.layer.shadowColor = UIColor.black.cgColor
+            view?.layer.shadowOpacity = 0.5
+            view?.layer.shadowRadius = 1
+            view?.layer.shadowOffset = CGSize.zero
+            view?.layer.masksToBounds = false
         }
         
         scrollView.delegate = self
     }
 
-    private func setupStatsView() {
+    func setupStatsView() {
         statsContainerViewHeightConstraint.constant = 0.0
         statsContainerViewTopConstraint.constant = 0.0
 
@@ -392,24 +391,24 @@ private extension ProductCarouselMoreInfoView {
         statsContainerView.addSubview(statsView)
 
         statsView.translatesAutoresizingMaskIntoConstraints = false
-        let top = NSLayoutConstraint(item: statsView, attribute: .Top, relatedBy: .Equal, toItem: statsContainerView,
-                                     attribute: .Top, multiplier: 1, constant: 0)
-        let right = NSLayoutConstraint(item: statsView, attribute: .Trailing, relatedBy: .Equal, toItem: statsContainerView,
-                                       attribute: .Trailing, multiplier: 1, constant: 0)
-        let left = NSLayoutConstraint(item: statsView, attribute: .Leading, relatedBy: .Equal, toItem: statsContainerView,
-                                       attribute: .Leading, multiplier: 1, constant: 0)
-        let bottom = NSLayoutConstraint(item: statsView, attribute: .Bottom, relatedBy: .Equal, toItem: statsContainerView,
-                                     attribute: .Bottom, multiplier: 1, constant: 0)
+        let top = NSLayoutConstraint(item: statsView, attribute: .top, relatedBy: .equal, toItem: statsContainerView,
+                                     attribute: .top, multiplier: 1, constant: 0)
+        let right = NSLayoutConstraint(item: statsView, attribute: .trailing, relatedBy: .equal, toItem: statsContainerView,
+                                       attribute: .trailing, multiplier: 1, constant: 0)
+        let left = NSLayoutConstraint(item: statsView, attribute: .leading, relatedBy: .equal, toItem: statsContainerView,
+                                       attribute: .leading, multiplier: 1, constant: 0)
+        let bottom = NSLayoutConstraint(item: statsView, attribute: .bottom, relatedBy: .equal, toItem: statsContainerView,
+                                     attribute: .bottom, multiplier: 1, constant: 0)
         statsContainerView.addConstraints([top, right, left, bottom])
     }
 
-    private func setupSocialShareView() {
-        socialShareTitleLabel.textColor = UIColor.whiteColor()
+    func setupSocialShareView() {
+        socialShareTitleLabel.textColor = UIColor.white
         socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
         socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
 
         socialShareView.delegate = self
-        socialShareView.style = .Grid
+        socialShareView.style = .grid
         socialShareView.gridColumns = 5
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
@@ -418,12 +417,12 @@ private extension ProductCarouselMoreInfoView {
         }
     }
 
-    private func setupRelatedItems() {
-        relatedItemsTitle.textColor = UIColor.whiteColor()
+    func setupRelatedItems() {
+        relatedItemsTitle.textColor = UIColor.white
         relatedItemsTitle.font = UIFont.productRelatedItemsTitleFont
         relatedItemsTitle.text = LGLocalizedString.productMoreInfoRelatedTitle
 
-        relatedItemsViewMoreButton.setTitle(LGLocalizedString.productMoreInfoRelatedViewMore, forState: .Normal)
+        relatedItemsViewMoreButton.setTitle(LGLocalizedString.productMoreInfoRelatedViewMore, for: UIControlState())
         relatedItemsViewMoreButton.rx_tap.bindNext { [weak self] in
             self?.viewModel?.openRelatedItems()
         }.addDisposableTo(disposeBag)
@@ -431,17 +430,17 @@ private extension ProductCarouselMoreInfoView {
         relatedProductsView.translatesAutoresizingMaskIntoConstraints = false
         relatedItemsContainer.addSubview(relatedProductsView)
 
-        let views = [ "title" : relatedItemsTitle, "items" : relatedProductsView ]
+        let views = [ "title" : relatedItemsTitle, "items" : relatedProductsView ] as [String : Any]
         let metrics = [ "interMargin" : CGFloat(10), "margin" : CGFloat(15), "height" : ProductCarouselMoreInfoView.relatedItemsHeight]
-        relatedItemsContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[title]-interMargin-[items(height)]-margin-|",
+        relatedItemsContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[title]-interMargin-[items(height)]-margin-|",
             options: [], metrics: metrics, views: views))
-        relatedItemsContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[items]-0-|",
+        relatedItemsContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[items]-0-|",
             options: [], metrics: metrics, views: views))
 
         relatedProductsView.hasProducts.asObservable().distinctUntilChanged()
             .map { $0 ? CGFloat(1) : CGFloat(0) }
             .bindNext { [weak self] alpha in
-                UIView.animateWithDuration(0.2) {
+                UIView.animate(withDuration: 0.2) {
                     self?.relatedItemsContainer.alpha = alpha
                 }
             }.addDisposableTo(disposeBag)
@@ -452,7 +451,7 @@ private extension ProductCarouselMoreInfoView {
 
     // MARK: > Configuration (each view model)
 
-    private func configureContent(disposeBag: DisposeBag) {
+    func configureContent(_ disposeBag: DisposeBag) {
         guard let viewModel = viewModel else { return }
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
 
@@ -470,7 +469,7 @@ private extension ProductCarouselMoreInfoView {
             .addDisposableTo(disposeBag)
     }
 
-    private func configureStatsRx(disposeBag: DisposeBag) {
+    func configureStatsRx(_ disposeBag: DisposeBag) {
         guard let viewModel = viewModel else { return }
         viewModel.statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
             self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
@@ -485,10 +484,10 @@ private extension ProductCarouselMoreInfoView {
         }.addDisposableTo(disposeBag)
     }
 
-    private func configureBottomPanel() {
+    func configureBottomPanel() {
         guard let viewModel = viewModel else { return }
 
-        if !socialShareContainer.hidden {
+        if !socialShareContainer.isHidden {
             socialShareView.socialMessage = viewModel.socialMessage.value
             socialShareView.socialSharer = viewModel.socialSharer
         }
@@ -500,10 +499,10 @@ private extension ProductCarouselMoreInfoView {
 
 extension ProductCarouselMoreInfoView {
     func toggleDescriptionState() {
-        UIView.animateWithDuration(0.25) {
+        UIView.animate(withDuration: 0.25, animations: {
             self.descriptionLabel.toggleState()
             self.layoutIfNeeded()
-        }
+        }) 
     }
 }
 
@@ -520,12 +519,12 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
 // MARK: - RelatedProductsViewDelegate
 
 extension ProductCarouselMoreInfoView: RelatedProductsViewDelegate {
-    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+    func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         var finalFrame: CGRect? = nil
         if let originFrame = originFrame {
-            finalFrame = relatedItemsContainer.convertRect(originFrame, toView: self)
+            finalFrame = relatedItemsContainer.convert(originFrame, to: self)
         }
         viewModel?.relatedProductsView(view, showProduct: product, atIndex: index, productListModels: productListModels,
                                        requester: requester, thumbnailImage: thumbnailImage, originFrame: finalFrame)

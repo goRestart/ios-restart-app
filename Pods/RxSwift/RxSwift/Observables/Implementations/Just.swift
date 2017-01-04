@@ -31,8 +31,8 @@ class JustScheduledSink<O: ObserverType> : Sink<O> {
 }
 
 class JustScheduled<Element> : Producer<Element> {
-    fileprivate let _scheduler: ImmediateSchedulerType
-    fileprivate let _element: Element
+    private let _scheduler: ImmediateSchedulerType
+    private let _element: Element
 
     init(element: Element, scheduler: ImmediateSchedulerType) {
         _scheduler = scheduler

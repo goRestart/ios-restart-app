@@ -9,9 +9,9 @@
 import LGCoreKit
 
 protocol BlockedUsersListViewDelegate: class {
-    func didSelectBlockedUser(user: User)
+    func didSelectBlockedUser(_ user: User)
     func didStartUnblocking()
-    func didFinishUnblockingWithMessage(message: String?)
+    func didFinishUnblockingWithMessage(_ message: String?)
 }
 
 class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelegate {
@@ -50,31 +50,31 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
         super.setupUI()
 
         let cellNib = UINib(nibName: BlockedUsersListView.blockedUsersListCellId, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: BlockedUsersListView.blockedUsersListCellId)
+        tableView.register(cellNib, forCellReuseIdentifier: BlockedUsersListView.blockedUsersListCellId)
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = BlockedUserCell.defaultHeight
 
-        footerButton.setTitle(LGLocalizedString.chatListUnblock, forState: .Normal)
+        footerButton.setTitle(LGLocalizedString.chatListUnblock, for: UIControlState())
         footerButton.addTarget(self, action: #selector(BlockedUsersListView.unblockUsersPressed),
-                               forControlEvents: .TouchUpInside)
+                               for: .touchUpInside)
     }
 
 
     // MARK: - UITableViewDelegate & DataSource methods
 
-    override func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    override func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
         let cell = super.cellForRowAtIndexPath(indexPath)
 
         guard let user = viewModel.objectAtIndex(indexPath.row) else { return cell }
-        guard let userCell = tableView.dequeueReusableCellWithIdentifier(BlockedUsersListView.blockedUsersListCellId,
-            forIndexPath: indexPath) as? BlockedUserCell else { return cell }
+        guard let userCell = tableView.dequeueReusableCell(withIdentifier: BlockedUsersListView.blockedUsersListCellId,
+            for: indexPath) as? BlockedUserCell else { return cell }
 
-        userCell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
+        userCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithChat"
         userCell.setupCellWithUser(user, indexPath: indexPath)
         return userCell
     }
 
-    override func didSelectRowAtIndex(index: Int, editing: Bool) {
+    override func didSelectRowAtIndex(_ index: Int, editing: Bool) {
         super.didSelectRowAtIndex(index, editing: editing)
 
         guard !editing else { return }
@@ -86,15 +86,15 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
     
     // MARK: - BlockedUsersListViewModelDelegate
 
-    func didStartUnblockingUsers(viewModel: BlockedUsersListViewModel) {
+    func didStartUnblockingUsers(_ viewModel: BlockedUsersListViewModel) {
         blockedUsersListViewDelegate?.didStartUnblocking()
     }
 
-    func didFailUnblockingUsers(viewModel: BlockedUsersListViewModel) {
+    func didFailUnblockingUsers(_ viewModel: BlockedUsersListViewModel) {
         blockedUsersListViewDelegate?.didFinishUnblockingWithMessage(LGLocalizedString.unblockUserErrorGeneric)
     }
 
-    func didSucceedUnblockingUsers(viewModel: BlockedUsersListViewModel) {
+    func didSucceedUnblockingUsers(_ viewModel: BlockedUsersListViewModel) {
         blockedUsersListViewDelegate?.didFinishUnblockingWithMessage(nil)
         viewModel.reloadCurrentPagesWithCompletion(nil)
         setEditing(false)

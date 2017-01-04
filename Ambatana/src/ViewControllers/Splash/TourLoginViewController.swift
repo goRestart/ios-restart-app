@@ -39,14 +39,14 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     init(signUpViewModel: SignUpViewModel, tourLoginViewModel: TourLoginViewModel) {
         self.signUpViewModel = signUpViewModel
         self.tourLoginViewModel = tourLoginViewModel
-        super.init(viewModel: signUpViewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
+        super.init(viewModel: signUpViewModel, nibName: "TourLoginViewController", statusBarStyle: .lightContent,
+                   navBarBackgroundStyle: .transparent(substyle: .dark))
 
         self.signUpViewModel.delegate = self
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
 
-        let closeButton = UIBarButtonItem(image: UIImage(named: "ic_close"), style: .Plain, target: self,
+        let closeButton = UIBarButtonItem(image: UIImage(named: "ic_close"), style: .plain, target: self,
             action: #selector(TourLoginViewController.closeButtonPressed(_:)))
         navigationItem.leftBarButtonItem = closeButton
     }
@@ -65,11 +65,11 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         }
     }
 
-    override func viewDidFirstAppear(animated: Bool) {
+    override func viewDidFirstAppear(_ animated: Bool) {
         setupKenBurns()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         GIDSignIn.sharedInstance().uiDelegate = self
     }
@@ -82,19 +82,19 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
     // MARK: - IBActions
     
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         openNextStep()
     }
 
-    @IBAction func facebookButtonPressed(sender: AnyObject) {
+    @IBAction func facebookButtonPressed(_ sender: AnyObject) {
         signUpViewModel.connectFBButtonPressed()
     }
 
-    @IBAction func googleButtonPressed(sender: AnyObject) {
+    @IBAction func googleButtonPressed(_ sender: AnyObject) {
         signUpViewModel.connectGoogleButtonPressed()
     }
 
-    @IBAction func emailButtonPressed(sender: AnyObject) {
+    @IBAction func emailButtonPressed(_ sender: AnyObject) {
         signUpViewModel.signUpButtonPressed()
     }
 }
@@ -103,7 +103,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 // MARK: - UITextViewDelegate
 
 extension TourLoginViewController: UITextViewDelegate {
-    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
+    func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
         openInternalUrl(url)
         return false
     }
@@ -113,20 +113,20 @@ extension TourLoginViewController: UITextViewDelegate {
 // MARK: - SignUpViewModelDelegate
 
 extension TourLoginViewController: SignUpViewModelDelegate {
-    func vmOpenSignup(viewModel: SignUpLogInViewModel) {
-        let vc = SignUpLogInViewController(viewModel: viewModel, appearance: .Dark, keyboardFocus: true)
+    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
+        let vc = SignUpLogInViewController(viewModel: viewModel, appearance: .dark, keyboardFocus: true)
         vc.afterLoginAction = { [weak self] in
             self?.openNextStep()
         }
         let nav = UINavigationController(rootViewController: vc)
-        presentViewController(nav, animated: true, completion: nil)
+        present(nav, animated: true, completion: nil)
     }
 
     func vmFinish(completedLogin completed: Bool) {
         openNextStep()
     }
 
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
         // Nothing to do on onboarding. User will notice next time
         openNextStep()
     }
@@ -144,7 +144,7 @@ private extension TourLoginViewController {
             UIImage(named: "bg_4_new")
             ].flatMap{return $0}
         view.layoutIfNeeded()
-        kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
+        kenBurnsView.animate(withImages: images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
 
     func setupUI() {
@@ -156,25 +156,25 @@ private extension TourLoginViewController {
         // UI
         kenBurnsView.clipsToBounds = true
 
-        facebookButton.setStyle(.Facebook)
-        googleButton.setStyle(.Google)
-        emailButton.setStyle(.DarkField)
+        facebookButton.setStyle(.facebook)
+        googleButton.setStyle(.google)
+        emailButton.setStyle(.darkField)
         orUseEmailLabel.text = LGLocalizedString.tourOrLabel
         orUseEmailLabel.font = UIFont.smallBodyFont
         emailButton.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
 
-        footerTextView.textAlignment = .Center
+        footerTextView.textAlignment = .center
         footerTextView.delegate = self
 
         // i18n
         claimLabel.text = LGLocalizedString.tourClaimLabel
-        facebookButton.setTitle(LGLocalizedString.tourFacebookButton, forState: .Normal)
-        googleButton.setTitle(LGLocalizedString.tourGoogleButton, forState: .Normal)
-        emailButton.setTitle(LGLocalizedString.tourEmailButton, forState: .Normal)
+        facebookButton.setTitle(LGLocalizedString.tourFacebookButton, for: UIControlState())
+        googleButton.setTitle(LGLocalizedString.tourGoogleButton, for: UIControlState())
+        emailButton.setTitle(LGLocalizedString.tourEmailButton, for: UIControlState())
         footerTextView.attributedText = signUpViewModel.attributedLegalText
     }
 
-    private func adaptConstraintsToiPhone4() {
+    func adaptConstraintsToiPhone4() {
         claimLabelTopConstraint.constant = 10
         orUseEmailLabelTopConstraint.constant = 10
         emailButtonTopContraint.constant = 10
@@ -196,11 +196,11 @@ private extension TourLoginViewController {
         orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: UIColor.white)) }
     }
 
-    dynamic private func openAdminPanel() {
+    dynamic func openAdminPanel() {
         guard AdminViewController.canOpenAdminPanel() else { return }
         let admin = AdminViewController()
         let nav = UINavigationController(rootViewController: admin)
-        presentViewController(nav, animated: true, completion: nil)
+        present(nav, animated: true, completion: nil)
     }
 }
 

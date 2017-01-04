@@ -47,9 +47,9 @@ class TimerOneOffSink<O: ObserverType> : Sink<O> where O.E : SignedInteger {
 }
 
 class Timer<E: SignedInteger>: Producer<E> {
-    fileprivate let _scheduler: SchedulerType
-    fileprivate let _dueTime: RxTimeInterval
-    fileprivate let _period: RxTimeInterval?
+    private let _scheduler: SchedulerType
+    private let _dueTime: RxTimeInterval
+    private let _period: RxTimeInterval?
     
     init(dueTime: RxTimeInterval, period: RxTimeInterval?, scheduler: SchedulerType) {
         _scheduler = scheduler

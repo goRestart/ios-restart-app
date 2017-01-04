@@ -21,7 +21,7 @@ final class ProfileTabCoordinator: TabCoordinator {
         let bubbleNotificationManager =  BubbleNotificationManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
+        let viewModel = UserViewModel.myUserUserViewModel(.tabBar)
         let rootViewController = UserViewController(viewModel: viewModel)
         let featureFlags = FeatureFlags.sharedInstance
         self.init(productRepository: productRepository, userRepository: userRepository,
@@ -46,8 +46,8 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
-    func showFbAppInvite(content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate) {
-        FBSDKAppInviteDialog.showFromViewController(navigationController.visibleViewController, withContent: content, delegate: delegate)
+    func showFbAppInvite(_ content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate) {
+        FBSDKAppInviteDialog.show(from: navigationController.visibleViewController, with: content, delegate: delegate)
     }
 
     func openEditUserName() {
@@ -84,7 +84,7 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
     
     func closeSettings() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController.popViewController(animated: true)
     }
 }
 
@@ -92,38 +92,38 @@ extension ProfileTabCoordinator: SettingsNavigator {
 extension ProfileTabCoordinator: ChangeUsernameNavigator {
     
     func closeChangeUsername() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController.popViewController(animated: true)
     }
 }
 
 extension ProfileTabCoordinator: EditLocationNavigator {
     
     func closeEditLocation() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController.popViewController(animated: true)
     }
 }
 
 extension ProfileTabCoordinator: ChangePasswordNavigator {
     
     func closeChangePassword() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController.popViewController(animated: true)
     }
 }
 
 extension ProfileTabCoordinator: HelpNavigator {
     
-    func openURL(url: NSURL) {
+    func openURL(_ url: URL) {
         if #available(iOS 9.0, *) {
-            let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+            let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             svc.view.tintColor = UIColor.primaryColor
-            navigationController.presentViewController(svc, animated: true, completion: nil)
+            navigationController.present(svc, animated: true, completion: nil)
         } else {
-            UIApplication.sharedApplication().openURL(url)
+            UIApplication.shared.openURL(url)
         }
     }
     
     func closeHelp() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController.popViewController(animated: true)
     }
 }
 

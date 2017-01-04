@@ -8,19 +8,19 @@
 
 import LGCoreKit
 
-public class NotificationCellDrawerFactory {
+class NotificationCellDrawerFactory {
 
     static let estimatedRowHeight: CGFloat = 80
 
-    static func drawerForNotificationData(notification: NotificationData) -> NotificationCellDrawer {
+    static func drawerForNotificationData(_ notification: NotificationData) -> NotificationCellDrawer {
         switch notification.type {
         case .ProductFavorite:
             return ProductFavoriteNotificationCellDrawer()
-        case .ProductSold:
+        case .productSold:
             return ProductSoldNotificationCellDrawer()
         case .Rating, .RatingUpdated:
             return RatingNotificationCellDrawer()
-        case .Welcome:
+        case .welcome:
             return WelcomeNotificationCellDrawer()
         case .BuyersInterested:
             return BuyersInterestedNotificationCellDrawer()
@@ -29,7 +29,7 @@ public class NotificationCellDrawerFactory {
         }
     }
 
-    static func registerCells(tableView: UITableView) {
+    static func registerCells(_ tableView: UITableView) {
         BaseNotificationCellDrawer<NotificationCell>.registerCell(tableView)
         BaseNotificationCellDrawer<BuyersInterestedNotificationCell>.registerCell(tableView)
         WelcomeNotificationCellDrawer.registerCell(tableView)

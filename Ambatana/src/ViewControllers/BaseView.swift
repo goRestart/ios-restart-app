@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class BaseView: UIView {
+class BaseView: UIView {
 
     private var viewModel: BaseViewModel!
 
-    public var active: Bool = false {
+    open var active: Bool = false {
         didSet {
             if oldValue != active {
                 viewModel.active = active
@@ -45,7 +45,7 @@ public class BaseView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func switchViewModel(viewModel: BaseViewModel) {
+    open func switchViewModel(_ viewModel: BaseViewModel) {
         self.viewModel.active = false
         self.viewModel = viewModel
         self.viewModel.active = self.active
@@ -53,7 +53,7 @@ public class BaseView: UIView {
 
     // MARK: - Internal methods
     
-    internal func didBecomeActive(firstTime: Bool) {
+    internal func didBecomeActive(_ firstTime: Bool) {
         
     }
 
@@ -64,11 +64,11 @@ public class BaseView: UIView {
 
     // MARK: - Helper methods
 
-    func loadNibNamed(nibName: String, contentView: () -> UIView?) {
-        NSBundle.mainBundle().loadNibNamed(nibName, owner: self, options: nil)
+    func loadNibNamed(_ nibName: String, contentView: () -> UIView?) {
+        Bundle.main.loadNibNamed(nibName, owner: self, options: nil)
         guard let view = contentView() else { return }
         view.frame = bounds
-        view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         addSubview(view)
     }
 }

@@ -11,8 +11,8 @@ class SkipWhileSink<ElementType, O: ObserverType> : Sink<O>, ObserverType where 
     typealias Parent = SkipWhile<ElementType>
     typealias Element = ElementType
 
-    fileprivate let _parent: Parent
-    fileprivate var _running = false
+    private let _parent: Parent
+    private var _running = false
 
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -47,9 +47,9 @@ class SkipWhileSinkWithIndex<ElementType, O: ObserverType> : Sink<O>, ObserverTy
     typealias Parent = SkipWhile<ElementType>
     typealias Element = ElementType
 
-    fileprivate let _parent: Parent
-    fileprivate var _index = 0
-    fileprivate var _running = false
+    private let _parent: Parent
+    private var _index = 0
+    private var _running = false
 
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -84,9 +84,9 @@ class SkipWhile<Element>: Producer<Element> {
     typealias Predicate = (Element) throws -> Bool
     typealias PredicateWithIndex = (Element, Int) throws -> Bool
 
-    fileprivate let _source: Observable<Element>
-    fileprivate let _predicate: Predicate!
-    fileprivate let _predicateWithIndex: PredicateWithIndex!
+    private let _source: Observable<Element>
+    private let _predicate: Predicate!
+    private let _predicateWithIndex: PredicateWithIndex!
 
     init(source: Observable<Element>, predicate: @escaping Predicate) {
         _source = source

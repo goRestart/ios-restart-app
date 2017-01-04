@@ -14,9 +14,9 @@ class TakeWhileSink<ElementType, O: ObserverType>
     typealias Parent = TakeWhile<ElementType>
     typealias Element = ElementType
 
-    fileprivate let _parent: Parent
+    private let _parent: Parent
 
-    fileprivate var _running = true
+    private var _running = true
 
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -58,10 +58,10 @@ class TakeWhileSinkWithIndex<ElementType, O: ObserverType>
     typealias Parent = TakeWhile<ElementType>
     typealias Element = ElementType
     
-    fileprivate let _parent: Parent
+    private let _parent: Parent
     
-    fileprivate var _running = true
-    fileprivate var _index = 0
+    private var _running = true
+    private var _index = 0
     
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -102,9 +102,9 @@ class TakeWhile<Element>: Producer<Element> {
     typealias Predicate = (Element) throws -> Bool
     typealias PredicateWithIndex = (Element, Int) throws -> Bool
 
-    fileprivate let _source: Observable<Element>
-    fileprivate let _predicate: Predicate!
-    fileprivate let _predicateWithIndex: PredicateWithIndex!
+    private let _source: Observable<Element>
+    private let _predicate: Predicate!
+    private let _predicateWithIndex: PredicateWithIndex!
 
     init(source: Observable<Element>, predicate: @escaping Predicate) {
         _source = source

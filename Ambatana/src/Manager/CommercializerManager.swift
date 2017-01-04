@@ -18,7 +18,7 @@ struct CommercializerData {
 }
 
 private enum CommercializerManagerStatus {
-    case PushRetrieval, CheckingPending, Idle
+    case pushRetrieval, checkingPending, idle
 }
 
 class CommercializerManager {
@@ -33,7 +33,7 @@ class CommercializerManager {
     private let sessionManager: SessionManager
     private let disposeBag = DisposeBag()
 
-    private var status = CommercializerManagerStatus.Idle
+    private var status = CommercializerManagerStatus.idle
 
     convenience init() {
         self.init(commercializerRepository: Core.commercializerRepository, sessionManager: Core.sessionManager)
@@ -45,7 +45,7 @@ class CommercializerManager {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - Public methods
@@ -56,7 +56,7 @@ class CommercializerManager {
             switch deeplink.action {
             case .CommercializerReady(let productId, let templateId):
                 //If user is inside the app, show preview
-                let applicationActive = UIApplication.sharedApplication().applicationState == .Active
+                let applicationActive = UIApplication.shared.applicationState == .active
                 self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
                     showPreview: applicationActive, isMyVideo: true, fromDeepLink: true)
             case .Commercializer(let productId, let templateId):
@@ -68,9 +68,9 @@ class CommercializerManager {
 
         loadPendingTemplates()
 
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
             selector: #selector(CommercializerManager.applicationDidBecomeActive),
-            name: UIApplicationDidBecomeActiveNotification, object: nil)
+            name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
 
         sessionManager.sessionEvents.filter { $0.isLogin }.bindNext{ [weak self] _ in
             self?.loadPendingTemplates()
@@ -78,7 +78,7 @@ class CommercializerManager {
         }.addDisposableTo(disposeBag)
     }
 
-    func commercializerCreatedAndPending(productId productId: String, templateId: String) {
+    func commercializerCreatedAndPending(productId: String, templateId: String) {
         if var templatesFromProductId = pendingTemplates[productId] {
             templatesFromProductId.append(templateId)
             pendingTemplates = [productId: templatesFromProductId]
@@ -88,7 +88,7 @@ class CommercializerManager {
         savePendingTemplates()
     }
 
-    func commercializerReadyInitialDeepLink(productId productId: String, templateId: String) {
+    func commercializerReadyInitialDeepLink(productId: String, templateId: String) {
         //It comes from push notification or click on deeplink clicked by the user, so don't show preview
         checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId], showPreview: false,
                                           isMyVideo: true, fromDeepLink: true)
@@ -104,28 +104,28 @@ class CommercializerManager {
 
     // MARK: - Private methods
 
-    private func checkCommercializerAndShowPreview(productId productId: String, templateIds: [String],
+    private func checkCommercializerAndShowPreview(productId: String, templateIds: [String],
                                                              showPreview: Bool, isMyVideo: Bool, fromDeepLink: Bool) {
-        guard status == .Idle else { return }
+        guard status == .idle else { return }
 
-        status = fromDeepLink ? .PushRetrieval : .CheckingPending
+        status = fromDeepLink ? .pushRetrieval : .checkingPending
         commercializerRepository.index(productId) { [weak self] result in
             defer { self?.status = .Idle }
             guard let commercializers = result.value else { return }
             let filtered = commercializers.filter { commercializer in
-                guard let templateId = commercializer.templateId where commercializer.status == .Ready
+                guard let templateId = commercializer.templateId, commercializer.status == .Ready
                     else { return false }
                 return templateIds.contains(templateId)
             }
 
             //If there are several ready just take one
-            guard let commercializer = filtered.first, templateId = commercializer.templateId else { return }
+            guard let commercializer = filtered.first, let templateId = commercializer.templateId else { return }
             self?.commercializerReady(productId: productId, templateId: templateId, commercializer: commercializer,
                                       showPreview: showPreview, isMyVideo: isMyVideo)
         }
     }
 
-    private func commercializerReady(productId productId: String, templateId: String, commercializer: Commercializer,
+    private func commercializerReady(productId: String, templateId: String, commercializer: Commercializer,
                                                showPreview: Bool, isMyVideo: Bool) {
         //Clean up all other pending templates
         pendingTemplates = [:]
@@ -140,7 +140,7 @@ class CommercializerManager {
     private func refreshPendingTemplates() {
         guard Core.sessionManager.loggedIn else { return }
 
-        guard let productId = pendingTemplates.keys.first, templates = pendingTemplates[productId] else { return }
+        guard let productId = pendingTemplates.keys.first, let templates = pendingTemplates[productId] else { return }
         checkCommercializerAndShowPreview(productId: productId, templateIds: templates, showPreview: true,
                                           isMyVideo: true, fromDeepLink: false)
     }

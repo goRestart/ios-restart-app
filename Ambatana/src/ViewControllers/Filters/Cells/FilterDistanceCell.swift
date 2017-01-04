@@ -10,7 +10,7 @@ import UIKit
 import LGCoreKit
 
 protocol FilterDistanceCellDelegate: class {
-    func filterDistanceChanged(filterDistanceCell: FilterDistanceCell)
+    func filterDistanceChanged(_ filterDistanceCell: FilterDistanceCell)
 }
 
 
@@ -53,7 +53,7 @@ class FilterDistanceCell: UICollectionViewCell {
     }
     
     // MARK: - Public methods
-    func setupWithDistance(initialDistance: Int) {
+    func setupWithDistance(_ initialDistance: Int) {
 
         layoutIfNeeded()
         
@@ -68,16 +68,16 @@ class FilterDistanceCell: UICollectionViewCell {
     
     // MARK: - Internal methods
 
-    @IBAction func sliderDidStart(sender: UISlider) {
+    @IBAction func sliderDidStart(_ sender: UISlider) {
         //Highlighted state
-        closeIcon.highlighted = true
-        farIcon.highlighted = true
+        closeIcon.isHighlighted = true
+        farIcon.isHighlighted = true
     }
     
-    @IBAction func sliderDidEnd(sender: UISlider) {
+    @IBAction func sliderDidEnd(_ sender: UISlider) {
         //Highlighted state
-        closeIcon.highlighted = false
-        farIcon.highlighted = false
+        closeIcon.isHighlighted = false
+        farIcon.isHighlighted = false
         
         //Position stick to some values
         let index = Int(slider.value + 0.5)
@@ -86,7 +86,7 @@ class FilterDistanceCell: UICollectionViewCell {
         delegate?.filterDistanceChanged(self)
     }
     
-    @IBAction func sliderValueChanged(sender: UISlider) {
+    @IBAction func sliderValueChanged(_ sender: UISlider) {
         let percent = sender.value / sender.maximumValue
         updateTipPosition(percent)
         updateTipLabel()
@@ -112,13 +112,13 @@ class FilterDistanceCell: UICollectionViewCell {
             item.translatesAutoresizingMaskIntoConstraints = false
             marksContainer.addSubview(item)
             
-            let horizontalConstraint = NSLayoutConstraint(item: item, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: marksContainer, attribute: NSLayoutAttribute.Trailing, multiplier: xPercent, constant: 0)
+            let horizontalConstraint = NSLayoutConstraint(item: item, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: marksContainer, attribute: NSLayoutAttribute.trailing, multiplier: xPercent, constant: 0)
             marksContainer.addConstraint(horizontalConstraint)
-            let verticalConstraint = NSLayoutConstraint(item: item, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: marksContainer, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
+            let verticalConstraint = NSLayoutConstraint(item: item, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: marksContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
             marksContainer.addConstraint(verticalConstraint)
-            let widthConstraint = NSLayoutConstraint.constraintsWithVisualFormat("H:[item(==1)]", options: NSLayoutFormatOptions(), metrics: nil, views: ["item":item])
+            let widthConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:[item(==1)]", options: NSLayoutFormatOptions(), metrics: nil, views: ["item":item])
             item.addConstraints(widthConstraint)
-            let heightConstraint = NSLayoutConstraint.constraintsWithVisualFormat("V:[item(==\(marksContainer.frame.size.height))]", options: NSLayoutFormatOptions(), metrics: nil, views: ["item":item])
+            let heightConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:[item(==\(marksContainer.frame.size.height))]", options: NSLayoutFormatOptions(), metrics: nil, views: ["item":item])
             item.addConstraints(heightConstraint)
             item.backgroundColor = UIColor(rgb: 0xb6b6b6)
         }
@@ -137,18 +137,18 @@ class FilterDistanceCell: UICollectionViewCell {
         distanceLabel.accessibilityId = .FilterDistanceLabel
     }
 
-    private func setupInPosition(position: Int){
+    private func setupInPosition(_ position: Int){
         slider.setValue(Float(position), animated: true)
         let percent = slider.value / slider.maximumValue
         updateTipPosition(percent)
         updateTipLabel()
     }
     
-    private func updateTipPosition(percentage: Float) {
+    private func updateTipPosition(_ percentage: Float) {
         distanceTipCenter.constant = sliderCenterPosition(percentage)
     }
     
-    private func sliderCenterPosition(percentage: Float) -> CGFloat {
+    private func sliderCenterPosition(_ percentage: Float) -> CGFloat {
         //26 is the size of slider button
         return ((marksContainer.frame.size.width-26) * CGFloat(percentage)) + 13
     }

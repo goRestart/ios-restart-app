@@ -30,13 +30,13 @@ class FilterSingleCheckCell: UICollectionViewCell {
         self.resetUI()
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         get {
-            return super.selected
+            return super.isSelected
         }
         set {
-            super.selected = newValue
-            self.tickIcon.hidden = !newValue
+            super.isSelected = newValue
+            self.tickIcon.isHidden = !newValue
         }
     }
     
@@ -49,9 +49,9 @@ class FilterSingleCheckCell: UICollectionViewCell {
     
     // Resets the UI to the initial state
     private func resetUI() {
-        tickIcon.hidden = true
+        tickIcon.isHidden = true
         titleLabel.text = ""
-        bottomSeparator.hidden = true
+        bottomSeparator.isHidden = true
     }
 
     private func setAccessibilityIds() {

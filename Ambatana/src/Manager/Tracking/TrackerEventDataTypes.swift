@@ -370,62 +370,62 @@ public enum EventParameterMessageType: String {
 
 public enum EventParameterLoginError {
     
-    case Network
-    case Internal(description: String)
-    case Unauthorized
-    case NotFound
-    case Forbidden
-    case InvalidEmail
-    case NonExistingEmail
-    case InvalidPassword
-    case InvalidUsername
-    case UserNotFoundOrWrongPassword
-    case EmailTaken
-    case PasswordMismatch
-    case UsernameTaken
-    case TermsNotAccepted
-    case TooManyRequests
-    case Scammer
-    case BlacklistedDomain
-    case BadRequest
+    case network
+    case `internal`(description: String)
+    case unauthorized
+    case notFound
+    case forbidden
+    case invalidEmail
+    case nonExistingEmail
+    case invalidPassword
+    case invalidUsername
+    case userNotFoundOrWrongPassword
+    case emailTaken
+    case passwordMismatch
+    case usernameTaken
+    case termsNotAccepted
+    case tooManyRequests
+    case scammer
+    case blacklistedDomain
+    case badRequest
 
     public var description: String {
         switch self {
-        case .Network:
+        case .network:
             return "Network"
-        case .Internal:
+        case .internal:
             return "Internal"
-        case .Unauthorized:
+        case .unauthorized:
             return "Unauthorized"
-        case .NotFound:
+        case .notFound:
             return "NotFound"
-        case .Forbidden:
+        case .forbidden:
             return "Forbidden"
-        case .InvalidEmail:
+        case .invalidEmail:
             return "InvalidEmail"
-        case .NonExistingEmail:
+        case .nonExistingEmail:
             return "NonExistingEmail"
-        case .InvalidPassword:
+        case .invalidPassword:
             return "InvalidPassword"
-        case .InvalidUsername:
+        case .invalidUsername:
             return "InvalidUsername"
-        case .UserNotFoundOrWrongPassword:
+        case .userNotFoundOrWrongPassword:
             return "UserNotFoundOrWrongPassword"
-        case .EmailTaken:
+        case .emailTaken:
             return "EmailTaken"
-        case .PasswordMismatch:
+        case .passwordMismatch:
             return "PasswordMismatch"
-        case .UsernameTaken:
+        case .usernameTaken:
             return "UsernameTaken"
-        case .TermsNotAccepted:
+        case .termsNotAccepted:
             return "TermsNotAccepted"
-        case .TooManyRequests:
+        case .tooManyRequests:
             return "TooManyRequests"
-        case .Scammer:
+        case .scammer:
             return "Scammer"
-        case .BlacklistedDomain:
+        case .blacklistedDomain:
             return "BlacklistedDomain"
-        case .BadRequest:
+        case .badRequest:
             return "BadRequest"
         }
 
@@ -433,37 +433,37 @@ public enum EventParameterLoginError {
 
     public var details: String? {
         switch self {
-        case let .Internal(description):
+        case let .internal(description):
             return description
-        case .Network, .Unauthorized, .NotFound, .Forbidden, .InvalidEmail, .NonExistingEmail, .InvalidPassword,
-             .InvalidUsername, .UserNotFoundOrWrongPassword, .EmailTaken, .PasswordMismatch, .UsernameTaken,
-             .TermsNotAccepted, .TooManyRequests, .Scammer, BlacklistedDomain, .BadRequest:
+        case .network, .unauthorized, .notFound, .forbidden, .invalidEmail, .nonExistingEmail, .invalidPassword,
+             .invalidUsername, .userNotFoundOrWrongPassword, .emailTaken, .passwordMismatch, .usernameTaken,
+             .termsNotAccepted, .tooManyRequests, .scammer, .blacklistedDomain, .badRequest:
             return nil
         }
     }
 }
 
 public enum EventParameterPostProductError {
-    case Network
-    case Internal
-    case ServerError(code: Int?)
+    case network
+    case `internal`
+    case serverError(code: Int?)
 
     var description: String {
         switch self {
-        case .Network:
+        case .network:
             return "product-sell-network"
-        case .Internal:
+        case .internal:
             return "product-sell-internal"
-        case .ServerError:
+        case .serverError:
             return "product-sell-server-error"
         }
     }
 
     var details: Int? {
         switch self {
-        case .Network, .Internal:
+        case .network, .internal:
             return nil
-        case let .ServerError(errorCode):
+        case let .serverError(errorCode):
             return errorCode
         }
     }
@@ -616,17 +616,17 @@ public enum EventParameterRelatedShownReason: String {
 
     init(chatInfoStatus: ChatInfoViewStatus) {
         switch chatInfoStatus {
-        case .Forbidden:
+        case .forbidden:
             self = .Forbidden
-        case .Blocked, .BlockedBy:
+        case .blocked, .blockedBy:
             self = .Unanswered48h
-        case .ProductDeleted:
+        case .productDeleted:
             self = .ProductDeleted
-        case .ProductSold:
+        case .productSold:
             self = .ProductSold
-        case .UserPendingDelete, .UserDeleted:
+        case .userPendingDelete, .userDeleted:
             self = .UserDeleted
-        case .Available:
+        case .available:
             self = .Unanswered48h
         }
     }
@@ -657,34 +657,34 @@ public struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParams(source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
-        params[.LoginSource] = source.rawValue
+    internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
+        params[.LoginSource] = source.rawValue as AnyObject?
         if let rememberedAccount = rememberedAccount {
-            params[.LoginRememberedAccount] = rememberedAccount
+            params[.LoginRememberedAccount] = rememberedAccount as AnyObject?
         }
     }
     
-    internal mutating func addProductParams(product: Product) {
-        params[.ProductId] = product.objectId
-        params[.ProductLatitude] = product.location.latitude
-        params[.ProductLongitude] = product.location.longitude
-        params[.ProductPrice] = product.price.value
-        params[.ProductCurrency] = product.currency.code
-        params[.CategoryId] = product.category.rawValue
+    internal mutating func addProductParams(_ product: Product) {
+        params[.ProductId] = product.objectId as AnyObject?
+        params[.ProductLatitude] = product.location.latitude as AnyObject?
+        params[.ProductLongitude] = product.location.longitude as AnyObject?
+        params[.ProductPrice] = product.price.value as AnyObject?
+        params[.ProductCurrency] = product.currency.code as AnyObject?
+        params[.CategoryId] = product.category.rawValue as AnyObject?
         params[.ProductType] = product.user.isDummy ?
-            EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-        params[.UserToId] = product.user.objectId
+            EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue as AnyObject?
+        params[.UserToId] = product.user.objectId as AnyObject?
     }
     
-    internal mutating func addChatProductParams(product: ChatProduct) {
-        params[.ProductId] = product.objectId
-        params[.ProductPrice] = product.price.value
-        params[.ProductCurrency] = product.currency.code
-        params[.ProductType] = EventParameterProductItemType.Real.rawValue
+    internal mutating func addChatProductParams(_ product: ChatProduct) {
+        params[.ProductId] = product.objectId as AnyObject?
+        params[.ProductPrice] = product.price.value as AnyObject?
+        params[.ProductCurrency] = product.currency.code as AnyObject?
+        params[.ProductType] = EventParameterProductItemType.Real.rawValue as AnyObject?
     }
     
-    internal mutating func addUserParams(user: User?) {
-        params[.UserToId] = user?.objectId
+    internal mutating func addUserParams(_ user: User?) {
+        params[.UserToId] = user?.objectId as AnyObject?
     }
 
     internal subscript(paramName: EventParameterName) -> AnyObject? {

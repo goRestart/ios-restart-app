@@ -9,24 +9,24 @@
 import LGCoreKit
 
 enum NotificationDataType {
-    case Welcome(city: String?)
-    case ProductFavorite(product: NotificationProduct, user: NotificationUser)
-    case ProductSold(productImage: String?)
-    case Rating(user: NotificationUser)
-    case RatingUpdated(user: NotificationUser)
-    case BuyersInterested(product: NotificationProduct, buyers: [NotificationUser])
-    case ProductSuggested(product: NotificationProduct, seller: NotificationUser)
+    case welcome(city: String?)
+    case productFavorite(product: NotificationProduct, user: NotificationUser)
+    case productSold(productImage: String?)
+    case rating(user: NotificationUser)
+    case ratingUpdated(user: NotificationUser)
+    case buyersInterested(product: NotificationProduct, buyers: [NotificationUser])
+    case productSuggested(product: NotificationProduct, seller: NotificationUser)
 }
 
 struct NotificationData {
     let id: String?
     let type: NotificationDataType
-    let date: NSDate
+    let date: Date
     let isRead: Bool
     var primaryAction: (() -> Void)?
     let primaryActionCompleted: Bool?
 
-    init(id: String?, type: NotificationDataType, date: NSDate, isRead: Bool,
+    init(id: String?, type: NotificationDataType, date: Date, isRead: Bool,
          primaryAction: (() -> Void)?, primaryActionCompleted: Bool? = nil) {
         self.id = id
         self.type = type

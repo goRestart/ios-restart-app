@@ -6,12 +6,12 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-extension NSLocale {
+extension Locale {
     var lg_countryCode: String {
         if #available(iOS 10.0, *) {
-            return (countryCode ?? "").lowercaseString
+            return (countryCode ?? "").lowercased()
         } else {
-            return (objectForKey(NSLocaleCountryCode) as? String ?? "").lowercaseString
+            return (objectForKey(NSLocaleCountryCode) as? String ?? "").lowercased()
         }
     }
 }

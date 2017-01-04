@@ -45,7 +45,7 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        button.setStyle(.Primary(fontSize: .Small))
+        button.setStyle(.primary(fontSize: .small))
     }
 }
 
@@ -53,22 +53,22 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
 // MARK: - Public methods
 
 extension ChatDisclaimerCell {
-    func showAvatar(show: Bool) {
+    func showAvatar(_ show: Bool) {
         hideImageAndTitle(!show)
     }
 
-    func setMessage(message: NSAttributedString) {
+    func setMessage(_ message: NSAttributedString) {
         messageLabel.attributedText = message
     }
 
-    func setButton(title title: String?) {
-        button.setTitle(title, forState: .Normal)
-        hideButton(title == nil || button.hidden)
+    func setButton(title: String?) {
+        button.setTitle(title, for: UIControlState())
+        hideButton(title == nil || button.isHidden)
     }
 
-    func setButton(action action: (() -> Void)?) {
+    func setButton(action: (() -> Void)?) {
         buttonAction = action
-        hideButton(action == nil || button.hidden)
+        hideButton(action == nil || button.isHidden)
     }
 }
 
@@ -80,17 +80,17 @@ private extension ChatDisclaimerCell {
         backgroundCellView.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
         backgroundCellView.layer.borderWidth = 1
-        backgroundCellView.layer.borderColor = UIColor.whiteColor().CGColor
+        backgroundCellView.layer.borderColor = UIColor.white.cgColor
 
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.bigBodyFont
-        button.setStyle(.Primary(fontSize: .Small))
+        button.setStyle(.primary(fontSize: .small))
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: ChatDisclaimerCell.buttonHContentInset,
                                                 bottom: 0, right: ChatDisclaimerCell.buttonHContentInset)
 
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.mainScreen().scale
+        layer.rasterizationScale = UIScreen.main.scale
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
         addGestureRecognizer(tap)
@@ -108,17 +108,17 @@ private extension ChatDisclaimerCell {
         buttonAction?()
     }
 
-    func hideImageAndTitle(hide: Bool) {
+    func hideImageAndTitle(_ hide: Bool) {
         backgroundTopConstraint?.constant = hide ? 0 : ChatDisclaimerCell.backgroundWithImageTop
         titleTopConstraint?.constant = hide ? ChatDisclaimerCell.titleInvisibleTop : ChatDisclaimerCell.titleVisibleTop
-        avatarImageView.hidden = hide
+        avatarImageView.isHidden = hide
         titleLabel.text = hide ? nil : LGLocalizedString.chatDisclaimerLetgoTeam
     }
     
-    func hideButton(hide: Bool) {
+    func hideButton(_ hide: Bool) {
         buttonHeightConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleHeight
         buttonBottomConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleBottom
-        button.hidden = hide
+        button.isHidden = hide
     }
 }
 

@@ -34,7 +34,7 @@ class SettingsCell: UITableViewCell, ReusableCell {
         }
     }
 
-    func setupWithSetting(setting: LetGoSetting) {
+    func setupWithSetting(_ setting: LetGoSetting) {
         label.text = setting.title
         label.textColor = setting.textColor
         nameLabel.text = setting.textValue
@@ -42,9 +42,9 @@ class SettingsCell: UITableViewCell, ReusableCell {
         if let imageUrl = setting.imageURL {
             iconImageView.lg_setImageWithURL(imageUrl)
         }
-        iconImageView.contentMode = setting.imageRounded ? .ScaleAspectFill : .Center
+        iconImageView.contentMode = setting.imageRounded ? .scaleAspectFill : .center
         iconImageView.rounded = setting.imageRounded
-        disclosureImg.hidden = !setting.showsDisclosure
+        disclosureImg.isHidden = !setting.showsDisclosure
 
 
     }
@@ -63,55 +63,55 @@ class SettingsCell: UITableViewCell, ReusableCell {
 private extension LetGoSetting {
     var title: String {
         switch (self) {
-        case .InviteFbFriends:
+        case .inviteFbFriends:
             return LGLocalizedString.settingsInviteFacebookFriendsButton
-        case .ChangePhoto:
+        case .changePhoto:
             return LGLocalizedString.settingsChangeProfilePictureButton
-        case .ChangeUsername:
+        case .changeUsername:
             return LGLocalizedString.settingsChangeUsernameButton
-        case .ChangeLocation:
+        case .changeLocation:
             return LGLocalizedString.settingsChangeLocationButton
-        case .CreateCommercializer:
+        case .createCommercializer:
             return LGLocalizedString.commercializerCreateFromSettings
-        case .ChangePassword:
+        case .changePassword:
             return LGLocalizedString.settingsChangePasswordButton
-        case .MarketingNotifications:
+        case .marketingNotifications:
             return LGLocalizedString.settingsMarketingNotificationsSwitch
-        case .Help:
+        case .help:
             return LGLocalizedString.settingsHelpButton
-        case .LogOut:
+        case .logOut:
             return LGLocalizedString.settingsLogoutButton
-        case .VersionInfo:
+        case .versionInfo:
             return ""
         }
     }
 
     var image: UIImage? {
         switch (self) {
-        case .InviteFbFriends:
+        case .inviteFbFriends:
             return UIImage(named: "ic_setting_share_fb")
-        case .ChangeUsername:
+        case .changeUsername:
             return UIImage(named: "ic_setting_name")
-        case .ChangeLocation:
+        case .changeLocation:
             return UIImage(named: "ic_setting_location")
-        case .CreateCommercializer:
+        case .createCommercializer:
             return UIImage(named: "ic_setting_create_commercial")
-        case .ChangePassword:
+        case .changePassword:
             return UIImage(named: "ic_setting_password")
-        case .MarketingNotifications:
+        case .marketingNotifications:
             return UIImage(named: "ic_setting_notifications")
-        case .Help:
+        case .help:
             return UIImage(named: "ic_setting_help")
-        case .LogOut, .VersionInfo:
+        case .logOut, .versionInfo:
             return nil
-        case let .ChangePhoto(placeholder,_):
+        case let .changePhoto(placeholder,_):
             return placeholder
         }
     }
 
-    var imageURL: NSURL? {
+    var imageURL: URL? {
         switch self {
-        case let .ChangePhoto(_,avatarUrl):
+        case let .changePhoto(_,avatarUrl):
             return avatarUrl
         default:
             return nil
@@ -120,7 +120,7 @@ private extension LetGoSetting {
 
     var imageRounded: Bool {
         switch self {
-        case .ChangePhoto:
+        case .changePhoto:
             return true
         default:
             return false
@@ -129,20 +129,20 @@ private extension LetGoSetting {
 
     var textColor: UIColor {
         switch (self) {
-        case .LogOut:
-            return UIColor.lightGrayColor()
-        case .CreateCommercializer:
+        case .logOut:
+            return UIColor.lightGray
+        case .createCommercializer:
             return UIColor.primaryColor
         default:
-            return UIColor.darkGrayColor()
+            return UIColor.darkGray
         }
     }
 
     var textValue: String? {
         switch self {
-        case let .ChangeUsername(name):
+        case let .changeUsername(name):
             return name
-        case let .ChangeLocation(location):
+        case let .changeLocation(location):
             return location
         default:
             return nil
@@ -151,7 +151,7 @@ private extension LetGoSetting {
 
     var showsDisclosure: Bool {
         switch self {
-        case .LogOut, .MarketingNotifications:
+        case .logOut, .marketingNotifications:
             return false
         default:
             return true
@@ -160,7 +160,7 @@ private extension LetGoSetting {
 
     var switchMode: Bool {
         switch self {
-        case .MarketingNotifications:
+        case .marketingNotifications:
             return true
         default:
             return false

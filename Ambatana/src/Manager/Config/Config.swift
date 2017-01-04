@@ -10,10 +10,10 @@ import Alamofire
 import Argo
 import LGCoreKit
 
-public class Config: ResponseObjectSerializable {
+class Config: ResponseObjectSerializable {
 
     // Constant
-    public static let currentVersionInfoJSONKey = "currentVersionInfo"
+    open static let currentVersionInfoJSONKey = "currentVersionInfo"
     private static let buildNumberJSONKey = "buildNumber"
     private static let forceUpdateVersionsJSONKey = "forceUpdateVersions"
     private static let configURLJSONKey = "configURL"
@@ -22,12 +22,12 @@ public class Config: ResponseObjectSerializable {
     private static let myMessagesCountJSONKey = "myMessagesCountForRating"
     private static let otherMessagesCountJSONKey = "otherMessagesCountForRating"
 
-    public private(set) var buildNumber : Int
-    public private(set) var forceUpdateVersions : [Int]
-    public private(set) var configURL : String
-    public private(set) var quadKeyZoomLevel: Int
-    public private(set) var myMessagesCountForRating: Int    // # of messages I must have sent to be able to rate an user
-    public private(set) var otherMessagesCountForRating: Int // # of messages another user must have sent to me to be able to rate him
+    open private(set) var buildNumber : Int
+    open private(set) var forceUpdateVersions : [Int]
+    open private(set) var configURL : String
+    open private(set) var quadKeyZoomLevel: Int
+    open private(set) var myMessagesCountForRating: Int    // # of messages I must have sent to be able to rate an user
+    open private(set) var otherMessagesCountForRating: Int // # of messages another user must have sent to me to be able to rate him
 
 
     // MARK : - Lifecycle
@@ -49,13 +49,13 @@ public class Config: ResponseObjectSerializable {
         self.otherMessagesCountForRating = otherMessagesCountForRating
     }
 
-    public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
+    public required convenience init?(response: HTTPURLResponse, representation: AnyObject) {
 
         let json = JSON(representation)
         self.init(json: json)
     }
 
-    public required convenience init?(data: NSData) {
+    public required convenience init?(data: Data) {
         guard let json = JSON.parse(data: data) else {
             return nil
         }
@@ -94,24 +94,24 @@ public class Config: ResponseObjectSerializable {
 
     // MARK : - Public Methods
 
-    public func jsonRepresentation() -> AnyObject {
+    open func jsonRepresentation() -> AnyObject {
 
         var tmpFinalDic : [String:AnyObject] = [:]
         var tmpCurrentVersionDic : [String:AnyObject] = [:]
         var tmpUserRatingDic : [String:AnyObject] = [:]
 
-        tmpCurrentVersionDic[Config.buildNumberJSONKey] = buildNumber
-        tmpCurrentVersionDic[Config.forceUpdateVersionsJSONKey] = forceUpdateVersions
+        tmpCurrentVersionDic[Config.buildNumberJSONKey] = buildNumber as AnyObject?
+        tmpCurrentVersionDic[Config.forceUpdateVersionsJSONKey] = forceUpdateVersions as AnyObject?
 
-        tmpFinalDic[Config.currentVersionInfoJSONKey] = tmpCurrentVersionDic
-        tmpFinalDic[Config.configURLJSONKey] = configURL
-        tmpFinalDic[Config.quadKeyZoomLevelJSONKey] = quadKeyZoomLevel
+        tmpFinalDic[Config.currentVersionInfoJSONKey] = tmpCurrentVersionDic as AnyObject?
+        tmpFinalDic[Config.configURLJSONKey] = configURL as AnyObject?
+        tmpFinalDic[Config.quadKeyZoomLevelJSONKey] = quadKeyZoomLevel as AnyObject?
 
-        tmpUserRatingDic[Config.myMessagesCountJSONKey] = myMessagesCountForRating
-        tmpUserRatingDic[Config.otherMessagesCountJSONKey] = otherMessagesCountForRating
+        tmpUserRatingDic[Config.myMessagesCountJSONKey] = myMessagesCountForRating as AnyObject?
+        tmpUserRatingDic[Config.otherMessagesCountJSONKey] = otherMessagesCountForRating as AnyObject?
 
-        tmpFinalDic[Config.userRatingJSONKey] = tmpUserRatingDic
+        tmpFinalDic[Config.userRatingJSONKey] = tmpUserRatingDic as AnyObject?
 
-        return tmpFinalDic
+        return tmpFinalDic as AnyObject
     }
 }

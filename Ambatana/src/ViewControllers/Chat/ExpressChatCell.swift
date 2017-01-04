@@ -23,15 +23,15 @@ class ExpressChatCell: UICollectionViewCell {
         setupGradientView()
     }
 
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            selectedImageView.image = selected ? UIImage(named: "checkbox_selected_round") : nil
-            selectedImageView.layer.borderWidth = selected ? 0 : 2
+            selectedImageView.image = isSelected ? UIImage(named: "checkbox_selected_round") : nil
+            selectedImageView.layer.borderWidth = isSelected ? 0 : 2
         }
     }
 
-    func configureCellWithTitle(title: String, imageUrl: NSURL, price: String) {
-        selectedImageView.layer.borderColor = UIColor.whiteColor().CGColor
+    func configureCellWithTitle(_ title: String, imageUrl: URL, price: String) {
+        selectedImageView.layer.borderColor = UIColor.white.cgColor
         selectedImageView.layer.cornerRadius = selectedImageView.height/2
         priceLabel.text = price
         titleLabel.text = title
@@ -56,10 +56,10 @@ class ExpressChatCell: UICollectionViewCell {
         if let shadowLayer = shadowLayer {
             shadowLayer.removeFromSuperlayer()
         }
-        shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0, 0.4], locations: [0, 1])
+        shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0, 0.4], locations: [0, 1])
         if let shadowLayer = shadowLayer {
             shadowLayer.frame = gradientView.bounds
-            gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+            gradientView.layer.insertSublayer(shadowLayer, at: 0)
         }
     }
 

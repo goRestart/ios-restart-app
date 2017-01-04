@@ -33,9 +33,9 @@ class BlockedUserCell: UITableViewCell {
         resetUI()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        if (selected && !editing) {
+        if (selected && !isEditing) {
             setSelected(false, animated: animated)
         }
     }
@@ -48,8 +48,8 @@ class BlockedUserCell: UITableViewCell {
         lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
 
-    func setupCellWithUser(user: User, indexPath: NSIndexPath) {
-        let tag = indexPath.hash
+    func setupCellWithUser(_ user: User, indexPath: IndexPath) {
+        let tag = (indexPath as NSIndexPath).hash
         userNameLabel.text = user.name
         
         let placeholder = LetgoAvatar.avatarWithID(user.objectId, name: user.name)
@@ -57,7 +57,7 @@ class BlockedUserCell: UITableViewCell {
         if let avatarURL = user.avatar?.fileURL {
             avatarImageView.lg_setImageWithURL(avatarURL, placeholderImage: placeholder) {
                 [weak self] (result, url) in
-                if let image = result.value?.image where self?.tag == tag {
+                if let image = result.value?.image, self?.tag == tag {
                     self?.avatarImageView.image = image
                 }
             }
@@ -74,8 +74,8 @@ class BlockedUserCell: UITableViewCell {
 
         userNameLabel.textColor = UIColor.blackText
         blockedLabel.textColor = UIColor.blackText
-        blockedLabel.hidden = true
-        blockedIcon.hidden = true
+        blockedLabel.isHidden = true
+        blockedIcon.isHidden = true
     }
 
     private func resetUI() {
@@ -84,7 +84,7 @@ class BlockedUserCell: UITableViewCell {
         blockedLabel.text = LGLocalizedString.chatListBlockedUserLabel
     }
 
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         if (editing) {
             let bgView = UIView()
             selectedBackgroundView = bgView

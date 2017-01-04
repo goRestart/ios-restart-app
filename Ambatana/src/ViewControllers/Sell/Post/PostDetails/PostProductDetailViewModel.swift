@@ -10,7 +10,7 @@ import RxSwift
 import LGCoreKit
 
 protocol PostProductDetailViewModelDelegate: class {
-    func postProductDetailDone(viewModel: PostProductDetailViewModel)
+    func postProductDetailDone(_ viewModel: PostProductDetailViewModel)
 }
 
 class PostProductDetailViewModel: BaseViewModel {

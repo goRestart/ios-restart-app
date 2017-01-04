@@ -26,9 +26,9 @@ public final class SHA3: DigestType {
     public let blockSize: Int
     public let digestLength: Int
 
-    fileprivate var accumulated = Array<UInt8>()
-    fileprivate var processedBytesTotalCount: Int = 0
-    fileprivate var accumulatedHash: Array<UInt64>
+    private var accumulated = Array<UInt8>()
+    private var processedBytesTotalCount: Int = 0
+    private var accumulatedHash: Array<UInt64>
 
     public enum Variant: RawRepresentable {
         case sha224, sha256, sha384, sha512
@@ -165,7 +165,7 @@ public final class SHA3: DigestType {
         a[0] ^= round_constants[round]
     }
 
-    fileprivate func process<C: Collection>(block chunk: C, currentHash hh: inout Array<UInt64>) where C.Iterator.Element == UInt64, C.Index == Int {
+    private func process<C: Collection>(block chunk: C, currentHash hh: inout Array<UInt64>) where C.Iterator.Element == UInt64, C.Index == Int {
         // expand
         hh[0] ^= chunk[0].littleEndian
         hh[1] ^= chunk[1].littleEndian

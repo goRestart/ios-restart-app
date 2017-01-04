@@ -17,10 +17,10 @@ class WithLatestFromSink<FirstType, SecondType, ResultType, O: ObserverType>
     typealias Parent = WithLatestFrom<FirstType, SecondType, ResultType>
     typealias E = FirstType
     
-    fileprivate let _parent: Parent
+    private let _parent: Parent
     
     var _lock = NSRecursiveLock()
-    fileprivate var _latest: SecondType?
+    private var _latest: SecondType?
 
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -104,9 +104,9 @@ class WithLatestFromSecond<FirstType, SecondType, ResultType, O: ObserverType>
 class WithLatestFrom<FirstType, SecondType, ResultType>: Producer<ResultType> {
     typealias ResultSelector = (FirstType, SecondType) throws -> ResultType
     
-    fileprivate let _first: Observable<FirstType>
-    fileprivate let _second: Observable<SecondType>
-    fileprivate let _resultSelector: ResultSelector
+    private let _first: Observable<FirstType>
+    private let _second: Observable<SecondType>
+    private let _resultSelector: ResultSelector
 
     init(first: Observable<FirstType>, second: Observable<SecondType>, resultSelector: @escaping ResultSelector) {
         _first = first

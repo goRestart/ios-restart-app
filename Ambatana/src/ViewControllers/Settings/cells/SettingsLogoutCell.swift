@@ -17,15 +17,15 @@ class SettingsLogoutCell: UITableViewCell, ReusableCell {
         setupUI()
     }
 
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
-        logoutButton.highlighted = highlighted
+        logoutButton.isHighlighted = highlighted
     }
 
     private func setupUI() {
-        logoutButton.userInteractionEnabled = false
-        logoutButton.setStyle(.Logout)
+        logoutButton.isUserInteractionEnabled = false
+        logoutButton.setStyle(.logout)
         logoutButton.layer.cornerRadius = 22
-        logoutButton.setTitle(LGLocalizedString.settingsLogoutButton, forState: .Normal)
+        logoutButton.setTitle(LGLocalizedString.settingsLogoutButton, for: UIControlState())
     }
 }

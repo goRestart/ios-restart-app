@@ -19,8 +19,8 @@ class ChatBubbleCell: UITableViewCell {
         setupUI()
         resetUI()
         setAccessibilityIds()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatBubbleCell.menuControllerWillHide(_:)),
-            name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatBubbleCell.menuControllerWillHide(_:)),
+            name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
     }
     
     override func prepareForReuse() {
@@ -37,11 +37,11 @@ class ChatBubbleCell: UITableViewCell {
         dateLabel.textColor = UIColor.darkGrayText
         
         bubbleView.layer.shouldRasterize = true
-        bubbleView.layer.rasterizationScale = UIScreen.mainScreen().scale
-        backgroundColor = UIColor.clearColor()
+        bubbleView.layer.rasterizationScale = UIScreen.main.scale
+        backgroundColor = UIColor.clear
     }
     
-    func menuControllerWillHide(notification: NSNotification) {
+    func menuControllerWillHide(_ notification: Notification) {
         setSelected(false, animated: true)
     }
     

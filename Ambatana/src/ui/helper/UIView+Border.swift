@@ -10,47 +10,47 @@ import UIKit
 
 extension UIView {
     
-    func addTopBorderWithWidth(width: CGFloat, color: UIColor) -> CALayer {
-        let actualWidth = width / UIScreen.mainScreen().scale;
+    func addTopBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
+        let actualWidth = width / UIScreen.main.scale;
         let line = CALayer()
         line.frame = CGRect(x: 0, y: 0, width: frame.width, height: actualWidth)
-        line.backgroundColor = color.CGColor
+        line.backgroundColor = color.cgColor
         layer.addSublayer(line)
         return line
     }
 
-    func addBottomBorderWithWidth(width: CGFloat, color: UIColor) -> CALayer {
+    func addBottomBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
         return addBottomBorderWithWidth(width, xPosition: 0, color: color)
     }
 
-    func addBottomBorderWithWidth(width: CGFloat, xPosition: CGFloat, color: UIColor) -> CALayer {
-        let actualWidth = width / UIScreen.mainScreen().scale;
+    func addBottomBorderWithWidth(_ width: CGFloat, xPosition: CGFloat, color: UIColor) -> CALayer {
+        let actualWidth = width / UIScreen.main.scale;
         let line = CALayer()
         line.frame = CGRect(x: xPosition, y: frame.height - actualWidth, width: frame.width-xPosition, height: actualWidth)
-        line.backgroundColor = color.CGColor
+        line.backgroundColor = color.cgColor
         layer.addSublayer(line)
         return line
     }
 
-    func addRightBorderWithWidth(width: CGFloat, color: UIColor) -> CALayer {
-        let actualWidth = width / UIScreen.mainScreen().scale;
+    func addRightBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
+        let actualWidth = width / UIScreen.main.scale;
         let line = CALayer()
         line.frame = CGRect(x: frame.width - actualWidth, y: 0, width: actualWidth, height: frame.height)
-        line.backgroundColor = color.CGColor
+        line.backgroundColor = color.cgColor
         layer.addSublayer(line)
         return line
     }
     
-    func addLeftBorderWithWidth(width: CGFloat, color: UIColor) -> CALayer {
-        let actualWidth = width / UIScreen.mainScreen().scale;
+    func addLeftBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
+        let actualWidth = width / UIScreen.main.scale;
         let line = CALayer()
         line.frame = CGRect(x: 0, y: 0, width: actualWidth, height: frame.height)
-        line.backgroundColor = color.CGColor
+        line.backgroundColor = color.cgColor
         layer.addSublayer(line)
         return line
     }
 
-    func addTopViewBorderWith(width width: CGFloat, color: UIColor) -> UIView {
+    func addTopViewBorderWith(width: CGFloat, color: UIColor) -> UIView {
         let topSeparator = UIView()
         topSeparator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topSeparator)
@@ -61,7 +61,7 @@ extension UIView {
         return topSeparator
     }
 
-    func addBottomViewBorderWith(width width: CGFloat, color: UIColor, leftMargin: CGFloat = 0, rightMargin: CGFloat = 0) -> UIView {
+    func addBottomViewBorderWith(width: CGFloat, color: UIColor, leftMargin: CGFloat = 0, rightMargin: CGFloat = 0) -> UIView {
         let separator = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(separator)
@@ -79,21 +79,21 @@ extension UIView {
 
 extension UIView {
     func applyFloatingButtonShadow() {
-        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
         layer.shadowOpacity = 0.24
         layer.shadowRadius = 8.0
     }
     
     func applyDefaultShadow() {
-        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowRadius = 1
         layer.shadowOpacity = 0.3
     }
     func applyInfoBubbleShadow() {
         layer.cornerRadius = 15
-        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowColor = UIColor.black.cgColor
         layer.shadowRadius = 15
         layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
         layer.shadowOpacity = 0.12
@@ -105,12 +105,12 @@ extension UIView {
 // MARK: - Rounded corners
 
 extension UIView {
-    func setRoundedCorners(roundingCorners: UIRectCorner, cornerRadius: CGFloat) {
+    func setRoundedCorners(_ roundingCorners: UIRectCorner, cornerRadius: CGFloat) {
         let maskPath = UIBezierPath(roundedRect: bounds, byRoundingCorners: roundingCorners,
                                     cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
         let maskLayer = CAShapeLayer()
         maskLayer.frame = bounds
-        maskLayer.path = maskPath.CGPath
+        maskLayer.path = maskPath.cgPath
         layer.mask = maskLayer
     }
 }

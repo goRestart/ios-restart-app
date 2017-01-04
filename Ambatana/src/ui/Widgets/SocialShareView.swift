@@ -13,9 +13,9 @@ import RxSwift
 import RxCocoa
 
 enum SocialShareState {
-    case Completed
-    case Cancelled
-    case Failed
+    case completed
+    case cancelled
+    case failed
 }
 
 protocol SocialShareViewDelegate: class {
@@ -23,13 +23,13 @@ protocol SocialShareViewDelegate: class {
 }
 
 enum SocialShareViewStyle {
-    case Line, Grid
+    case line, grid
 }
 
 
 class SocialShareView: UIView {
 
-    static let defaultShareTypes: [ShareType] = [.SMS, .Facebook, .Twitter ,.FBMessenger, .Whatsapp, .Email, .CopyLink]
+    static let defaultShareTypes: [ShareType] = [.sms, .facebook, .twitter ,.fbMessenger, .whatsapp, .email, .copyLink]
     
     var buttonsSide: CGFloat = 56 {
         didSet {
@@ -37,7 +37,7 @@ class SocialShareView: UIView {
         }
     }
 
-    var style = SocialShareViewStyle.Line {
+    var style = SocialShareViewStyle.line {
         didSet {
             setAvailableButtons()
         }
@@ -79,7 +79,7 @@ class SocialShareView: UIView {
     }
 
     
-    func setupWithShareTypes(shareTypes: [ShareType], useBigButtons: Bool) {
+    func setupWithShareTypes(_ shareTypes: [ShareType], useBigButtons: Bool) {
         self.shareTypes = shareTypes
         self.useBigButtons = useBigButtons
         setAvailableButtons()
@@ -90,14 +90,14 @@ class SocialShareView: UIView {
     private func setupContainer() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(containerView)
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal,
-            toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal,
-            toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Left, relatedBy: .Equal,
-            toItem: self, attribute: .Left, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Right, relatedBy: .Equal,
-            toItem: self, attribute: .Right, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .top, relatedBy: .equal,
+            toItem: self, attribute: .top, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .bottom, relatedBy: .equal,
+            toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .left, relatedBy: .equal,
+            toItem: self, attribute: .left, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .right, relatedBy: .equal,
+            toItem: self, attribute: .right, multiplier: 1.0, constant: 0))
     }
 
     private func setAvailableButtons() {
@@ -107,15 +107,15 @@ class SocialShareView: UIView {
         let buttons = buttonListForShareTypes(shareTypes)
         guard !buttons.isEmpty else { return }
         switch style {
-        case .Line:
+        case .line:
             setupButtonsInLine(buttons, container: containerView)
-        case .Grid:
+        case .grid:
             buttons.count <= gridColumns + 1 ? setupButtonsInLine(buttons, container: containerView) :
             setupButtonsInGrid(buttons, container: containerView)
         }
     }
 
-    private func buttonListForShareTypes(shareTypes: [ShareType]) -> [UIButton] {
+    private func buttonListForShareTypes(_ shareTypes: [ShareType]) -> [UIButton] {
         var buttons: [UIButton] = []
         for type in shareTypes {
             guard SocialSharer.canShareIn(type) else { continue }
@@ -124,7 +124,7 @@ class SocialShareView: UIView {
         return buttons
     }
 
-    private func createButton(shareType: ShareType) -> UIButton {
+    private func createButton(_ shareType: ShareType) -> UIButton {
         let image = useBigButtons ? shareType.bigImage : shareType.smallImage
         return createButton(image, accesibilityId: shareType.accesibilityId) { [weak self] in
             guard let strongSelf = self else { return }
@@ -135,38 +135,38 @@ class SocialShareView: UIView {
         }
     }
 
-    private func createButton(image: UIImage?, accesibilityId: AccessibilityId, action: () -> Void) -> UIButton {
-        let button = UIButton(type: .Custom)
+    private func createButton(_ image: UIImage?, accesibilityId: AccessibilityId, action: () -> Void) -> UIButton {
+        let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(image, forState: .Normal)
+        button.setImage(image, for: UIControlState())
         button.accessibilityId = accessibilityId
         button.rx_tap.subscribeNext(action).addDisposableTo(disposeBag)
-        let width = NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil,
-                                    attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsSide)
-        let height = NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                    attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsSide)
+        let width = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil,
+                                    attribute: .notAnAttribute, multiplier: 1.0, constant: buttonsSide)
+        let height = NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: nil,
+                                    attribute: .notAnAttribute, multiplier: 1.0, constant: buttonsSide)
         button.addConstraints([width, height])
         return button
     }
 
-    private func setupButtonsInLine(buttons: [UIButton], container: UIView) {
+    private func setupButtonsInLine(_ buttons: [UIButton], container: UIView) {
         buttons.forEach { container.addSubview($0) }
         var previous: UIButton? = nil
-        for (index, button) in buttons.enumerate() {
+        for (index, button) in buttons.enumerated() {
             if let previous = previous {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal,
-                    toItem: previous, attribute: .Right, multiplier: 1.0, constant: 0))
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal,
+                    toItem: previous, attribute: .right, multiplier: 1.0, constant: 0))
             } else {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal,
-                    toItem: container, attribute: .Left, multiplier: 1.0, constant: 0))
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal,
+                    toItem: container, attribute: .left, multiplier: 1.0, constant: 0))
             }
-            container.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal,
-                toItem: container, attribute: .Top, multiplier: 1.0, constant: 0))
-            container.addConstraint(NSLayoutConstraint(item: button, attribute: .Bottom, relatedBy: .Equal,
-                toItem: container, attribute: .Bottom, multiplier: 1.0, constant: 0))
+            container.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal,
+                toItem: container, attribute: .top, multiplier: 1.0, constant: 0))
+            container.addConstraint(NSLayoutConstraint(item: button, attribute: .bottom, relatedBy: .equal,
+                toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0))
             if index == buttons.count - 1 {
-                let constraint = NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .GreaterThanOrEqual,
-                                                    toItem: container, attribute: .Right, multiplier: 1.0, constant: 0)
+                let constraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .greaterThanOrEqual,
+                                                    toItem: container, attribute: .right, multiplier: 1.0, constant: 0)
                 constraint.priority = UILayoutPriorityDefaultHigh
                 container.addConstraint(constraint)
             }
@@ -174,37 +174,37 @@ class SocialShareView: UIView {
         }
     }
 
-    private func setupButtonsInGrid(buttons: [UIButton], container: UIView) {
+    private func setupButtonsInGrid(_ buttons: [UIButton], container: UIView) {
         buttons.forEach { container.addSubview($0) }
         let maxRow = floor(CGFloat(buttons.count-1) / CGFloat(gridColumns))
         var previous: UIButton? = nil
         var top: UIButton? = nil
-        for (index, button) in buttons.enumerate() {
+        for (index, button) in buttons.enumerated() {
             if let previous = previous {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal,
-                    toItem: previous, attribute: .Right, multiplier: 1.0, constant: 0))
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal,
+                    toItem: previous, attribute: .right, multiplier: 1.0, constant: 0))
             } else {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal,
-                    toItem: container, attribute: .Left, multiplier: 1.0, constant: 0))
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal,
+                    toItem: container, attribute: .left, multiplier: 1.0, constant: 0))
             }
 
             if let top = top {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal,
-                    toItem: top, attribute: .Bottom, multiplier: 1.0, constant: 0))
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal,
+                    toItem: top, attribute: .bottom, multiplier: 1.0, constant: 0))
             } else {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal,
-                    toItem: container, attribute: .Top, multiplier: 1.0, constant: 0))
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal,
+                    toItem: container, attribute: .top, multiplier: 1.0, constant: 0))
             }
 
             let currentRow = floor(CGFloat(index) / CGFloat(gridColumns))
             if currentRow == maxRow {
-                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Bottom, relatedBy: .Equal,
-                    toItem: container, attribute: .Bottom, multiplier: 1.0, constant: 0))
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .bottom, relatedBy: .equal,
+                    toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0))
             }
 
             if index % gridColumns == gridColumns - 1 {
-                let constraint = NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .GreaterThanOrEqual,
-                                                    toItem: container, attribute: .Right, multiplier: 1.0, constant: 0)
+                let constraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .greaterThanOrEqual,
+                                                    toItem: container, attribute: .right, multiplier: 1.0, constant: 0)
                 constraint.priority = UILayoutPriorityDefaultHigh
                 container.addConstraint(constraint)
                 top = button

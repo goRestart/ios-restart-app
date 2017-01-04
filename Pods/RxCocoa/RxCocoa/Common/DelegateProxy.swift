@@ -22,7 +22,7 @@ var dataSourceAssociatedTag: UInt8 = 0
 /// Base class for `DelegateProxyType` protocol.
 ///
 /// This implementation is not thread safe and can be used only from one thread (Main thread).
-open class DelegateProxy : _RXDelegateProxy {
+class DelegateProxy : _RXDelegateProxy {
 
     private var sentMessageForSelector = [Selector: PublishSubject<[Any]>]()
     private var methodInvokedForSelector = [Selector: PublishSubject<[Any]>]()
@@ -188,14 +188,14 @@ open class DelegateProxy : _RXDelegateProxy {
     /// Returns tag used to identify associated object.
     ///
     /// - returns: Associated object tag.
-    open class func delegateAssociatedObjectTag() -> UnsafeRawPointer {
+    class func delegateAssociatedObjectTag() -> UnsafeRawPointer {
         return _pointer(&delegateAssociatedTag)
     }
     
     /// Initializes new instance of delegate proxy.
     ///
     /// - returns: Initialized instance of `self`.
-    open class func createProxyForObject(_ object: AnyObject) -> AnyObject {
+    class func createProxyForObject(_ object: AnyObject) -> AnyObject {
         return self.init(parentObject: object)
     }
     
@@ -203,7 +203,7 @@ open class DelegateProxy : _RXDelegateProxy {
     ///
     /// - parameter object: Object that can have assigned delegate proxy.
     /// - returns: Assigned delegate proxy or `nil` if no delegate proxy is assigned.
-    open class func assignedProxyFor(_ object: AnyObject) -> AnyObject? {
+    class func assignedProxyFor(_ object: AnyObject) -> AnyObject? {
         let maybeDelegate = objc_getAssociatedObject(object, self.delegateAssociatedObjectTag())
         return castOptionalOrFatalError(maybeDelegate.map { $0 as AnyObject })
     }
@@ -212,7 +212,7 @@ open class DelegateProxy : _RXDelegateProxy {
     ///
     /// - parameter object: Object that can have assigned delegate proxy.
     /// - parameter proxy: Delegate proxy object to assign to `object`.
-    open class func assignProxy(_ proxy: AnyObject, toObject object: AnyObject) {
+    class func assignProxy(_ proxy: AnyObject, toObject object: AnyObject) {
         precondition(proxy.isKind(of: self.classForCoder()))
        
         objc_setAssociatedObject(object, self.delegateAssociatedObjectTag(), proxy, .OBJC_ASSOCIATION_RETAIN)

@@ -31,21 +31,21 @@ class FBLoginHelper {
 // MARK: - Public methods
 
 extension FBLoginHelper {
-    func connectWithFacebook(completion: ExternalAuthTokenRetrievalCompletion) {
+    func connectWithFacebook(_ completion: @escaping ExternalAuthTokenRetrievalCompletion) {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
-        loginManager.logInWithReadPermissions(FBLoginHelper.fbPermissions, fromViewController: nil) {
+        loginManager.logIn(withReadPermissions: FBLoginHelper.fbPermissions, from: nil) {
             (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
             if let result = result {
                 if let token = result.token?.tokenString {
-                    completion(.Success(serverAuthCode: token))
+                    completion(.success(serverAuthCode: token))
                 } else if result.isCancelled {
-                    completion(.Cancelled)
+                    completion(.cancelled)
                 } else {
-                    completion(.Error(error: error))
+                    completion(.error(error: error))
                 }
             } else {
-                completion(.Error(error: error))
+                completion(.error(error: error))
             }
         }
     }
@@ -55,10 +55,10 @@ extension FBLoginHelper {
 // MARK: - ExternalAuthHelper
 
 extension FBLoginHelper: ExternalAuthHelper {
-    func login(authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?) {
+    func login(_ authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?) {
         connectWithFacebook { [weak self] fbResult in
             switch fbResult {
-            case let .Success(token):
+            case let .success(token):
                 authCompletion?()
                 self?.sessionManager.loginFacebook(token, completion: { result in
                     if let myUser = result.value {
@@ -67,10 +67,10 @@ extension FBLoginHelper: ExternalAuthHelper {
                         loginCompletion?(ExternalServiceAuthResult(sessionError: error))
                     }
                 })
-            case .Cancelled:
-                loginCompletion?(.Cancelled)
-            case .Error:
-                loginCompletion?(.Internal(description: "FB SDK error"))
+            case .cancelled:
+                loginCompletion?(.cancelled)
+            case .error:
+                loginCompletion?(.internal(description: "FB SDK error"))
             }
         }
     }

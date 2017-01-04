@@ -7,10 +7,10 @@
 //
 
 
-public class BaseViewModel {
+class BaseViewModel {
 
     private var activeFirstTime = true
-    public var active: Bool = false {
+    open var active: Bool = false {
         didSet {
             if oldValue != active {
                 didSetActive(active)
@@ -26,11 +26,11 @@ public class BaseViewModel {
     
     // MARK: - Internal methods
     
-    func didSetActive(active: Bool) {
+    func didSetActive(_ active: Bool) {
         
     }
 
-    func didBecomeActive(firstTime: Bool) {
+    func didBecomeActive(_ firstTime: Bool) {
 
     }
 

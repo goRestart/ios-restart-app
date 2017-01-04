@@ -9,11 +9,11 @@
 public final class MD5: DigestType {
     static let blockSize: Int = 64
     static let digestLength: Int = 16 // 128 / 8
-    fileprivate static let hashInitialValue: Array<UInt32> = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476]
+    private static let hashInitialValue: Array<UInt32> = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476]
 
-    fileprivate var accumulated = Array<UInt8>()
-    fileprivate var processedBytesTotalCount: Int = 0
-    fileprivate var accumulatedHash: Array<UInt32> = MD5.hashInitialValue
+    private var accumulated = Array<UInt8>()
+    private var processedBytesTotalCount: Int = 0
+    private var accumulatedHash: Array<UInt32> = MD5.hashInitialValue
 
     /** specifies the per-round shift amounts */
     private let s: Array<UInt32> = [7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
@@ -51,7 +51,7 @@ public final class MD5: DigestType {
     }
 
     // mutating currentHash in place is way faster than returning new result
-    fileprivate func process(block chunk: ArraySlice<UInt8>, currentHash: inout Array<UInt32>) {
+    private func process(block chunk: ArraySlice<UInt8>, currentHash: inout Array<UInt32>) {
 
         // break chunk into sixteen 32-bit words M[j], 0 ≤ j ≤ 15
         var M = chunk.toUInt32Array()

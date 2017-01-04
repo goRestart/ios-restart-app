@@ -35,20 +35,20 @@ class AppShareViewController: UIViewController {
     let socialSharer = SocialSharer()
 
     static func canBeShown() -> Bool {
-        return SocialSharer.canShareInAny([.FBMessenger, .Whatsapp, .Email])
+        return SocialSharer.canShareInAny([.fbMessenger, .whatsapp, .email])
     }
 
-    static func showOnViewControllerIfNeeded(viewController: UIViewController) -> Bool {
+    static func showOnViewControllerIfNeeded(_ viewController: UIViewController) -> Bool {
         guard !KeyValueStorage.sharedInstance.userAppShared else { return false }
         guard canBeShown() else { return false }
-        viewController.presentViewController(AppShareViewController(), animated: true, completion: nil)
+        viewController.present(AppShareViewController(), animated: true, completion: nil)
         return true
     }
 
     init() {
         super.init(nibName: "AppShareViewController", bundle: nil)
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
         socialSharer.delegate = self
     }
 
@@ -66,26 +66,26 @@ class AppShareViewController: UIViewController {
 
     // MARK: - Actions
 
-    @IBAction func onInviteFBMessenger(sender: AnyObject) {
+    @IBAction func onInviteFBMessenger(_ sender: AnyObject) {
         let socialMessage = AppShareSocialMessage()
-        socialSharer.share(socialMessage, shareType: .FBMessenger, viewController: self)
+        socialSharer.share(socialMessage, shareType: .fbMessenger, viewController: self)
     }
 
-    @IBAction func onInviteWhatsapp(sender: AnyObject) {
+    @IBAction func onInviteWhatsapp(_ sender: AnyObject) {
         let socialMessage = AppShareSocialMessage()
-        socialSharer.share(socialMessage, shareType: .Whatsapp, viewController: self)
+        socialSharer.share(socialMessage, shareType: .whatsapp, viewController: self)
     }
 
-    @IBAction func onInviteEmail(sender: AnyObject) {
+    @IBAction func onInviteEmail(_ sender: AnyObject) {
         let socialMessage = AppShareSocialMessage()
-        socialSharer.share(socialMessage, shareType: .Email, viewController: self)
+        socialSharer.share(socialMessage, shareType: .email, viewController: self)
     }
 
-    @IBAction func onClose(sender: AnyObject) {
+    @IBAction func onClose(_ sender: AnyObject) {
         dismiss()
     }
 
-    @IBAction func onDontAskAgain(sender: AnyObject) {
+    @IBAction func onDontAskAgain(_ sender: AnyObject) {
         KeyValueStorage.sharedInstance.userAppShared = true
         dismiss()
 
@@ -98,33 +98,33 @@ class AppShareViewController: UIViewController {
     private func setupUI() {
         contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
 
-        inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, forState: UIControlState.Normal)
-        inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, forState: UIControlState.Normal)
-        inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, forState: UIControlState.Normal)
+        inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, for: UIControlState())
+        inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, for: UIControlState())
+        inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, for: UIControlState())
 
         inviteFBMessengerBtn.rounded = true
         inviteWhatsappBtn.rounded = true
         inviteEmailBtn.rounded = true
         
-        if !SocialSharer.canShareIn(.FBMessenger) {
+        if !SocialSharer.canShareIn(.fbMessenger) {
             inviteFBMessengerHeight.constant = 0
             inviteFBMessengerTop.constant = 20
-            inviteFBMessengerBtn.hidden = true
-            inviteFBMessengerIcon.hidden = true
+            inviteFBMessengerBtn.isHidden = true
+            inviteFBMessengerIcon.isHidden = true
         }
 
-        if !SocialSharer.canShareIn(.Whatsapp) {
+        if !SocialSharer.canShareIn(.whatsapp) {
             inviteWhatsappHeight.constant = 0
             inviteWhatsappTop.constant = 0
-            inviteWhatsappBtn.hidden = true
-            inviteWhatsappIcon.hidden = true
+            inviteWhatsappBtn.isHidden = true
+            inviteWhatsappIcon.isHidden = true
         }
 
-        if !SocialSharer.canShareIn(.Email) {
+        if !SocialSharer.canShareIn(.email) {
             inviteEmailHeight.constant = 0
             inviteEmailTop.constant = 0
-            inviteEmailBtn.hidden = true
-            inviteEmailIcon.hidden = true
+            inviteEmailBtn.isHidden = true
+            inviteEmailIcon.isHidden = true
         }
 
         headerImageView.image = UIImage(named: "invite_letgo")
@@ -140,14 +140,14 @@ class AppShareViewController: UIViewController {
     }
 
     private func dismissShowingShareOk() {
-        view.hidden = true
+        view.isHidden = true
         showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: nil)
+            self?.dismiss(animated: false, completion: nil)
         }
     }
 
     private func dismiss() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -155,19 +155,19 @@ class AppShareViewController: UIViewController {
 // MARK: - SocialShareDelegate
 
 extension AppShareViewController: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
+    func shareStartedIn(_ shareType: ShareType) {
         let trackerEvent = TrackerEvent.appInviteFriend(shareType.trackingShareNetwork, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         switch state {
-        case .Completed:
+        case .completed:
             dismissShowingShareOk()
 
             let trackerEvent = TrackerEvent.appInviteFriendComplete(shareType.trackingShareNetwork, typePage: .ProductList)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-        case .Cancelled, .Failed:
+        case .cancelled, .failed:
             let trackerEvent = TrackerEvent.appInviteFriendCancel(shareType.trackingShareNetwork, typePage: .ProductList)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }

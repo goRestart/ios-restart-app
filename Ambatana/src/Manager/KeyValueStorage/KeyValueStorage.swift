@@ -72,8 +72,8 @@ class KeyValueStorage {
 
     convenience init() {
         let myUserRepository = Core.myUserRepository
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        self.init(storage: userDefaults, myUserRepository: myUserRepository)
+        let userDefaults = UserDefaults.standard
+        self.init(storage: userDefaults as! KeyValueStorageable, myUserRepository: myUserRepository)
     }
 }
 
@@ -105,10 +105,10 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    func userLoadChatShowDirectAnswersForKey(key: String) -> Bool {
+    func userLoadChatShowDirectAnswersForKey(_ key: String) -> Bool {
         return currentUserProperties?.chatShowDirectAnswers[key] ?? true
     }
-    func userSaveChatShowDirectAnswersForKey(key: String, value: Bool) {
+    func userSaveChatShowDirectAnswersForKey(_ key: String, value: Bool) {
         guard var userProperties = currentUserProperties else { return }
         userProperties.chatShowDirectAnswers[key] = value
         currentUserProperties = userProperties
@@ -124,13 +124,13 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    var userRatingRemindMeLaterDate: NSDate? {
+    var userRatingRemindMeLaterDate: Date? {
         get {
-            return currentUserProperties?.ratingRemindMeLaterDate ??
-                UserDefaultsUser.ratingRemindMeLaterDateDefaultValue
+            return currentUserProperties?.ratingRemindMeLaterDate as Date?? ??
+                UserDefaultsUser.ratingRemindMeLaterDateDefaultValue as Date?
         }
         set {
-            guard var userProperties = currentUserProperties else { return }
+            guard let userProperties = currentUserProperties else { return }
             userProperties.ratingRemindMeLaterDate = newValue
             currentUserProperties = userProperties
         }
@@ -256,14 +256,14 @@ extension KeyValueStorage {
 // MARK: - Private methods
 
 private extension KeyValueStorage {
-    private var currentUserId: String? {
+    var currentUserId: String? {
         return myUserRepository.myUser?.objectId
     }
-    private var currentUserKey: DefaultsKey<UserDefaultsUser>? {
+    var currentUserKey: DefaultsKey<UserDefaultsUser>? {
         guard let currentUserId = currentUserId else { return nil }
         return DefaultsKey<UserDefaultsUser>(currentUserId)
     }
-    private var currentUserProperties: UserDefaultsUser? {
+    var currentUserProperties: UserDefaultsUser? {
         get {
             guard let key = currentUserKey else { return nil }
             return get(key) ?? UserDefaultsUser()
@@ -328,19 +328,19 @@ extension KeyValueStorage: KeyValueStorageable {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData?>) -> NSData? {
+    subscript(key: DefaultsKey<NSData?>) -> Data? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData>) -> NSData {
+    subscript(key: DefaultsKey<NSData>) -> Data {
+        get { return storage[key] as Data }
+        set { storage[key] = newValue }
+    }
+    subscript(key: DefaultsKey<NSDate?>) -> Date? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSDate?>) -> NSDate? {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSURL?>) -> NSURL? {
+    subscript(key: DefaultsKey<NSURL?>) -> URL? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
@@ -364,10 +364,10 @@ extension KeyValueStorage: KeyValueStorageable {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    func get<T: UserDefaultsDecodable>(key: DefaultsKey<T>) -> T? {
+    func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T? {
         return storage.get(key)
     }
-    func set<T: UserDefaultsDecodable>(key: DefaultsKey<T>, value: T?) {
+    func set<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>, value: T?) {
         storage.set(key, value: value)
     }
 }

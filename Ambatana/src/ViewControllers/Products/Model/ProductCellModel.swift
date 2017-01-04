@@ -11,20 +11,20 @@ import LGCoreKit
 
 
 enum ProductCellModel {
-    case ProductCell(product: Product)
-    case CollectionCell(type: CollectionCellType)
-    case EmptyCell(vm: LGEmptyViewModel)
+    case productCell(product: Product)
+    case collectionCell(type: CollectionCellType)
+    case emptyCell(vm: LGEmptyViewModel)
     
     init(product: Product) {
         self = ProductCellModel.ProductCell(product: product)
     }
 
     init(collection: CollectionCellType) {
-        self = ProductCellModel.CollectionCell(type: collection)
+        self = ProductCellModel.collectionCell(type: collection)
     }
 
     init(emptyVM: LGEmptyViewModel) {
-        self = ProductCellModel.EmptyCell(vm: emptyVM)
+        self = ProductCellModel.emptyCell(vm: emptyVM)
     }
 }
 
@@ -33,7 +33,7 @@ enum ProductCellModel {
 
 struct ProductData {
     var productID: String?
-    var thumbUrl: NSURL?
+    var thumbUrl: URL?
     var isFree: Bool
 }
 

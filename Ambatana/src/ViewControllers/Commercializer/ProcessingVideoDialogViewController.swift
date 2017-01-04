@@ -13,7 +13,7 @@ protocol ProcessingVideoDialogDismissDelegate: class {
     func processingVideoDidDismissTryAgain()
 }
 
-public class ProcessingVideoDialogViewController: BaseViewController {
+class ProcessingVideoDialogViewController: BaseViewController {
 
     // Success
     @IBOutlet weak var successView: UIView!
@@ -21,7 +21,7 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     @IBOutlet weak var videoWillAppearLabel: UILabel!
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var loadingIndicator: LoadingIndicator!
-    var stopLoadingIndicatorTimer: NSTimer? // used just to stop the fake loading indicator animation
+    var stopLoadingIndicatorTimer: Timer? // used just to stop the fake loading indicator animation
 
     // Error
     @IBOutlet weak var errorView: UIView!
@@ -44,33 +44,33 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     init(viewModel: ProcessingVideoDialogViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
         switch viewModel.videoProcessStatus {
-        case .ProcessOK:
+        case .processOK:
             setupSuccessView()
-        case .ProcessFail:
+        case .processFail:
             setupErrorView()
         }
     }
 
-    override public func viewDidAppear(animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         switch viewModel.videoProcessStatus {
-        case .ProcessOK:
+        case .processOK:
             loadingIndicator.startAnimating()
-            stopLoadingIndicatorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self,
+            stopLoadingIndicatorTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,
                 selector: #selector(ProcessingVideoDialogViewController.stopIndicator), userInfo: nil, repeats: false)
-        case .ProcessFail:
+        case .processFail:
             break
         }
     }
@@ -79,16 +79,16 @@ public class ProcessingVideoDialogViewController: BaseViewController {
         loadingIndicator.stopAnimating(true)
     }
 
-    @IBAction func onCloseButtonTapped(sender: AnyObject) {
+    @IBAction func onCloseButtonTapped(_ sender: AnyObject) {
         closeView()
     }
 
-    @IBAction func onOKButtonTapped(sender: AnyObject) {
+    @IBAction func onOKButtonTapped(_ sender: AnyObject) {
         closeView()
     }
 
-    @IBAction func onTryAgainButtonTapped(sender: AnyObject) {
-        dismissViewControllerAnimated(true) { [weak self] _ in
+    @IBAction func onTryAgainButtonTapped(_ sender: AnyObject) {
+        dismiss(animated: true) { [weak self] _ in
             self?.dismissDelegate?.processingVideoDidDismissTryAgain()
         }
     }
@@ -97,36 +97,36 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     // MARK: - private methods
 
     private func setupSuccessView() {
-        okButton.setStyle(.Primary(fontSize: .Medium))
-        okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
+        okButton.setStyle(.primary(fontSize: .medium))
+        okButton.setTitle(LGLocalizedString.commonOk, for: UIControlState())
 
         loadingIndicator.color = UIColor.primaryColor
 
         processingLabel.text = LGLocalizedString.commercializerProcessingTitleLabel
         videoWillAppearLabel.text = LGLocalizedString.commercializerProcessingWillAppearLabel
         successView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        errorView.hidden = true
+        errorView.isHidden = true
     }
 
     private func setupErrorView() {
-        tryAgainButton.setStyle(.Primary(fontSize: .Medium))
-        tryAgainButton.setTitle(LGLocalizedString.commonErrorRetryButton, forState: .Normal)
+        tryAgainButton.setStyle(.primary(fontSize: .medium))
+        tryAgainButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: UIControlState())
 
-        errorTitleLabel.text = LGLocalizedString.commonErrorTitle.capitalizedString
+        errorTitleLabel.text = LGLocalizedString.commonErrorTitle.capitalized
         errorMessageLabel.text = LGLocalizedString.commercializerProcessVideoFailedErrorMessage
         errorView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        successView.hidden = true
+        successView.isHidden = true
     }
 
     private func closeView() {
-        dismissViewControllerAnimated(true) { [weak self] _ in
+        dismiss(animated: true) { [weak self] _ in
             guard let strongSelf = self else { return }
             switch strongSelf.viewModel.videoProcessStatus {
-            case .ProcessOK:
+            case .processOK:
                 strongSelf.dismissDelegate?.processingVideoDidDismissOk()
                 let source = strongSelf.viewModel.promotionSource
                 strongSelf.delegate?.promoteProductViewControllerDidFinishFromSource(source)
-            case .ProcessFail:
+            case .processFail:
                 break
             }
         }

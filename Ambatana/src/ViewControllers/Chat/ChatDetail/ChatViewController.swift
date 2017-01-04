@@ -18,11 +18,11 @@ class ChatViewController: TextViewController {
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let productView: ChatProductView
-    var selectedCellIndexPath: NSIndexPath?
+    var selectedCellIndexPath: IndexPath?
     let viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var showingStickers = false
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     let relatedProductsView: ChatRelatedProductsView
     let directAnswersPresenter: DirectAnswersPresenter
@@ -35,7 +35,7 @@ class ChatViewController: TextViewController {
     var featureFlags: FeatureFlaggeable
 
     var blockedToastOffset: CGFloat {
-        return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
+        return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
     }
 
 
@@ -71,7 +71,7 @@ class ChatViewController: TextViewController {
     
     deinit {
         stickersView.removeFromSuperview()
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewDidLoad() {
@@ -84,32 +84,32 @@ class ChatViewController: TextViewController {
         setupRxBindings()
         setupStickersView()
         initStickersWindow()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
-                                                         name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
-                                                         name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
+                                                         name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
+                                                         name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
     }
 
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeStickersTooltip()
         removeIgnoreTouchesForTooltip()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
 
-    override func didMoveToParentViewController(parent: UIViewController?) {
-        super.didMoveToParentViewController(parent)
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
         if parent == nil {
             viewModel.wentBack()
         }
     }
 
-    override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
     }
@@ -148,17 +148,17 @@ class ChatViewController: TextViewController {
         tableView.clipsToBounds = true
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.separatorStyle = .None
+        tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.grayBackground
         tableView.allowsSelection = false
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.placeholderColor = UIColor.gray
-        textView.placeholderFont = UIFont.systemFontOfSize(17)
-        textView.backgroundColor = UIColor.whiteColor()
-        textViewFont = UIFont.systemFontOfSize(17)
-        textView.backgroundColor = UIColor.whiteColor()
-        textViewBarColor = UIColor.whiteColor()
-        sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
+        textView.placeholderFont = UIFont.systemFont(ofSize: 17)
+        textView.backgroundColor = UIColor.white
+        textViewFont = UIFont.systemFont(ofSize: 17)
+        textView.backgroundColor = UIColor.white
+        textViewBarColor = UIColor.white
+        sendButton.setTitle(LGLocalizedString.chatSendButton, for: UIControlState())
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
         reloadLeftActions()
@@ -169,14 +169,14 @@ class ChatViewController: TextViewController {
 
         
         if let patternBackground = UIColor.emptyViewBackgroundColor {
-            tableView.backgroundColor = UIColor.clearColor()
+            tableView.backgroundColor = UIColor.clear
             view.backgroundColor = patternBackground
         }
         
         productView.delegate = self
 
-        let action = UIAction(interface: .Button(LGLocalizedString.chatExpressBannerButtonTitle,
-            .Secondary(fontSize: .Small, withBorder: true)), action: { [weak self] in
+        let action = UIAction(interface: .button(LGLocalizedString.chatExpressBannerButtonTitle,
+            .secondary(fontSize: .small, withBorder: true)), action: { [weak self] in
                 self?.viewModel.bannerActionButtonTapped()
             })
         expressChatBanner.setupChatBannerWith(LGLocalizedString.chatExpressBannerTitle, action: action)
@@ -186,7 +186,7 @@ class ChatViewController: TextViewController {
         productView.height = navigationBarHeight
         productView.layoutIfNeeded()
 
-        setNavBarTitleStyle(.Custom(productView))
+        setNavBarTitleStyle(.custom(productView))
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
     }
     
@@ -200,8 +200,8 @@ class ChatViewController: TextViewController {
 
     private func setupFrames() {
         tableView.contentInset.bottom = navBarHeight + blockedToastOffset
-        tableView.frame = CGRectMake(0, blockedToastOffset, tableView.width,
-                                     tableView.height - blockedToastOffset)
+        tableView.frame = CGRect(x: 0, y: blockedToastOffset, width: tableView.width,
+                                     height: tableView.height - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
@@ -209,17 +209,17 @@ class ChatViewController: TextViewController {
     
     private func setupConstraints() {
         var views: [String: AnyObject] = ["relationInfoView": relationInfoView]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[relationInfoView]-0-|", options: [],
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[relationInfoView]-0-|", options: [],
             metrics: nil, views: views))
-        view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
-            toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
+        view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .top, relatedBy: .equal,
+            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0))
 
-        let bannerHeight = NSLayoutConstraint(item: expressChatBanner, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: expressBannerHeight)
+        let bannerHeight = NSLayoutConstraint(item: expressChatBanner, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: expressBannerHeight)
         expressChatBanner.addConstraint(bannerHeight)
 
         views = ["expressChatBanner": expressChatBanner]
-        bannerTopConstraint = NSLayoutConstraint(item: expressChatBanner, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: -expressBannerHeight)
-        let bannerSides = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[expressChatBanner]-0-|", options: [], metrics: nil, views: views)
+        bannerTopConstraint = NSLayoutConstraint(item: expressChatBanner, attribute: .top, relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom, multiplier: 1, constant: -expressBannerHeight)
+        let bannerSides = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[expressChatBanner]-0-|", options: [], metrics: nil, views: views)
 
         view.addConstraint(bannerTopConstraint)
         view.addConstraints(bannerSides)
@@ -242,23 +242,23 @@ class ChatViewController: TextViewController {
         directAnswersPresenter.delegate = viewModel
     }
 
-    private func showActivityIndicator(show: Bool) {
+    private func showActivityIndicator(_ show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
 
-    private func showKeyboard(show: Bool, animated: Bool) {
+    private func showKeyboard(_ show: Bool, animated: Bool) {
         if !show { hideStickers() }
         guard viewModel.chatEnabled.value else { return }
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
     }
 
     private func removeStickersTooltip() {
-        if let tooltip = stickersTooltip where view.subviews.contains(tooltip) {
+        if let tooltip = stickersTooltip, view.subviews.contains(tooltip) {
             tooltip.removeFromSuperview()
         }
     }
 
-    private func configureBottomMargin(animated animated: Bool) {
+    private func configureBottomMargin(animated: Bool) {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
     }
@@ -296,7 +296,7 @@ class ChatViewController: TextViewController {
 // MARK: ConversationDataDisplayer
 
 extension ChatViewController: ConversationDataDisplayer {
-    func isDisplayingConversationData(data: ConversationData) -> Bool {
+    func isDisplayingConversationData(_ data: ConversationData) -> Bool {
         return viewModel.isMatchingConversationData(data)
     }
 }
@@ -308,33 +308,33 @@ extension ChatViewController: UIGestureRecognizerDelegate {
     
     private func setupStickersView() {
         let height = keyboardFrame.height
-        let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
+        let frame = CGRect(x: 0, y: view.frame.height - height, width: view.frame.width, height: height)
         stickersView.frame = frame
         stickersView.delegate = self
         viewModel.stickers.asObservable().bindNext { [weak self] stickers in
             self?.stickersView.reloadStickers(stickers)
             }.addDisposableTo(disposeBag)
-        stickersView.hidden = true
+        stickersView.isHidden = true
         singleTapGesture?.addTarget(self, action: #selector(hideStickers))
         let textTapGesture = UITapGestureRecognizer(target: self, action: #selector(hideStickers))
         textTapGesture.delegate = self
         textView.addGestureRecognizer(textTapGesture)
     }
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer,
-                           shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
     private func initStickersWindow() {
-        let windowFrame = CGRectMake(0, view.height, view.width, view.height)
+        let windowFrame = CGRect(x: 0, y: view.height, width: view.width, height: view.height)
         
         stickersWindow = UIWindow(frame: windowFrame)
         stickersWindow?.windowLevel = 100000001 // needs to be higher then the level of the keyboard (100000000)
         stickersWindow?.addSubview(stickersView)
-        stickersWindow?.hidden = true
-        stickersWindow?.backgroundColor = UIColor.clearColor()
-        stickersView.hidden = true
+        stickersWindow?.isHidden = true
+        stickersWindow?.backgroundColor = UIColor.clear
+        stickersView.isHidden = true
         showingStickers = false
 
         keyboardChanges.bindNext { [weak self] change in
@@ -353,16 +353,16 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         viewModel.stickersShown()
         removeStickersTooltip()
         showKeyboard(true, animated: false)
-        stickersWindow?.hidden = false
-        stickersView.hidden = false
+        stickersWindow?.isHidden = false
+        stickersView.isHidden = false
         showingStickers = true
         reloadLeftActions()
     }
     
     func hideStickers() {
         guard showingStickers else { return }
-        stickersWindow?.hidden = true
-        stickersView.hidden = true
+        stickersWindow?.isHidden = true
+        stickersView.isHidden = true
         showingStickers = false
         reloadLeftActions()
     }
@@ -373,14 +373,14 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .NotAvailable {
             let image = UIImage(named: "ic_quick_answers")
             let tint: UIColor? = viewModel.directAnswersState.value == .Visible ? nil : UIColor.primaryColor
-            let quickAnswersAction = UIAction(interface: .Image(image, tint), action: { [weak self] in
+            let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
                 }, accessibilityId: .ChatViewQuickAnswersButton)
             actions.append(quickAnswersAction)
         }
 
         let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
-        let kbAction = UIAction(interface: .Image(image, nil), action: { [weak self] in
+        let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
         }, accessibilityId: .ChatViewStickersButton)
@@ -391,7 +391,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
 }
 
 extension ChatViewController: ChatStickersViewDelegate {
-    func stickersViewDidSelectSticker(sticker: Sticker) {
+    func stickersViewDidSelectSticker(_ sticker: Sticker) {
         viewModel.sendSticker(sticker)
     }
 }
@@ -401,20 +401,20 @@ extension ChatViewController: ChatStickersViewDelegate {
 
 extension ChatViewController {
     func showBanner() {
-        expressChatBanner.hidden = false
+        expressChatBanner.isHidden = false
         bannerTopConstraint.constant = 0
-        UIView.animateWithDuration(0.5) { [weak self] in
+        UIView.animate(withDuration: 0.5, animations: { [weak self] in
             self?.view.layoutIfNeeded()
-        }
+        }) 
     }
 
     func hideBanner() {
         bannerTopConstraint.constant = -expressChatBanner.frame.height
-        UIView.animateWithDuration(0.5, animations: { [weak self] in
+        UIView.animate(withDuration: 0.5, animations: { [weak self] in
             self?.view.layoutIfNeeded()
-        }) { [weak self] _ in
-            self?.expressChatBanner.hidden = true
-        }
+        }, completion: { [weak self] _ in
+            self?.expressChatBanner.isHidden = true
+        }) 
     }
 }
 
@@ -433,7 +433,7 @@ extension ChatViewController {
     private func setupRxBindings() {
         viewModel.chatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: true)
-            self?.textView.userInteractionEnabled = enabled
+            self?.textView.isUserInteractionEnabled = enabled
             }.addDisposableTo(disposeBag)
 
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in
@@ -524,11 +524,11 @@ extension ChatViewController {
 
 extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard indexPath.row < viewModel.objectCount, let message = viewModel.messageAtIndex(indexPath.row) else {
             return UITableViewCell()
         }
@@ -544,18 +544,18 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         return cell
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell,
-                            forRowAtIndexPath indexPath: NSIndexPath) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell,
+                            forRowAt indexPath: IndexPath) {
+        DispatchQueue.main.async { [weak self] in
             self?.viewModel.setCurrentIndex(indexPath.row)
         }
     }
 
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         showKeyboard(false, animated: true)
     }
 }
@@ -576,7 +576,7 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
     }
 
-    func vmShowRelatedProducts(productId: String?) {
+    func vmShowRelatedProducts(_ productId: String?) {
         relatedProductsView.productId.value = productId
     }
 
@@ -593,14 +593,14 @@ extension ChatViewController: ChatViewModelDelegate {
     
     // MARK: > Report user
 
-    func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
+    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
     // MARK: > Rate user
 
-    func vmShowUserRating(source: RateUserSource, data: RateUserData) {
+    func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
         tabBarController.openUserRating(source, data: data)
     }
@@ -617,7 +617,7 @@ extension ChatViewController: ChatViewModelDelegate {
         askForRating()
     }
     
-    func vmShowPrePermissions(type: PrePermissionType) {
+    func vmShowPrePermissions(_ type: PrePermissionType) {
         showKeyboard(false, animated: true)
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
@@ -626,24 +626,24 @@ extension ChatViewController: ChatViewModelDelegate {
         showKeyboard(true, animated: true)
     }
 
-    func vmHideKeyboard(animated: Bool) {
+    func vmHideKeyboard(_ animated: Bool) {
         showKeyboard(false, animated: animated)
     }
     
-    func vmShowMessage(message: String, completion: (() -> ())?) {
+    func vmShowMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
-    func vmRequestLogin(loggedInAction: () -> Void) {
+    func vmRequestLogin(_ loggedInAction: () -> Void) {
         dismissKeyboard(false)
-        ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+        ifLoggedInThen(.AskQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
                        loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
     }
 
-    func vmLoadStickersTooltipWithText(text: NSAttributedString) {
+    func vmLoadStickersTooltipWithText(_ text: NSAttributedString) {
         guard stickersTooltip == nil else { return }
 
-        stickersTooltip = Tooltip(targetView: leftButtonsContainer, superView: view, title: text, style: .Black(closeEnabled: true),
+        stickersTooltip = Tooltip(targetView: leftButtonsContainer, superView: view, title: text, style: .black(closeEnabled: true),
                                   peakOnTop: false, actionBlock: { [weak self] in
                                     self?.showStickers()
                         }, closeBlock: { [weak self] in
@@ -682,46 +682,46 @@ extension ChatViewController {
      
      - parameter notification: NSNotification received
      */
-    func menuControllerWillShow(notification: NSNotification) {
+    func menuControllerWillShow(_ notification: Notification) {
         guard let indexPath = selectedCellIndexPath else { return }
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? ChatBubbleCell else { return }
+        guard let cell = tableView.cellForRow(at: indexPath) as? ChatBubbleCell else { return }
         selectedCellIndexPath = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                            name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                            name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         
-        let menu = UIMenuController.sharedMenuController()
+        let menu = UIMenuController.shared
         menu.setMenuVisible(false, animated: false)
-        let newFrame = tableView.convertRect(cell.bubbleView.frame, fromView: cell)
-        menu.setTargetRect(newFrame, inView: tableView)
+        let newFrame = tableView.convert(cell.bubbleView.frame, from: cell)
+        menu.setTargetRect(newFrame, in: tableView)
         menu.setMenuVisible(true, animated: true)
     }
     
-    func menuControllerWillHide(notification: NSNotification) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
-                                                         name: UIMenuControllerWillShowMenuNotification, object: nil)
+    func menuControllerWillHide(_ notification: Notification) {
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
+                                                         name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
     }
     
-    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        guard let message = viewModel.messageAtIndex(indexPath.row) where message.copyEnabled else { return false }
+    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+        guard let message = viewModel.messageAtIndex(indexPath.row), message.copyEnabled else { return false }
 
         selectedCellIndexPath = indexPath //Need to save the currently selected cell to reposition the menu later
         return true
     }
     
-    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath
-        indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt
+        indexPath: IndexPath, withSender sender: Any?) -> Bool {
         if action == #selector(copy(_:)) {
-            guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return false }
+            guard let cell = tableView.cellForRow(at: indexPath) else { return false }
             cell.setSelected(true, animated: true)
             return true
         }
         return false
     }
     
-     func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
-        indexPath: NSIndexPath, withSender sender: AnyObject?) {
+     func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt
+        indexPath: IndexPath, withSender sender: Any?) {
         if action == #selector(copy(_:)) {
-            UIPasteboard.generalPasteboard().string =  viewModel.textOfMessageAtIndex(indexPath.row)
+            UIPasteboard.general.string =  viewModel.textOfMessageAtIndex(indexPath.row)
         }
     }
 }
@@ -735,15 +735,15 @@ extension ChatViewController {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
 
-        navCtlView.userInteractionEnabled = false
+        navCtlView.isUserInteractionEnabled = false
 
         // Delay is needed in order not to mess with the kb show/hide animation
         delay(0.5) { [weak self] in
-            navCtlView.userInteractionEnabled = true
+            navCtlView.isUserInteractionEnabled = true
             self?.showKeyboard(false, animated: true)
             chatSafetyTipsView.dismissBlock = { [weak self] in
                 self?.viewModel.safetyTipsDismissed()
-                guard let chatEnabled = self?.viewModel.chatEnabled where chatEnabled.value else { return }
+                guard let chatEnabled = self?.viewModel.chatEnabled, chatEnabled.value else { return }
                 self?.textView.becomeFirstResponder()
             }
             chatSafetyTipsView.frame = navCtlView.frame

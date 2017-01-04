@@ -35,7 +35,35 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         super.init(objects: chats, tabNavigator: tabNavigator)
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    required init(objects: [T], tabNavigator: TabNavigator?) {
+        fatalError("init(objects:tabNavigator:) has not been implemented")
+    }
+
+    required init(objects: [T], tabNavigator: TabNavigator?) {
+        fatalError("init(objects:tabNavigator:) has not been implemented")
+    }
+
+    required init(objects: [T], tabNavigator: TabNavigator?) {
+        fatalError("init(objects:tabNavigator:) has not been implemented")
+    }
+
+    required init(objects: [T], tabNavigator: TabNavigator?) {
+        fatalError("init(objects:tabNavigator:) has not been implemented")
+    }
+
+    required init(objects: [T], tabNavigator: TabNavigator?) {
+        fatalError("init(objects:tabNavigator:) has not been implemented")
+    }
+
+    required init(objects: [T], tabNavigator: TabNavigator?) {
+        fatalError("init(objects:tabNavigator:) has not been implemented")
+    }
+
+    required init(objects: [T], tabNavigator: TabNavigator?) {
+        fatalError("init(objects:tabNavigator:) has not been implemented")
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
             setupRxBindings()
@@ -44,7 +72,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     // MARK: - Public methods
 
-    override func index(page: Int, completion: (Result<[ChatConversation], RepositoryError> -> ())?) {
+    override func index(_ page: Int, completion: ((Result<[ChatConversation], RepositoryError>) -> ())?) {
         let offset = max(0, page - 1) * resultsPerPage
         
         chatRepository.indexConversations(resultsPerPage, offset: offset, filter: chatsType.conversationFilter,
@@ -59,12 +87,12 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         }
     }
 
-    func conversationSelectedAtIndex(index: Int) {
+    func conversationSelectedAtIndex(_ index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
         tabNavigator?.openChat(.Conversation(conversation: conversation))
     }
 
-    func conversationDataAtIndex(index: Int) -> ConversationCellData? {
+    func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
 
         return ConversationCellData(status: conversation.conversationCellStatus,
@@ -95,12 +123,12 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         delegate?.vmDeleteSelectedChats()
     }
 
-    func deleteConfirmationTitle(itemCount: Int) -> String {
+    func deleteConfirmationTitle(_ itemCount: Int) -> String {
         return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTitleOne :
             LGLocalizedString.chatListDeleteAlertTitleMultiple
     }
 
-    func deleteConfirmationMessage(itemCount: Int) -> String {
+    func deleteConfirmationMessage(_ itemCount: Int) -> String {
         return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTextOne :
             LGLocalizedString.chatListDeleteAlertTextMultiple
     }
@@ -113,7 +141,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         return LGLocalizedString.chatListDeleteAlertSend
     }
 
-    func deleteChatsAtIndexes(indexes: [Int]) {
+    func deleteChatsAtIndexes(_ indexes: [Int]) {
         let conversationIds: [String] = indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap {
             objectAtIndex($0)?.objectId
         }
@@ -160,7 +188,7 @@ private extension ChatsType {
 
 private extension ChatConversation {
     var conversationCellStatus: ConversationCellStatus {
-        guard let product = product, interlocutor = interlocutor else { return .UserDeleted }
+        guard let product = product, let interlocutor = interlocutor else { return .UserDeleted }
         if interlocutor.isBanned { return .Forbidden }
 
         switch interlocutor.status {

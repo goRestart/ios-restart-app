@@ -9,12 +9,12 @@
 import LGCoreKit
 
 public enum FilterTag: Equatable{
-    case Location(Place)
-    case Within(ProductTimeCriteria)
-    case OrderBy(ProductSortCriteria)
-    case Category(ProductCategory)
-    case PriceRange(from: Int?, to: Int?, currency: Currency?)
-    case FreeStuff
+    case location(Place)
+    case within(ProductTimeCriteria)
+    case orderBy(ProductSortCriteria)
+    case category(ProductCategory)
+    case priceRange(from: Int?, to: Int?, currency: Currency?)
+    case freeStuff
 }
 
 public func ==(a: FilterTag, b: FilterTag) -> Bool {
@@ -24,7 +24,7 @@ public func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.OrderBy(let a),   .OrderBy(let b))   where a == b: return true
     case (.Category(let a), .Category(let b)) where a == b: return true
     case (.PriceRange(let a, let b, _), .PriceRange(let c, let d, _)) where a == c && b == d: return true
-    case (.FreeStuff, .FreeStuff): return true
+    case (.freeStuff, .freeStuff): return true
     default: return false
     }
 }

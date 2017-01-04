@@ -10,14 +10,14 @@ import Foundation
 
 extension CGAffineTransform {
 
-    static func commercializerVideoToFullScreenTransform(sourceFrame: CGRect) -> CGAffineTransform {
-        let windowBounds = UIScreen.mainScreen().bounds
+    static func commercializerVideoToFullScreenTransform(_ sourceFrame: CGRect) -> CGAffineTransform {
+        let windowBounds = UIScreen.main.bounds
         let ty = windowBounds.center.y - sourceFrame.center.y
-        var theTransform = CGAffineTransformMakeTranslation(0, ty)
-        theTransform = CGAffineTransformRotate(theTransform, CGFloat(-M_PI_2))
+        var theTransform = CGAffineTransform(translationX: 0, y: ty)
+        theTransform = theTransform.rotated(by: CGFloat(-M_PI_2))
         let dx = windowBounds.height / sourceFrame.width
         let dy = windowBounds.width / sourceFrame.height
-        theTransform = CGAffineTransformScale(theTransform, dx, dy)
+        theTransform = theTransform.scaledBy(x: dx, y: dy)
         return theTransform
     }
 }

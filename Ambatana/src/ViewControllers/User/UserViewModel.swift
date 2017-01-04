@@ -10,19 +10,19 @@ import LGCoreKit
 import RxSwift
 
 enum UserSource {
-    case TabBar
-    case ProductDetail
-    case Chat
-    case Notifications
-    case Link
+    case tabBar
+    case productDetail
+    case chat
+    case notifications
+    case link
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
+    func vmOpenReportUser(_ reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
     func vmOpenFavorites()
-    func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
-    func vmShowNativeShare(socialMessage: SocialMessage)
+    func vmShowUserActionSheet(_ cancelLabel: String, actions: [UIAction])
+    func vmShowNativeShare(_ socialMessage: SocialMessage)
 }
 
 class UserViewModel: BaseViewModel {
@@ -58,10 +58,10 @@ class UserViewModel: BaseViewModel {
 
     // Output
     let navBarButtons = Variable<[UIAction]>([])
-    let backgroundColor = Variable<UIColor>(UIColor.clearColor())
+    let backgroundColor = Variable<UIColor>(UIColor.clear)
     let headerMode = Variable<UserViewHeaderMode>(.MyUser)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
-    let userAvatarURL = Variable<NSURL?>(nil)
+    let userAvatarURL = Variable<URL?>(nil)
     let userRatingAverage = Variable<Float?>(nil)
     let userRatingCount = Variable<Int?>(nil)
     let userRelationText = Variable<String?>(nil)
@@ -86,7 +86,7 @@ class UserViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    static func myUserUserViewModel(source: UserSource) -> UserViewModel {
+    static func myUserUserViewModel(_ source: UserSource) -> UserViewModel {
         return UserViewModel(source: source)
     }
 
@@ -161,10 +161,10 @@ class UserViewModel: BaseViewModel {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
         updatePermissionsWarning()
@@ -201,20 +201,20 @@ extension UserViewModel {
     }
 
     func buildTrustButtonPressed() {
-        guard let userAccounts = userAccounts.value where isMyProfile else { return }
+        guard let userAccounts = userAccounts.value, isMyProfile else { return }
         var verifyTypes: [VerificationType] = []
         if !userAccounts.emailVerified {
             verifyTypes.append(.Email(myUserRepository.myUser?.email))
         }
         if !userAccounts.facebookVerified {
-            verifyTypes.append(.Facebook)
+            verifyTypes.append(.facebook)
         }
         if !userAccounts.googleVerified {
-            verifyTypes.append(.Google)
+            verifyTypes.append(.google)
         }
         guard !verifyTypes.isEmpty else { return }
         navigator?.openVerifyAccounts(verifyTypes,
-                                         source: .Profile(title: LGLocalizedString.chatConnectAccountsTitle,
+                                         source: .profile(title: LGLocalizedString.chatConnectAccountsTitle,
                                             description: LGLocalizedString.profileConnectAccountsMessage), completionBlock: nil)
     }
 
@@ -265,22 +265,22 @@ extension UserViewModel {
     }
 
     private func buildShareNavBarAction() -> UIAction {
-        let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
+        let icon = UIImage(named: "navbar_share")?.withRenderingMode(.alwaysOriginal)
+        return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.shareButtonPressed()
         }, accessibilityId: .UserNavBarShareButton)
     }
 
     private func buildSettingsNavBarAction() -> UIAction {
-        let icon = UIImage(named: "navbar_settings")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
+        let icon = UIImage(named: "navbar_settings")?.withRenderingMode(.alwaysOriginal)
+        return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.openSettings()
         }, accessibilityId: .UserNavBarSettingsButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
-        let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
+        let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
+        return UIAction(interface: .image(icon, nil), action: { [weak self] in
             guard let strongSelf = self else { return }
 
             var actions = [UIAction]()
@@ -298,8 +298,8 @@ extension UserViewModel {
 
     private func buildReportButton() -> UIAction {
         let title = LGLocalizedString.reportUserTitle
-        return UIAction(interface: .Text(title), action: { [weak self] in
-            guard let strongSelf = self, userReportedId = strongSelf.user.value?.objectId else { return }
+        return UIAction(interface: .text(title), action: { [weak self] in
+            guard let strongSelf = self, let userReportedId = strongSelf.user.value?.objectId else { return }
             let reportVM = ReportUsersViewModel(origin: .Profile, userReportedId: userReportedId)
             strongSelf.delegate?.vmOpenReportUser(reportVM)
         })
@@ -307,12 +307,12 @@ extension UserViewModel {
 
     private func buildBlockButton() -> UIAction {
         let title = LGLocalizedString.chatBlockUser
-        return UIAction(interface: .Text(title), action: { [weak self] in
+        return UIAction(interface: .text(title), action: { [weak self] in
             let title = LGLocalizedString.chatBlockUserAlertTitle
             let message = LGLocalizedString.chatBlockUserAlertText
             let cancelLabel = LGLocalizedString.commonCancel
             let actionTitle = LGLocalizedString.chatBlockUserAlertBlockButton
-            let action = UIAction(interface: .StyledText(actionTitle, .Destructive), action: { [weak self] in
+            let action = UIAction(interface: .styledText(actionTitle, .destructive), action: { [weak self] in
                 self?.block()
             })
             self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: [action])
@@ -321,7 +321,7 @@ extension UserViewModel {
 
     private func buildUnblockButton() -> UIAction {
         let title = LGLocalizedString.chatUnblockUser
-        return UIAction(interface: .Text(title), action: { [weak self] in
+        return UIAction(interface: .text(title), action: { [weak self] in
             self?.unblock()
         })
     }
@@ -353,20 +353,20 @@ extension UserViewModel {
 
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertOk, .Default),
+        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .default),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
-                                    PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
+                                    PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .profile)
                                 },
                                 accessibilityId: .UserPushPermissionOK)
-        let negative = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
+        let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
                                 },
                                 accessibilityId: .UserPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
-                                       alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),
+                                       alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
     }
 }
@@ -479,14 +479,14 @@ extension UserViewModel {
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
 
             // If the user has accounts the set them up
-            if let user = user, _ = user.accounts {
+            if let user = user, let _ = user.accounts {
                 strongSelf.updateAccounts(user)
             }
 
         }.addDisposableTo(disposeBag)
     }
 
-    private func updateAccounts(user: User) {
+    private func updateAccounts(_ user: User) {
         let facebookAccount = user.facebookAccount
         let googleAccount = user.googleAccount
         let emailAccount = user.emailAccount
@@ -505,7 +505,7 @@ extension UserViewModel {
                                                     emailVerified: emailVerified)
     }
     
-    private func updateRatings(user: User?) {
+    private func updateRatings(_ user: User?) {
         guard let user = user else { return }
         if featureFlags.userReviews {
             userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
@@ -569,7 +569,7 @@ extension UserViewModel {
 
     private func setupShareRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
-            guard let user = user, itsMe = self?.itsMe else {
+            guard let user = user, let itsMe = self?.itsMe else {
                 self?.socialMessage = nil
                 return
             }
@@ -582,7 +582,7 @@ extension UserViewModel {
 // MARK: - ProductListViewModelDataDelegate
 
 extension UserViewModel: ProductListViewModelDataDelegate {
-    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+    func productListMV(_ viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                        error: RepositoryError) {
         guard page == 0 && !hasProducts else { return }
 
@@ -593,7 +593,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         }
     }
 
-    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+    func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
         guard page == 0 && !hasProducts else { return }
 
         let errTitle: String?
@@ -617,10 +617,10 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         viewModel.setEmptyState(emptyViewModel)
     }
 
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+    func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
-        guard let product = viewModel.productAtIndex(index), requester = viewModel.productListRequester else { return }
+        guard let product = viewModel.productAtIndex(index), let requester = viewModel.productListRequester else { return }
         let cellModels = viewModel.objects
 
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
@@ -637,13 +637,13 @@ private extension UserViewModel {
 
     func setupPermissionsNotification() {
         guard isMyProfile else { return }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updatePermissionsWarning),
-                        name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePermissionsWarning),
+                        name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
 
     dynamic func updatePermissionsWarning() {
         guard isMyProfile else { return }
-        pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().areRemoteNotificationsEnabled
+        pushPermissionsDisabledWarning.value = !UIApplication.shared.areRemoteNotificationsEnabled
     }
 }
 
@@ -652,12 +652,12 @@ private extension UserViewModel {
 
 extension UserViewModel: SocialSharerDelegate {
 
-    func shareStartedIn(shareType: ShareType) {
+    func shareStartedIn(_ shareType: ShareType) {
 
     }
 
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
-        guard state == .Completed else { return }
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
+        guard state == .completed else { return }
         trackShareComplete(shareType.trackingShareNetwork)
     }
 }
@@ -671,15 +671,15 @@ extension UserViewModel {
 
         let typePage: EventParameterTypePage
         switch source {
-        case .TabBar:
+        case .tabBar:
             typePage = .TabBar
-        case .Chat:
+        case .chat:
             typePage = .Chat
-        case .ProductDetail:
+        case .productDetail:
             typePage = .ProductDetail
-        case .Notifications:
+        case .notifications:
             typePage = .Notifications
-        case .Link:
+        case .link:
             typePage = .External
         }
 
@@ -698,12 +698,12 @@ extension UserViewModel {
         tracker.trackEvent(event)
     }
 
-    private func trackBlock(userId: String) {
+    private func trackBlock(_ userId: String) {
         let event = TrackerEvent.profileBlock(.Profile, blockedUsersIds: [userId])
         tracker.trackEvent(event)
     }
 
-    private func trackUnblock(userId: String) {
+    private func trackUnblock(_ userId: String) {
         let event = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: [userId])
         TrackerProxy.sharedInstance.trackEvent(event)
     }
@@ -738,7 +738,7 @@ extension UserViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackShareComplete(shareNetwork: EventParameterShareNetwork) {
+    private func trackShareComplete(_ shareNetwork: EventParameterShareNetwork) {
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)

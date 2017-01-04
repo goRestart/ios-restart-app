@@ -10,19 +10,19 @@ import LGCoreKit
 
 class ProductSoldNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell> {
     
-    override func draw(cell: NotificationCell, data: NotificationData) {
+    override func draw(_ cell: NotificationCell, data: NotificationData) {
         switch data.type {
-        case let .ProductSold(productImage):
+        case let .productSold(productImage):
             cell.actionLabel.text = LGLocalizedString.notificationsTypeSold
             cell.iconImage.image = UIImage(named: "ic_dollar_sold")
             let placeholder = UIImage(named: "product_placeholder")
-            if let urlStr = productImage, imageUrl = NSURL(string: urlStr) {
+            if let urlStr = productImage, let imageUrl = URL(string: urlStr) {
                 cell.primaryImage.lg_setImageWithURL(imageUrl, placeholderImage: placeholder)
             } else {
                 cell.primaryImage.image = placeholder
             }
             cell.timeLabel.text = data.date.relativeTimeString(true)
-            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeSoldButton, forState: .Normal)
+            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeSoldButton, for: UIControlState())
         default:
             return
         }

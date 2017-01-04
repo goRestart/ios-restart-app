@@ -31,7 +31,7 @@ class PassiveBuyerCell: UITableViewCell, ReusableCell {
 
     // MARK: - Public
 
-    func setupWith(imageUrl: NSURL?, name: String?, firstCell: Bool, lastCell: Bool) {
+    func setupWith(_ imageUrl: URL?, name: String?, firstCell: Bool, lastCell: Bool) {
         if let imageUrl = imageUrl {
             userImage.lg_setImageWithURL(imageUrl)
         }

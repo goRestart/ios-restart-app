@@ -61,12 +61,12 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         view.backgroundColor = UIColor.grayBackground
         topContainer.backgroundColor = UIColor.grayBackground
         topContainer.alpha = 0
-        closeButton.setImage(UIImage(named: "navbar_close")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
 
         setupHeader()
         setupTable()
 
-        contactButton.setStyle(.Primary(fontSize: .Big))
+        contactButton.setStyle(.primary(fontSize: .big))
 
         closeButton.rx_tap.subscribeNext { [weak self] in self?.viewModel.closeButtonPressed()}
             .addDisposableTo(disposeBag)
@@ -102,17 +102,17 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
 
         productImage.clipsToBounds = true
         productImage.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        productImage.contentMode = .ScaleAspectFill
+        productImage.contentMode = .scaleAspectFill
 
         titleLabel.textColor = UIColor.blackText
         titleLabel.font = UIFont.systemMediumFont(size: 17)
         titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
 
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.mediumBodyFont
         messageLabel.numberOfLines = 0
-        messageLabel.textAlignment = .Center
+        messageLabel.textAlignment = .center
     }
 
     private func loadData() {
@@ -124,7 +124,7 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         titleLabel.text = LGLocalizedString.passiveBuyersTitle
         messageLabel.text = LGLocalizedString.passiveBuyersMessage
 
-        contactButton.setTitle(LGLocalizedString.passiveBuyersButton(viewModel.buyersCount), forState: .Normal)
+        contactButton.setTitle(LGLocalizedString.passiveBuyersButton(viewModel.buyersCount), for: UIControlState())
 
         tableView.reloadData()
     }
@@ -140,16 +140,16 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
         tableView.rowHeight = PassiveBuyerCell.cellHeight
 
         let cellNib = UINib(nibName: PassiveBuyerCell.reusableID, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: PassiveBuyerCell.reusableID)
+        tableView.register(cellNib, forCellReuseIdentifier: PassiveBuyerCell.reusableID)
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.buyersCount
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let buyerCell = tableView.dequeueReusableCellWithIdentifier(PassiveBuyerCell.reusableID,
-                                    forIndexPath: indexPath) as? PassiveBuyerCell else { return UITableViewCell() }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PassiveBuyerCell.reusableID,
+                                    for: indexPath) as? PassiveBuyerCell else { return UITableViewCell() }
         let image = viewModel.buyerImageAtIndex(indexPath.row)
         let name = viewModel.buyerNameAtIndex(indexPath.row)
 
@@ -158,7 +158,7 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
         return buyerCell
     }
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scroll = scrollView.contentOffset.y + scrollView.contentInset.top
         headerTopMarginConstraint.constant = PassiveBuyersViewController.headerTopMargin - scroll
 

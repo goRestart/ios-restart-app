@@ -21,13 +21,13 @@ public final class Blowfish {
     }
 
     public static let blockSize: Int = 8 // 64 bit
-    fileprivate let iv: Array<UInt8>
-    fileprivate let blockMode: BlockMode
-    fileprivate let padding: Padding
-    fileprivate lazy var decryptWorker: BlockModeWorker = {
+    private let iv: Array<UInt8>
+    private let blockMode: BlockMode
+    private let padding: Padding
+    private lazy var decryptWorker: BlockModeWorker = {
         return self.blockMode.worker(self.iv, cipherOperation: self.decrypt)
     }()
-    fileprivate lazy var encryptWorker: BlockModeWorker = {
+    private lazy var encryptWorker: BlockModeWorker = {
         return self.blockMode.worker(self.iv, cipherOperation: self.encrypt)
     }()
 
@@ -359,7 +359,7 @@ public final class Blowfish {
         }
     }
 
-    fileprivate func encrypt(block: Array<UInt8>) -> Array<UInt8>? {
+    private func encrypt(block: Array<UInt8>) -> Array<UInt8>? {
         var result = Array<UInt8>()
 
         var l = UInt32(bytes: block[0..<4])
@@ -380,7 +380,7 @@ public final class Blowfish {
         return result
     }
 
-    fileprivate func decrypt(block: Array<UInt8>) -> Array<UInt8>? {
+    private func decrypt(block: Array<UInt8>) -> Array<UInt8>? {
         var result = Array<UInt8>()
 
         var l = UInt32(bytes: block[0..<4])
@@ -405,7 +405,7 @@ public final class Blowfish {
     /// - Parameters:
     ///   - l: left half
     ///   - r: right half
-    fileprivate func encryptBlowfishBlock(l: inout UInt32, r: inout UInt32) {
+    private func encryptBlowfishBlock(l: inout UInt32, r: inout UInt32) {
         var Xl = l
         var Xr = r
 
@@ -430,7 +430,7 @@ public final class Blowfish {
     /// - Parameters:
     ///   - l: left half
     ///   - r: right half
-    fileprivate func decryptBlowfishBlock(l: inout UInt32, r: inout UInt32) {
+    private func decryptBlowfishBlock(l: inout UInt32, r: inout UInt32) {
         var Xl = l
         var Xr = r
 

@@ -10,7 +10,7 @@ import LGCoreKit
 
 protocol CommercialPreviewViewModelDelegate: BaseViewModelDelegate {
     func vmDismiss()
-    func vmShowCommercial(viewModel viewModel: CommercialDisplayViewModel)
+    func vmShowCommercial(viewModel: CommercialDisplayViewModel)
 }
 
 class CommercialPreviewViewModel: BaseViewModel {

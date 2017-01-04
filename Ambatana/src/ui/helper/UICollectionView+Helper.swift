@@ -11,25 +11,25 @@ import CollectionVariable
 
 extension UICollectionView {
     func deselectAll() {
-        guard let selectedItems = indexPathsForSelectedItems() else { return }
+        guard let selectedItems = indexPathsForSelectedItems else { return }
         selectedItems.forEach {
-            deselectItemAtIndexPath($0, animated: false)
+            deselectItem(at: $0, animated: false)
         }
     }
 
-    func handleCollectionChange<T>(change: CollectionChange<T>, completion: ((Bool) -> Void)? = nil) {
+    func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)? = nil) {
         performBatchUpdates({ [weak self] in
             self?.handleChange(change)
         }, completion: completion)
     }
 
-    private func handleChange<T>(change: CollectionChange<T>) {
+    private func handleChange<T>(_ change: CollectionChange<T>) {
         switch change {
         case .Remove(let index, _):
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            let indexPath = IndexPath(forRow: index, inSection: 0)
             deleteItemsAtIndexPaths([indexPath])
         case .Insert(let index, _):
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            let indexPath = IndexPath(forRow: index, inSection: 0)
             insertItemsAtIndexPaths([indexPath])
         case .Composite(let changes):
             changes.forEach { [weak self] change in

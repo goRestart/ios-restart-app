@@ -56,47 +56,47 @@ extension UINavigationBar {
         }
     }
 
-    func forceTouchesFor(view: UIView) {
+    func forceTouchesFor(_ view: UIView) {
         var views = outOfBoundsViewsToForceTouches
         views.append(view)
         outOfBoundsViewsToForceTouches = views
     }
     
-    func endForceTouchesFor(view: UIView) {
+    func endForceTouchesFor(_ view: UIView) {
         var views = outOfBoundsViewsToForceTouches
-        if let indexToRemove = views.indexOf(view) {
-            views.removeAtIndex(indexToRemove)
+        if let indexToRemove = views.index(of: view) {
+            views.remove(at: indexToRemove)
         }
         outOfBoundsViewsToForceTouches = views
     }
 
-    func ignoreTouchesFor(view: UIView) {
+    func ignoreTouchesFor(_ view: UIView) {
         var views = viewsToIgnoreTouchesFor
         views.append(view)
         viewsToIgnoreTouchesFor = views
     }
     
-    func endIgnoreTouchesFor(view: UIView) {
+    func endIgnoreTouchesFor(_ view: UIView) {
         var views = viewsToIgnoreTouchesFor
-        if let indexToRemove = views.indexOf(view) {
-            views.removeAtIndex(indexToRemove)
+        if let indexToRemove = views.index(of: view) {
+            views.remove(at: indexToRemove)
         }
         viewsToIgnoreTouchesFor = views
     }
     
-    override public func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
-        let pointInside = super.pointInside(point, withEvent: event)
+    override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let pointInside = super.point(inside: point, with: event)
 
         for view in viewsToIgnoreTouchesFor {
-            let convertedPoint = view.convertPoint(point, fromView: self)
-            if view.pointInside(convertedPoint, withEvent: event) {
+            let convertedPoint = view.convert(point, from: self)
+            if view.point(inside: convertedPoint, with: event) {
                 return false
             }
         }
 
         for view in outOfBoundsViewsToForceTouches {
-            let convertedPoint = view.convertPoint(point, fromView: self)
-            if view.pointInside(convertedPoint, withEvent: event) {
+            let convertedPoint = view.convert(point, from: self)
+            if view.point(inside: convertedPoint, with: event) {
                 return true
             }
         }
@@ -151,7 +151,7 @@ extension UIViewController {
     }
 
     var statusBarHeight: CGFloat {
-        return UIApplication.sharedApplication().statusBarFrame.size.height
+        return UIApplication.shared.statusBarFrame.size.height
     }
     
     var topBarHeight: CGFloat {
@@ -182,29 +182,29 @@ extension UIViewController {
     
     - parameter hidden: If the toast view should be hidden.
     */
-    func setToastViewHidden(hidden: Bool) {
+    func setToastViewHidden(_ hidden: Bool) {
         guard let toastView = toastView else { return }
-        view.bringSubviewToFront(toastView)
+        view.bringSubview(toFront: toastView)
         toastViewBottomMarginConstraint?.constant = hidden ? toastViewBottomMarginHidden : toastViewBottomMarginVisible
-        UIView.animateWithDuration(0.35) {
+        UIView.animate(withDuration: 0.35, animations: {
             toastView.alpha = hidden ? 0 : 1
             toastView.layoutIfNeeded()
-        }
+        }) 
     }
     
     func setupToastView() {
         guard let toastView = toastView else { return }
         toastView.translatesAutoresizingMaskIntoConstraints = false
         toastView.alpha = 0
-        toastView.userInteractionEnabled = false
+        toastView.isUserInteractionEnabled = false
         view.addSubview(toastView)
         
-        toastViewBottomMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Bottom, relatedBy: .Equal,
-            toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewBottomMarginHidden)
+        toastViewBottomMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .bottom, relatedBy: .equal,
+            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1, constant: toastViewBottomMarginHidden)
         if let bottomConstraint = toastViewBottomMarginConstraint { view.addConstraint(bottomConstraint) }
         
         let views = ["toastView": toastView]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[toastView]|", options: [], metrics: nil, views: views))
     }
 }
 
@@ -228,7 +228,7 @@ extension UIViewController {
                 objc_setAssociatedObject(
                     self,
                     &ReachableKeys.ReachabilityEnabledKey,
-                    NSNumber(bool: newValue),
+                    NSNumber(value: newValue as Bool),
                     .OBJC_ASSOCIATION_RETAIN_NONATOMIC
                 )
             }
@@ -245,7 +245,7 @@ extension UIViewController {
                 objc_setAssociatedObject(
                     self,
                     &ReachableKeys.ReachableKey,
-                    NSNumber(bool: newValue),
+                    NSNumber(value: newValue as Bool),
                     .OBJC_ASSOCIATION_RETAIN_NONATOMIC
                 )
             }
@@ -253,9 +253,9 @@ extension UIViewController {
     }
     
     private static var reachability: TMReachability = {
-        let result = TMReachability.reachabilityForInternetConnection()
-        result.startNotifier()
-        return result
+        let result = TMReachability.forInternetConnection()
+        result?.startNotifier()
+        return result!
     } ()
     
     /**
@@ -263,20 +263,20 @@ extension UIViewController {
     
     - parameter enabled: If reachability notifications should be enabled.
     */
-    internal func setReachabilityEnabled(enabled: Bool) {
+    internal func setReachabilityEnabled(_ enabled: Bool) {
         guard enabled != reachabilityEnabled else { return }
         
         reachabilityEnabled = enabled
         if enabled {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.onReachabilityChanged(_:)), name: kReachabilityChangedNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.onReachabilityChanged(_:)), name: NSNotification.Name.reachabilityChanged, object: nil)
         }
         else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: kReachabilityChangedNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.reachabilityChanged, object: nil)
         }
     }
     
     
-    dynamic private func onReachabilityChanged(notification: NSNotification) {
+    dynamic private func onReachabilityChanged(_ notification: Notification) {
         updateReachableAndToastViewVisibilityIfNeeded()
     }
     
@@ -288,7 +288,7 @@ extension UIViewController {
         reachable = UIViewController.reachability.isReachable()
         
         // Show/hide toast
-        guard let reachable = reachable, reachabilityEnabled = reachabilityEnabled else { return }
+        guard let reachable = reachable, let reachabilityEnabled = reachabilityEnabled else { return }
         guard reachabilityEnabled else { return }
         
         if !reachable {
@@ -302,85 +302,85 @@ extension UIViewController {
 // MARK: - NavigationBar
 
 enum NavBarTransparentSubStyle {
-    case Dark, Light
+    case dark, light
 }
 
 enum NavBarBackgroundStyle {
-    case Transparent(substyle: NavBarTransparentSubStyle)
-    case Default
-    case Custom(background: UIImage, shadow: UIImage)
+    case transparent(substyle: NavBarTransparentSubStyle)
+    case `default`
+    case custom(background: UIImage, shadow: UIImage)
 
     var tintColor: UIColor {
         switch self {
-        case let .Transparent(substyle):
+        case let .transparent(substyle):
             switch substyle {
-            case .Dark:
+            case .dark:
                 return UIColor.clearBarButton
-            case .Light:
+            case .light:
                 return UIColor.lightBarButton
             }
-        case .Default, .Custom:
+        case .default, .custom:
             return UIColor.lightBarButton
         }
     }
 
     var titleColor: UIColor {
         switch self {
-        case let .Transparent(substyle):
+        case let .transparent(substyle):
             switch substyle {
-            case .Dark:
+            case .dark:
                 return UIColor.clearBarTitle
-            case .Light:
+            case .light:
                 return UIColor.lightBarTitle
             }
-        case .Default, .Custom:
+        case .default, .custom:
             return UIColor.lightBarTitle
         }
     }
 }
 
 enum NavBarTitleStyle {
-    case Text(String?)
-    case Image(UIImage)
-    case Custom(UIView)
+    case text(String?)
+    case image(UIImage)
+    case custom(UIView)
 }
 
 extension UIViewController {
 
-    func setNavBarTitle(title: String?) {
-        setNavBarTitleStyle(.Text(title))
+    func setNavBarTitle(_ title: String?) {
+        setNavBarTitleStyle(.text(title))
     }
 
-    func setNavBarTitleStyle(style: NavBarTitleStyle) {
+    func setNavBarTitleStyle(_ style: NavBarTitleStyle) {
         switch style {
-        case let .Text(text):
+        case let .text(text):
             self.navigationItem.title = text
-        case let .Image(image):
+        case let .image(image):
             self.navigationItem.titleView = UIImageView(image: image)
-        case let .Custom(view):
+        case let .custom(view):
             self.navigationItem.titleView = view
         }
     }
 
-    func setNavBarBackButton(icon: UIImage?) {
+    func setNavBarBackButton(_ icon: UIImage?) {
         guard !isRootViewController() else { return }
         let backIconImage = icon ?? UIImage(named: "navbar_back")
-        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
+        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(UIViewController.popBackViewController))
         self.navigationItem.leftBarButtonItem = backButton
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
     }
     
-    func setNavBarBackgroundStyle(style: NavBarBackgroundStyle) {
+    func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
         switch style {
-        case .Transparent:
-            navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        case .transparent:
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
             navigationController?.navigationBar.shadowImage = UIImage()
-        case .Default:
-            navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
+        case .default:
+            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
             navigationController?.navigationBar.shadowImage = nil
-        case let .Custom(background, shadow):
-            navigationController?.navigationBar.setBackgroundImage(background, forBarMetrics: .Default)
+        case let .custom(background, shadow):
+            navigationController?.navigationBar.setBackgroundImage(background, for: .default)
             navigationController?.navigationBar.shadowImage = shadow
         }
 
@@ -393,7 +393,7 @@ extension UIViewController {
 
 // MARK: - BaseViewController
 
-public class BaseViewController: UIViewController, TabBarShowable {
+class BaseViewController: UIViewController, TabBarShowable {
 
     // VM & active
     private var viewModel: BaseViewModel?
@@ -401,7 +401,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
     private var firstAppear: Bool = true
     private var firstWillAppear: Bool = true
     private var firstLayout: Bool = true
-    public var active: Bool = false {
+    open var active: Bool = false {
         didSet {
             // Notify the VM & the views
             viewModel?.active = active
@@ -419,17 +419,17 @@ public class BaseViewController: UIViewController, TabBarShowable {
     private let navBarBackgroundStyle: NavBarBackgroundStyle
     private var swipeBackGestureEnabled: Bool
     var floatingSellButtonHidden: Bool
-    private(set) var viewLoaded: Bool = false
+    private(set) open var viewLoaded: Bool = false
 
 
     // MARK: Lifecycle
 
-    init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .Default,
-         navBarBackgroundStyle: NavBarBackgroundStyle = .Default, swipeBackGestureEnabled: Bool = true) {
+    init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .default,
+         navBarBackgroundStyle: NavBarBackgroundStyle = .default, swipeBackGestureEnabled: Bool = true) {
         self.viewModel = viewModel
         self.subviews = []
         self.statusBarStyle = statusBarStyle
-        self.previousStatusBarStyle = UIApplication.sharedApplication().statusBarStyle
+        self.previousStatusBarStyle = UIApplication.shared.statusBarStyle
         self.navBarBackgroundStyle = navBarBackgroundStyle
         self.floatingSellButtonHidden = false
         self.swipeBackGestureEnabled = swipeBackGestureEnabled
@@ -445,7 +445,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func popBackViewController() {
@@ -455,18 +455,18 @@ public class BaseViewController: UIViewController, TabBarShowable {
         }
     }
 
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         viewLoaded = true
         setNavBarBackButton(nil)
         setupToastView()
         
         //Listen to status bar changes
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.statusBarDidShow(_:)),
-            name: StatusBarNotification.StatusBarWillShow.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BaseViewController.statusBarDidShow(_:)),
+            name: NSNotification.Name(rawValue: StatusBarNotification.StatusBarWillShow.rawValue), object: nil)
     }
     
-    public override func viewWillAppear(animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearFromBackground(false)
         if firstWillAppear {
@@ -475,12 +475,12 @@ public class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    public override func viewWillDisappear(animated: Bool) {
+    open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewWillDisappearToBackground(false)
     }
     
-    public override func viewDidAppear(animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if firstAppear {
             viewDidFirstAppear(animated)
@@ -488,7 +488,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
         }
     }
 
-    public override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if firstLayout {
             viewDidFirstLayoutSubviews()
@@ -496,15 +496,15 @@ public class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    public func viewWillFirstAppear(animated: Bool) {
+    open func viewWillFirstAppear(_ animated: Bool) {
         // implement in subclasses
     }
 
-    public func viewDidFirstAppear(animated: Bool) {
+    open func viewDidFirstAppear(_ animated: Bool) {
         // implement in subclasses
     }
 
-    public func viewDidFirstLayoutSubviews() {
+    open func viewDidFirstLayoutSubviews() {
         // implement in subclasses
     }
     
@@ -512,31 +512,31 @@ public class BaseViewController: UIViewController, TabBarShowable {
     
     // MARK: > Extended lifecycle
     
-    internal func viewWillAppearFromBackground(fromBackground: Bool) {
+    internal func viewWillAppearFromBackground(_ fromBackground: Bool) {
         setNavBarBackgroundStyle(navBarBackgroundStyle)
 
         if !fromBackground {
-            UIApplication.sharedApplication().setStatusBarStyle(statusBarStyle, animated: true)
+            UIApplication.shared.setStatusBarStyle(statusBarStyle, animated: true)
 
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplicationDidEnterBackgroundNotification, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         }
         
-        navigationController?.interactivePopGestureRecognizer?.enabled = swipeBackGestureEnabled
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         
         updateReachableAndToastViewVisibilityIfNeeded()
         active = true
     }
     
-    internal func viewWillDisappearToBackground(toBackground: Bool) {
+    internal func viewWillDisappearToBackground(_ toBackground: Bool) {
         
         if !toBackground {
             if !isRootViewController() {
-                UIApplication.sharedApplication().setStatusBarStyle(previousStatusBarStyle, animated: true)
+                UIApplication.shared.setStatusBarStyle(previousStatusBarStyle, animated: true)
             }
 
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         }
 
         active = false
@@ -544,7 +544,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
     
     // MARK: > Subview handling
     
-    func addSubview(subview: BaseView) {
+    func addSubview(_ subview: BaseView) {
         //Adding to managed subviews
         if !subviews.contains(subview) {
             subviews.append(subview)
@@ -554,7 +554,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    func removeSubview(subview: BaseView) {
+    func removeSubview(_ subview: BaseView) {
         if subviews.contains(subview) {
             subviews = subviews.filter { return $0 !== subview }
             
@@ -568,17 +568,16 @@ public class BaseViewController: UIViewController, TabBarShowable {
     
     // MARK: > NSNotificationCenter
     
-    dynamic private func applicationDidEnterBackground(notification: NSNotification) {
+    dynamic private func applicationDidEnterBackground(_ notification: Notification) {
         viewWillDisappearToBackground(true)
     }
     
-    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
+    dynamic private func applicationWillEnterForeground(_ notification: Notification) {
         viewWillAppearFromBackground(true)
     }
 
-    dynamic func statusBarDidShow(notification: NSNotification) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
-            dispatch_get_main_queue()) { [weak self] in
+    dynamic func statusBarDidShow(_ notification: Notification) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { [weak self] in
                 self?.view.setNeedsLayout()
                 self?.view.layoutIfNeeded()
         }

@@ -10,7 +10,7 @@ import Foundation
 
 class BubbleNotificationManager {
 
-    static let defaultDuration: NSTimeInterval = 3
+    static let defaultDuration: TimeInterval = 3
 
     static let sharedInstance: BubbleNotificationManager = BubbleNotificationManager()
 
@@ -29,7 +29,7 @@ class BubbleNotificationManager {
         . duration <= 0 : notification stays there until the user interacts with it.
      */
 
-    func showBubble(data: BubbleNotificationData, duration: NSTimeInterval?, view: UIView) {
+    func showBubble(_ data: BubbleNotificationData, duration: TimeInterval?, view: UIView) {
         
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotification.initialHeight)
         let bubble = BubbleNotification(frame: frame, data: data)
@@ -56,8 +56,8 @@ class BubbleNotificationManager {
         bubble.showBubble(autoDismissTime: finalDuration)
     }
 
-    private func clearTagNotifications(tag: String?) {
-        guard let tag = tag, notifications = taggedNotifications[tag] else { return }
+    private func clearTagNotifications(_ tag: String?) {
+        guard let tag = tag, let notifications = taggedNotifications[tag] else { return }
         taggedNotifications[tag] = nil
         notifications.forEach{ $0.closeBubble() }
     }
@@ -68,15 +68,15 @@ class BubbleNotificationManager {
 
 extension BubbleNotificationManager: BubbleNotificationDelegate {
 
-    func bubbleNotificationSwiped(notification: BubbleNotification) {
+    func bubbleNotificationSwiped(_ notification: BubbleNotification) {
         notification.closeBubble()
     }
 
-    func bubbleNotificationTimedOut(notification: BubbleNotification) {
+    func bubbleNotificationTimedOut(_ notification: BubbleNotification) {
         notification.closeBubble()
     }
 
-    func bubbleNotificationActionPressed(notification: BubbleNotification) {
+    func bubbleNotificationActionPressed(_ notification: BubbleNotification) {
         notification.data.action?.action()
         notification.closeBubble()
         clearTagNotifications(notification.data.tagGroup)

@@ -10,88 +10,88 @@ import UIKit
 
 public enum ChatInfoViewStatus: Int {
 
-    case Forbidden
-    case Blocked
-    case BlockedBy
-    case ProductDeleted
-    case ProductSold
-    case UserPendingDelete
-    case UserDeleted
-    case Available
+    case forbidden
+    case blocked
+    case blockedBy
+    case productDeleted
+    case productSold
+    case userPendingDelete
+    case userDeleted
+    case available
 
     func infoText(otherUserName userName: String?) -> String {
         switch self {
-        case .Forbidden:
+        case .forbidden:
             if let userName = userName {
                 return LGLocalizedString.accountPendingModerationWName(userName)
             } else {
                 return LGLocalizedString.accountPendingModeration
             }
-        case .Blocked:
+        case .blocked:
             if let userName = userName {
                 return LGLocalizedString.chatBlockedByMeLabelWName(userName)
             } else {
                 return LGLocalizedString.chatBlockedByMeLabel
             }
-        case .BlockedBy:
+        case .blockedBy:
             return LGLocalizedString.chatBlockedByOtherLabel
-        case .ProductDeleted:
+        case .productDeleted:
             return LGLocalizedString.commonProductNotAvailable
-        case .ProductSold:
+        case .productSold:
             return LGLocalizedString.chatProductSoldLabel
-        case .UserPendingDelete, .UserDeleted:
+        case .userPendingDelete, .userDeleted:
             if let userName = userName {
                 return LGLocalizedString.chatAccountDeletedWName(userName)
             } else {
                 return LGLocalizedString.chatAccountDeletedWoName
             }
-        case .Available:
+        case .available:
             return ""
         }
     }
 
 
     var infoTextColor: UIColor {
-        return UIColor.whiteColor()
+        return UIColor.white
     }
 
     var bgColor: UIColor {
         switch self {
-        case .Forbidden, .UserDeleted, .UserPendingDelete, .BlockedBy, .ProductDeleted:
+        case .forbidden, .userDeleted, .userPendingDelete, .blockedBy, .productDeleted:
             return UIColor.black
-        case .Blocked:
+        case .blocked:
             return UIColor.primaryColor
-        case .ProductSold:
+        case .productSold:
             return UIColor.soldColor
-        case .Available:
-            return UIColor.clearColor()
+        case .available:
+            return UIColor.clear
         }
     }
 
     var iconImage: UIImage {
         switch self {
-        case .Forbidden:
+        case .forbidden:
             return UIImage(named: "ic_pending_moderation") ?? UIImage()
-        case .UserDeleted, .UserPendingDelete:
+        case .userDeleted, .userPendingDelete:
             return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
-        case .Blocked:
+        case .blocked:
             return UIImage(named: "ic_blocked_white") ?? UIImage()
-        case .BlockedBy:
+        case .blockedBy:
             return UIImage(named: "ic_blocked_white_line") ?? UIImage()
-        case .ProductDeleted:
+        case .productDeleted:
             return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
-        case .ProductSold:
+        case .productSold:
             return UIImage(named: "ic_sold_white") ?? UIImage()
-        case .Available:
+        case .available:
             return UIImage()
         }
     }
 
     var isHidden: Bool {
         switch self {
-        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted, .ProductSold, .UserDeleted, .UserPendingDelete:
+        case .forbidden, .blocked, .blockedBy, .productDeleted, .productSold, .userDeleted, .userPendingDelete:
             return false
-        case .Available:
+        case .available:
             return true
         }
     }
@@ -101,7 +101,7 @@ public enum ChatInfoViewStatus: Int {
     }
 }
 
-public class RelationInfoView: UIView {
+class RelationInfoView: UIView {
 
     static let defaultHeight: CGFloat = 28
     private static let visibleMaxHeight: CGFloat = 60
@@ -111,8 +111,8 @@ public class RelationInfoView: UIView {
     @IBOutlet weak var chatInfoLabel: UILabel!
     @IBOutlet weak var relationInfoViewMaxHeight: NSLayoutConstraint!
 
-    public static func relationInfoView() -> RelationInfoView {
-        guard let view =  NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil)?
+    open static func relationInfoView() -> RelationInfoView {
+        guard let view =  Bundle.main.loadNibNamed("RelationInfoView", owner: self, options: nil)?
             .first as? RelationInfoView else { return RelationInfoView() }
         return view
     }
@@ -125,11 +125,11 @@ public class RelationInfoView: UIView {
         super.init(coder: aDecoder)
     }
 
-    func setupUIForStatus(status: ChatInfoViewStatus, otherUserName: String?) {
+    func setupUIForStatus(_ status: ChatInfoViewStatus, otherUserName: String?) {
         setupBasicUI()
 
         // Status dependant setup
-        hidden = status.isHidden
+        isHidden = status.isHidden
         relationInfoViewMaxHeight.constant = status.isHidden ? 0 : RelationInfoView.visibleMaxHeight
         backgroundColor = status.bgColor
         chatInfoLabel.textColor = status.infoTextColor
@@ -139,10 +139,10 @@ public class RelationInfoView: UIView {
 
     func setupBasicUI() {
         // Non-Status dependant setup
-        containerView.backgroundColor = UIColor.clearColor()
+        containerView.backgroundColor = UIColor.clear
         chatInfoLabel.font = UIFont.smallBodyFont
-        chatInfoLabel.textAlignment = .Left
-        chatInfoIcon.contentMode = .ScaleAspectFill
+        chatInfoLabel.textAlignment = .left
+        chatInfoIcon.contentMode = .scaleAspectFill
         chatInfoIcon.clipsToBounds = true
     }
 }

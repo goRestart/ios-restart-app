@@ -9,37 +9,37 @@
 import LGCoreKit
 
 enum LoginStyle {
-    case FullScreen
-    case Popup(String)
+    case fullScreen
+    case popup(String)
 }
 
 extension UIViewController {
     
-    internal func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
-            ifLoggedInThen(source, loginStyle: .FullScreen, preDismissAction: nil, loggedInAction: loggedInAction,
+    internal func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {
+            ifLoggedInThen(source, loginStyle: .fullScreen, preDismissAction: nil, loggedInAction: loggedInAction,
                 elsePresentSignUpWithSuccessAction: afterLogInAction)
     }
 
-    internal func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle,
+    internal func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle,
         preDismissAction: (() -> Void)?, loggedInAction: () -> Void,
-        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
+        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {
             if Core.sessionManager.loggedIn {
                 loggedInAction()
             } else {
                 let viewModel = SignUpViewModel(appearance: .Light, source: source)
                 switch loginStyle {
-                case .FullScreen:
+                case .fullScreen:
                     let vc = MainSignUpViewController(viewModel: viewModel)
                     vc.afterLoginAction = afterLogInAction
                     let navCtl = UINavigationController(rootViewController: vc)
-                    navCtl.view.backgroundColor = UIColor.whiteColor()
-                    presentViewController(navCtl, animated: true, completion: nil)
-                case .Popup(let message):
+                    navCtl.view.backgroundColor = UIColor.white
+                    present(navCtl, animated: true, completion: nil)
+                case .popup(let message):
                     let vc = PopupSignUpViewController(viewModel: viewModel, topMessage: message)
                     vc.preDismissAction = preDismissAction
                     vc.afterLoginAction = afterLogInAction
-                    presentViewController(vc, animated: true, completion: nil)
+                    present(vc, animated: true, completion: nil)
                 }
             }
     }

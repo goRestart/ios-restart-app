@@ -7,6 +7,30 @@
 import UIKit
 import SafariServices
 import RxSwift
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+private func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+private func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 // MARK: - UINavigationBar helpers
 
@@ -26,13 +50,13 @@ extension UIViewController {
         return navigationController?.viewControllers[0] == self
     }
 
-    func setLetGoRightButtonWith(action: UIAction, disposeBag: DisposeBag, buttonTintColor: UIColor? = nil) -> UIBarButtonItem? {
+    func setLetGoRightButtonWith(_ action: UIAction, disposeBag: DisposeBag, buttonTintColor: UIColor? = nil) -> UIBarButtonItem? {
         let rightItem = UIBarButtonItem()
         rightItem.tintColor = buttonTintColor
-        rightItem.style = .Plain
+        rightItem.style = .plain
         if let image = action.image {
             if let _ = buttonTintColor {
-                rightItem.image = image.imageWithRenderingMode(.AlwaysTemplate)
+                rightItem.image = image.withRenderingMode(.alwaysTemplate)
             } else {
                 rightItem.image = image
             }
@@ -49,8 +73,8 @@ extension UIViewController {
         return rightItem
     }
 
-    func setLetGoRightButtonWith(text text: String, selector: String) -> UIBarButtonItem {
-        let rightItem = UIBarButtonItem(title: text, style: .Plain, target: self, action: Selector(selector))
+    func setLetGoRightButtonWith(text: String, selector: String) -> UIBarButtonItem {
+        let rightItem = UIBarButtonItem(title: text, style: .plain, target: self, action: Selector(selector))
         navigationItem.rightBarButtonItems = nil
         navigationItem.rightBarButtonItem = rightItem
         return rightItem
@@ -58,7 +82,7 @@ extension UIViewController {
 
     func setLetGoRightButtonWith(imageName image: String, selector: String,
         buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
-            return setLetGoRightButtonWith(imageName: image, renderingMode: .AlwaysTemplate, selector: selector,
+            return setLetGoRightButtonWith(imageName: image, renderingMode: .alwaysTemplate, selector: selector,
                 buttonsTintColor: buttonsTintColor)
     }
     
@@ -68,11 +92,11 @@ extension UIViewController {
                                        buttonsTintColor: buttonsTintColor)
     }
 
-    func setLetGoRightButtonWith(image image: UIImage?, renderingMode: UIImageRenderingMode,
+    func setLetGoRightButtonWith(image: UIImage?, renderingMode: UIImageRenderingMode,
                                            selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
-        let itemImage = image?.imageWithRenderingMode(renderingMode)
+        let itemImage = image?.withRenderingMode(renderingMode)
         let rightitem = UIBarButtonItem(image:itemImage,
-                                        style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
+                                        style: UIBarButtonItemStyle.plain, target: self, action: Selector(selector))
         rightitem.tintColor = buttonsTintColor
         navigationItem.rightBarButtonItems = nil
         navigationItem.rightBarButtonItem = rightitem
@@ -81,7 +105,7 @@ extension UIViewController {
     
     // Used to set right buttons in the LetGo style and link them with proper actions.
     func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String], tags: [Int]? = nil) -> [UIButton] {
-        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .AlwaysTemplate })
+        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .alwaysTemplate })
         return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
             tags: tags)
     }
@@ -92,11 +116,11 @@ extension UIViewController {
 
             var buttons: [UIButton] = []
             for i in 0..<images.count {
-                let button = UIButton(type: .System)
-                button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+                let button = UIButton(type: .system)
+                button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
                 button.tag = tags != nil ? tags![i] : i
-                button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(renderingMode[i]), forState: .Normal)
-                button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
+                button.setImage(UIImage(named: images[i])?.withRenderingMode(renderingMode[i]), for: UIControlState())
+                button.addTarget(self, action: Selector(selectors[i]), for: UIControlEvents.touchUpInside)
                 buttons.append(button)
             }
 
@@ -105,17 +129,17 @@ extension UIViewController {
         return buttons
     }
     
-    func setNavigationBarRightButtons(buttons: [UIButton]) {
+    func setNavigationBarRightButtons(_ buttons: [UIButton]) {
         let height: CGFloat = 44
 
         var x: CGFloat = 0
         
         let items: [UIBarButtonItem] = buttons.flatMap { button in
-            guard let icon = button.imageForState(.Normal) else { return nil }
+            guard let icon = button.image(for: UIControlState()) else { return nil }
             
             let buttonWidth = icon.size.width + barButtonsHoritzontalSpacing
             button.frame = CGRect(x: x, y: 0, width: buttonWidth, height: height)
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+            button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
             
             x += buttonWidth
             
@@ -123,7 +147,7 @@ extension UIViewController {
         }
 
         navigationItem.rightBarButtonItem = nil
-        navigationItem.rightBarButtonItems = items.reverse()
+        navigationItem.rightBarButtonItems = items.reversed()
     }
 }
 
@@ -134,21 +158,21 @@ extension UIViewController {
 
     // gets back one VC from the stack.
     func popBackViewController() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
 
     /**
     Helper to present a view controller using the main thread
     */
-    func presentViewController(viewControllerToPresent: UIViewController, animated: Bool, onMainThread: Bool,
+    func presentViewController(_ viewControllerToPresent: UIViewController, animated: Bool, onMainThread: Bool,
         completion: (() -> Void)?) {
             if onMainThread {
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.presentViewController(viewControllerToPresent, animated: animated, completion: completion)
+                DispatchQueue.main.async { [weak self] in
+                    self?.present(viewControllerToPresent, animated: animated, completion: completion)
                 }
             }
             else {
-                self.presentViewController(viewControllerToPresent, animated: animated, completion: completion)
+                self.present(viewControllerToPresent, animated: animated, completion: completion)
             }
     }
 
@@ -158,15 +182,15 @@ extension UIViewController {
     - parameter animated:   whether to animate or not
     - parameter completion: completion callback
     */
-    func popViewController(animated animated: Bool, completion: (() -> Void)?) {
+    func popViewController(animated: Bool, completion: (() -> Void)?) {
         guard let navigationController = navigationController else { return }
         if animated {
             CATransaction.begin()
             CATransaction.setCompletionBlock(completion)
-            navigationController.popViewControllerAnimated(true)
+            navigationController.popViewController(animated: true)
             CATransaction.commit()
         } else {
-            navigationController.popViewControllerAnimated(false)
+            navigationController.popViewController(animated: false)
             completion?()
         }
     }
@@ -177,7 +201,7 @@ extension UIViewController {
     - parameter animated:   whether to animate or not
     - parameter completion: completion callback
     */
-    func pushViewController(viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard let navigationController = navigationController else { return }
         if animated {
             CATransaction.begin()
@@ -193,13 +217,13 @@ extension UIViewController {
     /**
      Helper to recursively dismiss all presented view controllers
      */
-    func dismissAllPresented(completion: (() -> ())?) {
+    func dismissAllPresented(_ completion: (() -> ())?) {
         guard let presented = presentedViewController else {
             completion?()
             return
         }
         presented.dismissAllPresented(nil)
-        presented.dismissViewControllerAnimated(false, completion: completion)
+        presented.dismiss(animated: false, completion: completion)
     }
 }
 
@@ -207,13 +231,13 @@ extension UIViewController {
 // MARK: - Internal urls presenters
 
 extension UIViewController {
-    func openInternalUrl(url: NSURL) {
+    func openInternalUrl(_ url: URL) {
         if #available(iOS 9.0, *) {
-            let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+            let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             svc.view.tintColor = UIColor.primaryColor
-            self.presentViewController(svc, animated: true, completion: nil)
+            self.present(svc, animated: true, completion: nil)
         } else {
-            UIApplication.sharedApplication().openURL(url)
+            UIApplication.shared.openURL(url)
         }
     }
 }
@@ -230,25 +254,24 @@ enum StatusBarNotification: String {
 
 extension UIViewController {
 
-    func setStatusBarHidden(hidden: Bool) {
+    func setStatusBarHidden(_ hidden: Bool) {
         setStatusBarHidden(hidden, withAnimation: nil)
     }
 
-    func setStatusBarHidden(hidden: Bool, withAnimation animation: UIStatusBarAnimation?) {
+    func setStatusBarHidden(_ hidden: Bool, withAnimation animation: UIStatusBarAnimation?) {
 
         let willNotificationName: StatusBarNotification = hidden ? .StatusBarWillHide : .StatusBarWillShow
         let didNotificationName: StatusBarNotification = hidden ? .StatusBarDidHide : .StatusBarDidShow
-        NSNotificationCenter.defaultCenter().postNotificationName(willNotificationName.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: willNotificationName.rawValue), object: nil)
 
         if let animation = animation {
-            UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: animation)
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))),
-                dispatch_get_main_queue()) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(didNotificationName.rawValue, object: nil)
+            UIApplication.shared.setStatusBarHidden(hidden, with: animation)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: didNotificationName.rawValue), object: nil)
             }
         } else {
-            UIApplication.sharedApplication().statusBarHidden = hidden
-            NSNotificationCenter.defaultCenter().postNotificationName(didNotificationName.rawValue, object: nil)
+            UIApplication.shared.isStatusBarHidden = hidden
+            NotificationCenter.default.post(name: Notification.Name(rawValue: didNotificationName.rawValue), object: nil)
         }
     }
 }

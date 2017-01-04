@@ -53,10 +53,10 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     init(viewModel: VerifyAccountsViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
         self.keyboardHelper = keyboardHelper
-        super.init(viewModel: viewModel, nibName: "VerifyAccountsViewController", statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: "VerifyAccountsViewController", statusBarStyle: .lightContent)
         viewModel.delegate = self
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder: NSCoder) {
@@ -71,7 +71,7 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         setupRx()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GIDSignIn.sharedInstance().uiDelegate = self
     }
@@ -81,8 +81,8 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
 
     private func setupUI() {
         contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
-        fbButton.setStyle(.Facebook)
-        googleButton.setStyle(.Google)
+        fbButton.setStyle(.facebook)
+        googleButton.setStyle(.google)
         emailButton.rounded = true
         emailContainer.rounded = true
         emailTextFieldButton.rounded = true
@@ -91,24 +91,24 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         titleLabel.text = viewModel.titleText
         descriptionLabel.text = viewModel.descriptionText
 
-        fbButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, forState: .Normal)
-        googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, forState: .Normal)
-        emailButton.setTitle(LGLocalizedString.profileVerifyEmailButton, forState: .Normal)
+        fbButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, for: UIControlState())
+        googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, for: UIControlState())
+        emailButton.setTitle(LGLocalizedString.profileVerifyEmailButton, for: UIControlState())
 
         if viewModel.fbButtonState.value == .Hidden {
             fbContainerHeight.constant = 0
             fbContainerBottom.constant = 0
-            fbButton.hidden = true
+            fbButton.isHidden = true
         }
         if viewModel.googleButtonState.value == .Hidden {
             googleContainerHeight.constant = 0
             googleContainerBottom.constant = 0
-            googleButton.hidden = true
+            googleButton.isHidden = true
         }
         if viewModel.emailButtonState.value == .Hidden {
             emailContainerHeight.constant = 0
             emailContainerBottom.constant = emailContainerInvisibleMargin
-            emailContainer.hidden = true
+            emailContainer.isHidden = true
         }
     }
 
@@ -125,9 +125,9 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
                 return false
             }
         }.bindNext { [weak self] (hidden:Bool) in
-            self?.emailButtonLogo.hidden = !hidden
-            self?.emailTextField.hidden = hidden
-            self?.emailTextFieldLogo.hidden = hidden
+            self?.emailButtonLogo.isHidden = !hidden
+            self?.emailTextField.isHidden = hidden
+            self?.emailTextFieldLogo.isHidden = hidden
         }.addDisposableTo(disposeBag)
 
         backgroundButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
@@ -137,10 +137,9 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         emailTextFieldButton.rx_tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.addDisposableTo(disposeBag)
         emailTextField.rx_text.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
-            guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime
-                where viewHeight >= origin else { return }
+            guard let viewHeight = self?.view.height, let animationTime = self?.keyboardHelper.animationTime, viewHeight >= origin else { return }
             self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)
-            UIView.animateWithDuration(Double(animationTime), animations: {[weak self] in self?.view.layoutIfNeeded()})
+            UIView.animate(withDuration: Double(animationTime), animations: {[weak self] in self?.view.layoutIfNeeded()})
         }.addDisposableTo(disposeBag)
     }
 }
@@ -176,13 +175,13 @@ extension UIButton {
         return UIBindingObserver(UIElement: self) { button, state in
             switch state {
             case .Hidden:
-                button.hidden = true
+                button.isHidden = true
             case .Enabled:
-                button.hidden = false
-                button.enabled = true
+                button.isHidden = false
+                button.isEnabled = true
             case .Disabled, .Loading:
-                button.hidden = false
-                button.enabled = false
+                button.isHidden = false
+                button.isEnabled = false
             }
         }.asObserver()
     }

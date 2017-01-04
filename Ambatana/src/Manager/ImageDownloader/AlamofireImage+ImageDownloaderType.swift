@@ -10,9 +10,9 @@ import AlamofireImage
 
 extension AlamofireImage.ImageDownloader: ImageDownloaderType {
 
-    func setImageView(imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
+    func setImageView(_ imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?) {
-        let URLRequest = NSURLRequest(URL: url)
+        let URLRequest = NSURLRequest(url: url as URL)
         let cached = imageIsCachedForURLRequest(URLRequest)
         imageView.af_setImageWithURL(url, placeholderImage: placeholderImage, imageTransition: .None) { response in
 
@@ -28,8 +28,8 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         }
     }
 
-    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
-        let URLRequest = NSURLRequest(URL: url)
+    func downloadImageWithURL(_ url: NSURL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
+        let URLRequest = NSURLRequest(url: url as URL)
         let cached = imageIsCachedForURLRequest(URLRequest)
         return downloadImage(URLRequest: URLRequest) { response in
             
@@ -45,17 +45,17 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         }
     }
 
-    func cachedImageForUrl(url: NSURL) -> UIImage? {
-        let URLRequest = NSURLRequest(URL: url)
+    func cachedImageForUrl(_ url: NSURL) -> UIImage? {
+        let URLRequest = NSURLRequest(url: url as URL)
         let identifier = URLRequest.URLRequest.URLString
         return imageCache?.imageWithIdentifier(identifier)
     }
 
-    func cancelImageDownloading(receipt: RequestReceipt) {
+    func cancelImageDownloading(_ receipt: RequestReceipt) {
         cancelRequestForRequestReceipt(receipt)
     }
     
-    private func imageIsCachedForURLRequest(URLRequest: NSURLRequest) -> Bool {
+    private func imageIsCachedForURLRequest(_ URLRequest: NSURLRequest) -> Bool {
         let identifier = URLRequest.URLRequest.URLString
         let cached = imageCache?.imageWithIdentifier(identifier) != nil
         return cached

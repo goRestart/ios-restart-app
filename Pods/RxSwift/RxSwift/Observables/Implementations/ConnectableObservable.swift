@@ -63,13 +63,13 @@ class ConnectableObservableAdapter<S: SubjectType>
     : ConnectableObservable<S.E> {
     typealias ConnectionType = Connection<S>
     
-    fileprivate let _subject: S
-    fileprivate let _source: Observable<S.SubjectObserverType.E>
+    private let _subject: S
+    private let _source: Observable<S.SubjectObserverType.E>
     
-    fileprivate let _lock = NSRecursiveLock()
+    private let _lock = NSRecursiveLock()
     
     // state
-    fileprivate var _connection: ConnectionType?
+    private var _connection: ConnectionType?
     
     init(source: Observable<S.SubjectObserverType.E>, subject: S) {
         _source = source

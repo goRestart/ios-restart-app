@@ -17,7 +17,7 @@ extension Double {
 
      Double(4.24).roundNearest(0.1) -> 4.2
      Double(4.25).roundNearest(0.1) -> 4.3 */
-    func roundNearest(nearest: Double) -> Double {
+    func roundNearest(_ nearest: Double) -> Double {
         let n = 1/nearest
         return round(self * n) / n
     }

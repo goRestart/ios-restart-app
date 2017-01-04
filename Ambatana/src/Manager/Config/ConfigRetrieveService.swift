@@ -8,22 +8,22 @@
 
 import Result
 
-public enum ConfigRetrieveServiceError: ErrorType, CustomStringConvertible {
-    case Network
-    case Internal
+public enum ConfigRetrieveServiceError: Error, CustomStringConvertible {
+    case network
+    case `internal`
 
     public var description: String {
         switch (self) {
-        case Network:
+        case .network:
             return "Network"
-        case Internal:
+        case internal:
             return "Internal"
         }
     }
 }
 
 public typealias ConfigRetrieveServiceResult = Result<Config, ConfigRetrieveServiceError>
-public typealias ConfigRetrieveServiceCompletion = ConfigRetrieveServiceResult -> Void
+public typealias ConfigRetrieveServiceCompletion = (ConfigRetrieveServiceResult) -> Void
 
 public protocol ConfigRetrieveService {
 
@@ -32,5 +32,5 @@ public protocol ConfigRetrieveService {
 
         - parameter completion: The completion closure.
     */
-    func retrieveConfigWithCompletion(completion: ConfigRetrieveServiceCompletion?)
+    func retrieveConfigWithCompletion(_ completion: ConfigRetrieveServiceCompletion?)
 }

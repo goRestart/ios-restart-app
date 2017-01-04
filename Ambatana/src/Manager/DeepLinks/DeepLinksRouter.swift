@@ -39,7 +39,7 @@ class DeepLinksRouter {
 
     // MARK: > Init
 
-    func initWithLaunchOptions(launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func initWithLaunchOptions(_ launchOptions: [AnyHashable: Any]?) -> Bool {
         guard let launchOptions = launchOptions else { return false }
 
         let shortcut = checkInitShortcutAction(launchOptions)
@@ -53,14 +53,14 @@ class DeepLinksRouter {
     // MARK: > Shortcut actions (force touch)
 
     @available(iOS 9.0, *)
-    func performActionForShortcutItem(shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+    func performActionForShortcutItem(_ shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
         guard let shortCut = ShortcutItem.buildFromUIApplicationShortcutItem(shortcutItem) else { return }
         deepLinks.onNext(shortCut.deepLink)
     }
 
     // MARK: > Uri schemes
 
-    func openUrl(url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func openUrl(_ url: URL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         // If branch handles the deeplink we don't need to do anything as we will get the branch object through their callback
         if Branch.getInstance().handleDeepLink(url) { return true }
 
@@ -71,14 +71,14 @@ class DeepLinksRouter {
 
     // MARK: > Universal links
 
-    func continueUserActivity(userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-        logMessage(.Verbose, type: AppLoggingOptions.DeepLink, message: "Continue user activity: \(userActivity.webpageURL)")
+    func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        logMessage(.verbose, type: AppLoggingOptions.DeepLink, message: "Continue user activity: \(userActivity.webpageURL)")
         if let appsflyerDeepLink = AppsFlyerDeepLink.buildFromUserActivity(userActivity) {
             deepLinks.onNext(appsflyerDeepLink.deepLink)
             return true
         }
 
-        if Branch.getInstance().continueUserActivity(userActivity) { return true }
+        if Branch.getInstance().continue(userActivity) { return true }
 
         guard let universalLink = UniversalLink.buildFromUserActivity(userActivity) else {
             // Branch sometimes fails to return true for their own user activity so we return true for app.letgo.com links
@@ -90,24 +90,24 @@ class DeepLinksRouter {
 
     // MARK: > Branch.io
 
-    func deepLinkFromBranchObject(object: BranchUniversalObject?, properties: BranchLinkProperties?) {
-        logMessage(.Verbose, type: .DeepLink, message: "received branch Object \(object)")
+    func deepLinkFromBranchObject(_ object: BranchUniversalObject?, properties: BranchLinkProperties?) {
+        logMessage(.verbose, type: .DeepLink, message: "received branch Object \(object)")
         guard let branchDeepLink = object?.deepLinkWithProperties(properties) else { return }
-        logMessage(.Verbose, type: .DeepLink, message: "Resolved branch Object \(branchDeepLink.action)")
+        logMessage(.verbose, type: .DeepLink, message: "Resolved branch Object \(branchDeepLink.action)")
         deepLinks.onNext(branchDeepLink)
     }
 
     // MARK: > Push Notifications
 
-    func didReceiveRemoteNotification(userInfo: [NSObject : AnyObject], applicationState: UIApplicationState)
+    func didReceiveRemoteNotification(_ userInfo: [AnyHashable: Any], applicationState: UIApplicationState)
         -> PushNotification? {
             guard let pushNotification = PushNotification.buildFromUserInfo(userInfo,
-                                                appActive: applicationState == .Active) else { return nil }
+                                                appActive: applicationState == .active) else { return nil }
             deepLinks.onNext(pushNotification.deepLink)
             return pushNotification
     }
 
-    func handleActionWithIdentifier(identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject],
+    func handleActionWithIdentifier(_ identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any],
         completionHandler: () -> Void) {
             //No actions implemented
     }
@@ -115,21 +115,21 @@ class DeepLinksRouter {
 
     // MARK: - Private methods
 
-    private func checkInitShortcutAction(launchOptions: [NSObject: AnyObject]) -> Bool {
+    private func checkInitShortcutAction(_ launchOptions: [AnyHashable: Any]) -> Bool {
         guard let _ = ShortcutItem.buildFromLaunchOptions(launchOptions) else { return false }
         return true
     }
 
-    private func checkInitUriScheme(launchOptions: [NSObject: AnyObject]) -> Bool {
+    private func checkInitUriScheme(_ launchOptions: [AnyHashable: Any]) -> Bool {
         guard let _ = UriScheme.buildFromLaunchOptions(launchOptions) else { return false }
         return true
     }
 
-    private func checkInitUniversalLink(launchOptions: [NSObject: AnyObject]) -> Bool {
-        return launchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey] != nil
+    private func checkInitUniversalLink(_ launchOptions: [AnyHashable: Any]) -> Bool {
+        return launchOptions[UIApplicationLaunchOptionsKey.userActivityDictionary] != nil
     }
 
-    private func checkInitPushNotification(launchOptions: [NSObject: AnyObject]) -> Bool {
+    private func checkInitPushNotification(_ launchOptions: [AnyHashable: Any]) -> Bool {
         guard let pushNotification = PushNotification.buildFromLaunchOptions(launchOptions) else { return false }
         initialDeepLink = pushNotification.deepLink
         return true

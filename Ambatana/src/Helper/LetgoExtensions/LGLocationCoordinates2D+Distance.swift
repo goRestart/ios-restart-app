@@ -10,12 +10,12 @@ import LGCoreKit
 import CoreLocation
 
 extension LGLocationCoordinates2D {
-    func distanceTo(toCoordinates: LGLocationCoordinates2D) -> Double {
+    func distanceTo(_ toCoordinates: LGLocationCoordinates2D) -> Double {
         var meters = 0.0
         
         let fromLocation = CLLocation(latitude: latitude, longitude: longitude)
         let toLocation = CLLocation(latitude: toCoordinates.latitude, longitude: toCoordinates.longitude)
-        meters = fromLocation.distanceFromLocation(toLocation)
+        meters = fromLocation.distance(from: toLocation)
         
         let distanceType = DistanceType.systemDistanceType()
         switch (distanceType) {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ToastView: UIView {
+class ToastView: UIView {
 
     static let standardHeight: CGFloat = 33
 
@@ -21,7 +21,7 @@ public class ToastView: UIView {
     @IBOutlet private weak var labelRightMarginConstraint: NSLayoutConstraint!
 
     // > Data
-    public var title: String = "" {
+    open var title: String = "" {
         didSet {
             if let label = label {
                 label.text = title
@@ -31,12 +31,12 @@ public class ToastView: UIView {
     
     // MARK: - Lifecycle
     
-    public static func toastView() -> ToastView? {
-        return NSBundle.mainBundle().loadNibNamed("ToastView", owner: self, options: nil)?.first as? ToastView
+    open static func toastView() -> ToastView? {
+        return Bundle.main.loadNibNamed("ToastView", owner: self, options: nil)?.first as? ToastView
     }
     
-    public override func intrinsicContentSize() -> CGSize {
-        var size = label.intrinsicContentSize()
+    open override var intrinsicContentSize : CGSize {
+        var size = label.intrinsicContentSize
         size.height += labelTopMarginConstraint.constant + labelBottomMarginConstraint.constant
         size.width += labelLeftMarginConstraint.constant + labelRightMarginConstraint.constant
         return size

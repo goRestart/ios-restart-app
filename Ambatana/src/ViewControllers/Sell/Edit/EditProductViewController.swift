@@ -27,7 +27,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     private static let viewOptionGenericHeight: CGFloat = 50
 
     enum TextFieldTag: Int {
-        case ProductTitle = 1000, ProductPrice, ProductDescription
+        case productTitle = 1000, productPrice, productDescription
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -117,59 +117,59 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         setupRxBindings()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        descriptionTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
+        descriptionTextView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
     }
     
     // MARK: - Public methods
     
     // MARK: > Actions
   
-    @IBAction func categoryButtonPressed(sender: AnyObject) {
+    @IBAction func categoryButtonPressed(_ sender: AnyObject) {
         
         let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil,
-            preferredStyle: .ActionSheet)
+            preferredStyle: .actionSheet)
         alert.popoverPresentationController?.sourceView = categoryButton
         alert.popoverPresentationController?.sourceRect = categoryButton.frame
 
         for i in 0..<viewModel.numberOfCategories {
-            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .Default,
+            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .default,
                 handler: { (categoryAction) -> Void in
                     self.viewModel.selectCategoryAtIndex(i)
             }))
         }
         
         alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton,
-            style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+            style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
 
     }
     
-    @IBAction func sendButtonPressed(sender: AnyObject) {
+    @IBAction func sendButtonPressed(_ sender: AnyObject) {
         viewModel.sendButtonPressed()
     }
     
-    @IBAction func shareFBSwitchChanged(sender: AnyObject) {
-        viewModel.shouldShareInFB = shareFBSwitch.on
+    @IBAction func shareFBSwitchChanged(_ sender: AnyObject) {
+        viewModel.shouldShareInFB = shareFBSwitch.isOn
     }
 
     // MARK: - TextField Delegate Methods
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         // textField is inside a container, so we need to know which container is focused (to scroll to visible when keyboard was up)
         activeField = textField.superview
         return true
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
-        guard let tag = TextFieldTag(rawValue: textField.tag) where tag == .ProductTitle else { return }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let tag = TextFieldTag(rawValue: textField.tag), tag == .productTitle else { return }
         if let text = textField.text {
             viewModel.userFinishedEditingTitle(text)
         }
     }
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         if textField == priceTextField && !textField.shouldChangePriceInRange(range, replacementString: string,
                                                                               acceptsSeparator: true) {
@@ -181,7 +181,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         let text = textField.textReplacingCharactersInRange(range, replacementString: cleanReplacement)
         if let tag = TextFieldTag(rawValue: textField.tag) {
             switch (tag) {
-            case .ProductTitle:
+            case .productTitle:
                 viewModel.title = text.isEmpty ? nil : text
                 if string.hasEmojis() {
                     //Forcing the new text (without emojis) by returning false
@@ -189,17 +189,17 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
                     return false
                 }
                 viewModel.userWritesTitle(text)
-            case .ProductPrice:
+            case .productPrice:
                 viewModel.price = text.isEmpty ? nil : text
-            case .ProductDescription:
+            case .productDescription:
                 break
             }
         }
         return true
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if textField.tag == TextFieldTag.ProductTitle.rawValue && !freePostingSwitch.on {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.tag == TextFieldTag.productTitle.rawValue && !freePostingSwitch.isOn {
             let nextTag = textField.tag + 1
             if let nextView = view.viewWithTag(nextTag) {
                 nextView.becomeFirstResponder()
@@ -208,8 +208,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         return true
     }
 
-    func textFieldShouldClear(textField: UITextField) -> Bool {
-        if let tag = TextFieldTag(rawValue: textField.tag) where tag == .ProductTitle {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        if let tag = TextFieldTag(rawValue: textField.tag), tag == .productTitle {
             viewModel.title = ""
             viewModel.userWritesTitle(textField.text)
         }
@@ -218,16 +218,16 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
     // MARK: - UITextViewDelegate Methods
     
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         // textView is inside a container, so we need to know which container is focused (to scroll to visible when keyboard was up)
         activeField = textView.superview
         return true
     }
     
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if let textViewText = textView.text {
             let cleanReplacement = text.stringByRemovingEmoji()
-            let finalText = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: cleanReplacement)
+            let finalText = (textViewText as NSString).replacingCharacters(in: range, with: cleanReplacement)
             viewModel.descr = finalText.isEmpty ? nil : finalText
             if text.hasEmojis() {
                 //Forcing the new text (without emojis) by returning false
@@ -241,15 +241,15 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     
     // MARK: - Collection View Data Source methods
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.maxImageCount
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
         
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductCell.reusableID,
-                forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SellProductCell.reusableID,
+                for: indexPath) as? SellProductCell else { return UICollectionViewCell() }
             cell.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
             if indexPath.item < viewModel.numberOfImages {
                 cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
@@ -266,77 +266,77 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Collection View Delegate methods
 
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == viewModel.numberOfImages {
             // add image
-            let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SellProductCell
+            let cell = collectionView.cellForItem(at: indexPath) as? SellProductCell
             cell?.highlight()
             MediaPickerManager.showImagePickerIn(self)
             if indexPath.item > 1 && indexPath.item < 4 {
-                collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item+1, inSection: 0),
-                    atScrollPosition: UICollectionViewScrollPosition.Right, animated: true)
+                collectionView.scrollToItem(at: IndexPath(item: indexPath.item+1, section: 0),
+                    at: UICollectionViewScrollPosition.right, animated: true)
             }
             
         } else if (indexPath.item < viewModel.numberOfImages) {
             // remove image
             let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle, message: nil,
-                preferredStyle: .ActionSheet)
+                preferredStyle: .actionSheet)
             
-            let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SellProductCell
+            let cell = collectionView.cellForItem(at: indexPath) as? SellProductCell
             alert.popoverPresentationController?.sourceView = cell
-            alert.popoverPresentationController?.sourceRect = cell?.bounds ?? CGRectZero
+            alert.popoverPresentationController?.sourceRect = cell?.bounds ?? CGRect.zero
             
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedDeleteButton,
-                style: .Destructive, handler: { (deleteAction) -> Void in
+                style: .destructive, handler: { (deleteAction) -> Void in
                     self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
                     guard indexPath.item > 0 else { return }
-                    collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item-1, inSection: 0),
-                            atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
+                    collectionView.scrollToItem(at: IndexPath(item: indexPath.item-1, section: 0),
+                            at: UICollectionViewScrollPosition.left, animated: true)
             }))
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedSaveIntoCameraRollButton,
-                style: .Default, handler: { (saveAction) -> Void in
+                style: .default, handler: { (saveAction) -> Void in
                     self.saveProductImageToDiskAtIndex(indexPath.row)
             }))
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedCancelButton,
-                style: .Cancel, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+                style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     
     // MARK: UIImagePicker Delegate
  
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo
-        info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo
+        info: [String : Any]) {
             var image = info[UIImagePickerControllerEditedImage] as? UIImage
             if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
 
             if let theImage = image {
                 viewModel.appendImage(theImage)
             }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
 
     
     // MARK: - Managing images.
     
-    func deleteAlreadyUploadedImageWithIndex(index: Int) {
+    func deleteAlreadyUploadedImageWithIndex(_ index: Int) {
         // delete the image file locally
         viewModel.deleteImageAtIndex(index)
     }
     
-    func saveProductImageToDiskAtIndex(index: Int) {
+    func saveProductImageToDiskAtIndex(_ index: Int) {
         showLoadingMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.
         let imageTypeAtIndex = viewModel.imageAtIndex(index)
         switch imageTypeAtIndex {
-        case .Local(let image):
+        case .local(let image):
             UIImageWriteToSavedPhotosAlbum(image, self, #selector(EditProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
         case .Remote(let file):
             guard let fileUrl = file.fileURL else {
@@ -352,7 +352,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         }
     }
     
-    func image(image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
+    func image(_ image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutableRawPointer) {
         self.dismissLoadingMessageAlert(){
             if error == nil { // success
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollOk)
@@ -368,7 +368,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     func setupUI() {
 
         setNavBarTitle(LGLocalizedString.editProductTitle)
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.plain,
                                           target: self, action: #selector(EditProductViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
         
@@ -378,12 +378,12 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
         titleTextField.text = viewModel.title
-        titleTextField.tag = TextFieldTag.ProductTitle.rawValue
+        titleTextField.tag = TextFieldTag.productTitle.rawValue
         titleDisclaimer.textColor = UIColor.darkGrayText
         titleDisclaimer.font = UIFont.smallBodyFont
 
         autoGeneratedTitleButton.rounded = true
-        titleDisclaimerActivityIndicator.transform = CGAffineTransformScale(titleDisclaimerActivityIndicator.transform, 0.8, 0.8)
+        titleDisclaimerActivityIndicator.transform = titleDisclaimerActivityIndicator.transform.scaledBy(x: 0.8, y: 0.8)
 
         postFreeLabel.text = LGLocalizedString.sellPostFreeLabel
         
@@ -391,7 +391,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
         priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
         priceTextField.text = viewModel.price
-        priceTextField.tag = TextFieldTag.ProductPrice.rawValue
+        priceTextField.tag = TextFieldTag.productPrice.rawValue
         priceTextField.insetX = 16.0
 
         descriptionTextView.text = viewModel.descr ?? ""
@@ -408,10 +408,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         categoryTitleLabel.text = LGLocalizedString.sellCategorySelectionLabel
         categorySelectedLabel.text = viewModel.categoryName ?? ""
 
-        sendButton.setTitle(LGLocalizedString.editProductSendButton, forState: .Normal)
-        sendButton.setStyle(.Primary(fontSize:.Big))
+        sendButton.setTitle(LGLocalizedString.editProductSendButton, for: UIControlState())
+        sendButton.setStyle(.primary(fontSize:.big))
         
-        shareFBSwitch.on = viewModel.shouldShareInFB
+        shareFBSwitch.isOn = viewModel.shouldShareInFB
         shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
 
         if featureFlags.freePostingModeAllowed {
@@ -426,10 +426,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
         let cellNib = UINib(nibName: SellProductCell.reusableID, bundle: nil)
-        self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: SellProductCell.reusableID)
+        self.imageCollectionView.register(cellNib, forCellWithReuseIdentifier: SellProductCell.reusableID)
         
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
-        view.bringSubviewToFront(loadingView)
+        view.bringSubview(toFront: loadingView)
         
         // hide keyboard on tap
         hideKbTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
@@ -454,38 +454,38 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             guard let strongSelf = self else { return }
             switch status {
             case .Completed:
-                strongSelf.autoGeneratedTitleButton.hidden = true
+                strongSelf.autoGeneratedTitleButton.isHidden = true
                 strongSelf.titleDisclaimerActivityIndicator.stopAnimating()
 
                 if strongSelf.viewModel.titleAutogenerated.value || strongSelf.viewModel.titleAutotranslated.value {
-                    strongSelf.titleDisclaimer.hidden = false
+                    strongSelf.titleDisclaimer.isHidden = false
                     strongSelf.titleDisclaimerLeadingConstraint.constant = EditProductViewController.completeTitleDisclaimerLeadingConstraint
                     strongSelf.titleDisclaimerHeightConstraint.constant = EditProductViewController.titleDisclaimerHeightConstraint
                     strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintVisible
                 } else {
-                    strongSelf.titleDisclaimer.hidden = true
+                    strongSelf.titleDisclaimer.isHidden = true
                     strongSelf.titleDisclaimerLeadingConstraint.constant = EditProductViewController.loadingTitleDisclaimerLeadingConstraint
                     strongSelf.titleDisclaimerHeightConstraint.constant = 0
                     strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintHidden
                 }
             case .Ready:
-                strongSelf.autoGeneratedTitleButton.hidden = false
+                strongSelf.autoGeneratedTitleButton.isHidden = false
                 strongSelf.titleDisclaimerActivityIndicator.stopAnimating()
-                strongSelf.titleDisclaimer.hidden = true
+                strongSelf.titleDisclaimer.isHidden = true
                 strongSelf.titleDisclaimerHeightConstraint.constant = EditProductViewController.titleDisclaimerHeightConstraint
                 strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintVisible
             case .Loading:
-                strongSelf.autoGeneratedTitleButton.hidden = true
+                strongSelf.autoGeneratedTitleButton.isHidden = true
                 strongSelf.titleDisclaimerActivityIndicator.startAnimating()
                 strongSelf.titleDisclaimerLeadingConstraint.constant = 8
-                strongSelf.titleDisclaimer.hidden = false
+                strongSelf.titleDisclaimer.isHidden = false
                 strongSelf.titleDisclaimerHeightConstraint.constant = EditProductViewController.titleDisclaimerHeightConstraint
                 strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintVisible
                 strongSelf.titleDisclaimer.text = LGLocalizedString.editProductSuggestingTitle
             case .Clean:
-                strongSelf.autoGeneratedTitleButton.hidden = true
+                strongSelf.autoGeneratedTitleButton.isHidden = true
                 strongSelf.titleDisclaimerActivityIndicator.stopAnimating()
-                strongSelf.titleDisclaimer.hidden = true
+                strongSelf.titleDisclaimer.isHidden = true
                 strongSelf.titleDisclaimerHeightConstraint.constant = 0
                 strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintHidden
             }
@@ -519,7 +519,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
         viewModel.saveButtonEnabled.asObservable().bindTo(sendButton.rx_enabled).addDisposableTo(disposeBag)
         
-        var previousKbOrigin: CGFloat = CGFloat.max
+        var previousKbOrigin: CGFloat = CGFloat.greatestFiniteMagnitude
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
@@ -527,9 +527,9 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             guard viewHeight >= origin else { return }
 
             self?.updateButtonBottomConstraint.constant = viewHeight - origin
-            UIView.animateWithDuration(Double(animationTime)) {
+            UIView.animate(withDuration: Double(animationTime)) {
                 strongSelf.view.layoutIfNeeded()
-                if let active = strongSelf.activeField where origin < previousKbOrigin {
+                if let active = strongSelf.activeField, origin < previousKbOrigin {
                     var frame = active.frame
                     frame.top = frame.top + strongSelf.containerEditOptionsView.top
                     strongSelf.scrollView.scrollRectToVisible(frame, animated: false)
@@ -543,7 +543,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         }.addDisposableTo(disposeBag)
     }
 
-    private func updateTapRecognizer(add: Bool) {
+    private func updateTapRecognizer(_ add: Bool) {
         guard let tapRec = hideKbTapRecognizer else { return }
         scrollView.removeGestureRecognizer(tapRec)
         if add {
@@ -554,7 +554,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     
     // MARK: - Private methods
     
-    private func updateFreePostViews(active: Bool) {
+    private func updateFreePostViews(_ active: Bool) {
         if active {
             priceContainerHeightConstraint.constant = 0
             priceViewSeparatorTopConstraint.constant = 0
@@ -562,7 +562,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             priceContainerHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
             priceViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
         }
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
     }
@@ -581,28 +581,28 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
 extension EditProductViewController: EditProductViewModelDelegate {
 
-    func vmDidSelectCategoryWithName(categoryName: String) {
+    func vmDidSelectCategoryWithName(_ categoryName: String) {
         categorySelectedLabel.text = categoryName
     }
 
-    func vmShouldUpdateDescriptionWithCount(count: Int) {
+    func vmShouldUpdateDescriptionWithCount(_ count: Int) {
         if count <= 0 {
             descriptionCharCountLabel.textColor = UIColor.primaryColor
         } else {
-            descriptionCharCountLabel.textColor = UIColor.blackColor()
+            descriptionCharCountLabel.textColor = UIColor.black
         }
         descriptionCharCountLabel.text = "\(count)"
     }
 
     func vmDidAddOrDeleteImage() {
-        imageCollectionView.reloadSections(NSIndexSet(index: 0))
+        imageCollectionView.reloadSections(IndexSet(integer: 0))
     }
 
-    func vmShareOnFbWith(content content: FBSDKShareLinkContent) {
-        FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+    func vmShareOnFbWith(content: FBSDKShareLinkContent) {
+        FBSDKShareDialog.show(from: self, with: content, delegate: self)
     }
 
-    func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel) {
+    func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel) {
         let vc = EditLocationViewController(viewModel: locationViewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -616,15 +616,15 @@ extension EditProductViewController: EditProductViewModelDelegate {
 // MARK: - FBSDKSharingDelegate 
 
 extension EditProductViewController: FBSDKSharingDelegate {
-    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
         viewModel.fbSharingFinishedOk()
     }
 
-    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: NSError!) {
         viewModel.fbSharingFinishedWithError()
     }
 
-    func sharerDidCancel(sharer: FBSDKSharing!) {
+    func sharerDidCancel(_ sharer: FBSDKSharing!) {
         viewModel.fbSharingCancelled()
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 protocol FilterPriceCellDelegate: class {
     func priceTextFieldValueActive()
-    func priceTextFieldValueChanged(value: String?, tag: Int)
+    func priceTextFieldValueChanged(_ value: String?, tag: Int)
 }
 
 class FilterPriceCell: UICollectionViewCell {
@@ -59,11 +59,11 @@ class FilterPriceCell: UICollectionViewCell {
 }
 
 extension FilterPriceCell: UITextFieldDelegate {
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         delegate?.priceTextFieldValueActive()
     }
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         guard textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: false) else { return false }
         let updatedText = textField.textReplacingCharactersInRange(range, replacementString: string)

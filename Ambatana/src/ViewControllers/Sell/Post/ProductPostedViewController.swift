@@ -41,12 +41,12 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         self.viewModel = viewModel
         self.socialSharer = socialSharer
         super.init(viewModel: viewModel, nibName: "ProductPostedViewController",
-                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
+                   statusBarStyle: UIApplication.shared.statusBarStyle)
         viewModel.delegate = self
         socialSharer.delegate = self
 
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
         setReachabilityEnabled(false)
     }
 
@@ -61,7 +61,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         setAccesibilityIds()
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
     }
@@ -69,34 +69,34 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
     // MARK: - IBActions
 
-    @IBAction func onCloseButton(sender: AnyObject) {
+    @IBAction func onCloseButton(_ sender: AnyObject) {
         viewModel.closeActionPressed()
     }
 
-    @IBAction func onMainButton(sender: AnyObject) {
+    @IBAction func onMainButton(_ sender: AnyObject) {
         viewModel.mainActionPressed()
     }
 
-    @IBAction func onSharebutton(sender: AnyObject) {
+    @IBAction func onSharebutton(_ sender: AnyObject) {
         viewModel.shareActionPressed()
     }
     
-    @IBAction func onEditButton(sender: AnyObject) {
+    @IBAction func onEditButton(_ sender: AnyObject) {
         viewModel.editActionPressed()
     }
 
 
     // MARK: - ProductPostedViewModelDelegate
 
-    func productPostedViewModelSetupLoadingState(viewModel: ProductPostedViewModel) {
+    func productPostedViewModelSetupLoadingState(_ viewModel: ProductPostedViewModel) {
         setupLoading()
     }
 
-    func productPostedViewModel(viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool) {
+    func productPostedViewModel(_ viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool) {
         finishedLoading(correct)
     }
 
-    func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool) {
+    func productPostedViewModel(_ viewModel: ProductPostedViewModel, setupStaticState correct: Bool) {
         setupStatic(correct)
     }
     
@@ -108,33 +108,33 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
     private func setupView() {
         setStatusBarHidden(true)
-        mainButton.setStyle(.Primary(fontSize: .Big))
+        mainButton.setStyle(.primary(fontSize: .big))
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
-        editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
+        editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, for: UIControlState())
         loadingIndicator.color = UIColor.primaryColor
 
         guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting) else { return }
         incentiveContainer.addSubview(postIncentivatorView)
         let views: [String : AnyObject] = ["postIncentivatorView": postIncentivatorView]
-        incentiveContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postIncentivatorView]|",
+        incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[postIncentivatorView]|",
             options: [], metrics: nil, views: views))
-        incentiveContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[postIncentivatorView]|",
+        incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[postIncentivatorView]|",
             options: [], metrics: nil, views: views))
         postIncentivatorView.delegate = self
         postIncentivatorView.setupIncentiviseView()
     }
 
-    private func setupStatic(loadingSuccessful: Bool) {
-        loadingIndicator.hidden = true
+    private func setupStatic(_ loadingSuccessful: Bool) {
+        loadingIndicator.isHidden = true
         mainTextLabel.text = viewModel.mainText
         secondaryTextLabel.text = viewModel.secondaryText
-        mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
+        mainButton.setTitle(viewModel.mainButtonText, for: UIControlState())
 
         if !loadingSuccessful {
-            editContainer.hidden = true
+            editContainer.isHidden = true
             editContainerHeight.constant = 0
-            shareButton.hidden = true
-            incentiveContainer.hidden = true
+            shareButton.isHidden = true
+            incentiveContainer.isHidden = true
         }
     }
 
@@ -149,19 +149,19 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         editContainerHeight.constant = 0
         mainButtonHeight.constant = 0
         loadingIndicator.startAnimating()
-        incentiveContainer.hidden = true
+        incentiveContainer.isHidden = true
     }
 
-    private func finishedLoading(correct: Bool) {
-        mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
-        loadingIndicator.hidden = true
+    private func finishedLoading(_ correct: Bool) {
+        mainButton.setTitle(viewModel.mainButtonText, for: UIControlState())
+        loadingIndicator.isHidden = true
         loadingIndicator.stopAnimating(correct) { [weak self] in
             if correct {
                 self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
-                self?.incentiveContainer.hidden = false
+                self?.incentiveContainer.isHidden = false
             }
             self?.mainButtonHeight.constant = LGUIKitConstants.enabledButtonHeight
-            UIView.animateWithDuration(0.2,
+            UIView.animate(withDuration: 0.2,
                 animations: { [weak self] in
                     self?.mainTextLabel.text = self?.viewModel.mainText
                     self?.secondaryTextLabel.text = self?.viewModel.secondaryText
@@ -182,7 +182,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
     private func shareButtonPressed() {
         guard let socialMessage = viewModel.socialMessage else { return }
-        socialSharer.share(socialMessage, shareType: .Native, viewController: self)
+        socialSharer.share(socialMessage, shareType: .native, viewController: self)
     }
 }
 
@@ -190,11 +190,11 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 // MARK: - SocialSharerDelegate
 
 extension ProductPostedViewController: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
+    func shareStartedIn(_ shareType: ShareType) {
         viewModel.shareStartedIn(shareType)
     }
 
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         viewModel.shareFinishedIn(shareType, withState: state)
     }
 }

@@ -16,9 +16,9 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var exploreButton: UIButton!
 
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            alpha = highlighted ? 0.8 : 1.0
+            alpha = isHighlighted ? 0.8 : 1.0
         }
     }
 
@@ -27,8 +27,8 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
         //UI setup
         contentCell.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
         contentCell.clipsToBounds = true
-        exploreButton.setStyle(.Primary(fontSize: .Small))
-        exploreButton.setTitle(LGLocalizedString.collectionExploreButton, forState: .Normal)
+        exploreButton.setStyle(.primary(fontSize: .small))
+        exploreButton.setTitle(LGLocalizedString.collectionExploreButton, for: UIControlState())
         exploreButton.titleLabel?.adjustsFontSizeToFitWidth = true
         setAccessibilityIds()
     }

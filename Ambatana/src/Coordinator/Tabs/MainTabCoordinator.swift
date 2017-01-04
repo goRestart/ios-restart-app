@@ -32,7 +32,7 @@ class MainTabCoordinator: TabCoordinator {
         viewModel.navigator = self
     }
 
-    func openSearch(query: String, categoriesString: String?) {
+    func openSearch(_ query: String, categoriesString: String?) {
         var filters = ProductFilters()
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
@@ -45,7 +45,7 @@ class MainTabCoordinator: TabCoordinator {
     }
 
     // Note: override in subclasses
-    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+    override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainProductsViewController)
     }
 }
@@ -63,6 +63,6 @@ extension MainTabCoordinator: MainTabNavigator {
         vm.dataDelegate = filtersVMDataDelegate
         let vc = FiltersViewController(viewModel: vm)
         let navVC = UINavigationController(rootViewController: vc)
-        navigationController.presentViewController(navVC, animated: true, completion: nil)
+        navigationController.present(navVC, animated: true, completion: nil)
     }
 }

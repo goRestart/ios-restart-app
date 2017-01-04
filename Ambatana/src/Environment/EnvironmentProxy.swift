@@ -12,7 +12,7 @@ public enum AppEnvironmentType: String {
     case Escrow
 }
 
-public class EnvironmentProxy: AppEnvironment {
+class EnvironmentProxy: AppEnvironment {
 
     static let sharedInstance = EnvironmentProxy()
 
@@ -28,7 +28,7 @@ public class EnvironmentProxy: AppEnvironment {
 
     // MARK: - Public methods
 
-    public func setEnvironmentType(type: AppEnvironmentType) {
+    open func setEnvironmentType(_ type: AppEnvironmentType) {
         switch type {
         case .Development:
             environment = DevelopmentEnvironment()

@@ -10,29 +10,29 @@ import Foundation
 import LGCoreKit
 
 enum PromotionSource {
-    case ProductSell
-    case ProductEdit
-    case ProductDetail
-    case Settings
+    case productSell
+    case productEdit
+    case productDetail
+    case settings
     
     var hasPostPromotionActions: Bool {
         switch self {
-        case .ProductSell, .ProductEdit:
+        case .productSell, .productEdit:
             return true
-        case .ProductDetail, .Settings:
+        case .productDetail, .settings:
             return false
         }
     }
 
     var sourceForTracking: EventParameterTypePage {
         switch self {
-        case .ProductSell:
+        case .productSell:
             return .Sell
-        case .ProductEdit:
+        case .productEdit:
             return .Edit
-        case .ProductDetail:
+        case .productDetail:
             return .ProductDetail
-        case .Settings:
+        case .settings:
             return .Settings
         }
     }
@@ -42,20 +42,20 @@ enum PromotionSource {
 protocol PromoteProductViewModelDelegate: class {
 
     func viewModelDidRetrieveThemesListSuccessfully()
-    func viewModelDidRetrieveThemesListWithError(errorMessage: String)
-    func viewModelDidSelectThemeAtIndex(index: Int)
+    func viewModelDidRetrieveThemesListWithError(_ errorMessage: String)
+    func viewModelDidSelectThemeAtIndex(_ index: Int)
 
-    func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool)
+    func viewModelVideoDidSwitchFullscreen(_ isFullscreen: Bool)
 
     func viewModelStartSendingVideoForProcessing()
-    func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel, status: VideoProcessStatus)
+    func viewModelSentVideoForProcessing(_ processingViewModel: ProcessingVideoDialogViewModel, status: VideoProcessStatus)
     
     func viewModelWillRetrieveProductCommercials()
     func viewModelDidRetrieveProductCommercialsSuccessfully()
     func viewModelDidRetrieveProductCommercialsWithError()
 }
 
-public class PromoteProductViewModel: BaseViewModel {
+class PromoteProductViewModel: BaseViewModel {
 
     private let commercializerRepository: CommercializerRepository
     weak var delegate: PromoteProductViewModelDelegate?
@@ -126,9 +126,9 @@ public class PromoteProductViewModel: BaseViewModel {
     }
 
     var firstAvailableVideoIndex: Int? {
-        for (index, theme) in themes.enumerate() {
+        for (index, theme) in themes.enumerated() {
             guard let themeId = theme.objectId, let templates = availableThemes else { continue }
-            if templates.contains({ $0.objectId == themeId }) {
+            if templates.contains(where: { $0.objectId == themeId }) {
                 return index
             }
         }
@@ -139,35 +139,35 @@ public class PromoteProductViewModel: BaseViewModel {
         isFullscreen = !isFullscreen
     }
 
-    func idForThemeAtIndex(index: Int) -> String? {
+    func idForThemeAtIndex(_ index: Int) -> String? {
         guard 0..<themes.count ~= index else { return nil }
         return themes[index].objectId
     }
 
-    func titleForThemeAtIndex(index: Int) -> String? {
+    func titleForThemeAtIndex(_ index: Int) -> String? {
         guard 0..<themes.count ~= index else { return nil }
         return themes[index].title
     }
 
-    func imageUrlForThemeAtIndex(index: Int) -> NSURL? {
+    func imageUrlForThemeAtIndex(_ index: Int) -> URL? {
         guard 0..<themes.count ~= index else { return nil }
         guard let urlString = themes[index].thumbURL else { return nil }
-        return NSURL(string: urlString)
+        return URL(string: urlString)
     }
 
-    func videoUrlForThemeAtIndex(index: Int) -> NSURL? {
+    func videoUrlForThemeAtIndex(_ index: Int) -> URL? {
         guard 0..<themes.count ~= index else { return nil }
         guard let urlString = themes[index].videoM3u8URL else { return nil }
-        return NSURL(string: urlString)
+        return URL(string: urlString)
     }
 
-    func availableThemeAtIndex(index: Int) -> Bool {
+    func availableThemeAtIndex(_ index: Int) -> Bool {
         guard 0..<themes.count ~= index else { return false }
-        guard let themeId = themes[index].objectId, templates = availableThemes else { return false }
+        guard let themeId = themes[index].objectId, let templates = availableThemes else { return false }
         return templates.contains { $0.objectId == themeId }
     }
 
-    func playingThemeAtIndex(index: Int) -> Bool {
+    func playingThemeAtIndex(_ index: Int) -> Bool {
         return playingIndex == index
     }
 
@@ -176,7 +176,7 @@ public class PromoteProductViewModel: BaseViewModel {
         playThemeAtIndex(index)
     }
 
-    func playThemeAtIndex(index: Int) {
+    func playThemeAtIndex(_ index: Int) {
         guard 0..<themes.count ~= index else { return }
         playingIndex = index
         delegate?.viewModelDidSelectThemeAtIndex(index)
@@ -184,9 +184,9 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func promoteProduct() {
         delegate?.viewModelStartSendingVideoForProcessing()
-        guard let productId = productId, themeId = idForThemeAtIndex(playingIndex) else {
-            let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: promotionSource, status: .ProcessFail)
-            delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
+        guard let productId = productId, let themeId = idForThemeAtIndex(playingIndex) else {
+            let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: promotionSource, status: .processFail)
+            delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .processFail)
             return
         }
         commercializerRepository.create(productId, templateId: themeId) { [weak self] result in

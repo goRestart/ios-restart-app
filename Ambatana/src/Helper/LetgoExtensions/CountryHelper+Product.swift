@@ -9,7 +9,7 @@
 import LGCoreKit
 
 extension CountryHelper {
-    func countryLanguageForProduct(product: Product) -> String? {
+    func countryLanguageForProduct(_ product: Product) -> String? {
         guard let countryCode = product.postalAddress.countryCode else { return nil }
         guard let countryInfo = countryInfoForCountryCode(countryCode) else { return nil }
         guard let locale = countryInfo.locale else { return nil }

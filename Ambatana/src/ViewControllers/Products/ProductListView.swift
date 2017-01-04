@@ -10,18 +10,18 @@ import CHTCollectionViewWaterfallLayout
 import RxSwift
 
 protocol ProductListViewScrollDelegate: class {
-    func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
-    func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
+    func productListView(_ productListView: ProductListView, didScrollDown scrollDown: Bool)
+    func productListView(_ productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
 }
 
 protocol ProductListViewCellsDelegate: class {
-    func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool)
-    func visibleBottomCell(index: Int)
+    func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool)
+    func visibleBottomCell(_ index: Int)
 }
 
 protocol ProductListViewHeaderDelegate: class {
     func totalHeaderHeight() -> CGFloat
-    func setupViewsInHeader(header: ListHeaderContainer)
+    func setupViewsInHeader(_ header: ListHeaderContainer)
 }
 
 class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate,
@@ -126,7 +126,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     var headerBottom: CGFloat {
         let headerSize = headerDelegate?.totalHeaderHeight() ?? 0
         let headerRect = CGRect(x: 0, y: 0, width: 0, height: headerSize)
-        let convertedRect = convertRect(headerRect, fromView: collectionView)
+        let convertedRect = convert(headerRect, from: collectionView)
         return convertedRect.bottom
     }
 
@@ -157,7 +157,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     init(viewModel: ProductListViewModel,featureFlags: FeatureFlaggeable, frame: CGRect) {
         self.viewModel = viewModel
-        let padding = UIEdgeInsetsZero
+        let padding = UIEdgeInsets.zero
         self.dataPadding = padding
         self.firstLoadPadding = padding
         self.errorPadding = padding
@@ -173,7 +173,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     init?(viewModel: ProductListViewModel, featureFlags: FeatureFlaggeable, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
-        let padding = UIEdgeInsetsZero
+        let padding = UIEdgeInsets.zero
         self.dataPadding = padding
         self.firstLoadPadding = padding
         self.errorPadding = padding
@@ -191,22 +191,22 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.init(viewModel: ProductListViewModel(requester: nil),featureFlags: FeatureFlags.sharedInstance, coder: aDecoder)
     }
 
-    internal override func didBecomeActive(firstTime: Bool) {
+    internal override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         refreshDataView()
     }
 
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        let hitView = super.hitTest(point, withEvent: event)
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let hitView = super.hitTest(point, with: event)
         switch viewModel.state {
-        case .Empty:
-            guard let headerHeight = headerDelegate?.totalHeaderHeight() where headerHeight > 0 else { return errorView }
-            let collectionConvertedPoint = collectionView.convertPoint(point, fromView: self)
+        case .empty:
+            guard let headerHeight = headerDelegate?.totalHeaderHeight(), headerHeight > 0 else { return errorView }
+            let collectionConvertedPoint = collectionView.convert(point, from: self)
             let collectionHeaderSize = CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))
-            let headerFrame = CGRect(origin: CGPointZero, size: collectionHeaderSize)
-            let insideHeader = CGRectContainsPoint(headerFrame, collectionConvertedPoint)
+            let headerFrame = CGRect(origin: CGPoint.zero, size: collectionHeaderSize)
+            let insideHeader = headerFrame.contains(collectionConvertedPoint)
             return insideHeader ? hitView : errorView
-        case .Data, .Loading, .Error:
+        case .data, .loading, .error:
             return hitView
         }
     }
@@ -232,15 +232,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     /**
      Scrolls the collection to top
      */
-    func scrollToTop(animated: Bool) {
+    func scrollToTop(_ animated: Bool) {
         let position = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
         collectionView.setContentOffset(position, animated: animated)
     }
 
-    func setErrorViewStyle(bgColor bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
+    func setErrorViewStyle(bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
         errorView.backgroundColor = bgColor
         errorContentView.backgroundColor = containerColor
-        errorContentView.layer.borderColor = borderColor?.CGColor
+        errorContentView.layer.borderColor = borderColor?.cgColor
         errorContentView.layer.borderWidth = borderColor != nil ? 0.5 : 0
         errorContentView.layer.cornerRadius = 4
     }
@@ -248,7 +248,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: > ViewModel
 
-    func switchViewModel(vm: ProductListViewModel) {
+    func switchViewModel(_ vm: ProductListViewModel) {
         viewModel.delegate = nil
         viewModel = vm
         viewModel.delegate = self
@@ -261,18 +261,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - CHTCollectionViewDelegateWaterfallLayout
 
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
                         heightForHeaderInSection section: Int) -> CGFloat {
         return headerDelegate?.totalHeaderHeight() ?? 0
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
             return Constants.productListFooterHeight
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int) -> UIEdgeInsets {
         let inset = viewModel.productListFixedInset
         return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
     }
@@ -280,37 +280,37 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - UICollectionViewDataSource
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath) -> CGSize {
             return viewModel.sizeForCellAtIndex(indexPath.row)
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         columnCountForSection section: Int) -> Int {
             return viewModel.numberOfColumns
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numberOfProducts
     }
 
-    func collectionView(collectionView: UICollectionView,
-                               cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                               cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let item = viewModel.itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         drawerManager.draw(item, inCell: cell)
-        cell.tag = indexPath.hash
+        cell.tag = (indexPath as NSIndexPath).hash
         return cell
     }
 
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell,
-                        forItemAtIndexPath indexPath: NSIndexPath) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        DispatchQueue.main.async { [weak self] in
             self?.viewModel.setCurrentItemIndex(indexPath.item)
 
-            let indexes = collectionView.indexPathsForVisibleItems().map{ $0.item }
-            let topProductIndex = indexes.minElement() ?? indexPath.item
-            let bottomProductIndex = indexes.maxElement() ?? indexPath.item
+            let indexes = collectionView.indexPathsForVisibleItems.map{ $0.item }
+            let topProductIndex = indexes.min() ?? indexPath.item
+            let bottomProductIndex = indexes.max() ?? indexPath.item
             let scrollingDown = self?.scrollingDown ?? false
 
             self?.cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
@@ -318,19 +318,19 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-                               atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
+                               at indexPath: IndexPath) -> UICollectionReusableView  {
         switch kind {
         case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
-            guard let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
-                    withReuseIdentifier: CollectionViewFooter.reusableID, forIndexPath: indexPath) as? CollectionViewFooter
+            guard let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                    withReuseIdentifier: CollectionViewFooter.reusableID, for: indexPath) as? CollectionViewFooter
                     else { return UICollectionReusableView() }
             if viewModel.isOnErrorState {
-                footer.status = .Error
+                footer.status = .error
             } else if viewModel.isLastPage {
-                footer.status = .LastPage
+                footer.status = .lastPage
             } else {
-                footer.status = .Loading
+                footer.status = .loading
             }
             footer.retryButtonBlock = { [weak self] in
                 if let strongSelf = self {
@@ -340,8 +340,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             }
             return footer
         case CHTCollectionElementKindSectionHeader, UICollectionElementKindSectionHeader:
-            guard let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
-                    withReuseIdentifier: ListHeaderContainer.reusableID, forIndexPath: indexPath) as? ListHeaderContainer
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                    withReuseIdentifier: ListHeaderContainer.reusableID, for: indexPath) as? ListHeaderContainer
                     else { return UICollectionReusableView() }
             headerDelegate?.setupViewsInHeader(header)
             return header
@@ -353,13 +353,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: - UICollectionViewDelegate
     
-    func collectionView(cv: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView(cv, cellForItemAtIndexPath: indexPath) as? ProductCell
+    func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView(cv, cellForItemAt: indexPath) as? ProductCell
         let thumbnailImage = cell?.thumbnailImageView.image
         
         var newFrame: CGRect? = nil
         if let cellFrame = cell?.frame {
-            newFrame = superview?.convertRect(cellFrame, fromView: collectionView)
+            newFrame = superview?.convert(cellFrame, from: collectionView)
         }
         viewModel.selectedItemAtIndex(indexPath.row, thumbnailImage: thumbnailImage, originFrame: newFrame)
     }
@@ -367,7 +367,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: - UIScrollViewDelegate
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         // while going down, increase distance in label, when going up, decrease
         if lastContentOffset >= scrollView.contentOffset.y {
@@ -380,11 +380,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         informScrollDelegate(scrollView)
     }
 
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isDragging.value = true
     }
 
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint,
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         isDragging.value = false
     }
@@ -392,21 +392,21 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - ProductListViewModelDelegate
 
-    func vmReloadData(vm: ProductListViewModel) {
+    func vmReloadData(_ vm: ProductListViewModel) {
         guard viewModel === vm else { return }
         reloadData()
     }
 
-    func vmDidUpdateState(vm: ProductListViewModel, state: ViewState) {
+    func vmDidUpdateState(_ vm: ProductListViewModel, state: ViewState) {
         guard viewModel === vm else { return }
         refreshUIWithState(state)
     }
 
-    func vmDidFinishLoading(vm: ProductListViewModel, page: UInt, indexes: [Int]) {
+    func vmDidFinishLoading(_ vm: ProductListViewModel, page: UInt, indexes: [Int]) {
         guard viewModel === vm else { return }
         if page == 0 {
             reloadData()
-            if refreshControl.refreshing {
+            if refreshControl.isRefreshing {
                 refreshControl.endRefreshing()
             } else if shouldScrollToTopOnFirstPageReload {
                 scrollToTop(false)
@@ -418,8 +418,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         } else if !indexes.isEmpty {
             // Middle pages
             // Insert animated
-            let indexPaths = indexes.map{ NSIndexPath(forItem: $0, inSection: 0) }
-            collectionView.insertItemsAtIndexPaths(indexPaths)
+            let indexPaths = indexes.map{ IndexPath(item: $0, section: 0) }
+            collectionView.insertItems(at: indexPaths)
         } else {
             reloadData()
         }
@@ -454,78 +454,78 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
      */
     private func setupUI() {
         // Load the view, and add it as Subview
-        NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("ProductListView", owner: self, options: nil)
         contentView.frame = bounds
-        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         addSubview(contentView)
 
         // Setup UI
         // > Data
         updateLayoutWithSeparation(8)
 
-        collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+        collectionView.autoresizingMask = UIViewAutoresizing.flexibleHeight
         collectionView.alwaysBounceVertical = true
         collectionView.contentInset = collectionViewContentInset
 
         drawerManager.registerCell(inCollectionView: collectionView)
         let footerNib = UINib(nibName: CollectionViewFooter.reusableID, bundle: nil)
-        collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
+        collectionView.register(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
                                         withReuseIdentifier: CollectionViewFooter.reusableID)
         let headerNib = UINib(nibName: ListHeaderContainer.reusableID, bundle: nil)
-        collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
+        collectionView.register(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
                                    withReuseIdentifier: ListHeaderContainer.reusableID)
 
 
         // >> Pull to refresh
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshControlTriggered), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshControlTriggered), for: UIControlEvents.valueChanged)
         collectionView.addSubview(refreshControl)
 
         // > Error View
         errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
-        errorButton.setStyle(.Primary(fontSize: .Medium))
-        errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
+        errorButton.setStyle(.primary(fontSize: .medium))
+        errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), for: .touchUpInside)
     }
     
-    func updateLayoutWithSeparation(separationBetweenCells: CGFloat) {
+    func updateLayoutWithSeparation(_ separationBetweenCells: CGFloat) {
         let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = separationBetweenCells
         layout.minimumInteritemSpacing = separationBetweenCells
         collectionView.collectionViewLayout = layout
     }
 
-    func refreshUIWithState(state: ViewState) {
+    func refreshUIWithState(_ state: ViewState) {
         switch (state) {
-        case .Loading:
+        case .loading:
             // Show/hide views
-            firstLoadView.hidden = false
-            dataView.hidden = true
-            errorView.hidden = true
-        case .Data:
+            firstLoadView.isHidden = false
+            dataView.isHidden = true
+            errorView.isHidden = true
+        case .data:
             // Show/hide views
-            firstLoadView.hidden = true
-            dataView.hidden = false
-            errorView.hidden = true
-        case .Error(let emptyVM):
-            firstLoadView.hidden = true
-            dataView.hidden = true
-            errorView.hidden = false
+            firstLoadView.isHidden = true
+            dataView.isHidden = false
+            errorView.isHidden = true
+        case .error(let emptyVM):
+            firstLoadView.isHidden = true
+            dataView.isHidden = true
+            errorView.isHidden = false
             setErrorState(emptyVM)
-        case .Empty(let emptyVM):
+        case .empty(let emptyVM):
             // Show/hide views
-            firstLoadView.hidden = true
-            dataView.hidden = false
-            errorView.hidden = false
+            firstLoadView.isHidden = true
+            dataView.isHidden = false
+            errorView.isHidden = false
             setErrorState(emptyVM)
         }
     }
 
-    private func setErrorState(emptyViewModel: LGEmptyViewModel) {
+    private func setErrorState(_ emptyViewModel: LGEmptyViewModel) {
         errorImageView.image = emptyViewModel.icon
         errorImageViewHeightConstraint.constant = emptyViewModel.iconHeight
         errorTitleLabel.text = emptyViewModel.title
         errorBodyLabel.text = emptyViewModel.body
-        errorButton.setTitle(emptyViewModel.buttonTitle, forState: .Normal)
+        errorButton.setTitle(emptyViewModel.buttonTitle, for: UIControlState())
         // > If there's no button title or action then hide it
         if emptyViewModel.hasAction {
             errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
@@ -543,7 +543,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     /**
         Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
     */
-    private func informScrollDelegate(scrollView: UIScrollView) {
+    private func informScrollDelegate(_ scrollView: UIScrollView) {
         if shouldNotifyScrollDelegate(scrollView) {
             scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
         }
@@ -570,7 +570,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         you could pass from a value higher than the bouncingLimit to a negative value. 
         -> YES IF (LastContentOffset < 0 && ScrollingUP)
      */
-    private func shouldNotifyScrollDelegate(scrollView: UIScrollView) -> Bool {
+    private func shouldNotifyScrollDelegate(_ scrollView: UIScrollView) -> Bool {
         let limit = (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)
         let offsetLowerThanBouncingLimit = lastContentOffset < limit
         return lastContentOffset > 0.0 && offsetLowerThanBouncingLimit || lastContentOffset < 0.0 && !scrollingDown
@@ -581,9 +581,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     dynamic private func errorButtonPressed() {
         switch viewModel.state {
-        case .Empty(let emptyVM):
+        case .empty(let emptyVM):
             emptyVM.action?()
-        case .Error(let emptyVM):
+        case .error(let emptyVM):
             emptyVM.action?()
         default:
             break

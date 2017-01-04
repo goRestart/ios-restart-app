@@ -56,12 +56,12 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
 
         // CollectionView
         let cellNib = UINib(nibName: "CategoryCell", bundle: nil)
-        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "CategoryCell")
+        self.collectionView.register(cellNib, forCellWithReuseIdentifier: "CategoryCell")
         
         // cell size
-        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.50
+        let cellWidth = UIScreen.main.bounds.size.width * 0.50
         let cellHeight = cellWidth * Constants.categoriesCellFactor
-        cellSize = CGSizeMake(cellWidth, cellHeight)
+        cellSize = CGSize(width: cellWidth, height: cellHeight)
         
         viewModel.retrieveCategories()
         setAccessibilityIds()
@@ -87,16 +87,16 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
     // MARK: - UICollectionViewDelegate & DataSource methods
     
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return cellSize
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numOfCategories
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as? CategoryCell else { return UICollectionViewCell() }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as? CategoryCell else { return UICollectionViewCell() }
         
         // configure cell
         guard let category = viewModel.categoryAtIndex(indexPath.row) else {
@@ -109,7 +109,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.didSelectItemAtIndex(indexPath.row)
     }
 

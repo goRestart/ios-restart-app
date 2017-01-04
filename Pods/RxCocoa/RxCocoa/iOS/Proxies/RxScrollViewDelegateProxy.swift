@@ -20,10 +20,10 @@ public class RxScrollViewDelegateProxy
     , UIScrollViewDelegate
     , DelegateProxyType {
 
-    fileprivate var _contentOffsetSubject: ReplaySubject<CGPoint>?
+    private var _contentOffsetSubject: ReplaySubject<CGPoint>?
 
     /// Typed parent object.
-    public weak fileprivate(set) var scrollView: UIScrollView?
+    public weak private(set) var scrollView: UIScrollView?
 
     /// Optimized version used for observing content offset changes.
     internal var contentOffsetSubject: Observable<CGPoint> {

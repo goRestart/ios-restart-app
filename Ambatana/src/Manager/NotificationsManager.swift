@@ -71,12 +71,12 @@ class NotificationsManager {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     func setup() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground),
-                                                         name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground),
+                                                         name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         setupRxBindings()
         updateCounters()
         setupMarketingNotifications()
@@ -97,7 +97,7 @@ class NotificationsManager {
     }
     
     func requestFavoriteCounter() {
-        favoriteCount.value = keyValueStorage.productsMarkAsFavorite > 0 ? 1 : nil
+        favoriteCount.value = keyValueStorage.productsMarkAsFavorite! > 0 ? 1 : nil
     }
     
     
@@ -144,7 +144,7 @@ class NotificationsManager {
 
         globalCount.bindNext { count in
             guard let count = count else { return }
-            UIApplication.sharedApplication().applicationIconBadgeNumber = count
+            UIApplication.shared.applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
 
         if featureFlags.websocketChat {

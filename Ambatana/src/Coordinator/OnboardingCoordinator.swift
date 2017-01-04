@@ -9,7 +9,7 @@
 import LGCoreKit
 
 protocol OnboardingCoordinatorDelegate: CoordinatorDelegate {
-    func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
+    func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
 }
 
 class OnboardingCoordinator: Coordinator {
@@ -38,31 +38,31 @@ class OnboardingCoordinator: Coordinator {
         viewController = TourBlurBackgroundViewController()
     }
 
-    func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard viewController.parentViewController == nil else { return }
-        parent.presentViewController(viewController, animated: false) { [weak self] in
+    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        guard viewController.parent == nil else { return }
+        parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
             let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
             let tourVM = TourLoginViewModel()
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
             strongSelf.presentedViewControllers.append(tourVC)
-            strongSelf.viewController.presentViewController(tourVC, animated: true, completion: completion)
+            strongSelf.viewController.present(tourVC, animated: true, completion: completion)
         }
     }
 
-    func close(animated animated: Bool, completion: (() -> Void)?) {
+    func close(animated: Bool, completion: (() -> Void)?) {
         recursiveClose(animated: animated, completion: completion)
     }
 
-    private func recursiveClose(animated animated: Bool, completion: (() -> Void)?) {
+    private func recursiveClose(animated: Bool, completion: (() -> Void)?) {
         if let vc = presentedViewControllers.last {
             presentedViewControllers.removeLast()
-            vc.dismissViewControllerAnimated(false) { [weak self] in
+            vc.dismiss(animated: false) { [weak self] in
                 self?.recursiveClose(animated: false, completion: completion)
             }
         } else {
-            viewController.dismissViewControllerAnimated(animated, completion: completion)
+            viewController.dismiss(animated: animated, completion: completion)
         }
     }
 
@@ -74,10 +74,10 @@ class OnboardingCoordinator: Coordinator {
         }
     }
 
-    private func hideVC(viewController: UIViewController) {
-        UIView.animateWithDuration(0.3) {
+    private func hideVC(_ viewController: UIViewController) {
+        UIView.animate(withDuration: 0.3, animations: {
             viewController.view.alpha = 0
-        }
+        }) 
     }
 
     private func topViewController() -> UIViewController {
@@ -86,14 +86,14 @@ class OnboardingCoordinator: Coordinator {
 
     private func openTourNotifications() {
         let topVC = topViewController()
-        let type: PrePermissionType = .Onboarding
+        let type: PrePermissionType = .onboarding
         let vm = TourNotificationsViewModel(title: type.title, subtitle: type.subtitle, pushText: type.pushMessage,
                                             source: type)
         vm.navigator = self
         let vc = TourNotificationsViewController(viewModel: vm)
         hideVC(topVC)
         presentedViewControllers.append(vc)
-        topVC.presentViewController(vc, animated: true, completion: nil)
+        topVC.present(vc, animated: true, completion: nil)
     }
 
     private func openTourLocation() {
@@ -103,7 +103,7 @@ class OnboardingCoordinator: Coordinator {
         let vc = TourLocationViewController(viewModel: vm)
         hideVC(topVC)
         presentedViewControllers.append(vc)
-        topVC.presentViewController(vc, animated: true, completion: nil)
+        topVC.present(vc, animated: true, completion: nil)
     }
 
     private func openTourPosting() {
@@ -113,7 +113,7 @@ class OnboardingCoordinator: Coordinator {
         let vc = TourPostingViewController(viewModel: vm)
         hideVC(topVC)
         presentedViewControllers.append(vc)
-        topVC.presentViewController(vc, animated: true, completion: nil)
+        topVC.present(vc, animated: true, completion: nil)
     }
 }
 
@@ -121,7 +121,7 @@ class OnboardingCoordinator: Coordinator {
 extension OnboardingCoordinator: TourLoginNavigator {
     func tourLoginFinish() {
         let casnAskForPushPermissions = PushPermissionsManager.sharedInstance
-            .shouldShowPushPermissionsAlertFromViewController(.Onboarding)
+            .shouldShowPushPermissionsAlertFromViewController(.onboarding)
 
         if casnAskForPushPermissions {
             openTourNotifications()
@@ -156,7 +156,7 @@ extension OnboardingCoordinator: TourPostingNavigator {
         finish(withPosting: false, source: nil)
     }
 
-    func tourPostingPost(fromCamera fromCamera: Bool) {
-        finish(withPosting: true, source: fromCamera ? .OnboardingCamera : .OnboardingButton)
+    func tourPostingPost(fromCamera: Bool) {
+        finish(withPosting: true, source: fromCamera ? .onboardingCamera : .onboardingButton)
     }
 }

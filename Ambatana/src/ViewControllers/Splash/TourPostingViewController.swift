@@ -28,10 +28,10 @@ class TourPostingViewController: BaseViewController {
 
     init(viewModel: TourPostingViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "TourPostingViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        super.init(viewModel: viewModel, nibName: "TourPostingViewController", statusBarStyle: .lightContent,
+                   navBarBackgroundStyle: .transparent(substyle: .dark))
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,15 +53,15 @@ class TourPostingViewController: BaseViewController {
         titleLabel.text = viewModel.titleText
         subtitleLabel.text = viewModel.subtitleText
         
-        okButton.setStyle(.Primary(fontSize: .Medium))
-        okButton.setTitle(viewModel.okButtonText, forState: .Normal)
+        okButton.setStyle(.primary(fontSize: .medium))
+        okButton.setTitle(viewModel.okButtonText, for: UIControlState())
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(cameraContainerPressed))
         photoContainer.addGestureRecognizer(tap)
 
-        for (index, view) in cameraCorners.enumerate() {
+        for (index, view) in cameraCorners.enumerated() {
             guard index > 0 else { continue }
-            view.transform = CGAffineTransformMakeRotation(CGFloat(Double(index) * M_PI_2))
+            view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * M_PI_2))
         }
     }
 

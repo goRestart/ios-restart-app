@@ -12,19 +12,19 @@ import RxSwift
 extension UIButton {
     var rx_title: AnyObserver<String> {
         return UIBindingObserver(UIElement: self) { button, text in
-            button.setTitle(text, forState: UIControlState.Normal)
+            button.setTitle(text, for: UIControlState.normal)
         }.asObserver()
     }
 
     var rx_optionalTitle: AnyObserver<String?> {
         return UIBindingObserver(UIElement: self) { button, text in
-            button.setTitle(text, forState: UIControlState.Normal)
+            button.setTitle(text, for: UIControlState.normal)
         }.asObserver()
     }
 
     var rx_image: AnyObserver<UIImage?> {
         return UIBindingObserver(UIElement: self) { button, image in
-            button.setImage(image, forState: UIControlState.Normal)
+            button.setImage(image, for: UIControlState.normal)
         }.asObserver()
     }
 

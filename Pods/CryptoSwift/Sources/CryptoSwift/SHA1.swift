@@ -9,11 +9,11 @@
 public final class SHA1: DigestType {
     static let digestLength: Int = 20 // 160 / 8
     static let blockSize: Int = 64
-    fileprivate static let hashInitialValue: ContiguousArray<UInt32> = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+    private static let hashInitialValue: ContiguousArray<UInt32> = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
 
-    fileprivate var accumulated = Array<UInt8>()
-    fileprivate var processedBytesTotalCount: Int = 0
-    fileprivate var accumulatedHash: ContiguousArray<UInt32> = SHA1.hashInitialValue
+    private var accumulated = Array<UInt8>()
+    private var processedBytesTotalCount: Int = 0
+    private var accumulatedHash: ContiguousArray<UInt32> = SHA1.hashInitialValue
 
     public init() {
     }
@@ -26,7 +26,7 @@ public final class SHA1: DigestType {
         }
     }
 
-    fileprivate func process(block chunk: ArraySlice<UInt8>, currentHash hh: inout ContiguousArray<UInt32>) {
+    private func process(block chunk: ArraySlice<UInt8>, currentHash hh: inout ContiguousArray<UInt32>) {
         // break chunk into sixteen 32-bit words M[j], 0 ≤ j ≤ 15, big-endian
         // Extend the sixteen 32-bit words into eighty 32-bit words:
         var M = ContiguousArray<UInt32>(repeating: 0, count: 80)

@@ -25,7 +25,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         super.init(autoHide: autoHide)
     }
 
-    override func draw(cell: ChatMyMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
+    override func draw(_ cell: ChatMyMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
         cell.messageLabel.text = message.value ?? ""
         cell.dateLabel.text = message.sentAt?.formattedTime()
         cell.checkImageView.image = nil
@@ -36,7 +36,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     
     // MARK: - private methods
 
-    private func drawCheckForMessage(cell: ChatMyMessageCell, message: ChatViewMessage) {
+    private func drawCheckForMessage(_ cell: ChatMyMessageCell, message: ChatViewMessage) {
         guard let status = message.status else {
             cell.checkImageView.image = nil
             return
@@ -53,7 +53,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         }
     }
     
-    private func drawDisclosureForMessage(cell: ChatMyMessageCell, disclosure: Bool) {
+    private func drawDisclosureForMessage(_ cell: ChatMyMessageCell, disclosure: Bool) {
         if disclosure {
             cell.disclosureImageView.image = UIImage(named: "ic_disclosure")
             cell.marginRightConstraints.forEach { $0.constant = rightMarginWithDisclosure }

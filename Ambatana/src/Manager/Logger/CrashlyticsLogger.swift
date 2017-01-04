@@ -23,10 +23,10 @@ class CrashlyticsLogger: DDAbstractLogger {
         }
     }
 
-    override func logMessage(logMessage: DDLogMessage) {
+    override func logMessage(_ logMessage: DDLogMessage) {
         let message: String?
         if let logFormatter = _logFormatter {
-            message = logFormatter.formatLogMessage(logMessage)
+            message = logFormatter.format(message: logMessage)
         } else {
             message = logMessage.message
         }

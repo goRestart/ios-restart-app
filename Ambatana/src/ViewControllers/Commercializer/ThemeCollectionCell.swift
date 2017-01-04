@@ -33,19 +33,19 @@ class ThemeCollectionCell: UICollectionViewCell {
 
     // MARK: - Public methods
 
-    func setupWithTitle(title: String?, thumbnailURL: NSURL?, playing: Bool, available: Bool, indexPath: NSIndexPath) {
-        let tag = indexPath.hash
+    func setupWithTitle(_ title: String?, thumbnailURL: URL?, playing: Bool, available: Bool, indexPath: IndexPath) {
+        let tag = (indexPath as NSIndexPath).hash
 
         themeTitleLabel.text = title?.uppercase
         
 //        layer.borderWidth = available ? (playing ? 2 : 0) : 0
         iconImageView.image = UIImage(named: playing ? "ic_check_video" : "ic_play_white" )
-        selectedShadowView.hidden = !playing
-        disabledView.hidden = available ? true : false
+        selectedShadowView.isHidden = !playing
+        disabledView.isHidden = available ? true : false
 
         if let thumbUrl = thumbnailURL {
             thumbnailImageView.lg_setImageWithURL(thumbUrl) { [weak self] (result, url)  in
-                if let image = result.value?.image where self?.tag == tag {
+                if let image = result.value?.image, self?.tag == tag {
                     self?.thumbnailImageView.image = image
                 }
             }
@@ -56,8 +56,8 @@ class ThemeCollectionCell: UICollectionViewCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        layer.borderColor = UIColor.primaryColor.CGColor
-        thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        layer.borderColor = UIColor.primaryColor.cgColor
+        thumbnailImageView.contentMode = UIViewContentMode.scaleAspectFit
         disabledLabel.text = LGLocalizedString.commercializerPromoteThemeAlreadyUsed
     }
 
@@ -66,6 +66,6 @@ class ThemeCollectionCell: UICollectionViewCell {
         themeTitleLabel.text = ""
         thumbnailImageView.image = nil
         iconImageView.image = nil
-        disabledView.hidden = true
+        disabledView.isHidden = true
     }
 }

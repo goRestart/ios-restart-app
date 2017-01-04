@@ -77,16 +77,16 @@ class PostProductDetailPriceView: BaseView {
         infoLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
         priceViewContainer.layer.cornerRadius = 15.0
         postFreeViewContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
-        freePostSwitch.userInteractionEnabled = false
+        freePostSwitch.isUserInteractionEnabled = false
         priceFieldContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
         freePostLabel.text = LGLocalizedString.sellPostFreeLabel
         freePostLabel.textColor = UIColor.white
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
-                                                                  attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-        doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
+                                                                  attributes: [NSForegroundColorAttributeName: UIColor.white])
+        doneButton.setTitle(LGLocalizedString.productPostDone, for: UIControlState())
         currencyLabel.text = viewModel.currencySymbol
         currencyLabel.textColor = UIColor.white
-        doneButton.setStyle(.Primary(fontSize: .Big))
+        doneButton.setStyle(.primary(fontSize: .big))
         showFreeOption(viewModel.freeOptionAvailable)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(freeCellPressed))
@@ -105,7 +105,7 @@ class PostProductDetailPriceView: BaseView {
         }.addDisposableTo(disposeBag)
     }
     
-    private func showFreeOption(show: Bool) {
+    private func showFreeOption(_ show: Bool) {
         if show {
             giveAwayContainerHeightConstraint.constant = PostProductDetailPriceView.containerHeight
             separatorContainerDistanceConstraint.constant = PostProductDetailPriceView.separatorContainerDistance
@@ -114,7 +114,7 @@ class PostProductDetailPriceView: BaseView {
             separatorContainerDistanceConstraint.constant = 0
         }
     }
-    private func showPriceTextContainer(show: Bool) {
+    private func showPriceTextContainer(_ show: Bool) {
         if show {
             priceContainerHeightConstraint.constant = PostProductDetailPriceView.containerHeight
             separatorContainerDistanceConstraint.constant = PostProductDetailPriceView.separatorContainerDistance
@@ -123,7 +123,7 @@ class PostProductDetailPriceView: BaseView {
             separatorContainerDistanceConstraint.constant = 0
             priceTextField.resignFirstResponder()
         }
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.layoutIfNeeded()
         } )
     }
@@ -137,7 +137,7 @@ class PostProductDetailPriceView: BaseView {
 // MARK: - UITextFieldDelegate
 
 extension PostProductDetailPriceView: UITextFieldDelegate {
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         guard textField == priceTextField else { return true }
         return textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: true)

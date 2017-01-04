@@ -14,11 +14,11 @@ protocol CreateCommercialViewModelDelegate: class {
 }
 
 enum CreateCommercialViewStatus {
-    case None
-    case Loading
-    case Data
-    case Empty(LGEmptyViewModel)
-    case Error(LGEmptyViewModel)
+    case none
+    case loading
+    case data
+    case empty(LGEmptyViewModel)
+    case error(LGEmptyViewModel)
 }
 
 class CreateCommercialViewModel: BaseViewModel {
@@ -39,7 +39,7 @@ class CreateCommercialViewModel: BaseViewModel {
         super.init()
     }
     
-    internal override func didBecomeActive(firstTime: Bool) {
+    internal override func didBecomeActive(_ firstTime: Bool) {
         fetchProducts()
     }
     
@@ -78,7 +78,7 @@ class CreateCommercialViewModel: BaseViewModel {
                                 secondaryButtonTitle: nil, secondaryAction: nil)
     }
     
-    private func emptyViewModelForError(error: RepositoryError) -> LGEmptyViewModel {
+    private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel {
         let emptyVM: LGEmptyViewModel
         switch error {
         case .Network:
@@ -92,22 +92,22 @@ class CreateCommercialViewModel: BaseViewModel {
     
     // MARK: - Data Source
     
-    func thumbnailAt(index: Int) -> String? {
+    func thumbnailAt(_ index: Int) -> String? {
         guard 0..<products.count ~= index else { return nil }
         return products[index].thumbnailURL
     }
     
-    func productIdAt(index: Int) -> String? {
+    func productIdAt(_ index: Int) -> String? {
         guard 0..<products.count ~= index else { return nil }
         return products[index].objectId
     }
     
-    func countryCodeAt(index: Int) -> String? {
+    func countryCodeAt(_ index: Int) -> String? {
         guard 0..<products.count ~= index else { return nil }
         return products[index].countryCode
     }
     
-    func commercializerTemplates(index: Int) -> [CommercializerTemplate]? {
+    func commercializerTemplates(_ index: Int) -> [CommercializerTemplate]? {
         guard let countryCode = countryCodeAt(index) else { return nil }
         return commercializerRepository.templatesForCountryCode(countryCode)
     }

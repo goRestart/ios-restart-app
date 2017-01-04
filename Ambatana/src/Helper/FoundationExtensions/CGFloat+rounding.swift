@@ -17,7 +17,7 @@ extension CGFloat {
 
      CGFloat(4.24).roundNearest(0.1) -> 4.2
      CGFloat(4.25).roundNearest(0.1) -> 4.3 */
-    func roundNearest(nearest: CGFloat) -> CGFloat {
+    func roundNearest(_ nearest: CGFloat) -> CGFloat {
         let n = 1/nearest
         return round(self * n) / n
     }
@@ -31,7 +31,7 @@ extension CGFloat {
      CGFloat(0.25).percentageTo(0.5) -> 0.5
      CGFloat(0).percentageTo(0.5) -> 0.0
     */
-    func percentageTo(maximum: CGFloat) -> CGFloat {
+    func percentageTo(_ maximum: CGFloat) -> CGFloat {
         guard self < maximum else { return 1 }
         return self / maximum
     }
@@ -44,7 +44,7 @@ extension CGFloat {
      CGFloat(0.9).percentageBetween(start: 1.0, end: 1.4) -> 0
      CGFloat(1.5).percentageBetween(start: 1.0, end: 1.4) -> 1
      */
-    func percentageBetween(start start: CGFloat, end: CGFloat) -> CGFloat {
+    func percentageBetween(start: CGFloat, end: CGFloat) -> CGFloat {
         guard self > start else { return 0 }
         guard self < end else { return 1 }
         return (self - start) / (end - start)

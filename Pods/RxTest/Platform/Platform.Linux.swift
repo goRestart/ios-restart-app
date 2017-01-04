@@ -19,8 +19,8 @@
 
     final class AtomicInt {
         typealias IntegerLiteralType = Int
-        fileprivate var value: Int32 = 0
-        fileprivate var _lock = NSRecursiveLock()
+        private var value: Int32 = 0
+        private var _lock = NSRecursiveLock()
 
         func lock() {
           _lock.lock()

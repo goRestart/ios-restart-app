@@ -10,14 +10,14 @@ import Foundation
 import LGCoreKit
 
 enum ExternalServiceAuthResult {
-    case Success(myUser: MyUser)
-    case Cancelled
-    case Network
-    case Scammer
-    case NotFound
-    case Conflict(cause: ConflictCause)
-    case BadRequest
-    case Internal(description: String)
+    case success(myUser: MyUser)
+    case cancelled
+    case network
+    case scammer
+    case notFound
+    case conflict(cause: ConflictCause)
+    case badRequest
+    case `internal`(description: String)
     
     init(sessionError: SessionManagerError) {
         switch sessionError {
@@ -48,9 +48,9 @@ enum ExternalServiceAuthResult {
 }
 
 enum ExternalAuthTokenRetrievalResult {
-    case Success(serverAuthCode: String)
-    case Cancelled
-    case Error(error: NSError?)
+    case success(serverAuthCode: String)
+    case cancelled
+    case error(error: NSError?)
 }
 
-typealias ExternalAuthTokenRetrievalCompletion = ExternalAuthTokenRetrievalResult -> ()
+typealias ExternalAuthTokenRetrievalCompletion = (ExternalAuthTokenRetrievalResult) -> ()

@@ -9,13 +9,13 @@
 import LGCoreKit
 import Result
 
-enum ChangePasswordError: ErrorType {
-    case InvalidPassword
-    case PasswordMismatch
+enum ChangePasswordError: Error {
+    case invalidPassword
+    case passwordMismatch
 
-    case Network
-    case Internal
-    case ResetPasswordLinkExpired
+    case network
+    case `internal`
+    case resetPasswordLinkExpired
 
     init(repositoryError: RepositoryError, handleUnauthorizedAsLinkExpired: Bool) {
         switch repositoryError {
@@ -34,14 +34,14 @@ enum ChangePasswordError: ErrorType {
 }
 
 protocol ChangePasswordViewModelDelegate: class {
-    func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: ChangePasswordError)
-    func viewModelDidStartSendingPassword(viewModel: ChangePasswordViewModel)
-    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
+    func viewModel(_ viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool)
+    func viewModel(_ viewModel: ChangePasswordViewModel, didFailValidationWithError error: ChangePasswordError)
+    func viewModelDidStartSendingPassword(_ viewModel: ChangePasswordViewModel)
+    func viewModel(_ viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
         result: Result<MyUser, ChangePasswordError>)
 }
 
-public class ChangePasswordViewModel: BaseViewModel {
+class ChangePasswordViewModel: BaseViewModel {
    
     weak var delegate : ChangePasswordViewModelDelegate?
     weak var navigator: ChangePasswordNavigator?
@@ -49,13 +49,13 @@ public class ChangePasswordViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private var token: String?
     
-    public var password: String {
+    open var password: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSaveButton())
         }
     }
 
-    public var confirmPassword: String {
+    open var confirmPassword: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSaveButton())
         }
@@ -88,7 +88,7 @@ public class ChangePasswordViewModel: BaseViewModel {
     
     // MARK: - public methods
         
-    public func changePassword() {
+    open func changePassword() {
         // check if username is ok (func in extension?)
         if isValidCombination() && isValidPassword() {
             
@@ -107,9 +107,9 @@ public class ChangePasswordViewModel: BaseViewModel {
         }
     }
 
-    private func resetPassword(password: String, token: String) {
+    private func resetPassword(_ password: String, token: String) {
         myUserRepository.resetPassword(password, token: token) { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
-            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
+            guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
             var result = Result<MyUser, ChangePasswordError>(error: .Internal)
             if let value = updatePwdResult.value {
@@ -122,9 +122,9 @@ public class ChangePasswordViewModel: BaseViewModel {
         }
     }
 
-    private func updatePassword(password: String) {
+    private func updatePassword(_ password: String) {
         myUserRepository.updatePassword(password) { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
-            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
+            guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
             var result = Result<MyUser, ChangePasswordError>(error: .Internal)
             if let value = updatePwdResult.value {
@@ -137,14 +137,14 @@ public class ChangePasswordViewModel: BaseViewModel {
         }
     }
 
-    public func isValidCombination() -> Bool {
+    open func isValidCombination() -> Bool {
         if password != confirmPassword { // passwords do not match.
             return false
         }
         return true
     }
     
-    public func isValidPassword() -> Bool {
+    open func isValidPassword() -> Bool {
         if password.characters.count < Constants.passwordMinLength ||
             password.characters.count > Constants.passwordMaxLength ||
             confirmPassword.characters.count < Constants.passwordMinLength ||
@@ -155,7 +155,7 @@ public class ChangePasswordViewModel: BaseViewModel {
     }
 
     
-    public func passwordChangedCorrectly() {
+    open func passwordChangedCorrectly() {
         navigator?.closeChangePassword()
     }
     

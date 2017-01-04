@@ -10,10 +10,10 @@ import LGCoreKit
 
 protocol ReportUsersViewModelDelegate: class {
 
-    func reportUsersViewModelDidUpdateReasons(viewModel: ReportUsersViewModel)
-    func reportUsersViewModelDidStartSendingReport(viewModel: ReportUsersViewModel)
-    func reportUsersViewModel(viewModel: ReportUsersViewModel, didSendReport successMsg: String)
-    func reportUsersViewModel(viewModel: ReportUsersViewModel, failedSendingReport errorMsg: String)
+    func reportUsersViewModelDidUpdateReasons(_ viewModel: ReportUsersViewModel)
+    func reportUsersViewModelDidStartSendingReport(_ viewModel: ReportUsersViewModel)
+    func reportUsersViewModel(_ viewModel: ReportUsersViewModel, didSendReport successMsg: String)
+    func reportUsersViewModel(_ viewModel: ReportUsersViewModel, failedSendingReport errorMsg: String)
 
 }
 
@@ -55,23 +55,23 @@ class ReportUsersViewModel: BaseViewModel {
 
     var selectedReasonIndex: Int? {
         guard let reasonSelected = reasonSelected else { return nil }
-        return reportReasons.indexOf(reasonSelected)
+        return reportReasons.index(of: reasonSelected)
     }
 
-    func imageForReasonAtIndex(index: Int) -> UIImage? {
+    func imageForReasonAtIndex(_ index: Int) -> UIImage? {
         return reportReasons[index].image
     }
 
-    func textForReasonAtIndex(index: Int) -> String {
+    func textForReasonAtIndex(_ index: Int) -> String {
         return reportReasons[index].text
     }
 
-    func isReasonSelectedAtIndex(index: Int) -> Bool {
+    func isReasonSelectedAtIndex(_ index: Int) -> Bool {
         guard let reasonSelected = reasonSelected else { return false }
         return reportReasons[index] == reasonSelected
     }
 
-    func selectedReasonAtIndex(index: Int) {
+    func selectedReasonAtIndex(_ index: Int) {
         let reasonToSelect = reportReasons[index]
         if reasonSelected == reasonToSelect {
             reasonSelected = nil
@@ -81,7 +81,7 @@ class ReportUsersViewModel: BaseViewModel {
         delegate?.reportUsersViewModelDidUpdateReasons(self)
     }
     
-    func sendReport(comment: String?) {
+    func sendReport(_ comment: String?) {
         guard let reasonSelected = reasonSelected else { return }
         
         trackReport(reasonSelected)
@@ -111,7 +111,7 @@ class ReportUsersViewModel: BaseViewModel {
     
     // MARK: - Private methods
     
-    private func trackReport(reason: ReportUserReason) {
+    private func trackReport(_ reason: ReportUserReason) {
         let trackerEvent = TrackerEvent.profileReport(origin, reportedUserId: userReportedId, reason: reason.eventReason)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }

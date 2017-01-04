@@ -51,8 +51,8 @@ class CategoriesViewModel: BaseViewModel {
         }
     }
 
-    private func buildFullCategoryItemsWithCategories(categories: [ProductCategory]) -> [FilterCategoryItem] {
-        let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.Free] : []
+    private func buildFullCategoryItemsWithCategories(_ categories: [ProductCategory]) -> [FilterCategoryItem] {
+        let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
     }
@@ -64,20 +64,20 @@ class CategoriesViewModel: BaseViewModel {
         :return: A product category.
     */
 
-    func categoryAtIndex(index: Int) -> FilterCategoryItem? {
+    func categoryAtIndex(_ index: Int) -> FilterCategoryItem? {
         if index < numOfCategories {
             return categories[index]
         }
         return nil
     }
     
-    private func filtersForCategoryAtIndex(index: Int) -> ProductFilters? {
+    private func filtersForCategoryAtIndex(_ index: Int) -> ProductFilters? {
         if index < numOfCategories {
             //Access from categories should be the exact same behavior as access filters and select that category
             var productFilters = ProductFilters()
             let category = categories[index]
             switch category {
-            case .Free:
+            case .free:
                 productFilters.priceRange = .FreePrice
             case .Category(let cat):
                 productFilters.toggleCategory(cat)
@@ -87,7 +87,7 @@ class CategoriesViewModel: BaseViewModel {
         return nil
     }
     
-    func didSelectItemAtIndex(index: Int) {
+    func didSelectItemAtIndex(_ index: Int) {
         guard let productFilters = filtersForCategoryAtIndex(index) else { return }
         navigator?.openMainProducts(with: productFilters)
     }

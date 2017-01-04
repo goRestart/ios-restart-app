@@ -14,6 +14,6 @@ protocol ReusableCell {
 
 extension ReusableCell {
     static var reusableID: String {
-        return String(Self)
+        return String(describing: Self)
     }
 }

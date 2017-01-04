@@ -11,8 +11,8 @@ import StoreKit
 
 
 protocol PurchasesShopperDelegate: class {
-    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [PurchaseableProduct])
-    func shopperFailedProductsRequestForProductId(productId: String?, withError: NSError)
+    func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct])
+    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: NSError)
 }
 
 class PurchasesShopper: NSObject {
@@ -46,7 +46,7 @@ class PurchasesShopper: NSObject {
      - parameter productId: ID of the listing for wich will request the appstore products
      - parameter ids: array of ids of the appstore products
      */
-    func productsRequestStartForProduct(productId: String, withIds ids: [String]) {
+    func productsRequestStartForProduct(_ productId: String, withIds ids: [String]) {
         guard productId != currentProductId else { return }
         productsRequest.cancel()
         currentProductId = productId
@@ -61,7 +61,7 @@ class PurchasesShopper: NSObject {
 
      - parameter product: info of the product to purchase on the appstore
      */
-    func requestPaymentForProduct(productId: String) {
+    func requestPaymentForProduct(_ productId: String) {
         guard let appstoreProduct = productsDict[productId] else { return }
         // request payment to appstore with "appstoreProduct"
 
@@ -72,15 +72,15 @@ class PurchasesShopper: NSObject {
 // MARK: - SKProductsRequestDelegate
 
 extension PurchasesShopper: PurchaseableProductsRequestDelegate {
-    func productsRequest(request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse) {
+    func productsRequest(_ request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse) {
 
         guard let currentProductId = currentProductId else { return }
 
         let invalidIds = response.invalidProductIdentifiers
         if !invalidIds.isEmpty {
-            let strInvalidIds: String = invalidIds.reduce("", combine: { (a,b) in "\(a),\(b)"})
+            let strInvalidIds: String = invalidIds.reduce("", { (a,b) in "\(a),\(b)"})
             let message = "Invalid ids: \(strInvalidIds)"
-            logMessage(.Error, type: [.Monetization], message: message)
+            logMessage(.error, type: [.Monetization], message: message)
             report(AppReport.Monetization(error: .InvalidAppstoreProductIdentifiers), message: message)
         }
 
@@ -88,7 +88,7 @@ extension PurchasesShopper: PurchaseableProductsRequestDelegate {
         delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
     }
 
-    func productsRequest(request: PurchaseableProductsRequest, didFailWithError error: NSError) {
+    func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: NSError) {
         delegate?.shopperFailedProductsRequestForProductId(currentProductId, withError: error)
     }
 }

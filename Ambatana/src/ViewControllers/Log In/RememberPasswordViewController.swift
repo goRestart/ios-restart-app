@@ -15,7 +15,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
     // Constants & enum
     enum TextFieldTag: Int {
-        case Email = 1000
+        case email = 1000
     }
     
     // ViewModel
@@ -38,19 +38,19 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue, email: String, appearance: LoginAppearance = .Light) {
+    init(source: EventParameterLoginSourceValue, email: String, appearance: LoginAppearance = .light) {
         self.viewModel = RememberPasswordViewModel(source: source, email: email)
         self.appearance = appearance
 
         let statusBarStyle: UIStatusBarStyle
         let navBarBackgroundStyle: NavBarBackgroundStyle
         switch appearance {
-        case .Dark:
-            statusBarStyle = .LightContent
-            navBarBackgroundStyle = .Transparent(substyle: .Dark)
-        case .Light:
-            statusBarStyle = .Default
-            navBarBackgroundStyle = .Transparent(substyle: .Light)
+        case .dark:
+            statusBarStyle = .lightContent
+            navBarBackgroundStyle = .transparent(substyle: .dark)
+        case .light:
+            statusBarStyle = .default
+            navBarBackgroundStyle = .transparent(substyle: .light)
         }
         super.init(viewModel: viewModel, nibName: "RememberPasswordViewController",
                    statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
@@ -75,12 +75,12 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         
     }
 
-    override func viewWillFirstAppear(animated: Bool) {
+    override func viewWillFirstAppear(_ animated: Bool) {
         super.viewWillFirstAppear(animated)
         switch appearance {
-        case .Light:
+        case .light:
             break
-        case .Dark:
+        case .dark:
             setupKenBurns()
         }
     }
@@ -88,30 +88,30 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
     // MARK: - Actions
     
-    @IBAction func resetPasswordButtonPressed(sender: AnyObject) {
+    @IBAction func resetPasswordButtonPressed(_ sender: AnyObject) {
         viewModel.resetPassword()
     }
     
 
     // MARK: - RememberPasswordViewModelDelegate
     
-    func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
-        resetPasswordButton.enabled = enabled
+    func viewModel(_ viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
+        resetPasswordButton.isEnabled = enabled
     }
     
-    func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel) {
+    func viewModelDidStartResettingPassword(_ viewModel: RememberPasswordViewModel) {
         showLoadingMessageAlert()
     }
 
-    func viewModelDidFinishResetPassword(viewModel: RememberPasswordViewModel) {
+    func viewModelDidFinishResetPassword(_ viewModel: RememberPasswordViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.resetPasswordSendOk(viewModel.email)) { [weak self] in
-                self?.dismissViewControllerAnimated(true, completion: nil)
+                self?.dismiss(animated: true, completion: nil)
             }
         }
     }
 
-    func viewModel(viewModel: RememberPasswordViewModel, didFailResetPassword error: String) {
+    func viewModel(_ viewModel: RememberPasswordViewModel, didFailResetPassword error: String) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(error)
         }
@@ -120,34 +120,34 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
     // MARK: - UITextFieldDelegate
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
             switch (tag) {
-            case .Email:
+            case .email:
                 iconImageView = emailIconImageView
             }
-            iconImageView.highlighted = true
+            iconImageView.isHighlighted = true
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
             switch (tag) {
-            case .Email:
+            case .email:
                 iconImageView = emailIconImageView
             }
-            iconImageView.highlighted = false
+            iconImageView.isHighlighted = false
         }
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         updateViewModelText("", fromTextFieldTag: textField.tag)
         return true
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let tag = textField.tag
         let nextView = view.viewWithTag(tag + 1)
         if let actualNextView = nextView {
@@ -159,9 +159,9 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let textFieldText = textField.text {
-            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            let text = (textFieldText as NSString).replacingCharacters(in: range, with: string)
             updateViewModelText(text, fromTextFieldTag: textField.tag)
         }
         return true
@@ -174,35 +174,35 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     private func setupUI() {
         // Appearance
         emailButton.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
-        resetPasswordButton.setStyle(.Primary(fontSize: .Medium))
+        resetPasswordButton.setStyle(.primary(fontSize: .medium))
         
         // i18n
         setNavBarTitle(LGLocalizedString.resetPasswordTitle)
         emailTextField.placeholder = LGLocalizedString.resetPasswordEmailFieldHint
-        resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, forState: .Normal)
+        resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, for: UIControlState())
         instructionsLabel.text = LGLocalizedString.resetPasswordInstructions
         
         // Tags
-        emailTextField.tag = TextFieldTag.Email.rawValue
+        emailTextField.tag = TextFieldTag.email.rawValue
 
         switch appearance {
-        case .Light:
+        case .light:
             setupLightAppearance()
-        case .Dark:
+        case .dark:
             setupDarkAppearance()
         }
     }
 
     private func setupLightAppearance() {
-        darkAppereanceBgView.hidden = true
+        darkAppereanceBgView.isHidden = true
 
         let textfieldTextColor = UIColor.black
-        let textfieldTextPlaceholderColor = UIColor.black.colorWithAlphaComponent(0.5)
+        let textfieldTextPlaceholderColor = UIColor.black.withAlphaComponent(0.5)
         var textfieldPlaceholderAttrs = [String: AnyObject]()
-        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor
 
-        emailButton.setStyle(.LightField)
+        emailButton.setStyle(.lightField)
         emailIconImageView.image = UIImage(named: "ic_email")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
         emailTextField.textColor = textfieldTextColor
@@ -211,15 +211,15 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     }
 
     private func setupDarkAppearance() {
-        darkAppereanceBgView.hidden = false
+        darkAppereanceBgView.isHidden = false
 
         let textfieldTextColor = UIColor.white
-        let textfieldTextPlaceholderColor = textfieldTextColor.colorWithAlphaComponent(0.7)
+        let textfieldTextPlaceholderColor = textfieldTextColor.withAlphaComponent(0.7)
         var textfieldPlaceholderAttrs = [String: AnyObject]()
-        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor
 
-        emailButton.setStyle(.DarkField)
+        emailButton.setStyle(.darkField)
         emailIconImageView.image = UIImage(named: "ic_email_dark")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
         emailTextField.textColor = textfieldTextColor
@@ -235,23 +235,23 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             UIImage(named: "bg_4_new")
             ].flatMap { return $0}
         view.layoutIfNeeded()
-        kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
+        kenBurnsView.animate(withImages: images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
     
     private func updateSendButtonEnabledState() {
         if let email = emailTextField.text {
-            resetPasswordButton.enabled = email.characters.count > 0
+            resetPasswordButton.isEnabled = email.characters.count > 0
         } else {
-            resetPasswordButton.enabled = false
+            resetPasswordButton.isEnabled = false
         }
     }
     
     // MARK: > Helper
     
-    private func updateViewModelText(text: String, fromTextFieldTag tag: Int) {
+    private func updateViewModelText(_ text: String, fromTextFieldTag tag: Int) {
         if let tag = TextFieldTag(rawValue: tag) {
             switch (tag) {
-            case .Email:
+            case .email:
                 viewModel.email = text
             }
         }

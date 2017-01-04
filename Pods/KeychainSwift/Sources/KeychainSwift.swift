@@ -6,7 +6,7 @@ import Foundation
 A collection of helper functions for saving text and data in the keychain.
 
 */
-open class KeychainSwift {
+class KeychainSwift {
   
   var lastQueryParameters: [String: Any]? // Used by the unit tests
   

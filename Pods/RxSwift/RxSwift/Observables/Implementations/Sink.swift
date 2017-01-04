@@ -9,9 +9,9 @@
 import Foundation
 
 class Sink<O : ObserverType> : Disposable {
-    fileprivate let _observer: O
-    fileprivate let _cancel: Cancelable
-    fileprivate var _disposed: Bool
+    private let _observer: O
+    private let _cancel: Cancelable
+    private var _disposed: Bool
 
     init(observer: O, cancel: Cancelable) {
 #if TRACE_RESOURCES

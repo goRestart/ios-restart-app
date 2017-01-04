@@ -10,8 +10,8 @@ import LGCoreKit
 import RxSwift
 
 protocol TabBarViewModelDelegate: BaseViewModelDelegate {
-    func vmSwitchToTab(tab: Tab, force: Bool, completion: (() -> ())?)
-    func vmShowTooltipAtSellButtonWithText(text: NSAttributedString)
+    func vmSwitchToTab(_ tab: Tab, force: Bool, completion: (() -> ())?)
+    func vmShowTooltipAtSellButtonWithText(_ text: NSAttributedString)
 }
 
 
@@ -64,14 +64,14 @@ class TabBarViewModel: BaseViewModel {
         let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
 
         var titleTextAttributes = [String : AnyObject]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
         titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let titleText = NSAttributedString(string: LGLocalizedString.tabBarGiveAwayTooltip, attributes: titleTextAttributes)
 
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.appendAttributedString(NSAttributedString(string: " "))
-        fullTitle.appendAttributedString(titleText)
+        fullTitle.append(NSAttributedString(string: " "))
+        fullTitle.append(titleText)
 
         delegate?.vmShowTooltipAtSellButtonWithText(fullTitle)
     }
@@ -84,14 +84,14 @@ class TabBarViewModel: BaseViewModel {
     }
 
     func sellButtonPressed() {
-        navigator?.openSell(.SellButton)
+        navigator?.openSell(.sellButton)
     }
 
-    func userRating(source: RateUserSource, data: RateUserData) {
+    func userRating(_ source: RateUserSource, data: RateUserData) {
         navigator?.openUserRating(source, data: data)
     }
 
-    func externalSwitchToTab(tab: Tab, completion: (() -> ())?) {
+    func externalSwitchToTab(_ tab: Tab, completion: (() -> ())?) {
         delegate?.vmSwitchToTab(tab, force: false, completion: completion)
     }
 
@@ -113,7 +113,7 @@ class TabBarViewModel: BaseViewModel {
                 guard let strongSelf = self else { return nil }
                 guard strongSelf.featureFlags.notificationsSection else { return nil }
                 guard myUser != nil else { return String(1) }
-                return count.flatMap { $0 > 0 ? String($0) : nil }
+                return count.flatMap { $0 > 0 ? String($0) : nil }!
             }).bindTo(notificationsBadge).addDisposableTo(disposeBag)
     }
 }

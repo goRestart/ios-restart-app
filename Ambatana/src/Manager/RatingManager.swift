@@ -31,12 +31,12 @@ class RatingManager {
         self.keyValueStorage = keyValueStorage
         self.crashManager = crashManager
         switch versionChange {
-        case .NewInstall, .Major, .Minor:
+        case .newInstall, .major, .minor:
             keyValueStorage.userRatingAlreadyRated = false
             keyValueStorage.userRatingRemindMeLaterDate = nil
-        case .Patch:
+        case .patch:
             keyValueStorage.userRatingRemindMeLaterDate = nil
-        case .None:
+        case .none:
             break
         }
     }
@@ -60,11 +60,11 @@ extension RatingManager {
     func userDidRemindLater() {
         if keyValueStorage.userRatingRemindMeLaterDate == nil {
             // If we don't have a remind later date then set it up
-            let remindDate = NSDate().dateByAddingTimeInterval(Constants.ratingRepeatTime)
+            let remindDate = Date().addingTimeInterval(Constants.ratingRepeatTime)
             keyValueStorage.userRatingRemindMeLaterDate = remindDate
         } else {
             // Otherwise, we set it in a distant future... (might be overriden when updating)
-            keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantFuture()
+            keyValueStorage.userRatingRemindMeLaterDate = Date.distantFuture
         }
     }
 }

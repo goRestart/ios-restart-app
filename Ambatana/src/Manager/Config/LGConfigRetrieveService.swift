@@ -9,9 +9,9 @@
 import Alamofire
 import Result
 
-public class LGConfigRetrieveService: ConfigRetrieveService {
+class LGConfigRetrieveService: ConfigRetrieveService {
 
-    public private(set) var configURL : String
+    open private(set) var configURL : String
 
     // MARK: - Lifecycle
 
@@ -25,7 +25,7 @@ public class LGConfigRetrieveService: ConfigRetrieveService {
 
     // MARK: - Public Methods
 
-    public func retrieveConfigWithCompletion(completion: ConfigRetrieveServiceCompletion?) {
+    open func retrieveConfigWithCompletion(_ completion: ConfigRetrieveServiceCompletion?) {
         Alamofire.request(.GET, configURL)
             .validate(statusCode: 200..<400)
             .responseObject { (configFileResponse: Response<Config, NSError>) -> Void in

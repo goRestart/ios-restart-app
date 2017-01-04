@@ -10,14 +10,14 @@ import LGCoreKit
 import Result
 
 protocol RememberPasswordViewModelDelegate: class {
-    func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel)
-    func viewModelDidFinishResetPassword(viewModel: RememberPasswordViewModel)
-    func viewModel(viewModel: RememberPasswordViewModel, didFailResetPassword error: String)
+    func viewModel(_ viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool)
+    func viewModelDidStartResettingPassword(_ viewModel: RememberPasswordViewModel)
+    func viewModelDidFinishResetPassword(_ viewModel: RememberPasswordViewModel)
+    func viewModel(_ viewModel: RememberPasswordViewModel, didFailResetPassword error: String)
 }
 
 
-public class RememberPasswordViewModel: BaseViewModel {
+class RememberPasswordViewModel: BaseViewModel {
    
     // Login source
     let sessionManager: SessionManager
@@ -50,7 +50,7 @@ public class RememberPasswordViewModel: BaseViewModel {
     
     // MARK: - Public methods
     
-    public func resetPassword() {
+    open func resetPassword() {
         if !email.isEmail() {
             delegate?.viewModel(self, didFailResetPassword: LGLocalizedString.resetPasswordSendErrorInvalidEmail)
         }

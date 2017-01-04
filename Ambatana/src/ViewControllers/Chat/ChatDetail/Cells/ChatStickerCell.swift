@@ -17,7 +17,7 @@ class ChatStickerCell: UITableViewCell, ReusableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setAccessibilityIds()
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
     }
 }
 

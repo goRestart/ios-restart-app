@@ -11,15 +11,15 @@ import LGCoreKit
 import Result
 
 public typealias ChatWrapperResult = Result<Bool, RepositoryError>
-public typealias ChatWrapperCompletion = ChatWrapperResult -> Void
+public typealias ChatWrapperCompletion = (ChatWrapperResult) -> Void
 
 enum ChatWrapperMessageType {
     case Text(String)
-    case PeriscopeDirect(String)
-    case ChatSticker(Sticker)
-    case QuickAnswer(String)
-    case ExpressChat(String)
-    case FavoritedProduct(String)
+    case periscopeDirect(String)
+    case chatSticker(Sticker)
+    case quickAnswer(String)
+    case expressChat(String)
+    case favoritedProduct(String)
 }
 
 class ChatWrapper {
@@ -43,7 +43,7 @@ class ChatWrapper {
     }
 
 
-    func sendMessageForProduct(product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
+    func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
         if featureFlags.websocketChat {
             sendWebSocketChatMessage(product, text: type.text, type: type.chatType, completion: completion)
         } else {
@@ -51,7 +51,7 @@ class ChatWrapper {
         }
     }
 
-    private func sendOldChatMessage(product: Product, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
+    private func sendOldChatMessage(_ product: Product, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
         guard let text = text else {
             completion?(Result(error: .Internal(message: "There's no message to send")))
             return
@@ -66,7 +66,7 @@ class ChatWrapper {
         }
     }
 
-    private func sendWebSocketChatMessage(product: Product, text: String, type: ChatMessageType,
+    private func sendWebSocketChatMessage(_ product: Product, text: String, type: ChatMessageType,
                                           completion: ChatWrapperCompletion?) {
         // get conversation
         guard let sellerId = product.user.objectId else {
@@ -116,13 +116,13 @@ extension ChatWrapperMessageType {
             return text
         case let .ChatSticker(sticker):
             return sticker.name
-        case let .QuickAnswer(text):
+        case let .quickAnswer(text):
             return text
-        case let .ExpressChat(text):
+        case let .expressChat(text):
             return text
-        case let .FavoritedProduct(text):
+        case let .favoritedProduct(text):
             return text
-        case let .PeriscopeDirect(text):
+        case let .periscopeDirect(text):
             return text
         }
     }
@@ -133,7 +133,7 @@ extension ChatWrapperMessageType {
             return .Text
         case .ChatSticker:
             return .Sticker
-        case .QuickAnswer, .ExpressChat, .FavoritedProduct, .PeriscopeDirect: // Legacy chat doesn't use this types
+        case .quickAnswer, .expressChat, .favoritedProduct, .periscopeDirect: // Legacy chat doesn't use this types
             return .Text
         }
     }
@@ -142,15 +142,15 @@ extension ChatWrapperMessageType {
         switch self {
         case .Text:
             return .Text
-        case .PeriscopeDirect:
+        case .periscopeDirect:
             return .Text
         case .ChatSticker:
             return .Sticker
-        case .QuickAnswer:
+        case .quickAnswer:
             return .QuickAnswer
-        case .ExpressChat:
+        case .expressChat:
             return .ExpressChat
-        case .FavoritedProduct:
+        case .favoritedProduct:
             return .FavoritedProduct
         }
     }
@@ -161,13 +161,13 @@ extension ChatWrapperMessageType {
             return .Text
         case .ChatSticker:
             return .Sticker
-        case .QuickAnswer:
+        case .quickAnswer:
             return .QuickAnswer
-        case .ExpressChat:
+        case .expressChat:
             return .ExpressChat
-        case .FavoritedProduct:
+        case .favoritedProduct:
             return .Favorite
-        case .PeriscopeDirect:
+        case .periscopeDirect:
             return .PeriscopeDirect
         }
     }

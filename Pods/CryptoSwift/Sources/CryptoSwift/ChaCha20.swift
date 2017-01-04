@@ -16,8 +16,8 @@ public final class ChaCha20: BlockCipher {
 
     public static let blockSize = 64 // 512 / 8
 
-    fileprivate let key: Key
-    fileprivate var counter: Array<UInt8>
+    private let key: Key
+    private var counter: Array<UInt8>
 
     public init(key: Array<UInt8>, iv nonce: Array<UInt8>) throws {
         precondition(nonce.count == 12 || nonce.count == 8)
@@ -40,7 +40,7 @@ public final class ChaCha20: BlockCipher {
     }
 
     /// https://tools.ietf.org/html/rfc7539#section-2.3.
-    fileprivate func core(block: inout Array<UInt8>, counter: Array<UInt8>, key: Array<UInt8>) {
+    private func core(block: inout Array<UInt8>, counter: Array<UInt8>, key: Array<UInt8>) {
         precondition(block.count == ChaCha20.blockSize)
         precondition(counter.count == 16)
         precondition(key.count == 32)

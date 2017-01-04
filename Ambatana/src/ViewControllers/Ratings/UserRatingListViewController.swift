@@ -46,8 +46,8 @@ class UserRatingListViewController: BaseViewController {
     private func setupUI() {
         title = LGLocalizedString.ratingListTitle
         let cellNib = UINib(nibName: UserRatingListViewController.cellReuseIdentifier, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: UserRatingListViewController.cellReuseIdentifier)
-        tableView.hidden = true
+        tableView.register(cellNib, forCellReuseIdentifier: UserRatingListViewController.cellReuseIdentifier)
+        tableView.isHidden = true
         view.backgroundColor = UIColor.listBackgroundColor
     }
 }
@@ -57,28 +57,28 @@ class UserRatingListViewController: BaseViewController {
 
 extension UserRatingListViewController: UserRatingListViewModelDelegate {
 
-    func vmIsLoadingUserRatingsRequest(isLoading: Bool, firstPage: Bool) {
+    func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool) {
         if isLoading && firstPage {
             activityIndicator.startAnimating()
         }
     }
 
-    func vmDidLoadUserRatings(ratings: [UserRating]) {
+    func vmDidLoadUserRatings(_ ratings: [UserRating]) {
         activityIndicator.stopAnimating()
-        tableView.hidden = false
+        tableView.isHidden = false
         tableView.reloadData()
     }
 
-    func vmDidFailLoadingUserRatings(firstPage: Bool) {
+    func vmDidFailLoadingUserRatings(_ firstPage: Bool) {
         activityIndicator.stopAnimating()
         if firstPage {
             vmShowAutoFadingMessage(LGLocalizedString.ratingListLoadingErrorMessage) { [weak self] in
-                self?.navigationController?.popViewControllerAnimated(true)
+                self?.navigationController?.popViewController(animated: true)
             }
         }
     }
 
-    func vmShowUserRating(source: RateUserSource, data: RateUserData) {
+    func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
         tabBarController.openUserRating(source, data: data)
     }
@@ -92,21 +92,21 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
 
 extension UserRatingListViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.ratings.count
     }
 
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(UserRatingListViewController.cellReuseIdentifier,
-                                                                     forIndexPath: indexPath) as? UserRatingCell else
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: UserRatingListViewController.cellReuseIdentifier,
+                                                                     for: indexPath) as? UserRatingCell else
         { return UITableViewCell() }
 
         guard let data = viewModel.dataForCellAtIndexPath(indexPath) else { return UITableViewCell() }

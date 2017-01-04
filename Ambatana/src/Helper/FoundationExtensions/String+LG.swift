@@ -14,7 +14,7 @@ extension String {
         if #available(iOS 9.0, *) {
             return localizedUppercaseString
         } else {
-            return uppercaseStringWithLocale(NSLocale.currentLocale())
+            return uppercased(with: Locale.current)
         }
     }
 
@@ -22,7 +22,7 @@ extension String {
         if #available(iOS 9.0, *) {
             return localizedLowercaseString
         } else {
-            return lowercaseStringWithLocale(NSLocale.currentLocale())
+            return lowercased(with: Locale.current)
         }
     }
 
@@ -30,28 +30,28 @@ extension String {
         if #available(iOS 9.0, *) {
             return localizedCapitalizedString
         } else {
-            return capitalizedStringWithLocale(NSLocale.currentLocale())
+            return self.capitalized(with: Locale.current)
         }
     }
 
     var trim: String {
-        let trimSet = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-        return stringByTrimmingCharactersInSet(trimSet)
+        let trimSet = CharacterSet.whitespacesAndNewlines
+        return trimmingCharacters(in: trimSet)
     }
 
     var capitalizedFirstLetterOnly: String  {
         guard !self.isEmpty else { return self }
         var result = self
-        result.replaceRange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).capitalizedString)
+        result.replaceSubrange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).capitalized)
         return result
     }
     
     var specialCharactersRemoved: String {
-        let charactersToRemove = NSCharacterSet.alphanumericCharacterSet().invertedSet
-        return componentsSeparatedByCharactersInSet(charactersToRemove).joinWithSeparator("")
+        let charactersToRemove = CharacterSet.alphanumerics.inverted
+        return components(separatedBy: charactersToRemove).joined(separator: "")
     }
 
-    func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor)
+    func attributedHyperlinkedStringWithURLDict(_ urlDict: [String : URL], textColor: UIColor)
         -> NSMutableAttributedString {
         
             // Attributed string works with NSRange and NSRange != Range<String>
@@ -62,7 +62,7 @@ extension String {
                 range: NSMakeRange(0, resultText.length))
             
             for (word, url) in urlDict {
-                let range = nsText.rangeOfString(word, options: .CaseInsensitiveSearch)
+                let range = nsText.range(of: word, options: .caseInsensitive)
                 
                 resultText.addAttribute(NSLinkAttributeName, value: url, range: range)
             }
@@ -70,15 +70,15 @@ extension String {
     }
 
     func isEmail() -> Bool {
-        let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .CaseInsensitive)
-        return regex?.firstMatchInString(self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
+        let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .caseInsensitive)
+        return regex?.firstMatch(in: self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
     }
 
-    func isValidLengthPrice(acceptsSeparator: Bool, locale: NSLocale = NSLocale.autoupdatingCurrentLocale()) -> Bool {
-        let separator = componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet())
-            .joinWithSeparator("")
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func isValidLengthPrice(_ acceptsSeparator: Bool, locale: Locale = Locale.autoupdatingCurrent) -> Bool {
+        let separator = components(separatedBy: CharacterSet.decimalDigits)
+            .joined(separator: "")
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.locale = locale
         if separator.isEmpty {
             return characters.count <= Constants.maxPriceIntegerCharacters
@@ -88,50 +88,50 @@ extension String {
             return false
         }
 
-        let parts = componentsSeparatedByString(separator)
+        let parts = components(separatedBy: separator)
         guard parts.count == 2 else { return false }
 
         return parts[0].characters.count <= Constants.maxPriceIntegerCharacters &&
                parts[1].characters.count <= Constants.maxPriceFractionalCharacters
     }
 
-    func toNameReduced(maxChars maxChars: Int) -> String {
+    func toNameReduced(maxChars: Int) -> String {
         guard characters.count > maxChars else { return self }
-        let substring = substringToIndex(startIndex.advancedBy(maxChars))
+        let substring = self.substring(to: characters.index(startIndex, offsetBy: maxChars))
         let words = substring.byWords
         guard words.count > 1 else { return substring+"." }
-        let firstPart = words.prefix(words.count - 1).joinWithSeparator(" ")
+        let firstPart = words.prefix(words.count - 1).joined(separator: " ")
         guard let lastWordFirstChar = words.last?.characters.first else { return firstPart }
         return firstPart + " " + String(lastWordFirstChar) + "."
     }
 
     func toPriceDouble() -> Double {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        formatter.locale = NSLocale.autoupdatingCurrentLocale()
-        if let number = formatter.numberFromString(self) {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        formatter.locale = Locale.autoupdatingCurrent
+        if let number = formatter.number(from: self) {
             return Double(number)
         }
         // Just in case decimal style doesn't work
-        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        if let number = formatter.numberFromString(self) {
+        formatter.numberStyle = NumberFormatter.Style.currency
+        if let number = formatter.number(from: self) {
             return Double(number)
         }
         return 0
     }
 
-    static func fromPriceDouble(price: Double) -> String {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    static func fromPriceDouble(_ price: Double) -> String {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = NumberFormatter.Style.decimal
         numFormatter.usesGroupingSeparator = false
-        if let text = numFormatter.stringFromNumber(price) {
+        if let text = numFormatter.string(from: NSNumber(price)) {
             return text
         }
         return ""
     }
 
     func decomposeIdSlug() -> String? {
-        let slugComponents = self.componentsSeparatedByString("_")
+        let slugComponents = self.components(separatedBy: "_")
         guard slugComponents.count > 1 else { return nil }
         let slugId = slugComponents[slugComponents.count - 1]
         return slugId
@@ -145,22 +145,22 @@ extension String {
         return unicodeScalars.filter { $0.isEmoji }.count > 0
     }
     
-    func trunc(length: Int, trailing: String? = "...") -> String {
+    func trunc(_ length: Int, trailing: String? = "...") -> String {
         guard self.characters.count > length else { return self }
-        return self.substringToIndex(self.startIndex.advancedBy(length)) + (trailing ?? "")
+        return self.substring(to: self.characters.index(self.startIndex, offsetBy: length)) + (trailing ?? "")
     }
     
     func encodeString() -> String {
         let URLCombinedCharacterSet = NSMutableCharacterSet()
-        URLCombinedCharacterSet.formUnionWithCharacterSet(.URLQueryAllowedCharacterSet())
-        URLCombinedCharacterSet.removeCharactersInString("+")
-        let urlEncoded = self.stringByAddingPercentEncodingWithAllowedCharacters(URLCombinedCharacterSet)
+        URLCombinedCharacterSet.formUnion(with: .urlQueryAllowed)
+        URLCombinedCharacterSet.removeCharacters(in: "+")
+        let urlEncoded = self.addingPercentEncoding(withAllowedCharacters: URLCombinedCharacterSet as CharacterSet)
         return urlEncoded ?? self
     }
 
     var byWords: [String] {
         var result:[String] = []
-        enumerateSubstringsInRange(characters.indices, options: .ByWords) {
+        enumerateSubstrings(in: characters.indices, options: .byWords) {
             guard let substring = $0.substring else { return }
             result.append(substring)
         }

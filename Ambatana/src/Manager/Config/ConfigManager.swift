@@ -9,7 +9,7 @@
 import Result
 import LGCoreKit
 
-public class ConfigManager {
+class ConfigManager {
 
     static let sharedInstance: ConfigManager = ConfigManager()
 
@@ -24,9 +24,9 @@ public class ConfigManager {
         }
     }
 
-    public var updateTimeout: Double    // seconds
+    open var updateTimeout: Double    // seconds
 
-    public var shouldForceUpdate: Bool {
+    open var shouldForceUpdate: Bool {
         guard let actualConfig = config else {
             return false
         }
@@ -38,11 +38,11 @@ public class ConfigManager {
         return false
     }
 
-    public var myMessagesCountForRating: Int {
+    open var myMessagesCountForRating: Int {
         return config?.myMessagesCountForRating ?? Constants.myMessagesCountForRating
     }
 
-    public var otherMessagesCountForRating: Int {
+    open var otherMessagesCountForRating: Int {
         return config?.otherMessagesCountForRating ?? Constants.otherMessagesCountForRating
     }
 
@@ -51,7 +51,7 @@ public class ConfigManager {
 
     public convenience init() {
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
-        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
+        let dao = LGConfigDAO(bundle: Bundle.main, configFileName: configFileName)
         self.init(dao: dao)
     }
 
@@ -61,7 +61,7 @@ public class ConfigManager {
         let configURL = config?.configURL ?? EnvironmentProxy.sharedInstance.configURL
 
         let service = LGConfigRetrieveService(url: configURL)
-        let appVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String) ?? ""
+        let appVersion = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? ""
 
         self.init(service: service, dao: dao, appCurrentVersion: appVersion)
     }
@@ -77,11 +77,11 @@ public class ConfigManager {
 
     // MARK : - Public methods
 
-    public func updateWithCompletion(completion: (() -> Void)?) {
+    open func updateWithCompletion(_ completion: (() -> Void)?) {
 
         var didNotifyCompletion = false
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(updateTimeout * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
+        let delayTime = DispatchTime.now() + Double(Int64(updateTimeout * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
             if !didNotifyCompletion {
                 didNotifyCompletion = true
                 completion?()
@@ -107,7 +107,7 @@ public class ConfigManager {
 
     // MARK : - Private methods
 
-    private func shouldForceUpdate(config: Config) -> (forceUpdate: Bool, suggestedUpdate: Bool) {
+    private func shouldForceUpdate(_ config: Config) -> (forceUpdate: Bool, suggestedUpdate: Bool) {
         for version in config.forceUpdateVersions {
             let versionNum = version
             if String(versionNum) == appCurrentVersion {

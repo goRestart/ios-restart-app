@@ -12,28 +12,28 @@ extension UIApplication {
 
     func registerPushNotifications() {
         if #available(iOS 10.0, *) {
-            let center = UNUserNotificationCenter.currentNotificationCenter()
-            center.requestAuthorizationWithOptions([.Badge, .Sound, .Alert], completionHandler: { (granted, error) in
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.badge, .sound, .alert], completionHandler: { (granted, error) in
                 guard granted else { return }
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                DispatchQueue.main.async { [weak self] in
                     guard let strongSelf = self else { return }
-                    let settings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
+                    let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
                     PushManager.sharedInstance.application(strongSelf, didRegisterUserNotificationSettings: settings)
                 }
             })
         } else {
-            let userNotificationTypes: UIUserNotificationType = ([.Alert, .Badge, .Sound])
-            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+            let userNotificationTypes: UIUserNotificationType = ([.alert, .badge, .sound])
+            let settings = UIUserNotificationSettings(types: userNotificationTypes, categories: nil)
             registerUserNotificationSettings(settings)
         }
         registerForRemoteNotifications()
     }
 
     var areRemoteNotificationsEnabled: Bool {
-        if respondsToSelector(#selector(currentUserNotificationSettings)) {
-            return currentUserNotificationSettings()?.types.contains(UIUserNotificationType.Alert) ?? false
+        if responds(to: #selector(getter: currentUserNotificationSettings)) {
+            return currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert) ?? false
         } else {
-            return isRegisteredForRemoteNotifications()
+            return isRegisteredForRemoteNotifications
         }
     }
 }

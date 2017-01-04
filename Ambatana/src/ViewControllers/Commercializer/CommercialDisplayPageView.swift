@@ -13,7 +13,7 @@ protocol CommercialDisplayPageViewDelegate: class {
     func pageViewWillHideFullScreen()
 }
 
-public class CommercialDisplayPageView: UIView {
+class CommercialDisplayPageView: UIView {
 
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -26,8 +26,8 @@ public class CommercialDisplayPageView: UIView {
     
     // MARK: - Lifecycle
 
-    public static func instanceFromNib() -> CommercialDisplayPageView {
-        return NSBundle.mainBundle().loadNibNamed("CommercialDisplayPageView", owner: self, options: nil)!.first as! CommercialDisplayPageView
+    open static func instanceFromNib() -> CommercialDisplayPageView {
+        return Bundle.main.loadNibNamed("CommercialDisplayPageView", owner: self, options: nil)!.first as! CommercialDisplayPageView
     }
 
     public override init(frame: CGRect) {
@@ -38,12 +38,12 @@ public class CommercialDisplayPageView: UIView {
         super.init(coder: aDecoder)
     }
 
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         videoPlayer.frame = bounds
     }
 
-    public func setupVideoPlayerWithUrl(url: NSURL) {
+    open func setupVideoPlayerWithUrl(_ url: URL) {
         videoPlayer.frame = bounds
         videoPlayer.setupUI()
         addSubview(videoPlayer)
@@ -57,15 +57,15 @@ public class CommercialDisplayPageView: UIView {
         videoPlayer.pausePlayer()
     }
 
-    public func setupThumbnailWithUrl(thumbUrl: NSURL) {
+    open func setupThumbnailWithUrl(_ thumbUrl: URL) {
         thumbnailImageView.lg_setImageWithURL(thumbUrl, placeholderImage: nil)
     }
 
-    public func pauseVideo() {
+    open func pauseVideo() {
         videoPlayer.pausePlayer()
     }
 
-    public func playVideo() {
+    open func playVideo() {
         videoPlayer.startPlayer()
     }
 
@@ -80,7 +80,7 @@ public class CommercialDisplayPageView: UIView {
 
 extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
 
-    public func playerDidSwitchPlaying(isPlaying: Bool) {
+    public func playerDidSwitchPlaying(_ isPlaying: Bool) {
         videoPlayer.controlsAreVisible = true
     }
 
@@ -96,15 +96,15 @@ extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
         if fullScreen {
             fullScreen = false
             delegate?.pageViewWillHideFullScreen()
-            transform = CGAffineTransformIdentity
+            transform = CGAffineTransform.identity
         } else {
             fullScreen = true
             delegate?.pageViewWillShowFullScreen()
             transform = CGAffineTransform.commercializerVideoToFullScreenTransform(frame)
         }
 
-        UIView.animateWithDuration(0.2) { [weak self] in
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
             self?.transform = transform
-        }
+        }) 
     }
 }

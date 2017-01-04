@@ -15,16 +15,16 @@ If an underlying disposable resource has already been set, future attempts to se
 */
 public class SingleAssignmentDisposable : DisposeBase, Disposable, Cancelable {
 #if os(Linux)
-    fileprivate let _lock = SpinLock()
+    private let _lock = SpinLock()
 #endif
 
-    fileprivate enum DisposeState: UInt32 {
+    private enum DisposeState: UInt32 {
         case disposed = 1
         case disposableSet = 2
     }
 
     // Jeej, swift API consistency rules
-    fileprivate enum DisposeStateInt32: Int32 {
+    private enum DisposeStateInt32: Int32 {
         case disposed = 1
         case disposableSet = 2
     }

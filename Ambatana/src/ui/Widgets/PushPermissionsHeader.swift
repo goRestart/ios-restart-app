@@ -45,7 +45,7 @@ class PushPermissionsHeader: UIView {
         backgroundColor = UIColor.black
 
         let icon = UIImageView(image: UIImage(named: "ic_messages"))
-        icon.contentMode = .Center
+        icon.contentMode = .center
         icon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(icon)
 
@@ -57,7 +57,7 @@ class PushPermissionsHeader: UIView {
         addSubview(label)
 
         let disclosure = UIImageView(image: UIImage(named: "ic_disclosure"))
-        disclosure.contentMode = .Center
+        disclosure.contentMode = .center
         disclosure.translatesAutoresizingMaskIntoConstraints = false
         addSubview(disclosure)
 
@@ -67,15 +67,15 @@ class PushPermissionsHeader: UIView {
         views["disclosure"] = disclosure
 
         var metrics = [String: AnyObject]()
-        metrics["iconWidth"] = PushPermissionsHeader.iconWidth
-        metrics["disclosureWidth"] = PushPermissionsHeader.disclosureWidth
-        metrics["messageMargin"] = PushPermissionsHeader.messageMargin
+        metrics["iconWidth"] = PushPermissionsHeader.iconWidth as AnyObject?
+        metrics["disclosureWidth"] = PushPermissionsHeader.disclosureWidth as AnyObject?
+        metrics["messageMargin"] = PushPermissionsHeader.messageMargin as AnyObject?
 
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[icon(iconWidth)]-0-[label]-messageMargin-[disclosure(disclosureWidth)]-0-|",
-            options: [.AlignAllCenterY], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[icon]-0-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[icon(iconWidth)]-0-[label]-messageMargin-[disclosure(disclosureWidth)]-0-|",
+            options: [.alignAllCenterY], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[icon]-0-|",
             options: [], metrics: nil, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[disclosure]-0-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[disclosure]-0-|",
             options: [], metrics: nil, views: views))
     }
 

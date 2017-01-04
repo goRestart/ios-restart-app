@@ -32,14 +32,14 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
         resetUI()
     }
 
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         refreshState()
     }
 
     // MARK: > Actions
 
-    @IBAction func primaryImagePressed(sender: AnyObject) {
+    @IBAction func primaryImagePressed(_ sender: AnyObject) {
         primaryImageAction?()
     }
 
@@ -60,8 +60,8 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
 
         primaryImage.accessibilityId = .NotificationsCellPrimaryImage
 
-        actionButton.userInteractionEnabled = false
-        actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
+        actionButton.isUserInteractionEnabled = false
+        actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
 
         userImageViews.forEach { $0.rounded = true }
     }
@@ -75,7 +75,7 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
     }
 
     private func refreshState() {
-        let highlighedState = self.highlighted || self.selected
+        let highlighedState = self.isHighlighted || self.isSelected
         cellContainer.alpha = highlighedState ? LGUIKitConstants.highlightedStateAlpha : 1.0
     }
 }

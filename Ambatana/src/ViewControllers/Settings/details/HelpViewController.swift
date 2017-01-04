@@ -8,7 +8,7 @@
 
 import SafariServices
 
-public class HelpViewController: BaseViewController, UIWebViewDelegate, HelpViewModelDelegate {
+class HelpViewController: BaseViewController, UIWebViewDelegate, HelpViewModelDelegate {
 
     // UI
     @IBOutlet weak var webView: UIWebView!
@@ -34,14 +34,14 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate, HelpView
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         // Navigation Bar
         setNavBarTitle(LGLocalizedString.helpTitle)
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
 
         if let url = viewModel.url {
-            let request = NSURLRequest(URL: url)
+            let request = URLRequest(url: url as URL)
             webView.loadRequest(request)
         }
 
@@ -57,14 +57,14 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate, HelpView
 
     dynamic private func showOptions() {
         let alert = UIAlertController(title: nil, message: nil,
-            preferredStyle: .ActionSheet)
+            preferredStyle: .actionSheet)
         alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
-        alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .Default,
+        alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .default,
             handler: { [weak self] action in self?.viewModel.termsButtonPressed() }))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .Default,
+        alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .default,
             handler: { [weak self] action in self?.viewModel.privacyButtonPressed() }))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

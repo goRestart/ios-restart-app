@@ -43,7 +43,7 @@ final class NotificationsTabCoordinator: TabCoordinator {
         viewModel.navigator = self
     }
 
-    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+    override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return true
     }
 }
@@ -58,7 +58,7 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
     }
 
     // TODO: remove actionCompletedBlock when status comes from back-end
-    func openPassiveBuyers(productId: String, actionCompletedBlock: (() -> Void)?) {
+    func openPassiveBuyers(_ productId: String, actionCompletedBlock: (() -> Void)?) {
         navigationController.showLoadingMessageAlert()
         passiveBuyersRepository.show(productId: productId) { [weak self] result in
             if let passiveBuyersInfo = result.value {
@@ -80,7 +80,7 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
         }
     }
 
-    private func openPassiveBuyers(passiveBuyersInfo: PassiveBuyersInfo, actionCompletedBlock: (() -> Void)?) {
+    private func openPassiveBuyers(_ passiveBuyersInfo: PassiveBuyersInfo, actionCompletedBlock: (() -> Void)?) {
         passiveBuyersCompletion = actionCompletedBlock
 
         let passiveBuyersCoordinator = PassiveBuyersCoordinator(passiveBuyersInfo: passiveBuyersInfo)
@@ -93,11 +93,11 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
 // MARK: - PassiveBuyersCoordinatorDelegate
 
 extension NotificationsTabCoordinator: PassiveBuyersCoordinatorDelegate {
-    func passiveBuyersCoordinatorDidCancel(coordinator: PassiveBuyersCoordinator) {
+    func passiveBuyersCoordinatorDidCancel(_ coordinator: PassiveBuyersCoordinator) {
         passiveBuyersCompletion = nil
     }
 
-    func passiveBuyersCoordinatorDidFinish(coordinator: PassiveBuyersCoordinator) {
+    func passiveBuyersCoordinatorDidFinish(_ coordinator: PassiveBuyersCoordinator) {
         passiveBuyersCompletion?()
         passiveBuyersCompletion = nil
     }

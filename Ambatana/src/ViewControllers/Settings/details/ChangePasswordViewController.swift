@@ -20,7 +20,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     var viewModel : ChangePasswordViewModel!
     
     enum TextFieldTag: Int {
-        case Password = 1000, ConfirmPassword
+        case password = 1000, confirmPassword
     }
     var lines : [CALayer] = []
     
@@ -49,13 +49,13 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         setupAccessibilityIds()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setNavBarBackgroundStyle(.Default)
-        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
+        setNavBarBackgroundStyle(.default)
+        UIApplication.shared.setStatusBarStyle(.default, animated: true)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         passwordTextfield.becomeFirstResponder()
     }
@@ -72,20 +72,20 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         lines.append(confirmPasswordTextfield.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
    
-    @IBAction func sendChangePasswordButtonPressed(sender: AnyObject) {
+    @IBAction func sendChangePasswordButtonPressed(_ sender: AnyObject) {
         viewModel.changePassword()
     }
     
     // MARK: - TextFieldDelegate
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let textFieldText = textField.text {
-            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            let text = (textFieldText as NSString).replacingCharacters(in: range, with: string)
             if let tag = TextFieldTag(rawValue: textField.tag) {
                 switch (tag) {
-                case .Password:
+                case .password:
                     viewModel.password = text
-                case .ConfirmPassword:
+                case .confirmPassword:
                     viewModel.confirmPassword = text
                 }
             }
@@ -93,19 +93,19 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         return true
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         if let tag = TextFieldTag(rawValue: textField.tag) {
             switch (tag) {
-            case .Password:
+            case .password:
                 viewModel.password = ""
-            case .ConfirmPassword:
+            case .confirmPassword:
                 viewModel.confirmPassword = ""
             }
         }
         return true
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.passwordTextfield {
             self.confirmPasswordTextfield.becomeFirstResponder()
         } else if textField == self.confirmPasswordTextfield {
@@ -116,27 +116,27 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     
     // MARK : - ChangePasswordViewModelDelegate Methods
     
-    func viewModelDidStartSendingPassword(viewModel: ChangePasswordViewModel) {
+    func viewModelDidStartSendingPassword(_ viewModel: ChangePasswordViewModel) {
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: ChangePasswordError) {
+    func viewModel(_ viewModel: ChangePasswordViewModel, didFailValidationWithError error: ChangePasswordError) {
         let message: String
         switch (error) {
-        case .InvalidPassword:
+        case .invalidPassword:
             message = LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
                 Constants.passwordMaxLength)
-        case .PasswordMismatch:
+        case .passwordMismatch:
             message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
-        case .ResetPasswordLinkExpired:
+        case .resetPasswordLinkExpired:
             message = LGLocalizedString.changePasswordSendErrorLinkExpired
-        case .Network, .Internal:
+        case .network, .internal:
             message = LGLocalizedString.changePasswordSendErrorGeneric
         }
         self.showAutoFadingOutMessageAlert(message)
     }
     
-    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
+    func viewModel(_ viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
         result: Result<MyUser, ChangePasswordError>) {
             var completion: (() -> Void)? = nil
             
@@ -172,8 +172,8 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
             dismissLoadingMessageAlert(completion)
     }
     
-    func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
-        sendButton.enabled = enabled
+    func viewModel(_ viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
+        sendButton.isEnabled = enabled
     }
     
     
@@ -182,23 +182,23 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     private func setupUI() {
         
         if isRootViewController() {
-            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
+            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
                 action: #selector(popBackViewController))
             navigationItem.leftBarButtonItem = closeButton
         }
         
         // UI/UX & Appearance
         passwordTextfield.delegate = self
-        passwordTextfield.tag = TextFieldTag.Password.rawValue
+        passwordTextfield.tag = TextFieldTag.password.rawValue
 
         confirmPasswordTextfield.delegate = self
-        confirmPasswordTextfield.tag = TextFieldTag.ConfirmPassword.rawValue
+        confirmPasswordTextfield.tag = TextFieldTag.confirmPassword.rawValue
 
         setNavBarTitle(LGLocalizedString.changePasswordTitle)
 
-        sendButton.setStyle(.Primary(fontSize: .Big))
-        sendButton.setTitle(LGLocalizedString.changePasswordTitle, forState: UIControlState.Normal)
-        sendButton.enabled = false
+        sendButton.setStyle(.primary(fontSize: .big))
+        sendButton.setTitle(LGLocalizedString.changePasswordTitle, for: UIControlState())
+        sendButton.isEnabled = false
 
         // internationalization
         passwordTextfield.placeholder = LGLocalizedString.changePasswordNewPasswordFieldHint

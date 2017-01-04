@@ -15,7 +15,7 @@ public protocol ProductDetailOnboardingViewDelegate: class {
     func productDetailOnboardingDidDisappear()
 }
 
-public class ProductDetailOnboardingView: UIView {
+class ProductDetailOnboardingView: UIView {
 
     @IBOutlet weak var fingersView: UIVisualEffectView!
     @IBOutlet weak var tapToGoLabel: UILabel!
@@ -30,8 +30,8 @@ public class ProductDetailOnboardingView: UIView {
 
     // MARK: - Lifecycle
 
-    public static func instanceFromNibWithState() -> ProductDetailOnboardingView { 
-        let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)!
+    open static func instanceFromNibWithState() -> ProductDetailOnboardingView { 
+        let view = Bundle.main.loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)!
             .first as! ProductDetailOnboardingView
         return view
     }
@@ -44,7 +44,7 @@ public class ProductDetailOnboardingView: UIView {
         super.init(coder: aDecoder)
     }
 
-    public func setupUI() {
+    open func setupUI() {
         setupFingersView()
         setupViewsVisibility()
         setupTapRecognizers()
@@ -55,7 +55,7 @@ public class ProductDetailOnboardingView: UIView {
     // MARK: -Tap actions
 
     dynamic private func closeView() {
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
+        UIApplication.shared.setStatusBarHidden(false, with: .fade)
         removeFromSuperview()
         delegate?.productDetailOnboardingDidDisappear()
     }
@@ -70,7 +70,7 @@ public class ProductDetailOnboardingView: UIView {
     }
 
     private func setupViewsVisibility() {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
+        UIApplication.shared.setStatusBarHidden(true, with: .fade)
         fingersView.alpha = 1
         KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = true
         delegate?.productDetailOnboardingDidAppear()
@@ -82,9 +82,9 @@ public class ProductDetailOnboardingView: UIView {
     }
 
     private func animateViewTransition() {
-        UIView.animateWithDuration(0.35) { [weak self] in
+        UIView.animate(withDuration: 0.35, animations: { [weak self] in
             self?.setupViewsVisibility()
-        }
+        }) 
     }
 
     private func setAccessibilityIds() {

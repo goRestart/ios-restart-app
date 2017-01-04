@@ -10,76 +10,76 @@
  Defines the tabs contained in the TabBarController
  */
 enum Tab {
-    case Home, Categories, Notifications, Sell, Chats, Profile
+    case home, categories, notifications, sell, chats, profile
 
     init?(index: Int,featureFlags: FeatureFlaggeable) {
         switch index {
         case 0:
-            self = .Home
+            self = .home
         case 1:
-            self = featureFlags.notificationsSection ? .Notifications : .Categories
+            self = featureFlags.notificationsSection ? .notifications : .categories
         case 2:
-            self = .Sell
+            self = .sell
         case 3:
-            self = .Chats
+            self = .chats
         case 4:
-            self = .Profile
+            self = .profile
         default: return nil
         }
     }
 
     var tabIconImageName: String {
         switch self {
-        case .Home:
+        case .home:
             return "tabbar_home"
-        case .Categories:
+        case .categories:
             return "tabbar_categories"
-        case .Notifications:
+        case .notifications:
             return "tabbar_notifications"
-        case .Sell:
+        case .sell:
             return "tabbar_sell"
-        case .Chats:
+        case .chats:
             return "tabbar_chats"
-        case .Profile:
+        case .profile:
             return "tabbar_profile"
         }
     }
 
     var index: Int {
         switch self {
-        case .Home:
+        case .home:
             return 0
-        case .Categories, .Notifications:
+        case .categories, .notifications:
             return 1
-        case .Sell:
+        case .sell:
             return 2
-        case .Chats:
+        case .chats:
             return 3
-        case .Profile:
+        case .profile:
             return 4
         }
     }
 
     var accessibilityId: AccessibilityId {
         switch self {
-        case .Home:
+        case .home:
             return .TabBarFirstTab
-        case .Categories, .Notifications:
+        case .categories, .notifications:
             return .TabBarSecondTab
-        case .Sell:
+        case .sell:
             return .TabBarThirdTab
-        case .Chats:
+        case .chats:
             return .TabBarFourthTab
-        case .Profile:
+        case .profile:
             return .TabBarFifthTab
         }
     }
 
-    func all(featureFlags: FeatureFlaggeable) -> [Tab] {
+    func all(_ featureFlags: FeatureFlaggeable) -> [Tab] {
         if featureFlags.notificationsSection {
-            return [.Home, .Notifications, .Sell, .Chats, .Profile]
+            return [.home, .notifications, .sell, .chats, .profile]
         } else {
-            return [.Home, .Categories, .Sell, .Chats, .Profile]
+            return [.home, .categories, .sell, .chats, .profile]
         }
     }
 }

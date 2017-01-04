@@ -15,13 +15,13 @@ class TakeUntilSinkOther<ElementType, Other, O: ObserverType>
     typealias Parent = TakeUntilSink<ElementType, Other, O>
     typealias E = Other
     
-    fileprivate let _parent: Parent
+    private let _parent: Parent
 
     var _lock: NSRecursiveLock {
         return _parent._lock
     }
     
-    fileprivate let _subscription = SingleAssignmentDisposable()
+    private let _subscription = SingleAssignmentDisposable()
     
     init(parent: Parent) {
         _parent = parent
@@ -63,12 +63,12 @@ class TakeUntilSink<ElementType, Other, O: ObserverType>
     typealias E = ElementType
     typealias Parent = TakeUntil<E, Other>
     
-    fileprivate let _parent: Parent
+    private let _parent: Parent
  
     let _lock = NSRecursiveLock()
     
     // state
-    fileprivate var _open = false
+    private var _open = false
     
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -104,8 +104,8 @@ class TakeUntilSink<ElementType, Other, O: ObserverType>
 
 class TakeUntil<Element, Other>: Producer<Element> {
     
-    fileprivate let _source: Observable<Element>
-    fileprivate let _other: Observable<Other>
+    private let _source: Observable<Element>
+    private let _other: Observable<Other>
     
     init(source: Observable<Element>, other: Observable<Other>) {
         _source = source

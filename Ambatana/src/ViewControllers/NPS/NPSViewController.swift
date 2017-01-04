@@ -24,7 +24,7 @@ class NPSViewController: BaseViewController {
     init(viewModel: NPSViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "NPSViewController")
-        modalPresentationStyle = .OverCurrentContext
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,12 +37,12 @@ class NPSViewController: BaseViewController {
         setAccessibilityIds()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarHidden(true)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
     }
@@ -50,14 +50,14 @@ class NPSViewController: BaseViewController {
     func setupUI() {
         npsButtons.forEach {
             $0.rounded = true
-            $0.layer.borderColor = UIColor.primaryColor.CGColor
+            $0.layer.borderColor = UIColor.primaryColor.cgColor
             $0.layer.borderWidth = 1.0
             $0.clipsToBounds = true
-            $0.setTitle(String($0.tag), forState: .Normal)
-            $0.setTitleColor(UIColor.primaryColor, forState: .Normal)
-            $0.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
-            $0.setBackgroundImage(UIColor.whiteColor().imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-            $0.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+            $0.setTitle(String($0.tag), for: UIControlState())
+            $0.setTitleColor(UIColor.primaryColor, for: UIControlState())
+            $0.setTitleColor(UIColor.white, for: .highlighted)
+            $0.setBackgroundImage(UIColor.white.imageWithSize(CGSize(width: 1, height: 1)), for: UIControlState())
+            $0.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), for: .highlighted)
             $0.titleLabel?.font = UIFont.systemBoldFont(size: 19)
         }
         
@@ -72,18 +72,18 @@ class NPSViewController: BaseViewController {
         notLikelyLabel.textColor = UIColor.grayDark
         extremelyLikelyLabel.textColor = UIColor.grayDark
         
-        closeButton.setImage(UIImage(named: "navbar_close")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
         closeButton.tintColor = UIColor.primaryColor
     }
     
-    @IBAction func selectScore(sender: AnyObject) {
+    @IBAction func selectScore(_ sender: AnyObject) {
         guard let score = sender.tag else { return }
         viewModel.vmDidFinishSurvey(score)
         close(sender)
     }
     
-    @IBAction func close(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func close(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
 }
 

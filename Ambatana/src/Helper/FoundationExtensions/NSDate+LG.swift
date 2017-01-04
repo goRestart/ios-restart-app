@@ -8,22 +8,22 @@
 
 import Foundation
 
-extension NSDate {
+extension Date {
 
     func formattedTime() -> String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeStyle = .ShortStyle
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
         if isToday {
-            dateFormatter.dateStyle = .NoStyle
+            dateFormatter.dateStyle = .none
         } else {
-            dateFormatter.dateStyle = .ShortStyle
+            dateFormatter.dateStyle = .short
         }
-        dateFormatter.locale = NSLocale.autoupdatingCurrentLocale()
-        return dateFormatter.stringFromDate(self)
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        return dateFormatter.string(from: self)
     }
 
     var isToday: Bool {
-        return NSCalendar.currentCalendar().isDateInToday(self)
+        return Calendar.current.isDateInToday(self)
     }
 
     /**
@@ -34,10 +34,10 @@ extension NSDate {
      - returns: string with the propper format
      */
 
-    func relativeTimeString(shortForm: Bool) -> String {
+    func relativeTimeString(_ shortForm: Bool) -> String {
 
         let time = self.timeIntervalSince1970
-        let now = NSDate().timeIntervalSince1970
+        let now = Date().timeIntervalSince1970
 
         let seconds = now - time
         let minutes = round(seconds/60)
@@ -104,7 +104,7 @@ extension NSDate {
     func simpleTimeStringForDate() -> String {
 
         let time = self.timeIntervalSince1970
-        let now = NSDate().timeIntervalSince1970
+        let now = Date().timeIntervalSince1970
 
         let seconds = Float(now - time)
 
@@ -123,10 +123,10 @@ extension NSDate {
         }
     }
 
-    func productsBubbleInfoText(maxMonthsAgo: Int) -> String {
+    func productsBubbleInfoText(_ maxMonthsAgo: Int) -> String {
 
         let time = timeIntervalSince1970
-        let now = NSDate().timeIntervalSince1970
+        let now = Date().timeIntervalSince1970
 
         let seconds = Float(now - time)
 
@@ -170,9 +170,9 @@ extension NSDate {
         return isNewerThan(86400)
     }
 
-    func isNewerThan(seconds: NSTimeInterval) -> Bool {
+    func isNewerThan(_ seconds: TimeInterval) -> Bool {
         let time = self.timeIntervalSince1970
-        let now = NSDate().timeIntervalSince1970
+        let now = Date().timeIntervalSince1970
         return (now-time) < seconds
     }
 }

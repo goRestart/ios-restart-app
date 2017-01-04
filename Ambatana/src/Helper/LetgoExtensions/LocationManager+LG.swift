@@ -11,7 +11,7 @@ import CoreLocation
 
 extension LocationManager {
     
-    func countryNoMatchWith(countryInfo: CountryConfigurable) -> Bool {
-       return  countryInfo.countryCode != currentPostalAddress?.countryCode?.lowercaseString
+    func countryNoMatchWith(_ countryInfo: CountryConfigurable) -> Bool {
+       return  countryInfo.countryCode != currentPostalAddress?.countryCode?.lowercased()
     }
 }

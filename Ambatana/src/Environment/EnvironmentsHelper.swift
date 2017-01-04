@@ -44,7 +44,7 @@ class EnvironmentsHelper {
 
     func getCoreEnvironment() -> EnvironmentType {
         //First check xcode environment
-        let envArgs = NSProcessInfo.processInfo().environment
+        let envArgs = ProcessInfo.processInfo.environment
         if envArgs["-environment-prod"] != nil {
             setSettingsEnvironment(.Production, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .Production
@@ -75,10 +75,10 @@ class EnvironmentsHelper {
         }
     }
 
-    private func getSettingsEnvironment(key: String) -> EnvironmentType {
-        let userDefaults = NSUserDefaults()
-        guard let environmentString = userDefaults.stringForKey(key),
-            environment = SettingsEnvironment(rawValue: environmentString) else { return .Production }
+    private func getSettingsEnvironment(_ key: String) -> EnvironmentType {
+        let userDefaults = UserDefaults()
+        guard let environmentString = userDefaults.string(forKey: key),
+            let environment = SettingsEnvironment(rawValue: environmentString) else { return .Production }
         switch environment {
         case .Production:
             return .Production
@@ -91,8 +91,8 @@ class EnvironmentsHelper {
         }
     }
 
-    private func setSettingsEnvironment(environment: EnvironmentType, key: String) {
-        let userDefaults = NSUserDefaults()
+    private func setSettingsEnvironment(_ environment: EnvironmentType, key: String) {
+        let userDefaults = UserDefaults()
         switch environment {
         case .Staging:
             userDefaults.setValue(SettingsEnvironment.Staging.rawValue, forKey: key)

@@ -11,42 +11,42 @@ import RxSwift
 import CollectionVariable
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
-    func vmShowRelatedProducts(productId: String?)
+    func vmShowRelatedProducts(_ productId: String?)
 
     func vmDidFailSendingMessage()
     func vmDidFailRetrievingChatMessages()
     
-    func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
-    func vmShowUserRating(source: RateUserSource, data: RateUserData)
+    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
+    func vmShowUserRating(_ source: RateUserSource, data: RateUserData)
 
     func vmShowSafetyTips()
 
     func vmClearText()
-    func vmHideKeyboard(animated: Bool)
+    func vmHideKeyboard(_ animated: Bool)
     func vmShowKeyboard()
     
     func vmAskForRating()
-    func vmShowPrePermissions(type: PrePermissionType)
-    func vmShowMessage(message: String, completion: (() -> ())?)
-    func vmRequestLogin(loggedInAction: () -> Void)
-    func vmLoadStickersTooltipWithText(text: NSAttributedString)
+    func vmShowPrePermissions(_ type: PrePermissionType)
+    func vmShowMessage(_ message: String, completion: (() -> ())?)
+    func vmRequestLogin(_ loggedInAction: () -> Void)
+    func vmLoadStickersTooltipWithText(_ text: NSAttributedString)
 }
 
 struct EmptyConversation: ChatConversation {
     var objectId: String?
     var unreadMessageCount: Int = 0
-    var lastMessageSentAt: NSDate? = nil
+    var lastMessageSentAt: Date? = nil
     var product: ChatProduct? = nil
     var interlocutor: ChatInterlocutor? = nil
     var amISelling: Bool 
 }
 
 enum ChatRelatedItemsState {
-    case Loading, Visible, Hidden
+    case loading, visible, hidden
 }
 
 enum DirectAnswersState {
-    case NotAvailable, Visible, Hidden
+    case notAvailable, visible, hidden
 }
 
 class ChatViewModel: BaseViewModel {
@@ -69,10 +69,10 @@ class ChatViewModel: BaseViewModel {
     // Public Model info
     let title = Variable<String>("")
     let productName = Variable<String>("")
-    let productImageUrl = Variable<NSURL?>(nil)
+    let productImageUrl = Variable<URL?>(nil)
     let productPrice = Variable<String>("")
     let productIsFree = Variable<Bool>(false)
-    let interlocutorAvatarURL = Variable<NSURL?>(nil)
+    let interlocutorAvatarURL = Variable<URL?>(nil)
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
     let stickers = Variable<[Sticker]>([])
@@ -126,7 +126,7 @@ class ChatViewModel: BaseViewModel {
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
     private var productId: String? // Only used when accessing a chat from a product
-    private var preSendMessageCompletion: ((text: String, type: ChatMessageType) -> Void)?
+    private var preSendMessageCompletion: ((_ text: String, _ type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
 
     private let disposeBag = DisposeBag()
@@ -198,7 +198,7 @@ class ChatViewModel: BaseViewModel {
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
-        guard let _ = product.objectId, sellerId = product.user.objectId else { return nil }
+        guard let _ = product.objectId, let sellerId = product.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
@@ -243,7 +243,7 @@ class ChatViewModel: BaseViewModel {
         loadStickers()
     }
     
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         refreshChatInfo()
         if firstTime {
             retrieveRelatedProducts()
@@ -280,8 +280,8 @@ class ChatViewModel: BaseViewModel {
         navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: false)
     }
 
-    func setupConversationFromProduct(product: Product) {
-        guard let productId = product.objectId, sellerId = product.user.objectId else { return }
+    func setupConversationFromProduct(_ product: Product) {
+        guard let productId = product.objectId, let sellerId = product.user.objectId else { return }
         if let _ =  myUserRepository.myUser?.objectId {
             syncConversation(productId, sellerId: sellerId)
         } else {
@@ -289,7 +289,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    func syncConversation(productId: String, sellerId: String) {
+    func syncConversation(_ productId: String, sellerId: String) {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
@@ -427,7 +427,7 @@ class ChatViewModel: BaseViewModel {
         setupChatEventsRx()
     }
 
-    func updateMessagesCounts(changeInMessages: CollectionChange<ChatViewMessage>) {
+    func updateMessagesCounts(_ changeInMessages: CollectionChange<ChatViewMessage>) {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
         guard let otherUserId = conversation.value.interlocutor?.objectId else { return }
 
@@ -505,7 +505,7 @@ class ChatViewModel: BaseViewModel {
     func reviewUserPressed() {
         KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
         reviewTooltipVisible.value = false
-        guard let interlocutor = conversation.value.interlocutor, reviewData = RateUserData(interlocutor: interlocutor)
+        guard let interlocutor = conversation.value.interlocutor, let reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
         delegate?.vmShowUserRating(.Chat, data: reviewData)
     }
@@ -519,12 +519,12 @@ class ChatViewModel: BaseViewModel {
         KeyValueStorage.sharedInstance.userChatSafetyTipsShown = true
     }
     
-    func messageAtIndex(index: Int) -> ChatViewMessage? {
+    func messageAtIndex(_ index: Int) -> ChatViewMessage? {
         guard 0..<messages.value.count ~= index else { return nil }
         return messages.value[index]
     }
     
-    func textOfMessageAtIndex(index: Int) -> String? {
+    func textOfMessageAtIndex(_ index: Int) -> String? {
         return messageAtIndex(index)?.value
     }
 
@@ -538,14 +538,14 @@ class ChatViewModel: BaseViewModel {
         let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
 
         var titleTextAttributes = [String : AnyObject]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
         titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
 
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.appendAttributedString(NSAttributedString(string: " "))
-        fullTitle.appendAttributedString(titleText)
+        fullTitle.append(NSAttributedString(string: " "))
+        fullTitle.append(titleText)
 
         delegate?.vmLoadStickersTooltipWithText(fullTitle)
     }
@@ -576,11 +576,11 @@ class ChatViewModel: BaseViewModel {
 
 extension ChatViewModel {
     
-    func isMatchingConversationData(data: ConversationData) -> Bool {
+    func isMatchingConversationData(_ data: ConversationData) -> Bool {
         switch data {
-        case .Conversation(let conversationId):
+        case .conversation(let conversationId):
             return conversationId == conversation.value.objectId
-        case let .ProductBuyer(productId, productBuyerId):
+        case let .productBuyer(productId, productBuyerId):
             return productId == conversation.value.product?.objectId && productBuyerId == buyerId
         }
     }
@@ -600,17 +600,17 @@ extension ChatViewModel {
 
 extension ChatViewModel {
     
-    func sendSticker(sticker: Sticker) {
+    func sendSticker(_ sticker: Sticker) {
         sendMessage(sticker.name, type: .Sticker)
     }
     
-    func sendText(text: String, isQuickAnswer: Bool) {
+    func sendText(_ text: String, isQuickAnswer: Bool) {
         sendMessage(text, type: isQuickAnswer ? .QuickAnswer : .Text)
     }
     
-    private func sendMessage(text: String, type: ChatMessageType) {
+    private func sendMessage(_ text: String, type: ChatMessageType) {
         if let preSendMessageCompletion = preSendMessageCompletion {
-            preSendMessageCompletion(text: text, type: type)
+            preSendMessageCompletion(text, type)
             return
         }
 
@@ -618,7 +618,7 @@ extension ChatViewModel {
             if isSendingQuickAnswer { return }
             isSendingQuickAnswer = true
         }
-        let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let message = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
@@ -658,20 +658,20 @@ extension ChatViewModel {
         firstInteractionDone.value = true
         if shouldAskProductSold {
             shouldAskProductSold = false
-            let action = UIAction(interface: UIActionInterface.Text(LGLocalizedString.directAnswerSoldQuestionOk),
+            let action = UIAction(interface: UIActionInterface.text(LGLocalizedString.directAnswerSoldQuestionOk),
                                   action: markProductAsSold)
             delegate?.vmShowAlert(LGLocalizedString.directAnswerSoldQuestionTitle,
                                   message: LGLocalizedString.directAnswerSoldQuestionMessage,
                                   cancelLabel: LGLocalizedString.commonCancel,
                                   actions: [action])
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat(buyer: isBuyer)) {
-            delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
+        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
+            delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }
     }
 
-    private func resendEmailVerification(email: String) {
+    private func resendEmailVerification(_ email: String) {
         myUserRepository.linkAccount(email) { [weak self] result in
             if let error = result.error {
                 switch error {
@@ -688,23 +688,23 @@ extension ChatViewModel {
         }
     }
 
-    private func markMessageAsSent(messageId: String) {
+    private func markMessageAsSent(_ messageId: String) {
         updateMessageWithAction(messageId) { $0.markAsSent() }
     }
     
-    private func markMessagesAsReceived(messagesIds: [String]) {
+    private func markMessagesAsReceived(_ messagesIds: [String]) {
         messagesIds.forEach { [weak self] messageId in
             self?.updateMessageWithAction(messageId) { $0.markAsReceived() }
         }
     }
     
-    private func markMessagesAsRead(messagesIds: [String]) {
+    private func markMessagesAsRead(_ messagesIds: [String]) {
         messagesIds.forEach { [weak self] messageId in
             self?.updateMessageWithAction(messageId) { $0.markAsRead() }
         }
     }
     
-    private func updateMessageWithAction(messageId: String, action: ChatViewMessage -> ChatViewMessage) {
+    private func updateMessageWithAction(_ messageId: String, action: (ChatViewMessage) -> ChatViewMessage) {
         guard let index = messages.value.indexOf({$0.objectId == messageId}) else { return }
         let message = messages.value[index]
         let newMessage = action(message)
@@ -712,7 +712,7 @@ extension ChatViewModel {
         messages.replace(range, with: [newMessage])
     }
     
-    private func handleNewMessageFromInterlocutor(messageId: String, sentAt: NSDate, text: String, type: ChatMessageType) {
+    private func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
@@ -750,7 +750,7 @@ extension ChatViewModel {
     func openOptionsMenu() {
         var actions: [UIAction] = []
         
-        let safetyTips = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatSafetyTips), action: { [weak self] in
+        let safetyTips = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatSafetyTips), action: { [weak self] in
             self?.delegate?.vmShowSafetyTips()
         })
         actions.append(safetyTips)
@@ -765,22 +765,22 @@ extension ChatViewModel {
             }
             
             if !isDeleted && !isEmptyConversation.value {
-                let delete = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatListDelete),
+                let delete = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatListDelete),
                                                    action: deleteAction)
                 actions.append(delete)
             }
 
             if interlocutorEnabled {
-                let report = UIAction(interface: UIActionInterface.Text(LGLocalizedString.reportUserTitle),
+                let report = UIAction(interface: UIActionInterface.text(LGLocalizedString.reportUserTitle),
                                       action: reportUserAction)
                 actions.append(report)
               
                 if interlocutorIsMuted.value {
-                    let unblock = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatUnblockUser),
+                    let unblock = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatUnblockUser),
                                           action: unblockUserAction)
                     actions.append(unblock)
                 } else {
-                    let block = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatBlockUser),
+                    let block = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatBlockUser),
                                            action: blockUserAction)
                     actions.append(block)
                 }
@@ -794,7 +794,7 @@ extension ChatViewModel {
         guard !isDeleted else { return }
         
         
-        let action = UIAction(interface: .StyledText(LGLocalizedString.chatListDeleteAlertSend, .Destructive), action: {
+        let action = UIAction(interface: .styledText(LGLocalizedString.chatListDeleteAlertSend, .destructive), action: {
             [weak self] in
             self?.delete() { [weak self] success in
                 if success {
@@ -812,13 +812,13 @@ extension ChatViewModel {
                               actions: [action])
     }
     
-    private func delete(completion: (success: Bool) -> ()) {
+    private func delete(_ completion: @escaping (_ success: Bool) -> ()) {
         guard let chatId = conversation.value.objectId else {
-            completion(success: false)
+            completion(false)
             return
         }
         self.chatRepository.archiveConversations([chatId]) { result in
-            completion(success: result.value != nil)
+            completion(result.value != nil)
         }
     }
     
@@ -830,7 +830,7 @@ extension ChatViewModel {
     
     private func blockUserAction() {
         
-        let action = UIAction(interface: .StyledText(LGLocalizedString.chatBlockUserAlertBlockButton, .Destructive), action: {
+        let action = UIAction(interface: .styledText(LGLocalizedString.chatBlockUserAlertBlockButton, .destructive), action: {
             [weak self] in
             self?.blockUser() { [weak self] success in
                 if success {
@@ -848,17 +848,17 @@ extension ChatViewModel {
                               actions: [action])
     }
     
-    private func blockUser(completion: (success: Bool) -> ()) {
+    private func blockUser(_ completion: @escaping (_ success: Bool) -> ()) {
         
         guard let userId = conversation.value.interlocutor?.objectId else {
-            completion(success: false)
+            completion(false)
             return
         }
         
         trackBlockUsers([userId])
         
         self.userRepository.blockUserWithId(userId) { result -> Void in
-            completion(success: result.value != nil)
+            completion(result.value != nil)
         }
     }
     
@@ -873,16 +873,16 @@ extension ChatViewModel {
         }
     }
     
-    private func unBlockUser(completion: (success: Bool) -> ()) {
+    private func unBlockUser(_ completion: @escaping (_ success: Bool) -> ()) {
         guard let userId = conversation.value.interlocutor?.objectId else {
-            completion(success: false)
+            completion(false)
             return
         }
         
         trackUnblockUsers([userId])
         
         self.userRepository.unblockUserWithId(userId) { result -> Void in
-            completion(success: result.value != nil)
+            completion(result.value != nil)
         }
     }
 }
@@ -892,7 +892,7 @@ extension ChatViewModel {
 
 extension ChatViewModel {
     
-    func setCurrentIndex(index: Int) {
+    func setCurrentIndex(_ index: Int) {
         let threshold = objectCount - Int(Double(resultsPerPage)*0.3)
         let shouldRetrieveNextPage = index >= threshold
         if shouldRetrieveNextPage && !isLastPage && !isLoading {
@@ -928,7 +928,7 @@ extension ChatViewModel {
         }
     }
 
-    private func downloadFirstPage(conversationId: String) {
+    private func downloadFirstPage(_ conversationId: String) {
         chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) { [weak self] result in
             guard let strongSelf = self else { return }
 
@@ -948,7 +948,7 @@ extension ChatViewModel {
         }
     }
     
-    private func downloadMoreMessages(convId: String, fromMessageId: String) {
+    private func downloadMoreMessages(_ convId: String, fromMessageId: String) {
         chatRepository.indexMessagesOlderThan(fromMessageId, conversationId: convId, numResults: resultsPerPage) {
             [weak self] result in
             guard let strongSelf = self else { return }
@@ -965,7 +965,7 @@ extension ChatViewModel {
         }
     }
 
-    private func markAsReadMessages(chatMessages: [ChatMessage] ) {
+    private func markAsReadMessages(_ chatMessages: [ChatMessage] ) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
 
@@ -976,7 +976,7 @@ extension ChatViewModel {
         }
     }
 
-    private func updateMessages(newMessages newMessages: [ChatMessage], isFirstPage: Bool) {
+    private func updateMessages(newMessages: [ChatMessage], isFirstPage: Bool) {
         // Mark as read
         markAsReadMessages(newMessages)
 
@@ -985,11 +985,11 @@ extension ChatViewModel {
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         // Add user info as 1st message
-        if let userInfoMessage = userInfoMessage where isLastPage {
+        if let userInfoMessage = userInfoMessage, isLastPage {
             chatMessages.append(userInfoMessage)
         }
         // Add disclaimer at the bottom of the first page
-        if let bottomDisclaimerMessage = bottomDisclaimerMessage where isFirstPage {
+        if let bottomDisclaimerMessage = bottomDisclaimerMessage, isFirstPage {
             chatMessages.insert(bottomDisclaimerMessage, atIndex: 0)
         }
         messages.appendContentsOf(chatMessages)
@@ -1003,16 +1003,16 @@ extension ChatViewModel {
         afterRetrieveMessagesCompletion?()
     }
 
-    private func checkSellerDidntAnswer(messages: [ChatMessage]) {
+    private func checkSellerDidntAnswer(_ messages: [ChatMessage]) {
         guard isBuyer else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
         guard let oldestMessageDate = messages.last?.sentAt else { return }
 
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
 
-        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
-        let recentSellerMessages = messages.filter { $0.talkerId != myUserId && $0.sentAt?.compare(twoDaysAgo) == .OrderedDescending }
+        guard let twoDaysAgo = (calendar as NSCalendar).date(byAdding: .day, value: -2, to: Date(), options: []) else { return }
+        let recentSellerMessages = messages.filter { $0.talkerId != myUserId && $0.sentAt?.compare(twoDaysAgo) == .orderedDescending }
 
         /*
          Cases when we consider the seller didn't answer:
@@ -1024,10 +1024,10 @@ extension ChatViewModel {
             didn't got any answer. We show him the related items too)
          */
         sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
-            (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
+            (oldestMessageDate.compare(twoDaysAgo) == .orderedAscending || messages.count == Constants.numMessagesPerPage)
     }
 
-    private func checkShouldShowDirectAnswers(messages: [ChatMessage]) {
+    private func checkShouldShowDirectAnswers(_ messages: [ChatMessage]) {
         // If there's no previous message from me, we should show direct answers
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
         for message in messages {
@@ -1041,8 +1041,8 @@ extension ChatViewModel {
 // MARK: - Second step login
 
 private extension ChatViewModel {
-    func setupNotLoggedIn(product: Product) {
-        guard let productId = product.objectId, sellerId = product.user.objectId else { return }
+    func setupNotLoggedIn(_ product: Product) {
+        guard let productId = product.objectId, let sellerId = product.user.objectId else { return }
         self.productId = productId
 
         // Configure product + user info
@@ -1070,7 +1070,7 @@ private extension ChatViewModel {
                 }
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
                     self?.afterRetrieveMessagesCompletion = nil
-                    guard let messages = self?.messages.value where messages.isEmpty else { return }
+                    guard let messages = self?.messages.value, messages.isEmpty else { return }
                     self?.sendMessage(text, type: type)
                 }
                 self?.syncConversation(productId, sellerId: sellerId)
@@ -1084,7 +1084,7 @@ private extension ChatViewModel {
 
 private extension ChatViewModel {
     
-    private func trackFirstMessage(type: ChatMessageType) {
+    func trackFirstMessage(_ type: ChatMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
@@ -1096,7 +1096,7 @@ private extension ChatViewModel {
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
-    private func trackMessageSent(type type: ChatMessageType) {
+    func trackMessageSent(type: ChatMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
@@ -1111,12 +1111,12 @@ private extension ChatViewModel {
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
-    private func trackBlockUsers(userIds: [String]) {
+    func trackBlockUsers(_ userIds: [String]) {
         let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
     }
     
-    private func trackUnblockUsers(userIds: [String]) {
+    func trackUnblockUsers(_ userIds: [String]) {
         let unblockUserEvent = TrackerEvent.profileUnblock(.Chat, unblockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
@@ -1176,9 +1176,9 @@ private extension ChatConversation {
 private extension ChatInfoViewStatus {
     var userReviewEnabled: Bool {
         switch self {
-        case .Forbidden, .Blocked, .BlockedBy, .UserPendingDelete, .UserDeleted:
+        case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
             return false
-        case .Available, .ProductSold, .ProductDeleted:
+        case .available, .productSold, .productDeleted:
             return true
         }
     }
@@ -1244,7 +1244,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         }
     }
     
-    func directAnswersDidTapAnswer(controller: DirectAnswersPresenter, answer: DirectAnswer) {
+    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: DirectAnswer) {
         if featureFlags.newQuickAnswers {
             delegate?.vmShowKeyboard()
         }
@@ -1254,7 +1254,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         sendText(answer.text, isQuickAnswer: true)
     }
     
-    func directAnswersDidTapClose(controller: DirectAnswersPresenter) {
+    func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {
         showDirectAnswers(false)
     }
 
@@ -1262,7 +1262,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         showDirectAnswers(!userDirectAnswersEnabled.value)
     }
 
-    private func showDirectAnswers(show: Bool) {
+    private func showDirectAnswers(_ show: Bool) {
         if !featureFlags.newQuickAnswers {
             KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         }
@@ -1287,12 +1287,12 @@ private extension ChatViewModel {
 
     func setupUserInfoRxBindings() {
         interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
-            guard let interlocutorId = interlocutorId where self?.interlocutor?.objectId != interlocutorId else { return }
+            guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
             self?.userRepository.show(interlocutorId, includeAccounts: true) { [weak self] result in
                 guard let strongSelf = self else { return }
                 guard let userWaccounts = result.value else { return }
                 strongSelf.interlocutor = userWaccounts
-                if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowOtherUserInfo {
+                if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
             }
@@ -1305,12 +1305,12 @@ private extension ChatViewModel {
 
 extension ChatViewModel: ChatRelatedProductsViewDelegate {
 
-    func relatedProductsViewDidShow(view: ChatRelatedProductsView) {
+    func relatedProductsViewDidShow(_ view: ChatRelatedProductsView) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
-    func relatedProductsView(view: ChatRelatedProductsView, showProduct product: Product, atIndex index: Int,
+    func relatedProductsView(_ view: ChatRelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
@@ -1363,7 +1363,7 @@ extension ChatViewModel {
         }
     }
 
-    private func relatedWithoutMyProducts(products: [Product]) -> [Product] {
+    private func relatedWithoutMyProducts(_ products: [Product]) -> [Product] {
         var cleanRelatedProducts: [Product] = []
         for product in products {
             if product.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedProducts.append(product) }
@@ -1381,7 +1381,7 @@ extension ChatViewModel {
     }
 
     private func launchExpressChatTimer() {
-        let _ = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(updateBannerTimerStatus),
+        let _ = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(updateBannerTimerStatus),
                                                        userInfo: nil, repeats: false)
     }
 

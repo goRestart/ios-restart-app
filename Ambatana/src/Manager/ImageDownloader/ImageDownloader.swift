@@ -22,27 +22,27 @@ final class ImageDownloader: ImageDownloaderType {
         self.useImagePool = useImagePool
     }
 
-    func setImageView(imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
+    func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?) {
         imageDownloader.setImageView(imageView, url: url, placeholderImage: placeholderImage,
                                      completion: completion)
     }
 
-    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
+    func downloadImageWithURL(_ url: NSURL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
         let receipt = imageDownloader.downloadImageWithURL(url, completion: completion)
         addReceiptToPool(receipt)
         return receipt
     }
 
-    func cachedImageForUrl(url: NSURL) -> UIImage? {
+    func cachedImageForUrl(_ url: URL) -> UIImage? {
         return imageDownloader.cachedImageForUrl(url)
     }
 
-    func cancelImageDownloading(receipt: RequestReceipt) {
+    func cancelImageDownloading(_ receipt: RequestReceipt) {
         imageDownloader.cancelImageDownloading(receipt)
     }
 
-    private func addReceiptToPool(receipt: RequestReceipt?) {
+    private func addReceiptToPool(_ receipt: RequestReceipt?) {
         guard let receipt = receipt else { return }
         currentImagesPool.append(receipt)
         if currentImagesPool.count >= Constants.imageRequestPoolCapacity {
@@ -56,13 +56,13 @@ final class ImageDownloader: ImageDownloaderType {
         return AlamofireImage.ImageDownloader.defaultInstance
     }
 
-    static func externalBuildImageDownloader(useImagePool: Bool) -> ImageDownloader {
+    static func externalBuildImageDownloader(_ useImagePool: Bool) -> ImageDownloader {
         return ImageDownloader(imageDownloader: AlamofireImage.ImageDownloader(), useImagePool: useImagePool)
     }
 }
 
 extension UIImageView {
-    func lg_setImageWithURL(url: NSURL, placeholderImage: UIImage? = nil, completion: ImageDownloadCompletion? = nil) {
+    func lg_setImageWithURL(_ url: URL, placeholderImage: UIImage? = nil, completion: ImageDownloadCompletion? = nil) {
         ImageDownloader.sharedInstance.setImageView(self, url: url, placeholderImage: placeholderImage,
                                                     completion: completion)
     }

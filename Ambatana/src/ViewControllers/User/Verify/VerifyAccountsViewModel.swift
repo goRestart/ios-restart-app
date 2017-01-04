@@ -16,19 +16,19 @@ protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {
 }
 
 enum VerifyButtonState {
-    case Hidden
-    case Enabled
-    case Disabled
-    case Loading
+    case hidden
+    case enabled
+    case disabled
+    case loading
 }
 
 enum VerifyAccountsSource {
-    case Chat(title: String, description: String)
-    case Profile(title: String, description: String)
+    case chat(title: String, description: String)
+    case profile(title: String, description: String)
 }
 
 enum VerificationType {
-    case Facebook, Google, Email(String?)
+    case facebook, google, email(String?)
 }
 
 
@@ -60,10 +60,10 @@ class VerifyAccountsViewModel: BaseViewModel {
     private var userEmail: String? {
         for type in types {
             switch type {
-            case .Google, .Facebook:
+            case .google, .facebook:
                 continue
-            case let .Email(email):
-                guard let email = email where email.isEmail() else { return nil }
+            case let .email(email):
+                guard let email = email, email.isEmail() else { return nil }
                 return email
             }
         }
@@ -98,7 +98,7 @@ class VerifyAccountsViewModel: BaseViewModel {
         setupRx()
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
             trackStart()
@@ -125,7 +125,7 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     func emailButtonPressed() {
         delegate?.vmResignResponders()
-        if let presentEmail = userEmail where presentEmail.isEmail() {
+        if let presentEmail = userEmail, presentEmail.isEmail() {
             emailVerification()
         } else {
             typedEmailState.value = .Disabled
@@ -144,11 +144,11 @@ class VerifyAccountsViewModel: BaseViewModel {
     private func setupState() {
         types.forEach {
             switch $0 {
-            case .Google:
+            case .google:
                 googleButtonState.value = .Enabled
-            case .Facebook:
+            case .facebook:
                 fbButtonState.value = .Enabled
-            case let .Email(email):
+            case let .email(email):
                 emailRequiresInput = !(email ?? "").isEmail()
                 emailButtonState.value = .Enabled
             }
@@ -159,7 +159,7 @@ class VerifyAccountsViewModel: BaseViewModel {
         guard emailRequiresInput else { return }
         typedEmail.asObservable()
             .filter { [weak self] _ in
-                guard let actionState = self?.typedEmailState.value, buttonState = self?.emailButtonState.value else { return false }
+                guard let actionState = self?.typedEmailState.value, let buttonState = self?.emailButtonState.value else { return false }
                 return actionState != .Loading && buttonState == .Hidden
             }
             .map{ ($0 ?? "").isEmail() ? VerifyButtonState.Enabled : VerifyButtonState.Disabled }
@@ -178,7 +178,7 @@ private extension VerifyAccountsViewModel {
         fbLoginHelper.connectWithFacebook { [weak self] result in
             self?.fbButtonState.value = .Enabled
             switch result {
-            case let .Success(token):
+            case let .success(token):
                 self?.myUserRepository.linkAccountFacebook(token) { result in
                     if let _ = result.value {
                         self?.verificationSuccess(.Facebook)
@@ -186,9 +186,9 @@ private extension VerifyAccountsViewModel {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }
                 }
-            case .Cancelled:
+            case .cancelled:
                 break
-            case .Error:
+            case .error:
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
             }
         }
@@ -199,7 +199,7 @@ private extension VerifyAccountsViewModel {
         googleHelper.googleSignIn { [weak self] result in
             self?.googleButtonState.value = .Enabled
             switch result {
-            case let .Success(serverAuthToken):
+            case let .success(serverAuthToken):
                 self?.myUserRepository.linkAccountGoogle(serverAuthToken) { result in
                     if let _ = result.value {
                         self?.verificationSuccess(.Google)
@@ -207,9 +207,9 @@ private extension VerifyAccountsViewModel {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }
                 }
-            case .Cancelled:
+            case .cancelled:
                 break
-            case .Error:
+            case .error:
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
             }
         }
@@ -238,7 +238,7 @@ private extension VerifyAccountsViewModel {
         }
     }
 
-    private func setEmailLoading(loading: Bool) {
+    func setEmailLoading(_ loading: Bool) {
         if emailButtonState.value != .Hidden {
             emailButtonState.value = loading ? .Loading : .Enabled
         }
@@ -247,7 +247,7 @@ private extension VerifyAccountsViewModel {
         }
     }
 
-    func verificationSuccess(verificationType: VerificationType) {
+    func verificationSuccess(_ verificationType: VerificationType) {
         trackComplete(verificationType)
         delegate?.vmDismiss(completionBlock)
     }
@@ -266,7 +266,7 @@ private extension VerifyAccountsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackComplete(verificationType: VerificationType) {
+    func trackComplete(_ verificationType: VerificationType) {
         let event = TrackerEvent.verifyAccountComplete(source.typePage, network: verificationType.accountNetwork)
         tracker.trackEvent(event)
     }
@@ -275,36 +275,36 @@ private extension VerifyAccountsViewModel {
 private extension VerifyAccountsSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .Chat:
+        case .chat:
             return .Chat
-        case .Profile:
+        case .profile:
             return .Profile
         }
     }
 
     var loginSource: EventParameterLoginSourceValue {
         switch self {
-        case .Chat:
+        case .chat:
             return .Chats
-        case .Profile:
+        case .profile:
             return .Profile
         }
     }
 
     var title: String {
         switch self {
-        case let .Chat(title, _):
+        case let .chat(title, _):
             return title
-        case let .Profile(title, _):
+        case let .profile(title, _):
             return title
         }
     }
 
     var description: String {
         switch self {
-        case let .Chat(_, description):
+        case let .chat(_, description):
             return description
-        case let .Profile(_, description):
+        case let .profile(_, description):
             return description
         }
     }
@@ -313,11 +313,11 @@ private extension VerifyAccountsSource {
 private extension VerificationType {
     var accountNetwork: EventParameterAccountNetwork {
         switch self {
-        case .Facebook:
+        case .facebook:
             return .Facebook
-        case .Google:
+        case .google:
             return .Google
-        case .Email:
+        case .email:
             return .Email
         }
     }

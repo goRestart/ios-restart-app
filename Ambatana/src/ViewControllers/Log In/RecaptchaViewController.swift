@@ -18,7 +18,7 @@ class RecaptchaViewController: BaseViewController {
     private let viewModel: RecaptchaViewModel
     private let backgroundImage: UIImage?
 
-    private var currentURL: NSURL?
+    private var currentURL: URL?
 
     init(viewModel: RecaptchaViewModel, backgroundImage: UIImage?) {
         self.viewModel = viewModel
@@ -38,11 +38,11 @@ class RecaptchaViewController: BaseViewController {
         webView.delegate = self
 
         if let url = viewModel.url {
-            loadUrl(url)
+            loadUrl(url as URL)
         }
     }
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeButtonPressed()
     }
 
@@ -52,14 +52,14 @@ class RecaptchaViewController: BaseViewController {
     private func setupUI() {
         bgImageView.image = backgroundImage
         let isTransparentMode = backgroundImage != nil
-        bgOverlayView.hidden = !isTransparentMode
+        bgOverlayView.isHidden = !isTransparentMode
         let closeButtonImageName = isTransparentMode ? "ic_close" : "ic_close_red"
-        closeButton.setImage(UIImage(named: closeButtonImageName), forState: .Normal)
+        closeButton.setImage(UIImage(named: closeButtonImageName), for: UIControlState())
     }
 
-    private func loadUrl(url: NSURL) {
+    private func loadUrl(_ url: URL) {
         activityIndicator.startAnimating()
-        let request = NSURLRequest(URL: url)
+        let request = URLRequest(url: url)
         webView.loadRequest(request)
     }
 }
@@ -69,16 +69,16 @@ class RecaptchaViewController: BaseViewController {
 
 extension RecaptchaViewController: UIWebViewDelegate {
 
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest,
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest,
                  navigationType: UIWebViewNavigationType) -> Bool {
-        currentURL = request.URL
+        currentURL = request.url
         if let url = currentURL {
             viewModel.startedLoadingURL(url)
         }
         return true
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         activityIndicator.stopAnimating()
 
         if let url = currentURL {

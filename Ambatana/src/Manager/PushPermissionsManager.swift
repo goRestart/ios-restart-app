@@ -9,21 +9,21 @@
 import LGCoreKit
 
 public enum PrePermissionType {
-    case ProductListBanner
-    case Sell
-    case Chat(buyer: Bool)
-    case Onboarding
-    case Profile
+    case productListBanner
+    case sell
+    case chat(buyer: Bool)
+    case onboarding
+    case profile
 }
 
-public class PushPermissionsManager: NSObject {
+class PushPermissionsManager: NSObject {
 
-    public static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
+    open static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
     var pushPermissionsSettingsMode: Bool {
         return KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert]
     }
     private var didShowSystemPermissions: Bool = false
-    private var prePermissionType: PrePermissionType = .ProductListBanner
+    private var prePermissionType: PrePermissionType = .productListBanner
     private var typePage: EventParameterTypePage {
         return prePermissionType.trackingParam
     }
@@ -34,38 +34,38 @@ public class PushPermissionsManager: NSObject {
     - parameter viewController: the VC taht will show the alert
     - parameter prePermissionType: what kind of alert will be shown
     */
-    public func shouldShowPushPermissionsAlertFromViewController(prePermissionType: PrePermissionType) -> Bool {
+    open func shouldShowPushPermissionsAlertFromViewController(_ prePermissionType: PrePermissionType) -> Bool {
         // If the user is already registered for notifications, we shouldn't ask anything.
-        guard !UIApplication.sharedApplication().areRemoteNotificationsEnabled else {
+        guard !UIApplication.shared.areRemoteNotificationsEnabled else {
             return false
         }
         switch (prePermissionType) {
-        case .Chat:
+        case .chat:
             return shouldAskForDailyPermissions()
-        case .Sell, .Onboarding, .Profile, .ProductListBanner:
+        case .sell, .onboarding, .profile, .productListBanner:
             return true
         }
     }
 
-    public func showPushPermissionsAlert(prePermissionType type: PrePermissionType) {
+    open func showPushPermissionsAlert(prePermissionType type: PrePermissionType) {
         guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
         checkForSystemPushPermissions()
     }
 
-    public func application(application: UIApplication,
+    open func application(_ application: UIApplication,
                             didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         guard didShowSystemPermissions else { return }
 
-        if notificationSettings.types.contains(.Alert) ||
-            notificationSettings.types.contains(.Badge) ||
-            notificationSettings.types.contains(.Sound) {
+        if notificationSettings.types.contains(.alert) ||
+            notificationSettings.types.contains(.badge) ||
+            notificationSettings.types.contains(.sound) {
             trackPermissionSystemComplete()
         } else {
             trackPermissionSystemCancel()
         }
     }
 
-    public func showPrePermissionsViewFrom(viewController: UIViewController, type: PrePermissionType,
+    open func showPrePermissionsViewFrom(_ viewController: UIViewController, type: PrePermissionType,
                                            completion: (() -> ())?) -> UIViewController? {
         guard shouldShowPushPermissionsAlertFromViewController(type) else { return nil }
 
@@ -75,12 +75,12 @@ public class PushPermissionsManager: NSObject {
 
         // if already shown system dialog, show the view to go to settings, if not, show the normal one
         let showSettingsPrePermission = keyValueStorage[.pushPermissionsDidShowNativeAlert]
-        let pushRepeateDate = NSDate().dateByAddingTimeInterval(Constants.pushPermissionRepeatTime)
+        let pushRepeateDate = Date().addingTimeInterval(Constants.pushPermissionRepeatTime)
 
         switch prePermissionType {
-        case .Chat, .Sell:
+        case .chat, .sell:
             keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
-        case .Profile, .Onboarding, .ProductListBanner:
+        case .profile, .onboarding, .productListBanner:
             break
         }
 
@@ -91,22 +91,22 @@ public class PushPermissionsManager: NSObject {
         }
     }
 
-    private func presentNormalPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType,
+    private func presentNormalPrePermissionsFrom(_ viewController: UIViewController, type: PrePermissionType,
         completion: (() -> ())?) -> UIViewController {
             let vm = TourNotificationsViewModel(title: type.title, subtitle: type.subtitle, pushText: type.pushMessage,
                 source: type)
             let vc = TourNotificationsViewController(viewModel: vm)
             vc.completion = completion
-            viewController.presentViewController(vc, animated: true, completion: nil)
+            viewController.present(vc, animated: true, completion: nil)
         return vc
     }
 
-    private func presentSettingsPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType,
+    private func presentSettingsPrePermissionsFrom(_ viewController: UIViewController, type: PrePermissionType,
                                                    completion: (() -> ())?) -> UIViewController {
         let vm = PushPrePermissionsSettingsViewModel(source: type)
         let vc = PushPrePermissionsSettingsViewController(viewModel: vm)
         vc.completion = completion
-        viewController.presentViewController(vc, animated: true, completion: nil)
+        viewController.present(vc, animated: true, completion: nil)
         return vc
     }
     
@@ -123,27 +123,27 @@ public class PushPermissionsManager: NSObject {
 
         /*When system alert permissions appear, application gets 'resignActive' event so we add the listener to
         check if was shown or not */
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushPermissionsManager.didShowSystemPermissions(_:)),
-            name:UIApplicationWillResignActiveNotification, object: nil)
-        UIApplication.sharedApplication().registerPushNotifications()
+        NotificationCenter.default.addObserver(self, selector: #selector(PushPermissionsManager.didShowSystemPermissions(_:)),
+            name:NSNotification.Name.UIApplicationWillResignActive, object: nil)
+        UIApplication.shared.registerPushNotifications()
 
         /* Appart from listening 'resignActive' event, we need to add a timer for the case when the alert is NOT
         shown */
-        let _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(PushPermissionsManager.settingsTimerFinished),
+        let _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(PushPermissionsManager.settingsTimerFinished),
             userInfo: nil, repeats: false)
     }
 
     /**
     If this method gets called it means the system show the permissions alert
     */
-    func didShowSystemPermissions(notification: NSNotification) {
+    func didShowSystemPermissions(_ notification: Notification) {
         didShowSystemPermissions = true
         trackPermissionSystemStart()
         
         // The app just showed the Native permissions dialog
         KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert] = true
 
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive,
             object: nil)
     }
 
@@ -151,7 +151,7 @@ public class PushPermissionsManager: NSObject {
     If this method gets called it means the system DIDN'T show the permissions alert
     */
     func settingsTimerFinished() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive,
             object: nil)
 
         /* if we reach this point, it means the app tried to show the native push permissions but it didn't,
@@ -165,8 +165,8 @@ public class PushPermissionsManager: NSObject {
     }
     
     func openPushNotificationSettings() {
-        guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
-        UIApplication.sharedApplication().openURL(settingsURL)
+        guard let settingsURL = URL(string:UIApplicationOpenSettingsURLString) else { return }
+        UIApplication.shared.openURL(settingsURL)
     }
 
 
@@ -199,54 +199,54 @@ public class PushPermissionsManager: NSObject {
 extension PrePermissionType {
     public var title: String {
         switch self {
-        case .Onboarding:
+        case .onboarding:
             return LGLocalizedString.notificationsPermissions1TitleV2
-        case .Chat:
+        case .chat:
             return LGLocalizedString.notificationsPermissions3Title
-        case .Sell:
+        case .sell:
             return LGLocalizedString.notificationsPermissions4Title
-        case .Profile, .ProductListBanner:
+        case .profile, .productListBanner:
             return LGLocalizedString.profilePermissionsAlertTitle
         }
     }
 
     public var subtitle: String {
         switch self {
-        case .Onboarding:
+        case .onboarding:
             return LGLocalizedString.notificationsPermissions1Subtitle
-        case .Chat:
+        case .chat:
             return LGLocalizedString.notificationsPermissions3Subtitle
-        case .Sell:
+        case .sell:
             return LGLocalizedString.notificationsPermissions4Subtitle
-        case .Profile, .ProductListBanner:
+        case .profile, .productListBanner:
             return LGLocalizedString.profilePermissionsAlertMessage
         }
     }
 
     public var pushMessage: String {
         switch self {
-        case .Onboarding:
+        case .onboarding:
             return LGLocalizedString.notificationsPermissions1Push
-        case .Chat:
+        case .chat:
             return LGLocalizedString.notificationsPermissions3Push
-        case .Sell:
+        case .sell:
             return LGLocalizedString.notificationsPermissions4Push
-        case .Profile, .ProductListBanner:
+        case .profile, .productListBanner:
             return ""
         }
     }
     
     public var trackingParam: EventParameterTypePage {
         switch self {
-        case .Onboarding:
+        case .onboarding:
             return .Install
-        case .Chat:
+        case .chat:
             return .Chat
-        case .Sell:
+        case .sell:
             return .Sell
-        case .Profile:
+        case .profile:
             return .Profile
-        case .ProductListBanner:
+        case .productListBanner:
             return .ProductListBanner
         }
     }

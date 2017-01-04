@@ -13,17 +13,17 @@ import RxCocoa
 
 protocol PostProductGalleryViewDelegate: class {
     func productGalleryCloseButton()
-    func productGalleryDidSelectImages(images: [UIImage])
-    func productGalleryRequestsScrollLock(lock: Bool)
+    func productGalleryDidSelectImages(_ images: [UIImage])
+    func productGalleryRequestsScrollLock(_ lock: Bool)
     func productGalleryDidPressTakePhoto()
-    func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction])
-    func productGallerySelectionFull(selectionFull: Bool)
+    func productGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
+    func productGallerySelectionFull(_ selectionFull: Bool)
 }
 
 enum MessageInfoType {
-    case NoMessage
-    case NoImages
-    case WrongImage
+    case noMessage
+    case noImages
+    case wrongImage
 }
 
 class PostProductGalleryView: BaseView, LGViewPagerPage {
@@ -70,16 +70,16 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     var usePhotoButtonText: String? {
         set {
-            postButton?.setTitle(newValue, forState: UIControlState.Normal)
+            postButton?.setTitle(newValue, for: UIControlState())
         }
         get {
-            return postButton?.titleForState(UIControlState.Normal)
+            return postButton?.title(for: UIControlState())
         }
     }
     private var headerShown = true
 
     // Drag & state vars
-    var dragState: GalleryDragState = .None
+    var dragState: GalleryDragState = .none
     var initialDragPosition: CGFloat = 0
     var collapsed = false
 
@@ -122,22 +122,22 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Public methods
 
-    func showHeader(show: Bool) {
+    func showHeader(_ show: Bool) {
         guard headerShown != show else { return }
         headerShown = show
         let destinationAlpha: CGFloat = show ? 1.0 : 0.0
-        UIView.animateWithDuration(0.2) { [weak self] in
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
             self?.headerContainer.alpha = destinationAlpha
-        }
+        }) 
     }
 
     // MARK: - Actions
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         delegate?.productGalleryCloseButton()
     }
 
-    @IBAction func postButtonPressed(sender: AnyObject) {
+    @IBAction func postButtonPressed(_ sender: AnyObject) {
         viewModel.postButtonPressed()
     }
 
@@ -145,47 +145,47 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     // MARK: - Private methods
 
     private func setupUI() {
-        NSBundle.mainBundle().loadNibNamed("PostProductGalleryView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("PostProductGalleryView", owner: self, options: nil)
         contentView.frame = bounds
-        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = UIColor.blackColor()
+        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        contentView.backgroundColor = UIColor.black
         addSubview(contentView)
 
-        postButton.setStyle(.Primary(fontSize: .Small))
+        postButton.setStyle(.primary(fontSize: .small))
         
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
-        collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
+        collectionView.register(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
         collectionView.alwaysBounceVertical = true
         collectionView.allowsMultipleSelection = true
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 4.0
         }
 
-        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0.4,0.0],
             locations: [0.0,1.0])
         shadowLayer.frame = collectionGradientView.bounds
         collectionGradientView.layer.addSublayer(shadowLayer)
 
-        infoButton.setStyle(.Primary(fontSize: .Medium))
+        infoButton.setStyle(.primary(fontSize: .medium))
 
-        configMessageView(.NoMessage)
+        configMessageView(.noMessage)
 
         setAccesibilityIds()
         setupRX()
         setupAlbumSelection()
     }
 
-    private func configMessageView(type: MessageInfoType) {
+    private func configMessageView(_ type: MessageInfoType) {
         var title: String
         var subtitle: String
         switch type {
-        case .NoMessage:
+        case .noMessage:
             title = ""
             subtitle = ""
-        case .NoImages:
+        case .noImages:
             title = LGLocalizedString.productPostGallerySelectPicturesTitle
             subtitle = LGLocalizedString.productPostGallerySelectPicturesSubtitle
-        case .WrongImage:
+        case .wrongImage:
             title = LGLocalizedString.productPostGalleryLoadImageErrorTitle
             subtitle = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
         }
@@ -203,19 +203,19 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
         collectionView.reloadData()
     }
 
-    func vmDidSelectItemAtIndex(index: Int, shouldScroll: Bool) {
+    func vmDidSelectItemAtIndex(_ index: Int, shouldScroll: Bool) {
         animateToState(collapsed: false) { [weak self] in
             self?.selectItemAtIndex(index)
         }
     }
 
-    func vmDidDeselectItemAtIndex(index: Int) {
+    func vmDidDeselectItemAtIndex(_ index: Int) {
         animateToState(collapsed: false) { [weak self] in
             self?.deselectItemAtIndex(index)
         }
     }
 
-    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         delegate?.productGalleryShowActionSheet(cancelAction, actions: actions)
     }
 }
@@ -224,19 +224,19 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
 extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.imagesCount
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
             return viewModel.cellSize
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            guard let galleryCell = collectionView.dequeueReusableCellWithReuseIdentifier(GalleryImageCell.reusableID,
-                forIndexPath: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
+            guard let galleryCell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryImageCell.reusableID,
+                for: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
             viewModel.imageForCellAtIndex(indexPath.row) { image in
                 galleryCell.image.image = image
             }
@@ -244,50 +244,50 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
             let selectedIndexes: [Int] = viewModel.imagesSelected.value.map { $0.index }
             if selectedIndexes.contains(indexPath.item) {
                 galleryCell.disabled = false
-                galleryCell.selected = true
-                collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-                if let position = selectedIndexes.indexOf(indexPath.item) {
+                galleryCell.isSelected = true
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+                if let position = selectedIndexes.index(of: indexPath.item) {
                     galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
             } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
                 galleryCell.disabled = viewModel.multiSelectionEnabled
-                galleryCell.selected = false
+                galleryCell.isSelected = false
             } else {
-                galleryCell.selected = false
+                galleryCell.isSelected = false
                 galleryCell.disabled = false
             }
             return galleryCell
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.imageSelectedAtIndex(indexPath.row)
     }
 
-    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return viewModel.imageSelectionEnabled.value
     }
     
-    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         viewModel.imageDeselectedAtIndex(indexPath.row)
     }
 
-    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         return viewModel.multiSelectionEnabled
     }
 
-    private func selectItemAtIndex(index: Int) {
-        let indexPath = NSIndexPath(forItem: index, inSection: 0)
-        collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-        let layoutAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
+    private func selectItemAtIndex(_ index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+        let layoutAttributes = collectionView.layoutAttributesForItem(at: indexPath)
         if let layoutAttributes = layoutAttributes {
             collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)
         }
     }
 
-    private func deselectItemAtIndex(index: Int) {
-        let indexPath = NSIndexPath(forItem: index, inSection: 0)
-        collectionView.deselectItemAtIndexPath(indexPath, animated: false)
-        let layoutAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
+    private func deselectItemAtIndex(_ index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        collectionView.deselectItem(at: indexPath, animated: false)
+        let layoutAttributes = collectionView.layoutAttributesForItem(at: indexPath)
         if let layoutAttributes = layoutAttributes {
             collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)
         }
@@ -301,48 +301,48 @@ extension PostProductGalleryView {
 
     private func setupRX() {
         viewModel.galleryState.asObservable().subscribeNext{ [weak self] state in
-            self?.loadImageErrorView.hidden = true
+            self?.loadImageErrorView.isHidden = true
             self?.imageLoadActivityIndicator.stopAnimating()
             switch state {
             case .Empty:
                 self?.infoTitle.text = LGLocalizedString.productPostEmptyGalleryTitle
                 self?.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
-                self?.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, forState: .Normal)
-                self?.infoContainer.hidden = false
-                self?.postButton.enabled = false
+                self?.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, for: .normal)
+                self?.infoContainer.isHidden = false
+                self?.postButton.isEnabled = false
             case .PendingAskPermissions:
                 self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
                 self?.infoSubtitle.text = LGLocalizedString.productPostGalleryPermissionsSubtitle
-                self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, forState: .Normal)
-                self?.infoContainer.hidden = false
-                self?.postButton.enabled = false
-                self?.postButton.enabled = false
+                self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
+                self?.infoContainer.isHidden = false
+                self?.postButton.isEnabled = false
+                self?.postButton.isEnabled = false
             case .MissingPermissions(let msg):
                 self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
                 self?.infoSubtitle.text = msg
-                self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, forState: .Normal)
-                self?.infoContainer.hidden = false
-                self?.postButton.enabled = false
-                self?.postButton.enabled = false
+                self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
+                self?.infoContainer.isHidden = false
+                self?.postButton.isEnabled = false
+                self?.postButton.isEnabled = false
             case .Normal:
-                self?.infoContainer.hidden = true
-                self?.postButton.enabled = true
-                self?.loadImageErrorView.hidden = self?.viewModel.imagesSelectedCount != 0
+                self?.infoContainer.isHidden = true
+                self?.postButton.isEnabled = true
+                self?.loadImageErrorView.isHidden = self?.viewModel.imagesSelectedCount != 0
             case .LoadImageError:
-                self?.infoContainer.hidden = true
-                self?.loadImageErrorView.hidden = false
+                self?.infoContainer.isHidden = true
+                self?.loadImageErrorView.isHidden = false
                 self?.configMessageView(.WrongImage)
-                self?.postButton.enabled = false
+                self?.postButton.isEnabled = false
             case .Loading:
                 self?.imageLoadActivityIndicator.startAnimating()
-                self?.postButton.enabled = false
+                self?.postButton.isEnabled = false
             }
         }.addDisposableTo(disposeBag)
 
         viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bindNext { [weak self] imgsSelected in
             guard let strongSelf = self else { return }
             guard strongSelf.viewModel.multiSelectionEnabled else { return }
-            strongSelf.collectionView.userInteractionEnabled = false
+            strongSelf.collectionView.isUserInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
                 delay(0.3) { [weak self] in
                     self?.collectionView.reloadData()
@@ -355,16 +355,16 @@ extension PostProductGalleryView {
                 indexes.append(NSIndexPath(forItem: imgSel.index, inSection: 0))
             }
 
-            strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
+            strongSelf.collectionView.reloadItems(at: indexes as [IndexPath])
 
             if imgsSelected.count == 0 {
                 strongSelf.configMessageView(.NoImages)
-                strongSelf.loadImageErrorView.hidden = false
+                strongSelf.loadImageErrorView.isHidden = false
             } else {
                 strongSelf.configMessageView(.NoMessage)
-                strongSelf.loadImageErrorView.hidden = true
+                strongSelf.loadImageErrorView.isHidden = true
             }
-            strongSelf.collectionView.userInteractionEnabled = true
+            strongSelf.collectionView.isUserInteractionEnabled = true
         }.addDisposableTo(disposeBag)
 
         viewModel.imageSelectionEnabled.asObservable().distinctUntilChanged().bindNext { [weak self] interactionEnabled in
@@ -372,7 +372,7 @@ extension PostProductGalleryView {
         }.addDisposableTo(disposeBag)
     }
 
-    @IBAction func onInfoButtonPressed(sender: AnyObject) {
+    @IBAction func onInfoButtonPressed(_ sender: AnyObject) {
         viewModel.infoButtonPressed()
     }
 }
@@ -384,14 +384,14 @@ extension PostProductGalleryView {
 
     func setupAlbumSelection() {
 
-        albumButtonTick.image = UIImage(named: "ic_down_triangle")?.imageWithRenderingMode(.AlwaysTemplate)
-        albumButtonTick.tintColor = UIColor.whiteColor()
+        albumButtonTick.image = UIImage(named: "ic_down_triangle")?.withRenderingMode(.alwaysTemplate)
+        albumButtonTick.tintColor = UIColor.white
         albumButtonTick.translatesAutoresizingMaskIntoConstraints = false
         albumButton.addSubview(albumButtonTick)
-        let left = NSLayoutConstraint(item: albumButtonTick, attribute: .Left, relatedBy: .Equal,
-            toItem: albumButton.titleLabel, attribute: .Right, multiplier: 1.0, constant: 8)
-        let centerV = NSLayoutConstraint(item: albumButtonTick, attribute: .CenterY, relatedBy: .Equal,
-            toItem: albumButton, attribute: .CenterY, multiplier: 1.0, constant: 2)
+        let left = NSLayoutConstraint(item: albumButtonTick, attribute: .left, relatedBy: .equal,
+            toItem: albumButton.titleLabel, attribute: .right, multiplier: 1.0, constant: 8)
+        let centerV = NSLayoutConstraint(item: albumButtonTick, attribute: .centerY, relatedBy: .equal,
+            toItem: albumButton, attribute: .centerY, multiplier: 1.0, constant: 2)
         albumButton.addConstraints([left,centerV])
 
 
@@ -402,24 +402,24 @@ extension PostProductGalleryView {
         viewModel.albumIconState.asObservable().subscribeNext{ [weak self] status in
             switch status{
             case .Hidden:
-                self?.albumButtonTick.hidden = true
+                self?.albumButtonTick.isHidden = true
             case .Down:
-                self?.albumButtonTick.hidden = false
+                self?.albumButtonTick.isHidden = false
                 self?.animateAlbumTickDirectionTop(false)
             case .Up:
-                self?.albumButtonTick.hidden = false
+                self?.albumButtonTick.isHidden = false
                 self?.animateAlbumTickDirectionTop(true)
             }
         }.addDisposableTo(disposeBag)
     }
 
-    @IBAction func albumButtonPressed(sender: AnyObject) {
+    @IBAction func albumButtonPressed(_ sender: AnyObject) {
         viewModel.albumButtonPressed()
     }
 
-    private func animateAlbumTickDirectionTop(top: Bool) {
-        UIView.animateWithDuration(0.2, animations: { [weak self] in
-            self?.albumButtonTick.transform = CGAffineTransformMakeRotation(top ? CGFloat(M_PI) : 0)
+    private func animateAlbumTickDirectionTop(_ top: Bool) {
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            self?.albumButtonTick.transform = CGAffineTransform(rotationAngle: top ? CGFloat(M_PI) : 0)
         })
     }
 }
@@ -428,7 +428,7 @@ extension PostProductGalleryView {
 // MARK: - Dragging
 
 enum GalleryDragState {
-    case None, DraggingCollection(Bool), DraggingImage
+    case none, draggingCollection(Bool), draggingImage
 }
 
 extension PostProductGalleryView: UIGestureRecognizerDelegate {
@@ -441,33 +441,33 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
         return 50
     }
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer,
-        shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
             return true
     }
 
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         guard let panRecognizer = gestureRecognizer as? UIPanGestureRecognizer else { return false }
-        let velocity = panRecognizer.velocityInView(contentView)
+        let velocity = panRecognizer.velocity(in: contentView)
         let panningVertically = fabs(velocity.y) > fabs(velocity.x)
         return panningVertically
     }
 
-    @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
-        let location = recognizer.locationInView(contentView)
+    @IBAction func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        let location = recognizer.location(in: contentView)
 
         switch recognizer.state {
-        case .Began:
+        case .began:
             if location.y < imageContainer.height+imageContainerTop.constant {
-                dragState = .DraggingImage
+                dragState = .draggingImage
             } else {
-                dragState = .DraggingCollection(false)
+                dragState = .draggingCollection(false)
             }
             initialDragPosition = imageContainerTop.constant
             delegate?.productGalleryRequestsScrollLock(true)
-        case .Ended:
-            dragState = .None
-            collectionView.userInteractionEnabled = true
+        case .ended:
+            dragState = .none
+            collectionView.isUserInteractionEnabled = true
             finishAnimating()
             delegate?.productGalleryRequestsScrollLock(false)
         default:
@@ -475,26 +475,26 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
         }
     }
 
-    private func handleDrag(recognizer: UIPanGestureRecognizer) {
-        let location = recognizer.locationInView(contentView)
-        let translation = recognizer.translationInView(contentView)
+    private func handleDrag(_ recognizer: UIPanGestureRecognizer) {
+        let location = recognizer.location(in: contentView)
+        let translation = recognizer.translation(in: contentView)
         switch dragState {
-        case .DraggingImage:
+        case .draggingImage:
             imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
             syncCollectionWithImage()
-        case .DraggingCollection(let fromTop):
+        case .draggingCollection(let fromTop):
             if location.y < imageContainer.height+imageContainerTop.constant {
                 imageContainerTop.constant = max(min(0, -(imageContainer.height-20-location.y)), -imageContainerMaxHeight)
                 syncCollectionWithImage()
-                collectionView.userInteractionEnabled = false
+                collectionView.isUserInteractionEnabled = false
             } else if (imageContainerTop.constant < 0) && (collectionView.contentOffset.y <= 0 || fromTop) {
                 imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
                 syncCollectionWithImage()
-                dragState = .DraggingCollection(true)
+                dragState = .draggingCollection(true)
             } else if !fromTop {
-                recognizer.setTranslation(CGPoint(x:0, y:0), inView: contentView)
+                recognizer.setTranslation(CGPoint(x:0, y:0), in: contentView)
             }
-        case .None:
+        case .none:
             break
         }
     }
@@ -509,11 +509,11 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
         }
     }
 
-    private func animateToState(collapsed collapsed: Bool, completion: (() -> Void)?) {
+    private func animateToState(collapsed: Bool, completion: (() -> Void)?) {
         imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
         self.collapsed = collapsed
 
-        UIView.animateWithDuration(0.2,
+        UIView.animate(withDuration: 0.2,
             animations: { [weak self] in
                 self?.syncCollectionWithImage()
                 self?.contentView.layoutIfNeeded()

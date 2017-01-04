@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class LoadingIndicator: UIView {
+class LoadingIndicator: UIView {
 
-    public var color: UIColor = UIColor.whiteColor() {
+    open var color: UIColor = UIColor.white {
         didSet {
-            loadingShape.strokeColor = color.CGColor
+            loadingShape.strokeColor = color.cgColor
             okIcon.tintColor = color
             wrongIcon.tintColor = color
         }
@@ -46,7 +46,7 @@ public class LoadingIndicator: UIView {
         startLoadingAnimation()
     }
 
-    func stopAnimating(correctState: Bool, completion: (()->())? = nil) {
+    func stopAnimating(_ correctState: Bool, completion: (()->())? = nil) {
         pendingFinalState = correctState
         endAnimationsCompletion = completion
         finishLoadingAnimation()
@@ -63,10 +63,10 @@ public class LoadingIndicator: UIView {
         rectShape.position = CGPoint(x: width / 2, y: width / 2)
         layer.addSublayer(rectShape)
 
-        rectShape.path = UIBezierPath(ovalInRect: rectShape.bounds).CGPath
+        rectShape.path = UIBezierPath(ovalIn: rectShape.bounds).cgPath
         rectShape.lineWidth = 3.0
-        rectShape.strokeColor = color.CGColor
-        rectShape.fillColor = UIColor.clearColor().CGColor
+        rectShape.strokeColor = color.cgColor
+        rectShape.fillColor = UIColor.clear.cgColor
         rectShape.strokeStart = 0
         rectShape.strokeEnd = 0.1
         loadingShape = rectShape
@@ -75,16 +75,16 @@ public class LoadingIndicator: UIView {
         okIcon = UIImageView(frame: bounds)
         addSubview(okIcon)
         setFillConstraintsTo(okIcon)
-        okIcon.contentMode = UIViewContentMode.Center
-        okIcon.image = UIImage(named: "ic_post_ok")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        okIcon.contentMode = UIViewContentMode.center
+        okIcon.image = UIImage(named: "ic_post_ok")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         okIcon.alpha = 0
         okIcon.tintColor = color
 
         wrongIcon = UIImageView(frame: bounds)
         addSubview(wrongIcon)
         setFillConstraintsTo(wrongIcon)
-        wrongIcon.contentMode = UIViewContentMode.Center
-        wrongIcon.image = UIImage(named: "ic_post_wrong")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        wrongIcon.contentMode = UIViewContentMode.center
+        wrongIcon.image = UIImage(named: "ic_post_wrong")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         wrongIcon.alpha = 0
         wrongIcon.tintColor = color
     }
@@ -98,10 +98,10 @@ public class LoadingIndicator: UIView {
         let animation = CABasicAnimation(keyPath: "transform.rotation.z")
         animation.delegate = self
         animation.duration = 1
-        animation.cumulative = true
+        animation.isCumulative = true
         animation.repeatCount = HUGE
         animation.toValue = 2 * M_PI
-        loadingShape.addAnimation(animation, forKey: "rotation")
+        loadingShape.add(animation, forKey: "rotation")
     }
 
     private func finishLoadingAnimation() {
@@ -112,18 +112,18 @@ public class LoadingIndicator: UIView {
         stroke.fromValue = 0.1
         stroke.toValue = 1
         stroke.duration = 0.3
-        loadingShape.addAnimation(stroke, forKey: "strokeEnd")
+        loadingShape.add(stroke, forKey: "strokeEnd")
     }
 
-    private func showImageAnimation(okMode: Bool) {
+    private func showImageAnimation(_ okMode: Bool) {
         let view = okMode ? okIcon : wrongIcon
-        view.alpha = 0
-        UIView.animateWithDuration(0.2,
+        view?.alpha = 0
+        UIView.animate(withDuration: 0.2,
             animations: {
-                view.alpha = 1
+                view?.alpha = 1
             },
             completion: { [weak self] (completed) -> Void in
-                view.alpha = 1
+                view?.alpha = 1
                 if let completion = self?.endAnimationsCompletion {
                     completion()
                     self?.endAnimationsCompletion = nil
@@ -132,17 +132,17 @@ public class LoadingIndicator: UIView {
         )
     }
 
-    private func setFillConstraintsTo(view: UIView){
+    private func setFillConstraintsTo(_ view: UIView){
         view.translatesAutoresizingMaskIntoConstraints = false
-        let top = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal,
-            toItem: self, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
-        let bottom = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Bottom,
-            relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Bottom, multiplier: 1,
+        let top = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal,
+            toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.bottom,
+            relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1,
             constant: 0)
-        let left = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,
-            toItem: self, attribute: NSLayoutAttribute.Left, multiplier: 1, constant: 0)
-        let right = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Right,
-            relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Right, multiplier: 1,
+        let left = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal,
+            toItem: self, attribute: NSLayoutAttribute.left, multiplier: 1, constant: 0)
+        let right = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.right,
+            relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.right, multiplier: 1,
             constant: 0)
         addConstraints([top, bottom, left, right])
     }
@@ -152,9 +152,9 @@ public class LoadingIndicator: UIView {
 // MARK: - CAAnimationDelegate
 
 extension LoadingIndicator: CAAnimationDelegate {
-    public func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        if let propAnim = anim as? CAPropertyAnimation, keyPath = propAnim.keyPath where keyPath == "strokeEnd" {
-            loadingShape.removeAnimationForKey("rotation")
+    public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        if let propAnim = anim as? CAPropertyAnimation, let keyPath = propAnim.keyPath, keyPath == "strokeEnd" {
+            loadingShape.removeAnimation(forKey: "rotation")
             if let finalState = pendingFinalState {
                 showImageAnimation(finalState)
             } else if let completion = endAnimationsCompletion {

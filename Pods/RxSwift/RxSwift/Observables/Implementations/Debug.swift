@@ -55,9 +55,9 @@ class DebugSink<Source: ObservableType, O: ObserverType> : Sink<O>, ObserverType
 }
 
 class Debug<Source: ObservableType> : Producer<Source.E> {
-    fileprivate let _identifier: String
-    fileprivate let _trimOutput: Bool
-    fileprivate let _source: Source
+    private let _identifier: String
+    private let _trimOutput: Bool
+    private let _source: Source
 
     init(source: Source, identifier: String?, trimOutput: Bool, file: String, line: UInt, function: String) {
         _trimOutput = trimOutput

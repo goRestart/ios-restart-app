@@ -30,8 +30,8 @@ struct LocalProduct: Product {
 
     let user: User
 
-    let updatedAt : NSDate?
-    let createdAt : NSDate?
+    let updatedAt : Date?
+    let createdAt : Date?
     let favorite: Bool
 
 

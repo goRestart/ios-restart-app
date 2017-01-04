@@ -53,7 +53,7 @@ class NotificationsViewModel: BaseViewModel {
         super.init()
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
         if firstTime {
@@ -69,7 +69,7 @@ class NotificationsViewModel: BaseViewModel {
         return notificationsData.count
     }
 
-    func dataAtIndex(index: Int) -> NotificationData? {
+    func dataAtIndex(_ index: Int) -> NotificationData? {
         guard 0..<dataCount ~= index else { return nil }
         return notificationsData[index]
     }
@@ -78,7 +78,7 @@ class NotificationsViewModel: BaseViewModel {
         reloadNotifications()
     }
 
-    func selectedItemAtIndex(index: Int) {
+    func selectedItemAtIndex(_ index: Int) {
         guard let data = dataAtIndex(index) else { return }
         trackItemPressed(data.type.eventType)
         data.primaryAction?()
@@ -98,7 +98,7 @@ class NotificationsViewModel: BaseViewModel {
         notificationsRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
             if let notifications = result.value {
-                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
+                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0 as! Notification) }
                 strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
                 if strongSelf.notificationsData.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
@@ -134,10 +134,10 @@ class NotificationsViewModel: BaseViewModel {
         notificationsManager.updateNotificationCounters()
     }
 
-    private func markCompleted(data: NotificationData) {
-        guard let primaryActionCompleted = data.primaryActionCompleted where !primaryActionCompleted else { return }
+    private func markCompleted(_ data: NotificationData) {
+        guard let primaryActionCompleted = data.primaryActionCompleted, !primaryActionCompleted else { return }
         guard data.id != nil else { return }
-        guard let index = notificationsData.indexOf({ $0.id != nil && $0.id == data.id }) else { return }
+        guard let index = notificationsData.index(where: { $0.id != nil && $0.id == data.id }) else { return }
         let completedData = NotificationData(id: data.id, type: data.type, date: data.date, isRead: data.isRead,
                                              primaryAction: nil, primaryActionCompleted: true)
         notificationsData[index] = completedData
@@ -150,7 +150,7 @@ class NotificationsViewModel: BaseViewModel {
 
 private extension NotificationsViewModel {
 
-    private func buildNotification(notification: Notification) -> NotificationData? {
+    func buildNotification(_ notification: Notification) -> NotificationData? {
         switch notification.type {
         case let .Rating(user, _, _):
             guard featureFlags.userReviews else { return nil }
@@ -209,9 +209,9 @@ private extension NotificationsViewModel {
         }
     }
 
-    private func buildWelcomeNotification() -> NotificationData {
+    func buildWelcomeNotification() -> NotificationData {
         return NotificationData(id: nil, type: .Welcome(city: locationManager.currentPostalAddress?.city),
-                                date: NSDate(), isRead: true, primaryAction: { [weak self] in
+                                date: Date(), isRead: true, primaryAction: { [weak self] in
                                     self?.navigator?.openSell(.Notifications)
                                 })
     }
@@ -226,7 +226,7 @@ private extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackItemPressed(type: EventParameterNotificationType) {
+    func trackItemPressed(_ type: EventParameterNotificationType) {
         let event = TrackerEvent.notificationCenterComplete(type)
         tracker.trackEvent(event)
     }
@@ -235,7 +235,7 @@ private extension NotificationsViewModel {
 private extension NotificationDataType {
     var eventType: EventParameterNotificationType {
         switch self {
-        case .ProductSold:
+        case .productSold:
             return .ProductSold
         case .ProductFavorite:
             return .Favorite
@@ -243,7 +243,7 @@ private extension NotificationDataType {
             return .Rating
         case .RatingUpdated:
             return .RatingUpdated
-        case .Welcome:
+        case .welcome:
             return .Welcome
         case .BuyersInterested:
             return .BuyersInterested

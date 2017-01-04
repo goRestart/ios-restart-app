@@ -9,190 +9,190 @@
 import RxSwift
 
 enum ButtonFontSize {
-    case Big
-    case Medium
-    case Small
+    case big
+    case medium
+    case small
 }
 
 enum ButtonStyle {
-    case Primary(fontSize: ButtonFontSize)
-    case Secondary(fontSize: ButtonFontSize, withBorder: Bool)
-    case Terciary
-    case Google
-    case Facebook
-    case Dark(fontSize: ButtonFontSize)
-    case Logout
-    case Review
-    case DarkField
-    case LightField
+    case primary(fontSize: ButtonFontSize)
+    case secondary(fontSize: ButtonFontSize, withBorder: Bool)
+    case terciary
+    case google
+    case facebook
+    case dark(fontSize: ButtonFontSize)
+    case logout
+    case review
+    case darkField
+    case lightField
     
     var titleColor: UIColor {
         switch self {
-        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review, .Logout:
-            return UIColor.whiteColor()
-        case .Secondary:
-            return UIColor.primaryColor
-        case .DarkField:
+        case .primary, .terciary, .google, .facebook, .dark, .review, .logout:
             return UIColor.white
-        case .LightField:
+        case .secondary:
+            return UIColor.primaryColor
+        case .darkField:
+            return UIColor.white
+        case .lightField:
             return UIColor.black
         }
     }
     
     var backgroundColor: UIColor {
         switch self {
-        case .Primary:
+        case .primary:
             return UIColor.primaryColor
-        case .Secondary:
+        case .secondary:
             return UIColor.secondaryColor
-        case .Terciary:
+        case .terciary:
             return UIColor.terciaryColor
-        case .Facebook:
+        case .facebook:
             return UIColor.facebookColor
-        case .Google:
+        case .google:
             return UIColor.googleColor
-        case .Dark:
-            return UIColor.blackColor().colorWithAlphaComponent(0.3)
-        case .Logout:
-            return UIColor.blackColor().colorWithAlphaComponent(0.1)
-        case .Review:
+        case .dark:
+            return UIColor.black.withAlphaComponent(0.3)
+        case .logout:
+            return UIColor.black.withAlphaComponent(0.1)
+        case .review:
             return UIColor.reviewColor
-        case .DarkField:
-            return UIColor.white.colorWithAlphaComponent(0.3)
-        case .LightField:
+        case .darkField:
+            return UIColor.white.withAlphaComponent(0.3)
+        case .lightField:
             return UIColor.grayLighter
         }
     }
     
     var backgroundColorHighlighted: UIColor {
         switch self {
-        case .Primary:
+        case .primary:
             return UIColor.primaryColorHighlighted
-        case .Secondary:
+        case .secondary:
             return UIColor.secondaryColorHighlighted
-        case .Terciary:
+        case .terciary:
             return UIColor.terciaryColorHighlighted
-        case .Facebook:
+        case .facebook:
             return UIColor.facebookColorHighlighted
-        case .Google:
+        case .google:
             return UIColor.googleColorHighlighted
-        case .Dark:
-            return UIColor.blackColor().colorWithAlphaComponent(0.5)
-        case .Logout:
-            return UIColor.blackColor().colorWithAlphaComponent(0.05)
-        case .Review:
+        case .dark:
+            return UIColor.black.withAlphaComponent(0.5)
+        case .logout:
+            return UIColor.black.withAlphaComponent(0.05)
+        case .review:
             return UIColor.reviewColorHighlighted
-        case .DarkField, .LightField:
-            return backgroundColor.colorWithAlphaComponent(0.3)
+        case .darkField, .lightField:
+            return backgroundColor.withAlphaComponent(0.3)
         }
     }
     
     var backgroundColorDisabled: UIColor {
         switch self {
-        case .Primary:
+        case .primary:
             return UIColor.primaryColorDisabled
-        case .Secondary:
+        case .secondary:
             return UIColor.secondaryColorDisabled
-        case .Terciary:
+        case .terciary:
             return UIColor.terciaryColorDisabled
-        case .Facebook:
+        case .facebook:
             return UIColor.facebookColorDisabled
-        case .Google:
+        case .google:
             return UIColor.googleColorDisabled
-        case .Dark:
-            return UIColor.blackColor().colorWithAlphaComponent(0.3)
-        case .Logout:
-            return UIColor.blackColor().colorWithAlphaComponent(0.05)
-        case .Review:
+        case .dark:
+            return UIColor.black.withAlphaComponent(0.3)
+        case .logout:
+            return UIColor.black.withAlphaComponent(0.05)
+        case .review:
             return UIColor.reviewColorDisabled
-        case .DarkField, .LightField:
-            return backgroundColor.colorWithAlphaComponent(0.3)
+        case .darkField, .lightField:
+            return backgroundColor.withAlphaComponent(0.3)
         }
     }
     
     var titleFont: UIFont {
         switch fontSize {
-        case .Big:
+        case .big:
             return UIFont.bigButtonFont
-        case .Medium:
+        case .medium:
             return UIFont.mediumButtonFont
-        case .Small:
+        case .small:
             return UIFont.smallButtonFont
         }
     }
 
     private var fontSize: ButtonFontSize {
-        var fontSize = ButtonFontSize.Big
+        var fontSize = ButtonFontSize.big
         switch self {
-        case let .Primary(size):
+        case let .primary(size):
             fontSize = size
-        case let .Dark(size):
+        case let .dark(size):
             fontSize = size
-        case .Logout:
-            fontSize = .Medium
-        case let .Secondary(size,_):
+        case .logout:
+            fontSize = .medium
+        case let .secondary(size,_):
             fontSize = size
-        case .Terciary:
-            fontSize = .Big
-        case .Google, .Facebook, .DarkField, .LightField:
-            fontSize = .Medium
-        case .Review:
-            fontSize = .Small
+        case .terciary:
+            fontSize = .big
+        case .google, .facebook, .darkField, .lightField:
+            fontSize = .medium
+        case .review:
+            fontSize = .small
         }
         return fontSize
     }
     
     var withBorder: Bool {
         switch self {
-        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review, .DarkField, .LightField, .Logout:
+        case .primary, .terciary, .google, .facebook, .dark, .review, .darkField, .lightField, .logout:
             return false
-        case let .Secondary(_, withBorder):
+        case let .secondary(_, withBorder):
             return withBorder
         }
     }
 
     var sidePadding: CGFloat {
         switch fontSize {
-        case .Big:
+        case .big:
             return 15
-        case .Medium, .Small:
+        case .medium, .small:
             return 10
         }
     }
 
     var applyCornerRadius: Bool {
         switch self {
-        case .Primary, .Secondary, .Terciary, .Google, .Facebook, .Dark, .Review, .Logout:
+        case .primary, .secondary, .terciary, .google, .facebook, .dark, .review, .logout:
             return true
-        case .DarkField, .LightField:
+        case .darkField, .lightField:
             return false
         }
     }
 }
 
 enum ButtonState {
-    case Hidden
-    case Enabled
-    case Disabled
+    case hidden
+    case enabled
+    case disabled
 }
 
 extension UIButton {
 
-    func setState(state: ButtonState) {
+    func setState(_ state: ButtonState) {
         switch state {
-        case .Hidden:
-            hidden = true
-        case .Enabled:
-            hidden = false
-            enabled = true
-        case .Disabled:
-            hidden = false
-            enabled = false
+        case .hidden:
+            isHidden = true
+        case .enabled:
+            isHidden = false
+            isEnabled = true
+        case .disabled:
+            isHidden = false
+            isEnabled = false
         }
     }
 
-    func setStyle(style: ButtonStyle) {
-        guard buttonType == UIButtonType.Custom else {
+    func setStyle(_ style: ButtonStyle) {
+        guard buttonType == UIButtonType.custom else {
             print("💣 => Styles can only be applied to customStyle Buttons")
             return
         }
@@ -203,16 +203,16 @@ extension UIButton {
             layer.cornerRadius = bounds.height/2
         }
         layer.borderWidth = style.withBorder ? 1 : 0
-        layer.borderColor = style.titleColor.CGColor
+        layer.borderColor = style.titleColor.cgColor
 
-        setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), for: UIControlState())
         setBackgroundImage(style.backgroundColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
-                           forState: .Highlighted)
-        setBackgroundImage(style.backgroundColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+                           for: .highlighted)
+        setBackgroundImage(style.backgroundColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), for: .disabled)
         
         titleLabel?.font = style.titleFont
-        titleLabel?.lineBreakMode = .ByTruncatingTail
-        setTitleColor(style.titleColor, forState: .Normal)
+        titleLabel?.lineBreakMode = .byTruncatingTail
+        setTitleColor(style.titleColor, for: UIControlState())
         let padding = style.sidePadding
         let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
         let right = contentEdgeInsets.right < padding ? padding : contentEdgeInsets.right
@@ -220,8 +220,8 @@ extension UIButton {
     }
 
     func configureWith(uiAction action: UIAction) {
-        setTitle(action.text, forState: .Normal)
-        setImage(action.image, forState: .Normal)
+        setTitle(action.text, for: UIControlState())
+        setImage(action.image, for: UIControlState())
         if let style = action.buttonStyle {
             setStyle(style)
         }

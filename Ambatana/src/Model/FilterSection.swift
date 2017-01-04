@@ -7,31 +7,31 @@
 //
 
 public enum FilterSection: Int {
-    case Location, Categories, Distance, SortBy, Within, Price
+    case location, categories, distance, sortBy, within, price
 }
 
 extension FilterSection {
     
     public var name : String {
         switch(self) {
-        case .Location:
+        case .location:
 
             return LGLocalizedString.filtersSectionLocation.uppercase
-        case .Distance:
+        case .distance:
             return LGLocalizedString.filtersSectionDistance.uppercase
-        case .Categories:
+        case .categories:
             return LGLocalizedString.filtersSectionCategories.uppercase
-        case .Within:
+        case .within:
             return LGLocalizedString.filtersSectionWithin.uppercase
-        case .SortBy:
+        case .sortBy:
             return LGLocalizedString.filtersSectionSortby.uppercase
-        case .Price:
+        case .price:
             return LGLocalizedString.filtersSectionPrice.uppercase
         }
     }
     
     static var allValues: [FilterSection] {
-        return [.Location, .Categories, .Distance, .SortBy, .Within, .Price]
+        return [.location, .categories, .distance, .sortBy, .within, .price]
     }
     
 }

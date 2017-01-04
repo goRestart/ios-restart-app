@@ -13,10 +13,10 @@ import RxSwift
 
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
-    func vmShowTags(tags: [FilterTag])
+    func vmShowTags(_ tags: [FilterTag])
 }
 
-struct MainProductsHeader: OptionSetType {
+struct MainProductsHeader: OptionSet {
     let rawValue : Int
     init(rawValue:Int){ self.rawValue = rawValue}
 
@@ -33,9 +33,9 @@ class MainProductsViewModel: BaseViewModel {
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
-        case .Collection:
+        case .collection:
             return true
-        case .User, .Trending, .LastSearch:
+        case .user, .trending, .lastSearch:
             return false
         }
     }
@@ -60,14 +60,14 @@ class MainProductsViewModel: BaseViewModel {
         if filters.selectedWithin != ProductTimeCriteria.defaultOption {
             resultTags.append(.Within(filters.selectedWithin))
         }
-        if let selectedOrdering = filters.selectedOrdering where selectedOrdering != ProductSortCriteria.defaultOption {
+        if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ProductSortCriteria.defaultOption {
             resultTags.append(.OrderBy(selectedOrdering))
         }
 
         switch filters.priceRange {
-        case .FreePrice:
-            resultTags.append(.FreeStuff)
-        case let .PriceRange(min, max):
+        case .freePrice:
+            resultTags.append(.freeStuff)
+        case let .priceRange(min, max):
             if min != nil || max != nil {
                 var currency: Currency? = nil
                 if let countryCode = locationManager.currentPostalAddress?.countryCode {
@@ -171,7 +171,7 @@ class MainProductsViewModel: BaseViewModel {
                                                   numberOfColumns: columns)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
 
-        if let search = searchType where !search.isCollection && !search.query.isEmpty {
+        if let search = searchType, !search.isCollection && !search.query.isEmpty {
             self.shouldTrackSearch = true
         }
         
@@ -200,10 +200,10 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
@@ -218,11 +218,11 @@ class MainProductsViewModel: BaseViewModel {
     /**
         Search action.
     */
-    func search(query: String) {
+    func search(_ query: String) {
         guard !query.characters.isEmpty else { return }
     
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .User(query: query), productFilters: filters)
+        navigator?.openMainProduct(withSearchType: .user(query: query), productFilters: filters)
     }
 
     func showFilters() {
@@ -242,7 +242,7 @@ class MainProductsViewModel: BaseViewModel {
     /**
         Called when a filter gets removed
     */
-    func updateFiltersFromTags(tags: [FilterTag]) {
+    func updateFiltersFromTags(_ tags: [FilterTag]) {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
@@ -265,7 +265,7 @@ class MainProductsViewModel: BaseViewModel {
             case .PriceRange(let minPriceOption, let maxPriceOption, _):
                 minPrice = minPriceOption
                 maxPrice = maxPriceOption
-            case .FreeStuff:
+            case .freeStuff:
                 free = true
             }
         }
@@ -282,9 +282,9 @@ class MainProductsViewModel: BaseViewModel {
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
         if free {
-            filters.priceRange = .FreePrice
+            filters.priceRange = .freePrice
         } else {
-            filters.priceRange = .PriceRange(min: minPrice, max: maxPrice)
+            filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
 
         updateListView()
@@ -308,7 +308,7 @@ class MainProductsViewModel: BaseViewModel {
     
         - returns: A view model for search.
     */
-    private func viewModelForSearch(searchType: SearchType) -> MainProductsViewModel {
+    private func viewModelForSearch(_ searchType: SearchType) -> MainProductsViewModel {
         return MainProductsViewModel(searchType: searchType, filters: filters)
     }
     
@@ -324,7 +324,7 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.refresh()
     }
     
-    private func bubbleInfoTextForDistance(distance: Int, type: DistanceType) -> String {
+    private func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
         let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
             type.string])
         if distance <= Constants.productListMaxDistanceLabel {
@@ -340,7 +340,7 @@ class MainProductsViewModel: BaseViewModel {
 
 extension MainProductsViewModel: FiltersViewModelDataDelegate {
 
-    func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters) {
+    func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ProductFilters) {
         self.filters = filters
         delegate?.vmShowTags(tags)
         updateListView()
@@ -351,7 +351,7 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 // MARK: - ProductListViewCellsDelegate 
 
 extension MainProductsViewModel: ProductListViewCellsDelegate {
-    func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
+    func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
         guard let sortCriteria = filters.selectedOrdering else { return }
 
         switch (sortCriteria) {
@@ -374,20 +374,20 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
         }
     }
 
-    func visibleBottomCell(index: Int) { }
+    func visibleBottomCell(_ index: Int) { }
 }
 
 
 // MARK: - ProductListViewModelDataDelegate
 
 extension MainProductsViewModel: ProductListViewModelDataDelegate {
-    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
+    func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
         
         trackRequestSuccess(page: page, hasProducts: hasProducts)
         // Only save the string when there is products and we are not searching a collection
-        if let queryString = productListRequester.queryString where hasProducts {
-            if let searchType = searchType where !searchType.isCollection {
+        if let queryString = productListRequester.queryString, hasProducts {
+            if let searchType = searchType, !searchType.isCollection {
                 updateLastSearchStoraged(queryString)
             }
         }
@@ -427,7 +427,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         }
     }
 
-    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
+    func productListMV(_ viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
         if shouldRetryLoad {
             shouldRetryLoad = false
@@ -457,7 +457,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
     }
 
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
+    func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
         guard let product = viewModel.productAtIndex(index) else { return }
@@ -470,23 +470,23 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                                showKeyboardOnFirstAppearIfNeeded: false)
     }
 
-    func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
+    func vmProcessReceivedProductPage(_ products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
         guard searchType == nil else { return products }
         guard products.count > bannerCellPosition else { return products }
         var cellModels = products
         if !collections.isEmpty && productListRequester.countryCode == "US" {
             let collectionType = collections[Int(page) % collections.count]
-            let collectionModel = ProductCellModel.CollectionCell(type: collectionType)
-            cellModels.insert(collectionModel, atIndex: bannerCellPosition)
+            let collectionModel = ProductCellModel.collectionCell(type: collectionType)
+            cellModels.insert(collectionModel, at: bannerCellPosition)
         }
         return cellModels
     }
 
-    func vmDidSelectCollection(type: CollectionCellType){
+    func vmDidSelectCollection(_ type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
         let query = queryForCollection(type)
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .Collection(type: type, query: query), productFilters: filters)
+        navigator?.openMainProduct(withSearchType: .collection(type: type, query: query), productFilters: filters)
     }
     
     func vmUserDidTapInvite() {
@@ -529,7 +529,7 @@ extension MainProductsViewModel {
         retrieveTrendingSearches()
     }
 
-    private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
+    private func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
 
         var shouldUpdate = false
         if listViewModel.canRetrieveProducts {
@@ -539,7 +539,7 @@ extension MainProductsViewModel {
             }
             // If new location is manual OR last location was manual, and location has changed then refresh
             else if newLocation.type == .Manual || lastReceivedLocation?.type == .Manual {
-                if let lastReceivedLocation = lastReceivedLocation where newLocation != lastReceivedLocation {
+                if let lastReceivedLocation = lastReceivedLocation, newLocation != lastReceivedLocation {
                     shouldUpdate = true
                 }
             }
@@ -566,26 +566,26 @@ extension MainProductsViewModel {
 
 extension MainProductsViewModel {
 
-    func trendingSearchAtIndex(index: Int) -> String? {
+    func trendingSearchAtIndex(_ index: Int) -> String? {
         guard  0..<trendingSearches.value.count ~= index else { return nil }
         return trendingSearches.value[index]
     }
     
-    func lastSearchAtIndex(index: Int) -> String? {
+    func lastSearchAtIndex(_ index: Int) -> String? {
         guard 0..<lastSearches.value.count ~= index else { return nil }
         return lastSearches.value[index]
     }
 
-    func selectedTrendingSearchAtIndex(index: Int) {
-        guard let trendingSearch = trendingSearchAtIndex(index) where !trendingSearch.isEmpty else { return }
+    func selectedTrendingSearchAtIndex(_ index: Int) {
+        guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .Trending(query: trendingSearch), productFilters: filters)
+        navigator?.openMainProduct(withSearchType: .trending(query: trendingSearch), productFilters: filters)
     }
     
-    func selectedLastSearchAtIndex(index: Int) {
-        guard let lastSearch = lastSearchAtIndex(index) where !lastSearch.isEmpty else { return }
+    func selectedLastSearchAtIndex(_ index: Int) {
+        guard let lastSearch = lastSearchAtIndex(index), !lastSearch.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .LastSearch(query: lastSearch), productFilters: filters)
+        navigator?.openMainProduct(withSearchType: .lastSearch(query: lastSearch), productFilters: filters)
     }
     
     func cleanUpLastSearches() {
@@ -602,7 +602,7 @@ extension MainProductsViewModel {
         } else {
             searchesToShow = keyValueStorage[.lastSearches]
         }
-        lastSearches.value = searchesToShow.reverse()
+        lastSearches.value = searchesToShow.reversed()
     }
 
     private func retrieveTrendingSearches() {
@@ -613,12 +613,12 @@ extension MainProductsViewModel {
         }
     }
     
-    private func updateLastSearchStoraged(query: String) {
+    private func updateLastSearchStoraged(_ query: String) {
         // We save up to lastSearchesSavedMaximum(10)
         var searchesSaved = keyValueStorage[.lastSearches]
         // Check if already exists and move to front.
-        if let index = searchesSaved.indexOf(query) {
-            searchesSaved.removeAtIndex(index)
+        if let index = searchesSaved.index(of: query) {
+            searchesSaved.remove(at: index)
         }
         searchesSaved.append(query)
         if searchesSaved.count > lastSearchesSavedMaximum {
@@ -638,13 +638,13 @@ extension MainProductsViewModel {
     }
 
     private func setupPermissionsNotification() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updatePermissionsWarning),
-                         name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePermissionsWarning),
+                         name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
 
     private dynamic func updatePermissionsWarning() {
         var currentHeader = mainProductsHeader.value
-        if UIApplication.sharedApplication().areRemoteNotificationsEnabled {
+        if UIApplication.shared.areRemoteNotificationsEnabled {
             currentHeader.remove(MainProductsHeader.PushPermissions)
         } else {
             currentHeader.insert(MainProductsHeader.PushPermissions)
@@ -654,20 +654,20 @@ extension MainProductsViewModel {
 
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertOk, .Default),
+        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .default),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
-                                    PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .ProductListBanner)
+                                    PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .productListBanner)
             },
                                 accessibilityId: .UserPushPermissionOK)
-        let negative = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
+        let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
             },
                                 accessibilityId: .UserPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
-                                       alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),
+                                       alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
     }
 }
@@ -691,11 +691,11 @@ private extension ProductFilters {
 // MARK: - Queries for Collections
 
 private extension MainProductsViewModel {
-    func queryForCollection(type: CollectionCellType) -> String {
+    func queryForCollection(_ type: CollectionCellType) -> String {
         var query: String
         switch type {
         case .You:
-            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
+            query = keyValueStorage[.lastSearches].reversed().joined(separator: " ")
         case .Transport:
             switch featureFlags.keywordsTravelCollection {
             case .Standard:
@@ -724,9 +724,9 @@ private extension MainProductsViewModel {
     var productVisitSource: EventParameterProductVisitSource {
         if let searchType = searchType {
             switch searchType {
-            case .Collection:
+            case .collection:
                 return .Collection
-            case .User, .Trending, .LastSearch:
+            case .user, .trending, .lastSearch:
                 if filters.isDefault() {
                     return .Search
                 } else {
@@ -746,7 +746,7 @@ private extension MainProductsViewModel {
         return .ProductList
     }
 
-    func trackRequestSuccess(page page: UInt, hasProducts: Bool) {
+    func trackRequestSuccess(page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
 
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
@@ -754,7 +754,7 @@ private extension MainProductsViewModel {
                                                     searchQuery: productListRequester.queryString)
         tracker.trackEvent(trackerEvent)
 
-        if let searchType = searchType where shouldTrackSearch && filters.isDefault() {
+        if let searchType = searchType, shouldTrackSearch && filters.isDefault() {
             shouldTrackSearch = false
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
                                                            isTrending: searchType.isTrending,
@@ -762,7 +762,7 @@ private extension MainProductsViewModel {
         }
     }
 
-    private func trackPushPermissionStart() {
+    func trackPushPermissionStart() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductListBanner, alertType: .Custom,
@@ -770,7 +770,7 @@ private extension MainProductsViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackPushPermissionComplete() {
+    func trackPushPermissionComplete() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductListBanner, alertType: .Custom,
@@ -778,7 +778,7 @@ private extension MainProductsViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackPushPermissionCancel() {
+    func trackPushPermissionCancel() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .ProductListBanner, alertType: .Custom,

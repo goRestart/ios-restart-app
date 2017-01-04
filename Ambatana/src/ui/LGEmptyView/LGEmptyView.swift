@@ -29,9 +29,9 @@ class LGEmptyView: UIView {
     private let titleLabel: UILabel = UILabel()
     private let bodyLabel: UILabel = UILabel()
     private var bodyButtonVSpacing: NSLayoutConstraint?
-    private let actionButton: UIButton = UIButton(type: .Custom)
+    private let actionButton: UIButton = UIButton(type: .custom)
     private var actionButtonHeight: NSLayoutConstraint?
-    private var actionSecondaryButton: UIButton = UIButton(type: .Custom)
+    private var actionSecondaryButton: UIButton = UIButton(type: .custom)
     private var actionSecondaryButtonHeight: NSLayoutConstraint?
     private var actionButtonBottomConstraint: NSLayoutConstraint?
     
@@ -70,7 +70,7 @@ class LGEmptyView: UIView {
         didSet {
             bodyLabel.text = body
 
-            if let body = body where !body.isEmpty {
+            if let body = body, !body.isEmpty {
                 bodyButtonVSpacing?.constant = LGEmptyView.bodyButtonVSpacing
             } else {
                 bodyButtonVSpacing?.constant = LGEmptyView.bodyButtonVSpacingBodyHidden
@@ -80,7 +80,7 @@ class LGEmptyView: UIView {
 
     var buttonTitle: String? {
         didSet {
-            actionButton.setTitle(buttonTitle, forState: .Normal)
+            actionButton.setTitle(buttonTitle, for: UIControlState())
             actionButtonHeight?.constant = buttonTitle != nil ? LGEmptyView.buttonHeight : 0
             updateConstraintsIfNeeded()
         }
@@ -88,7 +88,7 @@ class LGEmptyView: UIView {
     
     var secondaryButtonTitle: String? {
         didSet {
-            actionSecondaryButton.setTitle(secondaryButtonTitle, forState: .Normal)
+            actionSecondaryButton.setTitle(secondaryButtonTitle, for: UIControlState())
             actionSecondaryButtonHeight?.constant = secondaryButtonTitle != nil ? LGEmptyView.buttonHeight : 0
             actionButtonBottomConstraint?.constant = secondaryButtonTitle != nil ? -LGEmptyView.titleBodyVSpacing : 0
             updateConstraintsIfNeeded()
@@ -98,7 +98,7 @@ class LGEmptyView: UIView {
     var action: (() -> ())?
     var secondaryAction: (() -> ())?
 
-    func setupWithModel(model: LGEmptyViewModel) {
+    func setupWithModel(_ model: LGEmptyViewModel) {
         icon = model.icon
         title = model.title
         body = model.body
@@ -114,45 +114,45 @@ class LGEmptyView: UIView {
     private func setupUI() {
         backgroundColor = UIColor.emptyViewBackgroundColor
 
-        contentView.layer.borderColor = UIColor.lineGray.CGColor
+        contentView.layer.borderColor = UIColor.lineGray.cgColor
         contentView.layer.borderWidth = LGEmptyView.contentBorderWith
         contentView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         contentView.backgroundColor = UIColor.white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
 
-        iconImageView.contentMode = .Center
+        iconImageView.contentMode = .center
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(iconImageView)
 
         titleLabel.font = UIFont.bigBodyFont
         titleLabel.textColor = UIColor.blackText
         titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
 
         bodyLabel.font = UIFont.bigBodyFont
         bodyLabel.textColor = UIColor.darkGrayText
         bodyLabel.numberOfLines = 0
-        bodyLabel.textAlignment = .Center
+        bodyLabel.textAlignment = .center
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bodyLabel)
 
         // initial frame so it can calculate the button corner radius
         actionButton.frame = CGRect(x: 0, y: 0, width: 10, height: LGEmptyView.buttonHeight)
-        actionButton.setStyle(.Primary(fontSize: .Medium))
+        actionButton.setStyle(.primary(fontSize: .medium))
         actionButton.titleLabel?.font = UIFont.mediumButtonFont
-        actionButton.addTarget(self, action: #selector(LGEmptyView.actionButtonPressed), forControlEvents: .TouchUpInside)
+        actionButton.addTarget(self, action: #selector(LGEmptyView.actionButtonPressed), for: .touchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.accessibilityId = .EmptyViewPrimaryButton
         contentView.addSubview(actionButton)
         
         // initial frame so it can calculate the button corner radius
         actionSecondaryButton.frame = CGRect(x: 0, y: 0, width: 10, height: LGEmptyView.buttonHeight)
-        actionSecondaryButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
+        actionSecondaryButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
         actionSecondaryButton.titleLabel?.font = UIFont.mediumButtonFont
-        actionSecondaryButton.addTarget(self, action: #selector(LGEmptyView.secondaryActionButtonPressed), forControlEvents: .TouchUpInside)
+        actionSecondaryButton.addTarget(self, action: #selector(LGEmptyView.secondaryActionButtonPressed), for: .touchUpInside)
         actionSecondaryButton.translatesAutoresizingMaskIntoConstraints = false
         actionSecondaryButton.accessibilityId = .EmptyViewSecondaryButton
         contentView.addSubview(actionSecondaryButton)
@@ -161,14 +161,14 @@ class LGEmptyView: UIView {
     private func setupConstraints() {
 
         // Content view
-        let centerYContent = NSLayoutConstraint(item: contentView, attribute: .CenterY, relatedBy: .Equal, toItem: self,
-            attribute: .CenterY, multiplier: 1, constant: 0)
+        let centerYContent = NSLayoutConstraint(item: contentView, attribute: .centerY, relatedBy: .equal, toItem: self,
+            attribute: .centerY, multiplier: 1, constant: 0)
         addConstraint(centerYContent)
-        let centerXContent = NSLayoutConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: self,
-            attribute: .CenterX, multiplier: 1, constant: 0)
+        let centerXContent = NSLayoutConstraint(item: contentView, attribute: .centerX, relatedBy: .equal, toItem: self,
+            attribute: .centerX, multiplier: 1, constant: 0)
         addConstraint(centerXContent)
-        let widthContent = NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: LGEmptyView.contentViewWidth)
+        let widthContent = NSLayoutConstraint(item: contentView, attribute: .width, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: LGEmptyView.contentViewWidth)
         contentView.addConstraint(widthContent)
 
         // Content horizontal
@@ -176,12 +176,12 @@ class LGEmptyView: UIView {
         var views = [String: AnyObject]()
         views["icon"] = iconImageView
         var metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin
+        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
 
-        let centerXIcon = NSLayoutConstraint(item: iconImageView, attribute: .CenterX, relatedBy: .Equal,
-            toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
+        let centerXIcon = NSLayoutConstraint(item: iconImageView, attribute: .centerX, relatedBy: .equal,
+            toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
         contentView.addConstraint(centerXIcon)
-        let hIcon = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[icon]-hMargin-|",
+        let hIcon = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[icon]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hIcon)
 
@@ -189,9 +189,9 @@ class LGEmptyView: UIView {
         views = [String: AnyObject]()
         views["title"] = titleLabel
         metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin
+        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
 
-        let hTitle = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[title]-hMargin-|",
+        let hTitle = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[title]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hTitle)
 
@@ -199,9 +199,9 @@ class LGEmptyView: UIView {
         views = [String: AnyObject]()
         views["body"] = bodyLabel
         metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin
+        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
 
-        let hBody = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[body]-hMargin-|",
+        let hBody = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[body]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hBody)
 
@@ -209,9 +209,9 @@ class LGEmptyView: UIView {
         views = [String: AnyObject]()
         views["button"] = actionButton
         metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin
+        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
 
-        let hButton = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[button]-hMargin-|",
+        let hButton = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[button]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hButton)
         
@@ -219,9 +219,9 @@ class LGEmptyView: UIView {
         views = [String: AnyObject]()
         views["secondaryButton"] = actionSecondaryButton
         metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin
+        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
         
-        let hSecondaryButton = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[secondaryButton]-hMargin-|",
+        let hSecondaryButton = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[secondaryButton]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hSecondaryButton)
 
@@ -234,50 +234,50 @@ class LGEmptyView: UIView {
         views["button"] = actionButton
         views["secondaryButton"] = actionSecondaryButton
         metrics = [String: AnyObject]()
-        metrics["topM"] = LGEmptyView.contentTopMargin
-        metrics["iconTitleS"] = LGEmptyView.iconTitleVSpacing
-        metrics["titleBodyS"] = LGEmptyView.titleBodyVSpacing
-        metrics["bottomM"] = LGEmptyView.contentBottomMargin
+        metrics["topM"] = LGEmptyView.contentTopMargin as AnyObject?
+        metrics["iconTitleS"] = LGEmptyView.iconTitleVSpacing as AnyObject?
+        metrics["titleBodyS"] = LGEmptyView.titleBodyVSpacing as AnyObject?
+        metrics["bottomM"] = LGEmptyView.contentBottomMargin as AnyObject?
 
         let format1 = "V:|-topM-[icon]-iconTitleS-[title]-titleBodyS-[body]"
-        let vContent1 = NSLayoutConstraint.constraintsWithVisualFormat(format1, options: [], metrics: metrics,
+        let vContent1 = NSLayoutConstraint.constraints(withVisualFormat: format1, options: [], metrics: metrics,
             views: views)
         contentView.addConstraints(vContent1)
 
-        let bodyButtonVSpacingConstraint = NSLayoutConstraint(item: actionButton, attribute: .Top, relatedBy: .Equal,
-            toItem: bodyLabel, attribute: .Bottom, multiplier: 1, constant: LGEmptyView.bodyButtonVSpacing)
+        let bodyButtonVSpacingConstraint = NSLayoutConstraint(item: actionButton, attribute: .top, relatedBy: .equal,
+            toItem: bodyLabel, attribute: .bottom, multiplier: 1, constant: LGEmptyView.bodyButtonVSpacing)
         contentView.addConstraint(bodyButtonVSpacingConstraint)
         bodyButtonVSpacing = bodyButtonVSpacingConstraint
 
         let format2 = "V:[secondaryButton]-bottomM-|"
         
-        let vContent2 = NSLayoutConstraint.constraintsWithVisualFormat(format2, options: [], metrics: metrics,
+        let vContent2 = NSLayoutConstraint.constraints(withVisualFormat: format2, options: [], metrics: metrics,
             views: views)
         contentView.addConstraints(vContent2)
 
-        actionButtonBottomConstraint = NSLayoutConstraint(item: actionButton, attribute: .Bottom, relatedBy: .Equal,
-            toItem: actionSecondaryButton, attribute: .Top, multiplier: 1, constant: -LGEmptyView.titleBodyVSpacing)
+        actionButtonBottomConstraint = NSLayoutConstraint(item: actionButton, attribute: .bottom, relatedBy: .equal,
+            toItem: actionSecondaryButton, attribute: .top, multiplier: 1, constant: -LGEmptyView.titleBodyVSpacing)
         if let actionButtonBottomConstraint = actionButtonBottomConstraint {
             contentView.addConstraint(actionButtonBottomConstraint)
         }
         
         // > Icon height
-        iconHeight = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: icon?.size.height ?? 0)
+        iconHeight = NSLayoutConstraint(item: iconImageView, attribute: .height, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: icon?.size.height ?? 0)
         if let iconHeight = iconHeight {
             iconImageView.addConstraint(iconHeight)
         }
 
         // > Button height
-        actionButtonHeight = NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: buttonTitle != nil ? LGEmptyView.buttonHeight : 0)
+        actionButtonHeight = NSLayoutConstraint(item: actionButton, attribute: .height, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: buttonTitle != nil ? LGEmptyView.buttonHeight : 0)
         if let actionButtonHeight = actionButtonHeight {
             actionButton.addConstraint(actionButtonHeight)
         }
         
         // > Secondary Button height
-        actionSecondaryButtonHeight = NSLayoutConstraint(item: actionSecondaryButton, attribute: .Height, relatedBy:
-            .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant:
+        actionSecondaryButtonHeight = NSLayoutConstraint(item: actionSecondaryButton, attribute: .height, relatedBy:
+            .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant:
             secondaryButtonTitle != nil ? LGEmptyView.buttonHeight : 0)
         if let actionButtonHeight = actionSecondaryButtonHeight {
             actionSecondaryButton.addConstraint(actionButtonHeight)

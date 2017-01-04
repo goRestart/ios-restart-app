@@ -14,7 +14,7 @@ extension DistanceType {
 
         let distanceType: DistanceType
         // use whatever the locale says
-        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
+        if let usesMetric = NSLocale.currentLocale.objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
             distanceType = usesMetric ? .Km : .Mi
         }
             // fallback: km

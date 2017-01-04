@@ -39,53 +39,53 @@ final class AppsflyerTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        AppsFlyerTracker.sharedTracker().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey
-        AppsFlyerTracker.sharedTracker().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) {
+        AppsFlyerTracker.shared().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey
+        AppsFlyerTracker.shared().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject?) {
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
-        AppsFlyerTracker.sharedTracker().trackAppLaunch()
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        AppsFlyerTracker.shared().trackAppLaunch()
     }
 
-    func setInstallation(installation: Installation?) {
+    func setInstallation(_ installation: Installation?) {
         let installationId = installation?.objectId ?? ""
-        AppsFlyerTracker.sharedTracker().customerUserID = installationId
+        AppsFlyerTracker.shared().customerUserID = installationId
     }
 
-    func setUser(user: MyUser?) {
+    func setUser(_ user: MyUser?) {
         guard let user = user else { return }
 
-        let tracker = AppsFlyerTracker.sharedTracker()
+        let tracker = AppsFlyerTracker.shared()
         if let email = user.email {
-            tracker.setUserEmails([email], withCryptType: EmailCryptTypeSHA1)
+            tracker?.setUserEmails([email], with: EmailCryptTypeSHA1)
         }
-        tracker.trackEvent("af_user_status", withValues: ["ui_status": "login"])
+        tracker?.trackEvent("af_user_status", withValues: ["ui_status": "login"])
     }
     
-    func trackEvent(event: TrackerEvent) {
-        let tracker = AppsFlyerTracker.sharedTracker()
+    func trackEvent(_ event: TrackerEvent) {
+        let tracker = AppsFlyerTracker.shared()
         if event.shouldTrack {
-            tracker.trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
+            tracker?.trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
         }
         if event.shouldTrackRegisteredUIAchievement {
-            tracker.trackEvent(AFEventAchievementUnlocked, withValues: ["ui_achievement": "registered"])
+            tracker?.trackEvent(AFEventAchievementUnlocked, withValues: ["ui_achievement": "registered"])
         }
     }
 
-    func setLocation(location: LGLocation?) {}
-    func setNotificationsPermission(enabled: Bool) {}
-    func setGPSPermission(enabled: Bool) {}
-    func setMarketingNotifications(enabled: Bool) {}
+    func setLocation(_ location: LGLocation?) {}
+    func setNotificationsPermission(_ enabled: Bool) {}
+    func setGPSPermission(_ enabled: Bool) {}
+    func setMarketingNotifications(_ enabled: Bool) {}
 }

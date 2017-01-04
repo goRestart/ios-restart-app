@@ -10,8 +10,8 @@ import Foundation
 import LGCoreKit
 
 enum TourNotificationNextStep {
-    case Location
-    case NoStep
+    case location
+    case noStep
 }
 
 final class TourNotificationsViewModel: BaseViewModel {
@@ -45,10 +45,10 @@ final class TourNotificationsViewModel: BaseViewModel {
             return nil
         }
         switch source {
-        case .Onboarding:
+        case .onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .NoStep
-        case .Chat, .Sell, .Profile, .ProductListBanner:
-            return .NoStep
+        case .chat, .sell, .profile, .productListBanner:
+            return .noStep
         }
     }
 

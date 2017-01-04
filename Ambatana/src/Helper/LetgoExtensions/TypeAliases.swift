@@ -8,6 +8,6 @@
 
 import Result
 
-struct ResultResult<T, Error : ErrorType> {
+struct ResultResult<T, Error : Error> {
     typealias t = Result<T, Error>
 }

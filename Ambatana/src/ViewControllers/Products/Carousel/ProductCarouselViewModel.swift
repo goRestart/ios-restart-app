@@ -17,7 +17,7 @@ protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
 }
 
 enum CarouselMovement {
-    case Tap, SwipeLeft, SwipeRight, Initial
+    case tap, swipeLeft, swipeRight, initial
 }
 
 class ProductCarouselViewModel: BaseViewModel {
@@ -92,7 +92,7 @@ class ProductCarouselViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
-        let locale = NSLocale.currentLocale()
+        let locale = Locale.current
         let socialSharer = SocialSharer()
         let featureFlags = FeatureFlags.sharedInstance
 
@@ -111,7 +111,7 @@ class ProductCarouselViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
-        let locale = NSLocale.currentLocale()
+        let locale = NSLocale.current
         let socialSharer = SocialSharer()
         let featureFlags = FeatureFlags.sharedInstance
 
@@ -130,7 +130,7 @@ class ProductCarouselViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
-        let locale = NSLocale.currentLocale()
+        let locale = NSLocale.current
         let socialSharer = SocialSharer()
         let featureFlags = FeatureFlags.sharedInstance
 
@@ -145,7 +145,7 @@ class ProductCarouselViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
          productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
-         source: EventParameterProductVisitSource, locale: NSLocale, locationManager: LocationManager,
+         source: EventParameterProductVisitSource, locale: Locale, locationManager: LocationManager,
          socialSharer: SocialSharer, featureFlags: FeatureFlaggeable,
          showKeyboardOnFirstAppearIfNeeded: Bool) {
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
@@ -186,7 +186,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
     
     
-    func indexForProduct(product: Product?) -> Int? {
+    func indexForProduct(_ product: Product?) -> Int? {
         guard let product = product else { return nil }
         for i in 0..<objects.value.count {
             switch objects.value[i] {
@@ -206,7 +206,7 @@ class ProductCarouselViewModel: BaseViewModel {
         navigator?.closeProductDetail()
     }
 
-    func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
+    func moveToProductAtIndex(_ index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
         guard let viewModel = viewModelAtIndex(index) else { return }
         currentProductViewModel?.active = false
         currentProductViewModel = viewModel
@@ -225,7 +225,7 @@ class ProductCarouselViewModel: BaseViewModel {
         prefetchNeighborsImages(index, movement: movement)
     }
 
-    func productAtIndex(index: Int) -> Product? {
+    func productAtIndex(_ index: Int) -> Product? {
         guard 0..<objectCount ~= index else { return nil }
         let item = objects.value[index]
         switch item {
@@ -234,18 +234,18 @@ class ProductCarouselViewModel: BaseViewModel {
         }
     }
     
-    func thumbnailAtIndex(index: Int) -> UIImage? {
+    func thumbnailAtIndex(_ index: Int) -> UIImage? {
         if index == startIndex { return initialThumbnail }
         guard 0..<objectCount ~= index else { return nil }
         return viewModelAtIndex(index)?.thumbnailImage
     }
     
-    func viewModelAtIndex(index: Int) -> ProductViewModel? {
+    func viewModelAtIndex(_ index: Int) -> ProductViewModel? {
         guard let product = productAtIndex(index) else { return nil }
         return getOrCreateViewModel(product)
     }
 
-    func viewModelForProduct(product: Product) -> ProductViewModel {
+    func viewModelForProduct(_ product: Product) -> ProductViewModel {
         return ProductViewModel(product: product, thumbnailImage: nil, navigator: navigator)
     }
 
@@ -269,20 +269,20 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func openFullScreenShare() {
         guard let product = currentProductViewModel?.product.value,
-            socialMessage = currentProductViewModel?.socialMessage.value else { return }
+            let socialMessage = currentProductViewModel?.socialMessage.value else { return }
 
         currentProductViewModel?.trackShareStarted(nil, buttonPosition: .Top)
         navigator?.openFullScreenShare(product, socialMessage: socialMessage)
     }
 
-    func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+    func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController)
     }
 
 
     // MARK: - Private Methods
     
-    private func getOrCreateViewModel(product: Product) -> ProductViewModel? {
+    private func getOrCreateViewModel(_ product: Product) -> ProductViewModel? {
         guard let productId = product.objectId else { return nil }
         if let vm = productsViewModels[productId] {
             return vm
@@ -294,7 +294,7 @@ class ProductCarouselViewModel: BaseViewModel {
 }
 
 extension ProductCarouselViewModel: Paginable {
-    func retrievePage(page: Int) {
+    func retrievePage(_ page: Int) {
         let isFirstPage = (page == firstPage)
         isLoading = true
         
@@ -324,17 +324,17 @@ extension ProductCarouselViewModel: Paginable {
 // MARK: > Image PreCaching
 
 extension ProductCarouselViewModel {
-    func prefetchNeighborsImages(index: Int, movement: CarouselMovement) {
-        let range: Range<Int>
+    func prefetchNeighborsImages(_ index: Int, movement: CarouselMovement) {
+        let range: CountableRange<Int>
         switch movement {
-        case .Initial:
+        case .initial:
             range = (index-previousImagesToPrefetch)...(index+nextImagesToPrefetch)
-        case .Tap, .SwipeRight:
+        case .tap, .swipeRight:
             range = (index+1)...(index+nextImagesToPrefetch)
-        case .SwipeLeft:
+        case .swipeLeft:
             range = (index-previousImagesToPrefetch)...(index-1)
         }
-        var imagesToPrefetch: [NSURL] = []
+        var imagesToPrefetch: [URL] = []
         for index in range {
             guard !prefetchingIndexes.contains(index) else { continue }
             prefetchingIndexes.append(index)
@@ -350,16 +350,16 @@ extension ProductCarouselViewModel {
 // MARK: - SocialSharerDelegate
 
 extension ProductCarouselViewModel: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
+    func shareStartedIn(_ shareType: ShareType) {
     }
 
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         if let message = messageForShareIn(shareType, finishedWithState: state) {
             delegate?.vmShowAutoFadingMessage(message) { [weak self] in
                 switch state {
-                case .Completed:
+                case .completed:
                     self?.delegate?.vmHideExpandableShareButtons()
-                case .Cancelled, .Failed:
+                case .cancelled, .failed:
                     break
                 }
             }
@@ -367,21 +367,21 @@ extension ProductCarouselViewModel: SocialSharerDelegate {
         currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .Top, state: state)
     }
 
-    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
+    private func messageForShareIn(_ shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
         switch (shareType, state) {
-        case (.Email, .Failed):
+        case (.email, .failed):
             return LGLocalizedString.productShareEmailError
-        case (.Facebook, .Failed):
+        case (.facebook, .failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.FBMessenger, .Failed):
+        case (.fbMessenger, .failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.SMS, .Completed):
+        case (.sms, .completed):
             return LGLocalizedString.productShareSmsOk
-        case (.SMS, .Failed):
+        case (.sms, .failed):
             return LGLocalizedString.productShareSmsError
-        case (.CopyLink, .Completed):
+        case (.copyLink, .completed):
             return LGLocalizedString.productShareCopylinkOk
-        case (_, .Completed):
+        case (_, .completed):
             return LGLocalizedString.productShareGenericOk
         default:
             break
@@ -396,13 +396,13 @@ extension ProductCarouselViewModel: SocialSharerDelegate {
 extension CarouselMovement {
     var visitUserAction: ProductVisitUserAction {
         switch self {
-        case .Tap:
+        case .tap:
             return .Tap
-        case .SwipeLeft:
+        case .swipeLeft:
             return .SwipeLeft
-        case .SwipeRight:
+        case .swipeRight:
             return .SwipeRight
-        case .Initial:
+        case .initial:
             return .None
         }
     }

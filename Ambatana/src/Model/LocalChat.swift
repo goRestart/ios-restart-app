@@ -15,7 +15,7 @@ struct LocalChat: Chat {
     var userTo: User
     var msgUnreadCount = 0
     var messages: [Message] = []
-    var updatedAt: NSDate? = nil
+    var updatedAt: Date? = nil
     var forbidden = false
     var archivedStatus = ChatArchivedStatus.Active
 

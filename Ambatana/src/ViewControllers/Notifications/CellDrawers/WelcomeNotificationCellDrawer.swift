@@ -9,16 +9,16 @@
 
 class WelcomeNotificationCellDrawer: BaseNotificationCellDrawer<WelcomeNotificationCell> {
 
-    override func draw(cell: WelcomeNotificationCell, data: NotificationData) {
+    override func draw(_ cell: WelcomeNotificationCell, data: NotificationData) {
         switch data.type {
-        case let .Welcome(city):
+        case let .welcome(city):
             cell.titleLabel.text = LGLocalizedString.notificationsTypeWelcomeTitle
-            if let city = city where !city.isEmpty {
+            if let city = city, !city.isEmpty {
                 cell.subtitleLabel.text = LGLocalizedString.notificationsTypeWelcomeSubtitleWCity(city)
             } else {
                 cell.subtitleLabel.text = LGLocalizedString.notificationsTypeWelcomeSubtitle
             }
-            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeWelcomeButton, forState: .Normal)
+            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeWelcomeButton, for: UIControlState())
         default:
             return
         }

@@ -26,10 +26,10 @@ import Foundation
 
 public extension UserDefaults {
     class Proxy {
-        fileprivate let defaults: UserDefaults
-        fileprivate let key: String
+        private let defaults: UserDefaults
+        private let key: String
         
-        fileprivate init(_ defaults: UserDefaults, _ key: String) {
+        private init(_ defaults: UserDefaults, _ key: String) {
             self.defaults = defaults
             self.key = key
         }
@@ -191,7 +191,7 @@ public let Defaults = UserDefaults.standard
 /// so you can use the shortcut dot notation (e.g. `Defaults[.yourKey]`)
 
 public class DefaultsKeys {
-    fileprivate init() {}
+    private init() {}
 }
 
 /// Base class for static user defaults keys. Specialize with value type

@@ -61,8 +61,8 @@ class Using<SourceType, ResourceType: Disposable>: Producer<SourceType> {
     typealias ResourceFactory = () throws -> ResourceType
     typealias ObservableFactory = (ResourceType) throws -> Observable<SourceType>
     
-    fileprivate let _resourceFactory: ResourceFactory
-    fileprivate let _observableFactory: ObservableFactory
+    private let _resourceFactory: ResourceFactory
+    private let _observableFactory: ObservableFactory
     
     
     init(resourceFactory: @escaping ResourceFactory, observableFactory: @escaping ObservableFactory) {

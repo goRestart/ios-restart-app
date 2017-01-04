@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-public class ChatSafetyTipsView: UIView {
+class ChatSafetyTipsView: UIView {
 
     // iVars
     // > UI
@@ -17,13 +17,13 @@ public class ChatSafetyTipsView: UIView {
     @IBOutlet weak var okButton: UIButton!
     
     // > Data
-    public var dismissBlock: (Void -> Void)?
+    open var dismissBlock: ((Void) -> Void)?
 
 
     // MARK: - Lifecycle
     
-    public static func chatSafetyTipsView() -> ChatSafetyTipsView? {
-        let view = NSBundle.mainBundle().loadNibNamed("ChatSafetyTipsView", owner: self, options: nil)!.first as? ChatSafetyTipsView
+    open static func chatSafetyTipsView() -> ChatSafetyTipsView? {
+        let view = Bundle.main.loadNibNamed("ChatSafetyTipsView", owner: self, options: nil)!.first as? ChatSafetyTipsView
         if let actualView = view {
             actualView.setupUI()
         }
@@ -36,13 +36,13 @@ public class ChatSafetyTipsView: UIView {
     func show() {
         guard let _ = superview else { return }
         alpha = 0
-        UIView.animateWithDuration(0.4, animations: { [weak self] in
+        UIView.animate(withDuration: 0.4, animations: { [weak self] in
             self?.alpha = 1
         })
     }
 
-    func hide(remove remove: Bool) {
-        UIView.animateWithDuration(0.4,
+    func hide(remove: Bool) {
+        UIView.animate(withDuration: 0.4,
             animations: { [weak self] in
                 self?.alpha = 0
             },
@@ -54,11 +54,11 @@ public class ChatSafetyTipsView: UIView {
             })
     }
 
-    @IBAction func overlayButtonPressed(sender: AnyObject) {
+    @IBAction func overlayButtonPressed(_ sender: AnyObject) {
         hide(remove: true)
     }
     
-    @IBAction func okButtonPressed(sender: AnyObject) {
+    @IBAction func okButtonPressed(_ sender: AnyObject) {
         hide(remove: true)
     }
 
@@ -68,11 +68,11 @@ public class ChatSafetyTipsView: UIView {
     private func setupUI() {
         alpha = 0
         tipsView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        okButton.setStyle(.Primary(fontSize: .Medium))
+        okButton.setStyle(.primary(fontSize: .medium))
 
         titleLabel.text = LGLocalizedString.chatSafetyTipsTitle
         messageLabel.text = LGLocalizedString.chatSafetyTipsMessage
-        okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
+        okButton.setTitle(LGLocalizedString.commonOk, for: UIControlState())
 
         okButton.accessibilityId = .SafetyTipsOkButton
     }

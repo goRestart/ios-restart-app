@@ -18,7 +18,7 @@ extension User {
     var emailAccount: Account? {
         return accountWithProvider(.Email)
     }
-    private func accountWithProvider(provider: AccountProvider) -> Account? {
+    private func accountWithProvider(_ provider: AccountProvider) -> Account? {
         return accounts?.filter { $0.provider == provider }.first
     }
     var isVerified: Bool {

@@ -17,11 +17,11 @@ protocol UserViewHeaderDelegate: class {
 }
 
 enum UserViewHeaderMode {
-    case MyUser, OtherUser
+    case myUser, otherUser
 }
 
 enum UserViewHeaderTab: Int {
-    case Selling, Sold, Favorites
+    case selling, sold, favorites
 }
 
 class UserViewHeader: UIView {
@@ -31,7 +31,7 @@ class UserViewHeader: UIView {
     private static let simpleContainerHeight: CGFloat = 28
     private static let simpleContainerEmptyHeight: CGFloat = 20
     private static var halfWidthScreen: CGFloat {
-        return UIScreen.mainScreen().bounds.width / 2
+        return UIScreen.main.bounds.width / 2
     }
 
     private static let ratingCountContainerLeadingVisible: CGFloat = 15
@@ -86,7 +86,7 @@ class UserViewHeader: UIView {
 
     let tab = Variable<UserViewHeaderTab>(.Selling)
 
-    var mode: UserViewHeaderMode = .MyUser {
+    var mode: UserViewHeaderMode = .myUser {
         didSet {
             modeUpdated()
         }
@@ -104,7 +104,7 @@ class UserViewHeader: UIView {
         }
     }
 
-    var selectedColor: UIColor = UIColor.redColor() {
+    var selectedColor: UIColor = UIColor.red {
         didSet {
             indicatorView.backgroundColor = selectedColor
             setupButtonsSelectedState()
@@ -115,7 +115,7 @@ class UserViewHeader: UIView {
         didSet {
             guard oldValue != collapsed else { return }
             let alpha: CGFloat = collapsed ? 0 : 1
-            UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState],
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn, .beginFromCurrentState],
                                        animations: { [weak self] in
                                         self?.itemsAlpha = alpha
                 }, completion: { [weak self] _ in self?.itemsAlpha = alpha })
@@ -129,8 +129,8 @@ class UserViewHeader: UIView {
             userRelationView.alpha = itemsAlpha
             verifiedSimpleContainer.alpha = itemsAlpha
 
-            avatarButton.enabled = itemsAlpha != 0
-            ratingsButton.enabled = itemsAlpha != 0
+            avatarButton.isEnabled = itemsAlpha != 0
+            ratingsButton.isEnabled = itemsAlpha != 0
         }
     }
 
@@ -140,7 +140,7 @@ class UserViewHeader: UIView {
     // MARK: - Lifecycle
 
     static func userViewHeader() -> UserViewHeader? {
-        guard let view = NSBundle.mainBundle().loadNibNamed("UserViewHeader", owner: self,
+        guard let view = Bundle.main.loadNibNamed("UserViewHeader", owner: self,
             options: nil)?.first as? UserViewHeader else { return nil }
         view.setupUI()
         view.setupRxBindings()
@@ -165,7 +165,7 @@ class UserViewHeader: UIView {
 
 extension UserViewHeader {
 
-    func setAvatar(url: NSURL?, placeholderImage: UIImage?) {
+    func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
         if let url = url {
             avatarImageView.lg_setImageWithURL(url, placeholderImage: placeholderImage)
         } else {
@@ -173,16 +173,16 @@ extension UserViewHeader {
         }
     }
 
-    func setRatingCount(ratingCount: Int?) {
+    func setRatingCount(_ ratingCount: Int?) {
         let hidden = (ratingCount ?? 0) <= 0
         ratingCountLabel.text = hidden ? nil : String(ratingCount ?? 0)
         ratingsLabel.text = hidden ? nil : LGLocalizedString.profileReviewsCount
-        avatarRatingsEffectView.hidden = hidden
+        avatarRatingsEffectView.isHidden = hidden
         ratingCountContainerLeading.constant = hidden ? 0 : UserViewHeader.ratingCountContainerLeadingVisible
         ratingCountContainerTrailing.constant = hidden ? 0 : UserViewHeader.ratingCountContainerTrailingVisible
     }
 
-    func setUserRelationText(userRelationText: String?) {
+    func setUserRelationText(_ userRelationText: String?) {
         userRelationLabel.text = userRelationText
         updateInfoAndAccountsVisibility()
     }
@@ -192,7 +192,7 @@ extension UserViewHeader {
     }
 
     private func modeUpdated() {
-        verifiedSimpleContainer.hidden = false
+        verifiedSimpleContainer.isHidden = false
         if mode.showSelling {
             let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
             let halfWidth = 0.5 * frame.width
@@ -226,39 +226,39 @@ extension UserViewHeader {
             infoViewHidden = true
             verifiedViewHidden = true
         }
-        userRelationView.hidden = infoViewHidden
-        verifiedSimpleContainer.hidden = verifiedViewHidden
+        userRelationView.isHidden = infoViewHidden
+        verifiedSimpleContainer.isHidden = verifiedViewHidden
         let anyAccountVerified = fbV || gV || eV
         verifiedSimpleTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
         verifiedSimpleContainerHeight.constant = anyAccountVerified ? UserViewHeader.simpleContainerHeight : UserViewHeader.simpleContainerEmptyHeight
     
 
         if buildTrustButtonVisible {
-            buildTrustSeparator.hidden = !anyAccountVerified
+            buildTrustSeparator.isHidden = !anyAccountVerified
             buildTrustContainerButtonWidth.constant = anyAccountVerified ? 0 : UserViewHeader.halfWidthScreen
             verifiedSimpleContainerWidth.constant = anyAccountVerified ? 0 : -UserViewHeader.halfWidthScreen
             updateBuildTrustButton(big: !anyAccountVerified)
         } else {
-            buildTrustSeparator.hidden = true
+            buildTrustSeparator.isHidden = true
             buildTrustContainerButtonWidth.constant = -UserViewHeader.halfWidthScreen
             verifiedSimpleContainerWidth.constant = UserViewHeader.halfWidthScreen
             buildTrustButtonHeight.constant = 0
         }
     }
 
-    private func setFacebookAccount(isLinked: Bool, isVerified: Bool) {
+    private func setFacebookAccount(_ isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
         simpleFacebookButtonWidth.constant = on ? UserViewHeader.simpleButtonWidth : 0
         
     }
 
-    private func setGoogleAccount(isLinked: Bool, isVerified: Bool) {
+    private func setGoogleAccount(_ isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
         simpleGoogleButtonWidth.constant = on ? UserViewHeader.simpleButtonWidth : 0
        
     }
 
-    private func setEmailAccount(isLinked: Bool, isVerified: Bool) {
+    private func setEmailAccount(_ isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
         simpleEmailButtonWidth.constant = on ? UserViewHeader.simpleButtonWidth : 0
     }
@@ -282,13 +282,13 @@ extension UserViewHeader {
     }
 
     private func setupInfoView() {
-        userRelationView.hidden = true
+        userRelationView.isHidden = true
         userRelationLabel.font = UIFont.smallBodyFont
         userRelationLabel.textColor = UIColor.primaryColor
     }
 
     private func setupAvatarRatingsContainerView() {
-        let gradient = CAGradientLayer.gradientWithColor(UIColor.whiteColor(), alphas:[0.0,1.0],
+        let gradient = CAGradientLayer.gradientWithColor(UIColor.white, alphas:[0.0,1.0],
                                                          locations: [0.0,1.0])
         gradient.frame = avatarRatingsEffectView.bounds
         avatarRatingsEffectView.layer.addSublayer(gradient)
@@ -301,12 +301,12 @@ extension UserViewHeader {
 
     private func setupVerifiedViews() {
 
-        verifiedSimpleContainer.hidden = true
+        verifiedSimpleContainer.isHidden = true
         verifiedSimpleTitle.text = nil
         verifiedSimpleTitle.textColor = UIColor.grayDark
         verifiedSimpleTitle.font = UIFont.mediumBodyFontLight
 
-        buildTrustButton.setTitle(LGLocalizedString.profileBuildTrustButton, forState: .Normal)
+        buildTrustButton.setTitle(LGLocalizedString.profileBuildTrustButton, for: UIControlState())
     }
 
     private func setupButtons() {
@@ -316,16 +316,16 @@ extension UserViewHeader {
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
             attributes: attributes)
-        sellingButton.setAttributedTitle(sellingTitle, forState: .Normal)
+        sellingButton.setAttributedTitle(sellingTitle, for: UIControlState())
 
 
         let soldTitle = NSAttributedString(string: LGLocalizedString.profileSoldProductsTab.uppercase,
             attributes: attributes)
-        soldButton.setAttributedTitle(soldTitle, forState: .Normal)
+        soldButton.setAttributedTitle(soldTitle, for: UIControlState())
 
         let favsTitle = NSAttributedString(string: LGLocalizedString.profileFavouritesProductsTab.uppercase,
             attributes: attributes)
-        favoritesButton.setAttributedTitle(favsTitle, forState: .Normal)
+        favoritesButton.setAttributedTitle(favsTitle, for: UIControlState())
 
         setupButtonsSelectedState()
     }
@@ -338,17 +338,17 @@ extension UserViewHeader {
     private func updateUserAvatarView() {
         layoutIfNeeded()
         let width = min(avatarImageView.bounds.width, avatarImageView.bounds.height)
-        let path = UIBezierPath(arcCenter: CGPointMake(avatarImageView.bounds.midX, avatarImageView.bounds.midY),
+        let path = UIBezierPath(arcCenter: CGPoint(x: avatarImageView.bounds.midX, y: avatarImageView.bounds.midY),
                                 radius: width / 2, startAngle: CGFloat(0.0), endAngle: CGFloat(M_PI * 2.0),
                                 clockwise: true)
         let mask = CAShapeLayer()
-        mask.path = path.CGPath
+        mask.path = path.cgPath
         avatarImageView.layer.mask = mask
 
         let borderLayer = CAShapeLayer()
-        borderLayer.path = path.CGPath
-        borderLayer.lineWidth = 2 * UIScreen.mainScreen().scale
-        borderLayer.strokeColor = UIColor.whiteColor().CGColor
+        borderLayer.path = path.cgPath
+        borderLayer.lineWidth = 2 * UIScreen.main.scale
+        borderLayer.strokeColor = UIColor.white.cgColor
         borderLayer.fillColor = nil
 
         avatarBorderLayer?.removeFromSuperlayer()
@@ -363,41 +363,41 @@ extension UserViewHeader {
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
             attributes: attributes)
-        sellingButton.setAttributedTitle(sellingTitle, forState: .Selected)
+        sellingButton.setAttributedTitle(sellingTitle, for: .selected)
 
 
         let soldTitle = NSAttributedString(string: LGLocalizedString.profileSoldProductsTab.uppercase,
             attributes: attributes)
-        soldButton.setAttributedTitle(soldTitle, forState: .Selected)
+        soldButton.setAttributedTitle(soldTitle, for: .selected)
 
         let favsTitle = NSAttributedString(string: LGLocalizedString.profileFavouritesProductsTab.uppercase,
             attributes: attributes)
-        favoritesButton.setAttributedTitle(favsTitle, forState: .Selected)
+        favoritesButton.setAttributedTitle(favsTitle, for: .selected)
     }
 
-    private func setIndicatorAtTab(tab: UserViewHeaderTab, animated: Bool) {
+    private func setIndicatorAtTab(_ tab: UserViewHeaderTab, animated: Bool) {
         layoutIfNeeded()
         let leading = CGFloat(tab.rawValue) * sellingButton.frame.width
         indicatorViewLeadingConstraint.constant = leading
         if animated {
-            UIView.animateWithDuration(0.15) { [weak self] in
+            UIView.animate(withDuration: 0.15, animations: { [weak self] in
                 self?.layoutIfNeeded()
-            }
+            }) 
         } else {
             layoutIfNeeded()
         }
     }
 
-    private func updateBuildTrustButton(big big: Bool) {
+    private func updateBuildTrustButton(big: Bool) {
         buildTrustButtonHeight.constant = big ? UserViewHeader.buildTrustButtonBigHeight : UserViewHeader.buildTrustButtonSmallHeight
-        buildTrustButton.setStyle(.Secondary(fontSize: big ? .Medium : .Small, withBorder: true))
+        buildTrustButton.setStyle(.secondary(fontSize: big ? .medium : .small, withBorder: true))
         let inset = big ? UserViewHeader.buildTrustButtonInsetBig : UserViewHeader.buildTrustButtonInsetSmall
         buildTrustButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: inset, bottom: 0,
                                                           right: inset+UserViewHeader.buildTrustButtonTitleInset)
         buildTrustButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: UserViewHeader.buildTrustButtonTitleInset,
                                                         bottom: 0, right: -UserViewHeader.buildTrustButtonTitleInset)
         buildTrustButton.layer.cornerRadius = buildTrustButtonHeight.constant / 2
-        buildTrustButton.setImage(UIImage(named: big ? "ic_build_trust" : "ic_build_trust_small"), forState: .Normal)
+        buildTrustButton.setImage(UIImage(named: big ? "ic_build_trust" : "ic_build_trust_small"), for: UIControlState())
     }
 }
 
@@ -453,18 +453,18 @@ private extension UserViewHeaderMode {
     
     var showSelling: Bool {
         switch self {
-        case .MyUser:
+        case .myUser:
             return false
-        case .OtherUser:
+        case .otherUser:
             return true
         }
     }
 
     var buildTrustMode: Bool {
         switch self {
-        case .MyUser:
+        case .myUser:
             return true
-        case .OtherUser:
+        case .otherUser:
             return false
         }
     }

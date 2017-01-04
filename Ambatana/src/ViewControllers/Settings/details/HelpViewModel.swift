@@ -11,14 +11,14 @@ import LGCoreKit
 import DeviceUtil
 
 enum HelpURLType {
-    case Terms
-    case Privacy
+    case terms
+    case privacy
 }
 
 protocol HelpViewModelDelegate: BaseViewModelDelegate {
 }
 
-public class HelpViewModel: BaseViewModel {
+class HelpViewModel: BaseViewModel {
    
     let myUserRepository: MyUserRepository
     let installationRepository: InstallationRepository
@@ -43,16 +43,16 @@ public class HelpViewModel: BaseViewModel {
         return true
     }
     
-    public var url: NSURL? {
+    open var url: URL? {
         return LetgoURLHelper.buildHelpURL(myUserRepository.myUser, installation: installationRepository.installation)
     }
 
-    var termsAndConditionsURL: NSURL? {
-        return LetgoURLHelper.buildTermsAndConditionsURL()
+    var termsAndConditionsURL: URL? {
+        return LetgoURLHelper.buildTermsAndConditionsURL() as URL?
     }
     
-    var privacyURL: NSURL? {
-        return LetgoURLHelper.buildPrivacyURL()
+    var privacyURL: URL? {
+        return LetgoURLHelper.buildPrivacyURL() as URL?
     }
     
     func termsButtonPressed() {

@@ -12,7 +12,7 @@ import RxCocoa
 
 
 protocol RelatedProductsViewDelegate: class {
-    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+    func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
 }
@@ -65,7 +65,7 @@ class RelatedProductsView: UIView {
     // MARK: - Private
 
     private func setup() {
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView)
@@ -77,9 +77,9 @@ class RelatedProductsView: UIView {
 
     private func setupConstraints() {
         let views = ["collectionView": collectionView]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[collectionView]|", options: [], metrics: nil,
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[collectionView]|", options: [], metrics: nil,
             views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[collectionView]|", options: [], metrics: nil,
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[collectionView]|", options: [], metrics: nil,
             views: views))
     }
 
@@ -101,9 +101,9 @@ class RelatedProductsView: UIView {
 extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSource {
 
     private func setupCollection() {
-        drawerManager.cellStyle = .Small
+        drawerManager.cellStyle = .small
         drawerManager.registerCell(inCollectionView: collectionView)
-        collectionView.backgroundColor = UIColor.clearColor()
+        collectionView.backgroundColor = UIColor.clear
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.scrollsToTop = false
@@ -111,7 +111,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         collectionView.contentInset = UIEdgeInsets(top: 0, left: RelatedProductsView.elementsMargin, bottom: 0,
                                                    right: RelatedProductsView.elementsMargin)
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+            layout.scrollDirection = UICollectionViewScrollDirection.horizontal
             layout.itemSize = CGSize(width: productsDiameter, height: productsDiameter)
             layout.minimumInteritemSpacing = RelatedProductsView.itemsSpacing
         }
@@ -122,40 +122,40 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         collectionView.reloadData()
     }
 
-    private func itemAtIndex(index: Int) -> ProductCellModel? {
+    private func itemAtIndex(_ index: Int) -> ProductCellModel? {
         guard 0..<objects.count ~= index else { return nil }
         return objects[index]
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return objects.count
     }
 
-    func collectionView(collectionView: UICollectionView,
-                        cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
             let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
             drawerManager.draw(item, inCell: cell)
-            cell.tag = indexPath.hash
+            cell.tag = (indexPath as NSIndexPath).hash
             return cell
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = itemAtIndex(indexPath.row) else { return }
         switch item {
         case let .ProductCell(product):
-            let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ProductCell
+            let cell = collectionView.cellForItem(at: indexPath) as? ProductCell
             let thumbnailImage = cell?.thumbnailImageView.image
 
             var originFrame: CGRect? = nil
             if let cellFrame = cell?.frame {
-                originFrame = superview?.convertRect(cellFrame, fromView: collectionView)
+                originFrame = superview?.convert(cellFrame, from: collectionView)
             }
             guard let requester = requester else { return }
             delegate?.relatedProductsView(self, showProduct: product, atIndex: indexPath.row,
                                           productListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case .CollectionCell, .EmptyCell:
+        case .collectionCell, .emptyCell:
             // No banners or collections here
             break
         }
@@ -167,11 +167,11 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
 
 private extension RelatedProductsView {
 
-    func loadProducts(productId: String) {
+    func loadProducts(_ productId: String) {
         clear()
         requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
-            if let products = result.value where !products.isEmpty {
+            if let products = result.value, !products.isEmpty {
                 let productCellModels = products.map(ProductCellModel.init)
                 self?.objects = productCellModels
             } else {
