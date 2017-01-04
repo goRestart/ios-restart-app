@@ -42,7 +42,7 @@ class FeatureFlags: FeatureFlaggeable {
     
     private let locale: NSLocale
     private let locationManager: LocationManager
-    private let countryInfo: CountryConfigurable
+    private let carrierCountryInfo: CountryConfigurable
     
     init(locale: NSLocale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
         Bumper.initialize()
@@ -58,7 +58,7 @@ class FeatureFlags: FeatureFlaggeable {
 
         self.locale = locale
         self.locationManager = locationManager
-        self.countryInfo = countryInfo
+        self.carrierCountryInfo = countryInfo
     }
 
     
@@ -218,7 +218,7 @@ class FeatureFlags: FeatureFlaggeable {
     }
     
     var locationMatchesCountry: Bool {
-        guard let countryCodeString = countryInfo.countryCode, countryCode = CountryCode(rawValue: countryCodeString) else { return true }
+        guard let countryCodeString = carrierCountryInfo.countryCode, countryCode = CountryCode(rawValue: countryCodeString) else { return true }
         switch countryCode {
         case .Turkey:
             return locationManager.countryMatchesWith(countryCodeString)
