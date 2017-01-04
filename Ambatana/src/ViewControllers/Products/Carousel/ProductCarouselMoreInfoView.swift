@@ -9,7 +9,7 @@
 import MapKit
 import LGCoreKit
 import RxSwift
-import LGCollapsibleLabel
+//import LGCollapsibleLabel  //TODO: RE-ENABLE after swift 3 migration
 
 enum MoreInfoState {
     case hidden

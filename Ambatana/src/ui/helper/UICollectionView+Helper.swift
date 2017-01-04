@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CollectionVariable
+//import CollectionVariable  //TODO: RE-ENABLE after swift 3 migration
 
 extension UICollectionView {
     func deselectAll() {

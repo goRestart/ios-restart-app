@@ -8,7 +8,7 @@
 
 import RxSwift
 import LGCoreKit
-import CollectionVariable
+//import CollectionVariable  //TODO: RE-ENABLE after swift 3 migration
 import FBSDKShareKit
 
 

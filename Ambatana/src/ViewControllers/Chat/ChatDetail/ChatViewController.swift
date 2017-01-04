@@ -10,7 +10,7 @@
 import UIKit
 import LGCoreKit
 import RxSwift
-import CollectionVariable
+//import CollectionVariable  //TODO: RE-ENABLE after swift 3 migration
 
 class ChatViewController: TextViewController {
 

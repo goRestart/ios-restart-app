@@ -8,7 +8,7 @@
 
 import Foundation
 import FLEX
-import bumper
+//import bumper  //TODO: RE-ENABLE after swift 3 migration
 import LGCoreKit
 
 class AdminViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {

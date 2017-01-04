@@ -8,7 +8,7 @@
 
 import LGCoreKit
 import RxSwift
-import CollectionVariable
+//import CollectionVariable  //TODO: RE-ENABLE after swift 3 migration
 
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRefreshCurrent()

@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import LGCollapsibleLabel
+//import LGCollapsibleLabel //TODO: RE-ENABLE after swift 3 migration
 import RxCocoa
 import RxSwift
 

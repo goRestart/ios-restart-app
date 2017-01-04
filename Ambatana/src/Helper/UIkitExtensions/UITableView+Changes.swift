@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import CollectionVariable
+//import CollectionVariable  //TODO: RE-ENABLE after swift 3 migration
 
 extension UITableView {
     func handleCollectionChange<T>(_ change: CollectionChange<T>, animation: UITableViewRowAnimation = .none, completion: (() -> Void)? = nil) {
