@@ -265,7 +265,7 @@ class ChatViewController: TextViewController {
     
     func removeIgnoreTouchesForTooltip() {
         guard let tooltip = self.productView.userRatingTooltip else { return }
-        self.navigationController?.navigationBar.EndForceTouchesFor(tooltip)
+        self.navigationController?.navigationBar.endForceTouchesFor(tooltip)
     }
 
 

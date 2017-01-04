@@ -62,7 +62,7 @@ extension UINavigationBar {
         outOfBoundsViewsToForceTouches = views
     }
     
-    func EndForceTouchesFor(view: UIView) {
+    func endForceTouchesFor(view: UIView) {
         var views = outOfBoundsViewsToForceTouches
         if let indexToRemove = views.indexOf(view) {
             views.removeAtIndex(indexToRemove)
