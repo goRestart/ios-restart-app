@@ -11,7 +11,7 @@ import Foundation
 /// Represents an Action-based disposable.
 ///
 /// When dispose method is called, disposal action will be dereferenced.
-private final class AnonymousDisposable : DisposeBase, Cancelable {
+fileprivate final class AnonymousDisposable : DisposeBase, Cancelable {
     public typealias DisposeAction = () -> Void
 
     private var _isDisposed: AtomicInt = 0
@@ -25,13 +25,13 @@ private final class AnonymousDisposable : DisposeBase, Cancelable {
     /// Constructs a new disposable with the given action used for disposal.
     ///
     /// - parameter disposeAction: Disposal action which will be run upon calling `dispose`.
-    private init(_ disposeAction: @escaping DisposeAction) {
+    fileprivate init(_ disposeAction: @escaping DisposeAction) {
         _disposeAction = disposeAction
         super.init()
     }
     
     // Non-deprecated version of the constructor, used by `Disposables.create(with:)`
-    private init(disposeAction: @escaping DisposeAction) {
+    fileprivate init(disposeAction: @escaping DisposeAction) {
         _disposeAction = disposeAction
         super.init()
     }
@@ -39,7 +39,7 @@ private final class AnonymousDisposable : DisposeBase, Cancelable {
     /// Calls the disposal action if and only if the current instance hasn't been disposed yet.
     ///
     /// After invoking disposal action, disposal action will be dereferenced.
-    private func dispose() {
+    fileprivate func dispose() {
         if AtomicCompareAndSwap(0, 1, &_isDisposed) {
             assert(_isDisposed == 1)
 

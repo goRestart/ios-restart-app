@@ -35,7 +35,7 @@ import Cocoa
 /// to cancel active requests running on the `ImageDownloader` session. As a general rule, image download requests
 /// should be cancelled using the `RequestReceipt` instead of calling `cancel` directly on the `request` itself. The
 /// `ImageDownloader` is optimized to handle duplicate request scenarios as well as pending versus active downloads.
-class RequestReceipt {
+open class RequestReceipt {
     /// The download request created by the `ImageDownloader`.
     open let request: Request
 
@@ -56,7 +56,7 @@ class RequestReceipt {
 /// By default, any download request with a cached image equivalent in the image cache will automatically be served the
 /// cached image representation. Additional advanced features include supporting multiple image filters and completion
 /// handlers for a single request.
-class ImageDownloader {
+open class ImageDownloader {
     /// The completion handler closure used when an image download completes.
     public typealias CompletionHandler = (DataResponse<Image>) -> Void
 
@@ -132,7 +132,7 @@ class ImageDownloader {
     /// Creates a default `URLSessionConfiguration` with common usage parameter values.
     ///
     /// - returns: The default `URLSessionConfiguration` instance.
-    class func defaultURLSessionConfiguration() -> URLSessionConfiguration {
+    open class func defaultURLSessionConfiguration() -> URLSessionConfiguration {
         let configuration = URLSessionConfiguration.default
 
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
@@ -151,7 +151,7 @@ class ImageDownloader {
     /// Creates a default `URLCache` with common usage parameter values.
     ///
     /// - returns: The default `URLCache` instance.
-    class func defaultURLCache() -> URLCache {
+    open class func defaultURLCache() -> URLCache {
         return URLCache(
             memoryCapacity: 20 * 1024 * 1024, // 20 MB
             diskCapacity: 150 * 1024 * 1024,  // 150 MB

@@ -12,8 +12,8 @@ import Foundation
 public final class CompositeDisposable : DisposeBase, Disposable, Cancelable {
     /// Key used to remove disposable from composite disposable
     public struct DisposeKey {
-        private let key: BagKey
-        private init(key: BagKey) {
+        fileprivate let key: BagKey
+        fileprivate init(key: BagKey) {
             self.key = key
         }
     }

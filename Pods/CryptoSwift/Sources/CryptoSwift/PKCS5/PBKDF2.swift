@@ -28,10 +28,10 @@ public extension PKCS5 {
         }
 
         private let salt: Array<UInt8> // S
-        private let iterations: Int // c
+        fileprivate let iterations: Int // c
         private let numBlocks: Int // l
         private let dkLen: Int
-        private let prf: HMAC
+        fileprivate let prf: HMAC
 
         /// - parameters:
         ///   - salt: salt
@@ -75,7 +75,7 @@ public extension PKCS5 {
     }
 }
 
-private extension PKCS5.PBKDF2 {
+fileprivate extension PKCS5.PBKDF2 {
 
     func ARR(_ i: Int) -> Array<UInt8> {
         var inti = Array<UInt8>(repeating: 0, count: 4)

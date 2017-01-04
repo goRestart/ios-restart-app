@@ -78,8 +78,8 @@ class CatchSink<O: ObserverType> : Sink<O>, ObserverType {
 class Catch<Element> : Producer<Element> {
     typealias Handler = (Swift.Error) throws -> Observable<Element>
     
-    private let _source: Observable<Element>
-    private let _handler: Handler
+    fileprivate let _source: Observable<Element>
+    fileprivate let _handler: Handler
     
     init(source: Observable<Element>, handler: @escaping Handler) {
         _source = source

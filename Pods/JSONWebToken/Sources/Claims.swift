@@ -52,7 +52,7 @@ func validateDate(_ payload:Payload, key:String, comparison:ComparisonResult, fa
   }
 }
 
-private func extractDate(payload: Payload, key: String) -> Date? {
+fileprivate func extractDate(payload: Payload, key: String) -> Date? {
   if let timestamp = payload[key] as? TimeInterval {
     return Date(timeIntervalSince1970: timestamp)
   }

@@ -14,10 +14,10 @@ public class TestableObserver<ElementType>
     : ObserverType {
     public typealias Element = ElementType
     
-    private let _scheduler: TestScheduler
+    fileprivate let _scheduler: TestScheduler
 
     /// Recorded events.
-    public private(set) var events = [Recorded<Event<Element>>]()
+    public fileprivate(set) var events = [Recorded<Event<Element>>]()
     
     init(scheduler: TestScheduler) {
         _scheduler = scheduler

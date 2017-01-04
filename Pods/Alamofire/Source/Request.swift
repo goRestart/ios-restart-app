@@ -70,7 +70,7 @@ public typealias HTTPHeaders = [String: String]
 
 /// Responsible for sending a request and receiving the response and associated data from the server, as well as
 /// managing its underlying `URLSessionTask`.
-class Request {
+open class Request {
 
     // MARK: Helper Types
 
@@ -346,7 +346,7 @@ extension Request: CustomDebugStringConvertible {
 // MARK: -
 
 /// Specific type of `Request` that manages an underlying `URLSessionDataTask`.
-class DataRequest: Request {
+open class DataRequest: Request {
 
     // MARK: Helper Types
 
@@ -413,7 +413,7 @@ class DataRequest: Request {
 // MARK: -
 
 /// Specific type of `Request` that manages an underlying `URLSessionDownloadTask`.
-class DownloadRequest: Request {
+open class DownloadRequest: Request {
 
     // MARK: Helper Types
 
@@ -528,7 +528,7 @@ class DownloadRequest: Request {
     /// - parameter domain:    The search path domain mask. `.UserDomainMask` by default.
     ///
     /// - returns: A download file destination closure.
-    class func suggestedDownloadDestination(
+    open class func suggestedDownloadDestination(
         for directory: FileManager.SearchPathDirectory = .documentDirectory,
         in domain: FileManager.SearchPathDomainMask = .userDomainMask)
         -> DownloadFileDestination
@@ -548,7 +548,7 @@ class DownloadRequest: Request {
 // MARK: -
 
 /// Specific type of `Request` that manages an underlying `URLSessionUploadTask`.
-class UploadRequest: DataRequest {
+open class UploadRequest: DataRequest {
 
     // MARK: Helper Types
 
@@ -624,7 +624,7 @@ class UploadRequest: DataRequest {
 
 /// Specific type of `Request` that manages an underlying `URLSessionStreamTask`.
 @available(iOS 9.0, macOS 10.11, tvOS 9.0, *)
-class StreamRequest: Request {
+open class StreamRequest: Request {
     enum Streamable: TaskConvertible {
         case stream(hostName: String, port: Int)
         case netService(NetService)

@@ -87,7 +87,7 @@ public final class Poly1305: Authenticator {
     }
 
     /// the key is partitioned into two parts, called "r" and "s"
-    private func onetimeauth(message input: Array<UInt8>, key k: Array<UInt8>) -> Array<UInt8> {
+    fileprivate func onetimeauth(message input: Array<UInt8>, key k: Array<UInt8>) -> Array<UInt8> {
         // clamp
         var r = Array<UInt32>(repeating: 0, count: 17)
         var h = Array<UInt32>(repeating: 0, count: 17)

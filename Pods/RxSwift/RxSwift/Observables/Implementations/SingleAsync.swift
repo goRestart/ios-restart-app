@@ -60,8 +60,8 @@ class SingleAsyncSink<ElementType, O: ObserverType> : Sink<O>, ObserverType wher
 class SingleAsync<Element>: Producer<Element> {
     typealias Predicate = (Element) throws -> Bool
     
-    private let _source: Observable<Element>
-    private let _predicate: Predicate?
+    fileprivate let _source: Observable<Element>
+    fileprivate let _predicate: Predicate?
     
     init(source: Observable<Element>, predicate: Predicate? = nil) {
         _source = source

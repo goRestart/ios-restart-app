@@ -9,8 +9,8 @@
 import Foundation
 
 class RepeatElement<Element> : Producer<Element> {
-    private let _element: Element
-    private let _scheduler: ImmediateSchedulerType
+    fileprivate let _element: Element
+    fileprivate let _scheduler: ImmediateSchedulerType
     
     init(element: Element, scheduler: ImmediateSchedulerType) {
         _element = element

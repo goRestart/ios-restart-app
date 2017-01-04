@@ -33,8 +33,8 @@ class ObservableSequenceSink<S: Sequence, O: ObserverType> : Sink<O> where S.Ite
 }
 
 class ObservableSequence<S: Sequence> : Producer<S.Iterator.Element> {
-    private let _elements: S
-    private let _scheduler: ImmediateSchedulerType
+    fileprivate let _elements: S
+    fileprivate let _scheduler: ImmediateSchedulerType
 
     init(elements: S, scheduler: ImmediateSchedulerType) {
         _elements = elements

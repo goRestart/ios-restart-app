@@ -65,7 +65,7 @@ public final class Rabbit: BlockCipher {
     }
 
     // MARK: -
-    private func setup() {
+    fileprivate func setup() {
         p7 = 0
 
         // Key divided into 8 subkeys
@@ -155,7 +155,7 @@ public final class Rabbit: BlockCipher {
         return UInt32(truncatingBitPattern: square ^ (square >> 32))
     }
 
-    private func nextOutput() -> Array<UInt8> {
+    fileprivate func nextOutput() -> Array<UInt8> {
         nextState()
 
         var output16 = [UInt16](repeating: 0, count: Rabbit.blockSize / 2)

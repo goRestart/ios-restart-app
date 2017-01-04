@@ -14,7 +14,7 @@ class RetryTriggerSink<S: Sequence, O: ObserverType, TriggerObservable: Observab
     
     typealias Parent = RetryWhenSequenceSinkIter<S, O, TriggerObservable, Error>
     
-    private let _parent: Parent
+    fileprivate let _parent: Parent
 
     init(parent: Parent) {
         _parent = parent
@@ -41,8 +41,8 @@ class RetryWhenSequenceSinkIter<S: Sequence, O: ObserverType, TriggerObservable:
     typealias E = O.E
     typealias Parent = RetryWhenSequenceSink<S, O, TriggerObservable, Error>
 
-    private let _parent: Parent
-    private let _errorHandlerSubscription = SingleAssignmentDisposable()
+    fileprivate let _parent: Parent
+    fileprivate let _errorHandlerSubscription = SingleAssignmentDisposable()
 
     init(parent: Parent) {
         _parent = parent
@@ -86,12 +86,12 @@ class RetryWhenSequenceSink<S: Sequence, O: ObserverType, TriggerObservable: Obs
     
     let _lock = NSRecursiveLock()
     
-    private let _parent: Parent
+    fileprivate let _parent: Parent
     
-    private var _lastError: Swift.Error?
-    private let _errorSubject = PublishSubject<Error>()
-    private let _handler: Observable<TriggerObservable.E>
-    private let _notifier = PublishSubject<TriggerObservable.E>()
+    fileprivate var _lastError: Swift.Error?
+    fileprivate let _errorSubject = PublishSubject<Error>()
+    fileprivate let _handler: Observable<TriggerObservable.E>
+    fileprivate let _notifier = PublishSubject<TriggerObservable.E>()
 
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -134,8 +134,8 @@ class RetryWhenSequenceSink<S: Sequence, O: ObserverType, TriggerObservable: Obs
 class RetryWhenSequence<S: Sequence, TriggerObservable: ObservableType, Error> : Producer<S.Iterator.Element.E> where S.Iterator.Element : ObservableType {
     typealias Element = S.Iterator.Element.E
     
-    private let _sources: S
-    private let _notificationHandler: (Observable<Error>) -> TriggerObservable
+    fileprivate let _sources: S
+    fileprivate let _notificationHandler: (Observable<Error>) -> TriggerObservable
     
     init(sources: S, notificationHandler: @escaping (Observable<Error>) -> TriggerObservable) {
         _sources = sources

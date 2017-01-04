@@ -9,7 +9,7 @@
 import Foundation
 
 /// Base class for virtual time schedulers using a priority queue for scheduled items.
-class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
+open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
     : SchedulerType {
 
     public typealias VirtualTime = Converter.VirtualTimeUnit
@@ -19,7 +19,7 @@ class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
 
     private var _clock: VirtualTime
 
-    private var _schedulerQueue : PriorityQueue<VirtualSchedulerItem<VirtualTime>>
+    fileprivate var _schedulerQueue : PriorityQueue<VirtualSchedulerItem<VirtualTime>>
     private var _converter: Converter
 
     private var _nextId = 0

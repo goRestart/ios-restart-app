@@ -15,7 +15,7 @@ class SkipUntilSinkOther<ElementType, Other, O: ObserverType>
     typealias Parent = SkipUntilSink<ElementType, Other, O>
     typealias E = Other
     
-    private let _parent: Parent
+    fileprivate let _parent: Parent
 
     var _lock: NSRecursiveLock {
         return _parent._lock
@@ -65,10 +65,10 @@ class SkipUntilSink<ElementType, Other, O: ObserverType>
     typealias Parent = SkipUntil<E, Other>
     
     let _lock = NSRecursiveLock()
-    private let _parent: Parent
-    private var _forwardElements = false
+    fileprivate let _parent: Parent
+    fileprivate var _forwardElements = false
     
-    private let _sourceSubscription = SingleAssignmentDisposable()
+    fileprivate let _sourceSubscription = SingleAssignmentDisposable()
 
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -109,8 +109,8 @@ class SkipUntilSink<ElementType, Other, O: ObserverType>
 
 class SkipUntil<Element, Other>: Producer<Element> {
     
-    private let _source: Observable<Element>
-    private let _other: Observable<Other>
+    fileprivate let _source: Observable<Element>
+    fileprivate let _other: Observable<Other>
     
     init(source: Observable<Element>, other: Observable<Other>) {
         _source = source

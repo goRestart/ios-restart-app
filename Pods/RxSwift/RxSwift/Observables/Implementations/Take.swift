@@ -50,8 +50,8 @@ class TakeCountSink<ElementType, O: ObserverType> : Sink<O>, ObserverType where 
 }
 
 class TakeCount<Element>: Producer<Element> {
-    private let _source: Observable<Element>
-    private let _count: Int
+    fileprivate let _source: Observable<Element>
+    fileprivate let _count: Int
     
     init(source: Observable<Element>, count: Int) {
         if count < 0 {
@@ -78,7 +78,7 @@ class TakeTimeSink<ElementType, O: ObserverType>
     typealias Parent = TakeTime<ElementType>
     typealias E = ElementType
 
-    private let _parent: Parent
+    fileprivate let _parent: Parent
     
     let _lock = NSRecursiveLock()
     
@@ -126,9 +126,9 @@ class TakeTimeSink<ElementType, O: ObserverType>
 class TakeTime<Element> : Producer<Element> {
     typealias TimeInterval = RxTimeInterval
     
-    private let _source: Observable<Element>
-    private let _duration: TimeInterval
-    private let _scheduler: SchedulerType
+    fileprivate let _source: Observable<Element>
+    fileprivate let _duration: TimeInterval
+    fileprivate let _scheduler: SchedulerType
     
     init(source: Observable<Element>, duration: TimeInterval, scheduler: SchedulerType) {
         _source = source

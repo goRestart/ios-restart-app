@@ -68,7 +68,7 @@ public protocol ImageRequestCache: ImageCache {
 /// the memory capacity is reached, the image cache is sorted by last access date, then the oldest image is continuously
 /// purged until the preferred memory usage after purge is met. Each time an image is accessed through the cache, the
 /// internal access date of the image is updated.
-class AutoPurgingImageCache: ImageRequestCache {
+open class AutoPurgingImageCache: ImageRequestCache {
     class CachedImage {
         let image: Image
         let identifier: String

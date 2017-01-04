@@ -9,7 +9,7 @@
 import Foundation
 
 #if TRACE_RESOURCES
-    private var _numberOfSerialDispatchQueueObservables: AtomicInt = 0
+    fileprivate var _numberOfSerialDispatchQueueObservables: AtomicInt = 0
     extension Resources {
         /**
         Counts number of `SerialDispatchQueueObservables`.

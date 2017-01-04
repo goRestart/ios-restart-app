@@ -429,5 +429,5 @@ public struct PropertyListEncoding: ParameterEncoding {
 // MARK: -
 
 extension NSNumber {
-    private var isBool: Bool { return CFBooleanGetTypeID() == CFGetTypeID(self) }
+    fileprivate var isBool: Bool { return CFBooleanGetTypeID() == CFGetTypeID(self) }
 }

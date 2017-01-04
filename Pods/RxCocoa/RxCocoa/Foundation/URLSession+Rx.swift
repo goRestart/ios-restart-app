@@ -41,11 +41,11 @@ extension RxCocoaURLError
     }
 }
 
-private func escapeTerminalString(_ value: String) -> String {
+fileprivate func escapeTerminalString(_ value: String) -> String {
     return value.replacingOccurrences(of: "\"", with: "\\\"", options:[], range: nil)
 }
 
-private func convertURLRequestToCurlCommand(_ request: URLRequest) -> String {
+fileprivate func convertURLRequestToCurlCommand(_ request: URLRequest) -> String {
     let method = request.httpMethod ?? "GET"
     var returnValue = "curl -X \(method) "
 
@@ -71,7 +71,7 @@ private func convertURLRequestToCurlCommand(_ request: URLRequest) -> String {
     return returnValue
 }
 
-private func convertResponseToString(_ data: Data!, _ response: URLResponse!, _ error: NSError!, _ interval: TimeInterval) -> String {
+fileprivate func convertResponseToString(_ data: Data!, _ response: URLResponse!, _ error: NSError!, _ interval: TimeInterval) -> String {
     let ms = Int(interval * 1000)
 
     if let response = response as? HTTPURLResponse {

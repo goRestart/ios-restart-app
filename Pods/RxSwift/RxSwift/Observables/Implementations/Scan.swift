@@ -12,8 +12,8 @@ class ScanSink<ElementType, Accumulate, O: ObserverType> : Sink<O>, ObserverType
     typealias Parent = Scan<ElementType, Accumulate>
     typealias E = ElementType
     
-    private let _parent: Parent
-    private var _accumulate: Accumulate
+    fileprivate let _parent: Parent
+    fileprivate var _accumulate: Accumulate
     
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -46,9 +46,9 @@ class ScanSink<ElementType, Accumulate, O: ObserverType> : Sink<O>, ObserverType
 class Scan<Element, Accumulate>: Producer<Accumulate> {
     typealias Accumulator = (Accumulate, Element) throws -> Accumulate
     
-    private let _source: Observable<Element>
-    private let _seed: Accumulate
-    private let _accumulator: Accumulator
+    fileprivate let _source: Observable<Element>
+    fileprivate let _seed: Accumulate
+    fileprivate let _accumulator: Accumulator
     
     init(source: Observable<Element>, seed: Accumulate, accumulator: @escaping Accumulator) {
         _source = source

@@ -9,7 +9,7 @@
 import Foundation
 
 #if TRACE_RESOURCES
-    private var resourceCount: AtomicInt = 0
+    fileprivate var resourceCount: AtomicInt = 0
 
     /// Resource utilization information
     public struct Resources {

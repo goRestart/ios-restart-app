@@ -15,10 +15,10 @@ public final class SHA2: DigestType {
     let digestLength: Int
     private let k: Array<UInt64>
 
-    private var accumulated = Array<UInt8>()
-    private var processedBytesTotalCount: Int = 0
-    private var accumulatedHash32 = Array<UInt32>()
-    private var accumulatedHash64 = Array<UInt64>()
+    fileprivate var accumulated = Array<UInt8>()
+    fileprivate var processedBytesTotalCount: Int = 0
+    fileprivate var accumulatedHash32 = Array<UInt32>()
+    fileprivate var accumulatedHash64 = Array<UInt64>()
 
     public enum Variant: RawRepresentable {
         case sha224, sha256, sha384, sha512
@@ -69,7 +69,7 @@ public final class SHA2: DigestType {
             }
         }
 
-        private var h: Array<UInt64> {
+        fileprivate var h: Array<UInt64> {
             switch self {
             case .sha224:
                 return [0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939, 0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4]
@@ -82,7 +82,7 @@ public final class SHA2: DigestType {
             }
         }
 
-        private var finalLength: Int {
+        fileprivate var finalLength: Int {
             switch (self) {
             case .sha224:
                 return 7
@@ -142,7 +142,7 @@ public final class SHA2: DigestType {
         }
     }
 
-    private func process64(block chunk: ArraySlice<UInt8>, currentHash hh: inout Array<UInt64>) {
+    fileprivate func process64(block chunk: ArraySlice<UInt8>, currentHash hh: inout Array<UInt64>) {
         // break chunk into sixteen 64-bit words M[j], 0 ≤ j ≤ 15, big-endian
         // Extend the sixteen 64-bit words into eighty 64-bit words:
         var M = Array<UInt64>(repeating: 0, count: self.k.count)
@@ -199,7 +199,7 @@ public final class SHA2: DigestType {
     }
 
     // mutating currentHash in place is way faster than returning new result
-    private func process32(block chunk: ArraySlice<UInt8>, currentHash hh: inout Array<UInt32>) {
+    fileprivate func process32(block chunk: ArraySlice<UInt8>, currentHash hh: inout Array<UInt32>) {
         // break chunk into sixteen 32-bit words M[j], 0 ≤ j ≤ 15, big-endian
         // Extend the sixteen 32-bit words into sixty-four 32-bit words:
         var M = Array<UInt32>(repeating: 0, count: self.k.count)

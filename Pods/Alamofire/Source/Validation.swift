@@ -28,7 +28,7 @@ extension Request {
 
     // MARK: Helper Types
 
-    private typealias ErrorReason = AFError.ResponseValidationFailureReason
+    fileprivate typealias ErrorReason = AFError.ResponseValidationFailureReason
 
     /// Used to represent whether validation was successful or encountered an error resulting in a failure.
     ///
@@ -39,7 +39,7 @@ extension Request {
         case failure(Error)
     }
 
-    private struct MIMEType {
+    fileprivate struct MIMEType {
         let type: String
         let subtype: String
 
@@ -72,9 +72,9 @@ extension Request {
 
     // MARK: Properties
 
-    private var acceptableStatusCodes: [Int] { return Array(200..<300) }
+    fileprivate var acceptableStatusCodes: [Int] { return Array(200..<300) }
 
-    private var acceptableContentTypes: [String] {
+    fileprivate var acceptableContentTypes: [String] {
         if let accept = request?.value(forHTTPHeaderField: "Accept") {
             return accept.components(separatedBy: ",")
         }
@@ -84,7 +84,7 @@ extension Request {
 
     // MARK: Status Code
 
-    private func validate<S: Sequence>(
+    fileprivate func validate<S: Sequence>(
         statusCode acceptableStatusCodes: S,
         response: HTTPURLResponse)
         -> ValidationResult
@@ -100,7 +100,7 @@ extension Request {
 
     // MARK: Content Type
 
-    private func validate<S: Sequence>(
+    fileprivate func validate<S: Sequence>(
         contentType acceptableContentTypes: S,
         response: HTTPURLResponse,
         data: Data?)

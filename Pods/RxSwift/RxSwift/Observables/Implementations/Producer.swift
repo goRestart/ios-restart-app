@@ -38,18 +38,18 @@ class Producer<Element> : Observable<Element> {
     }
 }
 
-private class SinkDisposer: Cancelable {
+fileprivate class SinkDisposer: Cancelable {
     #if os(Linux)
-    private let _lock = SpinLock()
+    fileprivate let _lock = SpinLock()
     #endif
 
-    private enum DisposeState: UInt32 {
+    fileprivate enum DisposeState: UInt32 {
         case disposed = 1
         case sinkAndSubscriptionSet = 2
     }
 
     // Jeej, swift API consistency rules
-    private enum DisposeStateInt32: Int32 {
+    fileprivate enum DisposeStateInt32: Int32 {
         case disposed = 1
         case sinkAndSubscriptionSet = 2
     }

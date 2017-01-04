@@ -25,7 +25,7 @@
 import Foundation
 
 /// Responsible for handling all delegate callbacks for the underlying session.
-class SessionDelegate: NSObject {
+open class SessionDelegate: NSObject {
 
     // MARK: URLSessionDelegate Overrides
 

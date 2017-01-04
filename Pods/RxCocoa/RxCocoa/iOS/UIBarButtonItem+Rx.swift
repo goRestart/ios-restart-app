@@ -13,7 +13,7 @@ import UIKit
 import RxSwift
 #endif
 
-private var rx_tap_key: UInt8 = 0
+fileprivate var rx_tap_key: UInt8 = 0
 
 extension Reactive where Base: UIBarButtonItem {
     

@@ -122,10 +122,10 @@ class ThrottleSink<O: ObserverType>
 
 class Throttle<Element> : Producer<Element> {
     
-    private let _source: Observable<Element>
-    private let _dueTime: RxTimeInterval
-    private let _latest: Bool
-    private let _scheduler: SchedulerType
+    fileprivate let _source: Observable<Element>
+    fileprivate let _dueTime: RxTimeInterval
+    fileprivate let _latest: Bool
+    fileprivate let _scheduler: SchedulerType
 
     init(source: Observable<Element>, dueTime: RxTimeInterval, latest: Bool, scheduler: SchedulerType) {
         _source = source

@@ -88,7 +88,7 @@ public func encode(_ payload:Payload, algorithm:Algorithm) -> String {
   return "\(signingInput).\(signature)"
 }
 
-class PayloadBuilder {
+open class PayloadBuilder {
   var payload = Payload()
 
   open var issuer: String? {

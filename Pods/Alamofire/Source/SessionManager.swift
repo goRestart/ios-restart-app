@@ -25,7 +25,7 @@
 import Foundation
 
 /// Responsible for creating and managing `Request` objects, as well as their underlying `NSURLSession`.
-class SessionManager {
+open class SessionManager {
 
     // MARK: - Helper Types
 

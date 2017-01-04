@@ -36,18 +36,18 @@ public class RxTableViewDataSourceProxy
     , DelegateProxyType {
 
     /// Typed parent object.
-    public weak private(set) var tableView: UITableView?
+    public weak fileprivate(set) var tableView: UITableView?
 
     // issue https://github.com/ReactiveX/RxSwift/issues/907
     private var _numberOfObservers = 0
     private var _commitForRowAtSequenceSentMessage: CachedCommitForRowAt? = nil
     private var _commitForRowAtSequenceMethodInvoked: CachedCommitForRowAt? = nil
 
-    private class Counter {
+    fileprivate class Counter {
         var hasObservers: Bool = false
     }
     
-    private class CachedCommitForRowAt {
+    fileprivate class CachedCommitForRowAt {
         let sequence: Observable<[Any]>
         let counter: Counter
 
@@ -77,7 +77,7 @@ public class RxTableViewDataSourceProxy
         }
     }
 
-    private weak var _requiredMethodsDataSource: UITableViewDataSource? = tableViewDataSourceNotSet
+    fileprivate weak var _requiredMethodsDataSource: UITableViewDataSource? = tableViewDataSourceNotSet
 
     /// Initializes `RxTableViewDataSourceProxy`
     ///

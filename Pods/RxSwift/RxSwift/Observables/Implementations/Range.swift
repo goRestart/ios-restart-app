@@ -9,9 +9,9 @@
 import Foundation
 
 class RangeProducer<E: SignedInteger> : Producer<E> {
-    private let _start: E
-    private let _count: E
-    private let _scheduler: ImmediateSchedulerType
+    fileprivate let _start: E
+    fileprivate let _count: E
+    fileprivate let _scheduler: ImmediateSchedulerType
 
     init(start: E, count: E, scheduler: ImmediateSchedulerType) {
         if count < 0 {
