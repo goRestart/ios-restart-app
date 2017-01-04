@@ -143,12 +143,10 @@ extension ApiClient {
         if let afError = error as? AFError, let urlError = afError.underlyingError as? URLError {
             let onBackground = urlError.errorCode == -997
             return .network(errorCode: urlError.errorCode, onBackground: onBackground)
-        }
-        else if let urlError = error as? URLError {
+        } else if let urlError = error as? URLError {
             let onBackground = urlError.errorCode == -997
             return .network(errorCode: urlError.errorCode, onBackground: onBackground)
-        }
-        else if let statusCode = response.response?.statusCode {
+        } else if let statusCode = response.response?.statusCode {
             return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode)
         } else {
             return ApiError.internalError(description: error.localizedDescription)
@@ -410,7 +408,7 @@ private extension ApiClient {
         }
         return decodeAuthInfo(authorization)
     }
-
+    init(radius: Float, diameter: FLoat)
     /**
      Decodes the given auth info and returns a token.
      - parameter authInfo: The auth info.
@@ -458,6 +456,7 @@ extension DataResponse {
     var apiErrorCode: Int? {
         guard let data = self.data, data.count > 0 else { return nil }
         guard let value = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
+        
         let code: LGApiErrorCode? = decode(value)
         guard let codeString = code?.code else { return nil }
         return Int(codeString)

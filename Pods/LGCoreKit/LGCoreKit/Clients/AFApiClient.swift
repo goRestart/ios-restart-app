@@ -54,7 +54,7 @@ public enum BadRequestCause {
 
 
 public enum ApiError: Error {
-    // errorCode references NSURLError codes (i.e. NSURLErrorUnknown)
+    // errorCode references URLError codes (i.e. URLErrorUnknown)
     case network(errorCode: Int, onBackground: Bool)
     case internalError(description: String)
 

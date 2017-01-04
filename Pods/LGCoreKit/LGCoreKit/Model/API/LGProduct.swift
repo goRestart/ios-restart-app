@@ -103,7 +103,7 @@ struct LGProduct: Product {
 // Designated initializers
 extension LGProduct {
     init(product: Product) {
-        self.init(objectId: product.objectId, updatedAt: product.updatedAt as Date?, createdAt: product.createdAt as Date?,
+        self.init(objectId: product.objectId, updatedAt: product.updatedAt, createdAt: product.createdAt,
                   name: product.name, nameAuto: product.nameAuto, descr: product.descr, price: product.price,
                   currency: product.currency, location: product.location, postalAddress: product.postalAddress,
                   languageCode: product.languageCode, category: product.category, status: product.status,

@@ -34,7 +34,7 @@ enum WebSocketStatus: Equatable {
 
 func ==(a: WebSocketStatus, b: WebSocketStatus) -> Bool {
     switch (a, b) {
-    case (.open(let a),   .open(let b))   where a == b: return true
+    case (.open(let a), .open(let b)) where a == b: return true
     case (.closed, .closed): return true
     case (.opening, .opening): return true
     case (.closing, .closing): return true

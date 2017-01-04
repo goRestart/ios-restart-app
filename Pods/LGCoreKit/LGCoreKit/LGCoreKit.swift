@@ -19,11 +19,11 @@ public class LGCoreKit {
     public static var activateWebsocket = false
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
 
-    public static func initialize(_ launchOptions: [AnyHashable: Any]?) {
+    public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         initialize(launchOptions, environmentType: .Production)
     }
 
-    public static func initialize(_ launchOptions: [AnyHashable: Any]?, environmentType: EnvironmentType) {
+    public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?, environmentType: EnvironmentType) {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentType)
 
         // Managers setup
