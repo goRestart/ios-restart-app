@@ -177,6 +177,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         super.viewWillDisappear(animated)
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         forceCloseInterestedBubble()
+        removeIgnoreTouchesForMoreInfo()
     }
     
     override func viewWillAppearFromBackground(fromBackground: Bool) {
@@ -936,6 +937,11 @@ extension ProductCarouselViewController {
     func compressMap() {
         guard let moreInfoView = moreInfoView where moreInfoView.mapExpanded else { return }
         moreInfoView.compressMap()
+    }
+    
+    func removeIgnoreTouchesForMoreInfo() {
+        guard let button = moreInfoView?.dragView else { return }
+        self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
     }
 }
 

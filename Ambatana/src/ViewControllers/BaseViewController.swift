@@ -61,10 +61,26 @@ extension UINavigationBar {
         views.append(view)
         outOfBoundsViewsToForceTouches = views
     }
+    
+    func endForceTouchesFor(view: UIView) {
+        var views = outOfBoundsViewsToForceTouches
+        if let indexToRemove = views.indexOf(view) {
+            views.removeAtIndex(indexToRemove)
+        }
+        outOfBoundsViewsToForceTouches = views
+    }
 
     func ignoreTouchesFor(view: UIView) {
         var views = viewsToIgnoreTouchesFor
         views.append(view)
+        viewsToIgnoreTouchesFor = views
+    }
+    
+    func endIgnoreTouchesFor(view: UIView) {
+        var views = viewsToIgnoreTouchesFor
+        if let indexToRemove = views.indexOf(view) {
+            views.removeAtIndex(indexToRemove)
+        }
         viewsToIgnoreTouchesFor = views
     }
     
