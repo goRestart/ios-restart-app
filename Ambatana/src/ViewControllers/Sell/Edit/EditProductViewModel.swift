@@ -155,6 +155,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     // Delegate
     weak var delegate: EditProductViewModelDelegate?
     var closeCompletion: ((Product?) -> Void)?
+    var editCompletion: ((Product) -> Void)?
 
     // Rx
     let disposeBag = DisposeBag()
@@ -460,6 +461,9 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func finishedSaving() {
+        if let savedProduct = savedProduct {
+            editCompletion?(savedProduct)
+        }
         if let fbShareContent = fbShareContent where shouldShareInFB {
             shouldTrack = false
             delegate?.vmShareOnFbWith(content: fbShareContent)
