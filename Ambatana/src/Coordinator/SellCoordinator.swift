@@ -111,7 +111,7 @@ extension SellCoordinator: PostProductNavigator {
                         sellError = .Network
                     case .ServerError, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
                         sellError = .ServerError(code: error.errorCode)
-                    case .Internal:
+                    case .internalError:
                         sellError = .Internal
                     }
                     let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)

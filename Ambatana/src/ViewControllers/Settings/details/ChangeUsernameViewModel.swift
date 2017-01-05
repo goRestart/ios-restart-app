@@ -14,7 +14,7 @@ enum ChangeUsernameError: Error {
     case invalidUsername
     
     case network
-    case `internal`
+    case internalError
     case notFound
     case unauthorized
     

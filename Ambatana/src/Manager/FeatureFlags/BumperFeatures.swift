@@ -8,7 +8,7 @@
 //
 
 import Foundation
-//import bumper  //TODO: RE-ENABLE after swift 3 migration
+import bumper
 
 extension Bumper  {
     static func initialize() {

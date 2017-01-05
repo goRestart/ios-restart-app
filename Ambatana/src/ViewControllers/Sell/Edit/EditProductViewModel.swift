@@ -41,7 +41,7 @@ class ProductImages {
             switch $0 {
             case .local(let image):
                 return image
-            case .Remote:
+            case .remote:
                 return nil
             }
         }
@@ -49,9 +49,9 @@ class ProductImages {
     var remoteImages: [File] {
         return images.flatMap {
             switch $0 {
-            case .Local:
+            case .local:
                 return nil
-            case .Remote(let file):
+            case .remote(let file):
                 return file
             }
         }
@@ -62,7 +62,7 @@ class ProductImages {
     }
 
     func append(_ file: File) {
-        images.append(.Remote(file: file))
+        images.append(.remote(file: file))
     }
 
     func removeAtIndex(_ index: Int) {
@@ -323,7 +323,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         } else {
             // enabled
             let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
-            let locationVM = EditLocationViewModel(mode: .EditProductLocation, initialPlace: initialPlace)
+            let locationVM = EditLocationViewModel(mode: .editProductLocation, initialPlace: initialPlace)
             locationVM.locationDelegate = self
             delegate?.vmShouldOpenMapWithViewModel(locationVM)
         }
@@ -664,28 +664,28 @@ extension EditProductViewModel {
         var editedFields: [EventParameterEditedFields] = []
 
         if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
-            editedFields.append(.Picture)
+            editedFields.append(.picture)
         }
         if (initialProduct.name ?? "") != (product.name ?? "") {
-            editedFields.append(.Title)
+            editedFields.append(.title)
         }
         if initialProduct.priceString() != product.priceString() {
-            editedFields.append(.Price)
+            editedFields.append(.price)
         }
         if (initialProduct.descr ?? "") != (product.descr ?? "") {
-            editedFields.append(.Description)
+            editedFields.append(.description)
         }
         if initialProduct.category != product.category {
-            editedFields.append(.Category)
+            editedFields.append(.category)
         }
         if initialProduct.location != product.location {
-            editedFields.append(.Location)
+            editedFields.append(.location)
         }
         if shareInFbChanged() {
-            editedFields.append(.Share)
+            editedFields.append(.share)
         }
         if initialProduct.price.free != product.price.free {
-            editedFields.append(.FreePosting)
+            editedFields.append(.freePosting)
         }
         return editedFields
     }
@@ -701,7 +701,7 @@ extension EditProductViewModel {
 
 private enum ProductCreateValidationError: Error {
     case network
-    case `internal`
+    case internalError
     case noImages
     case noTitle
     case noPrice
@@ -712,12 +712,12 @@ private enum ProductCreateValidationError: Error {
 
     init(repoError: RepositoryError) {
         switch repoError {
-        case .Internal:
-            self = .Internal
-        case .Network:
-            self = .Network
-        case .ServerError, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
-            self = ServerError(code: repoError.errorCode)
+        case .internalError:
+            self = .internalError
+        case .network:
+            self = .network
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+            self = serverError(code: repoError.errorCode)
         }
     }
 
@@ -734,7 +734,7 @@ private enum ProductCreateValidationError: Error {
         switch self {
         case .network:
             return "network"
-        case internal:
+        case internalError:
             return "internal"
         case .noImages:
             return "no images present"

@@ -17,7 +17,7 @@ enum ExternalServiceAuthResult {
     case notFound
     case conflict(cause: ConflictCause)
     case badRequest
-    case `internal`(description: String)
+    case internalError(description: String)
     
     init(sessionError: SessionManagerError) {
         switch sessionError {

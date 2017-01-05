@@ -338,7 +338,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         switch imageTypeAtIndex {
         case .local(let image):
             UIImageWriteToSavedPhotosAlbum(image, self, #selector(EditProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
-        case .Remote(let file):
+        case .remote(let file):
             guard let fileUrl = file.fileURL else {
                 self.dismissLoadingMessageAlert(){
                     self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)

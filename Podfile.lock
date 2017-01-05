@@ -17,6 +17,7 @@ PODS:
     - Branch/without-IDFA (= 0.12.20)
   - Branch/Core (0.12.20)
   - Branch/without-IDFA (0.12.20)
+  - bumper (1.0.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
@@ -151,6 +152,7 @@ DEPENDENCIES:
   - AppsFlyerFramework (~> 4.5.12)
   - Argo (~> 4.1.1)
   - Branch (~> 0.12.20)
+  - bumper (= 1.0.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.5)
   - CocoaLumberjack/Swift (~> 3.0.0)
   - Crashlytics (~> 3.8.2)
@@ -168,7 +170,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.3.0)
   - Leanplum-iOS-SDK (~> 1.4.1)
   - LGCollapsibleLabel (= 1.0.0)
-  - LGCoreKit (from `https://github.com/letgoapp/letgo-ios-lgcorekit`, commit `e2909a52f467cd7898f77e5a5c101292cc074671`)
+  - LGCoreKit (from `https://github.com/letgoapp/letgo-ios-lgcorekit`, commit `7542ff2f810bec3b11ebf9acd2d0cee2e7b02d42`)
   - Nimble (~> 5.1.1)
   - OHHTTPStubs (~> 5.2.3)
   - OHHTTPStubs/Swift
@@ -186,7 +188,7 @@ EXTERNAL SOURCES:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
   LGCoreKit:
-    :commit: e2909a52f467cd7898f77e5a5c101292cc074671
+    :commit: 7542ff2f810bec3b11ebf9acd2d0cee2e7b02d42
     :git: https://github.com/letgoapp/letgo-ios-lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
@@ -197,7 +199,7 @@ CHECKOUT OPTIONS:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
   LGCoreKit:
-    :commit: e2909a52f467cd7898f77e5a5c101292cc074671
+    :commit: 7542ff2f810bec3b11ebf9acd2d0cee2e7b02d42
     :git: https://github.com/letgoapp/letgo-ios-lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
@@ -211,6 +213,7 @@ SPEC CHECKSUMS:
   Argo: 014ac072f97462bc1a9b83d302edb351488a532f
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: a2c085213fd3953c241ad63aa49f4435bfc84da7
+  bumper: 6642cde2c4a5b0890682821b8ffdd3ccd3be65ed
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
@@ -261,6 +264,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: b970ba0cb01d152a9e5b00912a3f47090b1740fd
+PODFILE CHECKSUM: aa2b8c45f74b7bf6807603771b9778cad98fd28e
 
 COCOAPODS: 1.1.1
