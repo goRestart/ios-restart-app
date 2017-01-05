@@ -135,7 +135,7 @@ extension TourLoginViewController: SignUpViewModelDelegate {
 
 // MARK: - Private UI methods
 
-private extension TourLoginViewController {
+fileprivate extension TourLoginViewController {
     func setupKenBurns() {
         let images: [UIImage] = [
             UIImage(named: "bg_1_new"),
@@ -207,7 +207,7 @@ private extension TourLoginViewController {
 
 // MARK: - Private Navigation methods
 
-private extension TourLoginViewController {
+fileprivate extension TourLoginViewController {
     func openNextStep() {
         tourLoginViewModel.nextStep()
     }
