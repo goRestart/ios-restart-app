@@ -616,7 +616,7 @@ enum EventParameterRelatedShownReason: String {
     init(chatInfoStatus: ChatInfoViewStatus) {
         switch chatInfoStatus {
         case .forbidden:
-            self = .Forbidden
+            self = .forbidden
         case .blocked, .blockedBy:
             self = .Unanswered48h
         case .productDeleted:

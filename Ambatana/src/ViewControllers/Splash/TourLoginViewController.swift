@@ -28,10 +28,10 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var footerTextView: UITextView!
     @IBOutlet weak var footerTextViewBottomConstraint: NSLayoutConstraint!
 
-    private var lines: [CALayer] = []
+    fileprivate var lines: [CALayer] = []
 
-    private let signUpViewModel: SignUpViewModel
-    private let tourLoginViewModel: TourLoginViewModel
+    fileprivate let signUpViewModel: SignUpViewModel
+    fileprivate let tourLoginViewModel: TourLoginViewModel
     
     
     // MARK: - Lifecycle

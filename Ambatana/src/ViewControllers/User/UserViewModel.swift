@@ -27,9 +27,9 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
 
 class UserViewModel: BaseViewModel {
     // Constants
-    private static let userBgEffectAlphaMax: CGFloat = 0.9
-    private static let userBgTintAlphaMax: CGFloat = 0.54
-
+    fileprivate static let userBgEffectAlphaMax: CGFloat = 0.9
+    fileprivate static let userBgTintAlphaMax: CGFloat = 0.54
+    
     // Repositories / Managers
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
@@ -37,25 +37,25 @@ class UserViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let notificationsManager: NotificationsManager
-
+    
     // Data & VMs
     fileprivate let user: Variable<User?>
-    private(set) var isMyProfile: Bool
+    fileprivate(set) var isMyProfile: Bool
     fileprivate let userRelationIsBlocked = Variable<Bool>(false)
     fileprivate let userRelationIsBlockedBy = Variable<Bool>(false)
     fileprivate let source: UserSource
     fileprivate var socialMessage: SocialMessage? = nil
-
+    
     fileprivate let sellingProductListViewModel: ProductListViewModel
     fileprivate let sellingProductListRequester: UserProductListRequester
     fileprivate let soldProductListViewModel: ProductListViewModel
     fileprivate let soldProductListRequester: UserProductListRequester
     fileprivate let favoritesProductListViewModel: ProductListViewModel
     fileprivate let favoritesProductListRequester: UserProductListRequester
-
+    
     // Input
     let tab = Variable<UserViewHeaderTab>(.selling)
-
+    
     // Output
     let navBarButtons = Variable<[UIAction]>([])
     let backgroundColor = Variable<UIColor>(UIColor.clear)
@@ -69,7 +69,7 @@ class UserViewModel: BaseViewModel {
     let userLocation = Variable<String?>(nil)
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
-
+    
     let productListViewModel: Variable<ProductListViewModel>
     
     weak var delegate: UserViewModelDelegate?
@@ -79,17 +79,17 @@ class UserViewModel: BaseViewModel {
             navigator = profileNavigator
         }
     }
-
+    
     // Rx
     let disposeBag: DisposeBag
-
-
+    
+    
     // MARK: - Lifecycle
-
+    
     static func myUserUserViewModel(_ source: UserSource) -> UserViewModel {
         return UserViewModel(source: source)
     }
-
+    
     private convenience init(source: UserSource) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
@@ -101,7 +101,7 @@ class UserViewModel: BaseViewModel {
                   tracker: tracker, isMyProfile: true, user: nil, source: source, featureFlags: featureFlags,
                   notificationsManager: notificationsManager)
     }
-
+    
     convenience init(user: User, source: UserSource) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
@@ -119,14 +119,14 @@ class UserViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
-		let featureFlags = FeatureFlags.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         let notificationsManager = NotificationsManager.sharedInstance
         let user = LocalUser(chatInterlocutor: chatInterlocutor)
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
                   tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags,
                   notificationsManager: notificationsManager)
     }
-
+    
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
          tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable,
          notificationsManager: NotificationsManager) {
@@ -147,28 +147,28 @@ class UserViewModel: BaseViewModel {
         self.soldProductListViewModel = ProductListViewModel(requester: self.soldProductListRequester)
         self.favoritesProductListRequester = UserFavoritesProductListRequester()
         self.favoritesProductListViewModel = ProductListViewModel(requester: self.favoritesProductListRequester)
-
+        
         self.productListViewModel = Variable<ProductListViewModel>(sellingProductListViewModel)
         self.disposeBag = DisposeBag()
         super.init()
-
+        
         self.sellingProductListViewModel.dataDelegate = self
         self.soldProductListViewModel.dataDelegate = self
         self.favoritesProductListViewModel.dataDelegate = self
-
+        
         setupRxBindings()
         setupPermissionsNotification()
     }
-
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-
+    
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-
+        
         updatePermissionsWarning()
-
+        
         if itsMe {
             refreshMyUserData()
             resetLists()
@@ -176,7 +176,7 @@ class UserViewModel: BaseViewModel {
         } else {
             retrieveUserData()
         }
-
+        
         refreshIfLoading()
         trackVisit()
     }
@@ -189,22 +189,22 @@ extension UserViewModel {
     func refreshSelling() {
         sellingProductListViewModel.retrieveProducts()
     }
-
+    
     func avatarButtonPressed() {
         guard isMyProfile else { return }
         openSettings()
     }
-
+    
     func ratingsButtonPressed() {
         guard featureFlags.userReviews else { return }
         openRatings()
     }
-
+    
     func buildTrustButtonPressed() {
         guard let userAccounts = userAccounts.value, isMyProfile else { return }
         var verifyTypes: [VerificationType] = []
         if !userAccounts.emailVerified {
-            verifyTypes.append(.email(myUserRepository.myUser?.email))
+            verifyTypes.append(.Email(myUserRepository.myUser?.email))
         }
         if !userAccounts.facebookVerified {
             verifyTypes.append(.facebook)
@@ -214,14 +214,14 @@ extension UserViewModel {
         }
         guard !verifyTypes.isEmpty else { return }
         navigator?.openVerifyAccounts(verifyTypes,
-                                         source: .profile(title: LGLocalizedString.chatConnectAccountsTitle,
-                                            description: LGLocalizedString.profileConnectAccountsMessage), completionBlock: nil)
+                                      source: .profile(title: LGLocalizedString.chatConnectAccountsTitle,
+                                                       description: LGLocalizedString.profileConnectAccountsMessage), completionBlock: nil)
     }
-
+    
     func pushPermissionsWarningPressed() {
         openPushPermissionsAlert()
     }
-
+    
     func shareButtonPressed() {
         guard let socialMessage = socialMessage else { return }
         delegate?.vmShowNativeShare(socialMessage)
@@ -242,31 +242,19 @@ extension UserViewModel {
 // MARK: > Helpers
 
 extension UserViewModel {
-<<<<<<< HEAD
-    fileprivate var isMyUser: Bool {
-=======
     var isMyUser: Bool {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let myUserId = myUserRepository.myUser?.objectId else { return false }
         guard let userId = user.value?.objectId else { return false }
         return myUserId == userId
     }
-
-<<<<<<< HEAD
-    fileprivate var itsMe: Bool {
-        return isMyProfile || isMyUser
-    }
-
-    fileprivate func buildNavBarButtons() -> [UIAction] {
-=======
+    
     var itsMe: Bool {
         return isMyProfile || isMyUser
     }
-
+    
     func buildNavBarButtons() -> [UIAction] {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         var navBarButtons = [UIAction]()
-
+        
         navBarButtons.append(buildShareNavBarAction())
         if isMyProfile {
             navBarButtons.append(buildSettingsNavBarAction())
@@ -275,39 +263,39 @@ extension UserViewModel {
         }
         return navBarButtons
     }
-
+    
     func buildShareNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_share")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.shareButtonPressed()
-        }, accessibilityId: .UserNavBarShareButton)
+            }, accessibilityId: .UserNavBarShareButton)
     }
-
+    
     func buildSettingsNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_settings")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.openSettings()
-        }, accessibilityId: .UserNavBarSettingsButton)
+            }, accessibilityId: .UserNavBarSettingsButton)
     }
-
+    
     func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             guard let strongSelf = self else { return }
-
+            
             var actions = [UIAction]()
             actions.append(strongSelf.buildReportButton())
-
+            
             if strongSelf.userRelationIsBlocked.value {
                 actions.append(strongSelf.buildUnblockButton())
             } else {
                 actions.append(strongSelf.buildBlockButton())
             }
-
+            
             strongSelf.delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: actions)
-        }, accessibilityId: .UserNavBarMoreButton)
+            }, accessibilityId: .UserNavBarMoreButton)
     }
-
+    
     func buildReportButton() -> UIAction {
         let title = LGLocalizedString.reportUserTitle
         return UIAction(interface: .text(title), action: { [weak self] in
@@ -316,7 +304,7 @@ extension UserViewModel {
             strongSelf.delegate?.vmOpenReportUser(reportVM)
         })
     }
-
+    
     func buildBlockButton() -> UIAction {
         let title = LGLocalizedString.chatBlockUser
         return UIAction(interface: .text(title), action: { [weak self] in
@@ -330,75 +318,51 @@ extension UserViewModel {
             self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: [action])
         })
     }
-
+    
     func buildUnblockButton() -> UIAction {
         let title = LGLocalizedString.chatUnblockUser
         return UIAction(interface: .text(title), action: { [weak self] in
             self?.unblock()
         })
     }
-
-<<<<<<< HEAD
-    fileprivate func resetLists() {
-=======
+    
     func resetLists() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         sellingProductListViewModel.resetUI()
         soldProductListViewModel.resetUI()
         favoritesProductListViewModel.resetUI()
     }
-
-<<<<<<< HEAD
-    fileprivate func refreshIfLoading() {
-=======
+    
     func refreshIfLoading() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let listVM = productListViewModel.value
         switch listVM.state {
         case .loading:
             listVM.retrieveProducts()
-<<<<<<< HEAD
-        case .data, .error, .empty:
-=======
         case .Data, .Error, .empty:
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
             break
         }
     }
-
-<<<<<<< HEAD
-    fileprivate func openSettings() {
-        profileNavigator?.openSettings()
-    }
-
-    fileprivate func openRatings() {
-=======
+    
     func openSettings() {
         profileNavigator?.openSettings()
     }
-
+    
     func openRatings() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
         navigator?.openRatingList(userId)
     }
-
-<<<<<<< HEAD
-    fileprivate func openPushPermissionsAlert() {
-=======
+    
     func openPushPermissionsAlert() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         trackPushPermissionStart()
-        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
+        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .default),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
                                     PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .profile)
-                                },
+            },
                                 accessibilityId: .UserPushPermissionOK)
         let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
-                                },
+            },
                                 accessibilityId: .UserPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
@@ -411,11 +375,7 @@ extension UserViewModel {
 // MARK: > Requests
 
 extension UserViewModel {
-<<<<<<< HEAD
-    fileprivate func retrieveUserData() {
-=======
     func retrieveUserData() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
@@ -423,41 +383,29 @@ extension UserViewModel {
             self?.updateRatings(user)
         }
     }
-
-<<<<<<< HEAD
-    fileprivate func refreshMyUserData() {
-        myUserRepository.refresh(nil) //Completion not required as we're listening rx_myUser
-    }
-
-    fileprivate func retrieveUsersRelation() {
-=======
+    
     func refreshMyUserData() {
         myUserRepository.refresh(nil) //Completion not required as we're listening rx_myUser
     }
-
+    
     func retrieveUsersRelation() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
         guard !itsMe else { return }
-
+        
         userRepository.retrieveUserToUserRelation(userId) { [weak self] result in
             guard let userRelation = result.value else { return }
             self?.userRelationIsBlocked.value = userRelation.isBlocked
             self?.userRelationIsBlockedBy.value = userRelation.isBlockedBy
         }
     }
-
-<<<<<<< HEAD
-    fileprivate func block() {
-=======
+    
     func block() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
-
+        
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
         userRepository.blockUserWithId(userId) { [weak self] result in
             self?.trackBlock(userId)
-
+            
             var afterMessageCompletion: (() -> ())? = nil
             if let _ = result.value {
                 self?.userRelationIsBlocked.value = true
@@ -469,18 +417,14 @@ extension UserViewModel {
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: afterMessageCompletion)
         }
     }
-
-<<<<<<< HEAD
-    fileprivate func unblock() {
-=======
+    
     func unblock() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
-
+        
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
         userRepository.unblockUserWithId(userId) { [weak self] result in
             self?.trackUnblock(userId)
-
+            
             var afterMessageCompletion: (() -> ())? = nil
             if let _ = result.value {
                 self?.userRelationIsBlocked.value = false
@@ -498,67 +442,55 @@ extension UserViewModel {
 // MARK: > Rx
 
 extension UserViewModel {
-<<<<<<< HEAD
-    fileprivate func setupRxBindings() {
-=======
     func setupRxBindings() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         setupUserInfoRxBindings()
         setupUserRelationRxBindings()
         setupTabRxBindings()
         setupProductListViewRxBindings()
         setupShareRxBindings()
     }
-
+    
     func setupUserInfoRxBindings() {
         if itsMe {
             myUserRepository.rx_myUser.bindNext { [weak self] myUser in
                 self?.user.value = myUser
                 self?.refreshIfLoading()
-            }.addDisposableTo(disposeBag)
+                }.addDisposableTo(disposeBag)
         }
-
+        
         user.asObservable().subscribeNext { [weak self] user in
             guard let strongSelf = self else { return }
-
+            
             if strongSelf.isMyProfile {
                 strongSelf.backgroundColor.value = UIColor.defaultBackgroundColor
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor,
-                    name: user?.name)
+                                                                                     name: user?.name)
             } else {
                 strongSelf.backgroundColor.value = UIColor.backgroundColorForString(user?.objectId)
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
-
+            
             strongSelf.updateRatings(user)
             
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
-
-<<<<<<< HEAD
-            strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
-=======
+            
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .OtherUser
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
-
+            
             // If the user has accounts the set them up
             if let user = user, let _ = user.accounts {
                 strongSelf.updateAccounts(user)
             }
-
-        }.addDisposableTo(disposeBag)
+            
+            }.addDisposableTo(disposeBag)
     }
-
-<<<<<<< HEAD
-    fileprivate func updateAccounts(_ user: User) {
-=======
+    
     func updateAccounts(_ user: User) {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let facebookAccount = user.facebookAccount
         let googleAccount = user.googleAccount
         let emailAccount = user.emailAccount
-
+        
         let facebookLinked = facebookAccount != nil
         let facebookVerified = facebookAccount?.verified ?? false
         let googleLinked = googleAccount != nil
@@ -573,45 +505,41 @@ extension UserViewModel {
                                                     emailVerified: emailVerified)
     }
     
-<<<<<<< HEAD
-    fileprivate func updateRatings(_ user: User?) {
-=======
     func updateRatings(_ user: User?) {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let user = user else { return }
         if featureFlags.userReviews {
             userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
             userRatingCount.value = user.ratingCount
         }
     }
-
+    
     func setupUserRelationRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             self?.userRelationIsBlocked.value = false
             self?.userRelationIsBlockedBy.value = false
             self?.retrieveUsersRelation()
-        }.addDisposableTo(disposeBag)
-
+            }.addDisposableTo(disposeBag)
+        
         Observable.combineLatest(userRelationIsBlocked.asObservable(), userRelationIsBlockedBy.asObservable(),
-            userName.asObservable()) { (isBlocked, isBlockedBy, userName) -> String? in
-            if isBlocked {
-                if let userName = userName {
-                    return LGLocalizedString.profileBlockedByMeLabelWName(userName)
-                } else {
-                    return LGLocalizedString.profileBlockedByMeLabel
-                }
-            } else if isBlockedBy {
-                return LGLocalizedString.profileBlockedByOtherLabel
-            }
-            return nil
-        }.bindTo(userRelationText).addDisposableTo(disposeBag)
-
+                                 userName.asObservable()) { (isBlocked, isBlockedBy, userName) -> String? in
+                                    if isBlocked {
+                                        if let userName = userName {
+                                            return LGLocalizedString.profileBlockedByMeLabelWName(userName)
+                                        } else {
+                                            return LGLocalizedString.profileBlockedByMeLabel
+                                        }
+                                    } else if isBlockedBy {
+                                        return LGLocalizedString.profileBlockedByOtherLabel
+                                    }
+                                    return nil
+            }.bindTo(userRelationText).addDisposableTo(disposeBag)
+        
         userRelationText.asObservable().subscribeNext { [weak self] relation in
             guard let strongSelf = self else { return }
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
-
+    
     func setupTabRxBindings() {
         tab.asObservable().skip(1).map { [weak self] tab -> ProductListViewModel? in
             switch tab {
@@ -622,13 +550,13 @@ extension UserViewModel {
             case .favorites:
                 return self?.favoritesProductListViewModel
             }
-        }.subscribeNext { [weak self] viewModel in
-            guard let viewModel = viewModel else { return }
-            self?.productListViewModel.value = viewModel
-            self?.refreshIfLoading()
-        }.addDisposableTo(disposeBag)
+            }.subscribeNext { [weak self] viewModel in
+                guard let viewModel = viewModel else { return }
+                self?.productListViewModel.value = viewModel
+                self?.refreshIfLoading()
+            }.addDisposableTo(disposeBag)
     }
-
+    
     func setupProductListViewRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard self?.sellingProductListRequester.userObjectId != user?.objectId else { return }
@@ -636,9 +564,9 @@ extension UserViewModel {
             self?.soldProductListRequester.userObjectId = user?.objectId
             self?.favoritesProductListRequester.userObjectId = user?.objectId
             self?.resetLists()
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
-
+    
     func setupShareRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard let user = user, let itsMe = self?.itsMe else {
@@ -646,7 +574,7 @@ extension UserViewModel {
                 return
             }
             self?.socialMessage = UserSocialMessage(user: user, itsMe: itsMe)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 }
 
@@ -657,17 +585,17 @@ extension UserViewModel: ProductListViewModelDataDelegate {
     func productListMV(_ viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                        error: RepositoryError) {
         guard page == 0 && !hasProducts else { return }
-
+        
         if var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                                                                            action: { [weak viewModel] in viewModel?.refresh() }) {
             emptyViewModel.icon = nil
             viewModel.setErrorState(emptyViewModel)
         }
     }
-
+    
     func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
         guard page == 0 && !hasProducts else { return }
-
+        
         let errTitle: String?
         let errButTitle: String?
         var errButAction: (() -> Void)? = nil
@@ -682,20 +610,20 @@ extension UserViewModel: ProductListViewModelDataDelegate {
             errButTitle = itsMe ? nil : LGLocalizedString.profileFavouritesMyUserNoProductsButton
             errButAction = { [weak self] in self?.delegate?.vmOpenHome() }
         } else { return }
-
+        
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
                                               action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil)
-
+        
         viewModel.setEmptyState(emptyViewModel)
     }
-
+    
     func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
         guard let product = viewModel.productAtIndex(index), let requester = viewModel.productListRequester else { return }
         let cellModels = viewModel.objects
-
-        let data = ProductDetailData.productList(product: product, cellModels: cellModels, requester: requester,
+        
+        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
         navigator?.openProduct(data, source: .Profile, showKeyboardOnFirstAppearIfNeeded: false)
@@ -705,14 +633,14 @@ extension UserViewModel: ProductListViewModelDataDelegate {
 
 // MARK: Push Permissions
 
-private extension UserViewModel {
-
+fileprivate extension UserViewModel {
+    
     func setupPermissionsNotification() {
         guard isMyProfile else { return }
         NotificationCenter.default.addObserver(self, selector: #selector(updatePermissionsWarning),
-                        name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
+                                               name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
-
+    
     dynamic func updatePermissionsWarning() {
         guard isMyProfile else { return }
         pushPermissionsDisabledWarning.value = !UIApplication.shared.areRemoteNotificationsEnabled
@@ -723,11 +651,11 @@ private extension UserViewModel {
 // MARK: - SocialSharerDelegate
 
 extension UserViewModel: SocialSharerDelegate {
-
+    
     func shareStartedIn(_ shareType: ShareType) {
-
+        
     }
-
+    
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         guard state == .completed else { return }
         trackShareComplete(shareType.trackingShareNetwork)
@@ -738,13 +666,9 @@ extension UserViewModel: SocialSharerDelegate {
 // MARK: - Tracking
 
 extension UserViewModel {
-<<<<<<< HEAD
-    fileprivate func trackVisit() {
-=======
     func trackVisit() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let user = user.value else { return }
-
+        
         let typePage: EventParameterTypePage
         switch source {
         case .tabBar:
@@ -758,99 +682,63 @@ extension UserViewModel {
         case .link:
             typePage = .External
         }
-
+        
         let eventTab: EventParameterTab
         switch tab.value {
         case .selling:
-<<<<<<< HEAD
-            eventTab = .Selling
-        case .sold:
-            eventTab = .Sold
-        case .favorites:
-            eventTab = .Favorites
-=======
             eventTab = .selling
         case .sold:
             eventTab = .sold
         case .favorites:
             eventTab = .favorites
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         }
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         
         let event = TrackerEvent.profileVisit(user, profileType: profileType, typePage: typePage, tab: eventTab)
         tracker.trackEvent(event)
     }
-
-<<<<<<< HEAD
-    fileprivate func trackBlock(_ userId: String) {
-=======
+    
     func trackBlock(_ userId: String) {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let event = TrackerEvent.profileBlock(.Profile, blockedUsersIds: [userId])
         tracker.trackEvent(event)
     }
-
-<<<<<<< HEAD
-    fileprivate func trackUnblock(_ userId: String) {
-=======
+    
     func trackUnblock(_ userId: String) {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let event = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: [userId])
         TrackerProxy.sharedInstance.trackEvent(event)
     }
-
-<<<<<<< HEAD
-    fileprivate func trackPushPermissionStart() {
-=======
+    
     func trackPushPermissionStart() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .Profile, alertType: .Custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
-
-<<<<<<< HEAD
-    fileprivate func trackPushPermissionComplete() {
-=======
+    
     func trackPushPermissionComplete() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .Profile, alertType: .Custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
-
-<<<<<<< HEAD
-    fileprivate func trackPushPermissionCancel() {
-=======
+    
     func trackPushPermissionCancel() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
-
-<<<<<<< HEAD
-    fileprivate func trackShareStart() {
-=======
+    
     func trackShareStart() {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         let trackerEvent = TrackerEvent.profileShareStart(profileType)
         tracker.trackEvent(trackerEvent)
     }
-
-<<<<<<< HEAD
-    fileprivate func trackShareComplete(_ shareNetwork: EventParameterShareNetwork) {
-=======
+    
     func trackShareComplete(_ shareNetwork: EventParameterShareNetwork) {
->>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)

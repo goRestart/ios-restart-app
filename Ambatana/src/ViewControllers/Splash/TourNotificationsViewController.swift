@@ -117,7 +117,7 @@ final class TourNotificationsViewController: BaseViewController {
     }
     
     func showTourLocation() {
-        let vm = TourLocationViewModel(source: .Install)
+        let vm = TourLocationViewModel(source: .install)
         let vc = TourLocationViewController(viewModel: vm)
         UIView.animate(withDuration: 0.3, delay: 0.1, options: UIViewAnimationOptions(), animations: {
             self.view.alpha = 0
