@@ -183,16 +183,16 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     private func branchUrl(_ source: ShareSource?) -> URL? {
-        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() as URL? }
+        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
         let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
-            else { return LetgoURLHelper.buildHomeURL() as URL? }
+            else { return LetgoURLHelper.buildHomeURL() }
         return URL(string: branchUrl)
     }
 
     private var letgoUrl: URL? {
-        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() as URL? }
-        return LetgoURLHelper.buildProductURL(productId: productId) as URL?
+        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
+        return LetgoURLHelper.buildProductURL(productId: productId)
     }
 
     private var branchObject: BranchUniversalObject {
@@ -305,7 +305,7 @@ struct AppShareSocialMessage: SocialMessage {
     private func branchUrl(_ source: ShareSource?) -> URL? {
         let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
-            else { return LetgoURLHelper.buildHomeURL() as URL? }
+            else { return LetgoURLHelper.buildHomeURL() }
         return URL(string: branchUrl)
     }
     
@@ -435,7 +435,7 @@ struct UserSocialMessage: SocialMessage {
     }
 
     private var letgoURL: URL? {
-        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL() as URL?
+        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL()
     }
 
     private func branchUrl(_ source: ShareSource?) -> URL? {

@@ -11,7 +11,7 @@ import AlamofireImage
 
 typealias ImageWithSource = (image: UIImage, cached: Bool)
 typealias ImageDownloadResult = Result<ImageWithSource, NSError>
-typealias ImageDownloadCompletion = (_ result: ImageDownloadResult, _ url: NSURL) -> Void
+typealias ImageDownloadCompletion = (_ result: ImageDownloadResult, _ url: URL) -> Void
 
 protocol ImageDownloaderType {
     func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,

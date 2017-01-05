@@ -41,7 +41,7 @@ class HelpViewController: BaseViewController, UIWebViewDelegate, HelpViewModelDe
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
 
         if let url = viewModel.url {
-            let request = URLRequest(url: url as URL)
+            let request = URLRequest(url: url)
             webView.loadRequest(request)
         }
 

@@ -79,7 +79,7 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                 context("network error") {
                     beforeEach {
                         stub(isPath("/config/ios.json")) { _ in
-                            let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.CFURLErrorNotConnectedToInternet.rawValue), userInfo:nil)
+                            let notConnectedError = NSError(domain:URLErrorDomain, code:Int(CFNetworkErrors.CFURLErrorNotConnectedToInternet.rawValue), userInfo:nil)
                             return OHHTTPStubsResponse(error:notConnectedError)
                             }.name = "iOScfgMockKONetworkError"
 

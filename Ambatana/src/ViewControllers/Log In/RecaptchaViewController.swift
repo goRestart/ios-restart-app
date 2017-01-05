@@ -38,7 +38,7 @@ class RecaptchaViewController: BaseViewController {
         webView.delegate = self
 
         if let url = viewModel.url {
-            loadUrl(url as URL)
+            loadUrl(url)
         }
     }
 

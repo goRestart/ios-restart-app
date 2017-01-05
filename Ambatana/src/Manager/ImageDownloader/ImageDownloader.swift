@@ -28,7 +28,7 @@ final class ImageDownloader: ImageDownloaderType {
                                      completion: completion)
     }
 
-    func downloadImageWithURL(_ url: NSURL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
+    func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
         let receipt = imageDownloader.downloadImageWithURL(url, completion: completion)
         addReceiptToPool(receipt)
         return receipt

@@ -48,11 +48,11 @@ class HelpViewModel: BaseViewModel {
     }
 
     var termsAndConditionsURL: URL? {
-        return LetgoURLHelper.buildTermsAndConditionsURL() as URL?
+        return LetgoURLHelper.buildTermsAndConditionsURL()
     }
     
     var privacyURL: URL? {
-        return LetgoURLHelper.buildPrivacyURL() as URL?
+        return LetgoURLHelper.buildPrivacyURL()
     }
     
     func termsButtonPressed() {

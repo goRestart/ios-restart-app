@@ -33,7 +33,7 @@ class MockTracker: Tracker {
         didFinishLaunchingWithOptionsBlock?(self)
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject?) {
         openURLBlock?(self)
     }
     

@@ -267,7 +267,7 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
         finishedSuccessfully = completed
     }
 
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func vmFinishAndShowScammerAlert(contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
         finishedSuccessfully = false
         finishedScammer = true
     }
@@ -294,5 +294,5 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
                         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
     func vmPop() {}
     func vmDismiss(completion: (() -> Void)?){}
-    func vmOpenInternalURL(url: NSURL) {}
+    func vmOpenInternalURL(url: URL) {}
 }

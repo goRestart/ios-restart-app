@@ -10,10 +10,10 @@ import AlamofireImage
 
 extension AlamofireImage.ImageDownloader: ImageDownloaderType {
 
-    func setImageView(_ imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
+    func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?) {
-        let URLRequest = NSURLRequest(url: url as URL)
-        let cached = imageIsCachedForURLRequest(URLRequest)
+        let requestURL = URLRequest(url: url)
+        let cached = imageIsCachedForURLRequest(requestURL)
         imageView.af_setImageWithURL(url, placeholderImage: placeholderImage, imageTransition: .None) { response in
 
             let result: ResultResult<ImageWithSource, NSError>.t
@@ -28,10 +28,10 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         }
     }
 
-    func downloadImageWithURL(_ url: NSURL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
-        let URLRequest = NSURLRequest(url: url as URL)
-        let cached = imageIsCachedForURLRequest(URLRequest)
-        return downloadImage(URLRequest: URLRequest) { response in
+    func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
+        let requestURL = URLRequest(url: url)
+        let cached = imageIsCachedForURLRequest(requestURL)
+        return downloadImage(URLRequest: requestURL) { response in
             
             let result: ResultResult<ImageWithSource, NSError>.t
             if let image = response.result.value {
@@ -45,9 +45,9 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         }
     }
 
-    func cachedImageForUrl(_ url: NSURL) -> UIImage? {
-        let URLRequest = NSURLRequest(url: url as URL)
-        let identifier = URLRequest.URLRequest.URLString
+    func cachedImageForUrl(_ url: URL) -> UIImage? {
+        let requestURL = URLRequest(url: url)
+        let identifier = requestURL.URLRequest.URLString
         return imageCache?.imageWithIdentifier(identifier)
     }
 
@@ -55,8 +55,8 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         cancelRequestForRequestReceipt(receipt)
     }
     
-    private func imageIsCachedForURLRequest(_ URLRequest: NSURLRequest) -> Bool {
-        let identifier = URLRequest.URLRequest.URLString
+    private func imageIsCachedForURLRequest(_ requestURL: URLRequest) -> Bool {
+        let identifier = requestURL.URLRequest.URLString
         let cached = imageCache?.imageWithIdentifier(identifier) != nil
         return cached
     }
