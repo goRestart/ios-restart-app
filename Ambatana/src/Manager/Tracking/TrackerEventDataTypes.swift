@@ -371,7 +371,7 @@ enum EventParameterMessageType: String {
 enum EventParameterLoginError {
     
     case network
-    case `internal`(description: String)
+    case internalError(description: String)
     case unauthorized
     case notFound
     case forbidden
@@ -393,7 +393,7 @@ enum EventParameterLoginError {
         switch self {
         case .network:
             return "Network"
-        case .internal:
+        case .internalError:
             return "Internal"
         case .unauthorized:
             return "Unauthorized"

@@ -22,11 +22,11 @@ class ChatGroupedViewModel: BaseViewModel {
         var chatsType: ChatsType? {
             switch(self) {
             case .all:
-                return .All
+                return .all
             case .selling:
-                return .Selling
+                return .selling
             case .buying:
-                return .Buying
+                return .buying
             case .blockedUsers:
                 return nil
             }
@@ -50,7 +50,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     private var chatListViewModels: [ChatListViewModel]
     private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
-    private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
+    fileprivate let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
     private let sessionManager: SessionManager
     private let myUserRepository: MyUserRepository
@@ -95,16 +95,16 @@ class ChatGroupedViewModel: BaseViewModel {
         for index in 0..<tabCount {
             guard let tab = Tab(rawValue: index) else { continue }
             switch tab {
-            case .All:
+            case .all:
                 guard let chatsType = tab.chatsType else { continue }
                 chatListViewModels.append(buildChatListAll(chatsType))
-            case.Selling:
+            case.selling:
                 guard let chatsType = tab.chatsType else { continue }
                 chatListViewModels.append(buildChatListSelling(chatsType))
-            case .Buying:
+            case .buying:
                 guard let chatsType = tab.chatsType else { continue }
                 chatListViewModels.append(buildChatListBuying(chatsType))
-            case .BlockedUsers:
+            case .blockedUsers:
                 blockedUsersListViewModel.emptyStatusViewModel = LGEmptyViewModel(
                     icon: UIImage(named: "err_list_no_blocked_users"),
                     title: LGLocalizedString.chatListBlockedEmptyTitle,
@@ -136,7 +136,7 @@ class ChatGroupedViewModel: BaseViewModel {
         return chatListViewModels.count
     }
 
-    let currentTab = Variable<Tab>(.Buying)
+    let currentTab = Variable<Tab>(.buying)
 
     func showInfoBadgeAtIndex(_ index: Int) -> Bool {
         guard let chatListVM = viewModelAtIndex(index) else { return false }
@@ -292,7 +292,7 @@ class ChatGroupedViewModel: BaseViewModel {
 // MARK: - Rx
 
 extension ChatGroupedViewModel {
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         currentTab.asObservable().map { [weak self] tab -> ChatGroupedListViewModelType? in
             switch tab {
             case .All, .Selling, .Buying:

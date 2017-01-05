@@ -119,9 +119,9 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         viewModel.typedEmailState.asObservable().bindTo(emailTextFieldButton.rx_veryfy_state).addDisposableTo(disposeBag)
         viewModel.typedEmailState.asObservable().map { state in
             switch state {
-            case .Hidden:
+            case .hidden:
                 return true
-            case .Loading, .Enabled, .Disabled:
+            case .loading, .enabled, .disabled:
                 return false
             }
         }.bindNext { [weak self] (hidden:Bool) in
@@ -130,12 +130,12 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
             self?.emailTextFieldLogo.isHidden = hidden
         }.addDisposableTo(disposeBag)
 
-        backgroundButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
-        fbButton.rx_tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
-        googleButton.rx_tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
-        emailButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
-        emailTextFieldButton.rx_tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.addDisposableTo(disposeBag)
-        emailTextField.rx_text.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
+        backgroundButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
+        fbButton.rx.tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
+        googleButton.rx.tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
+        emailButton.rx.tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
+        emailTextFieldButton.rx.tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.addDisposableTo(disposeBag)
+        emailTextField.rx.text.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let viewHeight = self?.view.height, let animationTime = self?.keyboardHelper.animationTime, viewHeight >= origin else { return }
             self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)
@@ -174,12 +174,12 @@ extension UIButton {
     var rx_veryfy_state: AnyObserver<VerifyButtonState> {
         return UIBindingObserver(UIElement: self) { button, state in
             switch state {
-            case .Hidden:
+            case .hidden:
                 button.isHidden = true
-            case .Enabled:
+            case .enabled:
                 button.isHidden = false
                 button.isEnabled = true
-            case .Disabled, .Loading:
+            case .disabled, .loading:
                 button.isHidden = false
                 button.isEnabled = false
             }

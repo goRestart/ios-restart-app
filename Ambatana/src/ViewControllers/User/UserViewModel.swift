@@ -31,35 +31,35 @@ class UserViewModel: BaseViewModel {
     private static let userBgTintAlphaMax: CGFloat = 0.54
 
     // Repositories / Managers
-    private let sessionManager: SessionManager
-    private let myUserRepository: MyUserRepository
-    private let userRepository: UserRepository
-    private let tracker: Tracker
-    private let featureFlags: FeatureFlaggeable
-    private let notificationsManager: NotificationsManager
+    fileprivate let sessionManager: SessionManager
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let userRepository: UserRepository
+    fileprivate let tracker: Tracker
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let notificationsManager: NotificationsManager
 
     // Data & VMs
-    private let user: Variable<User?>
+    fileprivate let user: Variable<User?>
     private(set) var isMyProfile: Bool
-    private let userRelationIsBlocked = Variable<Bool>(false)
-    private let userRelationIsBlockedBy = Variable<Bool>(false)
-    private let source: UserSource
-    private var socialMessage: SocialMessage? = nil
+    fileprivate let userRelationIsBlocked = Variable<Bool>(false)
+    fileprivate let userRelationIsBlockedBy = Variable<Bool>(false)
+    fileprivate let source: UserSource
+    fileprivate var socialMessage: SocialMessage? = nil
 
-    private let sellingProductListViewModel: ProductListViewModel
-    private let sellingProductListRequester: UserProductListRequester
-    private let soldProductListViewModel: ProductListViewModel
-    private let soldProductListRequester: UserProductListRequester
-    private let favoritesProductListViewModel: ProductListViewModel
-    private let favoritesProductListRequester: UserProductListRequester
+    fileprivate let sellingProductListViewModel: ProductListViewModel
+    fileprivate let sellingProductListRequester: UserProductListRequester
+    fileprivate let soldProductListViewModel: ProductListViewModel
+    fileprivate let soldProductListRequester: UserProductListRequester
+    fileprivate let favoritesProductListViewModel: ProductListViewModel
+    fileprivate let favoritesProductListRequester: UserProductListRequester
 
     // Input
-    let tab = Variable<UserViewHeaderTab>(.Selling)
+    let tab = Variable<UserViewHeaderTab>(.selling)
 
     // Output
     let navBarButtons = Variable<[UIAction]>([])
     let backgroundColor = Variable<UIColor>(UIColor.clear)
-    let headerMode = Variable<UserViewHeaderMode>(.MyUser)
+    let headerMode = Variable<UserViewHeaderMode>(.myUser)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
     let userAvatarURL = Variable<URL?>(nil)
     let userRatingAverage = Variable<Float?>(nil)
@@ -139,10 +139,10 @@ class UserViewModel: BaseViewModel {
         self.source = source
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
-        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved],
+        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.pending, .approved],
                                                                             itemsPerPage: Constants.numProductsPerPageDefault)
         self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
-        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.Sold, .SoldOld],
+        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.sold, .soldOld],
                                                                          itemsPerPage: Constants.numProductsPerPageDefault)
         self.soldProductListViewModel = ProductListViewModel(requester: self.soldProductListRequester)
         self.favoritesProductListRequester = UserFavoritesProductListRequester()
@@ -204,7 +204,7 @@ extension UserViewModel {
         guard let userAccounts = userAccounts.value, isMyProfile else { return }
         var verifyTypes: [VerificationType] = []
         if !userAccounts.emailVerified {
-            verifyTypes.append(.Email(myUserRepository.myUser?.email))
+            verifyTypes.append(.email(myUserRepository.myUser?.email))
         }
         if !userAccounts.facebookVerified {
             verifyTypes.append(.facebook)
@@ -233,7 +233,7 @@ extension UserViewModel {
         guard favoriteCounter > 0 else { return }
         notificationsManager.clearFavoriteCounter()
         delegate?.vmOpenFavorites()
-        tab.value = .Favorites
+        tab.value = .favorites
     }
 }
 
@@ -242,17 +242,17 @@ extension UserViewModel {
 // MARK: > Helpers
 
 extension UserViewModel {
-    private var isMyUser: Bool {
+    fileprivate var isMyUser: Bool {
         guard let myUserId = myUserRepository.myUser?.objectId else { return false }
         guard let userId = user.value?.objectId else { return false }
         return myUserId == userId
     }
 
-    private var itsMe: Bool {
+    fileprivate var itsMe: Bool {
         return isMyProfile || isMyUser
     }
 
-    private func buildNavBarButtons() -> [UIAction] {
+    fileprivate func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
         navBarButtons.append(buildShareNavBarAction())
@@ -326,34 +326,34 @@ extension UserViewModel {
         })
     }
 
-    private func resetLists() {
+    fileprivate func resetLists() {
         sellingProductListViewModel.resetUI()
         soldProductListViewModel.resetUI()
         favoritesProductListViewModel.resetUI()
     }
 
-    private func refreshIfLoading() {
+    fileprivate func refreshIfLoading() {
         let listVM = productListViewModel.value
         switch listVM.state {
-        case .Loading:
+        case .loading:
             listVM.retrieveProducts()
-        case .Data, .Error, .Empty:
+        case .data, .error, .empty:
             break
         }
     }
 
-    private func openSettings() {
+    fileprivate func openSettings() {
         profileNavigator?.openSettings()
     }
 
-    private func openRatings() {
+    fileprivate func openRatings() {
         guard let userId = user.value?.objectId else { return }
         navigator?.openRatingList(userId)
     }
 
-    private func openPushPermissionsAlert() {
+    fileprivate func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .default),
+        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
                                     PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .profile)
@@ -375,7 +375,7 @@ extension UserViewModel {
 // MARK: > Requests
 
 extension UserViewModel {
-    private func retrieveUserData() {
+    fileprivate func retrieveUserData() {
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
@@ -384,11 +384,11 @@ extension UserViewModel {
         }
     }
 
-    private func refreshMyUserData() {
+    fileprivate func refreshMyUserData() {
         myUserRepository.refresh(nil) //Completion not required as we're listening rx_myUser
     }
 
-    private func retrieveUsersRelation() {
+    fileprivate func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
         guard !itsMe else { return }
 
@@ -399,7 +399,7 @@ extension UserViewModel {
         }
     }
 
-    private func block() {
+    fileprivate func block() {
         guard let userId = user.value?.objectId else { return }
 
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
@@ -418,7 +418,7 @@ extension UserViewModel {
         }
     }
 
-    private func unblock() {
+    fileprivate func unblock() {
         guard let userId = user.value?.objectId else { return }
 
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
@@ -442,7 +442,7 @@ extension UserViewModel {
 // MARK: > Rx
 
 extension UserViewModel {
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         setupUserInfoRxBindings()
         setupUserRelationRxBindings()
         setupTabRxBindings()
@@ -476,7 +476,7 @@ extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
 
-            strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
+            strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
 
             // If the user has accounts the set them up
             if let user = user, let _ = user.accounts {
@@ -486,7 +486,7 @@ extension UserViewModel {
         }.addDisposableTo(disposeBag)
     }
 
-    private func updateAccounts(_ user: User) {
+    fileprivate func updateAccounts(_ user: User) {
         let facebookAccount = user.facebookAccount
         let googleAccount = user.googleAccount
         let emailAccount = user.emailAccount
@@ -505,7 +505,7 @@ extension UserViewModel {
                                                     emailVerified: emailVerified)
     }
     
-    private func updateRatings(_ user: User?) {
+    fileprivate func updateRatings(_ user: User?) {
         guard let user = user else { return }
         if featureFlags.userReviews {
             userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
@@ -543,11 +543,11 @@ extension UserViewModel {
     private func setupTabRxBindings() {
         tab.asObservable().skip(1).map { [weak self] tab -> ProductListViewModel? in
             switch tab {
-            case .Selling:
+            case .selling:
                 return self?.sellingProductListViewModel
-            case .Sold:
+            case .sold:
                 return self?.soldProductListViewModel
-            case .Favorites:
+            case .favorites:
                 return self?.favoritesProductListViewModel
             }
         }.subscribeNext { [weak self] viewModel in
@@ -623,7 +623,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         guard let product = viewModel.productAtIndex(index), let requester = viewModel.productListRequester else { return }
         let cellModels = viewModel.objects
 
-        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
+        let data = ProductDetailData.productList(product: product, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
         navigator?.openProduct(data, source: .Profile, showKeyboardOnFirstAppearIfNeeded: false)
@@ -666,7 +666,7 @@ extension UserViewModel: SocialSharerDelegate {
 // MARK: - Tracking
 
 extension UserViewModel {
-    private func trackVisit() {
+    fileprivate func trackVisit() {
         guard let user = user.value else { return }
 
         let typePage: EventParameterTypePage
@@ -685,11 +685,11 @@ extension UserViewModel {
 
         let eventTab: EventParameterTab
         switch tab.value {
-        case .Selling:
+        case .selling:
             eventTab = .Selling
-        case .Sold:
+        case .sold:
             eventTab = .Sold
-        case .Favorites:
+        case .favorites:
             eventTab = .Favorites
         }
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
@@ -698,17 +698,17 @@ extension UserViewModel {
         tracker.trackEvent(event)
     }
 
-    private func trackBlock(_ userId: String) {
+    fileprivate func trackBlock(_ userId: String) {
         let event = TrackerEvent.profileBlock(.Profile, blockedUsersIds: [userId])
         tracker.trackEvent(event)
     }
 
-    private func trackUnblock(_ userId: String) {
+    fileprivate func trackUnblock(_ userId: String) {
         let event = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: [userId])
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    private func trackPushPermissionStart() {
+    fileprivate func trackPushPermissionStart() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .Profile, alertType: .Custom,
@@ -716,7 +716,7 @@ extension UserViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackPushPermissionComplete() {
+    fileprivate func trackPushPermissionComplete() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .Profile, alertType: .Custom,
@@ -724,7 +724,7 @@ extension UserViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackPushPermissionCancel() {
+    fileprivate func trackPushPermissionCancel() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
@@ -732,13 +732,13 @@ extension UserViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackShareStart() {
+    fileprivate func trackShareStart() {
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         let trackerEvent = TrackerEvent.profileShareStart(profileType)
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackShareComplete(_ shareNetwork: EventParameterShareNetwork) {
+    fileprivate func trackShareComplete(_ shareNetwork: EventParameterShareNetwork) {
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)

@@ -27,22 +27,22 @@ enum UserViewHeaderTab: Int {
 class UserViewHeader: UIView {
     private static let bgViewMaxHeight: CGFloat = 165
 
-    private static let simpleButtonWidth: CGFloat = 22
-    private static let simpleContainerHeight: CGFloat = 28
-    private static let simpleContainerEmptyHeight: CGFloat = 20
-    private static var halfWidthScreen: CGFloat {
+    fileprivate static let simpleButtonWidth: CGFloat = 22
+    fileprivate static let simpleContainerHeight: CGFloat = 28
+    fileprivate static let simpleContainerEmptyHeight: CGFloat = 20
+    fileprivate static var halfWidthScreen: CGFloat {
         return UIScreen.main.bounds.width / 2
     }
 
-    private static let ratingCountContainerLeadingVisible: CGFloat = 15
-    private static let ratingCountContainerTrailingVisible: CGFloat = 20
+    fileprivate static let ratingCountContainerLeadingVisible: CGFloat = 15
+    fileprivate static let ratingCountContainerTrailingVisible: CGFloat = 20
 
-    private static let buildTrustButtonSmallHeight: CGFloat = 30
-    private static let buildTrustButtonBigHeight: CGFloat = 44
-    private static let buildTrustSeparatorSpace: CGFloat = 30
-    private static let buildTrustButtonInsetSmall: CGFloat = 10
-    private static let buildTrustButtonInsetBig: CGFloat = 15
-    private static let buildTrustButtonTitleInset: CGFloat = 10
+    fileprivate static let buildTrustButtonSmallHeight: CGFloat = 30
+    fileprivate static let buildTrustButtonBigHeight: CGFloat = 44
+    fileprivate static let buildTrustSeparatorSpace: CGFloat = 30
+    fileprivate static let buildTrustButtonInsetSmall: CGFloat = 10
+    fileprivate static let buildTrustButtonInsetBig: CGFloat = 15
+    fileprivate static let buildTrustButtonTitleInset: CGFloat = 10
 
     @IBOutlet weak var avatarRatingsContainerView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -84,7 +84,7 @@ class UserViewHeader: UIView {
 
     weak var delegate: UserViewHeaderDelegate?
 
-    let tab = Variable<UserViewHeaderTab>(.Selling)
+    let tab = Variable<UserViewHeaderTab>(.selling)
 
     var mode: UserViewHeaderMode = .myUser {
         didSet {
@@ -188,10 +188,10 @@ extension UserViewHeader {
     }
     
     func setFavoriteTab() {
-        tab.value = .Favorites
+        tab.value = .favorites
     }
 
-    private func modeUpdated() {
+    fileprivate func modeUpdated() {
         verifiedSimpleContainer.isHidden = false
         if mode.showSelling {
             let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
@@ -203,7 +203,7 @@ extension UserViewHeader {
         updateInfoAndAccountsVisibility()
     }
 
-    private func updateInfoAndAccountsVisibility() {
+    fileprivate func updateInfoAndAccountsVisibility() {
         let fbL = accounts?.facebookLinked ?? false
         let fbV = accounts?.facebookVerified ?? false
         setFacebookAccount(fbL, isVerified: fbV)
@@ -269,14 +269,14 @@ extension UserViewHeader {
 // MARK: > UI
 
 extension UserViewHeader {
-    private func setupUI() {
+    fileprivate func setupUI() {
         setupInfoView()
         setupAvatarRatingsContainerView()
         setupVerifiedViews()
         setupButtons()
     }
 
-    private func updateUI() {
+    fileprivate func updateUI() {
         updateAvatarRatingsContainerView()
         updateUserAvatarView()
     }
@@ -356,7 +356,7 @@ extension UserViewHeader {
         avatarBorderLayer = borderLayer
     }
 
-    private func setupButtonsSelectedState() {
+    fileprivate func setupButtonsSelectedState() {
         var attributes = [String : AnyObject]()
         attributes[NSForegroundColorAttributeName] = selectedColor
         attributes[NSFontAttributeName] = UIFont.activeTabFont
@@ -375,7 +375,7 @@ extension UserViewHeader {
         favoritesButton.setAttributedTitle(favsTitle, for: .selected)
     }
 
-    private func setIndicatorAtTab(_ tab: UserViewHeaderTab, animated: Bool) {
+    fileprivate func setIndicatorAtTab(_ tab: UserViewHeaderTab, animated: Bool) {
         layoutIfNeeded()
         let leading = CGFloat(tab.rawValue) * sellingButton.frame.width
         indicatorViewLeadingConstraint.constant = leading
@@ -388,7 +388,7 @@ extension UserViewHeader {
         }
     }
 
-    private func updateBuildTrustButton(big: Bool) {
+    fileprivate func updateBuildTrustButton(big: Bool) {
         buildTrustButtonHeight.constant = big ? UserViewHeader.buildTrustButtonBigHeight : UserViewHeader.buildTrustButtonSmallHeight
         buildTrustButton.setStyle(.secondary(fontSize: big ? .medium : .small, withBorder: true))
         let inset = big ? UserViewHeader.buildTrustButtonInsetBig : UserViewHeader.buildTrustButtonInsetSmall
@@ -406,35 +406,35 @@ extension UserViewHeader {
 
 extension UserViewHeader {
     
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         setupButtonsRxBindings()
         setupAccountsRxBindings()
     }
 
     private func setupButtonsRxBindings() {
-        avatarButton.rx_tap.subscribeNext { [weak self] _ in
+        avatarButton.rx.tap.subscribeNext { [weak self] _ in
             self?.delegate?.headerAvatarAction()
         }.addDisposableTo(disposeBag)
 
-        ratingsButton.rx_tap.subscribeNext { [weak self] _ in
+        ratingsButton.rx.tap.subscribeNext { [weak self] _ in
             self?.delegate?.ratingsAvatarAction()
         }.addDisposableTo(disposeBag)
 
-        sellingButton.rx_tap.subscribeNext { [weak self] _ in
-            self?.tab.value = .Selling
+        sellingButton.rx.tap.subscribeNext { [weak self] _ in
+            self?.tab.value = .selling
         }.addDisposableTo(disposeBag)
 
-        soldButton.rx_tap.subscribeNext { [weak self] _ in
-            self?.tab.value = .Sold
+        soldButton.rx.tap.subscribeNext { [weak self] _ in
+            self?.tab.value = .sold
         }.addDisposableTo(disposeBag)
 
-        favoritesButton.rx_tap.subscribeNext { [weak self] _ in
-            self?.tab.value = .Favorites
+        favoritesButton.rx.tap.subscribeNext { [weak self] _ in
+            self?.tab.value = .favorites
         }.addDisposableTo(disposeBag)
 
-        tab.asObservable().map { $0 == .Selling }.bindTo(sellingButton.rx_selected).addDisposableTo(disposeBag)
-        tab.asObservable().map { $0 == .Sold }.bindTo(soldButton.rx_selected).addDisposableTo(disposeBag)
-        tab.asObservable().map { $0 == .Favorites }.bindTo(favoritesButton.rx_selected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .selling }.bindTo(sellingButton.rx.isSelected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .sold }.bindTo(soldButton.rx.isSelected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .favorites }.bindTo(favoritesButton.rx.isSelected).addDisposableTo(disposeBag)
 
         tab.asObservable().skip(1).subscribeNext { [weak self] tab in
             self?.setIndicatorAtTab(tab, animated: true)
@@ -442,7 +442,7 @@ extension UserViewHeader {
     }
 
     private func setupAccountsRxBindings() {
-        buildTrustButton.rx_tap.bindNext { [weak self] in
+        buildTrustButton.rx.tap.bindNext { [weak self] in
             self?.delegate?.buildTrustAction()
         }.addDisposableTo(disposeBag)
     }

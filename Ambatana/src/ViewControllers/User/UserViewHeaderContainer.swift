@@ -60,7 +60,7 @@ extension UserViewHeaderContainer {
     }
 }
 
-private extension UserViewHeaderContainer {
+fileprivate extension UserViewHeaderContainer {
     func setupUI() {
         backgroundColor = UIColor.clear
 

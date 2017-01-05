@@ -44,20 +44,20 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     var completionBlock: (() -> Void)?
 
-    let fbButtonState = Variable<VerifyButtonState>(.Hidden)
-    let googleButtonState = Variable<VerifyButtonState>(.Hidden)
-    let emailButtonState = Variable<VerifyButtonState>(.Hidden)
-    let typedEmailState = Variable<VerifyButtonState>(.Hidden)
+    let fbButtonState = Variable<VerifyButtonState>(.hidden)
+    let googleButtonState = Variable<VerifyButtonState>(.hidden)
+    let emailButtonState = Variable<VerifyButtonState>(.hidden)
+    let typedEmailState = Variable<VerifyButtonState>(.hidden)
     private(set) var emailRequiresInput = false
     let typedEmail = Variable<String>("")
 
     private let googleHelper: GoogleLoginHelper
-    private let fbLoginHelper: FBLoginHelper
-    private let myUserRepository: MyUserRepository
-    private let tracker: Tracker
-    private let source: VerifyAccountsSource
+    fileprivate let fbLoginHelper: FBLoginHelper
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let tracker: Tracker
+    fileprivate let source: VerifyAccountsSource
     private let types: [VerificationType]
-    private var userEmail: String? {
+    fileprivate var userEmail: String? {
         for type in types {
             switch type {
             case .google, .facebook:
@@ -128,8 +128,8 @@ class VerifyAccountsViewModel: BaseViewModel {
         if let presentEmail = userEmail, presentEmail.isEmail() {
             emailVerification()
         } else {
-            typedEmailState.value = .Disabled
-            emailButtonState.value = .Hidden
+            typedEmailState.value = .disabled
+            emailButtonState.value = .hidden
         }
     }
 
@@ -145,12 +145,12 @@ class VerifyAccountsViewModel: BaseViewModel {
         types.forEach {
             switch $0 {
             case .google:
-                googleButtonState.value = .Enabled
+                googleButtonState.value = .enabled
             case .facebook:
-                fbButtonState.value = .Enabled
+                fbButtonState.value = .enabled
             case let .email(email):
                 emailRequiresInput = !(email ?? "").isEmail()
-                emailButtonState.value = .Enabled
+                emailButtonState.value = .enabled
             }
         }
     }
@@ -160,9 +160,9 @@ class VerifyAccountsViewModel: BaseViewModel {
         typedEmail.asObservable()
             .filter { [weak self] _ in
                 guard let actionState = self?.typedEmailState.value, let buttonState = self?.emailButtonState.value else { return false }
-                return actionState != .Loading && buttonState == .Hidden
+                return actionState != .loading && buttonState == .hidden
             }
-            .map{ ($0 ?? "").isEmail() ? VerifyButtonState.Enabled : VerifyButtonState.Disabled }
+            .map{ ($0 ?? "").isEmail() ? VerifyButtonState.enabled : VerifyButtonState.disabled }
             .bindNext { [weak self] state in
                 self?.typedEmailState.value = state
             }.addDisposableTo(disposeBag)
@@ -174,14 +174,14 @@ class VerifyAccountsViewModel: BaseViewModel {
 
 private extension VerifyAccountsViewModel {
     func connectWithFacebook() {
-        fbButtonState.value = .Loading
+        fbButtonState.value = .loading
         fbLoginHelper.connectWithFacebook { [weak self] result in
-            self?.fbButtonState.value = .Enabled
+            self?.fbButtonState.value = .enabled
             switch result {
             case let .success(token):
                 self?.myUserRepository.linkAccountFacebook(token) { result in
                     if let _ = result.value {
-                        self?.verificationSuccess(.Facebook)
+                        self?.verificationSuccess(.facebook)
                     } else {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }
@@ -195,7 +195,7 @@ private extension VerifyAccountsViewModel {
     }
 
     func connectWithGoogle() {
-        googleButtonState.value = .Loading
+        googleButtonState.value = .loading
         googleHelper.googleSignIn { [weak self] result in
             self?.googleButtonState.value = .Enabled
             switch result {
@@ -223,11 +223,11 @@ private extension VerifyAccountsViewModel {
             self?.setEmailLoading(false)
             if let error = result.error {
                 switch error {
-                case .TooManyRequests:
+                case .tooManyRequests:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: { self?.verificationFailed() })
-                case .Network:
+                case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: { self?.verificationFailed() })
-                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified, .ServerError:
+                case .forbidden, .internal, .notFound, .unauthorized, .userNotVerified, .serverError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: { self?.verificationFailed() })
                 }
             } else {
@@ -239,11 +239,11 @@ private extension VerifyAccountsViewModel {
     }
 
     func setEmailLoading(_ loading: Bool) {
-        if emailButtonState.value != .Hidden {
-            emailButtonState.value = loading ? .Loading : .Enabled
+        if emailButtonState.value != .hidden {
+            emailButtonState.value = loading ? .loading : .enabled
         }
-        if typedEmailState.value != .Hidden {
-            typedEmailState.value = loading ? .Loading : .Enabled
+        if typedEmailState.value != .hidden {
+            typedEmailState.value = loading ? .loading : .enabled
         }
     }
 
@@ -260,7 +260,7 @@ private extension VerifyAccountsViewModel {
 
 // MARK: - Trackings
 
-private extension VerifyAccountsViewModel {
+fileprivate extension VerifyAccountsViewModel {
     func trackStart() {
         let event = TrackerEvent.verifyAccountStart(source.typePage)
         tracker.trackEvent(event)
@@ -272,7 +272,7 @@ private extension VerifyAccountsViewModel {
     }
 }
 
-private extension VerifyAccountsSource {
+fileprivate extension VerifyAccountsSource {
     var typePage: EventParameterTypePage {
         switch self {
         case .chat:
@@ -310,7 +310,7 @@ private extension VerifyAccountsSource {
     }
 }
 
-private extension VerificationType {
+fileprivate extension VerificationType {
     var accountNetwork: EventParameterAccountNetwork {
         switch self {
         case .facebook:

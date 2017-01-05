@@ -89,7 +89,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     func conversationSelectedAtIndex(_ index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.Conversation(conversation: conversation))
+        tabNavigator?.openChat(.conversation(conversation: conversation))
     }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
@@ -158,10 +158,10 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     // MARK: - Private methods
 
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         chatRepository.chatEvents.filter { event in
             switch event.type {
-            case .InterlocutorMessageSent:
+            case .interlocutorMessageSent:
                 return true
             default:
                 return false
@@ -178,37 +178,37 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 private extension ChatsType {
     var conversationFilter: WebSocketConversationFilter {
         switch self {
-        case .Selling: return .AsSeller
-        case .Buying: return .asBuyer
-        case .Archived: return .Archived
-        case .All: return .None
+        case .selling: return .AsSeller
+        case .buying: return .asBuyer
+        case .archived: return .Archived
+        case .all: return .None
         }
     }
 }
 
 private extension ChatConversation {
     var conversationCellStatus: ConversationCellStatus {
-        guard let product = product, let interlocutor = interlocutor else { return .UserDeleted }
-        if interlocutor.isBanned { return .Forbidden }
+        guard let product = product, let interlocutor = interlocutor else { return .userDeleted }
+        if interlocutor.isBanned { return .forbidden }
 
         switch interlocutor.status {
-        case .Scammer:
-            return .Forbidden
-        case .PendingDelete:
-            return .UserPendingDelete
-        case .Deleted:
-            return .UserDeleted
-        case .Active, .Inactive, .NotFound:
+        case .scammer:
+            return .forbidden
+        case .pendingDelete:
+            return .userPendingDelete
+        case .deleted:
+            return .userDeleted
+        case .active, .inactive, .notFound:
             break // In this case we rely on the product status
         }
 
         switch product.status {
-        case .Deleted, .Discarded:
-            return .ProductDeleted
-        case .Sold, .SoldOld:
-            return .ProductSold
-        case .Approved, .Pending:
-            return .Available
+        case .deleted, .discarded:
+            return .productDeleted
+        case .sold, .soldOld:
+            return .productSold
+        case .approved, .pending:
+            return .available
         }
     }
 }

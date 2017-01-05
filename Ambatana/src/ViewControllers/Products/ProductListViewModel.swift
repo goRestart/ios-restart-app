@@ -159,7 +159,7 @@ class ProductListViewModel: BaseViewModel {
         delegate?.vmReloadData(self)
     }
     
-    func retrieveProducts() -> Bool {
+    @discardableResult func retrieveProducts() -> Bool {
         guard canRetrieveProducts else { return false }
         retrieveProducts(firstPage: true)
         return true

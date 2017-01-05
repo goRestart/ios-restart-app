@@ -12,36 +12,36 @@ import RxCocoa
 import RxSwift
 
 class UserViewController: BaseViewController {
-    private static let navBarUserViewHeight: CGFloat = 36
+    fileprivate static let navBarUserViewHeight: CGFloat = 36
     private static let userBgViewDefaultHeight: CGFloat = headerExpandedHeight
 
-    private static let productListViewTopMargin: CGFloat = 64
+    fileprivate static let productListViewTopMargin: CGFloat = 64
 
-    private static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
-    private static let headerExpandedHeight: CGFloat = 150
+    fileprivate static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
+    fileprivate static let headerExpandedHeight: CGFloat = 150
 
-    private static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
-    private static let headerCollapsedHeight: CGFloat = 44
+    fileprivate static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
+    fileprivate static let headerCollapsedHeight: CGFloat = 44
 
     private static let navbarHeaderMaxThresold: CGFloat = 0.5
     private static let userLabelsMinThreshold: CGFloat = 0.5
     private static let headerMinThreshold: CGFloat = 0.7
-    private static let userLabelsAndHeaderMaxThreshold: CGFloat = 1.5
+    fileprivate static let userLabelsAndHeaderMaxThreshold: CGFloat = 1.5
 
-    private static let userBgTintViewHeaderExpandedAlpha: CGFloat = 0.54
-    private static let userBgTintViewHeaderCollapsedAlpha: CGFloat = 1.0
+    fileprivate static let userBgTintViewHeaderExpandedAlpha: CGFloat = 0.54
+    fileprivate static let userBgTintViewHeaderCollapsedAlpha: CGFloat = 1.0
 
-    private static let userEffectViewHeaderExpandedDoubleAlpha: CGFloat = 0.0
-    private static let userEffectViewHeaderExpandedAlpha: CGFloat = 1.0
-    private static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
+    fileprivate static let userEffectViewHeaderExpandedDoubleAlpha: CGFloat = 0.0
+    fileprivate static let userEffectViewHeaderExpandedAlpha: CGFloat = 1.0
+    fileprivate static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
 
-    private static let ratingAverageContainerHeightVisible: CGFloat = 30
+    fileprivate static let ratingAverageContainerHeightVisible: CGFloat = 30
     
-    private static let userLabelsContainerMarginLong: CGFloat = 90
-    private static let userLabelsContainerMarginShort: CGFloat = 50
+    fileprivate static let userLabelsContainerMarginLong: CGFloat = 90
+    fileprivate static let userLabelsContainerMarginShort: CGFloat = 50
 
-    private var navBarUserView: UserView
-    private var navBarUserViewAlpha: CGFloat = 0.0 {
+    fileprivate var navBarUserView: UserView
+    fileprivate var navBarUserViewAlpha: CGFloat = 0.0 {
         didSet {
             navBarUserView.alpha = navBarUserViewAlpha
         }
@@ -54,8 +54,8 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var headerContainer: UserViewHeaderContainer!
     @IBOutlet weak var headerContainerBottom: NSLayoutConstraint!
     @IBOutlet weak var headerContainerHeight: NSLayoutConstraint!
-    private let headerGestureRecognizer: UIPanGestureRecognizer
-    private let headerRecognizerDragging = Variable<Bool>(false)
+    fileprivate let headerGestureRecognizer: UIPanGestureRecognizer
+    fileprivate let headerRecognizerDragging = Variable<Bool>(false)
     
     @IBOutlet weak var productListViewBackgroundView: UIView!
     @IBOutlet weak var productListView: ProductListView!
@@ -69,15 +69,15 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
 
-    private var bottomInset: CGFloat = 0
-    private let cellDrawer: ProductCellDrawer
-    private var viewModel: UserViewModel
-    private let socialSharer: SocialSharer
+    fileprivate var bottomInset: CGFloat = 0
+    fileprivate let cellDrawer: ProductCellDrawer
+    fileprivate var viewModel: UserViewModel
+    fileprivate let socialSharer: SocialSharer
 
-    private let headerExpandedPercentage = Variable<CGFloat>(1)
-    private let disposeBag: DisposeBag
-    private var notificationsManager: NotificationsManager
-    private var featureFlags: FeatureFlaggeable
+    fileprivate let headerExpandedPercentage = Variable<CGFloat>(1)
+    fileprivate let disposeBag: DisposeBag
+    fileprivate var notificationsManager: NotificationsManager
+    fileprivate var featureFlags: FeatureFlaggeable
 
 
     // MARK: - Lifecycle
@@ -224,14 +224,14 @@ extension UserViewController : UserViewHeaderDelegate {
 // MARK: - UI
 
 extension UserViewController {
-    private func setupUI() {
+    fileprivate func setupUI() {
         setupMainView()
         setupHeader()
         setupNavigationBar()
         setupProductListView()
     }
 
-    private func setupAccessibilityIds() {
+    fileprivate func setupAccessibilityIds() {
         navBarUserView.titleLabel.accessibilityId = .UserHeaderCollapsedNameLabel
         navBarUserView.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
         userNameLabel.accessibilityId = .UserHeaderExpandedNameLabel
@@ -309,7 +309,7 @@ extension UserViewController {
         averageRatingView.rounded = true
     }
 
-    private func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
+    fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
         let minBottom = UserViewController.headerExpandedBottom
         let maxBottom = UserViewController.headerCollapsedBottom
 
@@ -361,7 +361,7 @@ extension UserViewController {
         }
     }
 
-    private func scrollToTopWithExpandedState(_ expanded: Bool, animated: Bool) {
+    fileprivate func scrollToTopWithExpandedState(_ expanded: Bool, animated: Bool) {
         let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin
         let maximum: CGFloat = -UserViewController.headerCollapsedHeight
         let y = expanded ? mininum : maximum
@@ -374,7 +374,7 @@ extension UserViewController {
 // MARK: - Rx
 
 extension UserViewController {
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         setupBackgroundRxBindings()
         setupUserBgViewRxBindings()
         setupNavBarRxBindings()
@@ -400,8 +400,8 @@ extension UserViewController {
             return !urlString.isEmpty
         }
         // Pattern overlay is hidden if there's no avatar and user background view is shown if so
-        userAvatarPresent.bindTo(patternView.rx_hidden).addDisposableTo(disposeBag)
-        userAvatarPresent.map{ !$0 }.bindTo(userBgView.rx_hidden).addDisposableTo(disposeBag)
+        userAvatarPresent.bindTo(patternView.rx.isHidden).addDisposableTo(disposeBag)
+        userAvatarPresent.map{ !$0 }.bindTo(userBgView.rx.isHidden).addDisposableTo(disposeBag)
 
         // Load avatar image
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
@@ -429,7 +429,7 @@ extension UserViewController {
             navBarButtons.forEach { navBarButton in
                 let button = UIButton(type: .system)
                 button.setImage(navBarButton.image, for: .normal)
-                button.rx_tap.bindNext { _ in
+                button.rx.tap.bindNext { _ in
                     navBarButton.action()
                 }.addDisposableTo(strongSelf.disposeBag)
                 buttons.append(button)
@@ -483,7 +483,7 @@ extension UserViewController {
             let max = UserViewController.userBgTintViewHeaderCollapsedAlpha
             let min = UserViewController.userBgTintViewHeaderExpandedAlpha
             return min + 1 - (percentage * max)
-        }.bindTo(userBgTintView.rx_alpha).addDisposableTo(disposeBag)
+        }.bindTo(userBgTintView.rx.alpha).addDisposableTo(disposeBag)
 
         headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
             let collapsedAlpha = UserViewController.userEffectViewHeaderCollapsedAlpha
@@ -495,7 +495,7 @@ extension UserViewController {
                 alpha += (percentage - 1) * (UserViewController.userEffectViewHeaderExpandedDoubleAlpha - expandedAlpha)
             }
             return alpha
-        }.bindTo(userBgEffectView.rx_alpha).addDisposableTo(disposeBag)
+        }.bindTo(userBgEffectView.rx.alpha).addDisposableTo(disposeBag)
 
         // Header elements alpha selection
         headerExpandedPercentage.asObservable()
