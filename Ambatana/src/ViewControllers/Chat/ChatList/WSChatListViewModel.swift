@@ -179,9 +179,9 @@ private extension ChatsType {
     var conversationFilter: WebSocketConversationFilter {
         switch self {
         case .selling: return .AsSeller
-        case .buying: return .asBuyer
-        case .archived: return .Archived
-        case .all: return .None
+        case .Buying: return .asBuyer
+        case .Archived: return .Archived
+        case .All: return .None
         }
     }
 }
@@ -203,10 +203,10 @@ private extension ChatConversation {
         }
 
         switch product.status {
-        case .deleted, .discarded:
-            return .productDeleted
+        case .Deleted, .discarded:
+            return .ProductDeleted
         case .sold, .soldOld:
-            return .productSold
+            return .ProductSold
         case .approved, .pending:
             return .available
         }

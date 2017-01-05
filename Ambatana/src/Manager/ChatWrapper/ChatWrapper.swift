@@ -112,7 +112,7 @@ class ChatWrapper {
 extension ChatWrapperMessageType {
     var text: String {
         switch self {
-        case let .Text(text):
+        case let .text(text):
             return text
         case let .ChatSticker(sticker):
             return sticker.name
@@ -129,21 +129,21 @@ extension ChatWrapperMessageType {
 
     var oldChatType: MessageType {
         switch self {
-        case .Text:
-            return .Text
+        case .text:
+            return .text
         case .ChatSticker:
             return .Sticker
         case .quickAnswer, .expressChat, .favoritedProduct, .periscopeDirect: // Legacy chat doesn't use this types
-            return .Text
+            return .text
         }
     }
 
     var chatType: ChatMessageType {
         switch self {
-        case .Text:
-            return .Text
+        case .text:
+            return .text
         case .periscopeDirect:
-            return .Text
+            return .text
         case .ChatSticker:
             return .Sticker
         case .quickAnswer:
@@ -157,8 +157,8 @@ extension ChatWrapperMessageType {
     
     var chatTrackerType: EventParameterMessageType {
         switch self {
-        case .Text:
-            return .Text
+        case .text:
+            return .text
         case .ChatSticker:
             return .Sticker
         case .quickAnswer:

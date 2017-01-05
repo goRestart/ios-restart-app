@@ -44,14 +44,14 @@ class CreateCommercialViewModel: BaseViewModel {
     }
     
     func fetchProducts() {
-        self.status.value = .Loading
+        self.status.value = .loading
         commercializerRepository.indexAvailableProducts { [weak self] result in
             if let value = result.value {
                 self?.products = value
                 if !value.isEmpty {
                     self?.status.value = .Data
                 } else if let vm = self?.viewModelForEmptyView() {
-                    self?.status.value = .Empty(vm)
+                    self?.status.value = .empty(vm)
                 } else if let vm = self?.emptyViewModelForError(.Internal(message: "")){
                     self?.status.value = .Error(vm)
                 } else {

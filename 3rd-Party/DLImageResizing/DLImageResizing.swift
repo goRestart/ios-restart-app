@@ -96,7 +96,7 @@ extension UIImage {
     }
     
     // Returns a copy of the image transformed by means of an affine transform and scaled to the new size.
-    // Also, it sets the orientation to UIImageOrientation.Up.
+    // Also, it sets the orientation to UIImageOrientation.up.
     func resizedImageToSize(_ size: CGSize, transform: CGAffineTransform, needsToBeTransposed: Bool,
                             interpolationQuality: CGInterpolationQuality) -> UIImage? {
         // calculate frames and get initial CGImage

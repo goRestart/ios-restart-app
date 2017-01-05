@@ -42,7 +42,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
             return
         }
         switch status {
-        case .Sent:
+        case .sent:
             cell.checkImageView.image = UIImage(named: "ic_tick_sent")
         case .Received:
             cell.checkImageView.image = UIImage(named: "ic_doble_received")

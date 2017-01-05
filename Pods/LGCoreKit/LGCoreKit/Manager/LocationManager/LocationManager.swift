@@ -81,6 +81,7 @@ public protocol LocationManager {
 
     - returns: The location service status.
     */
+    @discardableResult
     func startSensorLocationUpdates() -> LocationServiceStatus
 
     /**

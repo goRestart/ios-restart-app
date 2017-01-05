@@ -29,17 +29,17 @@ class ChatViewMessageAdapter {
         switch message.type {
         case .Offer:
             type = ChatViewMessageType.Offer(text: message.text)
-        case .Text:
-            type = ChatViewMessageType.Text(text: message.text)
+        case .text:
+            type = ChatViewMessageType.text(text: message.text)
         case .Sticker:
             if let sticker = stickersRepository.sticker(message.text) {
                 type = ChatViewMessageType.Sticker(url: sticker.url)
             } else {
-                type = ChatViewMessageType.Text(text: message.text)
+                type = ChatViewMessageType.text(text: message.text)
             }
         }
         
-        let status: ChatMessageStatus = message.isRead ? .Read : .Sent
+        let status: ChatMessageStatus = message.isRead ? .Read : .sent
         return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt,
                                receivedAt: nil, readAt: nil, type: type, status: status,
                                warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus))
@@ -51,13 +51,13 @@ class ChatViewMessageAdapter {
         switch message.type {
         case .Offer:
             type = ChatViewMessageType.Offer(text: message.text)
-        case .Text, .QuickAnswer, .ExpressChat, .FavoritedProduct:
-            type = ChatViewMessageType.Text(text: message.text)
+        case .text, .QuickAnswer, .ExpressChat, .FavoritedProduct:
+            type = ChatViewMessageType.text(text: message.text)
         case .Sticker:
             if let sticker = stickersRepository.sticker(message.text) {
                 type = ChatViewMessageType.Sticker(url: sticker.url)
             } else {
-                type = ChatViewMessageType.Text(text: message.text)
+                type = ChatViewMessageType.text(text: message.text)
             }
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
@@ -146,7 +146,7 @@ class ChatViewMessageAdapter {
         let address = user.postalAddress.zipCodeCityString
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                                type: .UserInfo(name: name, address: address, facebook: facebook, google: google, email: email),
-                               status: nil, warningStatus: .Normal)
+                               status: nil, warningStatus: .normal)
     }
 
     private func createDisclaimerMessage(_ disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
@@ -155,7 +155,7 @@ class ChatViewMessageAdapter {
                                                         actionTitle: actionTitle, action: action)
         // TODO: use proper warningStatus once the chat team includes the warning info in the messages
         let disclaimerMessage = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                                                type: disclaimer, status: nil, warningStatus: .Normal)
+                                                type: disclaimer, status: nil, warningStatus: .normal)
         return disclaimerMessage
     }
 

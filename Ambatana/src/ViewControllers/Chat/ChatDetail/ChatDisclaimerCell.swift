@@ -23,15 +23,15 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var buttonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomConstraint: NSLayoutConstraint!
 
-    private static let backgroundWithImageTop: CGFloat = 25
-    private static let titleVisibleTop: CGFloat = 67
-    private static let titleInvisibleTop: CGFloat = 8
-    private static let buttonVisibleHeight: CGFloat = 30
-    private static let buttonVisibleBottom: CGFloat = 8
-    private static let buttonHContentInset: CGFloat = 16
+    static let backgroundWithImageTop: CGFloat = 25
+    static let titleVisibleTop: CGFloat = 67
+    static let titleInvisibleTop: CGFloat = 8
+    static let buttonVisibleHeight: CGFloat = 30
+    static let buttonVisibleBottom: CGFloat = 8
+    static let buttonHContentInset: CGFloat = 16
 
-    private var buttonAction: (() -> Void)?
-    private let disposeBag = DisposeBag()
+    var buttonAction: (() -> Void)?
+    let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -97,11 +97,9 @@ private extension ChatDisclaimerCell {
     }
 
     func setupRxBindings() {
-        button.rx_tap.asObservable().subscribeNext { [weak self] _ in
+        button.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.buttonAction?()
         }.addDisposableTo(disposeBag)
-
-        
     }
     
     dynamic func tapped() {

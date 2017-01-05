@@ -242,17 +242,29 @@ extension UserViewModel {
 // MARK: > Helpers
 
 extension UserViewModel {
+<<<<<<< HEAD
     fileprivate var isMyUser: Bool {
+=======
+    var isMyUser: Bool {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let myUserId = myUserRepository.myUser?.objectId else { return false }
         guard let userId = user.value?.objectId else { return false }
         return myUserId == userId
     }
 
+<<<<<<< HEAD
     fileprivate var itsMe: Bool {
         return isMyProfile || isMyUser
     }
 
     fileprivate func buildNavBarButtons() -> [UIAction] {
+=======
+    var itsMe: Bool {
+        return isMyProfile || isMyUser
+    }
+
+    func buildNavBarButtons() -> [UIAction] {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         var navBarButtons = [UIAction]()
 
         navBarButtons.append(buildShareNavBarAction())
@@ -264,21 +276,21 @@ extension UserViewModel {
         return navBarButtons
     }
 
-    private func buildShareNavBarAction() -> UIAction {
+    func buildShareNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_share")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.shareButtonPressed()
         }, accessibilityId: .UserNavBarShareButton)
     }
 
-    private func buildSettingsNavBarAction() -> UIAction {
+    func buildSettingsNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_settings")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.openSettings()
         }, accessibilityId: .UserNavBarSettingsButton)
     }
 
-    private func buildMoreNavBarAction() -> UIAction {
+    func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             guard let strongSelf = self else { return }
@@ -296,7 +308,7 @@ extension UserViewModel {
         }, accessibilityId: .UserNavBarMoreButton)
     }
 
-    private func buildReportButton() -> UIAction {
+    func buildReportButton() -> UIAction {
         let title = LGLocalizedString.reportUserTitle
         return UIAction(interface: .text(title), action: { [weak self] in
             guard let strongSelf = self, let userReportedId = strongSelf.user.value?.objectId else { return }
@@ -305,7 +317,7 @@ extension UserViewModel {
         })
     }
 
-    private func buildBlockButton() -> UIAction {
+    func buildBlockButton() -> UIAction {
         let title = LGLocalizedString.chatBlockUser
         return UIAction(interface: .text(title), action: { [weak self] in
             let title = LGLocalizedString.chatBlockUserAlertTitle
@@ -319,39 +331,63 @@ extension UserViewModel {
         })
     }
 
-    private func buildUnblockButton() -> UIAction {
+    func buildUnblockButton() -> UIAction {
         let title = LGLocalizedString.chatUnblockUser
         return UIAction(interface: .text(title), action: { [weak self] in
             self?.unblock()
         })
     }
 
+<<<<<<< HEAD
     fileprivate func resetLists() {
+=======
+    func resetLists() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         sellingProductListViewModel.resetUI()
         soldProductListViewModel.resetUI()
         favoritesProductListViewModel.resetUI()
     }
 
+<<<<<<< HEAD
     fileprivate func refreshIfLoading() {
+=======
+    func refreshIfLoading() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let listVM = productListViewModel.value
         switch listVM.state {
         case .loading:
             listVM.retrieveProducts()
+<<<<<<< HEAD
         case .data, .error, .empty:
+=======
+        case .Data, .Error, .empty:
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
             break
         }
     }
 
+<<<<<<< HEAD
     fileprivate func openSettings() {
         profileNavigator?.openSettings()
     }
 
     fileprivate func openRatings() {
+=======
+    func openSettings() {
+        profileNavigator?.openSettings()
+    }
+
+    func openRatings() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
         navigator?.openRatingList(userId)
     }
 
+<<<<<<< HEAD
     fileprivate func openPushPermissionsAlert() {
+=======
+    func openPushPermissionsAlert() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         trackPushPermissionStart()
         let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
                                 action: { [weak self] in
@@ -375,7 +411,11 @@ extension UserViewModel {
 // MARK: > Requests
 
 extension UserViewModel {
+<<<<<<< HEAD
     fileprivate func retrieveUserData() {
+=======
+    func retrieveUserData() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
@@ -384,11 +424,19 @@ extension UserViewModel {
         }
     }
 
+<<<<<<< HEAD
     fileprivate func refreshMyUserData() {
         myUserRepository.refresh(nil) //Completion not required as we're listening rx_myUser
     }
 
     fileprivate func retrieveUsersRelation() {
+=======
+    func refreshMyUserData() {
+        myUserRepository.refresh(nil) //Completion not required as we're listening rx_myUser
+    }
+
+    func retrieveUsersRelation() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
         guard !itsMe else { return }
 
@@ -399,7 +447,11 @@ extension UserViewModel {
         }
     }
 
+<<<<<<< HEAD
     fileprivate func block() {
+=======
+    func block() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
 
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
@@ -418,7 +470,11 @@ extension UserViewModel {
         }
     }
 
+<<<<<<< HEAD
     fileprivate func unblock() {
+=======
+    func unblock() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let userId = user.value?.objectId else { return }
 
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
@@ -442,7 +498,11 @@ extension UserViewModel {
 // MARK: > Rx
 
 extension UserViewModel {
+<<<<<<< HEAD
     fileprivate func setupRxBindings() {
+=======
+    func setupRxBindings() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         setupUserInfoRxBindings()
         setupUserRelationRxBindings()
         setupTabRxBindings()
@@ -450,7 +510,7 @@ extension UserViewModel {
         setupShareRxBindings()
     }
 
-    private func setupUserInfoRxBindings() {
+    func setupUserInfoRxBindings() {
         if itsMe {
             myUserRepository.rx_myUser.bindNext { [weak self] myUser in
                 self?.user.value = myUser
@@ -476,7 +536,11 @@ extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
 
+<<<<<<< HEAD
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
+=======
+            strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .OtherUser
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
 
             // If the user has accounts the set them up
             if let user = user, let _ = user.accounts {
@@ -486,7 +550,11 @@ extension UserViewModel {
         }.addDisposableTo(disposeBag)
     }
 
+<<<<<<< HEAD
     fileprivate func updateAccounts(_ user: User) {
+=======
+    func updateAccounts(_ user: User) {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let facebookAccount = user.facebookAccount
         let googleAccount = user.googleAccount
         let emailAccount = user.emailAccount
@@ -505,7 +573,11 @@ extension UserViewModel {
                                                     emailVerified: emailVerified)
     }
     
+<<<<<<< HEAD
     fileprivate func updateRatings(_ user: User?) {
+=======
+    func updateRatings(_ user: User?) {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let user = user else { return }
         if featureFlags.userReviews {
             userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
@@ -513,7 +585,7 @@ extension UserViewModel {
         }
     }
 
-    private func setupUserRelationRxBindings() {
+    func setupUserRelationRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             self?.userRelationIsBlocked.value = false
             self?.userRelationIsBlockedBy.value = false
@@ -540,7 +612,7 @@ extension UserViewModel {
         }.addDisposableTo(disposeBag)
     }
 
-    private func setupTabRxBindings() {
+    func setupTabRxBindings() {
         tab.asObservable().skip(1).map { [weak self] tab -> ProductListViewModel? in
             switch tab {
             case .selling:
@@ -557,7 +629,7 @@ extension UserViewModel {
         }.addDisposableTo(disposeBag)
     }
 
-    private func setupProductListViewRxBindings() {
+    func setupProductListViewRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard self?.sellingProductListRequester.userObjectId != user?.objectId else { return }
             self?.sellingProductListRequester.userObjectId = user?.objectId
@@ -567,7 +639,7 @@ extension UserViewModel {
         }.addDisposableTo(disposeBag)
     }
 
-    private func setupShareRxBindings() {
+    func setupShareRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard let user = user, let itsMe = self?.itsMe else {
                 self?.socialMessage = nil
@@ -666,7 +738,11 @@ extension UserViewModel: SocialSharerDelegate {
 // MARK: - Tracking
 
 extension UserViewModel {
+<<<<<<< HEAD
     fileprivate func trackVisit() {
+=======
+    func trackVisit() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         guard let user = user.value else { return }
 
         let typePage: EventParameterTypePage
@@ -686,11 +762,19 @@ extension UserViewModel {
         let eventTab: EventParameterTab
         switch tab.value {
         case .selling:
+<<<<<<< HEAD
             eventTab = .Selling
         case .sold:
             eventTab = .Sold
         case .favorites:
             eventTab = .Favorites
+=======
+            eventTab = .selling
+        case .sold:
+            eventTab = .sold
+        case .favorites:
+            eventTab = .favorites
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         }
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         
@@ -698,47 +782,75 @@ extension UserViewModel {
         tracker.trackEvent(event)
     }
 
+<<<<<<< HEAD
     fileprivate func trackBlock(_ userId: String) {
+=======
+    func trackBlock(_ userId: String) {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let event = TrackerEvent.profileBlock(.Profile, blockedUsersIds: [userId])
         tracker.trackEvent(event)
     }
 
+<<<<<<< HEAD
     fileprivate func trackUnblock(_ userId: String) {
+=======
+    func trackUnblock(_ userId: String) {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let event = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: [userId])
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
+<<<<<<< HEAD
     fileprivate func trackPushPermissionStart() {
+=======
+    func trackPushPermissionStart() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .Profile, alertType: .Custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
 
+<<<<<<< HEAD
     fileprivate func trackPushPermissionComplete() {
+=======
+    func trackPushPermissionComplete() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .Profile, alertType: .Custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
 
+<<<<<<< HEAD
     fileprivate func trackPushPermissionCancel() {
+=======
+    func trackPushPermissionCancel() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
 
+<<<<<<< HEAD
     fileprivate func trackShareStart() {
+=======
+    func trackShareStart() {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         let trackerEvent = TrackerEvent.profileShareStart(profileType)
         tracker.trackEvent(trackerEvent)
     }
 
+<<<<<<< HEAD
     fileprivate func trackShareComplete(_ shareNetwork: EventParameterShareNetwork) {
+=======
+    func trackShareComplete(_ shareNetwork: EventParameterShareNetwork) {
+>>>>>>> 77b8bd2a3f041be26bd8f50c8a54ed55912fd280
         let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
         let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)

@@ -26,7 +26,7 @@ struct TrackerEvent {
         let enabled: Bool
         let allowed: Bool
         switch locationServiceStatus {
-        case .Enabled(let authStatus):
+        case .enabled(let authStatus):
             enabled = true
             switch authStatus {
             case .Authorized:
@@ -279,11 +279,11 @@ struct TrackerEvent {
         params.addProductParams(product)
 
         // When starting share if native then the network is considered as N/A
-        var actualNetwork = network ?? .NotAvailable
+        var actualNetwork = network ?? .notAvailable
         switch actualNetwork {
         case .Native:
-            actualNetwork = .NotAvailable
-        case .Email, .Facebook, .Whatsapp, .Twitter, .FBMessenger, .Telegram, .SMS, .CopyLink, .NotAvailable:
+            actualNetwork = .notAvailable
+        case .Email, .Facebook, .Whatsapp, .Twitter, .FBMessenger, .Telegram, .SMS, .CopyLink, .notAvailable:
             break
         }
         params[.ShareNetwork] = actualNetwork.rawValue
@@ -857,7 +857,7 @@ struct TrackerEvent {
         case .none:
             break
         }
-        return TrackerEvent(name: .OpenApp, params: params)
+        return TrackerEvent(name: .openApp, params: params)
     }
 
     static func expressChatStart(_ trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
@@ -934,7 +934,7 @@ struct TrackerEvent {
     static func marketingPushNotifications(_ userId: String?, enabled: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.UserId] = userId
-        params[.Enabled] = enabled
+        params[.enabled] = enabled
         return TrackerEvent(name: .MarketingPushNotifications, params: params)
     }
 

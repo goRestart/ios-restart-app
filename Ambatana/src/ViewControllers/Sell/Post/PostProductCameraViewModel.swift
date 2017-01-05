@@ -28,7 +28,7 @@ class PostProductCameraViewModel: BaseViewModel {
 
     let visible = Variable<Bool>(false)
 
-    let cameraState = Variable<CameraState>(.PendingAskPermissions)
+    let cameraState = Variable<CameraState>(.pendingAskPermissions)
     let cameraFlashMode = Variable<CameraFlashMode>(.Auto)
     let cameraSourceMode = Variable<CameraSourceMode>(.Rear)
     let imageSelected = Variable<UIImage?>(nil)
@@ -73,7 +73,7 @@ class PostProductCameraViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         switch cameraState.value {
-        case .PendingAskPermissions, .MissingPermissions:
+        case .pendingAskPermissions, .missingPermissions:
             checkCameraState()
         case .TakingPhoto, .Preview, .Capture:
             break
@@ -87,7 +87,7 @@ class PostProductCameraViewModel: BaseViewModel {
         switch cameraState.value {
         case .TakingPhoto, .Preview:
             retryPhotoButtonPressed()
-        case .MissingPermissions, .PendingAskPermissions, .Capture:
+        case .missingPermissions, .pendingAskPermissions, .Capture:
             cameraDelegate?.productCameraCloseButton()
         }
     }
@@ -121,9 +121,9 @@ class PostProductCameraViewModel: BaseViewModel {
 
     func infoButtonPressed() {
         switch cameraState.value {
-        case .MissingPermissions:
+        case .missingPermissions:
             UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
-        case .PendingAskPermissions:
+        case .pendingAskPermissions:
             askForPermissions()
         case .TakingPhoto, .Capture, .Preview:
             break
@@ -142,7 +142,7 @@ class PostProductCameraViewModel: BaseViewModel {
         cameraState.asObservable().subscribeNext{ [weak self] state in
             guard let strongSelf = self else { return }
             switch state {
-            case .MissingPermissions(let msg):
+            case .missingPermissions(let msg):
                 guard !strongSelf.skipCustomPermissions else {
                     strongSelf.shouldShowFirstTimeAlert.value = true
                     return
@@ -151,7 +151,7 @@ class PostProductCameraViewModel: BaseViewModel {
                 strongSelf.infoSubtitle.value = msg
                 strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
-            case .PendingAskPermissions:
+            case .pendingAskPermissions:
                 guard !strongSelf.skipCustomPermissions else {
                     strongSelf.shouldShowFirstTimeAlert.value = true
                     return
@@ -189,7 +189,7 @@ class PostProductCameraViewModel: BaseViewModel {
 
     private func checkCameraState() {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            cameraState.value = .MissingPermissions(LGLocalizedString.productSellCameraRestrictedError)
+            cameraState.value = .missingPermissions(LGLocalizedString.productSellCameraRestrictedError)
             return
         }
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
@@ -197,9 +197,9 @@ class PostProductCameraViewModel: BaseViewModel {
         case .authorized:
             cameraState.value = .Capture
         case .denied:
-            cameraState.value = .MissingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+            cameraState.value = .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
         case .notDetermined:
-            cameraState.value = .PendingAskPermissions
+            cameraState.value = .pendingAskPermissions
         case .restricted:
             // this will never be called, this status is not visible for the user
             // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
@@ -212,18 +212,18 @@ class PostProductCameraViewModel: BaseViewModel {
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
                 self?.cameraState.value = granted ?
-                    .Capture : .MissingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+                    .Capture : .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
             }
         }
     }
 
     private func didBecomeVisible() {
         switch cameraState.value {
-        case .PendingAskPermissions:
+        case .pendingAskPermissions:
             askForPermissions()
         case .Capture:
             shouldShowFirstTimeAlert.value = !keyValueStorage[.cameraAlreadyShown]
-        case .TakingPhoto, .Preview, .MissingPermissions:
+        case .TakingPhoto, .Preview, .missingPermissions:
             break
         }
     }

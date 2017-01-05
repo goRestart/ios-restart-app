@@ -33,7 +33,6 @@ class NotificationsApiDataSource: NotificationsDataSource {
     }
 
 
-
     // MARK: - Decoders
 
     private static func decoderArray(_ object: Any) -> [NotificationModel]? {

@@ -239,7 +239,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 strongSelf.nextPage = page + 1
 
                 if let emptyVM = strongSelf.emptyStatusViewModel, firstPage && strongSelf.objectCount == 0 {
-                    strongSelf.status = .Empty(emptyVM)
+                    strongSelf.status = .empty(emptyVM)
                 } else {
                     strongSelf.status = .Data
                 }

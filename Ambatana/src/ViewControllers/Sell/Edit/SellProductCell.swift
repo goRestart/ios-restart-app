@@ -41,7 +41,7 @@ class SellProductCell: UICollectionViewCell, ReusableCell {
         switch type {
         case .local(let image):
             setupCellWithImage(image)
-        case .Remote(let file):
+        case .remote(let file):
             setupCellWithUrl(file.fileURL)
         }
     }

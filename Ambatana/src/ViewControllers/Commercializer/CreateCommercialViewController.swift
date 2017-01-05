@@ -71,14 +71,14 @@ class CreateCommercialViewController: BaseViewController {
             case .None:
                 self?.showActivityIndicator(false)
                 self?.hideAll()
-            case .Loading:
+            case .loading:
                 self?.showActivityIndicator(true)
                 self?.hideAll()
             case .Data:
                 self?.showActivityIndicator(false)
                 self?.collectionView.reloadData()
                 self?.hideEmptyView()
-            case .Empty(let vm):
+            case .empty(let vm):
                 self?.showActivityIndicator(false)
                 self?.emptyView.setupWithModel(vm)
                 self?.showEmptyView()

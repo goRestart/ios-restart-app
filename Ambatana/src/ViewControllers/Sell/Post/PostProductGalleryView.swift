@@ -304,36 +304,36 @@ extension PostProductGalleryView {
             self?.loadImageErrorView.isHidden = true
             self?.imageLoadActivityIndicator.stopAnimating()
             switch state {
-            case .Empty:
+            case .empty:
                 self?.infoTitle.text = LGLocalizedString.productPostEmptyGalleryTitle
                 self?.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
                 self?.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, for: .normal)
                 self?.infoContainer.isHidden = false
                 self?.postButton.isEnabled = false
-            case .PendingAskPermissions:
+            case .pendingAskPermissions:
                 self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
                 self?.infoSubtitle.text = LGLocalizedString.productPostGalleryPermissionsSubtitle
                 self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
                 self?.infoContainer.isHidden = false
                 self?.postButton.isEnabled = false
                 self?.postButton.isEnabled = false
-            case .MissingPermissions(let msg):
+            case .missingPermissions(let msg):
                 self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
                 self?.infoSubtitle.text = msg
                 self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
                 self?.infoContainer.isHidden = false
                 self?.postButton.isEnabled = false
                 self?.postButton.isEnabled = false
-            case .Normal:
+            case .normal:
                 self?.infoContainer.isHidden = true
                 self?.postButton.isEnabled = true
                 self?.loadImageErrorView.isHidden = self?.viewModel.imagesSelectedCount != 0
-            case .LoadImageError:
+            case .loadImageError:
                 self?.infoContainer.isHidden = true
                 self?.loadImageErrorView.isHidden = false
                 self?.configMessageView(.WrongImage)
                 self?.postButton.isEnabled = false
-            case .Loading:
+            case .loading:
                 self?.imageLoadActivityIndicator.startAnimating()
                 self?.postButton.isEnabled = false
             }
@@ -401,12 +401,12 @@ extension PostProductGalleryView {
 
         viewModel.albumIconState.asObservable().subscribeNext{ [weak self] status in
             switch status{
-            case .Hidden:
+            case .hidden:
                 self?.albumButtonTick.isHidden = true
-            case .Down:
+            case .down:
                 self?.albumButtonTick.isHidden = false
                 self?.animateAlbumTickDirectionTop(false)
-            case .Up:
+            case .up:
                 self?.albumButtonTick.isHidden = false
                 self?.animateAlbumTickDirectionTop(true)
             }

@@ -74,7 +74,7 @@ class NotificationsViewController: BaseViewController {
     private func setupRX() {
         viewModel.viewState.asObservable().bindNext { [weak self] state in
             switch state {
-            case .Loading:
+            case .loading:
                 self?.activityIndicator.startAnimating()
                 self?.emptyView.isHidden = true
                 self?.tableView.isHidden = true
@@ -86,7 +86,7 @@ class NotificationsViewController: BaseViewController {
                 self?.tableView.reloadData()
             case .Error(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
-            case .Empty(let emptyViewModel):
+            case .empty(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
             }
         }.addDisposableTo(disposeBag)

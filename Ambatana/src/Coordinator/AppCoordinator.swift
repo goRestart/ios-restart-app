@@ -562,7 +562,7 @@ private extension AppCoordinator {
             }
         case let .product(productId):
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openProduct(ProductDetailData.id(productId: productId), source: .OpenApp,
+                self?.selectedTabCoordinator?.openProduct(ProductDetailData.id(productId: productId), source: .openApp,
                                                           showKeyboardOnFirstAppearIfNeeded: false)
             }
         case let .user(userId):
@@ -716,7 +716,7 @@ private extension AppCoordinator {
         if featureFlags.websocketChat {
             chatRepository.showConversation(conversationId) { [weak self] result in
                 guard let conversation = result.value else { return }
-                let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                     self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                     self?.openTab(.Chats, force: false) { [weak self] in
                         self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
@@ -778,7 +778,7 @@ private extension Tab {
         case .notifications:
             return .Notifications
         case .sell:
-            return .Sell
+            return .sell
         case .chats:
             return .Chats
         case .profile:

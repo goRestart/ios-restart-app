@@ -223,7 +223,7 @@ extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
         case .tabBar, .sellButton:
-            return .Sell
+            return .sell
         case .deepLink:
             return .External
         case .onboardingButton, .onboardingCamera:

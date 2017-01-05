@@ -95,7 +95,7 @@ class EditLocationViewModel: BaseViewModel {
         self.tracker = tracker
 
         self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
-            (mode == .EditUserLocation || mode == .EditProductLocation))
+            (mode == .EditUserLocation || mode == .editProductLocation))
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -207,7 +207,7 @@ class EditLocationViewModel: BaseViewModel {
 
     private func setPlace(_ place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
 
-        if mode == .EditProductLocation && currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
+        if mode == .editProductLocation && currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
                 self?.setMapToPreviousKnownPlace()
             }

@@ -140,11 +140,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
         
         switch product.status {
-        case .Deleted, .Discarded:
+        case .Deleted, .discarded:
             return .productDeleted
-        case .Sold, .SoldOld:
+        case .sold, .soldOld:
             return .productSold
-        case .Approved, .Pending:
+        case .approved, .pending:
             return .available
         }
     }
@@ -323,13 +323,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
     var expressMessagesAlreadySent = Variable<Bool>(false)
 
     // MARK: > related products
-    let relatedProductsState = Variable<ChatRelatedItemsState>(.Loading)
+    let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
     let chatStatusEnablesRelatedProducts = Variable<Bool>(false)
     let sellerDidntAnswer = Variable<Bool?>(nil)
 
     // MARK: > Direct answers
     private let userDirectAnswersEnabled = Variable<Bool>(false)
-    let directAnswersState = Variable<DirectAnswersState>(.NotAvailable)
+    let directAnswersState = Variable<DirectAnswersState>(.notAvailable)
 
     private let disposeBag = DisposeBag()
     
@@ -510,7 +510,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
 
         //Direct answers
-        if chat.isSaved && !featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+        if chat.isSaved && !featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
             let visible = directAnswersState.value == .Visible
             texts.append(visible ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
@@ -552,7 +552,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     func sendText(_ text: String, isQuickAnswer: Bool) {
-        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .text)
     }
     
     func isMatchingConversationData(_ data: ConversationData) -> Bool {
@@ -579,7 +579,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func keyboardShown() {
-        if featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+        if featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
             showDirectAnswers(false)
         }
     }
@@ -612,11 +612,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
     private func setupRx() {
         Observable.combineLatest(chatStatusEnablesRelatedProducts.asObservable(), sellerDidntAnswer.asObservable()) { [weak self] in
-            guard let strongSelf = self else { return .Loading }
-            guard strongSelf.isBuyer else { return .Hidden } // Seller doesn't have related products
+            guard let strongSelf = self else { return .loading }
+            guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
             if $0 { return .Visible }
-            guard let didntAnswer = $1 else { return .Loading } // If still checking if seller didn't answer. set loading state
-            return didntAnswer ? .Visible : .Hidden
+            guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
+            return didntAnswer ? .Visible : .hidden
         }
         .bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
@@ -639,7 +639,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
         relatedProductsState.asObservable().bindNext { [weak self] state in
             switch state {
-            case .Loading, .Hidden:
+            case .loading, .hidden:
                 self?.delegate?.vmShowRelatedProducts(nil)
             case .Visible:
                 self?.delegate?.vmShowRelatedProducts(self?.product.objectId)
@@ -654,13 +654,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
             relatedProductsState.asObservable(),
             userDirectAnswersEnabled.asObservable(),
             resultSelector: { [weak self] relatedState, directAnswers in
-                guard let chatEnabled = self?.chatEnabled else { return .NotAvailable }
+                guard let chatEnabled = self?.chatEnabled else { return .notAvailable }
                 switch relatedState {
-                case .Loading, .Visible:
-                    return .NotAvailable
-                case .Hidden:
-                    guard chatEnabled else { return .NotAvailable }
-                    return directAnswers ? .Visible : .Hidden
+                case .loading, .Visible:
+                    return .notAvailable
+                case .hidden:
+                    guard chatEnabled else { return .notAvailable }
+                    return directAnswers ? .Visible : .hidden
             }
         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
@@ -1316,8 +1316,8 @@ extension OldChatViewModel: ChatRelatedProductsViewDelegate {
 extension MessageType {
     var trackingMessageType: EventParameterMessageType {
         switch self {
-        case .Text:
-            return .Text
+        case .text:
+            return .text
         case .Offer:
             return .Offer
         case .Sticker:

@@ -764,7 +764,7 @@ private extension MainProductsViewModel {
 
     func trackPushPermissionStart() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductListBanner, alertType: .Custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
@@ -772,7 +772,7 @@ private extension MainProductsViewModel {
 
     func trackPushPermissionComplete() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductListBanner, alertType: .Custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
@@ -780,7 +780,7 @@ private extension MainProductsViewModel {
 
     func trackPushPermissionCancel() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .ProductListBanner, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)

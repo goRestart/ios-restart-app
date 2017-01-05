@@ -14,7 +14,7 @@ enum ChangePasswordError: Error {
     case passwordMismatch
 
     case network
-    case `internal`
+    case internalError
     case resetPasswordLinkExpired
 
     init(repositoryError: RepositoryError, handleUnauthorizedAsLinkExpired: Bool) {

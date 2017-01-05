@@ -24,17 +24,17 @@ struct LocalMessage: Message {
         self.userId = userId ?? ""
         self.createdAt = NSDate() as Date
         self.isRead = false
-        self.warningStatus = .Normal
+        self.warningStatus = .normal
     }
 
     init(text: String, userId: String?) {
         self.objectId = Date().description
         self.text = text
-        self.type = .Text
+        self.type = .text
         self.userId = userId ?? ""
         self.createdAt = Date()
         self.isRead = false
-        self.warningStatus = .Normal
+        self.warningStatus = .normal
     }
 
     init(type: ChatWrapperMessageType, userId: String?) {
@@ -44,6 +44,6 @@ struct LocalMessage: Message {
         self.userId = userId ?? ""
         self.createdAt = Date()
         self.isRead = false
-        self.warningStatus = .Normal
+        self.warningStatus = .normal
     }
 }

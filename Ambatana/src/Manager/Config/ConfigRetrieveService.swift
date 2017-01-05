@@ -10,13 +10,13 @@ import Result
 
 enum ConfigRetrieveServiceError: Error, CustomStringConvertible {
     case network
-    case `internal`
+    case internalError
 
     var description: String {
         switch (self) {
         case .network:
             return "Network"
-        case internal:
+        case .internalError:
             return "Internal"
         }
     }

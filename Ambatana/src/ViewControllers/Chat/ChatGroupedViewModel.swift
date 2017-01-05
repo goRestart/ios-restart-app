@@ -295,7 +295,7 @@ extension ChatGroupedViewModel {
     fileprivate func setupRxBindings() {
         currentTab.asObservable().map { [weak self] tab -> ChatGroupedListViewModelType? in
             switch tab {
-            case .All, .Selling, .Buying:
+            case .All, .selling, .Buying:
                 return self?.chatListViewModels[tab.rawValue]
             case .BlockedUsers:
                 return self?.blockedUsersListViewModel

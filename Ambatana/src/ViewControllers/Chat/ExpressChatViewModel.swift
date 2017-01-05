@@ -163,11 +163,11 @@ extension ExpressChatViewModel {
 
     func singleMessageExtraTrackings(_ shouldAskAskQuestion: Bool, product: Product) {
         if shouldAskAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .Text, typePage: .ExpressChat)
+            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .ExpressChat)
             trackerProxy.trackEvent(askQuestionEvent)
         }
         
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .Text,
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text,
                                                             isQuickAnswer: .False, typePage: .ExpressChat)
         trackerProxy.trackEvent(messageSentEvent)
     }
