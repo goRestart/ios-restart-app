@@ -149,30 +149,30 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 marketingNotifications: marketingNotifications, productsMarkAsFavorite: productsMarkAsFavorite)
     }
 
-    func encode() -> [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        dict.encode(UserDefaultsUserKey.AppShared.rawValue, value: appShared as AnyObject)
-        dict.encode(UserDefaultsUserKey.UserLocationApproximate.rawValue, value: userLocationApproximate as AnyObject)
-        dict.encode(UserDefaultsUserKey.ChatSafetyTipsShown.rawValue, value: chatSafetyTipsShown as AnyObject)
-        dict.encode(UserDefaultsUserKey.ChatDirectAnswersShow.rawValue, value: chatShowDirectAnswers as AnyObject)
-        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated as AnyObject)
+    func encode() -> [String: Any] {
+        var dict = [String: Any]()
+        dict.encode(UserDefaultsUserKey.AppShared.rawValue, value: appShared)
+        dict.encode(UserDefaultsUserKey.UserLocationApproximate.rawValue, value: userLocationApproximate)
+        dict.encode(UserDefaultsUserKey.ChatSafetyTipsShown.rawValue, value: chatSafetyTipsShown)
+        dict.encode(UserDefaultsUserKey.ChatDirectAnswersShow.rawValue, value: chatShowDirectAnswers)
+        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
         if let ratingRemindMeLaterDate = ratingRemindMeLaterDate {
-            dict.encode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate as AnyObject)
+            dict.encode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate)
         }
-        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated as AnyObject)
+        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
         if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
-            dict.encode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected as AnyObject)
+            dict.encode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected)
         }
-        dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastTabSelected as AnyObject)
-        dict.encode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue, value: postProductPostedPreviously as AnyObject)
-        dict.encode(UserDefaultsUserKey.CommercializersPending.rawValue, value: commercializersPending as AnyObject)
-        dict.encode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked as AnyObject)
-        dict.encode(UserDefaultsUserKey.ShouldShowExpressChat.rawValue, value: shouldShowExpressChat as AnyObject)
-        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown as AnyObject)
-        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent as AnyObject)
-        dict.encode(UserDefaultsUserKey.MarketingNotifications.rawValue, value: marketingNotifications as AnyObject)
+        dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastTabSelected)
+        dict.encode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue, value: postProductPostedPreviously)
+        dict.encode(UserDefaultsUserKey.CommercializersPending.rawValue, value: commercializersPending)
+        dict.encode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
+        dict.encode(UserDefaultsUserKey.ShouldShowExpressChat.rawValue, value: shouldShowExpressChat)
+        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown)
+        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent)
+        dict.encode(UserDefaultsUserKey.MarketingNotifications.rawValue, value: marketingNotifications)
         if let productsMarkAsFavorite = productsMarkAsFavorite {
-            dict.encode(UserDefaultsUserKey.ProductsMarkAsFavorite.rawValue, value: productsMarkAsFavorite as AnyObject)
+            dict.encode(UserDefaultsUserKey.ProductsMarkAsFavorite.rawValue, value: productsMarkAsFavorite)
         }
         return dict
     }

@@ -102,10 +102,10 @@ class LGViewPagerTabItem: UIButton {
     }
 
     private func setupIndicatorConstraints(_ indicatorHeight: CGFloat) {
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["indicator"] = indicator
-        var metrics = [String: AnyObject]()
-        metrics["hIndicator"] = indicatorHeight as AnyObject?
+        var metrics = [String: Any]()
+        metrics["hIndicator"] = indicatorHeight
 
         let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator(hIndicator)]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)

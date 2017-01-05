@@ -1,5 +1,5 @@
 //
-//  NSURL+LG.swift
+//  URL+LG.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 24/03/16.

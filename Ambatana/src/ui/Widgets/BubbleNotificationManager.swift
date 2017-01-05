@@ -56,7 +56,7 @@ class BubbleNotificationManager {
         bubble.showBubble(autoDismissTime: finalDuration)
     }
 
-    private func clearTagNotifications(_ tag: String?) {
+    fileprivate func clearTagNotifications(_ tag: String?) {
         guard let tag = tag, let notifications = taggedNotifications[tag] else { return }
         taggedNotifications[tag] = nil
         notifications.forEach{ $0.closeBubble() }

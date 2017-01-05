@@ -11,7 +11,7 @@ import LGCoreKit
 import SwiftyUserDefaults
 
 class MockKeyValueStorage {
-    private var keyValue = Dictionary<String, AnyObject>()
+    private var keyValue = Dictionary<String, Any>()
 }
 
 
@@ -78,10 +78,10 @@ extension MockKeyValueStorage: KeyValueStorageable {
         get { return keyValue[key._key] as? NSDate }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSURL?>) -> NSURL? {
+    subscript(key: DefaultsKey<URL?>) -> URL? {
         get {
             guard let urlString = keyValue[key._key] as? String else { return nil }
-            return NSURL(string: urlString)
+            return URL(string: urlString)
         }
         set { keyValue[key._key] = newValue }
     }

@@ -93,11 +93,11 @@ struct ProductSocialMessage: SocialMessage {
         self.init(title: socialTitle, product: product, isMine: productIsMine)
     }
 
-    var nativeShareItems: [AnyObject] {
+    var nativeShareItems: [Any] {
         if let shareUrl = shareUrl(.Native) {
-            return [shareUrl as AnyObject, fullMessage() as AnyObject]
+            return [shareUrl, fullMessage()]
         } else {
-            return [fullMessage() as AnyObject]
+            return [fullMessage()]
         }
     }
 
@@ -183,16 +183,16 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     private func branchUrl(_ source: ShareSource?) -> URL? {
-        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() as URL? }
+        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
         let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
-            else { return LetgoURLHelper.buildHomeURL() as URL? }
+            else { return LetgoURLHelper.buildHomeURL() }
         return URL(string: branchUrl)
     }
 
     private var letgoUrl: URL? {
-        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() as URL? }
-        return LetgoURLHelper.buildProductURL(productId: productId) as URL?
+        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
+        return LetgoURLHelper.buildProductURL(productId: productId)
     }
 
     private var branchObject: BranchUniversalObject {
@@ -239,11 +239,11 @@ struct AppShareSocialMessage: SocialMessage {
         imageUrl = URL(string: Constants.facebookAppInvitePreviewImageURL)
     }
 
-    var nativeShareItems: [AnyObject] {
+    var nativeShareItems: [Any] {
         if let shareUrl = branchUrl(.Native) {
-            return [shareUrl as AnyObject, LGLocalizedString.appShareMessageText as AnyObject]
+            return [shareUrl, LGLocalizedString.appShareMessageText]
         } else {
-            return [LGLocalizedString.appShareMessageText as AnyObject]
+            return [LGLocalizedString.appShareMessageText]
         }
     }
 
@@ -305,7 +305,7 @@ struct AppShareSocialMessage: SocialMessage {
     private func branchUrl(_ source: ShareSource?) -> URL? {
         let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
-            else { return LetgoURLHelper.buildHomeURL() as URL? }
+            else { return LetgoURLHelper.buildHomeURL() }
         return URL(string: branchUrl)
     }
     
@@ -370,11 +370,11 @@ struct UserSocialMessage: SocialMessage {
         }
     }
 
-    var nativeShareItems: [AnyObject] {
+    var nativeShareItems: [Any] {
         if let branchUrl = branchUrl(.Native) {
-            return [branchUrl as AnyObject, messageText as AnyObject]
+            return [branchUrl, messageText]
         } else {
-            return [messageText as AnyObject]
+            return [messageText]
         }
     }
 
@@ -435,7 +435,7 @@ struct UserSocialMessage: SocialMessage {
     }
 
     private var letgoURL: URL? {
-        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL() as URL?
+        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL()
     }
 
     private func branchUrl(_ source: ShareSource?) -> URL? {
@@ -490,12 +490,12 @@ struct CommercializerSocialMessage: SocialMessage {
         self.thumbUrl = URL(string: thumbUrl ?? "")
     }
 
-    var nativeShareItems: [AnyObject] {
+    var nativeShareItems: [Any] {
         let shareTxt = shareText(nil, includeUrl: false)
         if let shareUrl = shareUrl {
-            return [shareUrl as AnyObject, shareTxt as AnyObject]
+            return [shareUrl, shareTxt]
         } else {
-            return [shareTxt as AnyObject]
+            return [shareTxt]
         }
     }
 

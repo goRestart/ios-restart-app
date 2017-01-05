@@ -207,7 +207,7 @@ class ChatViewController: TextViewController {
     }
     
     private func setupConstraints() {
-        var views: [String: AnyObject] = ["relationInfoView": relationInfoView]
+        var views: [String: Any] = ["relationInfoView": relationInfoView]
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[relationInfoView]-0-|", options: [],
             metrics: nil, views: views))
         view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .top, relatedBy: .equal,

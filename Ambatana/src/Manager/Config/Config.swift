@@ -94,24 +94,24 @@ class Config: ResponseObjectSerializable {
 
     // MARK : - Public Methods
 
-    func jsonRepresentation() -> AnyObject {
+    func jsonRepresentation() -> Any {
 
-        var tmpFinalDic : [String:AnyObject] = [:]
-        var tmpCurrentVersionDic : [String:AnyObject] = [:]
-        var tmpUserRatingDic : [String:AnyObject] = [:]
+        var tmpFinalDic : [String:Any] = [:]
+        var tmpCurrentVersionDic : [String:Any] = [:]
+        var tmpUserRatingDic : [String:Any] = [:]
 
-        tmpCurrentVersionDic[Config.buildNumberJSONKey] = buildNumber as AnyObject?
-        tmpCurrentVersionDic[Config.forceUpdateVersionsJSONKey] = forceUpdateVersions as AnyObject?
+        tmpCurrentVersionDic[Config.buildNumberJSONKey] = buildNumber
+        tmpCurrentVersionDic[Config.forceUpdateVersionsJSONKey] = forceUpdateVersions
 
-        tmpFinalDic[Config.currentVersionInfoJSONKey] = tmpCurrentVersionDic as AnyObject?
-        tmpFinalDic[Config.configURLJSONKey] = configURL as AnyObject?
-        tmpFinalDic[Config.quadKeyZoomLevelJSONKey] = quadKeyZoomLevel as AnyObject?
+        tmpFinalDic[Config.currentVersionInfoJSONKey] = tmpCurrentVersionDic
+        tmpFinalDic[Config.configURLJSONKey] = configURL
+        tmpFinalDic[Config.quadKeyZoomLevelJSONKey] = quadKeyZoomLevel
 
-        tmpUserRatingDic[Config.myMessagesCountJSONKey] = myMessagesCountForRating as AnyObject?
-        tmpUserRatingDic[Config.otherMessagesCountJSONKey] = otherMessagesCountForRating as AnyObject?
+        tmpUserRatingDic[Config.myMessagesCountJSONKey] = myMessagesCountForRating
+        tmpUserRatingDic[Config.otherMessagesCountJSONKey] = otherMessagesCountForRating
 
-        tmpFinalDic[Config.userRatingJSONKey] = tmpUserRatingDic as AnyObject?
+        tmpFinalDic[Config.userRatingJSONKey] = tmpUserRatingDic
 
-        return tmpFinalDic as AnyObject
+        return tmpFinalDic
     }
 }

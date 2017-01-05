@@ -39,7 +39,7 @@ class MockInstallation: MockBaseModel, Installation {
 }
 
 extension MockInstallation  {
-    static func decode(dictionary: [String: AnyObject]) -> Self? {
+    static func decode(dictionary: [String: Any]) -> Self? {
         let objectId = dictionary["objectId"] as? String
         let appIdentifier = dictionary["appIdentifier"] as? String ?? ""
         let appVersion = dictionary["appVersion"] as? String ?? ""
@@ -51,8 +51,8 @@ extension MockInstallation  {
         return self.init(objectId: objectId, appIdentifier: appIdentifier, appVersion: appVersion, deviceType: deviceType, timeZone: timeZone, localeIdentifier: localeIdentifier, deviceToken: deviceToken)
     }
 
-    func encode() -> [String: AnyObject] {
-        var dictionary: [String: AnyObject] = [:]
+    func encode() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
         dictionary["objectId"] = objectId
         dictionary["appIdentifier"] = appIdentifier
         dictionary["appVersion"] = appVersion

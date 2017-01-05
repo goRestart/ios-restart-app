@@ -32,15 +32,15 @@ extension UIColor {
     static var secondaryColorDisabled: UIColor { return white }
     static var terciaryColorDisabled: UIColor { return lightBlueGrey }
 
-    private static let watermelon = UIColor(rgb: 0xff3f55)
-    private static let tealBlue = UIColor(rgb: 0x009aab)
+    fileprivate static let watermelon = UIColor(rgb: 0xff3f55)
+    fileprivate static let tealBlue = UIColor(rgb: 0x009aab)
     
-    private static let rosa = UIColor(rgb: 0xfc919d)
-    private static let lightPink = UIColor(rgb: 0xffd8dd)
-    private static let paleTeal = UIColor(rgb: 0x73bdc5)
+    fileprivate static let rosa = UIColor(rgb: 0xfc919d)
+    fileprivate static let lightPink = UIColor(rgb: 0xffd8dd)
+    fileprivate static let paleTeal = UIColor(rgb: 0x73bdc5)
 
-    private static let lightRose = UIColor(rgb: 0xffc5cc)
-    private static let lightBlueGrey = UIColor(rgb: 0xb2e0e5)
+    fileprivate static let lightRose = UIColor(rgb: 0xffc5cc)
+    fileprivate static let lightBlueGrey = UIColor(rgb: 0xb2e0e5)
 }
 
 
@@ -69,7 +69,7 @@ extension UIColor {
     private static let dodgerBlue = UIColor(rgb: 0x4285f4)
 
     private static let dustyBlue = UIColor(rgb: 0x657cab)
-    private static let cornflower = UIColor(rgb: 0x689df6)
+    fileprivate static let cornflower = UIColor(rgb: 0x689df6)
     
     private static let cloudyBlue = UIColor(rgb: 0xc5cddf)
     private static let lightPeriwinkle = UIColor(rgb: 0xc6dafb)
@@ -92,18 +92,17 @@ extension UIColor {
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) }
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) }
     static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) }
-    static var white: UIColor { return UIColor(rgb: 0xFFFFFF) }
 
 
     // Alpha grays
-    private static let blackAlpha80 = black.withAlphaComponent(0.8)
-    private static let blackAlpha50 = black.withAlphaComponent(0.5)
-    private static let blackAlpha30 = black.withAlphaComponent(0.3)
-    private static let blackAlpha15 = black.withAlphaComponent(0.15)
+    fileprivate static let blackAlpha80 = black.withAlphaComponent(0.8)
+    fileprivate static let blackAlpha50 = black.withAlphaComponent(0.5)
+    fileprivate static let blackAlpha30 = black.withAlphaComponent(0.3)
+    fileprivate static let blackAlpha15 = black.withAlphaComponent(0.15)
 
-    private static let whiteAlpha70 = white.withAlphaComponent(0.7)
-    private static let whiteAlpha30 = white.withAlphaComponent(0.3)
-    private static let whiteAlpha10 = white.withAlphaComponent(0.1)
+    fileprivate static let whiteAlpha70 = white.withAlphaComponent(0.7)
+    fileprivate static let whiteAlpha30 = white.withAlphaComponent(0.3)
+    fileprivate static let whiteAlpha10 = white.withAlphaComponent(0.1)
 }
 
 
@@ -112,7 +111,7 @@ extension UIColor {
 extension UIColor {
 
     private static let asparagus = UIColor(rgb: 0x81ac56)
-    private static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
+    fileprivate static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
     private static let wisteria = UIColor(rgb: 0xa384bf)
     private static let desert = UIColor(rgb: 0xa384bf)
 

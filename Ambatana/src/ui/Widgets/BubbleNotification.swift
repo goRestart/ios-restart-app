@@ -191,7 +191,7 @@ class BubbleNotification: UIView {
         textsContainer.addSubview(infoTextLabel)
         containerView.addSubview(actionButton)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["container"] = containerView
         views["textsContainer"] = textsContainer
         views["icon"] = leftIcon
@@ -199,8 +199,8 @@ class BubbleNotification: UIView {
         views["infoLabel"] = infoTextLabel
         views["button"] = actionButton
 
-        var metrics = [String: AnyObject]()
-        metrics["margin"] = BubbleNotification.bubbleContentMargin as AnyObject?
+        var metrics = [String: Any]()
+        metrics["margin"] = BubbleNotification.bubbleContentMargin
         metrics["marginWStatus"] = BubbleNotification.bubbleContentMargin + BubbleNotification.statusBarHeight
         metrics["buttonWidth"] = CGFloat(data.action != nil ? BubbleNotification.buttonMaxWidth : 0)
         metrics["iconDiameter"] = CGFloat(data.hasIcon ? BubbleNotification.iconDiameter : 0)

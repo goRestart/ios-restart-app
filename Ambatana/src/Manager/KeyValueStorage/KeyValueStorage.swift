@@ -340,7 +340,7 @@ extension KeyValueStorage: KeyValueStorageable {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSURL?>) -> URL? {
+    subscript(key: DefaultsKey<URL?>) -> URL? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }

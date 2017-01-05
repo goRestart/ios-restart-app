@@ -18,12 +18,12 @@ class LoadingIndicator: UIView {
         }
     }
 
-    private var loadingShape: CAShapeLayer!
+    fileprivate var loadingShape: CAShapeLayer!
     private var okIcon: UIImageView!
     private var wrongIcon: UIImageView!
 
-    private var pendingFinalState: Bool?
-    private var endAnimationsCompletion: (()->())?
+    fileprivate var pendingFinalState: Bool?
+    fileprivate var endAnimationsCompletion: (()->())?
 
     // MARK: - View Lifecycle
 
@@ -115,7 +115,7 @@ class LoadingIndicator: UIView {
         loadingShape.add(stroke, forKey: "strokeEnd")
     }
 
-    private func showImageAnimation(_ okMode: Bool) {
+    fileprivate func showImageAnimation(_ okMode: Bool) {
         let view = okMode ? okIcon : wrongIcon
         view?.alpha = 0
         UIView.animate(withDuration: 0.2,

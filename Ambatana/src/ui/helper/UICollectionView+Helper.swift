@@ -24,13 +24,13 @@ extension UICollectionView {
 
     private func handleChange<T>(_ change: CollectionChange<T>) {
         switch change {
-        case .Remove(let index, _):
+        case .remove(let index, _):
             let indexPath = IndexPath(forRow: index, inSection: 0)
             deleteItemsAtIndexPaths([indexPath])
-        case .Insert(let index, _):
+        case .insert(let index, _):
             let indexPath = IndexPath(forRow: index, inSection: 0)
             insertItemsAtIndexPaths([indexPath])
-        case .Composite(let changes):
+        case .composite(let changes):
             changes.forEach { [weak self] change in
                 self?.handleChange(change)
             }

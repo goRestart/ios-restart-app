@@ -25,7 +25,7 @@ protocol KeyValueStorageable: class {
     subscript(key: DefaultsKey<NSData?>) -> Data? { get set }
     subscript(key: DefaultsKey<NSData>) -> Data { get set }
     subscript(key: DefaultsKey<NSDate?>) -> Date? { get set }
-    subscript(key: DefaultsKey<NSURL?>) -> URL? { get set }
+    subscript(key: DefaultsKey<URL?>) -> URL? { get set }
     subscript(key: DefaultsKey<[String: AnyObject]?>) -> [String: AnyObject]? { get set }
     subscript(key: DefaultsKey<[String: AnyObject]>) -> [String: AnyObject] { get set }
     subscript(key: DefaultsKey<NSDictionary?>) -> NSDictionary? { get set }

@@ -61,15 +61,15 @@ class PushPermissionsHeader: UIView {
         disclosure.translatesAutoresizingMaskIntoConstraints = false
         addSubview(disclosure)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["icon"] = icon
         views["label"] = label
         views["disclosure"] = disclosure
 
-        var metrics = [String: AnyObject]()
-        metrics["iconWidth"] = PushPermissionsHeader.iconWidth as AnyObject?
-        metrics["disclosureWidth"] = PushPermissionsHeader.disclosureWidth as AnyObject?
-        metrics["messageMargin"] = PushPermissionsHeader.messageMargin as AnyObject?
+        var metrics = [String: Any]()
+        metrics["iconWidth"] = PushPermissionsHeader.iconWidth
+        metrics["disclosureWidth"] = PushPermissionsHeader.disclosureWidth
+        metrics["messageMargin"] = PushPermissionsHeader.messageMargin
 
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[icon(iconWidth)]-0-[label]-messageMargin-[disclosure(disclosureWidth)]-0-|",
             options: [.alignAllCenterY], metrics: metrics, views: views))

@@ -54,10 +54,10 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private var termsAndConditionsURL: URL? {
-        return LetgoURLHelper.buildTermsAndConditionsURL() as URL?
+        return LetgoURLHelper.buildTermsAndConditionsURL()
     }
     private var privacyURL: URL? {
-        return LetgoURLHelper.buildPrivacyURL() as URL?
+        return LetgoURLHelper.buildPrivacyURL()
     }
 
     private let sessionManager: SessionManager
@@ -233,7 +233,7 @@ class SignUpViewModel: BaseViewModel {
                 return
             }
 
-        delegate?.vmFinishAndShowScammerAlert(url as URL, network: network, tracker: tracker)
+        delegate?.vmFinishAndShowScammerAlert(url, network: network, tracker: tracker)
     }
 
     private func trackLoginFBOK() {
