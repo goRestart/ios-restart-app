@@ -12,7 +12,7 @@ enum UIActionInterfaceStyle {
     var alertActionStyle: UIAlertActionStyle {
         switch self {
         case .standard:
-            return .standard
+            return .default
         case .destructive:
             return .destructive
         case .cancel:
