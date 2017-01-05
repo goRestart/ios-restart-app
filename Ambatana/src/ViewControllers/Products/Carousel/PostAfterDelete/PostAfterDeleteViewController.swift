@@ -47,7 +47,7 @@ class PostAfterDeleteViewController: BaseViewController {
 
         guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(false) else { return }
         incentiveContainer.addSubview(postIncentivatorView)
-        let views: [String : AnyObject] = ["postIncentivatorView": postIncentivatorView]
+        let views: [String : Any] = ["postIncentivatorView": postIncentivatorView]
         incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[postIncentivatorView]|",
             options: [], metrics: nil, views: views))
         incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[postIncentivatorView]|",

@@ -644,12 +644,12 @@ enum EventParameterExpressChatTrigger: String {
 }
 
 struct EventParameters {
-    private var params: [EventParameterName : AnyObject] = [:]
+    private var params: [EventParameterName : Any] = [:]
     
     // transforms the params to [String: AnyObject]
-    var stringKeyParams: [String: AnyObject] {
+    var stringKeyParams: [String: Any] {
         get {
-            var res = [String: AnyObject]()
+            var res = [String: Any]()
             for (paramName, value) in params {
                 res[paramName.rawValue] = value
             }
@@ -658,36 +658,36 @@ struct EventParameters {
     }
     
     internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
-        params[.LoginSource] = source.rawValue as AnyObject?
+        params[.LoginSource] = source.rawValue
         if let rememberedAccount = rememberedAccount {
-            params[.LoginRememberedAccount] = rememberedAccount as AnyObject?
+            params[.LoginRememberedAccount] = rememberedAccount
         }
     }
     
     internal mutating func addProductParams(_ product: Product) {
-        params[.ProductId] = product.objectId as AnyObject?
-        params[.ProductLatitude] = product.location.latitude as AnyObject?
-        params[.ProductLongitude] = product.location.longitude as AnyObject?
-        params[.ProductPrice] = product.price.value as AnyObject?
-        params[.ProductCurrency] = product.currency.code as AnyObject?
-        params[.CategoryId] = product.category.rawValue as AnyObject?
+        params[.ProductId] = product.objectId
+        params[.ProductLatitude] = product.location.latitude
+        params[.ProductLongitude] = product.location.longitude
+        params[.ProductPrice] = product.price.value
+        params[.ProductCurrency] = product.currency.code
+        params[.CategoryId] = product.category.rawValue
         params[.ProductType] = product.user.isDummy ?
-            EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue as AnyObject?
-        params[.UserToId] = product.user.objectId as AnyObject?
+            EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
+        params[.UserToId] = product.user.objectId
     }
     
     internal mutating func addChatProductParams(_ product: ChatProduct) {
-        params[.ProductId] = product.objectId as AnyObject?
-        params[.ProductPrice] = product.price.value as AnyObject?
-        params[.ProductCurrency] = product.currency.code as AnyObject?
-        params[.ProductType] = EventParameterProductItemType.Real.rawValue as AnyObject?
+        params[.ProductId] = product.objectId
+        params[.ProductPrice] = product.price.value
+        params[.ProductCurrency] = product.currency.code
+        params[.ProductType] = EventParameterProductItemType.Real.rawValue
     }
     
     internal mutating func addUserParams(_ user: User?) {
-        params[.UserToId] = user?.objectId as AnyObject?
+        params[.UserToId] = user?.objectId
     }
 
-    internal subscript(paramName: EventParameterName) -> AnyObject? {
+    internal subscript(paramName: EventParameterName) -> Any? {
         get {
             return params[paramName]
         }

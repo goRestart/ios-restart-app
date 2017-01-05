@@ -27,10 +27,10 @@ class ListHeaderContainer: UICollectionReusableView, ReusableCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(view)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["header"] = view
-        var metrics = [String: AnyObject]()
-        metrics["height"] = height as AnyObject?
+        var metrics = [String: Any]()
+        metrics["height"] = height
         containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[header]-0-|",
             options: [], metrics: nil, views: views))
         containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[header(height)]-0-|",

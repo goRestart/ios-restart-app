@@ -183,8 +183,8 @@ final class TabBarController: UITabBarController {
                                                 constant: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance))
         view.addConstraints([sellCenterXConstraint, floatingSellButtonMarginConstraint])
 
-        let views: [String: AnyObject] = ["fsb" : floatingSellButton]
-        let metrics: [String: AnyObject] = ["margin" : LGUIKitConstants.tabBarSellFloatingButtonDistance as AnyObject]
+        let views: [String: Any] = ["fsb" : floatingSellButton]
+        let metrics: [String: Any] = ["margin" : LGUIKitConstants.tabBarSellFloatingButtonDistance]
         let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=margin)-[fsb]-(>=margin)-|",
                                                                           options: [], metrics: metrics, views: views)
         view.addConstraints(hConstraints)

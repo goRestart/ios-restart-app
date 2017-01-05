@@ -441,12 +441,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         clearButton.addTarget(self, action: #selector(cleanSearchesButtonPressed), for: .touchUpInside)
         container.addSubview(clearButton)
         
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["label"] = suggestionTitleLabel
         views["clear"] = clearButton
-        var metrics = [String: AnyObject]()
-        metrics["verticalMarginHeaderView"] = verticalMarginHeaderView as AnyObject?
-        metrics["horizontalMarginHeaderView"] = horizontalMarginHeaderView as AnyObject?
+        var metrics = [String: Any]()
+        metrics["verticalMarginHeaderView"] = verticalMarginHeaderView
+        metrics["horizontalMarginHeaderView"] = horizontalMarginHeaderView
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalMarginHeaderView-[label]-verticalMarginHeaderView-|",
             options: [], metrics: metrics, views: views))
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-horizontalMarginHeaderView-[label]",

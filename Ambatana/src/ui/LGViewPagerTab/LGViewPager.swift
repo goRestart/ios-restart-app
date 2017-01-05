@@ -307,14 +307,14 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
 
     private func setupConstraints() {
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["tabs"] = tabsScrollView
         views["indicator"] = indicatorContainer
         views["pages"] = pagesScrollView
 
-        var metrics = [String: AnyObject]()
-        metrics["indicatorH"] = indicatorHeight as AnyObject?
-        metrics["tabsH"] = config.tabHeight as AnyObject?
+        var metrics = [String: Any]()
+        metrics["indicatorH"] = indicatorHeight
+        metrics["tabsH"] = config.tabHeight
 
         let vConstraintsFormat, vIndicatorConstraintsFormat: String
         switch config.tabPosition {
@@ -367,7 +367,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             page.translatesAutoresizingMaskIntoConstraints = false
             pagesScrollView.addSubview(page)
 
-            var views = [String: AnyObject]()
+            var views = [String: Any]()
             views["page"] = page
 
             let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[page]|",
@@ -429,10 +429,10 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             tab.translatesAutoresizingMaskIntoConstraints = false
             tabsScrollView.addSubview(tab)
 
-            var metrics = [String: AnyObject]()
-            metrics["tabHeight"] = config.tabHeight as AnyObject?
+            var metrics = [String: Any]()
+            metrics["tabHeight"] = config.tabHeight
 
-            var views = [String: AnyObject]()
+            var views = [String: Any]()
             views["tab"] = tab
 
             let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[tab(tabHeight)]|",

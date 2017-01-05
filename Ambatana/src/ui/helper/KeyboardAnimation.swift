@@ -18,7 +18,7 @@ struct KeyboardAnimation {
     
     init(keyboardNotification notification: Notification) {
         let sizeObject = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]
-        self.size = (sizeObject as AnyObject).cgRectValue ?? CGRect.zero
+        self.size = sizeObject.cgRectValue ?? CGRect.zero
         if let optionsRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
             self.options = UIViewAnimationOptions(rawValue: optionsRaw) ?? UIViewAnimationOptions.curveEaseIn
         } else {

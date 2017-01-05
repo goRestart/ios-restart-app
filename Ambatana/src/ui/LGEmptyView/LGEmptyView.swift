@@ -173,10 +173,10 @@ class LGEmptyView: UIView {
 
         // Content horizontal
         // > Icon
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["icon"] = iconImageView
-        var metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
+        var metrics = [String: Any]()
+        metrics["hMargin"] = LGEmptyView.contentHMargin
 
         let centerXIcon = NSLayoutConstraint(item: iconImageView, attribute: .centerX, relatedBy: .equal,
             toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
@@ -186,40 +186,40 @@ class LGEmptyView: UIView {
         contentView.addConstraints(hIcon)
 
         // > Title
-        views = [String: AnyObject]()
+        views = [String: Any]()
         views["title"] = titleLabel
-        metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
+        metrics = [String: Any]()
+        metrics["hMargin"] = LGEmptyView.contentHMargin
 
         let hTitle = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[title]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hTitle)
 
         // > Body
-        views = [String: AnyObject]()
+        views = [String: Any]()
         views["body"] = bodyLabel
-        metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
+        metrics = [String: Any]()
+        metrics["hMargin"] = LGEmptyView.contentHMargin
 
         let hBody = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[body]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hBody)
 
         // > Button
-        views = [String: AnyObject]()
+        views = [String: Any]()
         views["button"] = actionButton
-        metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
+        metrics = [String: Any]()
+        metrics["hMargin"] = LGEmptyView.contentHMargin
 
         let hButton = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[button]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hButton)
         
         // > Secondary Button
-        views = [String: AnyObject]()
+        views = [String: Any]()
         views["secondaryButton"] = actionSecondaryButton
-        metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentHMargin as AnyObject?
+        metrics = [String: Any]()
+        metrics["hMargin"] = LGEmptyView.contentHMargin
         
         let hSecondaryButton = NSLayoutConstraint.constraints(withVisualFormat: "H:|-hMargin-[secondaryButton]-hMargin-|",
             options: [], metrics: metrics, views: views)
@@ -227,17 +227,17 @@ class LGEmptyView: UIView {
 
         
         // Content vertical
-        views = [String: AnyObject]()
+        views = [String: Any]()
         views["icon"] = iconImageView
         views["body"] = bodyLabel
         views["title"] = titleLabel
         views["button"] = actionButton
         views["secondaryButton"] = actionSecondaryButton
-        metrics = [String: AnyObject]()
-        metrics["topM"] = LGEmptyView.contentTopMargin as AnyObject?
-        metrics["iconTitleS"] = LGEmptyView.iconTitleVSpacing as AnyObject?
-        metrics["titleBodyS"] = LGEmptyView.titleBodyVSpacing as AnyObject?
-        metrics["bottomM"] = LGEmptyView.contentBottomMargin as AnyObject?
+        metrics = [String: Any]()
+        metrics["topM"] = LGEmptyView.contentTopMargin
+        metrics["iconTitleS"] = LGEmptyView.iconTitleVSpacing
+        metrics["titleBodyS"] = LGEmptyView.titleBodyVSpacing
+        metrics["bottomM"] = LGEmptyView.contentBottomMargin
 
         let format1 = "V:|-topM-[icon]-iconTitleS-[title]-titleBodyS-[body]"
         let vContent1 = NSLayoutConstraint.constraints(withVisualFormat: format1, options: [], metrics: metrics,

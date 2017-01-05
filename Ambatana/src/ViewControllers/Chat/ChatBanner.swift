@@ -44,8 +44,8 @@ class ChatBanner: UIView {
             closeButtonSize = 15
             closeButtonMargin = sideMargin
         }
-        let views: [String : AnyObject] = ["title": titleLabel, "action": actionButton, "close": closeButton]
-        let metrics: [String : AnyObject] = ["vMargin": 7 as AnyObject, "closeSize": closeButtonSize as AnyObject, "closeMargin": closeButtonMargin as AnyObject, "sideMargin": sideMargin as AnyObject]
+        let views: [String : Any] = ["title": titleLabel, "action": actionButton, "close": closeButton]
+        let metrics: [String : Any] = ["vMargin": 7, "closeSize": closeButtonSize, "closeMargin": closeButtonMargin, "sideMargin": sideMargin]
 
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(sideMargin)-[title(>=20)]-(>=8)-[action]-(sideMargin)-[close(closeSize)]-(closeMargin)-|", options: [.alignAllCenterY], metrics: metrics, views: views))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(vMargin)-[title]-(vMargin)-|", options: [], metrics: metrics, views: views))

@@ -48,10 +48,10 @@ class ChatTextView: UIView {
     }
     
     
-    private let textView = UITextField()
-    private let sendButton = UIButton(type: .custom)
-    private let focus = Variable<Bool>(false)
-    private var initialTextActive = false
+    fileprivate let textView = UITextField()
+    fileprivate let sendButton = UIButton(type: .custom)
+    fileprivate let focus = Variable<Bool>(false)
+    fileprivate var initialTextActive = false
 
     private static let elementsMargin: CGFloat = 10
     private static let textViewMaxHeight: CGFloat = 120
@@ -128,15 +128,15 @@ class ChatTextView: UIView {
         sendButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         addSubview(sendButton)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["textView"] = textView
         views["sendButton"] = sendButton
 
-        var metrics = [String: AnyObject]()
-        metrics["margin"] = ChatTextView.elementsMargin as AnyObject?
-        metrics["maxHeight"] = ChatTextView.textViewMaxHeight as AnyObject?
-        metrics["minButtonWidth"] = ChatTextView.minimumButtonWidth as AnyObject?
-        metrics["buttonMargin"] = ChatTextView.buttonMargin as AnyObject?
+        var metrics = [String: Any]()
+        metrics["margin"] = ChatTextView.elementsMargin
+        metrics["maxHeight"] = ChatTextView.textViewMaxHeight
+        metrics["minButtonWidth"] = ChatTextView.minimumButtonWidth
+        metrics["buttonMargin"] = ChatTextView.buttonMargin
 
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[textView]-margin-[sendButton(>=minButtonWidth)]-buttonMargin-|",
             options: [.alignAllCenterY], metrics: metrics, views: views))
@@ -173,10 +173,10 @@ class ChatTextView: UIView {
         rightBackground.clipsToBounds = true
         rightBackground.layer.cornerRadius = ChatTextView.minimumHeight/2
         addSubview(rightBackground)
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["leftBckg"] = leftBackground
         views["rightBckg"] = rightBackground
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["margin"] = ChatTextView.minimumWidth/2
 
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[leftBckg]-margin-|",

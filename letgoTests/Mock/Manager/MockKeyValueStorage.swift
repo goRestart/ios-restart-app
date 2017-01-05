@@ -11,7 +11,7 @@ import LGCoreKit
 import SwiftyUserDefaults
 
 class MockKeyValueStorage {
-    private var keyValue = Dictionary<String, AnyObject>()
+    private var keyValue = Dictionary<String, Any>()
 }
 
 

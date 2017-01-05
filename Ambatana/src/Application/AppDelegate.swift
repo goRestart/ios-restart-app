@@ -100,7 +100,7 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?,
                      annotation: Any) -> Bool {
-        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation as AnyObject?, options: nil)
+        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation, options: nil)
     }
 
     @available(iOS 9.0, *)
