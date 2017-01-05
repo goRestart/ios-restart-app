@@ -63,10 +63,10 @@ class ProductCarouselViewModel: BaseViewModel {
     var onboardingShouldShowChatsStep: Bool {
         guard let status = currentProductViewModel?.status.value else { return false }
         switch status {
-        case .OtherAvailable, .OtherAvailableFree:
+        case .otherAvailable, .otherAvailableFree:
             return true
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableFree, .AvailableAndCommercializable, .NotAvailable,
-             .OtherSold, .Sold, .SoldFree, .OtherSoldFree:
+        case .pending, .PendingAndCommercializable, .available, .availableFree, .AvailableAndCommercializable, .notAvailable,
+             .otherSold, .sold, .soldFree, .otherSoldFree:
             return false
         }
     }

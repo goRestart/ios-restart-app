@@ -16,12 +16,12 @@ class RatingNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell>
         let message: String
 
         switch data.type {
-        case let .Rating(user):
+        case let .rating(user):
             let userName = user.name
             placeholder = LetgoAvatar.avatarWithID(user.id, name: userName)
             message = LGLocalizedString.notificationsTypeRating(userName ?? "")
             userImageUri = user.avatar
-        case let .RatingUpdated(user):
+        case let .ratingUpdated(user):
             let userName = user.name
             placeholder = LetgoAvatar.avatarWithID(user.id, name: userName)
             message = LGLocalizedString.notificationsTypeRatingUpdated(userName ?? "")

@@ -369,7 +369,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
     func reloadLeftActions() {
         var actions = [UIAction]()
 
-        if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .NotAvailable {
+        if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .notAvailable {
             let image = UIImage(named: "ic_quick_answers")
             let tint: UIColor? = viewModel.directAnswersState.value == .Visible ? nil : UIColor.primaryColor
             let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
@@ -443,7 +443,7 @@ extension ChatViewController {
             case .Forbidden, .UserPendingDelete, .UserDeleted:
                 self?.productView.disableUserProfileInteraction()
                 self?.productView.disableProductInteraction()
-            case .Available, .Blocked, .BlockedBy, .ProductSold:
+            case .available, .Blocked, .BlockedBy, .ProductSold:
                 break
             }
             }.addDisposableTo(disposeBag)

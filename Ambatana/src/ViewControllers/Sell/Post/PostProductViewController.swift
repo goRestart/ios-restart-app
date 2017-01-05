@@ -301,7 +301,7 @@ extension PostProductViewController {
 
 extension PostProductViewController: PostProductViewModelDelegate {
     func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
-        ifLoggedInThen(.Sell, loginStyle: .popup(LGLocalizedString.productPostLoginMessage),
+        ifLoggedInThen(.sell, loginStyle: .popup(LGLocalizedString.productPostLoginMessage),
                        preDismissAction: { [weak self] in
                         self?.view.isHidden = true
             },

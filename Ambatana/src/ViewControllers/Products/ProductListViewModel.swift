@@ -114,7 +114,7 @@ class ProductListViewModel: BaseViewModel {
         self.objects = (products ?? []).map(ProductCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
-        self.state = .Loading
+        self.state = .loading
         self.numberOfColumns = numberOfColumns
         self.productListRequester = requester
         self.defaultCellSize = CGSize.zero

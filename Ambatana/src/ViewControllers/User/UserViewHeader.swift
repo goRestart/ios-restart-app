@@ -84,7 +84,7 @@ class UserViewHeader: UIView {
 
     weak var delegate: UserViewHeaderDelegate?
 
-    let tab = Variable<UserViewHeaderTab>(.Selling)
+    let tab = Variable<UserViewHeaderTab>(.selling)
 
     var mode: UserViewHeaderMode = .myUser {
         didSet {
@@ -188,7 +188,7 @@ extension UserViewHeader {
     }
     
     func setFavoriteTab() {
-        tab.value = .Favorites
+        tab.value = .favorites
     }
 
     private func modeUpdated() {
@@ -421,20 +421,20 @@ extension UserViewHeader {
         }.addDisposableTo(disposeBag)
 
         sellingButton.rx_tap.subscribeNext { [weak self] _ in
-            self?.tab.value = .Selling
+            self?.tab.value = .selling
         }.addDisposableTo(disposeBag)
 
         soldButton.rx_tap.subscribeNext { [weak self] _ in
-            self?.tab.value = .Sold
+            self?.tab.value = .sold
         }.addDisposableTo(disposeBag)
 
         favoritesButton.rx_tap.subscribeNext { [weak self] _ in
-            self?.tab.value = .Favorites
+            self?.tab.value = .favorites
         }.addDisposableTo(disposeBag)
 
-        tab.asObservable().map { $0 == .Selling }.bindTo(sellingButton.rx_selected).addDisposableTo(disposeBag)
-        tab.asObservable().map { $0 == .Sold }.bindTo(soldButton.rx_selected).addDisposableTo(disposeBag)
-        tab.asObservable().map { $0 == .Favorites }.bindTo(favoritesButton.rx_selected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .selling }.bindTo(sellingButton.rx_selected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .sold }.bindTo(soldButton.rx_selected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .favorites }.bindTo(favoritesButton.rx_selected).addDisposableTo(disposeBag)
 
         tab.asObservable().skip(1).subscribeNext { [weak self] tab in
             self?.setIndicatorAtTab(tab, animated: true)

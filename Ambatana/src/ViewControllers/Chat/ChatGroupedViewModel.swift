@@ -24,7 +24,7 @@ class ChatGroupedViewModel: BaseViewModel {
             case .all:
                 return .All
             case .selling:
-                return .Selling
+                return .selling
             case .buying:
                 return .Buying
             case .blockedUsers:
@@ -98,7 +98,7 @@ class ChatGroupedViewModel: BaseViewModel {
             case .All:
                 guard let chatsType = tab.chatsType else { continue }
                 chatListViewModels.append(buildChatListAll(chatsType))
-            case.Selling:
+            case.selling:
                 guard let chatsType = tab.chatsType else { continue }
                 chatListViewModels.append(buildChatListSelling(chatsType))
             case .Buying:
@@ -295,7 +295,7 @@ extension ChatGroupedViewModel {
     private func setupRxBindings() {
         currentTab.asObservable().map { [weak self] tab -> ChatGroupedListViewModelType? in
             switch tab {
-            case .All, .Selling, .Buying:
+            case .All, .selling, .Buying:
                 return self?.chatListViewModels[tab.rawValue]
             case .BlockedUsers:
                 return self?.blockedUsersListViewModel

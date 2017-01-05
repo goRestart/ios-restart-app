@@ -191,12 +191,12 @@ private extension Chat {
         switch self.status {
         case .Forbidden:
             return .Forbidden
-        case .Sold:
+        case .sold:
             return .ProductSold
         case .Deleted:
             return .ProductDeleted
-        case .Available:
-            return .Available
+        case .available:
+            return .available
         }
     }
 }

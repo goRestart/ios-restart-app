@@ -27,7 +27,7 @@ enum PromotionSource {
     var sourceForTracking: EventParameterTypePage {
         switch self {
         case .productSell:
-            return .Sell
+            return .sell
         case .productEdit:
             return .Edit
         case .productDetail:

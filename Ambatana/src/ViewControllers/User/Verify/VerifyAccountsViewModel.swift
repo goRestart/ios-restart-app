@@ -44,10 +44,10 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     var completionBlock: (() -> Void)?
 
-    let fbButtonState = Variable<VerifyButtonState>(.Hidden)
-    let googleButtonState = Variable<VerifyButtonState>(.Hidden)
-    let emailButtonState = Variable<VerifyButtonState>(.Hidden)
-    let typedEmailState = Variable<VerifyButtonState>(.Hidden)
+    let fbButtonState = Variable<VerifyButtonState>(.hidden)
+    let googleButtonState = Variable<VerifyButtonState>(.hidden)
+    let emailButtonState = Variable<VerifyButtonState>(.hidden)
+    let typedEmailState = Variable<VerifyButtonState>(.hidden)
     private(set) var emailRequiresInput = false
     let typedEmail = Variable<String>("")
 
@@ -129,7 +129,7 @@ class VerifyAccountsViewModel: BaseViewModel {
             emailVerification()
         } else {
             typedEmailState.value = .Disabled
-            emailButtonState.value = .Hidden
+            emailButtonState.value = .hidden
         }
     }
 
@@ -145,12 +145,12 @@ class VerifyAccountsViewModel: BaseViewModel {
         types.forEach {
             switch $0 {
             case .google:
-                googleButtonState.value = .Enabled
+                googleButtonState.value = .enabled
             case .facebook:
-                fbButtonState.value = .Enabled
+                fbButtonState.value = .enabled
             case let .email(email):
                 emailRequiresInput = !(email ?? "").isEmail()
-                emailButtonState.value = .Enabled
+                emailButtonState.value = .enabled
             }
         }
     }
@@ -160,9 +160,9 @@ class VerifyAccountsViewModel: BaseViewModel {
         typedEmail.asObservable()
             .filter { [weak self] _ in
                 guard let actionState = self?.typedEmailState.value, let buttonState = self?.emailButtonState.value else { return false }
-                return actionState != .Loading && buttonState == .Hidden
+                return actionState != .loading && buttonState == .hidden
             }
-            .map{ ($0 ?? "").isEmail() ? VerifyButtonState.Enabled : VerifyButtonState.Disabled }
+            .map{ ($0 ?? "").isEmail() ? VerifyButtonState.enabled : VerifyButtonState.Disabled }
             .bindNext { [weak self] state in
                 self?.typedEmailState.value = state
             }.addDisposableTo(disposeBag)
@@ -174,9 +174,9 @@ class VerifyAccountsViewModel: BaseViewModel {
 
 private extension VerifyAccountsViewModel {
     func connectWithFacebook() {
-        fbButtonState.value = .Loading
+        fbButtonState.value = .loading
         fbLoginHelper.connectWithFacebook { [weak self] result in
-            self?.fbButtonState.value = .Enabled
+            self?.fbButtonState.value = .enabled
             switch result {
             case let .success(token):
                 self?.myUserRepository.linkAccountFacebook(token) { result in
@@ -195,9 +195,9 @@ private extension VerifyAccountsViewModel {
     }
 
     func connectWithGoogle() {
-        googleButtonState.value = .Loading
+        googleButtonState.value = .loading
         googleHelper.googleSignIn { [weak self] result in
-            self?.googleButtonState.value = .Enabled
+            self?.googleButtonState.value = .enabled
             switch result {
             case let .success(serverAuthToken):
                 self?.myUserRepository.linkAccountGoogle(serverAuthToken) { result in
@@ -239,11 +239,11 @@ private extension VerifyAccountsViewModel {
     }
 
     func setEmailLoading(_ loading: Bool) {
-        if emailButtonState.value != .Hidden {
-            emailButtonState.value = loading ? .Loading : .Enabled
+        if emailButtonState.value != .hidden {
+            emailButtonState.value = loading ? .loading : .enabled
         }
-        if typedEmailState.value != .Hidden {
-            typedEmailState.value = loading ? .Loading : .Enabled
+        if typedEmailState.value != .hidden {
+            typedEmailState.value = loading ? .loading : .enabled
         }
     }
 

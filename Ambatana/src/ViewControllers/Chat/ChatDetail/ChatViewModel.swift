@@ -75,9 +75,9 @@ class ChatViewModel: BaseViewModel {
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
     let stickers = Variable<[Sticker]>([])
-    let chatStatus = Variable<ChatInfoViewStatus>(.Available)
+    let chatStatus = Variable<ChatInfoViewStatus>(.available)
     let chatEnabled = Variable<Bool>(true)
-    let directAnswersState = Variable<DirectAnswersState>(.NotAvailable)
+    let directAnswersState = Variable<DirectAnswersState>(.notAvailable)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
     let shouldShowReviewButton = Variable<Bool>(false)
@@ -110,7 +110,7 @@ class ChatViewModel: BaseViewModel {
     private let expressMessagesAlreadySent = Variable<Bool>(false)
     private let interlocutorIsMuted = Variable<Bool>(false)
     private let interlocutorHasMutedYou = Variable<Bool>(false)
-    private let relatedProductsState = Variable<ChatRelatedItemsState>(.Loading)
+    private let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
     private let sellerDidntAnswer = Variable<Bool?>(nil)
     private let conversation: Variable<ChatConversation>
     private var interlocutor: User?
@@ -173,7 +173,7 @@ class ChatViewModel: BaseViewModel {
         switch chatStatus.value {
         case .Forbidden, .UserDeleted, .UserPendingDelete:
             return false
-        case .Available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
+        case .available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
             return true
         }
     }
@@ -347,7 +347,7 @@ class ChatViewModel: BaseViewModel {
 
         relatedProductsState.asObservable().bindNext { [weak self] state in
             switch state {
-            case .Loading, .Hidden:
+            case .loading, .hidden:
                 self?.delegate?.vmShowRelatedProducts(nil)
             case .Visible:
                 self?.delegate?.vmShowRelatedProducts(self?.conversation.value.product?.objectId)
@@ -356,11 +356,11 @@ class ChatViewModel: BaseViewModel {
 
         let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
         Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
-            guard let strongSelf = self else { return .Loading }
-            guard strongSelf.isBuyer else { return .Hidden } // Seller doesn't have related products
+            guard let strongSelf = self else { return .loading }
+            guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
             if $0 { return .Visible }
-            guard let didntAnswer = $1 else { return .Loading } // If still checking if seller didn't answer. set loading state
-            return didntAnswer ? .Visible : .Hidden
+            guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
+            return didntAnswer ? .Visible : .hidden
         }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
         let cfgManager = configManager
@@ -414,11 +414,11 @@ class ChatViewModel: BaseViewModel {
                                         userDirectAnswersEnabled.asObservable(),
                                         resultSelector: { chatEnabled, relatedState, directAnswers in
                                             switch relatedState {
-                                            case .Loading, .Visible:
-                                                return .NotAvailable
-                                            case .Hidden:
-                                                guard chatEnabled else { return .NotAvailable }
-                                                return directAnswers ? .Visible : .Hidden
+                                            case .loading, .Visible:
+                                                return .notAvailable
+                                            case .hidden:
+                                                guard chatEnabled else { return .notAvailable }
+                                                return directAnswers ? .Visible : .hidden
                                             }
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
@@ -487,7 +487,7 @@ class ChatViewModel: BaseViewModel {
         switch product.status {
         case .Deleted:
             break
-        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+        case .pending, .approved, .discarded, .sold, .soldOld:
             delegate?.vmHideKeyboard(false)
             let data = ProductDetailData.ProductChat(chatConversation: conversation.value)
             navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
@@ -564,7 +564,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func keyboardShown() {
-        if featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+        if featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
             showDirectAnswers(false)
         }
     }
@@ -604,7 +604,7 @@ extension ChatViewModel {
     }
     
     func sendText(_ text: String, isQuickAnswer: Bool) {
-        sendMessage(text, type: isQuickAnswer ? .QuickAnswer : .Text)
+        sendMessage(text, type: isQuickAnswer ? .QuickAnswer : .text)
     }
     
     private func sendMessage(_ text: String, type: ChatMessageType) {
@@ -622,7 +622,7 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
-        if type == .Text {
+        if type == .text {
             delegate?.vmClearText()
         }
 
@@ -755,10 +755,10 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if !featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+            if !featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
                 let visible = directAnswersState.value == .Visible
                 let directAnswersText = visible ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow
-                let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
+                let directAnswersAction = UIAction(interface: UIActionInterface.text(directAnswersText),
                                                    action: toggleDirectAnswers)
                 actions.append(directAnswersAction)
             }
@@ -922,7 +922,7 @@ extension ChatViewModel {
         switch chatStatus.value {
         case .UserDeleted, .UserPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
-        case .Available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
+        case .available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
             return nil
         }
     }
@@ -1126,8 +1126,8 @@ private extension ChatViewModel {
 
 private extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
-        guard let interlocutor = interlocutor else { return .Available }
-        guard let product = product else { return .Available }
+        guard let interlocutor = interlocutor else { return .available }
+        guard let product = product else { return .available }
 
         switch interlocutor.status {
         case .Scammer:
@@ -1144,12 +1144,12 @@ private extension ChatConversation {
         if interlocutor.isMuted { return .Blocked }
         if interlocutor.hasMutedYou { return .BlockedBy }
         switch product.status {
-        case .Deleted, .Discarded:
+        case .Deleted, .discarded:
             return .ProductDeleted
-        case .Sold, .SoldOld:
+        case .sold, .soldOld:
             return .ProductSold
-        case .Approved, .Pending:
-            return .Available
+        case .approved, .pending:
+            return .available
         }
     }
     
@@ -1157,7 +1157,7 @@ private extension ChatConversation {
         switch chatStatus {
         case .Forbidden, .Blocked, .BlockedBy, .UserPendingDelete, .UserDeleted:
             return false
-        case .Available, .ProductSold, .ProductDeleted:
+        case .available, .ProductSold, .ProductDeleted:
             return true
         }
     }
@@ -1166,7 +1166,7 @@ private extension ChatConversation {
         switch chatStatus {
         case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted, .ProductSold:
             return !amISelling
-        case .Available, .Blocked, .BlockedBy:
+        case .available, .Blocked, .BlockedBy:
             return false
         }
     }
@@ -1327,8 +1327,8 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
 extension ChatMessageType {
     var trackingMessageType: EventParameterMessageType {
         switch self {
-        case .Text:
-            return .Text
+        case .text:
+            return .text
         case .Offer:
             return .Offer
         case .Sticker:

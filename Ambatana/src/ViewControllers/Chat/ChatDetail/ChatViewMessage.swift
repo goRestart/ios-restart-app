@@ -22,8 +22,8 @@ enum ChatViewMessageWarningStatus: String {
     
     init(status: MessageWarningStatus) {
         switch status {
-        case .Normal:
-            self = .Normal
+        case .normal:
+            self = .normal
         case .Suspicious:
             self = .Spam
         }
@@ -33,7 +33,7 @@ enum ChatViewMessageWarningStatus: String {
         if status.contains(.Spam) {
             self = .Spam
         } else {
-            self = .Normal
+            self = .normal
         }
     }
 }
@@ -76,7 +76,7 @@ struct ChatViewMessage: BaseModel {
 extension ChatViewMessage {
     func markAsSent() -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt ?? Date(),
-                               receivedAt: receivedAt, readAt: readAt, type: type, status: .Sent,
+                               receivedAt: receivedAt, readAt: readAt, type: type, status: .sent,
                                warningStatus: warningStatus)
     }
     

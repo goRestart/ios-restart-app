@@ -16,7 +16,7 @@ extension Float {
 
      Float(4.24).roundNearest(0.1) -> 4.2
      Float(4.25).roundNearest(0.1) -> 4.3 */
-    func roundNearest(_ nearest: Float) -> Float {
+    mutating func roundNearest(_ nearest: Float) -> Float {
         let n = 1/nearest
         return round(self * n) / n
     }

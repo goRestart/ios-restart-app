@@ -243,7 +243,7 @@ extension PrePermissionType {
         case .chat:
             return .Chat
         case .sell:
-            return .Sell
+            return .sell
         case .profile:
             return .Profile
         case .productListBanner:

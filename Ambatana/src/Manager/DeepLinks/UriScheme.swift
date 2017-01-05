@@ -37,7 +37,7 @@ struct UriScheme {
         switch host {
         case .Home:
             return UriScheme(deepLink: DeepLink.link(.home, campaign: campaign, medium: medium, source: source))
-        case .Sell:
+        case .sell:
             return UriScheme(deepLink: DeepLink.link(.sell, campaign: campaign, medium: medium, source: source))
         case .Product, .Products:
             guard let productId = components.first else { return nil }

@@ -14,7 +14,7 @@ class NotificationsViewModel: BaseViewModel {
 
     weak var navigator: NotificationsTabNavigator?
 
-    let viewState = Variable<ViewState>(.Loading)
+    let viewState = Variable<ViewState>(.loading)
 
     private var notificationsData: [NotificationData] = []
 
@@ -90,7 +90,7 @@ class NotificationsViewModel: BaseViewModel {
     private func setupRx() {
         let loggedOut = myUserRepository.rx_myUser.filter { return $0 == nil }
         loggedOut.subscribeNext { [weak self] _ in
-            self?.viewState.value = .Loading
+            self?.viewState.value = .loading
         }.addDisposableTo(disposeBag)
     }
 
@@ -107,7 +107,7 @@ class NotificationsViewModel: BaseViewModel {
                         action: { [weak self] in self?.navigator?.openSell(.Notifications) },
                         secondaryButtonTitle: nil, secondaryAction: nil)
 
-                    strongSelf.viewState.value = .Empty(emptyViewModel)
+                    strongSelf.viewState.value = .empty(emptyViewModel)
                 } else {
                     strongSelf.viewState.value = .Data
                     strongSelf.afterReloadOk()
@@ -118,7 +118,7 @@ class NotificationsViewModel: BaseViewModel {
                     .Network(errorCode: _, onBackground: false):
                         if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                             action: { [weak self] in
-                                self?.viewState.value = .Loading
+                                self?.viewState.value = .loading
                                 self?.reloadNotifications()
                             }) {
                             strongSelf.viewState.value = .Error(emptyViewModel)
@@ -152,18 +152,18 @@ private extension NotificationsViewModel {
 
     func buildNotification(_ notification: Notification) -> NotificationData? {
         switch notification.type {
-        case let .Rating(user, _, _):
+        case let .rating(user, _, _):
             guard featureFlags.userReviews else { return nil }
             return NotificationData(id: notification.objectId,
-                                    type: .Rating(user: user),
+                                    type: .rating(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
-        case let .RatingUpdated(user, _, _):
+        case let .ratingUpdated(user, _, _):
             guard featureFlags.userReviews else { return nil }
             return NotificationData(id: notification.objectId,
-                                    type: .RatingUpdated(user: user),
+                                    type: .ratingUpdated(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
@@ -176,7 +176,7 @@ private extension NotificationsViewModel {
                                         let data = UserDetailData.Id(userId: user.id, source: .Notifications)
                                         self?.navigator?.openUser(data)
                                     })
-        case let .Sold(product, _):
+        case let .sold(product, _):
             return NotificationData(id: notification.objectId,
                                     type: .ProductSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,

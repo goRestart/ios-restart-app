@@ -113,7 +113,7 @@ class CommercializerManager {
             defer { self?.status = .Idle }
             guard let commercializers = result.value else { return }
             let filtered = commercializers.filter { commercializer in
-                guard let templateId = commercializer.templateId, commercializer.status == .Ready
+                guard let templateId = commercializer.templateId, commercializer.status == .ready
                     else { return false }
                 return templateIds.contains(templateId)
             }

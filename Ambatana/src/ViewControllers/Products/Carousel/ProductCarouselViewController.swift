@@ -121,7 +121,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     
     private var moreInfoView: ProductCarouselMoreInfoView?
     private let moreInfoAlpha = Variable<CGFloat>(1)
-    private let moreInfoState = Variable<MoreInfoState>(.Hidden)
+    private let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     private let chatTextView = ChatTextView()
 
@@ -185,7 +185,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if moreInfoState.value == .Shown {
+        if moreInfoState.value == .shown {
             moreInfoView?.viewWillShow()
         }
     }
@@ -671,7 +671,7 @@ extension ProductCarouselViewController {
         // When there's the edit/stickers button, the bottom button must adapt right margin to give space for it
         let bottomRightButtonPresent = Observable.combineLatest(
             viewModel.stickersButtonEnabled.asObservable(), viewModel.editButtonState.asObservable(),
-            resultSelector: { (stickers, edit) in return stickers || (edit != .Hidden) })
+            resultSelector: { (stickers, edit) in return stickers || (edit != .hidden) })
         bottomRightButtonPresent.bindNext { [weak self] present in
             self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
         }.addDisposableTo(activeDisposeBag)
@@ -865,12 +865,12 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
     
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
-        guard let moreInfoView = moreInfoView, moreInfoState.value != .Shown && !cellZooming.value else { return }
+        guard let moreInfoView = moreInfoView, moreInfoState.value != .shown && !cellZooming.value else { return }
         if moreInfoView.frame.origin.y-offset > -view.frame.height {
             moreInfoState.value = .Moving
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
         } else {
-            moreInfoState.value = .Hidden
+            moreInfoState.value = .hidden
             moreInfoView.frame.origin.y = -view.frame.height
         }
 
@@ -887,7 +887,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
     
     func canScrollToNextPage() -> Bool {
-        return moreInfoState.value == .Hidden
+        return moreInfoState.value == .hidden
     }
 }
 
@@ -932,11 +932,11 @@ extension ProductCarouselViewController {
     }
     
     @IBAction func showMoreInfo() {
-        guard moreInfoState.value == .Hidden || moreInfoState.value == .Moving else { return }
+        guard moreInfoState.value == .hidden || moreInfoState.value == .Moving else { return }
 
         moreInfoView?.viewWillShow()
         chatTextView.resignFirstResponder()
-        moreInfoState.value = .Shown
+        moreInfoState.value = .shown
         viewModel.didOpenMoreInfo()
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
@@ -946,9 +946,9 @@ extension ProductCarouselViewController {
     }
 
     func hideMoreInfo() {
-        guard moreInfoState.value == .Shown || moreInfoState.value == .Moving else { return }
+        guard moreInfoState.value == .shown || moreInfoState.value == .Moving else { return }
 
-        moreInfoState.value = .Hidden
+        moreInfoState.value = .hidden
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
                                    animations: { [weak self] in
             guard let `self` = self else { return }

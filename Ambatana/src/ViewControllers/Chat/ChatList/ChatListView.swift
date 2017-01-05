@@ -71,7 +71,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     func vmDeleteSelectedChats() {
         guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
-        guard let indexes: [Int] = indexPaths.map({ $0.row }) else { return }
+        let indexes: [Int] = indexPaths.map({ $0.row })
         guard !indexes.isEmpty else { return }
 
         let title = viewModel.deleteConfirmationTitle(indexPaths.count)

@@ -178,7 +178,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 private extension ChatsType {
     var conversationFilter: WebSocketConversationFilter {
         switch self {
-        case .Selling: return .AsSeller
+        case .selling: return .AsSeller
         case .Buying: return .asBuyer
         case .Archived: return .Archived
         case .All: return .None
@@ -203,12 +203,12 @@ private extension ChatConversation {
         }
 
         switch product.status {
-        case .Deleted, .Discarded:
+        case .Deleted, .discarded:
             return .ProductDeleted
-        case .Sold, .SoldOld:
+        case .sold, .soldOld:
             return .ProductSold
-        case .Approved, .Pending:
-            return .Available
+        case .approved, .pending:
+            return .available
         }
     }
 }

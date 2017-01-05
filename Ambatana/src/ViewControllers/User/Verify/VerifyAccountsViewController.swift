@@ -95,17 +95,17 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, for: UIControlState())
         emailButton.setTitle(LGLocalizedString.profileVerifyEmailButton, for: UIControlState())
 
-        if viewModel.fbButtonState.value == .Hidden {
+        if viewModel.fbButtonState.value == .hidden {
             fbContainerHeight.constant = 0
             fbContainerBottom.constant = 0
             fbButton.isHidden = true
         }
-        if viewModel.googleButtonState.value == .Hidden {
+        if viewModel.googleButtonState.value == .hidden {
             googleContainerHeight.constant = 0
             googleContainerBottom.constant = 0
             googleButton.isHidden = true
         }
-        if viewModel.emailButtonState.value == .Hidden {
+        if viewModel.emailButtonState.value == .hidden {
             emailContainerHeight.constant = 0
             emailContainerBottom.constant = emailContainerInvisibleMargin
             emailContainer.isHidden = true
@@ -119,9 +119,9 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         viewModel.typedEmailState.asObservable().bindTo(emailTextFieldButton.rx_veryfy_state).addDisposableTo(disposeBag)
         viewModel.typedEmailState.asObservable().map { state in
             switch state {
-            case .Hidden:
+            case .hidden:
                 return true
-            case .Loading, .Enabled, .Disabled:
+            case .loading, .enabled, .Disabled:
                 return false
             }
         }.bindNext { [weak self] (hidden:Bool) in
@@ -174,12 +174,12 @@ extension UIButton {
     var rx_veryfy_state: AnyObserver<VerifyButtonState> {
         return UIBindingObserver(UIElement: self) { button, state in
             switch state {
-            case .Hidden:
+            case .hidden:
                 button.isHidden = true
-            case .Enabled:
+            case .enabled:
                 button.isHidden = false
                 button.isEnabled = true
-            case .Disabled, .Loading:
+            case .Disabled, .loading:
                 button.isHidden = false
                 button.isEnabled = false
             }
