@@ -32,7 +32,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false
-    var locationNoMatchesCountry: Bool = false
+    var locationMatchesCountry: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
     var filterIconWithLetters: Bool = false
