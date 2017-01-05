@@ -193,7 +193,7 @@ class LGAlertViewController: UIViewController {
         button.setTitle(action.text, for: UIControlState())
         button.accessibilityId = action.accessibilityId
         button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
-        button.rx_tap.bindNext { [weak self] _ in
+        button.rx.tap.bindNext { [weak self] _ in
             self?.closeWithFadeOutWithCompletion {
                 action.action()
             }

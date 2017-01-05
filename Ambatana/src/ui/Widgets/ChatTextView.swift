@@ -28,7 +28,7 @@ class ChatTextView: UIView {
     }
 
     var rx_text: Observable<String> {
-        return textView.rx_text.asObservable()
+        return textView.rx.text.asObservable()
     }
 
     var rx_send: Observable<String> {
@@ -56,7 +56,7 @@ class ChatTextView: UIView {
     private static let elementsMargin: CGFloat = 10
     private static let textViewMaxHeight: CGFloat = 120
 
-    private let tapEvents = PublishSubject<Void>()
+    fileprivate let tapEvents = PublishSubject<Void>()
 
     private let disposeBag = DisposeBag()
 
@@ -156,8 +156,8 @@ class ChatTextView: UIView {
     }
 
     private func setupRX() {
-        textView.rx_text.map { !$0.trim.isEmpty }.bindTo(sendButton.rx_enabled).addDisposableTo(disposeBag)
-        sendButton.rx_tap.bindTo(tapEvents).addDisposableTo(disposeBag)
+        textView.rx.text.map { !$0?.trim.isEmpty }.bindTo(sendButton.rx.enabled).addDisposableTo(disposeBag)
+        sendButton.rx.tap.bindTo(tapEvents).addDisposableTo(disposeBag)
     }
 
     private func setupBackgroundsWCorners() {

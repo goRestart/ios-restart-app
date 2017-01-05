@@ -7,12 +7,12 @@
 //
 
 enum UIActionInterfaceStyle {
-    case `default`, destructive, cancel
+    case standard, destructive, cancel
 
     var alertActionStyle: UIAlertActionStyle {
         switch self {
-        case .default:
-            return .default
+        case .standard:
+            return .standard
         case .destructive:
             return .destructive
         case .cancel:
@@ -22,7 +22,7 @@ enum UIActionInterfaceStyle {
 
     var buttonStyle: ButtonStyle {
         switch self {
-        case .default:
+        case .standard:
             return .primary(fontSize: .medium)
         case .cancel:
             return .secondary(fontSize: .medium, withBorder: true)
