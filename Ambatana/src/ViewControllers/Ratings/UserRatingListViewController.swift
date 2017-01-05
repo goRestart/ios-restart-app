@@ -121,7 +121,7 @@ extension UserRatingListViewController: UITableViewDelegate, UITableViewDataSour
 
 extension UserRatingListViewController {
     func setAccesibilityIds() {
-        tableView.accessibilityId = .RatingListTable
-        activityIndicator.accessibilityId = .RatingListLoading
+        tableView.accessibilityId = .ratingListTable
+        activityIndicator.accessibilityId = .ratingListLoading
     }
 }

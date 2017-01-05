@@ -614,14 +614,14 @@ extension ProductViewModel {
         return UIAction(interface: .Image(icon, nil), action: { [weak self] in
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                 self?.switchFavoriteAction()
-                }, source: .Favourite)
-            }, accessibilityId: .ProductCarouselNavBarFavoriteButton)
+                }, source: .favourite)
+            }, accessibilityId: .productCarouselNavBarFavoriteButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
-                        accessibilityId: .ProductCarouselNavBarActionsButton)
+                        accessibilityId: .productCarouselNavBarActionsButton)
     }
 
     private func buildShareNavBarAction() -> UIAction {
@@ -629,12 +629,12 @@ extension ProductViewModel {
             return UIAction(interface: .textImage(LGLocalizedString.productShareNavbarButton, UIImage(named:"ic_share")), action: { [weak self] in
                 guard let strongSelf = self, let socialMessage = strongSelf.socialMessage.value else { return }
                 strongSelf.delegate?.vmShowShareFromMain(socialMessage)
-                }, accessibilityId: .ProductCarouselNavBarShareButton)
+                }, accessibilityId: .productCarouselNavBarShareButton)
         } else {
             return UIAction(interface: .text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
                 guard let strongSelf = self, let socialMessage = strongSelf.socialMessage.value else { return }
                 strongSelf.delegate?.vmShowShareFromMain(socialMessage)
-                }, accessibilityId: .ProductCarouselNavBarShareButton)
+                }, accessibilityId: .productCarouselNavBarShareButton)
         }
     }
 
@@ -663,7 +663,7 @@ extension ProductViewModel {
         return UIAction(interface: .text(LGLocalizedString.productOptionShare), action: { [weak self] in
             guard let strongSelf = self, let socialMessage = strongSelf.socialMessage.value else { return }
             strongSelf.delegate?.vmShowShareFromMoreInfo(socialMessage)
-        }, accessibilityId: .ProductCarouselNavBarShareButton)
+        }, accessibilityId: .productCarouselNavBarShareButton)
     }
 
     private func buildCommercialAction() -> UIAction {
@@ -835,7 +835,7 @@ extension ProductViewModel {
         let action = UIAction(interface: .text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
             guard let product = self?.product.value else { return }
             self?.navigator?.openProductChat(product)
-        }, accessibilityId: .BubbleButton)
+        }, accessibilityId: .bubbleButton)
         let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
                                           text: LGLocalizedString.productBubbleFavoriteButton,
                                           infoText: LGLocalizedString.productBubbleFavoriteText,

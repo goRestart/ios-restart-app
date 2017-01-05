@@ -98,10 +98,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .ProductCell
-        thumbnailImageView.accessibilityId = .ProductCellThumbnailImageView
-        stripeImageView.accessibilityId = .ProductCellStripeImageView
-        stripeLabel.accessibilityId = .ProductCellStripeLabel
-        stripeIcon.accessibilityId = .ProductCellStripeIcon
+        self.accessibilityId = .productCell
+        thumbnailImageView.accessibilityId = .productCellThumbnailImageView
+        stripeImageView.accessibilityId = .productCellStripeImageView
+        stripeLabel.accessibilityId = .productCellStripeLabel
+        stripeIcon.accessibilityId = .productCellStripeIcon
     }
 }

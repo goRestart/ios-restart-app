@@ -188,8 +188,8 @@ extension ProductCarouselCell: ProductCarouselImageCellDelegate {
 
 private extension ProductCarouselCell {
     func setAccessibilityIds() {
-        self.accessibilityId = .ProductCarouselCell
-        collectionView.accessibilityId = .ProductCarouselCellCollectionView
-        placeholderImage?.accessibilityId = .ProductCarouselCellPlaceholderImage
+        self.accessibilityId = .productCarouselCell
+        collectionView.accessibilityId = .productCarouselCellCollectionView
+        placeholderImage?.accessibilityId = .productCarouselCellPlaceholderImage
     }
 }

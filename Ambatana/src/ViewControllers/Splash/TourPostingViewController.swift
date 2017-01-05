@@ -80,7 +80,7 @@ class TourPostingViewController: BaseViewController {
 
 private extension TourPostingViewController {
     func setAccesibilityIds() {
-        okButton.accessibilityId = .TourPostingOkButton
-        closeButton.accessibilityId = .TourPostingCloseButton
+        okButton.accessibilityId = .tourPostingOkButton
+        closeButton.accessibilityId = .tourPostingCloseButton
     }
 }

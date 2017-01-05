@@ -276,11 +276,11 @@ extension MainSignUpViewController: SignUpViewModelDelegate {
 
 extension MainSignUpViewController {
     func setAccesibilityIds() {
-        connectFBButton.accessibilityId = .MainSignUpFacebookButton
-        connectGoogleButton.accessibilityId = .MainSignUpGoogleButton
-        signUpButton.accessibilityId = .MainSignUpSignupButton
-        logInButton.accessibilityId = .MainSignupLogInButton
-        closeButton?.accessibilityId = .MainSignupCloseButton
-        helpButton?.accessibilityId = .MainSignupHelpButton
+        connectFBButton.accessibilityId = .mainSignUpFacebookButton
+        connectGoogleButton.accessibilityId = .mainSignUpGoogleButton
+        signUpButton.accessibilityId = .mainSignUpSignupButton
+        logInButton.accessibilityId = .mainSignupLogInButton
+        closeButton?.accessibilityId = .mainSignupCloseButton
+        helpButton?.accessibilityId = .mainSignupHelpButton
     }
 }

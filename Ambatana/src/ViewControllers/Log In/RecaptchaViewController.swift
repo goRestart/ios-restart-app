@@ -92,8 +92,8 @@ extension RecaptchaViewController: UIWebViewDelegate {
 
 extension RecaptchaViewController {
     private func setAccesibilityIds() {
-        closeButton.accessibilityId = .RecaptchaCloseButton
-        activityIndicator.accessibilityId = .RecaptchaLoading
-        webView.accessibilityId = .RecaptchaWebView
+        closeButton.accessibilityId = .recaptchaCloseButton
+        activityIndicator.accessibilityId = .recaptchaLoading
+        webView.accessibilityId = .recaptchaWebView
     }
 }

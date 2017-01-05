@@ -162,15 +162,15 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupAccessibilityIds() {
-        mapView.accessibilityId = .EditLocationMap
-        searchButton.accessibilityId = .EditLocationSearchButton
-        searchField.accessibilityId = .EditLocationSearchTextField
-        suggestionsTableView.accessibilityId = .EditLocationSearchSuggestionsTable
-        gpsLocationButton.accessibilityId = .EditLocationSensorLocationButton
-        aproxLocationArea.accessibilityId = .EditLocationApproxLocationCircleView
-        poiImage.accessibilityId = .EditLocationPOIImageView
-        setLocationButton.accessibilityId = .EditLocationSetLocationButton
-        approximateLocationSwitch.accessibilityId = .EditLocationApproxLocationSwitch
+        mapView.accessibilityId = .editLocationMap
+        searchButton.accessibilityId = .editLocationSearchButton
+        searchField.accessibilityId = .editLocationSearchTextField
+        suggestionsTableView.accessibilityId = .editLocationSearchSuggestionsTable
+        gpsLocationButton.accessibilityId = .editLocationSensorLocationButton
+        aproxLocationArea.accessibilityId = .editLocationApproxLocationCircleView
+        poiImage.accessibilityId = .editLocationPOIImageView
+        setLocationButton.accessibilityId = .editLocationSetLocationButton
+        approximateLocationSwitch.accessibilityId = .editLocationApproxLocationSwitch
     }
 
     private func setRxBindings() {

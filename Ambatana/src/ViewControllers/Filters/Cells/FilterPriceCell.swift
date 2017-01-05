@@ -52,9 +52,9 @@ class FilterPriceCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId =  .FilterPriceCell
-        titleLabel.accessibilityId =  .FilterPriceCellTitleLabel
-        textField.accessibilityId =  .FilterPriceCellTextField
+        self.accessibilityId =  .filterPriceCell
+        titleLabel.accessibilityId =  .filterPriceCellTitleLabel
+        textField.accessibilityId =  .filterPriceCellTextField
     }
 }
 

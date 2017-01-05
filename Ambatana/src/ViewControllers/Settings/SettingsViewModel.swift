@@ -222,10 +222,10 @@ class SettingsViewModel: BaseViewModel {
             let positive = UIAction(interface: .styledText(LGLocalizedString.settingsLogoutAlertOk, .default),
                                     action: { [weak self] in
                     self?.logoutUser()
-                }, accessibilityId: .SettingsLogoutAlertOK)
+                }, accessibilityId: .settingsLogoutAlertOK)
 
             let negative = UIAction(interface: .styledText(LGLocalizedString.commonCancel, .cancel),
-                                    action: {}, accessibilityId: .SettingsLogoutAlertCancel)
+                                    acstion: {}, accessibilityId: .settingsLogoutAlertCancel)
             delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsLogoutAlertMessage,
                                            alertType: .plainAlert, actions: [positive, negative])
         case .versionInfo, .marketingNotifications:

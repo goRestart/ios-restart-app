@@ -659,12 +659,12 @@ extension MainProductsViewModel {
                                     self?.trackPushPermissionComplete()
                                     PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .productListBanner)
             },
-                                accessibilityId: .UserPushPermissionOK)
+                                accessibilityId: .userPushPermissionOK)
         let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
             },
-                                accessibilityId: .UserPushPermissionCancel)
+                                accessibilityId: .userPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),

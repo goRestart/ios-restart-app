@@ -204,7 +204,7 @@ extension UserViewModel {
         guard let userAccounts = userAccounts.value, isMyProfile else { return }
         var verifyTypes: [VerificationType] = []
         if !userAccounts.emailVerified {
-            verifyTypes.append(.Email(myUserRepository.myUser?.email))
+            verifyTypes.append(.email(myUserRepository.myUser?.email))
         }
         if !userAccounts.facebookVerified {
             verifyTypes.append(.facebook)
@@ -268,14 +268,14 @@ extension UserViewModel {
         let icon = UIImage(named: "navbar_share")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.shareButtonPressed()
-            }, accessibilityId: .UserNavBarShareButton)
+            }, accessibilityId: .userNavBarShareButton)
     }
     
     func buildSettingsNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_settings")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.openSettings()
-            }, accessibilityId: .UserNavBarSettingsButton)
+            }, accessibilityId: .userNavBarSettingsButton)
     }
     
     func buildMoreNavBarAction() -> UIAction {
@@ -293,14 +293,14 @@ extension UserViewModel {
             }
             
             strongSelf.delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: actions)
-            }, accessibilityId: .UserNavBarMoreButton)
+            }, accessibilityId: .userNavBarMoreButton)
     }
     
     func buildReportButton() -> UIAction {
         let title = LGLocalizedString.reportUserTitle
         return UIAction(interface: .text(title), action: { [weak self] in
             guard let strongSelf = self, let userReportedId = strongSelf.user.value?.objectId else { return }
-            let reportVM = ReportUsersViewModel(origin: .Profile, userReportedId: userReportedId)
+            let reportVM = ReportUsersViewModel(origin: .profile, userReportedId: userReportedId)
             strongSelf.delegate?.vmOpenReportUser(reportVM)
         })
     }
@@ -337,7 +337,7 @@ extension UserViewModel {
         switch listVM.state {
         case .loading:
             listVM.retrieveProducts()
-        case .Data, .Error, .empty:
+        case .data, .error, .empty:
             break
         }
     }
@@ -353,17 +353,17 @@ extension UserViewModel {
     
     func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .default),
+        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
                                     PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .profile)
             },
-                                accessibilityId: .UserPushPermissionOK)
+                                accessibilityId: .userPushPermissionOK)
         let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
             },
-                                accessibilityId: .UserPushPermissionCancel)
+                                accessibilityId: .userPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
@@ -476,7 +476,7 @@ extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
             
-            strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .OtherUser
+            strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
             
             // If the user has accounts the set them up
             if let user = user, let _ = user.accounts {
@@ -623,10 +623,10 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         guard let product = viewModel.productAtIndex(index), let requester = viewModel.productListRequester else { return }
         let cellModels = viewModel.objects
         
-        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
+        let data = ProductDetailData.productList(product: product, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .Profile, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openProduct(data, source: .profile, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 
@@ -672,15 +672,15 @@ extension UserViewModel {
         let typePage: EventParameterTypePage
         switch source {
         case .tabBar:
-            typePage = .TabBar
+            typePage = .tabBar
         case .chat:
-            typePage = .Chat
+            typePage = .chat
         case .productDetail:
-            typePage = .ProductDetail
+            typePage = .productDetail
         case .notifications:
-            typePage = .Notifications
+            typePage = .notifications
         case .link:
-            typePage = .External
+            typePage = .external
         }
         
         let eventTab: EventParameterTab
@@ -692,54 +692,54 @@ extension UserViewModel {
         case .favorites:
             eventTab = .favorites
         }
-        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let profileType: EventParameterProfileType = isMyUser ? .privateParameter : .publicParameter
         
         let event = TrackerEvent.profileVisit(user, profileType: profileType, typePage: typePage, tab: eventTab)
         tracker.trackEvent(event)
     }
     
     func trackBlock(_ userId: String) {
-        let event = TrackerEvent.profileBlock(.Profile, blockedUsersIds: [userId])
+        let event = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId])
         tracker.trackEvent(event)
     }
     
     func trackUnblock(_ userId: String) {
-        let event = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: [userId])
+        let event = TrackerEvent.profileUnblock(.profile, unblockedUsersIds: [userId])
         TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     func trackPushPermissionStart() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .Profile, alertType: .Custom,
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .profile, alertType: .custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
     
     func trackPushPermissionComplete() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .Profile, alertType: .Custom,
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .profile, alertType: .custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
     
     func trackPushPermissionCancel() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .profile, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
     
     func trackShareStart() {
-        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let profileType: EventParameterProfileType = isMyUser ? .privateParameter : .publicParameter
         let trackerEvent = TrackerEvent.profileShareStart(profileType)
         tracker.trackEvent(trackerEvent)
     }
     
     func trackShareComplete(_ shareNetwork: EventParameterShareNetwork) {
-        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let profileType: EventParameterProfileType = isMyUser ? .privateParameter : .publicParameter
         let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)
     }

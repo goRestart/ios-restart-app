@@ -131,10 +131,10 @@ class FilterDistanceCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .FilterDistanceCell
-        slider.accessibilityId = .FilterDistanceSlider
-        distanceTip.accessibilityId = .FilterDistanceTip
-        distanceLabel.accessibilityId = .FilterDistanceLabel
+        self.accessibilityId = .filterDistanceCell
+        slider.accessibilityId = .filterDistanceSlider
+        distanceTip.accessibilityId = .filterDistanceTip
+        distanceLabel.accessibilityId = .filterDistanceLabel
     }
 
     private func setupInPosition(_ position: Int){

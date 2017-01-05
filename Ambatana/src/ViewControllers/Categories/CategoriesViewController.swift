@@ -114,6 +114,6 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
     }
 
     private func setAccessibilityIds() {
-        collectionView.accessibilityId = .CategoriesCollectionView
+        collectionView.accessibilityId = .categoriesCollectionView
     }
 }

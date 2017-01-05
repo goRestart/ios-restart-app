@@ -533,12 +533,12 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
 
 extension PostProductGalleryView {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .PostingGalleryCloseButton
-        imageContainer.accessibilityId = .PostingGalleryImageContainer
-        imageLoadActivityIndicator.accessibilityId = .PostingGalleryLoading
-        collectionView.accessibilityId = .PostingGalleryCollection
-        albumButton.accessibilityId = .PostingGalleryAlbumButton
-        postButton.accessibilityId = .PostingGalleryUsePhotoButton
-        infoButton.accessibilityId = .PostingGalleryInfoScreenButton
+        closeButton.accessibilityId = .postingGalleryCloseButton
+        imageContainer.accessibilityId = .postingGalleryImageContainer
+        imageLoadActivityIndicator.accessibilityId = .postingGalleryLoading
+        collectionView.accessibilityId = .postingGalleryCollection
+        albumButton.accessibilityId = .postingGalleryAlbumButton
+        postButton.accessibilityId = .postingGalleryUsePhotoButton
+        infoButton.accessibilityId = .postingGalleryInfoScreenButton
     }
 }

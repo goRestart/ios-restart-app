@@ -151,9 +151,9 @@ extension ExpressChatViewController: ExpressChatViewModelDelegate {
 
 extension ExpressChatViewController {
     func setupAccessibilityIds() {
-        self.closeButton.accessibilityId = .ExpressChatCloseButton
-        self.collectionView.accessibilityId = .ExpressChatCollection
-        self.sendMessageButton.accessibilityId = .ExpressChatSendButton
-        self.dontAskAgainButton.accessibilityId = .ExpressChatDontAskButton
+        self.closeButton.accessibilityId = .expressChatCloseButton
+        self.collectionView.accessibilityId = .expressChatCollection
+        self.sendMessageButton.accessibilityId = .expressChatSendButton
+        self.dontAskAgainButton.accessibilityId = .expressChatDontAskButton
    }
 }

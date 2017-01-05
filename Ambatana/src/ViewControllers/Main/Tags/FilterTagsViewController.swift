@@ -96,6 +96,6 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
     }
 
     private func setAccessibilityIds() {
-        collectionView.accessibilityId = .FilterTagsCollectionView
+        collectionView.accessibilityId = .filterTagsCollectionView
     }
 }

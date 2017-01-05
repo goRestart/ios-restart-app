@@ -208,16 +208,16 @@ extension RateUserViewController: UITextViewDelegate {
 
 extension RateUserViewController {
     func setAccesibilityIds() {
-        userNameText.accessibilityId = .RateUserUserNameLabel
+        userNameText.accessibilityId = .rateUserUserNameLabel
         if stars.count == 5 {
-            stars[0].accessibilityId = .RateUserStarButton1
-            stars[1].accessibilityId = .RateUserStarButton2
-            stars[2].accessibilityId = .RateUserStarButton3
-            stars[3].accessibilityId = .RateUserStarButton4
-            stars[4].accessibilityId = .RateUserStarButton5
+            stars[0].accessibilityId = .rateUserStarButton1
+            stars[1].accessibilityId = .rateUserStarButton2
+            stars[2].accessibilityId = .rateUserStarButton3
+            stars[3].accessibilityId = .rateUserStarButton4
+            stars[4].accessibilityId = .rateUserStarButton5
         }
-        descriptionText.accessibilityId = .RateUserDescriptionField
-        activityIndicator.accessibilityId = .RateUserLoading
-        publishButton.accessibilityId = .RateUserPublishButton
+        descriptionText.accessibilityId = .rateUserDescriptionField
+        activityIndicator.accessibilityId = .rateUserLoading
+        publishButton.accessibilityId = .rateUserPublishButton
     }
 }

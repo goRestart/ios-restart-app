@@ -63,15 +63,15 @@ enum Tab {
     var accessibilityId: AccessibilityId {
         switch self {
         case .home:
-            return .TabBarFirstTab
+            return .tabBarFirstTab
         case .categories, .notifications:
-            return .TabBarSecondTab
+            return .tabBarSecondTab
         case .sell:
-            return .TabBarThirdTab
+            return .tabBarThirdTab
         case .chats:
-            return .TabBarFourthTab
+            return .tabBarFourthTab
         case .profile:
-            return .TabBarFifthTab
+            return .tabBarFifthTab
         }
     }
 

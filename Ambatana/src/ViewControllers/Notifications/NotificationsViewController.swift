@@ -148,9 +148,9 @@ extension NotificationsViewController: ScrollableToTop {
 
 private extension NotificationsViewController {
     func setAccesibilityIds() {
-        refreshControl.accessibilityId = .NotificationsRefresh
-        tableView.accessibilityId = .NotificationsTable
-        activityIndicator.accessibilityId = .NotificationsLoading
-        emptyView.accessibilityId = .NotificationsEmptyView
+        refreshControl.accessibilityId = .notificationsRefresh
+        tableView.accessibilityId = .notificationsTable
+        activityIndicator.accessibilityId = .notificationsLoading
+        emptyView.accessibilityId = .notificationsEmptyView
     }
 }

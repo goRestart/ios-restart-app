@@ -596,13 +596,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 extension ProductListView {
     func setAccessibilityIds() {
-        firstLoadView.accessibilityId = .ProductListViewFirstLoadView
-        firstLoadActivityIndicator.accessibilityId = .ProductListViewFirstLoadActivityIndicator
-        collectionView.accessibilityId = .ProductListViewCollection
-        errorView.accessibilityId = .ProductListViewErrorView
-        errorImageView.accessibilityId =  .ProductListErrorImageView
-        errorTitleLabel.accessibilityId = .ProductListErrorTitleLabel
-        errorBodyLabel.accessibilityId = .ProductListErrorBodyLabel
-        errorButton.accessibilityId = .ProductListErrorButton
+        firstLoadView.accessibilityId = .productListViewFirstLoadView
+        firstLoadActivityIndicator.accessibilityId = .productListViewFirstLoadActivityIndicator
+        collectionView.accessibilityId = .productListViewCollection
+        errorView.accessibilityId = .productListViewErrorView
+        errorImageView.accessibilityId =  .productListErrorImageView
+        errorTitleLabel.accessibilityId = .productListErrorTitleLabel
+        errorBodyLabel.accessibilityId = .productListErrorBodyLabel
+        errorButton.accessibilityId = .productListErrorButton
     }
 }

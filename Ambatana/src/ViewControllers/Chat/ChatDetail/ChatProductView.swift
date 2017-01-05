@@ -174,12 +174,12 @@ extension ChatProductView {
 
 extension ChatProductView {
     func setAccessibilityIds() {
-        userName.accessibilityId = .ChatProductViewUserNameLabel
-        userAvatar.accessibilityId = .ChatProductViewUserAvatar
-        productName.accessibilityId = .ChatProductViewProductNameLabel
-        productPrice.accessibilityId = .ChatProductViewProductPriceLabel
-        productButton.accessibilityId = .ChatProductViewProductButton
-        userButton.accessibilityId = .ChatProductViewUserButton
-        reviewButton.accessibilityId = .ChatProductViewReviewButton
+        userName.accessibilityId = .chatProductViewUserNameLabel
+        userAvatar.accessibilityId = .chatProductViewUserAvatar
+        productName.accessibilityId = .chatProductViewProductNameLabel
+        productPrice.accessibilityId = .chatProductViewProductPriceLabel
+        productButton.accessibilityId = .chatProductViewProductButton
+        userButton.accessibilityId = .chatProductViewUserButton
+        reviewButton.accessibilityId = .chatProductViewReviewButton
     }
 }

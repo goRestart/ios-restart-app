@@ -29,8 +29,8 @@ class PostProductCameraViewModel: BaseViewModel {
     let visible = Variable<Bool>(false)
 
     let cameraState = Variable<CameraState>(.pendingAskPermissions)
-    let cameraFlashMode = Variable<CameraFlashMode>(.Auto)
-    let cameraSourceMode = Variable<CameraSourceMode>(.Rear)
+    let cameraFlashMode = Variable<CameraFlashMode>(.auto)
+    let cameraSourceMode = Variable<CameraSourceMode>(.rear)
     let imageSelected = Variable<UIImage?>(nil)
 
     let infoShown = Variable<Bool>(false)
@@ -75,7 +75,7 @@ class PostProductCameraViewModel: BaseViewModel {
         switch cameraState.value {
         case .pendingAskPermissions, .missingPermissions:
             checkCameraState()
-        case .TakingPhoto, .Preview, .Capture:
+        case .takingPhoto, .preview, .capture:
             break
         }
     }
@@ -85,9 +85,9 @@ class PostProductCameraViewModel: BaseViewModel {
 
     func closeButtonPressed() {
         switch cameraState.value {
-        case .TakingPhoto, .Preview:
+        case .takingPhoto, .preview:
             retryPhotoButtonPressed()
-        case .missingPermissions, .pendingAskPermissions, .Capture:
+        case .missingPermissions, .pendingAskPermissions, .capture:
             cameraDelegate?.productCameraCloseButton()
         }
     }
@@ -101,17 +101,17 @@ class PostProductCameraViewModel: BaseViewModel {
     }
 
     func takePhotoButtonPressed() {
-        cameraState.value = .TakingPhoto
+        cameraState.value = .takingPhoto
     }
 
     func photoTaken(_ photo: UIImage) {
         imageSelected.value = photo
-        cameraState.value = .Preview
+        cameraState.value = .preview
     }
 
     func retryPhotoButtonPressed() {
         imageSelected.value = nil
-        cameraState.value = .Capture
+        cameraState.value = .capture
     }
 
     func usePhotoButtonPressed() {
@@ -125,7 +125,7 @@ class PostProductCameraViewModel: BaseViewModel {
             UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
         case .pendingAskPermissions:
             askForPermissions()
-        case .TakingPhoto, .Capture, .Preview:
+        case .takingPhoto, .capture, .preview:
             break
         }
     }
@@ -160,7 +160,7 @@ class PostProductCameraViewModel: BaseViewModel {
                 strongSelf.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
                 strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
-            case .TakingPhoto, .Capture, .Preview:
+            case .takingPhoto, .capture, .preview:
                 strongSelf.infoShown.value = false
             }
         }.addDisposableTo(disposeBag)
@@ -195,7 +195,7 @@ class PostProductCameraViewModel: BaseViewModel {
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         switch (status) {
         case .authorized:
-            cameraState.value = .Capture
+            cameraState.value = .capture
         case .denied:
             cameraState.value = .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
         case .notDetermined:
@@ -208,11 +208,11 @@ class PostProductCameraViewModel: BaseViewModel {
     }
 
     private func askForPermissions() {
-        AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { granted in
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
                 self?.cameraState.value = granted ?
-                    .Capture : .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+                    .capture : .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
             }
         }
     }
@@ -221,9 +221,9 @@ class PostProductCameraViewModel: BaseViewModel {
         switch cameraState.value {
         case .pendingAskPermissions:
             askForPermissions()
-        case .Capture:
+        case .capture:
             shouldShowFirstTimeAlert.value = !keyValueStorage[.cameraAlreadyShown]
-        case .TakingPhoto, .Preview, .missingPermissions:
+        case .takingPhoto, .preview, .missingPermissions:
             break
         }
     }
@@ -262,7 +262,7 @@ extension CameraState {
         }
     }
 
-    private var cameraLock: Bool {
+    fileprivate var cameraLock: Bool {
         switch self {
         case .pendingAskPermissions, .missingPermissions, .capture:
             return false

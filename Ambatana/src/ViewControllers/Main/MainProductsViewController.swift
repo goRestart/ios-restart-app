@@ -547,12 +547,12 @@ private extension MainProductsViewController {
 
 extension MainProductsViewController {
     func setAccessibilityIds() {
-        navigationItem.rightBarButtonItem?.accessibilityId = .MainProductsFilterButton
-        productListView.accessibilityId = .MainProductsListView
-        tagsCollectionView.accessibilityId = .MainProductsTagsCollection
-        infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel
-        navbarSearch.accessibilityId = .MainProductsNavBarSearch
-        suggestionsSearchesTable.accessibilityId = .MainProductsSuggestionSearchesTable
-        navigationItem.leftBarButtonItem?.accessibilityId = .MainProductsInviteButton
+        navigationItem.rightBarButtonItem?.accessibilityId = .mainProductsFilterButton
+        productListView.accessibilityId = .mainProductsListView
+        tagsCollectionView.accessibilityId = .mainProductsTagsCollection
+        infoBubbleLabel.accessibilityId = .mainProductsInfoBubbleLabel
+        navbarSearch.accessibilityId = .mainProductsNavBarSearch
+        suggestionsSearchesTable.accessibilityId = .mainProductsSuggestionSearchesTable
+        navigationItem.leftBarButtonItem?.accessibilityId = .mainProductsInviteButton
     }
 }

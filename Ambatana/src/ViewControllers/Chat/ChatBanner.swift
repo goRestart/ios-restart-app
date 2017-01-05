@@ -68,11 +68,11 @@ class ChatBanner: UIView {
         actionButton.setTitle(action.text, for: UIControlState())
         actionButton.addTarget(self, action: #selector(bannerActionButtonTapped), for: .touchUpInside)
         actionButton.setContentCompressionResistancePriority(751, for: .horizontal)
-        actionButton.accessibilityId = .ExpressChatBannerActionButton
+        actionButton.accessibilityId = .expressChatBannerActionButton
 
         closeButton.setImage(UIImage(named: "ic_close_dark"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(bannerCloseButtonTapped), for: .touchUpInside)
-        closeButton.accessibilityId = .ExpressChatBannerCloseButton
+        closeButton.accessibilityId = .expressChatBannerCloseButton
     }
 
     private dynamic func bannerActionButtonTapped() {

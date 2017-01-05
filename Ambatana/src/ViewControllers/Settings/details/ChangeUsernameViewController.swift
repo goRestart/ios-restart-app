@@ -168,7 +168,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     }
 
     private func setupAccessibilityIds() {
-        usernameTextfield.accessibilityId = .ChangeUsernameNameField
-        saveButton.accessibilityId = .ChangeUsernameSendButton
+        usernameTextfield.accessibilityId = .changeUsernameNameField
+        saveButton.accessibilityId = .changeUsernameSendButton
     }
 }

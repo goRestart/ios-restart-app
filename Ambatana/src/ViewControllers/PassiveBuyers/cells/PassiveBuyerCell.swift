@@ -55,7 +55,7 @@ class PassiveBuyerCell: UITableViewCell, ReusableCell {
         userName.textColor = UIColor.blackText
         userName.font = UIFont.bigBodyFont
 
-        userName.accessibilityId = .PassiveBuyerCellName
+        userName.accessibilityId = .passiveBuyerCellName
     }
 
 

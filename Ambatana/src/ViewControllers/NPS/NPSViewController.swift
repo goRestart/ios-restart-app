@@ -89,29 +89,29 @@ class NPSViewController: BaseViewController {
 
 extension NPSViewController {
     func setAccessibilityIds() {
-        closeButton.accessibilityId = .NPSCloseButton
+        closeButton.accessibilityId = .npsCloseButton
         for button in npsButtons {
             switch button.tag {
             case 1:
-                button.accessibilityId = .NPSScore1
+                button.accessibilityId = .npsScore1
             case 2:
-                button.accessibilityId = .NPSScore2
+                button.accessibilityId = .npsScore2
             case 3:
-                button.accessibilityId = .NPSScore3
+                button.accessibilityId = .npsScore3
             case 4:
-                button.accessibilityId = .NPSScore4
+                button.accessibilityId = .npsScore4
             case 5:
-                button.accessibilityId = .NPSScore5
+                button.accessibilityId = .npsScore5
             case 6:
-                button.accessibilityId = .NPSScore6
+                button.accessibilityId = .npsScore6
             case 7:
-                button.accessibilityId = .NPSScore7
+                button.accessibilityId = .npsScore7
             case 8:
-                button.accessibilityId = .NPSScore8
+                button.accessibilityId = .npsScore8
             case 9:
-                button.accessibilityId = .NPSScore9
+                button.accessibilityId = .npsScore9
             case 10:
-                button.accessibilityId = .NPSScore10
+                button.accessibilityId = .npsScore10
             default:
                 break
             }

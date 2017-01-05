@@ -122,23 +122,23 @@ enum ShareType {
     var accesibilityId: AccessibilityId {
         switch self {
         case .email:
-            return .SocialShareEmail
+            return .socialShareEmail
         case .facebook:
-            return .SocialShareFacebook
+            return .socialShareFacebook
         case .twitter:
-            return .SocialShareTwitter
+            return .socialShareTwitter
         case .native:
-            return .SocialShareMore
+            return .socialShareMore
         case .copyLink:
-            return .SocialShareCopyLink
+            return .socialShareCopyLink
         case .fbMessenger:
-            return .SocialShareFBMessenger
+            return .socialShareFBMessenger
         case .whatsapp:
-            return .SocialShareWhatsapp
+            return .socialShareWhatsapp
         case .telegram:
-            return .SocialShareTelegram
+            return .socialShareTelegram
         case .sms:
-            return .SocialShareSMS
+            return .socialShareSMS
         }
     }
 }

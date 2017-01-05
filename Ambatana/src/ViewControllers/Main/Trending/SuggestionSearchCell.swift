@@ -20,7 +20,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .SuggestionSearchCell
-        suggestionText.accessibilityId = .SuggestionSearchCellSuggestionText
+        self.accessibilityId = .suggestionSearchCell
+        suggestionText.accessibilityId = .suggestionSearchCellSuggestionText
     }
 }

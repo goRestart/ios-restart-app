@@ -232,22 +232,22 @@ extension UserViewController {
     }
 
     fileprivate func setupAccessibilityIds() {
-        navBarUserView.titleLabel.accessibilityId = .UserHeaderCollapsedNameLabel
-        navBarUserView.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
-        userNameLabel.accessibilityId = .UserHeaderExpandedNameLabel
-        userLocationLabel.accessibilityId = .UserHeaderExpandedLocationLabel
+        navBarUserView.titleLabel.accessibilityId = .userHeaderCollapsedNameLabel
+        navBarUserView.subtitleLabel.accessibilityId = .userHeaderCollapsedLocationLabel
+        userNameLabel.accessibilityId = .userHeaderExpandedNameLabel
+        userLocationLabel.accessibilityId = .userHeaderExpandedLocationLabel
 
-        headerContainer?.header?.avatarButton.accessibilityId = .UserHeaderExpandedAvatarButton
-        headerContainer?.header?.ratingsButton.accessibilityId = .UserHeaderExpandedRatingsButton
-        headerContainer?.header?.userRelationLabel.accessibilityId = .UserHeaderExpandedRelationLabel
-        headerContainer?.header?.buildTrustButton.accessibilityId = .UserHeaderExpandedBuildTrustButton
-        headerContainer?.header?.sellingButton.accessibilityId = .UserSellingTab
-        headerContainer?.header?.soldButton.accessibilityId = .UserSoldTab
-        headerContainer?.header?.favoritesButton.accessibilityId = .UserFavoritesTab
+        headerContainer?.header?.avatarButton.accessibilityId = .userHeaderExpandedAvatarButton
+        headerContainer?.header?.ratingsButton.accessibilityId = .userHeaderExpandedRatingsButton
+        headerContainer?.header?.userRelationLabel.accessibilityId = .userHeaderExpandedRelationLabel
+        headerContainer?.header?.buildTrustButton.accessibilityId = .userHeaderExpandedBuildTrustButton
+        headerContainer?.header?.sellingButton.accessibilityId = .userSellingTab
+        headerContainer?.header?.soldButton.accessibilityId = .userSoldTab
+        headerContainer?.header?.favoritesButton.accessibilityId = .userFavoritesTab
 
-        productListView.firstLoadView.accessibilityId = .UserProductsFirstLoad
-        productListView.collectionView.accessibilityId = .UserProductsList
-        productListView.errorView.accessibilityId = .UserProductsError
+        productListView.firstLoadView.accessibilityId = .userProductsFirstLoad
+        productListView.collectionView.accessibilityId = .userProductsList
+        productListView.errorView.accessibilityId = .userProductsError
     }
 
     private func setupMainView() {

@@ -692,19 +692,19 @@ extension SignUpLogInViewController: RecaptchaNavigator {
 
 extension SignUpLogInViewController {
     func setAccessibilityIds() {
-        connectFBButton.accessibilityId = .SignUpLoginFacebookButton
-        connectGoogleButton.accessibilityId = .SignUpLoginGoogleButton
-        emailButton.accessibilityId = .SignUpLoginEmailButton
-        emailTextField.accessibilityId = .SignUpLoginEmailTextField
-        passwordButton.accessibilityId = .SignUpLoginPasswordButton
-        passwordTextField.accessibilityId = .SignUpLoginEmailTextField
-        usernameButton.accessibilityId = .SignUpLoginUserNameButton
-        usernameTextField.accessibilityId = .SignUpLoginUserNameTextField
-        showPasswordButton.accessibilityId = .SignUpLoginShowPasswordButton
-        forgotPasswordButton.accessibilityId = .SignUpLoginForgotPasswordButton
-        loginSegmentedControl.accessibilityId = .SignUpLoginSegmentedControl
-        helpButton.accessibilityId = .SignUpLoginHelpButton
-        navigationItem.leftBarButtonItem?.accessibilityId = .SignUpLoginCloseButton
-        sendButton.accessibilityId = .SignUpLoginSendButton
+        connectFBButton.accessibilityId = .signUpLoginFacebookButton
+        connectGoogleButton.accessibilityId = .signUpLoginGoogleButton
+        emailButton.accessibilityId = .signUpLoginEmailButton
+        emailTextField.accessibilityId = .signUpLoginEmailTextField
+        passwordButton.accessibilityId = .signUpLoginPasswordButton
+        passwordTextField.accessibilityId = .signUpLoginEmailTextField
+        usernameButton.accessibilityId = .signUpLoginUserNameButton
+        usernameTextField.accessibilityId = .signUpLoginUserNameTextField
+        showPasswordButton.accessibilityId = .signUpLoginShowPasswordButton
+        forgotPasswordButton.accessibilityId = .signUpLoginForgotPasswordButton
+        loginSegmentedControl.accessibilityId = .signUpLoginSegmentedControl
+        helpButton.accessibilityId = .signUpLoginHelpButton
+        navigationItem.leftBarButtonItem?.accessibilityId = .signUpLoginCloseButton
+        sendButton.accessibilityId = .signUpLoginSendButton
     }
 }

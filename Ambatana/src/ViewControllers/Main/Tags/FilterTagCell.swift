@@ -140,8 +140,8 @@ class FilterTagCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .FilterTagCell
-        tagIcon.accessibilityId = .FilterTagCellTagIcon
-        tagLabel.accessibilityId = .FilterTagCellTagLabel
+        self.accessibilityId = .filterTagCell
+        tagIcon.accessibilityId = .filterTagCellTagIcon
+        tagLabel.accessibilityId = .filterTagCellTagLabel
     }
 }

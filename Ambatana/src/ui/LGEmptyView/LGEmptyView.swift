@@ -145,7 +145,7 @@ class LGEmptyView: UIView {
         actionButton.titleLabel?.font = UIFont.mediumButtonFont
         actionButton.addTarget(self, action: #selector(LGEmptyView.actionButtonPressed), for: .touchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
-        actionButton.accessibilityId = .EmptyViewPrimaryButton
+        actionButton.accessibilityId = .emptyViewPrimaryButton
         contentView.addSubview(actionButton)
         
         // initial frame so it can calculate the button corner radius
@@ -154,7 +154,7 @@ class LGEmptyView: UIView {
         actionSecondaryButton.titleLabel?.font = UIFont.mediumButtonFont
         actionSecondaryButton.addTarget(self, action: #selector(LGEmptyView.secondaryActionButtonPressed), for: .touchUpInside)
         actionSecondaryButton.translatesAutoresizingMaskIntoConstraints = false
-        actionSecondaryButton.accessibilityId = .EmptyViewSecondaryButton
+        actionSecondaryButton.accessibilityId = .emptyViewSecondaryButton
         contentView.addSubview(actionSecondaryButton)
     }
 

@@ -88,6 +88,6 @@ class ProductDetailOnboardingView: UIView {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .ProductDetailOnboarding
+        self.accessibilityId = .productDetailOnboarding
     }
 }

@@ -55,8 +55,8 @@ class FilterSingleCheckCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .FilterSingleCheckCell
-        tickIcon.accessibilityId = .FilterSingleCheckCellTickIcon
-        titleLabel.accessibilityId = .FilterSingleCheckCellTitleLabel
+        self.accessibilityId = .filterSingleCheckCell
+        tickIcon.accessibilityId = .filterSingleCheckCellTickIcon
+        titleLabel.accessibilityId = .filterSingleCheckCellTitleLabel
     }
 }

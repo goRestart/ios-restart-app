@@ -536,17 +536,17 @@ extension ProductCarouselMoreInfoView: RelatedProductsViewDelegate {
 
 extension ProductCarouselMoreInfoView {
     private func setAccessibilityIds() {
-        scrollView.accessibilityId = .ProductCarouselMoreInfoScrollView
-        titleLabel.accessibilityId = .ProductCarouselMoreInfoTitleLabel
-        transTitleLabel.accessibilityId = .ProductCarouselMoreInfoTransTitleLabel
-        addressLabel.accessibilityId = .ProductCarouselMoreInfoAddressLabel
-        distanceLabel.accessibilityId = .ProductCarouselMoreInfoDistanceLabel
-        mapView.accessibilityId = .ProductCarouselMoreInfoMapView
-        socialShareTitleLabel.accessibilityId = .ProductCarouselMoreInfoSocialShareTitleLabel
-        socialShareView.accessibilityId = .ProductCarouselMoreInfoSocialShareView
-        descriptionLabel.accessibilityId = .ProductCarouselMoreInfoDescriptionLabel
-        relatedItemsTitle.accessibilityId = .ProductCarouselMoreInfoRelatedItemsTitleLabel
-        relatedProductsView.accessibilityId = .ProductCarouselMoreInfoRelatedItemsView
-        relatedItemsViewMoreButton.accessibilityId = .ProductCarouselMoreInfoRelatedViewMoreButton
+        scrollView.accessibilityId = .productCarouselMoreInfoScrollView
+        titleLabel.accessibilityId = .productCarouselMoreInfoTitleLabel
+        transTitleLabel.accessibilityId = .productCarouselMoreInfoTransTitleLabel
+        addressLabel.accessibilityId = .productCarouselMoreInfoAddressLabel
+        distanceLabel.accessibilityId = .productCarouselMoreInfoDistanceLabel
+        mapView.accessibilityId = .productCarouselMoreInfoMapView
+        socialShareTitleLabel.accessibilityId = .productCarouselMoreInfoSocialShareTitleLabel
+        socialShareView.accessibilityId = .productCarouselMoreInfoSocialShareView
+        descriptionLabel.accessibilityId = .productCarouselMoreInfoDescriptionLabel
+        relatedItemsTitle.accessibilityId = .productCarouselMoreInfoRelatedItemsTitleLabel
+        relatedProductsView.accessibilityId = .productCarouselMoreInfoRelatedItemsView
+        relatedItemsViewMoreButton.accessibilityId = .productCarouselMoreInfoRelatedViewMoreButton
     }
 }

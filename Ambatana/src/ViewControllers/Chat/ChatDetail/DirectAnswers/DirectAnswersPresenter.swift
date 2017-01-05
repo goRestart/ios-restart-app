@@ -185,7 +185,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
             layout.minimumInteritemSpacing = 4.0
         }
 
-        collectionView.accessibilityId = .DirectAnswersPresenterCollectionView
+        collectionView.accessibilityId = .directAnswersPresenterCollectionView
     }
 }
 

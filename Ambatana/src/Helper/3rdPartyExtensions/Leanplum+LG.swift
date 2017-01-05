@@ -39,7 +39,7 @@ extension Leanplum {
             let title = context.stringNamed(titleIdentifier)
             let okAction = UIAction(interface: .styledText(buttonText, .default),
                                     action: { context.runTrackedActionNamed(actionIdentifier) },
-                                    accessibilityId: .AcceptPopUpButton)
+                                    accessibilityId: .acceptPopUpButton)
             presenter.showLeanplumAlert(title, text:message, image:image, action: okAction)
             return true
         })

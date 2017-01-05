@@ -223,7 +223,7 @@ extension ChatTextView: UITextFieldDelegate {
 
 private extension ChatTextView {
     func setAccesibilityIds() {
-        textView.accessibilityId = .ChatTextViewTextField
-        sendButton.accessibilityId = .ChatTextViewSendButton
+        textView.accessibilityId = .chatTextViewTextField
+        sendButton.accessibilityId = .chatTextViewSendButton
     }
 }

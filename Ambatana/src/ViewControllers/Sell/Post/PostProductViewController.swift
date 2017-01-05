@@ -449,10 +449,10 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
 extension PostProductViewController {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .PostingCloseButton
-        galleryButton.accessibilityId = .PostingGalleryButton
-        photoButton.accessibilityId = .PostingPhotoButton
-        customLoadingView.accessibilityId = .PostingLoading
-        retryButton.accessibilityId = .PostingRetryButton
+        closeButton.accessibilityId = .postingCloseButton
+        galleryButton.accessibilityId = .postingGalleryButton
+        photoButton.accessibilityId = .postingPhotoButton
+        customLoadingView.accessibilityId = .postingLoading
+        retryButton.accessibilityId = .postingRetryButton
     }
 }

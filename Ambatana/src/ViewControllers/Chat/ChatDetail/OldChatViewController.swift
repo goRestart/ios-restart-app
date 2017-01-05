@@ -854,10 +854,10 @@ extension OldChatViewController: ChatBannerDelegate {
 extension OldChatViewController {
     func setAccessibilityIds() {
         tableView.accessibilityId = .ChatViewTableView
-        navigationItem.rightBarButtonItem?.accessibilityId = .ChatViewMoreOptionsButton
-        navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
-        sendButton.accessibilityId = .ChatViewSendButton
-        textViewBar.accessibilityId = .ChatViewTextInputBar
-        expressChatBanner.accessibilityId = .ExpressChatBanner
+        navigationItem.rightBarButtonItem?.accessibilityId = .chatViewMoreOptionsButton
+        navigationItem.backBarButtonItem?.accessibilityId = .chatViewBackButton
+        sendButton.accessibilityId = .chatViewSendButton
+        textViewBar.accessibilityId = .chatViewTextInputBar
+        expressChatBanner.accessibilityId = .expressChatBanner
     }
 }

@@ -1268,18 +1268,18 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
 
 extension ProductCarouselViewController {
     private func setAccessibilityIds() {
-        collectionView.accessibilityId = .ProductCarouselCollectionView
-        buttonBottom.accessibilityId = .ProductCarouselButtonBottom
-        buttonTop.accessibilityId = .ProductCarouselButtonTop
-        favoriteButton.accessibilityId = .ProductCarouselFavoriteButton
-        moreInfoView?.accessibilityId = .ProductCarouselMoreInfoView
-        productStatusLabel.accessibilityId = .ProductCarouselProductStatusLabel
-        directChatTable.accessibilityId = .ProductCarouselDirectChatTable
-        stickersButton.accessibilityId = .ProductCarouselStickersButton
-        editButton.accessibilityId = .ProductCarouselEditButton
-        fullScreenAvatarView.accessibilityId = .ProductCarouselFullScreenAvatarView
-        pageControl.accessibilityId = .ProductCarouselPageControl
-        userView.accessibilityId = .ProductCarouselUserView
-        chatTextView.accessibilityId = .ProductCarouselChatTextView
+        collectionView.accessibilityId = .productCarouselCollectionView
+        buttonBottom.accessibilityId = .productCarouselButtonBottom
+        buttonTop.accessibilityId = .productCarouselButtonTop
+        favoriteButton.accessibilityId = .productCarouselFavoriteButton
+        moreInfoView?.accessibilityId = .productCarouselMoreInfoView
+        productStatusLabel.accessibilityId = .productCarouselProductStatusLabel
+        directChatTable.accessibilityId = .productCarouselDirectChatTable
+        stickersButton.accessibilityId = .productCarouselStickersButton
+        editButton.accessibilityId = .productCarouselEditButton
+        fullScreenAvatarView.accessibilityId = .productCarouselFullScreenAvatarView
+        pageControl.accessibilityId = .productCarouselPageControl
+        userView.accessibilityId = .productCarouselUserView
+        chatTextView.accessibilityId = .productCarouselChatTextView
     }
 }

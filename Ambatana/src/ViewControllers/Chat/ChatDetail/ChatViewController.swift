@@ -374,7 +374,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
             let tint: UIColor? = viewModel.directAnswersState.value == .Visible ? nil : UIColor.primaryColor
             let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
-                }, accessibilityId: .ChatViewQuickAnswersButton)
+                }, accessibilityId: .chatViewQuickAnswersButton)
             actions.append(quickAnswersAction)
         }
 
@@ -382,7 +382,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
-        }, accessibilityId: .ChatViewStickersButton)
+        }, accessibilityId: .chatViewStickersButton)
         actions.append(kbAction)
 
         leftActions = actions
@@ -777,11 +777,11 @@ extension ChatViewController: ChatProductViewDelegate {
 
 extension ChatViewController {
     func setAccessibilityIds() {
-        tableView.accessibilityId = .ChatViewTableView
-        navigationItem.rightBarButtonItem?.accessibilityId = .ChatViewMoreOptionsButton
-        navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
-        sendButton.accessibilityId = .ChatViewSendButton
-        textViewBar.accessibilityId = .ChatViewTextInputBar
-        expressChatBanner.accessibilityId = .ExpressChatBanner
+        tableView.accessibilityId = .chatViewTableView
+        navigationItem.rightBarButtonItem?.accessibilityId = .chatViewMoreOptionsButton
+        navigationItem.backBarButtonItem?.accessibilityId = .chatViewBackButton
+        sendButton.accessibilityId = .chatViewSendButton
+        textViewBar.accessibilityId = .chatViewTextInputBar
+        expressChatBanner.accessibilityId = .expressChatBanner
     }
 }

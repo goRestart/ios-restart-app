@@ -38,7 +38,7 @@ class PostAfterDeleteViewController: BaseViewController {
         setStatusBarHidden(true)
         mainButton.setStyle(.primary(fontSize: .big))
         mainButton.setTitle(viewModel.buttonTitle, for: UIControlState())
-        mainButton.accessibilityId = .PostDeleteFullscreenButton
+        mainButton.accessibilityId = .postDeleteFullscreenButton
 
         mainTextLabel.text = viewModel.title
         secondaryTextLabel.text = viewModel.subTitle
@@ -53,7 +53,7 @@ class PostAfterDeleteViewController: BaseViewController {
         incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[postIncentivatorView]|",
             options: [], metrics: nil, views: views))
         postIncentivatorView.delegate = self
-        postIncentivatorView.accessibilityId = .PostDeleteFullscreenIncentiveView
+        postIncentivatorView.accessibilityId = .postDeleteFullscreenIncentiveView
         postIncentivatorView.setupIncentiviseView()
     }
 

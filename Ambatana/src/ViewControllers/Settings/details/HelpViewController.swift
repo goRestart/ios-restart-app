@@ -52,7 +52,7 @@ class HelpViewController: BaseViewController, UIWebViewDelegate, HelpViewModelDe
     // MARK: - Private methods
 
     private func setupAccessibilityIds() {
-        webView.accessibilityId = .HelpWebView
+        webView.accessibilityId = .helpWebView
     }
 
     dynamic private func showOptions() {

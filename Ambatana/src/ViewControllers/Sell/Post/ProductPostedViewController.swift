@@ -214,11 +214,11 @@ extension ProductPostedViewController: PostIncentivatorViewDelegate {
 
 extension ProductPostedViewController {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .PostingInfoCloseButton
-        shareButton.accessibilityId = .PostingInfoShareButton
-        loadingIndicator.accessibilityId = .PostingInfoLoading
-        editButton.accessibilityId = .PostingInfoEditButton
-        mainButton.accessibilityId = .PostingInfoMainButton
-        incentiveContainer.accessibilityId = .PostingInfoIncentiveContainer
+        closeButton.accessibilityId = .postingInfoCloseButton
+        shareButton.accessibilityId = .postingInfoShareButton
+        loadingIndicator.accessibilityId = .postingInfoLoading
+        editButton.accessibilityId = .postingInfoEditButton
+        mainButton.accessibilityId = .postingInfoMainButton
+        incentiveContainer.accessibilityId = .postingInfoIncentiveContainer
     }
 }

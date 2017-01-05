@@ -183,10 +183,10 @@ fileprivate extension TourLoginViewController {
     }
 
     func setupAccessibilityIds() {
-        closeButton.accessibilityId = .TourLoginCloseButton
-        facebookButton.accessibilityId = .TourFacebookButton
-        googleButton.accessibilityId = .TourGoogleButton
-        emailButton.accessibilityId = .TourEmailButton
+        closeButton.accessibilityId = .tourLoginCloseButton
+        facebookButton.accessibilityId = .tourFacebookButton
+        googleButton.accessibilityId = .tourGoogleButton
+        emailButton.accessibilityId = .tourEmailButton
     }
 
     func setupLines() {

@@ -34,9 +34,9 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .CollectionCell
-        imageView.accessibilityId = .CollectionCellImageView
-        title.accessibilityId = .CollectionCellTitle
-        exploreButton.accessibilityId =  .CollectionCellExploreButton
+        self.accessibilityId = .collectionCell
+        imageView.accessibilityId = .collectionCellImageView
+        title.accessibilityId = .collectionCellTitle
+        exploreButton.accessibilityId =  .collectionCellExploreButton
     }
 }

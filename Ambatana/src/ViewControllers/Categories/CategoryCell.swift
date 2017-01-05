@@ -42,8 +42,8 @@ class CategoryCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .CategoryCell
-        titleLabel.accessibilityId = .CategoryCellTitleLabel
-        imageView.accessibilityId = .CategoryCellImageView
+        self.accessibilityId = .categoryCell
+        titleLabel.accessibilityId = .categoryCellTitleLabel
+        imageView.accessibilityId = .categoryCellImageView
     }
 }

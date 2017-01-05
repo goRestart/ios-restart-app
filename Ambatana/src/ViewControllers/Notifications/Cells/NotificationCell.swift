@@ -57,7 +57,7 @@ class NotificationCell: UITableViewCell, ReusableCell {
         timeLabel.textColor = UIColor.black
         primaryImage.backgroundColor = UIColor.placeholderBackgroundColor()
 
-        primaryImage.accessibilityId = .NotificationsCellPrimaryImage
+        primaryImage.accessibilityId = .notificationsCellPrimaryImage
 
         actionButton.isUserInteractionEnabled = false
         actionButton.setStyle(.secondary(fontSize: .small, withBorder: false))

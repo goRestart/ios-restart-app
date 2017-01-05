@@ -352,9 +352,9 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     private func setAccessibilityIds() {
-        collectionView.accessibilityId = .FiltersCollectionView
-        saveFiltersBtn.accessibilityId = .FiltersSaveFiltersButton
-        self.navigationItem.rightBarButtonItem?.accessibilityId = .FiltersResetButton
-        self.navigationItem.leftBarButtonItem?.accessibilityId = .FiltersCancelButton
+        collectionView.accessibilityId = .filtersCollectionView
+        saveFiltersBtn.accessibilityId = .filtersSaveFiltersButton
+        self.navigationItem.rightBarButtonItem?.accessibilityId = .filtersResetButton
+        self.navigationItem.leftBarButtonItem?.accessibilityId = .filtersCancelButton
     }
 }

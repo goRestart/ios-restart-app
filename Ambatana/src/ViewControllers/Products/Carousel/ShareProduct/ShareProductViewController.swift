@@ -129,8 +129,8 @@ extension ShareProductViewController: ShareProductViewModelDelegate {
 
 extension ShareProductViewController {
     func setAccessibilityIds() {
-        view.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareView
-        closeButton.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareCloseButton
-        copyButton.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareCopyLinkButton
+        view.accessibilityId = AccessibilityId.productCarouselFullscreenShareView
+        closeButton.accessibilityId = AccessibilityId.productCarouselFullscreenShareCloseButton
+        copyButton.accessibilityId = AccessibilityId.productCarouselFullscreenShareCopyLinkButton
     }
 }

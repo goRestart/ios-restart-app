@@ -357,13 +357,13 @@ extension CameraSourceMode {
 
 extension PostProductCameraView {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .PostingCameraCloseButton
-        imagePreview.accessibilityId = .PostingCameraImagePreview
-        switchCamButton.accessibilityId = .PostingCameraSwitchCamButton
-        usePhotoButton.accessibilityId = .PostingCameraUsePhotoButton
-        infoButton.accessibilityId = .PostingCameraInfoScreenButton
-        flashButton.accessibilityId = .PostingCameraFlashButton
-        retryPhotoButton.accessibilityId = .PostingCameraRetryPhotoButton
-        firstTimeAlert.accessibilityId = .PostingCameraFirstTimeAlert
+        closeButton.accessibilityId = .postingCameraCloseButton
+        imagePreview.accessibilityId = .postingCameraImagePreview
+        switchCamButton.accessibilityId = .postingCameraSwitchCamButton
+        usePhotoButton.accessibilityId = .postingCameraUsePhotoButton
+        infoButton.accessibilityId = .postingCameraInfoScreenButton
+        flashButton.accessibilityId = .postingCameraFlashButton
+        retryPhotoButton.accessibilityId = .postingCameraRetryPhotoButton
+        firstTimeAlert.accessibilityId = .postingCameraFirstTimeAlert
     }
 }
