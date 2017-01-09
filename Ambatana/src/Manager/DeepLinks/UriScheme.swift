@@ -35,15 +35,15 @@ struct UriScheme {
         let source = DeepLinkSource(string: params[UriScheme.utmSourceKey])
 
         switch host {
-        case .Home:
+        case .home:
             return UriScheme(deepLink: DeepLink.link(.home, campaign: campaign, medium: medium, source: source))
         case .sell:
             return UriScheme(deepLink: DeepLink.link(.sell, campaign: campaign, medium: medium, source: source))
-        case .Product, .Products:
+        case .product, .products:
             guard let productId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.product(productId: productId), campaign: campaign, medium: medium,
                 source: source))
-        case .User:
+        case .user:
             guard let userId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium,
                 source: source))
@@ -59,27 +59,27 @@ struct UriScheme {
             } else {
                 return nil
             }
-        case .Chats:
+        case .chats:
             return UriScheme(deepLink: DeepLink.link(.conversations, campaign: campaign, medium: medium, source: source))
-        case .Search:
+        case .search:
             guard let query = params["query"] else { return nil }
             return UriScheme(deepLink: DeepLink.link(.search(query: query, categories: params["categories"]),
                 campaign: campaign, medium: medium, source: source))
-        case .ResetPassword:
+        case .resetPassword:
             guard let token = params["token"] else { return nil }
             return UriScheme(deepLink: DeepLink.link(.resetPassword(token: token), campaign: campaign, medium: medium,
                 source: source))
-        case .Commercializer:
+        case .commercializer:
             guard let productId = params["p"], let templateId = params["t"] else { return nil }
             return UriScheme(deepLink: DeepLink.link(.commercializerReady(productId: productId, templateId: templateId),
                 campaign: campaign, medium: medium, source: source))
-        case .UserRatings:
+        case .userRatings:
             return UriScheme(deepLink: DeepLink.link(.userRatings, campaign: campaign, medium: medium, source: source))
-        case .UserRating:
+        case .userRating:
             guard let ratingId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.userRating(ratingId: ratingId), campaign: campaign, medium: medium,
                 source: source))
-        case .PassiveBuyers:
+        case .passiveBuyers:
             guard let productId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.passiveBuyers(productId: productId), campaign: campaign, medium: medium,
                 source: source))
@@ -88,17 +88,17 @@ struct UriScheme {
 }
 
 enum UriSchemeHost: String {
-    case Home = "home"
-    case Sell = "sell"
-    case Product = "product"
-    case Products = "products"
-    case User = "users"
-    case Chat = "chat"
-    case Chats = "chats"
-    case Search = "search"
-    case ResetPassword = "reset_password"
-    case Commercializer = "commercializer"
-    case UserRatings = "userreviews"
-    case UserRating = "userreview"
-    case PassiveBuyers = "passive_buyers"
+    case home = "home"
+    case sell = "sell"
+    case product = "product"
+    case products = "products"
+    case user = "users"
+    case chat = "chat"
+    case chats = "chats"
+    case search = "search"
+    case resetPassword = "reset_password"
+    case commercializer = "commercializer"
+    case userRatings = "userreviews"
+    case userRating = "userreview"
+    case passiveBuyers = "passive_buyers"
 }

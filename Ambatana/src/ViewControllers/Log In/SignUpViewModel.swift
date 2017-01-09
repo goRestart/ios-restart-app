@@ -210,7 +210,7 @@ class SignUpViewModel: BaseViewModel {
         case .conflict(let cause):
             var message = ""
             switch cause {
-            case .UserExists, .NotSpecified, .Other:
+            case .UserExists, .notSpecified, .other:
                 message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
             case .EmailRejected:
                 message = LGLocalizedString.mainSignUpErrorUserRejected

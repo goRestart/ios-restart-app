@@ -371,7 +371,7 @@ class SignUpLogInViewModel: BaseViewModel {
             }
             trackLoginEmailFailedWithError(eventParameterForSessionError(error))
             return
-        case .notFound, .internalError, .forbidden, .nonExistingEmail, .conflict, .tooManyRequests, .BadRequest,
+        case .notFound, .internalError, .forbidden, .nonExistingEmail, .conflict, .tooManyRequests, .badRequest,
              .userNotVerified:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
@@ -384,16 +384,16 @@ class SignUpLogInViewModel: BaseViewModel {
         switch (error) {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .BadRequest(let cause):
+        case .badRequest(let cause):
             switch cause {
-            case .NotSpecified, .Other:
+            case .notSpecified, .other:
                 message = LGLocalizedString.signUpSendErrorGeneric
-            case .NonAcceptableParams:
+            case .nonAcceptableParams:
                 message = LGLocalizedString.signUpSendErrorInvalidDomain
             }
         case .conflict(let cause):
             switch cause {
-            case .UserExists, .NotSpecified, .Other:
+            case .UserExists, .notSpecified, .other:
                 message = LGLocalizedString.signUpSendErrorEmailTaken(email)
             case .EmailRejected:
                 message = LGLocalizedString.mainSignUpErrorUserRejected
@@ -424,12 +424,12 @@ class SignUpLogInViewModel: BaseViewModel {
         switch (error) {
         case .network:
             return .network
-        case .BadRequest(let cause):
+        case .badRequest(let cause):
             switch cause {
-            case .NonAcceptableParams:
+            case .nonAcceptableParams:
                 return .blacklistedDomain
-            case .NotSpecified, .Other:
-                return .BadRequest
+            case .notSpecified, .other:
+                return .badRequest
             }
         case .scammer:
             return .forbidden
@@ -480,7 +480,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case .conflict(let cause):
             var message = ""
             switch cause {
-            case .UserExists, .NotSpecified, .Other:
+            case .UserExists, .notSpecified, .other:
                 message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
             case .EmailRejected:
                 message = LGLocalizedString.mainSignUpErrorUserRejected

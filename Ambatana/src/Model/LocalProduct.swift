@@ -53,7 +53,7 @@ struct LocalProduct: Product {
         self.location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
         self.postalAddress = PostalAddress.emptyAddress()
         self.languageCode = nil
-        self.category = .Other
+        self.category = .other
         self.status = chatProduct.status
         self.thumbnail = chatProduct.image
         self.thumbnailSize = nil

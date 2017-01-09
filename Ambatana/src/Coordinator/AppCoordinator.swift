@@ -92,7 +92,7 @@ final class AppCoordinator: BaseCoordinator {
          userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
 
         self.tabBarCtl = tabBarController
-        self.selectedTab = Variable<Tab>(.Home)
+        self.selectedTab = Variable<Tab>(.home)
         
         self.mainTabBarCoordinator = MainTabCoordinator()
         self.categoriesTabBarCoordinator = CategoriesTabCoordinator()
@@ -405,7 +405,7 @@ fileprivate extension AppCoordinator {
             case .Login:
                 break
             case let .Logout(kickedOut):
-                self?.openTab(.Home) { [weak self] in
+                self?.openTab(.home) { [weak self] in
                     if kickedOut {
                         self?.tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
                     }
@@ -718,8 +718,8 @@ fileprivate extension AppCoordinator {
                 guard let conversation = result.value else { return }
                 let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                     self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
-                    self?.openTab(.Chats, force: false) { [weak self] in
-                        self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
+                    self?.openTab(.chats, force: false) { [weak self] in
+                        self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation))
                     }
                 })
                 let data = BubbleNotificationData(tagGroup: conversationId,
@@ -780,7 +780,7 @@ fileprivate extension Tab {
         case .sell:
             return .sell
         case .chats:
-            return .Chats
+            return .chats
         case .profile:
             return .Profile
         }

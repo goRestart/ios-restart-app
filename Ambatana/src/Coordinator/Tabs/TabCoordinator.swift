@@ -113,7 +113,7 @@ extension TabCoordinator: TabNavigator {
         switch data {
         case let .ChatAPI(chat):
             openChat(chat)
-        case let .Conversation(conversation):
+        case let .conversation(conversation):
             openConversation(conversation)
         case let .ProductAPI(product):
             openProductChat(product)
