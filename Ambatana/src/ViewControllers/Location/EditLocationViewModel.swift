@@ -247,7 +247,7 @@ class EditLocationViewModel: BaseViewModel {
         userMovedLocation.asObservable()
             .subscribeNext { [weak self] coordinates in
                 guard let coordinates = coordinates else { return }
-                DispatchQueue.main.asynchronously(DispatchQueue.main) {
+                DispatchQueue.main.async {
                     self?.locationToFetch.value = (coordinates, false)
                 }
             }
@@ -349,7 +349,8 @@ extension PostalAddressRetrievalService {
         return Observable.create({ observer -> Disposable in
             guard let location = location else {
                 observer.onError(PostalAddressRetrievalServiceError.internalError)
-                return AnonymousDisposable({})
+                // Change how to return anonymousDisposable http://stackoverflow.com/questions/40936295/what-is-the-rxswift-3-0-equivalent-to-anonymousdisposable-from-rxswift-2-x
+                return Disposables.create()
             }
             self.retrieveAddressForLocation(LGLocationCoordinates2D(latitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude)) {
@@ -362,7 +363,7 @@ extension PostalAddressRetrievalService {
                 observer.onNext(resolvedPlace, fromGps)
                 observer.onCompleted()
             }
-            return AnonymousDisposable({})
+            return Disposables.create()
         })
     }
 }
