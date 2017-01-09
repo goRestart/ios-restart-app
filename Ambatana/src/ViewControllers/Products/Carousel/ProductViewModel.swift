@@ -955,7 +955,7 @@ extension ProductViewModel {
                 switch error {
                 case .Forbidden:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
                 }
 

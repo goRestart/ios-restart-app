@@ -162,7 +162,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                     message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
                 case .ResetPasswordLinkExpired:
                     message = LGLocalizedString.changePasswordSendErrorLinkExpired
-                case .Network, .Internal:
+                case .network, .Internal:
                     message = LGLocalizedString.changePasswordSendErrorGeneric
                 }
                 completion = {

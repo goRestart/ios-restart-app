@@ -31,7 +31,7 @@ extension LGEmptyViewModel {
 
     static func respositoryErrorWithRetry(_ error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel? {
         switch error {
-        case let .Network(_, onBackground):
+        case let .network(_, onBackground):
             return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(action)
         case .Internal, .Forbidden, .Unauthorized, .NotFound, .TooManyRequests, .UserNotVerified, .ServerError:
             return LGEmptyViewModel.genericErrorWithRetry(action)

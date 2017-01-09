@@ -41,8 +41,8 @@ enum ExternalServiceAuthResult {
             self = .NotFound
         case .Scammer:
             self = .Scammer
-        case .Network:
-            self = .Network
+        case .network:
+            self = .network
         }
     }
 }

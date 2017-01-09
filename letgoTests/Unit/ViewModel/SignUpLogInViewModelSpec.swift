@@ -226,7 +226,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("standard") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .Network)
+                            sessionManager.myUserResult = SessionMyUserResult(error: .network)
 
                             sut.email = email
                             sut.password = "123456"
