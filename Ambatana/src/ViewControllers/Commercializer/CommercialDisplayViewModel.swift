@@ -84,7 +84,7 @@ extension CommercialDisplayViewModel {
     }
 
     func shareStartedIn(_ shareType: ShareType) {
-        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .commercializerPlayer,
                                                           template: sharedTemplateId,
                                                           shareNetwork: shareType.trackingShareNetwork)
         TrackerProxy.sharedInstance.trackEvent(event)

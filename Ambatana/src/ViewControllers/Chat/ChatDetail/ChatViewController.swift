@@ -282,7 +282,7 @@ class ChatViewController: TextViewController {
     
     // MARK: > Rating
 
-    private func askForRating() {
+    fileprivate func askForRating() {
         delay(1.0) { [weak self] in
             self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
@@ -633,7 +633,7 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
-    func vmRequestLogin(_ loggedInAction: () -> Void) {
+    func vmRequestLogin(_ loggedInAction: @escaping () -> Void) {
         dismissKeyboard(false)
         ifLoggedInThen(.askQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
                        loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
@@ -730,7 +730,7 @@ extension ChatViewController {
 
 extension ChatViewController {
    
-    private func showSafetyTips() {
+    fileprivate func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
 

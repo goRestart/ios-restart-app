@@ -84,9 +84,9 @@ extension TabCoordinator: TabNavigator {
         switch data {
         case let .id(userId, source):
             openUser(userId: userId, source: source)
-        case let .UserAPI(user, source):
+        case let .userAPI(user, source):
             openUser(user: user, source: source)
-        case let .UserChat(user):
+        case let .userChat(user):
             openUser(user)
         }
     }
@@ -97,25 +97,25 @@ extension TabCoordinator: TabNavigator {
         case let .id(productId):
             openProduct(productId: productId, source: source,
                         showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
-        case let .ProductAPI(product, thumbnailImage, originFrame):
+        case let .productAPI(product, thumbnailImage, originFrame):
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
                         index: 0, discover: false, showKeyboardOnFirstAppearIfNeeded: false)
-        case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
+        case let .productList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
             openProduct(product, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
                         index: index)
-        case let .ProductChat(chatConversation):
+        case let .productChat(chatConversation):
             openProduct(chatConversation: chatConversation, source: source)
         }
     }
 
     func openChat(_ data: ChatDetailData) {
         switch data {
-        case let .ChatAPI(chat):
+        case let .chatAPI(chat):
             openChat(chat)
         case let .conversation(conversation):
             openConversation(conversation)
-        case let .ProductAPI(product):
+        case let .productAPI(product):
             openProductChat(product)
         case let .dataIds(data):
             openChatFromConversationData(data)

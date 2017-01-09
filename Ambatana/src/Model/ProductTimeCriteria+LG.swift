@@ -10,22 +10,22 @@ import LGCoreKit
 
 extension ProductTimeCriteria {
     static var defaultOption : ProductTimeCriteria {
-        return .All
+        return .all
     }
     
     var name : String {
         switch(self) {
-        case .Day:
+        case .day:
             return LGLocalizedString.filtersWithinDay
-        case .Week:
+        case .week:
             return LGLocalizedString.filtersWithinWeek
-        case .Month:
+        case .month:
             return LGLocalizedString.filtersWithinMonth
-        case .All:
+        case .all:
             return LGLocalizedString.filtersWithinAll
         }
     }
     
-    static func allValues() -> [ProductTimeCriteria] { return [.Day, .Week, .Month, .All] }
+    static func allValues() -> [ProductTimeCriteria] { return [.day, .week, .month, .Aall] }
 
 }
