@@ -183,7 +183,7 @@ class PostProductGalleryViewModel: BaseViewModel {
             let numImgs = imgsSelected.count
             guard let strongSelf = self else { return }
             if numImgs < 1 {
-                if let title = strongSelf.keyValueStorage.userPostProductLastGalleryAlbumSelected {
+                if let title = strongSelf.keyValueStorage[.userPostProductLastGalleryAlbumSelected] {
                     strongSelf.albumTitle.value = title
                     strongSelf.albumIconState.value = .Down
                     strongSelf.albumButtonEnabled.value = true
@@ -281,7 +281,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func selectLastAlbumSelected() {
         guard !albums.isEmpty else { return }
-        let lastName = keyValueStorage.userPostProductLastGalleryAlbumSelected
+        let lastName = keyValueStorage[.userPostProductLastGalleryAlbumSelected]
         for assetCollection in albums {
             if let lastName = lastName, albumName = assetCollection.localizedTitle where lastName == albumName {
                 selectAlbum(assetCollection)
@@ -293,9 +293,14 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func selectAlbum(assetCollection: PHAssetCollection) {
 
+        defer {
+            delegate?.vmDidUpdateGallery()
+        }
+
         let title = assetCollection.localizedTitle
         if let title = title {
-            keyValueStorage.userPostProductLastGalleryAlbumSelected = title
+
+            keyValueStorage[.userPostProductLastGalleryAlbumSelected] = title
             albumTitle.value = title
         } else {
             albumTitle.value = LGLocalizedString.productPostGalleryTab
@@ -304,7 +309,6 @@ class PostProductGalleryViewModel: BaseViewModel {
         userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.Image.rawValue)
         userAlbumsOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: userAlbumsOptions)
-        delegate?.vmDidUpdateGallery()
 
         if photosAsset?.count == 0 {
             galleryState.value = .Empty
@@ -321,10 +325,14 @@ class PostProductGalleryViewModel: BaseViewModel {
         lastImageSelected.value = nil
         delegate?.vmDidSelectItemAtIndex(index, shouldScroll: autoScroll)
 
+        imageSelectionEnabled.value = false
 
         let imageRequestId = imageAtIndex(index, size: nil) { [weak self] image in
             guard let strongSelf = self else { return }
+
             self?.lastImageSelected.value = image
+
+            self?.imageSelectionEnabled.value = true
 
             if let image = image {
                 strongSelf.galleryState.value = .Normal
@@ -334,9 +342,6 @@ class PostProductGalleryViewModel: BaseViewModel {
                 if strongSelf.multiSelectionEnabled {
                     // Block interaction when 5 images are selected
                     strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
-                } else if strongSelf.imagesSelectedCount > strongSelf.maxImagesSelected {
-                    // on single selection don't let the array have more than 1 pic
-                    strongSelf.deselectImageAtIndex(strongSelf.imagesSelected.value[0].index)
                 }
             } else {
                 strongSelf.galleryState.value = .LoadImageError
@@ -344,6 +349,10 @@ class PostProductGalleryViewModel: BaseViewModel {
         }
         if let lastId = lastImageRequestId where imageRequestId != lastId {
             PHImageManager.defaultManager().cancelImageRequest(lastId)
+            if !multiSelectionEnabled {
+                // on single selection don't let the array have more than 1 pic so we deselect the previous one
+                deselectImageAtIndex(imagesSelected.value[0].index)
+            }
         }
         lastImageRequestId = imageRequestId
     }
@@ -353,7 +362,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         guard let selectedImageIndex = selectedIndexes.indexOf(index) where
             0..<imagesSelectedCount ~= selectedImageIndex else { return }
 
-        imageSelectionEnabled.value = true
+        imageSelectionEnabled.value = multiSelectionEnabled
         shouldUpdateDisabledCells = multiSelectionEnabled && imagesSelected.value.count == maxImagesSelected
 
         imagesSelected.value.removeAtIndex(selectedImageIndex)

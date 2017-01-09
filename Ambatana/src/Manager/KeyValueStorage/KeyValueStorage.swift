@@ -51,6 +51,7 @@ extension DefaultsKeys {
     static let previousUserAccountProvider = DefaultsKey<String?>("previousUserAccountProvider")
     static let previousUserEmailOrName = DefaultsKey<String?>("previousUserEmailOrName")
     static let sessionNumber = DefaultsKey<Int>("sessionNumber")
+    static let userPostProductLastGalleryAlbumSelected = DefaultsKey<String?>("userPostProductLastGalleryAlbumSelected")
 }
 
 
@@ -132,17 +133,6 @@ extension KeyValueStorage {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.ratingRemindMeLaterDate = newValue
-            currentUserProperties = userProperties
-        }
-    }
-    var userPostProductLastGalleryAlbumSelected: String? {
-        get {
-            return currentUserProperties?.postProductLastGalleryAlbumSelected ??
-                UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue
-        }
-        set {
-            guard var userProperties = currentUserProperties else { return }
-            userProperties.postProductLastGalleryAlbumSelected = newValue
             currentUserProperties = userProperties
         }
     }

@@ -344,10 +344,10 @@ extension PostProductGalleryView {
             guard strongSelf.viewModel.multiSelectionEnabled else { return }
             strongSelf.collectionView.userInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
-                delay(0.3) { [weak self] in
-                    self?.collectionView.reloadData()
-                    self?.collectionView.userInteractionEnabled = true
-                }
+                    UIView.performWithoutAnimation {
+                        self?.collectionView.reloadData()
+                        self?.collectionView.userInteractionEnabled = true
+                    }
                 return
             }
             var indexes: [NSIndexPath] = []
@@ -355,7 +355,9 @@ extension PostProductGalleryView {
                 indexes.append(NSIndexPath(forItem: imgSel.index, inSection: 0))
             }
 
-            strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
+            UIView.performWithoutAnimation {
+                strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
+            }
 
             if imgsSelected.count == 0 {
                 strongSelf.configMessageView(.NoImages)
