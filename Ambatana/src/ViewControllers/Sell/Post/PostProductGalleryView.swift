@@ -45,7 +45,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var postButton: UIButton!
 
-    private var albumButtonTick = UIImageView()
+    fileprivate var albumButtonTick = UIImageView()
 
     // Error & empty
     @IBOutlet weak var infoContainer: UIView!
@@ -85,7 +85,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     fileprivate var viewModel: PostProductGalleryViewModel
 
-    private var disposeBag = DisposeBag()
+    fileprivate var disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
@@ -396,8 +396,8 @@ extension PostProductGalleryView {
 
 
         viewModel.albumTitle.asObservable().bindTo(albumButton.rx_title).addDisposableTo(disposeBag)
-        viewModel.albumButtonEnabled.asObservable().bindTo(albumButton.rx_enabled).addDisposableTo(disposeBag)
-        viewModel.lastImageSelected.asObservable().bindTo(selectedImage.rx_image).addDisposableTo(disposeBag)
+        viewModel.albumButtonEnabled.asObservable().bindTo(albumButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.lastImageSelected.asObservable().bindTo(selectedImage.rx.image).addDisposableTo(disposeBag)
 
         viewModel.albumIconState.asObservable().subscribeNext{ [weak self] status in
             switch status{

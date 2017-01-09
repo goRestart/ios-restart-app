@@ -95,7 +95,7 @@ class EditLocationViewModel: BaseViewModel {
         self.tracker = tracker
 
         self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
-            (mode == .EditUserLocation || mode == .editProductLocation))
+            (mode == .editUserLocation || mode == .editProductLocation))
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -172,7 +172,7 @@ class EditLocationViewModel: BaseViewModel {
             } else {
                 guard let myUser =  myUserRepository.myUser, let location = myUser.location else { return }
                 let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
-                setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+                setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = false
         case .selectLocation:
@@ -182,7 +182,7 @@ class EditLocationViewModel: BaseViewModel {
                 guard let location = locationManager.currentLocation, let postalAddress = locationManager.currentPostalAddress
                     else { return }
                 let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
-                setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+                setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = true
         case .editProductLocation:

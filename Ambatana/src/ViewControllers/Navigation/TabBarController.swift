@@ -22,15 +22,15 @@ protocol ProductsRefreshable {
 final class TabBarController: UITabBarController {
 
     // UI
-    private var floatingSellButton: FloatingButton
-    private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
+    fileprivate var floatingSellButton: FloatingButton
+    fileprivate var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
     fileprivate let viewModel: TabBarViewModel
     fileprivate var tooltip: Tooltip?
     fileprivate var featureFlags: FeatureFlaggeable
     
     // Rx
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
@@ -290,7 +290,7 @@ extension TabBarController {
         } else {
             guard let viewModel = CommercialDisplayViewModel(commercializers: [data.commercializer],
                                                              productId: data.productId,
-                                                             source: .External,
+                                                             source: .external,
                                                              isMyVideo: data.isMyVideo) else { return }
             vc = CommercialDisplayViewController(viewModel: viewModel)
         }

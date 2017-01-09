@@ -13,12 +13,12 @@ import CoreLocation
 class FilteredProductListRequester: ProductListRequester {
 
     let itemsPerPage: Int
-    private let productRepository: ProductRepository
-    private let locationManager: LocationManager
-    private var queryFirstCallCoordinates: LGLocationCoordinates2D?
-    private var queryFirstCallCountryCode: String?
-    private var offset: Int = 0
-    private var initialOffset: Int
+    fileprivate let productRepository: ProductRepository
+    fileprivate let locationManager: LocationManager
+    fileprivate var queryFirstCallCoordinates: LGLocationCoordinates2D?
+    fileprivate var queryFirstCallCountryCode: String?
+    fileprivate var offset: Int = 0
+    fileprivate var initialOffset: Int
 
     var queryString: String?
     var filters: ProductFilters?

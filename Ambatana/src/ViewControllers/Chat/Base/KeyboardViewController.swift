@@ -20,7 +20,7 @@ struct KeyboardChange: CustomStringConvertible {
      keyboard to appear and false for any other apps. */
     let isLocal: Bool
 
-    private static func empty() -> KeyboardChange {
+    fileprivate static func empty() -> KeyboardChange {
         return KeyboardChange(height: 0, origin: 0, animationTime: 0, animationOptions: [], visible: false, isLocal: false)
     }
 
