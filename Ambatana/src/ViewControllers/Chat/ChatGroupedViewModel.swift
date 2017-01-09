@@ -48,14 +48,14 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    private var chatListViewModels: [ChatListViewModel]
-    private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
+    fileprivate var chatListViewModels: [ChatListViewModel]
+    fileprivate(set) var blockedUsersListViewModel: BlockedUsersListViewModel
     fileprivate let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
-    private let sessionManager: SessionManager
-    private let myUserRepository: MyUserRepository
-    private let chatRepository: ChatRepository
-    private let featureFlags: FeatureFlaggeable
+    fileprivate let sessionManager: SessionManager
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let chatRepository: ChatRepository
+    fileprivate let featureFlags: FeatureFlaggeable
 
     weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
@@ -71,7 +71,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     let verificationPending = Variable<Bool>(false)
 
-    private let disposeBag: DisposeBag
+    fileprivate let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
@@ -169,25 +169,25 @@ class ChatGroupedViewModel: BaseViewModel {
     func accessibilityIdentifierForTabButtonAtIndex(_ index: Int) -> AccessibilityId? {
         guard let tab = Tab(rawValue: index) else { return nil }
         switch tab {
-        case .all: return .ChatListViewTabAll
-        case .buying: return .ChatListViewTabBuying
-        case .selling: return .ChatListViewTabSelling
-        case .blockedUsers: return .ChatListViewTabBlockedUsers
+        case .all: return .chatListViewTabAll
+        case .buying: return .chatListViewTabBuying
+        case .selling: return .chatListViewTabSelling
+        case .blockedUsers: return .chatListViewTabBlockedUsers
         }
     }
     
     func accessibilityIdentifierForTableViewAtIndex(_ index: Int) -> AccessibilityId? {
         guard let tab = Tab(rawValue: index) else { return nil }
         switch tab {
-        case .all: return .ChatListViewTabAllTableView
-        case .buying: return .ChatListViewTabBuyingTableView
-        case .selling: return .ChatListViewTabSellingTableView
-        case .blockedUsers: return .ChatListViewTabBlockedUsersTableView
+        case .all: return .chatListViewTabAllTableView
+        case .buying: return .chatListViewTabBuyingTableView
+        case .selling: return .chatListViewTabSellingTableView
+        case .blockedUsers: return .chatListViewTabBlockedUsersTableView
         }
     }
     
     func blockedUserPressed(_ user: User) {
-        let data = UserDetailData.UserAPI(user: user, source: .chat)
+        let data = UserDetailData.userAPI(user: user, source: .chat)
         tabNavigator?.openUser(data)
     }
 
@@ -295,9 +295,9 @@ extension ChatGroupedViewModel {
     fileprivate func setupRxBindings() {
         currentTab.asObservable().map { [weak self] tab -> ChatGroupedListViewModelType? in
             switch tab {
-            case .All, .selling, .Buying:
+            case .all, .selling, .buying:
                 return self?.chatListViewModels[tab.rawValue]
-            case .BlockedUsers:
+            case .blockedUsers:
                 return self?.blockedUsersListViewModel
             }
         }.bindTo(currentPageViewModel).addDisposableTo(disposeBag)
@@ -323,16 +323,16 @@ extension ChatGroupedViewModel {
 
         chatRepository.chatStatus.map { wsChatStatus in
             switch wsChatStatus {
-            case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
+            case .closed, .closing, .opening, .openAuthenticated, .openNotAuthenticated:
                 return false
-            case .OpenNotVerified:
+            case .openNotVerified:
                 return true
             }
         }.bindTo(verificationPending).addDisposableTo(disposeBag)
 
         // When verification pending changes from false to true then display verify accounts
         verificationPending.asObservable().filter { $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
-            self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],
+            self?.tabNavigator?.openVerifyAccounts([.facebook, .google, .email(self?.myUserRepository.myUser?.email)],
                 source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
                 completionBlock: nil)

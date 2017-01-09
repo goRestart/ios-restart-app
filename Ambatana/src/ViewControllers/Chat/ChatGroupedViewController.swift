@@ -21,7 +21,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     var validationPendingEmptyView: LGEmptyView = LGEmptyView()
 
     // Data
-    private let viewModel: ChatGroupedViewModel
+    fileprivate let viewModel: ChatGroupedViewModel
     private var pages: [BaseView]
 
     // Rx
@@ -33,7 +33,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - Lifecycle
 
-    dynamic private func edit() {
+    dynamic fileprivate func edit() {
         setEditing(!isEditing, animated: true)
     }
 
@@ -256,7 +256,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         //TODO: remove!!!!
         #if GOD_MODE
         let chatType = featureFlags.websocketChat ? "New" : "Old"
-        let leftButton = UIBarButtonItem(title: chatType, style: .Plain, target: self, action: #selector(chatInfo))
+        let leftButton = UIBarButtonItem(title: chatType, style: .plain, target: self, action: #selector(chatInfo))
         navigationItem.leftBarButtonItem = leftButton
         #endif
 
@@ -308,7 +308,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
 extension ChatGroupedViewController {
 
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         setupRxNavBarBindings()
         setupRxVerificationViewBindings()
     }
@@ -338,8 +338,8 @@ extension ChatGroupedViewController {
     }
 
     private func setupRxVerificationViewBindings() {
-        viewModel.verificationPending.asObservable().bindTo(viewPager.rx.hidden).addDisposableTo(disposeBag)
-        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx.hidden)
+        viewModel.verificationPending.asObservable().bindTo(viewPager.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx.isHidden)
             .addDisposableTo(disposeBag)
     }
 }

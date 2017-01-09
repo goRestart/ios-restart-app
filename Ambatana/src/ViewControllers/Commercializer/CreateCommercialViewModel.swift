@@ -35,7 +35,7 @@ class CreateCommercialViewModel: BaseViewModel {
     
     init(commercializerRepository: CommercializerRepository) {
         self.commercializerRepository = commercializerRepository
-        self.status = Variable<CreateCommercialViewStatus>(.None)
+        self.status = Variable<CreateCommercialViewStatus>(.none)
         super.init()
     }
     

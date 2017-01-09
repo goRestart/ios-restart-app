@@ -198,7 +198,7 @@ class PromoteProductViewModel: BaseViewModel {
                     TrackerProxy.sharedInstance.trackEvent(event)
 
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,
-                        status: .ProcessOK)
+                        status: .processOK)
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessOK)
 
                     CommercializerManager.sharedInstance.commercializerCreatedAndPending(productId: productId,

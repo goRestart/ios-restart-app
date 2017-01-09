@@ -94,7 +94,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         return otherUser?.name
     }
 
-    private(set) var stickers: [Sticker] = [] {
+    fileprivate(set) var stickers: [Sticker] = [] {
         didSet {
             delegate?.vmDidUpdateStickers()
         }
@@ -227,20 +227,20 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: > Private data
     
-    private let chatRepository: OldChatRepository
-    private let myUserRepository: MyUserRepository
-    private let productRepository: ProductRepository
-    private let userRepository: UserRepository
-    private let stickersRepository: StickersRepository
-    private let chatViewMessageAdapter: ChatViewMessageAdapter
-    private let tracker: Tracker
-    private let featureFlags: FeatureFlaggeable
-    private let configManager: ConfigManager
-    private let sessionManager: SessionManager
-    private let keyValueStorage: KeyValueStorage
-    private var shouldSendFirstMessageEvent: Bool = false
-    private var chat: Chat
-    private var product: Product
+    fileprivate let chatRepository: OldChatRepository
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let productRepository: ProductRepository
+    fileprivate let userRepository: UserRepository
+    fileprivate let stickersRepository: StickersRepository
+    fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
+    fileprivate let tracker: Tracker
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let configManager: ConfigManager
+    fileprivate let sessionManager: SessionManager
+    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate var shouldSendFirstMessageEvent: Bool = false
+    fileprivate var chat: Chat
+    fileprivate var product: Product
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
@@ -251,13 +251,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private var buyer: User?
     private var otherUser: User?
     private var afterRetrieveMessagesBlock: (() -> Void)?
-    private var autoKeyboardEnabled = true
+    fileprivate var autoKeyboardEnabled = true
 
     private var isMyProduct: Bool {
         guard let productUserId = product.user.objectId, let myUserId = myUserRepository.myUser?.objectId else { return false }
         return productUserId == myUserId
     }
-    private var isBuyer: Bool {
+    fileprivate var isBuyer: Bool {
         return !isMyProduct
     }
     private var shouldShowSafetyTips: Bool {
@@ -511,7 +511,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
         //Direct answers
         if chat.isSaved && !featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
-            let visible = directAnswersState.value == .Visible
+            let visible = directAnswersState.value == .visible
             texts.append(visible ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
             actions.append({ [weak self] in self?.toggleDirectAnswers() })
@@ -548,7 +548,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     func sendSticker(_ sticker: Sticker) {
-        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+        sendMessage(sticker.name, isQuickAnswer: false, type: .sticker)
     }
     
     func sendText(_ text: String, isQuickAnswer: Bool) {
@@ -586,7 +586,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: - private methods
     
-    private func initUsers() {
+    fileprivate func initUsers() {
         if otherUser == nil || otherUser?.objectId == nil {
             if let myUser = myUserRepository.myUser {
                 self.otherUser = chat.otherUser(myUser: myUser)
@@ -614,9 +614,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
         Observable.combineLatest(chatStatusEnablesRelatedProducts.asObservable(), sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .loading }
             guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
-            if $0 { return .Visible }
+            if $0 { return .visible }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
-            return didntAnswer ? .Visible : .hidden
+            return didntAnswer ? .visible : .hidden
         }
         .bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
@@ -630,7 +630,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsState.asObservable().map { (state: ChatRelatedItemsState) -> Bool in return state == .Visible },
+            relatedProductsState.asObservable().map { (state: ChatRelatedItemsState) -> Bool in return state == .visible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
                 guard let strongSelf = self else { return }
@@ -641,7 +641,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             switch state {
             case .loading, .hidden:
                 self?.delegate?.vmShowRelatedProducts(nil)
-            case .Visible:
+            case .visible:
                 self?.delegate?.vmShowRelatedProducts(self?.product.objectId)
             }
         }.addDisposableTo(disposeBag)
@@ -656,11 +656,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
             resultSelector: { [weak self] relatedState, directAnswers in
                 guard let chatEnabled = self?.chatEnabled else { return .notAvailable }
                 switch relatedState {
-                case .loading, .Visible:
+                case .loading, .visible:
                     return .notAvailable
                 case .hidden:
                     guard chatEnabled else { return .notAvailable }
-                    return directAnswers ? .Visible : .hidden
+                    return directAnswers ? .visible : .hidden
             }
         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
@@ -692,7 +692,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let message = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let toUser = otherUser else { return }
-        if !isQuickAnswer && type != .Sticker {
+        if !isQuickAnswer && type != .sticker {
             delegate?.vmClearText()
         }
         isSendingMessage.value = true
@@ -704,7 +704,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
 
                 let viewMessage = adapter.adapt(sentMessage)
-                strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
+                strongSelf.loadedMessages.insert(viewMessage, at: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
                 strongSelf.afterSendMessageEvents()
             } else if let error = result.error {
@@ -719,7 +719,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
 
-    private func retrieveUsersRelation() {
+    fileprivate func retrieveUsersRelation() {
         guard let otherUserId = otherUser?.objectId else { return }
         userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
             if let value = result.value {
@@ -731,7 +731,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func userNotVerifiedError() {
-        navigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
+        navigator?.openVerifyAccounts([.facebook, .google, .email(myUserRepository.myUser?.email)],
                                          source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                                             description: LGLocalizedString.chatNotVerifiedAlertMessage),
                                          completionBlock: { [weak self] in
@@ -893,13 +893,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
         chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: 0, numResults: 1, completion: nil)
     }
     
-    private func onProductSoldDirectAnswer() {
+    fileprivate func onProductSoldDirectAnswer() {
         if chatStatus != .productSold {
             shouldAskProductSold = true
         }
     }
     
-    private func clearProductSoldDirectAnswer() {
+    fileprivate func clearProductSoldDirectAnswer() {
         shouldAskProductSold = false
     }
     
@@ -1030,7 +1030,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .chat)
+                                                            isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat)
         tracker.trackEvent(messageSentEvent)
     }
     
@@ -1078,7 +1078,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                case .network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .network, .unauthorized, .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
             }
@@ -1217,11 +1217,11 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
         showDirectAnswers(false)
     }
 
-    private func toggleDirectAnswers() {
+    fileprivate func toggleDirectAnswers() {
         showDirectAnswers(!userDirectAnswersEnabled.value)
     }
 
-    private func showDirectAnswers(_ show: Bool) {
+    fileprivate func showDirectAnswers(_ show: Bool) {
         if !featureFlags.newQuickAnswers {
             keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         }
@@ -1283,7 +1283,7 @@ fileprivate extension OldChatViewModel {
          'visible' while login screen is there */
         autoKeyboardEnabled = false
         delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
-        delegate?.ifLoggedInThen(.AskQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
+        delegate?.ifLoggedInThen(.askQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
     }
 }
@@ -1303,7 +1303,7 @@ extension OldChatViewModel: ChatRelatedProductsViewDelegate {
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
-        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+        let data = ProductDetailData.productList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
         navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
@@ -1318,10 +1318,10 @@ extension MessageType {
         switch self {
         case .text:
             return .text
-        case .Offer:
-            return .Offer
-        case .Sticker:
-            return .Sticker
+        case .offer:
+            return .offer
+        case .sticker:
+            return .sticker
         }
     }
 }
@@ -1333,7 +1333,7 @@ extension OldChatViewModel {
 
     static let maxRelatedProductsForExpressChat = 4
 
-    private func retrieveRelatedProducts() {
+    fileprivate func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = product.objectId else { return }
         productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
@@ -1363,7 +1363,7 @@ extension OldChatViewModel {
         hasRelatedProducts.value = !relatedProducts.isEmpty
     }
 
-    private func launchExpressChatTimer() {
+    fileprivate func launchExpressChatTimer() {
         let _ = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(updateBannerTimerStatus),
                                                        userInfo: nil, repeats: false)
     }

@@ -12,7 +12,7 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
 
     override func draw(_ cell: BuyersInterestedNotificationCell, data: NotificationData) {
         switch data.type {
-        case let .BuyersInterested(product, buyers):
+        case let .buyersInterested(product, buyers):
             let buyersCount = buyers.count
             if let productTitle = product.title, !productTitle.isEmpty {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeBuyersInterestedWTitle(buyersCount, productTitle)

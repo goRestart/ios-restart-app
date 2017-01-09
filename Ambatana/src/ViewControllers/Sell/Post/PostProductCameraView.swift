@@ -213,7 +213,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bindTo(switchCamButton.rx.isHidden).addDisposableTo(disposeBag)
         captureModeHidden.bindTo(flashButton.rx.isHidden).addDisposableTo(disposeBag)
         
-        viewModel.imageSelected.asObservable().bindTo(imagePreview.rx_image).addDisposableTo(disposeBag)
+        viewModel.imageSelected.asObservable().bindTo(imagePreview.rx.image).addDisposableTo(disposeBag)
 
         let flashMode = viewModel.cameraFlashMode.asObservable()
         flashMode.map{ $0.fastttCameraFlash }.subscribeNext{ [weak self] flashMode in

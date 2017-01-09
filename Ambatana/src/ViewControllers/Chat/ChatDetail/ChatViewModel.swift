@@ -90,19 +90,19 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
 
     
-    // Private
-    private let myUserRepository: MyUserRepository
-    private let chatRepository: ChatRepository
-    private let productRepository: ProductRepository
-    private let userRepository: UserRepository
-    private let stickersRepository: StickersRepository
-    private let chatViewMessageAdapter: ChatViewMessageAdapter
-    private let tracker: Tracker
-    private let configManager: ConfigManager
-    private let sessionManager: SessionManager
-    private let featureFlags: FeatureFlaggeable
+    // fileprivate
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let chatRepository: ChatRepository
+    fileprivate let productRepository: ProductRepository
+    fileprivate let userRepository: UserRepository
+    fileprivate let stickersRepository: StickersRepository
+    fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
+    fileprivate let tracker: Tracker
+    fileprivate let configManager: ConfigManager
+    fileprivate let sessionManager: SessionManager
+    fileprivate let featureFlags: FeatureFlaggeable
     
-    private let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorage
 
     private let firstInteractionDone = Variable<Bool>(false)
     private let expressBannerTimerFinished = Variable<Bool>(false)
@@ -122,45 +122,45 @@ class ChatViewModel: BaseViewModel {
     private let userDirectAnswersEnabled = Variable<Bool>(false)
 
     private var isDeleted = false
-    private var shouldAskProductSold: Bool = false
-    private var isSendingQuickAnswer = false
-    private var productId: String? // Only used when accessing a chat from a product
-    private var preSendMessageCompletion: ((_ text: String, _ type: ChatMessageType) -> Void)?
-    private var afterRetrieveMessagesCompletion: (() -> Void)?
+    fileprivate var shouldAskProductSold: Bool = false
+    fileprivate var isSendingQuickAnswer = false
+    fileprivate var productId: String? // Only used when accessing a chat from a product
+    fileprivate var preSendMessageCompletion: ((_ text: String, _ type: ChatMessageType) -> Void)?
+    fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
-    private var userDefaultsSubKey: String {
+    fileprivate var userDefaultsSubKey: String {
         return "\(conversation.value.product?.objectId ?? productId) + \(buyerId ?? "offline")"
     }
 
-    private var isBuyer: Bool {
+    fileprivate var isBuyer: Bool {
         return !conversation.value.amISelling
     }
 
-    private var shouldShowOtherUserInfo: Bool {
+    fileprivate var shouldShowOtherUserInfo: Bool {
         guard conversation.value.isSaved else { return true }
         return !isLoading && isLastPage
     }
 
-    private var safetyTipsAction: () -> Void {
+    fileprivate var safetyTipsAction: () -> Void {
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
         }
     }
 
-    private var buyerId: String? {
+    fileprivate var buyerId: String? {
         let myUserId = myUserRepository.myUser?.objectId
         let interlocutorId = conversation.value.interlocutor?.objectId
         let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
         return currentBuyer
     }
 
-    private var shouldShowSafetyTips: Bool {
+    fileprivate var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
 
-    private var didReceiveMessageFromOtherUser: Bool {
+    fileprivate var didReceiveMessageFromOtherUser: Bool {
         for message in messages.value {
             if message.talkerId == conversation.value.interlocutor?.objectId {
                 return true
@@ -169,7 +169,7 @@ class ChatViewModel: BaseViewModel {
         return false
     }
 
-    private var interlocutorEnabled: Bool {
+    fileprivate var interlocutorEnabled: Bool {
         switch chatStatus.value {
         case .forbidden, .userDeleted, .userPendingDelete:
             return false
@@ -431,19 +431,19 @@ class ChatViewModel: BaseViewModel {
         guard let otherUserId = conversation.value.interlocutor?.objectId else { return }
 
         switch changeInMessages {
-        case let .Remove(_, message):
+        case let .remove(_, message):
             if message.talkerId == myUserId {
                 myMessagesCount.value = max(0, myMessagesCount.value-1)
             } else if message.talkerId == otherUserId {
                 otherMessagesCount.value = max(0, otherMessagesCount.value-1)
             }
-        case let .Insert(_, message):
+        case let .insert(_, message):
             if message.talkerId == myUserId {
                 myMessagesCount.value += 1
             } else if message.talkerId == otherUserId {
                 otherMessagesCount.value += 1
             }
-        case let .Composite(changes):
+        case let .composite(changes):
             changes.forEach { [weak self] change in
                 self?.updateMessagesCounts(change)
             }
@@ -453,9 +453,9 @@ class ChatViewModel: BaseViewModel {
     func setupChatEventsRx() {
         chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
             switch wsChatStatus {
-            case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
+            case .closed, .closing, .opening, .openAuthenticated, .openNotAuthenticated:
                 break
-            case .OpenNotVerified:
+            case .openNotVerified:
                 self?.showUserNotVerifiedAlert()
             }
         }.addDisposableTo(disposeBag)
@@ -463,17 +463,17 @@ class ChatViewModel: BaseViewModel {
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
             switch event.type {
-            case let .InterlocutorMessageSent(messageId, sentAt, text, type):
+            case let .interlocutorMessageSent(messageId, sentAt, text, type):
                 self?.handleNewMessageFromInterlocutor(messageId, sentAt: sentAt, text: text, type: type)
-            case let .InterlocutorReadConfirmed(messagesIds):
+            case let .interlocutorReadConfirmed(messagesIds):
                 self?.markMessagesAsRead(messagesIds)
-            case let .InterlocutorReceptionConfirmed(messagesIds):
+            case let .interlocutorReceptionConfirmed(messagesIds):
                 self?.markMessagesAsReceived(messagesIds)
-            case .InterlocutorTypingStarted:
+            case .interlocutorTypingStarted:
                 self?.interlocutorTyping.value = true
-            case .InterlocutorTypingStopped:
+            case .interlocutorTypingStopped:
                 self?.interlocutorTyping.value = false
-            case .AuthenticationTokenExpired:
+            case .authenticationTokenExpired:
                 break
             }
         }.addDisposableTo(disposeBag)
@@ -497,12 +497,12 @@ class ChatViewModel: BaseViewModel {
     func userInfoPressed() {
         guard let interlocutor = conversation.value.interlocutor else { return }
         delegate?.vmHideKeyboard(false)
-        let data = UserDetailData.UserChat(user: interlocutor)
+        let data = UserDetailData.userChat(user: interlocutor)
         navigator?.openUser(data)
     }
 
     func reviewUserPressed() {
-        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+        keyValueStorage[.userRatingTooltipAlreadyShown] = true
         reviewTooltipVisible.value = false
         guard let interlocutor = conversation.value.interlocutor, let reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
@@ -510,12 +510,12 @@ class ChatViewModel: BaseViewModel {
     }
 
     func closeReviewTooltipPressed() {
-        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+        keyValueStorage[.userRatingTooltipAlreadyShown] = true
         reviewTooltipVisible.value = false
     }
 
     func safetyTipsDismissed() {
-        KeyValueStorage.sharedInstance.userChatSafetyTipsShown = true
+        keyValueStorage.userChatSafetyTipsShown = true
     }
     
     func messageAtIndex(_ index: Int) -> ChatViewMessage? {
@@ -550,7 +550,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func stickersShown() {
-        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
+        keyValueStorage[.stickersTooltipAlreadyShown] = true
         stickersTooltipVisible.value = false
     }
 
@@ -585,7 +585,7 @@ extension ChatViewModel {
     }
 
     private func showUserNotVerifiedAlert() {
-        navigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
+        navigator?.openVerifyAccounts([.facebook, .google, .email(myUserRepository.myUser?.email)],
                                          source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                                          description: LGLocalizedString.chatNotVerifiedAlertMessage),
                                          completionBlock: { [weak self] in
@@ -1155,7 +1155,7 @@ fileprivate extension ChatConversation {
     
     var chatEnabled: Bool {
         switch chatStatus {
-        case .forbidden, .Blocked, .BlockedBy, .userPendingDelete, .userDeleted:
+        case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
             return false
         case .available, .productSold, .productDeleted:
             return true
@@ -1166,7 +1166,7 @@ fileprivate extension ChatConversation {
         switch chatStatus {
         case .forbidden,  .userPendingDelete, .userDeleted, .productDeleted, .productSold:
             return !amISelling
-        case .available, .Blocked, .BlockedBy:
+        case .available, .blocked, .blockedBy:
             return false
         }
     }
@@ -1329,16 +1329,16 @@ extension ChatMessageType {
         switch self {
         case .text:
             return .text
-        case .Offer:
-            return .Offer
-        case .Sticker:
-            return .Sticker
-        case .FavoritedProduct:
+        case .offer:
+            return .offer
+        case .sticker:
+            return .sticker
+        case .favoritedProduct:
             return .Favorite
-        case .ExpressChat:
-            return .ExpressChat
-        case .QuickAnswer:
-            return .QuickAnswer
+        case .expressChat:
+            return .expressChat
+        case .quickAnswer:
+            return .quickAnswer
         }
     }
 }
@@ -1349,7 +1349,7 @@ extension ChatViewModel {
 
     static let maxRelatedProductsForExpressChat = 4
 
-    private func retrieveRelatedProducts() {
+    fileprivate func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = conversation.value.product?.objectId else { return }
         productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
@@ -1379,7 +1379,7 @@ extension ChatViewModel {
         hasRelatedProducts.value = !relatedProducts.isEmpty
     }
 
-    private func launchExpressChatTimer() {
+    fileprivate func launchExpressChatTimer() {
         let _ = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(updateBannerTimerStatus),
                                                        userInfo: nil, repeats: false)
     }

@@ -30,17 +30,17 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     var tagsCollectionTopSpace: NSLayoutConstraint?
 
-    private let infoBubbleTopMargin: CGFloat = 8
-    private let verticalMarginHeaderView: CGFloat = 16
-    private let horizontalMarginHeaderView: CGFloat = 16
-    private let sectionHeight: CGFloat = 54
-    private let firstSectionMarginTop: CGFloat = -36
-    private let numberOfSuggestionSections = 2
+    fileprivate let infoBubbleTopMargin: CGFloat = 8
+    fileprivate let verticalMarginHeaderView: CGFloat = 16
+    fileprivate let horizontalMarginHeaderView: CGFloat = 16
+    fileprivate let sectionHeight: CGFloat = 54
+    fileprivate let firstSectionMarginTop: CGFloat = -36
+    fileprivate let numberOfSuggestionSections = 2
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
     
-    private let navbarSearch: LGNavBarSearchField
+    fileprivate let navbarSearch: LGNavBarSearchField
     @IBOutlet weak var suggestionsSearchesContainer: UIVisualEffectView!
     @IBOutlet weak var suggestionsSearchesTable: UITableView!
     
@@ -50,7 +50,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     private let topInset = Variable<CGFloat> (0)
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle

@@ -11,9 +11,9 @@ import LGCoreKit
 class DiscoverProductListRequester {
 
     let itemsPerPage: Int
-    private let productObjectId: String
+    fileprivate let productObjectId: String
     fileprivate let productRepository: ProductRepository
-    private var offset: Int = 0
+    fileprivate var offset: Int = 0
 
     convenience init(productId: String, itemsPerPage: Int) {
         self.init(productId: productId, itemsPerPage: itemsPerPage, productRepository: Core.productRepository)

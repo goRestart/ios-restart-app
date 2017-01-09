@@ -13,8 +13,8 @@ fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .FirstMessage, .ProductMarkAsSold, .ProductSellStart, .ProductSellComplete,
-                 .ProductSellComplete24h, .CommercializerStart, .CommercializerComplete:
+            case .firstMessage, .productMarkAsSold, .productSellStart, .productSellComplete,
+                 .productSellComplete24h, .commercializerStart, .commercializerComplete:
                 return true
             default:
                 return false
@@ -26,7 +26,7 @@ fileprivate extension TrackerEvent {
     var shouldTrackRegisteredUIAchievement: Bool {
         get {
             switch name {
-            case .LoginFB, .LoginGoogle, .SignupEmail:
+            case .loginFB, .loginGoogle, .signupEmail:
                 return true
             default:
                 return false
@@ -44,7 +44,7 @@ final class AppsflyerTracker: Tracker {
         AppsFlyerTracker.shared().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
     }
     
-    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {

@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 protocol PostProductViewModelDelegate: BaseViewModelDelegate {
-    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
+    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: @escaping () -> Void)
 }
 
 enum PostingSource {

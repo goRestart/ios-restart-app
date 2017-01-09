@@ -14,8 +14,8 @@ class ProductCarouselImageCell: UICollectionViewCell {
     
     static let identifier = "ProductCarouselImageCell"
     private static let zoomDecimalsRounding: CGFloat = 0.0001
-    private static let minZoomScale: CGFloat = 0.5
-    private static let maxZoomScale: CGFloat = 2
+    fileprivate static let minZoomScale: CGFloat = 0.5
+    fileprivate static let maxZoomScale: CGFloat = 2
 
 
     var position: Int = 0

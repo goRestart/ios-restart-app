@@ -67,14 +67,14 @@ class SignUpLogInViewModel: BaseViewModel {
         return password.characters.count > 0
     }
 
-    private var sendButtonEnabled: Bool {
+    fileprivate var sendButtonEnabled: Bool {
         return  email.characters.count > 0 && password.characters.count > 0 &&
             (currentActionType == .login || ( currentActionType == .signup && username.characters.count > 0))
     }
 
     var termsAndConditionsEnabled: Bool
 
-    private let previousEmail: Variable<String?>
+    fileprivate let previousEmail: Variable<String?>
     let previousFacebookUsername: Variable<String?>
     let previousGoogleUsername: Variable<String?>
 
@@ -106,9 +106,9 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private var newsletterParameter: EventParameterNewsletter {
         if !termsAndConditionsEnabled {
-            return .Unset
+            return .unset
         } else {
-            return newsletterAccepted ? .True : .False
+            return newsletterAccepted ? .trueParameter : .falseParameter
         }
     }
 
@@ -201,7 +201,7 @@ class SignUpLogInViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
 
                 if let user = signUpResult.value {
-                    self?.savePreviousEmailOrUsername(.Email, userEmailOrName: user.email)
+                    self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
 
                     // Tracking
                     self?.tracker.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
@@ -214,7 +214,7 @@ class SignUpLogInViewModel: BaseViewModel {
                     switch sessionManagerError {
                     case .conflict(let cause):
                         switch cause {
-                        case .UserExists:
+                        case .userExists:
                             strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
                                 guard let strongSelf = self else { return }
                                 if let _ = loginResult.value {
@@ -271,7 +271,7 @@ class SignUpLogInViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
 
                 if let user = loginResult.value {
-                    self?.savePreviousEmailOrUsername(.Email, userEmailOrName: user.email)
+                    self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
 
                     let rememberedAccount = strongSelf.previousEmail.value != nil
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
@@ -299,7 +299,7 @@ class SignUpLogInViewModel: BaseViewModel {
         fbLoginHelper.login({ [weak self] _ in
             self?.delegate?.vmShowLoading(nil)
         }, loginCompletion: { [weak self] result in
-            let error = self?.processExternalServiceAuthResult(result, accountProvider: .Facebook)
+            let error = self?.processExternalServiceAuthResult(result, accountProvider: .facebook)
             switch result {
             case .success:
                 self?.trackLoginFBOK()
@@ -317,7 +317,7 @@ class SignUpLogInViewModel: BaseViewModel {
             // Google OAuth completed. Token obtained
             self?.delegate?.vmShowLoading(nil)
         }) { [weak self] result in
-            let error = self?.processExternalServiceAuthResult(result, accountProvider: .Google)
+            let error = self?.processExternalServiceAuthResult(result, accountProvider: .google)
             switch result {
             case .success:
                 self?.trackLoginGoogleOK()
@@ -355,7 +355,7 @@ class SignUpLogInViewModel: BaseViewModel {
         let systemCountryCode = locale.lg_countryCode
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
 
-        termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercaseString == turkey
+        termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercased() == turkey
     }
 
     private func processLoginSessionError(_ error: SessionManagerError) {
@@ -367,7 +367,7 @@ class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert(self?.email, network: .Email)
+                self?.showScammerAlert(self?.email, network: .email)
             }
             trackLoginEmailFailedWithError(eventParameterForSessionError(error))
             return
@@ -393,11 +393,11 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .conflict(let cause):
             switch cause {
-            case .UserExists, .notSpecified, .other:
+            case .userExists, .notSpecified, .other:
                 message = LGLocalizedString.signUpSendErrorEmailTaken(email)
-            case .EmailRejected:
+            case .emailRejected:
                 message = LGLocalizedString.mainSignUpErrorUserRejected
-            case .RequestAlreadyProcessed:
+            case .requestAlreadyProcessed:
                 message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
             }
         case .nonExistingEmail:
@@ -410,7 +410,7 @@ class SignUpLogInViewModel: BaseViewModel {
             return
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert(self?.email, network: .Email)
+                self?.showScammerAlert(self?.email, network: .email)
             }
             return
         case .notFound, .internalError, .forbidden, .unauthorized, .tooManyRequests:
@@ -436,7 +436,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case .notFound:
             return .notFound
         case .conflict:
-            return .EmailTaken
+            return .emailTaken
         case .forbidden:
             return .forbidden
         case let .internalError(description):
@@ -480,11 +480,11 @@ class SignUpLogInViewModel: BaseViewModel {
         case .conflict(let cause):
             var message = ""
             switch cause {
-            case .UserExists, .notSpecified, .other:
+            case .userExists, .notSpecified, .other:
                 message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .EmailRejected:
+            case .emailRejected:
                 message = LGLocalizedString.mainSignUpErrorUserRejected
-            case .RequestAlreadyProcessed:
+            case .requestAlreadyProcessed:
                 message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
             }
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)

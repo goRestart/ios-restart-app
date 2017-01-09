@@ -13,7 +13,7 @@ enum ProductCarouselCellModel {
     case productCell(product: Product)
     
     init(product: Product) {
-        self = .ProductCell(product: product)
+        self = .productCell(product: product)
     }
     
     static func adapter(_ model: ProductCellModel) -> ProductCarouselCellModel? {

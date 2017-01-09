@@ -113,7 +113,7 @@ UICollectionViewDelegateFlowLayout {
 
     // MARK: public methods
 
-    @IBAction func onCloseButton(_ sender: AnyObject) {
+    @IBAction func onCloseButton(_ sender: Any) {
         dismiss(animated: true) { [weak self] _ in
             guard let source = self?.viewModel.promotionSource else { return }
             self?.delegate?.promoteProductViewControllerDidCancelFromSource(source)
@@ -135,7 +135,7 @@ UICollectionViewDelegateFlowLayout {
     }
 
 
-    private func selectFirstAvailableTheme() {
+    fileprivate func selectFirstAvailableTheme() {
         let numberOfItems = collectionView.numberOfItems(inSection: 0)
         guard let firstAvailableVideoIndex = viewModel.firstAvailableVideoIndex else { return }
         guard 0..<numberOfItems ~= firstAvailableVideoIndex else { return }
@@ -242,17 +242,17 @@ UICollectionViewDelegateFlowLayout {
         refreshUI()
     }
 
-    private func refreshUI() {
+    fileprivate func refreshUI() {
         fullScreenButton.isHidden = !viewModel.fullScreenButtonEnabled
         collectionView.reloadData()
     }
 
-    private func showIntro() {
+    fileprivate func showIntro() {
         introOverlayView.isHidden = false
         viewModel.commercializerIntroShown()
     }
 
-    private func hideIntro() {
+    fileprivate func hideIntro() {
         guard !introOverlayView.isHidden else { return }
 
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
@@ -262,7 +262,7 @@ UICollectionViewDelegateFlowLayout {
         }) 
     }
 
-    private func switchFullscreen() {
+    fileprivate func switchFullscreen() {
         viewModel.switchFullscreen()
     }
 }

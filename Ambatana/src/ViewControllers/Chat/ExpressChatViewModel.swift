@@ -18,10 +18,10 @@ class ExpressChatViewModel: BaseViewModel {
 
     private var chatRepository: ChatRepository
     private var keyValueStorage: KeyValueStorage
-    private var trackerProxy: TrackerProxy
+    fileprivate var trackerProxy: TrackerProxy
     private var productList: [Product]
     private var sourceProductId: String
-    private var manualOpen: Bool
+    fileprivate var manualOpen: Bool
     var productListCount: Int {
         return productList.count
     }
@@ -163,12 +163,12 @@ extension ExpressChatViewModel {
 
     func singleMessageExtraTrackings(_ shouldAskAskQuestion: Bool, product: Product) {
         if shouldAskAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .ExpressChat)
+            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .expressChat)
             trackerProxy.trackEvent(askQuestionEvent)
         }
         
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text,
-                                                            isQuickAnswer: .False, typePage: .ExpressChat)
+                                                            isQuickAnswer: .falseParameter, typePage: .ExpressChat)
         trackerProxy.trackEvent(messageSentEvent)
     }
 

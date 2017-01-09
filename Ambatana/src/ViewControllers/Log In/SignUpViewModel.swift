@@ -60,13 +60,13 @@ class SignUpViewModel: BaseViewModel {
         return LetgoURLHelper.buildPrivacyURL()
     }
 
-    private let sessionManager: SessionManager
-    private let installationRepository: InstallationRepository
-    private let keyValueStorage: KeyValueStorageable
-    private let featureFlags: FeatureFlaggeable
-    private let tracker: Tracker
+    fileprivate let sessionManager: SessionManager
+    fileprivate let installationRepository: InstallationRepository
+    fileprivate let keyValueStorage: KeyValueStorageable
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let tracker: Tracker
     let appearance: LoginAppearance
-    private let loginSource: EventParameterLoginSourceValue
+    fileprivate let loginSource: EventParameterLoginSourceValue
 
     private let googleLoginHelper: ExternalAuthHelper
     private let fbLoginHelper: ExternalAuthHelper
@@ -169,7 +169,7 @@ class SignUpViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.delegate?.vmShowLoading(nil)
         }) { [weak self] result in
-            let error = self?.processAuthResult(result, accountProvider: .Google)
+            let error = self?.processAuthResult(result, accountProvider: .google)
             switch result {
             case .success:
                 self?.trackLoginGoogleOK()
@@ -210,11 +210,11 @@ class SignUpViewModel: BaseViewModel {
         case .conflict(let cause):
             var message = ""
             switch cause {
-            case .UserExists, .notSpecified, .other:
+            case .userExists, .notSpecified, .other:
                 message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .EmailRejected:
+            case .emailRejected:
                 message = LGLocalizedString.mainSignUpErrorUserRejected
-            case .RequestAlreadyProcessed:
+            case .requestAlreadyProcessed:
                 message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
             }
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)

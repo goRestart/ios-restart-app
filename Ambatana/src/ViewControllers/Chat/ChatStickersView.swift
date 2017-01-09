@@ -24,10 +24,10 @@ class ChatStickersView: UIView {
 
     weak var delegate: ChatStickersViewDelegate?
     
-    private var featureFlags: FeatureFlaggeable
-    private let collectionView: UICollectionView
-    private var numberOfColumns: Int = 3
-    private var stickers: [Sticker] = []
+    fileprivate var featureFlags: FeatureFlaggeable
+    fileprivate let collectionView: UICollectionView
+    fileprivate var numberOfColumns: Int = 3
+    fileprivate var stickers: [Sticker] = []
 
     convenience init() {
         self.init(featureFlags: FeatureFlags.sharedInstance)

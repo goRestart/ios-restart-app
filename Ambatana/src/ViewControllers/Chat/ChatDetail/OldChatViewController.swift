@@ -777,7 +777,7 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
             let tint: UIColor? = viewModel.directAnswersState.value == .Visible ? nil : UIColor.primaryColor
             let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
-                }, accessibilityId: .ChatViewQuickAnswersButton)
+                }, accessibilityId: .chatViewQuickAnswersButton)
             actions.append(quickAnswersAction)
         }
 
@@ -785,7 +785,7 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
-            }, accessibilityId: .ChatViewStickersButton)
+            }, accessibilityId: .chatViewStickersButton)
         actions.append(kbAction)
 
         leftActions = actions
@@ -853,7 +853,7 @@ extension OldChatViewController: ChatBannerDelegate {
 
 extension OldChatViewController {
     func setAccessibilityIds() {
-        tableView.accessibilityId = .ChatViewTableView
+        tableView.accessibilityId = .chatViewTableView
         navigationItem.rightBarButtonItem?.accessibilityId = .chatViewMoreOptionsButton
         navigationItem.backBarButtonItem?.accessibilityId = .chatViewBackButton
         sendButton.accessibilityId = .chatViewSendButton

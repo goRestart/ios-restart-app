@@ -544,10 +544,10 @@ extension MainProductsViewModel {
                 }
             }
             // If new location is not manual and we improved the location type to sensors
-            else if lastReceivedLocation?.type != .sensor && newLocation.type == .Sensor {
+            else if lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
                 shouldUpdate = true
             }
-        } else if listViewModel.numberOfProducts == 0 && lastReceivedLocation?.type != .sensor && newLocation.type == .Sensor {
+        } else if listViewModel.numberOfProducts == 0 && lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
             // in case the user allows sensors while loading the product list with the iplookup parameters
             shouldRetryLoad = true
         }
@@ -756,7 +756,7 @@ fileprivate extension MainProductsViewModel {
 
         if let searchType = searchType, shouldTrackSearch && filters.isDefault() {
             shouldTrackSearch = false
-            let successValue = hasProducts ? .success : .fail
+            let successValue = hasProducts ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
                                                            isTrending: searchType.isTrending,
                                                            success: successValue, isLastSearch: searchType.isLastSearch))
