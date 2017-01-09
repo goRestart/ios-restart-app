@@ -600,7 +600,7 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func sendSticker(_ sticker: Sticker) {
-        sendMessage(sticker.name, type: .Sticker)
+        sendMessage(sticker.name, type: .sticker)
     }
     
     func sendText(_ text: String, isQuickAnswer: Bool) {

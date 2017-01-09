@@ -31,9 +31,9 @@ class ChatViewMessageAdapter {
             type = ChatViewMessageType.Offer(text: message.text)
         case .text:
             type = ChatViewMessageType.text(text: message.text)
-        case .Sticker:
+        case .sticker:
             if let sticker = stickersRepository.sticker(message.text) {
-                type = ChatViewMessageType.Sticker(url: sticker.url)
+                type = ChatViewMessageType.sticker(url: sticker.url)
             } else {
                 type = ChatViewMessageType.text(text: message.text)
             }
@@ -53,9 +53,9 @@ class ChatViewMessageAdapter {
             type = ChatViewMessageType.Offer(text: message.text)
         case .text, .QuickAnswer, .ExpressChat, .FavoritedProduct:
             type = ChatViewMessageType.text(text: message.text)
-        case .Sticker:
+        case .sticker:
             if let sticker = stickersRepository.sticker(message.text) {
-                type = ChatViewMessageType.Sticker(url: sticker.url)
+                type = ChatViewMessageType.sticker(url: sticker.url)
             } else {
                 type = ChatViewMessageType.text(text: message.text)
             }

@@ -15,9 +15,9 @@ extension UserRatingType {
         switch self {
         case .conversation:
             return LGLocalizedString.ratingListRatingTypeConversationTextLabel(userName)
-        case .Seller:
+        case .seller:
             return LGLocalizedString.ratingListRatingTypeSellerTextLabel(userName)
-        case .Buyer:
+        case .buyer:
             return LGLocalizedString.ratingListRatingTypeBuyerTextLabel(userName)
         }
     }
@@ -26,9 +26,9 @@ extension UserRatingType {
         switch self {
         case .conversation:
             return UIColor.blackText
-        case .Seller:
+        case .seller:
             return UIColor.soldText
-        case .Buyer:
+        case .buyer:
             return UIColor.redText
         }
     }

@@ -20,7 +20,7 @@ struct LocalMessage: Message {
     init(sticker: Sticker, userId: String?) {
         self.objectId = NSDate().description
         self.text = sticker.name
-        self.type = .Sticker
+        self.type = .sticker
         self.userId = userId ?? ""
         self.createdAt = NSDate() as Date
         self.isRead = false

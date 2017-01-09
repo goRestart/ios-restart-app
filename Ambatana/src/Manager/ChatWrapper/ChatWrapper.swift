@@ -132,7 +132,7 @@ extension ChatWrapperMessageType {
         case .text:
             return .text
         case .ChatSticker:
-            return .Sticker
+            return .sticker
         case .quickAnswer, .expressChat, .favoritedProduct, .periscopeDirect: // Legacy chat doesn't use this types
             return .text
         }
@@ -145,7 +145,7 @@ extension ChatWrapperMessageType {
         case .periscopeDirect:
             return .text
         case .ChatSticker:
-            return .Sticker
+            return .sticker
         case .quickAnswer:
             return .QuickAnswer
         case .expressChat:
@@ -160,7 +160,7 @@ extension ChatWrapperMessageType {
         case .text:
             return .text
         case .ChatSticker:
-            return .Sticker
+            return .sticker
         case .quickAnswer:
             return .QuickAnswer
         case .expressChat:
