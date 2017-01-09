@@ -152,7 +152,7 @@ class SignUpViewModel: BaseViewModel {
             }, loginCompletion: { [weak self] result in
                 let error = self?.processAuthResult(result, accountProvider: .Facebook)
                 switch result {
-                case .Success:
+                case .success:
                     self?.trackLoginFBOK()
                 default:
                     break
@@ -171,7 +171,7 @@ class SignUpViewModel: BaseViewModel {
         }) { [weak self] result in
             let error = self?.processAuthResult(result, accountProvider: .Google)
             switch result {
-            case .Success:
+            case .success:
                 self?.trackLoginGoogleOK()
             default:
                 break
@@ -186,7 +186,7 @@ class SignUpViewModel: BaseViewModel {
                                    accountProvider: AccountProvider) -> EventParameterLoginError? {
         var loginError: EventParameterLoginError? = nil
         switch result {
-        case let .Success(myUser):
+        case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, username: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.delegate?.vmFinish(completedLogin: true)

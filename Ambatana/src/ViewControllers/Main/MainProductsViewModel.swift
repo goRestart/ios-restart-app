@@ -445,7 +445,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         var errorString: String? = nil
         if hasProducts && page > 0 {
             switch error {
-            case .Network:
+            case .network:
                 errorString = LGLocalizedString.toastNoNetwork
             case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                 errorString = LGLocalizedString.toastErrorInternal
@@ -758,7 +758,7 @@ fileprivate extension MainProductsViewModel {
             shouldTrackSearch = false
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
                                                            isTrending: searchType.isTrending,
-                                                           success: hasProducts ? .Success : .Failed, isLastSearch: searchType.isLastSearch))
+                                                           success: hasProducts ? .success : .Failed, isLastSearch: searchType.isLastSearch))
         }
     }
 

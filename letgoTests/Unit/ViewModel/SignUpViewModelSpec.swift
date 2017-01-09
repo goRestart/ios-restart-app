@@ -37,8 +37,8 @@ class SignUpViewModelSpec: QuickSpec {
                 featureFlags = MockFeatureFlags()
                 tracker = MockTracker()
                 let myUser = MockMyUser()
-                googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
-                fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
+                googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
+                fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                     keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
                     source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
@@ -121,7 +121,7 @@ class SignUpViewModelSpec: QuickSpec {
                     beforeEach {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
-                        googleLoginHelper.loginResult = .Success(myUser: myUser)
+                        googleLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.connectGoogleButtonPressed()
                         expect(self.loading).toEventually(beFalse())
@@ -192,7 +192,7 @@ class SignUpViewModelSpec: QuickSpec {
                     beforeEach {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
-                        fbLoginHelper.loginResult = .Success(myUser: myUser)
+                        fbLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.connectFBButtonPressed()
                         expect(self.loading).toEventually(beFalse())

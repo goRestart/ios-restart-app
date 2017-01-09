@@ -93,7 +93,7 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                         expect(result?.error).notTo(beNil())
                     }
                     it("should receive a network error") {
-                        expect(result?.error).to(equal(ConfigRetrieveServiceError.Network))
+                        expect(result?.error).to(equal(ConfigRetrieveServiceError.network))
                     }
                 }
 

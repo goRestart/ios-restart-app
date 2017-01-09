@@ -745,7 +745,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 switch error {
                 case .tooManyRequests:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
-                case .Network:
+                case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
                 case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
@@ -1078,7 +1078,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
             }

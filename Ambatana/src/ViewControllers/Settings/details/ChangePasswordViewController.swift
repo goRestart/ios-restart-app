@@ -141,7 +141,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
             var completion: (() -> Void)? = nil
             
             switch (result) {
-            case .Success:
+            case .success:
                 completion = {
                     // clean fields
                     self.passwordTextfield.text = ""
@@ -152,7 +152,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                     }
                 }
                 break
-            case .Failure(let error):
+            case .failure(let error):
                 let message: String
                 switch (error) {
                 case .InvalidPassword:

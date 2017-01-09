@@ -81,7 +81,7 @@ class CreateCommercialViewModel: BaseViewModel {
     private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel {
         let emptyVM: LGEmptyViewModel
         switch error {
-        case .Network:
+        case .network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(fetchProducts)
         case .internalError, .forbidden, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(fetchProducts)

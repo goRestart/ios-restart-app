@@ -301,7 +301,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }, loginCompletion: { [weak self] result in
             let error = self?.processExternalServiceAuthResult(result, accountProvider: .Facebook)
             switch result {
-            case .Success:
+            case .success:
                 self?.trackLoginFBOK()
             default:
                 break
@@ -319,7 +319,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }) { [weak self] result in
             let error = self?.processExternalServiceAuthResult(result, accountProvider: .Google)
             switch result {
-            case .Success:
+            case .success:
                 self?.trackLoginGoogleOK()
             default:
                 break
@@ -361,7 +361,7 @@ class SignUpLogInViewModel: BaseViewModel {
     private func processLoginSessionError(_ error: SessionManagerError) {
         let message: String
         switch (error) {
-        case .Network:
+        case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
@@ -382,7 +382,7 @@ class SignUpLogInViewModel: BaseViewModel {
     private func processSignUpSessionError(_ error: SessionManagerError) {
         let message: String
         switch (error) {
-        case .Network:
+        case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .BadRequest(let cause):
             switch cause {
@@ -422,8 +422,8 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func eventParameterForSessionError(_ error: SessionManagerError) -> EventParameterLoginError {
         switch (error) {
-        case .Network:
-            return .Network
+        case .network:
+            return .network
         case .BadRequest(let cause):
             switch cause {
             case .NonAcceptableParams:
@@ -456,7 +456,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                   accountProvider: AccountProvider) -> EventParameterLoginError? {
         var loginError: EventParameterLoginError? = nil
         switch result {
-        case let .Success(myUser):
+        case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.delegate?.vmFinish(completedAccess: true)

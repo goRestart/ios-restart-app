@@ -39,8 +39,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 tracker = MockTracker()
                 featureFlags = MockFeatureFlags()
                 let myUser = MockMyUser()
-                googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
-                fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
+                googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
+                fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 let locale = NSLocale(localeIdentifier: "es_ES")
 
                 sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
@@ -226,7 +226,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("standard") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .Network)
+                            sessionManager.myUserResult = SessionMyUserResult(error: .network)
 
                             sut.email = email
                             sut.password = "123456"
@@ -283,7 +283,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
 
-                        googleLoginHelper.loginResult = .Success(myUser: myUser)
+                        googleLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.logInWithGoogle()
                         expect(self.loading).toEventually(beFalse())
@@ -355,7 +355,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
 
-                        fbLoginHelper.loginResult = .Success(myUser: myUser)
+                        fbLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.logInWithFacebook()
                         expect(self.loading).toEventually(beFalse())

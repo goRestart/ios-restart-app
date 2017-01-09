@@ -62,7 +62,7 @@ extension FBLoginHelper: ExternalAuthHelper {
                 authCompletion?()
                 self?.sessionManager.loginFacebook(token, completion: { result in
                     if let myUser = result.value {
-                        loginCompletion?(.Success(myUser: myUser))
+                        loginCompletion?(.success(myUser: myUser))
                     } else if let error = result.error {
                         loginCompletion?(ExternalServiceAuthResult(sessionError: error))
                     }

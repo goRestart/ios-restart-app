@@ -60,15 +60,15 @@ class RememberPasswordViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
 
                 switch (recoverPwdResult) {
-                case .Success:
+                case .success:
                     strongSelf.delegate?.viewModelDidFinishResetPassword(strongSelf)
-                case .Failure(let error):
+                case .failure(let error):
                     var errorMessage: String?
                     var errorDescription: EventParameterLoginError?
                     switch (error) {
-                    case .Network:
+                    case .network:
                         errorMessage = LGLocalizedString.commonErrorConnectionFailed
-                        errorDescription = .Network
+                        errorDescription = .network
                     case .BadRequest(let cause):
                         switch cause {
                         case .NonAcceptableParams:

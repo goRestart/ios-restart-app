@@ -123,7 +123,7 @@ class NotificationsViewModel: BaseViewModel {
                             }) {
                             strongSelf.viewState.value = .Error(emptyViewModel)
                     }
-                    case .Network(errorCode: _, onBackground: true):
+                    case .network(errorCode: _, onBackground: true):
                         break
                 }
             }

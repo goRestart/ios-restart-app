@@ -36,7 +36,7 @@ class LGConfigRetrieveService: ConfigRetrieveService {
                 // Error
                 else if let error = configFileResponse.result.error {
                     if error.domain == URLErrorDomain {
-                        completion?(ConfigRetrieveServiceResult(error: .Network))
+                        completion?(ConfigRetrieveServiceResult(error: .network))
                     }
                     else {
                         completion?(ConfigRetrieveServiceResult(error: .internalError))

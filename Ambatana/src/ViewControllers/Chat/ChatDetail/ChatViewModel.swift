@@ -676,7 +676,7 @@ extension ChatViewModel {
                 switch error {
                 case .tooManyRequests:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
-                case .Network:
+                case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
                 case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)

@@ -72,7 +72,7 @@ extension GoogleLoginHelper: ExternalAuthHelper {
                 authCompletion?()
                 self?.sessionManager.loginGoogle(serverAuthCode) { result in
                     if let myUser = result.value {
-                        loginCompletion?(.Success(myUser: myUser))
+                        loginCompletion?(.success(myUser: myUser))
                     } else if let error = result.error {
                         loginCompletion?(ExternalServiceAuthResult(sessionError: error))
                     }
