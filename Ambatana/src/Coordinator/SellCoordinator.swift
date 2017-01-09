@@ -69,7 +69,7 @@ final class SellCoordinator: Coordinator {
     }
 }
 
-private extension SellCoordinator {
+fileprivate extension SellCoordinator {
     func close<T: UIViewController>(_ type: T.Type, animated: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
             guard let viewController = self?.viewController as? T else { return }
@@ -233,7 +233,7 @@ extension SellCoordinator: ShareProductNavigator {
 
 // MARK: - Tracking
 
-private extension SellCoordinator {
+fileprivate extension SellCoordinator {
     func trackPost(_ result: ProductResult, trackingInfo: PostProductTrackingInfo) {
         guard let product = result.value else { return }
         let event = TrackerEvent.productSellComplete(product, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,

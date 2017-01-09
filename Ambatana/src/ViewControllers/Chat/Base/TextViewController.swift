@@ -249,7 +249,7 @@ extension TextViewController: UITextViewDelegate {
 
     private func setupTextAreaRx() {
         let emptyText = textView.rx_text.map { $0.trim.isEmpty }
-        emptyText.bindTo(sendButton.rx_hidden).addDisposableTo(disposeBag)
+        emptyText.bindTo(sendButton.rx.isHidden).addDisposableTo(disposeBag)
         emptyText.bindNext { [weak self] empty in
             guard let strongSelf = self, let margin = self?.viewMargins else { return }
             let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
@@ -268,7 +268,7 @@ extension TextViewController: UITextViewDelegate {
             TextViewController.keyTextCache[keyTextCache] = text
         }.addDisposableTo(disposeBag)
 
-        sendButton.rx_tap.bindNext { [weak self] in self?.sendButtonPressed() }.addDisposableTo(disposeBag)
+        sendButton.rx.tap.bindNext { [weak self] in self?.sendButtonPressed() }.addDisposableTo(disposeBag)
     }
 
     private func updateLeftActions() {
@@ -284,7 +284,7 @@ extension TextViewController: UITextViewDelegate {
             if let tint = action.imageTint {
                 button.tintColor = tint
             }
-            button.rx_tap.subscribeNext(action.action).addDisposableTo(leftActionsDisposeBag)
+            button.rx.tap.subscribeNext(action.action).addDisposableTo(leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
             button.setHeightConstraint(buttonDiameter)

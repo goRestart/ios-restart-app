@@ -39,7 +39,7 @@ class SimpleProductsViewController: BaseViewController {
 
         productList.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(productList)
-        let views: [String : AnyObject] = ["list" : productList, "topGuide" : topLayoutGuide]
+        let views: [String : Any] = ["list" : productList, "topGuide" : topLayoutGuide]
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[list]-0-|",
             options: [], metrics: nil, views: views))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[list]-0-|",

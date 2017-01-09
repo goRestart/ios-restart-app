@@ -332,7 +332,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     private func setupRxBindings() {
         viewModel.infoBubbleText.asObservable().bindTo(infoBubbleLabel.rx_text).addDisposableTo(disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bindTo(infoBubbleShadow.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bindTo(infoBubbleShadow.rx.isHidden).addDisposableTo(disposeBag)
 
         topInset.asObservable().skip(1).bindNext { [weak self] topInset in
                 self?.productListView.collectionViewContentInset.top = topInset
@@ -531,7 +531,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-private extension MainProductsViewController {
+fileprivate extension MainProductsViewController {
     func getSearchSuggestionType(_ section: Int) -> SearchSuggestionType? {
         switch section {
         case 0:

@@ -1039,7 +1039,7 @@ extension ChatViewModel {
 
 // MARK: - Second step login
 
-private extension ChatViewModel {
+fileprivate extension ChatViewModel {
     func setupNotLoggedIn(_ product: Product) {
         guard let productId = product.objectId, let sellerId = product.user.objectId else { return }
         self.productId = productId
@@ -1081,7 +1081,7 @@ private extension ChatViewModel {
 
 // MARK: - Tracking
 
-private extension ChatViewModel {
+fileprivate extension ChatViewModel {
     
     func trackFirstMessage(_ type: ChatMessageType) {
         guard let product = conversation.value.product else { return }
@@ -1124,7 +1124,7 @@ private extension ChatViewModel {
 
 // MARK: - Private ChatConversation Extension
 
-private extension ChatConversation {
+fileprivate extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
         guard let interlocutor = interlocutor else { return .available }
         guard let product = product else { return .available }
@@ -1172,7 +1172,7 @@ private extension ChatConversation {
     }
 }
 
-private extension ChatInfoViewStatus {
+fileprivate extension ChatInfoViewStatus {
     var userReviewEnabled: Bool {
         switch self {
         case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
@@ -1282,7 +1282,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
 
 // MARK: - UserInfo
 
-private extension ChatViewModel {
+fileprivate extension ChatViewModel {
 
     func setupUserInfoRxBindings() {
         interlocutorId.asObservable().bindNext { [weak self] interlocutorId in

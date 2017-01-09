@@ -108,7 +108,7 @@ class ChatRelatedProductsView: UIView {
 
     private func setupRx() {
         title.asObservable().bindTo(infoLabel.rx_text).addDisposableTo(disposeBag)
-        visible.asObservable().map{!$0}.bindTo(self.rx_hidden).addDisposableTo(disposeBag)
+        visible.asObservable().map{!$0}.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
         visible.asObservable().map{ [weak self] in $0 ? self?.height ?? 0 : 0 }.bindTo(visibleHeight).addDisposableTo(disposeBag)
         productId.asObservable().bindTo(relatedProductsView.productId).addDisposableTo(disposeBag)
         relatedProductsView.hasProducts.asObservable().bindNext { [weak self] hasProducts in

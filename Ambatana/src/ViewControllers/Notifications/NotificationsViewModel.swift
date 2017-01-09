@@ -148,7 +148,7 @@ class NotificationsViewModel: BaseViewModel {
 
 // MARK: - Notifications builder
 
-private extension NotificationsViewModel {
+fileprivate extension NotificationsViewModel {
 
     func buildNotification(_ notification: Notification) -> NotificationData? {
         switch notification.type {
@@ -220,7 +220,7 @@ private extension NotificationsViewModel {
 
 // MARK: - Trackings
 
-private extension NotificationsViewModel {
+fileprivate extension NotificationsViewModel {
     func trackVisit() {
         let event = TrackerEvent.notificationCenterStart()
         tracker.trackEvent(event)
@@ -232,7 +232,7 @@ private extension NotificationsViewModel {
     }
 }
 
-private extension NotificationDataType {
+fileprivate extension NotificationDataType {
     var eventType: EventParameterNotificationType {
         switch self {
         case .productSold:

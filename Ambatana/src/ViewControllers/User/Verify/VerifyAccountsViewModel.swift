@@ -172,7 +172,7 @@ class VerifyAccountsViewModel: BaseViewModel {
 
 // MARK: - Private actions
 
-private extension VerifyAccountsViewModel {
+fileprivate extension VerifyAccountsViewModel {
     func connectWithFacebook() {
         fbButtonState.value = .loading
         fbLoginHelper.connectWithFacebook { [weak self] result in
@@ -227,12 +227,12 @@ private extension VerifyAccountsViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: { self?.verificationFailed() })
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: { self?.verificationFailed() })
-                case .forbidden, .internal, .notFound, .unauthorized, .userNotVerified, .serverError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: { self?.verificationFailed() })
                 }
             } else {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
-                    self?.verificationSuccess(.Email(email))
+                    self?.verificationSuccess(.email(email))
                 }
             }
         }
@@ -276,18 +276,18 @@ fileprivate extension VerifyAccountsSource {
     var typePage: EventParameterTypePage {
         switch self {
         case .chat:
-            return .Chat
+            return .chat
         case .profile:
-            return .Profile
+            return .profile
         }
     }
 
     var loginSource: EventParameterLoginSourceValue {
         switch self {
         case .chat:
-            return .Chats
+            return .chats
         case .profile:
-            return .Profile
+            return .profile
         }
     }
 
@@ -314,11 +314,11 @@ fileprivate extension VerificationType {
     var accountNetwork: EventParameterAccountNetwork {
         switch self {
         case .facebook:
-            return .Facebook
+            return .facebook
         case .google:
-            return .Google
+            return .google
         case .email:
-            return .Email
+            return .email
         }
     }
 }

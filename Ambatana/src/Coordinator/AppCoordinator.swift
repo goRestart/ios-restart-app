@@ -274,7 +274,7 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
     }
 }
 
-private extension AppCoordinator {
+fileprivate extension AppCoordinator {
     func refreshSelectedProductsRefreshable() {
         guard let selectedVC = tabBarCtl.selectedViewController else { return }
         guard let refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable else { return }
@@ -365,7 +365,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 // MARK: > Setup / tear down
 
 
-private extension AppCoordinator {
+fileprivate extension AppCoordinator {
     
     func setupTabBarController() {
         tabBarCtl.delegate = self
@@ -474,7 +474,7 @@ extension AppCoordinator: CustomLeanplumPresenter {
 
 // MARK: > Helper
 
-private extension AppCoordinator {
+fileprivate extension AppCoordinator {
     func shouldOpenTab(_ tab: Tab) -> Bool {
         guard let vc = controllerAtTab(tab) else { return false }
         return tabBarController(tabBarCtl, shouldSelect: vc)
@@ -509,7 +509,7 @@ private extension AppCoordinator {
 
 // MARK: > Navigation
 
-private extension AppCoordinator {
+fileprivate extension AppCoordinator {
     func openCoordinator(coordinator: Coordinator, parent: UIViewController, animated: Bool,
                                      completion: (() -> Void)?) {
         guard child == nil else { return }
@@ -762,7 +762,7 @@ extension AppCoordinator: ChangePasswordNavigator {
 
 // MARK: - Tab helper
 
-private extension Tab {
+fileprivate extension Tab {
     var logInRequired: Bool {
         switch self {
         case .home, .categories, .sell:

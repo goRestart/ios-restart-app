@@ -173,7 +173,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
 // MARK: Extension helpers
 
-private extension Chat {
+fileprivate extension Chat {
     func conversationCellStatus(_ otherUser: User?) -> ConversationCellStatus {
         if let otherUser = otherUser {
             switch otherUser.status {

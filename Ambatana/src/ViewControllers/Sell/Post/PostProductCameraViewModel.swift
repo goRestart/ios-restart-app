@@ -272,7 +272,7 @@ extension CameraState {
     }
 }
 
-private extension CameraFlashMode {
+fileprivate extension CameraFlashMode {
     var next: CameraFlashMode {
         switch self {
         case .auto:
@@ -285,7 +285,7 @@ private extension CameraFlashMode {
     }
 }
 
-private extension CameraSourceMode {
+fileprivate extension CameraSourceMode {
     var toggle: CameraSourceMode {
         switch self {
         case .front:

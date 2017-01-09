@@ -120,26 +120,26 @@ class ProductViewModel: BaseViewModel {
     var isFirstProduct: Bool = false
     
     private var alreadyTrackedFirstMessageSent: Bool = false
-    private static let bubbleTagGroup = "favorite.bubble.group"
+    fileprivate static let bubbleTagGroup = "favorite.bubble.group"
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
-    private let myUserRepository: MyUserRepository
-    private let productRepository: ProductRepository
-    private let commercializerRepository: CommercializerRepository
-    private let chatWrapper: ChatWrapper
-    private let stickersRepository: StickersRepository
-    private let countryHelper: CountryHelper
-    private let locationManager: LocationManager
-    private let chatViewMessageAdapter: ChatViewMessageAdapter
-    private let interestedBubbleManager: InterestedBubbleManager
-    private let bubbleManager: BubbleNotificationManager
-    private let featureFlags: FeatureFlaggeable
-    private let purchasesShopper: PurchasesShopper
-    private var notificationsManager: NotificationsManager
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let productRepository: ProductRepository
+    fileprivate let commercializerRepository: CommercializerRepository
+    fileprivate let chatWrapper: ChatWrapper
+    fileprivate let stickersRepository: StickersRepository
+    fileprivate let countryHelper: CountryHelper
+    fileprivate let locationManager: LocationManager
+    fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
+    fileprivate let interestedBubbleManager: InterestedBubbleManager
+    fileprivate let bubbleManager: BubbleNotificationManager
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let purchasesShopper: PurchasesShopper
+    fileprivate var notificationsManager: NotificationsManager
 
     // Retrieval status
     private var relationRetrieved = false
@@ -568,14 +568,14 @@ extension ProductViewModel {
         return commercializerRepository.templatesForCountryCode(countryCode).count
     }
 
-    private var commercializerIsAvailable: Bool {
+    fileprivate var commercializerIsAvailable: Bool {
         return numberOfCommercializerTemplates() > 0
     }
 
     private func promoteProduct(_ source: PromotionSource) {
         let theProduct = product.value
         if let countryCode = theProduct.postalAddress.countryCode, let productId = theProduct.objectId {
-            let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
+            let themes = commercializerRepository.templatesForCountryCode(countryCode)
             let commercializersArr = commercializers.value ?? []
             guard let promoteProductVM = PromoteProductViewModel(productId: productId,
                                                                  themes: themes, commercializers: commercializersArr, promotionSource: .ProductDetail) else { return }
@@ -759,7 +759,7 @@ extension ProductViewModel {
 
 extension ProductViewModel {
 
-    private func refreshActionButtons(_ status: ProductViewModelStatus) {
+    fileprivate func refreshActionButtons(_ status: ProductViewModelStatus) {
         actionButtons.value = buildActionButtons(status)
     }
 
@@ -801,7 +801,7 @@ extension ProductViewModel {
 extension ProductViewModel {
     private func switchFavoriteAction() {
         
-        favoriteButtonState.value = .Disabled
+        favoriteButtonState.value = .disabled
         if isFavorite.value {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -1107,7 +1107,7 @@ extension Product {
 
 // MARK: - ProductViewModelStatus
 
-private extension ProductViewModelStatus {
+fileprivate extension ProductViewModelStatus {
 
     var isEditable: Bool {
         switch self {

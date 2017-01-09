@@ -145,7 +145,7 @@ extension TabCoordinator: TabNavigator {
     }
 }
 
-private extension TabCoordinator {
+fileprivate extension TabCoordinator {
     func openProduct(productId: String, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool) {
         navigationController.showLoadingMessageAlert()

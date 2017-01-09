@@ -16,7 +16,7 @@ class UserRatingListViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    private let viewModel: UserRatingListViewModel
+    fileprivate let viewModel: UserRatingListViewModel
 
 
     // MARK: Lifecycle

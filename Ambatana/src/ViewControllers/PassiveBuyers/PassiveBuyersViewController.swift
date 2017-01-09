@@ -68,9 +68,9 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
 
         contactButton.setStyle(.primary(fontSize: .big))
 
-        closeButton.rx_tap.subscribeNext { [weak self] in self?.viewModel.closeButtonPressed()}
+        closeButton.rx.tap.subscribeNext { [weak self] in self?.viewModel.closeButtonPressed()}
             .addDisposableTo(disposeBag)
-        contactButton.rx_tap.subscribeNext { [weak self] in self?.viewModel.contactButtonPressed()}
+        contactButton.rx.tap.subscribeNext { [weak self] in self?.viewModel.contactButtonPressed()}
             .addDisposableTo(disposeBag)
 
         setAccesibilityIds()
@@ -169,7 +169,7 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - Accesibility Ids
 
-private extension PassiveBuyersViewController {
+fileprivate extension PassiveBuyersViewController {
     func setAccesibilityIds() {
         titleLabel.accessibilityId = .passiveBuyersTitle
         messageLabel.accessibilityId = .passiveBuyersMessage

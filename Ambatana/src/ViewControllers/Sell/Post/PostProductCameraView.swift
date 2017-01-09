@@ -205,13 +205,13 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         let state = viewModel.cameraState.asObservable()
         state.subscribeNext{ [weak self] state in self?.updateCamera() }.addDisposableTo(disposeBag)
         let previewModeHidden = state.map{ !$0.previewMode }
-        previewModeHidden.bindTo(imagePreview.rx_hidden).addDisposableTo(disposeBag)
-        previewModeHidden.bindTo(retryPhotoButton.rx_hidden).addDisposableTo(disposeBag)
-        previewModeHidden.bindTo(usePhotoButton.rx_hidden).addDisposableTo(disposeBag)
+        previewModeHidden.bindTo(imagePreview.rx.isHidden).addDisposableTo(disposeBag)
+        previewModeHidden.bindTo(retryPhotoButton.rx.isHidden).addDisposableTo(disposeBag)
+        previewModeHidden.bindTo(usePhotoButton.rx.isHidden).addDisposableTo(disposeBag)
         let captureModeHidden = state.map{ !$0.captureMode }
-        captureModeHidden.bindTo(cornersContainer.rx_hidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(switchCamButton.rx_hidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(flashButton.rx_hidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(cornersContainer.rx.isHidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(switchCamButton.rx.isHidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(flashButton.rx.isHidden).addDisposableTo(disposeBag)
         
         viewModel.imageSelected.asObservable().bindTo(imagePreview.rx_image).addDisposableTo(disposeBag)
 
@@ -226,7 +226,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
             self?.fastCamera?.cameraDevice = deviceMode
         }.addDisposableTo(disposeBag)
 
-        viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bindTo(firstTimeAlertContainer.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bindTo(firstTimeAlertContainer.rx.isHidden).addDisposableTo(disposeBag)
     }
 
     private dynamic func hideFirstTimeAlert() {
@@ -285,7 +285,7 @@ extension PostProductCameraView {
     fileprivate func setupInfoView() {
         infoButton.setStyle(.primary(fontSize: .medium))
 
-        viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)
         viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx_text).addDisposableTo(disposeBag)
         viewModel.infoButton.asObservable().bindTo(infoButton.rx_title).addDisposableTo(disposeBag)

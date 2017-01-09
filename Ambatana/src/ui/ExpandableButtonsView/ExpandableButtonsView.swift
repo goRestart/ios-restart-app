@@ -97,7 +97,7 @@ extension ExpandableButtonsView {
 
 // MARK: - Private methods
 
-private extension ExpandableButtonsView {
+fileprivate extension ExpandableButtonsView {
     func setupUI() {
         alpha = 0
         clipsToBounds = true

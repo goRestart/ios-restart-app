@@ -26,7 +26,7 @@ class ProductCarouselCell: UICollectionViewCell {
     var product: Product?
     weak var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
-    private var currentPage = 0
+    fileprivate var currentPage = 0
 
     var imageDownloader: ImageDownloader =  ImageDownloader.sharedInstance
 
@@ -87,11 +87,11 @@ class ProductCarouselCell: UICollectionViewCell {
         collectionView.reloadData()
     }
     
-    private func numberOfImages() -> Int {
+    fileprivate func numberOfImages() -> Int {
         return product?.images.count ?? 0
     }
     
-    private func imageAtIndex(_ index: Int) -> URL? {
+    fileprivate func imageAtIndex(_ index: Int) -> URL? {
         guard numberOfImages() > 0 else { return nil }
         guard let url = product?.images[index].fileURL else { return nil }
         return url
@@ -186,7 +186,7 @@ extension ProductCarouselCell: ProductCarouselImageCellDelegate {
 // MARK: - Private methods
 // MARK: > Accessibility
 
-private extension ProductCarouselCell {
+fileprivate extension ProductCarouselCell {
     func setAccessibilityIds() {
         self.accessibilityId = .productCarouselCell
         collectionView.accessibilityId = .productCarouselCellCollectionView

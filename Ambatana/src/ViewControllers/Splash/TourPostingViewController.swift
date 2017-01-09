@@ -78,7 +78,7 @@ class TourPostingViewController: BaseViewController {
 
 // MARK: - Accesibility
 
-private extension TourPostingViewController {
+fileprivate extension TourPostingViewController {
     func setAccesibilityIds() {
         okButton.accessibilityId = .tourPostingOkButton
         closeButton.accessibilityId = .tourPostingCloseButton
