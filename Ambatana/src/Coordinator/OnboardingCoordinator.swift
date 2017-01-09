@@ -42,7 +42,7 @@ class OnboardingCoordinator: Coordinator {
         guard viewController.parent == nil else { return }
         parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
-            let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
+            let signUpVM = SignUpViewModel(appearance: .Dark, source: .install)
             let tourVM = TourLoginViewModel()
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
@@ -98,7 +98,7 @@ class OnboardingCoordinator: Coordinator {
 
     private func openTourLocation() {
         let topVC = topViewController()
-        let vm = TourLocationViewModel(source: .Install)
+        let vm = TourLocationViewModel(source: .install)
         vm.navigator = self
         let vc = TourLocationViewController(viewModel: vm)
         hideVC(topVC)

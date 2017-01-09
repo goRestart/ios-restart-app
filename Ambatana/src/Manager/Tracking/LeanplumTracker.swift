@@ -21,7 +21,7 @@ fileprivate extension TrackerEvent {
                  .SearchComplete, .FilterComplete,
                  .FirstMessage, .ProductOpenChat, .ProductFavorite, .ProductShareComplete,
                  .ProductMarkAsSold, .ProductDetailVisit,
-                 .ProductSellComplete, .ProductSellStart,
+                 .productSellComplete, .ProductSellStart,
                  .ProfileVisit, .NPSStart, .NPSComplete:
                 return true
             default:

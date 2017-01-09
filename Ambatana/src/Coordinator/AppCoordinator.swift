@@ -15,39 +15,39 @@ final class AppCoordinator: BaseCoordinator {
     var child: Coordinator?
 
     let tabBarCtl: TabBarController
-    private let selectedTab: Variable<Tab>
+    fileprivate let selectedTab: Variable<Tab>
 
-    private let mainTabBarCoordinator: MainTabCoordinator
-    private let secondTabBarCoordinator: TabCoordinator
-    private let chatsTabBarCoordinator: ChatsTabCoordinator
-    private let profileTabBarCoordinator: ProfileTabCoordinator
-    private let categoriesTabBarCoordinator: CategoriesTabCoordinator
-    private let notificationsTabBarCoordinator: NotificationsTabCoordinator
-    private let tabCoordinators: [TabCoordinator]
+    fileprivate let mainTabBarCoordinator: MainTabCoordinator
+    fileprivate let secondTabBarCoordinator: TabCoordinator
+    fileprivate let chatsTabBarCoordinator: ChatsTabCoordinator
+    fileprivate let profileTabBarCoordinator: ProfileTabCoordinator
+    fileprivate let categoriesTabBarCoordinator: CategoriesTabCoordinator
+    fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
+    fileprivate let tabCoordinators: [TabCoordinator]
 
-    private let configManager: ConfigManager
-    private let sessionManager: SessionManager
-    private let keyValueStorage: KeyValueStorage
+    fileprivate let configManager: ConfigManager
+    fileprivate let sessionManager: SessionManager
+    fileprivate let keyValueStorage: KeyValueStorage
 
-    private let pushPermissionsManager: PushPermissionsManager
-    private let ratingManager: RatingManager
-    private let bubbleNotificationManager: BubbleNotificationManager
-    private let tracker: Tracker
-    private let deepLinksRouter: DeepLinksRouter
+    fileprivate let pushPermissionsManager: PushPermissionsManager
+    fileprivate let ratingManager: RatingManager
+    fileprivate let bubbleNotificationManager: BubbleNotificationManager
+    fileprivate let tracker: Tracker
+    fileprivate let deepLinksRouter: DeepLinksRouter
 
-    private let productRepository: ProductRepository
-    private let userRepository: UserRepository
-    private let myUserRepository: MyUserRepository
-    private let oldChatRepository: OldChatRepository
-    private let chatRepository: ChatRepository
-    private let commercializerRepository: CommercializerRepository
-    private let userRatingRepository: UserRatingRepository
-    private let featureFlags: FeatureFlaggeable
-    private let locationManager: LocationManager
+    fileprivate let productRepository: ProductRepository
+    fileprivate let userRepository: UserRepository
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let oldChatRepository: OldChatRepository
+    fileprivate let chatRepository: ChatRepository
+    fileprivate let commercializerRepository: CommercializerRepository
+    fileprivate let userRatingRepository: UserRatingRepository
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let locationManager: LocationManager
 
     weak var delegate: AppNavigatorDelegate?
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -283,10 +283,9 @@ fileprivate extension AppCoordinator {
 
     func openAfterSellDialogIfNeeded() -> Bool {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
-            pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell,
-                                                                             completion: nil)
+            pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
         } else if ratingManager.shouldShowRating {
-            showAppRatingViewIfNeeded(.ProductSellComplete)
+            showAppRatingViewIfNeeded(.productSellComplete)
         } else {
             return false
         }
@@ -402,9 +401,9 @@ fileprivate extension AppCoordinator {
     func setupCoreEventsRx() {
         sessionManager.sessionEvents.bindNext { [weak self] event in
             switch event {
-            case .Login:
+            case .login:
                 break
-            case let .Logout(kickedOut):
+            case let .logout(kickedOut):
                 self?.openTab(.home) { [weak self] in
                     if kickedOut {
                         self?.tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
@@ -413,12 +412,12 @@ fileprivate extension AppCoordinator {
             }
         }.addDisposableTo(disposeBag)
 
-        locationManager.locationEvents.filter { $0 == .MovedFarFromSavedManualLocation }.take(1).bindNext {
+        locationManager.locationEvents.filter { $0 == .movedFarFromSavedManualLocation }.take(1).bindNext {
             [weak self] _ in
             self?.askUserToUpdateLocation()
         }.addDisposableTo(disposeBag)
         
-        locationManager.locationEvents.filter { $0 == .LocationUpdate }.take(1).bindNext {
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
             [weak self] _ in
             guard let strongSelf = self else { return }
             if let currentLocation = strongSelf.locationManager.currentLocation, currentLocation.isAuto && strongSelf.featureFlags.locationNoMatchesCountry {
@@ -431,7 +430,7 @@ fileprivate extension AppCoordinator {
         guard let navCtl = selectedNavigationController else { return }
         guard navCtl.isAtRootViewController else { return }
 
-        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .default), action: { [weak self] in
+        let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
             self?.locationManager.setAutomaticLocation(nil)
             })
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
@@ -442,8 +441,8 @@ fileprivate extension AppCoordinator {
         guard let navCtl = selectedNavigationController else { return }
         guard navCtl.isAtRootViewController else { return }
         
-        let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .default), action: { [weak self] in
-            self?.ifLoggedInAction(.Profile) { [weak self] in
+        let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
+            self?.ifLoggedInAction(.profile) { [weak self] in
                 self?.openTab(.profile) { [weak self] in
                     self?.openChangeLocation()
                 }
@@ -525,7 +524,7 @@ fileprivate extension AppCoordinator {
     }
 
     func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> ()) {
-        let viewModel = SignUpViewModel(appearance: .Light, source: source)
+        let viewModel = SignUpViewModel(appearance: .light, source: source)
         switch style {
         case .fullScreen:
             let vc = MainSignUpViewController(viewModel: viewModel)
@@ -682,7 +681,7 @@ fileprivate extension AppCoordinator {
         userRatingRepository.show(ratingId) { [weak self] result in
             if let rating = result.value, let data = RateUserData(user: rating.userFrom) {
                 navCtl.dismissLoadingMessageAlert {
-                    self?.openUserRating(.DeepLink, data: data)
+                    self?.openUserRating(.light, data: data)
                 }
             } else if let error = result.error {
                 let message: String
@@ -782,7 +781,7 @@ fileprivate extension Tab {
         case .chats:
             return .chats
         case .profile:
-            return .Profile
+            return .profile
         }
     }
     var chatHeadsHidden: Bool {

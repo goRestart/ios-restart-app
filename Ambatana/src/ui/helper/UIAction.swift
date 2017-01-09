@@ -86,7 +86,7 @@ struct UIAction {
     var style: UIActionInterfaceStyle {
         switch interface {
         case .text, .image, .textImage, .button:
-            return .default
+            return .standard
         case let .styledText(_, style):
             return style
         }

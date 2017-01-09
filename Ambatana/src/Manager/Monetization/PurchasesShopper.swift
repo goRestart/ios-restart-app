@@ -80,8 +80,8 @@ extension PurchasesShopper: PurchaseableProductsRequestDelegate {
         if !invalidIds.isEmpty {
             let strInvalidIds: String = invalidIds.reduce("", { (a,b) in "\(a),\(b)"})
             let message = "Invalid ids: \(strInvalidIds)"
-            logMessage(.error, type: [.Monetization], message: message)
-            report(AppReport.Monetization(error: .InvalidAppstoreProductIdentifiers), message: message)
+            logMessage(.error, type: [.monetization], message: message)
+            report(AppReport.monetization(error: .InvalidAppstoreProductIdentifiers), message: message)
         }
 
         productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }

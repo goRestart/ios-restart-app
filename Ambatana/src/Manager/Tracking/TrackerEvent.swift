@@ -83,7 +83,7 @@ struct TrackerEvent {
     }
 
     static func logout() -> TrackerEvent {
-        return TrackerEvent(name: .Logout, params: nil)
+        return TrackerEvent(name: .logout, params: nil)
     }
 
     static func loginEmailError(_ errorDescription: EventParameterLoginError) -> TrackerEvent {
@@ -415,7 +415,7 @@ struct TrackerEvent {
         if let pictureSource = pictureSource {
             params[.PictureSource] = pictureSource.rawValue
         }
-        return TrackerEvent(name: .ProductSellComplete, params: params)
+        return TrackerEvent(name: .productSellComplete, params: params)
     }
     
     static func productSellComplete24h(_ product: Product) -> TrackerEvent {

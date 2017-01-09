@@ -231,19 +231,19 @@ fileprivate extension AppDelegate {
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.currentPageIndicatorTintColor
     }
 
-    func setupLibraries(_ application: UIApplication, launchOptions: [AnyHashable: Any]?) {
+    func setupLibraries(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // Debug
-        Debug.loggingOptions = [AppLoggingOptions.Navigation]
+        Debug.loggingOptions = [AppLoggingOptions.navigation]
 
         #if GOD_MODE
-            Debug.loggingOptions = [.Navigation, .Tracking, .DeepLink, .Monetization]
+            Debug.loggingOptions = [.navigation, .tracking, .light, .monetization]
         #endif
         
-        LGCoreKit.loggingOptions = [.Networking, .Persistence, .Token, .Session, .WebSockets]
+        LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
         if let featureFlags = featureFlags {
             LGCoreKit.activateWebsocket = featureFlags.websocketChat
         }

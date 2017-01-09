@@ -500,7 +500,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 extension MainProductsViewModel {
     fileprivate func setupSessionAndLocation() {
         sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
-        locationManager.locationEvents.filter { $0 == .LocationUpdate }.bindNext { [weak self] _ in
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
             self?.locationDidChange()
         }.addDisposableTo(disposeBag)
     }

@@ -103,7 +103,7 @@ final class TrackerProxy: Tracker {
     }
 
     func trackEvent(_ event: TrackerEvent) {
-        logMessage(.verbose, type: .Tracking, message: "\(event.actualName) -> \(event.params)")
+        logMessage(.verbose, type: .tracking, message: "\(event.actualName) -> \(event.params)")
         trackers.forEach { $0.trackEvent(event) }
     }
 
@@ -139,9 +139,9 @@ final class TrackerProxy: Tracker {
             switch event {
             case .ChangedPermissions:
                 self?.locationManagerDidChangePermissions()
-            case .LocationUpdate:
+            case .locationUpdate:
                 self?.setLocation(self?.locationManager.currentLocation)
-            case .MovedFarFromSavedManualLocation:
+            case .movedFarFromSavedManualLocation:
                 break
             }
         }.addDisposableTo(disposeBag)
