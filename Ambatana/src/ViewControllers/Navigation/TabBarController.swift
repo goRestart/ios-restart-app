@@ -25,9 +25,9 @@ final class TabBarController: UITabBarController {
     private var floatingSellButton: FloatingButton
     private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
-    private let viewModel: TabBarViewModel
-    private var tooltip: Tooltip?
-    private var featureFlags: FeatureFlaggeable
+    fileprivate let viewModel: TabBarViewModel
+    fileprivate var tooltip: Tooltip?
+    fileprivate var featureFlags: FeatureFlaggeable
     
     // Rx
     private let disposeBag = DisposeBag()
@@ -308,7 +308,7 @@ extension TabBarController {
 
 extension TabBarController: UIGestureRecognizerDelegate {
 
-    private func setupAdminAccess() {
+    fileprivate func setupAdminAccess() {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TabBarController.longPressProfileItem(_:)))
         longPress.delegate = self
         self.tabBar.addGestureRecognizer(longPress)
