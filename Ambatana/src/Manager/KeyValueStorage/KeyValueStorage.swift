@@ -59,8 +59,8 @@ extension DefaultsKeys {
 class KeyValueStorage {
     static let sharedInstance: KeyValueStorage = KeyValueStorage()
 
-    private var storage: KeyValueStorageable
-    private let myUserRepository: MyUserRepository
+    fileprivate var storage: KeyValueStorageable
+    fileprivate let myUserRepository: MyUserRepository
 
 
     // MARK: - Lifecycle
@@ -130,7 +130,7 @@ extension KeyValueStorage {
                 UserDefaultsUser.ratingRemindMeLaterDateDefaultValue as Date?
         }
         set {
-            guard let userProperties = currentUserProperties else { return }
+            guard var userProperties = currentUserProperties else { return }
             userProperties.ratingRemindMeLaterDate = newValue
             currentUserProperties = userProperties
         }

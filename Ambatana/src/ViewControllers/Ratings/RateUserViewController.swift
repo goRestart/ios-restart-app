@@ -117,7 +117,7 @@ class RateUserViewController: BaseViewController {
             self?.publishButton.setTitle(loading ? nil : LGLocalizedString.userRatingReviewButton, for: .normal)
             loading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
         }.addDisposableTo(disposeBag)
-        viewModel.sendEnabled.asObservable().bindTo(publishButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.sendEnabled.asObservable().bindTo(publishButton.rx.isEnabled).addDisposableTo(disposeBag)
 
         viewModel.descriptionCharLimit.asObservable().map { return String($0) }.bindTo(descriptionCharCounter.rx_text)
             .addDisposableTo(disposeBag)

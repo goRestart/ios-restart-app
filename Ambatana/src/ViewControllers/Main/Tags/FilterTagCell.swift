@@ -38,7 +38,7 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(sortOption.name)
         case .Within(let timeOption):
             return FilterTagCell.sizeForText(timeOption.name)
-        case .Category:
+        case .category:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
         case .PriceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
@@ -112,7 +112,7 @@ class FilterTagCell: UICollectionViewCell {
             self.tagLabel.text = sortOption.name
         case .Within(let timeOption):
             self.tagLabel.text = timeOption.name
-        case .Category(let category):
+        case .category(let category):
             self.tagIconWidth.constant = FilterTagCell.iconWidth
             self.tagIcon.image = category.image
         case .PriceRange(let minPrice, let maxPrice, let currency):

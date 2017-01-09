@@ -225,7 +225,7 @@ class ChatViewController: TextViewController {
     }
 
 
-    private func setupRelatedProducts() {
+    fileprivate func setupRelatedProducts() {
         relatedProductsView.setupOnTopOfView(textViewBar)
         relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
         relatedProductsView.delegate = viewModel
@@ -234,30 +234,30 @@ class ChatViewController: TextViewController {
         }.addDisposableTo(disposeBag)
     }
 
-    private func setupDirectAnswers() {
-        directAnswersPresenter.hidden = viewModel.directAnswersState.value != .Visible
+    fileprivate func setupDirectAnswers() {
+        directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.delegate = viewModel
     }
 
-    private func showActivityIndicator(_ show: Bool) {
+    fileprivate func showActivityIndicator(_ show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
 
-    private func showKeyboard(_ show: Bool, animated: Bool) {
+    fileprivate func showKeyboard(_ show: Bool, animated: Bool) {
         if !show { hideStickers() }
         guard viewModel.chatEnabled.value else { return }
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
     }
 
-    private func removeStickersTooltip() {
+    fileprivate func removeStickersTooltip() {
         if let tooltip = stickersTooltip, view.subviews.contains(tooltip) {
             tooltip.removeFromSuperview()
         }
     }
 
-    private func configureBottomMargin(animated: Bool) {
+    fileprivate func configureBottomMargin(animated: Bool) {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
     }
@@ -340,7 +340,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
             guard let `self` = self else { return }
             let origin = change.origin
             let height = change.height
-            let windowFrame = CGRectMake(0, origin, self.view.width, height)
+            let windowFrame = CGRect(x: 0, y: origin, width: self.view.width, height: height)
             let stickersFrame = CGRect(x: 0, y: 0, width: self.view.width, height: height)
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
@@ -427,9 +427,9 @@ extension ChatViewController: ChatBannerDelegate {
 
 // MARK: - Rx config
 
-extension ChatViewController {
+fileprivate extension ChatViewController {
 
-    private func setupRxBindings() {
+    func setupRxBindings() {
         viewModel.chatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: true)
             self?.textView.isUserInteractionEnabled = enabled
@@ -443,7 +443,7 @@ extension ChatViewController {
             case .forbidden, .userPendingDelete, .userDeleted:
                 self?.productView.disableUserProfileInteraction()
                 self?.productView.disableProductInteraction()
-            case .available, .Blocked, .BlockedBy, .productSold:
+            case .available, .blocked, .blockedBy, .productSold:
                 break
             }
             }.addDisposableTo(disposeBag)
@@ -497,7 +497,7 @@ extension ChatViewController {
 
         viewModel.directAnswersState.asObservable().bindNext { [weak self] state in
             guard let strongSelf = self else { return }
-            let visible = state == .Visible
+            let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
             strongSelf.configureBottomMargin(animated: true)
             if strongSelf.featureFlags.newQuickAnswers {

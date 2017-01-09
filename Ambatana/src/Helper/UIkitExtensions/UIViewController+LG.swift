@@ -50,7 +50,7 @@ extension UIViewController {
         return navigationController?.viewControllers[0] == self
     }
 
-    func setLetGoRightButtonWith(_ action: UIAction, disposeBag: DisposeBag, buttonTintColor: UIColor? = nil) -> UIBarButtonItem? {
+    @discardableResult func setLetGoRightButtonWith(_ action: UIAction, disposeBag: DisposeBag, buttonTintColor: UIColor? = nil) -> UIBarButtonItem? {
         let rightItem = UIBarButtonItem()
         rightItem.tintColor = buttonTintColor
         rightItem.style = .plain

@@ -1879,7 +1879,7 @@ class TrackerEventSpec: QuickSpec {
                     product.objectId = "q1w2e3"
 
                     sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory,
-                        editedFields: [.Title, .Category])
+                        editedFields: [.Title, .category])
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())

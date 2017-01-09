@@ -15,12 +15,12 @@ enum FilterCategoryItem: Equatable {
     case free
 
     init(category: ProductCategory) {
-        self = .Category(category: category)
+        self = .category(category: category)
     }
 
     var name: String {
         switch self {
-        case let .Category(category: category):
+        case let .category(category: category):
             return category.name
         case .free:
             return LGLocalizedString.categoriesFree
@@ -29,7 +29,7 @@ enum FilterCategoryItem: Equatable {
 
     var icon: UIImage? {
         switch self {
-        case let .Category(category: category):
+        case let .category(category: category):
             return category.imageSmallInactive
         case .free:
             return UIImage(named: "categories_free_inactive")
@@ -38,7 +38,7 @@ enum FilterCategoryItem: Equatable {
 
     var image: UIImage? {
         switch self {
-        case let .Category(category: category):
+        case let .category(category: category):
             return category.image
         case .free:
             return UIImage(named: "categories_free")
@@ -48,7 +48,7 @@ enum FilterCategoryItem: Equatable {
 
 func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
     switch (a, b) {
-    case (.Category(let catA), .Category(let catB)) where catA.rawValue == catB.rawValue: return true
+    case (.category(let catA), .category(let catB)) where catA.rawValue == catB.rawValue: return true
     case (.free, .free): return true
     default: return false
     }
@@ -252,7 +252,7 @@ class FiltersViewModel: BaseViewModel {
                 productFilter.priceRange = .freePrice
             }
             sections = generateSections()
-        case .Category(let cat):
+        case .category(let cat):
             productFilter.toggleCategory(cat)
         }
         self.delegate?.vmDidUpdate()
@@ -276,7 +276,7 @@ class FiltersViewModel: BaseViewModel {
         switch category {
         case .free:
             return productFilter.priceRange.free ? UIColor.redText : UIColor.blackText
-        case .Category(let cat):
+        case .category(let cat):
             return productFilter.hasSelectedCategory(cat) ? UIColor.redText : UIColor.blackText
         }
     }
@@ -287,7 +287,7 @@ class FiltersViewModel: BaseViewModel {
         switch category {
         case .free:
             return productFilter.priceRange.free
-        case .Category(let cat):
+        case .category(let cat):
             return productFilter.selectedCategories.contains(cat)
         }
     }

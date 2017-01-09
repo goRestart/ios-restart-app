@@ -159,7 +159,7 @@ struct TrackerEvent {
                 categoryIds.append(String(category.rawValue))
             }
         }
-        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+        params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
 
         // Search query
         if let actualSearchQuery = searchQuery {
@@ -220,7 +220,7 @@ struct TrackerEvent {
                 categoryIds.append(String(category.rawValue))
             }
         }
-        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+        params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
 
         // Sorting
         if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {
@@ -355,7 +355,7 @@ struct TrackerEvent {
             }
             params[.ProductPrice] = product.price.value
             params[.ProductCurrency] = product.currency.code
-            params[.CategoryId] = product.category.rawValue
+            params[.categoryId] = product.category.rawValue
             params[.FreePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
             return TrackerEvent(name: .ProductMarkAsSold, params: params)
     }
@@ -367,7 +367,7 @@ struct TrackerEvent {
         }
         params[.ProductPrice] = product.price.value
         params[.ProductCurrency] = product.currency.code
-        params[.CategoryId] = product.category.rawValue
+        params[.categoryId] = product.category.rawValue
         return TrackerEvent(name: .ProductMarkAsUnsold, params: params)
     }
 
@@ -401,7 +401,7 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.FreePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
         params[.ProductId] = product.objectId? ?? ""
-        params[.CategoryId] = product.category.rawValue
+        params[.categoryId] = product.category.rawValue
         params[.ProductName] = product.name? ?? ""
         params[.NumberPhotosPosting] = product.images.count
         params[.SellButtonPosition] = sellButtonPosition?.rawValue
@@ -529,7 +529,7 @@ struct TrackerEvent {
             var params = EventParameters()
             // Product
             params[.ProductId] = product.objectId
-            params[.CategoryId] = category?.rawValue? ?? 0
+            params[.categoryId] = category?.rawValue? ?? 0
             params[.EditedFields] = editedFields.map({$0.rawValue}).joined(separator: ",")
 
             return TrackerEvent(name: .ProductEditComplete, params: params)

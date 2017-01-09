@@ -36,14 +36,14 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var addressTopText: UILabel!
     @IBOutlet weak var addressBottomText: UILabel!
 
-    private static let suggestionCellId = "suggestionCell"
-    private static let suggestionCellHeight: CGFloat = 44
+    fileprivate static let suggestionCellId = "suggestionCell"
+    fileprivate static let suggestionCellHeight: CGFloat = 44
 
-    private let viewModel: EditLocationViewModel
+    fileprivate let viewModel: EditLocationViewModel
     private let disposeBag = DisposeBag()
 
     private var mapCentered: Bool = false
-    private var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
+    fileprivate var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
 
 
     // MARK: - Lifecycle
@@ -183,8 +183,9 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     private func setupSearchRx() {
         //When search field is active and user types, forward to viewModel
-        searchField.rx_text.subscribeNext{ [weak self] text in
-            guard let searchField = self?.searchField, searchField.isFirstResponder() else { return }
+        searchField.rx.text.subscribeNext{ [weak self] text in
+            guard let searchField = self?.searchField, searchField.isFirstResponder else { return }
+            guard let text = text else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
             }.addDisposableTo(disposeBag)
 
@@ -196,7 +197,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupInfoViewsRx() {
-        viewModel.placeInfoText.asObservable().bindTo(searchField.rx_text).addDisposableTo(disposeBag)
+        viewModel.placeInfoText.asObservable().bindTo(searchField.rx.text).addDisposableTo(disposeBag)
         //When approx location changes show/hide views accordingly
         viewModel.approxLocation.asObservable().subscribeNext { [weak self] approximate in
             self?.poiImage.isHidden = approximate
@@ -205,8 +206,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupApproxLocationRx() {
-        viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx_value).addDisposableTo(disposeBag)
-        approximateLocationSwitch.rx_value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
+        viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx.value).addDisposableTo(disposeBag)
+        approximateLocationSwitch.rx.value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
         //Each time approxLocation value changes, map must zoom-in/out map accordingly
         viewModel.approxLocation.asObservable().subscribeNext{ [weak self] approximate in
             guard let location = self?.viewModel.placeLocation.value else { return }
@@ -240,7 +241,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             }
             }.addDisposableTo(disposeBag)
 
-        viewModel.setLocationEnabled.asObservable().bindTo(setLocationButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.setLocationEnabled.asObservable().bindTo(setLocationButton.rx.isEnabled).addDisposableTo(disposeBag)
     }
 
     private func centerMapInLocation(_ coordinate: CLLocationCoordinate2D) {

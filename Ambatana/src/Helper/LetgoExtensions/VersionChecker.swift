@@ -41,7 +41,7 @@ class VersionChecker {
     convenience init() {
         let currentVersion: AppVersion
         #if GOD_MODE
-            currentVersion = VersionChecker.godModeVersion ?? NSBundle.mainBundle()
+            currentVersion = VersionChecker.godModeVersion ?? Bundle.main
         #else
             currentVersion = Bundle.main
         #endif

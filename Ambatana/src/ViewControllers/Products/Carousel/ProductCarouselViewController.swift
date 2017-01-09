@@ -64,79 +64,79 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var interestedBubbleContainer: UIView!
     @IBOutlet weak var interestedBubbleContainerBottomConstraint: NSLayoutConstraint!
 
-    private let userView: UserView
-    private let fullScreenAvatarEffectView: UIVisualEffectView
-    private let fullScreenAvatarView: UIImageView
-    private var fullScreenAvatarWidth: NSLayoutConstraint?
-    private var fullScreenAvatarHeight: NSLayoutConstraint?
-    private var fullScreenAvatarTop: NSLayoutConstraint?
-    private var fullScreenAvatarLeft: NSLayoutConstraint?
-    private let viewModel: ProductCarouselViewModel
-    private let disposeBag: DisposeBag = DisposeBag()
-    private var currentIndex = 0
-    private var userViewBottomConstraint: NSLayoutConstraint?
-    private var userViewRightConstraint: NSLayoutConstraint?
+    fileprivate let userView: UserView
+    fileprivate let fullScreenAvatarEffectView: UIVisualEffectView
+    fileprivate let fullScreenAvatarView: UIImageView
+    fileprivate var fullScreenAvatarWidth: NSLayoutConstraint?
+    fileprivate var fullScreenAvatarHeight: NSLayoutConstraint?
+    fileprivate var fullScreenAvatarTop: NSLayoutConstraint?
+    fileprivate var fullScreenAvatarLeft: NSLayoutConstraint?
+    fileprivate let viewModel: ProductCarouselViewModel
+    fileprivate let disposeBag: DisposeBag = DisposeBag()
+    fileprivate var currentIndex = 0
+    fileprivate var userViewBottomConstraint: NSLayoutConstraint?
+    fileprivate var userViewRightConstraint: NSLayoutConstraint?
 
-    private var userViewRightMargin: CGFloat = CarouselUI.itemsMargin {
+    fileprivate var userViewRightMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             userViewRightConstraint?.constant = -userViewRightMargin
         }
     }
-    private var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
+    fileprivate var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
         didSet {
             buttonBottomTrailingConstraint?.constant = buttonsRightMargin
-            if !chatTextView.isFirstResponder() {
+            if !chatTextView.isFirstResponder {
                 chatContainerTrailingConstraint?.constant = buttonsRightMargin
             }
         }
     }
-    private var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
+    fileprivate var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             chatContainerBottomConstraint?.constant = bottomItemsMargin
             stickersButtonBottomConstraint?.constant = bottomItemsMargin
         }
     }
-    private var interestedBubbleBottom: CGFloat = -CarouselUI.interestedBubbleHeight {
+    fileprivate var interestedBubbleBottom: CGFloat = -CarouselUI.interestedBubbleHeight {
         didSet {
             interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
         }
     }
-    private var contentBottomMargin: CGFloat = 0 {
+    fileprivate var contentBottomMargin: CGFloat = 0 {
         didSet {
             interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
         }
     }
 
-    private let pageControl: UIPageControl
-    private var moreInfoTooltip: Tooltip?
+    fileprivate let pageControl: UIPageControl
+    fileprivate var moreInfoTooltip: Tooltip?
 
-    private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
-    private let cellZooming = Variable<Bool>(false)
+    fileprivate let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
+    fileprivate let cellZooming = Variable<Bool>(false)
 
-    private var activeDisposeBag = DisposeBag()
+    fileprivate var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
 
-    private var productOnboardingView: ProductDetailOnboardingView?
-    private var didSetupAfterLayout = false
+    fileprivate var productOnboardingView: ProductDetailOnboardingView?
+    fileprivate var didSetupAfterLayout = false
     
-    private var moreInfoView: ProductCarouselMoreInfoView?
-    private let moreInfoAlpha = Variable<CGFloat>(1)
-    private let moreInfoState = Variable<MoreInfoState>(.hidden)
+    fileprivate var moreInfoView: ProductCarouselMoreInfoView?
+    fileprivate let moreInfoAlpha = Variable<CGFloat>(1)
+    fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
 
-    private let chatTextView = ChatTextView()
+    fileprivate let chatTextView = ChatTextView()
 
-    private var interestedBubble = InterestedBubble()
-    private var interestedBubbleIsVisible: Bool = false
-    private var interestedBubbleTimer: Timer = Timer()
+    fileprivate var interestedBubble = InterestedBubble()
+    fileprivate var interestedBubbleIsVisible: Bool = false
+    fileprivate var interestedBubbleTimer: Timer = Timer()
 
-    private var expandableButtonsView: ExpandableButtonsView?
+    fileprivate var expandableButtonsView: ExpandableButtonsView?
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
-    private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
+    fileprivate let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
     
-    private let featureFlags: FeatureFlaggeable
+    fileprivate let featureFlags: FeatureFlaggeable
 
     // MARK: - Lifecycle
 
@@ -417,23 +417,23 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         let alphaSignal: Observable<CGFloat> = collectionContentOffset.asObservable()
             .map {
-                let midValue = fabs($0.x % width - midPoint)
+                let midValue = fabs($0.x.truncatingRemainder(dividingBy: width) - midPoint)
                 if midValue <= minMargin { return 0 }
                 if midValue >= (midPoint-minMargin) { return 1}
                 let newValue = (midValue - minMargin) / (midPoint - minMargin*2)
                 return newValue
         }
 
-        alphaSignal.bindTo(buttonBottom.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(userView.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(buttonBottom.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(moreInfoAlpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(editButton.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(chatContainer.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(stickersButton.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(editButton.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
 
         if let expandableButtonsView = expandableButtonsView {
             // Hide fav button if expandable buttons view is expanded, otherwise depend on reversed alpha
@@ -441,16 +441,16 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                                      resultSelector: { (expanded, alpha) -> CGFloat in
                                         let hideFav = expanded ? 0 : alpha
                 return hideFav
-            }).bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
+            }).bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
 
             // If expanded & we start to fade out the hide expandable buttons view
             Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal, resultSelector: { (expanded, alpha) -> Bool in
                 return expanded && alpha < 1
-            }).filter { $0 == true }.subscribeNext({ [weak self] _ in
+            }).filter { $0 == true }.subscribeNext(onNext: { [weak self] _ in
                 self?.expandableButtonsView?.switchExpanded(animated: true)
             }).addDisposableTo(disposeBag)
         } else {
-            alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
+            alphaSignal.bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
         }
 
         alphaSignal.bindNext{ [weak self] alpha in
@@ -458,7 +458,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         }.addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
-            alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
+            alphaSignal.bindTo(navBar.rx.alpha).addDisposableTo(disposeBag)
         }
         
         var indexSignal: Observable<Int> = collectionContentOffset.asObservable().map { Int(($0.x + midPoint) / width) }
@@ -475,17 +475,17 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                     movement = pendingMovement
                     strongSelf.pendingMovement = nil
                 } else if index > strongSelf.currentIndex {
-                    movement = .SwipeRight
+                    movement = .swipeRight
                 } else if index < strongSelf.currentIndex {
-                    movement = .SwipeLeft
+                    movement = .swipeLeft
                 } else {
-                    movement = .Initial
+                    movement = .initial
                 }
-                if movement != .Initial {
+                if movement != .initial {
                     self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
                 }
                 self?.refreshOverlayElements()
-                if movement == .Tap {
+                if movement == .tap {
                     self?.finishedTransition()
                 }
                 strongSelf.currentIndex = index
@@ -506,7 +506,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
 extension ProductCarouselViewController {
 
-    private func refreshOverlayElements() {
+    fileprivate func refreshOverlayElements() {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         activeDisposeBag = DisposeBag()
         setupUserView(viewModel)
@@ -524,7 +524,7 @@ extension ProductCarouselViewController {
         refreshExpandableButtonsView(viewModel)
     }
 
-    private func finishedTransition() {
+    fileprivate func finishedTransition() {
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
         updateMoreInfo()
     }
@@ -534,8 +534,8 @@ extension ProductCarouselViewController {
             moreInfoView = ProductCarouselMoreInfoView.moreInfoView()
             if let moreInfoView = moreInfoView {
                 view.addSubview(moreInfoView)
-                moreInfoAlpha.asObservable().bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
-                moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx_alpha).addDisposableTo(disposeBag)
+                moreInfoAlpha.asObservable().bindTo(moreInfoView.rx.alpha).addDisposableTo(disposeBag)
+                moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
             }
             view.bringSubview(toFront: buttonBottom)
             view.bringSubview(toFront: stickersButton)
@@ -551,13 +551,13 @@ extension ProductCarouselViewController {
         moreInfoView?.frame.origin.y = -view.bounds.height
     }
 
-    private func updateMoreInfo() {
+    fileprivate func updateMoreInfo() {
         guard let currentPVM = viewModel.currentProductViewModel else { return }
         moreInfoView?.setViewModel(currentPVM)
         moreInfoState.asObservable().bindTo(currentPVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
-    private func setupUserView(_ viewModel: ProductViewModel) {
+    fileprivate func setupUserView(_ viewModel: ProductViewModel) {
         userView.setupWith(userAvatar: viewModel.ownerAvatar,
                            userName: viewModel.ownerName,
                            productTitle: viewModel.productTitle.value,
@@ -565,7 +565,7 @@ extension ProductCarouselViewController {
                            userId: viewModel.ownerId)
     }
 
-    private func setupFullScreenAvatarView(_ viewModel: ProductViewModel) {
+    fileprivate func setupFullScreenAvatarView(_ viewModel: ProductViewModel) {
         fullScreenAvatarView.alpha = 0
         fullScreenAvatarView.image = viewModel.ownerAvatarPlaceholder
         if let avatar = viewModel.ownerAvatar {
@@ -576,14 +576,14 @@ extension ProductCarouselViewController {
         }
     }
 
-    private func setupRxNavbarBindings(_ viewModel: ProductViewModel) {
+    fileprivate func setupRxNavbarBindings(_ viewModel: ProductViewModel) {
         setNavigationBarRightButtons([])
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
 
             if navBarButtons.count == 1 {
                 switch navBarButtons[0].interface {
-                case .TextImage:
+                case .textImage:
                     strongSelf.setNavigationBarRightButtonSharing(navBarButtons[0])
                 default:
                     strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.activeDisposeBag,
@@ -685,7 +685,7 @@ extension ProductCarouselViewController {
         }.addDisposableTo(activeDisposeBag)
     }
 
-    private func refreshProductOnboarding(_ viewModel: ProductViewModel) {
+    fileprivate func refreshProductOnboarding(_ viewModel: ProductViewModel) {
         guard  let navigationCtrlView = navigationController?.view ?? view else { return }
         guard self.viewModel.shouldShowOnboarding else { return }
         // if state is nil, means there's no need to show the onboarding
@@ -709,7 +709,7 @@ extension ProductCarouselViewController {
         viewModel.productStatusLabelText
             .asObservable()
             .map{$0 ?? ""}
-            .bindTo(productStatusLabel.rx_text)
+            .bindTo(productStatusLabel.rx.text)
             .addDisposableTo(activeDisposeBag)
     }
     
@@ -736,7 +736,7 @@ extension ProductCarouselViewController {
             }.addDisposableTo(activeDisposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
-            self?.directChatTable.handleCollectionChange(change, animation: .Top)
+            self?.directChatTable.handleCollectionChange(change, animation: .top)
             }.addDisposableTo(activeDisposeBag)
         directChatTable.reloadData()
     }
@@ -841,7 +841,7 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
     func didTapOnCarouselCell(_ cell: UICollectionViewCell) {
-        guard !chatTextView.isFirstResponder() else {
+        guard !chatTextView.isFirstResponder else {
             chatTextView.resignFirstResponder()
             return
         }
@@ -867,7 +867,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
         guard let moreInfoView = moreInfoView, moreInfoState.value != .shown && !cellZooming.value else { return }
         if moreInfoView.frame.origin.y-offset > -view.frame.height {
-            moreInfoState.value = .Moving
+            moreInfoState.value = .moving
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
         } else {
             moreInfoState.value = .hidden
@@ -932,7 +932,7 @@ extension ProductCarouselViewController {
     }
     
     @IBAction func showMoreInfo() {
-        guard moreInfoState.value == .hidden || moreInfoState.value == .Moving else { return }
+        guard moreInfoState.value == .hidden || moreInfoState.value == .moving else { return }
 
         moreInfoView?.viewWillShow()
         chatTextView.resignFirstResponder()
@@ -946,7 +946,7 @@ extension ProductCarouselViewController {
     }
 
     func hideMoreInfo() {
-        guard moreInfoState.value == .shown || moreInfoState.value == .Moving else { return }
+        guard moreInfoState.value == .shown || moreInfoState.value == .moving else { return }
 
         moreInfoState.value = .hidden
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
@@ -994,7 +994,7 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
 
 extension ProductCarouselViewController {
     
-    private func setupMoreInfoTooltip() {
+    fileprivate func setupMoreInfoTooltip() {
         guard viewModel.shouldShowMoreInfoTooltip else { return }
         guard let moreInfoView = moreInfoView else { return }
         let tooltipText = CarouselUIHelper.buildMoreInfoTooltipText()
@@ -1006,7 +1006,7 @@ extension ProductCarouselViewController {
         self.moreInfoTooltip = moreInfoTooltip
     }
     
-    private func removeMoreInfoTooltip() {
+    fileprivate func removeMoreInfoTooltip() {
         moreInfoTooltip?.removeFromSuperview()
         moreInfoTooltip = nil
     }
@@ -1167,6 +1167,7 @@ extension ProductCarouselViewController {
 // MARK: > Product View Model Delegate
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
+    
     func vmShowShareFromMain(_ socialMessage: SocialMessage) {
         switch featureFlags.productDetailShareMode {
         case .Native:
@@ -1206,7 +1207,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
 
     func vmAskForRating() {
         guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
-        tabBarCtrl.showAppRatingViewIfNeeded(.MarkedSold)
+        tabBarCtrl.showAppRatingViewIfNeeded(.markedSold)
     }
     
     func vmShowOnboarding() {
@@ -1266,8 +1267,8 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
 
 // MARK: - Accessibility ids
 
-extension ProductCarouselViewController {
-    private func setAccessibilityIds() {
+fileprivate extension ProductCarouselViewController {
+    func setAccessibilityIds() {
         collectionView.accessibilityId = .productCarouselCollectionView
         buttonBottom.accessibilityId = .productCarouselButtonBottom
         buttonTop.accessibilityId = .productCarouselButtonTop

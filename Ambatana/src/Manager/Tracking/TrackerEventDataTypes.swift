@@ -669,7 +669,7 @@ struct EventParameters {
         params[.ProductLongitude] = product.location.longitude
         params[.ProductPrice] = product.price.value
         params[.ProductCurrency] = product.currency.code
-        params[.CategoryId] = product.category.rawValue
+        params[.categoryId] = product.category.rawValue
         params[.ProductType] = product.user.isDummy ?
             EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
         params[.UserToId] = product.user.objectId

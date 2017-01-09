@@ -302,7 +302,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         }.addDisposableTo(disposeBag)
     }
 
-    private func updateProductView() {
+    fileprivate func updateProductView() {
         productView.delegate = self
         productView.userName.text = viewModel.otherUserName
         productView.productName.text = viewModel.productName
@@ -388,7 +388,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     
     // MARK: > Rating
     
-    private func askForRating() {
+    fileprivate func askForRating() {
         let delay = Int64(1.0 * Double(NSEC_PER_SEC))
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)) { [weak self] in
             self?.showKeyboard(false, animated: true)
@@ -706,7 +706,7 @@ extension OldChatViewController: ChatProductViewDelegate {
 
 // MARK: - Stickers
 
-fileprivate extension OldChatViewController: UIGestureRecognizerDelegate {
+extension OldChatViewController: UIGestureRecognizerDelegate {
     
     func vmDidUpdateStickers() {
         stickersView.reloadStickers(viewModel.stickers)
@@ -745,7 +745,7 @@ fileprivate extension OldChatViewController: UIGestureRecognizerDelegate {
             guard let `self` = self else { return }
             let origin = change.origin
             let height = change.height
-            let windowFrame = CGRectMake(0, origin, self.view.width, height)
+            let windowFrame = CGRect(x:0, y: origin, width: self.view.width, height: height)
             let stickersFrame = CGRect(x: 0, y: 0, width: self.view.width, height: height)
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
@@ -804,7 +804,7 @@ extension OldChatViewController: ChatStickersViewDelegate {
 extension OldChatViewController {
     func setupSendingRx() {
         let sendActionsEnabled = viewModel.isSendingMessage.asObservable().map { !$0 }
-        sendActionsEnabled.bindTo(sendButton.rx_enabled).addDisposableTo(disposeBag)
+        sendActionsEnabled.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
         sendActionsEnabled.bindNext { [weak self] enabled in
             self?.stickersView.enabled = enabled
             self?.directAnswersPresenter.enabled = enabled

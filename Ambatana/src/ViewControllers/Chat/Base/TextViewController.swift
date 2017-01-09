@@ -56,8 +56,8 @@ class TextViewController: KeyboardViewController {
         }
     }
 
-    private static let animationTime: TimeInterval = 0.2
-    private static var keyTextCache = [String : String]()
+    fileprivate static let animationTime: TimeInterval = 0.2
+    fileprivate static var keyTextCache = [String : String]()
 
     fileprivate let maxTextViewBarHeight: CGFloat = 1000
     fileprivate let textViewInsets: CGFloat = 7
@@ -248,22 +248,24 @@ extension TextViewController: UITextViewDelegate {
     }
 
     private func setupTextAreaRx() {
-        let emptyText = textView.rx_text.map { $0.trim.isEmpty }
-        emptyText.bindTo(sendButton.rx.isHidden).addDisposableTo(disposeBag)
-        emptyText.bindNext { [weak self] empty in
-            guard let strongSelf = self, let margin = self?.viewMargins else { return }
-            let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
-            guard strongSelf.textViewRightConstraint.constant != rightConstraint else { return }
-            self?.textViewRightConstraint.constant = rightConstraint
-            UIView.animateWithDuration(TextViewController.animationTime, delay: 0, options: [.BeginFromCurrentState],
-                animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
-        }.addDisposableTo(disposeBag)
+        let text = textView.rx.text.map { $0?.trim.isEmpty }
+        if let emptyText = text {
+            emptyText.bindTo(sendButton.rx.isHidden).addDisposableTo(disposeBag)
+            emptyText.bindNext { [weak self] empty in
+                guard let strongSelf = self, let margin = self?.viewMargins else { return }
+                let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
+                guard strongSelf.textViewRightConstraint.constant != rightConstraint else { return }
+                self?.textViewRightConstraint.constant = rightConstraint
+                UIView.animate(withDuration: TextViewController.animationTime, delay: 0, options: [.beginFromCurrentState],
+                               animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
+                }.addDisposableTo(disposeBag)
+        }
 
-        textView.rx_text.bindNext { [weak self] text in
+        textView.rx.text.bindNext { [weak self] text in
             self?.fitTextView()
         }.addDisposableTo(disposeBag)
 
-        textView.rx_text.skip(1).bindNext { [weak self] text in
+        textView.rx.text.skip(1).bindNext { [weak self] text in
             guard let keyTextCache = self?.keyForTextCaching() else { return }
             TextViewController.keyTextCache[keyTextCache] = text
         }.addDisposableTo(disposeBag)
@@ -284,7 +286,7 @@ extension TextViewController: UITextViewDelegate {
             if let tint = action.imageTint {
                 button.tintColor = tint
             }
-            button.rx.tap.subscribeNext(action.action).addDisposableTo(leftActionsDisposeBag)
+            button.rx.tap.subscribeNext(onNext: action.action).addDisposableTo(leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
             button.setHeightConstraint(buttonDiameter)
@@ -303,7 +305,7 @@ extension TextViewController: UITextViewDelegate {
         textViewBar.layoutIfNeeded()
     }
 
-    private func fitTextView() {
+    fileprivate func fitTextView() {
         let appropriateHeight = textView.appropriateHeight(textMaxLines)
         guard textViewHeight.constant != appropriateHeight else { return }
         textViewHeight.constant = appropriateHeight
