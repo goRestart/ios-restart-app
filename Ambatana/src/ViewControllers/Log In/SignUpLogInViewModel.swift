@@ -361,7 +361,7 @@ class SignUpLogInViewModel: BaseViewModel {
     private func processLoginSessionError(_ error: SessionManagerError) {
         let message: String
         switch (error) {
-        case .network:
+        case .Network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
@@ -382,7 +382,7 @@ class SignUpLogInViewModel: BaseViewModel {
     private func processSignUpSessionError(_ error: SessionManagerError) {
         let message: String
         switch (error) {
-        case .network:
+        case .Network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .BadRequest(let cause):
             switch cause {
@@ -422,8 +422,8 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func eventParameterForSessionError(_ error: SessionManagerError) -> EventParameterLoginError {
         switch (error) {
-        case .network:
-            return .network
+        case .Network:
+            return .Network
         case .BadRequest(let cause):
             switch cause {
             case .NonAcceptableParams:

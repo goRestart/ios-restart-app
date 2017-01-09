@@ -158,7 +158,7 @@ fileprivate extension TabCoordinator {
             } else if let error = result.error {
                 let message: String
                 switch error {
-                case .network:
+                case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonProductNotAvailable
@@ -249,7 +249,7 @@ fileprivate extension TabCoordinator {
             } else if let error = result.error {
                 let message: String
                 switch error {
-                case .network:
+                case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonUserNotAvailable
@@ -346,7 +346,7 @@ fileprivate extension TabCoordinator {
     func showChatRetrieveError(_ error: RepositoryError) {
         let message: String
         switch error {
-        case .network:
+        case .Network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
             message = LGLocalizedString.commonChatNotAvailable

@@ -445,7 +445,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         var errorString: String? = nil
         if hasProducts && page > 0 {
             switch error {
-            case .network:
+            case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
             case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                 errorString = LGLocalizedString.toastErrorInternal

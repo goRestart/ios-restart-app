@@ -231,7 +231,7 @@ fileprivate extension AppDelegate {
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.currentPageIndicatorTintColor
     }
 
-    func setupLibraries(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func setupLibraries(_ application: UIApplication, launchOptions: [AnyHashable: Any]?) {
         
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
@@ -258,7 +258,7 @@ fileprivate extension AppDelegate {
         
         // Fabric
         Twitter.sharedInstance().start(withConsumerKey: EnvironmentProxy.sharedInstance.twitterConsumerKey,
-                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
+                                                      consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
         #if DEBUG
             Fabric.with([Twitter.self])
         #else

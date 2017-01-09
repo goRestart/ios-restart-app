@@ -68,7 +68,7 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
             } else if let error = result.error {
                 let message: String
                 switch error {
-                case .network:
+                case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.passiveBuyersNotAvailable

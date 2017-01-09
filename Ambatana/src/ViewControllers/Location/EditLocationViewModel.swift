@@ -95,7 +95,7 @@ class EditLocationViewModel: BaseViewModel {
         self.tracker = tracker
 
         self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
-            (mode == .editUserLocation || mode == .editProductLocation))
+            (mode == .EditUserLocation || mode == .editProductLocation))
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()

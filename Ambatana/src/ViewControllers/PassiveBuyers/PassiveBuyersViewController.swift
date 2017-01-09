@@ -11,7 +11,7 @@ import RxSwift
 
 class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDelegate {
 
-    private static let headerTopMargin: CGFloat = 64
+    fileprivate static let headerTopMargin: CGFloat = 64
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topContainer: UIView!
@@ -19,14 +19,14 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
     @IBOutlet weak var contactButton: UIButton!
 
     private let header = UIView()
-    private var headerTopMarginConstraint = NSLayoutConstraint()
-    private let productImage = UIImageView()
-    private let titleLabel = UILabel()
-    private let messageLabel = UILabel()
+    fileprivate var headerTopMarginConstraint = NSLayoutConstraint()
+    fileprivate let productImage = UIImageView()
+    fileprivate let titleLabel = UILabel()
+    fileprivate let messageLabel = UILabel()
 
-    private let viewModel: PassiveBuyersViewModel
+    fileprivate let viewModel: PassiveBuyersViewModel
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - View Lifecycle
@@ -134,7 +134,7 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
 // MARK: - UITableView
 
 extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSource {
-    private func setupTable() {
+    fileprivate func setupTable() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = PassiveBuyerCell.cellHeight

@@ -37,7 +37,7 @@ class MainTabCoordinator: TabCoordinator {
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchType: .user(query: query), filters: filters)
+        let viewModel = MainProductsViewModel(searchType: .User(query: query), filters: filters)
         viewModel.navigator = self
         let vc = MainProductsViewController(viewModel: viewModel)
 
@@ -59,7 +59,7 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func showFilters(with productFilters: ProductFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        let vm = FiltersViewModel(currentFilters: productFilters)
+        let vm = FiltersViewModel(currentFilters: productFilters ?? ProductFilters())
         vm.dataDelegate = filtersVMDataDelegate
         let vc = FiltersViewController(viewModel: vm)
         let navVC = UINavigationController(rootViewController: vc)
