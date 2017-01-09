@@ -95,7 +95,7 @@ class EditLocationViewModel: BaseViewModel {
         self.tracker = tracker
 
         self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
-            (mode == .EditUserLocation || mode == .editProductLocation))
+            (mode == .editUserLocation || mode == .editProductLocation))
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -172,7 +172,7 @@ class EditLocationViewModel: BaseViewModel {
             } else {
                 guard let myUser =  myUserRepository.myUser, let location = myUser.location else { return }
                 let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
-                setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+                setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = false
         case .selectLocation:
@@ -182,7 +182,7 @@ class EditLocationViewModel: BaseViewModel {
                 guard let location = locationManager.currentLocation, let postalAddress = locationManager.currentPostalAddress
                     else { return }
                 let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
-                setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+                setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = true
         case .editProductLocation:
@@ -247,7 +247,7 @@ class EditLocationViewModel: BaseViewModel {
         userMovedLocation.asObservable()
             .subscribeNext { [weak self] coordinates in
                 guard let coordinates = coordinates else { return }
-                DispatchQueue.main.asynchronously(DispatchQueue.main) {
+                DispatchQueue.main.async {
                     self?.locationToFetch.value = (coordinates, false)
                 }
             }
@@ -349,7 +349,8 @@ extension PostalAddressRetrievalService {
         return Observable.create({ observer -> Disposable in
             guard let location = location else {
                 observer.onError(PostalAddressRetrievalServiceError.internalError)
-                return AnonymousDisposable({})
+                // Change how to return anonymousDisposable http://stackoverflow.com/questions/40936295/what-is-the-rxswift-3-0-equivalent-to-anonymousdisposable-from-rxswift-2-x
+                return Disposables.create()
             }
             self.retrieveAddressForLocation(LGLocationCoordinates2D(latitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude)) {
@@ -362,7 +363,7 @@ extension PostalAddressRetrievalService {
                 observer.onNext(resolvedPlace, fromGps)
                 observer.onCompleted()
             }
-            return AnonymousDisposable({})
+            return Disposables.create()
         })
     }
 }

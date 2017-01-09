@@ -12,7 +12,7 @@ class DiscoverProductListRequester {
 
     let itemsPerPage: Int
     private let productObjectId: String
-    private let productRepository: ProductRepository
+    fileprivate let productRepository: ProductRepository
     private var offset: Int = 0
 
     convenience init(productId: String, itemsPerPage: Int) {

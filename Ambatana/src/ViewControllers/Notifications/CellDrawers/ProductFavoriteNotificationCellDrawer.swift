@@ -13,7 +13,7 @@ class ProductFavoriteNotificationCellDrawer: BaseNotificationCellDrawer<Notifica
     override func draw(_ cell: NotificationCell, data: NotificationData) {
 
         switch data.type {
-        case let .ProductFavorite(product, user):
+        case let .productFavorite(product, user):
             let userName = user.name
             if let productTitle = product.title, !productTitle.isEmpty {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWNameWTitle(userName ?? "", productTitle)

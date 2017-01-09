@@ -52,16 +52,16 @@ class MainProductsViewModel: BaseViewModel {
         
         var resultTags : [FilterTag] = []
         for prodCat in filters.selectedCategories {
-            resultTags.append(.Category(prodCat))
+            resultTags.append(.category(prodCat))
         }
         if let place = filters.place {
-            resultTags.append(.Location(place))
+            resultTags.append(.location(place))
         }
         if filters.selectedWithin != ProductTimeCriteria.defaultOption {
-            resultTags.append(.Within(filters.selectedWithin))
+            resultTags.append(.within(filters.selectedWithin))
         }
         if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ProductSortCriteria.defaultOption {
-            resultTags.append(.OrderBy(selectedOrdering))
+            resultTags.append(.orderBy(selectedOrdering))
         }
 
         switch filters.priceRange {
@@ -73,7 +73,7 @@ class MainProductsViewModel: BaseViewModel {
                 if let countryCode = locationManager.currentPostalAddress?.countryCode {
                     currency = currencyHelper.currencyWithCountryCode(countryCode)
                 }
-                resultTags.append(.PriceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
+                resultTags.append(.priceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
             }
         }
         
@@ -91,21 +91,21 @@ class MainProductsViewModel: BaseViewModel {
     let mainProductsHeader = Variable<MainProductsHeader>([])
 
     // Manager & repositories
-    private let sessionManager: SessionManager
-    private let myUserRepository: MyUserRepository
-    private let trendingSearchesRepository: TrendingSearchesRepository
-    private let locationManager: LocationManager
-    private let currencyHelper: CurrencyHelper
+    fileprivate let sessionManager: SessionManager
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let trendingSearchesRepository: TrendingSearchesRepository
+    fileprivate let locationManager: LocationManager
+    fileprivate let currencyHelper: CurrencyHelper
 
-    private let tracker: Tracker
-    private let searchType: SearchType? // The initial search
+    fileprivate let tracker: Tracker
+    fileprivate let searchType: SearchType? // The initial search
     private let generalCollectionsShuffled: [CollectionCellType]
-    private var collections: [CollectionCellType] {
+    fileprivate var collections: [CollectionCellType] {
         guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollectionsShuffled }
         return [.You] + generalCollectionsShuffled
     }
-    private let keyValueStorage: KeyValueStorageable
-    private let featureFlags: FeatureFlaggeable
+    fileprivate let keyValueStorage: KeyValueStorageable
+    fileprivate let featureFlags: FeatureFlaggeable
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -115,19 +115,19 @@ class MainProductsViewModel: BaseViewModel {
     
     // List VM
     let listViewModel: ProductListViewModel
-    private let productListRequester: FilteredProductListRequester
+    fileprivate let productListRequester: FilteredProductListRequester
     var currentActiveFilters: ProductFilters? {
         return productListRequester.filters
     }
     var userActiveFilters: ProductFilters? {
         return filters
     }
-    private var shouldRetryLoad = false
-    private var lastReceivedLocation: LGLocation?
-    private var bubbleDistance: Float = 1
+    fileprivate var shouldRetryLoad = false
+    fileprivate var lastReceivedLocation: LGLocation?
+    fileprivate var bubbleDistance: Float = 1
 
     // Search tracking state
-    private var shouldTrackSearch = false
+    fileprivate var shouldTrackSearch = false
 
     // Suggestion searches
     let minimumSearchesSavedToShowCollection = 3
@@ -142,7 +142,7 @@ class MainProductsViewModel: BaseViewModel {
         return trendingSearches.value.count
     }
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
@@ -254,15 +254,15 @@ class MainProductsViewModel: BaseViewModel {
 
         for filterTag in tags {
             switch filterTag {
-            case .Location(let thePlace):
+            case .location(let thePlace):
                 place = thePlace
-            case .Category(let prodCategory):
+            case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
-            case .OrderBy(let prodSortOption):
+            case .orderBy(let prodSortOption):
                 orderBy = prodSortOption
-            case .Within(let prodTimeOption):
+            case .within(let prodTimeOption):
                 within = prodTimeOption
-            case .PriceRange(let minPriceOption, let maxPriceOption, _):
+            case .priceRange(let minPriceOption, let maxPriceOption, _):
                 minPrice = minPriceOption
                 maxPrice = maxPriceOption
             case .freeStuff:
@@ -273,9 +273,9 @@ class MainProductsViewModel: BaseViewModel {
         filters.place = place
         filters.selectedCategories = categories.flatMap{ filterCategoryItem in
             switch filterCategoryItem {
-            case .Free:
+            case .free:
                 return nil
-            case .Category(let cat):
+            case .category(let cat):
                 return cat
             }
         }
@@ -312,7 +312,7 @@ class MainProductsViewModel: BaseViewModel {
         return MainProductsViewModel(searchType: searchType, filters: filters)
     }
     
-    private func updateListView() {
+    fileprivate func updateListView() {
         if filters.selectedOrdering == ProductSortCriteria.defaultOption {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
@@ -324,7 +324,7 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.refresh()
     }
     
-    private func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
+    fileprivate func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
         let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
             type.string])
         if distance <= Constants.productListMaxDistanceLabel {
@@ -355,7 +355,7 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
         guard let sortCriteria = filters.selectedOrdering else { return }
 
         switch (sortCriteria) {
-        case .Distance:
+        case .distance:
             guard let topProduct = listViewModel.productAtIndex(index) else { return }
             let distance = Float(productListRequester.distanceFromProductCoordinates(topProduct.location))
 
@@ -367,9 +367,9 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
             let distanceString = bubbleInfoTextForDistance(max(1,Int(round(bubbleDistance))),
                                                            type: DistanceType.systemDistanceType())
             infoBubbleText.value = distanceString
-        case .Creation:
+        case .creation:
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
-        case .PriceAsc, .PriceDesc:
+        case .priceAsc, .priceDesc:
             break
         }
     }
@@ -463,7 +463,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         guard let product = viewModel.productAtIndex(index) else { return }
         let cellModels = viewModel.objects
         let showRelated = searchType == nil
-        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
+        let data = ProductDetailData.productList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
         navigator?.openProduct(data, source: productVisitSource,
@@ -498,14 +498,14 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 // MARK: - Session & Location handling
 
 extension MainProductsViewModel {
-    private func setupSessionAndLocation() {
+    fileprivate func setupSessionAndLocation() {
         sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
         locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
             self?.locationDidChange()
         }.addDisposableTo(disposeBag)
     }
 
-    private func sessionDidChange() {
+    fileprivate func sessionDidChange() {
         guard listViewModel.canRetrieveProducts else {
             shouldRetryLoad = true
             return
@@ -529,7 +529,7 @@ extension MainProductsViewModel {
         retrieveTrendingSearches()
     }
 
-    private func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
+    fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
 
         var shouldUpdate = false
         if listViewModel.canRetrieveProducts {
@@ -538,16 +538,16 @@ extension MainProductsViewModel {
                 shouldUpdate = true
             }
             // If new location is manual OR last location was manual, and location has changed then refresh
-            else if newLocation.type == .Manual || lastReceivedLocation?.type == .Manual {
+            else if newLocation.type == .manual || lastReceivedLocation?.type == .manual {
                 if let lastReceivedLocation = lastReceivedLocation, newLocation != lastReceivedLocation {
                     shouldUpdate = true
                 }
             }
             // If new location is not manual and we improved the location type to sensors
-            else if lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
+            else if lastReceivedLocation?.type != .sensor && newLocation.type == .Sensor {
                 shouldUpdate = true
             }
-        } else if listViewModel.numberOfProducts == 0 && lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
+        } else if listViewModel.numberOfProducts == 0 && lastReceivedLocation?.type != .sensor && newLocation.type == .Sensor {
             // in case the user allows sensors while loading the product list with the iplookup parameters
             shouldRetryLoad = true
         }
@@ -605,7 +605,7 @@ extension MainProductsViewModel {
         lastSearches.value = searchesToShow.reversed()
     }
 
-    private func retrieveTrendingSearches() {
+    fileprivate func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
@@ -613,7 +613,7 @@ extension MainProductsViewModel {
         }
     }
     
-    private func updateLastSearchStoraged(_ query: String) {
+    fileprivate func updateLastSearchStoraged(_ query: String) {
         // We save up to lastSearchesSavedMaximum(10)
         var searchesSaved = keyValueStorage[.lastSearches]
         // Check if already exists and move to front.
@@ -637,12 +637,12 @@ extension MainProductsViewModel {
         openPushPermissionsAlert()
     }
 
-    private func setupPermissionsNotification() {
+    fileprivate func setupPermissionsNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(updatePermissionsWarning),
                          name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
 
-    private dynamic func updatePermissionsWarning() {
+    fileprivate dynamic func updatePermissionsWarning() {
         var currentHeader = mainProductsHeader.value
         if UIApplication.shared.areRemoteNotificationsEnabled {
             currentHeader.remove(MainProductsHeader.PushPermissions)
@@ -654,7 +654,7 @@ extension MainProductsViewModel {
 
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .default),
+        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
                                     PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .productListBanner)
@@ -679,9 +679,9 @@ fileprivate extension ProductFilters {
     var infoBubblePresent: Bool {
         guard let selectedOrdering = selectedOrdering else { return true }
         switch (selectedOrdering) {
-        case .Distance, .Creation:
+        case .distance, .creation:
             return true
-        case .PriceAsc, .PriceDesc:
+        case .priceAsc, .priceDesc:
             return false
         }
     }
@@ -725,25 +725,25 @@ fileprivate extension MainProductsViewModel {
         if let searchType = searchType {
             switch searchType {
             case .collection:
-                return .Collection
+                return .collection
             case .user, .trending, .lastSearch:
                 if filters.isDefault() {
                     return .search
                 } else {
-                    return .SearchAndFilter
+                    return .searchAndFilter
                 }
             }
         }
 
         if !filters.isDefault() {
             if filters.selectedCategories.isEmpty {
-                return .Filter
+                return .filter
             } else {
-                return .Category
+                return .category
             }
         }
 
-        return .ProductList
+        return .productList
     }
 
     func trackRequestSuccess(page: UInt, hasProducts: Bool) {
@@ -756,32 +756,33 @@ fileprivate extension MainProductsViewModel {
 
         if let searchType = searchType, shouldTrackSearch && filters.isDefault() {
             shouldTrackSearch = false
+            let successValue = hasProducts ? .success : .fail
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
                                                            isTrending: searchType.isTrending,
-                                                           success: hasProducts ? .success : .Failed, isLastSearch: searchType.isLastSearch))
+                                                           success: successValue, isLastSearch: searchType.isLastSearch))
         }
     }
 
     func trackPushPermissionStart() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .productListBanner, alertType: .Custom,
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .productListBanner, alertType: .custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackPushPermissionComplete() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .productListBanner, alertType: .Custom,
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .productListBanner, alertType: .custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackPushPermissionCancel() {
         let goToSettings: EventParameterPermissionGoToSettings =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .Custom,
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
