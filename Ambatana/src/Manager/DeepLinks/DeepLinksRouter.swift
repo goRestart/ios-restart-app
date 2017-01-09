@@ -15,11 +15,11 @@ class DeepLinksRouter {
 
     let deepLinks = PublishSubject<DeepLink>()
 
-    /// Helper filtering .Conversations, .Conversation and .Message
+    /// Helper filtering .conversations, .conversation and .message
     var chatDeepLinks: Observable<DeepLink> {
         return deepLinks.asObservable().filter { deepLink in
             switch deepLink.action {
-            case .Conversations, .Conversation, .Message:
+            case .conversations, .conversation, .message:
                 return true
             default:
                 return false

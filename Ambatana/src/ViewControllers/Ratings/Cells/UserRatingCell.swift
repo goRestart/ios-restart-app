@@ -13,7 +13,7 @@ extension UserRatingType {
 
     func ratingTypeText(_ userName: String) -> String {
         switch self {
-        case .Conversation:
+        case .conversation:
             return LGLocalizedString.ratingListRatingTypeConversationTextLabel(userName)
         case .Seller:
             return LGLocalizedString.ratingListRatingTypeSellerTextLabel(userName)
@@ -24,7 +24,7 @@ extension UserRatingType {
 
     var ratingTypeTextColor: UIColor {
         switch self {
-        case .Conversation:
+        case .conversation:
             return UIColor.blackText
         case .Seller:
             return UIColor.soldText

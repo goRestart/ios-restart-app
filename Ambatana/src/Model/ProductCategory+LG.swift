@@ -28,7 +28,7 @@ extension ProductCategory {
             return LGLocalizedString.categoriesFashionAndAccessories
         case .BabyAndChild:
             return LGLocalizedString.categoriesBabyAndChild
-        case .Other:
+        case .other:
             return LGLocalizedString.categoriesOther
         }
     }
@@ -51,7 +51,7 @@ extension ProductCategory {
             return UIImage(named: "categories_fashion")
         case .BabyAndChild:
             return UIImage(named: "categories_babies")
-        case .Other:
+        case .other:
             return UIImage(named: "categories_others")
         }
     }
@@ -74,7 +74,7 @@ extension ProductCategory {
             return UIImage(named: "categories_fashion_inactive")
         case .BabyAndChild:
             return UIImage(named: "categories_babies_inactive")
-        case .Other:
+        case .other:
             return UIImage(named: "categories_others_inactive")
         }
     }
@@ -97,7 +97,7 @@ extension ProductCategory {
             return UIColor.fashionAccessoriesCategory
         case .BabyAndChild:
             return UIColor.babyChildCategory
-        case .Other:
+        case .other:
             return UIColor.otherCategory
         }
     }

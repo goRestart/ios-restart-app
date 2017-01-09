@@ -59,7 +59,7 @@ class CommercializerManager {
                 let applicationActive = UIApplication.shared.applicationState == .active
                 self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
                     showPreview: applicationActive, isMyVideo: true, fromDeepLink: true)
-            case .Commercializer(let productId, let templateId):
+            case .commercializer(let productId, let templateId):
                 self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
                     showPreview: false, isMyVideo: false, fromDeepLink: true)
             default: break

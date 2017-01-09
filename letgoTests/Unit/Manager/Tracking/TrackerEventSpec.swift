@@ -158,7 +158,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source when visiting login from chats") {
-                    sut = TrackerEvent.loginVisit(.Chats, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.chats, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -221,7 +221,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source when abandoning login from chats") {
-                    sut = TrackerEvent.loginAbandon(.Chats)
+                    sut = TrackerEvent.loginAbandon(.chats)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -289,7 +289,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source logging in via FB from chats") {
-                    sut = TrackerEvent.loginFB(.Chats, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.chats, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -357,7 +357,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source logging in via email from chats") {
-                    sut = TrackerEvent.loginEmail(.Chats, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.chats, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -420,7 +420,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source signing in via email from chats") {
-                    sut = TrackerEvent.signupEmail(.Chats, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.chats, newsletter: .Unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())

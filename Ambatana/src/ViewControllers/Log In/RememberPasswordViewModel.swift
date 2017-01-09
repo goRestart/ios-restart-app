@@ -69,11 +69,11 @@ class RememberPasswordViewModel: BaseViewModel {
                     case .network:
                         errorMessage = LGLocalizedString.commonErrorConnectionFailed
                         errorDescription = .network
-                    case .BadRequest(let cause):
+                    case .badRequest(let cause):
                         switch cause {
-                        case .NonAcceptableParams:
+                        case .nonAcceptableParams:
                             errorDescription = .blacklistedDomain
-                        case .NotSpecified, .Other:
+                        case .notSpecified, .other:
                             errorDescription = .internalError(description: "BadRequest")
                         }
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric

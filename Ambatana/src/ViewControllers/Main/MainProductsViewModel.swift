@@ -728,7 +728,7 @@ fileprivate extension MainProductsViewModel {
                 return .Collection
             case .user, .trending, .lastSearch:
                 if filters.isDefault() {
-                    return .Search
+                    return .search
                 } else {
                     return .SearchAndFilter
                 }
