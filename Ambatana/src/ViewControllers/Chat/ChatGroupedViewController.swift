@@ -338,8 +338,8 @@ extension ChatGroupedViewController {
     }
 
     private func setupRxVerificationViewBindings() {
-        viewModel.verificationPending.asObservable().bindTo(viewPager.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx_hidden)
+        viewModel.verificationPending.asObservable().bindTo(viewPager.rx.hidden).addDisposableTo(disposeBag)
+        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx.hidden)
             .addDisposableTo(disposeBag)
     }
 }

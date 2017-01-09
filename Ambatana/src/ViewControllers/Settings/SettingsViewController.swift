@@ -17,7 +17,7 @@ class SettingsViewController: BaseViewController {
     @IBOutlet weak var settingProfileImageLabel: UILabel!
     @IBOutlet weak var settingProfileImageProgressView: UIProgressView!
 
-    private let viewModel: SettingsViewModel
+    fileprivate let viewModel: SettingsViewModel
     private let disposeBag = DisposeBag()
     
     init(viewModel: SettingsViewModel) {
@@ -231,7 +231,7 @@ extension SettingsViewController: FBSDKAppInviteDialogDelegate {
         viewModel.fbAppInviteDone()
     }
 
-    func appInviteDialog(_ appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
+    func appInviteDialog(_ appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: Error!) {
         viewModel.fbAppInviteFailed()
     }
 }

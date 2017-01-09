@@ -20,14 +20,14 @@ enum ChangeUsernameError: Error {
     
     init(repositoryError: RepositoryError) {
         switch repositoryError {
-        case .Network:
-            self = .Internal
-        case .NotFound:
-            self = .NotFound
-        case .Unauthorized:
-            self = .Unauthorized
-        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
-            self = .Internal
+        case .network:
+            self = .internalError
+        case .notFound:
+            self = .notFound
+        case .unauthorized:
+            self = .unauthorized
+        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+            self = .internalError
         }
     }
 }
@@ -82,7 +82,7 @@ class ChangeUsernameViewModel: BaseViewModel {
         // check if username is ok (func in extension?)
 
         if usernameContainsLetgoString(username) {
-            delegate?.viewModel(self, didFailValidationWithError:.UsernameTaken)
+            delegate?.viewModel(self, didFailValidationWithError:.usernameTaken)
         }
         else if isValidUsername(username) {
             
@@ -100,7 +100,7 @@ class ChangeUsernameViewModel: BaseViewModel {
                 
                 guard let delegate = strongSelf.delegate else { return }
                 
-                var result = Result<MyUser, ChangeUsernameError>(error: .Internal)
+                var result = Result<MyUser, ChangeUsernameError>(error: .internalError)
                 if let value = updateResult.value {
                     result = Result<MyUser, ChangeUsernameError>(value: value)
                 } else if let repositoryError = updateResult.error {
@@ -111,7 +111,7 @@ class ChangeUsernameViewModel: BaseViewModel {
             }
         }
         else {
-            delegate?.viewModel(self, didFailValidationWithError:.InvalidUsername)
+            delegate?.viewModel(self, didFailValidationWithError:.invalidUsername)
         }
 
     }

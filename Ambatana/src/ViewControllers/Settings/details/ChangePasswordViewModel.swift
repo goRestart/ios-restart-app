@@ -19,16 +19,16 @@ enum ChangePasswordError: Error {
 
     init(repositoryError: RepositoryError, handleUnauthorizedAsLinkExpired: Bool) {
         switch repositoryError {
-        case .Network:
-            self = .Network
-        case .Unauthorized:
+        case .network:
+            self = .network
+        case .unauthorized:
             if handleUnauthorizedAsLinkExpired {
-                self = .ResetPasswordLinkExpired
+                self = .resetPasswordLinkExpired
             } else {
-                self = .Internal
+                self = .internalError
             }
-        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError, .NotFound:
-            self = .Internal
+        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound:
+            self = .internalError
         }
     }
 }
@@ -101,9 +101,9 @@ class ChangePasswordViewModel: BaseViewModel {
             }
         }
         else if !isValidPassword() {
-            delegate?.viewModel(self, didFailValidationWithError: .InvalidPassword)
+            delegate?.viewModel(self, didFailValidationWithError: .invalidPassword)
         } else {
-            delegate?.viewModel(self, didFailValidationWithError: .PasswordMismatch)
+            delegate?.viewModel(self, didFailValidationWithError: .passwordMismatch)
         }
     }
 
@@ -111,7 +111,7 @@ class ChangePasswordViewModel: BaseViewModel {
         myUserRepository.resetPassword(password, token: token) { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
-            var result = Result<MyUser, ChangePasswordError>(error: .Internal)
+            var result = Result<MyUser, ChangePasswordError>(error: .internalError)
             if let value = updatePwdResult.value {
                 result = Result<MyUser, ChangePasswordError>(value: value)
             } else if let repositoryError = updatePwdResult.error {
@@ -126,7 +126,7 @@ class ChangePasswordViewModel: BaseViewModel {
         myUserRepository.updatePassword(password) { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
-            var result = Result<MyUser, ChangePasswordError>(error: .Internal)
+            var result = Result<MyUser, ChangePasswordError>(error: .internalError)
             if let value = updatePwdResult.value {
                 result = Result<MyUser, ChangePasswordError>(value: value)
             } else if let repositoryError = updatePwdResult.error {

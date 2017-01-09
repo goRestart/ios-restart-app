@@ -65,7 +65,7 @@ extension UIViewController {
         } else {
             return nil
         }
-        rightItem.rx_tap.bindNext{
+        rightItem.rx.tap.bindNext{
             action.action()
         }.addDisposableTo(disposeBag)
         navigationItem.rightBarButtonItems = nil
@@ -80,7 +80,7 @@ extension UIViewController {
         return rightItem
     }
 
-    func setLetGoRightButtonWith(imageName image: String, selector: String,
+    @discardableResult func setLetGoRightButtonWith(imageName image: String, selector: String,
         buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
             return setLetGoRightButtonWith(imageName: image, renderingMode: .alwaysTemplate, selector: selector,
                 buttonsTintColor: buttonsTintColor)

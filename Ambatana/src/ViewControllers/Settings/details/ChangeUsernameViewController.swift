@@ -107,7 +107,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     func viewModel(_ viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError) {
         let message: String
         switch (error) {
-        case .network, .internal, .notFound, .unauthorized:
+        case .network, .internalError, .notFound, .unauthorized:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .invalidUsername:
             message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
@@ -123,21 +123,21 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         var completion: (() -> Void)? = nil
         
         switch (result) {
-        case .Success:
+        case .success:
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { _ in
                     viewModel.userNameSaved()
                 }
             }
             break
-        case .Failure(let error):
+        case .failure(let error):
             let message: String
             switch (error) {
-            case .Network, .Internal, .NotFound, .Unauthorized:
+            case .network, .internalError, .notFound, .unauthorized:
                 message = LGLocalizedString.commonErrorConnectionFailed
-            case .InvalidUsername:
+            case .invalidUsername:
                 message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
-            case .UsernameTaken:
+            case .usernameTaken:
                 message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
             }
             completion = {

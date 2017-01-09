@@ -46,7 +46,7 @@ final class TourNotificationsViewModel: BaseViewModel {
         }
         switch source {
         case .onboarding:
-            return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .NoStep
+            return Core.locationManager.shouldAskForLocationPermissions() ? .location : .noStep
         case .chat, .sell, .profile, .productListBanner:
             return .noStep
         }
@@ -56,19 +56,19 @@ final class TourNotificationsViewModel: BaseViewModel {
     // MARK: - Tracking
     
     func viewDidLoad() {
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: source.trackingParam, alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: source.trackingParam, alertType: .fullScreen,
             permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapNoButton() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: source.trackingParam, alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: source.trackingParam, alertType: .fullScreen,
             permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapYesButton() {
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: source.trackingParam, alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: source.trackingParam, alertType: .fullScreen,
             permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }

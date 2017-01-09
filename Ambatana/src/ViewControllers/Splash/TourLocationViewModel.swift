@@ -38,7 +38,7 @@ final class TourLocationViewModel: BaseViewModel {
         self.typePage = source
         super.init()
 
-        locationManager.locationEvents.map { $0 == .ChangedPermissions }.observeOn(MainScheduler.instance)
+        locationManager.locationEvents.map { $0 == .changedPermissions }.observeOn(MainScheduler.instance)
             .bindNext { [weak self] _ in
                 self?.nextStep()
         }.addDisposableTo(disposeBag)
@@ -51,23 +51,23 @@ final class TourLocationViewModel: BaseViewModel {
     // MARK: - Tracking
     
     func viewDidLoad() {
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Location, typePage: typePage, alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertStart(.location, typePage: typePage, alertType: .fullScreen,
             permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapNoButton() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Location, typePage: typePage, alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.location, typePage: typePage, alertType: .fullScreen,
             permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapYesButton() {
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Location, typePage: typePage, alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.location, typePage: typePage, alertType: .fullScreen,
             permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
-        let trackerSystemEvent = TrackerEvent.permissionSystemStart(.Location, typePage: typePage)
+        let trackerSystemEvent = TrackerEvent.permissionSystemStart(.location, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerSystemEvent)
     }
 }

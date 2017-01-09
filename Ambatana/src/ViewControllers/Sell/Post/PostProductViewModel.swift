@@ -52,7 +52,7 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    let state = Variable<PostProductState>(.ImageSelection)
+    let state = Variable<PostProductState>(.imageSelection)
 
     let postDetailViewModel: PostProductDetailViewModel
     let postProductCameraViewModel: PostProductCameraViewModel
