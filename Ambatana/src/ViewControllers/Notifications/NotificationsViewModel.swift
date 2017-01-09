@@ -23,9 +23,9 @@ class NotificationsViewModel: BaseViewModel {
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
-    private let locationManager: LocationManager
-    private let tracker: Tracker
-    private let featureFlags: FeatureFlaggeable
+    fileprivate let locationManager: LocationManager
+    fileprivate let tracker: Tracker
+    fileprivate let featureFlags: FeatureFlaggeable
     private let disposeBag = DisposeBag()
 
     convenience override init() {
@@ -104,12 +104,12 @@ class NotificationsViewModel: BaseViewModel {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
                         title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
-                        action: { [weak self] in self?.navigator?.openSell(.Notifications) },
+                        action: { [weak self] in self?.navigator?.openSell(.notifications) },
                         secondaryButtonTitle: nil, secondaryAction: nil)
 
                     strongSelf.viewState.value = .empty(emptyViewModel)
                 } else {
-                    strongSelf.viewState.value = .Data
+                    strongSelf.viewState.value = .data
                     strongSelf.afterReloadOk()
                 }
             } else if let error = result.error {
@@ -121,7 +121,7 @@ class NotificationsViewModel: BaseViewModel {
                                 self?.viewState.value = .loading
                                 self?.reloadNotifications()
                             }) {
-                            strongSelf.viewState.value = .Error(emptyViewModel)
+                            strongSelf.viewState.value = .error(emptyViewModel)
                     }
                     case .network(errorCode: _, onBackground: true):
                         break
@@ -134,14 +134,14 @@ class NotificationsViewModel: BaseViewModel {
         notificationsManager.updateNotificationCounters()
     }
 
-    private func markCompleted(_ data: NotificationData) {
+    fileprivate func markCompleted(_ data: NotificationData) {
         guard let primaryActionCompleted = data.primaryActionCompleted, !primaryActionCompleted else { return }
         guard data.id != nil else { return }
         guard let index = notificationsData.index(where: { $0.id != nil && $0.id == data.id }) else { return }
         let completedData = NotificationData(id: data.id, type: data.type, date: data.date, isRead: data.isRead,
                                              primaryAction: nil, primaryActionCompleted: true)
         notificationsData[index] = completedData
-        viewState.value = .Data
+        viewState.value = .data
     }
 }
 
@@ -150,7 +150,7 @@ class NotificationsViewModel: BaseViewModel {
 
 fileprivate extension NotificationsViewModel {
 
-    func buildNotification(_ notification: Notification) -> NotificationData? {
+    func buildNotification(_ notification: NotificationModel) -> NotificationData? {
         switch notification.type {
         case let .rating(user, _, _):
             guard featureFlags.userReviews else { return nil }
@@ -168,12 +168,12 @@ fileprivate extension NotificationsViewModel {
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
-        case let .Like(product, user):
+        case let .like(product, user):
             return NotificationData(id: notification.objectId,
-                                    type: .ProductFavorite(product: product, user: user),
+                                    type: .productFavorite(product: product, user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        let data = UserDetailData.Id(userId: user.id, source: .Notifications)
+                                        let data = UserDetailData.id(userId: user.id, source: .notifications)
                                         self?.navigator?.openUser(data)
                                     })
         case let .sold(product, _):
@@ -181,13 +181,13 @@ fileprivate extension NotificationsViewModel {
                                     type: .productSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.Id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .Notifications,
+                                        let data = ProductDetailData.id(productId: product.id)
+                                        self?.navigator?.openProduct(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: false)
                                     })
-        case let .BuyersInterested(product, buyers):
+        case let .buyersInterested(product, buyers):
             var data = NotificationData(id: notification.objectId,
-                                    type: .BuyersInterested(product: product, buyers: buyers),
+                                    type: .buyersInterested(product: product, buyers: buyers),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: nil,
                                     primaryActionCompleted: false)
@@ -197,22 +197,22 @@ fileprivate extension NotificationsViewModel {
                 })
             }
             return data
-        case let .ProductSuggested(product, seller):
+        case let .productSuggested(product, seller):
             return NotificationData(id: notification.objectId,
-                                    type: .ProductSuggested(product: product, seller: seller),
+                                    type: .productSuggested(product: product, seller: seller),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.Id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .Notifications,
+                                        let data = ProductDetailData.id(productId: product.id)
+                                        self?.navigator?.openProduct(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: true)
                                     })
         }
     }
 
     func buildWelcomeNotification() -> NotificationData {
-        return NotificationData(id: nil, type: .Welcome(city: locationManager.currentPostalAddress?.city),
+        return NotificationData(id: nil, type: .welcome(city: locationManager.currentPostalAddress?.city),
                                 date: Date(), isRead: true, primaryAction: { [weak self] in
-                                    self?.navigator?.openSell(.Notifications)
+                                    self?.navigator?.openSell(.notifications)
                                 })
     }
 }
@@ -237,18 +237,18 @@ fileprivate extension NotificationDataType {
         switch self {
         case .productSold:
             return .productSold
-        case .ProductFavorite:
-            return .Favorite
-        case .Rating:
-            return .Rating
-        case .RatingUpdated:
-            return .RatingUpdated
+        case .productFavorite:
+            return .favorite
+        case .rating:
+            return .rating
+        case .ratingUpdated:
+            return .ratingUpdated
         case .welcome:
-            return .Welcome
-        case .BuyersInterested:
-            return .BuyersInterested
-        case .ProductSuggested:
-            return .ProductSuggested
+            return .welcome
+        case .buyersInterested:
+            return .buyersInterested
+        case .productSuggested:
+            return .productSuggested
         }
     }
 }

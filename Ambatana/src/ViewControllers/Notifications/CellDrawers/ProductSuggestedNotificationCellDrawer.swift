@@ -13,7 +13,7 @@ class ProductSuggestedNotificationCellDrawer: BaseNotificationCellDrawer<Notific
     override func draw(_ cell: NotificationCell, data: NotificationData) {
 
         switch data.type {
-        case let .ProductSuggested(product, seller: seller):
+        case let .productSuggested(product, seller: seller):
             let userName = seller.name ?? ""
             if let productTitle = product.title, !productTitle.isEmpty {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeProductSuggestedWTitle(userName, productTitle)

@@ -17,9 +17,9 @@ class NotificationsViewController: BaseViewController {
 
     weak var tabNavigator: TabNavigator?
 
-    private let refreshControl = UIRefreshControl()
-    private let viewModel: NotificationsViewModel
-    private let disposeBag = DisposeBag()
+    fileprivate let refreshControl = UIRefreshControl()
+    fileprivate let viewModel: NotificationsViewModel
+    fileprivate let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
@@ -78,13 +78,13 @@ class NotificationsViewController: BaseViewController {
                 self?.activityIndicator.startAnimating()
                 self?.emptyView.isHidden = true
                 self?.tableView.isHidden = true
-            case .Data:
+            case .data:
                 self?.activityIndicator.stopAnimating()
                 self?.emptyView.isHidden = true
                 self?.tableView.isHidden = false
                 self?.refreshControl.endRefreshing()
                 self?.tableView.reloadData()
-            case .Error(let emptyViewModel):
+            case .error(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
             case .empty(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
