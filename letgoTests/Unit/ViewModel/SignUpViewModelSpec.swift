@@ -40,7 +40,7 @@ class SignUpViewModelSpec: QuickSpec {
                 googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                    keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                    keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
                     source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                 sut.delegate = self
 
@@ -65,7 +65,7 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
                             source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
@@ -83,7 +83,7 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
                             source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
@@ -101,7 +101,7 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
+                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
                             source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 

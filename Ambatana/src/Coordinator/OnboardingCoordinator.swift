@@ -21,7 +21,7 @@ class OnboardingCoordinator: Coordinator {
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
 
-    private let locationManager: LocationManager
+    fileprivate let locationManager: LocationManager
     private var presentedViewControllers: [UIViewController] = []
     
     private let featureFlags: FeatureFlaggeable
@@ -42,7 +42,7 @@ class OnboardingCoordinator: Coordinator {
         guard viewController.parent == nil else { return }
         parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
-            let signUpVM = SignUpViewModel(appearance: .Dark, source: .install)
+            let signUpVM = SignUpViewModel(appearance: .dark, source: .install)
             let tourVM = TourLoginViewModel()
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
@@ -84,7 +84,7 @@ class OnboardingCoordinator: Coordinator {
         return presentedViewControllers.last ?? viewController
     }
 
-    private func openTourNotifications() {
+    fileprivate func openTourNotifications() {
         let topVC = topViewController()
         let type: PrePermissionType = .onboarding
         let vm = TourNotificationsViewModel(title: type.title, subtitle: type.subtitle, pushText: type.pushMessage,
@@ -96,7 +96,7 @@ class OnboardingCoordinator: Coordinator {
         topVC.present(vc, animated: true, completion: nil)
     }
 
-    private func openTourLocation() {
+    fileprivate func openTourLocation() {
         let topVC = topViewController()
         let vm = TourLocationViewModel(source: .install)
         vm.navigator = self
@@ -106,7 +106,7 @@ class OnboardingCoordinator: Coordinator {
         topVC.present(vc, animated: true, completion: nil)
     }
 
-    private func openTourPosting() {
+    fileprivate func openTourPosting() {
         let topVC = topViewController()
         let vm = TourPostingViewModel()
         vm.navigator = self
