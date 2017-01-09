@@ -177,6 +177,10 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         super.viewWillDisappear(animated)
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         forceCloseInterestedBubble()
+    }
+
+    override func viewWillDisappearToBackground(toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
         removeIgnoreTouchesForMoreInfo()
     }
     
@@ -186,6 +190,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         //TODO: We should refactor how tabBar is hidden. Maybe by using BaseViewController -> hasTabBar
         // Force tabBar to hide when view appears from background.
         self.tabBarController?.setTabBarHidden(true, animated: false)
+        addIgnoreTouchesForMoreInfo()
     }
     
 
@@ -938,7 +943,12 @@ extension ProductCarouselViewController {
         guard let moreInfoView = moreInfoView where moreInfoView.mapExpanded else { return }
         moreInfoView.compressMap()
     }
-    
+
+    func addIgnoreTouchesForMoreInfo() {
+        guard let button = moreInfoView?.dragView else { return }
+        self.navigationController?.navigationBar.ignoreTouchesFor(button)
+    }
+
     func removeIgnoreTouchesForMoreInfo() {
         guard let button = moreInfoView?.dragView else { return }
         self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
