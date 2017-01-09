@@ -249,7 +249,7 @@ extension TextViewController: UITextViewDelegate {
 
     private func setupTextAreaRx() {
         let emptyText = textView.rx_text.map { $0.trim.isEmpty }
-        emptyText.bindTo(sendButton.rx_hidden).addDisposableTo(disposeBag)
+        emptyText.bindTo(sendButton.rx.isHidden).addDisposableTo(disposeBag)
         emptyText.bindNext { [weak self] empty in
             guard let strongSelf = self, let margin = self?.viewMargins else { return }
             let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin

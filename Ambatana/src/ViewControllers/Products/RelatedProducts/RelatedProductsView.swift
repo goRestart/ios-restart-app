@@ -20,27 +20,27 @@ protocol RelatedProductsViewDelegate: class {
 
 class RelatedProductsView: UIView {
 
-    private static let defaultProductsDiameter: CGFloat = 100
-    private static let elementsMargin: CGFloat = 10
-    private static let itemsSpacing: CGFloat = 5
+    fileprivate static let defaultProductsDiameter: CGFloat = 100
+    fileprivate static let elementsMargin: CGFloat = 10
+    fileprivate static let itemsSpacing: CGFloat = 5
 
     let productId = Variable<String?>(nil)
     let hasProducts = Variable<Bool>(false)
 
     weak var delegate: RelatedProductsViewDelegate?
 
-    private let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private let productsDiameter: CGFloat
+    fileprivate let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+    fileprivate let productsDiameter: CGFloat
 
-    private var requester: ProductListRequester?
-    private var objects: [ProductCellModel] = [] {
+    fileprivate var requester: ProductListRequester?
+    fileprivate var objects: [ProductCellModel] = [] {
         didSet {
             hasProducts.value = !objects.isEmpty
         }
     }
-    private let drawerManager = GridDrawerManager()
+    fileprivate let drawerManager = GridDrawerManager()
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -91,7 +91,7 @@ class RelatedProductsView: UIView {
             }
             self?.loadProducts(productId)
         }.addDisposableTo(disposeBag)
-        hasProducts.asObservable().map { !$0 }.bindTo(self.rx_hidden).addDisposableTo(disposeBag)
+        hasProducts.asObservable().map { !$0 }.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
     }
 }
 
@@ -100,7 +100,7 @@ class RelatedProductsView: UIView {
 
 extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSource {
 
-    private func setupCollection() {
+    fileprivate func setupCollection() {
         drawerManager.cellStyle = .small
         drawerManager.registerCell(inCollectionView: collectionView)
         collectionView.backgroundColor = UIColor.clear
@@ -117,7 +117,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
 
-    private func clear() {
+    fileprivate func clear() {
         objects = []
         collectionView.reloadData()
     }
@@ -143,7 +143,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = itemAtIndex(indexPath.row) else { return }
         switch item {
-        case let .ProductCell(product):
+        case let .productCell(product):
             let cell = collectionView.cellForItem(at: indexPath) as? ProductCell
             let thumbnailImage = cell?.thumbnailImageView.image
 

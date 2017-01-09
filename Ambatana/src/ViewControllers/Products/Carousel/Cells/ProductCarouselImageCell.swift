@@ -21,10 +21,10 @@ class ProductCarouselImageCell: UICollectionViewCell {
     var position: Int = 0
     var imageURL: URL?
     var imageView: UIImageView
-    private var scrollView: UIScrollView
-    private var backgroundImage: UIImageView
-    private var effectsView: UIVisualEffectView
-    private var referenceZoomLevel: CGFloat = 1.0
+    fileprivate var scrollView: UIScrollView
+    fileprivate var backgroundImage: UIImageView
+    fileprivate var effectsView: UIVisualEffectView
+    fileprivate var referenceZoomLevel: CGFloat = 1.0
 
     weak var delegate: ProductCarouselImageCellDelegate?
 

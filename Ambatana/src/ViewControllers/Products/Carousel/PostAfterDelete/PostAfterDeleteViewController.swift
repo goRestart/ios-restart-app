@@ -57,7 +57,7 @@ class PostAfterDeleteViewController: BaseViewController {
         postIncentivatorView.setupIncentiviseView()
     }
 
-    private func closeWithFadeOutWithCompletion(_ completion: (() -> Void)?) {
+    fileprivate func closeWithFadeOutWithCompletion(_ completion: (() -> Void)?) {
         dismiss(animated: true, completion: completion)
     }
 

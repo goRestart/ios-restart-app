@@ -16,7 +16,7 @@ enum ProductCellModel {
     case emptyCell(vm: LGEmptyViewModel)
     
     init(product: Product) {
-        self = ProductCellModel.ProductCell(product: product)
+        self = ProductCellModel.productCell(product: product)
     }
 
     init(collection: CollectionCellType) {

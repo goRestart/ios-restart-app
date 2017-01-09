@@ -18,8 +18,8 @@ enum ProductCarouselCellModel {
     
     static func adapter(_ model: ProductCellModel) -> ProductCarouselCellModel? {
         switch model {
-        case .ProductCell(let product):
-            return ProductCarouselCellModel.ProductCell(product: product)
+        case .productCell(let product):
+            return ProductCarouselCellModel.productCell(product: product)
         default:
             return nil
         }

@@ -703,7 +703,7 @@ extension ProductCarouselViewController {
         viewModel.productStatusLabelText
             .asObservable()
             .map{ $0?.isEmpty ?? true}
-            .bindTo(productStatusView.rx_hidden)
+            .bindTo(productStatusView.rx.isHidden)
             .addDisposableTo(activeDisposeBag)
         
         viewModel.productStatusLabelText
@@ -715,7 +715,7 @@ extension ProductCarouselViewController {
     
 
     private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
-        viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx.isHidden).addDisposableTo(disposeBag)
         chatTextView.placeholder = viewModel.directChatPlaceholder
         if viewModel.shouldShowTextOnChatView() {
             chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)

@@ -71,7 +71,7 @@ extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
                        originFrame: CGRect?) {
         guard let product = viewModel.productAtIndex(index) else { return }
         let cellModels = viewModel.objects
-        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
+        let data = ProductDetailData.productList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: false, index: index)
         navigator?.openProduct(data, source: productVisitSource,
