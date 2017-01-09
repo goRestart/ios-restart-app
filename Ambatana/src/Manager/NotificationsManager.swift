@@ -132,9 +132,9 @@ class NotificationsManager {
     private func setupRxBindings() {
         sessionManager.sessionEvents.bindNext { [weak self] event in
             switch event {
-            case .Login:
+            case .login:
                 self?.updateCounters()
-            case .Logout:
+            case .logout:
                 self?.unreadMessagesCount.value = 0
                 self?.unreadNotificationsCount.value = 0
             }

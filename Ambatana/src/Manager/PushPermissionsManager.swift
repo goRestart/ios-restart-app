@@ -65,6 +65,7 @@ class PushPermissionsManager: NSObject {
         }
     }
 
+    
     func showPrePermissionsViewFrom(_ viewController: UIViewController, type: PrePermissionType,
                                            completion: (() -> ())?) -> UIViewController? {
         guard shouldShowPushPermissionsAlertFromViewController(type) else { return nil }
@@ -174,21 +175,21 @@ class PushPermissionsManager: NSObject {
 
 
     private func trackPermissionSystemStart() {
-        let trackerEvent = TrackerEvent.permissionSystemStart(.Push, typePage: typePage)
+        let trackerEvent = TrackerEvent.permissionSystemStart(.push, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     private func trackPermissionSystemCancel() {
         TrackerProxy.sharedInstance.setNotificationsPermission(false)
 
-        let trackerEvent = TrackerEvent.permissionSystemCancel(.Push, typePage: typePage)
+        let trackerEvent = TrackerEvent.permissionSystemCancel(.push, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     private func trackPermissionSystemComplete() {
         TrackerProxy.sharedInstance.setNotificationsPermission(true)
 
-        let trackerEvent = TrackerEvent.permissionSystemComplete(.Push, typePage: typePage)
+        let trackerEvent = TrackerEvent.permissionSystemComplete(.push, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }
@@ -239,15 +240,15 @@ extension PrePermissionType {
     var trackingParam: EventParameterTypePage {
         switch self {
         case .onboarding:
-            return .Install
+            return .install
         case .chat:
             return .chat
         case .sell:
             return .sell
         case .profile:
-            return .Profile
+            return .profile
         case .productListBanner:
-            return .ProductListBanner
+            return .productListBanner
         }
     }
 }

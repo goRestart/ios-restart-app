@@ -166,7 +166,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source when visiting login from profile") {
-                    sut = TrackerEvent.loginVisit(.Profile, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.profile, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -229,7 +229,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source when abandoning login from profile") {
-                    sut = TrackerEvent.loginAbandon(.Profile)
+                    sut = TrackerEvent.loginAbandon(.profile)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -297,7 +297,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source logging in via FB from profile") {
-                    sut = TrackerEvent.loginFB(.Profile, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.profile, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -365,7 +365,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source logging in via email from profile") {
-                    sut = TrackerEvent.loginEmail(.Profile, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.profile, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -428,7 +428,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source signing in via email from profile") {
-                    sut = TrackerEvent.signupEmail(.Profile, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.profile, newsletter: .Unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -2250,18 +2250,18 @@ class TrackerEventSpec: QuickSpec {
 
             describe("permissionAlertStart") {
                 it("has its event name") {
-                    sut = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductList, alertType: .Custom,
+                    sut = TrackerEvent.permissionAlertStart(.push, typePage: .ProductList, alertType: .Custom,
                         permissionGoToSettings: .notAvailable)
                     expect(sut.name.rawValue).to(equal("permission-alert-start"))
                 }
                 it("contains the permission related params when passing by a permission type, page & alertType") {
-                    sut = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductList, alertType: .Custom,
+                    sut = TrackerEvent.permissionAlertStart(.push, typePage: .ProductList, alertType: .Custom,
                         permissionGoToSettings: .notAvailable)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
                     let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
-                    expect(permissionType).to(equal(EventParameterPermissionType.Push.rawValue))
+                    expect(permissionType).to(equal(EventParameterPermissionType.push.rawValue))
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
@@ -2275,18 +2275,18 @@ class TrackerEventSpec: QuickSpec {
 
             describe("permissionAlertComplete") {
                 it("has its event name") {
-                    sut = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductList, alertType: .Custom,
+                    sut = TrackerEvent.permissionAlertComplete(.push, typePage: .ProductList, alertType: .Custom,
                         permissionGoToSettings: .notAvailable)
                     expect(sut.name.rawValue).to(equal("permission-alert-complete"))
                 }
                 it("contains the permission related params when passing by a permission type, page & alertType") {
-                    sut = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductList, alertType: .Custom,
+                    sut = TrackerEvent.permissionAlertComplete(.push, typePage: .ProductList, alertType: .Custom,
                         permissionGoToSettings: .notAvailable)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
                     let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
-                    expect(permissionType).to(equal(EventParameterPermissionType.Push.rawValue))
+                    expect(permissionType).to(equal(EventParameterPermissionType.push.rawValue))
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
@@ -2300,16 +2300,16 @@ class TrackerEventSpec: QuickSpec {
 
             describe("permissionAlertCancel") {
                 it("has its event name") {
-                    sut = TrackerEvent.permissionSystemCancel(.Push, typePage: .ProductList)
+                    sut = TrackerEvent.permissionSystemCancel(.push, typePage: .ProductList)
                     expect(sut.name.rawValue).to(equal("permission-system-cancel"))
                 }
                 it("contains the permission related params when passing by a permission type & page") {
-                    sut = TrackerEvent.permissionSystemCancel(.Push, typePage: .ProductList)
+                    sut = TrackerEvent.permissionSystemCancel(.push, typePage: .ProductList)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
                     let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
-                    expect(permissionType).to(equal(EventParameterPermissionType.Push.rawValue))
+                    expect(permissionType).to(equal(EventParameterPermissionType.push.rawValue))
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
@@ -2319,16 +2319,16 @@ class TrackerEventSpec: QuickSpec {
 
             describe("permissionSystemComplete") {
                 it("has its event name") {
-                    sut = TrackerEvent.permissionSystemComplete(.Push, typePage: .ProductList)
+                    sut = TrackerEvent.permissionSystemComplete(.push, typePage: .ProductList)
                     expect(sut.name.rawValue).to(equal("permission-system-complete"))
                 }
                 it("contains the permission related params when passing by a permission type & page") {
-                    sut = TrackerEvent.permissionSystemComplete(.Push, typePage: .ProductList)
+                    sut = TrackerEvent.permissionSystemComplete(.push, typePage: .ProductList)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
                     let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
-                    expect(permissionType).to(equal(EventParameterPermissionType.Push.rawValue))
+                    expect(permissionType).to(equal(EventParameterPermissionType.push.rawValue))
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
@@ -2340,7 +2340,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     user = MockUser()
                     user.objectId = "test-id"
-                    sut = TrackerEvent.profileReport(.Profile, reportedUserId: user.objectId!, reason: .scammer)
+                    sut = TrackerEvent.profileReport(.profile, reportedUserId: user.objectId!, reason: .scammer)
                 }
                 afterEach {
                     user = nil
@@ -2369,7 +2369,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let userId1 = "test-id-1"
                     let userId2 = "test-id-2"
-                    sut = TrackerEvent.profileBlock(.Profile, blockedUsersIds: [userId1, userId2])
+                    sut = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId1, userId2])
                 }
                 afterEach {
                     user = nil
@@ -2394,7 +2394,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let userId1 = "test-id-1"
                     let userId2 = "test-id-2"
-                    sut = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: [userId1, userId2])
+                    sut = TrackerEvent.profileUnblock(.profile, unblockedUsersIds: [userId1, userId2])
                 }
                 afterEach {
                     user = nil

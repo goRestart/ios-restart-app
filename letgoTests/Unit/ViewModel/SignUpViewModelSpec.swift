@@ -41,7 +41,7 @@ class SignUpViewModelSpec: QuickSpec {
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                     keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
-                    source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                    source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                 sut.delegate = self
 
                 self.loading = false
@@ -66,7 +66,7 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                             keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
-                            source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("does not have a previous facebook username") {
@@ -84,7 +84,7 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                             keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
-                            source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("has a previous facebook username") {
@@ -102,7 +102,7 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                             keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
-                            source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("does not have a previous facebook username") {

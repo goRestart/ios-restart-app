@@ -17,18 +17,18 @@ protocol SellCoordinatorDelegate: CoordinatorDelegate {
 final class SellCoordinator: Coordinator {
     var child: Coordinator?
 
-    private var parentViewController: UIViewController?
+    fileprivate var parentViewController: UIViewController?
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
 
-    private let productRepository: ProductRepository
-    private let keyValueStorage: KeyValueStorage
-    private let tracker: Tracker
-    private let featureFlags: FeatureFlaggeable
-    private let postingSource: PostingSource
+    fileprivate let productRepository: ProductRepository
+    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let tracker: Tracker
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let postingSource: PostingSource
     weak var delegate: SellCoordinatorDelegate?
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -243,7 +243,7 @@ fileprivate extension SellCoordinator {
         tracker.trackEvent(event)
 
         // Track product was sold in the first 24h (and not tracked before)
-        if let firstOpenDate = keyValueStorage[.firstRunDate], Date().timeIntervalSinceDate(firstOpenDate) <= 86400 &&
+        if let firstOpenDate = keyValueStorage[.firstRunDate], Date().timeIntervalSince(firstOpenDate) <= 86400 &&
                 !keyValueStorage.userTrackingProductSellComplete24hTracked {
             keyValueStorage.userTrackingProductSellComplete24hTracked = true
 

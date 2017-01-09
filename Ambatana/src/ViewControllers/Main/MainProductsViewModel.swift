@@ -500,7 +500,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 extension MainProductsViewModel {
     private func setupSessionAndLocation() {
         sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
-        locationManager.locationEvents.filter { $0 == .LocationUpdate }.bindNext { [weak self] _ in
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
             self?.locationDidChange()
         }.addDisposableTo(disposeBag)
     }
@@ -765,7 +765,7 @@ fileprivate extension MainProductsViewModel {
     func trackPushPermissionStart() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductListBanner, alertType: .Custom,
+        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .productListBanner, alertType: .Custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
@@ -773,7 +773,7 @@ fileprivate extension MainProductsViewModel {
     func trackPushPermissionComplete() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductListBanner, alertType: .Custom,
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .productListBanner, alertType: .Custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
@@ -781,7 +781,7 @@ fileprivate extension MainProductsViewModel {
     func trackPushPermissionCancel() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .ProductListBanner, alertType: .Custom,
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }

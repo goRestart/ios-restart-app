@@ -46,7 +46,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                     locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                    locale: locale, source: .Install, action: .Signup)
+                    locale: locale, source: .install, action: .Signup)
                 sut.delegate = self
 
                 self.loading = false
@@ -84,7 +84,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale, source: .install, action: .Signup)
                     }
 
                     it("has an email") {
@@ -107,7 +107,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale, source: .install, action: .Signup)
                     }
 
                     it("has an empty email") {
@@ -130,7 +130,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale, source: .install, action: .Signup)
                     }
 
                     it("has an empty email") {
@@ -150,7 +150,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale, source: .install, action: .Signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -165,7 +165,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale, source: .install, action: .Signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -181,7 +181,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale, source: .install, action: .Signup)
                     }
 
                     it("has terms and conditions false") {

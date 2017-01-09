@@ -16,16 +16,16 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
 
     var description: String {
         var options: [String] = []
-        if contains(AppLoggingOptions.Navigation) {
+        if contains(AppLoggingOptions.navigation) {
             options.append("⛵️")
         }
-        if contains(AppLoggingOptions.Tracking) {
+        if contains(AppLoggingOptions.tracking) {
             options.append("🚜")
         }
-        if contains(AppLoggingOptions.DeepLink) {
+        if contains(AppLoggingOptions.light) {
             options.append("🔗")
         }
-        if contains(AppLoggingOptions.Monetization) {
+        if contains(AppLoggingOptions.monetization) {
             options.append("💰")
         }
         return options.joined(separator: "+")
@@ -41,11 +41,11 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
 
     // MARK: - Options
 
-    static var None = AppLoggingOptions(rawValue: 0)
-    static var Navigation = AppLoggingOptions(rawValue: 1)
-    static var Tracking = AppLoggingOptions(rawValue: 2)
-    static var DeepLink = AppLoggingOptions(rawValue: 4)
-    static var Monetization = AppLoggingOptions(rawValue: 8)
+    static var none = AppLoggingOptions(rawValue: 0)
+    static var navigation = AppLoggingOptions(rawValue: 1)
+    static var tracking = AppLoggingOptions(rawValue: 2)
+    static var deepLink = AppLoggingOptions(rawValue: 4)
+    static var monetization = AppLoggingOptions(rawValue: 8)
 }
 
 enum LogLevel {
