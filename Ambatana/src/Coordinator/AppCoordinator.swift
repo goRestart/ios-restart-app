@@ -681,7 +681,7 @@ fileprivate extension AppCoordinator {
         userRatingRepository.show(ratingId) { [weak self] result in
             if let rating = result.value, let data = RateUserData(user: rating.userFrom) {
                 navCtl.dismissLoadingMessageAlert {
-                    self?.openUserRating(.light, data: data)
+                    self?.openUserRating(.deepLink, data: data)
                 }
             } else if let error = result.error {
                 let message: String
