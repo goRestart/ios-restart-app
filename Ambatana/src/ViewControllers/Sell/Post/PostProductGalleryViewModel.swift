@@ -160,7 +160,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     // MARK - Private methods
 
-    private func setupRX() {
+    fileprivate func setupRX() {
         galleryState.asObservable().subscribeNext{ [weak self] state in
             switch state {
             case .missingPermissions:

@@ -83,7 +83,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     var initialDragPosition: CGFloat = 0
     var collapsed = false
 
-    private var viewModel: PostProductGalleryViewModel
+    fileprivate var viewModel: PostProductGalleryViewModel
 
     private var disposeBag = DisposeBag()
 

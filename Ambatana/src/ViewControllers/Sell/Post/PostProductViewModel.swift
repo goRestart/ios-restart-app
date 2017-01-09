@@ -35,7 +35,7 @@ class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
     weak var navigator: PostProductNavigator?
-    private let sessionManager: SessionManager
+    fileprivate let sessionManager: SessionManager
 
     var usePhotoButtonText: String {
         if sessionManager.loggedIn {
@@ -58,15 +58,15 @@ class PostProductViewModel: BaseViewModel {
     let postProductCameraViewModel: PostProductCameraViewModel
     let postingSource: PostingSource
     
-    private let productRepository: ProductRepository
-    private let fileRepository: FileRepository
-    private let tracker: Tracker
+    fileprivate let productRepository: ProductRepository
+    fileprivate let fileRepository: FileRepository
+    fileprivate let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
     let galleryMultiSelectionEnabled: Bool
     private var imagesSelected: [UIImage]?
-    private var pendingToUploadImages: [UIImage]?
-    private var uploadedImages: [File]?
-    private var uploadedImageSource: EventParameterPictureSource?
+    fileprivate var pendingToUploadImages: [UIImage]?
+    fileprivate var uploadedImages: [File]?
+    fileprivate var uploadedImageSource: EventParameterPictureSource?
     
 
     // MARK: - Lifecycle
@@ -117,11 +117,11 @@ class PostProductViewModel: BaseViewModel {
         imagesSelected = images
         guard sessionManager.loggedIn else {
             pendingToUploadImages = images
-            state.value = .DetailsSelection
+            state.value = .detailsSelection
             return
         }
 
-        state.value = .UploadingImage
+        state.value = .uploadingImage
 
         fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -129,16 +129,16 @@ class PostProductViewModel: BaseViewModel {
                 guard let error = result.error else { return }
                 let errorString: String
                 switch (error) {
-                case .Internal, .Unauthorized, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     errorString = LGLocalizedString.productPostGenericError
-                case .Network:
+                case .network:
                     errorString = LGLocalizedString.productPostNetworkError
                 }
-                strongSelf.state.value = .ErrorUpload(message: errorString)
+                strongSelf.state.value = .errorUpload(message: errorString)
                 return
             }
             strongSelf.uploadedImages = images
-            strongSelf.state.value = .DetailsSelection
+            strongSelf.state.value = .detailsSelection
         }
     }
 
@@ -150,7 +150,7 @@ class PostProductViewModel: BaseViewModel {
                 navigator?.cancelPostProduct()
                 return
             }
-            let trackingInfo = PostProductTrackingInfo(buttonName: .Close, sellButtonPosition: postingSource.sellButtonPosition,
+            let trackingInfo = PostProductTrackingInfo(buttonName: .close, sellButtonPosition: postingSource.sellButtonPosition,
                                                        imageSource: uploadedImageSource, price: nil)
             navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: false,
                                                            trackingInfo: trackingInfo)
@@ -184,7 +184,7 @@ private extension PostProductViewModel {
     }
 
     func postProduct() {
-        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, sellButtonPosition: postingSource.sellButtonPosition,
+        let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
             guard let product = buildProduct(isFreePosting: false), let images = uploadedImages else { return }
@@ -201,10 +201,10 @@ private extension PostProductViewModel {
     }
 
     func buildProduct(isFreePosting: Bool) -> Product? {
-        let price = isFreePosting ? ProductPrice.Free : postDetailViewModel.productPrice
+        let price = isFreePosting ? ProductPrice.free : postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
-        return productRepository.buildNewProduct(title, description: description, price: price, category: .Unassigned)
+        return productRepository.buildNewProduct(title, description: description, price: price, category: .unassigned)
     }
 }
 
@@ -225,13 +225,13 @@ extension PostingSource {
         case .tabBar, .sellButton:
             return .sell
         case .deepLink:
-            return .External
+            return .external
         case .onboardingButton, .onboardingCamera:
-            return .Onboarding
+            return .onboarding
         case .notifications:
-            return .Notifications
+            return .notifications
         case .deleteProduct:
-            return .ProductDelete
+            return .productDelete
         }
     }
 
@@ -240,19 +240,19 @@ extension PostingSource {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteProduct:
             return nil
         case .onboardingButton:
-            return .SellYourStuff
+            return .sellYourStuff
         case .onboardingCamera:
-            return .StartMakingCash
+            return .startMakingCash
         }
     }
     var sellButtonPosition: EventParameterSellButtonPosition {
         switch self {
         case .tabBar:
-            return .TabBar
+            return .tabBar
         case .sellButton:
-            return .FloatingButton
+            return .floatingButton
         case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteProduct:
-            return .None
+            return .none
         }
     }
 }

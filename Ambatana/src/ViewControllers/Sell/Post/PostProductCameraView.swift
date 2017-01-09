@@ -64,12 +64,12 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
             viewModel.cameraDelegate = delegate
         }
     }
-    private var viewModel: PostProductCameraViewModel
+    fileprivate var viewModel: PostProductCameraViewModel
 
-    private var fastCamera: FastttCamera?
+    fileprivate var fastCamera: FastttCamera?
     private var headerShown = true
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
  
 
     // MARK: - View lifecycle
@@ -239,7 +239,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
 extension PostProductCameraView {
     
-    private func updateCamera() {
+    fileprivate func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
             setupCamera()
         } else {
@@ -247,7 +247,7 @@ extension PostProductCameraView {
         }
     }
 
-    private func setupCamera() {
+    fileprivate func setupCamera() {
         guard fastCamera == nil else { return }
 
         fastCamera = FastttCamera()
@@ -266,7 +266,7 @@ extension PostProductCameraView {
         fastCamera.view.frame = cameraContainerView.frame
     }
 
-    private func removeCamera() {
+    fileprivate func removeCamera() {
         guard let fastCamera = fastCamera else { return }
         fastCamera.willMove(toParentViewController: nil)
         fastCamera.beginAppearanceTransition(false, animated: false)
@@ -282,7 +282,7 @@ extension PostProductCameraView {
 
 extension PostProductCameraView {
 
-    private func setupInfoView() {
+    fileprivate func setupInfoView() {
         infoButton.setStyle(.primary(fontSize: .medium))
 
         viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx_hidden).addDisposableTo(disposeBag)

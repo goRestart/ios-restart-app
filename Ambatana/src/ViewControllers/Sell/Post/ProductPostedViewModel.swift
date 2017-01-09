@@ -32,9 +32,9 @@ class ProductPostedViewModel: BaseViewModel {
 
     var wasFreePosting: Bool {
         switch self.status {
-        case let .Posting(_, product):
+        case let .posting(_, product):
             return product.price.free
-        case let .Success(product):
+        case let .success(product):
             return product.price.free
         case .error:
             return false
@@ -70,9 +70,9 @@ class ProductPostedViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
             switch status {
-            case let .Posting(images, product):
+            case let .posting(images, product):
                 postProduct(images, product: product)
-            case .Success:
+            case .success:
                 delegate?.productPostedViewModel(self, setupStaticState: true)
                 trackProductUploadResultScreen()
             case .error:
@@ -87,9 +87,9 @@ class ProductPostedViewModel: BaseViewModel {
 
     var mainButtonText: String? {
         switch status {
-        case .Posting:
+        case .posting:
             return nil
-        case .Success:
+        case .success:
             return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherButton
         case .error:
             return LGLocalizedString.productPostRetryButton
@@ -98,9 +98,9 @@ class ProductPostedViewModel: BaseViewModel {
 
     var mainText: String? {
         switch status {
-        case .Posting:
+        case .posting:
             return nil
-        case .Success:
+        case .success:
             return LGLocalizedString.productPostIncentiveTitle
         case .error:
             return LGLocalizedString.commonErrorTitle.capitalized
@@ -109,9 +109,9 @@ class ProductPostedViewModel: BaseViewModel {
 
     var secondaryText: String? {
         switch status {
-        case .Posting:
+        case .posting:
             return nil
-        case .Success:
+        case .success:
             return wasFreePosting ? LGLocalizedString.productPostIncentiveSubtitleFree : LGLocalizedString.productPostIncentiveSubtitle
         case let .error(error):
             switch error {
@@ -125,23 +125,23 @@ class ProductPostedViewModel: BaseViewModel {
 
     var socialMessage: SocialMessage? {
         switch status {
-        case .Posting, .error:
+        case .posting, .error:
             return nil
-        case let .Success(product):
+        case let .success(product):
             return ProductSocialMessage(product: product)
         }
     }
 
     var promoteProductViewModel: PromoteProductViewModel? {
         switch status {
-        case .Posting, .error:
+        case .posting, .error:
             return nil
-        case let .Success(product):
+        case let .success(product):
             guard let countryCode = product.postalAddress.countryCode, let productId = product.objectId else { return nil }
             let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
             guard !themes.isEmpty else { return nil }
             return PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
-                promotionSource: .ProductSell)
+                promotionSource: .productSell)
         }
     }
 
@@ -150,10 +150,10 @@ class ProductPostedViewModel: BaseViewModel {
     func closeActionPressed() {
         var product: Product? = nil
         switch status {
-        case let .Success(productPosted):
+        case let .success(productPosted):
             trackEvent(TrackerEvent.productSellConfirmationClose(productPosted))
             product = productPosted
-        case .Posting:
+        case .posting:
             break
         case let .error(error):
             trackEvent(TrackerEvent.productSellErrorClose(error))
@@ -192,10 +192,10 @@ class ProductPostedViewModel: BaseViewModel {
 
     func mainActionPressed() {
         switch status {
-        case .Posting:
+        case .posting:
             break
-        case let .Success(product):
-            trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .Button))
+        case let .success(product):
+            trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .button))
         case let .error(error):
             trackEvent(TrackerEvent.productSellErrorPost(error))
         }
@@ -205,7 +205,7 @@ class ProductPostedViewModel: BaseViewModel {
 
     func incentivateSectionPressed() {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .ItemPicture))
+        trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .itemPicture))
         navigator?.closeProductPostedAndOpenPost()
     }
 
@@ -259,12 +259,12 @@ class ProductPostedViewModel: BaseViewModel {
             } else if let error = result.error {
                 let sellError: EventParameterPostProductError
                 switch error {
-                case .Network:
-                    sellError = .Network
-                case .ServerError, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
-                    sellError = .ServerError(code: error.errorCode)
+                case .network:
+                    sellError = .network
+                case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+                    sellError = .serverError(code: error.errorCode)
                 case .internalError:
-                    sellError = .Internal
+                    sellError = .internalError
                 }
                 let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
                 strongSelf.trackEvent(sellErrorDataEvent)
@@ -279,9 +279,9 @@ class ProductPostedViewModel: BaseViewModel {
 
     private func trackProductUploadResultScreen() {
         switch status {
-        case .Posting:
+        case .posting:
             break
-        case let .Success(product):
+        case let .success(product):
             trackEvent(TrackerEvent.productSellConfirmation(product))
         case let .error(error):
             trackEvent(TrackerEvent.productSellError(error))
@@ -298,43 +298,43 @@ class ProductPostedViewModel: BaseViewModel {
 
 private enum ProductPostedStatus {
     case posting(images: [UIImage], product: Product)
-    case Success(product: Product)
+    case success(product: Product)
     case error(error: EventParameterPostProductError)
 
     var product: Product? {
         switch self {
-        case .Posting, .error:
+        case .posting, .error:
             return nil
-        case let .Success(product):
+        case let .success(product):
             return product
         }
     }
 
     var success: Bool {
         switch self {
-        case .Success:
+        case .success:
             return true
-        case .Posting, .error:
+        case .posting, .error:
             return false
         }
     }
 
     init(images: [UIImage], product: Product) {
-        self = .Posting(images: images, product: product)
+        self = .posting(images: images, product: product)
     }
 
     init(result: ProductResult) {
         if let product = result.value {
-            self = .Success(product: product)
+            self = .success(product: product)
         } else if let error = result.error {
             switch error {
-            case .Network:
-                self = .Error(error: .Network)
+            case .network:
+                self = .error(error: .network)
             default:
-                self = .Error(error: .Internal)
+                self = .error(error: .internalError)
             }
         } else {
-            self = .Error(error: .Internal)
+            self = .error(error: .internalError)
         }
     }
 }

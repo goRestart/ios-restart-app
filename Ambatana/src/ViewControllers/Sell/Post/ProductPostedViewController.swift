@@ -28,7 +28,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     @IBOutlet weak var incentiveContainer: UIView!
 
     private static let contentContainerShownHeight: CGFloat = 80
-    private let viewModel: ProductPostedViewModel
+    fileprivate let viewModel: ProductPostedViewModel
     private let socialSharer: SocialSharer
 
     // MARK: - View lifecycle

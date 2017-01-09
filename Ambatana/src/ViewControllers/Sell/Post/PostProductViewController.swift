@@ -26,16 +26,16 @@ class PostProductViewController: BaseViewController {
     @IBOutlet weak var detailsContainer: UIView!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
-    private var productDetailView: UIView
+    fileprivate var productDetailView: UIView
 
-    private var viewPager: LGViewPager
-    private var cameraView: PostProductCameraView
-    private var galleryView: PostProductGalleryView
-    private let keyboardHelper: KeyboardHelper
+    fileprivate var viewPager: LGViewPager
+    fileprivate var cameraView: PostProductCameraView
+    fileprivate var galleryView: PostProductGalleryView
+    fileprivate let keyboardHelper: KeyboardHelper
     private var viewDidAppear: Bool = false
 
-    private static let detailTopMarginPrice: CGFloat = 100
-    private let rightMarginCameraIcon:CGFloat = 15.0
+    fileprivate static let detailTopMarginPrice: CGFloat = 100
+    fileprivate let rightMarginCameraIcon:CGFloat = 15.0
 
     private let forceCamera: Bool
     private var initialTab: Int {
@@ -47,7 +47,7 @@ class PostProductViewController: BaseViewController {
 
 
     // ViewModel
-    private var viewModel: PostProductViewModel
+    fileprivate var viewModel: PostProductViewModel
 
 
     // MARK: - Lifecycle
@@ -176,13 +176,13 @@ class PostProductViewController: BaseViewController {
     private func setupRx() {
         viewModel.state.asObservable().bindNext { [weak self] state in
             switch state {
-            case .ImageSelection:
+            case .imageSelection:
                 self?.setSelectImageState()
-            case .UploadingImage:
+            case .uploadingImage:
                 self?.setSelectPriceState(loading: true, error: nil)
-            case .ErrorUpload(let message):
+            case .errorUpload(let message):
                 self?.setSelectPriceState(loading: false, error: message)
-            case .DetailsSelection:
+            case .detailsSelection:
                self?.setSelectPriceState(loading: false, error: nil)
             }
         }.addDisposableTo(disposeBag)
@@ -199,7 +199,7 @@ class PostProductViewController: BaseViewController {
         }.addDisposableTo(disposeBag)
     }
 
-    private func updateButtonsForPagerScroll(_ scroll: CGFloat) {
+    fileprivate func updateButtonsForPagerScroll(_ scroll: CGFloat) {
         galleryButton.alpha = scroll
         let rightOffset = photoButton.frame.width/2 + rightMarginCameraIcon
         let movement = view.width/2 - rightOffset
@@ -218,11 +218,11 @@ class PostProductViewController: BaseViewController {
 // MARK: - State selection
 
 extension PostProductViewController {
-    private func setSelectImageState() {
+    fileprivate func setSelectImageState() {
         selectPriceContainer.isHidden = true
     }
 
-    private func setSelectPriceState(loading: Bool, error: String?) {
+    fileprivate func setSelectPriceState(loading: Bool, error: String?) {
         detailsScroll.contentInset.top = (view.height / 3) - customLoadingView.height
 
         selectPriceContainer.isHidden = false
@@ -239,7 +239,7 @@ extension PostProductViewController {
         }
     }
 
-    private func setSelectPriceItems(_ loading: Bool, error: String?) {
+    fileprivate func setSelectPriceItems(_ loading: Bool, error: String?) {
 
         postedInfoLabel.alpha = 0
         postedInfoLabel.text = error != nil ?
@@ -261,7 +261,7 @@ extension PostProductViewController {
         }
     }
 
-    private func setSelectPriceBottomItems(_ loading: Bool, error: String?) {
+    fileprivate func setSelectPriceBottomItems(_ loading: Bool, error: String?) {
         productDetailView.alpha = 0
         postErrorLabel.alpha = 0
         retryButton.alpha = 0
@@ -300,7 +300,7 @@ extension PostProductViewController {
 // MARK: - PostProductViewModelDelegate
 
 extension PostProductViewController: PostProductViewModelDelegate {
-    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
+    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: @escaping () -> Void) {
         ifLoggedInThen(.sell, loginStyle: .popup(LGLocalizedString.productPostLoginMessage),
                        preDismissAction: { [weak self] in
                         self?.view.isHidden = true
@@ -319,7 +319,7 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     }
 
     func productCameraDidTakeImage(_ image: UIImage) {
-        viewModel.imagesSelected([image], source: .Camera)
+        viewModel.imagesSelected([image], source: .camera)
     }
 
     func productCameraRequestHideTabs(_ hide: Bool) {
@@ -341,7 +341,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGalleryDidSelectImages(_ images: [UIImage]) {
-        viewModel.imagesSelected(images, source: .Gallery)
+        viewModel.imagesSelected(images, source: .gallery)
     }
 
     func productGalleryRequestsScrollLock(_ lock: Bool) {
