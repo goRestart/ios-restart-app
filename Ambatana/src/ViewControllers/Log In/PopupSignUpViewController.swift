@@ -114,7 +114,7 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         legalTextView.delegate = self
     }
 
-    private func presentSignupWithViewModel(_ viewModel: SignUpLogInViewModel) {
+    fileprivate func presentSignupWithViewModel(_ viewModel: SignUpLogInViewModel) {
         let vc = SignUpLogInViewController(viewModel: viewModel)
         vc.preDismissAction = { [weak self] in
             self?.view.isHidden = true

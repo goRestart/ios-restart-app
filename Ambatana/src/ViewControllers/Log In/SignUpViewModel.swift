@@ -270,13 +270,13 @@ fileprivate extension SignUpViewModel {
 
     func updatePreviousEmailAndUsernames(_ accountProvider: AccountProvider, username: String?) {
         switch accountProvider {
-        case .Email:
+        case .email:
             previousFacebookUsername.value = nil
             previousGoogleUsername.value = nil
-        case .Facebook:
+        case .facebook:
             previousFacebookUsername.value = username
             previousGoogleUsername.value = nil
-        case .Google:
+        case .google:
             previousFacebookUsername.value = nil
             previousGoogleUsername.value = username
         }

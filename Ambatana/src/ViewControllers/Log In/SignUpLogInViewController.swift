@@ -52,7 +52,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     @IBOutlet weak var sendButton: UIButton!
     
-    private var helpButton: UIBarButtonItem!
+    fileprivate var helpButton: UIBarButtonItem!
 
     private let disposeBag: DisposeBag
 
