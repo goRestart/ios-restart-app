@@ -478,7 +478,7 @@ class TrackerEventSpec: QuickSpec {
             }
 
             describe("login email error") {
-                let error = EventParameterLoginError.Internal(description: "details")
+                let error = EventParameterLoginError.internalError(description: "details")
                 beforeEach {
                     sut = TrackerEvent.loginEmailError(error)
                     expect(sut.params).notTo(beNil())
@@ -498,7 +498,7 @@ class TrackerEventSpec: QuickSpec {
             }
 
             describe("login fb error") {
-                let error = EventParameterLoginError.Internal(description: "details")
+                let error = EventParameterLoginError.internalError(description: "details")
                 beforeEach {
                     sut = TrackerEvent.loginFBError(error)
                     expect(sut.params).notTo(beNil())
@@ -518,7 +518,7 @@ class TrackerEventSpec: QuickSpec {
             }
 
             describe("login google error") {
-                let error = EventParameterLoginError.Internal(description: "details")
+                let error = EventParameterLoginError.internalError(description: "details")
                 beforeEach {
                     sut = TrackerEvent.loginGoogleError(error)
                     expect(sut.params).notTo(beNil())
@@ -580,7 +580,7 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("signup error") {
-                let error = EventParameterLoginError.Internal(description: "details")
+                let error = EventParameterLoginError.internalError(description: "details")
                 beforeEach {
                     sut = TrackerEvent.signupError(error)
                     expect(sut.params).notTo(beNil())
@@ -600,7 +600,7 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("password reset error error") {
-                let error = EventParameterLoginError.Internal(description: "details")
+                let error = EventParameterLoginError.internalError(description: "details")
                 beforeEach {
                     sut = TrackerEvent.passwordResetError(error)
                     expect(sut.params).notTo(beNil())
@@ -1935,7 +1935,7 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .False, typePage: .Chat)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .False, typePage: .chat)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1956,7 +1956,7 @@ class TrackerEventSpec: QuickSpec {
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .text,
-                                                       isQuickAnswer: .False, typePage: .Chat)
+                                                       isQuickAnswer: .False, typePage: .chat)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -2008,7 +2008,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains pageType param") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .False, typePage: .Chat)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .False, typePage: .chat)
                     let pageType = sut.params!.stringKeyParams["type-page"] as? String
                     expect(pageType).to(equal("chat"))
                 }
@@ -2028,7 +2028,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("chatRelatedItemsComplete") {
                 beforeEach {
-                    sut = TrackerEvent.chatRelatedItemsComplete(20, shownReason: .ProductSold)
+                    sut = TrackerEvent.chatRelatedItemsComplete(20, shownReason: .productSold)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("chat-related-items-complete"))
@@ -2340,7 +2340,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     user = MockUser()
                     user.objectId = "test-id"
-                    sut = TrackerEvent.profileReport(.Profile, reportedUserId: user.objectId!, reason: .Scammer)
+                    sut = TrackerEvent.profileReport(.Profile, reportedUserId: user.objectId!, reason: .scammer)
                 }
                 afterEach {
                     user = nil
@@ -2417,7 +2417,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("user rating start") {
                 beforeEach {
-                    sut = TrackerEvent.userRatingStart("12345", typePage: .Chat)
+                    sut = TrackerEvent.userRatingStart("12345", typePage: .chat)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue) == "user-rating-start"
@@ -2434,7 +2434,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("user rating complete") {
                 beforeEach {
-                    sut = TrackerEvent.userRatingComplete("12345", typePage: .Chat, rating: 4, hasComments: true)
+                    sut = TrackerEvent.userRatingComplete("12345", typePage: .chat, rating: 4, hasComments: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("user-rating-complete"))
@@ -2588,7 +2588,7 @@ class TrackerEventSpec: QuickSpec {
             describe("Verify Account") {
                 context("Verify Account Start") {
                     beforeEach {
-                        sut = TrackerEvent.verifyAccountStart(.Chat)
+                        sut = TrackerEvent.verifyAccountStart(.chat)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "verify-account-start"
@@ -2601,7 +2601,7 @@ class TrackerEventSpec: QuickSpec {
 
                 context("Verify Account Complete") {
                     beforeEach {
-                        sut = TrackerEvent.verifyAccountComplete(.Chat, network: .Facebook)
+                        sut = TrackerEvent.verifyAccountComplete(.chat, network: .Facebook)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "verify-account-complete"

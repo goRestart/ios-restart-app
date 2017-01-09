@@ -52,7 +52,7 @@ class CreateCommercialViewModel: BaseViewModel {
                     self?.status.value = .Data
                 } else if let vm = self?.viewModelForEmptyView() {
                     self?.status.value = .empty(vm)
-                } else if let vm = self?.emptyViewModelForError(.Internal(message: "")){
+                } else if let vm = self?.emptyViewModelForError(.internalError(message: "")){
                     self?.status.value = .Error(vm)
                 } else {
                     self?.status.value = .None
@@ -83,7 +83,7 @@ class CreateCommercialViewModel: BaseViewModel {
         switch error {
         case .network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(fetchProducts)
-        case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+        case .internalError, .forbidden, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(fetchProducts)
         }
         return emptyVM

@@ -177,24 +177,24 @@ fileprivate extension Chat {
     func conversationCellStatus(_ otherUser: User?) -> ConversationCellStatus {
         if let otherUser = otherUser {
             switch otherUser.status {
-            case .Scammer:
-                return .Forbidden
-            case .PendingDelete:
-                return .UserPendingDelete
-            case .Deleted:
-                return .UserDeleted
-            case .Active, .Inactive, .NotFound:
+            case .scammer:
+                return .forbidden
+            case .pendingDelete:
+                return .userPendingDelete
+            case .deleted:
+                return .userDeleted
+            case .active, .inactive, .notFound:
                 break // In this case we rely on the chat status
             }
         }
 
         switch self.status {
-        case .Forbidden:
-            return .Forbidden
+        case .forbidden:
+            return .forbidden
         case .sold:
-            return .ProductSold
-        case .Deleted:
-            return .ProductDeleted
+            return .productSold
+        case .deleted:
+            return .productDeleted
         case .available:
             return .available
         }

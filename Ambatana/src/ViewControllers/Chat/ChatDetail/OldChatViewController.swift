@@ -393,7 +393,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)) { [weak self] in
             self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded(.Chat)
+            tabBarCtrl.showAppRatingViewIfNeeded(.chat)
         }
     }
 }

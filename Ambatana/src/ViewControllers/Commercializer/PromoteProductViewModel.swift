@@ -205,11 +205,11 @@ class PromoteProductViewModel: BaseViewModel {
                                                                                          templateId: themeId)
                 } else if let error = result.error {
 
-                    var paramError: EventParameterCommercializerError = .Internal
+                    var paramError: EventParameterCommercializerError = .internalError
                     switch error {
                     case .network:
                         paramError = .network
-                    case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+                    case .internalError, .forbidden, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
                         break
                     }
 

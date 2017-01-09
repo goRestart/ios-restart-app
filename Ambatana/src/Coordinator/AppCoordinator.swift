@@ -269,7 +269,7 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
 
     func userRatingCoordinatorDidFinish(_ coordinator: UserRatingCoordinator, withRating rating: Int?) {
         if rating == 5 {
-            tabBarCtl.showAppRatingView(EventParameterRatingSource.Chat)
+            tabBarCtl.showAppRatingView(EventParameterRatingSource.chat)
         }
     }
 }
@@ -689,7 +689,7 @@ fileprivate extension AppCoordinator {
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonUserReviewNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {

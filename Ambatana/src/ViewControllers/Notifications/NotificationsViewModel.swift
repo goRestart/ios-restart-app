@@ -114,7 +114,7 @@ class NotificationsViewModel: BaseViewModel {
                 }
             } else if let error = result.error {
                 switch error {
-                    case .Forbidden, .Internal, .NotFound, .ServerError, .TooManyRequests, .Unauthorized, .UserNotVerified,
+                    case .forbidden, .internalError, .notFound, .serverError, .tooManyRequests, .unauthorized, .userNotVerified,
                     .network(errorCode: _, onBackground: false):
                         if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                             action: { [weak self] in
@@ -178,7 +178,7 @@ fileprivate extension NotificationsViewModel {
                                     })
         case let .sold(product, _):
             return NotificationData(id: notification.objectId,
-                                    type: .ProductSold(productImage: product.image), date: notification.createdAt,
+                                    type: .productSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         let data = ProductDetailData.Id(productId: product.id)
@@ -236,7 +236,7 @@ fileprivate extension NotificationDataType {
     var eventType: EventParameterNotificationType {
         switch self {
         case .productSold:
-            return .ProductSold
+            return .productSold
         case .ProductFavorite:
             return .Favorite
         case .Rating:

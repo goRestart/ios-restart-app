@@ -187,7 +187,7 @@ class ChatGroupedViewModel: BaseViewModel {
     }
     
     func blockedUserPressed(_ user: User) {
-        let data = UserDetailData.UserAPI(user: user, source: .Chat)
+        let data = UserDetailData.UserAPI(user: user, source: .chat)
         tabNavigator?.openUser(data)
     }
 
@@ -333,7 +333,7 @@ extension ChatGroupedViewModel {
         // When verification pending changes from false to true then display verify accounts
         verificationPending.asObservable().filter { $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
             self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],
-                source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
         }.addDisposableTo(disposeBag)

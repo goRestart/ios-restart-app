@@ -249,7 +249,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("scammer") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .Scammer)
+                            sessionManager.myUserResult = SessionMyUserResult(error: .scammer)
 
                             sut.email = email
                             sut.password = "123456"
@@ -305,7 +305,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
-                            googleLoginHelper.loginResult = .NotFound
+                            googleLoginHelper.loginResult = .notFound
                             sut.logInWithGoogle()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -324,7 +324,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     }
                     context("scammer") {
                         beforeEach {
-                            googleLoginHelper.loginResult = .Scammer
+                            googleLoginHelper.loginResult = .scammer
                             sut.logInWithGoogle()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -377,7 +377,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
-                            fbLoginHelper.loginResult = .NotFound
+                            fbLoginHelper.loginResult = .notFound
                             sut.logInWithFacebook()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -396,7 +396,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     }
                     context("scammer") {
                         beforeEach {
-                            fbLoginHelper.loginResult = .Scammer
+                            fbLoginHelper.loginResult = .scammer
                             sut.logInWithFacebook()
                             expect(self.loading).toEventually(beFalse())
                         }

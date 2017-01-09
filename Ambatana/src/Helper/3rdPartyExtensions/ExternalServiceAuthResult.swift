@@ -21,26 +21,26 @@ enum ExternalServiceAuthResult {
     
     init(sessionError: SessionManagerError) {
         switch sessionError {
-        case .Conflict(let cause):
-            self = .Conflict(cause: cause)
+        case .conflict(let cause):
+            self = .conflict(cause: cause)
         case .BadRequest:
             self = .BadRequest
-        case let .Internal(description):
-            self = .Internal(description: description)
-        case .NonExistingEmail:
-            self = .Internal(description: "NonExistingEmail")
-        case .Unauthorized:
-            self = .Internal(description: "Unauthorized")
-        case .Forbidden:
-            self = .Internal(description: "Forbidden")
-        case .TooManyRequests:
-            self = .Internal(description: "TooManyRequests")
-        case .UserNotVerified:
-            self = .Internal(description: "UserNotVerified")
-        case .NotFound:
-            self = .NotFound
-        case .Scammer:
-            self = .Scammer
+        case let .internalError(description):
+            self = .internalError(description: description)
+        case .nonExistingEmail:
+            self = .internalError(description: "NonExistingEmail")
+        case .unauthorized:
+            self = .internalError(description: "Unauthorized")
+        case .forbidden:
+            self = .internalError(description: "Forbidden")
+        case .tooManyRequests:
+            self = .internalError(description: "TooManyRequests")
+        case .userNotVerified:
+            self = .internalError(description: "UserNotVerified")
+        case .notFound:
+            self = .notFound
+        case .scammer:
+            self = .scammer
         case .network:
             self = .network
         }

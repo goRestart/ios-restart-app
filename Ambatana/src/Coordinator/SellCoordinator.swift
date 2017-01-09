@@ -109,10 +109,10 @@ extension SellCoordinator: PostProductNavigator {
                     switch error {
                     case .network:
                         sellError = .network
-                    case .ServerError, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
-                        sellError = .ServerError(code: error.errorCode)
+                    case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+                        sellError = .serverError(code: error.errorCode)
                     case .internalError:
-                        sellError = .Internal
+                        sellError = .internalError
                     }
                     let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
                     TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)

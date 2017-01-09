@@ -620,11 +620,11 @@ enum EventParameterRelatedShownReason: String {
         case .blocked, .blockedBy:
             self = .Unanswered48h
         case .productDeleted:
-            self = .ProductDeleted
+            self = .productDeleted
         case .productSold:
-            self = .ProductSold
+            self = .productSold
         case .userPendingDelete, .userDeleted:
-            self = .UserDeleted
+            self = .userDeleted
         case .available:
             self = .Unanswered48h
         }

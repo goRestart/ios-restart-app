@@ -39,11 +39,11 @@ class LGConfigRetrieveService: ConfigRetrieveService {
                         completion?(ConfigRetrieveServiceResult(error: .network))
                     }
                     else {
-                        completion?(ConfigRetrieveServiceResult(error: .Internal))
+                        completion?(ConfigRetrieveServiceResult(error: .internalError))
                     }
                 }
                 else {
-                    completion?(ConfigRetrieveServiceResult(error: .Internal))
+                    completion?(ConfigRetrieveServiceResult(error: .internalError))
                 }
             }
     }

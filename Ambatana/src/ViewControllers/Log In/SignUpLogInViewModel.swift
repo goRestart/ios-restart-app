@@ -212,7 +212,7 @@ class SignUpLogInViewModel: BaseViewModel {
                     }
                 } else if let sessionManagerError = signUpResult.error {
                     switch sessionManagerError {
-                    case .Conflict(let cause):
+                    case .conflict(let cause):
                         switch cause {
                         case .UserExists:
                             strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
@@ -363,16 +363,16 @@ class SignUpLogInViewModel: BaseViewModel {
         switch (error) {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .Unauthorized:
+        case .unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .Scammer:
+        case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .Email)
             }
             trackLoginEmailFailedWithError(eventParameterForSessionError(error))
             return
-        case .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest,
-             .UserNotVerified:
+        case .notFound, .internalError, .forbidden, .nonExistingEmail, .conflict, .tooManyRequests, .BadRequest,
+             .userNotVerified:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -391,7 +391,7 @@ class SignUpLogInViewModel: BaseViewModel {
             case .NonAcceptableParams:
                 message = LGLocalizedString.signUpSendErrorInvalidDomain
             }
-        case .Conflict(let cause):
+        case .conflict(let cause):
             switch cause {
             case .UserExists, .NotSpecified, .Other:
                 message = LGLocalizedString.signUpSendErrorEmailTaken(email)
@@ -400,20 +400,20 @@ class SignUpLogInViewModel: BaseViewModel {
             case .RequestAlreadyProcessed:
                 message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
             }
-        case .NonExistingEmail:
+        case .nonExistingEmail:
             message = LGLocalizedString.signUpSendErrorInvalidEmail
-        case .UserNotVerified:
+        case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
                 let vm = RecaptchaViewModel(transparentMode: self?.featureFlags.captchaTransparent ?? false)
                 self?.delegate?.vmShowRecaptcha(vm)
             }
             return
-        case .Scammer:
+        case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .Email)
             }
             return
-        case .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
+        case .notFound, .internalError, .forbidden, .unauthorized, .tooManyRequests:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -427,28 +427,28 @@ class SignUpLogInViewModel: BaseViewModel {
         case .BadRequest(let cause):
             switch cause {
             case .NonAcceptableParams:
-                return .BlacklistedDomain
+                return .blacklistedDomain
             case .NotSpecified, .Other:
                 return .BadRequest
             }
-        case .Scammer:
-            return .Forbidden
-        case .NotFound:
-            return .NotFound
-        case .Conflict:
+        case .scammer:
+            return .forbidden
+        case .notFound:
+            return .notFound
+        case .conflict:
             return .EmailTaken
-        case .Forbidden:
-            return .Forbidden
-        case let .Internal(description):
-            return .Internal(description: description)
-        case .NonExistingEmail:
-            return .NonExistingEmail
-        case .Unauthorized:
-            return .Unauthorized
-        case .TooManyRequests:
-            return .TooManyRequests
-        case .UserNotVerified:
-            return .Internal(description: "UserNotVerified")
+        case .forbidden:
+            return .forbidden
+        case let .internalError(description):
+            return .internalError(description: description)
+        case .nonExistingEmail:
+            return .nonExistingEmail
+        case .unauthorized:
+            return .unauthorized
+        case .tooManyRequests:
+            return .tooManyRequests
+        case .userNotVerified:
+            return .internalError(description: "UserNotVerified")
         }
     }
 
@@ -477,7 +477,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case .badRequest:
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .badRequest
-        case .Conflict(let cause):
+        case .conflict(let cause):
             var message = ""
             switch cause {
             case .UserExists, .NotSpecified, .Other:
@@ -489,9 +489,9 @@ class SignUpLogInViewModel: BaseViewModel {
             }
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             loginError = .emailTaken
-        case let .internal(description):
+        case let .internalError(description):
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .internal(description: description)
+            loginError = .internalError(description: description)
         }
         return loginError
     }

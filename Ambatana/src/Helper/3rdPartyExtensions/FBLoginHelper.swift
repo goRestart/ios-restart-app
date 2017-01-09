@@ -70,7 +70,7 @@ extension FBLoginHelper: ExternalAuthHelper {
             case .cancelled:
                 loginCompletion?(.cancelled)
             case .error:
-                loginCompletion?(.internal(description: "FB SDK error"))
+                loginCompletion?(.internalError(description: "FB SDK error"))
             }
         }
     }

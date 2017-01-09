@@ -143,7 +143,7 @@ class SignUpViewModelSpec: QuickSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
-                            googleLoginHelper.loginResult = .NotFound
+                            googleLoginHelper.loginResult = .notFound
                             sut.connectGoogleButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -162,7 +162,7 @@ class SignUpViewModelSpec: QuickSpec {
                     }
                     context("scammer") {
                         beforeEach {
-                            googleLoginHelper.loginResult = .Scammer
+                            googleLoginHelper.loginResult = .scammer
                             sut.connectGoogleButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -214,7 +214,7 @@ class SignUpViewModelSpec: QuickSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
-                            fbLoginHelper.loginResult = .NotFound
+                            fbLoginHelper.loginResult = .notFound
                             sut.connectFBButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -233,7 +233,7 @@ class SignUpViewModelSpec: QuickSpec {
                     }
                     context("scammer") {
                         beforeEach {
-                            fbLoginHelper.loginResult = .Scammer
+                            fbLoginHelper.loginResult = .scammer
                             sut.connectFBButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }

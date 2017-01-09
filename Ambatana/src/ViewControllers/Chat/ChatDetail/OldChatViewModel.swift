@@ -124,13 +124,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
         guard let otherUser = otherUser else { return .userDeleted }
         switch otherUser.status {
-        case .Scammer:
+        case .scammer:
             return .forbidden
-        case .PendingDelete:
+        case .pendingDelete:
             return .userPendingDelete
-        case .Deleted:
+        case .deleted:
             return .userDeleted
-        case .Active, .Inactive, .NotFound:
+        case .active, .inactive, .notFound:
             break // In this case we rely on the rest of states
         }
 
@@ -140,7 +140,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
         
         switch product.status {
-        case .Deleted, .discarded:
+        case .deleted, .discarded:
             return .productDeleted
         case .sold, .soldOld:
             return .productSold
@@ -472,7 +472,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         case .available, .blocked, .blockedBy, .productSold, .userPendingDelete, .userDeleted:
             delegate?.vmHideKeyboard(animated: false)
             let data = ProductDetailData.ProductAPI(product: product, thumbnailImage: nil, originFrame: nil)
-            navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
+            navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
         }
     }
     
@@ -483,7 +483,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         case .productDeleted, .available, .blocked, .blockedBy, .productSold:
             guard let user = otherUser else { return }
             delegate?.vmHideKeyboard(animated: false)
-            let data = UserDetailData.UserAPI(user: user, source: .Chat)
+            let data = UserDetailData.UserAPI(user: user, source: .chat)
             navigator?.openUser(data)
         }
     }
@@ -491,7 +491,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     func reviewUserPressed() {
         keyValueStorage[.userRatingTooltipAlreadyShown] = true
         guard let otherUser = otherUser, let reviewData = RateUserData(user: otherUser) else { return }
-        delegate?.vmShowUserRating(.Chat, data: reviewData)
+        delegate?.vmShowUserRating(.chat, data: reviewData)
     }
 
     func closeReviewTooltipPressed() {
@@ -709,9 +709,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.afterSendMessageEvents()
             } else if let error = result.error {
                 switch error {
-                case .UserNotVerified:
+                case .userNotVerified:
                     strongSelf.userNotVerifiedError()
-                case .Forbidden, .Internal, .network, .NotFound, .TooManyRequests, .Unauthorized, .ServerError:
+                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
                     strongSelf.delegate?.vmDidFailSendingMessage()
                 }
             }
@@ -732,7 +732,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
     private func userNotVerifiedError() {
         navigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
-                                         source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                                         source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                                             description: LGLocalizedString.chatNotVerifiedAlertMessage),
                                          completionBlock: { [weak self] in
                                             self?.navigator?.closeChatDetail()
@@ -743,11 +743,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
         myUserRepository.linkAccount(email) { [weak self] result in
             if let error = result.error {
                 switch error {
-                case .TooManyRequests:
+                case .tooManyRequests:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified, .ServerError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -991,7 +991,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     private func reportUserPressed() {
         guard let otherUserId = otherUser?.objectId else { return }
-        let reportVM = ReportUsersViewModel(origin: .Chat, userReportedId: otherUserId)
+        let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: otherUserId)
         delegate?.vmShowReportUser(reportVM)
     }
     
@@ -1019,7 +1019,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         guard !didSendMessage else { return }
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
-                                                               typePage: .Chat, sellerRating: sellerRating)
+                                                               typePage: .chat, sellerRating: sellerRating)
         tracker.trackEvent(firstMessageEvent)
     }
     
@@ -1030,17 +1030,17 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .chat)
         tracker.trackEvent(messageSentEvent)
     }
     
     private func trackBlockUsers(_ userIds: [String]) {
-        let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
+        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds)
         tracker.trackEvent(blockUserEvent)
     }
     
     private func trackUnblockUsers(_ userIds: [String]) {
-        let unblockUserEvent = TrackerEvent.profileUnblock(.Chat, unblockedUsersIds: userIds)
+        let unblockUserEvent = TrackerEvent.profileUnblock(.chat, unblockedUsersIds: userIds)
         tracker.trackEvent(unblockUserEvent)
     }
     
@@ -1060,7 +1060,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.nextPage = page + 1
                 strongSelf.updateLoadedMessages(newMessages: chat.messages, page: page)
 
-                if strongSelf.chatStatus == .Forbidden {
+                if strongSelf.chatStatus == .forbidden {
                     strongSelf.showScammerDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
                 } else {
@@ -1070,7 +1070,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 }
             } else if let error = result.error {
                 switch (error) {
-                case .NotFound:
+                case .notFound:
                     //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
                     strongSelf.shouldSendFirstMessageEvent = true
@@ -1078,7 +1078,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                case .network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .network, .unauthorized, .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
             }
@@ -1306,7 +1306,7 @@ extension OldChatViewModel: ChatRelatedProductsViewDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 

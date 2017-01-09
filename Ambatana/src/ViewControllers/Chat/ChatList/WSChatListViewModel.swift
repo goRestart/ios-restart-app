@@ -203,10 +203,10 @@ fileprivate extension ChatConversation {
         }
 
         switch product.status {
-        case .Deleted, .discarded:
-            return .ProductDeleted
+        case .deleted, .discarded:
+            return .productDeleted
         case .sold, .soldOld:
-            return .ProductSold
+            return .productSold
         case .approved, .pending:
             return .available
         }

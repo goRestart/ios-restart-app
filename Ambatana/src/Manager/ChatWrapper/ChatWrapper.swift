@@ -53,7 +53,7 @@ class ChatWrapper {
 
     private func sendOldChatMessage(_ product: Product, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
         guard let text = text else {
-            completion?(Result(error: .Internal(message: "There's no message to send")))
+            completion?(Result(error: .internalError(message: "There's no message to send")))
             return
         }
         oldChatRepository.sendMessage(type, message: text, product: product, recipient: product.user) { result in
@@ -70,28 +70,28 @@ class ChatWrapper {
                                           completion: ChatWrapperCompletion?) {
         // get conversation
         guard let sellerId = product.user.objectId else {
-            completion?(Result(error: .Internal(message: "There's no recipient to send the message")))
+            completion?(Result(error: .internalError(message: "There's no recipient to send the message")))
             return
         }
         guard let productId = product.objectId else {
-            completion?(Result(error: .Internal(message: "There's no product to send the message")))
+            completion?(Result(error: .internalError(message: "There's no product to send the message")))
             return
         }
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 guard let conversationId = value.objectId else {
-                    completion?(Result(error: .Internal(message: "There's no conversation info")))
+                    completion?(Result(error: .internalError(message: "There's no conversation info")))
                     return
                 }
                 guard let userId = self?.myUserRepository.myUser?.objectId else {
-                    completion?(Result(error: .Internal(message: "There's no myUser info")))
+                    completion?(Result(error: .internalError(message: "There's no myUser info")))
                     return
                 }
 
                 let message = self?.chatRepository.createNewMessage(userId, text: text, type: type)
 
                 guard let messageId = message?.objectId else {
-                    completion?(Result(error: .Internal(message: "There's no message info")))
+                    completion?(Result(error: .internalError(message: "There's no message info")))
                     return
                 }
                 let shouldSendFirstMessageEvent = value.lastMessageSentAt == nil

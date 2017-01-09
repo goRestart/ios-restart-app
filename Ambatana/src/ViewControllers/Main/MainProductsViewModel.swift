@@ -447,9 +447,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+            case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                 errorString = LGLocalizedString.toastErrorInternal
-            case .Unauthorized:
+            case .unauthorized:
                 errorString = nil
             }
         }

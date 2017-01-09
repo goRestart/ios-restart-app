@@ -286,7 +286,7 @@ class ChatViewController: TextViewController {
         delay(1.0) { [weak self] in
             self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded(.Chat)
+            tabBarCtrl.showAppRatingViewIfNeeded(.chat)
         }
     }
 }
@@ -438,12 +438,12 @@ extension ChatViewController {
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in
             self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
             switch status {
-            case .ProductDeleted:
+            case .productDeleted:
                 self?.productView.disableProductInteraction()
-            case .Forbidden, .UserPendingDelete, .UserDeleted:
+            case .forbidden, .userPendingDelete, .userDeleted:
                 self?.productView.disableUserProfileInteraction()
                 self?.productView.disableProductInteraction()
-            case .available, .Blocked, .BlockedBy, .ProductSold:
+            case .available, .Blocked, .BlockedBy, .productSold:
                 break
             }
             }.addDisposableTo(disposeBag)

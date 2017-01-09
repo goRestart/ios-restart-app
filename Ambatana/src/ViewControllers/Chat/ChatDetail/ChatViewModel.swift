@@ -171,9 +171,9 @@ class ChatViewModel: BaseViewModel {
 
     private var interlocutorEnabled: Bool {
         switch chatStatus.value {
-        case .Forbidden, .UserDeleted, .UserPendingDelete:
+        case .forbidden, .userDeleted, .userPendingDelete:
             return false
-        case .available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
+        case .available, .productSold, .productDeleted, .Blocked, .BlockedBy:
             return true
         }
     }
@@ -336,7 +336,7 @@ class ChatViewModel: BaseViewModel {
         chatStatus.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
             
-            if status == .Forbidden {
+            if status == .forbidden {
                 let disclaimer = strongSelf.chatViewMessageAdapter.createScammerDisclaimerMessage(
                     isBuyer: strongSelf.isBuyer, userName: strongSelf.conversation.value.interlocutor?.name,
                     action: strongSelf.safetyTipsAction)
@@ -485,12 +485,12 @@ class ChatViewModel: BaseViewModel {
     func productInfoPressed() {
         guard let product = conversation.value.product else { return }
         switch product.status {
-        case .Deleted:
+        case .deleted:
             break
         case .pending, .approved, .discarded, .sold, .soldOld:
             delegate?.vmHideKeyboard(false)
             let data = ProductDetailData.ProductChat(chatConversation: conversation.value)
-            navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
+            navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
         }
     }
     
@@ -506,7 +506,7 @@ class ChatViewModel: BaseViewModel {
         reviewTooltipVisible.value = false
         guard let interlocutor = conversation.value.interlocutor, let reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
-        delegate?.vmShowUserRating(.Chat, data: reviewData)
+        delegate?.vmShowUserRating(.chat, data: reviewData)
     }
 
     func closeReviewTooltipPressed() {
@@ -586,7 +586,7 @@ extension ChatViewModel {
 
     private func showUserNotVerifiedAlert() {
         navigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
-                                         source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                                         source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                                          description: LGLocalizedString.chatNotVerifiedAlertMessage),
                                          completionBlock: { [weak self] in
                                             self?.navigator?.closeChatDetail()
@@ -641,9 +641,9 @@ extension ChatViewModel {
             } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 switch error {
-                case .UserNotVerified:
+                case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
-                case .Forbidden, .Internal, .network, .NotFound, .TooManyRequests, .Unauthorized, .ServerError:
+                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
                     self?.delegate?.vmDidFailSendingMessage()
                 }
             }
@@ -674,11 +674,11 @@ extension ChatViewModel {
         myUserRepository.linkAccount(email) { [weak self] result in
             if let error = result.error {
                 switch error {
-                case .TooManyRequests:
+                case .tooManyRequests:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified, .ServerError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -823,7 +823,7 @@ extension ChatViewModel {
     
     private func reportUserAction() {
         guard let userID = conversation.value.interlocutor?.objectId else { return }
-        let reportVM = ReportUsersViewModel(origin: .Chat, userReportedId: userID)
+        let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
         delegate?.vmShowReportUser(reportVM)
     }
     
@@ -920,9 +920,9 @@ extension ChatViewModel {
 
     private var bottomDisclaimerMessage: ChatViewMessage? {
         switch chatStatus.value {
-        case .UserDeleted, .UserPendingDelete:
+        case .userDeleted, .userPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
-        case .available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
+        case .available, .Blocked, .BlockedBy, .forbidden, .productDeleted, .productSold:
             return nil
         }
     }
@@ -1090,7 +1090,7 @@ fileprivate extension ChatViewModel {
         let sellerRating = conversation.value.amISelling ?
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
-                                                               interlocutorId: userId, typePage: .Chat,
+                                                               interlocutorId: userId, typePage: .chat,
                                                                sellerRating: sellerRating)
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
@@ -1106,17 +1106,17 @@ fileprivate extension ChatViewModel {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
                                                             messageType: type.trackingMessageType,
                                                             isQuickAnswer: type == .QuickAnswer ? .True : .False,
-                                                            typePage: .Chat)
+                                                            typePage: .chat)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
     func trackBlockUsers(_ userIds: [String]) {
-        let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
+        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
     }
     
     func trackUnblockUsers(_ userIds: [String]) {
-        let unblockUserEvent = TrackerEvent.profileUnblock(.Chat, unblockedUsersIds: userIds)
+        let unblockUserEvent = TrackerEvent.profileUnblock(.chat, unblockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
 }
@@ -1130,24 +1130,24 @@ fileprivate extension ChatConversation {
         guard let product = product else { return .available }
 
         switch interlocutor.status {
-        case .Scammer:
-            return .Forbidden
-        case .PendingDelete:
-            return .UserPendingDelete
-        case .Deleted:
-            return .UserDeleted
-        case .Active, .Inactive, .NotFound:
+        case .scammer:
+            return .forbidden
+        case .pendingDelete:
+            return .userPendingDelete
+        case .deleted:
+            return .userDeleted
+        case .active, .inactive, .notFound:
             break // In this case we rely on the rest of states
         }
 
-        if interlocutor.isBanned { return .Forbidden }
+        if interlocutor.isBanned { return .forbidden }
         if interlocutor.isMuted { return .Blocked }
         if interlocutor.hasMutedYou { return .BlockedBy }
         switch product.status {
-        case .Deleted, .discarded:
-            return .ProductDeleted
+        case .deleted, .discarded:
+            return .productDeleted
         case .sold, .soldOld:
-            return .ProductSold
+            return .productSold
         case .approved, .pending:
             return .available
         }
@@ -1155,16 +1155,16 @@ fileprivate extension ChatConversation {
     
     var chatEnabled: Bool {
         switch chatStatus {
-        case .Forbidden, .Blocked, .BlockedBy, .UserPendingDelete, .UserDeleted:
+        case .forbidden, .Blocked, .BlockedBy, .userPendingDelete, .userDeleted:
             return false
-        case .available, .ProductSold, .ProductDeleted:
+        case .available, .productSold, .productDeleted:
             return true
         }
     }
 
     var relatedProductsEnabled: Bool {
         switch chatStatus {
-        case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted, .ProductSold:
+        case .forbidden,  .userPendingDelete, .userDeleted, .productDeleted, .productSold:
             return !amISelling
         case .available, .Blocked, .BlockedBy:
             return false
@@ -1273,7 +1273,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
     
     private func onProductSoldDirectAnswer() {
-        if chatStatus.value != .ProductSold {
+        if chatStatus.value != .productSold {
             shouldAskProductSold = true
         }
     }
@@ -1317,7 +1317,7 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .Chat, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 

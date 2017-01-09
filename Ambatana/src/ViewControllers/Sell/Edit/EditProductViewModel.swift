@@ -723,7 +723,7 @@ private enum ProductCreateValidationError: Error {
 
     var isFieldError: Bool {
         switch (self) {
-        case .network, .internal, .serverError:
+        case .network, .internalError, .serverError:
             return false
         case .noImages, .noTitle, .noPrice, .noDescription, .longDescription, .noCategory:
             return true
@@ -755,7 +755,7 @@ private enum ProductCreateValidationError: Error {
 
     var errorMessage: String {
         switch (self) {
-        case .network, .internal, .serverError:
+        case .network, .internalError, .serverError:
             return LGLocalizedString.editProductSendErrorUploadingProduct
         case .noImages:
             return LGLocalizedString.sellSendErrorInvalidImageCount

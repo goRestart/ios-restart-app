@@ -47,7 +47,7 @@ struct UriScheme {
             guard let userId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium,
                 source: source))
-        case .Chat:
+        case .chat:
             if let conversationId = params["c"] {
                 // letgo://chat/?c=12345 where c=conversation_id
                 return UriScheme(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)),

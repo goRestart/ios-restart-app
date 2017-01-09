@@ -280,7 +280,7 @@ class EditLocationViewModel: BaseViewModel {
         searchService.retrieveAddressForLocation(textToSearch) { [weak self] result in
             if autoSelectFirst {
                 if let error = result.error {
-                    let errorMsg = error == .NotFound ?
+                    let errorMsg = error == .notFound ?
                         LGLocalizedString.changeLocationErrorUnknownLocationMessage(textToSearch) :
                         LGLocalizedString.changeLocationErrorSearchLocationMessage
                     self?.delegate?.vmDidFailToFindLocationWithError(errorMsg)
@@ -348,14 +348,14 @@ extension PostalAddressRetrievalService {
     func rx_retrieveAddressForLocation(_ location: CLLocation?, fromGps: Bool) -> Observable<(Place, Bool)> {
         return Observable.create({ observer -> Disposable in
             guard let location = location else {
-                observer.onError(PostalAddressRetrievalServiceError.Internal)
+                observer.onError(PostalAddressRetrievalServiceError.internalError)
                 return AnonymousDisposable({})
             }
             self.retrieveAddressForLocation(LGLocationCoordinates2D(latitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude)) {
                 (result: PostalAddressRetrievalServiceResult) -> Void in
                 guard let resolvedPlace = result.value else {
-                    observer.onError(result.error ?? .Internal)
+                    observer.onError(result.error ?? .internalError)
                     return
                 }
 

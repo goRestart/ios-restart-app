@@ -130,7 +130,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
             message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
         case .resetPasswordLinkExpired:
             message = LGLocalizedString.changePasswordSendErrorLinkExpired
-        case .network, .internal:
+        case .network, .internalError:
             message = LGLocalizedString.changePasswordSendErrorGeneric
         }
         self.showAutoFadingOutMessageAlert(message)
@@ -162,7 +162,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                     message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
                 case .ResetPasswordLinkExpired:
                     message = LGLocalizedString.changePasswordSendErrorLinkExpired
-                case .network, .Internal:
+                case .network, .internalError:
                     message = LGLocalizedString.changePasswordSendErrorGeneric
                 }
                 completion = {

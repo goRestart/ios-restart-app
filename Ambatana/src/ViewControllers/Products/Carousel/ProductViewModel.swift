@@ -746,7 +746,7 @@ extension ProductViewModel {
 
     private var suggestMarkSoldWhenDeleting: Bool {
         switch product.value.status {
-        case .pending, .discarded, .sold, .soldOld, .Deleted:
+        case .pending, .discarded, .sold, .soldOld, .deleted:
             return false
         case .approved:
             return true
@@ -953,9 +953,9 @@ extension ProductViewModel {
                 self?.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
-                case .Forbidden:
+                case .forbidden:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
-                case .network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .network, .internalError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
                 }
 
@@ -1079,7 +1079,7 @@ extension Product {
         switch status {
         case .pending:
             return isMine ? .pending : .notAvailable
-        case .discarded, .Deleted:
+        case .discarded, .deleted:
             return .notAvailable
         case .approved:
             if featureFlags.freePostingModeAllowed && price.free {

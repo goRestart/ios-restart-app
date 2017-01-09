@@ -241,7 +241,7 @@ extension PrePermissionType {
         case .onboarding:
             return .Install
         case .chat:
-            return .Chat
+            return .chat
         case .sell:
             return .sell
         case .profile:

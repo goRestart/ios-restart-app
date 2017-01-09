@@ -114,7 +114,7 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                         expect(result?.error).notTo(beNil())
                     }
                     it("should receive an internal error") {
-                        expect(result?.error).to(equal(ConfigRetrieveServiceError.Internal))
+                        expect(result?.error).to(equal(ConfigRetrieveServiceError.internalError))
                     }
                 }
 

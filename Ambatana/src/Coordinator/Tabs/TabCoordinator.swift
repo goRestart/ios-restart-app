@@ -160,7 +160,7 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -251,7 +251,7 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -273,7 +273,7 @@ fileprivate extension TabCoordinator {
 
 
     func openUser(_ interlocutor: ChatInterlocutor) {
-        let vm = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
+        let vm = UserViewModel(chatInterlocutor: interlocutor, source: .chat)
         vm.navigator = self
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
@@ -348,7 +348,7 @@ fileprivate extension TabCoordinator {
         switch error {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
             message = LGLocalizedString.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message)

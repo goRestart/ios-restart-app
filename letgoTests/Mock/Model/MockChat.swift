@@ -32,7 +32,7 @@ class MockChat: MockBaseModel, Chat {
         let messageTwo = LGMessage()
         self.messages = [messageOne, messageTwo]
         self.forbidden = false
-        self.archivedStatus = .Active
+        self.archivedStatus = .active
         super.init()
     }
 

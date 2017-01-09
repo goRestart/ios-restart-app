@@ -70,7 +70,7 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.passiveBuyersNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {

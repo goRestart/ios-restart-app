@@ -207,7 +207,7 @@ class SignUpViewModel: BaseViewModel {
         case .badRequest:
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
             loginError = .badRequest
-        case .Conflict(let cause):
+        case .conflict(let cause):
             var message = ""
             switch cause {
             case .UserExists, .NotSpecified, .Other:
@@ -219,9 +219,9 @@ class SignUpViewModel: BaseViewModel {
             }
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             loginError = .emailTaken
-        case let .internal(description):
+        case let .internalError(description):
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .internal(description: description)
+            loginError = .internalError(description: description)
         }
         return loginError
     }

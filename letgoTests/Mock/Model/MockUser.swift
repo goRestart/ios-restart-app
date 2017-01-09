@@ -51,7 +51,7 @@ final class MockUser: MockBaseModel, MyUser {
         self.didLogInByFacebook = false
         self.location = nil
         self.accounts = [MockAccount(provider: .Email, verified: true)]
-        self.status = .Active
+        self.status = .active
         super.init()
     }
     
@@ -65,6 +65,6 @@ final class MockUser: MockBaseModel, MyUser {
         self.email = email
         self.location = location
         self.accounts = accounts
-        self.status = .Active
+        self.status = .active
     }
 }
