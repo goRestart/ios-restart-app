@@ -169,7 +169,7 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - Accesibility Ids
 
-private extension PassiveBuyersViewController {
+fileprivate extension PassiveBuyersViewController {
     func setAccesibilityIds() {
         titleLabel.accessibilityId = .passiveBuyersTitle
         messageLabel.accessibilityId = .passiveBuyersMessage

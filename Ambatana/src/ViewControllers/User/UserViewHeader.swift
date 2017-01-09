@@ -449,7 +449,7 @@ extension UserViewHeader {
 }
 
 
-private extension UserViewHeaderMode {
+fileprivate extension UserViewHeaderMode {
     
     var showSelling: Bool {
         switch self {

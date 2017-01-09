@@ -320,7 +320,7 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 
 // MARK: - Private
 
-private extension ProductCarouselMoreInfoView {
+fileprivate extension ProductCarouselMoreInfoView {
     func setupUI(_ featureFlags: FeatureFlaggeable) {
         
         setupMapView(inside: mapViewContainer)

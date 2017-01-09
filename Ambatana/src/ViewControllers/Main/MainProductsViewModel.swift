@@ -675,7 +675,7 @@ extension MainProductsViewModel {
 
 // MARK: - Filters & bubble
 
-private extension ProductFilters {
+fileprivate extension ProductFilters {
     var infoBubblePresent: Bool {
         guard let selectedOrdering = selectedOrdering else { return true }
         switch (selectedOrdering) {
@@ -690,7 +690,7 @@ private extension ProductFilters {
 
 // MARK: - Queries for Collections
 
-private extension MainProductsViewModel {
+fileprivate extension MainProductsViewModel {
     func queryForCollection(_ type: CollectionCellType) -> String {
         var query: String
         switch type {
@@ -719,7 +719,7 @@ private extension MainProductsViewModel {
 
 // MARK: - Tracking
 
-private extension MainProductsViewModel {
+fileprivate extension MainProductsViewModel {
 
     var productVisitSource: EventParameterProductVisitSource {
         if let searchType = searchType {

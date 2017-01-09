@@ -255,7 +255,7 @@ extension KeyValueStorage {
 
 // MARK: - Private methods
 
-private extension KeyValueStorage {
+fileprivate extension KeyValueStorage {
     var currentUserId: String? {
         return myUserRepository.myUser?.objectId
     }

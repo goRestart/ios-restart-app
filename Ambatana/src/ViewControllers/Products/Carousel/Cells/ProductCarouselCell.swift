@@ -186,7 +186,7 @@ extension ProductCarouselCell: ProductCarouselImageCellDelegate {
 // MARK: - Private methods
 // MARK: > Accessibility
 
-private extension ProductCarouselCell {
+fileprivate extension ProductCarouselCell {
     func setAccessibilityIds() {
         self.accessibilityId = .productCarouselCell
         collectionView.accessibilityId = .productCarouselCellCollectionView

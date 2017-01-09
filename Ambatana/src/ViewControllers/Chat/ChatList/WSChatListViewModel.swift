@@ -175,7 +175,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
 // MARK: - Extension helpers
 
-private extension ChatsType {
+fileprivate extension ChatsType {
     var conversationFilter: WebSocketConversationFilter {
         switch self {
         case .selling: return .AsSeller
@@ -186,7 +186,7 @@ private extension ChatsType {
     }
 }
 
-private extension ChatConversation {
+fileprivate extension ChatConversation {
     var conversationCellStatus: ConversationCellStatus {
         guard let product = product, let interlocutor = interlocutor else { return .userDeleted }
         if interlocutor.isBanned { return .forbidden }

@@ -389,7 +389,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 }
 
 
-private extension GalleryState {
+fileprivate extension GalleryState {
     var missingPermissions: Bool {
         switch self {
         case .missingPermissions, .pendingAskPermissions:

@@ -1232,7 +1232,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
 
 // MARK: - UserInfo
 
-private extension OldChatViewModel {
+fileprivate extension OldChatViewModel {
     func retrieveInterlocutorInfo() {
         guard let otherUserId = otherUser?.objectId else { return }
         userRepository.show(otherUserId, includeAccounts: true) { [weak self] result in
@@ -1250,7 +1250,7 @@ private extension OldChatViewModel {
 
 // MARK: - User verification & Second step login
 
-private extension OldChatViewModel {
+fileprivate extension OldChatViewModel {
     func loginAndResend(_ text: String, isQuickAnswer: Bool, type: MessageType) {
         let completion = { [weak self] in
             guard let strongSelf = self else { return }

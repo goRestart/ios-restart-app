@@ -58,7 +58,7 @@ extension DiscoverProductListRequester: ProductListRequester {
 
 // MARK: - DiscoverProductListRequester
 
-private extension DiscoverProductListRequester {
+fileprivate extension DiscoverProductListRequester {
 
     var retrieveProductsParams: RetrieveProductsParams {
         var params = RetrieveProductsParams()

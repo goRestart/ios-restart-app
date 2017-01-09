@@ -108,7 +108,7 @@ extension ProductCarouselImageCell: UIScrollViewDelegate {
 // MARK: - Private methods
 // MARK: > Setup
 
-private extension ProductCarouselImageCell {
+fileprivate extension ProductCarouselImageCell {
     func setupUI() {
         clipsToBounds = true
 
@@ -142,7 +142,7 @@ private extension ProductCarouselImageCell {
 
 // MARK: > Accessibility
 
-private extension ProductCarouselImageCell {
+fileprivate extension ProductCarouselImageCell {
     func setAccessibilityIds() {
         accessibilityId = .productCarouselImageCell
         imageView.accessibilityId = .productCarouselImageCellImageView

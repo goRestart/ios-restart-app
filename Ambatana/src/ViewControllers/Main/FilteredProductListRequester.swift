@@ -123,7 +123,7 @@ class FilteredProductListRequester: ProductListRequester {
 
 // MARK: - Private methods
 
-private extension FilteredProductListRequester {
+fileprivate extension FilteredProductListRequester {
 
     var queryCoordinates: LGLocationCoordinates2D? {
         if let coordinates = filters?.place?.location {

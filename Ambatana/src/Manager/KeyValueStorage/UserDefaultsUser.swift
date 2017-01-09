@@ -211,7 +211,7 @@ private enum UserDefaultsUserKey: String {
 
 // MARK: > Dictionary helper
 
-private extension Dictionary where Key: ExpressibleByStringLiteral, Value: AnyObject {
+fileprivate extension Dictionary where Key: ExpressibleByStringLiteral, Value: AnyObject {
     func decode<T>(_ key: Key, defaultValue: T) -> T {
         return (self[key] as? T) ?? defaultValue
     }

@@ -170,7 +170,7 @@ extension PostProductViewModel: PostProductDetailViewModelDelegate {
 
 // MARK: - Private methods
 
-private extension PostProductViewModel {
+fileprivate extension PostProductViewModel {
     func openPostAbandonAlertNotLoggedIn() {
         let title = LGLocalizedString.productPostCloseAlertTitle
         let message = LGLocalizedString.productPostCloseAlertDescription
@@ -211,7 +211,7 @@ private extension PostProductViewModel {
 
 // MARK: - Tracking
 
-private extension PostProductViewModel {
+fileprivate extension PostProductViewModel {
     func trackVisit() {
         let event = TrackerEvent.productSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition)

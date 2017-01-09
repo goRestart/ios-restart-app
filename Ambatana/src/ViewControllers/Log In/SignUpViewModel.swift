@@ -258,7 +258,7 @@ class SignUpViewModel: BaseViewModel {
 
 // MARK: > Previous user name
 
-private extension SignUpViewModel {
+fileprivate extension SignUpViewModel {
     func updatePreviousEmailAndUsernamesFromKeyValueStorage() -> Bool {
         guard let accountProviderString = keyValueStorage[.previousUserAccountProvider],
             let accountProvider = AccountProvider(rawValue: accountProviderString) else { return false }

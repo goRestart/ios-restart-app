@@ -1107,7 +1107,7 @@ extension Product {
 
 // MARK: - ProductViewModelStatus
 
-private extension ProductViewModelStatus {
+fileprivate extension ProductViewModelStatus {
 
     var isEditable: Bool {
         switch self {

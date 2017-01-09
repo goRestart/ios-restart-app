@@ -135,7 +135,7 @@ class KeyboardViewController: BaseViewController {
 }
 
 
-private extension Notification {
+fileprivate extension Notification {
 
     var keyboardChange: KeyboardChange {
         let height = (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0

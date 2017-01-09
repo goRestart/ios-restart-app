@@ -57,7 +57,7 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
     }
 }
 
-private extension LetGoSetting {
+fileprivate extension LetGoSetting {
     var title: String {
         switch (self) {
         case .marketingNotifications:

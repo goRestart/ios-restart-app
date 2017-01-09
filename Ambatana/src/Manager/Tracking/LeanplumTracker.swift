@@ -10,7 +10,7 @@ import LGCoreKit
 import AppsFlyerLib
 
 
-private extension TrackerEvent {
+fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {

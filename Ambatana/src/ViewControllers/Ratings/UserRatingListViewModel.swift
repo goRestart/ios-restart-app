@@ -76,18 +76,18 @@ class UserRatingListViewModel: BaseViewModel {
         return UserRatingCellData(userName: rating.userFrom.name ?? "", userAvatar: rating.userFrom.avatar?.fileURL,
                                       userAvatarPlaceholder: avatarPlaceholder, ratingType: rating.type,
                                       ratingValue: rating.value, ratingDescription: rating.comment, ratingDate: ratingDate,
-                                      isMyRating: isMyRatingsList, pendingReview: rating.status == .PendingReview)
+                                      isMyRating: isMyRatingsList, pendingReview: rating.status == .pendingReview)
     }
 
 
     // MARK: private methods
 
-    private func ratingAtIndex(_ index: Int) -> UserRating? {
+    fileprivate func ratingAtIndex(_ index: Int) -> UserRating? {
         guard index < objectCount else { return nil }
         return ratings[index]
     }
     
-    private func replaceRating(_ rating: UserRating) {
+    fileprivate func replaceRating(_ rating: UserRating) {
         guard let index = ratings.index (where: { $0.objectId == rating.objectId }) else { return }
         ratings[index] = rating
     }
@@ -113,14 +113,14 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
     
     func actionButtonPressedForCellAtIndex(_ indexPath: IndexPath) {
         guard let rating = ratingAtIndex(indexPath.row) else { return }
-        guard rating.status == .Published else { return }
+        guard rating.status == .published else { return }
         let userFrom = rating.userFrom
         
         var actions: [UIAction] = []
 
         let reviewAction = UIAction(interface: .text(LGLocalizedString.ratingListActionReviewUser), action: { [weak self] in
             guard let userData = RateUserData(user: userFrom) else { return }
-            self?.delegate?.vmShowUserRating(.UserRatingList, data: userData)
+            self?.delegate?.vmShowUserRating(.userRatingList, data: userData)
         }, accessibilityId: .ratingListCellReview)
         actions.append(reviewAction)
 
@@ -146,12 +146,12 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
 
     private func rateBackRatingType(_ receivedRating: UserRatingType) -> UserRatingType {
         switch receivedRating {
-        case .Conversation:
-            return .Conversation
-        case let .Seller(productId):
-            return .Buyer(productId: productId)
-        case let .Buyer(productId):
-            return .Seller(productId: productId)
+        case .conversation:
+            return .conversation
+        case let .seller(productId):
+            return .buyer(productId: productId)
+        case let .buyer(productId):
+            return .seller(productId: productId)
         }
     }
 }

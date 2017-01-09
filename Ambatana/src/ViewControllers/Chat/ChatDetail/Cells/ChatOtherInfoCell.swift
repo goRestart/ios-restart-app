@@ -76,7 +76,7 @@ extension ChatOtherInfoCell {
 
 // MARK: - Private
 
-private extension ChatOtherInfoCell {
+fileprivate extension ChatOtherInfoCell {
     func setupUI() {
         userInfoContainer.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         userInfoContainer.layer.shouldRasterize = true

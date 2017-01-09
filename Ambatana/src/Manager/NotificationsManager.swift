@@ -202,7 +202,7 @@ class NotificationsManager {
 
 // MARK: - MarketingNotifications {
 
-private extension NotificationsManager {
+fileprivate extension NotificationsManager {
     func setupMarketingNotifications() {
         marketingNotifications.asObservable().skip(1).bindNext { [weak self] value in
             self?.keyValueStorage.userMarketingNotifications = value
@@ -218,7 +218,7 @@ private extension NotificationsManager {
 
 // MARK: - UnreadNotificationsCounts
 
-private extension UnreadNotificationsCounts {
+fileprivate extension UnreadNotificationsCounts {
     var totalVisibleCount: Int {
         if FeatureFlags.sharedInstance.userReviews {
             return productLike + productSold + review + reviewUpdated

@@ -165,7 +165,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
 
 // MARK: - Data handling
 
-private extension RelatedProductsView {
+fileprivate extension RelatedProductsView {
 
     func loadProducts(_ productId: String) {
         clear()

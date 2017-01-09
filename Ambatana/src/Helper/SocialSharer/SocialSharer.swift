@@ -191,7 +191,7 @@ extension SocialSharer: MFMessageComposeViewControllerDelegate {
 // MARK: - Private methods
 // MARK: > Share
 
-private extension SocialSharer {
+fileprivate extension SocialSharer {
     func shareInEmail(_ socialMessage: SocialMessage, viewController: UIViewController) {
         let emailVC = MFMailComposeViewController()
         emailVC.mailComposeDelegate = self
@@ -332,7 +332,7 @@ private extension SocialSharer {
 
 // MARK: > Helpers
 
-private extension SocialSharer {
+fileprivate extension SocialSharer {
     static func generateMessageShareURL(_ socialMessageText: String, withUrlScheme scheme: String) -> URL? {
         let queryCharSet = NSMutableCharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]")
         queryCharSet.invert()

@@ -531,7 +531,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-private extension MainProductsViewController {
+fileprivate extension MainProductsViewController {
     func getSearchSuggestionType(_ section: Int) -> SearchSuggestionType? {
         switch section {
         case 0:

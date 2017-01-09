@@ -20,7 +20,7 @@ struct RateUserData {
         self.userId = userId
         self.userAvatar = user.avatar?.fileURL
         self.userName = user.name
-        self.ratingType = .Conversation
+        self.ratingType = .conversation
     }
 
     init?(interlocutor: ChatInterlocutor) {
@@ -28,7 +28,7 @@ struct RateUserData {
         self.userId = userId
         self.userAvatar = interlocutor.avatar?.fileURL
         self.userName = interlocutor.name
-        self.ratingType = .Conversation
+        self.ratingType = .conversation
     }
 }
 
@@ -68,11 +68,11 @@ class RateUserViewModel: BaseViewModel {
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
     private let userRatingRepository: UserRatingRepository
-    private let tracker: Tracker
-    private let source: RateUserSource
-    private let data: RateUserData
-    private var previousRating: UserRating?
-    private let disposeBag = DisposeBag()
+    fileprivate let tracker: Tracker
+    fileprivate let source: RateUserSource
+    fileprivate let data: RateUserData
+    fileprivate var previousRating: UserRating?
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -120,9 +120,9 @@ class RateUserViewModel: BaseViewModel {
             } else if let error = result.error {
                 let message: String
                 switch error {
-                case .Network:
+                case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonError
                 }
                 self?.delegate?.vmShowAutoFadingMessage(message, completion: nil)
@@ -192,20 +192,20 @@ class RateUserViewModel: BaseViewModel {
 
 // MARK: - Tracking
 
-private extension EventParameterTypePage {
+fileprivate extension EventParameterTypePage {
     init(source: RateUserSource) {
         switch source {
         case .chat:
-            self = .Chat
+            self = .chat
         case .deepLink:
-            self = .External
+            self = .external
         case .userRatingList:
-            self = .UserRatingList
+            self = .userRatingList
         }
     }
 }
 
-private extension RateUserViewModel {
+fileprivate extension RateUserViewModel {
     func trackStart() {
         let event = TrackerEvent.userRatingStart(data.userId, typePage: EventParameterTypePage(source: source))
         tracker.trackEvent(event)

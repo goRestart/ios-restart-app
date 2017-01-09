@@ -141,7 +141,7 @@ extension Coordinator {
 
 // MARK: - Private methods
 
-private extension Coordinator {
+fileprivate extension Coordinator {
     func openAlertController(_ alert: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
         guard presentedAlertController == nil else { return }
 

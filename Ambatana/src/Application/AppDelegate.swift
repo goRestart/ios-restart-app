@@ -220,7 +220,7 @@ extension AppDelegate: AppNavigatorDelegate {
 // MARK: - Private methods
 // MARK: > Setup
 
-private extension AppDelegate {
+fileprivate extension AppDelegate {
     func setupAppearance() {
         UINavigationBar.appearance().tintColor = UIColor.lightBarButton
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : UIFont.pageTitleFont,
@@ -298,7 +298,7 @@ private extension AppDelegate {
 
 // MARK: > Rx
 
-private extension AppDelegate {
+fileprivate extension AppDelegate {
     func setupRxBindings() {
         // Start location updates when app is active and indicated by sensorLocationUpdatesEnabled signal flag
         let appActive = appIsActive.asObservable().flatMap { x in
@@ -330,7 +330,7 @@ private extension AppDelegate {
 
 // MARK: > Deep linking
 
-private extension AppDelegate {
+fileprivate extension AppDelegate {
     func app(_ app: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?, options: [UIApplicationOpenURLOptionsKey : Any]?) -> Bool {
 
         TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication,
@@ -358,7 +358,7 @@ private extension AppDelegate {
 
 // MARK: > Crash mgmt
 
-private extension AppDelegate {
+fileprivate extension AppDelegate {
     func crashCheck() {
         guard let crashManager = crashManager else { return }
         guard let keyValueStorage = keyValueStorage else { return }
