@@ -36,14 +36,14 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var addressTopText: UILabel!
     @IBOutlet weak var addressBottomText: UILabel!
 
-    private static let suggestionCellId = "suggestionCell"
+    fileprivate static let suggestionCellId = "suggestionCell"
     private static let suggestionCellHeight: CGFloat = 44
 
-    private let viewModel: EditLocationViewModel
+    fileprivate let viewModel: EditLocationViewModel
     private let disposeBag = DisposeBag()
 
     private var mapCentered: Bool = false
-    private var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
+    fileprivate var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
 
 
     // MARK: - Lifecycle
