@@ -389,7 +389,7 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        let data = UserDetailData.userAPI(user: product.value.user, source: .ProductDetail)
+        let data = UserDetailData.userAPI(user: product.value.user, source: .productDetail)
         navigator?.openUser(data)
     }
 
@@ -578,7 +578,7 @@ extension ProductViewModel {
             let themes = commercializerRepository.templatesForCountryCode(countryCode)
             let commercializersArr = commercializers.value ?? []
             guard let promoteProductVM = PromoteProductViewModel(productId: productId,
-                                                                 themes: themes, commercializers: commercializersArr, promotionSource: .ProductDetail) else { return }
+                                                                 themes: themes, commercializers: commercializersArr, promotionSource: .productDetail) else { return }
             trackHelper.trackCommercializerStart()
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
@@ -685,7 +685,7 @@ extension ProductViewModel {
                 action: { [weak self] in
                     self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                         self?.report()
-                        }, source: .ReportFraud)
+                        }, source: .reportFraud)
                     
                 })
             strongSelf.delegate?.vmShowAlert(LGLocalizedString.productReportConfirmTitle,

@@ -155,12 +155,12 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
             case .failure(let error):
                 let message: String
                 switch (error) {
-                case .InvalidPassword:
+                case .invalidPassword:
                     message = LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax(
                         Constants.passwordMinLength, Constants.passwordMaxLength)
-                case .PasswordMismatch:
+                case .passwordMismatch:
                     message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
-                case .ResetPasswordLinkExpired:
+                case .resetPasswordLinkExpired:
                     message = LGLocalizedString.changePasswordSendErrorLinkExpired
                 case .network, .internalError:
                     message = LGLocalizedString.changePasswordSendErrorGeneric

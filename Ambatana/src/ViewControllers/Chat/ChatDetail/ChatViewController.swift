@@ -305,7 +305,7 @@ extension ChatViewController: ConversationDataDisplayer {
 
 extension ChatViewController: UIGestureRecognizerDelegate {
     
-    private func setupStickersView() {
+    fileprivate func setupStickersView() {
         let height = keyboardFrame.height
         let frame = CGRect(x: 0, y: view.frame.height - height, width: view.frame.width, height: height)
         stickersView.frame = frame
@@ -325,7 +325,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         return true
     }
     
-    private func initStickersWindow() {
+    fileprivate func initStickersWindow() {
         let windowFrame = CGRect(x: 0, y: view.height, width: view.width, height: view.height)
         
         stickersWindow = UIWindow(frame: windowFrame)
@@ -458,9 +458,9 @@ fileprivate extension ChatViewController {
 
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
             switch change {
-            case .Composite(let changes) where changes.count > 2:
+            case .composite(let changes) where changes.count > 2:
                 self?.tableView.reloadData()
-            case .Insert, .Remove, .Composite:
+            case .insert, .remove, .composite:
                 self?.tableView.handleCollectionChange(change)
             }
             }.addDisposableTo(disposeBag)
@@ -635,7 +635,7 @@ extension ChatViewController: ChatViewModelDelegate {
 
     func vmRequestLogin(_ loggedInAction: () -> Void) {
         dismissKeyboard(false)
-        ifLoggedInThen(.AskQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
+        ifLoggedInThen(.askQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
                        loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
     }
 

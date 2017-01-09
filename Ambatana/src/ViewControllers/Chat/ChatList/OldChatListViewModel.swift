@@ -86,7 +86,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     var hasMessagesToRead: Bool {
         for index in 0..<objectCount {
-            if let object = objectAtIndex(index) where object.msgUnreadCount > 0 { return true }
+            if let object = objectAtIndex(index), object.msgUnreadCount > 0 { return true }
         }
         return false
     }

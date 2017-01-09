@@ -59,7 +59,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
             [weak self] (result, url) -> Void in
             if let (_, cached) = result.value, !cached {
                 self?.thumbnailImageView.alpha = 0
-                UIView.animateWithDuration(0.4, animations: { self?.thumbnailImageView.alpha = 1 })
+                UIView.animate(withDuration: 0.4, animations: { self?.thumbnailImageView.alpha = 1 })
             }
         })
     }

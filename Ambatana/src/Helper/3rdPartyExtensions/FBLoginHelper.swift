@@ -10,9 +10,9 @@ import FBSDKLoginKit
 import LGCoreKit
 
 class FBLoginHelper {
-    private static let fbPermissions = ["email", "public_profile", "user_friends", "user_birthday", "user_likes"]
+    fileprivate static let fbPermissions = ["email", "public_profile", "user_friends", "user_birthday", "user_likes"]
 
-    private let sessionManager: SessionManager
+    fileprivate let sessionManager: SessionManager
 
 
     // MARK: - Lifecycle
