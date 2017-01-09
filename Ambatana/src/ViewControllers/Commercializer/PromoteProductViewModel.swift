@@ -218,9 +218,9 @@ class PromoteProductViewModel: BaseViewModel {
                     TrackerProxy.sharedInstance.trackEvent(event)
 
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,
-                        status: .ProcessFail)
+                        status: .processFail)
 
-                    strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
+                    strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .processFail)
                 }
             }
         }

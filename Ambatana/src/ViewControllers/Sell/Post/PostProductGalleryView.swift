@@ -175,7 +175,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         setupAlbumSelection()
     }
 
-    private func configMessageView(_ type: MessageInfoType) {
+    fileprivate func configMessageView(_ type: MessageInfoType) {
         var title: String
         var subtitle: String
         switch type {
@@ -331,7 +331,7 @@ extension PostProductGalleryView {
             case .loadImageError:
                 self?.infoContainer.isHidden = true
                 self?.loadImageErrorView.isHidden = false
-                self?.configMessageView(.WrongImage)
+                self?.configMessageView(.wrongImage)
                 self?.postButton.isEnabled = false
             case .loading:
                 self?.imageLoadActivityIndicator.startAnimating()
@@ -346,7 +346,7 @@ extension PostProductGalleryView {
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
                 delay(0.3) { [weak self] in
                     self?.collectionView.reloadData()
-                    self?.collectionView.userInteractionEnabled = true
+                    self?.collectionView.isUserInteractionEnabled = true
                 }
                 return
             }

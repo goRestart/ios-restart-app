@@ -63,7 +63,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - Lifecycle
 
-    required init(objects: [T], tabNavigator: TabNavigator?) {
+    init(objects: [T], tabNavigator: TabNavigator?) {
         self.objects = Variable<[T]>(objects)
         self.status = .loading
         self.tabNavigator = tabNavigator
@@ -188,7 +188,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 // Status update
                 if let error = queueError {
                     if let emptyVM = strongSelf.emptyViewModelForError(error) {
-                        strongSelf.status = .Error(emptyVM)
+                        strongSelf.status = .error(emptyVM)
                     }
                     else {
                         strongSelf.retrieveFirstPage()
@@ -241,7 +241,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 if let emptyVM = strongSelf.emptyStatusViewModel, firstPage && strongSelf.objectCount == 0 {
                     strongSelf.status = .empty(emptyVM)
                 } else {
-                    strongSelf.status = .Data
+                    strongSelf.status = .data
                 }
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
@@ -254,7 +254,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                         hasToRetrieveFirstPage = true
                     }
                 } else {
-                    strongSelf.status = .Data
+                    strongSelf.status = .data
                 }
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(page)
@@ -290,7 +290,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 // MARK: - Rx
 
 extension BaseChatGroupedListViewModel {
-    private func setupPaginableRxBindings() {
+    fileprivate func setupPaginableRxBindings() {
         objects.asObservable().map { messages in
             return messages.count
             }.bindTo(rx_objectCount).addDisposableTo(disposeBag)

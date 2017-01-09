@@ -471,7 +471,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             break
         case .available, .blocked, .blockedBy, .productSold, .userPendingDelete, .userDeleted:
             delegate?.vmHideKeyboard(animated: false)
-            let data = ProductDetailData.ProductAPI(product: product, thumbnailImage: nil, originFrame: nil)
+            let data = ProductDetailData.productAPI(product: product, thumbnailImage: nil, originFrame: nil)
             navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
         }
     }
@@ -483,7 +483,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         case .productDeleted, .available, .blocked, .blockedBy, .productSold:
             guard let user = otherUser else { return }
             delegate?.vmHideKeyboard(animated: false)
-            let data = UserDetailData.UserAPI(user: user, source: .chat)
+            let data = UserDetailData.userAPI(user: user, source: .chat)
             navigator?.openUser(data)
         }
     }
@@ -1372,7 +1372,7 @@ extension OldChatViewModel {
         expressBannerTimerFinished.value = true
     }
 
-    private func expressChatMessageSentForCurrentProduct() -> Bool {
+    fileprivate func expressChatMessageSentForCurrentProduct() -> Bool {
         guard let productId = product.objectId else { return false }
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
             if productSentId == productId { return true }

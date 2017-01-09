@@ -290,7 +290,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
 
         viewModel.directAnswersState.asObservable().bindNext { [weak self] state in
             guard let strongSelf = self else { return }
-            let visible = state == .Visible
+            let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
             strongSelf.configureBottomMargin(animated: true)
             if strongSelf.featureFlags.newQuickAnswers {
@@ -331,17 +331,17 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         showReviewButton()
     }
 
-    private func showReviewButton() {
+    fileprivate func showReviewButton() {
         productView.showReviewButton(viewModel.userIsReviewable, withTooltip: viewModel.shouldShowUserReviewTooltip)
         guard let tooltip = productView.userRatingTooltip else { return }
         navigationController?.navigationBar.forceTouchesFor(tooltip)
     }
     
-    private func showActivityIndicator(_ show: Bool) {
+    fileprivate func showActivityIndicator(_ show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
     
-    private func updateChatInteraction(_ enabled: Bool) {
+    fileprivate func updateChatInteraction(_ enabled: Bool) {
         setTextViewBarHidden(!enabled, animated: true)
         textView.isUserInteractionEnabled = enabled
         if !enabled {
@@ -706,13 +706,13 @@ extension OldChatViewController: ChatProductViewDelegate {
 
 // MARK: - Stickers
 
-extension OldChatViewController: UIGestureRecognizerDelegate {
+fileprivate extension OldChatViewController: UIGestureRecognizerDelegate {
     
     func vmDidUpdateStickers() {
         stickersView.reloadStickers(viewModel.stickers)
     }
 
-    private func setupStickersView() {
+    func setupStickersView() {
         let height = keyboardFrame.height
         let frame = CGRect(x: 0, y: view.frame.height - height, width: view.frame.width, height: height)
         stickersView.frame = frame
@@ -730,7 +730,7 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
         return true
     }
 
-    private func initStickersWindow() {
+    func initStickersWindow() {
         let windowFrame = CGRect(x: 0, y: view.height, width: view.width, height: view.height)
     
         stickersWindow = UIWindow(frame: windowFrame)

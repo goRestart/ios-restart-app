@@ -59,14 +59,14 @@ class TextViewController: KeyboardViewController {
     private static let animationTime: TimeInterval = 0.2
     private static var keyTextCache = [String : String]()
 
-    private let maxTextViewBarHeight: CGFloat = 1000
-    private let textViewInsets: CGFloat = 7
-    private var textViewBarBottom = NSLayoutConstraint()
-    private var textViewRightConstraint = NSLayoutConstraint()
-    private var textViewHeight = NSLayoutConstraint()
-    private var tableBottomMarginConstraint = NSLayoutConstraint()
-    private var leftActionsDisposeBag = DisposeBag()
-    private let disposeBag = DisposeBag()
+    fileprivate let maxTextViewBarHeight: CGFloat = 1000
+    fileprivate let textViewInsets: CGFloat = 7
+    fileprivate var textViewBarBottom = NSLayoutConstraint()
+    fileprivate var textViewRightConstraint = NSLayoutConstraint()
+    fileprivate var textViewHeight = NSLayoutConstraint()
+    fileprivate var tableBottomMarginConstraint = NSLayoutConstraint()
+    fileprivate var leftActionsDisposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
 
     override init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .default,
@@ -160,7 +160,7 @@ class TextViewController: KeyboardViewController {
 
 extension TextViewController {
 
-    private func setupTable() {
+    fileprivate func setupTable() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         tableView.fitHorizontallyToParent()
@@ -179,11 +179,11 @@ extension TextViewController {
         singleTapGesture = tapGesture
     }
 
-    private func updateInverted() {
+    fileprivate func updateInverted() {
         tableView.transform = invertedTable ? CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0) : CGAffineTransform.identity
     }
 
-    dynamic private func scrollViewTap() {
+    dynamic fileprivate func scrollViewTap() {
         dismissKeyboard(true)
     }
 }
@@ -196,7 +196,7 @@ extension TextViewController: UITextViewDelegate {
         return true
     }
 
-    private func setupTextArea() {
+    fileprivate func setupTextArea() {
         // Set textview font parameter prior to any calculation as it indicates entire container height
         textView.font = textViewFont
         textView.textContainerInset = UIEdgeInsets(top: textViewInsets, left: textViewInsets, bottom: textViewInsets, right: textViewInsets)
@@ -271,7 +271,7 @@ extension TextViewController: UITextViewDelegate {
         sendButton.rx.tap.bindNext { [weak self] in self?.sendButtonPressed() }.addDisposableTo(disposeBag)
     }
 
-    private func updateLeftActions() {
+    fileprivate func updateLeftActions() {
         leftActionsDisposeBag = DisposeBag()
         leftButtonsContainer.subviews.forEach { $0.removeFromSuperview() }
 

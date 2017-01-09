@@ -35,34 +35,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         super.init(objects: chats, tabNavigator: tabNavigator)
     }
 
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {

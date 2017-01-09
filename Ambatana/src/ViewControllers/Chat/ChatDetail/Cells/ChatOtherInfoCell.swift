@@ -24,9 +24,9 @@ class ChatOtherInfoCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var locationIconHeight: NSLayoutConstraint!
     @IBOutlet weak var locationIconTop: NSLayoutConstraint!
 
-    private static let iconsMargin: CGFloat = 8
-    private static let iconsHeight: CGFloat = 14
-    private static let verifyIconsWidth: CGFloat = 20
+    fileprivate static let iconsMargin: CGFloat = 8
+    fileprivate static let iconsHeight: CGFloat = 14
+    fileprivate static let verifyIconsWidth: CGFloat = 20
 
 
     // MARK: - Lifecycle

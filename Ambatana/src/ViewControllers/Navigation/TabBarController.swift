@@ -276,13 +276,13 @@ extension TabBarController: TabBarViewModelDelegate {
 
 extension TabBarController {
 
-    private func setupCommercializerRx() {
+    fileprivate func setupCommercializerRx() {
         CommercializerManager.sharedInstance.commercializers.asObservable().subscribeNext { [weak self] data in
             self?.openCommercializer(data)
         }.addDisposableTo(disposeBag)
     }
 
-    private func openCommercializer(_ data: CommercializerData) {
+    fileprivate func openCommercializer(_ data: CommercializerData) {
         let vc: UIViewController
         if data.shouldShowPreview {
             let viewModel = CommercialPreviewViewModel(productId: data.productId, commercializer: data.commercializer)

@@ -33,34 +33,6 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
         super.init(objects: blockedUsers, tabNavigator: nil)
     }
 
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
 
     // MARK: - Public methods
     // MARK: > Chats

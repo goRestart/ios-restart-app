@@ -35,35 +35,6 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         super.init(objects: chats, tabNavigator: tabNavigator)
     }
 
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-    required init(objects: [T], tabNavigator: TabNavigator?) {
-        fatalError("init(objects:tabNavigator:) has not been implemented")
-    }
-
-
     // MARK: - Public methods
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -88,7 +59,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     func conversationSelectedAtIndex(_ index: Int) {
         guard let chat = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.ChatAPI(chat: chat))
+        tabNavigator?.openChat(.chatAPI(chat: chat))
     }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {

@@ -88,7 +88,7 @@ class ExpressChatViewModel: BaseViewModel {
     func sendMessage() {
         let wrapper = ChatWrapper()
         for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, type:.ExpressChat(messageText.value)) { [weak self] result in
+            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { [weak self] result in
                 if let value = result.value {
                     self?.singleMessageExtraTrackings(value, product: product)
                 }
@@ -168,12 +168,12 @@ extension ExpressChatViewModel {
         }
         
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text,
-                                                            isQuickAnswer: .falseParameter, typePage: .ExpressChat)
+                                                            isQuickAnswer: .falseParameter, typePage: .expressChat)
         trackerProxy.trackEvent(messageSentEvent)
     }
 
     func trackExpressChatComplete(_ numChats: Int) {
-        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .manual : .automatic
         let event = TrackerEvent.expressChatComplete(numChats, trigger: trigger)
         trackerProxy.trackEvent(event)
     }

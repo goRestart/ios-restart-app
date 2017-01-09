@@ -150,7 +150,7 @@ fileprivate extension Notification {
         let animOptions: UIViewAnimationOptions
         if let animCurve = userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
             // From: http://stackoverflow.com/a/26939315/1666070
-            animOptions = UIViewAnimationOptions(rawValue: animCurve << 16) ?? []
+            animOptions = UIViewAnimationOptions(rawValue: animCurve << 16)
         } else {
             animOptions = []
         }

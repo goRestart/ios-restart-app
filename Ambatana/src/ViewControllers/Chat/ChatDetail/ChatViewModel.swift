@@ -173,7 +173,7 @@ class ChatViewModel: BaseViewModel {
         switch chatStatus.value {
         case .forbidden, .userDeleted, .userPendingDelete:
             return false
-        case .available, .productSold, .productDeleted, .Blocked, .BlockedBy:
+        case .available, .productSold, .productDeleted, .blocked, .blockedBy:
             return true
         }
     }
@@ -349,7 +349,7 @@ class ChatViewModel: BaseViewModel {
             switch state {
             case .loading, .hidden:
                 self?.delegate?.vmShowRelatedProducts(nil)
-            case .Visible:
+            case .visible:
                 self?.delegate?.vmShowRelatedProducts(self?.conversation.value.product?.objectId)
             }
         }.addDisposableTo(disposeBag)
@@ -358,9 +358,9 @@ class ChatViewModel: BaseViewModel {
         Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .loading }
             guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
-            if $0 { return .Visible }
+            if $0 { return .visible }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
-            return didntAnswer ? .Visible : .hidden
+            return didntAnswer ? .visible : .hidden
         }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
         let cfgManager = configManager
