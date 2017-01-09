@@ -16,8 +16,12 @@ extension Float {
 
      Float(4.24).roundNearest(0.1) -> 4.2
      Float(4.25).roundNearest(0.1) -> 4.3 */
-    mutating func roundNearest(_ nearest: Float) -> Float {
-        let n = 1/nearest
-        return round(self * n) / n
+    
+     func roundNearest(_ nearest: Float) -> Float {
+        // Rounded method change on swift 3: http://stackoverflow.com/questions/38767635/xcode-8-beta-4-swift-3-round-behaviour-changed
+        guard nearest != 0 else { return self}
+        let n: Float = 1/nearest
+        let numberToRound = self * n
+        return (numberToRound.rounded()) / n
     }
 }

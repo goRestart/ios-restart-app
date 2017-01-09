@@ -358,10 +358,10 @@ extension PostProductGalleryView {
             strongSelf.collectionView.reloadItems(at: indexes as [IndexPath])
 
             if imgsSelected.count == 0 {
-                strongSelf.configMessageView(.NoImages)
+                strongSelf.configMessageView(.noImages)
                 strongSelf.loadImageErrorView.isHidden = false
             } else {
-                strongSelf.configMessageView(.NoMessage)
+                strongSelf.configMessageView(.noMessage)
                 strongSelf.loadImageErrorView.isHidden = true
             }
             strongSelf.collectionView.isUserInteractionEnabled = true

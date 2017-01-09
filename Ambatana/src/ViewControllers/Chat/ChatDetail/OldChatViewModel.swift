@@ -243,17 +243,17 @@ class OldChatViewModel: BaseViewModel, Paginable {
     fileprivate var product: Product
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
-    private var userDefaultsSubKey: String {
+    fileprivate var userDefaultsSubKey: String {
         return "\(product.objectId) + \(buyer?.objectId ?? "offline")"
     }
     
-    private var loadedMessages: [ChatViewMessage]
+    fileprivate var loadedMessages: [ChatViewMessage]
     private var buyer: User?
-    private var otherUser: User?
-    private var afterRetrieveMessagesBlock: (() -> Void)?
+    fileprivate var otherUser: User?
+    fileprivate var afterRetrieveMessagesBlock: (() -> Void)?
     fileprivate var autoKeyboardEnabled = true
 
-    private var isMyProduct: Bool {
+    fileprivate var isMyProduct: Bool {
         guard let productUserId = product.user.objectId, let myUserId = myUserRepository.myUser?.objectId else { return false }
         return productUserId == myUserId
     }
@@ -272,7 +272,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
         return false
     }
-    private var didSendMessage: Bool {
+    fileprivate var didSendMessage: Bool {
         guard let myUserId = myUserRepository.myUser?.objectId else { return false }
         for message in loadedMessages {
             if message.talkerId == myUserId {
@@ -310,7 +310,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
         return nil
     }
-    private var shouldShowOtherUserInfo: Bool {
+    fileprivate var shouldShowOtherUserInfo: Bool {
         guard chat.isSaved else { return true }
         return !isLoading && isLastPage
     }
@@ -328,7 +328,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     let sellerDidntAnswer = Variable<Bool?>(nil)
 
     // MARK: > Direct answers
-    private let userDirectAnswersEnabled = Variable<Bool>(false)
+    fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
     let directAnswersState = Variable<DirectAnswersState>(.notAvailable)
 
     private let disposeBag = DisposeBag()
@@ -682,7 +682,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             }.addDisposableTo(disposeBag)
     }
 
-    private func sendMessage(_ text: String, isQuickAnswer: Bool, type: MessageType) {
+    fileprivate func sendMessage(_ text: String, isQuickAnswer: Bool, type: MessageType) {
         guard myUserRepository.myUser != nil else {
             loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
             return

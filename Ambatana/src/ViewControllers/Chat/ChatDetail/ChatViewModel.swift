@@ -112,8 +112,8 @@ class ChatViewModel: BaseViewModel {
     private let interlocutorHasMutedYou = Variable<Bool>(false)
     private let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
     private let sellerDidntAnswer = Variable<Bool?>(nil)
-    private let conversation: Variable<ChatConversation>
-    private var interlocutor: User?
+    fileprivate let conversation: Variable<ChatConversation>
+    fileprivate var interlocutor: User?
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
     private let isEmptyConversation = Variable<Bool>(true)
@@ -253,7 +253,7 @@ class ChatViewModel: BaseViewModel {
 
     func didAppear() {
         // On new quick answers, if visible we shouldn't show keyboard
-        if featureFlags.newQuickAnswers && directAnswersState.value == .Visible { return }
+        if featureFlags.newQuickAnswers && directAnswersState.value == .visible { return }
         if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
         }
@@ -398,7 +398,7 @@ class ChatViewModel: BaseViewModel {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsState.asObservable().map { $0 == .Visible },
+            relatedProductsState.asObservable().map { $0 == .visible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
                 guard let strongSelf = self else { return }
@@ -414,11 +414,11 @@ class ChatViewModel: BaseViewModel {
                                         userDirectAnswersEnabled.asObservable(),
                                         resultSelector: { chatEnabled, relatedState, directAnswers in
                                             switch relatedState {
-                                            case .loading, .Visible:
+                                            case .loading, .visible:
                                                 return .notAvailable
                                             case .hidden:
                                                 guard chatEnabled else { return .notAvailable }
-                                                return directAnswers ? .Visible : .hidden
+                                                return directAnswers ? .visible : .hidden
                                             }
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
@@ -1334,7 +1334,7 @@ extension ChatMessageType {
         case .sticker:
             return .sticker
         case .favoritedProduct:
-            return .Favorite
+            return .favorite
         case .expressChat:
             return .expressChat
         case .quickAnswer:

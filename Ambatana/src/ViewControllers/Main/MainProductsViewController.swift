@@ -210,7 +210,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
-    dynamic private func endEdit() {
+    dynamic fileprivate func endEdit() {
         suggestionsSearchesContainer.isHidden = true
         setFiltersNavBarButton()
         setInviteNavBarButton()

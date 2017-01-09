@@ -51,7 +51,7 @@ class VerifyAccountsViewModel: BaseViewModel {
     private(set) var emailRequiresInput = false
     let typedEmail = Variable<String>("")
 
-    private let googleHelper: GoogleLoginHelper
+    fileprivate let googleHelper: GoogleLoginHelper
     fileprivate let fbLoginHelper: FBLoginHelper
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let tracker: Tracker
@@ -197,12 +197,12 @@ fileprivate extension VerifyAccountsViewModel {
     func connectWithGoogle() {
         googleButtonState.value = .loading
         googleHelper.googleSignIn { [weak self] result in
-            self?.googleButtonState.value = .Enabled
+            self?.googleButtonState.value = .enabled
             switch result {
             case let .success(serverAuthToken):
                 self?.myUserRepository.linkAccountGoogle(serverAuthToken) { result in
                     if let _ = result.value {
-                        self?.verificationSuccess(.Google)
+                        self?.verificationSuccess(.google)
                     } else {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }

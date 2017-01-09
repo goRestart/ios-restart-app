@@ -59,7 +59,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     }
     let rx_objectCount = Variable<Int>(0)
     let editing = Variable<Bool>(false)
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
@@ -249,7 +249,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 
                 if firstPage && strongSelf.objectCount == 0 {
                     if let emptyVM = strongSelf.emptyViewModelForError(error) {
-                        strongSelf.status = .Error(emptyVM)
+                        strongSelf.status = .error(emptyVM)
                     } else {
                         hasToRetrieveFirstPage = true
                     }

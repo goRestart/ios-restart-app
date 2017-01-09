@@ -84,7 +84,7 @@ extension UINavigationBar {
         viewsToIgnoreTouchesFor = views
     }
     
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let pointInside = super.point(inside: point, with: event)
 
         for view in viewsToIgnoreTouchesFor {

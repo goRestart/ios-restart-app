@@ -64,7 +64,7 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
     // MARK: - Tracking Methods
 
     private func trackUnblockUsers(_ userIds: [String]) {
-        let unblockUserEvent = TrackerEvent.profileUnblock(.ChatList, unblockedUsersIds: userIds)
+        let unblockUserEvent = TrackerEvent.profileUnblock(.chatList, unblockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
 }

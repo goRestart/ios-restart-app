@@ -283,7 +283,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     }
 
     private func setupDirectAnswers() {
-        directAnswersPresenter.hidden = viewModel.directAnswersState.value != .Visible
+        directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
         directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
@@ -359,13 +359,13 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         }
     }
 
-    private func removeStickersTooltip() {
+    fileprivate func removeStickersTooltip() {
         if let tooltip = stickersTooltip, view.subviews.contains(tooltip) {
             tooltip.removeFromSuperview()
         }
     }
 
-    private func configureBottomMargin(animated: Bool) {
+    fileprivate func configureBottomMargin(animated: Bool) {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
     }
@@ -659,7 +659,7 @@ extension OldChatViewController {
 
 extension OldChatViewController {
     
-    private func showSafetyTips() {
+    fileprivate func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
 
@@ -774,7 +774,7 @@ fileprivate extension OldChatViewController: UIGestureRecognizerDelegate {
 
         if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .notAvailable {
             let image = UIImage(named: "ic_quick_answers")
-            let tint: UIColor? = viewModel.directAnswersState.value == .Visible ? nil : UIColor.primaryColor
+            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? nil : UIColor.primaryColor
             let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
                 }, accessibilityId: .chatViewQuickAnswersButton)

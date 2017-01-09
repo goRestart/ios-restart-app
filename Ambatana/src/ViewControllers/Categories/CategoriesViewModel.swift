@@ -78,8 +78,8 @@ class CategoriesViewModel: BaseViewModel {
             let category = categories[index]
             switch category {
             case .free:
-                productFilters.priceRange = .FreePrice
-            case .Category(let cat):
+                productFilters.priceRange = .freePrice
+            case .category(let cat):
                 productFilters.toggleCategory(cat)
             }
             return productFilters

@@ -179,7 +179,7 @@ extension ExpressChatViewModel {
     }
 
     func trackExpressChatDontAsk() {
-        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .manual : .automatic
         let event = TrackerEvent.expressChatDontAsk(trigger)
         trackerProxy.trackEvent(event)
     }
