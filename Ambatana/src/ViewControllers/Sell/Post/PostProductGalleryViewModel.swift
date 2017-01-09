@@ -54,6 +54,13 @@ class PostProductGalleryViewModel: BaseViewModel {
     let imageSelectionEnabled = Variable<Bool>(true)
     let albumButtonEnabled = Variable<Bool>(true)
 
+    var imageSelectionFull: Observable<Bool> {
+        return imagesSelected.asObservable().map { [weak self] imagesSelected in
+            guard self?.multiSelectionEnabled ?? false else { return false }
+            return imagesSelected.count >= self?.maxImagesSelected ?? Constants.maxImageCount
+        }
+    }
+
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
     private let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width -

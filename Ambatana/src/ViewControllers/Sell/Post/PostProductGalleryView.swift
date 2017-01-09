@@ -237,7 +237,10 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         -> UICollectionViewCell {
             guard let galleryCell = collectionView.dequeueReusableCellWithReuseIdentifier(GalleryImageCell.reusableID,
                 forIndexPath: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
+
+            galleryCell.tag = indexPath.row
             viewModel.imageForCellAtIndex(indexPath.row) { image in
+                guard galleryCell.tag == indexPath.row else { return }
                 galleryCell.image.image = image
             }
             galleryCell.multipleSelectionEnabled = viewModel.multiSelectionEnabled
@@ -369,8 +372,8 @@ extension PostProductGalleryView {
             strongSelf.collectionView.userInteractionEnabled = true
         }.addDisposableTo(disposeBag)
 
-        viewModel.imageSelectionEnabled.asObservable().distinctUntilChanged().bindNext { [weak self] interactionEnabled in
-            self?.delegate?.productGallerySelectionFull(!interactionEnabled)
+        viewModel.imageSelectionFull.distinctUntilChanged().bindNext { [weak self] imageSelectionFull in
+            self?.delegate?.productGallerySelectionFull(imageSelectionFull)
         }.addDisposableTo(disposeBag)
     }
 
@@ -512,13 +515,16 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
     }
 
     private func animateToState(collapsed collapsed: Bool, completion: (() -> Void)?) {
+        let hasChanges = collapsed != self.collapsed
         imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
         self.collapsed = collapsed
 
         UIView.animateWithDuration(0.2,
             animations: { [weak self] in
                 self?.syncCollectionWithImage()
-                self?.contentView.layoutIfNeeded()
+                if hasChanges {
+                    self?.contentView.layoutIfNeeded()
+                }
             }, completion: { _ in
                 completion?()
             }
