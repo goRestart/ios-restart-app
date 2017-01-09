@@ -571,6 +571,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         -> YES IF (LastContentOffset < 0 && ScrollingUP)
      */
     private func shouldNotifyScrollDelegate(scrollView: UIScrollView) -> Bool {
+        guard isDragging.value else { return false }
         let limit = (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)
         let offsetLowerThanBouncingLimit = lastContentOffset < limit
         return lastContentOffset > 0.0 && offsetLowerThanBouncingLimit || lastContentOffset < 0.0 && !scrollingDown
