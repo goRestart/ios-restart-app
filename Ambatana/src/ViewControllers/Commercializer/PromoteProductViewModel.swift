@@ -29,11 +29,11 @@ enum PromotionSource {
         case .productSell:
             return .sell
         case .productEdit:
-            return .Edit
+            return .edit
         case .productDetail:
-            return .ProductDetail
+            return .productDetail
         case .settings:
-            return .Settings
+            return .settings
         }
     }
 }

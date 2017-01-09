@@ -14,7 +14,7 @@ class CreateCommercialViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var emptyView: LGEmptyView!
     
-    private let viewModel : CreateCommercialViewModel
+    fileprivate let viewModel : CreateCommercialViewModel
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     let disposeBag = DisposeBag()
     
@@ -68,13 +68,13 @@ class CreateCommercialViewController: BaseViewController {
     func setupStatusBindings() {
         viewModel.status.asObservable().subscribeNext { [weak self] status in
             switch status {
-            case .None:
+            case .none:
                 self?.showActivityIndicator(false)
                 self?.hideAll()
             case .loading:
                 self?.showActivityIndicator(true)
                 self?.hideAll()
-            case .Data:
+            case .data:
                 self?.showActivityIndicator(false)
                 self?.collectionView.reloadData()
                 self?.hideEmptyView()
@@ -82,7 +82,7 @@ class CreateCommercialViewController: BaseViewController {
                 self?.showActivityIndicator(false)
                 self?.emptyView.setupWithModel(vm)
                 self?.showEmptyView()
-            case .Error(let vm):
+            case .error(let vm):
                 self?.showActivityIndicator(false)
                 self?.emptyView.setupWithModel(vm)
                 self?.showEmptyView()

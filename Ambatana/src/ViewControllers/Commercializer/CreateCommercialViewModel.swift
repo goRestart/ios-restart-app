@@ -49,18 +49,18 @@ class CreateCommercialViewModel: BaseViewModel {
             if let value = result.value {
                 self?.products = value
                 if !value.isEmpty {
-                    self?.status.value = .Data
+                    self?.status.value = .data
                 } else if let vm = self?.viewModelForEmptyView() {
                     self?.status.value = .empty(vm)
                 } else if let vm = self?.emptyViewModelForError(.internalError(message: "")){
-                    self?.status.value = .Error(vm)
+                    self?.status.value = .error(vm)
                 } else {
-                    self?.status.value = .None
+                    self?.status.value = .none
                 }
             } else if let error = result.error, let vm = self?.emptyViewModelForError(error) {
-                self?.status.value = CreateCommercialViewStatus.Error(vm)
+                self?.status.value = CreateCommercialViewStatus.error(vm)
             } else {
-                self?.status.value = .None
+                self?.status.value = .none
             }
         }
     }

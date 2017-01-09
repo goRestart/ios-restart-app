@@ -31,7 +31,7 @@ UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var navigationBar: UINavigationBar!
 
     var videoContainerView: VideoPlayerContainerView
-    private var fullScreen = false
+    fileprivate var fullScreen = false
     var viewModel: PromoteProductViewModel
     weak var delegate: PromoteProductViewControllerDelegate?
 
