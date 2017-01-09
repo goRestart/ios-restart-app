@@ -594,7 +594,7 @@ extension ProductCarouselViewController {
                 navBarButtons.forEach { navBarButton in
                     let button = UIButton(type: .system)
                     button.setImage(navBarButton.image, for: .normal)
-                    button.rx_tap.bindNext { _ in
+                    button.rx.tap.bindNext { _ in
                         navBarButton.action()
                         }.addDisposableTo(strongSelf.activeDisposeBag)
                     buttons.append(button)
@@ -608,7 +608,7 @@ extension ProductCarouselViewController {
         let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
         let rightItem = UIBarButtonItem(customView: shareButton)
         rightItem.style = .plain
-        shareButton.rx_tap.bindNext{
+        shareButton.rx.tap.bindNext{
             action.action()
         }.addDisposableTo(activeDisposeBag)
         navigationItem.rightBarButtonItems = nil
@@ -650,20 +650,20 @@ extension ProductCarouselViewController {
             let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
             guard let bottomAction = actionButtons.first else { return }
             strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
-            strongSelf.buttonBottom.rx_tap.takeUntil(takeUntilAction).bindNext {
+            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
                 bottomAction.action()
             }.addDisposableTo(strongSelf.activeDisposeBag)
 
             guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
             strongSelf.buttonTop.configureWith(uiAction: topAction)
-            strongSelf.buttonTop.rx_tap.takeUntil(takeUntilAction).bindNext {
+            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
                 topAction.action()
             }.addDisposableTo(strongSelf.activeDisposeBag)
 
         }.addDisposableTo(activeDisposeBag)
 
         viewModel.editButtonState.asObservable().bindTo(editButton.rx_state).addDisposableTo(disposeBag)
-        editButton.rx_tap.bindNext { [weak self, weak viewModel] in
+        editButton.rx.tap.bindNext { [weak self, weak viewModel] in
             self?.hideMoreInfo()
             viewModel?.editProduct()
         }.addDisposableTo(activeDisposeBag)
@@ -751,7 +751,7 @@ extension ProductCarouselViewController {
                 self?.favoriteButton.setImage(UIImage(named: favorite ? "ic_favorite_big_on" : "ic_favorite_big_off"), for: .normal)
             }.addDisposableTo(activeDisposeBag)
 
-        favoriteButton.rx_tap.bindNext { [weak viewModel] in
+        favoriteButton.rx.tap.bindNext { [weak viewModel] in
             viewModel?.switchFavorite()
         }.addDisposableTo(activeDisposeBag)
     }
@@ -1080,7 +1080,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         chatContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[chatText]-0-|",
             options: [], metrics: nil, views: views))
 
-        stickersButton.rx_tap.bindNext { [weak self] in
+        stickersButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.currentProductViewModel?.stickersButton()
         }.addDisposableTo(disposeBag)
 

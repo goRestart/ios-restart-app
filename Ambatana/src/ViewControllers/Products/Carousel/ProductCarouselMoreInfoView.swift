@@ -423,7 +423,7 @@ fileprivate extension ProductCarouselMoreInfoView {
         relatedItemsTitle.text = LGLocalizedString.productMoreInfoRelatedTitle
 
         relatedItemsViewMoreButton.setTitle(LGLocalizedString.productMoreInfoRelatedViewMore, for: UIControlState())
-        relatedItemsViewMoreButton.rx_tap.bindNext { [weak self] in
+        relatedItemsViewMoreButton.rx.tap.bindNext { [weak self] in
             self?.viewModel?.openRelatedItems()
         }.addDisposableTo(disposeBag)
 

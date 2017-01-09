@@ -268,7 +268,7 @@ extension TextViewController: UITextViewDelegate {
             TextViewController.keyTextCache[keyTextCache] = text
         }.addDisposableTo(disposeBag)
 
-        sendButton.rx_tap.bindNext { [weak self] in self?.sendButtonPressed() }.addDisposableTo(disposeBag)
+        sendButton.rx.tap.bindNext { [weak self] in self?.sendButtonPressed() }.addDisposableTo(disposeBag)
     }
 
     private func updateLeftActions() {
@@ -284,7 +284,7 @@ extension TextViewController: UITextViewDelegate {
             if let tint = action.imageTint {
                 button.tintColor = tint
             }
-            button.rx_tap.subscribeNext(action.action).addDisposableTo(leftActionsDisposeBag)
+            button.rx.tap.subscribeNext(action.action).addDisposableTo(leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
             button.setHeightConstraint(buttonDiameter)
