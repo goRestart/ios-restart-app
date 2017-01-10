@@ -79,7 +79,7 @@ extension LGMessage : Decodable {
                             <*> j <|? "is_read"
         
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGMessage parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGMessage parse error: \(error)")
         }
 
         return result

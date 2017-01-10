@@ -26,17 +26,17 @@ class TokenKeychainDAO: TokenDAO {
 
     func save(_ token: Token) {
         guard let _ = token.value else {
-            logMessage(.error, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.error, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                 message: "Token won't be saved as it has no value, level: \(token.level)")
             return
         }
         storeToken(token)
         if token.level < self.token.level {
-            logMessage(.warning, type: [CoreLoggingOptions.Token],
+            logMessage(.warning, type: [CoreLoggingOptions.token],
                 message: "Token won't be saved as its level \(token.level) < current \(self.token.level), value: \(token.value)")
             return
         }
-        logMessage(.verbose, type: [CoreLoggingOptions.Token], message: "\(token.level) token saved in-memory")
+        logMessage(.verbose, type: [CoreLoggingOptions.token], message: "\(token.level) token saved in-memory")
         self.token = token
     }
 
@@ -59,10 +59,10 @@ class TokenKeychainDAO: TokenDAO {
     func deleteInstallationToken() {
         let deleteSucceeded = keychain.delete(TokenKeychainDAO.installationKey)
         if deleteSucceeded {
-            logMessage(.verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                        message: "Succeeded deleting \(AuthLevel.installation) token in keychain")
         } else {
-            logMessage(.error, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.error, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                        message: "Failed deleting \(AuthLevel.installation) token in keychain")
         }
         token = fetch()
@@ -71,10 +71,10 @@ class TokenKeychainDAO: TokenDAO {
     func deleteUserToken() {
         let deleteSucceeded = keychain.delete(TokenKeychainDAO.userKey)
         if deleteSucceeded {
-            logMessage(.verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                 message: "Succeeded deleting \(AuthLevel.user) token in keychain")
         } else {
-            logMessage(.error, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.error, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                 message: "Failed deleting \(AuthLevel.user) token in keychain")
         }
         token = fetch()
@@ -82,7 +82,7 @@ class TokenKeychainDAO: TokenDAO {
 
     private func storeToken(_ token: Token) {
         guard let tokenString = token.value else {
-            logMessage(.verbose, type: [CoreLoggingOptions.Token],
+            logMessage(.verbose, type: [CoreLoggingOptions.token],
                 message: "Token won't be updated in memory as its level \(token.level) < current \(self.token.level)")
             return
         }
@@ -100,26 +100,26 @@ class TokenKeychainDAO: TokenDAO {
         let storeSucceeded = keychain.set(tokenString, forKey: key,
             withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
         if storeSucceeded {
-            logMessage(.verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                 message: "Succeeded storing \(token.level) token in keychain")
         } else {
-            logMessage(.error, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.error, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                 message: "Failed storing \(token.level) token with level in keychain")
         }
     }
 
     private func fetch() -> Token {
         if let userToken = get(level: .user) {
-            logMessage(.verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                 message: "Fetched \(userToken.level) token: \(userToken.value)")
             return userToken
         }
         if let installationToken = get(level: .installation) {
-            logMessage(.verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+            logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                 message: "Fetched \(installationToken.level) token: \(installationToken.value)")
             return installationToken
         }
-        logMessage(.verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+        logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
             message: "No fetched token")
         return Token(value: nil, level: .nonexistent)
     }

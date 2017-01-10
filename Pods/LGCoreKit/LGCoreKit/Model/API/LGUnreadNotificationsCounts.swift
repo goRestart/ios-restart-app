@@ -45,7 +45,7 @@ extension LGUnreadNotificationsCounts: Decodable {
             <*> j <|? "review_updated"
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGUnreadNotificationsCounts parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUnreadNotificationsCounts parse error: \(error)")
         }
 
         return result

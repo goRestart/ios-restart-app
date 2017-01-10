@@ -76,7 +76,7 @@ extension LGUserRating: Decodable {
             <*> j <| "updated_at"
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGUserRating parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUserRating parse error: \(error)")
         }
 
         return result
@@ -103,7 +103,7 @@ extension UserRatingType: Decodable {
         }
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "UserRatingType parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "UserRatingType parse error: \(error)")
         }
         return result
     }

@@ -152,7 +152,7 @@ extension LGMyUser: Decodable {
 
 
         if let error = init3.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGMyUser parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGMyUser parse error: \(error)")
         }
         return init3
     }

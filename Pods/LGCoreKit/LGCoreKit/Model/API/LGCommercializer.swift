@@ -79,7 +79,7 @@ extension LGCommercializer : Decodable {
         
         
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGCommercializer parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGCommercializer parse error: \(error)")
         }
         
         return result

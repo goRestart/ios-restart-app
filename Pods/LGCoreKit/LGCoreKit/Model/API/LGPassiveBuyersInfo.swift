@@ -53,7 +53,7 @@ extension LGPassiveBuyersInfo: Decodable {
             <*> j <|| "passive_buyer_users"
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGPassiveBuyersInfo parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGPassiveBuyersInfo parse error: \(error)")
         }
         return result
     }

@@ -32,7 +32,7 @@ extension LGChatEvent: Decodable {
             <*> ChatEventType.decode(j)
         
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGChatEvent parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChatEvent parse error: \(error)")
         }
         
         return result

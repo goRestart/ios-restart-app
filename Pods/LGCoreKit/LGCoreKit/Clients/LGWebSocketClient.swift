@@ -103,11 +103,11 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     func startWebSocket(_ endpoint: String) {
         switch socketStatus.value {
         case .open:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Chat already connected to: \(endpoint)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Chat already connected to: \(endpoint)")
         case .opening:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Chat ALREADY connecting to: \(endpoint)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Chat ALREADY connecting to: \(endpoint)")
         case .closed, .closing:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Trying to connect to: \(endpoint)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Trying to connect to: \(endpoint)")
             socketStatus.value = .opening
             endpointURL = URL(string: endpoint)
             reconnectWebSocket(with: endpointURL)
@@ -117,11 +117,11 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     func closeWebSocket() {
         switch socketStatus.value {
         case .closed:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Chat already closed")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Chat already closed")
         case .closing:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Chat ALREADY closing")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Chat ALREADY closing")
         case .open, .opening:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Closing Chat WebSocket")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Closing Chat WebSocket")
             socketStatus.value = .closing
             ws?.close(withCode: SRStatusCodeNormal.rawValue, reason: "Manual close")
         }
@@ -161,7 +161,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         let sendAction = { [weak self] in
             // Only add the request to the array if its not an Authenticate request, those shouldn't be saved to repeat
             if request.type != .Authenticate { self?.activeRequests[request.uuid.lowercased()] = request }
-            logMessage(LogLevel.debug, type: .WebSockets, message: "[WS] Send: \(request.message)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] Send: \(request.message)")
             self?.privateSend(request)
         }
         
@@ -266,12 +266,12 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     @objc func webSocketDidOpen(_ webSocket: SRWebSocket!) {
         socketStatus.value = .open(authenticated: .notAuthenticated)
         openCompletion?()
-        logMessage(.debug, type: .WebSockets, message: "Opened")
+        logMessage(.debug, type: .webSockets, message: "Opened")
         setupTimer()
     }
     
     @objc func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        logMessage(.debug, type: .WebSockets, message: "Closed")
+        logMessage(.debug, type: .webSockets, message: "Closed")
         closeCompletion?()
 
         if socketStatus.value == .opening {
@@ -298,22 +298,22 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         
         switch type.superType {
         case .ack:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Received ACK: \(text)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Received ACK: \(text)")
             handleACK(dict)
         case .query:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Received QueryResponse: \(text)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Received QueryResponse: \(text)")
             handleQueryResponse(dict)
         case .event:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Received Event: \(text)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Received Event: \(text)")
             handleEvent(dict)
         case .error:
-            logMessage(LogLevel.debug, type: .WebSockets, message: "Received Error: \(text)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "Received Error: \(text)")
             handleError(dict)
         }
     }
     
     func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
         // TODO: Handle websocket errors (network errors)
-        logMessage(LogLevel.debug, type: .WebSockets, message: "Connection Error: \(error)")
+        logMessage(LogLevel.debug, type: .webSockets, message: "Connection Error: \(error)")
     }
 }

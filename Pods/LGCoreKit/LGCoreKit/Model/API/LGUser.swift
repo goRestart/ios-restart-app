@@ -103,7 +103,7 @@ extension LGUser : Decodable {
             <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGUser parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUser parse error: \(error)")
         }
 
         return result
