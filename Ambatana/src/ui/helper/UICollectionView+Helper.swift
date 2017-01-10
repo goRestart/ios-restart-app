@@ -25,11 +25,11 @@ extension UICollectionView {
     private func handleChange<T>(_ change: CollectionChange<T>) {
         switch change {
         case .remove(let index, _):
-            let indexPath = IndexPath(forRow: index, inSection: 0)
-            deleteItemsAtIndexPaths([indexPath])
+            let indexPath = IndexPath(row: index, section: 0)
+            deleteItems(at: [indexPath])
         case .insert(let index, _):
-            let indexPath = IndexPath(forRow: index, inSection: 0)
-            insertItemsAtIndexPaths([indexPath])
+            let indexPath = IndexPath(row: index, section: 0)
+            insertItems(at: [indexPath])
         case .composite(let changes):
             changes.forEach { [weak self] change in
                 self?.handleChange(change)
