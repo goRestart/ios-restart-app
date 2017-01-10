@@ -27,7 +27,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowMessage(_ message: String, completion: (() -> ())?)
-    func vmRequestLogin(_ loggedInAction: () -> Void)
+    func vmRequestLogin(_ loggedInAction: @escaping () -> Void)
     func vmLoadStickersTooltipWithText(_ text: NSAttributedString)
 }
 

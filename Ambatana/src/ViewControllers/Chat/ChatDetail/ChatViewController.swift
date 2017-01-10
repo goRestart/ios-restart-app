@@ -110,14 +110,14 @@ class ChatViewController: TextViewController {
 
     override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
-        return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
+        return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }
     
     
     // MARK: - TextViewController methods
     
     override func sendButtonPressed() {
-        let message = textView.text
+        guard let message = textView.text else { return }
         viewModel.sendText(message, isQuickAnswer: false)
     }
     

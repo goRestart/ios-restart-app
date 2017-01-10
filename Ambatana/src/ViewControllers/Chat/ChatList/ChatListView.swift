@@ -11,7 +11,7 @@ import LGCoreKit
 
 protocol ChatListViewDelegate: class {
     func chatListView(_ chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
-        cancelText: String, actionText: String, action: () -> ())
+                      cancelText: String, actionText: String, action: @escaping () -> ())
     func chatListViewDidStartArchiving(_ chatListView: ChatListView)
     func chatListView(_ chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
     func chatListView(_ chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?)

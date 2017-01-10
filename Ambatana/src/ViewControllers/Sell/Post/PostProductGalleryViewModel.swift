@@ -65,7 +65,7 @@ class PostProductGalleryViewModel: BaseViewModel {
     var shouldUpdateDisabledCells: Bool = false
 
     private var albums: [PHAssetCollection] = []
-    private var photosAsset: PHFetchResult<AnyObject>?
+    private var photosAsset: PHFetchResult<PHAsset>?
 
     private var lastImageRequestId: PHImageRequestID?
 
@@ -206,9 +206,8 @@ class PostProductGalleryViewModel: BaseViewModel {
             let smartCollection: PHFetchResult = PHAssetCollection.fetchAssetCollections(with: type, subtype: subtype,
                 options: nil)
             for i in 0..<smartCollection.count {
-                guard let assetCollection = smartCollection[i] as? PHAssetCollection else { continue }
-                guard PHAsset.fetchAssets(in: assetCollection, options: userAlbumsOptions).count > 0
-                    else { continue }
+                let assetCollection = smartCollection[i]
+                guard PHAsset.fetchAssets(in: assetCollection, options: userAlbumsOptions).count > 0 else { continue }
                 newAlbums.append(assetCollection)
             }
             return newAlbums

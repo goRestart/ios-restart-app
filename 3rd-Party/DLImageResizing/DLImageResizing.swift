@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreGraphics
 
 extension UIImage {
     
@@ -195,10 +196,10 @@ extension UIImage {
         let fw = rect.width / ovalWidth
         let fh = rect.height / ovalHeight
         context.move(to: CGPoint(x: fw, y: fh/2))
-        CGContextAddArcToPoint(context, fw, fh, fw/2, fh, 1)
-        CGContextAddArcToPoint(context, 0, fh, 0, fh/2, 1)
-        CGContextAddArcToPoint(context, 0, 0, fw/2, 0, 1)
-        CGContextAddArcToPoint(context, fw, 0, fw, fh/2, 1)
+        context.addArc(tangent1End: CGPoint(x: fw, y: fh), tangent2End: CGPoint(x: fw/2, y: fh), radius: 1)
+        context.addArc(tangent1End: CGPoint(x: 0, y: fh), tangent2End: CGPoint(x: 0, y: fh/2), radius: 1)
+        context.addArc(tangent1End: CGPoint(x: 0, y: 0), tangent2End: CGPoint(x: fw/2, y: 0), radius: 1)
+        context.addArc(tangent1End: CGPoint(x: fw, y: 0), tangent2End: CGPoint(x: fw, y: fh/2), radius: 1)
         context.closePath()
         context.restoreGState()
     }
