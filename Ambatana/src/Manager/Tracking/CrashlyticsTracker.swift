@@ -16,7 +16,7 @@ final class CrashlyticsTracker: Tracker {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) {
     }
     
-    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any) {
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {

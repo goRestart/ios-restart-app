@@ -23,7 +23,7 @@ final class TrackerProxy: Tracker {
     }
 
     private var gpsPermissionEnabled: Bool {
-       return locationManager.locationServiceStatus == .enabled(.Authorized)
+       return locationManager.locationServiceStatus == .enabled(.authorized)
     }
 
     private let locationManager: LocationManager
