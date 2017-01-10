@@ -146,7 +146,7 @@ class FiltersViewModel: BaseViewModel {
         return String(maxPrice)
     }
 
-    private var productFilter : ProductFilters
+    fileprivate var productFilter : ProductFilters
     
     private let featureFlags: FeatureFlaggeable
     

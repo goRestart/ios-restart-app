@@ -26,6 +26,6 @@ extension ProductTimeCriteria {
         }
     }
     
-    static func allValues() -> [ProductTimeCriteria] { return [.day, .week, .month, .Aall] }
+    static func allValues() -> [ProductTimeCriteria] { return [.day, .week, .month, .all] }
 
 }

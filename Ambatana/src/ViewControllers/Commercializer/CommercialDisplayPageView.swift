@@ -21,7 +21,7 @@ class CommercialDisplayPageView: UIView {
     weak var delegate: CommercialDisplayPageViewDelegate?
 
     var videoPlayer : VideoPlayerContainerView = VideoPlayerContainerView.instanceFromNib()
-    private var fullScreen = false
+    fileprivate var fullScreen = false
 
     
     // MARK: - Lifecycle

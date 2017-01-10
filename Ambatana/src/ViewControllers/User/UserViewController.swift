@@ -23,9 +23,9 @@ class UserViewController: BaseViewController {
     fileprivate static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
     fileprivate static let headerCollapsedHeight: CGFloat = 44
 
-    private static let navbarHeaderMaxThresold: CGFloat = 0.5
-    private static let userLabelsMinThreshold: CGFloat = 0.5
-    private static let headerMinThreshold: CGFloat = 0.7
+    fileprivate static let navbarHeaderMaxThresold: CGFloat = 0.5
+    fileprivate static let userLabelsMinThreshold: CGFloat = 0.5
+    fileprivate static let headerMinThreshold: CGFloat = 0.7
     fileprivate static let userLabelsAndHeaderMaxThreshold: CGFloat = 1.5
 
     fileprivate static let userBgTintViewHeaderExpandedAlpha: CGFloat = 0.54

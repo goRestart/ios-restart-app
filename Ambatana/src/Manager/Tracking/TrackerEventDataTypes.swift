@@ -618,7 +618,7 @@ enum EventParameterRelatedShownReason: String {
         case .forbidden:
             self = .forbidden
         case .blocked, .blockedBy:
-            self = .Unanswered48h
+            self = .unanswered48h
         case .productDeleted:
             self = .productDeleted
         case .productSold:
@@ -626,7 +626,7 @@ enum EventParameterRelatedShownReason: String {
         case .userPendingDelete, .userDeleted:
             self = .userDeleted
         case .available:
-            self = .Unanswered48h
+            self = .unanswered48h
         }
     }
 }
@@ -657,33 +657,33 @@ struct EventParameters {
     }
     
     internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
-        params[.LoginSource] = source.rawValue
+        params[.loginSource] = source.rawValue
         if let rememberedAccount = rememberedAccount {
-            params[.LoginRememberedAccount] = rememberedAccount
+            params[.loginRememberedAccount] = rememberedAccount
         }
     }
     
     internal mutating func addProductParams(_ product: Product) {
-        params[.ProductId] = product.objectId
-        params[.ProductLatitude] = product.location.latitude
-        params[.ProductLongitude] = product.location.longitude
-        params[.ProductPrice] = product.price.value
-        params[.ProductCurrency] = product.currency.code
+        params[.productId] = product.objectId
+        params[.productLatitude] = product.location.latitude
+        params[.productLongitude] = product.location.longitude
+        params[.productPrice] = product.price.value
+        params[.productCurrency] = product.currency.code
         params[.categoryId] = product.category.rawValue
-        params[.ProductType] = product.user.isDummy ?
-            EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-        params[.UserToId] = product.user.objectId
+        params[.productType] = product.user.isDummy ?
+            EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.real.rawValue
+        params[.userToId] = product.user.objectId
     }
     
     internal mutating func addChatProductParams(_ product: ChatProduct) {
-        params[.ProductId] = product.objectId
-        params[.ProductPrice] = product.price.value
-        params[.ProductCurrency] = product.currency.code
-        params[.ProductType] = EventParameterProductItemType.Real.rawValue
+        params[.productId] = product.objectId
+        params[.productPrice] = product.price.value
+        params[.productCurrency] = product.currency.code
+        params[.productType] = EventParameterProductItemType.real.rawValue
     }
     
     internal mutating func addUserParams(_ user: User?) {
-        params[.UserToId] = user?.objectId
+        params[.userToId] = user?.objectId
     }
 
     internal subscript(paramName: EventParameterName) -> Any? {
@@ -706,11 +706,11 @@ struct PostProductTrackingInfo {
          imageSource: EventParameterPictureSource?, price: String?) {
         self.buttonName = buttonName
         self.sellButtonPosition = sellButtonPosition
-        self.imageSource = imageSource ?? .Camera
+        self.imageSource = imageSource ?? .camera
         if let price = price, let doublePrice = Double(price) {
-            negotiablePrice = doublePrice > 0 ? .No : .Yes
+            negotiablePrice = doublePrice > 0 ? .no : .yes
         } else {
-            negotiablePrice = .Yes
+            negotiablePrice = .yes
         }
     }
 }
