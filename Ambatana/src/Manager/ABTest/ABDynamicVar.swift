@@ -81,7 +81,6 @@ protocol ABVariable {
 
 extension ABDynamicVar {
     var trackingData: String? {
-        guard let value = value as? AnyObject else { return nil }
         return "\(key)-\(value)"
     }
     func register() {

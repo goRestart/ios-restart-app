@@ -26,19 +26,21 @@ class LGConfigRetrieveService: ConfigRetrieveService {
     // MARK: - Public Methods
 
     func retrieveConfigWithCompletion(_ completion: ConfigRetrieveServiceCompletion?) {
-        Alamofire.request(.GET, configURL)
+
+        Alamofire.request(configURL)
             .validate(statusCode: 200..<400)
-            .responseObject { (configFileResponse: Response<Config, NSError>) -> Void in
+            .responseObject { (configFileResponse: DataResponse<Config>) -> Void in
                 // Success
                 if let configFile = configFileResponse.result.value {
                     completion?(ConfigRetrieveServiceResult(value: configFile))
                 }
-                // Error
+                    // Error
                 else if let error = configFileResponse.result.error {
-                    if error.domain == URLErrorDomain {
+                    if let afError = error as? AFError, let urlError = afError.underlyingError as? URLError {
                         completion?(ConfigRetrieveServiceResult(error: .network))
-                    }
-                    else {
+                    } else if let urlError = error as? URLError {
+                        completion?(ConfigRetrieveServiceResult(error: .network))
+                    } else  {
                         completion?(ConfigRetrieveServiceResult(error: .internalError))
                     }
                 }
