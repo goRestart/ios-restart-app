@@ -40,12 +40,12 @@ class InterestedBubbleManager {
 
         var featureFlagDependantValue: Bool = true
         switch featureFlags.interestedUsersMode {
-        case .NoNotification:
+        case .noNotification:
             return false
-        case .Original:
+        case .original:
             featureFlagDependantValue = (isFirstProduct || fromFavoriteAction) &&
                 interestedBubbleShownForProducts.count < Constants.maxInterestedBubblesPerSessionOriginal
-        case .LimitedPrints:
+        case .limitedPrints:
             featureFlagDependantValue = interestedBubbleShownForProducts.count < Constants.maxInterestedBubblesPerSessionLimitedPrints
         }
 

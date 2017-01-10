@@ -385,11 +385,11 @@ extension TabCoordinator: ProductDetailNavigator {
     func closeAfterDelete() {
         closeProductDetail()
         switch featureFlags.postAfterDeleteMode {
-        case .Original:
+        case .original:
             break
-        case .FullScreen:
+        case .fullScreen:
             openFullScreenPostAfterDelete()
-        case .Alert:
+        case .alert:
             let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
                 .primary(fontSize: .medium)), action: { [weak self] in
                     self?.openSell(.deleteProduct)
