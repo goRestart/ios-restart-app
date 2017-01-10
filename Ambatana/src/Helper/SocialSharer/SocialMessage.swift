@@ -22,7 +22,7 @@ protocol SocialMessage {
     var twitterComposer: TWTRComposer { get }
     var smsShareText: String { get }
     var copyLinkText: String { get }
-    var nativeShareItems: [AnyObject] { get }
+    var nativeShareItems: [Any] { get }
     
     static var utmMediumKey: String { get }
     static var utmMediumValue: String { get }
@@ -50,15 +50,15 @@ extension SocialMessage {
 }
 
 enum ShareSource: String {
-    case Facebook = "facebook"
-    case Twitter = "twitter"
-    case FBMessenger = "facebook_messenger"
-    case Whatsapp = "whatsapp"
-    case Telegram = "telegram"
-    case Email = "email"
-    case SMS = "sms"
-    case CopyLink = "copy_link"
-    case Native = "native"
+    case facebook = "facebook"
+    case twitter = "twitter"
+    case fbMessenger = "facebook_messenger"
+    case whatsapp = "whatsapp"
+    case telegram = "telegram"
+    case email = "email"
+    case sms = "sms"
+    case copyLink = "copy_link"
+    case native = "native"
 }
 
 
