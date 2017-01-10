@@ -56,8 +56,9 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     var imageSelectionFull: Observable<Bool> {
         return imagesSelected.asObservable().map { [weak self] imagesSelected in
-            guard self?.multiSelectionEnabled ?? false else { return false }
-            return imagesSelected.count >= self?.maxImagesSelected ?? Constants.maxImageCount
+            guard let strongSelf = self else { return false }
+            guard strongSelf.multiSelectionEnabled else { return false }
+            return imagesSelected.count >= strongSelf.maxImagesSelected
         }
     }
 
@@ -190,7 +191,7 @@ class PostProductGalleryViewModel: BaseViewModel {
             let numImgs = imgsSelected.count
             guard let strongSelf = self else { return }
             if numImgs < 1 {
-                if let title = strongSelf.keyValueStorage[.userPostProductLastGalleryAlbumSelected] {
+                if let title = strongSelf.keyValueStorage[.postProductLastGalleryAlbumSelected] {
                     strongSelf.albumTitle.value = title
                     strongSelf.albumIconState.value = .Down
                     strongSelf.albumButtonEnabled.value = true
@@ -288,7 +289,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func selectLastAlbumSelected() {
         guard !albums.isEmpty else { return }
-        let lastName = keyValueStorage[.userPostProductLastGalleryAlbumSelected]
+        let lastName = keyValueStorage[.postProductLastGalleryAlbumSelected]
         for assetCollection in albums {
             if let lastName = lastName, albumName = assetCollection.localizedTitle where lastName == albumName {
                 selectAlbum(assetCollection)
@@ -307,7 +308,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         let title = assetCollection.localizedTitle
         if let title = title {
 
-            keyValueStorage[.userPostProductLastGalleryAlbumSelected] = title
+            keyValueStorage[.postProductLastGalleryAlbumSelected] = title
             albumTitle.value = title
         } else {
             albumTitle.value = LGLocalizedString.productPostGalleryTab
@@ -336,10 +337,8 @@ class PostProductGalleryViewModel: BaseViewModel {
 
         let imageRequestId = imageAtIndex(index, size: nil) { [weak self] image in
             guard let strongSelf = self else { return }
-
-            self?.lastImageSelected.value = image
-
-            self?.imageSelectionEnabled.value = true
+            strongSelf.lastImageSelected.value = image
+            strongSelf.imageSelectionEnabled.value = true
 
             if let image = image {
                 strongSelf.galleryState.value = .Normal
