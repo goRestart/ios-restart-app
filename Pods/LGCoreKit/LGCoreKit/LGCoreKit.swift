@@ -15,7 +15,7 @@ public let Core: DI = {
 
 public class LGCoreKit {
 
-    public static var loggingOptions = CoreLoggingOptions.None
+    public static var loggingOptions = CoreLoggingOptions.none
     public static var activateWebsocket = false
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
 

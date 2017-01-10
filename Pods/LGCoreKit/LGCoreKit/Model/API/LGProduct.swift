@@ -192,7 +192,7 @@ extension LGProduct : Decodable {
                             <*> j <| "owner"                                        // user : LGUser?
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGProduct parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGProduct parse error: \(error)")
         }
 
         return result

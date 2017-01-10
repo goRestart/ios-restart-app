@@ -37,7 +37,7 @@ extension LGPassiveBuyersUser: Decodable {
             <*> j <|? "avatar"
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGPassiveBuyersUser parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGPassiveBuyersUser parse error: \(error)")
         }
         return result
     }

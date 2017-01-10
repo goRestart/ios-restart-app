@@ -76,7 +76,7 @@ extension LGInstallation : Decodable {
                             <*> j <|? keys.deviceToken
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGInstallation parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGInstallation parse error: \(error)")
         }
 
         return result

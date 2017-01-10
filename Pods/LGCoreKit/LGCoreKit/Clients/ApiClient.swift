@@ -107,7 +107,7 @@ extension ApiClient {
                                      response: DataResponse<T>,
                                      completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         if shouldRenewToken(response) {
-            logMessage(.verbose, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+            logMessage(.verbose, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
                        message: response.logMessage)
 
             let requestTokenLevel = decodeRequestToken(response)?.level ?? .nonexistent
@@ -118,16 +118,16 @@ extension ApiClient {
             case .user:
                 renewUserTokenOrEnqueueRequest(req, decoder: decoder, completion: completion)
             case .nonexistent:
-                logMessage(.error, type: [CoreLoggingOptions.Networking], message: response.logMessage)
+                logMessage(.error, type: [CoreLoggingOptions.networking], message: response.logMessage)
                 completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
             }
         } else if let error = errorFromAlamofireResponse(response) {
-            logMessage(.verbose, type: [CoreLoggingOptions.Networking], message: response.logMessage)
+            logMessage(.verbose, type: [CoreLoggingOptions.networking], message: response.logMessage)
 
             handlePrivateApiErrorResponse(error, response: response)
             completion?(ResultResult<T, ApiError>.t(error: error))
         } else if let value = response.result.value {
-            logMessage(.info, type: CoreLoggingOptions.Networking, message: response.logMessage)
+            logMessage(.info, type: CoreLoggingOptions.networking, message: response.logMessage)
             updateToken(response)
             completion?(ResultResult<T, ApiError>.t(value: value))
         }
@@ -375,7 +375,7 @@ private extension ApiClient {
     func updateToken<T>(_ response: DataResponse<T>) {
         guard let token = decodeToken(response) else { return }
         if let sessionManager = sessionManager, token.level == .user && !sessionManager.loggedIn {
-            logMessage(.error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+            logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
                         message: "Received user token and the user is not logged in")
             return
         }
@@ -416,7 +416,7 @@ private extension ApiClient {
      */
     func decodeAuthInfo(_ authInfo: String) -> Token? {
         guard let token = authInfo.lastComponentSeparatedByCharacter(" ") else {
-            logMessage(.error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+            logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
                        message: "Invalid JWT with wrong format; authentication-info: \(authInfo)")
             report(CoreReportNetworking.invalidJWT(reason: .wrongFormat),
                    message: "authentication-info: \(authInfo)")
@@ -424,7 +424,7 @@ private extension ApiClient {
         }
         guard let authLevel = token.tokenAuthLevel else {
             if !token.isPasswordRecoveryToken {
-                logMessage(.error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+                logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
                            message: "Invalid JWT with unknown auth level; authentication-info: \(authInfo)")
                 report(CoreReportNetworking.invalidJWT(reason: .unknownAuthLevel),
                        message: "authentication-info: \(authInfo)")

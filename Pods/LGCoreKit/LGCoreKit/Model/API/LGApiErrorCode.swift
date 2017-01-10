@@ -29,7 +29,7 @@ extension LGApiErrorCode : Decodable {
             <^> j <| "code"
             <*> j <| "title"
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGApiErrorCode parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGApiErrorCode parse error: \(error)")
         }
         return result
     }

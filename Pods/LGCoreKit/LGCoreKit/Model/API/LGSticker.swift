@@ -38,7 +38,7 @@ extension LGSticker : Decodable {
             <*> j <|? "type"
         
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGSticker parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGSticker parse error: \(error)")
         }
         
         return result

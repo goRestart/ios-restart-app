@@ -41,7 +41,7 @@ extension LGChatUnreadMessages : Decodable {
             <*> j <|| "unread_conversations"
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGChatUnreadMessages parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChatUnreadMessages parse error: \(error)")
         }
 
         return result
@@ -64,7 +64,7 @@ extension LGConversationUnreadMessages : Decodable {
             <*> j <| "unread_messages_count"
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGConversationUnreadMessages parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGConversationUnreadMessages parse error: \(error)")
         }
 
         return result

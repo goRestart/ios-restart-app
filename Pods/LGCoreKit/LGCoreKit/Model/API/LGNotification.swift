@@ -44,7 +44,7 @@ extension LGNotification : Decodable {
             <*> NotificationType.decode(j)
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "LGNotification parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotification parse error: \(error)")
         }
 
         return result
@@ -156,7 +156,7 @@ extension NotificationType: Decodable {
         }
 
         if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.Parsing, message: "NotificationType parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "NotificationType parse error: \(error)")
         }
         return result
     }

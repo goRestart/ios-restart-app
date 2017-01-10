@@ -18,7 +18,7 @@ public enum ChatMessageType: String {
 }
 
 public enum ChatMessageWarning: String, Decodable {
-    case Spam = "spam"
+    case spam = "spam"
 }
 
 public protocol ChatMessage: BaseModel {
