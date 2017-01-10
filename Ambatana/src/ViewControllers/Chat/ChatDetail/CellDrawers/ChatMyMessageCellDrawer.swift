@@ -26,7 +26,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     }
 
     override func draw(_ cell: ChatMyMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
-        cell.messageLabel.text = message.value ?? ""
+        cell.messageLabel.text = message.value
         cell.dateLabel.text = message.sentAt?.formattedTime()
         cell.checkImageView.image = nil
         drawCheckForMessage(cell, message: message)
@@ -44,11 +44,11 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         switch status {
         case .sent:
             cell.checkImageView.image = UIImage(named: "ic_tick_sent")
-        case .Received:
+        case .received:
             cell.checkImageView.image = UIImage(named: "ic_doble_received")
-        case .Read:
+        case .read:
             cell.checkImageView.image = UIImage(named: "ic_doble_read")
-        case .Unknown:
+        case .unknown:
             cell.checkImageView.image = nil
         }
     }

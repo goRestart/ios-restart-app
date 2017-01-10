@@ -132,6 +132,7 @@ final class TabBarController: UITabBarController {
      - param source: The source.
      - returns: Whether app rating has been shown or not
      */
+    @discardableResult
     func showAppRatingViewIfNeeded(_ source: EventParameterRatingSource) -> Bool {
         guard RatingManager.sharedInstance.shouldShowRating else { return false}
         return showAppRatingView(source)
