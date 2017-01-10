@@ -16,7 +16,7 @@ extension Bumper  {
     } <% @flags.flags.each do |flag| %>
 
     static var <%= flag.varName %>: <%= flag.varClassName %> {
-        guard let value = Bumper.valueForKey(<%= flag.objectName %>.key) else { return <%= flag.varDefaultCase %> }
+        guard let value = Bumper.value(for: <%= flag.objectName %>.key) else { return <%= flag.varDefaultCase %> }
 <% if flag.isBool %>        return <%= flag.objectName %>(rawValue: value)?.asBool ?? <%= flag.varDefaultCase %><% else 
 %>        return <%= flag.objectName %>(rawValue: value) ?? <%= flag.varDefaultCase %> <% end %>
     }<% end %> 

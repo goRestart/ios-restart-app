@@ -283,7 +283,7 @@ struct TrackerEvent {
         switch actualNetwork {
         case .native:
             actualNetwork = .notAvailable
-        case .email, .facebook, .whatsapp, .twitter, .fBMessenger, .telegram, .sMS, .copyLink, .notAvailable:
+        case .email, .facebook, .whatsapp, .twitter, .fbMessenger, .telegram, .sms, .copyLink, .notAvailable:
             break
         }
         params[.shareNetwork] = actualNetwork.rawValue
@@ -297,7 +297,7 @@ struct TrackerEvent {
             var params = EventParameters()
             params.addProductParams(product)
             params[.productType] = product.user.isDummy ?
-                EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.Real.rawValue
+                EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
             return TrackerEvent(name: .productShareCancel, params: params)
@@ -308,7 +308,7 @@ struct TrackerEvent {
             var params = EventParameters()
             params.addProductParams(product)
             params[.productType] = product.user.isDummy ?
-                EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.Real.rawValue
+                EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
             return TrackerEvent(name: .productShareComplete, params: params)
@@ -979,7 +979,7 @@ struct TrackerEvent {
         switch time {
         case .day:
             return .day
-        case .Week:
+        case .week:
             return .week
         case .month:
             return .month

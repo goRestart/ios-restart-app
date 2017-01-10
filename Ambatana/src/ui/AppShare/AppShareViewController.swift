@@ -89,7 +89,7 @@ class AppShareViewController: UIViewController {
         KeyValueStorage.sharedInstance.userAppShared = true
         dismiss()
 
-        let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.ProductList)
+        let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.productList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -135,11 +135,11 @@ class AppShareViewController: UIViewController {
     }
 
     private func trackShown() {
-        let trackerEvent = TrackerEvent.appInviteFriendStart(.ProductList)
+        let trackerEvent = TrackerEvent.appInviteFriendStart(.productList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
-    private func dismissShowingShareOk() {
+    fileprivate func dismissShowingShareOk() {
         view.isHidden = true
         showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
             self?.dismiss(animated: false, completion: nil)
@@ -156,7 +156,7 @@ class AppShareViewController: UIViewController {
 
 extension AppShareViewController: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
-        let trackerEvent = TrackerEvent.appInviteFriend(shareType.trackingShareNetwork, typePage: .ProductList)
+        let trackerEvent = TrackerEvent.appInviteFriend(shareType.trackingShareNetwork, typePage: .productList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -165,10 +165,10 @@ extension AppShareViewController: SocialSharerDelegate {
         case .completed:
             dismissShowingShareOk()
 
-            let trackerEvent = TrackerEvent.appInviteFriendComplete(shareType.trackingShareNetwork, typePage: .ProductList)
+            let trackerEvent = TrackerEvent.appInviteFriendComplete(shareType.trackingShareNetwork, typePage: .productList)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         case .cancelled, .failed:
-            let trackerEvent = TrackerEvent.appInviteFriendCancel(shareType.trackingShareNetwork, typePage: .ProductList)
+            let trackerEvent = TrackerEvent.appInviteFriendCancel(shareType.trackingShareNetwork, typePage: .productList)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
 
