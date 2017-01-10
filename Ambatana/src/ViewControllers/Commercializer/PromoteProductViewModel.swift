@@ -199,7 +199,7 @@ class PromoteProductViewModel: BaseViewModel {
 
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,
                         status: .processOK)
-                    strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessOK)
+                    strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .processOK)
 
                     CommercializerManager.sharedInstance.commercializerCreatedAndPending(productId: productId,
                                                                                          templateId: themeId)
