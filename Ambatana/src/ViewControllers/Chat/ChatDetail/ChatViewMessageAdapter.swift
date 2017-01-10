@@ -27,8 +27,8 @@ class ChatViewMessageAdapter {
         
         let type: ChatViewMessageType
         switch message.type {
-        case .Offer:
-            type = ChatViewMessageType.Offer(text: message.text)
+        case .offer:
+            type = ChatViewMessageType.offer(text: message.text)
         case .text:
             type = ChatViewMessageType.text(text: message.text)
         case .sticker:
@@ -39,7 +39,7 @@ class ChatViewMessageAdapter {
             }
         }
         
-        let status: ChatMessageStatus = message.isRead ? .Read : .sent
+        let status: ChatMessageStatus = message.isRead ? .read : .sent
         return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt,
                                receivedAt: nil, readAt: nil, type: type, status: status,
                                warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus))
@@ -49,9 +49,9 @@ class ChatViewMessageAdapter {
         
         let type: ChatViewMessageType
         switch message.type {
-        case .Offer:
-            type = ChatViewMessageType.Offer(text: message.text)
-        case .text, .QuickAnswer, .ExpressChat, .FavoritedProduct:
+        case .offer:
+            type = ChatViewMessageType.offer(text: message.text)
+        case .text, .quickAnswer, .expressChat, .favoritedProduct:
             type = ChatViewMessageType.text(text: message.text)
         case .sticker:
             if let sticker = stickersRepository.sticker(message.text) {
@@ -145,7 +145,7 @@ class ChatViewMessageAdapter {
         let name = LGLocalizedString.chatUserInfoName(user.name ?? "")
         let address = user.postalAddress.zipCodeCityString
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                               type: .UserInfo(name: name, address: address, facebook: facebook, google: google, email: email),
+                               type: .userInfo(name: name, address: address, facebook: facebook, google: google, email: email),
                                status: nil, warningStatus: .normal)
     }
 

@@ -19,11 +19,11 @@ enum FilterTag: Equatable{
 
 func ==(a: FilterTag, b: FilterTag) -> Bool {
     switch (a, b) {
-    case (.Location, .Location): return true
-    case (.Within(let a),   .Within(let b))   where a == b: return true
-    case (.OrderBy(let a),   .OrderBy(let b))   where a == b: return true
+    case (.location, .location): return true
+    case (.within(let a),   .within(let b))   where a == b: return true
+    case (.orderBy(let a),   .orderBy(let b))   where a == b: return true
     case (.category(let a), .category(let b)) where a == b: return true
-    case (.PriceRange(let a, let b, _), .PriceRange(let c, let d, _)) where a == c && b == d: return true
+    case (.priceRange(let a, let b, _), .priceRange(let c, let d, _)) where a == c && b == d: return true
     case (.freeStuff, .freeStuff): return true
     default: return false
     }

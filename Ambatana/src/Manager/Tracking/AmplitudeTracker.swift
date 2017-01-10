@@ -55,7 +55,7 @@ final class AmplitudeTracker: Tracker {
         setupABTestsRx()
     }
     
-    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -69,7 +69,8 @@ final class AmplitudeTracker: Tracker {
 
     func setInstallation(_ installation: Installation?) {
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropInstallationIdKey, value: installation?.objectId as NSObject?? ?? "" as NSObject!)
+        let installationValue = NSString(string: installation?.objectId ?? "")
+        identify.set(AmplitudeTracker.userPropInstallationIdKey, value: installationValue)
         Amplitude.instance().identify(identify)
     }
 
@@ -83,16 +84,19 @@ final class AmplitudeTracker: Tracker {
         Amplitude.instance().setUserId(userId)
 
         var isDummy = false
-        let dummyRange = (user?.email ?? "").rangeOfString(AmplitudeTracker.dummyEmailPrefix)
-        if let isDummyRange = dummyRange, isDummyRange.startIndex == (user?.email ?? "").startIndex {
+        let dummyRange = (user?.email ?? "").range(of: AmplitudeTracker.dummyEmailPrefix)
+        if let isDummyRange = dummyRange, isDummyRange.lowerBound == (user?.email ?? "").startIndex {
             isDummy = true
         }
 
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropIdKey, value: user?.objectId as NSObject?? ?? "" as NSObject!)
+        let userIdValue = NSString(string: user?.objectId ?? "")
+        identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
         let userType = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
-        identify.set(AmplitudeTracker.userPropTypeKey, value: userType as NSObject!)
-        identify.set(AmplitudeTracker.userPropUserRating, value: user?.ratingAverage as NSObject!)
+        let userTypeValue = NSString(string: userType)
+        identify.set(AmplitudeTracker.userPropTypeKey, value: userTypeValue)
+        let ratingAverageValue = NSNumber(value: user?.ratingAverage ?? 0)
+        identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
         Amplitude.instance().identify(identify)
 
         loggedIn = user != nil
@@ -103,7 +107,7 @@ final class AmplitudeTracker: Tracker {
     
     func trackEvent(_ event: TrackerEvent) {
         switch event.name {
-        case .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail:
+        case .loginEmail, .loginFB, .loginGoogle, .signupEmail:
             if loggedIn {
                 Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
                 pendingLoginEvent = nil
@@ -116,21 +120,26 @@ final class AmplitudeTracker: Tracker {
     }
 
     func setLocation(_ location: LGLocation?) {
+        guard let location = location else { return }
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropLatitudeKey, value: location?.coordinate.latitude as NSObject!)
-        identify.set(AmplitudeTracker.userPropLongitudeKey, value: location?.coordinate.longitude as NSObject!)
+        let latitude = NSNumber(value: location.coordinate.latitude)
+        let longitude = NSNumber(value: location.coordinate.longitude)
+        identify.set(AmplitudeTracker.userPropLatitudeKey, value: latitude)
+        identify.set(AmplitudeTracker.userPropLongitudeKey, value: longitude)
         Amplitude.instance().identify(identify)
     }
 
     func setNotificationsPermission(_ enabled: Bool) {
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropPushEnabled, value: enabled ? "true" : "false" as NSObject!)
+        let enabledValue = NSString(string: enabled ? "true" : "false")
+        identify.set(AmplitudeTracker.userPropPushEnabled, value: enabledValue)
         Amplitude.instance().identify(identify)
     }
 
     func setGPSPermission(_ enabled: Bool) {
         let identify = AMPIdentify()
-        identify.set(AmplitudeTracker.userPropGpsEnabled, value: enabled ? "true" : "false" as NSObject!)
+        let enabledValue = NSString(string: enabled ? "true" : "false")
+        identify.set(AmplitudeTracker.userPropGpsEnabled, value: enabledValue)
         Amplitude.instance().identify(identify)
     }
 
@@ -138,7 +147,8 @@ final class AmplitudeTracker: Tracker {
         let identify = AMPIdentify()
         let value = enabled ? AmplitudeTracker.userPropMktPushNotificationValueOn :
             AmplitudeTracker.userPropMktPushNotificationValueOff
-        identify.set(AmplitudeTracker.userPropMktPushNotificationKey, value: value as NSObject!)
+        let valueNotifications = NSString(string: value)
+        identify.set(AmplitudeTracker.userPropMktPushNotificationKey, value: valueNotifications)
         Amplitude.instance().identify(identify)
     }
 
@@ -148,7 +158,8 @@ final class AmplitudeTracker: Tracker {
     private func setupABTestsRx() {
         ABTests.trackingData.asObservable().bindNext { trackingData in
             let identify = AMPIdentify()
-            identify.set(AmplitudeTracker.userPropABTests, value: trackingData as NSObject!)
+            let trackingDataValue = NSArray(array: trackingData)
+            identify.set(AmplitudeTracker.userPropABTests, value: trackingDataValue)
             Amplitude.instance().identify(identify)
         }.addDisposableTo(disposeBag)
     }

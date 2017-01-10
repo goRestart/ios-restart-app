@@ -53,8 +53,8 @@ class ProductCarouselMoreInfoView: UIView {
     private let mapView: MKMapView = MKMapView.sharedInstance
     private var vmRegion: MKCoordinateRegion? = nil
     @IBOutlet weak var mapViewContainer: UIView!
-    private var mapViewContainerExpandable: UIView? = nil
-    private var mapViewTapGesture: UITapGestureRecognizer? = nil
+    fileprivate var mapViewContainerExpandable: UIView? = nil
+    fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
     
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
@@ -67,20 +67,20 @@ class ProductCarouselMoreInfoView: UIView {
     
     private var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight,
                                                           frame: CGRect.zero)
-    private let disposeBag = DisposeBag()
-    private var currentVmDisposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate var currentVmDisposeBag = DisposeBag()
     fileprivate var viewModel: ProductViewModel?
     fileprivate var locationZone: MKOverlay?
     fileprivate let bigMapMargin: CGFloat = 65.0
     fileprivate let bigMapBottomMargin: CGFloat = 210
-    private(set) var mapExpanded: Bool = false
-    private var mapZoomBlocker: MapZoomBlocker?
-    private var statsView: ProductStatsView?
+    fileprivate(set) var mapExpanded: Bool = false
+    fileprivate var mapZoomBlocker: MapZoomBlocker?
+    fileprivate var statsView: ProductStatsView?
 
-    private let statsContainerViewHeight: CGFloat = 24
-    private let statsContainerViewTop: CGFloat = 26
-    private var initialDragYposition: CGFloat = 0
-    private var scrollBottomInset: CGFloat {
+    fileprivate let statsContainerViewHeight: CGFloat = 24
+    fileprivate let statsContainerViewTop: CGFloat = 26
+    fileprivate var initialDragYposition: CGFloat = 0
+    fileprivate var scrollBottomInset: CGFloat {
         guard let status = viewModel?.status.value else { return 0 }
         // Needed to avoid drawing content below the chat button
         switch status {
@@ -154,7 +154,7 @@ extension ProductCarouselMoreInfoView {
 
 extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
-    private func setupMapViewIfNeeded() {
+    func setupMapViewIfNeeded() {
         let container = mapExpanded ? mapViewContainerExpandable : mapViewContainer
         guard mapView.superview != container else { return }
         setupMapView(inside: container!)
@@ -162,7 +162,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         addRegion(with: coordinate, zoomBlocker: true)
     }
     
-    private func setupMapView(inside container: UIView) {
+    func setupMapView(inside container: UIView) {
         layoutMapView(inside: container)
         addMapGestures()
     }
@@ -194,7 +194,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         mapView.gestureRecognizers?.forEach { mapView.removeGestureRecognizer($0) }
     }
     
-    private func cleanMapView() {
+    fileprivate func cleanMapView() {
         // Clean only references related to current More Info View
         mapZoomBlocker?.mapView = nil
         if let mapViewTapGesture = mapViewTapGesture, let gestures = mapView.gestureRecognizers, gestures.contains(mapViewTapGesture) {
@@ -205,18 +205,18 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         }
     }
     
-    private dynamic func didTapMap() {
+    dynamic func didTapMap() {
         mapExpanded ? compressMap() : expandMap()
     }
 
-    private func setupMapExpanded(_ enabled: Bool) {
+    func setupMapExpanded(_ enabled: Bool) {
         mapExpanded = enabled
         mapView.isZoomEnabled = enabled
         mapView.isScrollEnabled = enabled
         mapView.isPitchEnabled = enabled
     }
 
-    private func configureMapView(with viewModel: ProductViewModel?) {
+    func configureMapView(with viewModel: ProductViewModel?) {
         guard let coordinate = viewModel?.productLocation.value else { return }
         addRegion(with: coordinate, zoomBlocker: true)
         setupMapExpanded(false)
@@ -224,7 +224,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
                                 radius: Constants.accurateRegionRadius)
     }
     
-    private func addRegion(with coordinate: LGLocationCoordinates2D, zoomBlocker: Bool) {
+    func addRegion(with coordinate: LGLocationCoordinates2D, zoomBlocker: Bool) {
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         vmRegion = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
         guard let region = vmRegion else { return }

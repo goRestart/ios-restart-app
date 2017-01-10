@@ -24,13 +24,13 @@ class RateUserViewController: BaseViewController {
     @IBOutlet weak var publishButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    private var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
-    private let descrPlaceholderColor = UIColor.gray
-    private static let sendButtonMargin: CGFloat = 15
+    fileprivate var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
+    fileprivate let descrPlaceholderColor = UIColor.gray
+    fileprivate static let sendButtonMargin: CGFloat = 15
 
-    private let viewModel: RateUserViewModel
-    private let keyboardHelper: KeyboardHelper
-    private let disposeBag = DisposeBag()
+    fileprivate let viewModel: RateUserViewModel
+    fileprivate let keyboardHelper: KeyboardHelper
+    fileprivate let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
@@ -192,7 +192,7 @@ extension RateUserViewController: UITextViewDelegate {
         return true
     }
 
-    private func setDescription(_ description: String?) {
+    fileprivate func setDescription(_ description: String?) {
         if let description = description, !description.isEmpty {
             descriptionText.text = description
             descriptionText.textColor = UIColor.grayDark

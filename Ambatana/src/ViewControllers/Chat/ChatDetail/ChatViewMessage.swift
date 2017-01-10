@@ -17,21 +17,21 @@ enum ChatViewMessageType {
 }
 
 enum ChatViewMessageWarningStatus: String {
-    case Normal
-    case Spam
+    case normal
+    case spam
     
     init(status: MessageWarningStatus) {
         switch status {
         case .normal:
             self = .normal
-        case .Suspicious:
-            self = .Spam
+        case .suspicious:
+            self = .spam
         }
     }
     
     init(status: [ChatMessageWarning]) {
-        if status.contains(.Spam) {
-            self = .Spam
+        if status.contains(.spam) {
+            self = .spam
         } else {
             self = .normal
         }
@@ -82,12 +82,12 @@ extension ChatViewMessage {
     
     func markAsReceived() -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
-                               receivedAt: receivedAt ?? Date(), readAt: readAt, type: type, status: .Received,
+                               receivedAt: receivedAt ?? Date(), readAt: readAt, type: type, status: .received,
                                warningStatus: warningStatus)
     }
     
     func markAsRead() -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt, receivedAt: receivedAt,
-                               readAt: readAt ?? Date(), type: type, status: .Read, warningStatus: warningStatus)
+                               readAt: readAt ?? Date(), type: type, status: .read, warningStatus: warningStatus)
     }
 }
