@@ -347,10 +347,8 @@ extension PostProductGalleryView {
             guard strongSelf.viewModel.multiSelectionEnabled else { return }
             strongSelf.collectionView.userInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
-                    UIView.performWithoutAnimation {
-                        self?.collectionView.reloadData()
-                        self?.collectionView.userInteractionEnabled = true
-                    }
+                self?.collectionView.reloadData()
+                self?.collectionView.userInteractionEnabled = true
                 return
             }
             var indexes: [NSIndexPath] = []
