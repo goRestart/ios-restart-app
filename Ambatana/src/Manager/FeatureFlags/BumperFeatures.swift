@@ -16,107 +16,107 @@ extension Bumper  {
     } 
 
     static var websocketChat: Bool {
-        guard let value = Bumper.valueForKey(WebsocketChat.key) else { return false }
+        guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
         return WebsocketChat(rawValue: value)?.asBool ?? false
     }
 
     static var notificationsSection: Bool {
-        guard let value = Bumper.valueForKey(NotificationsSection.key) else { return true }
+        guard let value = Bumper.value(for: NotificationsSection.key) else { return true }
         return NotificationsSection(rawValue: value)?.asBool ?? true
     }
 
     static var userReviews: Bool {
-        guard let value = Bumper.valueForKey(UserReviews.key) else { return true }
+        guard let value = Bumper.value(for: UserReviews.key) else { return true }
         return UserReviews(rawValue: value)?.asBool ?? true
     }
 
     static var showNPSSurvey: Bool {
-        guard let value = Bumper.valueForKey(ShowNPSSurvey.key) else { return false }
+        guard let value = Bumper.value(for: ShowNPSSurvey.key) else { return false }
         return ShowNPSSurvey(rawValue: value)?.asBool ?? false
     }
 
     static var interestedUsersMode: InterestedUsersMode {
-        guard let value = Bumper.valueForKey(InterestedUsersMode.key) else { return .noNotification }
+        guard let value = Bumper.value(for: InterestedUsersMode.key) else { return .noNotification }
         return InterestedUsersMode(rawValue: value) ?? .noNotification 
     }
 
     static var shareButtonWithIcon: Bool {
-        guard let value = Bumper.valueForKey(ShareButtonWithIcon.key) else { return true }
+        guard let value = Bumper.value(for: ShareButtonWithIcon.key) else { return true }
         return ShareButtonWithIcon(rawValue: value)?.asBool ?? true
     }
 
     static var productDetailShareMode: ProductDetailShareMode {
-        guard let value = Bumper.valueForKey(ProductDetailShareMode.key) else { return .native }
+        guard let value = Bumper.value(for: ProductDetailShareMode.key) else { return .native }
         return ProductDetailShareMode(rawValue: value) ?? .native 
     }
 
     static var expressChatBanner: Bool {
-        guard let value = Bumper.valueForKey(ExpressChatBanner.key) else { return false }
+        guard let value = Bumper.value(for: ExpressChatBanner.key) else { return false }
         return ExpressChatBanner(rawValue: value)?.asBool ?? false
     }
 
     static var postAfterDeleteMode: PostAfterDeleteMode {
-        guard let value = Bumper.valueForKey(PostAfterDeleteMode.key) else { return .original }
+        guard let value = Bumper.value(for: PostAfterDeleteMode.key) else { return .original }
         return PostAfterDeleteMode(rawValue: value) ?? .original 
     }
 
     static var keywordsTravelCollection: KeywordsTravelCollection {
-        guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .standard }
+        guard let value = Bumper.value(for: KeywordsTravelCollection.key) else { return .standard }
         return KeywordsTravelCollection(rawValue: value) ?? .standard 
     }
 
     static var relatedProductsOnMoreInfo: Bool {
-        guard let value = Bumper.valueForKey(RelatedProductsOnMoreInfo.key) else { return false }
+        guard let value = Bumper.value(for: RelatedProductsOnMoreInfo.key) else { return false }
         return RelatedProductsOnMoreInfo(rawValue: value)?.asBool ?? false
     }
 
     static var shareAfterPosting: Bool {
-        guard let value = Bumper.valueForKey(ShareAfterPosting.key) else { return false }
+        guard let value = Bumper.value(for: ShareAfterPosting.key) else { return false }
         return ShareAfterPosting(rawValue: value)?.asBool ?? false
     }
 
     static var monetizationEnabled: Bool {
-        guard let value = Bumper.valueForKey(MonetizationEnabled.key) else { return false }
+        guard let value = Bumper.value(for: MonetizationEnabled.key) else { return false }
         return MonetizationEnabled(rawValue: value)?.asBool ?? false
     }
 
     static var periscopeImprovement: Bool {
-        guard let value = Bumper.valueForKey(PeriscopeImprovement.key) else { return false }
+        guard let value = Bumper.value(for: PeriscopeImprovement.key) else { return false }
         return PeriscopeImprovement(rawValue: value)?.asBool ?? false
     }
 
     static var favoriteWithBadgeOnProfile: Bool {
-        guard let value = Bumper.valueForKey(FavoriteWithBadgeOnProfile.key) else { return false }
+        guard let value = Bumper.value(for: FavoriteWithBadgeOnProfile.key) else { return false }
         return FavoriteWithBadgeOnProfile(rawValue: value)?.asBool ?? false
     }
 
     static var newQuickAnswers: Bool {
-        guard let value = Bumper.valueForKey(NewQuickAnswers.key) else { return false }
+        guard let value = Bumper.value(for: NewQuickAnswers.key) else { return false }
         return NewQuickAnswers(rawValue: value)?.asBool ?? false
     }
 
     static var postingMultiPictureEnabled: Bool {
-        guard let value = Bumper.valueForKey(PostingMultiPictureEnabled.key) else { return false }
+        guard let value = Bumper.value(for: PostingMultiPictureEnabled.key) else { return false }
         return PostingMultiPictureEnabled(rawValue: value)?.asBool ?? false
     }
 
     static var favoriteWithBubbleToChat: Bool {
-        guard let value = Bumper.valueForKey(FavoriteWithBubbleToChat.key) else { return false }
+        guard let value = Bumper.value(for: FavoriteWithBubbleToChat.key) else { return false }
         return FavoriteWithBubbleToChat(rawValue: value)?.asBool ?? false
     }
 
     static var captchaTransparent: Bool {
-        guard let value = Bumper.valueForKey(CaptchaTransparent.key) else { return false }
+        guard let value = Bumper.value(for: CaptchaTransparent.key) else { return false }
         return CaptchaTransparent(rawValue: value)?.asBool ?? false
     }
 
     static var passiveBuyersShowKeyboard: Bool {
-        guard let value = Bumper.valueForKey(PassiveBuyersShowKeyboard.key) else { return false }
+        guard let value = Bumper.value(for: PassiveBuyersShowKeyboard.key) else { return false }
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
     }
 
     static var filterIconWithLetters: Bool {
-        guard let value = Bumper.valueForKey(FilterIconWithLetters.key) else { return false }
+        guard let value = Bumper.value(for: FilterIconWithLetters.key) else { return false }
         return FilterIconWithLetters(rawValue: value)?.asBool ?? false
     } 
 }
