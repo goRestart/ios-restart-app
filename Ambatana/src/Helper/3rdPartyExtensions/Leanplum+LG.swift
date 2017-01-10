@@ -14,7 +14,7 @@ protocol CustomLeanplumPresenter {
 
 extension Leanplum {
     
-    private static let leamplumCustomPopUp =  "LETGO_POPUP"
+    private static let leanplumCustomPopUp =  "LETGO_POPUP"
     private static let titleIdentifier = "Title"
     private static let messageTextIdentifier = "MessageText"
     private static let imageIdentifier = "Image"
@@ -30,7 +30,7 @@ extension Leanplum {
         let argumentAction = LPActionArg(named: actionIdentifier, withAction: nil)
         let arguments = [argumentTitle, argumentMessage, argumentImage, argumentButton, argumentAction]
         // ofKind: LeanplumActionKind | kLeanplumActionKindAction  need to be set as rawValue.
-        Leanplum.defineAction(leamplumCustomPopUp, of: LeanplumActionKind(rawValue: 0b11), withArguments: arguments, withResponder:  { context in
+        Leanplum.defineAction(leanplumCustomPopUp, ofKind: LeanplumActionKind(rawValue: 0b11), withArguments: arguments, withResponder:  { context in
             guard let context = context else { return false }
             guard let message = context.stringNamed(messageTextIdentifier) else { return false}
             guard let image = context.fileNamed(imageIdentifier) else { return false}

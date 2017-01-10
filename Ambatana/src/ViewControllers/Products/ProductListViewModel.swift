@@ -120,7 +120,7 @@ class ProductListViewModel: BaseViewModel {
         self.defaultCellSize = CGSize.zero
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
-        self.defaultCellSize = CGSizeMake(cellWidth, cellHeight)
+        self.defaultCellSize = CGSize(witdh: cellWidth, height: cellHeight)
     }
     
     convenience init(listViewModel: ProductListViewModel) {
@@ -212,7 +212,7 @@ class ProductListViewModel: BaseViewModel {
                 let hasProducts = strongSelf.numberOfProducts > 0
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
                 //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
-                strongSelf.state = .Data
+                strongSelf.state = .data
                 strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                                                        hasProducts: hasProducts)
@@ -240,7 +240,7 @@ class ProductListViewModel: BaseViewModel {
     func selectedItemAtIndex(_ index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
         guard let item = itemAtIndex(index) else { return }        
         switch item {
-        case .ProductCell:
+        case .productCell:
             dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
                                         originFrame: originFrame)
         case .collectionCell(let type):
@@ -273,9 +273,9 @@ class ProductListViewModel: BaseViewModel {
         guard 0..<numberOfProducts ~= index else { return nil }
         let item = objects[index]
         switch item {
-        case .ProductCell(let product):
+        case .productCell(let product):
             return product
-        case .CollectionCell, .EmptyCell:
+        case .collectionCell, .emptyCell:
             return nil
         }
     }
@@ -289,7 +289,7 @@ class ProductListViewModel: BaseViewModel {
     func sizeForCellAtIndex(_ index: Int) -> CGSize {
         guard let item = itemAtIndex(index) else { return defaultCellSize }
         switch item {
-        case .ProductCell(let product):
+        case .productCell(let product):
             guard let thumbnailSize = product.thumbnailSize, thumbnailSize.height != 0 && thumbnailSize.width != 0
                 else { return defaultCellSize }
             
