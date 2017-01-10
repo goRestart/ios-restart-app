@@ -15,18 +15,18 @@ extension ProductSortCriteria {
     
     var name : String {
         switch(self) {
-        case .Distance:
+        case .distance:
             return LGLocalizedString.filtersSortClosest
-        case .Creation:
+        case .creation:
             return LGLocalizedString.filtersSortNewest
-        case .PriceAsc:
+        case .priceAsc:
             return LGLocalizedString.filtersSortPriceAsc
-        case .PriceDesc:
+        case .priceDesc:
             return LGLocalizedString.filtersSortPriceDesc
         }
     }
     
     static func allValues() -> [ProductSortCriteria] {
-        return [.Creation, .Distance, .PriceAsc, .PriceDesc]
+        return [.creation, .distance, .priceAsc, .priceDesc]
     }
 }

@@ -12,21 +12,21 @@ extension ProductCategory {
     
     var name : String {
         switch(self) {
-        case .Unassigned:
+        case .unassigned:
             return LGLocalizedString.categoriesUnassigned
-        case .Electronics:
+        case .electronics:
             return LGLocalizedString.categoriesElectronics
-        case .CarsAndMotors:
+        case .carsAndMotors:
             return LGLocalizedString.categoriesCarsAndMotors
-        case .SportsLeisureAndGames:
+        case .sportsLeisureAndGames:
             return LGLocalizedString.categoriesSportsLeisureAndGames
-        case .HomeAndGarden:
+        case .homeAndGarden:
             return LGLocalizedString.categoriesHomeAndGarden
-        case .MoviesBooksAndMusic:
+        case .moviesBooksAndMusic:
             return LGLocalizedString.categoriesMoviesBooksAndMusic
-        case .FashionAndAccesories:
+        case .fashionAndAccesories:
             return LGLocalizedString.categoriesFashionAndAccessories
-        case .BabyAndChild:
+        case .babyAndChild:
             return LGLocalizedString.categoriesBabyAndChild
         case .other:
             return LGLocalizedString.categoriesOther
@@ -35,21 +35,21 @@ extension ProductCategory {
         
     var image : UIImage? {
         switch (self) {
-        case .Unassigned:
+        case .unassigned:
             return nil
-        case .Electronics:
+        case .electronics:
             return UIImage(named: "categories_electronics")
-        case .CarsAndMotors:
+        case .carsAndMotors:
             return UIImage(named: "categories_cars")
-        case .SportsLeisureAndGames:
+        case .sportsLeisureAndGames:
             return UIImage(named: "categories_sports")
-        case .HomeAndGarden:
+        case .homeAndGarden:
             return UIImage(named: "categories_homes")
-        case .MoviesBooksAndMusic:
+        case .moviesBooksAndMusic:
             return UIImage(named: "categories_music")
-        case .FashionAndAccesories:
+        case .fashionAndAccesories:
             return UIImage(named: "categories_fashion")
-        case .BabyAndChild:
+        case .babyAndChild:
             return UIImage(named: "categories_babies")
         case .other:
             return UIImage(named: "categories_others")
@@ -58,21 +58,21 @@ extension ProductCategory {
     
     var imageSmallInactive : UIImage? {
         switch (self) {
-        case .Unassigned:
+        case .unassigned:
             return nil
-        case .Electronics:
+        case .electronics:
             return UIImage(named: "categories_electronics_inactive")
-        case .CarsAndMotors:
+        case .carsAndMotors:
             return UIImage(named: "categories_cars_inactive")
-        case .SportsLeisureAndGames:
+        case .sportsLeisureAndGames:
             return UIImage(named: "categories_sports_inactive")
-        case .HomeAndGarden:
+        case .homeAndGarden:
             return UIImage(named: "categories_homes_inactive")
-        case .MoviesBooksAndMusic:
+        case .moviesBooksAndMusic:
             return UIImage(named: "categories_music_inactive")
-        case .FashionAndAccesories:
+        case .fashionAndAccesories:
             return UIImage(named: "categories_fashion_inactive")
-        case .BabyAndChild:
+        case .babyAndChild:
             return UIImage(named: "categories_babies_inactive")
         case .other:
             return UIImage(named: "categories_others_inactive")
@@ -81,21 +81,21 @@ extension ProductCategory {
     
     var color : UIColor {
         switch (self) {
-        case .Unassigned:
+        case .unassigned:
             return UIColor.unassignedCategory
-        case .Electronics:
+        case .electronics:
             return UIColor.electronicsCategory
-        case .CarsAndMotors:
+        case .carsAndMotors:
             return UIColor.carsMotorsCategory
-        case .SportsLeisureAndGames:
+        case .sportsLeisureAndGames:
             return UIColor.sportsGamesCategory
-        case .HomeAndGarden:
+        case .homeAndGarden:
             return UIColor.homeGardenCategory
-        case .MoviesBooksAndMusic:
+        case .moviesBooksAndMusic:
             return UIColor.moviesBooksCategory
-        case .FashionAndAccesories:
+        case .fashionAndAccesories:
             return UIColor.fashionAccessoriesCategory
-        case .BabyAndChild:
+        case .babyAndChild:
             return UIColor.babyChildCategory
         case .other:
             return UIColor.otherCategory
@@ -103,8 +103,8 @@ extension ProductCategory {
     }
 
     static func categoriesFromString(_ categories: String) -> [ProductCategory] {
-        return categories.characters.split(",").flatMap {
-            guard let intValue = Int(String($0)) else { return nil }
+        return categories.components(separatedBy: ",").flatMap {
+            guard let intValue = Int(String(describing: $0)) else { return nil }
             return ProductCategory(rawValue: intValue)
         }
     }

@@ -69,7 +69,7 @@ struct ProductFilters {
             selectedCategories: [],
             selectedWithin: ProductTimeCriteria.defaultOption,
             selectedOrdering: ProductSortCriteria.defaultOption,
-            priceRange: .PriceRange(min: nil, max: nil)
+            priceRange: .priceRange(min: nil, max: nil)
         )
     }
     
