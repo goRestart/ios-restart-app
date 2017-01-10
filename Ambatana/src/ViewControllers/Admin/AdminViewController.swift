@@ -8,7 +8,7 @@
 
 import Foundation
 import FLEX
-//import bumper  //TODO: RE-ENABLE after swift 3 migration
+import bumper
 import LGCoreKit
 
 class AdminViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -73,7 +73,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         case 1:
             openFeatureToggle()
         default:
-            UIPasteboard.general.string = subtitleForCellAtIndexPath(indexPath) ?? ""
+            UIPasteboard.general.string = subtitleForCellAtIndexPath(indexPath)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
