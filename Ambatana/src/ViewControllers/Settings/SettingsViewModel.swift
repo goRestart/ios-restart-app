@@ -143,12 +143,12 @@ class SettingsViewModel: BaseViewModel {
     }
 
     func fbAppInviteCancel() {
-        let trackerEvent = TrackerEvent.appInviteFriendCancel(.Facebook, typePage: .Settings)
+        let trackerEvent = TrackerEvent.appInviteFriendCancel(.facebook, typePage: .Settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func fbAppInviteDone() {
-        let trackerEvent = TrackerEvent.appInviteFriendComplete(.Facebook, typePage: .Settings)
+        let trackerEvent = TrackerEvent.appInviteFriendComplete(.facebook, typePage: .Settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.settingsInviteFacebookFriendsOk, completion: nil)
@@ -204,7 +204,7 @@ class SettingsViewModel: BaseViewModel {
             content.appInvitePreviewImageURL = URL(string: Constants.facebookAppInvitePreviewImageURL)
             guard let delegate = delegate as? FBSDKAppInviteDialogDelegate else { return }
             navigator?.showFbAppInvite(content, delegate: delegate)
-            let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
+            let trackerEvent = TrackerEvent.appInviteFriend(.facebook, typePage: .Settings)
             tracker.trackEvent(trackerEvent)
         case .changePhoto:
             delegate?.vmOpenImagePick()

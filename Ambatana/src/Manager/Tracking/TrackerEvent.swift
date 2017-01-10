@@ -283,7 +283,7 @@ struct TrackerEvent {
         switch actualNetwork {
         case .native:
             actualNetwork = .notAvailable
-        case .email, .facebook, .Whatsapp, .twitter, .fBMessenger, .telegram, .sMS, .copyLink, .notAvailable:
+        case .email, .facebook, .whatsapp, .twitter, .fBMessenger, .telegram, .sMS, .copyLink, .notAvailable:
             break
         }
         params[.shareNetwork] = actualNetwork.rawValue

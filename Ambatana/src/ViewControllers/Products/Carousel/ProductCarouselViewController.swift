@@ -1170,7 +1170,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     
     func vmShowShareFromMain(_ socialMessage: SocialMessage) {
         switch featureFlags.productDetailShareMode {
-        case .Native:
+        case .native:
             viewModel.openShare(.native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
         case .InPlace:
             if let expandableButtonsView = expandableButtonsView, !expandableButtonsView.expanded.value {

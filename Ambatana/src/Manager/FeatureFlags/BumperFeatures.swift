@@ -46,8 +46,8 @@ extension Bumper  {
     }
 
     static var productDetailShareMode: ProductDetailShareMode {
-        guard let value = Bumper.value(for: ProductDetailShareMode.key) else { return .Native }
-        return ProductDetailShareMode(rawValue: value) ?? .Native 
+        guard let value = Bumper.value(for: ProductDetailShareMode.key) else { return .native }
+        return ProductDetailShareMode(rawValue: value) ?? .native 
     }
 
     static var expressChatBanner: Bool {
@@ -185,16 +185,16 @@ enum ShareButtonWithIcon: String, BumperFeature  {
 
 enum ProductDetailShareMode: String, BumperFeature  {
     case Native, InPlace, FullScreen
-    static var defaultValue: String { return ProductDetailShareMode.Native.rawValue }
-    static var enumValues: [ProductDetailShareMode] { return [.Native, .InPlace, .FullScreen]}
+    static var defaultValue: String { return ProductDetailShareMode.native.rawValue }
+    static var enumValues: [ProductDetailShareMode] { return [.native, .InPlace, .FullScreen]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "How the share options are presented in product detail" } 
     static func fromPosition(_ position: Int) -> ProductDetailShareMode {
         switch position { 
-            case 0: return .Native
+            case 0: return .native
             case 1: return .InPlace
             case 2: return .FullScreen
-            default: return .Native
+            default: return .native
         }
     }
 }

@@ -53,23 +53,23 @@ enum ShareType {
     var trackingShareNetwork: EventParameterShareNetwork {
         switch self {
         case .email:
-            return .Email
+            return .email
         case .fbMessenger:
-            return .FBMessenger
+            return .fbMessenger
         case .whatsapp:
-            return .Whatsapp
+            return .whatsapp
         case .facebook:
-            return .Facebook
+            return .facebook
         case .twitter:
-            return .Twitter
+            return .twitter
         case .telegram:
-            return .Telegram
+            return .telegram
         case .copyLink:
-            return .CopyLink
+            return .copyLink
         case .sms:
-            return .SMS
+            return .sms
         case .native:
-            return .Native
+            return .native
         }
     }
 

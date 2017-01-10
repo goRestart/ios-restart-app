@@ -19,7 +19,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var filtersReorder: Bool = false
     var directPostInOnboarding: Bool = false
     var shareButtonWithIcon: Bool = false
-    var productDetailShareMode: ProductDetailShareMode = .Native
+    var productDetailShareMode: ProductDetailShareMode = .native
     var expressChatBanner: Bool = true
     var postAfterDeleteMode: PostAfterDeleteMode = .Original
     var keywordsTravelCollection: KeywordsTravelCollection = .Standard
