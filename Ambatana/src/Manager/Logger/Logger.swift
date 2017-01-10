@@ -22,7 +22,7 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
         if contains(AppLoggingOptions.tracking) {
             options.append("🚜")
         }
-        if contains(AppLoggingOptions.deeplink) {
+        if contains(AppLoggingOptions.deepLink) {
             options.append("🔗")
         }
         if contains(AppLoggingOptions.monetization) {

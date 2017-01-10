@@ -92,7 +92,7 @@ extension CommercialDisplayViewModel {
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         guard state == .completed else { return }
-        let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
+        let event = TrackerEvent.commercializerShareComplete(productId, typePage: .commercializerPlayer,
                                                              template: sharedTemplateId,
                                                              shareNetwork: shareType.trackingShareNetwork)
         TrackerProxy.sharedInstance.trackEvent(event)
