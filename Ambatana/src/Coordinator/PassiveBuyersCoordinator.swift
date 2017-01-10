@@ -47,7 +47,7 @@ final class PassiveBuyersCoordinator: Coordinator {
 
     // MARK: - Private
 
-    private func close(animated: Bool, completed: Bool, completion: (() -> Void)?) {
+    fileprivate func close(animated: Bool, completed: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
             self?.viewController.dismiss(animated: animated) { [weak self] in
                 guard let strongSelf = self else { return }

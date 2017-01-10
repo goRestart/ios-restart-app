@@ -452,7 +452,7 @@ fileprivate extension AppCoordinator {
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
     }
     
-    func ifLoggedInAction(_ tab: EventParameterLoginSourceValue, action: () -> ()) {
+    func ifLoggedInAction(_ tab: EventParameterLoginSourceValue, action: @escaping () -> ()) {
         viewController?.ifLoggedInThen(tab, loginStyle: .fullScreen, loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
     }
 }
@@ -536,7 +536,7 @@ fileprivate extension AppCoordinator {
             let vc = PopupSignUpViewController(viewModel: viewModel, topMessage: message)
             vc.preDismissAction = nil
             vc.afterLoginAction = afterLogInSuccessful
-            tabBarCtl.presentViewController(vc, animated: true, completion: nil)
+            tabBarCtl.present(vc, animated: true, completion: nil)
         }
     }
 
@@ -775,7 +775,7 @@ fileprivate extension Tab {
         case .home, .categories:
             return nil
         case .notifications:
-            return .Notifications
+            return .notifications
         case .sell:
             return .sell
         case .chats:

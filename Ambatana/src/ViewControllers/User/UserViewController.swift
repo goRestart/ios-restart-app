@@ -396,7 +396,7 @@ extension UserViewController {
         }.addDisposableTo(disposeBag)
 
         let userAvatarPresent: Observable<Bool> = viewModel.userAvatarURL.asObservable().map { url in
-            guard let url = url, let urlString = url.absoluteString else { return false }
+            guard let urlString = url?.absoluteString else { return false }
             return !urlString.isEmpty
         }
         // Pattern overlay is hidden if there's no avatar and user background view is shown if so
