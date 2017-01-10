@@ -47,14 +47,14 @@ extension GoogleLoginHelper {
 // MARK: - GIDSignInDelegate
 
 extension GoogleLoginHelper: GIDSignInDelegate {
-    @objc func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: NSError!) {
+    @objc func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error?) {
         // Needs to be implemented by the protocol
     }
 
-    @objc func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    @objc func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         if let serverAuthCode = user?.serverAuthCode {
             googleSignInCompletion?(.success(serverAuthCode:serverAuthCode))
-        } else if let loginError = error, loginError.code == -5 {
+        } else if let loginError = error as? NSError, loginError.code == -5 {
             googleSignInCompletion?(.cancelled)
         } else {
             googleSignInCompletion?(.error(error: error))
