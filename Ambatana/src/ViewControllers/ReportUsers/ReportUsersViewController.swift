@@ -17,11 +17,11 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     @IBOutlet weak var textBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
-    private let viewModel: ReportUsersViewModel
+    fileprivate let viewModel: ReportUsersViewModel
 
-    private static let textBottomSpace: CGFloat = 76
-    private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
-    private var isCommentPlaceholder: Bool {
+    fileprivate static let textBottomSpace: CGFloat = 76
+    fileprivate var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
+    fileprivate var isCommentPlaceholder: Bool {
         return commentTextView.text == LGLocalizedString.reportUserTextPlaceholder &&
             commentTextView.textColor == UIColor.grayPlaceholderText
     }

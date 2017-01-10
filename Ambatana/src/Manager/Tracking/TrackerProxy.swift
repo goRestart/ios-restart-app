@@ -137,7 +137,7 @@ final class TrackerProxy: Tracker {
 
         locationManager.locationEvents.bindNext { [weak self] event in
             switch event {
-            case .ChangedPermissions:
+            case .changedPermissions:
                 self?.locationManagerDidChangePermissions()
             case .locationUpdate:
                 self?.setLocation(self?.locationManager.currentLocation)
@@ -151,9 +151,9 @@ final class TrackerProxy: Tracker {
         setGPSPermission(gpsPermissionEnabled)
 
         if gpsPermissionEnabled {
-            trackEvent(TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList))
+            trackEvent(TrackerEvent.permissionSystemComplete(.location, typePage: .productList))
         } else {
-            trackEvent(TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList))
+            trackEvent(TrackerEvent.permissionSystemCancel(.location, typePage: .productList))
         }
     }
 

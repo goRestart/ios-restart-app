@@ -10,15 +10,15 @@ import UIKit
 import RxSwift
 
 class ExpandableButtonsView: UIView {
-    private var buttons: [UIButton] = []
-    private var actions: [() -> ()] = []
+    fileprivate var buttons: [UIButton] = []
+    fileprivate var actions: [() -> ()] = []
 
-    private let buttonSide: CGFloat
-    private let buttonSpacing: CGFloat
+    fileprivate let buttonSide: CGFloat
+    fileprivate let buttonSpacing: CGFloat
     let expanded = Variable<Bool>(false)
 
-    private var topConstraints: [NSLayoutConstraint] = []
-    private let disposeBag: DisposeBag = DisposeBag()
+    fileprivate var topConstraints: [NSLayoutConstraint] = []
+    fileprivate let disposeBag: DisposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
