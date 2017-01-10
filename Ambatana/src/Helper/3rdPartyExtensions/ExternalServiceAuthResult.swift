@@ -50,7 +50,7 @@ enum ExternalServiceAuthResult {
 enum ExternalAuthTokenRetrievalResult {
     case success(serverAuthCode: String)
     case cancelled
-    case error(error: NSError?)
+    case error(error: Error?)
 }
 
 typealias ExternalAuthTokenRetrievalCompletion = (ExternalAuthTokenRetrievalResult) -> ()
