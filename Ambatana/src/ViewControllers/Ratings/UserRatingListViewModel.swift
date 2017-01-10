@@ -71,7 +71,7 @@ class UserRatingListViewModel: BaseViewModel {
     func dataForCellAtIndexPath(_ indexPath: IndexPath) -> UserRatingCellData? {
         guard let rating = ratingAtIndex(indexPath.row) else { return nil }
         let avatarPlaceholder = LetgoAvatar.avatarWithID(rating.userFrom.objectId, name: rating.userFrom.name)
-        let ratingDate = rating.updatedAt ?? rating.createdAt
+        let ratingDate = rating.createdAt > rating.updatedAt ? rating.createdAt : rating.updatedAt
 
         return UserRatingCellData(userName: rating.userFrom.name ?? "", userAvatar: rating.userFrom.avatar?.fileURL,
                                       userAvatarPlaceholder: avatarPlaceholder, ratingType: rating.type,
