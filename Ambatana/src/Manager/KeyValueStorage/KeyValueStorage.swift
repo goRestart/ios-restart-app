@@ -73,7 +73,7 @@ class KeyValueStorage {
     convenience init() {
         let myUserRepository = Core.myUserRepository
         let userDefaults = UserDefaults.standard
-        self.init(storage: userDefaults as! KeyValueStorageable, myUserRepository: myUserRepository)
+        self.init(storage: userDefaults as KeyValueStorageable, myUserRepository: myUserRepository)
     }
 }
 
@@ -288,14 +288,6 @@ extension KeyValueStorage: KeyValueStorageable {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSString?>) -> NSString? {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSString>) -> NSString {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
     subscript(key: DefaultsKey<Int?>) -> Int? {
         get { return storage[key] }
         set { storage[key] = newValue }
@@ -320,23 +312,19 @@ extension KeyValueStorage: KeyValueStorageable {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<AnyObject?>) -> AnyObject? {
+    subscript(key: DefaultsKey<Any?>) -> Any? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSObject?>) -> NSObject? {
+    subscript(key: DefaultsKey<Data?>) -> Data? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData?>) -> Data? {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSData>) -> Data {
+    subscript(key: DefaultsKey<Data>) -> Data {
         get { return storage[key] as Data }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSDate?>) -> Date? {
+    subscript(key: DefaultsKey<Date?>) -> Date? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
@@ -344,19 +332,11 @@ extension KeyValueStorage: KeyValueStorageable {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<[String: AnyObject]?>) -> [String: AnyObject]? {
+    subscript(key: DefaultsKey<[String: Any]?>) -> [String: Any]? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<[String: AnyObject]>) -> [String: AnyObject] {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSDictionary?>) -> NSDictionary? {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSDictionary>) -> NSDictionary {
+    subscript(key: DefaultsKey<[String: Any]>) -> [String: Any] {
         get { return storage[key] }
         set { storage[key] = newValue }
     }

@@ -194,13 +194,13 @@ final class TabBarController: UITabBarController {
         guard let vcs = viewControllers, 0..<vcs.count ~= Tab.chats.index else { return }
 
         let chatsTab = vcs[Tab.chats.index].tabBarItem
-        viewModel.chatsBadge.asObservable().bindTo(chatsTab.rx_badgeValue).addDisposableTo(disposeBag)
+        viewModel.chatsBadge.asObservable().bindTo(chatsTab.rx.badgeValue).addDisposableTo(disposeBag)
 
         let profileTab = vcs[Tab.profile.index].tabBarItem
-        viewModel.favoriteBadge.asObservable().bindTo(profileTab.rx_badgeValue).addDisposableTo(disposeBag)
+        viewModel.favoriteBadge.asObservable().bindTo(profileTab.rx.badgeValue).addDisposableTo(disposeBag)
        
         let notificationsTab = vcs[Tab.notifications.index].tabBarItem
-        viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx_badgeValue).addDisposableTo(disposeBag)
+        viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx.badgeValue).addDisposableTo(disposeBag)
     }
 
     

@@ -662,7 +662,7 @@ extension ProductCarouselViewController {
 
         }.addDisposableTo(activeDisposeBag)
 
-        viewModel.editButtonState.asObservable().bindTo(editButton.rx_state).addDisposableTo(disposeBag)
+        viewModel.editButtonState.asObservable().bindTo(editButton.rx.state).addDisposableTo(disposeBag)
         editButton.rx.tap.bindNext { [weak self, weak viewModel] in
             self?.hideMoreInfo()
             viewModel?.editProduct()
@@ -729,7 +729,7 @@ extension ProductCarouselViewController {
             self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
             }.addDisposableTo(activeDisposeBag)
 
-        chatTextView.rx_send.bindNext { [weak self, weak viewModel] textToSend in
+        chatTextView.rx.send.bindNext { [weak self, weak viewModel] textToSend in
             guard let strongSelf = self else { return }
             viewModel?.sendDirectMessage(textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
             strongSelf.chatTextView.clear()
@@ -743,7 +743,7 @@ extension ProductCarouselViewController {
 
     private func refreshFavoriteButton(_ viewModel: ProductViewModel) {
         viewModel.favoriteButtonState.asObservable()
-            .bindTo(favoriteButton.rx_state)
+            .bindTo(favoriteButton.rx.state)
             .addDisposableTo(activeDisposeBag)
 
         viewModel.isFavorite.asObservable()

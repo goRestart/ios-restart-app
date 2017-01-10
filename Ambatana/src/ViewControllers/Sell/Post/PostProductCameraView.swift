@@ -220,7 +220,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
             guard let fastCamera = self?.fastCamera, fastCamera.isFlashAvailableForCurrentDevice() else { return }
             fastCamera.cameraFlashMode = flashMode
         }.addDisposableTo(disposeBag)
-        flashMode.map{ $0.imageIcon }.bindTo(flashButton.rx_image).addDisposableTo(disposeBag)
+        flashMode.map{ $0.imageIcon }.bindTo(flashButton.rx.image).addDisposableTo(disposeBag)
 
         viewModel.cameraSourceMode.asObservable().map{ $0.fastttCameraDevice }.subscribeNext{ [weak self] deviceMode in
             self?.fastCamera?.cameraDevice = deviceMode
@@ -286,9 +286,9 @@ extension PostProductCameraView {
         infoButton.setStyle(.primary(fontSize: .medium))
 
         viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx.isHidden).addDisposableTo(disposeBag)
-        viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)
-        viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx_text).addDisposableTo(disposeBag)
-        viewModel.infoButton.asObservable().bindTo(infoButton.rx_title).addDisposableTo(disposeBag)
+        viewModel.infoTitle.asObservable().bindTo(infoTitle.rx.text).addDisposableTo(disposeBag)
+        viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx.text).addDisposableTo(disposeBag)
+        viewModel.infoButton.asObservable().bindTo(infoButton.rx.title).addDisposableTo(disposeBag)
     }
 
     @IBAction func onInfoButtonPressed(_ sender: AnyObject) {

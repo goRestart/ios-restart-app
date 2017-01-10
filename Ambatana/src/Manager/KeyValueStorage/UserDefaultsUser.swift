@@ -104,7 +104,7 @@ struct UserDefaultsUser {
 // MARK: - UserDefaultsDecodable
 
 extension UserDefaultsUser: UserDefaultsDecodable {
-    static func decode(_ dictionary: [String: AnyObject]) -> UserDefaultsUser? {
+    static func decode(_ dictionary: [String: Any]) -> UserDefaultsUser? {
         let appShared = dictionary.decode(UserDefaultsUserKey.AppShared.rawValue,
                                           defaultValue: UserDefaultsUser.appSharedDefaultValue)
         let userLocationApproximate = dictionary.decode(UserDefaultsUserKey.UserLocationApproximate.rawValue,
@@ -211,7 +211,7 @@ private enum UserDefaultsUserKey: String {
 
 // MARK: > Dictionary helper
 
-fileprivate extension Dictionary where Key: ExpressibleByStringLiteral, Value: AnyObject {
+fileprivate extension Dictionary where Key: ExpressibleByStringLiteral, Value: Any {
     func decode<T>(_ key: Key, defaultValue: T) -> T {
         return (self[key] as? T) ?? defaultValue
     }

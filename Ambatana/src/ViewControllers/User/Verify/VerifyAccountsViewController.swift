@@ -113,10 +113,10 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     }
 
     private func setupRx() {
-        viewModel.fbButtonState.asObservable().bindTo(fbButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        viewModel.googleButtonState.asObservable().bindTo(googleButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        viewModel.emailButtonState.asObservable().bindTo(emailButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        viewModel.typedEmailState.asObservable().bindTo(emailTextFieldButton.rx_veryfy_state).addDisposableTo(disposeBag)
+        viewModel.fbButtonState.asObservable().bindTo(fbButton.rx.verifyState).addDisposableTo(disposeBag)
+        viewModel.googleButtonState.asObservable().bindTo(googleButton.rx.verifyState).addDisposableTo(disposeBag)
+        viewModel.emailButtonState.asObservable().bindTo(emailButton.rx.verifyState).addDisposableTo(disposeBag)
+        viewModel.typedEmailState.asObservable().bindTo(emailTextFieldButton.rx.verifyState).addDisposableTo(disposeBag)
         viewModel.typedEmailState.asObservable().map { state in
             switch state {
             case .hidden:
@@ -164,25 +164,5 @@ extension VerifyAccountsViewController {
         emailButton.accessibilityId = .verifyAccountsEmailButton
         emailTextField.accessibilityId = .verifyAccountsEmailTextField
         emailTextFieldButton.accessibilityId = .verifyAccountsEmailTextFieldButton
-    }
-}
-
-
-// MARK: - UIButton + VerifyButtonState
-
-extension UIButton {
-    var rx_veryfy_state: AnyObserver<VerifyButtonState> {
-        return UIBindingObserver(UIElement: self) { button, state in
-            switch state {
-            case .hidden:
-                button.isHidden = true
-            case .enabled:
-                button.isHidden = false
-                button.isEnabled = true
-            case .disabled, .loading:
-                button.isHidden = false
-                button.isEnabled = false
-            }
-        }.asObserver()
     }
 }
