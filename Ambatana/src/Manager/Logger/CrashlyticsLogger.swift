@@ -23,14 +23,15 @@ class CrashlyticsLogger: DDAbstractLogger {
         }
     }
 
-    override func logMessage(_ logMessage: DDLogMessage) {
+    override func log(message logMessage: DDLogMessage?) {
+        guard let logMessage = logMessage else { return }
         let message: String?
         if let logFormatter = _logFormatter {
             message = logFormatter.format(message: logMessage)
         } else {
             message = logMessage.message
         }
-        if let message = message?.stringByRemovingPercentEncoding {
+        if let message = message?.removingPercentEncoding {
             CLSLogv(message, getVaList([]))
         }
     }

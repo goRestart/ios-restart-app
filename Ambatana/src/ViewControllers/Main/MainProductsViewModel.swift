@@ -698,11 +698,11 @@ fileprivate extension MainProductsViewModel {
             query = keyValueStorage[.lastSearches].reversed().joined(separator: " ")
         case .Transport:
             switch featureFlags.keywordsTravelCollection {
-            case .Standard:
+            case .standard:
                 query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
-            case .CarsPrior:
+            case .carsPrior:
                 query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
-            case .BrandsPrior:
+            case .brandsPrior:
                 query = "mustang Honda Harley corvette dodge Toyota yamaha motorcycle Jeep atv bike boat car kayak trailer truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard bmx rv Chevy sub ford paddle"
             }
         case .Gaming:

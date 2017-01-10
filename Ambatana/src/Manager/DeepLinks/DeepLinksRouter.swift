@@ -99,7 +99,7 @@ class DeepLinksRouter {
 
     // MARK: > Push Notifications
 
-    func didReceiveRemoteNotification(_ userInfo: [AnyHashable: Any], applicationState: UIApplicationState)
+    @discardableResult func didReceiveRemoteNotification(_ userInfo: [AnyHashable: Any], applicationState: UIApplicationState)
         -> PushNotification? {
             guard let pushNotification = PushNotification.buildFromUserInfo(userInfo,
                                                 appActive: applicationState == .active) else { return nil }

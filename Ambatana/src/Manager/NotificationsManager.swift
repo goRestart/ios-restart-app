@@ -35,16 +35,16 @@ class NotificationsManager {
         })
     }
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     private let sessionManager: SessionManager
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
     private let notificationsRepository: NotificationsRepository
-    private let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable
 
-    private var loggedIn: Variable<Bool>
+    fileprivate var loggedIn: Variable<Bool>
     private var requestingChat = false
     private var requestingNotifications = false
 
@@ -150,7 +150,7 @@ class NotificationsManager {
         if featureFlags.websocketChat {
             chatRepository.chatEvents.filter { event in
                 switch event.type {
-                case .InterlocutorMessageSent:
+                case .interlocutorMessageSent:
                     return true
                 default:
                     return false

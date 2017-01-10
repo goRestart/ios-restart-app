@@ -40,15 +40,14 @@ struct PushNotification {
                 source: uriScheme.deepLink.source), badge: badge)
 
         } else if let conversationId = userInfo["c"] as? String {
-
-            let type = DeepLinkMessageType(rawValue: (userInfo["n_t"]).intValue ?? 0 ) ?? .message
+            let type = DeepLinkMessageType(rawValue: (userInfo["n_t"] as? Int) ?? 0 ) ?? .message
             return PushNotification(deepLink: DeepLink.push(.message(messageType: type, data:
                 .conversation(conversationId: conversationId)), origin: origin, campaign: nil, medium: nil,
                 source: .push), badge: badge)
 
         } else if let productId = userInfo["p"] as? String, let buyerId = userInfo["u"] as? String {
             
-            let type = DeepLinkMessageType(rawValue: (userInfo["n_t"]).intValue ?? 0 ) ?? .message
+            let type = DeepLinkMessageType(rawValue: (userInfo["n_t"] as? Int) ?? 0 ) ?? .message
             return PushNotification(deepLink: DeepLink.push(.message(messageType: type, data:
                 .productBuyer(productId: productId, buyerId: buyerId)), origin: origin, campaign: nil, medium: nil,
                 source: .push), badge: badge)
