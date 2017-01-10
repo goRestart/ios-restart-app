@@ -15,10 +15,10 @@ class RecaptchaViewController: BaseViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var closeButton: UIButton!
 
-    private let viewModel: RecaptchaViewModel
+    fileprivate let viewModel: RecaptchaViewModel
     private let backgroundImage: UIImage?
 
-    private var currentURL: URL?
+    fileprivate var currentURL: URL?
 
     init(viewModel: RecaptchaViewModel, backgroundImage: UIImage?) {
         self.viewModel = viewModel
@@ -90,8 +90,8 @@ extension RecaptchaViewController: UIWebViewDelegate {
 
 // MARK: - Accesibility ids
 
-extension RecaptchaViewController {
-    private func setAccesibilityIds() {
+fileprivate extension RecaptchaViewController {
+    func setAccesibilityIds() {
         closeButton.accessibilityId = .recaptchaCloseButton
         activityIndicator.accessibilityId = .recaptchaLoading
         webView.accessibilityId = .recaptchaWebView

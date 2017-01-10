@@ -83,7 +83,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     var hasMessagesToRead: Bool {
         for index in 0..<objectCount {
-            if objectAtIndex(index)?.unreadMessageCount > 0 { return true }
+            if (objectAtIndex(index)?.unreadMessageCount ?? 0) > 0 { return true }
         }
         return false
     }

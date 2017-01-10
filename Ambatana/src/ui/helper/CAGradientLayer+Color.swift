@@ -16,7 +16,7 @@ extension CAGradientLayer {
 
         if let alphas = alphas, let locations = locations {
             guard alphas.count == locations.count else { return gradientLayer }
-            var gradientColors: [AnyObject] = []
+            var gradientColors: [Any] = []
             for alpha in alphas {
                 gradientColors.append(mainColor.withAlphaComponent(CGFloat(alpha)).cgColor)
             }
@@ -24,7 +24,7 @@ extension CAGradientLayer {
             gradientLayer.locations = locations
         } else {
             let topColor = mainColor.withAlphaComponent(0.0)
-            let gradientColors: Array <AnyObject> = [topColor.cgColor, mainColor.cgColor]
+            let gradientColors: [Any] = [topColor.cgColor, mainColor.cgColor]
             gradientLayer.colors = gradientColors
             gradientLayer.locations = [0.0,1.0]
         }

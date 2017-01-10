@@ -151,7 +151,7 @@ UICollectionViewDelegateFlowLayout {
     // MARK: - UICollectionView Delegate & DataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.themesCount ?? 0
+        return viewModel.themesCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)

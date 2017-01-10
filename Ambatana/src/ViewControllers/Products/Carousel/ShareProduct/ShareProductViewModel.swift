@@ -21,7 +21,7 @@ class ShareProductViewModel: BaseViewModel {
 
     let product: Product
     let socialSharer: SocialSharer?
-    private let tracker: Tracker
+    fileprivate let tracker: Tracker
 
     weak var delegate: ShareProductViewModelDelegate?
     weak var navigator: ShareProductNavigator?
@@ -88,12 +88,12 @@ extension ShareProductViewModel: SocialSharerDelegate {
         switch state {
         case .completed:
             event = TrackerEvent.productShareComplete(product, network: shareType.trackingShareNetwork,
-                                                      typePage: .ProductDetail)
+                                                      typePage: .productDetail)
         case .failed:
             event = nil
         case .cancelled:
             event = TrackerEvent.productShareCancel(product, network: shareType.trackingShareNetwork,
-                                                    typePage: .ProductDetail)
+                                                    typePage: .productDetail)
         }
         if let event = event {
             tracker.trackEvent(event)

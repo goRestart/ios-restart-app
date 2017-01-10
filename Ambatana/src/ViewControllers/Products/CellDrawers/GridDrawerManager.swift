@@ -31,7 +31,7 @@ class GridDrawerManager {
     
     func cell(_ model: ProductCellModel, collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
         switch model {
-        case .ProductCell:
+        case .productCell:
             return productDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .collectionCell:
             return collectionDrawer.cell(collectionView, atIndexPath: atIndexPath)
@@ -42,7 +42,7 @@ class GridDrawerManager {
     
     func draw(_ model: ProductCellModel, inCell cell: UICollectionViewCell) {
         switch model {
-        case .ProductCell(let product) where cell is ProductCell:
+        case .productCell(let product) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
             let data = ProductData(productID: product.objectId, thumbUrl: product.thumbnail?.fileURL, isFree: product.price.free && freePostingAllowed)
             return productDrawer.draw(data, style: cellStyle, inCell: cell)

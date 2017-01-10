@@ -104,24 +104,24 @@ class ChatViewModel: BaseViewModel {
     
     fileprivate let keyValueStorage: KeyValueStorage
 
-    private let firstInteractionDone = Variable<Bool>(false)
-    private let expressBannerTimerFinished = Variable<Bool>(false)
-    private let hasRelatedProducts = Variable<Bool>(false)
+    fileprivate let firstInteractionDone = Variable<Bool>(false)
+    fileprivate let expressBannerTimerFinished = Variable<Bool>(false)
+    fileprivate let hasRelatedProducts = Variable<Bool>(false)
     private let expressMessagesAlreadySent = Variable<Bool>(false)
-    private let interlocutorIsMuted = Variable<Bool>(false)
+    fileprivate let interlocutorIsMuted = Variable<Bool>(false)
     private let interlocutorHasMutedYou = Variable<Bool>(false)
     private let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
-    private let sellerDidntAnswer = Variable<Bool?>(nil)
+    fileprivate let sellerDidntAnswer = Variable<Bool?>(nil)
     fileprivate let conversation: Variable<ChatConversation>
     fileprivate var interlocutor: User?
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
-    private let isEmptyConversation = Variable<Bool>(true)
+    fileprivate let isEmptyConversation = Variable<Bool>(true)
     private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
     private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
-    private let userDirectAnswersEnabled = Variable<Bool>(false)
+    fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
 
-    private var isDeleted = false
+    fileprivate var isDeleted = false
     fileprivate var shouldAskProductSold: Bool = false
     fileprivate var isSendingQuickAnswer = false
     fileprivate var productId: String? // Only used when accessing a chat from a product
@@ -489,7 +489,7 @@ class ChatViewModel: BaseViewModel {
             break
         case .pending, .approved, .discarded, .sold, .soldOld:
             delegate?.vmHideKeyboard(false)
-            let data = ProductDetailData.ProductChat(chatConversation: conversation.value)
+            let data = ProductDetailData.productChat(chatConversation: conversation.value)
             navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
         }
     }
@@ -584,7 +584,7 @@ extension ChatViewModel {
         }
     }
 
-    private func showUserNotVerifiedAlert() {
+    fileprivate func showUserNotVerifiedAlert() {
         navigator?.openVerifyAccounts([.facebook, .google, .email(myUserRepository.myUser?.email)],
                                          source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                                          description: LGLocalizedString.chatNotVerifiedAlertMessage),
@@ -604,16 +604,16 @@ extension ChatViewModel {
     }
     
     func sendText(_ text: String, isQuickAnswer: Bool) {
-        sendMessage(text, type: isQuickAnswer ? .QuickAnswer : .text)
+        sendMessage(text, type: isQuickAnswer ? .quickAnswer : .text)
     }
     
-    private func sendMessage(_ text: String, type: ChatMessageType) {
+    fileprivate func sendMessage(_ text: String, type: ChatMessageType) {
         if let preSendMessageCompletion = preSendMessageCompletion {
             preSendMessageCompletion(text, type)
             return
         }
 
-        if type == .QuickAnswer {
+        if type == .quickAnswer {
             if isSendingQuickAnswer { return }
             isSendingQuickAnswer = true
         }
@@ -647,7 +647,7 @@ extension ChatViewModel {
                     self?.delegate?.vmDidFailSendingMessage()
                 }
             }
-            if type == .QuickAnswer {
+            if type == .quickAnswer {
                 self?.isSendingQuickAnswer = false
             }
         }
@@ -658,7 +658,7 @@ extension ChatViewModel {
         if shouldAskProductSold {
             shouldAskProductSold = false
             let action = UIAction(interface: UIActionInterface.text(LGLocalizedString.directAnswerSoldQuestionOk),
-                                  action: markProductAsSold)
+                                  action: { [weak self] in self?.markProductAsSold() })
             delegate?.vmShowAlert(LGLocalizedString.directAnswerSoldQuestionTitle,
                                   message: LGLocalizedString.directAnswerSoldQuestionMessage,
                                   cancelLabel: LGLocalizedString.commonCancel,
@@ -691,27 +691,27 @@ extension ChatViewModel {
         updateMessageWithAction(messageId) { $0.markAsSent() }
     }
     
-    private func markMessagesAsReceived(_ messagesIds: [String]) {
+    fileprivate func markMessagesAsReceived(_ messagesIds: [String]) {
         messagesIds.forEach { [weak self] messageId in
             self?.updateMessageWithAction(messageId) { $0.markAsReceived() }
         }
     }
     
-    private func markMessagesAsRead(_ messagesIds: [String]) {
+    fileprivate func markMessagesAsRead(_ messagesIds: [String]) {
         messagesIds.forEach { [weak self] messageId in
             self?.updateMessageWithAction(messageId) { $0.markAsRead() }
         }
     }
     
     private func updateMessageWithAction(_ messageId: String, action: (ChatViewMessage) -> ChatViewMessage) {
-        guard let index = messages.value.indexOf({$0.objectId == messageId}) else { return }
+        guard let index = messages.value.index(where: {$0.objectId == messageId}) else { return }
         let message = messages.value[index]
         let newMessage = action(message)
         let range = index..<(index+1)
         messages.replace(range, with: [newMessage])
     }
     
-    private func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String, type: ChatMessageType) {
+    fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
@@ -727,7 +727,7 @@ extension ChatViewModel {
 // MARK: - Product Operations
 
 extension ChatViewModel {
-    private func markProductAsSold() {
+    fileprivate func markProductAsSold() {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
         delegate?.vmShowLoading(nil)
@@ -756,7 +756,7 @@ extension ChatViewModel {
 
         if conversation.value.isSaved {
             if !featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
-                let visible = directAnswersState.value == .Visible
+                let visible = directAnswersState.value == .visible
                 let directAnswersText = visible ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow
                 let directAnswersAction = UIAction(interface: UIActionInterface.text(directAnswersText),
                                                    action: toggleDirectAnswers)
@@ -922,7 +922,7 @@ extension ChatViewModel {
         switch chatStatus.value {
         case .userDeleted, .userPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
-        case .available, .Blocked, .BlockedBy, .forbidden, .productDeleted, .productSold:
+        case .available, .blocked, .blockedBy, .forbidden, .productDeleted, .productSold:
             return nil
         }
     }
@@ -989,7 +989,7 @@ extension ChatViewModel {
         }
         // Add disclaimer at the bottom of the first page
         if let bottomDisclaimerMessage = bottomDisclaimerMessage, isFirstPage {
-            chatMessages.insert(bottomDisclaimerMessage, atIndex: 0)
+            chatMessages.insert(bottomDisclaimerMessage, at: 0)
         }
         messages.appendContentsOf(chatMessages)
     }
@@ -1105,7 +1105,7 @@ fileprivate extension ChatViewModel {
         }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: type == .QuickAnswer ? .True : .False,
+                                                            isQuickAnswer: type == .quickAnswer ? .trueParameter : .falseParameter,
                                                             typePage: .chat)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
@@ -1141,8 +1141,8 @@ fileprivate extension ChatConversation {
         }
 
         if interlocutor.isBanned { return .forbidden }
-        if interlocutor.isMuted { return .Blocked }
-        if interlocutor.hasMutedYou { return .BlockedBy }
+        if interlocutor.isMuted { return .blocked }
+        if interlocutor.hasMutedYou { return .blockedBy }
         switch product.status {
         case .deleted, .discarded:
             return .productDeleted
@@ -1257,11 +1257,11 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         showDirectAnswers(false)
     }
 
-    private func toggleDirectAnswers() {
+    fileprivate func toggleDirectAnswers() {
         showDirectAnswers(!userDirectAnswersEnabled.value)
     }
 
-    private func showDirectAnswers(_ show: Bool) {
+    fileprivate func showDirectAnswers(_ show: Bool) {
         if !featureFlags.newQuickAnswers {
             KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         }
@@ -1314,7 +1314,7 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
-        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+        let data = ProductDetailData.productList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
         navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
@@ -1388,7 +1388,7 @@ extension ChatViewModel {
         expressBannerTimerFinished.value = true
     }
 
-    private func expressChatMessageSentForCurrentProduct() -> Bool {
+    fileprivate func expressChatMessageSentForCurrentProduct() -> Bool {
         guard let productId = conversation.value.product?.objectId else { return false }
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
             if productSentId == productId { return true }
