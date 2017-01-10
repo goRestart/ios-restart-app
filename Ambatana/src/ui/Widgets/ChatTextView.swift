@@ -7,7 +7,25 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
+
+
+extension Reactive where Base: ChatTextView {
+    var text: ControlProperty<String?> {
+        return self.base.textView.rx.text
+    }
+
+    var send: Observable<String> {
+        let chatTextView = self.base
+        return chatTextView.tapEvents.map { [weak chatTextView] in chatTextView?.textView.text ?? "" }
+    }
+
+    var focus: Observable<Bool> {
+        return self.base.focus.asObservable().skip(1)
+    }
+}
+
 
 class ChatTextView: UIView {
 
@@ -25,18 +43,6 @@ class ChatTextView: UIView {
         set {
             textView.placeholder = newValue
         }
-    }
-
-    var rx_text: Observable<String> {
-        return textView.rx.text.asObservable()
-    }
-
-    var rx_send: Observable<String> {
-        return tapEvents.map { [weak self] in self?.textView.text ?? "" }
-    }
-
-    var rx_focus: Observable<Bool> {
-        return focus.asObservable().skip(1)
     }
 
     var hasFocus: Bool {
@@ -75,7 +81,7 @@ class ChatTextView: UIView {
         return textView.becomeFirstResponder() || super.becomeFirstResponder()
     }
 
-    override func resignFirstResponder() -> Bool {
+    @discardableResult override func resignFirstResponder() -> Bool {
         return textView.resignFirstResponder() || super.resignFirstResponder()
     }
 

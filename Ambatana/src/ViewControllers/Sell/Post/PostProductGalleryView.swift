@@ -395,7 +395,7 @@ extension PostProductGalleryView {
         albumButton.addConstraints([left,centerV])
 
 
-        viewModel.albumTitle.asObservable().bindTo(albumButton.rx_title).addDisposableTo(disposeBag)
+        viewModel.albumTitle.asObservable().bindTo(albumButton.rx.title).addDisposableTo(disposeBag)
         viewModel.albumButtonEnabled.asObservable().bindTo(albumButton.rx.isEnabled).addDisposableTo(disposeBag)
         viewModel.lastImageSelected.asObservable().bindTo(selectedImage.rx.image).addDisposableTo(disposeBag)
 

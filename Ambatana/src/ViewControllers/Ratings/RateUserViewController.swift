@@ -119,7 +119,7 @@ class RateUserViewController: BaseViewController {
         }.addDisposableTo(disposeBag)
         viewModel.sendEnabled.asObservable().bindTo(publishButton.rx.isEnabled).addDisposableTo(disposeBag)
 
-        viewModel.descriptionCharLimit.asObservable().map { return String($0) }.bindTo(descriptionCharCounter.rx_text)
+        viewModel.descriptionCharLimit.asObservable().map { return String($0) }.bindTo(descriptionCharCounter.rx.text)
             .addDisposableTo(disposeBag)
 
         viewModel.rating.asObservable().bindNext { [weak self] rating in

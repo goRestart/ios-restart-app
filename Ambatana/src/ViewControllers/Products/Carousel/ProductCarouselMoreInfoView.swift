@@ -465,7 +465,7 @@ fileprivate extension ProductCarouselMoreInfoView {
         addressLabel.text = viewModel.productAddress.value
         distanceLabel.text = viewModel.productDistance.value
 
-        viewModel.productDescription.asObservable().bindTo(descriptionLabel.rx_optionalMainText)
+        viewModel.productDescription.asObservable().bindTo(descriptionLabel.rx.optionalMainText)
             .addDisposableTo(disposeBag)
     }
 

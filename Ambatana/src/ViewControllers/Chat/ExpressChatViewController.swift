@@ -88,7 +88,7 @@ class ExpressChatViewController: BaseViewController {
     }
 
     func setupRX() {
-        viewModel.sendMessageTitle.asObservable().bindTo(sendMessageButton.rx_title).addDisposableTo(disposeBag)
+        viewModel.sendMessageTitle.asObservable().bindTo(sendMessageButton.rx.title).addDisposableTo(disposeBag)
         viewModel.sendButtonEnabled.asObservable().bindTo(sendMessageButton.rx.isEnabled).addDisposableTo(disposeBag)
     }
 

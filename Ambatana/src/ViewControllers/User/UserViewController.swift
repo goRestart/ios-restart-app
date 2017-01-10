@@ -440,8 +440,8 @@ extension UserViewController {
 
     private func setupHeaderRxBindings() {
         // Name, location, avatar & bg
-        viewModel.userName.asObservable().bindTo(userNameLabel.rx_optionalText).addDisposableTo(disposeBag)
-        viewModel.userLocation.asObservable().bindTo(userLocationLabel.rx_optionalText).addDisposableTo(disposeBag)
+        viewModel.userName.asObservable().bindTo(userNameLabel.rx.optionalText).addDisposableTo(disposeBag)
+        viewModel.userLocation.asObservable().bindTo(userLocationLabel.rx.optionalText).addDisposableTo(disposeBag)
 
         Observable.combineLatest(viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }

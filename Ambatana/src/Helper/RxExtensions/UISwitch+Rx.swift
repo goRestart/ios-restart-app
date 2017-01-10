@@ -9,10 +9,10 @@
 import RxSwift
 import RxCocoa
 
-extension UISwitch {
-    var rx_valueAnimated: AnyObserver<Bool> {
-        return UIBindingObserver(UIElement: self) { uiSwitch, value in
-            uiSwitch.setOn(value, animated: true)
-        }.asObserver()
+extension Reactive where Base: UISwitch {
+    func value(animated: Bool) -> UIBindingObserver<Base, Bool> {
+        return UIBindingObserver<Base, Bool>(UIElement: self.base) { (uiSwitch, value) -> () in
+            uiSwitch.setOn(value, animated: animated)
+        }
     }
 }
