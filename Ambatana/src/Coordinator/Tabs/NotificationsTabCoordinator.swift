@@ -12,7 +12,7 @@ final class NotificationsTabCoordinator: TabCoordinator {
 
     let passiveBuyersRepository: PassiveBuyersRepository
 
-    private var passiveBuyersCompletion: (() -> Void)?
+    fileprivate var passiveBuyersCompletion: (() -> Void)?
 
     convenience init() {
         let passiveBuyersRepository = Core.passiveBuyersRepository
