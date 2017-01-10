@@ -710,7 +710,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
                             categories: [.Electronics, .CarsAndMotors],
                             sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day,
-                            priceRange: .PriceRange(min: 5, max: 100), freePostingModeAllowed: true)
+                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -753,7 +753,7 @@ class TrackerEventSpec: QuickSpec {
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil), freePostingModeAllowed: false)
+                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil), freePostingModeAllowed: false)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
