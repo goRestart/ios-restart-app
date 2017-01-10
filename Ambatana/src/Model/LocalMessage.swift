@@ -22,7 +22,7 @@ struct LocalMessage: Message {
         self.text = sticker.name
         self.type = .sticker
         self.userId = userId ?? ""
-        self.createdAt = NSDate() as Date
+        self.createdAt = Date()
         self.isRead = false
         self.warningStatus = .normal
     }
