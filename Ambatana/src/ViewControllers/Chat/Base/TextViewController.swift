@@ -248,7 +248,7 @@ extension TextViewController: UITextViewDelegate {
     }
 
     private func setupTextAreaRx() {
-        let emptyText = textView.rx.text.map { $0?.trim.isEmpty }
+        let emptyText = textView.rx.text.map { ($0 ?? "").trim.isEmpty }
         emptyText.bindTo(sendButton.rx.isHidden).addDisposableTo(disposeBag)
         emptyText.bindNext { [weak self] empty in
                 guard let strongSelf = self, let margin = self?.viewMargins else { return }

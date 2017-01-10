@@ -132,6 +132,7 @@ final class TabBarController: UITabBarController {
      - param source: The source.
      - returns: Whether app rating has been shown or not
      */
+    @discardableResult
     func showAppRatingViewIfNeeded(_ source: EventParameterRatingSource) -> Bool {
         guard RatingManager.sharedInstance.shouldShowRating else { return false}
         return showAppRatingView(source)
@@ -193,14 +194,17 @@ final class TabBarController: UITabBarController {
     private func setupBadgesRx() {
         guard let vcs = viewControllers, 0..<vcs.count ~= Tab.chats.index else { return }
 
-        let chatsTab = vcs[Tab.chats.index].tabBarItem
-        viewModel.chatsBadge.asObservable().bindTo(chatsTab.rx.badgeValue).addDisposableTo(disposeBag)
+        if let chatsTab = vcs[Tab.chats.index].tabBarItem {
+            viewModel.chatsBadge.asObservable().bindTo(chatsTab.rx.badgeValue).addDisposableTo(disposeBag)
+        }
 
-        let profileTab = vcs[Tab.profile.index].tabBarItem
-        viewModel.favoriteBadge.asObservable().bindTo(profileTab.rx.badgeValue).addDisposableTo(disposeBag)
+        if let profileTab = vcs[Tab.profile.index].tabBarItem {
+            viewModel.favoriteBadge.asObservable().bindTo(profileTab.rx.badgeValue).addDisposableTo(disposeBag)
+        }
        
-        let notificationsTab = vcs[Tab.notifications.index].tabBarItem
-        viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx.badgeValue).addDisposableTo(disposeBag)
+        if let notificationsTab = vcs[Tab.notifications.index].tabBarItem {
+            viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx.badgeValue).addDisposableTo(disposeBag)
+        }
     }
 
     
