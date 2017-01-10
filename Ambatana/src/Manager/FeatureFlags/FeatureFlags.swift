@@ -30,7 +30,7 @@ protocol FeatureFlaggeable {
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
-    var locationNoMatchesCountry: Bool { get }
+    var locationMatchesCountry: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
@@ -42,7 +42,7 @@ class FeatureFlags: FeatureFlaggeable {
     
     private let locale: NSLocale
     private let locationManager: LocationManager
-    private let countryInfo: CountryConfigurable
+    private let carrierCountryInfo: CountryConfigurable
     
     init(locale: NSLocale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
         Bumper.initialize()
@@ -58,7 +58,7 @@ class FeatureFlags: FeatureFlaggeable {
 
         self.locale = locale
         self.locationManager = locationManager
-        self.countryInfo = countryInfo
+        self.carrierCountryInfo = countryInfo
     }
 
     
@@ -217,11 +217,11 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
     
-    var locationNoMatchesCountry: Bool {
-        guard let countryCode = countryCode else { return false }
+    var locationMatchesCountry: Bool {
+        guard let countryCodeString = carrierCountryInfo.countryCode, countryCode = CountryCode(rawValue: countryCodeString) else { return true }
         switch countryCode {
         case .Turkey:
-            return locationManager.countryNoMatchWith(countryInfo)
+            return locationManager.countryMatchesWith(countryCodeString)
         }
     }
 

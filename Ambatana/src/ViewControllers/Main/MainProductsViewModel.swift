@@ -649,6 +649,7 @@ extension MainProductsViewModel {
         } else {
             currentHeader.insert(MainProductsHeader.PushPermissions)
         }
+        guard mainProductsHeader.value != currentHeader else { return }
         mainProductsHeader.value = currentHeader
     }
 
