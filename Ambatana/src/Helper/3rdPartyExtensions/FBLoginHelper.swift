@@ -35,7 +35,7 @@ extension FBLoginHelper {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
         loginManager.logIn(withReadPermissions: FBLoginHelper.fbPermissions, from: nil) {
-            (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            (result, error) in
             if let result = result {
                 if let token = result.token?.tokenString {
                     completion(.success(serverAuthCode: token))
