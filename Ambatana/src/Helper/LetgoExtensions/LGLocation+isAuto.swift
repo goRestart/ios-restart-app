@@ -13,9 +13,9 @@ extension LGLocation {
     var isAuto: Bool {
         guard let locationType = type else { return false }
         switch locationType {
-        case .Manual:
+        case .manual:
             return false
-        case .Sensor, .IPLookup, .Regional:
+        case .sensor, .ipLookup, .regional:
             return true
         }
     }

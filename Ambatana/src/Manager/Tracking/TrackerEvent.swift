@@ -945,14 +945,14 @@ struct TrackerEvent {
         let locationTypeParamValue: EventParameterLocationType?
         guard let locationType = location.type else { return nil }
         switch (locationType) {
-        case .Manual:
-            locationTypeParamValue = .Manual
-        case .Sensor:
-            locationTypeParamValue = .Sensor
-        case .IPLookup:
+        case .manual:
+            locationTypeParamValue = .manual
+        case .sensor:
+            locationTypeParamValue = .sensor
+        case .ipLookup:
             locationTypeParamValue = .IPLookUp
-        case .Regional:
-            locationTypeParamValue = .Regional
+        case .regional:
+            locationTypeParamValue = .regional
         }
         return locationTypeParamValue
     }

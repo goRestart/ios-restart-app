@@ -19,9 +19,9 @@ extension CGFloat {
      CGFloat(4.25).roundNearest(0.1) -> 4.3 */
     func roundNearest(_ nearest: CGFloat) -> CGFloat {
         let n = 1/nearest
-        return round(self * n) / n
+        let numberToRound = self * n
+        return numberToRound.rounded() / n
     }
-
 
     /**
      Maps a percentage inside 0 and maximum:

@@ -19,9 +19,9 @@ extension LGLocationCoordinates2D {
         
         let distanceType = DistanceType.systemDistanceType()
         switch (distanceType) {
-        case .Km:
+        case .km:
             return meters * 0.001
-        case .Mi:
+        case .mi:
             return meters * 0.000621371
         }
     }

@@ -156,7 +156,7 @@ class ExpressChatViewModel: BaseViewModel {
 
 extension ExpressChatViewModel {
     func trackExpressChatStart() {
-        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .manual : .Automatic
         let event = TrackerEvent.expressChatStart(trigger)
         trackerProxy.trackEvent(event)
     }

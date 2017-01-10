@@ -9,9 +9,9 @@
 extension Locale {
     var lg_countryCode: String {
         if #available(iOS 10.0, *) {
-            return (countryCode ?? "").lowercased()
+            return regionCode?.lowercased() ?? ""
         } else {
-            return (objectForKey(NSLocaleCountryCode) as? String ?? "").lowercased()
+            return languageCode?.lowercased() ?? ""
         }
     }
 }
