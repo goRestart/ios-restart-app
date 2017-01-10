@@ -32,15 +32,15 @@ class FilterTagCell: UICollectionViewCell {
 
     static func cellSizeForTag(_ tag : FilterTag) -> CGSize {
         switch tag {
-        case .Location(let place):
+        case .location(let place):
             return FilterTagCell.sizeForText(place.fullText(showAddress: false))
-        case .OrderBy(let sortOption):
+        case .orderBy(let sortOption):
             return FilterTagCell.sizeForText(sortOption.name)
-        case .Within(let timeOption):
+        case .within(let timeOption):
             return FilterTagCell.sizeForText(timeOption.name)
         case .category:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
-        case .PriceRange(let minPrice, let maxPrice, let currency):
+        case .priceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
         case .freeStuff:
@@ -106,16 +106,16 @@ class FilterTagCell: UICollectionViewCell {
         filterTag = tag
         
         switch tag {
-        case .Location(let place):
+        case .location(let place):
             self.tagLabel.text = place.fullText(showAddress: false)
-        case .OrderBy(let sortOption):
+        case .orderBy(let sortOption):
             self.tagLabel.text = sortOption.name
-        case .Within(let timeOption):
+        case .within(let timeOption):
             self.tagLabel.text = timeOption.name
         case .category(let category):
             self.tagIconWidth.constant = FilterTagCell.iconWidth
             self.tagIcon.image = category.image
-        case .PriceRange(let minPrice, let maxPrice, let currency):
+        case .priceRange(let minPrice, let maxPrice, let currency):
             self.tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
             self.tagIconWidth.constant = FilterTagCell.iconWidth

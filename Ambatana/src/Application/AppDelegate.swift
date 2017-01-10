@@ -240,7 +240,7 @@ fileprivate extension AppDelegate {
         Debug.loggingOptions = [AppLoggingOptions.navigation]
 
         #if GOD_MODE
-            Debug.loggingOptions = [.navigation, .tracking, .light, .monetization]
+            Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]
         #endif
         
         LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
@@ -251,9 +251,9 @@ fileprivate extension AppDelegate {
 
         // Logging
         #if GOD_MODE
-            DDLog.addLogger(DDTTYLogger.sharedInstance())       // TTY = Xcode console
+            DDLog.add(DDTTYLogger.sharedInstance())       // TTY = Xcode console
             DDTTYLogger.sharedInstance().colorsEnabled =  true
-            DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
+            DDLog.add(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
         #endif
         
         // Fabric
