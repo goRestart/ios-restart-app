@@ -10,6 +10,12 @@ import RxCocoa
 import RxSwift
 
 extension Reactive where Base: UIButton {
+    var title: UIBindingObserver<Base, String> {
+        return UIBindingObserver<Base, String>(UIElement: self.base) { (button, title) -> () in
+            button.setTitle(title, for: UIControlState.normal)
+        }
+    }
+    
     var optionalTitle: UIBindingObserver<Base, String?> {
         return UIBindingObserver<Base, String?>(UIElement: self.base) { (button, title) -> () in
             button.setTitle(title, for: UIControlState.normal)
