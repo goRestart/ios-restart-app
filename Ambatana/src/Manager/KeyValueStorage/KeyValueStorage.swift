@@ -28,7 +28,7 @@ extension DefaultsKeys {
     static let didEnterBackground = DefaultsKey<Bool>("didEnterBackground")
     static let didCrash = DefaultsKey<Bool>("didCrash")
 
-    static let firstRunDate = DefaultsKey<NSDate?>("firstOpenDate")
+    static let firstRunDate = DefaultsKey<Date?>("firstOpenDate")
     static let lastRunAppVersion = DefaultsKey<String?>("lastRunAppVersion")
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
@@ -36,7 +36,7 @@ extension DefaultsKeys {
     static let didShowProductDetailOnboardingOthersProduct = DefaultsKey<Bool>("didShowProductDetailOnboardingOthersProduct")
     static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
 
-    static let pushPermissionsDailyDate = DefaultsKey<NSDate?>("dailyPermissionDate")
+    static let pushPermissionsDailyDate = DefaultsKey<Date?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
