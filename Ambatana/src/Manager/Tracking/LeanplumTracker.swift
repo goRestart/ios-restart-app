@@ -14,15 +14,15 @@ fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .AppRatingRate, .AppRatingSuggest, .AppRatingDontAsk,
-                 .AppInviteFriendComplete, .AppInviteFriendDontAsk, .AppInviteFriendCancel,
-                 .UserMessageSent,
-                 .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail,
-                 .SearchComplete, .FilterComplete,
-                 .FirstMessage, .ProductOpenChat, .ProductFavorite, .ProductShareComplete,
-                 .ProductMarkAsSold, .ProductDetailVisit,
-                 .productSellComplete, .ProductSellStart,
-                 .ProfileVisit, .NPSStart, .NPSComplete:
+            case .appRatingRate, .appRatingSuggest, .appRatingDontAsk,
+                 .appInviteFriendComplete, .appInviteFriendDontAsk, .appInviteFriendCancel,
+                 .userMessageSent,
+                 .loginEmail, .loginFB, .loginGoogle, .signupEmail,
+                 .searchComplete, .filterComplete,
+                 .firstMessage, .productOpenChat, .productFavorite, .productShareComplete,
+                 .productMarkAsSold, .productDetailVisit,
+                 .productSellComplete, .productSellStart,
+                 .profileVisit, .npsStart, .npsComplete:
                 return true
             default:
                 return false
@@ -69,7 +69,7 @@ final class LeanplumTracker: Tracker {
         Leanplum.start()
     }
 
-    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
 
     }
 

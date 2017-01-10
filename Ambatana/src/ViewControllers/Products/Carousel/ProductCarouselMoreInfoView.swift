@@ -69,10 +69,10 @@ class ProductCarouselMoreInfoView: UIView {
                                                           frame: CGRect.zero)
     private let disposeBag = DisposeBag()
     private var currentVmDisposeBag = DisposeBag()
-    private var viewModel: ProductViewModel?
-    private var locationZone: MKOverlay?
-    private let bigMapMargin: CGFloat = 65.0
-    private let bigMapBottomMargin: CGFloat = 210
+    fileprivate var viewModel: ProductViewModel?
+    fileprivate var locationZone: MKOverlay?
+    fileprivate let bigMapMargin: CGFloat = 65.0
+    fileprivate let bigMapBottomMargin: CGFloat = 210
     private(set) var mapExpanded: Bool = false
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
@@ -87,7 +87,7 @@ class ProductCarouselMoreInfoView: UIView {
         case .pending, .otherSold, .notAvailable, .otherSoldFree:
             // No buttons in the bottom
             return 0
-        case .PendingAndCommercializable, .available, .sold, .otherAvailable, .AvailableAndCommercializable, .availableFree, .otherAvailableFree, .soldFree:
+        case .pendingAndCommercializable, .available, .sold, .otherAvailable, .availableAndCommercializable, .availableFree, .otherAvailableFree, .soldFree:
             // Has a button in the bottom
             return 80
         }
@@ -535,7 +535,7 @@ extension ProductCarouselMoreInfoView: RelatedProductsViewDelegate {
 // MARK: - Accessibility ids
 
 extension ProductCarouselMoreInfoView {
-    private func setAccessibilityIds() {
+    fileprivate func setAccessibilityIds() {
         scrollView.accessibilityId = .productCarouselMoreInfoScrollView
         titleLabel.accessibilityId = .productCarouselMoreInfoTitleLabel
         transTitleLabel.accessibilityId = .productCarouselMoreInfoTransTitleLabel
