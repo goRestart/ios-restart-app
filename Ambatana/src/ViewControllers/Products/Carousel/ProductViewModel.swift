@@ -572,7 +572,7 @@ extension ProductViewModel {
         return numberOfCommercializerTemplates() > 0
     }
 
-    private func promoteProduct(_ source: PromotionSource) {
+    fileprivate func promoteProduct(_ source: PromotionSource) {
         let theProduct = product.value
         if let countryCode = theProduct.postalAddress.countryCode, let productId = theProduct.objectId {
             let themes = commercializerRepository.templatesForCountryCode(countryCode)

@@ -11,7 +11,7 @@ import UIKit
 class ShareProductViewController: BaseViewController {
 
     private static let shareButtonWidth: CGFloat = 60
-    private static let gradientSize = 30
+    private static let gradientSize: CGFloat = 30
 
     @IBOutlet weak var closeButton: UIButton!
 
@@ -96,7 +96,7 @@ class ShareProductViewController: BaseViewController {
         if let shadowLayer = shadowLayer {
             shadowLayer.removeFromSuperlayer()
         }
-        let gradientFinishSpot = CGFloat(ShareProductViewController.gradientSize)/gradientView.frame.width
+        let gradientFinishSpot = NSNumber(value: Float(ShareProductViewController.gradientSize/gradientView.frame.width))
         shadowLayer = CAGradientLayer.gradientWithColor(UIColor.listBackgroundColor, alphas:[0, 1], locations: [0, gradientFinishSpot])
         if let shadowLayer = shadowLayer {
             // make it horitzontal

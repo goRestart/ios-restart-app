@@ -22,14 +22,14 @@ enum CarouselMovement {
 class ProductCarouselViewModel: BaseViewModel {
 
     // Paginable
-    private var prefetchingIndexes: [Int] = []
+    fileprivate var prefetchingIndexes: [Int] = []
     let firstPage: Int = 0
     var nextPage: Int = 1
     var isLastPage: Bool
     var isLoading: Bool = false
 
-    private let previousImagesToPrefetch = 1
-    private let nextImagesToPrefetch = 3
+    fileprivate let previousImagesToPrefetch = 1
+    fileprivate let nextImagesToPrefetch = 3
 
     var currentProductViewModel: ProductViewModel?
     var startIndex: Int = 0
@@ -65,7 +65,7 @@ class ProductCarouselViewModel: BaseViewModel {
         switch status {
         case .otherAvailable, .otherAvailableFree:
             return true
-        case .pending, .PendingAndCommercializable, .available, .availableFree, .AvailableAndCommercializable, .notAvailable,
+        case .pending, .pendingAndCommercializable, .available, .availableFree, .availableAndCommercializable, .notAvailable,
              .otherSold, .sold, .soldFree, .otherSoldFree:
             return false
         }
@@ -75,12 +75,12 @@ class ProductCarouselViewModel: BaseViewModel {
         return source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
     }
 
-    private let source: EventParameterProductVisitSource
-    private let productListRequester: ProductListRequester?
-    private var productsViewModels: [String: ProductViewModel] = [:]
-    private let myUserRepository: MyUserRepository
-    private let productRepository: ProductRepository
-    private let objects = CollectionVariable<ProductCarouselCellModel>([])
+    fileprivate let source: EventParameterProductVisitSource
+    fileprivate let productListRequester: ProductListRequester?
+    fileprivate var productsViewModels: [String: ProductViewModel] = [:]
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let productRepository: ProductRepository
+    fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
 
 
     // MARK: - Init
@@ -189,7 +189,7 @@ class ProductCarouselViewModel: BaseViewModel {
         guard let product = product else { return nil }
         for i in 0..<objects.value.count {
             switch objects.value[i] {
-            case .ProductCell(let data):
+            case .productCell(let data):
                 if data.objectId == product.objectId {
                     return i
                 }
@@ -228,7 +228,7 @@ class ProductCarouselViewModel: BaseViewModel {
         guard 0..<objectCount ~= index else { return nil }
         let item = objects.value[index]
         switch item {
-        case .ProductCell(let product):
+        case .productCell(let product):
             return product
         }
     }
@@ -263,14 +263,14 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func didOpenInPlaceShare() {
-        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .Top)
+        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .top)
     }
 
     func openFullScreenShare() {
         guard let product = currentProductViewModel?.product.value,
             let socialMessage = currentProductViewModel?.socialMessage.value else { return }
 
-        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .Top)
+        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .top)
         navigator?.openFullScreenShare(product, socialMessage: socialMessage)
     }
 
@@ -324,7 +324,7 @@ extension ProductCarouselViewModel: Paginable {
 
 extension ProductCarouselViewModel {
     func prefetchNeighborsImages(_ index: Int, movement: CarouselMovement) {
-        let range: CountableRange<Int>
+        let range: CountableClosedRange<Int>
         switch movement {
         case .initial:
             range = (index-previousImagesToPrefetch)...(index+nextImagesToPrefetch)
@@ -363,7 +363,7 @@ extension ProductCarouselViewModel: SocialSharerDelegate {
                 }
             }
         }
-        currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .Top, state: state)
+        currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .top, state: state)
     }
 
     private func messageForShareIn(_ shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
@@ -396,13 +396,13 @@ extension CarouselMovement {
     var visitUserAction: ProductVisitUserAction {
         switch self {
         case .tap:
-            return .Tap
+            return .tap
         case .swipeLeft:
-            return .SwipeLeft
+            return .swipeLeft
         case .swipeRight:
-            return .SwipeRight
+            return .swipeRight
         case .initial:
-            return .None
+            return .none
         }
     }
 }

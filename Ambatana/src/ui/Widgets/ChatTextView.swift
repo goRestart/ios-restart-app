@@ -77,11 +77,13 @@ class ChatTextView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    @discardableResult
     override func becomeFirstResponder() -> Bool {
         return textView.becomeFirstResponder() || super.becomeFirstResponder()
     }
 
-    @discardableResult override func resignFirstResponder() -> Bool {
+    @discardableResult
+    override func resignFirstResponder() -> Bool {
         return textView.resignFirstResponder() || super.resignFirstResponder()
     }
 

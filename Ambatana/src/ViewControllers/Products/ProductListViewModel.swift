@@ -120,7 +120,7 @@ class ProductListViewModel: BaseViewModel {
         self.defaultCellSize = CGSize.zero
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
-        self.defaultCellSize = CGSize(witdh: cellWidth, height: cellHeight)
+        self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
     convenience init(listViewModel: ProductListViewModel) {

@@ -48,8 +48,8 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     @IBOutlet weak var facebookButtonTopMarginConstraint: NSLayoutConstraint!
     
     // Bar Buttons
-    private var closeButton: UIBarButtonItem?
-    private var helpButton: UIBarButtonItem?
+    fileprivate var closeButton: UIBarButtonItem?
+    fileprivate var helpButton: UIBarButtonItem?
 
     // > Helper
     var lines: [CALayer]

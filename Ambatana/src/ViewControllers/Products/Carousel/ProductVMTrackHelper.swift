@@ -11,8 +11,8 @@ import LGCoreKit
 class ProductVMTrackHelper {
 
     var product: Product
-    private let tracker: Tracker
-    private var featureFlags: FeatureFlaggeable
+    fileprivate let tracker: Tracker
+    fileprivate var featureFlags: FeatureFlaggeable
 
     convenience init(product: Product) {
         self.init(tracker: TrackerProxy.sharedInstance, product: product, featureFlags: FeatureFlags.sharedInstance)
@@ -55,7 +55,7 @@ extension ProductViewModel {
 extension ProductVMTrackHelper {
     func trackShareStarted(_ shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(product, network: shareType?.trackingShareNetwork,
-                                                     buttonPosition: buttonPosition, typePage: .ProductDetail)
+                                                     buttonPosition: buttonPosition, typePage: .productDetail)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -64,12 +64,12 @@ extension ProductVMTrackHelper {
         switch state {
         case .completed:
             event = TrackerEvent.productShareComplete(product, network: shareType.trackingShareNetwork,
-                                                      typePage: .ProductDetail)
+                                                      typePage: .productDetail)
         case .failed:
             event = nil
         case .cancelled:
             event = TrackerEvent.productShareCancel(product, network: shareType.trackingShareNetwork,
-                                                    typePage: .ProductDetail)
+                                                    typePage: .productDetail)
         }
         if let event = event {
             tracker.trackEvent(event)
@@ -118,7 +118,7 @@ extension ProductVMTrackHelper {
     }
 
     func trackSaveFavoriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(product, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productFavorite(product, typePage: .productDetail)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -128,18 +128,18 @@ extension ProductVMTrackHelper {
     }
 
     func trackCommercializerStart() {
-        let trackerEvent = TrackerEvent.commercializerStart(product.objectId, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.commercializerStart(product.objectId, typePage: .productDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackMessageSent(_ isFirstMessage: Bool, messageType: EventParameterMessageType) {
         if isFirstMessage {
             let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
-                                                              typePage: .ProductDetail)
+                                                              typePage: .productDetail)
             tracker.trackEvent(firstMessageEvent)
         }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType,
-                                                            isQuickAnswer: .False, typePage: .ProductDetail)
+                                                            isQuickAnswer: .falseParameter, typePage: .productDetail)
         tracker.trackEvent(messageSentEvent)
 
     }

@@ -133,7 +133,7 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func signUpButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, action: .Signup)
+        let vm = SignUpLogInViewModel(source: loginSource, action: .signup)
         delegate?.vmOpenSignup(vm)
     }
 

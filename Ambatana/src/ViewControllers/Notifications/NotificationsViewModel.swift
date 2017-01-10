@@ -98,7 +98,7 @@ class NotificationsViewModel: BaseViewModel {
         notificationsRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
             if let notifications = result.value {
-                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0 as! NotificationModel) }
+                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
                 strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
                 if strongSelf.notificationsData.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),

@@ -30,7 +30,7 @@ extension MKMapView {
 
 class ProductCarouselMoreInfoView: UIView {
 
-    private static let relatedItemsHeight: CGFloat = 80
+    fileprivate static let relatedItemsHeight: CGFloat = 80
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -50,8 +50,8 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var dragViewTitle: UILabel!
     @IBOutlet weak var dragViewImage: UIImageView!
 
-    private let mapView: MKMapView = MKMapView.sharedInstance
-    private var vmRegion: MKCoordinateRegion? = nil
+    fileprivate let mapView: MKMapView = MKMapView.sharedInstance
+    fileprivate var vmRegion: MKCoordinateRegion? = nil
     @IBOutlet weak var mapViewContainer: UIView!
     fileprivate var mapViewContainerExpandable: UIView? = nil
     fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
@@ -65,7 +65,7 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var relatedItemsViewMoreButton: UIButton!
 
     
-    private var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight,
+    fileprivate var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight,
                                                           frame: CGRect.zero)
     fileprivate let disposeBag = DisposeBag()
     fileprivate var currentVmDisposeBag = DisposeBag()
@@ -354,8 +354,8 @@ fileprivate extension ProductCarouselMoreInfoView {
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.uppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.uppercase
-        descriptionLabel.gradientColor = UIColor.clearColor()
-        descriptionLabel.expandTextColor = UIColor.whiteColor()
+        descriptionLabel.gradientColor = UIColor.clear
+        descriptionLabel.expandTextColor = UIColor.white
 
         setupSocialShareView()
         setupRelatedItems()
