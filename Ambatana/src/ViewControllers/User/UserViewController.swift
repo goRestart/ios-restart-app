@@ -521,13 +521,14 @@ extension UserViewController {
         let dragging = Observable.combineLatest(listViewDragging, recognizerDragging){ $0 || $1 }.distinctUntilChanged()
 
         dragging.filter { !$0 }
-            .map { [weak self] _ in
-                return self?.headerExpandedPercentage.value > 0.5
+            .map { [weak self] _ -> Bool in
+                guard let strongSelf = self else { return false }
+                return strongSelf.headerExpandedPercentage.value > CGFloat(0.5)
             }
             .subscribeNext { [weak self] expand in
+                guard let strongSelf = self else { return }
                 // If should expand should always expand, but when collapsed do not f'up the user current scroll
-                guard expand || !expand && self?.headerExpandedPercentage.value > 0 else { return }
-
+                guard expand || !expand && strongSelf.headerExpandedPercentage.value > 0 else { return }
                 self?.scrollToTopWithExpandedState(expand, animated: true)
             }
             .addDisposableTo(disposeBag)
