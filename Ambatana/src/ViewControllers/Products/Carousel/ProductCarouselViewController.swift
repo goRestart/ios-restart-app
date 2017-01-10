@@ -193,7 +193,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
         if viewModel.showKeyboardOnFirstAppearance {
-            chatTextView.becomeFirstResponder()
+            chatTextView.becomeFirstResponder
         }
     }
 
