@@ -281,7 +281,7 @@ fileprivate extension SocialSharer {
                 case UIActivityType.copyToPasteboard:
                     shareType = .copyLink
                 default:
-                    if let _ = activity.range(of: "whatsapp") {
+                    if let _ = activity.rawValue.range(of: "whatsapp") {
                         shareType = .whatsapp
                     } else {
                         shareType = .native
