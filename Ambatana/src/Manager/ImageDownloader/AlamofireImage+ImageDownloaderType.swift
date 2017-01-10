@@ -7,57 +7,56 @@
 //
 
 import AlamofireImage
+import Alamofire
 
 extension AlamofireImage.ImageDownloader: ImageDownloaderType {
 
     func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?) {
         let requestURL = URLRequest(url: url)
-        let cached = imageIsCachedForURLRequest(requestURL)
-        imageView.af_setImageWithURL(url, placeholderImage: placeholderImage, imageTransition: .None) { response in
-
-            let result: ResultResult<ImageWithSource, NSError>.t
+        let cached = imageIsCachedFor(urlRequest: requestURL)
+        imageView.af_setImage(withURL: url, placeholderImage: placeholderImage) { response in
+            let result: ImageDownloadResult
             if let image = response.result.value {
-                result = ResultResult<ImageWithSource, NSError>.t(value: (image, cached))
+                result = ImageDownloadResult(value: (image, cached))
             } else if let error = response.result.error {
-                result = ResultResult<ImageWithSource, NSError>.t(error: error)
+                result = ImageDownloadResult(error: ImageDownloadError.downloaderError(error: error))
             } else {
-                result = ResultResult<ImageWithSource, NSError>.t(error: NSError(code: .ImageDownloadFailed))
+                result = ImageDownloadResult(error: ImageDownloadError.unknown)
             }
-            completion?(result: result, url: url)
+            completion?(result, url)
         }
     }
 
     func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
         let requestURL = URLRequest(url: url)
-        let cached = imageIsCachedForURLRequest(requestURL)
-        return downloadImage(URLRequest: requestURL) { response in
+        let cached = imageIsCachedFor(urlRequest: requestURL)
+
+        return download(requestURL) { response in
             
-            let result: ResultResult<ImageWithSource, NSError>.t
+            let result: ImageDownloadResult
             if let image = response.result.value {
-                result = ResultResult<ImageWithSource, NSError>.t(value: (image, cached))
+                result = ImageDownloadResult(value: (image, cached))
             } else if let error = response.result.error {
-                result = ResultResult<ImageWithSource, NSError>.t(error: error)
+                result = ImageDownloadResult(error: ImageDownloadError.downloaderError(error: error))
             } else {
-                result = ResultResult<ImageWithSource, NSError>.t(error: NSError(code: .ImageDownloadFailed))
+                result = ImageDownloadResult(error: ImageDownloadError.unknown)
             }
-            completion?(result: result, url: url)
+            completion?(result, url)
         }
     }
 
     func cachedImageForUrl(_ url: URL) -> UIImage? {
-        let requestURL = URLRequest(url: url)
-        let identifier = requestURL.URLRequest.URLString
-        return imageCache?.imageWithIdentifier(identifier)
+        let request = URLRequest(url: url)
+        return imageCache?.image(for: request, withIdentifier: nil)
     }
 
     func cancelImageDownloading(_ receipt: RequestReceipt) {
-        cancelRequestForRequestReceipt(receipt)
+        cancelRequest(with: receipt)
     }
     
-    private func imageIsCachedForURLRequest(_ requestURL: URLRequest) -> Bool {
-        let identifier = requestURL.URLRequest.URLString
-        let cached = imageCache?.imageWithIdentifier(identifier) != nil
+    private func imageIsCachedFor(urlRequest: URLRequest) -> Bool {
+        let cached = imageCache?.image(for: urlRequest, withIdentifier: nil) != nil
         return cached
     }
 }

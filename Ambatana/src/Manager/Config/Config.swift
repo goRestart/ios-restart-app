@@ -49,7 +49,7 @@ class Config: ResponseObjectSerializable {
         self.otherMessagesCountForRating = otherMessagesCountForRating
     }
 
-    required convenience init?(response: HTTPURLResponse, representation: AnyObject) {
+    required convenience init?(response: HTTPURLResponse, representation: Any) {
 
         let json = JSON(representation)
         self.init(json: json)

@@ -12,8 +12,8 @@ import RxSwift
 class RatingManager {
     static let sharedInstance: RatingManager = RatingManager()
 
-    private let keyValueStorage: KeyValueStorage
-    private let crashManager: CrashManager
+    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let crashManager: CrashManager
 
     
     // MARK: - Lifecycle

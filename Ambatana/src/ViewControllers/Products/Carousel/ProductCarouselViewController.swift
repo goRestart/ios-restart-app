@@ -327,7 +327,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func setupExpandableButtonsViewIfNeeded() {
-        guard featureFlags.productDetailShareMode == .InPlace else { return }
+        guard featureFlags.productDetailShareMode == .inPlace else { return }
         let expandableButtons = ExpandableButtonsView(buttonSide: 36, buttonSpacing: 7)
         expandableButtonsView = expandableButtons
 
@@ -1170,14 +1170,14 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     
     func vmShowShareFromMain(_ socialMessage: SocialMessage) {
         switch featureFlags.productDetailShareMode {
-        case .Native:
+        case .native:
             viewModel.openShare(.native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
-        case .InPlace:
+        case .inPlace:
             if let expandableButtonsView = expandableButtonsView, !expandableButtonsView.expanded.value {
                 viewModel.didOpenInPlaceShare()
             }
             expandableButtonsView?.switchExpanded(animated: true)
-        case .FullScreen:
+        case .fullScreen:
             viewModel.openFullScreenShare()
         }
     }

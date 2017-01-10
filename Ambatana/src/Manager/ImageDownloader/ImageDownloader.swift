@@ -53,7 +53,7 @@ final class ImageDownloader: ImageDownloaderType {
     }
 
     private static func buildImageDownloader() -> ImageDownloaderType {
-        return AlamofireImage.ImageDownloader.defaultInstance
+        return AlamofireImage.ImageDownloader.default
     }
 
     static func externalBuildImageDownloader(_ useImagePool: Bool) -> ImageDownloader {

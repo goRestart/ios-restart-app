@@ -15,14 +15,14 @@ class TrackerEventSpec: QuickSpec {
             describe("location") {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .Sensor)!
+                    let lgLocation = LGLocation(location: location, type: .sensor)!
                     let locationServiceStatus: LocationServiceStatus = .Disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     expect(sut.name.rawValue).to(equal("location"))
                 }
                 it("contains the location type when retrieving from sensors") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .Sensor)!
+                    let lgLocation = LGLocation(location: location, type: .sensor)!
                     let locationServiceStatus: LocationServiceStatus = .Disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -33,7 +33,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location type when setting manually") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .Manual)!
+                    let lgLocation = LGLocation(location: location, type: .manual)!
                     let locationServiceStatus: LocationServiceStatus = .Disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -44,7 +44,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location type when retrieving from ip lookup") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .IPLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
                     let locationServiceStatus: LocationServiceStatus = .Disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -55,7 +55,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled false & location allowed false when location Disabled") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .IPLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
                     let locationServiceStatus: LocationServiceStatus = .Disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -69,7 +69,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed false when location Enabled/NotDetermined") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .IPLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.NotDetermined)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -83,7 +83,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed false when location Enabled/Restricted") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .IPLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.Restricted)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -97,7 +97,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed false when location Enabled/Denied") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .IPLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.Denied)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -111,7 +111,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed true when location Enabled/AuthorizedAlways") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .IPLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.Authorized)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -125,7 +125,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed true when location Enabled/AuthorizedWhenInUse") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .IPLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.Authorized)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -539,7 +539,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("Login Blocked Account Start") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountStart(.Email)
+                    sut = TrackerEvent.loginBlockedAccountStart(.email)
                 }
 
                 it("has its event name") {
@@ -553,7 +553,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("Login Blocked Account Contact us") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountContactUs(.Email)
+                    sut = TrackerEvent.loginBlockedAccountContactUs(.email)
                 }
 
                 it("has its event name") {
@@ -567,7 +567,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("Login Blocked Account Keep browsing") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountKeepBrowsing(.Email)
+                    sut = TrackerEvent.loginBlockedAccountKeepBrowsing(.email)
                 }
 
                 it("has its event name") {
@@ -1122,7 +1122,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productShare") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, network: EventParameterShareNetwork.Email,
+                    sut = TrackerEvent.productShare(product, network: EventParameterShareNetwork.email,
                         buttonPosition: .Top, typePage: .ProductDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-share"))
                 }
@@ -1143,7 +1143,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productShare(product, network: .Email, buttonPosition: .Top
+                    sut = TrackerEvent.productShare(product, network: .email, buttonPosition: .Top
                         , typePage: .ProductDetail)
                     expect(sut.params).notTo(beNil())
 
@@ -1188,7 +1188,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the network where the content has been shared") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, network: .Facebook, buttonPosition: .Top
+                    sut = TrackerEvent.productShare(product, network: .facebook, buttonPosition: .Top
                         , typePage: .ProductDetail)
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
@@ -1196,7 +1196,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the position of the button used to share") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, network: .Facebook, buttonPosition: .Bottom
+                    sut = TrackerEvent.productShare(product, network: .facebook, buttonPosition: .Bottom
                         , typePage: .ProductDetail)
                     expect(sut.params!.stringKeyParams["button-position"]).notTo(beNil())
                     let buttonPosition = sut.params!.stringKeyParams["button-position"] as? String
@@ -1213,7 +1213,7 @@ class TrackerEventSpec: QuickSpec {
                     user.objectId = "ABCDE"
                     product.user = user
                     product.objectId = "123ABC"
-                    event = TrackerEvent.productShareCancel(product, network: .Facebook, typePage: .ProductDetail)
+                    event = TrackerEvent.productShareCancel(product, network: .facebook, typePage: .ProductDetail)
                 }
                 it("has the correct event name") {
                     expect(event.name.rawValue) == "product-detail-share-cancel"
@@ -1248,7 +1248,7 @@ class TrackerEventSpec: QuickSpec {
                     user.objectId = "ABCDE"
                     product.user = user
                     product.objectId = "123ABC"
-                    event = TrackerEvent.productShareComplete(product, network: .Facebook, typePage: .ProductDetail)
+                    event = TrackerEvent.productShareComplete(product, network: .facebook, typePage: .ProductDetail)
                 }
                 it("has the correct event name") {
                     expect(event.name.rawValue) == "product-detail-share-complete"
@@ -1748,7 +1748,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShare(product, network: .Facebook)
+                    sut = TrackerEvent.productSellConfirmationShare(product, network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share"))
@@ -1767,7 +1767,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShareCancel(product, network: .Facebook)
+                    sut = TrackerEvent.productSellConfirmationShareCancel(product, network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share-cancel"))
@@ -1786,7 +1786,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShareComplete(product, network: .Facebook)
+                    sut = TrackerEvent.productSellConfirmationShareComplete(product, network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share-complete"))
@@ -2083,13 +2083,13 @@ class TrackerEventSpec: QuickSpec {
             describe("profileEditEditLocation") {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .Sensor)!
+                    let lgLocation = LGLocation(location: location, type: .sensor)!
                     sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     expect(sut.name.rawValue).to(equal("profile-edit-edit-location"))
                 }
                 it("contains the location type when retrieving from sensors") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .Sensor)!
+                    let lgLocation = LGLocation(location: location, type: .sensor)!
                     sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     
                     expect(sut.params).notTo(beNil())
@@ -2099,7 +2099,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location type when setting manually") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .Manual)!
+                    let lgLocation = LGLocation(location: location, type: .manual)!
                     sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     
                     expect(sut.params).notTo(beNil())
@@ -2109,7 +2109,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location type when retrieving from ip lookup") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .IPLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
                     sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     
                     expect(sut.params).notTo(beNil())
@@ -2141,7 +2141,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("profileShareComplete") {
                 beforeEach {
-                    sut = TrackerEvent.profileShareComplete(.Public, shareNetwork: .Facebook)
+                    sut = TrackerEvent.profileShareComplete(.Public, shareNetwork: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("profile-share-complete"))
@@ -2174,7 +2174,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("appInviteFriend") {
                 beforeEach {
-                    sut = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
+                    sut = TrackerEvent.appInviteFriend(.facebook, typePage: .Settings)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-invite-friend"))
@@ -2210,7 +2210,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("facebook friend invite Cancel") {
                 beforeEach {
-                    sut = TrackerEvent.appInviteFriendCancel(.Facebook, typePage: .Settings)
+                    sut = TrackerEvent.appInviteFriendCancel(.facebook, typePage: .Settings)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-invite-friend-cancel"))
@@ -2230,7 +2230,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("facebook friend invite complete") {
                 beforeEach {
-                    sut = TrackerEvent.appInviteFriendComplete(.Facebook, typePage: .Settings)
+                    sut = TrackerEvent.appInviteFriendComplete(.facebook, typePage: .Settings)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-invite-friend-complete"))
@@ -2601,7 +2601,7 @@ class TrackerEventSpec: QuickSpec {
 
                 context("Verify Account Complete") {
                     beforeEach {
-                        sut = TrackerEvent.verifyAccountComplete(.chat, network: .Facebook)
+                        sut = TrackerEvent.verifyAccountComplete(.chat, network: .facebook)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "verify-account-complete"

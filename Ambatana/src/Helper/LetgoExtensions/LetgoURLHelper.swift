@@ -57,17 +57,17 @@ class LetgoURLHelper {
 
     static func buildRecaptchaURL(transparent: Bool) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteRecaptchaEndpoint) else { return nil }
-        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildRecaptchParameters(transparent)
         return urlComponents.url
     }
 
     static func buildHelpURL(_ user: MyUser?, installation: Installation?) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteHelpEndpoint) else { return nil }
-        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
                                                                                   moderation: false)
-        return urlComponents.URL
+        return urlComponents.url
     }
 
     static func buildTermsAndConditionsURL() -> URL? {
@@ -80,19 +80,19 @@ class LetgoURLHelper {
 
     static func buildContactUsURL(user: MyUser?, installation: Installation?, moderation: Bool = false) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteContactUsEndpoint) else { return nil }
-        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
                                                                                   moderation: moderation)
-        return urlComponents.URL
+        return urlComponents.url
     }
 
     static func buildContactUsURL(userEmail email: String?, installation: Installation?, moderation: Bool = false) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteContactUsEndpoint) else { return nil }
-        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(nil, userName: nil, email: email,
                                                                                   installationId: installation?.objectId,
                                                                                   moderation: moderation)
-        return urlComponents.URL
+        return urlComponents.url
     }
 
 

@@ -50,7 +50,7 @@ final class MockUser: MockBaseModel, MyUser {
         self.isScammer = NSNumber(bool: false)
         self.didLogInByFacebook = false
         self.location = nil
-        self.accounts = [MockAccount(provider: .Email, verified: true)]
+        self.accounts = [MockAccount(provider: .email, verified: true)]
         self.status = .active
         super.init()
     }

@@ -14,7 +14,7 @@ typealias ChatWrapperResult = Result<Bool, RepositoryError>
 typealias ChatWrapperCompletion = (ChatWrapperResult) -> Void
 
 enum ChatWrapperMessageType {
-    case Text(String)
+    case text(String)
     case periscopeDirect(String)
     case chatSticker(Sticker)
     case quickAnswer(String)
@@ -114,7 +114,7 @@ extension ChatWrapperMessageType {
         switch self {
         case let .text(text):
             return text
-        case let .ChatSticker(sticker):
+        case let .chatSticker(sticker):
             return sticker.name
         case let .quickAnswer(text):
             return text
@@ -131,7 +131,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .text:
             return .text
-        case .ChatSticker:
+        case .chatSticker:
             return .sticker
         case .quickAnswer, .expressChat, .favoritedProduct, .periscopeDirect: // Legacy chat doesn't use this types
             return .text
@@ -144,14 +144,14 @@ extension ChatWrapperMessageType {
             return .text
         case .periscopeDirect:
             return .text
-        case .ChatSticker:
+        case .chatSticker:
             return .sticker
         case .quickAnswer:
-            return .QuickAnswer
+            return .quickAnswer
         case .expressChat:
-            return .ExpressChat
+            return .expressChat
         case .favoritedProduct:
-            return .FavoritedProduct
+            return .favoritedProduct
         }
     }
     
@@ -159,16 +159,16 @@ extension ChatWrapperMessageType {
         switch self {
         case .text:
             return .text
-        case .ChatSticker:
+        case .chatSticker:
             return .sticker
         case .quickAnswer:
-            return .QuickAnswer
+            return .quickAnswer
         case .expressChat:
-            return .ExpressChat
+            return .expressChat
         case .favoritedProduct:
-            return .Favorite
+            return .favorite
         case .periscopeDirect:
-            return .PeriscopeDirect
+            return .periscopeDirect
         }
     }
 }

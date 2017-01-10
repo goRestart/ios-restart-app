@@ -1,5 +1,5 @@
 //
-//  NSDate+LG.swift
+//  Date+LG.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 20/04/16.

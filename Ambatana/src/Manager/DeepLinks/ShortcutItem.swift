@@ -7,8 +7,8 @@
 //
 
 enum ShortcutItem: String {
-    case Sell = "letgo.sell"
-    case StartBrowsing = "letgo.startBrowsing"
+    case sell = "letgo.sell"
+    case startBrowsing = "letgo.startBrowsing"
 
     static func buildFromLaunchOptions(_ launchOptions: [AnyHashable: Any]) -> ShortcutItem? {
         if #available(iOS 9.0, *) {
@@ -30,7 +30,7 @@ enum ShortcutItem: String {
         switch self {
         case .sell:
             return DeepLink.shortCut(.sell)
-        case .StartBrowsing:
+        case .startBrowsing:
             return DeepLink.shortCut(.home)
         }
     }

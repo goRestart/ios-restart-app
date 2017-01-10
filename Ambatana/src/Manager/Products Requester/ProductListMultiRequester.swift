@@ -12,11 +12,11 @@ import RxSwift
 
 class ProductListMultiRequester {
 
-    private var requestersArray: [ProductListRequester]
-    private var activeRequester: ProductListRequester?
+    fileprivate var requestersArray: [ProductListRequester]
+    fileprivate var activeRequester: ProductListRequester?
     var currentIndex: Int // not private for testing reasons
-    private var hasChangedRequester: Bool // use it to ask for 1st page of next requester
-    private var multiIsLastPage: Bool
+    fileprivate var hasChangedRequester: Bool // use it to ask for 1st page of next requester
+    fileprivate var multiIsLastPage: Bool
 
     var itemsPerPage: Int {
         return activeRequester?.itemsPerPage ?? 0

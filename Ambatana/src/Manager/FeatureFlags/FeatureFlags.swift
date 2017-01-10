@@ -9,6 +9,7 @@
 //import bumper //TODO: RE-ENABLE after swift 3 migration
 import LGCoreKit
 import CoreTelephony
+import bumper
 
 protocol FeatureFlaggeable {
     var websocketChat: Bool { get }
@@ -212,7 +213,7 @@ class FeatureFlags: FeatureFlaggeable {
     var freePostingModeAllowed: Bool {
         guard let countryCode = countryCode else { return true }
         switch countryCode {
-        case .Turkey:
+        case .turkey:
             return false
         }
     }
@@ -220,7 +221,7 @@ class FeatureFlags: FeatureFlaggeable {
     var locationNoMatchesCountry: Bool {
         guard let countryCode = countryCode else { return false }
         switch countryCode {
-        case .Turkey:
+        case .turkey:
             return locationManager.countryNoMatchWith(countryInfo)
         }
     }
@@ -231,7 +232,7 @@ class FeatureFlags: FeatureFlaggeable {
     /// Return CountryCode from location or phone Region
     private var countryCode: CountryCode? {
         let systemCountryCode = locale.lg_countryCode
-        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
+        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercase
         return CountryCode(rawValue: countryCode)
     }
 }

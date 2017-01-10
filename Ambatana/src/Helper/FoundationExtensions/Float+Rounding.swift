@@ -22,6 +22,6 @@ extension Float {
         guard nearest != 0 else { return self}
         let n: Float = 1/nearest
         let numberToRound = self * n
-        return (numberToRound.rounded()) / n
+        return numberToRound.rounded() / n
     }
 }

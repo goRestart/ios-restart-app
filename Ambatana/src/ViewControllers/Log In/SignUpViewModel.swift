@@ -150,7 +150,7 @@ class SignUpViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.delegate?.vmShowLoading(nil)
             }, loginCompletion: { [weak self] result in
-                let error = self?.processAuthResult(result, accountProvider: .Facebook)
+                let error = self?.processAuthResult(result, accountProvider: .facebook)
                 switch result {
                 case .success:
                     self?.trackLoginFBOK()

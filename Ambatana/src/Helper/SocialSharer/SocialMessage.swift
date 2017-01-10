@@ -22,7 +22,7 @@ protocol SocialMessage {
     var twitterComposer: TWTRComposer { get }
     var smsShareText: String { get }
     var copyLinkText: String { get }
-    var nativeShareItems: [AnyObject] { get }
+    var nativeShareItems: [Any] { get }
     
     static var utmMediumKey: String { get }
     static var utmMediumValue: String { get }
@@ -50,15 +50,15 @@ extension SocialMessage {
 }
 
 enum ShareSource: String {
-    case Facebook = "facebook"
-    case Twitter = "twitter"
-    case FBMessenger = "facebook_messenger"
-    case Whatsapp = "whatsapp"
-    case Telegram = "telegram"
-    case Email = "email"
-    case SMS = "sms"
-    case CopyLink = "copy_link"
-    case Native = "native"
+    case facebook = "facebook"
+    case twitter = "twitter"
+    case fbMessenger = "facebook_messenger"
+    case whatsapp = "whatsapp"
+    case telegram = "telegram"
+    case email = "email"
+    case sms = "sms"
+    case copyLink = "copy_link"
+    case native = "native"
 }
 
 
@@ -94,7 +94,7 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     var nativeShareItems: [Any] {
-        if let shareUrl = shareUrl(.Native) {
+        if let shareUrl = shareUrl(.native) {
             return [shareUrl, fullMessage()]
         } else {
             return [fullMessage()]
@@ -102,19 +102,19 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     var whatsappShareText: String {
-        return fullMessageWUrl(.Whatsapp)
+        return fullMessageWUrl(.whatsapp)
     }
 
     var telegramShareText: String {
-        return fullMessageWUrl(.Telegram)
+        return fullMessageWUrl(.telegram)
     }
 
     var smsShareText: String {
-        return fullMessageWUrl(.SMS)
+        return fullMessageWUrl(.sms)
     }
 
     var copyLinkText: String {
-        return shareUrl(.CopyLink)?.absoluteString ?? ""
+        return shareUrl(.copyLink)?.absoluteString ?? ""
     }
 
     var emailShareSubject: String {
@@ -122,7 +122,7 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     var emailShareBody: String {
-        guard let urlString = shareUrl(.Email)?.absoluteString else { return title }
+        guard let urlString = shareUrl(.email)?.absoluteString else { return title }
         var message = title + " " + urlString
         if !isMine {
             message += " " + LGLocalizedString.productSharePostedBy(productUserName)
@@ -133,11 +133,11 @@ struct ProductSocialMessage: SocialMessage {
     let emailShareIsHtml = false
 
     var fbShareContent: FBSDKShareLinkContent {
-        return fbShareLinkContent(.Facebook)
+        return fbShareLinkContent(.facebook)
     }
 
     var fbMessengerShareContent: FBSDKShareLinkContent {
-        return fbShareLinkContent(.FBMessenger)
+        return fbShareLinkContent(.fbMessenger)
     }
 
     private func fbShareLinkContent(_ source: ShareSource) -> FBSDKShareLinkContent {
@@ -157,7 +157,7 @@ struct ProductSocialMessage: SocialMessage {
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
         twitterComposer.setText(fullMessage())
-        twitterComposer.setURL(shareUrl(.Twitter))
+        twitterComposer.setURL(shareUrl(.twitter))
         return twitterComposer
     }
 
@@ -240,7 +240,7 @@ struct AppShareSocialMessage: SocialMessage {
     }
 
     var nativeShareItems: [Any] {
-        if let shareUrl = branchUrl(.Native) {
+        if let shareUrl = branchUrl(.native) {
             return [shareUrl, LGLocalizedString.appShareMessageText]
         } else {
             return [LGLocalizedString.appShareMessageText]
@@ -248,19 +248,19 @@ struct AppShareSocialMessage: SocialMessage {
     }
 
     var whatsappShareText: String {
-        return fullMessageWUrl(.Whatsapp)
+        return fullMessageWUrl(.whatsapp)
     }
 
     var telegramShareText: String {
-        return fullMessageWUrl(.Telegram)
+        return fullMessageWUrl(.telegram)
     }
 
     var smsShareText: String {
-        return fullMessageWUrl(.SMS)
+        return fullMessageWUrl(.sms)
     }
 
     var copyLinkText: String {
-        return branchUrl(.CopyLink)?.absoluteString ?? ""
+        return branchUrl(.copyLink)?.absoluteString ?? ""
     }
 
     var emailShareSubject: String {
@@ -269,7 +269,7 @@ struct AppShareSocialMessage: SocialMessage {
 
     var emailShareBody: String {
         var shareBody = LGLocalizedString.appShareMessageText
-        guard let urlString = branchUrl(.Email)?.absoluteString else { return shareBody }
+        guard let urlString = branchUrl(.email)?.absoluteString else { return shareBody }
         shareBody += ":\n\n"
         return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
     }
@@ -280,7 +280,7 @@ struct AppShareSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.appShareSubjectText
         shareContent.contentDescription = LGLocalizedString.appShareMessageText
-        shareContent.contentURL = branchUrl(.Facebook)
+        shareContent.contentURL = branchUrl(.facebook)
         shareContent.imageURL = imageUrl
         return shareContent
     }
@@ -292,7 +292,7 @@ struct AppShareSocialMessage: SocialMessage {
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
         twitterComposer.setText(LGLocalizedString.appShareMessageText)
-        twitterComposer.setURL(branchUrl(.Twitter))
+        twitterComposer.setURL(branchUrl(.twitter))
         return twitterComposer
     }
     
@@ -371,7 +371,7 @@ struct UserSocialMessage: SocialMessage {
     }
 
     var nativeShareItems: [Any] {
-        if let branchUrl = branchUrl(.Native) {
+        if let branchUrl = branchUrl(.native) {
             return [branchUrl, messageText]
         } else {
             return [messageText]
@@ -379,19 +379,19 @@ struct UserSocialMessage: SocialMessage {
     }
 
     var whatsappShareText: String {
-        return fullMessageWUrl(.Whatsapp)
+        return fullMessageWUrl(.whatsapp)
     }
 
     var telegramShareText: String {
-        return fullMessageWUrl(.Telegram)
+        return fullMessageWUrl(.telegram)
     }
 
     var smsShareText: String {
-        return fullMessageWUrl(.SMS)
+        return fullMessageWUrl(.sms)
     }
 
     var copyLinkText: String {
-        return branchUrl(.CopyLink)?.absoluteString ?? ""
+        return branchUrl(.copyLink)?.absoluteString ?? ""
     }
 
     var emailShareSubject: String {
@@ -399,7 +399,7 @@ struct UserSocialMessage: SocialMessage {
     }
 
     var emailShareBody: String {
-        guard let urlStr = branchUrl(.Email)?.absoluteString else {
+        guard let urlStr = branchUrl(.email)?.absoluteString else {
             return messageText
         }
         return messageText + "\n\n" + urlStr
@@ -411,7 +411,7 @@ struct UserSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = titleText
         shareContent.contentDescription = messageText
-        shareContent.contentURL = branchUrl(.Facebook)
+        shareContent.contentURL = branchUrl(.facebook)
         shareContent.imageURL = avatar
         return shareContent
     }
@@ -423,7 +423,7 @@ struct UserSocialMessage: SocialMessage {
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
         twitterComposer.setText(messageText)
-        twitterComposer.setURL(branchUrl(.Twitter))
+        twitterComposer.setURL(branchUrl(.twitter))
         return twitterComposer
     }
 
@@ -507,7 +507,7 @@ struct CommercializerSocialMessage: SocialMessage {
         var shareBody = LGLocalizedString.commercializerShareMessageText
         guard let urlString = shareUrl?.absoluteString else { return shareBody }
         shareBody += ":\n\n"
-        return shareBody + completeURL(urlString, withSource: .Email)
+        return shareBody + completeURL(urlString, withSource: .email)
     }
 
     let emailShareIsHtml = true
@@ -516,7 +516,7 @@ struct CommercializerSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
         shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
-        shareContent.contentURL = completeURL(shareUrl, withSource: .Facebook)
+        shareContent.contentURL = completeURL(shareUrl, withSource: .facebook)
         shareContent.imageURL = thumbUrl
         return shareContent
     }
@@ -525,33 +525,33 @@ struct CommercializerSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
         shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
-        shareContent.contentURL = completeURL(shareUrl, withSource: .FBMessenger)
+        shareContent.contentURL = completeURL(shareUrl, withSource: .fbMessenger)
         shareContent.imageURL = thumbUrl
         return shareContent
     }
 
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
-        twitterComposer.setText(shareText(.Twitter, includeUrl: false))
-        twitterComposer.setURL(completeURL(shareUrl, withSource: .Twitter))
+        twitterComposer.setText(shareText(.twitter, includeUrl: false))
+        twitterComposer.setURL(completeURL(shareUrl, withSource: .twitter))
         return twitterComposer
     }
 
     var whatsappShareText: String {
-        return shareText(.Whatsapp)
+        return shareText(.whatsapp)
     }
 
     var telegramShareText: String {
-        return shareText(.Telegram)
+        return shareText(.telegram)
     }
 
     var smsShareText: String {
-        return shareText(.SMS)
+        return shareText(.sms)
     }
 
     var copyLinkText: String {
         guard let urlString = shareUrl?.absoluteString else { return "" }
-        return completeURL(urlString, withSource: .CopyLink)
+        return completeURL(urlString, withSource: .copyLink)
     }
 
     private func shareText(_ utmSource: ShareSource?, includeUrl: Bool = true) -> String {

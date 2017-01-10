@@ -54,7 +54,7 @@ class CommercializerManager {
         //Only for non-initial deep links
         DeepLinksRouter.sharedInstance.deepLinks.asObservable().subscribeNext { [weak self] deeplink in
             switch deeplink.action {
-            case .CommercializerReady(let productId, let templateId):
+            case .commercializerReady(let productId, let templateId):
                 //If user is inside the app, show preview
                 let applicationActive = UIApplication.shared.applicationState == .active
                 self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
@@ -110,7 +110,7 @@ class CommercializerManager {
 
         status = fromDeepLink ? .pushRetrieval : .checkingPending
         commercializerRepository.index(productId) { [weak self] result in
-            defer { self?.status = .Idle }
+            defer { self?.status = .idle }
             guard let commercializers = result.value else { return }
             let filtered = commercializers.filter { commercializer in
                 guard let templateId = commercializer.templateId, commercializer.status == .ready
