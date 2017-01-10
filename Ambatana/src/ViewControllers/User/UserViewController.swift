@@ -23,9 +23,9 @@ class UserViewController: BaseViewController {
     fileprivate static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
     fileprivate static let headerCollapsedHeight: CGFloat = 44
 
-    private static let navbarHeaderMaxThresold: CGFloat = 0.5
-    private static let userLabelsMinThreshold: CGFloat = 0.5
-    private static let headerMinThreshold: CGFloat = 0.7
+    fileprivate static let navbarHeaderMaxThresold: CGFloat = 0.5
+    fileprivate static let userLabelsMinThreshold: CGFloat = 0.5
+    fileprivate static let headerMinThreshold: CGFloat = 0.7
     fileprivate static let userLabelsAndHeaderMaxThreshold: CGFloat = 1.5
 
     fileprivate static let userBgTintViewHeaderExpandedAlpha: CGFloat = 0.54
@@ -396,7 +396,7 @@ extension UserViewController {
         }.addDisposableTo(disposeBag)
 
         let userAvatarPresent: Observable<Bool> = viewModel.userAvatarURL.asObservable().map { url in
-            guard let url = url, let urlString = url.absoluteString else { return false }
+            guard let urlString = url?.absoluteString else { return false }
             return !urlString.isEmpty
         }
         // Pattern overlay is hidden if there's no avatar and user background view is shown if so

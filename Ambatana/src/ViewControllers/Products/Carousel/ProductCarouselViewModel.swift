@@ -72,7 +72,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var showKeyboardOnFirstAppearance: Bool {
-        return source == .Notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
+        return source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
     }
 
     private let source: EventParameterProductVisitSource
