@@ -19,7 +19,7 @@ extension UITableView {
         switch change {
         case .remove(let index, _):
             let indexPath = IndexPath(row: index, section: 0)
-            deleteRowsAtIndexPaths([indexPath], withRowAnimation: animation)
+            deleteRows(at: [indexPath], with: animation)
         case .insert(let index, _):
             let indexPath = IndexPath(row: index, section: 0)
             insertRows(at: [indexPath], with: animation)
