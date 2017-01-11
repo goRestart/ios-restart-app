@@ -36,7 +36,6 @@ class BumpUpBanner: UIView {
     private var textLabel: UILabel = UILabel()
     private var bumpButton: UIButton = UIButton(type: .Custom)
 
-    private var localizedText: String = ""
     private var timer: NSTimer = NSTimer()
 
     private var isFree: Bool = true
@@ -96,17 +95,19 @@ class BumpUpBanner: UIView {
     // - Private Methods
 
     private func setupRx() {
-        timeLeft.asObservable().skip(1).bindNext { [weak self] secondsLeft in
+        let secondsLeft = timeLeft.asObservable().skip(1)
+        secondsLeft.bindNext { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
+            let localizedText: String
             if secondsLeft < 1 {
                 strongSelf.timer.invalidate()
-                strongSelf.localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
+                localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
                 strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
             } else {
                 strongSelf.iconImageView.image = UIImage(named: "clock")
-                strongSelf.localizedText = LGLocalizedString.bumpUpBannerWaitText
+                localizedText = LGLocalizedString.bumpUpBannerWaitText
             }
-            strongSelf.text.value = strongSelf.bubbleText(secondsLeft)
+            strongSelf.text.value = strongSelf.bubbleText(secondsLeft, text: localizedText)
         }.addDisposableTo(disposeBag)
 
         text.asObservable().bindTo(textLabel.rx_attributedText).addDisposableTo(disposeBag)
@@ -129,71 +130,36 @@ class BumpUpBanner: UIView {
     }
 
     private func setupConstraints() {
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        bumpButton.translatesAutoresizingMaskIntoConstraints = false
-        
         addSubview(containerView)
 
         // container view
-        let containerTopConstraint = NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal,
-                                                        toItem: self, attribute: .Top, multiplier: 1, constant: 0)
-        let containerBottomConstraint = NSLayoutConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal,
-                                                           toItem: self, attribute: .Bottom, multiplier: 1, constant: 0)
-        let containerLeftConstraint = NSLayoutConstraint(item: containerView, attribute: .Left, relatedBy: .Equal,
-                                                         toItem: self, attribute: .Left, multiplier: 1, constant: 0)
-        let containerRightConstraint = NSLayoutConstraint(item: containerView, attribute: .Right, relatedBy: .Equal,
-                                                          toItem: self, attribute: .Right, multiplier: 1, constant: 0)
-
-        addConstraints([containerTopConstraint, containerBottomConstraint, containerLeftConstraint,
-            containerRightConstraint])
+        containerView.layout(with: self).fill().apply()
 
         containerView.addSubview(textLabel)
         containerView.addSubview(iconImageView)
         containerView.addSubview(bumpButton)
 
-        let iconWidthConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Width, relatedBy: .Equal,
-                                                     toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
-                                                     constant: BumpUpBanner.iconSize)
-        let iconHeightConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal,
-                                                      toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
-                                                      constant: BumpUpBanner.iconSize)
-        iconImageView.addConstraints([iconWidthConstraint, iconHeightConstraint])
-
         // icon
-        let iconLeftConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Left, relatedBy: .Equal,
-                                                    toItem: containerView, attribute: .Left, multiplier: 1, constant: 15)
-        let iconCenterY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal,
-                                             toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
-        let iconToLabelTrailing = NSLayoutConstraint(item: iconImageView, attribute: .Right, relatedBy: .Equal,
-                                                     toItem: textLabel, attribute: .Left, multiplier: 1, constant: -10)
+        iconImageView.layout().width(BumpUpBanner.iconSize).height(BumpUpBanner.iconSize).apply()
+
+        iconImageView.layout(with: containerView).left(by: 15).apply()
+        iconImageView.layout(with: textLabel).right(to: .Left, by: -10).apply()
+        iconImageView.layout(with: containerView).centerY().apply()
 
         // text label
-        let labelTopConstraint = NSLayoutConstraint(item: textLabel, attribute: .Top, relatedBy: .Equal,
-                                                    toItem: containerView, attribute: .Top, multiplier: 1, constant: 0)
-        let labelBottomConstraint = NSLayoutConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal,
-                                                       toItem: containerView, attribute: .Bottom, multiplier: 1, constant: 0)
-        let labelToButtonTrailing = NSLayoutConstraint(item: textLabel, attribute: .Right, relatedBy: .Equal,
-                                                      toItem: bumpButton, attribute: .Left, multiplier: 1, constant: -10)
+        textLabel.layout(with: containerView).top().apply()
+        textLabel.layout(with: containerView).bottom().apply()
+        textLabel.layout(with: bumpButton).right(to: .Left, by: -10).apply()
 
         // button
-        let buttonTopConstraint = NSLayoutConstraint(item: bumpButton, attribute: .Top, relatedBy: .Equal,
-                                                    toItem: containerView, attribute: .Top, multiplier: 1, constant: 5)
-        let buttonBottomConstraint = NSLayoutConstraint(item: bumpButton, attribute: .Bottom, relatedBy: .Equal,
-                                                       toItem: containerView, attribute: .Bottom, multiplier: 1, constant: -5)
-        let buttonRightConstraint = NSLayoutConstraint(item: bumpButton, attribute: .Right, relatedBy: .Equal,
-                                                        toItem: containerView, attribute: .Right, multiplier: 1, constant: -15)
 
-        bumpButton.setContentCompressionResistancePriority(751, forAxis: .Horizontal)
-
-        containerView.addConstraints([iconLeftConstraint, iconCenterY, iconToLabelTrailing, labelTopConstraint, labelBottomConstraint,
-            labelToButtonTrailing, buttonTopConstraint, buttonBottomConstraint, buttonRightConstraint])
+        bumpButton.layout(with: containerView).top(by: 5).bottom(by: -5).right(by: -15).apply()
+        bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
 
         setNeedsLayout()
     }
 
-    private func bubbleText(secondsLeft: Int) -> NSAttributedString {
+    private func bubbleText(secondsLeft: Int, text: String) -> NSAttributedString {
 
         let fullText: NSMutableAttributedString = NSMutableAttributedString()
 
@@ -212,7 +178,7 @@ class BumpUpBanner: UIView {
         bumpTextAttributes[NSForegroundColorAttributeName] = UIColor.blackText
         bumpTextAttributes[NSFontAttributeName] = UIFont.systemMediumFont(size: 15)
 
-        let bumpText = NSAttributedString(string: localizedText,
+        let bumpText = NSAttributedString(string: text,
                                           attributes: bumpTextAttributes)
 
         fullText.appendAttributedString(bumpText)
