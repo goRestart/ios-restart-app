@@ -34,6 +34,7 @@ public protocol DI: class {
     var trendingSearchesRepository: TrendingSearchesRepository { get }
     var categoryRepository: CategoryRepository { get }
     var userRatingRepository: UserRatingRepository { get }
+    var monetizationRepository: MonetizationRepository { get }
     var passiveBuyersRepository: PassiveBuyersRepository { get }
 
     // Helper
