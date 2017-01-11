@@ -423,7 +423,7 @@
 "product_delete_post_button_title" = "Publica otro producto";
 "product_delete_post_subtitle" = "Prueba publicando otro artículo y empieza a ganar dinero.";
 "product_delete_post_title" = "¿NO HAS TENIDO SUERTE?";
-"product_delete_send_error_generic" = "¡Ups! No hemos podido borrar tu artículo. Por favor, inténtalo de nuevo.";
+"product_delete_send_error_generic" = "¡Ups! Se ha producido un error al borrar tu artículo. Por favor, inténtalo de nuevo.";
 "product_delete_sold_confirm_message" = "¿Seguro que quieres eliminar este artículo?";
 "product_delete_success_message" = "El artículo ha sido eliminado.";
 "product_distance_X_from_you" = "%@ de ti";
@@ -524,7 +524,7 @@
 "product_report_confirm_message" = "¿Estás seguro de que quieres denunciar este artículo?";
 "product_report_confirm_title" = "Denunciar artículo";
 "product_report_product_button" = "Denunciar artículo";
-"product_reported_error_generic" = "No hemos podido enviar la denuncia del artículo. Por favor, inténtalo de nuevo más tarde.";
+"product_reported_error_generic" = "Se ha producido un error al enviar la denuncia del artículo. Por favor, inténtalo de nuevo.";
 "product_reported_success_message" = "El artículo ha sido denunciado. ¡Gracias!";
 "product_reporting_loading_message" = "Denunciando el artículo...";
 "product_search_no_products_body" = "Prueba buscando algo distinto o vuelve a intentarlo pronto.";
@@ -551,7 +551,7 @@
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_fullscreen_subtitle" = "¿Sabes que compartir tus productos te convierte en una persona 100% mejor?";
 "product_share_fullscreen_title" = "¡COMPARTIR ES VIVIR!";
-"product_share_generic_error" = "Se ha producido un error al compartir. Por favor, inténtalo de nuevo más tarde.";
+"product_share_generic_error" = "Se ha producido un error al compartir el producto. Por favor, inténtalo de nuevo.";
 "product_share_generic_ok" = "¡Producto compartido!";
 "product_share_navbar_button" = "Compartir";
 "product_share_posted_by" = "publicado por %@";
@@ -664,7 +664,7 @@
 "sell_send_error_invalid_image_count" = "Por favor, añade al menos una foto de tu artículo.";
 "sell_send_error_invalid_price" = "Por favor, introduce un precio válido para tu artículo. Debe ser un número.";
 "sell_send_error_invalid_title" = "Por favor, introduce un título válido para tu artículo.";
-"sell_send_error_sharing_facebook" = "¡Ups! Ha ocurrido un error al compartir en Facebook. Por favor, inténtalo de nuevo.";
+"sell_send_error_sharing_facebook" = "¡Ups! Se ha producido un error al compartir en Facebook. Por favor, inténtalo de nuevo.";
 "sell_share_fb_content" = "¡Échale un vistazo a lo que vendo en letgo!";
 "sell_share_on_facebook_label" = "Compartir en Facebook";
 "sell_title_autogen_autotrans_label" = "Título sugerido por letgo y traducido por Google";
