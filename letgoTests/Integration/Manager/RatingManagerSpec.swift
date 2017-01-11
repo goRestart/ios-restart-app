@@ -32,7 +32,7 @@ class RatingManagerSpec: QuickSpec {
 
             describe("app crashed w/o any update") {
                 beforeEach {
-                    let versionChange = VersionChange.None
+                    let versionChange = VersionChange.none
                     crashManager = CrashManager(appCrashed: true, versionChange: versionChange)
                     sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                         versionChange: versionChange)
@@ -50,7 +50,7 @@ class RatingManagerSpec: QuickSpec {
 
                 context("new install") {
                     beforeEach {
-                        let versionChange = VersionChange.NewInstall
+                        let versionChange = VersionChange.newInstall
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -67,7 +67,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("new session") {
                     beforeEach {
-                        let versionChange = VersionChange.None
+                        let versionChange = VersionChange.none
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -84,7 +84,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("major update") {
                     beforeEach {
-                        let versionChange = VersionChange.Major
+                        let versionChange = VersionChange.major
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -101,7 +101,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("minor update") {
                     beforeEach {
-                        let versionChange = VersionChange.Minor
+                        let versionChange = VersionChange.minor
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -118,7 +118,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("patch update") {
                     beforeEach {
-                        let versionChange = VersionChange.Patch
+                        let versionChange = VersionChange.patch
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -143,7 +143,7 @@ class RatingManagerSpec: QuickSpec {
 
                 context("new install") {
                     beforeEach {
-                        let versionChange = VersionChange.NewInstall
+                        let versionChange = VersionChange.newInstall
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -160,7 +160,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("new session") {
                     beforeEach {
-                        let versionChange = VersionChange.None
+                        let versionChange = VersionChange.none
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -177,7 +177,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("major update") {
                     beforeEach {
-                        let versionChange = VersionChange.Major
+                        let versionChange = VersionChange.major
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -194,7 +194,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("minor update") {
                     beforeEach {
-                        let versionChange = VersionChange.Minor
+                        let versionChange = VersionChange.minor
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -211,7 +211,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("patch update") {
                     beforeEach {
-                        let versionChange = VersionChange.Patch
+                        let versionChange = VersionChange.patch
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -236,7 +236,7 @@ class RatingManagerSpec: QuickSpec {
 
                 context("new install") {
                     beforeEach {
-                        let versionChange = VersionChange.NewInstall
+                        let versionChange = VersionChange.newInstall
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -253,7 +253,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("new session") {
                     beforeEach {
-                        let versionChange = VersionChange.None
+                        let versionChange = VersionChange.none
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -270,7 +270,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("major update") {
                     beforeEach {
-                        let versionChange = VersionChange.Major
+                        let versionChange = VersionChange.major
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -287,7 +287,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("minor update") {
                     beforeEach {
-                        let versionChange = VersionChange.Minor
+                        let versionChange = VersionChange.minor
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -304,7 +304,7 @@ class RatingManagerSpec: QuickSpec {
                 }
                 context("patch update") {
                     beforeEach {
-                        let versionChange = VersionChange.Patch
+                        let versionChange = VersionChange.patch
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
@@ -325,7 +325,7 @@ class RatingManagerSpec: QuickSpec {
                 beforeEach {
                     keyValueStorage.userRatingAlreadyRated = false
 
-                    let versionChange = VersionChange.NewInstall
+                    let versionChange = VersionChange.newInstall
                     crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                     sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                         versionChange: versionChange)
@@ -340,7 +340,7 @@ class RatingManagerSpec: QuickSpec {
                 beforeEach {
                     keyValueStorage.userRatingRemindMeLaterDate = nil
 
-                    let versionChange = VersionChange.None
+                    let versionChange = VersionChange.none
                     crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                     sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                         versionChange: versionChange)

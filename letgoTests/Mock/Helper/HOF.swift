@@ -13,8 +13,7 @@
 import Result
 
 func performAfterDelayWithCompletion<T, U>(_ completion: ((Result<T, U>) -> Void)?, result: Result<T, U>?) {
-    let delay = DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-    DispatchQueue.main.asyncAfter(deadline: delay) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
         guard let result = result else { return }
         completion?(result)
     }
