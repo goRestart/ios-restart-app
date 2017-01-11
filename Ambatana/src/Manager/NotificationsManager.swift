@@ -97,7 +97,11 @@ class NotificationsManager {
     }
     
     func requestFavoriteCounter() {
-        favoriteCount.value = keyValueStorage.productsMarkAsFavorite! > 0 ? 1 : nil
+        guard let productMarkAsFavorite = keyValueStorage.productsMarkAsFavorite else {
+            favoriteCount.value = nil
+            return
+        }
+        favoriteCount.value = productMarkAsFavorite > 0 ? 1 : nil
     }
     
     

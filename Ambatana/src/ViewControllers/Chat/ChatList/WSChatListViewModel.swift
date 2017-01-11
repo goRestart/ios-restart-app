@@ -150,10 +150,10 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 fileprivate extension ChatsType {
     var conversationFilter: WebSocketConversationFilter {
         switch self {
-        case .selling: return .asSeller
+        case .selling: return .AsSeller
         case .buying: return .asBuyer
-        case .archived: return .archived
-        case .all: return .none
+        case .archived: return .Archived
+        case .all: return .None
         }
     }
 }

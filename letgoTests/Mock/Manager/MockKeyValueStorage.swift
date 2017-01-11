@@ -26,14 +26,6 @@ extension MockKeyValueStorage: KeyValueStorageable {
         get { return keyValue[key._key] as? String ?? "" }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSString?>) -> NSString? {
-        get { return keyValue[key._key] as? NSString }
-        set { keyValue[key._key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSString>) -> NSString {
-        get { return keyValue[key._key] as? NSString ?? "" }
-        set { keyValue[key._key] = newValue }
-    }
     subscript(key: DefaultsKey<Int?>) -> Int? {
         get { return keyValue[key._key] as? Int }
         set { keyValue[key._key] = newValue }
@@ -47,7 +39,7 @@ extension MockKeyValueStorage: KeyValueStorageable {
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<Double>) -> Double {
-        get { return keyValue[key._key] as? Double ?? Double.NaN }
+        get { return keyValue[key._key] as? Double ?? 0 }
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<Bool?>) -> Bool? {
@@ -58,7 +50,7 @@ extension MockKeyValueStorage: KeyValueStorageable {
         get { return keyValue[key._key] as? Bool ?? false }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<AnyObject?>) -> AnyObject? {
+    subscript(key: DefaultsKey<Any?>) -> Any? {
         get { return keyValue[key._key] as AnyObject? }
         set { keyValue[key._key] = newValue }
     }
@@ -66,16 +58,16 @@ extension MockKeyValueStorage: KeyValueStorageable {
         get { return keyValue[key._key] as? NSObject }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData?>) -> Data? {
-        get { return keyValue[key._key] as? NSData as Data? }
+    subscript(key: DefaultsKey<Data?>) -> Data? {
+        get { return keyValue[key._key] as? Data }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData>) -> Data {
-        get { return (keyValue[key._key] as? NSData ?? NSData()) as Data }
+    subscript(key: DefaultsKey<Data>) -> Data {
+        get { return keyValue[key._key] as? Data ?? Data() }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSDate?>) -> Date? {
-        get { return keyValue[key._key] as? NSDate as Date? }
+    subscript(key: DefaultsKey<Date?>) -> Date? {
+        get { return keyValue[key._key] as? Date }
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<URL?>) -> URL? {
@@ -85,28 +77,21 @@ extension MockKeyValueStorage: KeyValueStorageable {
         }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<[String: AnyObject]?>) -> [String: AnyObject]? {
-        get { return keyValue[key._key] as? [String: AnyObject] }
+    subscript(key: DefaultsKey<[String: Any]?>) -> [String: Any]? {
+        get { return keyValue[key._key] as? [String: Any] }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<[String: AnyObject]>) -> [String: AnyObject] {
-        get { return keyValue[key._key] as? [String: AnyObject] ?? [String: AnyObject]() }
+    subscript(key: DefaultsKey<[String: Any]>) -> [String: Any] {
+        get { return keyValue[key._key] as? [String: AnyObject] ?? [String: Any]() }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSDictionary?>) -> NSDictionary? {
-        get { return keyValue[key._key] as? NSDictionary }
-        set { keyValue[key._key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSDictionary>) -> NSDictionary {
-        get { return keyValue[key._key] as? NSDictionary ?? NSDictionary() }
-        set { keyValue[key._key] = newValue }
-    }
+
     subscript(key: DefaultsKey<[String]>) -> [String] {
         get { return keyValue[key._key] as? [String] ?? [String]() }
         set { keyValue[key._key] = newValue }
     }
     func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T? {
-        guard let dict = keyValue[key._key] as? [String: AnyObject] else { return nil }
+        guard let dict = keyValue[key._key] as? [String: Any] else { return nil }
         return T.decode(dict)
     }
     func set<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>, value: T?) {

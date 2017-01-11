@@ -21,7 +21,7 @@ class ConfigSpec: QuickSpec {
 
         describe("init") {
             beforeEach {
-                let path = Bundle(for: self.classForCoder).path(forResource: "ChatsOK", ofType: "json")
+                let path = Bundle(for: self.classForCoder).path(forResource: "iOScfgMockOK", ofType: "json")
                 let data = try! Data(contentsOf: URL(fileURLWithPath: path!))
                 let jsonObject = try! JSONSerialization.jsonObject(with: data, options: [])
                 json = JSON(jsonObject)
