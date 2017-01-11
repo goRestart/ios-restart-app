@@ -359,6 +359,7 @@
 		50C43DA91E26472600F10E53 /* SignUpStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA71E26472600F10E53 /* SignUpStep2ViewController.swift */; };
 		50C43DAB1E26473200F10E53 /* SignUpStep2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DAA1E26473200F10E53 /* SignUpStep2ViewModel.swift */; };
 		50C43DAC1E26473200F10E53 /* SignUpStep2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DAA1E26473200F10E53 /* SignUpStep2ViewModel.swift */; };
+		50C43DAE1E2681CC00F10E53 /* SignUpStep1ViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DAD1E2681CC00F10E53 /* SignUpStep1ViewModelSpec.swift */; };
 		50C59BC51CE0B84700377124 /* RatingManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */; };
 		50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
 		50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
@@ -1493,6 +1494,7 @@
 		50C43DA41E26467C00F10E53 /* SignUpStep1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStep1ViewController.swift; sourceTree = "<group>"; };
 		50C43DA71E26472600F10E53 /* SignUpStep2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStep2ViewController.swift; sourceTree = "<group>"; };
 		50C43DAA1E26473200F10E53 /* SignUpStep2ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStep2ViewModel.swift; sourceTree = "<group>"; };
+		50C43DAD1E2681CC00F10E53 /* SignUpStep1ViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStep1ViewModelSpec.swift; sourceTree = "<group>"; };
 		50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingManagerSpec.swift; sourceTree = "<group>"; };
 		50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorageable.swift; sourceTree = "<group>"; };
 		50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsUser.swift; sourceTree = "<group>"; };
@@ -2182,6 +2184,7 @@
 				50C7428C1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift */,
 				7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */,
 				7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */,
+				50C43DAD1E2681CC00F10E53 /* SignUpStep1ViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -5491,6 +5494,7 @@
 				C79895BF1DE2F60500DD58BF /* MockMyUserRepository.swift in Sources */,
 				50C742911DE4683700D629B0 /* MockLocationManager.swift in Sources */,
 				C73832831E02A2A2007D0C03 /* MockInstallationRepository.swift in Sources */,
+				50C43DAE1E2681CC00F10E53 /* SignUpStep1ViewModelSpec.swift in Sources */,
 				2EBC920F1E0AB98C007F0F82 /* MockPurchaseableProductsResponse.swift in Sources */,
 				2E0342F01CDB59950074EB34 /* VersionCheckerSpec.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
