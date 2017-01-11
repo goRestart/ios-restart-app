@@ -160,8 +160,9 @@ extension String {
 
     var byWords: [String] {
         var result:[String] = []
-        enumerateSubstrings(in: characters.indices, options: .byWords) {
-            guard let substring = $0.substring else { return }
+        let range = startIndex ..< endIndex
+        enumerateSubstrings(in: range, options: .byWords) { (word, _, _, _) in
+            guard let substring = word else { return }
             result.append(substring)
         }
         return result
