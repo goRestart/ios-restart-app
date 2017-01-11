@@ -16,14 +16,14 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .sensor)!
-                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     expect(sut.name.rawValue).to(equal("location"))
                 }
                 it("contains the location type when retrieving from sensors") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .sensor)!
-                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -34,7 +34,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the location type when setting manually") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .manual)!
-                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -45,7 +45,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the location type when retrieving from ip lookup") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .ipLookup)!
-                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -56,7 +56,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the location enabled false & location allowed false when location Disabled") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .ipLookup)!
-                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -70,7 +70,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the location enabled true & location allowed false when location Enabled/NotDetermined") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .ipLookup)!
-                    let locationServiceStatus: LocationServiceStatus = .enabled(.NotDetermined)
+                    let locationServiceStatus: LocationServiceStatus = .enabled(.notDetermined)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -84,7 +84,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the location enabled true & location allowed false when location Enabled/Restricted") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .ipLookup)!
-                    let locationServiceStatus: LocationServiceStatus = .enabled(.Restricted)
+                    let locationServiceStatus: LocationServiceStatus = .enabled(.restricted)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -98,7 +98,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the location enabled true & location allowed false when location Enabled/Denied") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .ipLookup)!
-                    let locationServiceStatus: LocationServiceStatus = .enabled(.Denied)
+                    let locationServiceStatus: LocationServiceStatus = .enabled(.denied)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -112,7 +112,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the location enabled true & location allowed true when location Enabled/AuthorizedAlways") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .ipLookup)!
-                    let locationServiceStatus: LocationServiceStatus = .enabled(.Authorized)
+                    let locationServiceStatus: LocationServiceStatus = .enabled(.authorized)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -126,7 +126,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the location enabled true & location allowed true when location Enabled/AuthorizedWhenInUse") {
                     let location = CLLocation(latitude: 42, longitude: 2)
                     let lgLocation = LGLocation(location: location, type: .ipLookup)!
-                    let locationServiceStatus: LocationServiceStatus = .enabled(.Authorized)
+                    let locationServiceStatus: LocationServiceStatus = .enabled(.authorized)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
                     expect(sut.params).notTo(beNil())
@@ -174,7 +174,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source when visiting login from mark as favourite") {
-                    sut = TrackerEvent.loginVisit(.Favourite, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.favourite, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -182,7 +182,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source when visiting login from mark as sold") {
-                    sut = TrackerEvent.loginVisit(.MarkAsSold, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.markAsSold, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -190,7 +190,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source when visiting login from as a question") {
-                    sut = TrackerEvent.loginVisit(.AskQuestion, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.askQuestion, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -198,7 +198,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source when visiting login from report fraud") {
-                    sut = TrackerEvent.loginVisit(.ReportFraud, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.reportFraud, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -237,7 +237,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source when abandoning login from mark as favourite") {
-                    sut = TrackerEvent.loginAbandon(.Favourite)
+                    sut = TrackerEvent.loginAbandon(.favourite)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -245,7 +245,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source when abandoning login from mark as sold") {
-                    sut = TrackerEvent.loginAbandon(.MarkAsSold)
+                    sut = TrackerEvent.loginAbandon(.markAsSold)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -253,7 +253,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source when abandoning login from as a question") {
-                    sut = TrackerEvent.loginAbandon(.AskQuestion)
+                    sut = TrackerEvent.loginAbandon(.askQuestion)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -261,7 +261,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source when abandoning login from report fraud") {
-                    sut = TrackerEvent.loginAbandon(.ReportFraud)
+                    sut = TrackerEvent.loginAbandon(.reportFraud)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -305,7 +305,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source logging in via FB from mark as favourite") {
-                    sut = TrackerEvent.loginFB(.Favourite, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.favourite, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -313,7 +313,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source logging in via FB from mark as sold") {
-                    sut = TrackerEvent.loginFB(.MarkAsSold, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.markAsSold, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -321,7 +321,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source logging in via FB from as a question") {
-                    sut = TrackerEvent.loginFB(.AskQuestion, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.askQuestion, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -329,7 +329,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source logging in via FB from report fraud") {
-                    sut = TrackerEvent.loginFB(.ReportFraud, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.reportFraud, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -373,7 +373,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source logging in via email from mark as favourite") {
-                    sut = TrackerEvent.loginEmail(.Favourite, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.favourite, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -381,7 +381,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source logging in via email from mark as sold") {
-                    sut = TrackerEvent.loginEmail(.MarkAsSold, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.markAsSold, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -389,7 +389,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source logging in via email from as a question") {
-                    sut = TrackerEvent.loginEmail(.AskQuestion, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.askQuestion, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -397,7 +397,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source logging in via email from report fraud") {
-                    sut = TrackerEvent.loginEmail(.ReportFraud, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.reportFraud, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -408,11 +408,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("signupEmail") {
                 it("has its event name") {
-                    sut = TrackerEvent.signupEmail(.sell, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.sell, newsletter: .unset)
                     expect(sut.name.rawValue).to(equal("signup-email"))
                 }
                 it("contains the appropiate login source signing in via email from posting") {
-                    sut = TrackerEvent.signupEmail(.sell, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.sell, newsletter: .unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -420,7 +420,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source signing in via email from chats") {
-                    sut = TrackerEvent.signupEmail(.chats, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.chats, newsletter: .unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -428,7 +428,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source signing in via email from profile") {
-                    sut = TrackerEvent.signupEmail(.profile, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.profile, newsletter: .unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -436,7 +436,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source signing in via email from mark as favourite") {
-                    sut = TrackerEvent.signupEmail(.Favourite, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.favourite, newsletter: .unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -444,7 +444,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source signing in via email from mark as sold") {
-                    sut = TrackerEvent.signupEmail(.MarkAsSold, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.markAsSold, newsletter: .unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -452,7 +452,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source signing in via email from as a question") {
-                    sut = TrackerEvent.signupEmail(.AskQuestion, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.askQuestion, newsletter: .unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -460,7 +460,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source signing in via email from report fraud") {
-                    sut = TrackerEvent.signupEmail(.ReportFraud, newsletter: .Unset)
+                    sut = TrackerEvent.signupEmail(.reportFraud, newsletter: .unset)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -625,7 +625,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("product-list"))
                 }
                 it("contains the category related params when passing by a category") {
-                    let categories: [ProductCategory] = [.HomeAndGarden]
+                    let categories: [ProductCategory] = [.homeAndGarden]
                     sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
                     expect(sut.params).notTo(beNil())
                     
@@ -634,7 +634,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(categoryId).to(equal("4"))
                 }
                 it("contains the category related params when passing by several categories") {
-                    let categories: [ProductCategory] = [.HomeAndGarden, .FashionAndAccesories]
+                    let categories: [ProductCategory] = [.homeAndGarden, .fashionAndAccesories]
                     sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
                     expect(sut.params).notTo(beNil())
                     
@@ -687,7 +687,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 context("failure") {
                     beforeEach {
-                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .Failed, isLastSearch: true)
+                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true)
                     }
                     it("search si no success") {
                         let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
@@ -707,9 +707,9 @@ class TrackerEventSpec: QuickSpec {
                 context("receiving all params") {
                     beforeEach {
                         let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
-                        sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
-                            categories: [.Electronics, .CarsAndMotors],
-                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day,
+                        sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.km,
+                            categories: [.electronics, .carsAndMotors],
+                            sortBy: ProductSortCriteria.distance, postedWithin: ProductTimeCriteria.distance,
                             priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true)
                     }
                     it("has its event name") {
@@ -752,7 +752,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
-                        sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
+                        sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.km,
                             categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil), freePostingModeAllowed: false)
                     }
                     it("has its event name") {
@@ -810,15 +810,15 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.2)
+                    product.price = .negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "Catalonia",
                         countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.productDetailVisit(product, visitUserAction: .None, source: .ProductList)
+                    sut = TrackerEvent.productDetailVisit(product, visitUserAction: .none, source: .productList)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
@@ -878,9 +878,9 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.2)
+                    product.price = .negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
@@ -938,9 +938,9 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.2)
+                    product.price = .negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
@@ -1002,9 +1002,9 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.2)
+                    product.price = .negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
@@ -1050,7 +1050,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productFavorite") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productFavorite(product, typePage: .ProductDetail)
+                    sut = TrackerEvent.productFavorite(product, typePage: .productDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-favorite"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1067,20 +1067,20 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.983)
+                    product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productFavorite(product, typePage: .ProductDetail)
+                    sut = TrackerEvent.productFavorite(product, typePage: .productDetail)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.productDetail.rawValue))
 
                     // Product
 
@@ -1123,7 +1123,7 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     let product = MockProduct()
                     sut = TrackerEvent.productShare(product, network: EventParameterShareNetwork.email,
-                        buttonPosition: .Top, typePage: .ProductDetail)
+                        buttonPosition: .top, typePage: .productDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-share"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1135,21 +1135,21 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.983)
+                    product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productShare(product, network: .email, buttonPosition: .Top
-                        , typePage: .ProductDetail)
+                    sut = TrackerEvent.productShare(product, network: .email, buttonPosition: .top
+                        , typePage: .productDetail)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.productDetail.rawValue))
 
                     // Product
 
@@ -1188,16 +1188,16 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the network where the content has been shared") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, network: .facebook, buttonPosition: .Top
-                        , typePage: .ProductDetail)
+                    sut = TrackerEvent.productShare(product, network: .facebook, buttonPosition: .top
+                        , typePage: .productDetail)
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
                     expect(network).to(equal("facebook"))
                 }
                 it("contains the position of the button used to share") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, network: .facebook, buttonPosition: .Bottom
-                        , typePage: .ProductDetail)
+                    sut = TrackerEvent.productShare(product, network: .facebook, buttonPosition: .bottom
+                        , typePage: .productDetail)
                     expect(sut.params!.stringKeyParams["button-position"]).notTo(beNil())
                     let buttonPosition = sut.params!.stringKeyParams["button-position"] as? String
                     expect(buttonPosition).to(equal("bottom"))
@@ -1213,7 +1213,7 @@ class TrackerEventSpec: QuickSpec {
                     user.objectId = "ABCDE"
                     product.user = user
                     product.objectId = "123ABC"
-                    event = TrackerEvent.productShareCancel(product, network: .facebook, typePage: .ProductDetail)
+                    event = TrackerEvent.productShareCancel(product, network: .facebook, typePage: .productDetail)
                 }
                 it("has the correct event name") {
                     expect(event.name.rawValue) == "product-detail-share-cancel"
@@ -1248,7 +1248,7 @@ class TrackerEventSpec: QuickSpec {
                     user.objectId = "ABCDE"
                     product.user = user
                     product.objectId = "123ABC"
-                    event = TrackerEvent.productShareComplete(product, network: .facebook, typePage: .ProductDetail)
+                    event = TrackerEvent.productShareComplete(product, network: .facebook, typePage: .productDetail)
                 }
                 it("has the correct event name") {
                     expect(event.name.rawValue) == "product-detail-share-complete"
@@ -1279,9 +1279,9 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let mockProduct = MockProduct()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = .Negotiable(123.983)
+                    mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
-                    mockProduct.category = .HomeAndGarden
+                    mockProduct.category = .homeAndGarden
 
                     let productOwner = MockUser()
                     productOwner.objectId = "67890"
@@ -1290,7 +1290,7 @@ class TrackerEventSpec: QuickSpec {
 
                     product = mockProduct
                     sut = TrackerEvent.firstMessage(product, messageType: .text,
-                                                          typePage: .ProductDetail, sellerRating: 4)
+                                                          typePage: .productDetail, sellerRating: 4)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1346,12 +1346,12 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var mockProduct = MockChatProduct()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = .Negotiable(123.983)
+                    mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     product = mockProduct
                     sut = TrackerEvent.firstMessage(product, messageType: .text, interlocutorId: "67890",
-                                                          typePage: .ProductDetail, sellerRating: 4)
+                                                          typePage: .productDetail, sellerRating: 4)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1394,10 +1394,10 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let mockProduct = MockProduct()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = .Negotiable(123.983)
+                    mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
-                    sut = TrackerEvent.productDetailOpenChat(mockProduct, typePage: .ProductDetail)
+                    sut = TrackerEvent.productDetailOpenChat(mockProduct, typePage: .productDetail)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-open-chat"))
@@ -1415,13 +1415,13 @@ class TrackerEventSpec: QuickSpec {
             describe("productMarkAsSold") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingModeAllowed: true)
+                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
                     expect(sut.name.rawValue).to(equal("product-detail-sold"))
                 }
                 it("free-posting param is included as Free") {
                     let product = MockProduct()
-                    product.price = .Free
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingModeAllowed: true)
+                    product.price = .free
+                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
                     expect(sut.params!.stringKeyParams["free-posting"] as? String).to(equal("true"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1438,15 +1438,15 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.983)
+                    product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingModeAllowed: true)
+                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1485,7 +1485,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.983)
+                    product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = ProductCategory(rawValue: 4)!
                     product.user = myUser
@@ -1537,9 +1537,9 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.983)
+                    product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
@@ -1587,8 +1587,8 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellStart") {
                 beforeEach {
-                    sut = TrackerEvent.productSellStart(.sell, buttonName: .SellYourStuff,
-                        sellButtonPosition: .TabBar)
+                    sut = TrackerEvent.productSellStart(.sell, buttonName: .sellYourStuff,
+                        sellButtonPosition: .tabBar)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -1630,10 +1630,10 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
-                    product.category = .HomeAndGarden
-                    product.price = .Negotiable(20)
-                    sut = TrackerEvent.productSellComplete(product, buttonName: .Done, sellButtonPosition: .FloatingButton, negotiable: .Yes,
-                        pictureSource: .Gallery, freePostingModeAllowed: true)
+                    product.category = .homeAndGarden
+                    product.price = .negotiable(20)
+                    sut = TrackerEvent.productSellComplete(product, buttonName: .done, sellButtonPosition: .floatingButton, negotiable: .yes,
+                        pictureSource: .gallery, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -1699,7 +1699,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationPost(product, buttonType: .Button)
+                    sut = TrackerEvent.productSellConfirmationPost(product, buttonType: .button)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-post"))
@@ -1875,11 +1875,11 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the product related params when passing by a product, name & category") {
                     let product = MockProduct()
-                    let newCategory = ProductCategory.CarsAndMotors
+                    let newCategory = ProductCategory.carsAndMotors
                     product.objectId = "q1w2e3"
 
                     sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory,
-                        editedFields: [.Title, .category])
+                        editedFields: [.title, .category])
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -1935,7 +1935,7 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .False, typePage: .chat)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1947,16 +1947,16 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .Negotiable(123.983)
+                    product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
+                    product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .text,
-                                                       isQuickAnswer: .False, typePage: .chat)
+                                                       isQuickAnswer: .falseParameter, typePage: .chat)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -2008,7 +2008,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains pageType param") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .False, typePage: .chat)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat)
                     let pageType = sut.params!.stringKeyParams["type-page"] as? String
                     expect(pageType).to(equal("chat"))
                 }
@@ -2016,7 +2016,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("chatRelatedItemsStart") {
                 beforeEach {
-                    sut = TrackerEvent.chatRelatedItemsStart(.Unanswered48h)
+                    sut = TrackerEvent.chatRelatedItemsStart(.unanswered48h)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("chat-related-items-start"))
@@ -2046,7 +2046,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let user = MockUser()
                         user.objectId = "12345"
-                        sut = TrackerEvent.profileVisit(user, profileType: .Public , typePage: .ProductDetail, tab: .selling)
+                        sut = TrackerEvent.profileVisit(user, profileType: .publicParameter , typePage: .productDetail, tab: .selling)
                     }
                     it("has its event name ") {
                         expect(sut.name.rawValue).to(equal("profile-visit"))
@@ -2128,7 +2128,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("profileShareStart") {
                 beforeEach {
-                    sut = TrackerEvent.profileShareStart(.Public)
+                    sut = TrackerEvent.profileShareStart(.publicParameter)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("profile-share-start"))
@@ -2141,7 +2141,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("profileShareComplete") {
                 beforeEach {
-                    sut = TrackerEvent.profileShareComplete(.Public, shareNetwork: .facebook)
+                    sut = TrackerEvent.profileShareComplete(.publicParameter, shareNetwork: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("profile-share-complete"))
@@ -2158,7 +2158,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("appInviteFriendStart") {
                 beforeEach {
-                    sut = TrackerEvent.appInviteFriendStart(.Settings)
+                    sut = TrackerEvent.appInviteFriendStart(.settings)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-invite-friend-start"))
@@ -2174,7 +2174,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("appInviteFriend") {
                 beforeEach {
-                    sut = TrackerEvent.appInviteFriend(.facebook, typePage: .Settings)
+                    sut = TrackerEvent.appInviteFriend(.facebook, typePage: .settings)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-invite-friend"))
@@ -2194,7 +2194,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("App invite friend don't show again") {
                 beforeEach {
-                    sut = TrackerEvent.appInviteFriendDontAsk(.Settings)
+                    sut = TrackerEvent.appInviteFriendDontAsk(.settings)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-invite-friend-dont-ask"))
@@ -2210,7 +2210,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("facebook friend invite Cancel") {
                 beforeEach {
-                    sut = TrackerEvent.appInviteFriendCancel(.facebook, typePage: .Settings)
+                    sut = TrackerEvent.appInviteFriendCancel(.facebook, typePage: .settings)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-invite-friend-cancel"))
@@ -2230,7 +2230,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("facebook friend invite complete") {
                 beforeEach {
-                    sut = TrackerEvent.appInviteFriendComplete(.facebook, typePage: .Settings)
+                    sut = TrackerEvent.appInviteFriendComplete(.facebook, typePage: .settings)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-invite-friend-complete"))
@@ -2250,12 +2250,12 @@ class TrackerEventSpec: QuickSpec {
 
             describe("permissionAlertStart") {
                 it("has its event name") {
-                    sut = TrackerEvent.permissionAlertStart(.push, typePage: .ProductList, alertType: .Custom,
+                    sut = TrackerEvent.permissionAlertStart(.push, typePage: .productList, alertType: .custom,
                         permissionGoToSettings: .notAvailable)
                     expect(sut.name.rawValue).to(equal("permission-alert-start"))
                 }
                 it("contains the permission related params when passing by a permission type, page & alertType") {
-                    sut = TrackerEvent.permissionAlertStart(.push, typePage: .ProductList, alertType: .Custom,
+                    sut = TrackerEvent.permissionAlertStart(.push, typePage: .productList, alertType: .custom,
                         permissionGoToSettings: .notAvailable)
                     expect(sut.params).notTo(beNil())
 
@@ -2265,22 +2265,22 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterTypePage.ProductList.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.productList.rawValue))
 
                     expect(sut.params!.stringKeyParams["alert-type"]).notTo(beNil())
                     let alertType = sut.params!.stringKeyParams["alert-type"] as? String
-                    expect(alertType).to(equal(EventParameterPermissionAlertType.Custom.rawValue))
+                    expect(alertType).to(equal(EventParameterPermissionAlertType.custom.rawValue))
                 }
             }
 
             describe("permissionAlertComplete") {
                 it("has its event name") {
-                    sut = TrackerEvent.permissionAlertComplete(.push, typePage: .ProductList, alertType: .Custom,
+                    sut = TrackerEvent.permissionAlertComplete(.push, typePage: .productList, alertType: .custom,
                         permissionGoToSettings: .notAvailable)
                     expect(sut.name.rawValue).to(equal("permission-alert-complete"))
                 }
                 it("contains the permission related params when passing by a permission type, page & alertType") {
-                    sut = TrackerEvent.permissionAlertComplete(.push, typePage: .ProductList, alertType: .Custom,
+                    sut = TrackerEvent.permissionAlertComplete(.push, typePage: .productList, alertType: .custom,
                         permissionGoToSettings: .notAvailable)
                     expect(sut.params).notTo(beNil())
 
@@ -2290,21 +2290,21 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterTypePage.ProductList.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.productList.rawValue))
 
                     expect(sut.params!.stringKeyParams["alert-type"]).notTo(beNil())
                     let alertType = sut.params!.stringKeyParams["alert-type"] as? String
-                    expect(alertType).to(equal(EventParameterPermissionAlertType.Custom.rawValue))
+                    expect(alertType).to(equal(EventParameterPermissionAlertType.custom.rawValue))
                 }
             }
 
             describe("permissionAlertCancel") {
                 it("has its event name") {
-                    sut = TrackerEvent.permissionSystemCancel(.push, typePage: .ProductList)
+                    sut = TrackerEvent.permissionSystemCancel(.push, typePage: .productList)
                     expect(sut.name.rawValue).to(equal("permission-system-cancel"))
                 }
                 it("contains the permission related params when passing by a permission type & page") {
-                    sut = TrackerEvent.permissionSystemCancel(.push, typePage: .ProductList)
+                    sut = TrackerEvent.permissionSystemCancel(.push, typePage: .productList)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
@@ -2313,17 +2313,17 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterTypePage.ProductList.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.productList.rawValue))
                 }
             }
 
             describe("permissionSystemComplete") {
                 it("has its event name") {
-                    sut = TrackerEvent.permissionSystemComplete(.push, typePage: .ProductList)
+                    sut = TrackerEvent.permissionSystemComplete(.push, typePage: .productList)
                     expect(sut.name.rawValue).to(equal("permission-system-complete"))
                 }
                 it("contains the permission related params when passing by a permission type & page") {
-                    sut = TrackerEvent.permissionSystemComplete(.push, typePage: .ProductList)
+                    sut = TrackerEvent.permissionSystemComplete(.push, typePage: .productList)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
@@ -2332,7 +2332,7 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterTypePage.ProductList.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.productList.rawValue))
                 }
             }
 
@@ -2460,7 +2460,7 @@ class TrackerEventSpec: QuickSpec {
             describe("open app external") {
                 context("has info for all the params") {
                     beforeEach {
-                        sut = TrackerEvent.openAppExternal("ut_campaign", medium: "ut_medium", source: .External(source: "ut_source"))
+                        sut = TrackerEvent.openAppExternal("ut_campaign", medium: "ut_medium", source: .external(source: "ut_source"))
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("open-app-external"))
@@ -2480,7 +2480,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 context("params with no info") {
                     beforeEach {
-                        sut = TrackerEvent.openAppExternal(nil, medium: nil, source: .None)
+                        sut = TrackerEvent.openAppExternal(nil, medium: nil, source: .none)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("open-app-external"))
@@ -2502,7 +2502,7 @@ class TrackerEventSpec: QuickSpec {
             describe("express chat") {
                 context("express chat start") {
                     beforeEach {
-                        sut = TrackerEvent.expressChatStart(.Automatic)
+                        sut = TrackerEvent.expressChatStart(.automatic)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "express-chat-start"
@@ -2515,7 +2515,7 @@ class TrackerEventSpec: QuickSpec {
 
                 context("express chat complete") {
                     beforeEach {
-                        sut = TrackerEvent.expressChatComplete(3, trigger: .Automatic)
+                        sut = TrackerEvent.expressChatComplete(3, trigger: .automatic)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "express-chat-complete"
@@ -2532,7 +2532,7 @@ class TrackerEventSpec: QuickSpec {
 
                 context("express chat don't ask again") {
                     beforeEach {
-                        sut = TrackerEvent.expressChatDontAsk(.Automatic)
+                        sut = TrackerEvent.expressChatDontAsk(.automatic)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "express-chat-dont-ask"
@@ -2650,7 +2650,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.Welcome)
+                    sut = TrackerEvent.notificationCenterComplete(.welcome)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))

@@ -55,9 +55,9 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                     let cfgFile = Config(data: data as Data)
                     expect(cfgFile).notTo(beNil())
 
-                    stub(isPath("/config/ios.json")) { _ in
+                    stub(condition: isPath("/config/ios.json")) { _ in
                         let path = OHPathForFile("iOScfgMockOK.json", LGConfigRetrieveServiceSpec.self)!
-                        return fixture(path, status: 200, headers: nil)
+                        return fixture(filePath: path, status: 200, headers: nil)
                         }.name = "iOScfgMockOK"
 
                     sut = LGConfigRetrieveService()
@@ -78,8 +78,8 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                 }
                 context("network error") {
                     beforeEach {
-                        stub(isPath("/config/ios.json")) { _ in
-                            let notConnectedError = NSError(domain:URLErrorDomain, code:Int(CFNetworkErrors.CFURLErrorNotConnectedToInternet.rawValue), userInfo:nil)
+                        stub(condition: isPath("/config/ios.json")) { _ in
+                            let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo:nil)
                             return OHHTTPStubsResponse(error:notConnectedError)
                             }.name = "iOScfgMockKONetworkError"
 
@@ -99,9 +99,9 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
 
                 context("unexpected format") {
                     beforeEach {
-                        stub(isPath("/config/ios.json")) { _ in
+                        stub(condition: isPath("/config/ios.json")) { _ in
                             let path = OHPathForFile("No_JSON.txt", LGConfigRetrieveServiceSpec.self)!
-                            return fixture(path, status: 200, headers: nil)
+                            return fixture(filePath: path, status: 200, headers: nil)
                             }.name = "iOScfgMockNoJSON"
                         
                         sut.retrieveConfigWithCompletion(completion)
@@ -120,9 +120,9 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
 
                 context("incomplete JSON (well formatted, missing data)") {
                     beforeEach {
-                        stub(isPath("/config/ios.json")) { _ in
+                        stub(condition: isPath("/config/ios.json")) { _ in
                             let path = OHPathForFile("iOScfgMockKOIncomplete.json", LGConfigRetrieveServiceSpec.self)!
-                            return fixture(path, status: 200, headers: nil)
+                            return fixture(filePath: path, status: 200, headers: nil)
                             }.name = "iOScfgMockJSONIncomplete"
                         
                         sut.retrieveConfigWithCompletion(completion)

@@ -20,7 +20,7 @@ struct MockChatProduct: ChatProduct {
 
     init() {
         self.status = .pending
-        self.price = .Negotiable(100)
+        self.price = .negotiable(100)
         self.currency = Currency(code: "EUR", symbol: "€")
     }
 }

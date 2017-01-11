@@ -153,7 +153,7 @@ fileprivate extension ChatsType {
         case .selling: return .AsSeller
         case .buying: return .asBuyer
         case .archived: return .Archived
-        case .all: return .None
+        case .all: return .none
         }
     }
 }

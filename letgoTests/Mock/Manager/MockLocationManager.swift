@@ -37,7 +37,7 @@ class MockLocationManager: LocationManager {
         performAfterDelayWithCompletion(userUpdateCompletion, result: myUserResult!)
     }
 
-    var locationServiceStatus: LocationServiceStatus = .Disabled
+    var locationServiceStatus: LocationServiceStatus = .disabled
 
     func startSensorLocationUpdates() -> LocationServiceStatus {
         return locationServiceStatus

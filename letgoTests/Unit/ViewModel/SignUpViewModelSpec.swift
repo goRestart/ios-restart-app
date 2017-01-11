@@ -289,9 +289,9 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
     func vmDismiss(_ completion: (() -> Void)?){}
     func vmOpenInternalURL(_ url: URL) {}

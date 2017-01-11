@@ -124,7 +124,7 @@ class LGAlertViewController: UIViewController {
 
         buttonsContainer.subviews.forEach { $0.removeFromSuperview() }
 
-        // Actions must have interface == .Button
+        // Actions must have interface == .button
         let buttonActions: [UIAction] = actions?.filter { $0.buttonStyle != nil } ?? []
         // No actions -> No buttons
         guard buttonActions.count > 0 else {
