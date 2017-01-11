@@ -171,7 +171,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.1)
   - LGCollapsibleLabel (= 0.2.0)
-  - LGCoreKit (= 1.8.0)
+  - LGCoreKit (from `../lgcorekit`)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
@@ -191,6 +191,8 @@ EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  LGCoreKit:
+    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -249,7 +251,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 21bac3f21444768e3a892c9e5cbada6fe7abaa5d
   LGCollapsibleLabel: f1631ac1274b268731e3f6a74b121e97a97626da
-  LGCoreKit: bf0cb07ea131c4568f8e91f8d6518a703d7552b5
+  LGCoreKit: 144a7d598d8c8016cec015c4bc040b2bf65a3b2b
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
@@ -265,6 +267,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 822fde21c5fe01c769de0c42d9a9349b7747b778
+PODFILE CHECKSUM: 53ea9b10e983d5479a9a713f818719922c0089c2
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.1.0.rc.3
