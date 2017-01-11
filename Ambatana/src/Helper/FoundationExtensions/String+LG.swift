@@ -124,7 +124,7 @@ extension String {
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = NumberFormatter.Style.decimal
         numFormatter.usesGroupingSeparator = false
-        if let text = numFormatter.string(from: NSNumber(price)) {
+        if let text = numFormatter.string(from: NSNumber(value: price)) {
             return text
         }
         return ""
