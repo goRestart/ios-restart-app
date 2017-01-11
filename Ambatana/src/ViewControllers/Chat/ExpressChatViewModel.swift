@@ -74,9 +74,9 @@ class ExpressChatViewModel: BaseViewModel {
         return productList[index].title ?? ""
     }
 
-    func imageURLForItemAtIndex(_ index: Int) -> URL {
-        guard index < productListCount else { return URL() }
-        guard let imageUrl = productList[index].thumbnail?.fileURL else { return URL() }
+    func imageURLForItemAtIndex(_ index: Int) -> URL? {
+        guard index < productListCount else { return nil }
+        guard let imageUrl = productList[index].thumbnail?.fileURL else { return nil }
         return imageUrl
     }
 

@@ -18,10 +18,10 @@ extension UITableView {
     private func handleChange<T>(_ change: CollectionChange<T>, animation: UITableViewRowAnimation) {
         switch change {
         case .remove(let index, _):
-            let indexPath = IndexPath(forRow: index, inSection: 0)
+            let indexPath = IndexPath(row: index, section: 0)
             deleteRowsAtIndexPaths([indexPath], withRowAnimation: animation)
         case .insert(let index, _):
-            let indexPath = IndexPath(forRow: index, inSection: 0)
+            let indexPath = IndexPath(row: index, section: 0)
             insertRowsAtIndexPaths([indexPath], withRowAnimation: animation)
         case .composite(let changes):
             changes.forEach { [weak self] change in
