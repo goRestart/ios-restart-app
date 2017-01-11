@@ -77,6 +77,7 @@ class PostProductDetailPriceView: BaseView {
         infoLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
         priceViewContainer.layer.cornerRadius = 15.0
         postFreeViewContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
+        freePostSwitch.userInteractionEnabled = false
         priceFieldContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
         freePostLabel.text = LGLocalizedString.sellPostFreeLabel
         freePostLabel.textColor = UIColor.white
@@ -87,12 +88,14 @@ class PostProductDetailPriceView: BaseView {
         currencyLabel.textColor = UIColor.white
         doneButton.setStyle(.Primary(fontSize: .Big))
         showFreeOption(viewModel.freeOptionAvailable)
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(freeCellPressed))
+        postFreeViewContainer.addGestureRecognizer(tap)
     }
 
     private func setupRx() {
         priceTextField.rx_text.bindTo(viewModel.price).addDisposableTo(disposeBag)
-        viewModel.isFree.asObservable().bindTo(freePostSwitch.rx_value).addDisposableTo(disposeBag)
-        freePostSwitch.rx_value.bindTo(viewModel.isFree).addDisposableTo(disposeBag)
+        viewModel.isFree.asObservable().bindTo(freePostSwitch.rx_valueAnimated).addDisposableTo(disposeBag)
         viewModel.isFree.asObservable().bindNext{[weak self] active in
             self?.showPriceTextContainer(!active)
             }.addDisposableTo(disposeBag)
@@ -123,6 +126,10 @@ class PostProductDetailPriceView: BaseView {
         UIView.animateWithDuration(0.3, animations: {
             self.layoutIfNeeded()
         } )
+    }
+
+    dynamic private func freeCellPressed() {
+        viewModel.freeCellPressed()
     }
 }
 

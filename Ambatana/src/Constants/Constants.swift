@@ -25,16 +25,25 @@ struct Constants {
     static let appShareFbMessengerURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=facebook-messenger-sold"
     static let appShareWhatsappURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=whatsapp-sold"
     static let appShareEmailURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=email-sold"
-    static let websiteURL = "https://www.letgo.com"
-    static let appWebsiteURL = "https://app.letgo.com"
+
+    // Branch
+    static let branchWebsiteURL = "https://app.letgo.com"
     static let branchLinksHost = "app.letgo.com"
-    static let recaptchaURL = "https://%@.letgo.com/%@/mcaptcha"
-    static let helpURL = "https://%@.letgo.com/%@/help_app"
-    static let contactUs = "https://%@.letgo.com/%@/contact_app"
-    static let termsAndConditionsURL = "https://%@.letgo.com/%@/terms_app"
-    static let privacyURL = "https://%@.letgo.com/%@/privacy_app"
-    static let productURL = "\(Constants.websiteURL)/product/%@"
-    static let userURL = "\(Constants.websiteURL)/user/%@"
+
+    // Website
+    static let websiteRecaptchaEndpoint = "/mcaptcha"
+    static let websiteHelpEndpoint = "/help_app"
+    static let websiteContactUsEndpoint = "/contact_app"
+    static let websitePrivacyEndpoint = "/privacy_app"
+    static let websiteTermsEndpoint = "/terms_app"
+    static func websiteProductEndpoint(productId: String) -> String {
+        return String(format: "/product/%@", arguments: [productId])
+    }
+    static func websiteUserEndpoint(userId: String) -> String {
+        return String(format: "/user/%@", arguments: [userId])
+    }
+
+    // Deep links other apps
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     static let telegramShareURL = "tg://msg?text=%@"
     
@@ -104,4 +113,7 @@ struct Constants {
     // interested bubble
     static let maxInterestedBubblesPerSessionOriginal = 2
     static let maxInterestedBubblesPerSessionLimitedPrints = 3
+
+    // FBSDK
+    static let fbSdkRequiredDelay: NSTimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
 }

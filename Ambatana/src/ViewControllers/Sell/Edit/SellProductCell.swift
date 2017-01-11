@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SellProductCell: UICollectionViewCell {
+class SellProductCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var imageView : UIImageView!
     @IBOutlet weak var iconImageView : UIImageView!

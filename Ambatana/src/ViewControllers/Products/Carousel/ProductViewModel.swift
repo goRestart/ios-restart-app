@@ -461,7 +461,6 @@ extension ProductViewModel {
 
     func editProduct() {
         navigator?.editProduct(product.value) { [weak self] editedProduct in
-            guard let editedProduct = editedProduct else { return }
             self?.product.value = editedProduct
         }
     }

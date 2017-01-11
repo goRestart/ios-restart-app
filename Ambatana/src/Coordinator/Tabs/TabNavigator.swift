@@ -48,7 +48,7 @@ protocol TabNavigator: BaseNavigator {
 protocol ProductDetailNavigator: TabNavigator {
     func closeProductDetail()
      // closeCompletion's Product is nil if edit is cancelled
-    func editProduct(product: Product, closeCompletion: ((Product?) -> Void)?)
+    func editProduct(product: Product, editCompletion: ((Product) -> Void)?)
     func openProductChat(product: Product)
     func openFullScreenShare(product: Product, socialMessage: SocialMessage)
     func openRelatedItems(product: Product, productVisitSource: EventParameterProductVisitSource)

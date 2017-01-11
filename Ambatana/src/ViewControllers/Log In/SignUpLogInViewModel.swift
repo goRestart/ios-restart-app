@@ -94,10 +94,10 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     private var termsAndConditionsURL: NSURL? {
-        return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
+        return LetgoURLHelper.buildTermsAndConditionsURL()
     }
     private var privacyURL: NSURL? {
-        return LetgoURLHelper.composeURL(Constants.privacyURL)
+        return LetgoURLHelper.buildPrivacyURL()
     }
 
     private let sessionManager: SessionManager
@@ -404,7 +404,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.signUpSendErrorInvalidEmail
         case .UserNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
-                let vm = RecaptchaViewModel()
+                let vm = RecaptchaViewModel(transparentMode: self?.featureFlags.captchaTransparent ?? false)
                 self?.delegate?.vmShowRecaptcha(vm)
             }
             return

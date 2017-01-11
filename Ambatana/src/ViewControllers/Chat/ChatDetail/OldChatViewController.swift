@@ -97,6 +97,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         removeStickersTooltip()
+        removeIgnoreTouchesForTooltip()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -367,6 +368,11 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     private func configureBottomMargin(animated animated: Bool) {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
+    }
+    
+    func removeIgnoreTouchesForTooltip() {
+        guard let tooltip = self.productView.userRatingTooltip else { return }
+        self.navigationController?.navigationBar.endForceTouchesFor(tooltip)
     }
 
     
@@ -766,6 +772,13 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
     func reloadLeftActions() {
         var actions = [UIAction]()
 
+        let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
+        let kbAction = UIAction(interface: .Image(image, nil), action: { [weak self] in
+            guard let showing = self?.showingStickers else { return }
+            showing ? self?.hideStickers() : self?.showStickers()
+            }, accessibilityId: .ChatViewStickersButton)
+        actions.append(kbAction)
+
         if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .NotAvailable {
             let image = UIImage(named: "ic_quick_answers")
             let tint: UIColor? = viewModel.directAnswersState.value == .Visible ? nil : UIColor.primaryColor
@@ -774,13 +787,6 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
                 }, accessibilityId: .ChatViewQuickAnswersButton)
             actions.append(quickAnswersAction)
         }
-
-        let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
-        let kbAction = UIAction(interface: .Image(image, nil), action: { [weak self] in
-            guard let showing = self?.showingStickers else { return }
-            showing ? self?.hideStickers() : self?.showStickers()
-            }, accessibilityId: .ChatViewStickersButton)
-        actions.append(kbAction)
 
         leftActions = actions
     }

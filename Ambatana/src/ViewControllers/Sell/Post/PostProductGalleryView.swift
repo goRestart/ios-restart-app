@@ -20,6 +20,12 @@ protocol PostProductGalleryViewDelegate: class {
     func productGallerySelectionFull(selectionFull: Bool)
 }
 
+enum MessageInfoType {
+    case NoMessage
+    case NoImages
+    case WrongImage
+}
+
 class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     @IBOutlet var contentView: UIView!
@@ -162,16 +168,29 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
         infoButton.setStyle(.Primary(fontSize: .Medium))
 
-        resetLoadImageErrorViewInfo()
+        configMessageView(.NoMessage)
 
         setAccesibilityIds()
         setupRX()
         setupAlbumSelection()
     }
 
-    private func resetLoadImageErrorViewInfo() {
-        loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
-        loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
+    private func configMessageView(type: MessageInfoType) {
+        var title: String
+        var subtitle: String
+        switch type {
+        case .NoMessage:
+            title = ""
+            subtitle = ""
+        case .NoImages:
+            title = LGLocalizedString.productPostGallerySelectPicturesTitle
+            subtitle = LGLocalizedString.productPostGallerySelectPicturesSubtitle
+        case .WrongImage:
+            title = LGLocalizedString.productPostGalleryLoadImageErrorTitle
+            subtitle = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
+        }
+        loadImageErrorTitleLabel.text = title
+        loadImageErrorSubtitleLabel.text = subtitle
     }
 }
 
@@ -218,7 +237,10 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         -> UICollectionViewCell {
             guard let galleryCell = collectionView.dequeueReusableCellWithReuseIdentifier(GalleryImageCell.reusableID,
                 forIndexPath: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
+
+            galleryCell.tag = indexPath.row
             viewModel.imageForCellAtIndex(indexPath.row) { image in
+                guard galleryCell.tag == indexPath.row else { return }
                 galleryCell.image.image = image
             }
             galleryCell.multipleSelectionEnabled = viewModel.multiSelectionEnabled
@@ -312,6 +334,7 @@ extension PostProductGalleryView {
             case .LoadImageError:
                 self?.infoContainer.hidden = true
                 self?.loadImageErrorView.hidden = false
+                self?.configMessageView(.WrongImage)
                 self?.postButton.enabled = false
             case .Loading:
                 self?.imageLoadActivityIndicator.startAnimating()
@@ -324,10 +347,8 @@ extension PostProductGalleryView {
             guard strongSelf.viewModel.multiSelectionEnabled else { return }
             strongSelf.collectionView.userInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
-                delay(0.3) { [weak self] in
-                    self?.collectionView.reloadData()
-                    self?.collectionView.userInteractionEnabled = true
-                }
+                self?.collectionView.reloadData()
+                self?.collectionView.userInteractionEnabled = true
                 return
             }
             var indexes: [NSIndexPath] = []
@@ -335,21 +356,22 @@ extension PostProductGalleryView {
                 indexes.append(NSIndexPath(forItem: imgSel.index, inSection: 0))
             }
 
-            strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
+            UIView.performWithoutAnimation {
+                strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
+            }
 
             if imgsSelected.count == 0 {
-                strongSelf.loadImageErrorTitleLabel.text = LGLocalizedString.productPostGallerySelectPicturesTitle
-                strongSelf.loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGallerySelectPicturesSubtitle
+                strongSelf.configMessageView(.NoImages)
                 strongSelf.loadImageErrorView.hidden = false
             } else {
-                strongSelf.resetLoadImageErrorViewInfo()
+                strongSelf.configMessageView(.NoMessage)
                 strongSelf.loadImageErrorView.hidden = true
             }
             strongSelf.collectionView.userInteractionEnabled = true
         }.addDisposableTo(disposeBag)
 
-        viewModel.imageSelectionEnabled.asObservable().distinctUntilChanged().bindNext { [weak self] interactionEnabled in
-            self?.delegate?.productGallerySelectionFull(!interactionEnabled)
+        viewModel.imageSelectionFull.distinctUntilChanged().bindNext { [weak self] imageSelectionFull in
+            self?.delegate?.productGallerySelectionFull(imageSelectionFull)
         }.addDisposableTo(disposeBag)
     }
 
@@ -491,13 +513,16 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
     }
 
     private func animateToState(collapsed collapsed: Bool, completion: (() -> Void)?) {
+        let hasChanges = collapsed != self.collapsed
         imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
         self.collapsed = collapsed
 
         UIView.animateWithDuration(0.2,
             animations: { [weak self] in
                 self?.syncCollectionWithImage()
-                self?.contentView.layoutIfNeeded()
+                if hasChanges {
+                    self?.contentView.layoutIfNeeded()
+                }
             }, completion: { _ in
                 completion?()
             }

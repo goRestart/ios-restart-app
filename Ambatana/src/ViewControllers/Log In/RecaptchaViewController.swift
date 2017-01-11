@@ -9,17 +9,20 @@
 import UIKit
 
 class RecaptchaViewController: BaseViewController {
-    
+    @IBOutlet weak var bgImageView: UIImageView!
+    @IBOutlet weak var bgOverlayView: UIView!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var closeButton: UIButton!
 
     private let viewModel: RecaptchaViewModel
+    private let backgroundImage: UIImage?
 
     private var currentURL: NSURL?
 
-    init(viewModel: RecaptchaViewModel) {
+    init(viewModel: RecaptchaViewModel, backgroundImage: UIImage?) {
         self.viewModel = viewModel
+        self.backgroundImage = backgroundImage
         super.init(viewModel: viewModel, nibName: "RecaptchaViewController")
         automaticallyAdjustsScrollViewInsets = false
     }
@@ -30,6 +33,7 @@ class RecaptchaViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         setAccesibilityIds()
         webView.delegate = self
 
@@ -44,6 +48,14 @@ class RecaptchaViewController: BaseViewController {
 
 
     // MARK: - Private methods
+
+    private func setupUI() {
+        bgImageView.image = backgroundImage
+        let isTransparentMode = backgroundImage != nil
+        bgOverlayView.hidden = !isTransparentMode
+        let closeButtonImageName = isTransparentMode ? "ic_close" : "ic_close_red"
+        closeButton.setImage(UIImage(named: closeButtonImageName), forState: .Normal)
+    }
 
     private func loadUrl(url: NSURL) {
         activityIndicator.startAnimating()

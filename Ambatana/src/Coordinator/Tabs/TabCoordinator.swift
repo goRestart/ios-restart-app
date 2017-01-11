@@ -363,10 +363,10 @@ extension TabCoordinator: ProductDetailNavigator {
         navigationController.popViewControllerAnimated(true)
     }
 
-    func editProduct(product: Product, closeCompletion: ((Product?) -> Void)?) {
+    func editProduct(product: Product, editCompletion: ((Product) -> Void)?) {
         // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
         let editProductVM = EditProductViewModel(product: product)
-        editProductVM.closeCompletion = closeCompletion
+        editProductVM.editCompletion = editCompletion
         let editProductVC = EditProductViewController(viewModel: editProductVM)
         let navCtl = UINavigationController(rootViewController: editProductVC)
         navigationController.presentViewController(navCtl, animated: true, completion: nil)

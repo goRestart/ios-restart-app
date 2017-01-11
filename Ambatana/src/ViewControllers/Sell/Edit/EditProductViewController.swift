@@ -10,11 +10,12 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 import RxSwift
+import KMPlaceholderTextView
 
 
 class EditProductViewController: BaseViewController, UITextFieldDelegate,
     UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
-    UINavigationControllerDelegate, FBSDKSharingDelegate {
+    UINavigationControllerDelegate {
     
     // UI
     private static let loadingTitleDisclaimerLeadingConstraint: CGFloat = 8
@@ -28,10 +29,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     enum TextFieldTag: Int {
         case ProductTitle = 1000, ProductPrice, ProductDescription
     }
-    
-    let descrPlaceholder = LGLocalizedString.sellDescriptionFieldHint
-    let descrPlaceholderColor = UIColor(rgb: 0xC7C7CD)
-    let sellProductCellReuseIdentifier = "SellProductCell"
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -63,9 +60,9 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var priceTextField: LGTextField!
     
     @IBOutlet weak var descriptionView: UIView!
-    @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var descriptionCharCountLabel: UILabel!
     @IBOutlet weak var titleDisclaimerActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var descriptionTextView: KMPlaceholderTextView!
 
     @IBOutlet weak var setLocationTitleLabel: UILabel!
     @IBOutlet weak var setLocationLocationLabel: UILabel!
@@ -82,8 +79,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet weak var loadingProgressView: UIProgressView!
-
-    var lines: [CALayer] = []
 
     var hideKbTapRecognizer: UITapGestureRecognizer?
 
@@ -152,7 +147,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
-        viewModel.checkProductFields()
+        viewModel.sendButtonPressed()
     }
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
@@ -222,14 +217,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
 
     // MARK: - UITextViewDelegate Methods
-
-    func textViewDidBeginEditing(textView: UITextView) {
-        // clear text view placeholder
-        if textView.text == descrPlaceholder && textView.textColor ==  descrPlaceholderColor {
-            textView.text = nil
-            textView.textColor = UIColor.blackColor()
-        }
-    }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         // textView is inside a container, so we need to know which container is focused (to scroll to visible when keyboard was up)
@@ -237,24 +224,15 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         return true
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = descrPlaceholder
-            textView.textColor = descrPlaceholderColor
-        }
-    }
-    
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if let textViewText = textView.text {
             let cleanReplacement = text.stringByRemovingEmoji()
             let finalText = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: cleanReplacement)
-            if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
-                viewModel.descr = finalText.isEmpty ? nil : finalText
-                if text.hasEmojis() {
-                    //Forcing the new text (without emojis) by returning false
-                    textView.text = finalText
-                    return false
-                }
+            viewModel.descr = finalText.isEmpty ? nil : finalText
+            if text.hasEmojis() {
+                //Forcing the new text (without emojis) by returning false
+                textView.text = finalText
+                return false
             }
         }
         return true
@@ -270,7 +248,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
         
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sellProductCellReuseIdentifier,
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductCell.reusableID,
                 forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
             cell.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
             if indexPath.item < viewModel.numberOfImages {
@@ -415,14 +393,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.ProductPrice.rawValue
         priceTextField.insetX = 16.0
-        
-        if viewModel.descr?.characters.count > 0 {
-            descriptionTextView.text = viewModel.descr
-            descriptionTextView.textColor = UIColor.blackColor()
-        } else {
-            descriptionTextView.text = descrPlaceholder
-            descriptionTextView.textColor = descrPlaceholderColor
-        }
+
+        descriptionTextView.text = viewModel.descr ?? ""
+        descriptionTextView.textColor = UIColor.blackText
+        descriptionTextView.placeholder = LGLocalizedString.sellDescriptionFieldHint
+        descriptionTextView.placeholderColor = UIColor.gray
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0)
         descriptionTextView.tintColor = UIColor.primaryColor
         descriptionTextView.tag = TextFieldTag.ProductDescription.rawValue
@@ -450,8 +425,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         // CollectionView
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
-        let cellNib = UINib(nibName: "SellProductCell", bundle: nil)
-        self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
+        let cellNib = UINib(nibName: SellProductCell.reusableID, bundle: nil)
+        self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: SellProductCell.reusableID)
         
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
         view.bringSubviewToFront(loadingView)
@@ -525,8 +500,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             self?.viewModel.userSelectedSuggestedTitle()
         }.addDisposableTo(disposeBag)
 
-        viewModel.titleAutogenerated.asObservable()
-
         viewModel.locationInfo.asObservable().bindTo(setLocationLocationLabel.rx_text).addDisposableTo(disposeBag)
 
         setLocationButton.rx_tap.bindNext { [weak self] in
@@ -538,6 +511,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.isFreePosting.asObservable().bindNext{[weak self] active in
             self?.updateFreePostViews(active)
             }.addDisposableTo(disposeBag)
+
+        viewModel.loadingProgress.asObservable().map { $0 == nil }.bindTo(loadingView.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.loadingProgress.asObservable().ignoreNil().bindTo(loadingProgressView.rx_progress).addDisposableTo(disposeBag)
+
+        viewModel.saveButtonEnabled.asObservable().bindTo(sendButton.rx_enabled).addDisposableTo(disposeBag)
         
         var previousKbOrigin: CGFloat = CGFloat.max
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
@@ -565,22 +543,12 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
     private func updateTapRecognizer(add: Bool) {
         guard let tapRec = hideKbTapRecognizer else { return }
-        if let recognizers = scrollView.gestureRecognizers where recognizers.contains(tapRec) {
-            scrollView.removeGestureRecognizer(tapRec)
+        scrollView.removeGestureRecognizer(tapRec)
+        if add {
+            scrollView.addGestureRecognizer(tapRec)
         }
-        guard add else { return }
-        scrollView.addGestureRecognizer(tapRec)
-    }
-
-    override func popBackViewController() {
-        super.popBackViewController()
     }
     
-    internal func editCompleted() {
-        showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { [weak self] in
-            self?.dismiss(nil)
-        }
-    }
     
     // MARK: - Private methods
     
@@ -598,49 +566,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
 
     dynamic func closeButtonPressed() {
-        dismiss()
-    }
-
-    private func dismiss(action: (() -> ())? = nil) {
-        dismissViewControllerAnimated(true) { [weak self] in
-
-            // TODO: Refactor w EditCoordinator
-            self?.viewModel.didClose()
-            action?()
-        }
+        viewModel.closeButtonPressed()
     }
     
     private dynamic func scrollViewTapped() {
         activeField?.endEditing(true)
-    }
-    
-    // MARK: - Share in facebook.
-    
-    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        viewModel.shouldEnableTracking()
-        viewModel.trackSharedFB()
-        // @ahl: delayed is needed thanks to facebook
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.editCompleted()
-        }
-    }
-    
-    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        viewModel.shouldEnableTracking()
-        // @ahl: delayed is needed thanks to facebook
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook) {
-                self.editCompleted()
-            }
-        }
-    }
-    
-    func sharerDidCancel(sharer: FBSDKSharing!) {
-        viewModel.shouldEnableTracking()
-        // @ahl: delayed is needed thanks to facebook
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.editCompleted()
-        }
     }
 }
 
@@ -649,13 +579,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
 extension EditProductViewController: EditProductViewModelDelegate {
 
-
     func vmDidSelectCategoryWithName(categoryName: String) {
         categorySelectedLabel.text = categoryName
     }
 
     func vmShouldUpdateDescriptionWithCount(count: Int) {
-
         if count <= 0 {
             descriptionCharCountLabel.textColor = UIColor.primaryColor
         } else {
@@ -668,67 +596,34 @@ extension EditProductViewController: EditProductViewModelDelegate {
         imageCollectionView.reloadSections(NSIndexSet(index: 0))
     }
 
-    func vmDidStartSavingProduct() {
-        loadingView.hidden = false
-        loadingProgressView.setProgress(0, animated: false)
-    }
-
-    func vmDidUpdateProgressWithPercentage(percentage: Float) {
-        loadingProgressView.setProgress(percentage, animated: false)
-    }
-
-    func vmDidFinishSavingProductWithResult(result: ProductResult) {
-        loadingView.hidden = true
-
-        if viewModel.shouldShareInFB {
-            viewModel.shouldDisableTracking()
-            let content = viewModel.fbShareContent
-            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-        } else {
-            editCompleted()
-        }
-    }
-
-    func vmDidFailWithError(error: ProductCreateValidationError) {
-        loadingView.hidden = true
-
-        var completion: ((Void) -> Void)? = nil
-
-        let message: String
-        switch (error) {
-        case .Network, .Internal, .ServerError:
-            self.viewModel.shouldDisableTracking()
-            message = LGLocalizedString.editProductSendErrorUploadingProduct
-            completion = {
-                self.viewModel.shouldEnableTracking()
-            }
-        case .NoImages:
-            message = LGLocalizedString.sellSendErrorInvalidImageCount
-        case .NoTitle:
-            message = LGLocalizedString.sellSendErrorInvalidTitle
-        case .NoPrice:
-            message = LGLocalizedString.sellSendErrorInvalidPrice
-        case .NoDescription:
-            message = LGLocalizedString.sellSendErrorInvalidDescription
-        case .LongDescription:
-            message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
-        case .NoCategory:
-            message = LGLocalizedString.sellSendErrorInvalidCategory
-        }
-        self.showAutoFadingOutMessageAlert(message, completion: completion)
-    }
-
-    func vmFieldCheckSucceeded() {
-        ifLoggedInThen(.Sell, loggedInAction: { [weak self] in
-            self?.viewModel.save()
-            }, elsePresentSignUpWithSuccessAction: { [weak self] in
-                self?.viewModel.save()
-            })
+    func vmShareOnFbWith(content content: FBSDKShareLinkContent) {
+        FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
     }
 
     func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel) {
         let vc = EditLocationViewController(viewModel: locationViewModel)
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func vmHideKeyboard() {
+        activeField?.endEditing(true)
+    }
+}
+
+
+// MARK: - FBSDKSharingDelegate 
+
+extension EditProductViewController: FBSDKSharingDelegate {
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        viewModel.fbSharingFinishedOk()
+    }
+
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        viewModel.fbSharingFinishedWithError()
+    }
+
+    func sharerDidCancel(sharer: FBSDKSharing!) {
+        viewModel.fbSharingCancelled()
     }
 }
 

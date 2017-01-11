@@ -24,6 +24,7 @@ class EscrowEnvironment: AppEnvironment {
     
     // Config
     let configFileName = "ios-prod"
+    let configURL = "https://escrow-images.s3.amazonaws.com/config/ios.json"
     
     // Twitter
     let twitterConsumerKey = "krEbU50JQnxY9WkNp6zevuOpK"
@@ -32,7 +33,8 @@ class EscrowEnvironment: AppEnvironment {
     // Leanplum
     let leanplumAppId = ""
     let leanplumEnvKey = ""
-    
-    // Config
-    var configURL = "https://escrow-images.s3.amazonaws.com/config/ios.json"
+
+    // Website
+    let websiteBaseUrl = "https://www.escrowverification.com"
+    let websiteBaseUrlWithLocaleParams = "https://%@.escrowverification.com/%@"
 }

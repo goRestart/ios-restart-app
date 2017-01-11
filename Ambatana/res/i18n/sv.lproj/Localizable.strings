@@ -17,14 +17,10 @@
 "app_share_title_alternative" = "DELA KÄRLEKEN";
 "app_share_whatsapp_button" = "Bjud in via WhatsApp";
 "block_user_error_generic" = "Ett fel uppstod vid blockering av användaren.";
-"bump_up_banner_free_button_title" = "Bump up";
-"bump_up_banner_free_text" = "Bump up for free to sell faster";
-"bump_up_banner_pay_text" = "Bump up to sell faster";
-"bump_up_banner_wait_text" = "to bump up again";
-"bump_up_bubble_free_button_title" = "Puffa uppåt";
-"bump_up_bubble_free_text" = "Puffa uppåt gratis för att sälja snabbare";
-"bump_up_bubble_pay_text" = "Puffa uppåt för att sälja snabbare";
-"bump_up_bubble_wait_text" = "till nästa puff";
+"bump_up_banner_free_button_title" = "Puffa uppåt";
+"bump_up_banner_free_text" = "Puffa uppåt gratis för att sälja snabbare";
+"bump_up_banner_pay_text" = "Puffa uppåt för att sälja snabbare";
+"bump_up_banner_wait_text" = "till nästa puff";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din produkt skulle puffas uppåt. Vänligen försök igen.";
 "bump_up_error_bump_token" = "Din betalning har processats men din produkt har inte lagts upp ännu. Vänligen försök igen.";
 "bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
@@ -268,6 +264,8 @@
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
 "edit_product_suggesting_title" = "Föreslår titel...";
 "edit_product_title" = "Redigera produkt";
+"edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
+"edit_product_unsaved_changes_alert_ok" = "Släng bort";
 "filters_distance_not_set" = "inte vald";
 "filters_navbar_reset" = "Återställ";
 "filters_price_from" = "Från";
@@ -309,6 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Hoppa över";
 "login_scammer_alert_message" = "Ditt konto är under granskning av letgo. Om du tror att det har anmälts av misstag, kontakta oss.";
 "login_scammer_alert_title" = "KONTOT ÄR UNDER GRANSKNING";
+"main_products_filter_navigation_bar_button" = "Filtrera";
+"main_products_invite_navigation_bar_button" = "Bjud in";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
 "main_sign_up_error_request_already_sent" = "Din begäran har redan registrerats. Vänligen vänta innan du försöker igen.";
 "main_sign_up_error_user_rejected" = "Den e-postadress du skrev in är inte korrekt. Kolla den och försök igen.";
@@ -386,8 +386,8 @@
 "onboarding_posting_title_b" = "Lägg upp din första produkt";
 "onboarding_posting_title_c" = "Har du någon att sälja?";
 "passive_buyers_button" = "Kontakta %d köpare";
-"passive_buyers_contact_error" = "An error occurred while contacting buyers. Please try again.";
-"passive_buyers_contact_success" = "Buyers contacted!";
+"passive_buyers_contact_error" = "Ett fel inträffade när köparna kontaktades. Vänligen försök igen.";
+"passive_buyers_contact_success" = "Köpare kontaktad!";
 "passive_buyers_message" = "Kontakta dessa köpare som är intresserade av liknande produkter";
 "passive_buyers_not_available" = "Oups! Köpare kunde inte hittas.";
 "passive_buyers_title" = "DESSA KÖPARE KAN VARA INTRESSERADE";

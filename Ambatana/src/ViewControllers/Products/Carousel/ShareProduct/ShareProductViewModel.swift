@@ -29,7 +29,7 @@ class ShareProductViewModel: BaseViewModel {
     var title: String
     var subtitle: String
     var link: String {
-        return socialMessage.copyLinkText ?? Constants.websiteURL
+        return socialMessage.copyLinkText
     }
     private var purchasesShopper: PurchasesShopper?
     private var bumpUp: Bool

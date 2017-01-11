@@ -83,6 +83,10 @@ class MainProductsViewModel: BaseViewModel {
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
     }
+    
+    var shouldUseNavigationBarFilterIconWithLetters: Bool {
+        return featureFlags.filterIconWithLetters
+    }
 
     let mainProductsHeader = Variable<MainProductsHeader>([])
 
@@ -645,6 +649,7 @@ extension MainProductsViewModel {
         } else {
             currentHeader.insert(MainProductsHeader.PushPermissions)
         }
+        guard mainProductsHeader.value != currentHeader else { return }
         mainProductsHeader.value = currentHeader
     }
 

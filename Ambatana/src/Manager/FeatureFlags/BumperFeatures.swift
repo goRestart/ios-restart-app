@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, PassiveBuyersShowKeyboard.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self])
     } 
 
     static var websocketChat: Bool {
@@ -105,9 +105,19 @@ extension Bumper  {
         return FavoriteWithBubbleToChat(rawValue: value)?.asBool ?? false
     }
 
+    static var captchaTransparent: Bool {
+        guard let value = Bumper.valueForKey(CaptchaTransparent.key) else { return false }
+        return CaptchaTransparent(rawValue: value)?.asBool ?? false
+    }
+
     static var passiveBuyersShowKeyboard: Bool {
         guard let value = Bumper.valueForKey(PassiveBuyersShowKeyboard.key) else { return false }
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
+    }
+
+    static var filterIconWithLetters: Bool {
+        guard let value = Bumper.valueForKey(FilterIconWithLetters.key) else { return false }
+        return FilterIconWithLetters(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -302,12 +312,30 @@ enum FavoriteWithBubbleToChat: String, BumperFeature  {
     var asBool: Bool { return self == .Yes }
 }
 
+enum CaptchaTransparent: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return CaptchaTransparent.No.rawValue }
+    static var enumValues: [CaptchaTransparent] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Captcha transparent" } 
+    var asBool: Bool { return self == .Yes }
+}
+
 enum PassiveBuyersShowKeyboard: String, BumperFeature  {
     case No, Yes
     static var defaultValue: String { return PassiveBuyersShowKeyboard.No.rawValue }
     static var enumValues: [PassiveBuyersShowKeyboard] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Passive buyers products suggested notification opens product with keyboard opened" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum FilterIconWithLetters: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return FilterIconWithLetters.No.rawValue }
+    static var enumValues: [FilterIconWithLetters] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show filter icon as 'FILTERS'" } 
     var asBool: Bool { return self == .Yes }
 }
 

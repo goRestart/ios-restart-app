@@ -24,11 +24,14 @@ public struct ABTests {
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
-    static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: true)
+    static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var newQuickAnswers = BoolABDynamicVar(key: "newQuickAnswers", defaultValue: false)
     static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
     static var favoriteWithBubbleToChat = BoolABDynamicVar(key: "favoriteWithBubbleToChat", defaultValue: false)
+    static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
+    static var filterIconWithLetters = BoolABDynamicVar(key: "filterIconWithLetters", defaultValue: false)
+    static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey,
@@ -47,7 +50,10 @@ public struct ABTests {
                 newQuickAnswers,
                 favoriteWithBadgeOnProfile,
                 favoriteWithBubbleToChat,
-                passiveBuyersShowKeyboard]
+                passiveBuyersShowKeyboard,
+                captchaTransparent,
+                filterIconWithLetters,
+                marketingPush]
     }
 
     static func registerVariables() {
