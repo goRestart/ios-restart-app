@@ -37,7 +37,7 @@ class BubbleNotificationManager {
 
         bubble.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bubble)
-        bubble.setupOnView(view)
+        bubble.setupOnView(parentView: view)
 
         if let tag = data.tagGroup {
             if taggedNotifications[tag] == nil {
