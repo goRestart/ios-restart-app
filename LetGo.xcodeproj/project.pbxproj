@@ -347,6 +347,18 @@
 		50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; };
 		50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; };
 		50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
+		50C43D9C1E26463100F10E53 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9B1E26463100F10E53 /* LogInViewModel.swift */; };
+		50C43D9D1E26463100F10E53 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9B1E26463100F10E53 /* LogInViewModel.swift */; };
+		50C43D9F1E26465E00F10E53 /* SignUpStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9E1E26465E00F10E53 /* SignUpStep1ViewModel.swift */; };
+		50C43DA01E26465E00F10E53 /* SignUpStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9E1E26465E00F10E53 /* SignUpStep1ViewModel.swift */; };
+		50C43DA21E26466E00F10E53 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA11E26466E00F10E53 /* LogInViewController.swift */; };
+		50C43DA31E26466E00F10E53 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA11E26466E00F10E53 /* LogInViewController.swift */; };
+		50C43DA51E26467C00F10E53 /* SignUpStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA41E26467C00F10E53 /* SignUpStep1ViewController.swift */; };
+		50C43DA61E26467C00F10E53 /* SignUpStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA41E26467C00F10E53 /* SignUpStep1ViewController.swift */; };
+		50C43DA81E26472600F10E53 /* SignUpStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA71E26472600F10E53 /* SignUpStep2ViewController.swift */; };
+		50C43DA91E26472600F10E53 /* SignUpStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA71E26472600F10E53 /* SignUpStep2ViewController.swift */; };
+		50C43DAB1E26473200F10E53 /* SignUpStep2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DAA1E26473200F10E53 /* SignUpStep2ViewModel.swift */; };
+		50C43DAC1E26473200F10E53 /* SignUpStep2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DAA1E26473200F10E53 /* SignUpStep2ViewModel.swift */; };
 		50C59BC51CE0B84700377124 /* RatingManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */; };
 		50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
 		50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
@@ -1475,6 +1487,12 @@
 		50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		50BCE92B1BF6356B00C130CD /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		50BCE92D1BF6357600C130CD /* ToastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastView.xib; sourceTree = "<group>"; };
+		50C43D9B1E26463100F10E53 /* LogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
+		50C43D9E1E26465E00F10E53 /* SignUpStep1ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStep1ViewModel.swift; sourceTree = "<group>"; };
+		50C43DA11E26466E00F10E53 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		50C43DA41E26467C00F10E53 /* SignUpStep1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStep1ViewController.swift; sourceTree = "<group>"; };
+		50C43DA71E26472600F10E53 /* SignUpStep2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStep2ViewController.swift; sourceTree = "<group>"; };
+		50C43DAA1E26473200F10E53 /* SignUpStep2ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStep2ViewModel.swift; sourceTree = "<group>"; };
 		50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingManagerSpec.swift; sourceTree = "<group>"; };
 		50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorageable.swift; sourceTree = "<group>"; };
 		50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsUser.swift; sourceTree = "<group>"; };
@@ -2379,6 +2397,7 @@
 		50560B8A1B25D18F0021D8D9 /* Log In */ = {
 			isa = PBXGroup;
 			children = (
+				50C43D9A1E26460E00F10E53 /* v2 */,
 				C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */,
 				C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */,
 				50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */,
@@ -2662,6 +2681,19 @@
 				50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */,
 			);
 			path = "Chat Safety Tips";
+			sourceTree = "<group>";
+		};
+		50C43D9A1E26460E00F10E53 /* v2 */ = {
+			isa = PBXGroup;
+			children = (
+				50C43DA11E26466E00F10E53 /* LogInViewController.swift */,
+				50C43D9B1E26463100F10E53 /* LogInViewModel.swift */,
+				50C43DA41E26467C00F10E53 /* SignUpStep1ViewController.swift */,
+				50C43D9E1E26465E00F10E53 /* SignUpStep1ViewModel.swift */,
+				50C43DA71E26472600F10E53 /* SignUpStep2ViewController.swift */,
+				50C43DAA1E26473200F10E53 /* SignUpStep2ViewModel.swift */,
+			);
+			path = v2;
 			sourceTree = "<group>";
 		};
 		50C59BC21CE0B81C00377124 /* Integration */ = {
@@ -4592,10 +4624,12 @@
 				C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */,
 				6ADF0AE41D744DBB009AEC4A /* NPSViewModel.swift in Sources */,
 				C78F9DB61DC9ED1300884064 /* LocalProduct.swift in Sources */,
+				50C43D9F1E26465E00F10E53 /* SignUpStep1ViewModel.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
 				2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				2EF4E3B11D3688AB00A09DFD /* ConfigRetrieveService.swift in Sources */,
 				C711A1A71CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
+				50C43DA21E26466E00F10E53 /* LogInViewController.swift in Sources */,
 				508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886B1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C74BC2421E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
@@ -4664,6 +4698,7 @@
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
 				5036847B1DBF57C100669066 /* ExpandableButtonsView.swift in Sources */,
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
+				50C43DAB1E26473200F10E53 /* SignUpStep2ViewModel.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */,
@@ -4762,6 +4797,7 @@
 				2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				2E2C7B2E1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */,
 				6A383F7C1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */,
+				50C43D9C1E26463100F10E53 /* LogInViewModel.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
 				C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */,
@@ -4769,6 +4805,7 @@
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C7B5885F1CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				2E2C7B371C85F82C00F46E8F /* ThemeCollectionCell.swift in Sources */,
+				50C43DA51E26467C00F10E53 /* SignUpStep1ViewController.swift in Sources */,
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				C711A1AB1CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift in Sources */,
@@ -4968,6 +5005,7 @@
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
 				C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */,
+				50C43DA81E26472600F10E53 /* SignUpStep2ViewController.swift in Sources */,
 				C7B6FA8A1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
@@ -5029,10 +5067,12 @@
 				6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
 				6ADF0AE51D744E14009AEC4A /* NPSViewModel.swift in Sources */,
 				C78F9DB71DC9ED1400884064 /* LocalProduct.swift in Sources */,
+				50C43DA01E26465E00F10E53 /* SignUpStep1ViewModel.swift in Sources */,
 				2E2D53E11D369B0500348D12 /* ConfigRetrieveService.swift in Sources */,
 				2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				C711A1A81CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
 				508D48681CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
+				50C43DA31E26466E00F10E53 /* LogInViewController.swift in Sources */,
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C7DB419B1C5138B500400945 /* ProductCell.swift in Sources */,
 				C74BC2431E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
@@ -5101,6 +5141,7 @@
 				6A5E19E31D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				2E3047F61CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
 				5036847C1DBF57C100669066 /* ExpandableButtonsView.swift in Sources */,
+				50C43DAC1E26473200F10E53 /* SignUpStep2ViewModel.swift in Sources */,
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,
 				2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */,
@@ -5199,6 +5240,7 @@
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
 				2E2C7B2F1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */,
 				C739D94B1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */,
+				50C43D9D1E26463100F10E53 /* LogInViewModel.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */,
 				2EBC92131E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				6A383F7D1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */,
@@ -5206,6 +5248,7 @@
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				2E9716A71D5A2840009B3A32 /* ExpressChatViewModel.swift in Sources */,
+				50C43DA61E26467C00F10E53 /* SignUpStep1ViewController.swift in Sources */,
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				2E2C7B381C85F82C00F46E8F /* ThemeCollectionCell.swift in Sources */,
@@ -5405,6 +5448,7 @@
 				C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */,
+				50C43DA91E26472600F10E53 /* SignUpStep2ViewController.swift in Sources */,
 				C7B6FA8B1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				6ACC24C51D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
