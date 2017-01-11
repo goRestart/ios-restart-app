@@ -85,9 +85,9 @@ extension CGRect: ExpressibleByStringLiteral {
         }
     }
     
-    typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
 
-    init(stringLiteral value: StringLiteralType) {
+    public init(stringLiteral value: StringLiteralType) {
         self.init()
         let rect: CGRect
         if value[value.startIndex] != "{" {
@@ -105,21 +105,21 @@ extension CGRect: ExpressibleByStringLiteral {
         self.origin = rect.origin;
     }
     
-    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(stringLiteral: value)
     }
     
-    typealias UnicodeScalarLiteralType = StringLiteralType
+    public typealias UnicodeScalarLiteralType = StringLiteralType
 
-    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(stringLiteral: value)
     }
 }
 
 extension CGPoint: ExpressibleByStringLiteral {
-    typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
-    init(stringLiteral value: StringLiteralType) {
+    public init(stringLiteral value: StringLiteralType) {
         self.init()
         
         let point:CGPoint;
@@ -132,13 +132,13 @@ extension CGPoint: ExpressibleByStringLiteral {
         self.y = point.y;
     }
     
-    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(stringLiteral: value)
     }
     
-    typealias UnicodeScalarLiteralType = StringLiteralType
+    public typealias UnicodeScalarLiteralType = StringLiteralType
 
-    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(stringLiteral: value)
     }
 }
