@@ -21,7 +21,7 @@ class PostIncentiviserItemSpec: QuickSpec {
         describe("PostIncentiviserItemSpec") {
 
             beforeEach {
-                sut = [.PS4, .TV, .Bike, .Motorcycle, .Dresser, .Car, .KidsClothes, .Furniture, .Toys]
+                sut = [.ps4, .tv, .bike, .motorcycle, .dresser, .car, .kidsClothes, .furniture, .toys]
             }
 
             context("january") {

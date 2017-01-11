@@ -43,10 +43,10 @@ class MockProduct: MockBaseModel, Product {
         self.location = LGLocationCoordinates2D(latitude:0,longitude:0)
         self.postalAddress = PostalAddress.emptyAddress()
         self.status = .pending
-        self.category = .Electronics
+        self.category = .electronics
         self.user = MockUser()
         self.favorite = false
-        self.price = .Negotiable(100)
+        self.price = .negotiable(100)
         self.currency = Currency(code: "USD", symbol: "$")
         super.init()
     }

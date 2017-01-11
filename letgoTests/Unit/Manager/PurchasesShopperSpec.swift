@@ -76,6 +76,6 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
         self.requestsFinished.append(id)
     }
     
-    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: NSError) {
+    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error) {
     }
 }
