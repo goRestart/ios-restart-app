@@ -7,5 +7,17 @@
 //
 
 final class LogInViewController: BaseViewController {
+    private var viewModel: LogInViewModel
 
+
+    // MARK: - Lifecycle
+
+    init(viewModel: LogInViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

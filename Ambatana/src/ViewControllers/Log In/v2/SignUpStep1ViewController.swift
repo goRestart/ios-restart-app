@@ -7,5 +7,17 @@
 //
 
 final class SignUpStep1ViewController: BaseViewController {
+    private var viewModel: SignUpStep1ViewModel
 
+
+    // MARK: - Lifecycle
+
+    init(viewModel: SignUpStep1ViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
