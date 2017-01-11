@@ -68,9 +68,9 @@ class EnvironmentsHelper {
     #if GOD_MODE
         /*There was a change, delete corekit installation and myUser to force cleanup and recreation double wrapped 
         under compiler directive to avoid this code to be executed on production */
-        let userDefaults = NSUserDefaults()
-        userDefaults.removeObjectForKey("Installation")
-        userDefaults.removeObjectForKey("MyUser")
+        let userDefaults = UserDefaults()
+        userDefaults.removeObject(forKey: "Installation")
+        userDefaults.removeObject(forKey: "MyUser")
     #endif
         }
     }

@@ -94,7 +94,8 @@ enum PostIncentiviserItem: Int {
         let fmt = NumberFormatter()
         fmt.numberStyle = .decimal
         fmt.locale = Locale.current
-        guard let stringNumber = fmt.string(from: self.baseSearchCount+searchCountIncrement(date)) else { return nil }
+        let value = NSNumber(value: baseSearchCount + searchCountIncrement(date))
+        guard let stringNumber = fmt.string(from:value) else { return nil }
         return stringNumber
     }
 

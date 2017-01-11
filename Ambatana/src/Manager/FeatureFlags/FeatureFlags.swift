@@ -64,7 +64,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     
     convenience init() {
-        self.init(locale: Locale.currentLocale(), locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
+        self.init(locale: Locale.current, locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
     }
 
 

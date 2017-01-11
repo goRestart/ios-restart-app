@@ -159,7 +159,7 @@ class MainProductsViewModel: BaseViewModel {
         self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
-        self.generalCollectionsShuffled = CollectionCellType.generalCollections.shuffle()
+        self.generalCollectionsShuffled = CollectionCellType.generalCollections.shuffled()
         self.filters = filters
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags

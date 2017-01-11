@@ -30,7 +30,7 @@ class ExpressChatCell: UICollectionViewCell {
         }
     }
 
-    func configureCellWithTitle(_ title: String, imageUrl: URL, price: String) {
+    func configureCellWithTitle(_ title: String, imageUrl: URL?, price: String) {
         selectedImageView.layer.borderColor = UIColor.white.cgColor
         selectedImageView.layer.cornerRadius = selectedImageView.height/2
         priceLabel.text = price
@@ -38,16 +38,15 @@ class ExpressChatCell: UICollectionViewCell {
 
         layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         productImageView.image = UIImage(named: "product_placeholder")
-        productImageView.lg_setImageWithURL(imageUrl) { [weak self] (result, _ ) in
-            if let image = result.value?.image {
-                self?.productImageView.image = image
-            } else {
-                self?.productImageView.image = UIImage(named: "product_placeholder")
+        if let imageURL = imageUrl {
+            productImageView.lg_setImageWithURL(imageURL) { [weak self] (result, _ ) in
+                if let image = result.value?.image {
+                    self?.productImageView.image = image
+                }
             }
         }
-
+        
         setupAccessibilityIds()
-
         setNeedsLayout()
         layoutIfNeeded()
     }

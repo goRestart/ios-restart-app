@@ -151,9 +151,9 @@ fileprivate extension ChatsType {
     var conversationFilter: WebSocketConversationFilter {
         switch self {
         case .selling: return .AsSeller
-        case .Buying: return .asBuyer
-        case .Archived: return .Archived
-        case .All: return .None
+        case .buying: return .asBuyer
+        case .archived: return .Archived
+        case .all: return .None
         }
     }
 }

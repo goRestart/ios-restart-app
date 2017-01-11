@@ -275,7 +275,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         return viewModel.multiSelectionEnabled
     }
 
-    private func selectItemAtIndex(_ index: Int) {
+    fileprivate func selectItemAtIndex(_ index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
         let layoutAttributes = collectionView.layoutAttributesForItem(at: indexPath)
@@ -284,7 +284,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         }
     }
 
-    private func deselectItemAtIndex(_ index: Int) {
+    fileprivate func deselectItemAtIndex(_ index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.deselectItem(at: indexPath, animated: false)
         let layoutAttributes = collectionView.layoutAttributesForItem(at: indexPath)
@@ -299,7 +299,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
 extension PostProductGalleryView {
 
-    private func setupRX() {
+    fileprivate func setupRX() {
         viewModel.galleryState.asObservable().subscribeNext{ [weak self] state in
             self?.loadImageErrorView.isHidden = true
             self?.imageLoadActivityIndicator.stopAnimating()
@@ -350,9 +350,9 @@ extension PostProductGalleryView {
                 }
                 return
             }
-            var indexes: [NSIndexPath] = []
+            var indexes: [IndexPath] = []
             for imgSel in imgsSelected {
-                indexes.append(NSIndexPath(forItem: imgSel.index, inSection: 0))
+                indexes.append(IndexPath(item: imgSel.index, section: 0))
             }
 
             strongSelf.collectionView.reloadItems(at: indexes as [IndexPath])
@@ -509,7 +509,7 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
         }
     }
 
-    private func animateToState(collapsed: Bool, completion: (() -> Void)?) {
+    fileprivate func animateToState(collapsed: Bool, completion: (() -> Void)?) {
         imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
         self.collapsed = collapsed
 

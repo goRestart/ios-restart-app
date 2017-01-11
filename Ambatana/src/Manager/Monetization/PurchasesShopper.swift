@@ -12,7 +12,7 @@ import StoreKit
 
 protocol PurchasesShopperDelegate: class {
     func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct])
-    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: NSError)
+    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error)
 }
 
 class PurchasesShopper: NSObject {
@@ -88,7 +88,7 @@ extension PurchasesShopper: PurchaseableProductsRequestDelegate {
         delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
     }
 
-    func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: NSError) {
+    func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
         delegate?.shopperFailedProductsRequestForProductId(currentProductId, withError: error)
     }
 }

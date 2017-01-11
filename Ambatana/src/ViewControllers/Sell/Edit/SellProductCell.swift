@@ -60,7 +60,7 @@ class SellProductCell: UICollectionViewCell, ReusableCell {
         imageView.lg_setImageWithURL(url, placeholderImage: nil, completion: { [weak self] _ -> Void in
             guard let strongSelf = self else { return }
             strongSelf.activity.stopAnimating()
-            strongSelf.activity.hidden = true
+            strongSelf.activity.isHidden = true
             }
         )
     }

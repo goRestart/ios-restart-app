@@ -95,17 +95,17 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, for: UIControlState())
         emailButton.setTitle(LGLocalizedString.profileVerifyEmailButton, for: UIControlState())
 
-        if viewModel.fbButtonState.value == .Hidden {
+        if viewModel.fbButtonState.value == .hidden {
             fbContainerHeight.constant = 0
             fbContainerBottom.constant = 0
             fbButton.isHidden = true
         }
-        if viewModel.googleButtonState.value == .Hidden {
+        if viewModel.googleButtonState.value == .hidden {
             googleContainerHeight.constant = 0
             googleContainerBottom.constant = 0
             googleButton.isHidden = true
         }
-        if viewModel.emailButtonState.value == .Hidden {
+        if viewModel.emailButtonState.value == .hidden {
             emailContainerHeight.constant = 0
             emailContainerBottom.constant = emailContainerInvisibleMargin
             emailContainer.isHidden = true
@@ -135,7 +135,7 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         googleButton.rx.tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
         emailButton.rx.tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
         emailTextFieldButton.rx.tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.addDisposableTo(disposeBag)
-        emailTextField.rx.text.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
+        emailTextField.rx.text.map { ($0 ?? "") }.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let viewHeight = self?.view.height, let animationTime = self?.keyboardHelper.animationTime, viewHeight >= origin else { return }
             self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)

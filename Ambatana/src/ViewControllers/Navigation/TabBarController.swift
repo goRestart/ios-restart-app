@@ -226,7 +226,7 @@ final class TabBarController: UITabBarController {
 
      - parameter The: tab to go to.
      */
-    private func switchToTab(_ tab: Tab, checkIfShouldSwitch: Bool, completion: (() -> ())?) {
+    fileprivate func switchToTab(_ tab: Tab, checkIfShouldSwitch: Bool, completion: (() -> ())?) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
         guard let viewControllers = viewControllers, tab.index < viewControllers.count else { return }
         guard let vc = (viewControllers as NSArray).object(at: tab.index) as? UIViewController else { return }

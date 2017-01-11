@@ -15,7 +15,7 @@ protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {
     func vmResignResponders()
 }
 
-enum VerifyButtonState {
+enum VerifyButtonState: Equatable {
     case hidden
     case enabled
     case disabled
@@ -162,7 +162,7 @@ class VerifyAccountsViewModel: BaseViewModel {
                 guard let actionState = self?.typedEmailState.value, let buttonState = self?.emailButtonState.value else { return false }
                 return actionState != .loading && buttonState == .hidden
             }
-            .map{ ($0 ?? "").isEmail() ? VerifyButtonState.enabled : VerifyButtonState.disabled }
+            .map{ $0.isEmail() ? VerifyButtonState.enabled : VerifyButtonState.disabled }
             .bindNext { [weak self] state in
                 self?.typedEmailState.value = state
             }.addDisposableTo(disposeBag)

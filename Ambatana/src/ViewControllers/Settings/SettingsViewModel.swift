@@ -143,12 +143,12 @@ class SettingsViewModel: BaseViewModel {
     }
 
     func fbAppInviteCancel() {
-        let trackerEvent = TrackerEvent.appInviteFriendCancel(.facebook, typePage: .Settings)
+        let trackerEvent = TrackerEvent.appInviteFriendCancel(.facebook, typePage: .settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func fbAppInviteDone() {
-        let trackerEvent = TrackerEvent.appInviteFriendComplete(.facebook, typePage: .Settings)
+        let trackerEvent = TrackerEvent.appInviteFriendComplete(.facebook, typePage: .settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.settingsInviteFacebookFriendsOk, completion: nil)
@@ -174,14 +174,14 @@ class SettingsViewModel: BaseViewModel {
         var profileSettings = [LetGoSetting]()
         let myUser = myUserRepository.myUser
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
-        profileSettings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
-        profileSettings.append(.ChangeUsername(name: myUser?.name ?? ""))
-        profileSettings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
+        profileSettings.append(.changePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
+        profileSettings.append(.changeUsername(name: myUser?.name ?? ""))
+        profileSettings.append(.changeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
             myUser?.postalAddress.countryCode ?? ""))
         if let email = myUser?.email, email.isEmail() {
             profileSettings.append(.changePassword)
         }
-        profileSettings.append(.MarketingNotifications(initialState: notificationsManager.marketingNotifications.value,
+        profileSettings.append(.marketingNotifications(initialState: notificationsManager.marketingNotifications.value,
             changeClosure: { [weak self] enabled in self?.setMarketingNotifications(enabled) } ))
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
@@ -204,7 +204,7 @@ class SettingsViewModel: BaseViewModel {
             content.appInvitePreviewImageURL = URL(string: Constants.facebookAppInvitePreviewImageURL)
             guard let delegate = delegate as? FBSDKAppInviteDialogDelegate else { return }
             navigator?.showFbAppInvite(content, delegate: delegate)
-            let trackerEvent = TrackerEvent.appInviteFriend(.facebook, typePage: .Settings)
+            let trackerEvent = TrackerEvent.appInviteFriend(.facebook, typePage: .settings)
             tracker.trackEvent(trackerEvent)
         case .changePhoto:
             delegate?.vmOpenImagePick()
@@ -219,13 +219,13 @@ class SettingsViewModel: BaseViewModel {
         case .help:
             navigator?.openHelp()
         case .logOut:
-            let positive = UIAction(interface: .styledText(LGLocalizedString.settingsLogoutAlertOk, .default),
+            let positive = UIAction(interface: .styledText(LGLocalizedString.settingsLogoutAlertOk, .standard),
                                     action: { [weak self] in
                     self?.logoutUser()
                 }, accessibilityId: .settingsLogoutAlertOK)
 
             let negative = UIAction(interface: .styledText(LGLocalizedString.commonCancel, .cancel),
-                                    acstion: {}, accessibilityId: .settingsLogoutAlertCancel)
+                                    action: {}, accessibilityId: .settingsLogoutAlertCancel)
             delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsLogoutAlertMessage,
                                            alertType: .plainAlert, actions: [positive, negative])
         case .versionInfo, .marketingNotifications:
