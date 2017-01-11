@@ -72,8 +72,8 @@ class KeyValueStorage {
 
     convenience init() {
         let myUserRepository = Core.myUserRepository
-        let userDefaults = UserDefaults.standard
-        self.init(storage: userDefaults as KeyValueStorageable, myUserRepository: myUserRepository)
+        let userDefaults = StorageableUserDefaults(userDefaults: UserDefaults.standard)
+        self.init(storage: userDefaults, myUserRepository: myUserRepository)
     }
 }
 
