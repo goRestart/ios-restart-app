@@ -119,6 +119,7 @@ class ProductViewModel: BaseViewModel {
     let showInterestedBubble = Variable<Bool>(false)
     var interestedBubbleTitle: String?
     var isFirstProduct: Bool = false
+    var isBumpeable: Bool = false
     
     private var alreadyTrackedFirstMessageSent: Bool = false
     private static let bubbleTagGroup = "favorite.bubble.group"
@@ -141,6 +142,7 @@ class ProductViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let purchasesShopper: PurchasesShopper
     private var notificationsManager: NotificationsManager
+    private let monetizationRepository: MonetizationRepository
 
     // Retrieval status
     private var relationRetrieved = false
@@ -166,13 +168,15 @@ class ProductViewModel: BaseViewModel {
         let locationManager = Core.locationManager
         let featureFlags = FeatureFlags.sharedInstance
         let notificationsManager = NotificationsManager.sharedInstance
+        let monetizationRepository = Core.monetizationRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance, featureFlags: featureFlags,
-                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager)
+                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
+                  monetizationRepository: monetizationRepository)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
@@ -180,7 +184,8 @@ class ProductViewModel: BaseViewModel {
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager,
-         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper, notificationsManager: NotificationsManager) {
+         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper, notificationsManager: NotificationsManager,
+         monetizationRepository: MonetizationRepository) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -200,6 +205,7 @@ class ProductViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
         self.notificationsManager = notificationsManager
+        self.monetizationRepository = monetizationRepository
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -273,11 +279,21 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        // TODO: check if the product is bumpeable and if it is, get the product ids
-        if featureFlags.monetizationEnabled {
-            // also, if the product is bumpeable && there are in-app purchase products
+        if product.value.isMine && featureFlags.monetizationEnabled {
             guard let productId = product.value.objectId else { return }
-            purchasesShopper.productsRequestStartForProduct(productId, withIds: ["letgo.ios.bumpup"])
+            monetizationRepository.retrieveBumpeableProductInfo(productId) { [weak self] result in
+                if let bumpeableProduct = result.value {
+                    if bumpeableProduct.isBumpeable && bumpeableProduct.bumpsLeft > 0 {
+                        // product is bumpeable
+                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
+                        let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.provider.rawValue }
+                        self?.isBumpeable = !paymentItems.isEmpty || !freeItems.isEmpty
+                        if !paymentItems.isEmpty {
+                            self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
+                        }
+                    }
+                }
+            }
         }
     }
     
