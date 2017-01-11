@@ -8,10 +8,10 @@
 
 
 public enum WebSocketConversationFilter: String {
-    case None = "default"
-    case AsSeller = "as_seller"
+    case none = "default"
+    case asSeller = "as_seller"
     case asBuyer = "as_buyer"
-    case Archived = "archived"
+    case archived = "archived"
 }
 
 struct WebSocketConversationRequest: WebSocketQueryRequestConvertible {
@@ -24,7 +24,7 @@ struct WebSocketConversationRouter {
 
     let uuidGenerator: UUIDGenerator
 
-    func index(_ limit: Int = 50, offset: Int = 0, filter: WebSocketConversationFilter = .None)
+    func index(_ limit: Int = 50, offset: Int = 0, filter: WebSocketConversationFilter = .none)
         -> WebSocketConversationRequest {
             let uuid = uuidGenerator.UUIDString
             let data: [String: Any] = ["limit": limit, "offset": offset, "filter": filter.rawValue]
