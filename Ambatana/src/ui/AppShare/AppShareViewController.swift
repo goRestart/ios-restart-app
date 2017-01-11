@@ -38,7 +38,7 @@ class AppShareViewController: UIViewController {
         return SocialSharer.canShareInAny([.fbMessenger, .whatsapp, .email])
     }
 
-    static func showOnViewControllerIfNeeded(_ viewController: UIViewController) -> Bool {
+    @discardableResult static func showOnViewControllerIfNeeded(_ viewController: UIViewController) -> Bool {
         guard !KeyValueStorage.sharedInstance.userAppShared else { return false }
         guard canBeShown() else { return false }
         viewController.present(AppShareViewController(), animated: true, completion: nil)
