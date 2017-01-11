@@ -68,7 +68,7 @@ class ChatViewMessageAdapter {
     
     func addDisclaimers(_ messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
         return messages.reduce([ChatViewMessage]()) { [weak self] (array, message) -> [ChatViewMessage] in
-            if message.warningStatus == .Spam && message.talkerId != self?.myUserRepository.myUser?.objectId {
+            if message.warningStatus == .spam && message.talkerId != self?.myUserRepository.myUser?.objectId {
                 return array + [disclaimerMessage] + [message]
             }
             return array + [message]

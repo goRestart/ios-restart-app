@@ -369,7 +369,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     @discardableResult
     private func imageAtIndex(_ index: Int, size: CGSize?, handler: @escaping (UIImage?) -> Void) -> PHImageRequestID? {
-        guard let photosAsset = photosAsset, let asset = photosAsset[index] as? PHAsset else {
+        guard let photosAsset = photosAsset, 0..<photosAsset.count ~= index else {
             handler(nil)
             return nil
         }
@@ -378,7 +378,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
 
-        return PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit,
+        return PHImageManager.default().requestImage(for: photosAsset[index], targetSize: targetSize, contentMode: .aspectFit,
             options: options, resultHandler: { (result, info) in
                 // cancel is handled manually at method "selectImageAtIndex"
                 guard let info = info, info[PHImageCancelledKey] == nil else { return }

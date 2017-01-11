@@ -115,8 +115,8 @@ extension SocialSharer: FBSDKSharingDelegate {
             break
         }
     }
-
-    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+    
+    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
         guard sharer != nil else { return }
 
         switch sharer.type {
