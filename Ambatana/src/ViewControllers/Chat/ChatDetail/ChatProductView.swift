@@ -41,11 +41,16 @@ class ChatProductView: UIView {
     
 
     static func chatProductView(_ showUserReviews: Bool) -> ChatProductView {
-        let view = Bundle.main.loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
-        view?.showUserReviews = showUserReviews
-        view?.setupUI()
-        view?.setAccessibilityIds()
-        return view!
+        guard let view = Bundle.main.loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
+            else { return ChatProductView() }
+        view.showUserReviews = showUserReviews
+        view.setupUI()
+        view.setAccessibilityIds()
+        return view
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -124,7 +124,8 @@ class RateUserViewController: BaseViewController {
 
         viewModel.rating.asObservable().bindNext { [weak self] rating in
             onMainThread { [weak self] in
-                self?.stars.forEach{$0.isHighlighted = ($0.tag <= rating!)}
+                let value = rating ?? 0
+                self?.stars.forEach{ $0.isHighlighted = ($0.tag <= value)}
             }
         }.addDisposableTo(disposeBag)
 

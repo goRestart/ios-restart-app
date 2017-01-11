@@ -12,7 +12,7 @@ protocol FilterTagsViewControllerDelegate : class {
 
 class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
     
-    weak var collectionView: UICollectionView!
+    weak var collectionView: UICollectionView?
     
     var tags : [FilterTag] = []
     
@@ -30,7 +30,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
     // MARK: - Public methods
     func updateTags(_ newTags: [FilterTag]) {
         self.tags = newTags
-        self.collectionView.reloadData()
+        self.collectionView?.reloadData()
     }
     
     // MARK: - UICollectionViewDelegate & DataSource methods
@@ -73,7 +73,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
         
         //Animate item deletion
         if deleteIndex >= 0 {
-            self.collectionView.deleteItems(at: [IndexPath(row: deleteIndex, section: 0)])
+            self.collectionView?.deleteItems(at: [IndexPath(row: deleteIndex, section: 0)])
         }
         
         delegate?.filterTagsViewControllerDidRemoveTag(self)
@@ -82,20 +82,20 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
     // MARK: - Private methods
     
     private func setup() {
-        self.collectionView.dataSource = self
-        self.collectionView.delegate = self
-        self.collectionView.scrollsToTop = false
+        self.collectionView?.dataSource = self
+        self.collectionView?.delegate = self
+        self.collectionView?.scrollsToTop = false
         
         // CollectionView cells
         let filterNib = UINib(nibName: "FilterTagCell", bundle: nil)
-        self.collectionView.register(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
+        self.collectionView?.register(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
         
-        if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+        if let layout = self.collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
     }
 
     private func setAccessibilityIds() {
-        collectionView.accessibilityId = .filterTagsCollectionView
+        collectionView?.accessibilityId = .filterTagsCollectionView
     }
 }

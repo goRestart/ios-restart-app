@@ -298,7 +298,7 @@ extension EditLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         let cell = tableView.dequeueReusableCell(withIdentifier: EditLocationViewController.suggestionCellId, for: indexPath)
 
-        cell.textLabel!.text = viewModel.placeResumedDataAtPosition(indexPath.row)
+        cell.textLabel?.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         cell.selectionStyle = .none
 
         return cell

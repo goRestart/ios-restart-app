@@ -78,7 +78,9 @@ class VideoPlayerContainerView: UIView {
     // MARK: - Lifecycle
 
     static func instanceFromNib() -> VideoPlayerContainerView {
-        return Bundle.main.loadNibNamed("VideoPlayerContainerView", owner: self, options: nil)!.first as! VideoPlayerContainerView
+        guard let container = Bundle.main.loadNibNamed("VideoPlayerContainerView", owner: self, options: nil)?.first
+            as? VideoPlayerContainerView else { return VideoPlayerContainerView() }
+        return container
     }
 
     override init(frame: CGRect) {

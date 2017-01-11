@@ -10,13 +10,13 @@
 User View Header Container to forward hits to UserViewHeader subviews located out of its boundaries into it.
 */
 class UserViewHeaderContainer: UIView {
-    let header: UserViewHeader? = UserViewHeader.userViewHeader()
+    let header: UserViewHeader = UserViewHeader.userViewHeader()
     weak var headerDelegate: UserViewHeaderDelegate? {
         get {
-            return header?.delegate
+            return header.delegate
         }
         set {
-            header?.delegate = newValue
+            header.delegate = newValue
         }
     }
 
@@ -43,7 +43,7 @@ extension UserViewHeaderContainer {
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         // As header's avatarButton & reviewButton are out of view boundaries we intercept touches to be handled manually
         let superResult = super.hitTest(point, with: event)
-        guard let header = header, superResult == nil else { return superResult }
+        guard superResult == nil else { return superResult }
 
         let avatarButtonConvertedPoint = header.avatarButton.convert(point, from: self)
         let insideAvatarButton = header.avatarButton.point(inside: avatarButtonConvertedPoint, with: event)
@@ -64,13 +64,12 @@ fileprivate extension UserViewHeaderContainer {
     func setupUI() {
         backgroundColor = UIColor.clear
 
-        guard let header = header else { return }
         header.translatesAutoresizingMaskIntoConstraints = false
         addSubview(header)
     }
 
     func setupConstraints() {
-        let views: [String: AnyObject] = ["header": header!]
+        let views: [String: AnyObject] = ["header": header]
         let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[header]-0-|",
                                                                           options: [],
                                                                           metrics: nil, views: views)

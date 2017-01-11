@@ -157,7 +157,8 @@ class PostProductGalleryViewModel: BaseViewModel {
         case .pendingAskPermissions:
             askForPermissionsAndFetch()
         case .missingPermissions:
-            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
+            UIApplication.shared.openURL(settingsUrl)
         case .empty:
             galleryDelegate?.productGalleryDidPressTakePhoto()
         case .normal, .loadImageError, .loading:

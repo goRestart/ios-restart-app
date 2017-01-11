@@ -17,7 +17,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     @IBOutlet weak var usernameTextfield: LGTextField!
     @IBOutlet weak var saveButton: UIButton!
     
-    var viewModel : ChangeUsernameViewModel!
+    let viewModel: ChangeUsernameViewModel
     
     var lines: [CALayer]
     
@@ -56,7 +56,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     }
     
     @IBAction func saveUsername(_ sender: AnyObject) {
-        viewModel?.saveUsername()
+        viewModel.saveUsername()
     }
     
     func saveBarButtonPressed() {
@@ -85,7 +85,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let textFieldText = textField.text {
             if viewModel.isValidUsername(textFieldText) {
-                viewModel?.saveUsername()
+                viewModel.saveUsername()
                 return true
             }
             else {

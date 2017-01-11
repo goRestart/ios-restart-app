@@ -27,7 +27,9 @@ class CommercialDisplayPageView: UIView {
     // MARK: - Lifecycle
 
     static func instanceFromNib() -> CommercialDisplayPageView {
-        return Bundle.main.loadNibNamed("CommercialDisplayPageView", owner: self, options: nil)!.first as! CommercialDisplayPageView
+        guard let pageView = Bundle.main.loadNibNamed("CommercialDisplayPageView", owner: self, options: nil)?.first as?
+            CommercialDisplayPageView else { return CommercialDisplayPageView() }
+        return pageView
     }
 
     override init(frame: CGRect) {

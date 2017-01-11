@@ -122,7 +122,8 @@ class PostProductCameraViewModel: BaseViewModel {
     func infoButtonPressed() {
         switch cameraState.value {
         case .missingPermissions:
-            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
+            UIApplication.shared.openURL(settingsUrl)
         case .pendingAskPermissions:
             askForPermissions()
         case .takingPhoto, .capture, .preview:

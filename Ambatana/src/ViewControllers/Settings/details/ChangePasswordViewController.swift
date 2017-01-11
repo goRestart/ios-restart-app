@@ -17,7 +17,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     @IBOutlet weak var confirmPasswordTextfield: LGTextField!
     @IBOutlet weak var sendButton : UIButton!
     
-    var viewModel : ChangePasswordViewModel!
+    let viewModel: ChangePasswordViewModel
     
     enum TextFieldTag: Int {
         case password = 1000, confirmPassword

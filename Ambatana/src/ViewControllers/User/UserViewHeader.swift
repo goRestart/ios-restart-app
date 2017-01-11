@@ -139,9 +139,9 @@ class UserViewHeader: UIView {
 
     // MARK: - Lifecycle
 
-    static func userViewHeader() -> UserViewHeader? {
+    static func userViewHeader() -> UserViewHeader {
         guard let view = Bundle.main.loadNibNamed("UserViewHeader", owner: self,
-            options: nil)?.first as? UserViewHeader else { return nil }
+            options: nil)?.first as? UserViewHeader else { return UserViewHeader() }
         view.setupUI()
         view.setupRxBindings()
         return view

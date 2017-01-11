@@ -95,17 +95,22 @@ class ProductCarouselMoreInfoView: UIView {
 
     weak var delegate: ProductCarouselMoreInfoDelegate?
 
-    static func moreInfoView() -> ProductCarouselMoreInfoView{
+    static func moreInfoView() -> ProductCarouselMoreInfoView {
         return moreInfoView(FeatureFlags.sharedInstance)
     }
 
     static func moreInfoView(_ featureFlags: FeatureFlaggeable) -> ProductCarouselMoreInfoView {
-        let view = Bundle.main.loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)!.first as! ProductCarouselMoreInfoView
+        guard let view = Bundle.main.loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)?.first
+            as? ProductCarouselMoreInfoView else { return ProductCarouselMoreInfoView() }
         view.setupUI(featureFlags)
         view.setupStatsView()
         view.setAccessibilityIds()
         view.addGestures()
         return view
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -156,8 +161,8 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
     func setupMapViewIfNeeded() {
         let container = mapExpanded ? mapViewContainerExpandable : mapViewContainer
-        guard mapView.superview != container else { return }
-        setupMapView(inside: container!)
+        guard let theContainer = container, mapView.superview != theContainer else { return }
+        setupMapView(inside: theContainer)
         guard let coordinate = viewModel?.productLocation.value else { return }
         addRegion(with: coordinate, zoomBlocker: true)
     }

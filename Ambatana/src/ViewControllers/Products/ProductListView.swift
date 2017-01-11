@@ -39,7 +39,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // > Data
     @IBOutlet weak var dataView: UIView!
-    var refreshControl: UIRefreshControl!
+    var refreshControl = UIRefreshControl()
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var lastContentOffset: CGFloat

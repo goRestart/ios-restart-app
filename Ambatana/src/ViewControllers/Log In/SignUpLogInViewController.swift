@@ -188,7 +188,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
         usernameTextField.resignFirstResponder()
-        viewModel.currentActionType = LoginActionType(rawValue: segment.selectedSegmentIndex)!
+        viewModel.currentActionType = LoginActionType(rawValue: segment.selectedSegmentIndex) ?? .login
         
         scrollView.setContentOffset(CGPoint(x: 0,y: 0), animated: false)
 
@@ -665,7 +665,7 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
             textField.isSecureTextEntry = true
         }
         let loginAction = UIAlertAction(title: "Login", style: .default) { [weak self] _ in
-            let passwordTextField = alertController.textFields![0] as UITextField
+            guard let passwordTextField = alertController.textFields?.first else { return }
             self?.viewModel.godLogIn(passwordTextField.text ?? "")
         }
         alertController.addAction(loginAction)

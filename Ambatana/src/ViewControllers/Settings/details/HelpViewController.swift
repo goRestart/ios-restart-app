@@ -14,7 +14,7 @@ class HelpViewController: BaseViewController, UIWebViewDelegate, HelpViewModelDe
     @IBOutlet weak var webView: UIWebView!
     
     // ViewModel
-    private var viewModel : HelpViewModel!
+    private var viewModel: HelpViewModel
     
     // MARK: - Lifecycle
     

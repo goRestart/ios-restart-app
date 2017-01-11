@@ -198,7 +198,7 @@ extension UserViewController: UserViewModelDelegate {
     }
     
     func vmOpenFavorites() {
-        headerContainer.header?.setFavoriteTab()
+        headerContainer.header.setFavoriteTab()
     }
 }
 
@@ -237,13 +237,13 @@ extension UserViewController {
         userNameLabel.accessibilityId = .userHeaderExpandedNameLabel
         userLocationLabel.accessibilityId = .userHeaderExpandedLocationLabel
 
-        headerContainer?.header?.avatarButton.accessibilityId = .userHeaderExpandedAvatarButton
-        headerContainer?.header?.ratingsButton.accessibilityId = .userHeaderExpandedRatingsButton
-        headerContainer?.header?.userRelationLabel.accessibilityId = .userHeaderExpandedRelationLabel
-        headerContainer?.header?.buildTrustButton.accessibilityId = .userHeaderExpandedBuildTrustButton
-        headerContainer?.header?.sellingButton.accessibilityId = .userSellingTab
-        headerContainer?.header?.soldButton.accessibilityId = .userSoldTab
-        headerContainer?.header?.favoritesButton.accessibilityId = .userFavoritesTab
+        headerContainer?.header.avatarButton.accessibilityId = .userHeaderExpandedAvatarButton
+        headerContainer?.header.ratingsButton.accessibilityId = .userHeaderExpandedRatingsButton
+        headerContainer?.header.userRelationLabel.accessibilityId = .userHeaderExpandedRelationLabel
+        headerContainer?.header.buildTrustButton.accessibilityId = .userHeaderExpandedBuildTrustButton
+        headerContainer?.header.sellingButton.accessibilityId = .userSellingTab
+        headerContainer?.header.soldButton.accessibilityId = .userSoldTab
+        headerContainer?.header.favoritesButton.accessibilityId = .userFavoritesTab
 
         productListView.firstLoadView.accessibilityId = .userProductsFirstLoad
         productListView.collectionView.accessibilityId = .userProductsList
@@ -276,7 +276,7 @@ extension UserViewController {
         productListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
 
         // Remove pull to refresh
-        productListView.refreshControl?.removeFromSuperview()
+        productListView.refreshControl.removeFromSuperview()
         productListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
         productListView.shouldScrollToTopOnFirstPageReload = false
         productListView.padding = UIEdgeInsets(top: UserViewController.productListViewTopMargin, left: 0, bottom: 0, right: 0)
@@ -446,11 +446,11 @@ extension UserViewController {
         Observable.combineLatest(viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
             .subscribeNext { [weak self] (avatar, placeholder) in
-                self?.headerContainer.header?.setAvatar(avatar, placeholderImage: placeholder)
+                self?.headerContainer.header.setAvatar(avatar, placeholderImage: placeholder)
         }.addDisposableTo(disposeBag)
 
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
-            self?.headerContainer.header?.selectedColor = bgColor
+            self?.headerContainer.header.selectedColor = bgColor
         }.addDisposableTo(disposeBag)
 
         // Ratings
@@ -460,22 +460,22 @@ extension UserViewController {
         viewModel.userRatingAverage.asObservable().bindTo(navBarUserView.userRatings).addDisposableTo(disposeBag)
 
         viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
-            self?.headerContainer.header?.setRatingCount(userRatingCount)
+            self?.headerContainer.header.setRatingCount(userRatingCount)
         }.addDisposableTo(disposeBag)
 
         // User relation
         viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
-            self?.headerContainer.header?.setUserRelationText(userRelationText)
+            self?.headerContainer.header.setUserRelationText(userRelationText)
         }.addDisposableTo(disposeBag)
 
         // Accounts
         viewModel.userAccounts.asObservable().subscribeNext { [weak self] accounts in
-            self?.headerContainer.header?.accounts = accounts
+            self?.headerContainer.header.accounts = accounts
         }.addDisposableTo(disposeBag)
 
         // Header mode
         viewModel.headerMode.asObservable().subscribeNext { [weak self] mode in
-            self?.headerContainer.header?.mode = mode
+            self?.headerContainer.header.mode = mode
         }.addDisposableTo(disposeBag)
 
         // Header collapse notify percentage
@@ -504,11 +504,11 @@ extension UserViewController {
                     self?.navBarUserViewAlpha = 0
                     let headerAlphas = 1 - expandedPerc.percentageBetween(start: 1.0,
                         end: UserViewController.userLabelsAndHeaderMaxThreshold)
-                    self?.headerContainer.header?.itemsAlpha = headerAlphas
+                    self?.headerContainer.header.itemsAlpha = headerAlphas
                     self?.userLabelsContainer.alpha = headerAlphas
                 } else {
                     self?.navBarUserViewAlpha = 1 - expandedPerc.percentageTo(UserViewController.navbarHeaderMaxThresold)
-                    self?.headerContainer.header?.itemsAlpha =
+                    self?.headerContainer.header.itemsAlpha =
                         expandedPerc.percentageBetween(start: UserViewController.headerMinThreshold, end: 1.0)
                     self?.userLabelsContainer.alpha =
                         expandedPerc.percentageBetween(start: UserViewController.userLabelsMinThreshold, end: 1.0)
@@ -534,7 +534,7 @@ extension UserViewController {
             .addDisposableTo(disposeBag)
 
         // Tab switch
-        headerContainer.header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
+        headerContainer.header.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
     }
     
     private func setupUserLabelsContainerRx() {
