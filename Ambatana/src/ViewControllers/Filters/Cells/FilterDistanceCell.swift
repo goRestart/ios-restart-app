@@ -36,7 +36,7 @@ class FilterDistanceCell: UICollectionViewCell {
         return currentDistance()
     }
     
-    var distanceType : DistanceType = .Km
+    var distanceType : DistanceType = .km
     
     // MARK: - Lifecycle
     

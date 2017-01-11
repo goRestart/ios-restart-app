@@ -15,7 +15,7 @@ protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {
     func vmResignResponders()
 }
 
-enum VerifyButtonState {
+enum VerifyButtonState: Equatable {
     case hidden
     case enabled
     case disabled

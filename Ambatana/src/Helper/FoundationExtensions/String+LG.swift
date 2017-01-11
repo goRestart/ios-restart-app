@@ -12,7 +12,7 @@ extension String {
 
     var uppercase: String {
         if #available(iOS 9.0, *) {
-            return localizedUppercaseString
+            return localizedUppercase
         } else {
             return uppercased(with: Locale.current)
         }
@@ -20,7 +20,7 @@ extension String {
 
     var lowercase: String {
         if #available(iOS 9.0, *) {
-            return localizedLowercaseString
+            return localizedLowercase
         } else {
             return lowercased(with: Locale.current)
         }
@@ -28,7 +28,7 @@ extension String {
 
     var capitalized: String {
         if #available(iOS 9.0, *) {
-            return localizedCapitalizedString
+            return localizedCapitalized
         } else {
             return self.capitalized(with: Locale.current)
         }

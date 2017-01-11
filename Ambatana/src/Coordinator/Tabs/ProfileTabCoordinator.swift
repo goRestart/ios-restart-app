@@ -58,7 +58,7 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openEditLocation() {
-        let vm = EditLocationViewModel(mode: .EditUserLocation)
+        let vm = EditLocationViewModel(mode: .editUserLocation)
         vm.navigator = self
         let vc = EditLocationViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)

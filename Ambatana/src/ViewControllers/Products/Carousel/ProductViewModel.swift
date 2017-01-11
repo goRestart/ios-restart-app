@@ -1185,7 +1185,7 @@ extension ProductViewModel: PurchasesShopperDelegate {
         // "purchase" is the product to buy in appstore in case the user wants to bump up 
     }
 
-    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: NSError) {
+    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error) {
         guard let requestProdId = productId, let currentProdId = product.value.objectId,
             requestProdId == currentProdId else { return }
         // update error UI

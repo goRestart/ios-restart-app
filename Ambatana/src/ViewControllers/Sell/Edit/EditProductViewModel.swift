@@ -75,20 +75,20 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     // real time cloudsight
     let proposedTitle = Variable<String>("")
     let titleDisclaimerStatus = Variable<TitleDisclaimerStatus>(.completed)
-    private var userIsEditingTitle: Bool
-    private var hasTitle: Bool {
+    fileprivate var userIsEditingTitle: Bool
+    fileprivate var hasTitle: Bool {
         return (title != nil && title != "")
     }
-    private var productIsNew: Bool {
+    fileprivate var productIsNew: Bool {
         guard let creationDate = initialProduct.createdAt else { return true }
         return creationDate.isNewerThan(Constants.cloudsightTimeThreshold)
     }
-    private var shouldAskForAutoTitle: Bool {
+    fileprivate var shouldAskForAutoTitle: Bool {
         // we ask for title if the product has less than 1h (or doesn't has creation date)
         // AND doesn't has one, or the user is editing the field
         return (!hasTitle || userIsEditingTitle) && productIsNew
     }
-    private var requestTitleTimer: Timer?
+    fileprivate var requestTitleTimer: Timer?
 
     // Input
     var title: String? {
@@ -138,10 +138,10 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     var images: [EditProductImageType] {
         return productImages.images
     }
-    private let initialProduct: Product
-    private var savedProduct: Product?
-    private var categories: [ProductCategory] = []
-    private var shouldTrack: Bool = true
+    fileprivate let initialProduct: Product
+    fileprivate var savedProduct: Product?
+    fileprivate var categories: [ProductCategory] = []
+    fileprivate var shouldTrack: Bool = true
     
     // Repositories
     let myUserRepository: MyUserRepository
@@ -298,16 +298,16 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         switch locationManager.locationServiceStatus {
         case let .enabled(authStatus):
             switch authStatus {
-            case .NotDetermined:
+            case .notDetermined:
                 shouldAskForPermission = true
                 permissionsActionBlock = {  [weak self] in self?.locationManager.startSensorLocationUpdates() }
-            case .Restricted, .Denied:
+            case .restricted, .denied:
                 shouldAskForPermission = true
                 permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
-            case .Authorized:
+            case .authorized:
                 shouldAskForPermission = false
             }
-        case .Disabled:
+        case .disabled:
             shouldAskForPermission = true
             permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
         }
@@ -315,7 +315,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         if shouldAskForPermission {
             // not enabled
             let okAction = UIAction(interface: UIActionInterface.styledText(LGLocalizedString.commonOk,
-                .default), action: permissionsActionBlock)
+                .standard), action: permissionsActionBlock)
             let alertIcon = UIImage(named: "ic_location_alert")
             delegate?.vmShowAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle,
                                            text: LGLocalizedString.editProductLocationAlertText,
@@ -364,7 +364,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         requestTitleTimer?.fire()
     }
 
-    private func stopTimer() {
+    fileprivate func stopTimer() {
         requestTitleTimer?.invalidate()
     }
 
@@ -418,7 +418,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let name = title ?? ""
         let description = (descr ?? "").stringByRemovingEmoji()
 
-        let priceAmount = isFreePosting.value && featureFlags.freePostingModeAllowed ? ProductPrice.Free : ProductPrice.normal((price ?? "0").toPriceDouble())
+        let priceAmount = isFreePosting.value && featureFlags.freePostingModeAllowed ? ProductPrice.free : ProductPrice.normal((price ?? "0").toPriceDouble())
         let currency = initialProduct.currency
 
         let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,
@@ -535,7 +535,7 @@ extension EditProductViewModel {
         delegate?.vmDidSelectCategoryWithName(category?.name ?? "")
     }
 
-    private func setupCategories() {
+    fileprivate func setupCategories() {
         categoryRepository.index(filterVisible: true) { [weak self] result in
             guard let categories = result.value else { return }
             self?.categories = categories
@@ -624,26 +624,26 @@ extension EditProductViewModel {
 
 extension EditProductViewModel {
 
-    private func trackStart() {
+    fileprivate func trackStart() {
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditStart(myUser, product: initialProduct)
         trackEvent(event)
     }
 
-    private func trackValidationFailedWithError(_ error: ProductCreateValidationError) {
+    fileprivate func trackValidationFailedWithError(_ error: ProductCreateValidationError) {
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditFormValidationFailed(myUser, product: initialProduct,
                                                                  description: error.description)
         trackEvent(event)
     }
 
-    private func trackSharedFB() {
+    fileprivate func trackSharedFB() {
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditSharedFB(myUser, product: savedProduct)
         trackEvent(event)
     }
 
-    private func trackComplete(_ product: Product) {
+    fileprivate func trackComplete(_ product: Product) {
         // if nothing is changed, we don't track the edition
         let editedFields = editFieldsComparedTo(product)
         guard !editedFields.isEmpty  else { return }
@@ -654,13 +654,13 @@ extension EditProductViewModel {
         trackEvent(event)
     }
 
-    private func trackEvent(_ event: TrackerEvent) {
+    fileprivate func trackEvent(_ event: TrackerEvent) {
         if shouldTrack {
             tracker.trackEvent(event)
         }
     }
 
-    private func editFieldsComparedTo(_ product: Product) -> [EventParameterEditedFields] {
+    fileprivate func editFieldsComparedTo(_ product: Product) -> [EventParameterEditedFields] {
         var editedFields: [EventParameterEditedFields] = []
 
         if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
@@ -717,7 +717,7 @@ private enum ProductCreateValidationError: Error {
         case .network:
             self = .network
         case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
-            self = serverError(code: repoError.errorCode)
+            self = .serverError(code: repoError.errorCode)
         }
     }
 
@@ -734,7 +734,7 @@ private enum ProductCreateValidationError: Error {
         switch self {
         case .network:
             return "network"
-        case internalError:
+        case .internalError:
             return "internal"
         case .noImages:
             return "no images present"
