@@ -41,12 +41,12 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 let myUser = MockMyUser()
                 googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
-                let locale = NSLocale(localeIdentifier: "es_ES")
+                let locale = Locale(identifier: "es_ES")
 
                 sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                     locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                    locale: locale as Locale, source: .install, action: .Signup)
+                    locale: locale, source: .install, action: .signup)
                 sut.delegate = self
 
                 self.loading = false
@@ -80,11 +80,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale as Locale, source: .install, action: .Signup)
+                            locale: locale, source: .install, action: .signup)
                     }
 
                     it("has an email") {
@@ -103,11 +103,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale as Locale, source: .install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has an empty email") {
@@ -126,11 +126,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale as Locale, source: .install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has an empty email") {
@@ -146,11 +146,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                 context("phone locale is in Turkey") {
                     beforeEach {
-                        let locale = NSLocale(localeIdentifier: "tr_TR")
+                        let locale = Locale(identifier: "tr_TR")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale as Locale, source: .install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -160,12 +160,12 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                 context("current postal address's country code is Turkey") {
                     beforeEach {
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         locationManager.currentPostalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: "")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale as Locale, source: .install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -175,13 +175,13 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                 context("phone locale and location are not in Turkey") {
                     beforeEach {
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         locationManager.currentPostalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "es", country: "")
 
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale as Locale, source: .install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions false") {
@@ -452,9 +452,9 @@ extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
     func vmDismiss(_ completion: (() -> Void)?){}
     func vmOpenInternalURL(_ url: URL) {}
