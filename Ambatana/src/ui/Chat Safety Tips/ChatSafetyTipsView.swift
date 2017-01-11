@@ -23,7 +23,7 @@ class ChatSafetyTipsView: UIView {
     // MARK: - Lifecycle
     
     static func chatSafetyTipsView() -> ChatSafetyTipsView? {
-        let view = Bundle.main.loadNibNamed("ChatSafetyTipsView", owner: self, options: nil)!.first as? ChatSafetyTipsView
+        let view = Bundle.main.loadNibNamed("ChatSafetyTipsView", owner: self, options: nil)?.first as? ChatSafetyTipsView
         if let actualView = view {
             actualView.setupUI()
         }
