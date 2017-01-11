@@ -1,5 +1,5 @@
 //
-//  SignUpStep1ViewModelSpec.swift
+//  SignUpEmailStep1ViewModelSpec.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 11/01/17.
@@ -13,18 +13,18 @@ import Nimble
 import Result
 import RxSwift
 
-class SignUpStep1ViewModelSpec: QuickSpec {
+class SignUpEmailStep1ViewModelSpec: QuickSpec {
     var navigatorReceivedOpenHelp: Bool = false
     var navigatorReceivedOpenNextStep: Bool = false
     var navigatorReceivedOpenLogIn: Bool = false
 
     override func spec() {
 
-        describe("SignUpStep1ViewModel") {
+        describe("SignUpEmailStep1ViewModel") {
             var keyValueStorage: MockKeyValueStorage!
             var nextStepEnabled: Bool!
             var disposeBag: DisposeBag!
-            var sut: SignUpStep1ViewModel!
+            var sut: SignUpEmailStep1ViewModel!
 
             beforeEach {
                 self.navigatorReceivedOpenHelp = false
@@ -33,7 +33,7 @@ class SignUpStep1ViewModelSpec: QuickSpec {
 
                 keyValueStorage = MockKeyValueStorage()
                 disposeBag = DisposeBag()
-                sut = SignUpStep1ViewModel(keyValueStorage: keyValueStorage)
+                sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
                 sut.nextStepEnabled.subscribeNext { enabled in
                     nextStepEnabled = enabled
                 }.addDisposableTo(disposeBag)
@@ -43,7 +43,7 @@ class SignUpStep1ViewModelSpec: QuickSpec {
             describe("initialization") {
                 context("did not log in previously") {
                     beforeEach {
-                        sut = SignUpStep1ViewModel(keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
                     }
 
                     it("has an empty email") {
@@ -62,7 +62,7 @@ class SignUpStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        sut = SignUpStep1ViewModel(keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
                     }
 
                     it("has an email") {
@@ -81,7 +81,7 @@ class SignUpStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        sut = SignUpStep1ViewModel(keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
                     }
 
                     it("has an empty email") {
@@ -100,7 +100,7 @@ class SignUpStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        sut = SignUpStep1ViewModel(keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
                     }
 
                     it("has an empty email") {
@@ -116,7 +116,7 @@ class SignUpStep1ViewModelSpec: QuickSpec {
             }
 
             context("open next step with email & password") {
-                var errors: [SignUpStep1FormError]!
+                var errors: [SignUpEmailStep1FormError]!
 
                 describe("empty") {
                     beforeEach {
@@ -214,16 +214,16 @@ class SignUpStep1ViewModelSpec: QuickSpec {
     }
 }
 
-extension SignUpStep1ViewModelSpec: SignUpStep1Navigator {
-    func openHelpFromSignUpStep1() {
+extension SignUpEmailStep1ViewModelSpec: SignUpEmailStep1Navigator {
+    func openHelpFromSignUpEmailStep1() {
         navigatorReceivedOpenHelp = true
     }
 
-    func openNextStepFromSignUpStep1(email email: String, password: String) {
+    func openNextStepFromSignUpEmailStep1(email email: String, password: String) {
         navigatorReceivedOpenNextStep = true
     }
 
-    func openLogInFromSignUpStep1(email email: String, password: String) {
+    func openLogInFromSignUpEmailStep1(email email: String, password: String) {
         navigatorReceivedOpenLogIn = true
     }
 }

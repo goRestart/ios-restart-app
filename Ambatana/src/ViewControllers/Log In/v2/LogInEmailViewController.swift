@@ -1,22 +1,22 @@
 //
-//  SignUpStep2ViewController.swift
+//  LogInEmailViewController.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 11/01/17.
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-final class SignUpStep2ViewController: BaseViewController {
-    private var viewModel: SignUpStep2ViewModel
+final class LogInEmailViewController: BaseViewController {
+    private var viewModel: LogInEmailViewModel
 
 
     // MARK: - Lifecycle
 
-    init(viewModel: SignUpStep2ViewModel) {
+    init(viewModel: LogInEmailViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
