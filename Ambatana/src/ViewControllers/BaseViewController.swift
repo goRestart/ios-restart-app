@@ -252,10 +252,10 @@ extension UIViewController {
         }
     }
     
-    private static var reachability: TMReachability = {
+    private static var reachability: TMReachability? = {
         let result = TMReachability.forInternetConnection()
         result?.startNotifier()
-        return result!
+        return result
     } ()
     
     /**
@@ -283,9 +283,9 @@ extension UIViewController {
     
     func updateReachableAndToastViewVisibilityIfNeeded() {
         // Update reachable if changed
-        let newReachableValue = UIViewController.reachability.isReachable()
+        let newReachableValue = UIViewController.reachability?.isReachable() ?? false
         guard newReachableValue != reachable else { return }
-        reachable = UIViewController.reachability.isReachable()
+        reachable = UIViewController.reachability?.isReachable() ?? false
         
         // Show/hide toast
         guard let reachable = reachable, let reachabilityEnabled = reachabilityEnabled else { return }

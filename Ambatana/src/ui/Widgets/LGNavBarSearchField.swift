@@ -53,7 +53,7 @@ class LGNavBarSearchField: UIView {
     private var editMode = false
     
     static func setupNavBarSearchFieldWithText(_ text: String?) -> LGNavBarSearchField {
-        guard let view = Bundle.main.loadNibNamed("LGNavBarSearchField", owner: self, options: nil)!.first as?
+        guard let view = Bundle.main.loadNibNamed("LGNavBarSearchField", owner: self, options: nil)?.first as?
             LGNavBarSearchField else { return LGNavBarSearchField() }
         view.setupTextFieldWithText(text)
         view.endEdit()

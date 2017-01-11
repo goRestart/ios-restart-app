@@ -114,10 +114,12 @@ class UserView: UIView {
     // MARK: - Lifecycle
 
     static func userView(_ style: UserViewStyle) -> UserView {
-        let view = Bundle.main.loadNibNamed("UserView", owner: self, options: nil)?.first as? UserView
-        view?.style = style
-        view?.setup()
-        return view!
+        guard let view = Bundle.main.loadNibNamed("UserView", owner: self, options: nil)?.first as? UserView else{
+            return UserView()
+        }
+        view.style = style
+        view.setup()
+        return view
     }
 
     override func layoutSubviews() {

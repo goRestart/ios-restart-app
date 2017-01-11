@@ -18,9 +18,9 @@ class LoadingIndicator: UIView {
         }
     }
 
-    fileprivate var loadingShape: CAShapeLayer!
-    private var okIcon: UIImageView!
-    private var wrongIcon: UIImageView!
+    fileprivate var loadingShape = CAShapeLayer()
+    private var okIcon = UIImageView()
+    private var wrongIcon = UIImageView()
 
     fileprivate var pendingFinalState: Bool?
     fileprivate var endAnimationsCompletion: (()->())?
@@ -117,13 +117,13 @@ class LoadingIndicator: UIView {
 
     fileprivate func showImageAnimation(_ okMode: Bool) {
         let view = okMode ? okIcon : wrongIcon
-        view?.alpha = 0
+        view.alpha = 0
         UIView.animate(withDuration: 0.2,
             animations: {
-                view?.alpha = 1
+                view.alpha = 1
             },
             completion: { [weak self] (completed) -> Void in
-                view?.alpha = 1
+                view.alpha = 1
                 if let completion = self?.endAnimationsCompletion {
                     completion()
                     self?.endAnimationsCompletion = nil

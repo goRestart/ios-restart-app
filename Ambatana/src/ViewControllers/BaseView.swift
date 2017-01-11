@@ -10,7 +10,7 @@ import UIKit
 
 class BaseView: UIView {
 
-    private var viewModel: BaseViewModel!
+    private var viewModel: BaseViewModel
 
     var active: Bool = false {
         didSet {
