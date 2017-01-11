@@ -22,7 +22,7 @@ extension UITableView {
             deleteRowsAtIndexPaths([indexPath], withRowAnimation: animation)
         case .insert(let index, _):
             let indexPath = IndexPath(row: index, section: 0)
-            insertRowsAtIndexPaths([indexPath], withRowAnimation: animation)
+            insertRows(at: [indexPath], with: animation)
         case .composite(let changes):
             changes.forEach { [weak self] change in
                 self?.handleChange(change, animation: animation)

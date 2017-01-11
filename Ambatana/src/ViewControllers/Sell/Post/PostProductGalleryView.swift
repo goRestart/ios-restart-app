@@ -350,9 +350,9 @@ extension PostProductGalleryView {
                 }
                 return
             }
-            var indexes: [NSIndexPath] = []
+            var indexes: [IndexPath] = []
             for imgSel in imgsSelected {
-                indexes.append(NSIndexPath(forItem: imgSel.index, inSection: 0))
+                indexes.append(IndexPath(item: imgSel.index, section: 0))
             }
 
             strongSelf.collectionView.reloadItems(at: indexes as [IndexPath])
