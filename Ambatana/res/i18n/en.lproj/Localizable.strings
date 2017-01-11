@@ -47,7 +47,7 @@
 "app_share_success" = "App successfully shared!";
 
 // App share error message
-"app_share_error" = "An error occurred while sharing the app. Please try again later.";
+"app_share_error" = "An error occurred while sharing the app. Please try again.";
 
 // In app notification reply button (reception of message of another user)
 "app_notification_reply" = "Reply";
@@ -392,7 +392,7 @@
 "chat_message_field_hint" = "Type your message here";
 
 // Chat message load generic error. Message displayal is like the other error messages.
-"chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
+"chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again.";
 
 // Chat detail, the product is sold
 "chat_product_sold_label" = "Product sold";
@@ -1261,7 +1261,7 @@
 "product_delete_confirm_title" = "Delete Product";
 
 // Product delete send error generic. Message displayal is like the other error messages.
-"product_delete_send_error_generic" = "Oops! We couldn't delete your product. Please try again.";
+"product_delete_send_error_generic" = "Oops! An error occurred while deleting your product. Please try again.";
 
 // Product delete when product is already sold.
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
@@ -1345,7 +1345,7 @@
 "product_mark_as_sold_free_confirm_title" = "Mark it as given away";
 
 // Confirmation message when product has been set as given away again
-"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away";
+"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away.";
 
 // Product mark as sold button. Check attached image "product (seller).png"
 "product_mark_as_sold_button" = "Mark as Sold";
@@ -1363,7 +1363,7 @@
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 
 // Product mark as sold error generic. Message displayal is like the other error messages
-"product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again later.";
+"product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again.";
 
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
@@ -1585,7 +1585,7 @@
 "product_report_product_button" = "Report Product";
 
 // Product reported fail message. Message displayal is like the other dialog messages
-"product_reported_error_generic" = "An error occurred while reporting the product. Please try again later.";
+"product_reported_error_generic" = "An error occurred while reporting the product. Please try again.";
 
 // Product reported success message. Message displayal is like the other dialog messages
 "product_reported_success_message" = "The product was reported successfully. Thanks!";
@@ -1657,7 +1657,7 @@
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 
 // Product share generic error. Message displayal is like the other error messages
-"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again.";
 
 // Product share generic OK. Message displayal is like the other error messages
 "product_share_generic_ok" = "Product successfully shared!";
@@ -1991,7 +1991,7 @@
 "sell_send_error_invalid_title" = "Please insert a valid title for your product.";
 
 // Sell send error sharing facebook. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_sharing_facebook" = "An error occurred while sharing on Facebook. Please try again later.";
+"sell_send_error_sharing_facebook" = "An error occurred while sharing on Facebook. Please try again.";
 
 // Sell share fb content
 "sell_share_fb_content" = "Check out what I'm selling on letgo!";
@@ -2189,10 +2189,10 @@
 "user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo!";
 
 // Message confirmation sharing a user profile on social networks/email/etc
-"user_share_success" = "Profile successfully shared!";
+"user_share_success" = "Profile shared!";
 
 // Message error sharing a user profile on social networks/email/etc
-"user_share_error" = "An error occurred while sharing the profile. Please try again later.";
+"user_share_error" = "An error occurred while sharing the profile. Please try again.";
 
 // Information message when rating a user
 "user_rating_message_w_name" = "Does your experience with %@ get five stars? Tell us how it went.";
