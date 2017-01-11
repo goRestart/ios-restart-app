@@ -22,10 +22,10 @@ class ConfigSpec: QuickSpec {
         describe("init") {
             beforeEach {
                 
-                let path = NSBundle(forClass: self.classForCoder).pathForResource("iOScfgMockOK", ofType: "json")
+                let path = Bundle(for: self.classForCoder).path(forResource: "iOScfgMockOK", ofType: "json")
                 let data = NSData(contentsOfFile: path!)!
                 
-                json = JSON.parse(data: data)
+                json = JSON.parse(data: data as Data)
                 
                 sut = Config(json: json)
             }

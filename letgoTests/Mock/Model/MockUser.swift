@@ -44,10 +44,10 @@ final class MockUser: MockBaseModel, MyUser {
     
     override init() {
         self.postalAddress = PostalAddress.emptyAddress()
-        self.processed = NSNumber(bool: true)
+        self.processed = NSNumber(value: true as Bool)
         self.isDummy = false
         self.isAnonymous = false
-        self.isScammer = NSNumber(bool: false)
+        self.isScammer = NSNumber(value: false as Bool)
         self.didLogInByFacebook = false
         self.location = nil
         self.accounts = [MockAccount(provider: .email, verified: true)]

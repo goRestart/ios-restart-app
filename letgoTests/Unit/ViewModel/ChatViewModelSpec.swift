@@ -12,9 +12,9 @@ import Quick
 import Nimble
 
 extension ChatViewMessage {
-    static func mock(objectId: String?) -> ChatViewMessage {
-        return ChatViewMessage(objectId: objectId, talkerId: "", sentAt: NSDate(),
-                               receivedAt: NSDate(), readAt: NSDate(), type: .text(text: "text"), status: .sent,
+    static func mock(_ objectId: String?) -> ChatViewMessage {
+        return ChatViewMessage(objectId: objectId, talkerId: "", sentAt: NSDate() as Date,
+                               receivedAt: NSDate() as Date, readAt: NSDate() as Date, type: .text(text: "text"), status: .sent,
                                warningStatus: .normal)
     }
 }

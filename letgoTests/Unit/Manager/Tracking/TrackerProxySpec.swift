@@ -26,7 +26,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.didFinishLaunchingWithOptionsBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.didFinishLaunchingWithOptionsBlock = { (tracker: Tracker) in flags[2] = true }
                 
-                sut.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: nil)
+                sut.application(UIApplication.shared, didFinishLaunchingWithOptions: nil)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }
@@ -37,7 +37,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.openURLBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.openURLBlock = { (tracker: Tracker) in flags[2] = true }
                 
-                sut.application(UIApplication.sharedApplication(), openURL: URL(string: "http://www.google.com")!, sourceApplication: nil, annotation: nil)
+                sut.application(UIApplication.shared, openURL: URL(string: "http://www.google.com")!, sourceApplication: nil, annotation: nil)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }
@@ -48,7 +48,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.willEnterForegroundBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.willEnterForegroundBlock = { (tracker: Tracker) in flags[2] = true }
                 
-                sut.applicationWillEnterForeground(UIApplication.sharedApplication())
+                sut.applicationWillEnterForeground(UIApplication.shared)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }
@@ -59,7 +59,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.didBecomeActiveBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.didBecomeActiveBlock = { (tracker: Tracker) in flags[2] = true }
                 
-                sut.applicationDidBecomeActive(UIApplication.sharedApplication())
+                sut.applicationDidBecomeActive(UIApplication.shared)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }

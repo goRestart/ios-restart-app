@@ -39,7 +39,7 @@ class MockInstallation: MockBaseModel, Installation {
 }
 
 extension MockInstallation  {
-    static func decode(dictionary: [String: Any]) -> Self? {
+    static func decode(_ dictionary: [String: Any]) -> Self? {
         let objectId = dictionary["objectId"] as? String
         let appIdentifier = dictionary["appIdentifier"] as? String ?? ""
         let appVersion = dictionary["appVersion"] as? String ?? ""

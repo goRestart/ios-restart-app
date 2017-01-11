@@ -261,38 +261,38 @@ class SignUpViewModelSpec: QuickSpec {
 
 extension SignUpViewModelSpec: SignUpViewModelDelegate {
 
-    func vmOpenSignup(viewModel: SignUpLogInViewModel) {}
+    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {}
 
     func vmFinish(completedLogin completed: Bool) {
         finishedSuccessfully = completed
     }
 
-    func vmFinishAndShowScammerAlert(contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
         finishedSuccessfully = false
         finishedScammer = true
     }
 
 
     // BaseViewModelDelegate
-    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {}
-    func vmShowLoading(loadingMessage: String?) {
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {}
+    func vmShowLoading(_ loadingMessage: String?) {
         loading = true
     }
-    func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         loading = false
         afterMessageCompletion?()
     }
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
-    func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {}
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
-    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {}
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {}
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
     func vmPop() {}
-    func vmDismiss(completion: (() -> Void)?){}
-    func vmOpenInternalURL(url: URL) {}
+    func vmDismiss(_ completion: (() -> Void)?){}
+    func vmOpenInternalURL(_ url: URL) {}
 }

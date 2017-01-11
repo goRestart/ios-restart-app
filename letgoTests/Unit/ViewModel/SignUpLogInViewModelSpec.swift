@@ -46,7 +46,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                     locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                    locale: locale, source: .install, action: .Signup)
+                    locale: locale as Locale, source: .install, action: .Signup)
                 sut.delegate = self
 
                 self.loading = false
@@ -84,7 +84,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .install, action: .Signup)
+                            locale: locale as Locale, source: .install, action: .Signup)
                     }
 
                     it("has an email") {
@@ -107,7 +107,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .install, action: .Signup)
+                            locale: locale as Locale, source: .install, action: .Signup)
                     }
 
                     it("has an empty email") {
@@ -130,7 +130,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .install, action: .Signup)
+                            locale: locale as Locale, source: .install, action: .Signup)
                     }
 
                     it("has an empty email") {
@@ -150,7 +150,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .install, action: .Signup)
+                            locale: locale as Locale, source: .install, action: .Signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -165,7 +165,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .install, action: .Signup)
+                            locale: locale as Locale, source: .install, action: .Signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -181,7 +181,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .install, action: .Signup)
+                            locale: locale as Locale, source: .install, action: .Signup)
                     }
 
                     it("has terms and conditions false") {
@@ -424,38 +424,38 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
 extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
 
-    func vmUpdateSendButtonEnabledState(enabled: Bool) {}
-    func vmUpdateShowPasswordVisible(visible: Bool) {}
+    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {}
+    func vmUpdateShowPasswordVisible(_ visible: Bool) {}
     func vmFinish(completedAccess completed: Bool) {
         finishedSuccessfully = completed
     }
-    func vmFinishAndShowScammerAlert(contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
         finishedSuccessfully = false
         finishedScammer = true
     }
-    func vmShowRecaptcha(viewModel: RecaptchaViewModel) {}
+    func vmShowRecaptcha(_ viewModel: RecaptchaViewModel) {}
     func vmShowHiddenPasswordAlert() {}
 
     // BaseViewModelDelegate
-    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {}
-    func vmShowLoading(loadingMessage: String?) {
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {}
+    func vmShowLoading(_ loadingMessage: String?) {
         loading = true
     }
-    func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         loading = false
         afterMessageCompletion?()
     }
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
-    func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {}
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
-    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {}
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {}
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
     func vmPop() {}
-    func vmDismiss(completion: (() -> Void)?){}
-    func vmOpenInternalURL(url: URL) {}
+    func vmDismiss(_ completion: (() -> Void)?){}
+    func vmOpenInternalURL(_ url: URL) {}
 }

@@ -29,11 +29,11 @@ class MockLocationManager: LocationManager {
     var currentAutoLocation: LGLocation?
     var currentPostalAddress: PostalAddress?
 
-    func setManualLocation(location: CLLocation, postalAddress: PostalAddress, completion: MyUserCompletion?) {
+    func setManualLocation(_ location: CLLocation, postalAddress: PostalAddress, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult!)
     }
 
-    func setAutomaticLocation(userUpdateCompletion: MyUserCompletion?) {
+    func setAutomaticLocation(_ userUpdateCompletion: MyUserCompletion?) {
         performAfterDelayWithCompletion(userUpdateCompletion, result: myUserResult!)
     }
 

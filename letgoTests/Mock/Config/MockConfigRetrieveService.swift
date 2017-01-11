@@ -14,7 +14,7 @@ class MockConfigRetrieveService : ConfigRetrieveService {
     var mockResult : ConfigRetrieveServiceResult?
     var updateFile : Config!
         
-    func retrieveConfigWithCompletion(completion: ConfigRetrieveServiceCompletion?) {
+    func retrieveConfigWithCompletion(_ completion: ConfigRetrieveServiceCompletion?) {
         if let actualMockResult = mockResult{
             completion?(actualMockResult)
         }

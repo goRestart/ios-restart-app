@@ -11,7 +11,7 @@ import LGCoreKit
 import SwiftyUserDefaults
 
 class MockKeyValueStorage {
-    private var keyValue = Dictionary<String, Any>()
+    fileprivate var keyValue = Dictionary<String, Any>()
 }
 
 
@@ -59,23 +59,23 @@ extension MockKeyValueStorage: KeyValueStorageable {
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<AnyObject?>) -> AnyObject? {
-        get { return keyValue[key._key] }
+        get { return keyValue[key._key] as AnyObject? }
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<NSObject?>) -> NSObject? {
         get { return keyValue[key._key] as? NSObject }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData?>) -> NSData? {
-        get { return keyValue[key._key] as? NSData }
+    subscript(key: DefaultsKey<NSData?>) -> Data? {
+        get { return keyValue[key._key] as? NSData as Data? }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData>) -> NSData {
-        get { return keyValue[key._key] as? NSData ?? NSData() }
+    subscript(key: DefaultsKey<NSData>) -> Data {
+        get { return (keyValue[key._key] as? NSData ?? NSData()) as Data }
         set { keyValue[key._key] = newValue }
     }
-    subscript(key: DefaultsKey<NSDate?>) -> NSDate? {
-        get { return keyValue[key._key] as? NSDate }
+    subscript(key: DefaultsKey<NSDate?>) -> Date? {
+        get { return keyValue[key._key] as? NSDate as Date? }
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<URL?>) -> URL? {
@@ -105,11 +105,11 @@ extension MockKeyValueStorage: KeyValueStorageable {
         get { return keyValue[key._key] as? [String] ?? [String]() }
         set { keyValue[key._key] = newValue }
     }
-    func get<T: UserDefaultsDecodable>(key: DefaultsKey<T>) -> T? {
+    func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T? {
         guard let dict = keyValue[key._key] as? [String: AnyObject] else { return nil }
         return T.decode(dict)
     }
-    func set<T: UserDefaultsDecodable>(key: DefaultsKey<T>, value: T?) {
+    func set<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>, value: T?) {
         let object = value?.encode()
         keyValue[key._key] = object
     }

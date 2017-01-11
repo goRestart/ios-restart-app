@@ -36,7 +36,7 @@ class MockChat: MockBaseModel, Chat {
         super.init()
     }
 
-    func prependMessage(message: Message) {
-        self.messages.insert(message, atIndex: 0)
+    func prependMessage(_ message: Message) {
+        self.messages.insert(message, at: 0)
     }
 }

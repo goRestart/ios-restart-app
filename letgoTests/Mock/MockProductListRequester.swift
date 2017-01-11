@@ -17,7 +17,7 @@ class MockProductListRequester: ProductListRequester {
     var offset: Int
     var canRetrieveItems: Bool
     var requesterResult: ProductsResult?
-    private var items: [Product] = []
+    fileprivate var items: [Product] = []
 
     init(canRetrieve: Bool, offset: Int, pageSize: Int) {
         self.canRetrieveItems = canRetrieve
@@ -25,7 +25,7 @@ class MockProductListRequester: ProductListRequester {
         self.itemsPerPage = pageSize
     }
 
-    func generateItems(numItems: Int) {
+    func generateItems(_ numItems: Int) {
         for _ in 0..<numItems {
             items.append(MockProduct())
         }
@@ -35,7 +35,7 @@ class MockProductListRequester: ProductListRequester {
         return canRetrieveItems
     }
 
-    func retrieveFirstPage(completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ProductsCompletion?) {
         var firstPageItems: [Product] = []
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
@@ -47,7 +47,7 @@ class MockProductListRequester: ProductListRequester {
         performAfterDelayWithCompletion(completion)
     }
 
-    func retrieveNextPage(completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ProductsCompletion?) {
         var nextPageItems: [Product] = []
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
@@ -59,11 +59,11 @@ class MockProductListRequester: ProductListRequester {
         performAfterDelayWithCompletion(completion)
     }
 
-    func isLastPage(resultCount: Int) -> Bool {
+    func isLastPage(_ resultCount: Int) -> Bool {
         return resultCount < itemsPerPage
     }
 
-    func updateInitialOffset(newOffset: Int) {
+    func updateInitialOffset(_ newOffset: Int) {
         offset = newOffset
     }
 
@@ -71,9 +71,9 @@ class MockProductListRequester: ProductListRequester {
         return self
     }
 
-    private func performAfterDelayWithCompletion(completion: ProductsCompletion?) {
-        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.05 * Double(NSEC_PER_SEC)))
-        dispatch_after(delay, dispatch_get_main_queue()) {
+    fileprivate func performAfterDelayWithCompletion(_ completion: ProductsCompletion?) {
+        let delay = DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delay) {
             completion?(self.requesterResult!)
         }
     }

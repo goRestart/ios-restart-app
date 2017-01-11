@@ -71,11 +71,11 @@ class PurchasesShopperSpec: QuickSpec {
 }
 
 extension PurchasesShopperSpec: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [PurchaseableProduct]) {
+    func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct]) {
         guard let id = productId else { return }
         self.requestsFinished.append(id)
     }
     
-    func shopperFailedProductsRequestForProductId(productId: String?, withError: NSError) {
+    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: NSError) {
     }
 }

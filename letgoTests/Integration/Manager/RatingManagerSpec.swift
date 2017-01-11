@@ -138,7 +138,7 @@ class RatingManagerSpec: QuickSpec {
             describe("previously not rated, remind later") {
                 beforeEach {
                     keyValueStorage.userRatingAlreadyRated = false
-                    keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantPast()
+                    keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantPast
                 }
 
                 context("new install") {

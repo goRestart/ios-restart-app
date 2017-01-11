@@ -24,39 +24,39 @@ class MockMyUserRepository: MyUserRepository {
 
     let myUserVar = Variable<MyUser?>(nil)
 
-    func updateName(name: String, completion: MyUserCompletion?) {
+    func updateName(_ name: String, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func updatePassword(password: String, completion: MyUserCompletion?) {
+    func updatePassword(_ password: String, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func resetPassword(password: String, token: String, completion: MyUserCompletion?) {
+    func resetPassword(_ password: String, token: String, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func updateEmail(email: String, completion: MyUserCompletion?) {
+    func updateEmail(_ email: String, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func updateAvatar(avatar: NSData, progressBlock: ((Int) -> ())?, completion: MyUserCompletion?) {
+    func updateAvatar(_ avatar: Data, progressBlock: ((Int) -> ())?, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func linkAccount(email: String, completion: MyUserCompletion?) {
+    func linkAccount(_ email: String, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func linkAccountFacebook(token: String, completion: MyUserCompletion?) {
+    func linkAccountFacebook(_ token: String, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func linkAccountGoogle(token: String, completion: MyUserCompletion?) {
+    func linkAccountGoogle(_ token: String, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func refresh(completion: MyUserCompletion?) {
+    func refresh(_ completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 }

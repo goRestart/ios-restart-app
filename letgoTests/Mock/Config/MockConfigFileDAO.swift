@@ -18,7 +18,7 @@ class MockConfigDAO : ConfigDAO {
         return config
     }
     
-    func save(config: Config) {
+    func save(_ config: Config) {
         saveCompletion?()
     }
 }
