@@ -27,14 +27,14 @@ extension UITabBarController {
         let duration: TimeInterval = (animated ? TimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
 
         //  animate the tabBar
-        UIView.animate(withDuration: duration, animations: { [weak self] in
+
+        UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn], animations: { [weak self] in
             self?.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
             self?.view.layoutIfNeeded()
-        }, completion: completion)
+            }, completion: completion)
     }
 
     func tabBarHidden() -> Bool {
         return tabBar.frame.origin.y >= self.view.frame.maxY
     }
-    
 }

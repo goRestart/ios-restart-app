@@ -500,8 +500,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             self?.viewModel.userSelectedSuggestedTitle()
         }.addDisposableTo(disposeBag)
 
-        viewModel.locationInfo.asObservable().bindTo(setLocationLocationLabel.rx.text).addDisposableTo(disposeBag)
 
+        viewModel.locationInfo.asObservable().bindTo(setLocationLocationLabel.rx.text).addDisposableTo(disposeBag)
         setLocationButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.openMap()
         }.addDisposableTo(disposeBag)

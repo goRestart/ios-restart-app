@@ -259,13 +259,13 @@
 "direct_answers_show" = "Показать популярные ответы";
 "edit_product_location_alert_text" = "Для изменение местоположения товара разрешите доступ к геолокации";
 "edit_product_location_alert_title" = "СМЕНИТЬ МЕСТОПОЛОЖЕНИЕ";
-"edit_product_send_button" = "Обновить";
+"edit_product_send_button" = "Сохранить изменения";
 "edit_product_send_error_uploading_product" = "При обновлении товара произошла ошибка.";
 "edit_product_send_ok" = "Поздравляем! Ваш товар был успешно обновлен. В скором времени он появится в списке.";
 "edit_product_suggesting_title" = "Предлагаемый заголовок...";
 "edit_product_title" = "Редактировать товар";
-"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
-"edit_product_unsaved_changes_alert_ok" = "Discard";
+"edit_product_unsaved_changes_alert" = "Вы точно хотите отменить эти изменения?";
+"edit_product_unsaved_changes_alert_ok" = "Отменить";
 "filters_distance_not_set" = "не установлен";
 "filters_navbar_reset" = "Сброс";
 "filters_price_from" = "От";
@@ -307,8 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Пропустить";
 "login_scammer_alert_message" = "Ваш аккаунт проверяется командой letgo. Если вы считаете, что он попал под проверку по ошибке, свяжитесь с нами.";
 "login_scammer_alert_title" = "АККАУНТ НА ПРОВЕРКЕ";
-"main_products_filter_navigation_bar_button" = "Filter";
-"main_products_invite_navigation_bar_button" = "Invite";
+"main_products_filter_navigation_bar_button" = "Фильтр";
+"main_products_invite_navigation_bar_button" = "Пригласить";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
 "main_sign_up_error_request_already_sent" = "Ваш запрос обрабатывается. Пожалуйста, подождите перед следующей попыткой.";
 "main_sign_up_error_user_rejected" = "Указанный е-мейл или пароль некорректен. Пожалуйста, проверьте их и попробуйте еще раз.";

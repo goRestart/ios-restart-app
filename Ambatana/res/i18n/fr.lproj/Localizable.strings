@@ -259,13 +259,13 @@
 "direct_answers_show" = "Afficher Réponses Rapides";
 "edit_product_location_alert_text" = "Pour changer le lieu où votre bien est posté, donnez l'accès à votre localisation.";
 "edit_product_location_alert_title" = "CHANGER LOCALISATION";
-"edit_product_send_button" = "Mettre à jour";
+"edit_product_send_button" = "Sauvegarder les changements";
 "edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre bien.";
 "edit_product_send_ok" = "Félicitations ! Votre bien a été modifié. Il apparaîtra dans l'application sous peu.";
 "edit_product_suggesting_title" = "Suggestion de titre...";
 "edit_product_title" = "Modifier le Bien";
-"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
-"edit_product_unsaved_changes_alert_ok" = "Discard";
+"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
+"edit_product_unsaved_changes_alert_ok" = "Annuler";
 "filters_distance_not_set" = "Aucun";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "De";
@@ -307,8 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Passer";
 "login_scammer_alert_message" = "Votre compte est en cours de vérification par l'équipe letgo. Si vous pensez qu'il s'agit d'une erreur, contactez-nous.";
 "login_scammer_alert_title" = "COMPTE EN COURS DE VÉRIFICATION";
-"main_products_filter_navigation_bar_button" = "Filter";
-"main_products_invite_navigation_bar_button" = "Invite";
+"main_products_filter_navigation_bar_button" = "Filtrer";
+"main_products_invite_navigation_bar_button" = "Inviter";
 "main_sign_up_claim_label" = "Commencez à vendre et acheter - en chattant !";
 "main_sign_up_error_request_already_sent" = "Votre demande a déjà été traitée. Veuillez attendre avant de réessayer.";
 "main_sign_up_error_user_rejected" = "L'email que vous avez entré est incorrect. Veuillez le vérifier et réessayer.";

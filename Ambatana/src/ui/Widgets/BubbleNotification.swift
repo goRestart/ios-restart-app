@@ -47,6 +47,7 @@ class BubbleNotification: UIView {
 
     static let buttonHeight: CGFloat = 30
     static let buttonMaxWidth: CGFloat = 150
+    static let bubbleMargin: CGFloat = 10
     static let bubbleContentMargin: CGFloat = 14
     static let bubbleInternalMargins: CGFloat = 8
     static let statusBarHeight: CGFloat = 20
@@ -62,8 +63,6 @@ class BubbleNotification: UIView {
     private var textlabel = UILabel()
     private var infoTextLabel = UILabel()
     private var actionButton = UIButton(type: .custom)
-
-    private var bottomSeparator = CALayer()
 
     private var autoDismissTimer: Timer?
 
@@ -85,17 +84,15 @@ class BubbleNotification: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        bottomSeparator.frame = CGRect(x: 0, y: bottom, width: width, height: LGUIKitConstants.onePixelSize)
-    }
 
-    func setupOnView(_ parentView: UIView) {
+    func setupOnView(parentView: UIView) {
         // bubble constraints
         let bubbleLeftConstraint = NSLayoutConstraint(item: self, attribute: .left, relatedBy: .equal,
-                                                      toItem: parentView, attribute: .left, multiplier: 1, constant: 0)
-        let bubbleRightConstraint = NSLayoutConstraint(item: self, attribute: .right, relatedBy: .equal,
-                                                       toItem: parentView, attribute: .right, multiplier: 1, constant: 0)
+                                                      toItem: parentView, attribute: .left, multiplier: 1,
+                                                      constant: BubbleNotification.bubbleMargin)
+        let bubbleRightConstraint = NSLayoutConstraint(item: parentView, attribute: .right, relatedBy: .equal,
+                                                       toItem: self, attribute: .right, multiplier: 1,
+                                                       constant: BubbleNotification.bubbleMargin)
         bottomConstraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal,
                                                      toItem: parentView, attribute: .top, multiplier: 1, constant: 0)
         parentView.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bottomConstraint])
@@ -107,8 +104,8 @@ class BubbleNotification: UIView {
     func showBubble(autoDismissTime time: TimeInterval?) {
         // delay to let the setup build the view properly
         delay(0.1) { [weak self] in
-            self?.bottomConstraint.constant = self?.height ?? 0
-            UIView.animate(withDuration: BubbleNotification.showAnimationTime, animations: { self?.layoutIfNeeded() }) 
+            self?.bottomConstraint.constant = (self?.height ?? 0) + BubbleNotification.statusBarHeight
+            UIView.animate(withDuration: BubbleNotification.showAnimationTime) { self?.layoutIfNeeded() }
         }
 
         if let dismissTime = time, dismissTime > 0 {
@@ -133,7 +130,8 @@ class BubbleNotification: UIView {
 
     private func setupUI() {
         backgroundColor = UIColor.white
-        bottomSeparator = addBottomBorderWithWidth(LGUIKitConstants.onePixelSize, color: UIColor.grayLight)
+        layer.cornerRadius = LGUIKitConstants.containerCornerRadius
+        applyDefaultShadow()
 
         if data.hasIcon {
             leftIcon.clipsToBounds = true
@@ -201,14 +199,13 @@ class BubbleNotification: UIView {
 
         var metrics = [String: Any]()
         metrics["margin"] = BubbleNotification.bubbleContentMargin
-        metrics["marginWStatus"] = BubbleNotification.bubbleContentMargin + BubbleNotification.statusBarHeight
         metrics["buttonWidth"] = CGFloat(data.action != nil ? BubbleNotification.buttonMaxWidth : 0)
         metrics["iconDiameter"] = CGFloat(data.hasIcon ? BubbleNotification.iconDiameter : 0)
         metrics["iconMargin"] = CGFloat(data.hasIcon ? BubbleNotification.bubbleInternalMargins : 0)
         metrics["infoLabelMargin"] = CGFloat(data.hasInfo ? 2 : 0)
 
         // container view
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-marginWStatus-[container]-margin-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-margin-[container]-margin-|",
             options: [], metrics: metrics, views: views))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[container]-margin-|",
             options: [], metrics: metrics, views: views))

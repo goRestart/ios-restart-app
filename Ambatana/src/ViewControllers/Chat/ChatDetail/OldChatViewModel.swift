@@ -1067,6 +1067,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.checkSellerDidntAnswer(chat.messages, page: page)
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
+                    if strongSelf.featureFlags.newQuickAnswers {
+                        strongSelf.checkShouldShowDirectAnswers(messages: chat.messages)
+                    }
                 }
             } else if let error = result.error {
                 switch (error) {
@@ -1078,6 +1081,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
+                    if strongSelf.featureFlags.newQuickAnswers {
+                        strongSelf.checkShouldShowDirectAnswers(messages: [])
+                    }
                 case .network, .unauthorized, .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
@@ -1139,6 +1145,15 @@ class OldChatViewModel: BaseViewModel, Paginable {
          */
         sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
             (oldestMessageDate.compare(twoDaysAgo) == .orderedAscending || messages.count == Constants.numMessagesPerPage)
+    }
+
+    private func checkShouldShowDirectAnswers(messages: [Message]) {
+        // If there's no previous message from me, we should show direct answers
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        for message in messages {
+            guard message.userId != myUserId else { return }
+        }
+        userDirectAnswersEnabled.value = true
     }
 }
 

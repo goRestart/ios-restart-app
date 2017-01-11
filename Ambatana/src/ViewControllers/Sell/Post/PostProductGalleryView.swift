@@ -236,8 +236,11 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
             guard let galleryCell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryImageCell.reusableID,
-                for: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
+                                                                       for: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
+
+            galleryCell.tag = indexPath.row
             viewModel.imageForCellAtIndex(indexPath.row) { image in
+                guard galleryCell.tag == indexPath.row else { return }
                 galleryCell.image.image = image
             }
             galleryCell.multipleSelectionEnabled = viewModel.multiSelectionEnabled
@@ -344,10 +347,8 @@ extension PostProductGalleryView {
             guard strongSelf.viewModel.multiSelectionEnabled else { return }
             strongSelf.collectionView.isUserInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
-                delay(0.3) { [weak self] in
-                    self?.collectionView.reloadData()
-                    self?.collectionView.isUserInteractionEnabled = true
-                }
+                self?.collectionView.reloadData()
+                self?.collectionView.isUserInteractionEnabled = true
                 return
             }
             var indexes: [IndexPath] = []
@@ -355,8 +356,9 @@ extension PostProductGalleryView {
                 indexes.append(IndexPath(item: imgSel.index, section: 0))
             }
 
-            strongSelf.collectionView.reloadItems(at: indexes as [IndexPath])
-
+            UIView.performWithoutAnimation {
+                strongSelf.collectionView.reloadItems(at: indexes)
+            }
             if imgsSelected.count == 0 {
                 strongSelf.configMessageView(.noImages)
                 strongSelf.loadImageErrorView.isHidden = false
@@ -367,8 +369,8 @@ extension PostProductGalleryView {
             strongSelf.collectionView.isUserInteractionEnabled = true
         }.addDisposableTo(disposeBag)
 
-        viewModel.imageSelectionEnabled.asObservable().distinctUntilChanged().bindNext { [weak self] interactionEnabled in
-            self?.delegate?.productGallerySelectionFull(!interactionEnabled)
+        viewModel.imageSelectionFull.distinctUntilChanged().bindNext { [weak self] imageSelectionFull in
+            self?.delegate?.productGallerySelectionFull(imageSelectionFull)
         }.addDisposableTo(disposeBag)
     }
 
@@ -510,13 +512,16 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
     }
 
     fileprivate func animateToState(collapsed: Bool, completion: (() -> Void)?) {
+        let hasChanges = collapsed != self.collapsed
         imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
         self.collapsed = collapsed
 
         UIView.animate(withDuration: 0.2,
             animations: { [weak self] in
                 self?.syncCollectionWithImage()
-                self?.contentView.layoutIfNeeded()
+                if hasChanges {
+                    self?.contentView.layoutIfNeeded()
+                }
             }, completion: { _ in
                 completion?()
             }

@@ -544,7 +544,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
     */
     private func informScrollDelegate(_ scrollView: UIScrollView) {
-        if shouldNotifyScrollDelegate(scrollView) {
+        if shouldNotifyScrollDelegate(scrollView: scrollView) {
             scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
         }
         scrollDelegate?.productListView(self, didScrollWithContentOffsetY: scrollView.contentOffset.y)
@@ -570,7 +570,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         you could pass from a value higher than the bouncingLimit to a negative value. 
         -> YES IF (LastContentOffset < 0 && ScrollingUP)
      */
-    private func shouldNotifyScrollDelegate(_ scrollView: UIScrollView) -> Bool {
+
+    private func shouldNotifyScrollDelegate(scrollView: UIScrollView) -> Bool {
+        guard isDragging.value else { return false }
         let limit = (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)
         let offsetLowerThanBouncingLimit = lastContentOffset < limit
         return lastContentOffset > 0.0 && offsetLowerThanBouncingLimit || lastContentOffset < 0.0 && !scrollingDown

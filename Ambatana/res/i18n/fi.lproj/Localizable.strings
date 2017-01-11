@@ -259,13 +259,13 @@
 "direct_answers_show" = "Näytä pikavastaukset";
 "edit_product_location_alert_text" = "Vaihtaaksesi sijainnin, josta tuotteesi julkaistaan, anna lupa käyttää sijaintiasi";
 "edit_product_location_alert_title" = "VAIHDA SIJAINTI";
-"edit_product_send_button" = "Päivitä";
+"edit_product_send_button" = "Tallenna muutokset";
 "edit_product_send_error_uploading_product" = "Tuotettasi päivitettäessä tapahtui virhe.";
 "edit_product_send_ok" = "Onneksi olkoon! Tuotteesi päivitettiin onnistuneesti. Se ilmestyy näkyviin listoillemme hetken kuluttua.";
 "edit_product_suggesting_title" = "Ehdotetaan otsikkoa...";
 "edit_product_title" = "Muokkaa tuotetta";
-"edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
-"edit_product_unsaved_changes_alert_ok" = "Discard";
+"edit_product_unsaved_changes_alert" = "Haluatko varmasti hylätä nämä muutokset?";
+"edit_product_unsaved_changes_alert_ok" = "Hylkää";
 "filters_distance_not_set" = "ei rajattu";
 "filters_navbar_reset" = "Nollaa";
 "filters_price_from" = "Alkaen";
@@ -307,8 +307,8 @@
 "login_scammer_alert_keep_browsing_button" = "Ohita";
 "login_scammer_alert_message" = "letgo-tiimi suorittaa tilillesi tarkastusta. Mikäli uskot, että tilisi on ilmiannettu aiheettomasti, ota meihin yhteyttä.";
 "login_scammer_alert_title" = "TILI TARKASTUKSEN ALAISENA";
-"main_products_filter_navigation_bar_button" = "Filter";
-"main_products_invite_navigation_bar_button" = "Invite";
+"main_products_filter_navigation_bar_button" = "Suodata";
+"main_products_invite_navigation_bar_button" = "Kutsu";
 "main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";
 "main_sign_up_error_request_already_sent" = "Pyyntösi on jo käsitelty. Ole hyvä ja odota, ennen kuin yrität uudelleen.";
 "main_sign_up_error_user_rejected" = "Syöttämäsi sähköposti on väärä. Tarkista osoite ja yritä uudelleen.";

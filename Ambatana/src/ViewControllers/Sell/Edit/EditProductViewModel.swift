@@ -377,7 +377,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
             hasChanges = true
         }
-        else if (initialProduct.name ?? "") != (title ?? "") {
+        else if (initialProduct.title ?? "") != (title ?? "") {
             hasChanges = true
         }
         else if let priceString = price, initialProduct.price.value != Double(priceString) {

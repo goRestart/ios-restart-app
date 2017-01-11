@@ -369,6 +369,13 @@ extension ChatViewController: UIGestureRecognizerDelegate {
     func reloadLeftActions() {
         var actions = [UIAction]()
 
+        let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
+        let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
+            guard let showing = self?.showingStickers else { return }
+            showing ? self?.hideStickers() : self?.showStickers()
+        }, accessibilityId: .chatViewStickersButton)
+        actions.append(kbAction)
+
         if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .notAvailable {
             let image = UIImage(named: "ic_quick_answers")
             let tint: UIColor? = viewModel.directAnswersState.value == .visible ? nil : UIColor.primaryColor
@@ -377,13 +384,6 @@ extension ChatViewController: UIGestureRecognizerDelegate {
                 }, accessibilityId: .chatViewQuickAnswersButton)
             actions.append(quickAnswersAction)
         }
-
-        let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
-        let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
-            guard let showing = self?.showingStickers else { return }
-            showing ? self?.hideStickers() : self?.showStickers()
-        }, accessibilityId: .chatViewStickersButton)
-        actions.append(kbAction)
 
         leftActions = actions
     }

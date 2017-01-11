@@ -420,7 +420,7 @@ fileprivate extension AppCoordinator {
         locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
             [weak self] _ in
             guard let strongSelf = self else { return }
-            if let currentLocation = strongSelf.locationManager.currentLocation, currentLocation.isAuto && strongSelf.featureFlags.locationNoMatchesCountry {
+            if let currentLocation = strongSelf.locationManager.currentLocation, currentLocation.isAuto && !strongSelf.featureFlags.locationMatchesCountry {
                 strongSelf.askUserToUpdateLocationManually()
             }
             }.addDisposableTo(disposeBag)
