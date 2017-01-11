@@ -144,7 +144,8 @@ class MediaPickerManager {
                 preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .default, handler: nil))
             alert.addAction(UIAlertAction(title: LGLocalizedString.commonSettings, style: .default) { alertAction in
-                UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+                guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
+                UIApplication.shared.openURL(settingsUrl)
             })
             controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
