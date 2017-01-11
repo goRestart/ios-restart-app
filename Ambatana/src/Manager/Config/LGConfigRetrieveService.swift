@@ -36,9 +36,9 @@ class LGConfigRetrieveService: ConfigRetrieveService {
                 }
                     // Error
                 else if let error = configFileResponse.result.error {
-                    if let afError = error as? AFError, let urlError = afError.underlyingError as? URLError {
+                    if let afError = error as? AFError, let _ = afError.underlyingError as? URLError {
                         completion?(ConfigRetrieveServiceResult(error: .network))
-                    } else if let urlError = error as? URLError {
+                    } else if let _ = error as? URLError {
                         completion?(ConfigRetrieveServiceResult(error: .network))
                     } else  {
                         completion?(ConfigRetrieveServiceResult(error: .internalError))
