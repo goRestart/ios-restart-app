@@ -21,7 +21,7 @@ extension CLPlacemark {
             place.location = LGLocationCoordinates2D(coordinates: placemarkLocation.coordinate)
         }
 
-        let address = postalAddressStringFromAddressDictionary(self.addressDictionary as Dictionary<NSObject, AnyObject>?, addCountryName: false)
+        let address = postalAddressStringFromAddressDictionary(self.addressDictionary, addCountryName: false)
         let postalAddress = PostalAddress(address: address, city: self.locality, zipCode: self.postalCode,
                                           state: self.administrativeArea, countryCode: self.isoCountryCode, country: self.country)
 

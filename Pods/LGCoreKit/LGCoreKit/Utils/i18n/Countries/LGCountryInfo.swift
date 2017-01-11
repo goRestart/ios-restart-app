@@ -29,7 +29,7 @@ struct LGCountryInfo: CountryInfo {
         return kCLLocationCoordinate2DInvalid
     }
 
-    static func fromDictionary(_ dict: NSDictionary) -> LGCountryInfo? {
+    static func fromDictionary(_ dict: Dictionary<String, Any>) -> LGCountryInfo? {
         guard let id = dict["id"] as? Int else { return nil }
         guard let countryCode = dict["countryCode"] as? String else { return nil }
         guard let defaultLocale = dict["defaultLocale"] as? String else { return nil }

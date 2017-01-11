@@ -173,8 +173,8 @@ extension LGProduct : Decodable {
         let geo: JSON? = j.decode("geo")
         let init1 = curry(LGProduct.productWithId)
                             <^> j <|? "id"                                          // objectId : String?
-                            <*> j <|? "updated_at"                                  // updatedAt : NSDate?
-                            <*> j <|? "created_at"                                  // createdAt : NSDate?
+                            <*> j <|? "updated_at"                                  // updatedAt : Date?
+                            <*> j <|? "created_at"                                  // createdAt : Date?
                             <*> j <|? "name"                                        // name : String?
         let init2 = init1   <*> j <|? "image_information"                           // nameAuto : String?
                             <*> j <|? "description"                                 // descr : String?

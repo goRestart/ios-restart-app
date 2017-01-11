@@ -1,5 +1,5 @@
 //
-//  NSBundle+LG.swift
+//  Bundle+LG.swift
 //  LGCoreKit
 //
 //  Created by AHL on 23/5/15.

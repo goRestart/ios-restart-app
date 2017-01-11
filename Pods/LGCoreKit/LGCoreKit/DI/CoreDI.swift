@@ -194,7 +194,10 @@ final class CoreDI: InternalDI {
         let dataSource = UserApiDataSource(apiClient: self.apiClient)
         return LGUserRepository(dataSource: dataSource, myUserRepository: self.internalMyUserRepository)
     }()
-
+    lazy var monetizationRepository: MonetizationRepository = {
+        let dataSource = MonetizationApiDataSource(apiClient: self.apiClient)
+        return LGMonetizationRepository(dataSource: dataSource)
+    }()
 
     // MARK: > DAO
     

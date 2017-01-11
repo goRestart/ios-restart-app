@@ -35,7 +35,7 @@ public class LGCoreKit {
         InternalCore.internalCommercializerRepository.indexTemplates(nil)
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
-        InternalCore.stickersRepository.show(nil) // Sync stickers to NSUserDefaults
+        InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
     }
     
     public static func applicationWillEnterForeground() {

@@ -53,7 +53,7 @@ final class LGFileRepository: FileRepository {
         }
 
         guard let data = image.resizeImageData() else {
-            completion?(FileResult(error: .internalError(message: "Failed to encode UIImage to NSData")))
+            completion?(FileResult(error: .internalError(message: "Failed to encode UIImage to Data")))
             return
         }
 

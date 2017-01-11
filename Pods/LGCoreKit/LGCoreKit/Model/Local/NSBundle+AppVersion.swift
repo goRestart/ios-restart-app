@@ -1,5 +1,5 @@
 //
-//  NSBundle+AppVersion.swift
+//  Bundle+AppVersion.swift
 //  LGCoreKit
 //
 //  Created by Albert Hernández López on 26/05/16.

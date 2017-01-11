@@ -10,8 +10,8 @@ import CoreLocation
 
 // MARK: - COMPLETION CLOSURES
 
-public typealias RetrieveProductCompletion = (_ product: Product?, _ error: NSError?) -> Void
-public typealias RetrieveProductsCompletion = (_ products: NSArray?, _ lastPage: Bool?, _ error: NSError?) -> Void
+public typealias RetrieveProductCompletion = (_ product: Product?, _ error: Error?) -> Void
+public typealias RetrieveProductsCompletion = (_ products: Array<Any>?, _ lastPage: Bool?, _ error: Error?) -> Void
 
 // MARK: - PARAMS
 
