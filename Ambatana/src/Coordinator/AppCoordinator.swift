@@ -281,7 +281,7 @@ fileprivate extension AppCoordinator {
         refreshable.productsRefresh()
     }
 
-    func openAfterSellDialogIfNeeded() -> Bool {
+    @discardableResult func openAfterSellDialogIfNeeded() -> Bool {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
             pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
         } else if ratingManager.shouldShowRating {
@@ -292,7 +292,7 @@ fileprivate extension AppCoordinator {
         return true
     }
 
-    func showAppRatingViewIfNeeded(_ source: EventParameterRatingSource) -> Bool {
+    @discardableResult func showAppRatingViewIfNeeded(_ source: EventParameterRatingSource) -> Bool {
         return tabBarCtl.showAppRatingViewIfNeeded(source)
     }
 }
