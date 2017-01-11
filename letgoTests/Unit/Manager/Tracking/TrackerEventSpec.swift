@@ -709,7 +709,7 @@ class TrackerEventSpec: QuickSpec {
                         let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.km,
                             categories: [.electronics, .carsAndMotors],
-                            sortBy: ProductSortCriteria.distance, postedWithin: ProductTimeCriteria.distance,
+                            sortBy: ProductSortCriteria.distance, postedWithin: ProductTimeCriteria.day,
                             priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true)
                     }
                     it("has its event name") {
