@@ -1336,7 +1336,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(typePage) == "product-detail"
                 }
                 it("contains seller-user-rating param") {
-                    let typePage = sut.params!.stringKeyParams["seller-user-rating"] as? Int
+                    let typePage = sut.params!.stringKeyParams["seller-user-rating"] as? Float
                     expect(typePage) == 4
                 }
             }
@@ -1385,8 +1385,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(typePage) == "product-detail"
                 }
                 it("contains seller-user-rating param") {
-                    let typePage = sut.params!.stringKeyParams["seller-user-rating"] as? Int
-                    expect(typePage) == 4
+                    let userRating = sut.params!.stringKeyParams["seller-user-rating"] as? Float
+                    expect(userRating) == 4
                 }
             }
 
