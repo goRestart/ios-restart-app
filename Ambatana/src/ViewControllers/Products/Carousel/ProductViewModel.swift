@@ -285,8 +285,8 @@ class ProductViewModel: BaseViewModel {
                 if let bumpeableProduct = result.value {
                     if bumpeableProduct.isBumpeable && bumpeableProduct.bumpsLeft > 0 {
                         // product is bumpeable
-                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
-                        let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.provider.rawValue }
+                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }.map { $0.providerItemId }
+                        let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
                         self?.isBumpeable = !paymentItems.isEmpty || !freeItems.isEmpty
                         if !paymentItems.isEmpty {
                             self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
