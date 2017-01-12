@@ -232,11 +232,11 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         //Loading variable activates/deactivates locationButtonLoading
         viewModel.loading.asObservable().subscribeNext { [weak self] loading in
             if loading {
-                self?.setLocationButton.setTitle("", for: UIControlState.normal)
+                self?.setLocationButton.setTitle("", for: .normal)
                 self?.setLocationLoading.startAnimating()
             } else {
                 self?.setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton,
-                    for: UIControlState.normal)
+                    for: .normal)
                 self?.setLocationLoading.stopAnimating()
             }
             }.addDisposableTo(disposeBag)

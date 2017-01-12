@@ -109,10 +109,10 @@ extension UIImage {
                                                   bitsPerComponent: CGImage.bitsPerComponent, bytesPerRow: 0, space: colorSpace,
                                                   bitmapInfo: CGImage.bitmapInfo.rawValue) else { return nil }
         // Apply transform to context.
-        context.concatenate(transform);
+        context.concatenate(transform)
         
         // Use quality level for interpolation.
-        context.interpolationQuality = interpolationQuality;
+        context.interpolationQuality = interpolationQuality
         
         // Scale the image by drawing it in the resized context.
         context.draw(CGImage, in: needsToBeTransposed ? CGRect(x: 0, y: 0, width: newFrame.size.height, height: newFrame.size.width) :
@@ -188,9 +188,12 @@ extension UIImage {
     // Creates a rounded rect to be added to a path in a drawing context
     func addRoundedRectToPath(_ rect: CGRect, context: CGContext, ovalWidth: CGFloat, ovalHeight: CGFloat) {
         // safety check: if we don't have a rect...
-        if ovalWidth == 0 || ovalHeight == 0 { context.addRect(rect); return }
+        if ovalWidth == 0 || ovalHeight == 0 {
+            context.addRect(rect)
+            return
+        }
     
-        context.saveGState();
+        context.saveGState()
         context.translateBy(x: rect.minX, y: rect.minY)
         context.scaleBy(x: ovalWidth, y: ovalHeight)
         let fw = rect.width / ovalWidth

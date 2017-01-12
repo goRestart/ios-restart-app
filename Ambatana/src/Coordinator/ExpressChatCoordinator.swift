@@ -75,7 +75,7 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
     }
 
     // save products which already have shown the express chat
-    func saveProductAsExpressChatShown(_ productId: String) {
+    fileprivate func saveProductAsExpressChatShown(_ productId: String) {
         var productsExpressShown = keyValueStorage.userProductsWithExpressChatAlreadyShown
 
         for productShownId in productsExpressShown {
@@ -85,7 +85,7 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
         keyValueStorage.userProductsWithExpressChatAlreadyShown = productsExpressShown
     }
 
-    func expressChatAlreadyShownForProduct(_ productId: String) -> Bool {
+    fileprivate func expressChatAlreadyShownForProduct(_ productId: String) -> Bool {
         for productShownId in keyValueStorage.userProductsWithExpressChatAlreadyShown {
             if productShownId == productId { return true }
         }
@@ -93,7 +93,7 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
     }
 
     // save products which sent messages
-    func saveProductAsExpressChatMessageSent(_ productId: String) {
+    fileprivate func saveProductAsExpressChatMessageSent(_ productId: String) {
         var productsExpressSent = keyValueStorage.userProductsWithExpressChatMessageSent
 
         for productSentId in productsExpressSent {
@@ -103,7 +103,7 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
         keyValueStorage.userProductsWithExpressChatMessageSent = productsExpressSent
     }
 
-    func expressChatMessageSentForProduct(_ productId: String) -> Bool {
+    fileprivate func expressChatMessageSentForProduct(_ productId: String) -> Bool {
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
             if productSentId == productId { return true }
         }

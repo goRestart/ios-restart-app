@@ -8,30 +8,6 @@
 
 import LGCoreKit
 import RxSwift
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-private func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-private func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class ProductCarouselViewController: KeyboardViewController, AnimatableTransition {
 
@@ -365,14 +341,11 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func close() {
-        if moreInfoView?.frame.origin.y < 0 {
+        guard let moreInfoView = moreInfoView else { return }
+        if moreInfoView.frame.origin.y < 0 {
             viewModel.close()
         } else {
-            if let moreInfoView = moreInfoView, moreInfoView.mapExpanded {
-                compressMap()
-            } else {
-                hideMoreInfo()
-            }
+            moreInfoView.mapExpanded ? compressMap() : hideMoreInfo()
         }
     }
     
@@ -884,7 +857,8 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
     
     func didEndDraggingCell() {
-        if moreInfoView?.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
+        guard let moreInfoView = moreInfoView else { return }
+        if moreInfoView.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
             showMoreInfo()
         } else {
             hideMoreInfo()

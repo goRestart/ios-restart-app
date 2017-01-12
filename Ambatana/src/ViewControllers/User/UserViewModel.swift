@@ -374,7 +374,7 @@ extension UserViewModel {
 
 // MARK: > Requests
 
-extension UserViewModel {
+fileprivate extension UserViewModel {
     func retrieveUserData() {
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
@@ -441,7 +441,7 @@ extension UserViewModel {
 
 // MARK: > Rx
 
-extension UserViewModel {
+fileprivate extension UserViewModel {
     func setupRxBindings() {
         setupUserInfoRxBindings()
         setupUserRelationRxBindings()

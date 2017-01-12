@@ -23,15 +23,15 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var buttonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomConstraint: NSLayoutConstraint!
 
-    static let backgroundWithImageTop: CGFloat = 25
-    static let titleVisibleTop: CGFloat = 67
-    static let titleInvisibleTop: CGFloat = 8
-    static let buttonVisibleHeight: CGFloat = 30
-    static let buttonVisibleBottom: CGFloat = 8
-    static let buttonHContentInset: CGFloat = 16
+    fileprivate static let backgroundWithImageTop: CGFloat = 25
+    fileprivate static let titleVisibleTop: CGFloat = 67
+    fileprivate static let titleInvisibleTop: CGFloat = 8
+    fileprivate static let buttonVisibleHeight: CGFloat = 30
+    fileprivate static let buttonVisibleBottom: CGFloat = 8
+    fileprivate static let buttonHContentInset: CGFloat = 16
 
-    var buttonAction: (() -> Void)?
-    let disposeBag = DisposeBag()
+    fileprivate var buttonAction: (() -> Void)?
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
