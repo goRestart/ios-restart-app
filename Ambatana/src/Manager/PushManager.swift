@@ -37,7 +37,7 @@ final class PushManager {
     // MARK: - Internal methods
 
     func application(_ application: UIApplication,
-                            didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) {
+                            didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         // Setup push notification libraries
         setupLeanplum()
     }

@@ -49,7 +49,7 @@ final class AmplitudeTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         Amplitude.instance().trackingSessionEvents = false
         Amplitude.instance().initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
         setupABTestsRx()

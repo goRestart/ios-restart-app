@@ -26,7 +26,7 @@ final class FacebookTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         
     }
     

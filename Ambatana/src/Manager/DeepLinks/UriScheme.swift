@@ -14,7 +14,7 @@ struct UriScheme {
 
     var deepLink: DeepLink
 
-    static func buildFromLaunchOptions(_ launchOptions: [AnyHashable: Any]) -> UriScheme? {
+    static func buildFromLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]) -> UriScheme? {
         guard let url = launchOptions[UIApplicationLaunchOptionsKey.url] as? URL else { return nil }
         return UriScheme.buildFromUrl(url)
     }

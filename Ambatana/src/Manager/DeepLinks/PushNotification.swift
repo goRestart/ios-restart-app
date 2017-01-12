@@ -13,7 +13,7 @@ struct PushNotification {
     let deepLink: DeepLink
     let badge: Int?
 
-    static func buildFromLaunchOptions(_ launchOptions: [AnyHashable: Any]) -> PushNotification? {
+    static func buildFromLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]) -> PushNotification? {
         guard let userInfo = launchOptions[UIApplicationLaunchOptionsKey.remoteNotification]
             as? [AnyHashable: Any] else { return nil }
         return PushNotification.buildFromUserInfo(userInfo, appActive: false)

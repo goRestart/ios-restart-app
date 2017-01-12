@@ -39,7 +39,7 @@ class DeepLinksRouter {
 
     // MARK: > Init
 
-    func initWithLaunchOptions(_ launchOptions: [AnyHashable: Any]?) -> Bool {
+    func initWithLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         guard let launchOptions = launchOptions else { return false }
 
         let shortcut = checkInitShortcutAction(launchOptions)
@@ -115,21 +115,21 @@ class DeepLinksRouter {
 
     // MARK: - Private methods
 
-    private func checkInitShortcutAction(_ launchOptions: [AnyHashable: Any]) -> Bool {
+    private func checkInitShortcutAction(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]) -> Bool {
         guard let _ = ShortcutItem.buildFromLaunchOptions(launchOptions) else { return false }
         return true
     }
 
-    private func checkInitUriScheme(_ launchOptions: [AnyHashable: Any]) -> Bool {
+    private func checkInitUriScheme(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]) -> Bool {
         guard let _ = UriScheme.buildFromLaunchOptions(launchOptions) else { return false }
         return true
     }
 
-    private func checkInitUniversalLink(_ launchOptions: [AnyHashable: Any]) -> Bool {
+    private func checkInitUniversalLink(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]) -> Bool {
         return launchOptions[UIApplicationLaunchOptionsKey.userActivityDictionary] != nil
     }
 
-    private func checkInitPushNotification(_ launchOptions: [AnyHashable: Any]) -> Bool {
+    private func checkInitPushNotification(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]) -> Bool {
         guard let pushNotification = PushNotification.buildFromLaunchOptions(launchOptions) else { return false }
         initialDeepLink = pushNotification.deepLink
         return true
