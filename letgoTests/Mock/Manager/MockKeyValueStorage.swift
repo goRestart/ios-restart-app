@@ -82,7 +82,7 @@ extension MockKeyValueStorage: KeyValueStorageable {
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<[String: Any]>) -> [String: Any] {
-        get { return keyValue[key._key] as? [String: AnyObject] ?? [String: Any]() }
+        get { return keyValue[key._key] as? [String: Any] ?? [String: Any]() }
         set { keyValue[key._key] = newValue }
     }
 
