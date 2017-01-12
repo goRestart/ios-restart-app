@@ -80,13 +80,12 @@ class ConfigManager {
     func updateWithCompletion(_ completion: (() -> Void)?) {
 
         var didNotifyCompletion = false
-        let delayTime = DispatchTime.now() + Double(Int64(updateTimeout * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+        delay(self.updateTimeout, completion: {
             if !didNotifyCompletion {
                 didNotifyCompletion = true
                 completion?()
             }
-        }
+        })
 
         service.retrieveConfigWithCompletion { [weak self] (myResult: ConfigRetrieveServiceResult) -> Void in
             if let strongSelf = self {
