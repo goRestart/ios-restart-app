@@ -138,7 +138,9 @@ extension PopupSignUpViewController: SignUpViewModelDelegate {
     }
 
     func vmFinish(completedLogin completed: Bool) {
-        preDismissAction?()
+        if completed {
+            preDismissAction?()
+        }
         dismiss(animated: true, completion: completed ? afterLoginAction : nil)
     }
 
