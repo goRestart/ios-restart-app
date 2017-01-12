@@ -10,33 +10,15 @@ import UIKit
 
 typealias LGConstraintConfigurationBlock = (_ constraint: NSLayoutConstraint) -> ()
 
-class LGLayout {
+struct LGLayout {
     let owner: UIView
     let item1: Any
     let item2: Any?
-    
-    fileprivate var constraints: [NSLayoutConstraint] = []
-    
-    init(owner: UIView, item1: Any, item2: Any?) {
-        self.owner = owner
-        self.item1 = item1
-        self.item2 = item2
-    }
-    
-    init() {
-        self.owner = UIView()
-        self.item1 = UIView()
-        self.item2 = UIView()
-    }
 }
 
 extension LGLayout {
     
     // MARK: Helpers
-    
-    func apply() {
-        owner.addConstraints(constraints)
-    }
     
     @discardableResult
     private func constraint(item1: Any, attritube1: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal,
@@ -52,8 +34,8 @@ extension LGLayout {
                                                   multiplier: multiplier,
                                                   constant: constant)
         layoutConstraint.priority = priority
-        constraints.append(layoutConstraint)
         constraintBlock?(layoutConstraint)
+        owner.addConstraint(layoutConstraint)
         return self
     }
     
@@ -267,8 +249,9 @@ extension LGLayout {
     }
 
     @discardableResult
-    func widthEqualsHeight() -> LGLayout {
+    func widthEqualsHeight(size: CGFloat) -> LGLayout {
         constraint(item1: item1, attritube1: .width, item2: item1, attritube2: .height)
+        constraint(item1: item1, attritube1: .width, constant: size)
         return self
     }
 }
@@ -287,7 +270,7 @@ extension UIView {
             }
         } else {
             assertionFailure("\(self) must have a superview")
-            return LGLayout()
+            return LGLayout(owner: UIView(), item1: UIView(), item2: UIView())
         }
     }
 }
