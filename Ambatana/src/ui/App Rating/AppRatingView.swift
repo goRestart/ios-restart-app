@@ -90,7 +90,7 @@ class AppRatingView: UIView {
         guard let button = sender as? UIButton else { return }
         button.isSelected = true
         delegate?.appRatingViewDidSelectRating(button.tag)
-        button.tag <= 3 ? suggestPressed(sender) : ratePressed(sender)
+        ratePressed(sender)
     }
     
     

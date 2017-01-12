@@ -336,16 +336,10 @@ extension TabBarController: UIGestureRecognizerDelegate {
 }
 
 extension TabBarController: AppRatingViewDelegate {
+
     func appRatingViewDidSelectRating(_ rating: Int) {
-        if rating <= 3 {
-            guard let url = LetgoURLHelper
-                .buildContactUsURL(user: Core.myUserRepository.myUser,
-                                   installation: Core.installationRepository.installation) else { return }
-            openInternalUrl(url)
-        } else {
-            if let url = URL(string: Constants.appStoreURL) {
-                UIApplication.shared.openURL(url)
-            }
+        if let url = URL(string: Constants.appStoreURL) {
+            UIApplication.shared.openURL(url)
         }
     }
 }
