@@ -1117,7 +1117,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
-        drawer.draw(cell, message: message, delegate: self)
+        drawer.draw(cell, message: message)
         cell.transform = tableView.transform
 
         return cell

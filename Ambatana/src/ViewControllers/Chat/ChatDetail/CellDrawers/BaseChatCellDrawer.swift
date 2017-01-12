@@ -30,16 +30,16 @@ class BaseChatCellDrawer<T: UITableViewCell>: BaseTableCellDrawer<T>, ChatCellDr
     - parameter avatar:   Avatar to draw if any
     - parameter delegate: Delegate of the cell if any
     */
-    func draw(_ cell: UITableViewCell, message: ChatViewMessage, delegate: AnyObject?) {
+    func draw(_ cell: UITableViewCell, message: ChatViewMessage) {
         guard let myCell = cell as? T else { return }
-        draw(myCell, message: message, delegate: delegate)
+        draw(myCell, message: message)
         checkAutoHide(myCell, message: message)
     }
     
     /**
     Abstract method that should be implemented by the subclasses.
     */
-    func draw(_ cell: T, message: ChatViewMessage, delegate: AnyObject?) {}
+    func draw(_ cell: T, message: ChatViewMessage) {}
 
 
     private func checkAutoHide(_ cell: T, message: ChatViewMessage) {
