@@ -779,13 +779,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private func loadStickersTooltip() {
         guard chatEnabled && !keyValueStorage[.stickersTooltipAlreadyShown] else { return }
 
-        var newTextAttributes = [String : AnyObject]()
+        var newTextAttributes = [String : Any]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
         newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let newText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipNew, attributes: newTextAttributes)
 
-        var titleTextAttributes = [String : AnyObject]()
+        var titleTextAttributes = [String : Any]()
         titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
         titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 

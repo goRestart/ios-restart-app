@@ -115,7 +115,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
         guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting) else { return }
         incentiveContainer.addSubview(postIncentivatorView)
-        let views: [String : AnyObject] = ["postIncentivatorView": postIncentivatorView]
+        let views: [String : Any] = ["postIncentivatorView": postIncentivatorView]
         incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[postIncentivatorView]|",
             options: [], metrics: nil, views: views))
         incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[postIncentivatorView]|",

@@ -310,7 +310,7 @@ extension UserViewHeader {
     }
 
     private func setupButtons() {
-        var attributes = [String : AnyObject]()
+        var attributes = [String : Any]()
         attributes[NSForegroundColorAttributeName] = UIColor.black
         attributes[NSFontAttributeName] = UIFont.inactiveTabFont
 
@@ -357,7 +357,7 @@ extension UserViewHeader {
     }
 
     fileprivate func setupButtonsSelectedState() {
-        var attributes = [String : AnyObject]()
+        var attributes = [String : Any]()
         attributes[NSForegroundColorAttributeName] = selectedColor
         attributes[NSFontAttributeName] = UIFont.activeTabFont
 

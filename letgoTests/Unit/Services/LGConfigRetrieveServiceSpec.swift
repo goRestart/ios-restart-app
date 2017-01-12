@@ -50,9 +50,9 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
             context("OK") {
                 beforeEach {
                     let path = Bundle(for: self.classForCoder).path(forResource: "iOScfgMockOK", ofType: "json")
-                    let data = NSData(contentsOfFile: path!)!
+                    let data = try! Data(contentsOf: URL(fileURLWithPath: path!))
 
-                    let cfgFile = Config(data: data as Data)
+                    let cfgFile = Config(data: data)
                     expect(cfgFile).notTo(beNil())
 
                     stub(condition: isPath("/config/ios.json")) { _ in

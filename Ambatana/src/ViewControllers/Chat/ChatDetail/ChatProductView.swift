@@ -136,13 +136,13 @@ extension ChatProductView {
     }
 
     private func tooltipText() -> NSAttributedString {
-        var newTextAttributes = [String : AnyObject]()
+        var newTextAttributes = [String : Any]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
         newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
 
-        var titleTextAttributes = [String : AnyObject]()
+        var titleTextAttributes = [String : Any]()
         titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
         titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 

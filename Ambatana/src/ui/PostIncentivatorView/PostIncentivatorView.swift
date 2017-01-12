@@ -30,9 +30,9 @@ class PostIncentivatorView: UIView {
     var isFree: Bool?
 
     var incentiveText: NSAttributedString {
-        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
+        let gotAnyTextAttributes: [String : Any] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
                                                           NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
-        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
+        let lookingForTextAttributes: [String : Any] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
                                                                NSFontAttributeName : UIFont.mediumBodyFont]
 
         let secondPartString = (isFree ?? false)  ? LGLocalizedString.productPostIncentiveGotAnyFree :

@@ -436,8 +436,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     
     func viewPager(_ viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? { return nil }
 
-    private func tabTextAttributes(_ selected: Bool)-> [String : AnyObject] {
-        var titleAttributes = [String : AnyObject]()
+    private func tabTextAttributes(_ selected: Bool)-> [String : Any] {
+        var titleAttributes = [String : Any]()
         titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
         titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
         return titleAttributes
