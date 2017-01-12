@@ -59,7 +59,7 @@ extension UIViewController: BaseViewModelDelegate {
     }
 
     func vmPop() {
-        navigationController?.popViewController(animated: true)
+        navigationController?.popBackViewController()
     }
 
     func vmDismiss(_ completion: (() -> Void)?) {

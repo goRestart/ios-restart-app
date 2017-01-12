@@ -161,7 +161,7 @@ extension UIViewController {
 
     // gets back one VC from the stack.
     func popBackViewController() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
 
     /**

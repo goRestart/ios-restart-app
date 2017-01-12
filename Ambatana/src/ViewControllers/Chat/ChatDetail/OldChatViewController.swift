@@ -558,7 +558,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
     
     func vmClose() {
-        navigationController?.popViewController(animated: true)
+        navigationController?.popBackViewController()
     }
 
     func vmLoadStickersTooltipWithText(_ text: NSAttributedString) {

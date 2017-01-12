@@ -73,7 +73,7 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
         activityIndicator.stopAnimating()
         if firstPage {
             vmShowAutoFadingMessage(LGLocalizedString.ratingListLoadingErrorMessage) { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popBackViewController()
             }
         }
     }

@@ -239,7 +239,7 @@ final class TabBarController: UITabBarController {
         // Dismiss all presented view controllers
         navBarCtl.dismissAllPresented { [weak self, weak navBarCtl] in
             // Pop previous navigation to root
-            navBarCtl?.popToRootViewController(animated: false)
+            _ = navBarCtl?.popToRootViewController(animated: false)
             navBarCtl?.tabBarController?.setTabBarHidden(false, animated: false)
 
             guard let strongSelf = self else { return }

@@ -59,7 +59,7 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func showFilters(with productFilters: ProductFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        let vm = FiltersViewModel(currentFilters: productFilters ?? ProductFilters())
+        let vm = FiltersViewModel(currentFilters: productFilters)
         vm.dataDelegate = filtersVMDataDelegate
         let vc = FiltersViewController(viewModel: vm)
         let navVC = UINavigationController(rootViewController: vc)
