@@ -12,12 +12,12 @@ typealias LGConstraintConfigurationBlock = (_ constraint: NSLayoutConstraint) ->
 
 class LGLayout {
     let owner: UIView
-    let item1: AnyObject
-    let item2: AnyObject?
+    let item1: Any
+    let item2: Any?
     
     fileprivate var constraints: [NSLayoutConstraint] = []
     
-    init(owner: UIView, item1: AnyObject, item2: AnyObject?) {
+    init(owner: UIView, item1: Any, item2: Any?) {
         self.owner = owner
         self.item1 = item1
         self.item2 = item2
@@ -39,8 +39,8 @@ extension LGLayout {
     }
     
     @discardableResult
-    private func constraint(item1: AnyObject, attritube1: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal,
-                            item2: AnyObject? = nil, attritube2: NSLayoutAttribute = .notAnAttribute,
+    private func constraint(item1: Any, attritube1: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal,
+                            item2: Any? = nil, attritube2: NSLayoutAttribute = .notAnAttribute,
                             multiplier: CGFloat = 1, constant: CGFloat = 0,
                             priority: UILayoutPriority = UILayoutPriorityRequired,
                             constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
@@ -275,7 +275,7 @@ extension LGLayout {
 
 extension UIView {
     
-    func layout(with item: AnyObject? = nil) -> LGLayout {
+    func layout(with item: Any? = nil) -> LGLayout {
         self.translatesAutoresizingMaskIntoConstraints = false
         if item == nil {
             return LGLayout(owner: self, item1: self, item2: nil) // self

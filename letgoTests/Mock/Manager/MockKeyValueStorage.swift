@@ -51,7 +51,7 @@ extension MockKeyValueStorage: KeyValueStorageable {
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<Any?>) -> Any? {
-        get { return keyValue[key._key] as AnyObject? }
+        get { return keyValue[key._key] as Any? }
         set { keyValue[key._key] = newValue }
     }
     subscript(key: DefaultsKey<NSObject?>) -> NSObject? {

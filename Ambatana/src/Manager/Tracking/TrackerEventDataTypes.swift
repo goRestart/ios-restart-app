@@ -645,7 +645,7 @@ enum EventParameterExpressChatTrigger: String {
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]
     
-    // transforms the params to [String: AnyObject]
+    // transforms the params to [String: Any]
     var stringKeyParams: [String: Any] {
         get {
             var res = [String: Any]()

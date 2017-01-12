@@ -69,7 +69,7 @@ fileprivate extension UserViewHeaderContainer {
     }
 
     func setupConstraints() {
-        let views: [String: AnyObject] = ["header": header]
+        let views: [String: Any] = ["header": header]
         let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[header]-0-|",
                                                                           options: [],
                                                                           metrics: nil, views: views)
