@@ -104,7 +104,7 @@ class BubbleNotification: UIView {
         // delay to let the setup build the view properly
         delay(0.1) { [weak self] in
             self?.bottomConstraint.constant = (self?.height ?? 0) + BubbleNotification.statusBarHeight
-            UIView.animateWithDuration(BubbleNotification.showAnimationTime) { self?.layoutIfNeeded() }
+            UIView.animateWithDuration(BubbleNotification.showAnimationTime) { self?.superview?.layoutIfNeeded() }
         }
 
         if let dismissTime = time where dismissTime > 0 {
@@ -118,7 +118,7 @@ class BubbleNotification: UIView {
         guard superview != nil else { return } // Already closed
         self.bottomConstraint.constant = 0
         UIView.animateWithDuration(BubbleNotification.closeAnimationTime, animations: { [weak self] in
-            self?.layoutIfNeeded()
+            self?.superview?.layoutIfNeeded()
         }) { [weak self ] _ in
             self?.removeBubble()
         }
