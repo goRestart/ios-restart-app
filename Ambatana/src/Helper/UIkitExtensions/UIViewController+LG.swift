@@ -7,30 +7,6 @@
 import UIKit
 import SafariServices
 import RxSwift
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-private func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-private func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 // MARK: - UINavigationBar helpers
 
@@ -46,8 +22,9 @@ extension UIViewController {
     }
 
     func isRootViewController() -> Bool  {
-        guard navigationController?.viewControllers.count > 0 else { return false }
-        return navigationController?.viewControllers[0] == self
+        guard let navigationController = navigationController else { return false }
+        guard navigationController.viewControllers.count > 0 else { return false }
+        return navigationController.viewControllers[0] == self
     }
 
     @discardableResult 
