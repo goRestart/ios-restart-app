@@ -7,30 +7,6 @@
 //
 
 import UIKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-private func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-private func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 @IBDesignable
 class LGNavBarSearchField: UIView {
@@ -92,7 +68,7 @@ class LGNavBarSearchField: UIView {
 
         searchTextField.text = initialSearchValue
         
-        if searchTextField.text?.characters.count > 0 {
+        if let characters = searchTextField.text?.characters, characters.count > 0 {
             setupTextFieldEditMode()
         } else {
             setupTextFieldCleanMode()
