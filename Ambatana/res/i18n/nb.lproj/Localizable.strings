@@ -450,7 +450,7 @@
 "product_mark_as_sold_free_confirm_message" = "Marker ditt produkt som gitt bort allerede.";
 "product_mark_as_sold_free_confirm_ok_button" = "Marker";
 "product_mark_as_sold_free_confirm_title" = "Marker det som gitt bort";
-"product_mark_as_sold_free_success_message" = "Gratulerer! Ditt produkt har blitt markert som gitt bort";
+"product_mark_as_sold_free_success_message" = "Gratulerer! Ditt produkt har blitt markert som gitt bort.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_more_info_open_button" = "MER INFO";
 "product_more_info_related_title" = "DU KAN VÆRE INTERESSERT I:";
