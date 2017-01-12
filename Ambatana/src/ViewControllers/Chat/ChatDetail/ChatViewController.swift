@@ -535,7 +535,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         let drawer = ChatCellDrawerFactory.drawerForMessage(message)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
-        drawer.draw(cell, message: message, delegate: self)
+        drawer.draw(cell, message: message)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
         }

@@ -25,7 +25,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         super.init(autoHide: autoHide)
     }
 
-    override func draw(_ cell: ChatMyMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
+    override func draw(_ cell: ChatMyMessageCell, message: ChatViewMessage) {
         cell.messageLabel.text = message.value
         cell.dateLabel.text = message.sentAt?.formattedTime()
         cell.checkImageView.image = nil
