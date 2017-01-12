@@ -621,7 +621,9 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
     }
 
     func vmFinish(completedAccess completed: Bool) {
-        preDismissAction?()
+        if completed {
+            preDismissAction?()
+        }
         dismissViewControllerAnimated(true, completion: completed ? afterLoginAction : nil)
     }
 

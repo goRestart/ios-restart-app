@@ -12,7 +12,7 @@
 "app_share_subject_text" = "Check out letgo";
 "app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
 "app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
-"app_share_success" = "App successfully shared!";
+"app_share_success" = "App shared!";
 "app_share_title" = "INVITE YOUR FRIENDS";
 "app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Invite via Whatsapp";
@@ -57,14 +57,14 @@
 "change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "change_password_send_error_link_expired" = "Sorry, this link has expired!";
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
-"change_password_send_ok" = "Password changed successfully.";
+"change_password_send_ok" = "Password changed!";
 "change_password_title" = "Change password";
 "change_username_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 "change_username_error_invalid_username_letgo" = "Another account is using %@";
 "change_username_field_hint" = "Full name";
 "change_username_loading" = "Saving username...";
 "change_username_save_button" = "Save";
-"change_username_send_ok" = "Username changed successfully!";
+"change_username_send_ok" = "Username changed!";
 "change_username_title" = "Change Name";
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
 "chat_account_deleted_wo_name" = "This account has been deleted";
@@ -261,7 +261,7 @@
 "edit_product_location_alert_title" = "CHANGE LOCATION";
 "edit_product_send_button" = "Save changes";
 "edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
-"edit_product_send_ok" = "Congratulations! Your product was successfully updated. It will appear in our listings shortly.";
+"edit_product_send_ok" = "Congratulations! Your product has been updated. It will appear in our listings shortly.";
 "edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Edit Product";
 "edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
@@ -425,7 +425,7 @@
 "product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Oops! An error occurred while deleting your product. Please try again.";
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
-"product_delete_success_message" = "Your product was successfully deleted.";
+"product_delete_success_message" = "Your product has been deleted.";
 "product_distance_X_from_you" = "%@ from you";
 "product_distance_more_than_from_you" = "More than %@ from you";
 "product_favorite_direct_message" = "I like it! Is it still available?";
@@ -450,8 +450,8 @@
 "product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
 "product_mark_as_sold_free_confirm_ok_button" = "Mark";
 "product_mark_as_sold_free_confirm_title" = "Mark it as given away";
-"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away.";
-"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
+"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been marked as given away.";
+"product_mark_as_sold_success_message" = "Congratulations, your product has been marked as sold!";
 "product_more_info_open_button" = "MORE INFO";
 "product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
 "product_more_info_related_view_more" = "View more";
@@ -525,8 +525,8 @@
 "product_report_confirm_title" = "Report Product";
 "product_report_product_button" = "Report Product";
 "product_reported_error_generic" = "An error occurred while reporting the product. Please try again.";
-"product_reported_success_message" = "The product was reported successfully. Thanks!";
-"product_reporting_loading_message" = "Reporting Product...";
+"product_reported_success_message" = "The product has been reported. Thanks!";
+"product_reporting_loading_message" = "Reporting product...";
 "product_search_no_products_body" = "Try looking for something else or check again soon!";
 "product_search_no_products_title" = "OOPS! NO RESULTS NEAR YOU";
 "product_sell_again_button" = "Sell It Again";
@@ -541,7 +541,7 @@
 "product_sell_again_free_confirm_ok_button" = "Give Away";
 "product_sell_again_free_confirm_title" = "Mark as available";
 "product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again.";
-"product_sell_again_success_message" = "Congratulations! Your product has been successfully marked as available.";
+"product_sell_again_success_message" = "Congratulations! Your product has been marked as available.";
 "product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
 "product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
 "product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
@@ -552,7 +552,7 @@
 "product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
 "product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_ok" = "Product shared!";
 "product_share_navbar_button" = "Share";
 "product_share_posted_by" = "posted by %@";
 "product_share_sms_error" = "An error occurred while sending your message.";
@@ -651,7 +651,7 @@
 "sell_picture_label" = "Photo";
 "sell_picture_save_into_camera_roll_error_generic" = "An error occurred while saving the image to your photo library. Please check your phone's settings and make sure letgo is allowed to access your photos.";
 "sell_picture_save_into_camera_roll_loading" = "Saving image to photo library...";
-"sell_picture_save_into_camera_roll_ok" = "Successfully saved image to photo library.";
+"sell_picture_save_into_camera_roll_ok" = "Saved image to photo library.";
 "sell_picture_selected_cancel_button" = "Cancel";
 "sell_picture_selected_delete_button" = "Delete";
 "sell_picture_selected_save_into_camera_roll_button" = "Save to camera roll";
@@ -681,7 +681,7 @@
 "settings_help_button" = "Help";
 "settings_invite_facebook_friends_button" = "Invite Facebook Friends";
 "settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
-"settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
+"settings_invite_facebook_friends_ok" = "Your invitation has been shared!";
 "settings_logout_alert_message" = "Are you sure you want to log out?";
 "settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Log out";
