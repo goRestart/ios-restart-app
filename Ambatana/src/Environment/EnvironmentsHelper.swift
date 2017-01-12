@@ -20,18 +20,18 @@ class EnvironmentsHelper {
         case Escrow = "Escrow"
     }
 
-    private(set) var coreEnvironment: EnvironmentType = .Production
+    private(set) var coreEnvironment: EnvironmentType = .production
 
     var appEnvironment: AppEnvironmentType {
         switch coreEnvironment {
         case .Staging:
-            return .Development
+            return .development
         case .Canary:
-            return .Production
-        case .Production:
-            return .Production
-        case .Escrow:
-            return .Escrow
+            return .production
+        case .production:
+            return .production
+        case .escrow:
+            return .escrow
         }
     }
 
@@ -46,14 +46,14 @@ class EnvironmentsHelper {
         //First check xcode environment
         let envArgs = ProcessInfo.processInfo.environment
         if envArgs["-environment-prod"] != nil {
-            setSettingsEnvironment(.Production, key: EnvironmentsHelper.settingsEnvironmentKey)
-            return .Production
+            setSettingsEnvironment(.production, key: EnvironmentsHelper.settingsEnvironmentKey)
+            return .production
         } else if envArgs["-environment-dev"] != nil {
             setSettingsEnvironment(.Staging, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .Staging
         } else if envArgs["-environment-escrow"] != nil {
-            setSettingsEnvironment(.Escrow, key: EnvironmentsHelper.settingsEnvironmentKey)
-            return .Escrow
+            setSettingsEnvironment(.escrow, key: EnvironmentsHelper.settingsEnvironmentKey)
+            return .escrow
         }
 
         //Last check settings
@@ -78,16 +78,16 @@ class EnvironmentsHelper {
     private func getSettingsEnvironment(_ key: String) -> EnvironmentType {
         let userDefaults = UserDefaults()
         guard let environmentString = userDefaults.string(forKey: key),
-            let environment = SettingsEnvironment(rawValue: environmentString) else { return .Production }
+            let environment = SettingsEnvironment(rawValue: environmentString) else { return .production }
         switch environment {
-        case .Production:
-            return .Production
+        case .production:
+            return .production
         case .Canary:
             return .Canary
         case .Staging:
             return .Staging
-        case .Escrow:
-            return .Escrow
+        case .escrow:
+            return .escrow
         }
     }
 
@@ -98,10 +98,10 @@ class EnvironmentsHelper {
             userDefaults.setValue(SettingsEnvironment.Staging.rawValue, forKey: key)
         case .Canary:
             userDefaults.setValue(SettingsEnvironment.Canary.rawValue, forKey: key)
-        case .Production:
-            userDefaults.setValue(SettingsEnvironment.Production.rawValue, forKey: key)
-        case .Escrow:
-            userDefaults.setValue(SettingsEnvironment.Escrow.rawValue, forKey: key)
+        case .production:
+            userDefaults.setValue(SettingsEnvironment.production.rawValue, forKey: key)
+        case .escrow:
+            userDefaults.setValue(SettingsEnvironment.escrow.rawValue, forKey: key)
         }
     }
 }

@@ -7,9 +7,9 @@
 //
 
 enum AppEnvironmentType: String {
-    case Development
-    case Production
-    case Escrow
+    case development
+    case production
+    case escrow
 }
 
 class EnvironmentProxy: AppEnvironment {
@@ -30,11 +30,11 @@ class EnvironmentProxy: AppEnvironment {
 
     func setEnvironmentType(_ type: AppEnvironmentType) {
         switch type {
-        case .Development:
+        case .development:
             environment = DevelopmentEnvironment()
-        case .Production:
+        case .production:
             environment = ProductionEnvironment()
-        case .Escrow:
+        case .escrow:
             environment = EscrowEnvironment()
         }
     }
