@@ -89,7 +89,7 @@ class ExpressChatViewModel: BaseViewModel {
         let wrapper = ChatWrapper()
         let tracker = trackerProxy
         for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, type:.ExpressChat(messageText.value)) { [weak self] result in
+            wrapper.sendMessageForProduct(product, type:.ExpressChat(messageText.value)) { result in
                 if let value = result.value {
                     ExpressChatViewModel.singleMessageExtraTrackings(tracker, shouldAskAskQuestion: value, product: product)
                 }
