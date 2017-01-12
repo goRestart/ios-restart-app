@@ -8,30 +8,6 @@
 
 import LGCoreKit
 import RxSwift
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-private func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-private func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 protocol ChatGroupedListViewDelegate: class {
     func chatGroupedListViewShouldUpdateInfoIndicators()
@@ -155,14 +131,14 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     // MARK: - UITableViewDelegate
 
     func didSelectRowAtIndex(_ index: Int, editing: Bool) {
-        if editing {
-            footerButton.isEnabled = tableView.indexPathsForSelectedRows?.count > 0
+        if editing, let selectedRows = tableView.indexPathsForSelectedRows?.count {
+            footerButton.isEnabled = selectedRows > 0
         }
     }
 
     func didDeselectRowAtIndex(_ index: Int, editing: Bool) {
-        if editing {
-            footerButton.isEnabled = tableView.indexPathsForSelectedRows?.count > 0
+        if editing, let selectedRows = tableView.indexPathsForSelectedRows?.count{
+            footerButton.isEnabled = selectedRows > 0
         }
     }
 
@@ -265,8 +241,8 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         let visibilityOK = ( footerViewBottom.constant < 0 ) == hidden
         guard !visibilityOK else { return }
 
-        if !hidden {
-            footerButton.isEnabled = tableView.indexPathsForSelectedRows?.count > 0
+        if !hidden, let selectedRows = tableView.indexPathsForSelectedRows?.count {
+            footerButton.isEnabled = selectedRows > 0
         }
         bottomInset = hidden ? tabBarBottomInset : 0
         footerViewBottom.constant = hidden ? -footerView.frame.height : 0
