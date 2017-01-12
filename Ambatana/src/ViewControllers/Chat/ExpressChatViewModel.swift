@@ -162,8 +162,8 @@ extension ExpressChatViewModel {
         trackerProxy.trackEvent(event)
     }
 
-    static func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendkAskQuestion: Bool, product: Product) {
-        if shouldSendkAskQuestion {
+    static func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product) {
+        if shouldSendAskQuestion {
             let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .expressChat)
             tracker.trackEvent(askQuestionEvent)
         }
