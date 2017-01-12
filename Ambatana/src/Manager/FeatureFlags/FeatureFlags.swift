@@ -6,7 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-//import bumper //TODO: RE-ENABLE after swift 3 migration
 import LGCoreKit
 import CoreTelephony
 import bumper
