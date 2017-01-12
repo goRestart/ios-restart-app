@@ -148,7 +148,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
         setLocationButton.setStyle(.primary(fontSize: .medium))
-        setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, for: UIControlState())
+        setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, for: .normal)
         gpsLocationButton.layer.cornerRadius = 10
         poiImage.isHidden = true
         aproxLocationArea.isHidden = true

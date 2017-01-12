@@ -134,7 +134,7 @@ final class TourNotificationsViewController: BaseViewController {
         subtitleLabel.text = viewModel.subtitle
         notificationMessageLabel.text = viewModel.pushText
         
-        notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, for: UIControlState())
+        notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, for: .normal)
         notificationTimeLabel.text = LGLocalizedString.commonTimeNowLabel
 
         alertOkLabel.text = LGLocalizedString.commonOk

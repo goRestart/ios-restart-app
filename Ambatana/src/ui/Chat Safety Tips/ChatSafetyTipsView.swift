@@ -72,7 +72,7 @@ class ChatSafetyTipsView: UIView {
 
         titleLabel.text = LGLocalizedString.chatSafetyTipsTitle
         messageLabel.text = LGLocalizedString.chatSafetyTipsMessage
-        okButton.setTitle(LGLocalizedString.commonOk, for: UIControlState())
+        okButton.setTitle(LGLocalizedString.commonOk, for: .normal)
 
         okButton.accessibilityId = .safetyTipsOkButton
     }

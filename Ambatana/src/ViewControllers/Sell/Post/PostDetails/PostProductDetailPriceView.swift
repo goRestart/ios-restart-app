@@ -83,7 +83,7 @@ class PostProductDetailPriceView: BaseView {
         freePostLabel.textColor = UIColor.white
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
                                                                   attributes: [NSForegroundColorAttributeName: UIColor.white])
-        doneButton.setTitle(LGLocalizedString.productPostDone, for: UIControlState())
+        doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
         currencyLabel.text = viewModel.currencySymbol
         currencyLabel.textColor = UIColor.white
         doneButton.setStyle(.primary(fontSize: .big))

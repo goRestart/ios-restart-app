@@ -311,7 +311,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
 
         // Rounded save button
         saveFiltersBtn.setStyle(.primary(fontSize: .medium))
-        saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, for: UIControlState())
+        saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, for: .normal)
 
         // hide keyboard on tap
         tapRec = UITapGestureRecognizer(target: self, action: #selector(collectionTapped))

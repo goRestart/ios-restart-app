@@ -70,10 +70,10 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     var usePhotoButtonText: String? {
         set {
-            postButton?.setTitle(newValue, for: UIControlState())
+            postButton?.setTitle(newValue, for: .normal)
         }
         get {
-            return postButton?.title(for: UIControlState())
+            return postButton?.title(for: .normal)
         }
     }
     private var headerShown = true

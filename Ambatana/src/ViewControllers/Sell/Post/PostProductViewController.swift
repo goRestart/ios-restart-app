@@ -155,7 +155,7 @@ class PostProductViewController: BaseViewController {
     }
 
     private func setupDetailView() {
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: UIControlState())
+        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButton.setStyle(.primary(fontSize: .medium))
 
         productDetailView.translatesAutoresizingMaskIntoConstraints = false

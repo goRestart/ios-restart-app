@@ -162,7 +162,7 @@ class BubbleNotification: UIView {
             actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
             actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
             actionButton.titleLabel?.minimumScaleFactor = 0.8
-            actionButton.setTitle(action.text, for: UIControlState())
+            actionButton.setTitle(action.text, for: .normal)
             actionButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
             actionButton.accessibilityId =  action.accessibilityId
         }

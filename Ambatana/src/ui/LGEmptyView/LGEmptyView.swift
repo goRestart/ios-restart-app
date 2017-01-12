@@ -80,7 +80,7 @@ class LGEmptyView: UIView {
 
     var buttonTitle: String? {
         didSet {
-            actionButton.setTitle(buttonTitle, for: UIControlState())
+            actionButton.setTitle(buttonTitle, for: .normal)
             actionButtonHeight?.constant = buttonTitle != nil ? LGEmptyView.buttonHeight : 0
             updateConstraintsIfNeeded()
         }
@@ -88,7 +88,7 @@ class LGEmptyView: UIView {
     
     var secondaryButtonTitle: String? {
         didSet {
-            actionSecondaryButton.setTitle(secondaryButtonTitle, for: UIControlState())
+            actionSecondaryButton.setTitle(secondaryButtonTitle, for: .normal)
             actionSecondaryButtonHeight?.constant = secondaryButtonTitle != nil ? LGEmptyView.buttonHeight : 0
             actionButtonBottomConstraint?.constant = secondaryButtonTitle != nil ? -LGEmptyView.titleBodyVSpacing : 0
             updateConstraintsIfNeeded()

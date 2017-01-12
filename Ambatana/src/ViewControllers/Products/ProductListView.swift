@@ -525,7 +525,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorImageViewHeightConstraint.constant = emptyViewModel.iconHeight
         errorTitleLabel.text = emptyViewModel.title
         errorBodyLabel.text = emptyViewModel.body
-        errorButton.setTitle(emptyViewModel.buttonTitle, for: UIControlState())
+        errorButton.setTitle(emptyViewModel.buttonTitle, for: .normal)
         // > If there's no button title or action then hide it
         if emptyViewModel.hasAction {
             errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight

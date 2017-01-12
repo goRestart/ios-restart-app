@@ -37,7 +37,7 @@ class PostAfterDeleteViewController: BaseViewController {
     private func setupUI() {
         setStatusBarHidden(true)
         mainButton.setStyle(.primary(fontSize: .big))
-        mainButton.setTitle(viewModel.buttonTitle, for: UIControlState())
+        mainButton.setTitle(viewModel.buttonTitle, for: .normal)
         mainButton.accessibilityId = .postDeleteFullscreenButton
 
         mainTextLabel.text = viewModel.title

@@ -54,7 +54,7 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = BlockedUserCell.defaultHeight
 
-        footerButton.setTitle(LGLocalizedString.chatListUnblock, for: UIControlState())
+        footerButton.setTitle(LGLocalizedString.chatListUnblock, for: .normal)
         footerButton.addTarget(self, action: #selector(BlockedUsersListView.unblockUsersPressed),
                                for: .touchUpInside)
     }

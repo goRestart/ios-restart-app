@@ -47,7 +47,7 @@ class CollectionViewFooter: UICollectionReusableView, ReusableCell {
                 hidden = true
             }
             retryButton.isHidden = hidden
-            retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: UIControlState())
+            retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         }
     }
 

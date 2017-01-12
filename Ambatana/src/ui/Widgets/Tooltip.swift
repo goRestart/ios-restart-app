@@ -156,7 +156,7 @@ class Tooltip: UIView {
             separationView.translatesAutoresizingMaskIntoConstraints = false
             coloredView.addSubview(separationView)
 
-            closeButton.setImage(UIImage(named: "ic_close"), for: UIControlState())
+            closeButton.setImage(UIImage(named: "ic_close"), for: .normal)
             closeButton.alpha = 0.5
             closeButton.translatesAutoresizingMaskIntoConstraints = false
             closeButton.addTarget(self, action: #selector(closeTooltip), for: .touchUpInside)

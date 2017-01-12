@@ -138,7 +138,7 @@ class SocialShareView: UIView {
     private func createButton(_ image: UIImage?, accesibilityId: AccessibilityId, action: @escaping () -> Void) -> UIButton {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(image, for: UIControlState())
+        button.setImage(image, for: .normal)
         button.accessibilityId = accessibilityId
         button.rx.tap.subscribeNext { _ in action() }.addDisposableTo(disposeBag)
         let width = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil,

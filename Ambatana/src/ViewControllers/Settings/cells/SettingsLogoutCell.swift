@@ -26,6 +26,6 @@ class SettingsLogoutCell: UITableViewCell, ReusableCell {
         logoutButton.isUserInteractionEnabled = false
         logoutButton.setStyle(.logout)
         logoutButton.layer.cornerRadius = 22
-        logoutButton.setTitle(LGLocalizedString.settingsLogoutButton, for: UIControlState())
+        logoutButton.setTitle(LGLocalizedString.settingsLogoutButton, for: .normal)
     }
 }

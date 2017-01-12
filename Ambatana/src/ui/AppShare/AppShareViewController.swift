@@ -98,9 +98,9 @@ class AppShareViewController: UIViewController {
     private func setupUI() {
         contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
 
-        inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, for: UIControlState())
-        inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, for: UIControlState())
-        inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, for: UIControlState())
+        inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, for: .normal)
+        inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, for: .normal)
+        inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, for: .normal)
 
         inviteFBMessengerBtn.rounded = true
         inviteWhatsappBtn.rounded = true

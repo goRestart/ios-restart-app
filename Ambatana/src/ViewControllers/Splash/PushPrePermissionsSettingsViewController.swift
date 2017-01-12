@@ -82,7 +82,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         notificationsLabel.text = LGLocalizedString.notificationsPermissionsSettingsCell1
         secondSectionLabel.attributedText = secondSectionAttributedTitle()
         allowNotificationsLabel.text = LGLocalizedString.notificationsPermissionsSettingsCell2
-        yesButton.setTitle(LGLocalizedString.notificationsPermissionsSettingsYesButton, for: UIControlState())
+        yesButton.setTitle(LGLocalizedString.notificationsPermissionsSettingsYesButton, for: .normal)
     }
     
     

@@ -46,11 +46,11 @@ class CarouselUIHelper {
                                                      left: 2*CarouselUI.shareButtonHorizontalSpacing,
                                                      bottom: CarouselUI.shareButtonVerticalSpacing,
                                                      right: 3*CarouselUI.shareButtonHorizontalSpacing)
-        shareButton.setTitle(text, for: UIControlState())
-        shareButton.setTitleColor(UIColor.white, for: UIControlState())
+        shareButton.setTitle(text, for: .normal)
+        shareButton.setTitleColor(UIColor.white, for: .normal)
         shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 15)
         if let imageIcon = icon {
-            shareButton.setImage(imageIcon.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            shareButton.setImage(imageIcon.withRenderingMode(.alwaysTemplate), for: .normal)
         }
         shareButton.tintColor = UIColor.white
         shareButton.sizeToFit()

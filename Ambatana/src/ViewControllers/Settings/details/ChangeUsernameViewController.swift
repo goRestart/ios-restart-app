@@ -162,7 +162,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         usernameTextfield.placeholder = LGLocalizedString.changeUsernameFieldHint
         usernameTextfield.text = viewModel.username
         
-        saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, for: UIControlState())
+        saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, for: .normal)
         saveButton.setStyle(.primary(fontSize: .big))
         saveButton.isEnabled = false
     }

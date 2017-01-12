@@ -53,10 +53,10 @@ class NPSViewController: BaseViewController {
             $0.layer.borderColor = UIColor.primaryColor.cgColor
             $0.layer.borderWidth = 1.0
             $0.clipsToBounds = true
-            $0.setTitle(String($0.tag), for: UIControlState())
-            $0.setTitleColor(UIColor.primaryColor, for: UIControlState())
+            $0.setTitle(String($0.tag), for: .normal)
+            $0.setTitleColor(UIColor.primaryColor, for: .normal)
             $0.setTitleColor(UIColor.white, for: .highlighted)
-            $0.setBackgroundImage(UIColor.white.imageWithSize(CGSize(width: 1, height: 1)), for: UIControlState())
+            $0.setBackgroundImage(UIColor.white.imageWithSize(CGSize(width: 1, height: 1)), for: .normal)
             $0.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), for: .highlighted)
             $0.titleLabel?.font = UIFont.systemBoldFont(size: 19)
         }
@@ -72,7 +72,7 @@ class NPSViewController: BaseViewController {
         notLikelyLabel.textColor = UIColor.grayDark
         extremelyLikelyLabel.textColor = UIColor.grayDark
         
-        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
         closeButton.tintColor = UIColor.primaryColor
     }
     

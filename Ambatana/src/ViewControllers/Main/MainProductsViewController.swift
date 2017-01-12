@@ -266,7 +266,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
                                        target: self,
                                        action: #selector(filtersButtonPressed(_:)))
             icon.setTitleTextAttributes([NSFontAttributeName:tagsIsEmpty ? UIFont.regularBarButtonFont : UIFont.boldBarButtonFont],
-                                        for: UIControlState())
+                                        for: .normal)
             navigationItem.rightBarButtonItem = icon
         } else {
             setLetGoRightButtonWith(imageName: tagsIsEmpty ? "ic_filters" : "ic_filters_active",
@@ -436,8 +436,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         clearButton.translatesAutoresizingMaskIntoConstraints = false
         clearButton.titleLabel?.textAlignment = .right
         clearButton.titleLabel?.font = UIFont.sectionTitleFont
-        clearButton.setTitleColor(UIColor.darkGrayText, for: UIControlState())
-        clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.uppercase, for: UIControlState())
+        clearButton.setTitleColor(UIColor.darkGrayText, for: .normal)
+        clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.uppercase, for: .normal)
         clearButton.addTarget(self, action: #selector(cleanSearchesButtonPressed), for: .touchUpInside)
         container.addSubview(clearButton)
         

@@ -14,19 +14,19 @@ class EnvironmentsHelper {
     private static let lastEnvironmentKey = "SettingsBundleLastEnvironment"
 
     private enum SettingsEnvironment: String {
-        case Production = "Production"
-        case Staging = "Staging"
-        case Canary = "Canary"
-        case Escrow = "Escrow"
+        case production = "Production"
+        case staging = "Staging"
+        case canary = "Canary"
+        case escrow = "Escrow"
     }
 
     private(set) var coreEnvironment: EnvironmentType = .production
 
     var appEnvironment: AppEnvironmentType {
         switch coreEnvironment {
-        case .Staging:
+        case .staging:
             return .development
-        case .Canary:
+        case .canary:
             return .production
         case .production:
             return .production
@@ -49,8 +49,8 @@ class EnvironmentsHelper {
             setSettingsEnvironment(.production, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .production
         } else if envArgs["-environment-dev"] != nil {
-            setSettingsEnvironment(.Staging, key: EnvironmentsHelper.settingsEnvironmentKey)
-            return .Staging
+            setSettingsEnvironment(.staging, key: EnvironmentsHelper.settingsEnvironmentKey)
+            return .staging
         } else if envArgs["-environment-escrow"] != nil {
             setSettingsEnvironment(.escrow, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .escrow
@@ -82,10 +82,10 @@ class EnvironmentsHelper {
         switch environment {
         case .production:
             return .production
-        case .Canary:
-            return .Canary
-        case .Staging:
-            return .Staging
+        case .canary:
+            return .canary
+        case .staging:
+            return .staging
         case .escrow:
             return .escrow
         }
@@ -94,10 +94,10 @@ class EnvironmentsHelper {
     private func setSettingsEnvironment(_ environment: EnvironmentType, key: String) {
         let userDefaults = UserDefaults()
         switch environment {
-        case .Staging:
-            userDefaults.setValue(SettingsEnvironment.Staging.rawValue, forKey: key)
-        case .Canary:
-            userDefaults.setValue(SettingsEnvironment.Canary.rawValue, forKey: key)
+        case .staging:
+            userDefaults.setValue(SettingsEnvironment.staging.rawValue, forKey: key)
+        case .canary:
+            userDefaults.setValue(SettingsEnvironment.canary.rawValue, forKey: key)
         case .production:
             userDefaults.setValue(SettingsEnvironment.production.rawValue, forKey: key)
         case .escrow:
