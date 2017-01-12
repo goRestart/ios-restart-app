@@ -308,8 +308,9 @@ extension TextViewController: UITextViewDelegate {
         guard textViewHeight.constant != appropriateHeight else { return }
         textViewHeight.constant = appropriateHeight
         if textView.isFirstResponder {
+            
             UIView.animate(withDuration: TextViewController.animationTime, delay: 0,
-                                       options: [.layoutSubviews, .beginFromCurrentState],
+                                       options: [.layoutSubviews, .beginFromCurrentState, .curveEaseInOut],
                                        animations: { [weak self] in
                                             self?.textView.scrollToCaret(animated: false)
                                         }, completion: nil)
