@@ -190,10 +190,10 @@ extension ReportUsersViewController {
     }
 
     func moveBottomForKeyboard(_ keyboardNotification: Notification, showing: Bool) {
-        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
-        textBottomConstraint.constant = showing ? kbAnimation.size.height : ReportUsersViewController.textBottomSpace
-        bottomConstraint.constant = showing ? kbAnimation.size.height - ReportUsersViewController.textBottomSpace : 0
-        UIView.animate(withDuration: kbAnimation.duration, delay: 0, options: kbAnimation.options,
+        let kbChange = keyboardNotification.keyboardChange
+        textBottomConstraint.constant = showing ? kbChange.height : ReportUsersViewController.textBottomSpace
+        bottomConstraint.constant = showing ? kbChange.height - ReportUsersViewController.textBottomSpace : 0
+        UIView.animate(withDuration: TimeInterval(kbChange.animationTime), delay: 0, options: kbChange.animationOptions,
             animations: { [weak self] in
                 self?.view.layoutIfNeeded()
             }, completion: { [weak self] completed in

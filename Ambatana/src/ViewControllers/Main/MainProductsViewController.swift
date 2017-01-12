@@ -476,8 +476,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func keyboardWillShow(_ notification: Notification) {
-        let kbAnimation = KeyboardAnimation(keyboardNotification: notification)
-        suggestionsSearchesTable.contentInset.bottom = kbAnimation.size.height
+        suggestionsSearchesTable.contentInset.bottom = notification.keyboardChange.height
     }
 
     func keyboardWillHide(_ notification: Notification) {
