@@ -127,8 +127,8 @@ extension KeyValueStorage {
     }
     var userRatingRemindMeLaterDate: Date? {
         get {
-            return currentUserProperties?.ratingRemindMeLaterDate as Date?? ??
-                UserDefaultsUser.ratingRemindMeLaterDateDefaultValue as Date?
+            return currentUserProperties?.ratingRemindMeLaterDate ??
+                UserDefaultsUser.ratingRemindMeLaterDateDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
