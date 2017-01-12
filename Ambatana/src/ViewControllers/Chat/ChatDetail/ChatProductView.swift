@@ -73,7 +73,7 @@ class ChatProductView: UIView {
 
         reviewButton.setStyle(.review)
         reviewButton.isHidden = true
-        reviewButton.setTitle(LGLocalizedString.chatUserRatingButtonTitle, for: UIControlState())
+        reviewButton.setTitle(LGLocalizedString.chatUserRatingButtonTitle, for: .normal)
     }
 
     func showReviewButton(_ showButton: Bool, withTooltip: Bool) {

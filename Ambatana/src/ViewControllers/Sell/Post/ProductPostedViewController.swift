@@ -110,7 +110,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         setStatusBarHidden(true)
         mainButton.setStyle(.primary(fontSize: .big))
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
-        editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, for: UIControlState())
+        editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, for: .normal)
         loadingIndicator.color = UIColor.primaryColor
 
         guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting) else { return }
@@ -128,7 +128,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         loadingIndicator.isHidden = true
         mainTextLabel.text = viewModel.mainText
         secondaryTextLabel.text = viewModel.secondaryText
-        mainButton.setTitle(viewModel.mainButtonText, for: UIControlState())
+        mainButton.setTitle(viewModel.mainButtonText, for: .normal)
 
         if !loadingSuccessful {
             editContainer.isHidden = true
@@ -153,7 +153,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     }
 
     private func finishedLoading(_ correct: Bool) {
-        mainButton.setTitle(viewModel.mainButtonText, for: UIControlState())
+        mainButton.setTitle(viewModel.mainButtonText, for: .normal)
         loadingIndicator.isHidden = true
         loadingIndicator.stopAnimating(correct) { [weak self] in
             if correct {

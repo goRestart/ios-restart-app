@@ -99,7 +99,7 @@ extension UIViewController {
                 let button = UIButton(type: .system)
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
                 button.tag = tags != nil ? tags![i] : i
-                button.setImage(UIImage(named: images[i])?.withRenderingMode(renderingMode[i]), for: UIControlState())
+                button.setImage(UIImage(named: images[i])?.withRenderingMode(renderingMode[i]), for: .normal)
                 button.addTarget(self, action: Selector(selectors[i]), for: UIControlEvents.touchUpInside)
                 buttons.append(button)
             }
@@ -115,7 +115,7 @@ extension UIViewController {
         var x: CGFloat = 0
         
         let items: [UIBarButtonItem] = buttons.flatMap { button in
-            guard let icon = button.image(for: UIControlState()) else { return nil }
+            guard let icon = button.image(for: .normal) else { return nil }
             
             let buttonWidth = icon.size.width + barButtonsHoritzontalSpacing
             button.frame = CGRect(x: x, y: 0, width: buttonWidth, height: height)

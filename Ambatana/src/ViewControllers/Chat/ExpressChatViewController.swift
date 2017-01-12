@@ -70,8 +70,8 @@ class ExpressChatViewController: BaseViewController {
 
         sendMessageButton.setStyle(.primary(fontSize: .big))
         
-        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton.uppercased(), for: UIControlState())
-        dontAskAgainButton.setTitleColor(UIColor.grayText, for: UIControlState())
+        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton.uppercased(), for: .normal)
+        dontAskAgainButton.setTitleColor(UIColor.grayText, for: .normal)
         dontAskAgainButton.titleLabel?.font = UIFont.mediumBodyFont
 
         collectionView.delegate = self

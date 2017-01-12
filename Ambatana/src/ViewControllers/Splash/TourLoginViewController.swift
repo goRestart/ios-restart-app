@@ -168,9 +168,9 @@ fileprivate extension TourLoginViewController {
 
         // i18n
         claimLabel.text = LGLocalizedString.tourClaimLabel
-        facebookButton.setTitle(LGLocalizedString.tourFacebookButton, for: UIControlState())
-        googleButton.setTitle(LGLocalizedString.tourGoogleButton, for: UIControlState())
-        emailButton.setTitle(LGLocalizedString.tourEmailButton, for: UIControlState())
+        facebookButton.setTitle(LGLocalizedString.tourFacebookButton, for: .normal)
+        googleButton.setTitle(LGLocalizedString.tourGoogleButton, for: .normal)
+        emailButton.setTitle(LGLocalizedString.tourEmailButton, for: .normal)
         footerTextView.attributedText = signUpViewModel.attributedLegalText
     }
 

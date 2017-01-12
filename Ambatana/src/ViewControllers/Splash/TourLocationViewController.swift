@@ -85,7 +85,7 @@ final class TourLocationViewController: BaseViewController {
         distanceLabel.text = LGLocalizedString.locationPermissionsBubble
 
         iphoneBckgImage.image = viewModel.infoImage
-        yesButton.setTitle(LGLocalizedString.locationPermissionsButton, for: UIControlState())
+        yesButton.setTitle(LGLocalizedString.locationPermissionsButton, for: .normal)
         yesButton.setStyle(.primary(fontSize: .medium))
 
         labelContainer.rounded = true

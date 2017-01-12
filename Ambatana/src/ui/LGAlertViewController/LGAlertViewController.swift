@@ -190,7 +190,7 @@ class LGAlertViewController: UIViewController {
         button.titleLabel?.numberOfLines = 2
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.setTitle(action.text, for: UIControlState())
+        button.setTitle(action.text, for: .normal)
         button.accessibilityId = action.accessibilityId
         button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
         button.rx.tap.bindNext { [weak self] _ in

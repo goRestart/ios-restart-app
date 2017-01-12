@@ -54,7 +54,7 @@ class RecaptchaViewController: BaseViewController {
         let isTransparentMode = backgroundImage != nil
         bgOverlayView.isHidden = !isTransparentMode
         let closeButtonImageName = isTransparentMode ? "ic_close" : "ic_close_red"
-        closeButton.setImage(UIImage(named: closeButtonImageName), for: UIControlState())
+        closeButton.setImage(UIImage(named: closeButtonImageName), for: .normal)
     }
 
     private func loadUrl(_ url: URL) {

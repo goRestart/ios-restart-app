@@ -28,7 +28,7 @@ class ProductFavoriteNotificationCellDrawer: BaseNotificationCellDrawer<Notifica
                 cell.primaryImage.image = placeholder
             }
             cell.timeLabel.text = data.date.relativeTimeString(true)
-            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeLikeButton, for: UIControlState())
+            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeLikeButton, for: .normal)
         default:
             return
         }

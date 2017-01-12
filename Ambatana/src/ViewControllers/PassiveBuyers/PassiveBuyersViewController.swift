@@ -61,7 +61,7 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         view.backgroundColor = UIColor.grayBackground
         topContainer.backgroundColor = UIColor.grayBackground
         topContainer.alpha = 0
-        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
 
         setupHeader()
         setupTable()
@@ -124,7 +124,7 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         titleLabel.text = LGLocalizedString.passiveBuyersTitle
         messageLabel.text = LGLocalizedString.passiveBuyersMessage
 
-        contactButton.setTitle(LGLocalizedString.passiveBuyersButton(viewModel.buyersCount), for: UIControlState())
+        contactButton.setTitle(LGLocalizedString.passiveBuyersButton(viewModel.buyersCount), for: .normal)
 
         tableView.reloadData()
     }

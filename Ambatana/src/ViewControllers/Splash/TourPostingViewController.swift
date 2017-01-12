@@ -54,7 +54,7 @@ class TourPostingViewController: BaseViewController {
         subtitleLabel.text = viewModel.subtitleText
         
         okButton.setStyle(.primary(fontSize: .medium))
-        okButton.setTitle(viewModel.okButtonText, for: UIControlState())
+        okButton.setTitle(viewModel.okButtonText, for: .normal)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(cameraContainerPressed))
         photoContainer.addGestureRecognizer(tap)

@@ -180,7 +180,7 @@ class CommercialDisplayViewController: BaseViewController {
         let shareButtonTitle = viewModel.isMyVideo ?
             LGLocalizedString.commercializerDisplayShareMyVideoButton :
             LGLocalizedString.commercializerDisplayShareOthersVideoButton
-        shareButton.setTitle(shareButtonTitle, for: UIControlState())
+        shareButton.setTitle(shareButtonTitle, for: .normal)
     }
 }
 

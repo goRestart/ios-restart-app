@@ -306,7 +306,7 @@ extension UserViewHeader {
         verifiedSimpleTitle.textColor = UIColor.grayDark
         verifiedSimpleTitle.font = UIFont.mediumBodyFontLight
 
-        buildTrustButton.setTitle(LGLocalizedString.profileBuildTrustButton, for: UIControlState())
+        buildTrustButton.setTitle(LGLocalizedString.profileBuildTrustButton, for: .normal)
     }
 
     private func setupButtons() {
@@ -316,16 +316,16 @@ extension UserViewHeader {
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
             attributes: attributes)
-        sellingButton.setAttributedTitle(sellingTitle, for: UIControlState())
+        sellingButton.setAttributedTitle(sellingTitle, for: .normal)
 
 
         let soldTitle = NSAttributedString(string: LGLocalizedString.profileSoldProductsTab.uppercase,
             attributes: attributes)
-        soldButton.setAttributedTitle(soldTitle, for: UIControlState())
+        soldButton.setAttributedTitle(soldTitle, for: .normal)
 
         let favsTitle = NSAttributedString(string: LGLocalizedString.profileFavouritesProductsTab.uppercase,
             attributes: attributes)
-        favoritesButton.setAttributedTitle(favsTitle, for: UIControlState())
+        favoritesButton.setAttributedTitle(favsTitle, for: .normal)
 
         setupButtonsSelectedState()
     }
@@ -397,7 +397,7 @@ extension UserViewHeader {
         buildTrustButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: UserViewHeader.buildTrustButtonTitleInset,
                                                         bottom: 0, right: -UserViewHeader.buildTrustButtonTitleInset)
         buildTrustButton.layer.cornerRadius = buildTrustButtonHeight.constant / 2
-        buildTrustButton.setImage(UIImage(named: big ? "ic_build_trust" : "ic_build_trust_small"), for: UIControlState())
+        buildTrustButton.setImage(UIImage(named: big ? "ic_build_trust" : "ic_build_trust_small"), for: .normal)
     }
 }
 

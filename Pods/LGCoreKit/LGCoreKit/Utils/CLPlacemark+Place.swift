@@ -60,13 +60,13 @@ extension CLPlacemark {
             let addressString: String
             if #available(iOS 9.0, *) {
                 let address = CNMutablePostalAddress()
-                address.street = addressDict[CNPostalAddressStreetKey] as? String ?? ""
-                address.state = addressDict[CNPostalAddressStateKey] as? String ?? ""
+                address.street = addressDict["Street"] as? String ?? ""
+                address.state = addressDict["State"] as? String ?? ""
                 address.postalCode = addressDict["ZIP"] as? String ?? ""
-                address.city = addressDict[CNPostalAddressCityKey] as? String ?? ""
-                address.isoCountryCode = addressDict[CNPostalAddressISOCountryCodeKey] as? String ?? ""
+                address.city = addressDict["City"] as? String ?? ""
+                address.isoCountryCode = addressDict["CountryCode"] as? String ?? ""
                 if addCountryName {
-                    address.country = addressDict[CNPostalAddressCountryKey] as? String ?? ""
+                    address.country = addressDict["Country"] as? String ?? ""
                 }
                 addressString = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
             } else {

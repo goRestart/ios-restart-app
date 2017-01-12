@@ -91,17 +91,17 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         connectGoogleButton.setStyle(.google)
 
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            for: UIControlState())
+            for: .normal)
         signUpButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            for: UIControlState())
+            for: .normal)
         logInButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
-        connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, for: UIControlState())
-        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, for: UIControlState())
-        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: UIControlState())
-        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: UIControlState())
+        connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, for: .normal)
+        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, for: .normal)
+        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
+        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
 
         claimLabel.text = topMessage
 

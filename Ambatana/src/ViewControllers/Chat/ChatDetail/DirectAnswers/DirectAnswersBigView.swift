@@ -139,8 +139,8 @@ class DirectAnswersBigView: UIView {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: DirectAnswersBigView.itemHeight))
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setHeightConstraint(DirectAnswersBigView.itemHeight)
-        button.setTitle(answer.text, for: UIControlState())
-        button.setTitleColor(UIColor.primaryColor, for: UIControlState())
+        button.setTitle(answer.text, for: .normal)
+        button.setTitleColor(UIColor.primaryColor, for: .normal)
         button.titleLabel?.font = UIFont.systemMediumFont(size: 17)
         button.isEnabled = enabled
         return button

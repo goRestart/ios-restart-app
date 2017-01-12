@@ -222,8 +222,8 @@ UICollectionViewDelegateFlowLayout {
 
         // Localization
         introLabel.text = LGLocalizedString.commercializerPromoteIntroLabel
-        introButton.setTitle(LGLocalizedString.commercializerPromoteIntroButton, for: UIControlState())
-        promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, for: UIControlState())
+        introButton.setTitle(LGLocalizedString.commercializerPromoteIntroButton, for: .normal)
+        promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, for: .normal)
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)

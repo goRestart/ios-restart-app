@@ -18,7 +18,7 @@ class WelcomeNotificationCellDrawer: BaseNotificationCellDrawer<WelcomeNotificat
             } else {
                 cell.subtitleLabel.text = LGLocalizedString.notificationsTypeWelcomeSubtitle
             }
-            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeWelcomeButton, for: UIControlState())
+            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeWelcomeButton, for: .normal)
         default:
             return
         }

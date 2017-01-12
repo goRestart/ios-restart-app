@@ -197,7 +197,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         setNavBarTitle(LGLocalizedString.changePasswordTitle)
 
         sendButton.setStyle(.primary(fontSize: .big))
-        sendButton.setTitle(LGLocalizedString.changePasswordTitle, for: UIControlState())
+        sendButton.setTitle(LGLocalizedString.changePasswordTitle, for: .normal)
         sendButton.isEnabled = false
 
         // internationalization

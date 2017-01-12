@@ -44,7 +44,7 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
             icon = UIImage(named: "ic_check_gray")
 
             cell.actionButton.layer.borderWidth = 0
-            cell.actionButton.setTitleColor(UIColor.gray, for: UIControlState())
+            cell.actionButton.setTitleColor(UIColor.gray, for: .normal)
 
             let hSpacing: CGFloat = 5
             cell.actionButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: hSpacing, bottom: 0, right: -hSpacing)
@@ -54,8 +54,8 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
             icon = nil
             cell.actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
         }
-        cell.actionButton.setTitle(title, for: UIControlState())
-        cell.actionButton.setImage(icon, for: UIControlState())
+        cell.actionButton.setTitle(title, for: .normal)
+        cell.actionButton.setImage(icon, for: .normal)
     }
 
     private func setupUserImageViews(_ cell: BuyersInterestedNotificationCell, buyers: [NotificationUser]) {

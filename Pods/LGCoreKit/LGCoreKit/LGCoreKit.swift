@@ -20,7 +20,7 @@ public class LGCoreKit {
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
 
     public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
-        initialize(launchOptions, environmentType: .Production)
+        initialize(launchOptions, environmentType: .production)
     }
 
     public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?, environmentType: EnvironmentType) {

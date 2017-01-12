@@ -179,7 +179,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         // i18n
         setNavBarTitle(LGLocalizedString.resetPasswordTitle)
         emailTextField.placeholder = LGLocalizedString.resetPasswordEmailFieldHint
-        resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, for: UIControlState())
+        resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, for: .normal)
         instructionsLabel.text = LGLocalizedString.resetPasswordInstructions
         
         // Tags

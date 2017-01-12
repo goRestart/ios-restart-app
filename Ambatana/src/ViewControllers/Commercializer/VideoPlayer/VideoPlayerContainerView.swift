@@ -222,8 +222,8 @@ class VideoPlayerContainerView: UIView {
     }
 
     private func refreshUI() {
-        audioButton.setImage(imageForAudioButton, for: UIControlState())
-        playButton.setImage(imageForPlayButton, for: UIControlState())
+        audioButton.setImage(imageForAudioButton, for: .normal)
+        playButton.setImage(imageForPlayButton, for: .normal)
         audioButton.alpha = audioButtonIsVisible ? 1.0 : 0.0
         fullScreenButton.alpha = audioButtonIsVisible ? 1.0 : 0.0
         playButton.alpha = controlsAreVisible ? 1.0 : 0.0
@@ -361,7 +361,7 @@ class VideoPlayerContainerView: UIView {
     private func setupVideoPlayerFullscreenButton() {
         fullScreenButton.addTarget(self, action: #selector(VideoPlayerContainerView.onFullScreenButtonPressed),
                              for: .touchUpInside)
-        fullScreenButton.setImage(UIImage(named: "ic_video_fullscreen"), for: UIControlState())
+        fullScreenButton.setImage(UIImage(named: "ic_video_fullscreen"), for: .normal)
         fullScreenButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(fullScreenButton)
 

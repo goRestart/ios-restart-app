@@ -181,8 +181,8 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
         orLabel.backgroundColor = view.backgroundColor
-        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: UIControlState())
-        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: UIControlState())
+        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
+        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
 
         setupTermsAndConditions()
     }

@@ -38,6 +38,6 @@ class RatingNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell>
             cell.primaryImage.image = placeholder
         }
         cell.timeLabel.text = data.date.relativeTimeString(true)
-        cell.actionButton.setTitle(LGLocalizedString.notificationsTypeRatingButton, for: UIControlState())
+        cell.actionButton.setTitle(LGLocalizedString.notificationsTypeRatingButton, for: .normal)
     }
 }

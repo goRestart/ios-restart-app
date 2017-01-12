@@ -160,7 +160,7 @@ class ChatTextView: UIView {
         textView.returnKeyType = .send
         textView.delegate = self
         sendButton.setStyle(.primary(fontSize: .medium))
-        sendButton.setTitle(LGLocalizedString.chatSendButton, for: UIControlState())
+        sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
     }
 
     private func setupRX() {

@@ -28,7 +28,7 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
         contentCell.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
         contentCell.clipsToBounds = true
         exploreButton.setStyle(.primary(fontSize: .small))
-        exploreButton.setTitle(LGLocalizedString.collectionExploreButton, for: UIControlState())
+        exploreButton.setTitle(LGLocalizedString.collectionExploreButton, for: .normal)
         exploreButton.titleLabel?.adjustsFontSizeToFitWidth = true
         setAccessibilityIds()
     }

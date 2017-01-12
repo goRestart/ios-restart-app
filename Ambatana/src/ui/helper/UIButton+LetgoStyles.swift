@@ -205,14 +205,14 @@ extension UIButton {
         layer.borderWidth = style.withBorder ? 1 : 0
         layer.borderColor = style.titleColor.cgColor
 
-        setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), for: UIControlState())
+        setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), for: .normal)
         setBackgroundImage(style.backgroundColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
                            for: .highlighted)
         setBackgroundImage(style.backgroundColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), for: .disabled)
         
         titleLabel?.font = style.titleFont
         titleLabel?.lineBreakMode = .byTruncatingTail
-        setTitleColor(style.titleColor, for: UIControlState())
+        setTitleColor(style.titleColor, for: .normal)
         let padding = style.sidePadding
         let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
         let right = contentEdgeInsets.right < padding ? padding : contentEdgeInsets.right
@@ -220,8 +220,8 @@ extension UIButton {
     }
 
     func configureWith(uiAction action: UIAction) {
-        setTitle(action.text, for: UIControlState())
-        setImage(action.image, for: UIControlState())
+        setTitle(action.text, for: .normal)
+        setImage(action.image, for: .normal)
         if let style = action.buttonStyle {
             setStyle(style)
         }

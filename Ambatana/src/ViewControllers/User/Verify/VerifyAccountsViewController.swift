@@ -91,9 +91,9 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         titleLabel.text = viewModel.titleText
         descriptionLabel.text = viewModel.descriptionText
 
-        fbButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, for: UIControlState())
-        googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, for: UIControlState())
-        emailButton.setTitle(LGLocalizedString.profileVerifyEmailButton, for: UIControlState())
+        fbButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, for: .normal)
+        googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, for: .normal)
+        emailButton.setTitle(LGLocalizedString.profileVerifyEmailButton, for: .normal)
 
         if viewModel.fbButtonState.value == .hidden {
             fbContainerHeight.constant = 0

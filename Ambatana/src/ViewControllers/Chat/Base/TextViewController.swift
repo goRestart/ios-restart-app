@@ -237,8 +237,8 @@ extension TextViewController: UITextViewDelegate {
         textView.layer.borderColor = UIColor.lineGray.cgColor
         textView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
-        sendButton.setTitleColor(UIColor.red, for: UIControlState())
-        sendButton.setTitle("Send", for: UIControlState())
+        sendButton.setTitleColor(UIColor.red, for: .normal)
+        sendButton.setTitle("Send", for: .normal)
 
         setupTextAreaRx()
 
@@ -280,7 +280,7 @@ extension TextViewController: UITextViewDelegate {
         for action in leftActions {
             guard let image = action.image else { continue }
             let button = UIButton()
-            button.setImage(image, for: UIControlState())
+            button.setImage(image, for: .normal)
             if let tint = action.imageTint {
                 button.tintColor = tint
             }

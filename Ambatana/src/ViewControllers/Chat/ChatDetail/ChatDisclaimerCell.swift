@@ -62,7 +62,7 @@ extension ChatDisclaimerCell {
     }
 
     func setButton(title: String?) {
-        button.setTitle(title, for: UIControlState())
+        button.setTitle(title, for: .normal)
         hideButton(title == nil || button.isHidden)
     }
 

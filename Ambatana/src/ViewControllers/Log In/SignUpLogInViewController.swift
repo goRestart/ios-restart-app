@@ -237,7 +237,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         let imgButton = passwordTextField.isSecureTextEntry ?
             UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
-        showPasswordButton.setImage(imgButton, for: UIControlState())
+        showPasswordButton.setImage(imgButton, for: .normal)
         
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
@@ -368,7 +368,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         newsletterLabel.textColor = UIColor.grayText
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
-        forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, for: UIControlState())
+        forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, for: .normal)
 
         emailTextField.clearButtonOffset = 0
         emailTextField.text = viewModel.email
@@ -390,7 +390,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         sendButton.setStyle(.primary(fontSize: .medium))
         sendButton.isEnabled = false
 
-        showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), for: UIControlState())
+        showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), for: .normal)
 
         if isRootViewController() {
             let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
@@ -462,7 +462,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         }
 
         let sendButtonTitle = isSignup ? LGLocalizedString.signUpSendButton : LGLocalizedString.logInSendButton
-        sendButton.setTitle(sendButtonTitle, for: UIControlState())
+        sendButton.setTitle(sendButtonTitle, for: .normal)
 
         let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
         setNavBarTitle(navBarTitle)
@@ -503,7 +503,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                                                                      attributes: textfieldPlaceholderAttrs)
         termsConditionsText.tintColor = UIColor.primaryColor
 
-        forgotPasswordButton.setTitleColor(UIColor.darkGrayText, for: UIControlState())
+        forgotPasswordButton.setTitleColor(UIColor.darkGrayText, for: .normal)
     }
 
     private func setupDarkAppearance() {
@@ -541,7 +541,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                                                                      attributes: textfieldPlaceholderAttrs)
         termsConditionsText.tintColor = UIColor.white
 
-        forgotPasswordButton.setTitleColor(UIColor.white, for: UIControlState())
+        forgotPasswordButton.setTitleColor(UIColor.white, for: .normal)
     }
 
     func setupKenBurns() {

@@ -408,7 +408,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         categoryTitleLabel.text = LGLocalizedString.sellCategorySelectionLabel
         categorySelectedLabel.text = viewModel.categoryName ?? ""
 
-        sendButton.setTitle(LGLocalizedString.editProductSendButton, for: UIControlState())
+        sendButton.setTitle(LGLocalizedString.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
         
         shareFBSwitch.isOn = viewModel.shouldShareInFB

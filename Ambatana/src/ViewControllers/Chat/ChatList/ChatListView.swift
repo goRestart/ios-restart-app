@@ -62,7 +62,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = ConversationCell.defaultHeight
 
-        footerButton.setTitle(viewModel.titleForDeleteButton, for: UIControlState())
+        footerButton.setTitle(viewModel.titleForDeleteButton, for: .normal)
         footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), for: .touchUpInside)
     }
 

@@ -22,7 +22,7 @@ class ProductSoldNotificationCellDrawer: BaseNotificationCellDrawer<Notification
                 cell.primaryImage.image = placeholder
             }
             cell.timeLabel.text = data.date.relativeTimeString(true)
-            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeSoldButton, for: UIControlState())
+            cell.actionButton.setTitle(LGLocalizedString.notificationsTypeSoldButton, for: .normal)
         default:
             return
         }

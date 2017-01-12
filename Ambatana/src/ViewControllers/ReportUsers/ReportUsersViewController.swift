@@ -102,7 +102,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         ReportUserCellDrawer.registerCell(collectionView)
 
         sendButton.setStyle(.primary(fontSize: .medium))
-        sendButton.setTitle(LGLocalizedString.reportUserSendButton, for: UIControlState())
+        sendButton.setTitle(LGLocalizedString.reportUserSendButton, for: .normal)
         sendButton.isEnabled = false
 
         commentTextView.text = LGLocalizedString.reportUserTextPlaceholder

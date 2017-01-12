@@ -22,7 +22,7 @@ class LGViewPagerTabItem: UIButton {
     // UI setup
     var unselectedTitle: NSAttributedString = NSAttributedString() {
         didSet {
-            setAttributedTitle(unselectedTitle, for: UIControlState())
+            setAttributedTitle(unselectedTitle, for: .normal)
         }
     }
 
@@ -86,7 +86,7 @@ class LGViewPagerTabItem: UIButton {
     private func setupUI(_ indicatorHeight: CGFloat) {
         contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8 + indicatorHeight, right: 16)
         backgroundColor = UIColor.clear
-        setAttributedTitle(unselectedTitle, for: UIControlState())
+        setAttributedTitle(unselectedTitle, for: .normal)
 
         indicator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(indicator)

@@ -47,7 +47,7 @@ extension ExpandableButtonsView {
 
         let button = UIButton(type: .custom)
         button.tag = actionIdx
-        button.setImage(image, for: UIControlState())
+        button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         button.accessibilityId = accessibilityId
         button.translatesAutoresizingMaskIntoConstraints = false

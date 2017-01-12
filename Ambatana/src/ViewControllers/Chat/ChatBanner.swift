@@ -65,12 +65,12 @@ class ChatBanner: UIView {
         actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
         actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
         actionButton.titleLabel?.minimumScaleFactor = 0.8
-        actionButton.setTitle(action.text, for: UIControlState())
+        actionButton.setTitle(action.text, for: .normal)
         actionButton.addTarget(self, action: #selector(bannerActionButtonTapped), for: .touchUpInside)
         actionButton.setContentCompressionResistancePriority(751, for: .horizontal)
         actionButton.accessibilityId = .expressChatBannerActionButton
 
-        closeButton.setImage(UIImage(named: "ic_close_dark"), for: UIControlState())
+        closeButton.setImage(UIImage(named: "ic_close_dark"), for: .normal)
         closeButton.addTarget(self, action: #selector(bannerCloseButtonTapped), for: .touchUpInside)
         closeButton.accessibilityId = .expressChatBannerCloseButton
     }
