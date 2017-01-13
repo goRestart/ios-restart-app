@@ -90,8 +90,6 @@ final class PushManager {
     }
 
     private func tokenStringFromData(_ data: Data) -> String {
-        let characterSet: CharacterSet = CharacterSet( charactersIn: "<>" )
-        return (data.description as NSString).trimmingCharacters(in: characterSet)
-            .replacingOccurrences(of: " ", with: "") as String
+        return data.toHexString()
     }
 }
