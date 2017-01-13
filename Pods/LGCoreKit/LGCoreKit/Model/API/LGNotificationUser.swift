@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 public struct LGNotificationUser: NotificationUser {
     public let id: String
@@ -22,7 +23,7 @@ extension LGNotificationUser: Decodable {
         static let userImage = "user_image"
     }
 
-    public static func decode(j: JSON) -> Decoded<LGNotificationUser> {
+    public static func decode(_ j: JSON) -> Decoded<LGNotificationUser> {
         /*
          {
          "user_id": "3ba8869d-4d19-3b24-922f-5e2d61095bf3",

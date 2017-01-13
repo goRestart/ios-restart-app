@@ -7,62 +7,62 @@
 //
 
 public enum ProductPrice {
-    case Free
-    case Normal(Double)
-    case Negotiable(Double)
-    case FirmPrice(Double)
+    case free
+    case normal(Double)
+    case negotiable(Double)
+    case firmPrice(Double)
 
     public var value: Double {
         switch self {
-        case .Free:
+        case .free:
             return 0
-        case let .Normal(price):
+        case let .normal(price):
             return price
-        case let .Negotiable(price):
+        case let .negotiable(price):
             return price
-        case let .FirmPrice(price):
+        case let .firmPrice(price):
             return price
         }
     }
 
     public var free: Bool {
         switch self {
-        case .Free:
+        case .free:
             return true
-        case .Negotiable, .FirmPrice, .Normal:
+        case .negotiable, .firmPrice, .normal:
             return false
         }
     }
 
     var priceFlag: ProductPriceFlag {
         switch self {
-        case .Free:
-            return .Free
-        case .Normal:
-            return .Normal
-        case .Negotiable:
-            return .Negotiable
-        case .FirmPrice:
-            return .FirmPrice
+        case .free:
+            return .free
+        case .normal:
+            return .normal
+        case .negotiable:
+            return .negotiable
+        case .firmPrice:
+            return .firmPrice
         }
     }
 
-    static func fromPrice(price: Double?, andFlag flag: ProductPriceFlag?) -> ProductPrice {
+    static func fromPrice(_ price: Double?, andFlag flag: ProductPriceFlag?) -> ProductPrice {
         let price = price ?? 0
-        guard let flag = flag else { return .Normal(price) }
+        guard let flag = flag else { return .normal(price) }
         switch flag {
-        case .Free:
-            return .Free
-        case .Normal:
-            return .Normal(price)
-        case .Negotiable:
-            return .Negotiable(price)
-        case .FirmPrice:
-            return .FirmPrice(price)
+        case .free:
+            return .free
+        case .normal:
+            return .normal(price)
+        case .negotiable:
+            return .negotiable(price)
+        case .firmPrice:
+            return .firmPrice(price)
         }
     }
 }
 
 enum ProductPriceFlag: Int {
-    case Normal = 0, Free = 1, Negotiable = 2, FirmPrice = 3
+    case normal = 0, free = 1, negotiable = 2, firmPrice = 3
 }

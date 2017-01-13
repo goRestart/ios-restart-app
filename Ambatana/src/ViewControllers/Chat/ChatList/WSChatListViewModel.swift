@@ -35,7 +35,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         super.init(objects: chats, tabNavigator: tabNavigator)
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
             setupRxBindings()
@@ -44,7 +44,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     // MARK: - Public methods
 
-    override func index(page: Int, completion: (Result<[ChatConversation], RepositoryError> -> ())?) {
+    override func index(_ page: Int, completion: ((Result<[ChatConversation], RepositoryError>) -> ())?) {
         let offset = max(0, page - 1) * resultsPerPage
         
         chatRepository.indexConversations(resultsPerPage, offset: offset, filter: chatsType.conversationFilter,
@@ -59,12 +59,12 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         }
     }
 
-    func conversationSelectedAtIndex(index: Int) {
+    func conversationSelectedAtIndex(_ index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.Conversation(conversation: conversation))
+        tabNavigator?.openChat(.conversation(conversation: conversation))
     }
 
-    func conversationDataAtIndex(index: Int) -> ConversationCellData? {
+    func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
 
         return ConversationCellData(status: conversation.conversationCellStatus,
@@ -83,7 +83,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     var hasMessagesToRead: Bool {
         for index in 0..<objectCount {
-            if objectAtIndex(index)?.unreadMessageCount > 0 { return true }
+            if (objectAtIndex(index)?.unreadMessageCount ?? 0) > 0 { return true }
         }
         return false
     }
@@ -95,12 +95,12 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         delegate?.vmDeleteSelectedChats()
     }
 
-    func deleteConfirmationTitle(itemCount: Int) -> String {
+    func deleteConfirmationTitle(_ itemCount: Int) -> String {
         return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTitleOne :
             LGLocalizedString.chatListDeleteAlertTitleMultiple
     }
 
-    func deleteConfirmationMessage(itemCount: Int) -> String {
+    func deleteConfirmationMessage(_ itemCount: Int) -> String {
         return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTextOne :
             LGLocalizedString.chatListDeleteAlertTextMultiple
     }
@@ -113,7 +113,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         return LGLocalizedString.chatListDeleteAlertSend
     }
 
-    func deleteChatsAtIndexes(indexes: [Int]) {
+    func deleteChatsAtIndexes(_ indexes: [Int]) {
         let conversationIds: [String] = indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap {
             objectAtIndex($0)?.objectId
         }
@@ -130,10 +130,10 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     // MARK: - Private methods
 
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         chatRepository.chatEvents.filter { event in
             switch event.type {
-            case .InterlocutorMessageSent:
+            case .interlocutorMessageSent:
                 return true
             default:
                 return false
@@ -147,40 +147,40 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
 // MARK: - Extension helpers
 
-private extension ChatsType {
+fileprivate extension ChatsType {
     var conversationFilter: WebSocketConversationFilter {
         switch self {
-        case .Selling: return .AsSeller
-        case .Buying: return .asBuyer
-        case .Archived: return .Archived
-        case .All: return .None
+        case .selling: return .asSeller
+        case .buying: return .asBuyer
+        case .archived: return .archived
+        case .all: return .none
         }
     }
 }
 
-private extension ChatConversation {
+fileprivate extension ChatConversation {
     var conversationCellStatus: ConversationCellStatus {
-        guard let product = product, interlocutor = interlocutor else { return .UserDeleted }
-        if interlocutor.isBanned { return .Forbidden }
+        guard let product = product, let interlocutor = interlocutor else { return .userDeleted }
+        if interlocutor.isBanned { return .forbidden }
 
         switch interlocutor.status {
-        case .Scammer:
-            return .Forbidden
-        case .PendingDelete:
-            return .UserPendingDelete
-        case .Deleted:
-            return .UserDeleted
-        case .Active, .Inactive, .NotFound:
+        case .scammer:
+            return .forbidden
+        case .pendingDelete:
+            return .userPendingDelete
+        case .deleted:
+            return .userDeleted
+        case .active, .inactive, .notFound:
             break // In this case we rely on the product status
         }
 
         switch product.status {
-        case .Deleted, .Discarded:
-            return .ProductDeleted
-        case .Sold, .SoldOld:
-            return .ProductSold
-        case .Approved, .Pending:
-            return .Available
+        case .deleted, .discarded:
+            return .productDeleted
+        case .sold, .soldOld:
+            return .productSold
+        case .approved, .pending:
+            return .available
         }
     }
 }

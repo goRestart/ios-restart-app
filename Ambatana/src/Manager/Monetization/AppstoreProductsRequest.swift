@@ -18,45 +18,45 @@ extension SKProductsResponse: PurchaseableProductsResponse {
 }
 
 protocol PurchaseableProductsRequestDelegate: class {
-    func productsRequest(request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse)
-    func productsRequest(request: PurchaseableProductsRequest, didFailWithError error: NSError)
+    func productsRequest(_ request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse)
+    func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error)
 }
 
 class AppstoreProductsRequest: NSObject, PurchaseableProductsRequest {
 
-    private var request: SKProductsRequest
+    fileprivate var productsRequest: SKProductsRequest
 
     weak var delegate: PurchaseableProductsRequestDelegate?
 
     init(ids: [String]) {
-        request = SKProductsRequest(productIdentifiers: Set(ids))
+        productsRequest = SKProductsRequest(productIdentifiers: Set(ids))
         super.init()
-        request.delegate = self
+        productsRequest.delegate = self
     }
 
 
     // MARK: - PurchaseableProductsRequest
 
     func start() {
-        request.start()
+        productsRequest.start()
     }
 
     func cancel() {
-        request.cancel()
+        productsRequest.cancel()
     }
 }
 
 extension AppstoreProductsRequest: SKProductsRequestDelegate {
-    dynamic func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
-        self.request = request
+    dynamic func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        self.productsRequest = request
         delegate?.productsRequest(self, didReceiveResponse: response)
     }
 
-    dynamic func requestDidFinish(request: SKRequest) {
+    dynamic func requestDidFinish(_ request: SKRequest) {
 
     }
 
-    dynamic func request(request: SKRequest, didFailWithError error: NSError) {
+    dynamic func request(_ request: SKRequest, didFailWithError error: Error) {
         delegate?.productsRequest(self, didFailWithError: error)
     }
 }

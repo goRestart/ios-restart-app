@@ -48,8 +48,8 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     @IBOutlet weak var facebookButtonTopMarginConstraint: NSLayoutConstraint!
     
     // Bar Buttons
-    private var closeButton: UIBarButtonItem?
-    private var helpButton: UIBarButtonItem?
+    fileprivate var closeButton: UIBarButtonItem?
+    fileprivate var helpButton: UIBarButtonItem?
 
     // > Helper
     var lines: [CALayer]
@@ -64,7 +64,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         self.lines = []
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "MainSignUpViewController",
-                   navBarBackgroundStyle: .Transparent(substyle: .Light))
+                   navBarBackgroundStyle: .transparent(substyle: .light))
         self.viewModel.delegate = self
     }
     
@@ -89,7 +89,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         GIDSignIn.sharedInstance().uiDelegate = self
     }
@@ -117,19 +117,19 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         navigationController?.pushViewController(vc, animated: true)
     }
      
-    @IBAction func connectFBButtonPressed(sender: AnyObject) {
+    @IBAction func connectFBButtonPressed(_ sender: AnyObject) {
         viewModel.connectFBButtonPressed()
     }
     
-    @IBAction func connectGoogleButtonPressed(sender: AnyObject) {
+    @IBAction func connectGoogleButtonPressed(_ sender: AnyObject) {
         viewModel.connectGoogleButtonPressed()
     }
     
-    @IBAction func signUpButtonPressed(sender: AnyObject) {
+    @IBAction func signUpButtonPressed(_ sender: AnyObject) {
         viewModel.signUpButtonPressed()
     }
     
-    @IBAction func logInButtonPressed(sender: AnyObject) {
+    @IBAction func logInButtonPressed(_ sender: AnyObject) {
         viewModel.logInButtonPressed()
     }
     
@@ -141,7 +141,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     
     // MARK: UITextViewDelegate
     
-    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
+    func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
         openInternalUrl(url)
         return false
     }
@@ -156,19 +156,19 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         view.backgroundColor = UIColor.white
 
         // Navigation bar
-        closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
+        closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
             action: #selector(MainSignUpViewController.closeButtonPressed))
         navigationItem.leftBarButtonItem = closeButton
-        helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
+        helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .plain, target: self,
             action: #selector(MainSignUpViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
 
         // Appearance
-        connectFBButton.setStyle(.Facebook)
-        connectGoogleButton.setStyle(.Google)
+        connectFBButton.setStyle(.facebook)
+        connectGoogleButton.setStyle(.google)
 
-        signUpButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
-        logInButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
+        signUpButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
+        logInButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
 
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
@@ -181,8 +181,8 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
         orLabel.backgroundColor = view.backgroundColor
-        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
-        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
+        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
+        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
 
         setupTermsAndConditions()
     }
@@ -196,7 +196,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
                 } else {
                     return LGLocalizedString.mainSignUpFacebookConnectButton
                 }
-            }.bindTo(connectFBButton.rx_title)
+            }.bindTo(connectFBButton.rx.title)
             .addDisposableTo(disposeBag)
 
         // Google button title
@@ -207,7 +207,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
                 } else {
                     return LGLocalizedString.mainSignUpGoogleConnectButton
                 }
-            }.bindTo(connectGoogleButton.rx_title)
+            }.bindTo(connectGoogleButton.rx.title)
             .addDisposableTo(disposeBag)
     }
     
@@ -227,7 +227,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     private func setupTermsAndConditions() {
         legalTextView.attributedText = viewModel.attributedLegalText
         legalTextView.textContainer.maximumNumberOfLines = 3
-        legalTextView.textAlignment = .Center
+        legalTextView.textAlignment = .center
         legalTextView.delegate = self
     }
 }
@@ -238,35 +238,35 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 // This should be done on a coordinator through a navigator from viewModel
 extension MainSignUpViewController: SignUpViewModelDelegate {
 
-    func vmOpenSignup(viewModel: SignUpLogInViewModel) {
+    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
         let vc = SignUpLogInViewController(viewModel: viewModel)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
 
     func vmFinish(completedLogin completed: Bool) {
-        dismissViewControllerAnimated(true, completion: completed ? afterLoginAction : nil)
+        dismiss(animated: true, completion: completed ? afterLoginAction : nil)
     }
 
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
         let parentController = presentingViewController
         let contact = UIAction(
-            interface: .Button(LGLocalizedString.loginScammerAlertContactButton, .Primary(fontSize: .Medium)),
+            interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
             action: {
                 tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
                 parentController?.openInternalUrl(contactUrl)
             })
         let keepBrowsing = UIAction(
-            interface: .Button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .Secondary(fontSize: .Medium, withBorder: false)),
+            interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium, withBorder: false)),
             action: {
                 tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
             })
-        dismissViewControllerAnimated(false) {
+        dismiss(animated: false) {
             tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
             parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
                                                  text: LGLocalizedString.loginScammerAlertMessage,
-                                                 alertType: .IconAlert(icon: UIImage(named: "ic_moderation_alert")),
-                                                 buttonsLayout: .Vertical, actions:  [contact, keepBrowsing])
+                                                 alertType: .iconAlert(icon: UIImage(named: "ic_moderation_alert")),
+                                                 buttonsLayout: .vertical, actions:  [contact, keepBrowsing])
         }
     }
 }
@@ -276,11 +276,11 @@ extension MainSignUpViewController: SignUpViewModelDelegate {
 
 extension MainSignUpViewController {
     func setAccesibilityIds() {
-        connectFBButton.accessibilityId = .MainSignUpFacebookButton
-        connectGoogleButton.accessibilityId = .MainSignUpGoogleButton
-        signUpButton.accessibilityId = .MainSignUpSignupButton
-        logInButton.accessibilityId = .MainSignupLogInButton
-        closeButton?.accessibilityId = .MainSignupCloseButton
-        helpButton?.accessibilityId = .MainSignupHelpButton
+        connectFBButton.accessibilityId = .mainSignUpFacebookButton
+        connectGoogleButton.accessibilityId = .mainSignUpGoogleButton
+        signUpButton.accessibilityId = .mainSignUpSignupButton
+        logInButton.accessibilityId = .mainSignupLogInButton
+        closeButton?.accessibilityId = .mainSignupCloseButton
+        helpButton?.accessibilityId = .mainSignupHelpButton
     }
 }

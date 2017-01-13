@@ -32,14 +32,14 @@ extension DeviceLocation {
         let state = postalAddress?.state
         let countryCode = postalAddress?.countryCode
         let country = postalAddress?.country
-        let locationType = location?.type != .Manual ? location?.type?.rawValue : nil
+        let locationType = location?.type != .manual ? location?.type?.rawValue : nil
         self.init(latitude: latitude, longitude: longitude, locationType: locationType, address: address,
                   city: city, zipCode: zipCode, state: state, countryCode: countryCode, country: country)
     }
 
     var location: LGLocation? {
-        guard let latitude = latitude, longitude = longitude, locationType = locationType,
-            type = LGLocationType(rawValue: locationType) else { return nil }
+        guard let latitude = latitude, let longitude = longitude, let locationType = locationType,
+            let type = LGLocationType(rawValue: locationType) else { return nil }
         return LGLocation(latitude: latitude, longitude: longitude, type: type)
     }
 
@@ -65,7 +65,7 @@ struct DeviceLocationUDKeys {
 }
 
 extension DeviceLocation {
-    static func decode(dictionary: [String: AnyObject]) -> Self? {
+    static func decode(_ dictionary: [String: Any]) -> Self? {
         let latitude = dictionary[DeviceLocationUDKeys.latitude] as? Double
         let longitude = dictionary[DeviceLocationUDKeys.longitude] as? Double
         let locationType = dictionary[DeviceLocationUDKeys.locationType] as? String
@@ -79,8 +79,8 @@ extension DeviceLocation {
                          city: city, zipCode: zipCode, state: state, countryCode: countryCode, country: country)
     }
 
-    func encode() -> [String: AnyObject] {
-        var dictionary = [String: AnyObject]()
+    func encode() -> [String: Any] {
+        var dictionary = [String: Any]()
         dictionary[DeviceLocationUDKeys.latitude]  = latitude
         dictionary[DeviceLocationUDKeys.longitude] = longitude
         dictionary[DeviceLocationUDKeys.locationType] = locationType

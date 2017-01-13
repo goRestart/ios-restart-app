@@ -23,17 +23,17 @@ struct ImageSelected {
 
 protocol PostProductGalleryViewModelDelegate: class {
     func vmDidUpdateGallery()
-    func vmDidSelectItemAtIndex(index: Int, shouldScroll: Bool)
-    func vmDidDeselectItemAtIndex(index: Int)
-    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
+    func vmDidSelectItemAtIndex(_ index: Int, shouldScroll: Bool)
+    func vmDidDeselectItemAtIndex(_ index: Int)
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
 }
 
 enum GalleryState {
-    case PendingAskPermissions, MissingPermissions(String), Normal, Empty, LoadImageError, Loading
+    case pendingAskPermissions, missingPermissions(String), normal, empty, loadImageError, loading
 }
 
 enum AlbumSelectionIconState {
-    case Down, Up, Hidden
+    case down, up, hidden
 }
 
 class PostProductGalleryViewModel: BaseViewModel {
@@ -46,9 +46,9 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     let visible = Variable<Bool>(false)
 
-    let galleryState = Variable<GalleryState>(.Normal)
+    let galleryState = Variable<GalleryState>(.normal)
     let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
-    let albumIconState = Variable<AlbumSelectionIconState>(.Down)
+    let albumIconState = Variable<AlbumSelectionIconState>(.down)
     let imagesSelected = Variable<[ImageSelected]>([])
     let lastImageSelected = Variable<UIImage?>(nil)
     let imageSelectionEnabled = Variable<Bool>(true)
@@ -64,7 +64,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
-    private let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width -
+    private let cellWidth: CGFloat = (UIScreen.main.bounds.size.width -
         (PostProductGalleryViewModel.cellSpacing * (PostProductGalleryViewModel.columnCount + 1))) /
         PostProductGalleryViewModel.columnCount
 
@@ -73,7 +73,7 @@ class PostProductGalleryViewModel: BaseViewModel {
     var shouldUpdateDisabledCells: Bool = false
 
     private var albums: [PHAssetCollection] = []
-    private var photosAsset: PHFetchResult?
+    private var photosAsset: PHFetchResult<PHAsset>?
 
     private var lastImageRequestId: PHImageRequestID?
 
@@ -98,7 +98,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         setupRX()
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         if photosAsset == nil {
             checkPermissionsAndFetch()
         }
@@ -120,17 +120,17 @@ class PostProductGalleryViewModel: BaseViewModel {
         return CGSize(width: cellWidth, height: cellWidth)
     }
 
-    func imageForCellAtIndex(index: Int, completion: UIImage? -> Void) {
-        let scale = UIScreen.mainScreen().scale
+    func imageForCellAtIndex(_ index: Int, completion: @escaping (UIImage?) -> Void) {
+        let scale = UIScreen.main.scale
         let size = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
         imageAtIndex(index, size: size, handler: completion)
     }
 
-    func imageSelectedAtIndex(index: Int) {
+    func imageSelectedAtIndex(_ index: Int) {
         selectImageAtIndex(index, autoScroll: true)
     }
 
-    func imageDeselectedAtIndex(index: Int) {
+    func imageDeselectedAtIndex(_ index: Int) {
         deselectImageAtIndex(index)
     }
 
@@ -140,27 +140,28 @@ class PostProductGalleryViewModel: BaseViewModel {
         var actions: [UIAction] = []
         for assetCollection in albums {
             guard let title = assetCollection.localizedTitle else { continue }
-            actions.append(UIAction(interface: .Text(title), action: { [weak self] in
-                self?.albumIconState.value = .Down
+            actions.append(UIAction(interface: .text(title), action: { [weak self] in
+                self?.albumIconState.value = .down
                 self?.selectAlbum(assetCollection)
             }))
         }
-        let cancelAction = UIAction(interface: .Text(LGLocalizedString.commonCancel), action: { [weak self] in
-            self?.albumIconState.value = .Down
+        let cancelAction = UIAction(interface: .text(LGLocalizedString.commonCancel), action: { [weak self] in
+            self?.albumIconState.value = .down
         })
-        albumIconState.value = .Up
+        albumIconState.value = .up
         delegate?.vmShowActionSheet(cancelAction, actions: actions)
     }
 
     func infoButtonPressed() {
         switch galleryState.value {
-        case .PendingAskPermissions:
+        case .pendingAskPermissions:
             askForPermissionsAndFetch()
-        case .MissingPermissions:
-            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-        case .Empty:
+        case .missingPermissions:
+            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
+            UIApplication.shared.openURL(settingsUrl)
+        case .empty:
             galleryDelegate?.productGalleryDidPressTakePhoto()
-        case .Normal, .LoadImageError, .Loading:
+        case .normal, .loadImageError, .loading:
             break
         }
     }
@@ -168,17 +169,17 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     // MARK - Private methods
 
-    private func setupRX() {
+    fileprivate func setupRX() {
         galleryState.asObservable().subscribeNext{ [weak self] state in
             switch state {
-            case .MissingPermissions:
+            case .missingPermissions:
                 self?.albumTitle.value = LGLocalizedString.productPostGalleryTab
-                self?.albumIconState.value = .Hidden
-            case .Normal:
-                self?.albumIconState.value = .Down
-            case .Empty:
-                self?.albumIconState.value = .Hidden
-            case .PendingAskPermissions, .Loading, .LoadImageError:
+                self?.albumIconState.value = .hidden
+            case .normal:
+                self?.albumIconState.value = .down
+            case .empty:
+                self?.albumIconState.value = .hidden
+            case .pendingAskPermissions, .loading, .loadImageError:
                 break
             }
         }.addDisposableTo(disposeBag)
@@ -193,7 +194,7 @@ class PostProductGalleryViewModel: BaseViewModel {
             if numImgs < 1 {
                 if let title = strongSelf.keyValueStorage[.postProductLastGalleryAlbumSelected] {
                     strongSelf.albumTitle.value = title
-                    strongSelf.albumIconState.value = .Down
+                    strongSelf.albumIconState.value = .down
                     strongSelf.albumButtonEnabled.value = true
                 }
                 strongSelf.lastImageSelected.value = nil
@@ -201,22 +202,21 @@ class PostProductGalleryViewModel: BaseViewModel {
                 // build title with num of selected pics
                 strongSelf.albumButtonEnabled.value = false
                 strongSelf.albumTitle.value =  String(format: LGLocalizedString.productPostGalleryMultiplePicsSelected, numImgs)
-                strongSelf.albumIconState.value = .Hidden
+                strongSelf.albumIconState.value = .hidden
             }
         }.addDisposableTo(disposeBag)
     }
 
-    private static func collectAlbumsOfType(type: PHAssetCollectionType,
-        subtype: PHAssetCollectionSubtype = .Any) -> [PHAssetCollection] {
+    private static func collectAlbumsOfType(_ type: PHAssetCollectionType,
+        subtype: PHAssetCollectionSubtype = .any) -> [PHAssetCollection] {
             let userAlbumsOptions = PHFetchOptions()
-            userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.Image.rawValue)
+            userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
             var newAlbums: [PHAssetCollection] = []
-            let smartCollection: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(type, subtype: subtype,
+            let smartCollection: PHFetchResult = PHAssetCollection.fetchAssetCollections(with: type, subtype: subtype,
                 options: nil)
             for i in 0..<smartCollection.count {
-                guard let assetCollection = smartCollection[i] as? PHAssetCollection else { continue }
-                guard PHAsset.fetchAssetsInAssetCollection(assetCollection, options: userAlbumsOptions).count > 0
-                    else { continue }
+                let assetCollection = smartCollection[i]
+                guard PHAsset.fetchAssets(in: assetCollection, options: userAlbumsOptions).count > 0 else { continue }
                 newAlbums.append(assetCollection)
             }
             return newAlbums
@@ -225,14 +225,14 @@ class PostProductGalleryViewModel: BaseViewModel {
     private func checkPermissionsAndFetch() {
         let status = PHPhotoLibrary.authorizationStatus()
         switch (status) {
-        case .Authorized:
+        case .authorized:
             fetchAlbums()
-        case .Denied:
-            galleryState.value = .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
-        case .NotDetermined:
-            galleryState.value = .PendingAskPermissions
-        case .Restricted:
-            galleryState.value = .MissingPermissions(LGLocalizedString.productSellPhotolibraryRestrictedError)
+        case .denied:
+            galleryState.value = .missingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
+        case .notDetermined:
+            galleryState.value = .pendingAskPermissions
+        case .restricted:
+            galleryState.value = .missingPermissions(LGLocalizedString.productSellPhotolibraryRestrictedError)
             break
         }
     }
@@ -240,12 +240,12 @@ class PostProductGalleryViewModel: BaseViewModel {
     private func askForPermissionsAndFetch() {
         PHPhotoLibrary.requestAuthorization { newStatus in
             //This is required :(, callback is not on main thread so app would crash otherwise.
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                if newStatus == .Authorized {
+            DispatchQueue.main.async { [weak self] in
+                if newStatus == .authorized {
                     self?.fetchAlbums()
                 } else {
                     self?.galleryState.value =
-                        .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
+                        .missingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
                 }
             }
         }
@@ -253,35 +253,35 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func didBecomeVisible() {
         switch galleryState.value {
-        case .PendingAskPermissions:
+        case .pendingAskPermissions:
             askForPermissionsAndFetch()
-        case .Normal, .Empty, .Loading, .LoadImageError, .MissingPermissions:
+        case .normal, .empty, .loading, .loadImageError, .missingPermissions:
             break
         }
     }
 
     private func fetchAlbums() {
-        var newAlbums = PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                                                                        subtype: .SmartAlbumUserLibrary)
-        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-            subtype: .SmartAlbumPanoramas))
-        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-            subtype: .SmartAlbumRecentlyAdded))
-        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-            subtype: .SmartAlbumBursts))
-        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-            subtype: .SmartAlbumFavorites))
+        var newAlbums = PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+                                                                        subtype: .smartAlbumUserLibrary)
+        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+            subtype: .smartAlbumPanoramas))
+        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+            subtype: .smartAlbumRecentlyAdded))
+        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+            subtype: .smartAlbumBursts))
+        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+            subtype: .smartAlbumFavorites))
         if #available(iOS 9.0, *) {
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                subtype: .SmartAlbumSelfPortraits))
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                subtype: .SmartAlbumScreenshots))
+            newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+                subtype: .smartAlbumSelfPortraits))
+            newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+                subtype: .smartAlbumScreenshots))
         }
-        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.Album))
+        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.album))
 
         albums = newAlbums
         if albums.isEmpty {
-            galleryState.value = .Empty
+            galleryState.value = .empty
             photosAsset = nil
         }
         selectLastAlbumSelected()
@@ -291,7 +291,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         guard !albums.isEmpty else { return }
         let lastName = keyValueStorage[.postProductLastGalleryAlbumSelected]
         for assetCollection in albums {
-            if let lastName = lastName, albumName = assetCollection.localizedTitle where lastName == albumName {
+            if let lastName = lastName, let albumName = assetCollection.localizedTitle, lastName == albumName {
                 selectAlbum(assetCollection)
                 return
             }
@@ -299,7 +299,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         selectAlbum(albums[0])
     }
 
-    private func selectAlbum(assetCollection: PHAssetCollection) {
+    private func selectAlbum(_ assetCollection: PHAssetCollection) {
 
         defer {
             delegate?.vmDidUpdateGallery()
@@ -314,22 +314,22 @@ class PostProductGalleryViewModel: BaseViewModel {
             albumTitle.value = LGLocalizedString.productPostGalleryTab
         }
         let userAlbumsOptions = PHFetchOptions()
-        userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.Image.rawValue)
+        userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
         userAlbumsOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: userAlbumsOptions)
+        photosAsset = PHAsset.fetchAssets(in: assetCollection, options: userAlbumsOptions)
 
         if photosAsset?.count == 0 {
-            galleryState.value = .Empty
+            galleryState.value = .empty
         } else {
-            galleryState.value = .Normal
+            galleryState.value = .normal
             // for multiple selection we don't select an initial image
             guard !multiSelectionEnabled else { return }
             selectImageAtIndex(0, autoScroll: false)
         }
     }
 
-    private func selectImageAtIndex(index: Int, autoScroll: Bool) {
-        galleryState.value = .Loading
+    private func selectImageAtIndex(_ index: Int, autoScroll: Bool) {
+        galleryState.value = .loading
         lastImageSelected.value = nil
         delegate?.vmDidSelectItemAtIndex(index, shouldScroll: autoScroll)
 
@@ -341,7 +341,7 @@ class PostProductGalleryViewModel: BaseViewModel {
             strongSelf.imageSelectionEnabled.value = true
 
             if let image = image {
-                strongSelf.galleryState.value = .Normal
+                strongSelf.galleryState.value = .normal
                 strongSelf.shouldUpdateDisabledCells = strongSelf.multiSelectionEnabled &&
                     strongSelf.imagesSelected.value.count == strongSelf.maxImagesSelected - 1
                 strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
@@ -350,12 +350,13 @@ class PostProductGalleryViewModel: BaseViewModel {
                     strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
                 }
             } else {
-                strongSelf.galleryState.value = .LoadImageError
+                strongSelf.galleryState.value = .loadImageError
             }
         }
-        if let lastId = lastImageRequestId where imageRequestId != lastId {
-            PHImageManager.defaultManager().cancelImageRequest(lastId)
-            if !multiSelectionEnabled {
+
+        if let lastId = lastImageRequestId, imageRequestId != lastId {
+            PHImageManager.default().cancelImageRequest(lastId)
+            if !multiSelectionEnabled && !imagesSelected.value.isEmpty {
                 // on single selection don't let the array have more than 1 pic so we deselect the previous one
                 deselectImageAtIndex(imagesSelected.value[0].index)
             }
@@ -363,15 +364,15 @@ class PostProductGalleryViewModel: BaseViewModel {
         lastImageRequestId = imageRequestId
     }
 
-    private func deselectImageAtIndex(index: Int) {
+    private func deselectImageAtIndex(_ index: Int) {
         let selectedIndexes: [Int] = imagesSelected.value.map { $0.index }
-        guard let selectedImageIndex = selectedIndexes.indexOf(index) where
+        guard let selectedImageIndex = selectedIndexes.index(of: index),
             0..<imagesSelectedCount ~= selectedImageIndex else { return }
 
         imageSelectionEnabled.value = multiSelectionEnabled
         shouldUpdateDisabledCells = multiSelectionEnabled && imagesSelected.value.count == maxImagesSelected
 
-        imagesSelected.value.removeAtIndex(selectedImageIndex)
+        imagesSelected.value.remove(at: selectedImageIndex)
 
         if selectedImageIndex == imagesSelected.value.count {
             // just deselected last image selected, we should change the previewed one to the last selected, unless is the 1st one
@@ -383,32 +384,33 @@ class PostProductGalleryViewModel: BaseViewModel {
         delegate?.vmDidDeselectItemAtIndex(index)
     }
 
-    private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) -> PHImageRequestID? {
-        guard let photosAsset = photosAsset, asset = photosAsset[index] as? PHAsset else {
+    @discardableResult
+    private func imageAtIndex(_ index: Int, size: CGSize?, handler: @escaping (UIImage?) -> Void) -> PHImageRequestID? {
+        guard let photosAsset = photosAsset, 0..<photosAsset.count ~= index else {
             handler(nil)
             return nil
         }
         let targetSize = size ?? PHImageManagerMaximumSize
         let options = PHImageRequestOptions()
-        options.deliveryMode = .HighQualityFormat
-        options.networkAccessAllowed = true
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
 
-        return PHImageManager.defaultManager().requestImageForAsset(asset, targetSize: targetSize, contentMode: .AspectFit,
+        return PHImageManager.default().requestImage(for: photosAsset[index], targetSize: targetSize, contentMode: .aspectFit,
             options: options, resultHandler: { (result, info) in
                 // cancel is handled manually at method "selectImageAtIndex"
-                guard let info = info where info[PHImageCancelledKey] == nil else { return }
+                guard let info = info, info[PHImageCancelledKey] == nil else { return }
                 handler(result)
         })
     }
 }
 
 
-private extension GalleryState {
+fileprivate extension GalleryState {
     var missingPermissions: Bool {
         switch self {
-        case .MissingPermissions, .PendingAskPermissions:
+        case .missingPermissions, .pendingAskPermissions:
             return true
-        case .Normal, .Empty, .LoadImageError, .Loading:
+        case .normal, .empty, .loadImageError, .loading:
             return false
         }
     }

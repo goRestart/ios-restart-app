@@ -44,8 +44,8 @@ class FilterLocationCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .FilterLocationCell
-        titleLabel.accessibilityId = .FilterLocationCellTitleLabel
-        locationLabel.accessibilityId = .FilterLocationCellLocationLabel
+        self.accessibilityId = .filterLocationCell
+        titleLabel.accessibilityId = .filterLocationCellTitleLabel
+        locationLabel.accessibilityId = .filterLocationCellLocationLabel
     }
 }

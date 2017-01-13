@@ -9,7 +9,7 @@
 import Foundation
 
 class ProductCollectionCellDrawer: BaseCollectionCellDrawer<CollectionCell>, GridCellDrawer {
-    func draw(model: CollectionCellType, style: CellStyle, inCell cell: CollectionCell) {
+    func draw(_ model: CollectionCellType, style: CellStyle, inCell cell: CollectionCell) {
         cell.layoutIfNeeded()
         cell.imageView.image = model.image
         cell.title.text = model.title.uppercase

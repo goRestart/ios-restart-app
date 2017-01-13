@@ -58,121 +58,122 @@ struct PassiveBuyersBaseURL: BaseURL {
 }
 
 enum Encoding {
-    case JSON, URL
-
-    var paramEncoding: Alamofire.ParameterEncoding {
-        switch self {
-        case .URL:
-            return Alamofire.ParameterEncoding.URL
-        case .JSON:
-            return Alamofire.ParameterEncoding.JSON
-        }
-    }
+    case json, url
 }
 
 enum Router<T: BaseURL>: URLRequestConvertible {
 
-    case Index(endpoint: String, params: [String : AnyObject])
-    case Show(endpoint: String, objectId: String)
-    case Create(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
-    case BatchCreate(endpoint: String, params: AnyObject)
-    case Update(endpoint: String, objectId: String, params: [String : AnyObject], encoding: Encoding?)
-    case BatchUpdate(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
-    case Patch(endpoint: String, objectId: String, params: [String : AnyObject], encoding: Encoding?)
-    case BatchPatch(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
-    case Delete(endpoint: String, objectId: String)
-    case BatchDelete(endpoint: String, params: AnyObject, encoding: Encoding?)
-    case Read(endpoint: String, params: [String: AnyObject])
+    case index(endpoint: String, params: [String : Any])
+    case show(endpoint: String, objectId: String)
+    case create(endpoint: String, params: [String : Any], encoding: Encoding?)
+    case batchCreate(endpoint: String, params: Any)
+    case update(endpoint: String, objectId: String, params: [String : Any], encoding: Encoding?)
+    case batchUpdate(endpoint: String, params: [String : Any], encoding: Encoding?)
+    case patch(endpoint: String, objectId: String, params: [String : Any], encoding: Encoding?)
+    case batchPatch(endpoint: String, params: [String : Any], encoding: Encoding?)
+    case delete(endpoint: String, objectId: String)
+    case batchDelete(endpoint: String, params: Any, encoding: Encoding?)
+    case read(endpoint: String, params: [String: Any])
 
-    var method: Alamofire.Method {
+    var method: Alamofire.HTTPMethod {
         switch self {
-        case .Create, .BatchCreate:
-            return .POST
-        case .Index, .Show, .Read:
-            return .GET
-        case .Update, .BatchUpdate:
-            return .PUT
-        case .Patch, .BatchPatch:
-            return .PATCH
-        case .Delete, .BatchDelete:
-            return .DELETE
+        case .create, .batchCreate:
+            return .post
+        case .index, .show, .read:
+            return .get
+        case .update, .batchUpdate:
+            return .put
+        case .patch, .batchPatch:
+            return .patch
+        case .delete, .batchDelete:
+            return .delete
         }
     }
-
-    var paramEncoding: Alamofire.ParameterEncoding {
+    
+    var paramEncoding: Encoding {
         switch self {
-        case .Index, .Read, .Show, .Delete:
-            return Alamofire.ParameterEncoding.URL
-        case let Create(_, _, encoding):
-            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
-        case BatchCreate:
-            return Alamofire.ParameterEncoding.JSON
-        case let Update(_, _, _, encoding):
-            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
-        case let BatchUpdate(_, _, encoding):
-            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
-        case let Patch(_, _, _, encoding):
-            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
-        case let BatchPatch(_, _, encoding):
-            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
-        case let BatchDelete(_, _, encoding):
-            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
+        case .index, .read, .show, .delete:
+            return .url
+        case let .create(_, _, encoding):
+            return encoding ?? .json
+        case .batchCreate:
+            return .json
+        case let .update(_, _, _, encoding):
+            return encoding ?? .json
+        case let .batchUpdate(_, _, encoding):
+            return encoding ?? .json
+        case let .patch(_, _, _, encoding):
+            return encoding ?? .json
+        case let .batchPatch(_, _, encoding):
+            return encoding ?? .json
+        case let .batchDelete(_, _, encoding):
+            return encoding ?? .json
         }
     }
-
-    var URLRequest: NSMutableURLRequest {
-        guard let baseUrl = NSURL(string: T.baseURL) else { return NSMutableURLRequest() }
-        let mutableURLRequest = NSMutableURLRequest()
-        mutableURLRequest.HTTPMethod = method.rawValue
-
-        if let token = InternalCore.dynamicType.tokenDAO.value {
-            mutableURLRequest.setValue(token, forHTTPHeaderField: "Authorization")
+    
+    func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+        switch paramEncoding {
+        case .url:
+            return try Alamofire.URLEncoding().encode(urlRequest, with: parameters)
+        case .json:
+            return try Alamofire.JSONEncoding().encode(urlRequest, with: parameters)
         }
+    }
+    
+    public func encode(_ urlRequest: URLRequestConvertible, withJSONObject jsonObject: Any? = nil) throws -> URLRequest {
+        return try Alamofire.JSONEncoding().encode(urlRequest, withJSONObject: jsonObject)
+    }
 
-        var req: NSMutableURLRequest
+    func asURLRequest() throws -> URLRequest {
+        guard let baseUrl = URL(string: T.baseURL) else { throw ApiError.internalError(description: "") }
+        var urlRequest = URLRequest(url: baseUrl)
+        urlRequest.httpMethod = method.rawValue
+        
+        if let token = type(of: InternalCore).tokenDAO.value {
+            urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
+        }
+        
         switch self {
-        case let .Read(endpoint, params):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
-            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
-        case let .Index(endpoint, params):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
-            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
-        case let .Show(endpoint, objectId):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)?.URLByAppendingPathComponent(objectId)
-            req = mutableURLRequest
-        case let .Create(endpoint, params, _):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
-            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
-        case let .BatchCreate(endpoint, params):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
-            req = paramEncoding.anyObjectEncode(mutableURLRequest, parameters: params).0
-        case let .Update(endpoint, objectId, params, _):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)?.URLByAppendingPathComponent(objectId)
-            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
-        case let .BatchUpdate(endpoint, params, _):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
-            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
-        case let .Patch(endpoint, objectId, params, _):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)?.URLByAppendingPathComponent(objectId)
-            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
-        case let .BatchPatch(endpoint, params, _):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
-            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
-        case let .Delete(endpoint, objectId):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)?.URLByAppendingPathComponent(objectId)
-            req = mutableURLRequest
-        case let .BatchDelete(endpoint, params, _):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
-            req = paramEncoding.anyObjectEncode(mutableURLRequest, parameters: params).0
+        case let .read(endpoint, params):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint)
+            urlRequest = try encode(urlRequest, with: params)
+        case let .index(endpoint, params):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint)
+            urlRequest = try encode(urlRequest, with: params)
+        case let .show(endpoint, objectId):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint).appendingPathComponent(objectId)
+        case let .create(endpoint, params, _):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint)
+            urlRequest = try encode(urlRequest, with: params)
+        case let .batchCreate(endpoint, jsonObject):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint)
+            urlRequest = try encode(urlRequest, withJSONObject: jsonObject)
+        case let .update(endpoint, objectId, params, _):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint).appendingPathComponent(objectId)
+            urlRequest = try encode(urlRequest, with: params)
+        case let .batchUpdate(endpoint, params, _):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint)
+            urlRequest = try encode(urlRequest, with: params)
+        case let .patch(endpoint, objectId, params, _):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint).appendingPathComponent(objectId)
+            urlRequest = try encode(urlRequest, with: params)
+        case let .batchPatch(endpoint, params, _):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint)
+            urlRequest = try encode(urlRequest, with: params)
+        case let .delete(endpoint, objectId):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint).appendingPathComponent(objectId)
+        case let .batchDelete(endpoint, jsonObject, _):
+            urlRequest.url = baseUrl.appendingPathComponent(endpoint)
+            urlRequest = try encode(urlRequest, withJSONObject: jsonObject)
         }
-
+        
         // When calling `paramEncoding.encode` the Content-Type Header is setted automatically to the correct value
         // JSON is a special case. The defaul value would be `application/json` but we need to override it for some of
         // our apis
         switch paramEncoding {
-        case .JSON:
+        case .json:
             if let contentType = T.contentTypeHeader {
-                req.setValue(contentType, forHTTPHeaderField: "Content-Type")
+                urlRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
             }
         default:
             break
@@ -180,9 +181,9 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         // All the responses will always be of type JSON, when calling the Bouncer API we need to set the
         // `Accept` Header to our custom JSON format. By default, the Accept Header is `application/json`
         if let accept = T.acceptHeader {
-            req.setValue(accept, forHTTPHeaderField: "Accept")
+            urlRequest.setValue(accept, forHTTPHeaderField: "Accept")
         }
-        return req
+        return urlRequest
     }
 }
 

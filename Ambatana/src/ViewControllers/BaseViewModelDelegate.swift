@@ -7,81 +7,81 @@
 //
 
 protocol BaseViewModelDelegate: class {
-    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?)
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?)
 
-    func vmShowLoading(loadingMessage: String?)
-    func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?)
+    func vmShowLoading(_ loadingMessage: String?)
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?)
 
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?)
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?)
-    func vmShowAlert(title: String?, message: String?, actions: [UIAction])
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
-    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction])
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                                 elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?)
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?)
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction])
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction])
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction])
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+                                 elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void)
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void)
 
     func vmPop()
-    func vmDismiss(completion: (() -> Void)?)
+    func vmDismiss(_ completion: (() -> Void)?)
     
-    func vmOpenInternalURL(url: NSURL)
+    func vmOpenInternalURL(_ url: URL)
 }
 
 extension UIViewController: BaseViewModelDelegate {
-    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
-    func vmShowLoading(loadingMessage: String?) {
+    func vmShowLoading(_ loadingMessage: String?) {
         showLoadingMessageAlert(loadingMessage)
     }
 
-    func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         dismissLoadingMessageAlert(finishedMessage, afterMessageCompletion: afterMessageCompletion)
     }
 
-    func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
         showAlert(title, message: message, actions: actions)
     }
 
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
         showAlert(title, message: message, cancelLabel: cancelLabel, actions: actions)
     }
 
-    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         showActionSheet(cancelAction, actions: actions, barButtonItem: nil, completion: nil)
     }
 
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: nil)
     }
 
     func vmPop() {
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popBackViewController()
     }
 
-    func vmDismiss(completion: (() -> Void)?) {
-        dismissViewControllerAnimated(true, completion: completion)
+    func vmDismiss(_ completion: (() -> Void)?) {
+        dismiss(animated: true, completion: completion)
     }
 
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
         showAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
     }
 
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout,
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout,
                               actions: [UIAction]?) {
         showAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
     }
 
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {
         ifLoggedInThen(source, loginStyle: loginStyle, preDismissAction: nil, loggedInAction: loggedInAction,
                        elsePresentSignUpWithSuccessAction: afterLogInAction)
     }
     
-    func vmOpenInternalURL(url: NSURL) {
+    func vmOpenInternalURL(_ url: URL) {
         openInternalUrl(url)
     }
 }

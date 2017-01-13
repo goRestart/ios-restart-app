@@ -16,12 +16,12 @@ import Nimble
 class PostIncentiviserItemSpec: QuickSpec {
     override func spec() {
         var sut: [PostIncentiviserItem]!
-        var date: NSDate!
+        var date: Date!
 
         describe("PostIncentiviserItemSpec") {
 
             beforeEach {
-                sut = [.PS4, .TV, .Bike, .Motorcycle, .Dresser, .Car, .KidsClothes, .Furniture, .Toys]
+                sut = [.ps4, .tv, .bike, .motorcycle, .dresser, .car, .kidsClothes, .furniture, .toys]
             }
 
             context("january") {
@@ -148,11 +148,11 @@ class PostIncentiviserItemSpec: QuickSpec {
     }
 
 
-    private func dateWithMonth(month: Int) -> NSDate {
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([NSCalendarUnit.Month], fromDate: NSDate())
+    fileprivate func dateWithMonth(_ month: Int) -> Date {
+        let calendar = Calendar.current
+        var components = (calendar as NSCalendar).components([NSCalendar.Unit.month], from: Date())
         components.month = month
-        return calendar.dateFromComponents(components)!
+        return calendar.date(from: components)!
     }
 }
 

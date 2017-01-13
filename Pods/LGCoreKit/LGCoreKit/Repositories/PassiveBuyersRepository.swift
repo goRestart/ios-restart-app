@@ -10,10 +10,10 @@ import Result
 import RxSwift
 
 public typealias PassiveBuyersResult = Result<PassiveBuyersInfo, RepositoryError>
-public typealias PassiveBuyersCompletion = PassiveBuyersResult -> Void
+public typealias PassiveBuyersCompletion = (PassiveBuyersResult) -> Void
 
 public typealias PassiveBuyersEmptyResult = Result<Void, RepositoryError>
-public typealias PassiveBuyersEmptyCompletion = PassiveBuyersEmptyResult -> Void
+public typealias PassiveBuyersEmptyCompletion = (PassiveBuyersEmptyResult) -> Void
 
 public protocol PassiveBuyersRepository {
     /**
@@ -22,7 +22,7 @@ public protocol PassiveBuyersRepository {
      - parameter productId:     The product id
      - parameter completion:    The completion closure
     */
-    func show(productId productId: String, completion: PassiveBuyersCompletion?)
+    func show(productId: String, completion: PassiveBuyersCompletion?)
 
     /**
      Contacts all potential buyers for a given product passive buyers info.
@@ -30,5 +30,5 @@ public protocol PassiveBuyersRepository {
      - parameter passiveBuyersInfo: The passive buyers info
      - parameter completion:        The completion closure
      */
-    func contactAllBuyers(passiveBuyersInfo passiveBuyersInfo: PassiveBuyersInfo, completion: PassiveBuyersEmptyCompletion?)
+    func contactAllBuyers(passiveBuyersInfo: PassiveBuyersInfo, completion: PassiveBuyersEmptyCompletion?)
 }

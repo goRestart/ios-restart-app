@@ -18,10 +18,10 @@ class ExpressChatViewModel: BaseViewModel {
 
     private var chatRepository: ChatRepository
     private var keyValueStorage: KeyValueStorage
-    private var trackerProxy: TrackerProxy
+    fileprivate var trackerProxy: TrackerProxy
     private var productList: [Product]
     private var sourceProductId: String
-    private var manualOpen: Bool
+    fileprivate var manualOpen: Bool
     var productListCount: Int {
         return productList.count
     }
@@ -60,7 +60,7 @@ class ExpressChatViewModel: BaseViewModel {
         self.trackerProxy = trackerProxy
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         setupRx()
         selectedItemsCount.value = productListCount
         trackExpressChatStart()
@@ -69,28 +69,29 @@ class ExpressChatViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func titleForItemAtIndex(index: Int) -> String {
+    func titleForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
         return productList[index].title ?? ""
     }
 
-    func imageURLForItemAtIndex(index: Int) -> NSURL {
-        guard index < productListCount else { return NSURL() }
-        guard let imageUrl = productList[index].thumbnail?.fileURL else { return NSURL() }
+    func imageURLForItemAtIndex(_ index: Int) -> URL? {
+        guard index < productListCount else { return nil }
+        guard let imageUrl = productList[index].thumbnail?.fileURL else { return nil }
         return imageUrl
     }
 
-    func priceForItemAtIndex(index: Int) -> String {
+    func priceForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
         return productList[index].priceString()
     }
 
     func sendMessage() {
         let wrapper = ChatWrapper()
+        let tracker = trackerProxy
         for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, type:.ExpressChat(messageText.value)) { [weak self] result in
+            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { result in
                 if let value = result.value {
-                    self?.singleMessageExtraTrackings(value, product: product)
+                    ExpressChatViewModel.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product)
                 }
             }
         }
@@ -98,30 +99,30 @@ class ExpressChatViewModel: BaseViewModel {
         navigator?.sentMessage(sourceProductId, count: selectedItemsCount.value)
     }
 
-    func closeExpressChat(showAgain: Bool) {
+    func closeExpressChat(_ showAgain: Bool) {
         if !showAgain {
             trackExpressChatDontAsk()
         }
         navigator?.closeExpressChat(showAgain, forProduct: sourceProductId)
     }
 
-    func selectItemAtIndex(index: Int) {
+    func selectItemAtIndex(_ index: Int) {
         guard index < productListCount else { return }
         let product = productList[index]
         let selectedIndex = selectedProductsContains(product)
         guard selectedIndex >= selectedItemsCount.value else { return }
-        selectedProducts.value.insert(product, atIndex: 0)
+        selectedProducts.value.insert(product, at: 0)
     }
 
-    func deselectItemAtIndex(index: Int) {
+    func deselectItemAtIndex(_ index: Int) {
         guard index < productListCount else { return }
         let product = productList[index]
         let selectedIndex = selectedProductsContains(product)
         guard selectedIndex < selectedItemsCount.value else { return }
-        selectedProducts.value.removeAtIndex(selectedIndex)
+        selectedProducts.value.remove(at: selectedIndex)
     }
 
-    private func selectedProductsContains(product: Product) -> Int {
+    private func selectedProductsContains(_ product: Product) -> Int {
         var index = 0
         for selectedProduct in selectedProducts.value {
             if selectedProduct.objectId == product.objectId { return index }
@@ -156,30 +157,30 @@ class ExpressChatViewModel: BaseViewModel {
 
 extension ExpressChatViewModel {
     func trackExpressChatStart() {
-        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .manual : .automatic
         let event = TrackerEvent.expressChatStart(trigger)
         trackerProxy.trackEvent(event)
     }
 
-    func singleMessageExtraTrackings(shouldAskAskQuestion: Bool, product: Product) {
-        if shouldAskAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .Text, typePage: .ExpressChat)
-            trackerProxy.trackEvent(askQuestionEvent)
+    static func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product) {
+        if shouldSendAskQuestion {
+            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .expressChat)
+            tracker.trackEvent(askQuestionEvent)
         }
         
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .Text,
-                                                            isQuickAnswer: .False, typePage: .ExpressChat)
-        trackerProxy.trackEvent(messageSentEvent)
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text,
+                                                            isQuickAnswer: .falseParameter, typePage: .expressChat)
+        tracker.trackEvent(messageSentEvent)
     }
 
-    func trackExpressChatComplete(numChats: Int) {
-        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+    func trackExpressChatComplete(_ numChats: Int) {
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .manual : .automatic
         let event = TrackerEvent.expressChatComplete(numChats, trigger: trigger)
         trackerProxy.trackEvent(event)
     }
 
     func trackExpressChatDontAsk() {
-        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .manual : .automatic
         let event = TrackerEvent.expressChatDontAsk(trigger)
         trackerProxy.trackEvent(event)
     }

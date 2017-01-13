@@ -36,9 +36,9 @@ class PostAfterDeleteViewController: BaseViewController {
 
     private func setupUI() {
         setStatusBarHidden(true)
-        mainButton.setStyle(.Primary(fontSize: .Big))
-        mainButton.setTitle(viewModel.buttonTitle, forState: .Normal)
-        mainButton.accessibilityId = .PostDeleteFullscreenButton
+        mainButton.setStyle(.primary(fontSize: .big))
+        mainButton.setTitle(viewModel.buttonTitle, for: .normal)
+        mainButton.accessibilityId = .postDeleteFullscreenButton
 
         mainTextLabel.text = viewModel.title
         secondaryTextLabel.text = viewModel.subTitle
@@ -47,25 +47,25 @@ class PostAfterDeleteViewController: BaseViewController {
 
         guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(false) else { return }
         incentiveContainer.addSubview(postIncentivatorView)
-        let views: [String : AnyObject] = ["postIncentivatorView": postIncentivatorView]
-        incentiveContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postIncentivatorView]|",
+        let views: [String : Any] = ["postIncentivatorView": postIncentivatorView]
+        incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[postIncentivatorView]|",
             options: [], metrics: nil, views: views))
-        incentiveContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[postIncentivatorView]|",
+        incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[postIncentivatorView]|",
             options: [], metrics: nil, views: views))
         postIncentivatorView.delegate = self
-        postIncentivatorView.accessibilityId = .PostDeleteFullscreenIncentiveView
+        postIncentivatorView.accessibilityId = .postDeleteFullscreenIncentiveView
         postIncentivatorView.setupIncentiviseView()
     }
 
-    private func closeWithFadeOutWithCompletion(completion: (() -> Void)?) {
-        dismissViewControllerAnimated(true, completion: completion)
+    fileprivate func closeWithFadeOutWithCompletion(_ completion: (() -> Void)?) {
+        dismiss(animated: true, completion: completion)
     }
 
-    @IBAction func onCloseButtonTapped(sender: AnyObject) {
+    @IBAction func onCloseButtonTapped(_ sender: AnyObject) {
         closeWithFadeOutWithCompletion(nil)
     }
 
-    @IBAction func onMainButtonTapped(sender: AnyObject) {
+    @IBAction func onMainButtonTapped(_ sender: AnyObject) {
         closeWithFadeOutWithCompletion(viewModel.mainButtonAction)
     }
 }

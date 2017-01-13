@@ -9,41 +9,43 @@
 import Alamofire
 import Result
 
-public class LGConfigRetrieveService: ConfigRetrieveService {
+class LGConfigRetrieveService: ConfigRetrieveService {
 
-    public private(set) var configURL : String
+    private(set) var configURL : String
 
     // MARK: - Lifecycle
 
-    public convenience init() {
+    convenience init() {
         self.init(url: EnvironmentProxy.sharedInstance.configURL)
     }
 
-    public init(url: String?) {
+    init(url: String?) {
         configURL = url ?? EnvironmentProxy.sharedInstance.configURL
     }
 
     // MARK: - Public Methods
 
-    public func retrieveConfigWithCompletion(completion: ConfigRetrieveServiceCompletion?) {
-        Alamofire.request(.GET, configURL)
+    func retrieveConfigWithCompletion(_ completion: ConfigRetrieveServiceCompletion?) {
+
+        Alamofire.request(configURL)
             .validate(statusCode: 200..<400)
-            .responseObject { (configFileResponse: Response<Config, NSError>) -> Void in
+            .responseObject { (configFileResponse: DataResponse<Config>) -> Void in
                 // Success
                 if let configFile = configFileResponse.result.value {
                     completion?(ConfigRetrieveServiceResult(value: configFile))
                 }
-                // Error
+                    // Error
                 else if let error = configFileResponse.result.error {
-                    if error.domain == NSURLErrorDomain {
-                        completion?(ConfigRetrieveServiceResult(error: .Network))
-                    }
-                    else {
-                        completion?(ConfigRetrieveServiceResult(error: .Internal))
+                    if let afError = error as? AFError, let _ = afError.underlyingError as? URLError {
+                        completion?(ConfigRetrieveServiceResult(error: .network))
+                    } else if let _ = error as? URLError {
+                        completion?(ConfigRetrieveServiceResult(error: .network))
+                    } else  {
+                        completion?(ConfigRetrieveServiceResult(error: .internalError))
                     }
                 }
                 else {
-                    completion?(ConfigRetrieveServiceResult(error: .Internal))
+                    completion?(ConfigRetrieveServiceResult(error: .internalError))
                 }
             }
     }

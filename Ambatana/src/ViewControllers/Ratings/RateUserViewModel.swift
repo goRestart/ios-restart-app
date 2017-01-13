@@ -11,7 +11,7 @@ import LGCoreKit
 
 struct RateUserData {
     let userId: String
-    let userAvatar: NSURL?
+    let userAvatar: URL?
     let userName: String?
     let ratingType: UserRatingType
 
@@ -20,7 +20,7 @@ struct RateUserData {
         self.userId = userId
         self.userAvatar = user.avatar?.fileURL
         self.userName = user.name
-        self.ratingType = .Conversation
+        self.ratingType = .conversation
     }
 
     init?(interlocutor: ChatInterlocutor) {
@@ -28,17 +28,17 @@ struct RateUserData {
         self.userId = userId
         self.userAvatar = interlocutor.avatar?.fileURL
         self.userName = interlocutor.name
-        self.ratingType = .Conversation
+        self.ratingType = .conversation
     }
 }
 
 enum RateUserSource {
-    case Chat, DeepLink, UserRatingList
+    case chat, deepLink, userRatingList
 }
 
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
-    func vmUpdateDescription(description: String?)
-    func vmUpdateDescriptionPlaceholder(placeholder: String)
+    func vmUpdateDescription(_ description: String?)
+    func vmUpdateDescriptionPlaceholder(_ placeholder: String)
 }
 
 class RateUserViewModel: BaseViewModel {
@@ -46,14 +46,14 @@ class RateUserViewModel: BaseViewModel {
     weak var delegate: RateUserViewModelDelegate?
     weak var navigator: RateUserNavigator?
 
-    var userAvatar: NSURL? {
+    var userAvatar: URL? {
         return data.userAvatar
     }
     var userName: String? {
         return data.userName
     }
     var infoText: String {
-        if let userName = userName where !userName.isEmpty {
+        if let userName = userName, !userName.isEmpty {
             return LGLocalizedString.userRatingMessageWName(userName)
         } else {
             return LGLocalizedString.userRatingMessageWoName
@@ -68,11 +68,11 @@ class RateUserViewModel: BaseViewModel {
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
     private let userRatingRepository: UserRatingRepository
-    private let tracker: Tracker
-    private let source: RateUserSource
-    private let data: RateUserData
-    private var previousRating: UserRating?
-    private let disposeBag = DisposeBag()
+    fileprivate let tracker: Tracker
+    fileprivate let source: RateUserSource
+    fileprivate let data: RateUserData
+    fileprivate var previousRating: UserRating?
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -93,7 +93,7 @@ class RateUserViewModel: BaseViewModel {
         self.trackStart()
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
             retrievePreviousRating()
@@ -106,12 +106,12 @@ class RateUserViewModel: BaseViewModel {
         navigator?.rateUserCancel()
     }
 
-    func ratingStarPressed(rating: Int) {
+    func ratingStarPressed(_ rating: Int) {
         self.rating.value = rating
     }
 
     func publishButtonPressed() {
-        guard let rating = rating.value where sendEnabled.value else { return }
+        guard let rating = rating.value, sendEnabled.value else { return }
 
         let ratingCompletion: UserRatingCompletion = { [weak self] result in
             self?.isLoading.value = false
@@ -120,9 +120,9 @@ class RateUserViewModel: BaseViewModel {
             } else if let error = result.error {
                 let message: String
                 switch error {
-                case .Network:
+                case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonError
                 }
                 self?.delegate?.vmShowAutoFadingMessage(message, completion: nil)
@@ -148,7 +148,7 @@ class RateUserViewModel: BaseViewModel {
             .map { (loading, rating, description) in
                 guard !loading, let rating = rating else { return false }
                 guard rating < Constants.userRatingMinStarsToOptionalDescr else { return true }
-                guard let description = description where !description.isEmpty &&
+                guard let description = description, !description.isEmpty &&
                     description.characters.count <= Constants.userRatingDescriptionMaxLength else { return false }
                 return true
             }.bindTo(sendEnabled).addDisposableTo(disposeBag)
@@ -181,7 +181,7 @@ class RateUserViewModel: BaseViewModel {
         }
     }
 
-    private func finishedRating(userRating: UserRating) {
+    private func finishedRating(_ userRating: UserRating) {
         trackComplete(userRating)
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.userRatingReviewSendSuccess) { [weak self] in
             self?.navigator?.rateUserFinish(withRating: self?.rating.value ?? 0)
@@ -192,26 +192,26 @@ class RateUserViewModel: BaseViewModel {
 
 // MARK: - Tracking
 
-private extension EventParameterTypePage {
+fileprivate extension EventParameterTypePage {
     init(source: RateUserSource) {
         switch source {
-        case .Chat:
-            self = .Chat
-        case .DeepLink:
-            self = .External
-        case .UserRatingList:
-            self = .UserRatingList
+        case .chat:
+            self = .chat
+        case .deepLink:
+            self = .external
+        case .userRatingList:
+            self = .userRatingList
         }
     }
 }
 
-private extension RateUserViewModel {
+fileprivate extension RateUserViewModel {
     func trackStart() {
         let event = TrackerEvent.userRatingStart(data.userId, typePage: EventParameterTypePage(source: source))
         tracker.trackEvent(event)
     }
 
-    func trackComplete(rating: UserRating) {
+    func trackComplete(_ rating: UserRating) {
         let hasComments = !(rating.comment ?? "").isEmpty
         let event = TrackerEvent.userRatingComplete(data.userId, typePage: EventParameterTypePage(source: source),
                                                     rating: rating.value, hasComments: hasComments)

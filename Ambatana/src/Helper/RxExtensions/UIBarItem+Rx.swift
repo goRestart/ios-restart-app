@@ -9,16 +9,17 @@
 import RxCocoa
 import RxSwift
 
-extension UIBarItem {
-    public var rx_title: AnyObserver<String> {
-        return UIBindingObserver(UIElement: self) { barItem, title in
+
+extension Reactive where Base: UIBarItem {
+    var title: UIBindingObserver<Base, String> {
+        return UIBindingObserver<Base, String>(UIElement: self.base) { (barItem, title) -> () in
             barItem.title = title
-        }.asObserver()
+        }
     }
 
-    public var rx_optionalTitle: AnyObserver<String?> {
-        return UIBindingObserver(UIElement: self) { barItem, title in
+    var optionalTitle: UIBindingObserver<Base, String?> {
+        return UIBindingObserver<Base, String?>(UIElement: self.base) { (barItem, title) -> () in
             barItem.title = title
-        }.asObserver()
+        }
     }
 }

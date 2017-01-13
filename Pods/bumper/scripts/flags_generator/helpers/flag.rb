@@ -1,13 +1,17 @@
 class Flag 
 	def initialize(name, values, description)
 		@name = name
-		@values = values
+		uncapitalized = Array.new
+		values.each do |value|
+			uncapitalized << value.uncapitalize
+		end
+		@values = uncapitalized
 		@description = description
 		@isBool = false
 		if values.length == 2
 			@isBool = values.first.isBool && values.last.isBool
 			if @isBool 
-				@values = values.first.boolValue ? ["Yes", "No"] : ["No", "Yes"]
+				@values = values.first.boolValue ? ["yes", "no"] : ["no", "yes"]
 			end
 		end
 	end

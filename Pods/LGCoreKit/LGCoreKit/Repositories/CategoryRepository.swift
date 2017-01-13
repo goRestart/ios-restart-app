@@ -9,7 +9,7 @@
 import Result
 
 public typealias CategoriesResult = Result<[ProductCategory], RepositoryError>
-public typealias CategoriesCompletion = CategoriesResult -> Void
+public typealias CategoriesCompletion = (CategoriesResult) -> Void
 
 public protocol CategoryRepository {
     func index(filterVisible filter: Bool, completion: CategoriesCompletion?)

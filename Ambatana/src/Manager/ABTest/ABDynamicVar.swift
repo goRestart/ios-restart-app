@@ -6,11 +6,11 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-public enum ABType {
-    case Bool
-    case Int
-    case String
-    case None
+enum ABType {
+    case bool
+    case int
+    case string
+    case none
 }
 
 protocol ABDynamicVar {
@@ -34,9 +34,9 @@ struct BoolABDynamicVar: ABDynamicVar, ABVariable {
 
     init(key: String, defaultValue: Bool) {
         self.key = key
-        self.type = .Bool
+        self.type = .bool
         self.defaultValue = defaultValue
-        self.lpVar = LPVar.define(key, withBool: defaultValue);
+        self.lpVar = LPVar.define(key, with: defaultValue);
     }
 }
 
@@ -51,9 +51,9 @@ struct StringABDynamicVar: ABDynamicVar, ABVariable {
 
     init(key: String, defaultValue: String) {
         self.key = key
-        self.type = .String
+        self.type = .string
         self.defaultValue = defaultValue
-        self.lpVar = LPVar.define(key, withString: defaultValue)
+        self.lpVar = LPVar.define(key, with: defaultValue)
     }
 }
 
@@ -68,7 +68,7 @@ struct IntABDynamicVar: ABDynamicVar, ABVariable {
 
     init(key: String, defaultValue: Int) {
         self.key = key
-        self.type = .Int
+        self.type = .int
         self.defaultValue = defaultValue
         self.lpVar = LPVar.define(key, withLong: defaultValue)
     }
@@ -81,7 +81,6 @@ protocol ABVariable {
 
 extension ABDynamicVar {
     var trackingData: String? {
-        guard let value = value as? AnyObject else { return nil }
         return "\(key)-\(value)"
     }
     func register() {

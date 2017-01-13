@@ -10,24 +10,24 @@ import LGCoreKit
 import RxSwift
 
 protocol PostProductViewModelDelegate: BaseViewModelDelegate {
-    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
+    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: @escaping () -> Void)
 }
 
 enum PostingSource {
-    case TabBar
-    case SellButton
-    case DeepLink
-    case OnboardingButton
-    case OnboardingCamera
-    case Notifications
-    case DeleteProduct
+    case tabBar
+    case sellButton
+    case deepLink
+    case onboardingButton
+    case onboardingCamera
+    case notifications
+    case deleteProduct
 }
 
 enum PostProductState {
-    case ImageSelection
-    case UploadingImage
-    case ErrorUpload(message: String)
-    case DetailsSelection
+    case imageSelection
+    case uploadingImage
+    case errorUpload(message: String)
+    case detailsSelection
 }
 
 
@@ -35,7 +35,7 @@ class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
     weak var navigator: PostProductNavigator?
-    private let sessionManager: SessionManager
+    fileprivate let sessionManager: SessionManager
 
     var usePhotoButtonText: String {
         if sessionManager.loggedIn {
@@ -52,21 +52,21 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    let state = Variable<PostProductState>(.ImageSelection)
+    let state = Variable<PostProductState>(.imageSelection)
 
     let postDetailViewModel: PostProductDetailViewModel
     let postProductCameraViewModel: PostProductCameraViewModel
     let postingSource: PostingSource
     
-    private let productRepository: ProductRepository
-    private let fileRepository: FileRepository
-    private let tracker: Tracker
+    fileprivate let productRepository: ProductRepository
+    fileprivate let fileRepository: FileRepository
+    fileprivate let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
     let galleryMultiSelectionEnabled: Bool
     private var imagesSelected: [UIImage]?
-    private var pendingToUploadImages: [UIImage]?
-    private var uploadedImages: [File]?
-    private var uploadedImageSource: EventParameterPictureSource?
+    fileprivate var pendingToUploadImages: [UIImage]?
+    fileprivate var uploadedImages: [File]?
+    fileprivate var uploadedImageSource: EventParameterPictureSource?
     
 
     // MARK: - Lifecycle
@@ -99,7 +99,7 @@ class PostProductViewModel: BaseViewModel {
         self.postDetailViewModel.delegate = self
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         guard firstTime else { return }
         trackVisit()
@@ -108,20 +108,20 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Public methods
    
     func retryButtonPressed() {
-        guard let images = imagesSelected, source = uploadedImageSource else { return }
+        guard let images = imagesSelected, let source = uploadedImageSource else { return }
         imagesSelected(images, source: source)
     }
 
-    func imagesSelected(images: [UIImage], source: EventParameterPictureSource) {
+    func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
         uploadedImageSource = source
         imagesSelected = images
         guard sessionManager.loggedIn else {
             pendingToUploadImages = images
-            state.value = .DetailsSelection
+            state.value = .detailsSelection
             return
         }
 
-        state.value = .UploadingImage
+        state.value = .uploadingImage
 
         fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -129,16 +129,16 @@ class PostProductViewModel: BaseViewModel {
                 guard let error = result.error else { return }
                 let errorString: String
                 switch (error) {
-                case .Internal, .Unauthorized, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     errorString = LGLocalizedString.productPostGenericError
-                case .Network:
+                case .network:
                     errorString = LGLocalizedString.productPostNetworkError
                 }
-                strongSelf.state.value = .ErrorUpload(message: errorString)
+                strongSelf.state.value = .errorUpload(message: errorString)
                 return
             }
             strongSelf.uploadedImages = images
-            strongSelf.state.value = .DetailsSelection
+            strongSelf.state.value = .detailsSelection
         }
     }
 
@@ -146,11 +146,11 @@ class PostProductViewModel: BaseViewModel {
         if pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let product = buildProduct(isFreePosting: false), images = uploadedImages else {
+            guard let product = buildProduct(isFreePosting: false), let images = uploadedImages else {
                 navigator?.cancelPostProduct()
                 return
             }
-            let trackingInfo = PostProductTrackingInfo(buttonName: .Close, sellButtonPosition: postingSource.sellButtonPosition,
+            let trackingInfo = PostProductTrackingInfo(buttonName: .close, sellButtonPosition: postingSource.sellButtonPosition,
                                                        imageSource: uploadedImageSource, price: nil)
             navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: false,
                                                            trackingInfo: trackingInfo)
@@ -162,7 +162,7 @@ class PostProductViewModel: BaseViewModel {
 // MARK: - PostProductDetailViewModelDelegate
 
 extension PostProductViewModel: PostProductDetailViewModelDelegate {
-    func postProductDetailDone(viewModel: PostProductDetailViewModel) {
+    func postProductDetailDone(_ viewModel: PostProductDetailViewModel) {
         postProduct()
     }
 }
@@ -170,24 +170,24 @@ extension PostProductViewModel: PostProductDetailViewModelDelegate {
 
 // MARK: - Private methods
 
-private extension PostProductViewModel {
+fileprivate extension PostProductViewModel {
     func openPostAbandonAlertNotLoggedIn() {
         let title = LGLocalizedString.productPostCloseAlertTitle
         let message = LGLocalizedString.productPostCloseAlertDescription
-        let cancelAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertCloseButton), action: { [weak self] in
+        let cancelAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertCloseButton), action: { [weak self] in
             self?.navigator?.cancelPostProduct()
         })
-        let postAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertOkButton), action: { [weak self] in
+        let postAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertOkButton), action: { [weak self] in
             self?.postProduct()
         })
         delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
     }
 
     func postProduct() {
-        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, sellButtonPosition: postingSource.sellButtonPosition,
+        let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
-            guard let product = buildProduct(isFreePosting: false), images = uploadedImages else { return }
+            guard let product = buildProduct(isFreePosting: false), let images = uploadedImages else { return }
             navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: true,
                                                            trackingInfo: trackingInfo)
         } else if let images = pendingToUploadImages {
@@ -200,18 +200,18 @@ private extension PostProductViewModel {
         }
     }
 
-    func buildProduct(isFreePosting isFreePosting: Bool) -> Product? {
-        let price = isFreePosting ? ProductPrice.Free : postDetailViewModel.productPrice
+    func buildProduct(isFreePosting: Bool) -> Product? {
+        let price = isFreePosting ? ProductPrice.free : postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
-        return productRepository.buildNewProduct(title, description: description, price: price, category: .Unassigned)
+        return productRepository.buildNewProduct(title, description: description, price: price, category: .unassigned)
     }
 }
 
 
 // MARK: - Tracking
 
-private extension PostProductViewModel {
+fileprivate extension PostProductViewModel {
     func trackVisit() {
         let event = TrackerEvent.productSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition)
@@ -222,37 +222,37 @@ private extension PostProductViewModel {
 extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .TabBar, .SellButton:
-            return .Sell
-        case .DeepLink:
-            return .External
-        case .OnboardingButton, .OnboardingCamera:
-            return .Onboarding
-        case .Notifications:
-            return .Notifications
-        case .DeleteProduct:
-            return .ProductDelete
+        case .tabBar, .sellButton:
+            return .sell
+        case .deepLink:
+            return .external
+        case .onboardingButton, .onboardingCamera:
+            return .onboarding
+        case .notifications:
+            return .notifications
+        case .deleteProduct:
+            return .productDelete
         }
     }
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .TabBar, .SellButton, .DeepLink, .Notifications, .DeleteProduct:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteProduct:
             return nil
-        case .OnboardingButton:
-            return .SellYourStuff
-        case .OnboardingCamera:
-            return .StartMakingCash
+        case .onboardingButton:
+            return .sellYourStuff
+        case .onboardingCamera:
+            return .startMakingCash
         }
     }
     var sellButtonPosition: EventParameterSellButtonPosition {
         switch self {
-        case .TabBar:
-            return .TabBar
-        case .SellButton:
-            return .FloatingButton
-        case .OnboardingButton, .OnboardingCamera, .DeepLink, .Notifications, .DeleteProduct:
-            return .None
+        case .tabBar:
+            return .tabBar
+        case .sellButton:
+            return .floatingButton
+        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteProduct:
+            return .none
         }
     }
 }

@@ -32,8 +32,8 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         self.topMessage = topMessage
         super.init(viewModel: viewModel, nibName: "PopupSignUpViewController")
         self.viewModel.delegate = self
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder: NSCoder) {
@@ -45,7 +45,7 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         setupUI()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         GIDSignIn.sharedInstance().uiDelegate = self
     }
@@ -53,29 +53,29 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
 
     // MARK: - Actions
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeButtonPressed()
     }
 
-    @IBAction func connectFBButtonPressed(sender: AnyObject) {
+    @IBAction func connectFBButtonPressed(_ sender: AnyObject) {
         viewModel.connectFBButtonPressed()
     }
-    @IBAction func connectGoogleButtonPressed(sender: AnyObject) {
+    @IBAction func connectGoogleButtonPressed(_ sender: AnyObject) {
         viewModel.connectGoogleButtonPressed()
     }
 
-    @IBAction func signUpButtonPressed(sender: AnyObject) {
+    @IBAction func signUpButtonPressed(_ sender: AnyObject) {
         viewModel.signUpButtonPressed()
     }
 
-    @IBAction func logInButtonPressed(sender: AnyObject) {
+    @IBAction func logInButtonPressed(_ sender: AnyObject) {
         viewModel.logInButtonPressed()
     }
 
 
     // MARK: UITextViewDelegate
 
-    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
+    func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
         openInternalUrl(url)
         return false
     }
@@ -87,21 +87,21 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
 
         contentContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
-        connectFBButton.setStyle(.Facebook)
-        connectGoogleButton.setStyle(.Google)
+        connectFBButton.setStyle(.facebook)
+        connectGoogleButton.setStyle(.google)
 
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
+            for: .normal)
         signUpButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
+            for: .normal)
         logInButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
-        connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
-        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
-        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
-        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
+        connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, for: .normal)
+        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, for: .normal)
+        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
+        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
 
         claimLabel.text = topMessage
 
@@ -110,21 +110,25 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
 
     private func setupTermsAndConditions() {
         legalTextView.attributedText = viewModel.attributedLegalText
-        legalTextView.textAlignment = .Center
+        legalTextView.textAlignment = .center
         legalTextView.delegate = self
     }
 
-    private func presentSignupWithViewModel(viewModel: SignUpLogInViewModel) {
+    fileprivate func presentSignupWithViewModel(_ viewModel: SignUpLogInViewModel) {
         let vc = SignUpLogInViewController(viewModel: viewModel)
         vc.preDismissAction = { [weak self] in
-            self?.view.hidden = true
+            self?.view.isHidden = true
             self?.preDismissAction?()
         }
+        vc.willCloseAction = { [weak self] in
+            guard let strongSelf = self else { return }
+            GIDSignIn.sharedInstance().uiDelegate = strongSelf
+        }
         vc.afterLoginAction = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: self?.afterLoginAction)
+            self?.dismiss(animated: false, completion: self?.afterLoginAction)
         }
         let navC = UINavigationController(rootViewController: vc)
-        presentViewController(navC, animated: true, completion: nil)
+        present(navC, animated: true, completion: nil)
     }
 }
 
@@ -133,34 +137,36 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
 
 extension PopupSignUpViewController: SignUpViewModelDelegate {
 
-    func vmOpenSignup(viewModel: SignUpLogInViewModel) {
+    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
         presentSignupWithViewModel(viewModel)
     }
 
     func vmFinish(completedLogin completed: Bool) {
-        preDismissAction?()
-        dismissViewControllerAnimated(true, completion: completed ? afterLoginAction : nil)
+        if completed {
+            preDismissAction?()
+        }
+        dismiss(animated: true, completion: completed ? afterLoginAction : nil)
     }
 
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
         let parentController = presentingViewController
         let contact = UIAction(
-            interface: .Button(LGLocalizedString.loginScammerAlertContactButton, .Primary(fontSize: .Medium)),
+            interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
             action: {
                 tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
                 parentController?.openInternalUrl(contactUrl)
         })
         let keepBrowsing = UIAction(
-            interface: .Button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .Secondary(fontSize: .Medium, withBorder: false)),
+            interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium, withBorder: false)),
             action: {
                 tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
         })
-        dismissViewControllerAnimated(false) {
+        dismiss(animated: false) {
             tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
             parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
                                                  text: LGLocalizedString.loginScammerAlertMessage,
-                                                 alertType: .IconAlert(icon: UIImage(named: "ic_moderation_alert")),
-                                                 buttonsLayout: .Vertical, actions:  [contact, keepBrowsing])
+                                                 alertType: .iconAlert(icon: UIImage(named: "ic_moderation_alert")),
+                                                 buttonsLayout: .vertical, actions:  [contact, keepBrowsing])
         }
     }
 }

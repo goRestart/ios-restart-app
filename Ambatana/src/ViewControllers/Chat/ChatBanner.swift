@@ -18,16 +18,16 @@ class ChatBanner: UIView {
     private var action: UIAction?
 
 
-    func setupChatBannerWith(title: String, action: UIAction) {
+    func setupChatBannerWith(_ title: String, action: UIAction) {
         self.action = action
         layer.borderWidth = 1
-        layer.borderColor = UIColor.grayLight.CGColor
+        layer.borderColor = UIColor.grayLight.cgColor
         backgroundColor = UIColor.white
-        hidden = true
+        isHidden = true
 
         // subviews
         let titleLabel = UILabel()
-        let actionButton = UIButton(type: .Custom)
+        let actionButton = UIButton(type: .custom)
         let closeButton = UIButton()
         addSubview(titleLabel)
         addSubview(actionButton)
@@ -44,13 +44,13 @@ class ChatBanner: UIView {
             closeButtonSize = 15
             closeButtonMargin = sideMargin
         }
-        let views: [String : AnyObject] = ["title": titleLabel, "action": actionButton, "close": closeButton]
-        let metrics: [String : AnyObject] = ["vMargin": 7, "closeSize": closeButtonSize, "closeMargin": closeButtonMargin, "sideMargin": sideMargin]
+        let views: [String : Any] = ["title": titleLabel, "action": actionButton, "close": closeButton]
+        let metrics: [String : Any] = ["vMargin": 7, "closeSize": closeButtonSize, "closeMargin": closeButtonMargin, "sideMargin": sideMargin]
 
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(sideMargin)-[title(>=20)]-(>=8)-[action]-(sideMargin)-[close(closeSize)]-(closeMargin)-|", options: [.AlignAllCenterY], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(vMargin)-[title]-(vMargin)-|", options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=vMargin)-[action(30)]-(>=vMargin)-|", options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=vMargin)-[close(closeSize)]-(>=vMargin)-|", options: [], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(sideMargin)-[title(>=20)]-(>=8)-[action]-(sideMargin)-[close(closeSize)]-(closeMargin)-|", options: [.alignAllCenterY], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(vMargin)-[title]-(vMargin)-|", options: [], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=vMargin)-[action(30)]-(>=vMargin)-|", options: [], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=vMargin)-[close(closeSize)]-(>=vMargin)-|", options: [], metrics: metrics, views: views))
 
         layoutIfNeeded()
 
@@ -60,19 +60,19 @@ class ChatBanner: UIView {
         titleLabel.numberOfLines = 0
         titleLabel.font = UIFont.mediumBodyFont
         titleLabel.text = title
-        titleLabel.setContentHuggingPriority(749, forAxis: .Horizontal)
+        titleLabel.setContentHuggingPriority(749, for: .horizontal)
         // action button
-        actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
+        actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
         actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
         actionButton.titleLabel?.minimumScaleFactor = 0.8
-        actionButton.setTitle(action.text, forState: .Normal)
-        actionButton.addTarget(self, action: #selector(bannerActionButtonTapped), forControlEvents: .TouchUpInside)
-        actionButton.setContentCompressionResistancePriority(751, forAxis: .Horizontal)
-        actionButton.accessibilityId = .ExpressChatBannerActionButton
+        actionButton.setTitle(action.text, for: .normal)
+        actionButton.addTarget(self, action: #selector(bannerActionButtonTapped), for: .touchUpInside)
+        actionButton.setContentCompressionResistancePriority(751, for: .horizontal)
+        actionButton.accessibilityId = .expressChatBannerActionButton
 
-        closeButton.setImage(UIImage(named: "ic_close_dark"), forState: .Normal)
-        closeButton.addTarget(self, action: #selector(bannerCloseButtonTapped), forControlEvents: .TouchUpInside)
-        closeButton.accessibilityId = .ExpressChatBannerCloseButton
+        closeButton.setImage(UIImage(named: "ic_close_dark"), for: .normal)
+        closeButton.addTarget(self, action: #selector(bannerCloseButtonTapped), for: .touchUpInside)
+        closeButton.accessibilityId = .expressChatBannerCloseButton
     }
 
     private dynamic func bannerActionButtonTapped() {

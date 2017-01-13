@@ -7,7 +7,25 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
+
+
+extension Reactive where Base: ChatTextView {
+    var text: ControlProperty<String?> {
+        return self.base.textView.rx.text
+    }
+
+    var send: Observable<String> {
+        let chatTextView = self.base
+        return chatTextView.tapEvents.map { [weak chatTextView] in chatTextView?.textView.text ?? "" }
+    }
+
+    var focus: Observable<Bool> {
+        return self.base.focus.asObservable().skip(1)
+    }
+}
+
 
 class ChatTextView: UIView {
 
@@ -27,18 +45,6 @@ class ChatTextView: UIView {
         }
     }
 
-    var rx_text: Observable<String> {
-        return textView.rx_text.asObservable()
-    }
-
-    var rx_send: Observable<String> {
-        return tapEvents.map { [weak self] in self?.textView.text ?? "" }
-    }
-
-    var rx_focus: Observable<Bool> {
-        return focus.asObservable().skip(1)
-    }
-
     var hasFocus: Bool {
         return focus.value
     }
@@ -48,15 +54,15 @@ class ChatTextView: UIView {
     }
     
     
-    private let textView = UITextField()
-    private let sendButton = UIButton(type: .Custom)
-    private let focus = Variable<Bool>(false)
-    private var initialTextActive = false
+    fileprivate let textView = UITextField()
+    fileprivate let sendButton = UIButton(type: .custom)
+    fileprivate let focus = Variable<Bool>(false)
+    fileprivate var initialTextActive = false
 
     private static let elementsMargin: CGFloat = 10
     private static let textViewMaxHeight: CGFloat = 120
 
-    private let tapEvents = PublishSubject<Void>()
+    fileprivate let tapEvents = PublishSubject<Void>()
 
     private let disposeBag = DisposeBag()
 
@@ -71,16 +77,18 @@ class ChatTextView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    @discardableResult
     override func becomeFirstResponder() -> Bool {
         return textView.becomeFirstResponder() || super.becomeFirstResponder()
     }
 
+    @discardableResult
     override func resignFirstResponder() -> Bool {
         return textView.resignFirstResponder() || super.resignFirstResponder()
     }
 
-    override func isFirstResponder() -> Bool {
-        return textView.isFirstResponder() || super.isFirstResponder()
+    override var isFirstResponder : Bool {
+        return textView.isFirstResponder || super.isFirstResponder
     }
 
 
@@ -88,13 +96,13 @@ class ChatTextView: UIView {
 
     func clear() {
         textView.text = ""
-        sendButton.enabled = false
+        sendButton.isEnabled = false
     }
     
-    func setInitialText(defaultText: String) {
+    func setInitialText(_ defaultText: String) {
         textView.text = defaultText
         currentDefaultText = defaultText
-        sendButton.enabled = true
+        sendButton.isEnabled = true
         initialTextActive = true
     }
 
@@ -114,78 +122,78 @@ class ChatTextView: UIView {
         if width < ChatTextView.minimumWidth {
             width = ChatTextView.minimumWidth
         }
-        addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: ChatTextView.minimumHeight))
-        addConstraint(NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .GreaterThanOrEqual, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: ChatTextView.minimumWidth))
+        addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: ChatTextView.minimumHeight))
+        addConstraint(NSLayoutConstraint(item: self, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: ChatTextView.minimumWidth))
 
         setupBackgroundsWCorners()
 
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        textView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         addSubview(textView)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        sendButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         addSubview(sendButton)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["textView"] = textView
         views["sendButton"] = sendButton
 
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["margin"] = ChatTextView.elementsMargin
         metrics["maxHeight"] = ChatTextView.textViewMaxHeight
         metrics["minButtonWidth"] = ChatTextView.minimumButtonWidth
         metrics["buttonMargin"] = ChatTextView.buttonMargin
 
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[textView]-margin-[sendButton(>=minButtonWidth)]-buttonMargin-|",
-            options: [.AlignAllCenterY], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-margin-[textView(<=maxHeight)]-margin-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[textView]-margin-[sendButton(>=minButtonWidth)]-buttonMargin-|",
+            options: [.alignAllCenterY], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-margin-[textView(<=maxHeight)]-margin-|",
             options: [], metrics: metrics, views: views))
-        sendButton.addConstraint(NSLayoutConstraint(item: sendButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1, constant: ChatTextView.minimumHeight-(ChatTextView.buttonMargin*2)))
+        sendButton.addConstraint(NSLayoutConstraint(item: sendButton, attribute: .height, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: ChatTextView.minimumHeight-(ChatTextView.buttonMargin*2)))
     }
 
     private func setupUI() {
         textView.tintColor = UIColor.primaryColor
-        textView.backgroundColor = UIColor.clearColor()
-        textView.returnKeyType = .Send
+        textView.backgroundColor = UIColor.clear
+        textView.returnKeyType = .send
         textView.delegate = self
-        sendButton.setStyle(.Primary(fontSize: .Medium))
-        sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
+        sendButton.setStyle(.primary(fontSize: .medium))
+        sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
     }
 
     private func setupRX() {
-        textView.rx_text.map { !$0.trim.isEmpty }.bindTo(sendButton.rx_enabled).addDisposableTo(disposeBag)
-        sendButton.rx_tap.bindTo(tapEvents).addDisposableTo(disposeBag)
+        textView.rx.text.map { !($0 ?? "").trim.isEmpty }.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        sendButton.rx.tap.bindTo(tapEvents).addDisposableTo(disposeBag)
     }
 
     private func setupBackgroundsWCorners() {
         let leftBackground = UIView()
         leftBackground.translatesAutoresizingMaskIntoConstraints = false
-        leftBackground.backgroundColor = UIColor.whiteColor()
+        leftBackground.backgroundColor = UIColor.white
         leftBackground.clipsToBounds = true
         leftBackground.layer.cornerRadius = LGUIKitConstants.chatTextViewCornerRadius
         addSubview(leftBackground)
         let rightBackground = UIView()
         rightBackground.translatesAutoresizingMaskIntoConstraints = false
-        rightBackground.backgroundColor = UIColor.whiteColor()
+        rightBackground.backgroundColor = UIColor.white
         rightBackground.clipsToBounds = true
         rightBackground.layer.cornerRadius = ChatTextView.minimumHeight/2
         addSubview(rightBackground)
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["leftBckg"] = leftBackground
         views["rightBckg"] = rightBackground
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["margin"] = ChatTextView.minimumWidth/2
 
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[leftBckg]-margin-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[leftBckg]-margin-|",
             options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[rightBckg]-0-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[rightBckg]-0-|",
             options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[leftBckg]-0-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[leftBckg]-0-|",
             options: [], metrics: nil, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[rightBckg]-0-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[rightBckg]-0-|",
             options: [], metrics: nil, views: views))
 
     }
@@ -194,21 +202,21 @@ class ChatTextView: UIView {
 
 extension ChatTextView: UITextFieldDelegate {
 
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         focus.value = true
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         focus.value = false
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        guard let text = textField.text where !text.trim.isEmpty else { return false }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let text = textField.text, !text.trim.isEmpty else { return false }
         tapEvents.onNext(Void())
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if string.isEmpty && initialTextActive {
             clear()
         }
@@ -221,9 +229,9 @@ extension ChatTextView: UITextFieldDelegate {
 
 // MARK: - AccesibilityIds
 
-private extension ChatTextView {
+fileprivate extension ChatTextView {
     func setAccesibilityIds() {
-        textView.accessibilityId = .ChatTextViewTextField
-        sendButton.accessibilityId = .ChatTextViewSendButton
+        textView.accessibilityId = .chatTextViewTextField
+        sendButton.accessibilityId = .chatTextViewSendButton
     }
 }

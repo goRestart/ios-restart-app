@@ -8,20 +8,20 @@
 
 import Foundation
 
-class BaseTableCellDrawer<T: UITableViewCell where T: ReusableCell>: TableCellDrawer {
+class BaseTableCellDrawer<T: UITableViewCell>: TableCellDrawer where T: ReusableCell {
 
     /**
     Register the Cell of type T in the given UITableView
 
     - parameter tableView: UITableView where the cell should be registered
     */
-    static func registerCell(tableView: UITableView) {
+    static func registerCell(_ tableView: UITableView) {
         let cellNib = UINib(nibName: T.reusableID, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: T.reusableID)
+        tableView.register(cellNib, forCellReuseIdentifier: T.reusableID)
     }
 
-    static func registerClassCell(tableView: UITableView) {
-        tableView.registerClass(T.self, forCellReuseIdentifier: T.reusableID)
+    static func registerClassCell(_ tableView: UITableView) {
+        tableView.register(T.self, forCellReuseIdentifier: T.reusableID)
     }
     
     /**
@@ -32,21 +32,21 @@ class BaseTableCellDrawer<T: UITableViewCell where T: ReusableCell>: TableCellDr
 
     - returns: a reused UITableViewCell
     */
-    func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier(T.reusableID, forIndexPath: atIndexPath)
+    func cell(_ tableView: UITableView, atIndexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: T.reusableID, for: atIndexPath)
     }
 }
 
-class BaseCollectionCellDrawer<T: UICollectionViewCell where T: ReusableCell>: CollectionCellDrawer {
+class BaseCollectionCellDrawer<T: UICollectionViewCell>: CollectionCellDrawer where T: ReusableCell {
 
     /**
     Register the Cell of type T in the given UICollectionView
 
     - parameter collectionView: UICollectionView where the cell should be registered
     */
-    static func registerCell(collectionView: UICollectionView) {
+    static func registerCell(_ collectionView: UICollectionView) {
         let cellNib = UINib(nibName: T.reusableID, bundle: nil)
-        collectionView.registerNib(cellNib, forCellWithReuseIdentifier: T.reusableID)
+        collectionView.register(cellNib, forCellWithReuseIdentifier: T.reusableID)
     }
 
     /**
@@ -57,7 +57,7 @@ class BaseCollectionCellDrawer<T: UICollectionViewCell where T: ReusableCell>: C
 
     - returns: a reused UITableViewCell
     */
-    func cell(collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCellWithReuseIdentifier(T.reusableID, forIndexPath: atIndexPath)
+    func cell(_ collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
+        return collectionView.dequeueReusableCell(withReuseIdentifier: T.reusableID, for: atIndexPath)
     }
 }

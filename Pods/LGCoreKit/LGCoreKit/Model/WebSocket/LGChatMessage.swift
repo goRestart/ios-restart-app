@@ -6,23 +6,23 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-
 import Argo
 import Curry
+import Runes
 
 struct LGChatMessage: ChatMessage {
     let objectId: String?
     let talkerId: String
     let text: String
-    var sentAt: NSDate?
-    var receivedAt: NSDate?
-    var readAt: NSDate?
+    var sentAt: Date?
+    var receivedAt: Date?
+    var readAt: Date?
     let type: ChatMessageType
     var warnings: [ChatMessageWarning]
 
     func markReceived() -> ChatMessage {
         return LGChatMessage(objectId: objectId, talkerId: talkerId, text: text, sentAt: sentAt,
-                             receivedAt: receivedAt ?? NSDate(), readAt: readAt, type: type, warnings: warnings)
+                             receivedAt: receivedAt ?? Date(), readAt: readAt, type: type, warnings: warnings)
     }
 }
 
@@ -39,7 +39,7 @@ extension LGChatMessage: Decodable {
         static let warnings = "warnings"
     }
     
-    static func decode(j: JSON) -> Decoded<LGChatMessage> {
+    static func decode(_ j: JSON) -> Decoded<LGChatMessage> {
         let init1 = curry(LGChatMessage.init)
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.talkerId

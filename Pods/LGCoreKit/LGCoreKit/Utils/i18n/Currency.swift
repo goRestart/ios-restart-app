@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public class Currency: Equatable {
+public struct Currency: Equatable {
     public let code: String
     public let symbol: String
     public init(code: String, symbol: String) {
@@ -20,7 +20,7 @@ public func ==(lhs: Currency, rhs: Currency) -> Bool {
 }
 
 public extension Currency {
-    public static func currencyWithCode(code: String) -> Currency {
+    public static func currencyWithCode(_ code: String) -> Currency {
         return InternalCore.currencyHelper.currencyWithCurrencyCode(code)
     }
 }

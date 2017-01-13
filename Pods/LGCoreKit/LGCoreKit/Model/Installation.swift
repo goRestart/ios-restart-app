@@ -32,7 +32,7 @@ struct InstallationUDKeys {
 }
 
 extension Installation  {
-    public static func decode(dictionary: [String: AnyObject]) -> Self? {
+    public static func decode(_ dictionary: [String: Any]) -> Self? {
         let objectId = dictionary[InstallationUDKeys.objectId] as? String
         let appIdentifier = dictionary[InstallationUDKeys.appIdentifier] as? String ?? ""
         let appVersion = dictionary[InstallationUDKeys.appVersion] as? String ?? ""
@@ -44,8 +44,8 @@ extension Installation  {
         return self.init(objectId: objectId, appIdentifier: appIdentifier, appVersion: appVersion, deviceType: deviceType, timeZone: timeZone, localeIdentifier: localeIdentifier, deviceToken: deviceToken)
     }
 
-    public func encode() -> [String: AnyObject] {
-        var dictionary: [String: AnyObject] = [:]
+    public func encode() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
         dictionary[InstallationUDKeys.objectId] = objectId
         dictionary[InstallationUDKeys.appIdentifier] = appIdentifier
         dictionary[InstallationUDKeys.appVersion] = appVersion

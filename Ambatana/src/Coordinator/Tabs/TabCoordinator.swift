@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 protocol TabCoordinatorDelegate: class {
-    func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
+    func tabCoordinator(_ tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
 }
 
 class TabCoordinator: BaseCoordinator {
@@ -56,14 +56,14 @@ class TabCoordinator: BaseCoordinator {
         self.navigationController.delegate = self
     }
 
-    func isShowingConversation(data: ConversationData) -> Bool {
+    func isShowingConversation(_ data: ConversationData) -> Bool {
         if let convDataDisplayer = navigationController.viewControllers.last as? ConversationDataDisplayer {
             return convDataDisplayer.isDisplayingConversationData(data)
         }
         return false
     }
 
-    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
+    func openCoordinator(coordinator: Coordinator, parent: UIViewController, animated: Bool,
                                      completion: (() -> Void)?) {
         guard child == nil else { return }
         child = coordinator
@@ -76,53 +76,53 @@ class TabCoordinator: BaseCoordinator {
 
 extension TabCoordinator: TabNavigator {
 
-    func openSell(source: PostingSource) {
+    func openSell(_ source: PostingSource) {
         appNavigator?.openSell(source)
     }
 
-    func openUser(data: UserDetailData) {
+    func openUser(_ data: UserDetailData) {
         switch data {
-        case let .Id(userId, source):
+        case let .id(userId, source):
             openUser(userId: userId, source: source)
-        case let .UserAPI(user, source):
+        case let .userAPI(user, source):
             openUser(user: user, source: source)
-        case let .UserChat(user):
+        case let .userChat(user):
             openUser(user)
         }
     }
 
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource,
+    func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool) {
         switch data {
-        case let .Id(productId):
+        case let .id(productId):
             openProduct(productId: productId, source: source,
                         showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
-        case let .ProductAPI(product, thumbnailImage, originFrame):
+        case let .productAPI(product, thumbnailImage, originFrame):
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
                         index: 0, discover: false, showKeyboardOnFirstAppearIfNeeded: false)
-        case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
+        case let .productList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
             openProduct(product, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
                         index: index)
-        case let .ProductChat(chatConversation):
+        case let .productChat(chatConversation):
             openProduct(chatConversation: chatConversation, source: source)
         }
     }
 
-    func openChat(data: ChatDetailData) {
+    func openChat(_ data: ChatDetailData) {
         switch data {
-        case let .ChatAPI(chat):
+        case let .chatAPI(chat):
             openChat(chat)
-        case let .Conversation(conversation):
+        case let .conversation(conversation):
             openConversation(conversation)
-        case let .ProductAPI(product):
+        case let .productAPI(product):
             openProductChat(product)
-        case let .DataIds(data):
+        case let .dataIds(data):
             openChatFromConversationData(data)
         }
     }
 
-    func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
+    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         appNavigator?.openVerifyAccounts(types, source: source, completionBlock: completionBlock)
     }
     
@@ -134,7 +134,7 @@ extension TabCoordinator: TabNavigator {
         return appNavigator?.canOpenAppInvite() ?? false
     }
 
-    func openRatingList(userId: String) {
+    func openRatingList(_ userId: String) {
         let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
         let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
@@ -145,8 +145,8 @@ extension TabCoordinator: TabNavigator {
     }
 }
 
-private extension TabCoordinator {
-    func openProduct(productId productId: String, source: EventParameterProductVisitSource,
+fileprivate extension TabCoordinator {
+    func openProduct(productId: String, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool) {
         navigationController.showLoadingMessageAlert()
         productRepository.retrieve(productId) { [weak self] result in
@@ -158,9 +158,9 @@ private extension TabCoordinator {
             } else if let error = result.error {
                 let message: String
                 switch error {
-                case .Network:
+                case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -170,7 +170,7 @@ private extension TabCoordinator {
         }
     }
 
-    func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
+    func openProduct(product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
                              source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int,
                              discover: Bool, showKeyboardOnFirstAppearIfNeeded: Bool) {
         guard let productId = product.objectId else { return }
@@ -200,7 +200,7 @@ private extension TabCoordinator {
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
-    func openProduct(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
+    func openProduct(_ product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterProductVisitSource, index: Int) {
         let showKeyboardOnFirstAppearIfNeeded = false
@@ -219,9 +219,9 @@ private extension TabCoordinator {
 
     }
 
-    func openProduct(chatConversation chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
+    func openProduct(chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
-            productId = localProduct.objectId else { return }
+            let productId = localProduct.objectId else { return }
         let relatedRequester = RelatedProductListRequester(productId: productId,  itemsPerPage: Constants.numProductsPerPageDefault)
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
@@ -230,7 +230,7 @@ private extension TabCoordinator {
         openProduct(vm, thumbnailImage: nil, originFrame: nil, productId: productId)
     }
 
-    func openProduct(viewModel: ProductCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
+    func openProduct(_ viewModel: ProductCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
                      productId: String?) {
         let color = UIColor.placeholderBackgroundColor(productId)
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
@@ -239,7 +239,7 @@ private extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openUser(userId userId: String, source: UserSource) {
+    func openUser(userId: String, source: UserSource) {
         navigationController.showLoadingMessageAlert()
         userRepository.show(userId, includeAccounts: false) { [weak self] result in
             if let user = result.value {
@@ -249,9 +249,9 @@ private extension TabCoordinator {
             } else if let error = result.error {
                 let message: String
                 switch error {
-                case .Network:
+                case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -261,7 +261,7 @@ private extension TabCoordinator {
         }
     }
 
-    func openUser(user user: User, source: UserSource) {
+    func openUser(user: User, source: UserSource) {
         // If it's me do not then open the user profile
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
 
@@ -272,26 +272,26 @@ private extension TabCoordinator {
     }
 
 
-    func openUser(interlocutor: ChatInterlocutor) {
-        let vm = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
+    func openUser(_ interlocutor: ChatInterlocutor) {
+        let vm = UserViewModel(chatInterlocutor: interlocutor, source: .chat)
         vm.navigator = self
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChat(chat: Chat) {
+    func openChat(_ chat: Chat) {
         guard let vm = OldChatViewModel(chat: chat, navigator: self) else { return }
         let vc = OldChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openConversation(conversation: ChatConversation) {
+    func openConversation(_ conversation: ChatConversation) {
         let vm = ChatViewModel(conversation: conversation, navigator: self)
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChatFromProduct(product: Product) {
+    func openChatFromProduct(_ product: Product) {
         if featureFlags.websocketChat {
             guard let chatVM = ChatViewModel(product: product, navigator: self) else { return }
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
@@ -303,7 +303,7 @@ private extension TabCoordinator {
         }
     }
 
-    func openChatFromConversationData(data: ConversationData) {
+    func openChatFromConversationData(_ data: ConversationData) {
         navigationController.showLoadingMessageAlert()
 
         if featureFlags.websocketChat {
@@ -317,9 +317,9 @@ private extension TabCoordinator {
                 }
             }
             switch data {
-            case let .Conversation(conversationId):
+            case let .conversation(conversationId):
                 chatRepository.showConversation(conversationId, completion: completion)
-            case .ProductBuyer:
+            case .productBuyer:
                 return //Those are the legacy pushes and new chat doesn't work with Product + buyer
             }
         } else {
@@ -333,22 +333,22 @@ private extension TabCoordinator {
                 }
             }
             switch data {
-            case let .Conversation(conversationId):
+            case let .conversation(conversationId):
                 oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
-            case let .ProductBuyer(productId, buyerId):
+            case let .productBuyer(productId, buyerId):
                 oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
             }
         }
     }
 
-    func showChatRetrieveError(error: RepositoryError) {
+    func showChatRetrieveError(_ error: RepositoryError) {
         let message: String
         switch error {
-        case .Network:
+        case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
             message = LGLocalizedString.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message)
@@ -360,56 +360,56 @@ private extension TabCoordinator {
 
 extension TabCoordinator: ProductDetailNavigator {
     func closeProductDetail() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController.popViewController(animated: true)
     }
 
-    func editProduct(product: Product, editCompletion: ((Product) -> Void)?) {
+    func editProduct(_ product: Product, editCompletion: ((Product) -> Void)?) {
         // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
         let editProductVM = EditProductViewModel(product: product)
         editProductVM.editCompletion = editCompletion
         let editProductVC = EditProductViewController(viewModel: editProductVM)
         let navCtl = UINavigationController(rootViewController: editProductVC)
-        navigationController.presentViewController(navCtl, animated: true, completion: nil)
+        navigationController.present(navCtl, animated: true, completion: nil)
     }
 
-    func openProductChat(product: Product) {
+    func openProductChat(_ product: Product) {
         openChatFromProduct(product)
     }
 
-    func openFullScreenShare(product: Product, socialMessage: SocialMessage) {
+    func openFullScreenShare(_ product: Product, socialMessage: SocialMessage) {
         let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
         let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
-        navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
+        navigationController.present(shareProductVC, animated: true, completion: nil)
     }
 
     func closeAfterDelete() {
         closeProductDetail()
         switch featureFlags.postAfterDeleteMode {
-        case .Original:
+        case .original:
             break
-        case .FullScreen:
+        case .fullScreen:
             openFullScreenPostAfterDelete()
-        case .Alert:
-            let action = UIAction(interface: .Button(LGLocalizedString.productDeletePostButtonTitle,
-                .Primary(fontSize: .Medium)), action: { [weak self] in
-                    self?.openSell(.DeleteProduct)
-                }, accessibilityId: .PostDeleteAlertButton)
+        case .alert:
+            let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
+                .primary(fontSize: .medium)), action: { [weak self] in
+                    self?.openSell(.deleteProduct)
+                }, accessibilityId: .postDeleteAlertButton)
             navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
                                                     text: LGLocalizedString.productDeletePostSubtitle,
-                                                    alertType: .PlainAlert, actions: [action])
+                                                    alertType: .plainAlert, actions: [action])
         }
     }
 
     private func openFullScreenPostAfterDelete() {
         let openSellAction: (() -> Void) = { [weak self] in
-            self?.openSell(.DeleteProduct)
+            self?.openSell(.deleteProduct)
         }
         let vm = PostAfterDeleteViewModel(action: openSellAction)
         let vc = PostAfterDeleteViewController(viewModel: vm)
-        navigationController.presentViewController(vc, animated: true, completion: nil)
+        navigationController.present(vc, animated: true, completion: nil)
     }
 
-    func openRelatedItems(product: Product, productVisitSource: EventParameterProductVisitSource) {
+    func openRelatedItems(_ product: Product, productVisitSource: EventParameterProductVisitSource) {
         guard let productId = product.objectId else { return }
         let vm = SimpleProductsViewModel(relatedProductId: productId, productVisitSource: productVisitSource)
         vm.navigator = self
@@ -423,7 +423,7 @@ extension TabCoordinator: ProductDetailNavigator {
 
 extension TabCoordinator: SimpleProductsNavigator {
     func closeSimpleProducts() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController.popViewController(animated: true)
     }
 }
 
@@ -432,10 +432,10 @@ extension TabCoordinator: SimpleProductsNavigator {
 
 extension TabCoordinator: ChatDetailNavigator {
     func closeChatDetail() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController.popViewController(animated: true)
     }
 
-    func openExpressChat(products: [Product], sourceProductId: String, manualOpen: Bool) {
+    func openExpressChat(_ products: [Product], sourceProductId: String, manualOpen: Bool) {
         guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, manualOpen: manualOpen) else { return }
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
@@ -448,14 +448,14 @@ extension TabCoordinator: ChatDetailNavigator {
 extension TabCoordinator: UINavigationControllerDelegate {
 
 
-    func navigationController(navigationController: UINavigationController,
-                              animationControllerForOperation operation: UINavigationControllerOperation,
-                              fromViewController fromVC: UIViewController,
-                                  toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if let animator = (toVC as? AnimatableTransition)?.animator where operation == .Push {
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationControllerOperation,
+                              from fromVC: UIViewController,
+                                  to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let animator = (toVC as? AnimatableTransition)?.animator, operation == .push {
             animator.pushing = true
             return animator
-        } else if let animator = (fromVC as? AnimatableTransition)?.animator where operation == .Pop {
+        } else if let animator = (fromVC as? AnimatableTransition)?.animator, operation == .pop {
             animator.pushing = false
             return animator
         } else {
@@ -463,21 +463,21 @@ extension TabCoordinator: UINavigationControllerDelegate {
         }
     }
 
-    func navigationController(navigationController: UINavigationController,
-                              willShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController,
+                              willShow viewController: UIViewController, animated: Bool) {
         tabCoordinatorDelegate?.tabCoordinator(self,
                                                setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
                                                animated: false)
     }
 
-    func navigationController(navigationController: UINavigationController,
-                              didShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController,
+                              didShow viewController: UIViewController, animated: Bool) {
         tabCoordinatorDelegate?.tabCoordinator(self,
                                                setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
                                                animated: true)
     }
 
-    func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+    func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return !viewController.isRootViewController()
     }
 }
@@ -486,7 +486,7 @@ extension TabCoordinator: UINavigationControllerDelegate {
 // MARK: - CoordinatorDelegate
 
 extension TabCoordinator: CoordinatorDelegate {
-    func coordinatorDidClose(coordinator: Coordinator) {
+    func coordinatorDidClose(_ coordinator: Coordinator) {
         child = nil
     }
 }
@@ -495,7 +495,7 @@ extension TabCoordinator: CoordinatorDelegate {
 // MARK: - ExpressChatCoordinatorDelegate
 
 extension TabCoordinator: ExpressChatCoordinatorDelegate {
-    func expressChatCoordinatorDidSentMessages(coordinator: ExpressChatCoordinator, count: Int) {
+    func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int) {
         let message = count == 1 ? LGLocalizedString.chatExpressOneMessageSentSuccessAlert :
             LGLocalizedString.chatExpressSeveralMessagesSentSuccessAlert
         rootViewController.showAutoFadingOutMessageAlert(message)

@@ -34,10 +34,11 @@ public protocol DI: class {
     var trendingSearchesRepository: TrendingSearchesRepository { get }
     var categoryRepository: CategoryRepository { get }
     var userRatingRepository: UserRatingRepository { get }
+    var monetizationRepository: MonetizationRepository { get }
     var passiveBuyersRepository: PassiveBuyersRepository { get }
 
     // Helper
-    var dateFormatter: NSDateFormatter { get }
+    var dateFormatter: DateFormatter { get }
     var currencyHelper: CurrencyHelper { get }
     var countryHelper: CountryHelper { get }
 

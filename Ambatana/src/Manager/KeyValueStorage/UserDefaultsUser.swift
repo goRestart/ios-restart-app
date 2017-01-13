@@ -15,7 +15,7 @@ struct UserDefaultsUser {
     static let chatSafetyTipsShownDefaultValue = false
     static let chatShowDirectAnswersDefaultValue = [String:Bool]()
     static let ratingAlreadyRatedDefaultValue = false
-    static let ratingRemindMeLaterDateDefaultValue: NSDate? = nil
+    static let ratingRemindMeLaterDateDefaultValue: Date? = nil
     static let postProductLastGalleryAlbumSelectedDefaultValue: String? = nil
     static let postProductLastTabSelectedDefaultValue = 1
     static let postProductPostedPreviouslyDefaultValue = false
@@ -32,7 +32,7 @@ struct UserDefaultsUser {
     var chatSafetyTipsShown: Bool
     var chatShowDirectAnswers: [String:Bool] // <id>: <value>
     var ratingAlreadyRated: Bool
-    var ratingRemindMeLaterDate: NSDate?
+    var ratingRemindMeLaterDate: Date?
     var postProductLastGalleryAlbumSelected: String?
     var postProductLastTabSelected: Int
     var postProductPostedPreviously: Bool
@@ -76,7 +76,7 @@ struct UserDefaultsUser {
     }
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
-         ratingRemindMeLaterDate: NSDate?, chatShowDirectAnswers: [String: Bool],
+         ratingRemindMeLaterDate: Date?, chatShowDirectAnswers: [String: Bool],
          postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int, postProductPostedPreviously: Bool,
          commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool,
          shouldShowExpressChat: Bool, productsWithExpressChatAlreadyShown: [String],
@@ -104,7 +104,7 @@ struct UserDefaultsUser {
 // MARK: - UserDefaultsDecodable
 
 extension UserDefaultsUser: UserDefaultsDecodable {
-    static func decode(dictionary: [String: AnyObject]) -> UserDefaultsUser? {
+    static func decode(_ dictionary: [String: Any]) -> UserDefaultsUser? {
         let appShared = dictionary.decode(UserDefaultsUserKey.AppShared.rawValue,
                                           defaultValue: UserDefaultsUser.appSharedDefaultValue)
         let userLocationApproximate = dictionary.decode(UserDefaultsUserKey.UserLocationApproximate.rawValue,
@@ -115,7 +115,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                       defaultValue: UserDefaultsUser.chatShowDirectAnswersDefaultValue)
         let ratingAlreadyRated = dictionary.decode(UserDefaultsUserKey.RatingAlreadyRated.rawValue,
                                                    defaultValue: UserDefaultsUser.ratingAlreadyRatedDefaultValue)
-        let ratingRemindMeLaterDate: NSDate? = dictionary.decode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue,
+        let ratingRemindMeLaterDate: Date? = dictionary.decode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue,
                                                                  defaultValue: UserDefaultsUser.ratingRemindMeLaterDateDefaultValue)
         let postProductLastGalleryAlbumSelected: String? = dictionary.decode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue,
                                                                              defaultValue: UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue)
@@ -149,8 +149,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 marketingNotifications: marketingNotifications, productsMarkAsFavorite: productsMarkAsFavorite)
     }
 
-    func encode() -> [String: AnyObject] {
-        var dict = [String: AnyObject]()
+    func encode() -> [String: Any] {
+        var dict = [String: Any]()
         dict.encode(UserDefaultsUserKey.AppShared.rawValue, value: appShared)
         dict.encode(UserDefaultsUserKey.UserLocationApproximate.rawValue, value: userLocationApproximate)
         dict.encode(UserDefaultsUserKey.ChatSafetyTipsShown.rawValue, value: chatSafetyTipsShown)
@@ -211,11 +211,11 @@ private enum UserDefaultsUserKey: String {
 
 // MARK: > Dictionary helper
 
-private extension Dictionary where Key: StringLiteralConvertible, Value: AnyObject {
-    func decode<T>(key: Key, defaultValue: T) -> T {
+fileprivate extension Dictionary where Key: ExpressibleByStringLiteral, Value: Any {
+    func decode<T>(_ key: Key, defaultValue: T) -> T {
         return (self[key] as? T) ?? defaultValue
     }
-    mutating func encode(key: Key, value: Value) {
+    mutating func encode(_ key: Key, value: Value) {
         self[key] = value
     }
 }

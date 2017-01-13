@@ -8,23 +8,23 @@
 
 import LGCoreKit
 
-public enum FilterTag: Equatable{
-    case Location(Place)
-    case Within(ProductTimeCriteria)
-    case OrderBy(ProductSortCriteria)
-    case Category(ProductCategory)
-    case PriceRange(from: Int?, to: Int?, currency: Currency?)
-    case FreeStuff
+enum FilterTag: Equatable{
+    case location(Place)
+    case within(ProductTimeCriteria)
+    case orderBy(ProductSortCriteria)
+    case category(ProductCategory)
+    case priceRange(from: Int?, to: Int?, currency: Currency?)
+    case freeStuff
 }
 
-public func ==(a: FilterTag, b: FilterTag) -> Bool {
+func ==(a: FilterTag, b: FilterTag) -> Bool {
     switch (a, b) {
-    case (.Location, .Location): return true
-    case (.Within(let a),   .Within(let b))   where a == b: return true
-    case (.OrderBy(let a),   .OrderBy(let b))   where a == b: return true
-    case (.Category(let a), .Category(let b)) where a == b: return true
-    case (.PriceRange(let a, let b, _), .PriceRange(let c, let d, _)) where a == c && b == d: return true
-    case (.FreeStuff, .FreeStuff): return true
+    case (.location, .location): return true
+    case (.within(let a),   .within(let b))   where a == b: return true
+    case (.orderBy(let a),   .orderBy(let b))   where a == b: return true
+    case (.category(let a), .category(let b)) where a == b: return true
+    case (.priceRange(let a, let b, _), .priceRange(let c, let d, _)) where a == c && b == d: return true
+    case (.freeStuff, .freeStuff): return true
     default: return false
     }
 }

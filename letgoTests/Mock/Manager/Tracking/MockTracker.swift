@@ -11,70 +11,70 @@ import LGCoreKit
 
 class MockTracker: Tracker {
     
-    var didFinishLaunchingWithOptionsBlock: (Tracker -> ())?
-    var openURLBlock: (Tracker -> ())?
-    var didEnterBackground: (Tracker -> ())?
-    var willEnterForegroundBlock: (Tracker -> ())?
-    var didBecomeActiveBlock: (Tracker -> ())?
-    var setUserBlock: (Tracker -> ())?
-    var setInstallationBlock: (Tracker -> ())?
-    var trackEventBlock: (Tracker -> ())?
-    var updateCoordsBlock: (Tracker -> ())?
-    var notificationsPermissionChangedBlock: (Tracker -> ())?
-    var gpsPermissionChangedBlock: (Tracker -> ())?
-    var setMarketingNotificationsBlock: (Tracker -> ())?
+    var didFinishLaunchingWithOptionsBlock: ((Tracker) -> ())?
+    var openURLBlock: ((Tracker) -> ())?
+    var didEnterBackground: ((Tracker) -> ())?
+    var willEnterForegroundBlock: ((Tracker) -> ())?
+    var didBecomeActiveBlock: ((Tracker) -> ())?
+    var setUserBlock: ((Tracker) -> ())?
+    var setInstallationBlock: ((Tracker) -> ())?
+    var trackEventBlock: ((Tracker) -> ())?
+    var updateCoordsBlock: ((Tracker) -> ())?
+    var notificationsPermissionChangedBlock: ((Tracker) -> ())?
+    var gpsPermissionChangedBlock: ((Tracker) -> ())?
+    var setMarketingNotificationsBlock: ((Tracker) -> ())?
 
     var trackedEvents: [TrackerEvent] = []
 
 
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         didFinishLaunchingWithOptionsBlock?(self)
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
         openURLBlock?(self)
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         didEnterBackground?(self)
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         willEnterForegroundBlock?(self)
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         didBecomeActiveBlock?(self)
     }
 
-    func setInstallation(installation: Installation?) {
+    func setInstallation(_ installation: Installation?) {
         setInstallationBlock?(self)
     }
 
-    func setUser(user: MyUser?) {
+    func setUser(_ user: MyUser?) {
         setUserBlock?(self)
     }
     
-    func trackEvent(event: TrackerEvent) {
+    func trackEvent(_ event: TrackerEvent) {
         trackedEvents.append(event)
         trackEventBlock?(self)
     }
 
-    func setLocation(location: LGLocation?) {
+    func setLocation(_ location: LGLocation?) {
         updateCoordsBlock?(self)
     }
 
-    func setNotificationsPermission(enabled: Bool) {
+    func setNotificationsPermission(_ enabled: Bool) {
         notificationsPermissionChangedBlock?(self)
     }
 
-    func setGPSPermission(enabled: Bool) {
+    func setGPSPermission(_ enabled: Bool) {
         gpsPermissionChangedBlock?(self)
     }
 
-    func setMarketingNotifications(enabled: Bool) {
+    func setMarketingNotifications(_ enabled: Bool) {
         setMarketingNotificationsBlock?(self)
     }
 }

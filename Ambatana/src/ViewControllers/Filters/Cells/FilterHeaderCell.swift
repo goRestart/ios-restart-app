@@ -39,7 +39,7 @@ class FilterHeaderCell: UICollectionReusableView {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .FilterHeaderCell
-        titleLabel.accessibilityId = .FilterHeaderCellTitleLabel
+        self.accessibilityId = .filterHeaderCell
+        titleLabel.accessibilityId = .filterHeaderCellTitleLabel
     }
 }

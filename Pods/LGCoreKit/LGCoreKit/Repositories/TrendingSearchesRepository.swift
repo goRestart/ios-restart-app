@@ -9,8 +9,8 @@
 import Result
 
 public typealias TrendingSearchesResult = Result<[String], RepositoryError>
-public typealias TrendingSearchesCompletion = TrendingSearchesResult -> Void
+public typealias TrendingSearchesCompletion = (TrendingSearchesResult) -> Void
 
 public protocol TrendingSearchesRepository {
-    func index(countryCode: String, completion: TrendingSearchesCompletion?)
+    func index(_ countryCode: String, completion: TrendingSearchesCompletion?)
 }

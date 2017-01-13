@@ -14,11 +14,11 @@ protocol CreateCommercialViewModelDelegate: class {
 }
 
 enum CreateCommercialViewStatus {
-    case None
-    case Loading
-    case Data
-    case Empty(LGEmptyViewModel)
-    case Error(LGEmptyViewModel)
+    case none
+    case loading
+    case data
+    case empty(LGEmptyViewModel)
+    case error(LGEmptyViewModel)
 }
 
 class CreateCommercialViewModel: BaseViewModel {
@@ -35,32 +35,32 @@ class CreateCommercialViewModel: BaseViewModel {
     
     init(commercializerRepository: CommercializerRepository) {
         self.commercializerRepository = commercializerRepository
-        self.status = Variable<CreateCommercialViewStatus>(.None)
+        self.status = Variable<CreateCommercialViewStatus>(.none)
         super.init()
     }
     
-    internal override func didBecomeActive(firstTime: Bool) {
+    internal override func didBecomeActive(_ firstTime: Bool) {
         fetchProducts()
     }
     
     func fetchProducts() {
-        self.status.value = .Loading
+        self.status.value = .loading
         commercializerRepository.indexAvailableProducts { [weak self] result in
             if let value = result.value {
                 self?.products = value
                 if !value.isEmpty {
-                    self?.status.value = .Data
+                    self?.status.value = .data
                 } else if let vm = self?.viewModelForEmptyView() {
-                    self?.status.value = .Empty(vm)
-                } else if let vm = self?.emptyViewModelForError(.Internal(message: "")){
-                    self?.status.value = .Error(vm)
+                    self?.status.value = .empty(vm)
+                } else if let vm = self?.emptyViewModelForError(.internalError(message: "")){
+                    self?.status.value = .error(vm)
                 } else {
-                    self?.status.value = .None
+                    self?.status.value = .none
                 }
             } else if let error = result.error, let vm = self?.emptyViewModelForError(error) {
-                self?.status.value = CreateCommercialViewStatus.Error(vm)
+                self?.status.value = CreateCommercialViewStatus.error(vm)
             } else {
-                self?.status.value = .None
+                self?.status.value = .none
             }
         }
     }
@@ -78,12 +78,12 @@ class CreateCommercialViewModel: BaseViewModel {
                                 secondaryButtonTitle: nil, secondaryAction: nil)
     }
     
-    private func emptyViewModelForError(error: RepositoryError) -> LGEmptyViewModel {
+    private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel {
         let emptyVM: LGEmptyViewModel
         switch error {
-        case .Network:
+        case .network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(fetchProducts)
-        case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+        case .internalError, .forbidden, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(fetchProducts)
         }
         return emptyVM
@@ -92,22 +92,22 @@ class CreateCommercialViewModel: BaseViewModel {
     
     // MARK: - Data Source
     
-    func thumbnailAt(index: Int) -> String? {
+    func thumbnailAt(_ index: Int) -> String? {
         guard 0..<products.count ~= index else { return nil }
         return products[index].thumbnailURL
     }
     
-    func productIdAt(index: Int) -> String? {
+    func productIdAt(_ index: Int) -> String? {
         guard 0..<products.count ~= index else { return nil }
         return products[index].objectId
     }
     
-    func countryCodeAt(index: Int) -> String? {
+    func countryCodeAt(_ index: Int) -> String? {
         guard 0..<products.count ~= index else { return nil }
         return products[index].countryCode
     }
     
-    func commercializerTemplates(index: Int) -> [CommercializerTemplate]? {
+    func commercializerTemplates(_ index: Int) -> [CommercializerTemplate]? {
         guard let countryCode = countryCodeAt(index) else { return nil }
         return commercializerRepository.templatesForCountryCode(countryCode)
     }

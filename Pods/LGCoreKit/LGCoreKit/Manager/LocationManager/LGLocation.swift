@@ -9,12 +9,12 @@
 import CoreLocation
 
 public enum LGLocationType: String {
-    case Manual     = "manual"
-    case Sensor     = "sensor"
-    case IPLookup   = "iplookup"
-    case Regional   = "regional"
+    case manual     = "manual"
+    case sensor     = "sensor"
+    case ipLookup   = "iplookup"
+    case regional   = "regional"
 
-    static let allValues: [LGLocationType] = [.Manual, .Sensor, .IPLookup, .Regional]
+    static let allValues: [LGLocationType] = [.manual, .sensor, .ipLookup, .regional]
 }
 
 public final class LGLocation: CustomStringConvertible, Equatable {
@@ -43,10 +43,10 @@ public final class LGLocation: CustomStringConvertible, Equatable {
         self.type = type
     }
 
-    public func distanceFromLocation(otherLocation: LGLocation) -> Double {
+    public func distanceFromLocation(_ otherLocation: LGLocation) -> Double {
         let clLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
         let otherClLocation = CLLocation(latitude: otherLocation.location.latitude, longitude: otherLocation.location.longitude)
-        return clLocation.distanceFromLocation(otherClLocation)
+        return clLocation.distance(from: otherClLocation)
     }
 
     public var description : String {

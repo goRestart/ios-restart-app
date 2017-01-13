@@ -10,6 +10,6 @@ import Foundation
 
 
 protocol ExpressChatNavigator: class {
-    func closeExpressChat(showAgain: Bool, forProduct: String)
-    func sentMessage(forProduct: String, count: Int)
+    func closeExpressChat(_ showAgain: Bool, forProduct: String)
+    func sentMessage(_ forProduct: String, count: Int)
 }

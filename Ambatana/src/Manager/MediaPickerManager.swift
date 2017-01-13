@@ -24,24 +24,24 @@ class MediaPickerManager {
     
     - parameter controller: UIViewController where the ImagePicker is going to be shown.
     */
-    static func showImagePickerIn<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(controller: T) {
+    static func showImagePickerIn<T: UIViewController>(_ controller: T) where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate {
            
             let title = LGLocalizedString.sellPictureImageSourceTitle
             let cameraTitle = LGLocalizedString.sellPictureImageSourceCameraButton
             let galleryTitle = LGLocalizedString.sellPictureImageSourceCameraRollButton
             let cancelTitle = LGLocalizedString.sellPictureImageSourceCancelButton
         
-            let style: UIAlertControllerStyle = DeviceFamily.isiPad ? .Alert : .ActionSheet
+            let style: UIAlertControllerStyle = DeviceFamily.isiPad ? .alert : .actionSheet
         
             let alert = UIAlertController(title: title, message: nil, preferredStyle: style)
-            alert.addAction(UIAlertAction(title: cameraTitle, style: .Default) { alertAction in
+            alert.addAction(UIAlertAction(title: cameraTitle, style: .default) { alertAction in
                 showCameraPickerIn(controller)
                 })
-            alert.addAction(UIAlertAction(title: galleryTitle, style: .Default) { alertAction in
+            alert.addAction(UIAlertAction(title: galleryTitle, style: .default) { alertAction in
                 showGalleryPickerIn(controller)
                 })
-            alert.addAction(UIAlertAction(title: cancelTitle, style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: nil))
             controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
 
@@ -51,10 +51,10 @@ class MediaPickerManager {
 
     - parameter controller: UIViewController where the ImagePicker is going to be shown.
     */
-    static func showGalleryPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(controller: T) {
+    static func showGalleryPickerIn<T: UIViewController>(_ controller: T) where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate {
             self.requestGalleryPermissions(controller) {
-                self.openImagePickerWithSource(.PhotoLibrary, inController: controller)
+                self.openImagePickerWithSource(.photoLibrary, inController: controller)
             }
     }
 
@@ -64,41 +64,41 @@ class MediaPickerManager {
 
     - parameter controller: UIViewController where the ImagePicker is going to be shown.
     */
-    static func showCameraPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(controller: T) {
+    static func showCameraPickerIn<T: UIViewController>(_ controller: T) where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate {
             self.requestCameraPermissions(controller) {
-                self.openImagePickerWithSource(.Camera, inController: controller)
+                self.openImagePickerWithSource(.camera, inController: controller)
             }
     }
 
     static func hasCameraPermissions() -> Bool {
-        guard UIImagePickerController.isSourceTypeAvailable(.Camera) else { return false }
-        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-        return status == .Authorized
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else { return false }
+        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        return status == .authorized
     }
 
-    static func requestCameraPermissions(controller: UIViewController, block: () -> ()) {
-            guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+    static func requestCameraPermissions(_ controller: UIViewController, block: @escaping () -> ()) {
+            guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
                 let message = LGLocalizedString.productSellCameraRestrictedError
                 showDefaultAlertWithMessage(message, inController: controller)
                 return
             }
-            let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+            let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
             switch (status) {
-            case .Authorized:
+            case .authorized:
                 block()
-            case .Denied:
+            case .denied:
                 let message = LGLocalizedString.productSellCameraPermissionsError
                 showSettingsAlertWithMessage(message, inController: controller)
-            case .NotDetermined:
-                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+            case .notDetermined:
+                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { granted in
                     if granted {
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async {
                             block()
                         }
                     }
                 }
-            case .Restricted:
+            case .restricted:
                 // this will never be called, this status is not visible for the user
                 // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
                 break
@@ -108,49 +108,50 @@ class MediaPickerManager {
 
     // MARK: Private Methods
     
-    private static func requestGalleryPermissions(controller: UIViewController, block: () -> ()) {
+    private static func requestGalleryPermissions(_ controller: UIViewController, block: @escaping () -> ()) {
             
             let status = PHPhotoLibrary.authorizationStatus()
             switch (status) {
-            case .Authorized:
+            case .authorized:
                 block()
-            case .Denied:
+            case .denied:
                 let message = LGLocalizedString.productSellPhotolibraryPermissionsError
                 showSettingsAlertWithMessage(message, inController: controller)
-            case .NotDetermined:
+            case .notDetermined:
                 PHPhotoLibrary.requestAuthorization { newStatus in
-                    if newStatus == .Authorized {
-                        dispatch_async(dispatch_get_main_queue()) {
+                    if newStatus == .authorized {
+                        DispatchQueue.main.async {
                             block()
                         }
                     }
                 }
-            case .Restricted:
+            case .restricted:
                 let message = LGLocalizedString.productSellPhotolibraryRestrictedError
                 showDefaultAlertWithMessage(message, inController: controller)
                 break
             }
     }
 
-    private static func showDefaultAlertWithMessage(message: String, inController controller: UIViewController) {
+    private static func showDefaultAlertWithMessage(_ message: String, inController controller: UIViewController) {
             let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
-                preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .Default, handler: nil))
+                preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .default, handler: nil))
             controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
     
-    private static func showSettingsAlertWithMessage(message: String, inController controller: UIViewController) {
+    private static func showSettingsAlertWithMessage(_ message: String, inController controller: UIViewController) {
             let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
-                preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Default, handler: nil))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.commonSettings, style: .Default) { alertAction in
-                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+                preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: LGLocalizedString.commonSettings, style: .default) { alertAction in
+                guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
+                UIApplication.shared.openURL(settingsUrl)
             })
             controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
     
-    private static func openImagePickerWithSource<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(source: UIImagePickerControllerSourceType, inController controller: T) {
+    private static func openImagePickerWithSource<T: UIViewController>(_ source: UIImagePickerControllerSourceType, inController controller: T) where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate {
             let picker = UIImagePickerController()
             picker.sourceType = source
             picker.delegate = controller

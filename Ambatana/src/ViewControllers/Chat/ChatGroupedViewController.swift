@@ -21,7 +21,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     var validationPendingEmptyView: LGEmptyView = LGEmptyView()
 
     // Data
-    private let viewModel: ChatGroupedViewModel
+    fileprivate let viewModel: ChatGroupedViewModel
     private var pages: [BaseView]
 
     // Rx
@@ -33,8 +33,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - Lifecycle
 
-    dynamic private func edit() {
-        setEditing(!editing, animated: true)
+    dynamic fileprivate func edit() {
+        setEditing(!isEditing, animated: true)
     }
 
     init(viewModel: ChatGroupedViewModel, featureFlags: FeatureFlaggeable) {
@@ -45,7 +45,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: nil)
         
-        self.editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete, style: .Plain, target: self,
+        self.editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete, style: .plain, target: self,
                                           action: #selector(edit))
         
         automaticallyAdjustsScrollViewInsets = false
@@ -64,7 +64,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
             }
             
             page.tableView.accessibilityId = viewModel.accessibilityIdentifierForTableViewAtIndex(index)
-            page.footerButton.accessibilityId = .ChatListViewFooterButton
+            page.footerButton.accessibilityId = .chatListViewFooterButton
             page.chatGroupedListViewDelegate = self
             page.delegate = self
             pages.append(page)
@@ -91,7 +91,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewDidLoad() {
@@ -101,7 +101,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         setAccessibilityIds()
     }
 
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         viewModel.setCurrentPageEditing(editing)
         tabBarController?.setTabBarHidden(editing, animated: true)
@@ -117,12 +117,12 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - ChatGroupedViewModelDelegate
 
-    func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel) {
+    func viewModelShouldOpenHome(_ viewModel: ChatGroupedViewModel) {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
-        tabBarCtl.switchToTab(.Home)
+        tabBarCtl.switchToTab(.home)
     }
 
-    func viewModelShouldOpenSell(viewModel: ChatGroupedViewModel) {
+    func viewModelShouldOpenSell(_ viewModel: ChatGroupedViewModel) {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
         tabBarController.sellButtonPressed()
     }
@@ -137,23 +137,23 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - ChatListViewDelegate
 
-    func chatListView(chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
-        cancelText: String, actionText: String, action: () -> ()) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: cancelText, style: .Cancel, handler: nil)
-        let archiveAction = UIAlertAction(title: actionText, style: .Destructive) { (_) -> Void in
+    func chatListView(_ chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
+        cancelText: String, actionText: String, action: @escaping () -> ()) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
+        let archiveAction = UIAlertAction(title: actionText, style: .destructive) { (_) -> Void in
             action()
         }
         alert.addAction(cancelAction)
         alert.addAction(archiveAction)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 
-    func chatListViewDidStartArchiving(chatListView: ChatListView) {
+    func chatListViewDidStartArchiving(_ chatListView: ChatListView) {
         showLoadingMessageAlert()
     }
 
-    func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
+    func chatListView(_ chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
                 self?.showAutoFadingOutMessageAlert(message)
@@ -163,7 +163,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         }
     }
 
-    func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?) {
+    func chatListView(_ chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
                 self?.showAutoFadingOutMessageAlert(message)
@@ -176,7 +176,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - BlockedUsersListViewDelegate
 
-    func didSelectBlockedUser(user: User) {
+    func didSelectBlockedUser(_ user: User) {
         viewModel.blockedUserPressed(user)
     }
 
@@ -184,7 +184,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         showLoadingMessageAlert()
     }
 
-    func didFinishUnblockingWithMessage(message: String?) {
+    func didFinishUnblockingWithMessage(_ message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
                 self?.showAutoFadingOutMessageAlert(message)
@@ -197,44 +197,44 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - LGViewPagerDataSource
 
-    func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
+    func viewPagerNumberOfTabs(_ viewPager: LGViewPager) -> Int {
         return viewModel.tabCount
     }
 
-    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
+    func viewPager(_ viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
         return pages[index]
     }
 
-    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
+    func viewPager(_ viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
         return viewModel.showInfoBadgeAtIndex(index)
     }
 
-    func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
+    func viewPager(_ viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
         return viewModel.titleForTabAtIndex(index, selected: false)
     }
 
-    func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
+    func viewPager(_ viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
         return viewModel.titleForTabAtIndex(index, selected: true)
     }
     
-    func viewPager(viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? {
+    func viewPager(_ viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? {
         return viewModel.accessibilityIdentifierForTabButtonAtIndex(index)
     }
 
 
     // MARK: - LGViewPagerDelegate
 
-    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
+    func viewPager(_ viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
         if let tab = ChatGroupedViewModel.Tab(rawValue: index) {
             viewModel.currentTab.value = tab
         }
-        if editing {
+        if isEditing {
             setEditing(false, animated: true)
         }
         viewModel.refreshCurrentPage()
     }
 
-    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
+    func viewPager(_ viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
 
     }
 
@@ -256,7 +256,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         //TODO: remove!!!!
         #if GOD_MODE
         let chatType = featureFlags.websocketChat ? "New" : "Old"
-        let leftButton = UIBarButtonItem(title: chatType, style: .Plain, target: self, action: #selector(chatInfo))
+        let leftButton = UIBarButtonItem(title: chatType, style: .plain, target: self, action: #selector(chatInfo))
         navigationItem.leftBarButtonItem = leftButton
         #endif
 
@@ -289,15 +289,15 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     private func setupConstraints() {
-        let top = NSLayoutConstraint(item: viewPager, attribute: .Top, relatedBy: .Equal,
-            toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
+        let top = NSLayoutConstraint(item: viewPager, attribute: .top, relatedBy: .equal,
+            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
 
-        let bottom = NSLayoutConstraint(item: viewPager, attribute: .Bottom, relatedBy: .Equal,
-            toItem: bottomLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
+        let bottom = NSLayoutConstraint(item: viewPager, attribute: .bottom, relatedBy: .equal,
+            toItem: bottomLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
         view.addConstraints([top, bottom])
 
         let views = ["viewPager": viewPager]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[viewPager]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         view.addConstraints(hConstraints)
     }
@@ -308,7 +308,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
 extension ChatGroupedViewController {
 
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         setupRxNavBarBindings()
         setupRxVerificationViewBindings()
     }
@@ -317,9 +317,9 @@ extension ChatGroupedViewController {
         viewModel.editButtonText.asObservable().subscribeNext { [weak self] editButtonText in
             guard let strongSelf = self else { return }
 
-            let editButton = UIBarButtonItem(title: editButtonText, style: .Plain, target: strongSelf,
+            let editButton = UIBarButtonItem(title: editButtonText, style: .plain, target: strongSelf,
                 action: #selector(ChatGroupedViewController.edit))
-            editButton.enabled = strongSelf.viewModel.editButtonEnabled.value
+            editButton.isEnabled = strongSelf.viewModel.editButtonEnabled.value
             strongSelf.editButton = editButton
             strongSelf.navigationItem.rightBarButtonItem = editButton
         }.addDisposableTo(disposeBag)
@@ -328,24 +328,24 @@ extension ChatGroupedViewController {
             guard let strongSelf = self else { return }
 
             // If becomes hidden then end editing
-            let wasEnabled = strongSelf.navigationItem.rightBarButtonItem?.enabled ?? false
+            let wasEnabled = strongSelf.navigationItem.rightBarButtonItem?.isEnabled ?? false
             if wasEnabled && !enabled {
                 self?.setEditing(false, animated: true)
             }
 
-            strongSelf.editButton?.enabled = enabled
+            strongSelf.editButton?.isEnabled = enabled
         }.addDisposableTo(disposeBag)
     }
 
     private func setupRxVerificationViewBindings() {
-        viewModel.verificationPending.asObservable().bindTo(viewPager.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx_hidden)
+        viewModel.verificationPending.asObservable().bindTo(viewPager.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx.isHidden)
             .addDisposableTo(disposeBag)
     }
 }
 
 extension ChatGroupedViewController {
     func setAccessibilityIds() {
-        navigationItem.rightBarButtonItem?.accessibilityId = AccessibilityId.ChatGroupedViewRightNavBarButton
+        navigationItem.rightBarButtonItem?.accessibilityId = AccessibilityId.chatGroupedViewRightNavBarButton
     }
 }

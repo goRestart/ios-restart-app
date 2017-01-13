@@ -14,7 +14,7 @@ struct UniversalLink {
 
     let deepLink: DeepLink
 
-    static func buildFromUserActivity(userActivity: NSUserActivity) -> UniversalLink? {
+    static func buildFromUserActivity(_ userActivity: NSUserActivity) -> UniversalLink? {
         // we don't need to handle Branch links as we will get the branch object in the callback
         guard !isBranchDeepLink(userActivity) else { return nil }
 
@@ -43,8 +43,8 @@ struct UniversalLink {
 
      - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/... or http:/www.letgo.com/product/....
      */
-    private static func buildFromUrl(url: NSURL) -> UniversalLink? {
-        guard let host = url.host where host.hasSuffix("letgo.com") else {
+    private static func buildFromUrl(_ url: URL) -> UniversalLink? {
+        guard let host = url.host, host.hasSuffix("letgo.com") else {
             //Any nil object or host different than *letgo.com will be treated as error
             return nil
         }
@@ -59,31 +59,31 @@ struct UniversalLink {
             switch components[1] {
             case "i":
                 guard components.count > 2, let productId = components.last?.decomposeIdSlug() else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.Product(productId: productId), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.product(productId: productId), campaign: campaign, medium: medium, source: source))
             case "u":
                 guard components.count > 2, let userId = components.last?.decomposeIdSlug() else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.User(userId: userId), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium, source: source))
             case "q", "scq":
                 guard components.count > 2, let query = components.last else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.Search(query: query, categories: queryParams["categories"]), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.search(query: query, categories: queryParams["categories"]), campaign: campaign, medium: medium, source: source))
             case "account-chat-list":
-                return UniversalLink(deepLink: DeepLink.link(.Conversations, campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.conversations, campaign: campaign, medium: medium, source: source))
             case "account-chat-conversation":
                 guard components.count > 2, let conversationId = components.last else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.Conversation(data: .Conversation(conversationId: conversationId)), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)), campaign: campaign, medium: medium, source: source))
             case "reset-password-renew":
                 guard let token = queryParams["token"] else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.ResetPassword(token: token), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.resetPassword(token: token), campaign: campaign, medium: medium, source: source))
             case "v":
                 guard components.count > 3 else { return nil }
                 let productId = components[2]
                 let templateId = components[3]
-                return UniversalLink(deepLink: DeepLink.link(.Commercializer(productId: productId, templateId: templateId), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.commercializer(productId: productId, templateId: templateId), campaign: campaign, medium: medium, source: source))
             case "vm":
                 guard components.count > 3 else { return nil }
                 let productId = components[2]
                 let templateId = components[3]
-                return UniversalLink(deepLink: DeepLink.link(.CommercializerReady(productId: productId, templateId: templateId), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.commercializerReady(productId: productId, templateId: templateId), campaign: campaign, medium: medium, source: source))
             default: break
             }
         }
@@ -96,15 +96,15 @@ struct UniversalLink {
             }
         }
 
-        return UniversalLink(deepLink: DeepLink.link(.Home, campaign: campaign, medium: medium, source: source))
+        return UniversalLink(deepLink: DeepLink.link(.home, campaign: campaign, medium: medium, source: source))
     }
 
-    static func isBranchDeepLink(userActivity: NSUserActivity) -> Bool {
+    static func isBranchDeepLink(_ userActivity: NSUserActivity) -> Bool {
         guard let url = userActivity.webpageURL else { return false }
         return UniversalLink.isBranchDeepLink(url)
     }
 
-    private static func isBranchDeepLink(url: NSURL) -> Bool {
+    private static func isBranchDeepLink(_ url: URL) -> Bool {
         guard let host = url.host  else { return false }
         return host == Constants.branchLinksHost
     }

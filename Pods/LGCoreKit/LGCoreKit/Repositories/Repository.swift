@@ -11,86 +11,86 @@ import Result
 
 // MARK: - RepositoryError
 
-public enum RepositoryError: ErrorType {
+public enum RepositoryError: Error {
     
-    case Internal(message: String)
-    case Network(errorCode: Int, onBackground: Bool)
-    case NotFound
-    case Unauthorized(code: Int?)
-    case Forbidden
-    case TooManyRequests
-    case UserNotVerified
+    case internalError(message: String)
+    case network(errorCode: Int, onBackground: Bool)
+    case notFound
+    case unauthorized(code: Int?)
+    case forbidden
+    case tooManyRequests
+    case userNotVerified
 
-    case ServerError(code: Int?)
-    
-    private static let NotModifiedCode = 304
+    case serverError(code: Int?)
 
     public init(apiError: ApiError) {
         switch apiError {
-        case let .Network(errorCode, onBackground):
-            self = .Network(errorCode: errorCode, onBackground: onBackground)
-        case let .Internal(description):
-            self = .Internal(message: description)
-        case .BadRequest(let cause):
-            self = .Internal(message: "Bad request with cause: \(cause)")
-        case .Unauthorized:
-            self = .Unauthorized(code: apiError.httpStatusCode)
-        case .NotFound:
-            self = .NotFound
-        case .Forbidden:
-            self = .Forbidden
-        case .Scammer:
-            self = .Unauthorized(code: apiError.httpStatusCode)
-        case .TooManyRequests:
-            self = .TooManyRequests
-        case .UserNotVerified:
-            self = .UserNotVerified
-        case .Conflict, .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
-            self = .ServerError(code: apiError.httpStatusCode)
+        case let .network(errorCode, onBackground):
+            self = .network(errorCode: errorCode, onBackground: onBackground)
+        case let .internalError(description):
+            self = .internalError(message: description)
+        case .badRequest(let cause):
+            self = .internalError(message: "Bad request with cause: \(cause)")
+        case .unauthorized:
+            self = .unauthorized(code: apiError.httpStatusCode)
+        case .notFound:
+            self = .notFound
+        case .forbidden:
+            self = .forbidden
+        case .scammer:
+            self = .unauthorized(code: apiError.httpStatusCode)
+        case .tooManyRequests:
+            self = .tooManyRequests
+        case .userNotVerified:
+            self = .userNotVerified
+        case .conflict, .unprocessableEntity, .internalServerError, .notModified, .other:
+            self = .serverError(code: apiError.httpStatusCode)
         }
     }
     
     init(webSocketError: WebSocketError) {
         switch webSocketError {
-        case .NotAuthenticated:
-            self = .Unauthorized(code: nil)
-        case .Internal:
-            self = .Internal(message: "")
-        case .UserNotVerified:
-            self = .UserNotVerified
+        case .notAuthenticated:
+            self = .unauthorized(code: nil)
+        case .internalError:
+            self = .internalError(message: "")
+        case .userNotVerified:
+            self = .userNotVerified
         }
     }
 
     public var errorCode: Int? {
         switch self {
-        case .Network, .Internal:
+        case .network, .internalError:
             return nil
-        case let .Unauthorized(code):
+        case let .unauthorized(code):
             return code
-        case .NotFound:
+        case .notFound:
             return 404
-        case .Forbidden:
+        case .forbidden:
             return 403
-        case .UserNotVerified:
+        case .userNotVerified:
             return 424
-        case .TooManyRequests:
+        case .tooManyRequests:
             return 429
-        case let .ServerError(code):
+        case let .serverError(code):
             return code
         }
     }
     
     public static func setupNetworkGenericError() -> RepositoryError {
-        return .Network(errorCode: 408, onBackground: false)
+        return .network(errorCode: 408, onBackground: false)
     }
 }
 
 
 extension RepositoryError {
+    private static let notModifiedCode = 304
+    
     public func isNotModified() -> Bool {
         switch self {
-        case .ServerError(let code):
-            return code == RepositoryError.NotModifiedCode
+        case .serverError(let code):
+            return code == RepositoryError.notModifiedCode
         default:
             return false
         }
@@ -106,17 +106,17 @@ Handles the given API result and executes a completion with a `RepositoryError`.
 - parameter success: A completion block that is executed only on successful result.
 - parameter completion: A completion block that is executed on both successful & failure result.
 */
-func handleApiResult<T>(result: Result<T, ApiError>, completion: ((Result<T, RepositoryError>) -> ())?) {
+func handleApiResult<T>(_ result: Result<T, ApiError>, completion: ((Result<T, RepositoryError>) -> ())?) {
     handleApiResult(result, success: nil, failed: nil, completion: completion)
 }
 
-func handleApiResult<T>(result: Result<T, ApiError>,
+func handleApiResult<T>(_ result: Result<T, ApiError>,
     success: ((T) -> ())?,
     completion: ((Result<T, RepositoryError>) -> ())?) {
         handleApiResult(result, success: success, failed: nil, completion: completion)
 }
 
-func handleApiResult<T>(result: Result<T, ApiError>,
+func handleApiResult<T>(_ result: Result<T, ApiError>,
     success: ((T) -> ())?,
     failed: ((ApiError) -> ())?,
     completion: ((Result<T, RepositoryError>) -> ())?) {
@@ -130,17 +130,17 @@ func handleApiResult<T>(result: Result<T, ApiError>,
         }
 }
 
-func handleWebSocketResult<T>(result: Result<T, WebSocketError>, completion: ((Result<T, RepositoryError>) -> ())?) {
+func handleWebSocketResult<T>(_ result: Result<T, WebSocketError>, completion: ((Result<T, RepositoryError>) -> ())?) {
     handleWebSocketResult(result, success: nil, failed: nil, completion: completion)
 }
 
-func handleWebSocketResult<T>(result: Result<T, WebSocketError>,
+func handleWebSocketResult<T>(_ result: Result<T, WebSocketError>,
     success: ((T) -> ())?,
     completion: ((Result<T, RepositoryError>) -> ())?) {
         handleWebSocketResult(result, success: success, failed: nil, completion: completion)
 }
 
-func handleWebSocketResult<T>(result: Result<T, WebSocketError>,
+func handleWebSocketResult<T>(_ result: Result<T, WebSocketError>,
     success: ((T) -> ())?,
     failed: ((WebSocketError) -> ())?,
     completion: ((Result<T, RepositoryError>) -> ())?) {

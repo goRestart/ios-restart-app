@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGAuthentication: Authentication {
     let id: String
@@ -26,7 +27,7 @@ extension LGAuthentication: Decodable {
         "auth_token": "string"
     }
     */
-    static func decode(j: JSON) -> Decoded<LGAuthentication> {
+    static func decode(_ j: JSON) -> Decoded<LGAuthentication> {
         return curry(LGAuthentication.init)
             <^> j <| "id"
             <*> j <| "auth_token"

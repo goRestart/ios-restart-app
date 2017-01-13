@@ -6,12 +6,12 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-public enum VideoProcessStatus {
-    case ProcessOK
-    case ProcessFail
+enum VideoProcessStatus {
+    case processOK
+    case processFail
 }
 
-public class ProcessingVideoDialogViewModel: BaseViewModel {
+class ProcessingVideoDialogViewModel: BaseViewModel {
 
     var promotionSource: PromotionSource
     var videoProcessStatus: VideoProcessStatus

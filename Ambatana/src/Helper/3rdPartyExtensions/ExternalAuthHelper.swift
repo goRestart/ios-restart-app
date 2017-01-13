@@ -8,8 +8,8 @@
 
 import LGCoreKit
 
-typealias ExternalAuthLoginCompletion = (ExternalServiceAuthResult -> ())
+typealias ExternalAuthLoginCompletion = ((ExternalServiceAuthResult) -> ())
 
 protocol ExternalAuthHelper {
-    func login(authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?)
+    func login(_ authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?)
 }

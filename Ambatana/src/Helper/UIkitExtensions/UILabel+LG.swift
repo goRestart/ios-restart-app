@@ -15,14 +15,14 @@ extension UILabel {
         guard var font = self.font else { return Int(self.font.pointSize)}
         var range =  NSMakeRange(0, 1)
         let attributedString = self.attributedText
-        let attributes = attributedString?.attributesAtIndex(0, effectiveRange: &range)
-        let characters = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-        var words = labelText.componentsSeparatedByCharactersInSet(characters)
+        let attributes = attributedString?.attributes(at: 0, effectiveRange: &range)
+        let characters = CharacterSet.whitespacesAndNewlines
+        var words = labelText.components(separatedBy: characters)
         var maxSize = CGSize.zero
         var maxWidthString: NSMutableAttributedString? = nil
         for i in 0..<words.count {
             let word = words[i]
-            let wordSize = word.sizeWithAttributes(attributes)
+            let wordSize = word.size(attributes: attributes)
             if wordSize.width > maxSize.width {
                 maxSize = wordSize
                 maxWidthString = NSMutableAttributedString(string: word, attributes: attributes)
@@ -30,7 +30,7 @@ extension UILabel {
         }
         if let maxWidth = maxWidthString {
             while maxSize.width > self.frame.width {
-                font = font.fontWithSize(font.pointSize - 1.0)
+                font = font.withSize(font.pointSize - 1.0)
                 maxWidth.addAttribute(NSFontAttributeName, value: font, range: NSRange(location: 0, length: maxWidth.length))
                 maxSize = maxWidth.size()
             }

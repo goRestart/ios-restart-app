@@ -9,7 +9,7 @@
 import Argo
 import CoreLocation
 import Curry
-import Foundation
+import Runes
 
 protocol LGMyUserKeys {
     var objectId: String { get }
@@ -69,7 +69,7 @@ struct LGMyUser: MyUser {
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
 
-        self.status = status ?? .Active
+        self.status = status ?? .active
 
         self.email = email
         self.location = location
@@ -131,11 +131,11 @@ extension LGMyUser: Decodable {
         "locale": "string|null"
     }
     */
-    static func decode(j: JSON) -> Decoded<LGMyUser> {
+    static func decode(_ j: JSON) -> Decoded<LGMyUser> {
         return decode(j, keys: ApiMyUserKeys())
     }
 
-    static func decode(j: JSON, keys: LGMyUserApiKeys) -> Decoded<LGMyUser> {
+    static func decode(_ j: JSON, keys: LGMyUserApiKeys) -> Decoded<LGMyUser> {
         let init1 = curry(LGMyUser.init)
                             <^> j <|? keys.objectId
                             <*> j <|? keys.name
@@ -152,7 +152,7 @@ extension LGMyUser: Decodable {
 
 
         if let error = init3.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGMyUser parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGMyUser parse error: \(error)")
         }
         return init3
     }

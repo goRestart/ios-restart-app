@@ -22,16 +22,16 @@ class ContactApiDataSource: ContactDataSource {
     
     // MARK: - ContactDataSource
     
-    func send(email: String, title: String, message: String, completion: ContactDataSourceCompletion?) {
+    func send(_ email: String, title: String, message: String, completion: ContactDataSourceCompletion?) {
         let params = parameters(email, title: title, message: message)
-        let request = ContactRouter.Send(params: params)
+        let request = ContactRouter.send(params: params)
         apiClient.request(request, completion: completion)
     }
     
     
     // MARK: - Private
     
-    private func parameters(email: String, title: String, message: String) -> [String : AnyObject] {
+    private func parameters(_ email: String, title: String, message: String) -> [String : Any] {
         return ["email": email, "title": title, "description": message];
     }
 }

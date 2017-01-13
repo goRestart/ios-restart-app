@@ -18,8 +18,8 @@ public extension MyUser {
         return LGLocationCoordinates2D(coordinates: coordinates)
     }
     var isDummy: Bool {
-        let dummyRange = (email ?? "").rangeOfString("usercontent")
-        if let isDummyRange = dummyRange where isDummyRange.startIndex == (email ?? "").startIndex {
+        let dummyRange = (email ?? "").range(of: "usercontent")
+        if let isDummyRange = dummyRange, isDummyRange.lowerBound == (email ?? "").startIndex {
             return true
         }
         else {

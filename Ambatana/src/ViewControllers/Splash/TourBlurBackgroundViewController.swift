@@ -12,9 +12,9 @@ class TourBlurBackgroundViewController: BaseViewController {
 
     init() {
         super.init(viewModel: nil, nibName: "TourBlurBackgroundViewController",
-                   statusBarStyle: .LightContent)
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+                   statusBarStyle: .lightContent)
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder aDecoder: NSCoder) {

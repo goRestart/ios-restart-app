@@ -12,11 +12,11 @@ import RxSwift
 
 class ProductListMultiRequester {
 
-    private var requestersArray: [ProductListRequester]
-    private var activeRequester: ProductListRequester?
+    fileprivate var requestersArray: [ProductListRequester]
+    fileprivate var activeRequester: ProductListRequester?
     var currentIndex: Int // not private for testing reasons
-    private var hasChangedRequester: Bool // use it to ask for 1st page of next requester
-    private var multiIsLastPage: Bool
+    fileprivate var hasChangedRequester: Bool // use it to ask for 1st page of next requester
+    fileprivate var multiIsLastPage: Bool
 
     var itemsPerPage: Int {
         return activeRequester?.itemsPerPage ?? 0
@@ -43,7 +43,7 @@ extension ProductListMultiRequester: ProductListRequester {
         return activeRequester.canRetrieve()
     }
 
-    func retrieveFirstPage(completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ProductsCompletion?) {
         resetInitialData()
         activeRequester?.retrieveFirstPage { [weak self] result in
             self?.updateLastPage(result)
@@ -51,7 +51,7 @@ extension ProductListMultiRequester: ProductListRequester {
         }
     }
 
-    func retrieveNextPage(completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ProductsCompletion?) {
         let completionBlock: ProductsCompletion = { [weak self] result in
             self?.updateLastPage(result)
             completion?(result)
@@ -64,11 +64,11 @@ extension ProductListMultiRequester: ProductListRequester {
         }
     }
 
-    func isLastPage(resultCount: Int) -> Bool {
+    func isLastPage(_ resultCount: Int) -> Bool {
         return multiIsLastPage
     }
 
-    func updateInitialOffset(newOffset: Int) {
+    func updateInitialOffset(_ newOffset: Int) {
         activeRequester?.updateInitialOffset(newOffset)
     }
 
@@ -87,7 +87,7 @@ extension ProductListMultiRequester: ProductListRequester {
         multiIsLastPage = false
     }
 
-    private func updateLastPage(result: ProductsResult) {
+    private func updateLastPage(_ result: ProductsResult) {
         guard let activeRequester = activeRequester else {
             // if we don't have an active requester, is last page
             multiIsLastPage = true

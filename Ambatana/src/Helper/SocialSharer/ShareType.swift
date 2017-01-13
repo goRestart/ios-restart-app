@@ -14,20 +14,20 @@ import Branch
 
 
 enum ShareType {
-    case Email, Facebook, FBMessenger, Whatsapp, Twitter, Telegram, CopyLink, SMS, Native
+    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms, native
 
-    private static var otherCountriesTypes: [ShareType] { return [.SMS, .Email, .Facebook, .FBMessenger, .Twitter, .Whatsapp, .Telegram] }
-    private static var turkeyTypes: [ShareType] { return [.Whatsapp, .Facebook, .Email ,.FBMessenger, .Twitter, .SMS, .Telegram] }
+    private static var otherCountriesTypes: [ShareType] { return [.sms, .email, .facebook, .fbMessenger, .twitter, .whatsapp, .telegram] }
+    private static var turkeyTypes: [ShareType] { return [.whatsapp, .facebook, .email ,.fbMessenger, .twitter, .sms, .telegram] }
 
     var moreInfoTypes: [ShareType] {
         return ShareType.shareTypesForCountry("", maxButtons: nil, includeNative: false)
     }
 
-    static func shareTypesForCountry(countryCode: String, maxButtons: Int?, includeNative: Bool) -> [ShareType] {
+    static func shareTypesForCountry(_ countryCode: String, maxButtons: Int?, includeNative: Bool) -> [ShareType] {
         let turkey = "tr"
 
         let countryTypes: [ShareType]
-        switch countryCode.lowercaseString {
+        switch countryCode.lowercased() {
         case turkey:
             countryTypes = turkeyTypes
         default:
@@ -36,7 +36,7 @@ enum ShareType {
 
         var resultShareTypes = countryTypes.filter { SocialSharer.canShareIn($0) }
 
-        if var maxButtons = maxButtons where maxButtons > 0 {
+        if var maxButtons = maxButtons, maxButtons > 0 {
             maxButtons = includeNative ? maxButtons-1 : maxButtons
             if resultShareTypes.count > maxButtons {
                 resultShareTypes = Array(resultShareTypes[0..<maxButtons])
@@ -44,7 +44,7 @@ enum ShareType {
         }
 
         if includeNative {
-            resultShareTypes.append(.Native)
+            resultShareTypes.append(.native)
         }
 
         return resultShareTypes
@@ -52,93 +52,93 @@ enum ShareType {
 
     var trackingShareNetwork: EventParameterShareNetwork {
         switch self {
-        case .Email:
-            return .Email
-        case .FBMessenger:
-            return .FBMessenger
-        case .Whatsapp:
-            return .Whatsapp
-        case .Facebook:
-            return .Facebook
-        case .Twitter:
-            return .Twitter
-        case .Telegram:
-            return .Telegram
-        case .CopyLink:
-            return .CopyLink
-        case .SMS:
-            return .SMS
-        case .Native:
-            return .Native
+        case .email:
+            return .email
+        case .fbMessenger:
+            return .fbMessenger
+        case .whatsapp:
+            return .whatsapp
+        case .facebook:
+            return .facebook
+        case .twitter:
+            return .twitter
+        case .telegram:
+            return .telegram
+        case .copyLink:
+            return .copyLink
+        case .sms:
+            return .sms
+        case .native:
+            return .native
         }
     }
 
     var smallImage: UIImage? {
         switch self {
-        case .Email:
+        case .email:
             return UIImage(named: "item_share_email")
-        case .Facebook:
+        case .facebook:
             return UIImage(named: "item_share_fb")
-        case .Twitter:
+        case .twitter:
             return UIImage(named: "item_share_twitter")
-        case .Native:
+        case .native:
             return UIImage(named: "item_share_more")
-        case .CopyLink:
+        case .copyLink:
             return UIImage(named: "item_share_link")
-        case .FBMessenger:
+        case .fbMessenger:
             return UIImage(named: "item_share_fb_messenger")
-        case .Whatsapp:
+        case .whatsapp:
             return UIImage(named: "item_share_whatsapp")
-        case .Telegram:
+        case .telegram:
             return UIImage(named: "item_share_telegram")
-        case .SMS:
+        case .sms:
             return UIImage(named: "item_share_sms")
         }
     }
 
     var bigImage: UIImage? {
         switch self {
-        case .Email:
+        case .email:
             return UIImage(named: "item_share_email_big")
-        case .Facebook:
+        case .facebook:
             return UIImage(named: "item_share_fb_big")
-        case .Twitter:
+        case .twitter:
             return UIImage(named: "item_share_twitter_big")
-        case .Native:
+        case .native:
             return UIImage(named: "item_share_more_big")
-        case .CopyLink:
+        case .copyLink:
             return UIImage(named: "item_share_link_big")
-        case .FBMessenger:
+        case .fbMessenger:
             return UIImage(named: "item_share_fb_messenger_big")
-        case .Whatsapp:
+        case .whatsapp:
             return UIImage(named: "item_share_whatsapp_big")
-        case .Telegram:
+        case .telegram:
             return UIImage(named: "item_share_telegram_big")
-        case .SMS:
+        case .sms:
             return UIImage(named: "item_share_sms_big")
         }
     }
 
     var accesibilityId: AccessibilityId {
         switch self {
-        case .Email:
-            return .SocialShareEmail
-        case .Facebook:
-            return .SocialShareFacebook
-        case .Twitter:
-            return .SocialShareTwitter
-        case .Native:
-            return .SocialShareMore
-        case .CopyLink:
-            return .SocialShareCopyLink
-        case .FBMessenger:
-            return .SocialShareFBMessenger
-        case .Whatsapp:
-            return .SocialShareWhatsapp
-        case .Telegram:
-            return .SocialShareTelegram
-        case .SMS:
-            return .SocialShareSMS
+        case .email:
+            return .socialShareEmail
+        case .facebook:
+            return .socialShareFacebook
+        case .twitter:
+            return .socialShareTwitter
+        case .native:
+            return .socialShareMore
+        case .copyLink:
+            return .socialShareCopyLink
+        case .fbMessenger:
+            return .socialShareFBMessenger
+        case .whatsapp:
+            return .socialShareWhatsapp
+        case .telegram:
+            return .socialShareTelegram
+        case .sms:
+            return .socialShareSMS
         }
     }
 }

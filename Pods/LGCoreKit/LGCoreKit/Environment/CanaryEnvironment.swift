@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-class CanaryEnvironment: Environment {
+struct CanaryEnvironment: Environment {
     let apiBaseURL = "http://canary.api.letgo.com"
     let bouncerBaseURL = "http://bouncerv2.canary.letgo.com/api"
     let commercializerBaseURL = "http://commercializer.canary.letgo.com"

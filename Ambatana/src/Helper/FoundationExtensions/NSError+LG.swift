@@ -9,7 +9,7 @@
 import Foundation
 
 enum ErrorCode: Int {
-    case ImageDownloadFailed
+    case imageDownloadFailed
 }
 
 extension NSError {

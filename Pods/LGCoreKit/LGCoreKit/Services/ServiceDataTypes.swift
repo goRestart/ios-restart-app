@@ -10,8 +10,8 @@ import CoreLocation
 
 // MARK: - COMPLETION CLOSURES
 
-public typealias RetrieveProductCompletion = (product: Product?, error: NSError?) -> Void
-public typealias RetrieveProductsCompletion = (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void
+public typealias RetrieveProductCompletion = (_ product: Product?, _ error: Error?) -> Void
+public typealias RetrieveProductsCompletion = (_ products: Array<Any>?, _ lastPage: Bool?, _ error: Error?) -> Void
 
 // MARK: - PARAMS
 
@@ -83,19 +83,19 @@ public struct IndexTrendingProductsParams {
         self.offset = offset
     }
 
-    public func paramsWithOffset(offset: Int) -> IndexTrendingProductsParams {
+    public func paramsWithOffset(_ offset: Int) -> IndexTrendingProductsParams {
         return IndexTrendingProductsParams(countryCode: countryCode, coordinates: coordinates,
                                            numProducts: numProducts, offset: offset)
     }
 }
 
 extension IndexTrendingProductsParams {
-    var letgoApiParams: Dictionary<String, AnyObject> {
-        var params = Dictionary<String, AnyObject>()
+    var letgoApiParams: Dictionary<String, Any> {
+        var params = Dictionary<String, Any>()
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
-        params["country_code"] = countryCode
-        params["num_results"] = numProducts
-        params["offset"] = offset
+        params["country_code"] = countryCode 
+        params["num_results"] = numProducts 
+        params["offset"] = offset 
         return params
     }
 }
@@ -149,17 +149,17 @@ public struct ReportUserParams {
 // MARK: - ENUMS & STRUCTS
 
 public enum ProductSortCriteria: Int, Equatable {
-    case Distance = 1, PriceAsc = 2, PriceDesc = 3, Creation = 4
+    case distance = 1, priceAsc = 2, priceDesc = 3, creation = 4
     var string: String? {
         get {
             switch self {
-            case .Distance:
+            case .distance:
                 return "distance"
-            case .PriceAsc:
+            case .priceAsc:
                 return "price_asc"
-            case .PriceDesc:
+            case .priceDesc:
                 return "price_desc"
-            case .Creation:
+            case .creation:
                 return "recent"
             }
         }
@@ -167,29 +167,29 @@ public enum ProductSortCriteria: Int, Equatable {
 }
 
 public enum ProductTimeCriteria: Int, Equatable {
-    case Day = 1, Week = 2, Month = 3, All = 4
+    case day = 1, week = 2, month = 3, all = 4
     var string : String? {
         switch self {
-        case .Day:
+        case .day:
             return "day"
-        case .Week:
+        case .week:
             return "week"
-        case .Month:
+        case .month:
             return "month"
-        case .All:
+        case .all:
             return nil
         }
     }
 }
 
 public enum UserProductStatus: String {
-    case Selling = "selling"
-    case Sold = "sold"
+    case selling = "selling"
+    case sold = "sold"
 }
 
 public enum ReportUserReason: Int, Equatable {
-    case Offensive = 1, Scammer = 2, Mia = 3, Suspicious = 4, Inactive = 5, ProhibitedItems = 6, Spammer = 7,
-    CounterfeitItems = 8, Others = 9
+    case offensive = 1, scammer = 2, mia = 3, suspicious = 4, inactive = 5, prohibitedItems = 6, spammer = 7,
+    counterfeitItems = 8, others = 9
 }
 
 
@@ -197,17 +197,17 @@ public enum ReportUserReason: Int, Equatable {
 
 extension RetrieveProductsParams {
     
-    var letgoApiParams: Dictionary<String, AnyObject> {
-        var params = Dictionary<String, AnyObject>()
+    var letgoApiParams: Dictionary<String, Any> {
+        var params = Dictionary<String, Any>()
         params["search_term"] = queryString
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         params["country_code"] = countryCode
-        let categories = categoryIds?.map { String($0) }.joinWithSeparator(",")
+        let categories = categoryIds?.map { String($0) }.joined(separator: ",")
         if categories != "" {
             params["categories"] = categories
         }
-        if let freePrice = freePrice where freePrice {
-            params["price_flag"] = ProductPriceFlag.Free.rawValue
+        if let freePrice = freePrice, freePrice {
+            params["price_flag"] = ProductPriceFlag.free.rawValue
         }
         params["max_price"] = maxPrice
         params["min_price"] = minPrice
@@ -223,18 +223,18 @@ extension RetrieveProductsParams {
 }
 
 extension RetrieveProductsParams {
-    var userProductApiParams: Dictionary<String, AnyObject> {
-        var params = Dictionary<String, AnyObject>()
+    var userProductApiParams: Dictionary<String, Any> {
+        var params = Dictionary<String, Any>()
         
         params["num_results"] = numProducts
         params["offset"] = offset
         params["country_code"] = countryCode
 
         // TODO: Think twice about this :-P
-        if self.statuses == [.Sold, .SoldOld] {
-            params["status"] = UserProductStatus.Sold.rawValue
+        if self.statuses == [.sold, .soldOld] {
+            params["status"] = UserProductStatus.sold.rawValue
         } else {
-            params["status"] = UserProductStatus.Selling.rawValue
+            params["status"] = UserProductStatus.selling.rawValue
         }
         
         return params
@@ -242,8 +242,8 @@ extension RetrieveProductsParams {
 }
 
 extension RetrieveProductsParams {
-    var relatedProductsApiParams: Dictionary<String, AnyObject> {
-        var params = Dictionary<String, AnyObject>()
+    var relatedProductsApiParams: Dictionary<String, Any> {
+        var params = Dictionary<String, Any>()
         params["num_results"] = numProducts
         params["offset"] = offset
         return params
@@ -251,8 +251,8 @@ extension RetrieveProductsParams {
 }
 
 extension ReportUserParams {
-    var reportUserApiParams: Dictionary<String, AnyObject> {
-        var params = Dictionary<String, AnyObject>()
+    var reportUserApiParams: Dictionary<String, Any> {
+        var params = Dictionary<String, Any>()
 
         params["reason_id"] = reason.rawValue
         params["comment"] = comment

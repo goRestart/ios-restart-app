@@ -11,13 +11,13 @@ import Foundation
 final class FavoritesUDDAO: FavoritesDAO {
     static let FavoritesKey = "FavoritesUDKey"
     
-    let userDefaults: NSUserDefaults
+    let userDefaults: UserDefaults
     private var favoritesSet: Set<String> = Set<String>()
     
     
     // MARK: - Lifecycle
     
-    init(userDefaults: NSUserDefaults) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
         self.favoritesSet = fetch()
     }
@@ -39,8 +39,8 @@ final class FavoritesUDDAO: FavoritesDAO {
     
     - parameter productIDs: Products IDs favorited
     */
-    func save(productIDs: [String]) {
-        favoritesSet = favoritesSet.union(Set(productIDs))
+    func save(productIds: [String]) {
+        favoritesSet = favoritesSet.union(Set(productIds))
         sync()
     }
     
@@ -49,13 +49,14 @@ final class FavoritesUDDAO: FavoritesDAO {
     
     - parameter productId: Product ID no longer favorited.
     */
+    
     func remove(productId: String) {
         favoritesSet.remove(productId)
         sync()
     }
     
     func clean() {
-        userDefaults.removeObjectForKey(FavoritesUDDAO.FavoritesKey)
+        userDefaults.removeObject(forKey: FavoritesUDDAO.FavoritesKey)
         favoritesSet.removeAll()
     }
     
@@ -75,7 +76,7 @@ final class FavoritesUDDAO: FavoritesDAO {
     - returns: Set of Product IDs
     */
     private func fetch() -> Set<String> {
-        guard let array = userDefaults.arrayForKey(FavoritesUDDAO.FavoritesKey) else { return Set<String>() }
+        guard let array = userDefaults.array(forKey: FavoritesUDDAO.FavoritesKey) else { return Set<String>() }
         return Set<String>(array.flatMap{$0 as? String})
     }
 }

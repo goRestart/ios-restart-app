@@ -8,21 +8,20 @@
 
 import RxSwift
 import LGCoreKit
-import CollectionVariable
 import FBSDKShareKit
 
 
 enum LetGoSetting {
-    case InviteFbFriends
-    case ChangePhoto(placeholder: UIImage?, avatarUrl: NSURL?)
-    case ChangeUsername(name: String)
-    case ChangeLocation(location: String)
-    case MarketingNotifications(initialState: Bool, changeClosure: (Bool -> Void))
-    case CreateCommercializer
-    case ChangePassword
-    case Help
-    case LogOut
-    case VersionInfo
+    case inviteFbFriends
+    case changePhoto(placeholder: UIImage?, avatarUrl: URL?)
+    case changeUsername(name: String)
+    case changeLocation(location: String)
+    case marketingNotifications(initialState: Bool, changeClosure: ((Bool) -> Void))
+    case createCommercializer
+    case changePassword
+    case help
+    case logOut
+    case versionInfo
 }
 
 struct SettingsSection {
@@ -77,7 +76,7 @@ class SettingsViewModel: BaseViewModel {
         setupRx()
     }
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
             tracker.trackEvent(TrackerEvent.profileEditStart())
@@ -96,33 +95,33 @@ class SettingsViewModel: BaseViewModel {
         return sections.value.count
     }
 
-    func sectionTitle(section: Int) -> String {
+    func sectionTitle(_ section: Int) -> String {
         guard 0..<sections.value.count ~= section else { return "" }
         return sections.value[section].title
     }
 
-    func settingsCount(section: Int) -> Int {
+    func settingsCount(_ section: Int) -> Int {
         guard 0..<sections.value.count ~= section else { return 0 }
         return sections.value[section].settings.count
     }
 
-    func settingAtSection(section: Int, index: Int) -> LetGoSetting? {
+    func settingAtSection(_ section: Int, index: Int) -> LetGoSetting? {
         guard 0..<sections.value.count ~= section else { return nil }
         guard 0..<sections.value[section].settings.count ~= index else { return nil }
         return sections.value[section].settings[index]
     }
 
-    func settingSelectedAtSection(section: Int, index: Int) {
+    func settingSelectedAtSection(_ section: Int, index: Int) {
         guard let setting = settingAtSection(section, index: index) else { return }
         settingSelected(setting)
     }
 
-    func imageSelected(image: UIImage) {
+    func imageSelected(_ image: UIImage) {
         avatarLoadingProgress.value = 0.0
 
-        let size = CGSizeMake(kLetGoUserImageSquareSize, kLetGoUserImageSquareSize)
-        let resizedImage = image.resizedImageWithContentMode( .ScaleAspectFill, size: size,
-            interpolationQuality: .Medium) ?? image
+        let size = CGSize(width: kLetGoUserImageSquareSize, height: kLetGoUserImageSquareSize)
+        let resizedImage = image.resizedImageWithContentMode( .scaleAspectFill, size: size,
+            interpolationQuality: .medium) ?? image
         let croppedImage = resizedImage.croppedCenteredImage() ?? resizedImage
         guard let imageData = UIImageJPEGRepresentation(croppedImage, 0.9) else { return }
 
@@ -144,12 +143,12 @@ class SettingsViewModel: BaseViewModel {
     }
 
     func fbAppInviteCancel() {
-        let trackerEvent = TrackerEvent.appInviteFriendCancel(.Facebook, typePage: .Settings)
+        let trackerEvent = TrackerEvent.appInviteFriendCancel(.facebook, typePage: .settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func fbAppInviteDone() {
-        let trackerEvent = TrackerEvent.appInviteFriendComplete(.Facebook, typePage: .Settings)
+        let trackerEvent = TrackerEvent.appInviteFriendComplete(.facebook, typePage: .settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.settingsInviteFacebookFriendsOk, completion: nil)
@@ -166,70 +165,70 @@ class SettingsViewModel: BaseViewModel {
         var settingSections = [SettingsSection]()
 
         var promoteSettings = [LetGoSetting]()
-        promoteSettings.append(.InviteFbFriends)
+        promoteSettings.append(.inviteFbFriends)
         if commercializerEnabled {
-            promoteSettings.append(.CreateCommercializer)
+            promoteSettings.append(.createCommercializer)
         }
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionPromote, settings: promoteSettings))
 
         var profileSettings = [LetGoSetting]()
         let myUser = myUserRepository.myUser
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
-        profileSettings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
-        profileSettings.append(.ChangeUsername(name: myUser?.name ?? ""))
-        profileSettings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
+        profileSettings.append(.changePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
+        profileSettings.append(.changeUsername(name: myUser?.name ?? ""))
+        profileSettings.append(.changeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
             myUser?.postalAddress.countryCode ?? ""))
-        if let email = myUser?.email where email.isEmail() {
-            profileSettings.append(.ChangePassword)
+        if let email = myUser?.email, email.isEmail() {
+            profileSettings.append(.changePassword)
         }
-        profileSettings.append(.MarketingNotifications(initialState: notificationsManager.marketingNotifications.value,
+        profileSettings.append(.marketingNotifications(initialState: notificationsManager.marketingNotifications.value,
             changeClosure: { [weak self] enabled in self?.setMarketingNotifications(enabled) } ))
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
         var supportSettings = [LetGoSetting]()
-        supportSettings.append(.Help)
+        supportSettings.append(.help)
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionSupport, settings: supportSettings))
 
         var logoutAndInfo = [LetGoSetting]()
-        logoutAndInfo.append(.LogOut)
-        logoutAndInfo.append(.VersionInfo)
+        logoutAndInfo.append(.logOut)
+        logoutAndInfo.append(.versionInfo)
         settingSections.append(SettingsSection(title: "", settings: logoutAndInfo))
         sections.value = settingSections
     }
 
-    private func settingSelected(setting: LetGoSetting) {
+    private func settingSelected(_ setting: LetGoSetting) {
         switch (setting) {
-        case .InviteFbFriends:
+        case .inviteFbFriends:
             let content = FBSDKAppInviteContent()
-            content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
-            content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+            content.appLinkURL = URL(string: Constants.facebookAppLinkURL)
+            content.appInvitePreviewImageURL = URL(string: Constants.facebookAppInvitePreviewImageURL)
             guard let delegate = delegate as? FBSDKAppInviteDialogDelegate else { return }
             navigator?.showFbAppInvite(content, delegate: delegate)
-            let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
+            let trackerEvent = TrackerEvent.appInviteFriend(.facebook, typePage: .settings)
             tracker.trackEvent(trackerEvent)
-        case .ChangePhoto:
+        case .changePhoto:
             delegate?.vmOpenImagePick()
-        case .ChangeUsername:
+        case .changeUsername:
             navigator?.openEditUserName()
-        case .ChangeLocation:
+        case .changeLocation:
             navigator?.openEditLocation()
-        case .CreateCommercializer:
+        case .createCommercializer:
             navigator?.openCreateCommercials()
-        case .ChangePassword:
+        case .changePassword:
             navigator?.openChangePassword()
-        case .Help:
+        case .help:
             navigator?.openHelp()
-        case .LogOut:
-            let positive = UIAction(interface: .StyledText(LGLocalizedString.settingsLogoutAlertOk, .Default),
+        case .logOut:
+            let positive = UIAction(interface: .styledText(LGLocalizedString.settingsLogoutAlertOk, .standard),
                                     action: { [weak self] in
                     self?.logoutUser()
-                }, accessibilityId: .SettingsLogoutAlertOK)
+                }, accessibilityId: .settingsLogoutAlertOK)
 
-            let negative = UIAction(interface: .StyledText(LGLocalizedString.commonCancel, .Cancel),
-                                    action: {}, accessibilityId: .SettingsLogoutAlertCancel)
+            let negative = UIAction(interface: .styledText(LGLocalizedString.commonCancel, .cancel),
+                                    action: {}, accessibilityId: .settingsLogoutAlertCancel)
             delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsLogoutAlertMessage,
-                                           alertType: .PlainAlert, actions: [positive, negative])
-        case .VersionInfo, .MarketingNotifications:
+                                           alertType: .plainAlert, actions: [positive, negative])
+        case .versionInfo, .marketingNotifications:
             break
         }
     }
@@ -245,7 +244,7 @@ class SettingsViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
     }
 
-    private func setMarketingNotifications(enabled: Bool) {
+    private func setMarketingNotifications(_ enabled: Bool) {
         notificationsManager.marketingNotifications.value = enabled
 
         let event = TrackerEvent.marketingPushNotifications(myUserRepository.myUser?.objectId, enabled: enabled)

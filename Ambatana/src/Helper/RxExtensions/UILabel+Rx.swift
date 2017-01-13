@@ -9,10 +9,10 @@
 import RxCocoa
 import RxSwift
 
-extension UILabel {
-    public var rx_optionalText: AnyObserver<String?> {
-        return UIBindingObserver(UIElement: self) { label, text in
+extension Reactive where Base: UILabel {
+    var optionalText: UIBindingObserver<Base, String?> {
+        return UIBindingObserver<Base, String?>(UIElement: self.base) { (label, text) -> () in
             label.text = text
-        }.asObserver()
+        }
     }
 }

@@ -7,15 +7,15 @@
 //
 
 extension CGPoint {
-    func distanceTo(point: CGPoint) -> CGFloat {
+    func distanceTo(_ point: CGPoint) -> CGFloat {
         return sqrt(pow(x - point.x, 2) + pow(y - point.y, 2))
     }
 
-    func nearestPointTo(points: [CGPoint]) -> CGPoint? {
+    func nearestPointTo(_ points: [CGPoint]) -> CGPoint? {
         guard !points.isEmpty else { return nil }
 
         var nearestPoint: CGPoint = CGPoint.zero
-        var distance: CGFloat = CGFloat.max
+        var distance: CGFloat = CGFloat.greatestFiniteMagnitude
 
         for point in points {
             let distanceToPoint = distanceTo(point)

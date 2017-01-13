@@ -12,29 +12,29 @@ enum InstallationRouter: URLRequestAuthenticable {
 
     static let endpoint = "/installations"
 
-    case Create(params: [String : AnyObject])
-    case Patch(installationId: String, params: [String : AnyObject])
+    case create(params: [String : Any])
+    case patch(installationId: String, params: [String : Any])
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Create:
-            return .Nonexistent
-        case .Patch:
-            return .Installation
+        case .create:
+            return .nonexistent
+        case .patch:
+            return .installation
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .Create(params):
-            return Router<BouncerBaseURL>.Create(endpoint: InstallationRouter.endpoint,
-                                                 params: params, encoding: nil).URLRequest
-        case let .Patch(installationId, params):
-            let urlRequest = Router<BouncerBaseURL>.Patch(endpoint: InstallationRouter.endpoint, objectId: installationId,
-                                                          params: params, encoding: .JSON).URLRequest
-            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
+        case let .create(params):
+            return try Router<BouncerBaseURL>.create(endpoint: InstallationRouter.endpoint,
+                                                     params: params, encoding: nil).asURLRequest()
+        case let .patch(installationId, params):
+            var urlRequest = try Router<BouncerBaseURL>.patch(endpoint: InstallationRouter.endpoint, objectId: installationId,
+                                                              params: params, encoding: .json).asURLRequest()
+            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
