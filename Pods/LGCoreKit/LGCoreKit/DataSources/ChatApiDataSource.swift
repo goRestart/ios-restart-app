@@ -10,17 +10,17 @@ import Argo
 import Result
 
 public enum ChatsType {
-    case Selling
-    case Buying
-    case Archived
-    case All
+    case selling
+    case buying
+    case archived
+    case all
 
     var apiValue: String {
         switch self {
-        case .Selling: return "as_seller"
-        case .Buying: return "as_buyer"
-        case .Archived: return "archived"
-        case .All: return "default"
+        case .selling: return "as_seller"
+        case .buying: return "as_buyer"
+        case .archived: return "archived"
+        case .all: return "default"
         }
     }
 }
@@ -38,67 +38,67 @@ class ChatApiDataSource: OldChatDataSource {
 
 
     // MARK: - ChatDataSource
-    func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatDataSourceRetrieveChatsCompletion?) {
-        var parameters: [String: AnyObject] = ["filter" : type.apiValue, "page" : page]
+    func index(_ type: ChatsType, page: Int, numResults: Int?, completion: ChatDataSourceRetrieveChatsCompletion?) {
+        var parameters: [String: Any] = ["filter" : type.apiValue, "page" : page]
         if let number = numResults {
             parameters["num_results"] = number
         }
-        let request = OldChatRouter.Index(params: parameters)
+        let request = OldChatRouter.index(params: parameters)
         apiClient.request(request, decoder: chatsDecoder, completion: completion)
     }
 
-    func retrieveMessagesWithProductId(productId: String, buyerId: String, offset: Int, numResults: Int?,
+    func retrieveMessagesWithProductId(_ productId: String, buyerId: String, offset: Int, numResults: Int?,
         completion: ChatDataSourceRetrieveChatCompletion?) {
 
-            var parameters: [String : AnyObject] = [:]
+            var parameters: [String : Any] = [:]
             parameters["buyer"] = buyerId
             parameters["productId"] = productId
             parameters["offset"] = offset
             parameters["num_results"] = numResults
 
-            let request = OldChatRouter.Show(objectId: productId, params: parameters)
+            let request = OldChatRouter.show(objectId: productId, params: parameters)
             apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
 
-    func retrieveMessagesWithConversationId(conversationId: String, offset: Int, numResults: Int?,
+    func retrieveMessagesWithConversationId(_ conversationId: String, offset: Int, numResults: Int?,
         completion: ChatDataSourceRetrieveChatCompletion?) {
 
-            var parameters: [String : AnyObject] = [:]
+            var parameters: [String : Any] = [:]
             parameters["offset"] = offset
             parameters["num_results"] = numResults
 
-            let request = OldChatRouter.ShowConversation(objectId: conversationId, params: parameters)
+            let request = OldChatRouter.showConversation(objectId: conversationId, params: parameters)
             apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
     
-    func sendMessageTo(recipientUserId: String, productId: String, message: String, type: MessageType,
+    func sendMessageTo(_ recipientUserId: String, productId: String, message: String, type: MessageType,
         completion: ChatDataSourceSendMessageCompletion?) {
 
-            var parameters: [String : AnyObject] = [:]
+            var parameters: [String : Any] = [:]
             parameters["userTo"] = recipientUserId
             parameters["type"] = type.rawValue
             parameters["content"] = message
 
-            let request = OldChatRouter.CreateMessage(objectId: productId, params: parameters)
+            let request = OldChatRouter.createMessage(objectId: productId, params: parameters)
             apiClient.request(request, completion: completion)
     }
 
-    func fetchUnreadCount(completion: ChatDataSourceUnreadCountCompletion?) {
-        let request = OldChatRouter.UnreadCount
+    func fetchUnreadCount(_ completion: ChatDataSourceUnreadCountCompletion?) {
+        let request = OldChatRouter.unreadCount
         apiClient.request(request, decoder: unreadCountDecoder, completion: completion)
     }
 
-    func archiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?) {
-        var parameters: [String : AnyObject] = [:]
+    func archiveChatsWithIds(_ chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?) {
+        var parameters: [String : Any] = [:]
         parameters["conversationUuids"] = chatIds
-        let request = OldChatRouter.Archive(params: parameters)
+        let request = OldChatRouter.archive(params: parameters)
         apiClient.request(request, completion: completion)
     }
 
-    func unarchiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?) {
-        var parameters: [String : AnyObject] = [:]
+    func unarchiveChatsWithIds(_ chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?) {
+        var parameters: [String : Any] = [:]
         parameters["conversationUuids"] = chatIds
-        let request = OldChatRouter.Unarchive(params: parameters)
+        let request = OldChatRouter.unarchive(params: parameters)
         apiClient.request(request, completion: completion)
     }
 
@@ -110,7 +110,7 @@ class ChatApiDataSource: OldChatDataSource {
     - parameter object: The object.
     - returns: A `[Chat]` object.
     */
-    private func chatsDecoder(object: AnyObject) -> [Chat]? {
+    private func chatsDecoder(_ object: Any) -> [Chat]? {
         guard let chats : [LGChat] = decode(object) else { return nil }
         return chats.map{$0}
     }
@@ -120,7 +120,7 @@ class ChatApiDataSource: OldChatDataSource {
     - parameter object: The object.
     - returns: A `Chat` object.
     */
-    private func chatDecoder(object: AnyObject) -> Chat? {
+    private func chatDecoder(_ object: Any) -> Chat? {
         guard let apiChat: LGChat = decode(object) else { return nil }
         return apiChat
     }
@@ -130,7 +130,7 @@ class ChatApiDataSource: OldChatDataSource {
     - parameter object: The object.
     - returns: An Int with the num of unread messages
     */
-    private func unreadCountDecoder(object: AnyObject) -> Int? {
+    private func unreadCountDecoder(_ object: Any) -> Int? {
         let count: Decoded<Int> = JSON(object) <| "count"
         return count.value
     }

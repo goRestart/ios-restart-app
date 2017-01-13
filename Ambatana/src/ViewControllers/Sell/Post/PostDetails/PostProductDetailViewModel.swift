@@ -10,7 +10,7 @@ import RxSwift
 import LGCoreKit
 
 protocol PostProductDetailViewModelDelegate: class {
-    func postProductDetailDone(viewModel: PostProductDetailViewModel)
+    func postProductDetailDone(_ viewModel: PostProductDetailViewModel)
 }
 
 class PostProductDetailViewModel: BaseViewModel {
@@ -26,7 +26,7 @@ class PostProductDetailViewModel: BaseViewModel {
     
     // Out variables
     var productPrice: ProductPrice {
-        return isFree.value ? .Free : .Normal(price.value.toPriceDouble())
+        return isFree.value ? .free : .normal(price.value.toPriceDouble())
     }
     var productTitle: String? {
         return title.value.isEmpty ? nil : title.value

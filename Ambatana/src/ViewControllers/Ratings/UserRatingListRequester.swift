@@ -10,9 +10,9 @@ import Foundation
 import LGCoreKit
 
 protocol UserRatingListRequesterDelegate: class {
-    func requesterIsLoadingUserRatings(isLoading: Bool, firstPage: Bool)
-    func requesterDidLoadUserRatings(ratings: [UserRating])
-    func requesterDidFailLoadingUserRatings(firstPage: Bool)
+    func requesterIsLoadingUserRatings(_ isLoading: Bool, firstPage: Bool)
+    func requesterDidLoadUserRatings(_ ratings: [UserRating])
+    func requesterDidFailLoadingUserRatings(_ firstPage: Bool)
 }
 
 class UserRatingListRequester {
@@ -44,7 +44,7 @@ class UserRatingListRequester {
 
     // MARK: public methods
 
-    func reportRating(rating: UserRating, completion: UserRatingCompletion?) {
+    func reportRating(_ rating: UserRating, completion: UserRatingCompletion?) {
         userRatingRepository.reportRating(rating, completion: completion)
     }
 }
@@ -53,7 +53,7 @@ class UserRatingListRequester {
 // MARK: Paginable
 
 extension UserRatingListRequester: Paginable {
-    func retrievePage(page: Int) {
+    func retrievePage(_ page: Int) {
         isLoading = true
         delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == firstPage)
         userRatingRepository.index(userId, offset: objectCount, limit: resultsPerPage) { [weak self] result in

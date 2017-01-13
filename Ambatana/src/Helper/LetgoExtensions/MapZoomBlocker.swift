@@ -15,7 +15,7 @@ import MapKit
  */
 class MapZoomBlocker: NSObject, MKMapViewDelegate {
 
-    private var mapZoomTimer: NSTimer?
+    private var mapZoomTimer: Timer?
     private let minLongitudeDelta: CLLocationDegrees
     private let minLatitudeDelta: CLLocationDegrees
     private var isResettingRegion: Bool = false
@@ -39,14 +39,14 @@ class MapZoomBlocker: NSObject, MKMapViewDelegate {
 
     // MARK: - Delegate
 
-    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         delegate?.mapView?(mapView, regionWillChangeAnimated: animated)
 
-        mapZoomTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(resetRegionDelta),
+        mapZoomTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(resetRegionDelta),
                                                               userInfo: nil, repeats: true)
     }
 
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         delegate?.mapView?(mapView, regionDidChangeAnimated: animated)
 
         mapZoomTimer?.invalidate()
@@ -54,59 +54,59 @@ class MapZoomBlocker: NSObject, MKMapViewDelegate {
         isResettingRegion = false
     }
 
-    func mapViewWillStartLoadingMap(mapView: MKMapView) {
+    func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
         delegate?.mapViewWillStartLoadingMap?(mapView)
     }
-    func mapViewDidFinishLoadingMap(mapView: MKMapView) {
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         delegate?.mapViewDidFinishLoadingMap?(mapView)
     }
-    func mapViewDidFailLoadingMap(mapView: MKMapView, withError error: NSError) {
+    func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
         delegate?.mapViewDidFailLoadingMap?(mapView, withError: error)
     }
-    func mapViewWillStartRenderingMap(mapView: MKMapView) {
+    func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
         delegate?.mapViewWillStartRenderingMap?(mapView)
     }
-    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         delegate?.mapViewDidFinishRenderingMap?(mapView, fullyRendered: fullyRendered)
     }
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        return delegate?.mapView?(mapView, viewForAnnotation: annotation)
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        return delegate?.mapView?(mapView, viewFor: annotation)
     }
-    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
-        delegate?.mapView?(mapView, didAddAnnotationViews: views)
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        delegate?.mapView?(mapView, didAdd: views)
     }
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         delegate?.mapView?(mapView, annotationView: view, calloutAccessoryControlTapped: control)
     }
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        delegate?.mapView?(mapView, didSelectAnnotationView: view)
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        delegate?.mapView?(mapView, didSelect: view)
     }
-    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
-        delegate?.mapView?(mapView, didDeselectAnnotationView: view)
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        delegate?.mapView?(mapView, didDeselect: view)
     }
-    func mapViewWillStartLocatingUser(mapView: MKMapView) {
+    func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
         delegate?.mapViewWillStartLocatingUser?(mapView)
     }
-    func mapViewDidStopLocatingUser(mapView: MKMapView) {
+    func mapViewDidStopLocatingUser(_ mapView: MKMapView) {
         delegate?.mapViewDidStopLocatingUser?(mapView)
     }
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
-        delegate?.mapView?(mapView, didUpdateUserLocation: userLocation)
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        delegate?.mapView?(mapView, didUpdate: userLocation)
     }
-    func mapView(mapView: MKMapView, didFailToLocateUserWithError error: NSError) {
+    func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
         delegate?.mapView?(mapView, didFailToLocateUserWithError: error)
     }
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, didChangeDragState newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
-        delegate?.mapView?(mapView, annotationView: view, didChangeDragState: newState, fromOldState: oldState)
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
+        delegate?.mapView?(mapView, annotationView: view, didChange: newState, fromOldState: oldState)
     }
-    func mapView(mapView: MKMapView, didChangeUserTrackingMode mode: MKUserTrackingMode, animated: Bool) {
-        delegate?.mapView?(mapView, didChangeUserTrackingMode: mode, animated: animated)
+    func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
+        delegate?.mapView?(mapView, didChange: mode, animated: animated)
     }
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
-        return delegate?.mapView?(mapView, rendererForOverlay: overlay) ?? MKOverlayRenderer()
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        return delegate?.mapView?(mapView, rendererFor: overlay) ?? MKOverlayRenderer()
     }
-    func mapView(mapView: MKMapView, didAddOverlayRenderers renderers: [MKOverlayRenderer]) {
-        delegate?.mapView?(mapView, didAddOverlayRenderers: renderers)
+    func mapView(_ mapView: MKMapView, didAdd renderers: [MKOverlayRenderer]) {
+        delegate?.mapView?(mapView, didAdd: renderers)
     }
 
 
@@ -141,7 +141,7 @@ class MapZoomBlocker: NSObject, MKMapViewDelegate {
     /**
      Given a MKCoordinateRegion, creates a new one with the `span` resetted to the allowed minimum deltas.
      */
-    func resetRegion(region: MKCoordinateRegion) -> MKCoordinateRegion {
+    func resetRegion(_ region: MKCoordinateRegion) -> MKCoordinateRegion {
         var newRegion = region
         newRegion.span.latitudeDelta = minLatitudeDelta
         newRegion.span.longitudeDelta = minLongitudeDelta

@@ -9,16 +9,16 @@
 @testable import LetGo
 
 
-public class MockConfigDAO : ConfigDAO {
+class MockConfigDAO : ConfigDAO {
    
     var config : Config?
     var saveCompletion: (() -> Void)?
     
-    public func retrieve() -> Config? {
+    func retrieve() -> Config? {
         return config
     }
     
-    public func save(config: Config) {
+    func save(_ config: Config) {
         saveCompletion?()
     }
 }

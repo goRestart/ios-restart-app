@@ -10,7 +10,7 @@ import LGCoreKit
 
 protocol CommercialPreviewViewModelDelegate: BaseViewModelDelegate {
     func vmDismiss()
-    func vmShowCommercial(viewModel viewModel: CommercialDisplayViewModel)
+    func vmShowCommercial(viewModel: CommercialDisplayViewModel)
 }
 
 class CommercialPreviewViewModel: BaseViewModel {
@@ -49,7 +49,7 @@ class CommercialPreviewViewModel: BaseViewModel {
     func playButtonPressed() {
         guard let viewModel = CommercialDisplayViewModel(commercializers: [commercializer],
                                                          productId: productId,
-                                                         source: .CommercializerPreview,
+                                                         source: .commercializerPreview,
                                                          isMyVideo: true) else { return }
         delegate?.vmShowCommercial(viewModel: viewModel)
     }

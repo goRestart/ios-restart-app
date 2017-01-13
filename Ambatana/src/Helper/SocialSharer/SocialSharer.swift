@@ -11,8 +11,8 @@ import MessageUI
 
 
 protocol SocialSharerDelegate: class {
-    func shareStartedIn(shareType: ShareType)
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState)
+    func shareStartedIn(_ shareType: ShareType)
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState)
 }
 
 
@@ -25,32 +25,32 @@ class SocialSharer: NSObject {
 // MARK: > Share
 
 extension SocialSharer {
-    func share(socialMessage: SocialMessage, shareType: ShareType,
+    func share(_ socialMessage: SocialMessage, shareType: ShareType,
                viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard SocialSharer.canShareIn(shareType) else {
             delegate?.shareStartedIn(shareType)
-            delegate?.shareFinishedIn(shareType, withState: .Failed)
+            delegate?.shareFinishedIn(shareType, withState: .failed)
             return
         }
 
         switch shareType {
-        case .Email:
+        case .email:
             shareInEmail(socialMessage, viewController: viewController)
-        case .Facebook:
+        case .facebook:
             shareInFacebook(socialMessage, viewController: viewController)
-        case .FBMessenger:
+        case .fbMessenger:
             shareInFBMessenger(socialMessage)
-        case .Whatsapp:
+        case .whatsapp:
             shareInWhatsapp(socialMessage)
-        case .Twitter:
+        case .twitter:
             shareInTwitter(socialMessage, viewController: viewController)
-        case .Telegram:
+        case .telegram:
             shareInTelegram(socialMessage)
-        case .CopyLink:
+        case .copyLink:
             shareInPasteboard(socialMessage)
-        case .SMS:
+        case .sms:
             shareInSMS(socialMessage, viewController: viewController, messageComposeDelegate: self)
-        case .Native:
+        case .native:
             shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem)
         }
     }
@@ -60,30 +60,30 @@ extension SocialSharer {
 // MARK: > Share helpers
 
 extension SocialSharer {
-    static func canShareIn(shareType: ShareType) -> Bool {
+    static func canShareIn(_ shareType: ShareType) -> Bool {
         switch shareType {
-        case .Email:
+        case .email:
             return MFMailComposeViewController.canSendMail()
-        case .Facebook, .Twitter, .Native, .CopyLink:
+        case .facebook, .twitter, .native, .copyLink:
             return true
-        case .FBMessenger:
-            guard let url = NSURL(string: "fb-messenger-api://") else { return false }
-            let application = UIApplication.sharedApplication()
+        case .fbMessenger:
+            guard let url = URL(string: "fb-messenger-api://") else { return false }
+            let application = UIApplication.shared
             return application.canOpenURL(url)
-        case .Whatsapp:
-            guard let url = NSURL(string: "whatsapp://") else { return false }
-            let application = UIApplication.sharedApplication()
+        case .whatsapp:
+            guard let url = URL(string: "whatsapp://") else { return false }
+            let application = UIApplication.shared
             return application.canOpenURL(url)
-        case .Telegram:
-            guard let url = NSURL(string: "tg://") else { return false }
-            let application = UIApplication.sharedApplication()
+        case .telegram:
+            guard let url = URL(string: "tg://") else { return false }
+            let application = UIApplication.shared
             return application.canOpenURL(url)
-        case .SMS:
+        case .sms:
             return MFMessageComposeViewController.canSendText()
         }
     }
 
-    static func canShareInAny(shareTypes: [ShareType]) -> Bool {
+    static func canShareInAny(_ shareTypes: [ShareType]) -> Bool {
         for shareType in shareTypes {
             if canShareIn(shareType) {
                 return true
@@ -97,47 +97,47 @@ extension SocialSharer {
 // MARK: - FBSDKSharingDelegate
 
 extension SocialSharer: FBSDKSharingDelegate {
-    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
         guard sharer != nil else { return }
 
         switch sharer.type {
-        case .Facebook:
-            delegate?.shareFinishedIn(.Facebook, withState: .Completed)
-        case .FBMessenger:
+        case .facebook:
+            delegate?.shareFinishedIn(.facebook, withState: .completed)
+        case .fbMessenger:
             // Messenger always calls didCompleteWithResults, if it works,
             // will include the key "completionGesture" in the results dict
-            if let results = results, _ = results["completionGesture"] {
-                delegate?.shareFinishedIn(.FBMessenger, withState: .Completed)
+            if let results = results, let _ = results["completionGesture"] {
+                delegate?.shareFinishedIn(.fbMessenger, withState: .completed)
             } else {
-                delegate?.shareFinishedIn(.FBMessenger, withState: .Cancelled)
+                delegate?.shareFinishedIn(.fbMessenger, withState: .cancelled)
             }
-        case .Unknown:
+        case .unknown:
+            break
+        }
+    }
+    
+    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
+        guard sharer != nil else { return }
+
+        switch sharer.type {
+        case .facebook:
+            delegate?.shareFinishedIn(.facebook, withState: .failed)
+        case .fbMessenger:
+            delegate?.shareFinishedIn(.fbMessenger, withState: .failed)
+        case .unknown:
             break
         }
     }
 
-    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+    func sharerDidCancel(_ sharer: FBSDKSharing!) {
         guard sharer != nil else { return }
 
         switch sharer.type {
-        case .Facebook:
-            delegate?.shareFinishedIn(.Facebook, withState: .Failed)
-        case .FBMessenger:
-            delegate?.shareFinishedIn(.FBMessenger, withState: .Failed)
-        case .Unknown:
-            break
-        }
-    }
-
-    func sharerDidCancel(sharer: FBSDKSharing!) {
-        guard sharer != nil else { return }
-
-        switch sharer.type {
-        case .Facebook:
-            delegate?.shareFinishedIn(.Facebook, withState: .Cancelled)
-        case .FBMessenger:
-            delegate?.shareFinishedIn(.FBMessenger, withState: .Cancelled)
-        case .Unknown:
+        case .facebook:
+            delegate?.shareFinishedIn(.facebook, withState: .cancelled)
+        case .fbMessenger:
+            delegate?.shareFinishedIn(.fbMessenger, withState: .cancelled)
+        case .unknown:
             break
         }
     }
@@ -147,20 +147,20 @@ extension SocialSharer: FBSDKSharingDelegate {
 // MARK: - MFMailComposeViewControllerDelegate
 
 extension SocialSharer: MFMailComposeViewControllerDelegate {
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult,
-                               error: NSError?) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult,
+                               error: Error?) {
         let state: SocialShareState
         switch result {
-        case .Failed:
-            state = .Failed
-        case .Sent:
-            state = .Completed
-        case .Cancelled, .Saved:
-            state = .Cancelled
+        case .failed:
+            state = .failed
+        case .sent:
+            state = .completed
+        case .cancelled, .saved:
+            state = .cancelled
         }
 
-        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
-            self?.delegate?.shareFinishedIn(.Email, withState: state)
+        controller.dismiss(animated: true, completion: { [weak self] in
+            self?.delegate?.shareFinishedIn(.email, withState: state)
         })
     }
 }
@@ -169,20 +169,20 @@ extension SocialSharer: MFMailComposeViewControllerDelegate {
 // MARK: - MFMessageComposeViewControllerDelegate
 
 extension SocialSharer: MFMessageComposeViewControllerDelegate {
-    func messageComposeViewController(controller: MFMessageComposeViewController,
-                                      didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController,
+                                      didFinishWith result: MessageComposeResult) {
         let state: SocialShareState
         switch result {
-        case .Failed:
-            state = .Failed
-        case .Sent:
-            state = .Completed
-        case .Cancelled:
-            state = .Cancelled
+        case .failed:
+            state = .failed
+        case .sent:
+            state = .completed
+        case .cancelled:
+            state = .cancelled
         }
 
-        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
-            self?.delegate?.shareFinishedIn(.SMS, withState: state)
+        controller.dismiss(animated: true, completion: { [weak self] in
+            self?.delegate?.shareFinishedIn(.sms, withState: state)
         })
     }
 }
@@ -191,74 +191,74 @@ extension SocialSharer: MFMessageComposeViewControllerDelegate {
 // MARK: - Private methods
 // MARK: > Share
 
-private extension SocialSharer {
-    func shareInEmail(socialMessage: SocialMessage, viewController: UIViewController) {
+fileprivate extension SocialSharer {
+    func shareInEmail(_ socialMessage: SocialMessage, viewController: UIViewController) {
         let emailVC = MFMailComposeViewController()
         emailVC.mailComposeDelegate = self
         emailVC.setSubject(socialMessage.emailShareSubject)
         emailVC.setMessageBody(socialMessage.emailShareBody, isHTML: socialMessage.emailShareIsHtml)
-        viewController.presentViewController(emailVC, animated: true) { [weak self] in
-            self?.delegate?.shareStartedIn(.Email)
+        viewController.present(emailVC, animated: true) { [weak self] in
+            self?.delegate?.shareStartedIn(.email)
         }
     }
 
-    func shareInFacebook(socialMessage: SocialMessage, viewController: UIViewController) {
-        delegate?.shareStartedIn(.Facebook)
-        FBSDKShareDialog.showFromViewController(viewController, withContent: socialMessage.fbShareContent,
+    func shareInFacebook(_ socialMessage: SocialMessage, viewController: UIViewController) {
+        delegate?.shareStartedIn(.facebook)
+        FBSDKShareDialog.show(from: viewController, with: socialMessage.fbShareContent,
                                                 delegate: self)
     }
 
-    func shareInFBMessenger(socialMessage: SocialMessage) {
-        delegate?.shareStartedIn(.FBMessenger)
-        FBSDKMessageDialog.showWithContent(socialMessage.fbMessengerShareContent, delegate: self)
+    func shareInFBMessenger(_ socialMessage: SocialMessage) {
+        delegate?.shareStartedIn(.fbMessenger)
+        FBSDKMessageDialog.show(with: socialMessage.fbMessengerShareContent, delegate: self)
     }
 
-    func shareInWhatsapp(socialMessage: SocialMessage) {
-        shareInURL(.Whatsapp, text: socialMessage.whatsappShareText, urlScheme: Constants.whatsAppShareURL)
+    func shareInWhatsapp(_ socialMessage: SocialMessage) {
+        shareInURL(.whatsapp, text: socialMessage.whatsappShareText, urlScheme: Constants.whatsAppShareURL)
     }
 
-    func shareInTwitter(socialMessage: SocialMessage, viewController: UIViewController) {
-        delegate?.shareStartedIn(.Twitter)
-        socialMessage.twitterComposer.showFromViewController(viewController) { [weak self] result in
+    func shareInTwitter(_ socialMessage: SocialMessage, viewController: UIViewController) {
+        delegate?.shareStartedIn(.twitter)
+        socialMessage.twitterComposer.show(from: viewController) { [weak self] result in
             let state: SocialShareState
             switch result {
-            case .Cancelled:
-                state = .Cancelled
-            case .Done:
-                state = .Completed
+            case .cancelled:
+                state = .cancelled
+            case .done:
+                state = .completed
             }
-            self?.delegate?.shareFinishedIn(.Twitter, withState: state)
+            self?.delegate?.shareFinishedIn(.twitter, withState: state)
         }
     }
 
-    func shareInTelegram(socialMessage: SocialMessage) {
-        shareInURL(.Telegram, text: socialMessage.telegramShareText, urlScheme: Constants.telegramShareURL)
+    func shareInTelegram(_ socialMessage: SocialMessage) {
+        shareInURL(.telegram, text: socialMessage.telegramShareText, urlScheme: Constants.telegramShareURL)
     }
 
-    func shareInPasteboard(socialMessage: SocialMessage) {
-        delegate?.shareStartedIn(.CopyLink)
-        UIPasteboard.generalPasteboard().string = socialMessage.copyLinkText
-        delegate?.shareFinishedIn(.CopyLink, withState: .Completed)
+    func shareInPasteboard(_ socialMessage: SocialMessage) {
+        delegate?.shareStartedIn(.copyLink)
+        UIPasteboard.general.string = socialMessage.copyLinkText
+        delegate?.shareFinishedIn(.copyLink, withState: .completed)
     }
 
-    func shareInSMS(socialMessage: SocialMessage, viewController: UIViewController,
+    func shareInSMS(_ socialMessage: SocialMessage, viewController: UIViewController,
                     messageComposeDelegate: MFMessageComposeViewControllerDelegate) {
         let messageVC = MFMessageComposeViewController()
         messageVC.body = socialMessage.smsShareText
         messageVC.recipients = []
         messageVC.messageComposeDelegate = messageComposeDelegate
 
-        viewController.presentViewController(messageVC, animated: false) { [weak self] in
-            self?.delegate?.shareStartedIn(.SMS)
+        viewController.present(messageVC, animated: false) { [weak self] in
+            self?.delegate?.shareStartedIn(.sms)
         }
     }
 
-    func shareInNative(socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+    func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         let activityItems = socialMessage.nativeShareItems
         let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
-        if shareVC.respondsToSelector(Selector("popoverPresentationController")) {
+        if shareVC.responds(to: #selector(getter: UIViewController.popoverPresentationController)) {
             let presentationController = shareVC.popoverPresentationController
             if let item = barButtonItem {
                 presentationController?.barButtonItem = item
@@ -272,23 +272,23 @@ private extension SocialSharer {
             let shareType: ShareType
             if let activity = activity {
                 switch activity {
-                case UIActivityTypePostToFacebook:
-                    shareType = .Facebook
-                case UIActivityTypePostToTwitter:
-                    shareType = .Twitter
-                case UIActivityTypeMail:
-                    shareType = .Email
-                case UIActivityTypeCopyToPasteboard:
-                    shareType = .CopyLink
+                case UIActivityType.postToFacebook:
+                    shareType = .facebook
+                case UIActivityType.postToTwitter:
+                    shareType = .twitter
+                case UIActivityType.mail:
+                    shareType = .email
+                case UIActivityType.copyToPasteboard:
+                    shareType = .copyLink
                 default:
-                    if let _ = activity.rangeOfString("whatsapp") {
-                        shareType = .Whatsapp
+                    if let _ = activity.rawValue.range(of: "whatsapp") {
+                        shareType = .whatsapp
                     } else {
-                        shareType = .Native
+                        shareType = .native
                     }
                 }
             } else {
-                shareType = .Native
+                shareType = .native
             }
 
             // Comment left here as a clue to manage future activities
@@ -302,29 +302,29 @@ private extension SocialSharer {
              Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
              */
             if success {
-                strongSelf.delegate?.shareFinishedIn(shareType, withState: .Completed)
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .completed)
             } else if let _  = error {
-                strongSelf.delegate?.shareFinishedIn(shareType, withState: .Failed)
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .failed)
             } else {
-                strongSelf.delegate?.shareFinishedIn(shareType, withState: .Cancelled)
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .cancelled)
             }
         }
-        viewController.presentViewController(shareVC, animated: true) { [weak self] in
-            self?.delegate?.shareStartedIn(.Native)
+        viewController.present(shareVC, animated: true) { [weak self] in
+            self?.delegate?.shareStartedIn(.native)
         }
     }
 
-    func shareInURL(shareType: ShareType, text: String, urlScheme: String) {
+    func shareInURL(_ shareType: ShareType, text: String, urlScheme: String) {
         delegate?.shareStartedIn(shareType)
 
         guard let url = SocialSharer.generateMessageShareURL(text, withUrlScheme: urlScheme) else {
-            delegate?.shareFinishedIn(shareType, withState: .Failed)
+            delegate?.shareFinishedIn(shareType, withState: .failed)
             return
         }
-        if UIApplication.sharedApplication().openURL(url) {
-            delegate?.shareFinishedIn(shareType, withState: .Completed)
+        if UIApplication.shared.openURL(url) {
+            delegate?.shareFinishedIn(shareType, withState: .completed)
         } else {
-            delegate?.shareFinishedIn(shareType, withState: .Failed)
+            delegate?.shareFinishedIn(shareType, withState: .failed)
         }
     }
 }
@@ -332,13 +332,13 @@ private extension SocialSharer {
 
 // MARK: > Helpers
 
-private extension SocialSharer {
-    static func generateMessageShareURL(socialMessageText: String, withUrlScheme scheme: String) -> NSURL? {
-        let queryCharSet = NSMutableCharacterSet(charactersInString: "!*'();:@&=+$,/?%#[]")
+fileprivate extension SocialSharer {
+    static func generateMessageShareURL(_ socialMessageText: String, withUrlScheme scheme: String) -> URL? {
+        let queryCharSet = NSMutableCharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]")
         queryCharSet.invert()
-        queryCharSet.formIntersectionWithCharacterSet(NSCharacterSet.URLQueryAllowedCharacterSet())
+        queryCharSet.formIntersection(with: CharacterSet.urlQueryAllowed)
         guard let urlEncodedShareText = socialMessageText
-            .stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
-        return NSURL(string: String(format: scheme, urlEncodedShareText))
+            .addingPercentEncoding(withAllowedCharacters: queryCharSet as CharacterSet) else { return nil }
+        return URL(string: String(format: scheme, urlEncodedShareText))
     }
 }

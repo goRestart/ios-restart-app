@@ -6,24 +6,24 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public class LGConfigDAO : ConfigDAO {
+class LGConfigDAO : ConfigDAO {
     let fileCachePath : String
 
     // MARK: - Lifecycle
 
-    public init(bundle: NSBundle, configFileName: String) {
-        let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as NSString
-        fileCachePath = cachePath.stringByAppendingString("/\(configFileName).json")
+    init(bundle: Bundle, configFileName: String) {
+        let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0] as NSString
+        fileCachePath = cachePath.appending("/\(configFileName).json")
 
         // If it's not in cache directory, then copy it from bundle
-        let fm = NSFileManager.defaultManager()
+        let fm = FileManager.default
 
-        if !fm.fileExistsAtPath(fileCachePath) {
-            let path = bundle.pathForResource(configFileName, ofType: "json")
+        if !fm.fileExists(atPath: fileCachePath) {
+            let path = bundle.path(forResource: configFileName, ofType: "json")
 
             if let fileBundlePath = path {
                 do {
-                    try fm.copyItemAtPath(fileBundlePath, toPath: fileCachePath)
+                    try fm.copyItem(atPath: fileBundlePath, toPath: fileCachePath)
                 } catch _ {}
             }
         }
@@ -31,32 +31,32 @@ public class LGConfigDAO : ConfigDAO {
 
     // MARK: - Public methods
 
-    public func retrieve() -> Config? {
+    func retrieve() -> Config? {
 
-        let fm = NSFileManager.defaultManager()
+        let fm = FileManager.default
 
         // Cached in cache directory
         var path: String? = nil
-        if fm.fileExistsAtPath(fileCachePath) {
+        if fm.fileExists(atPath: fileCachePath) {
             path = fileCachePath
         }
 
         // If we don't have a path or the data cannot be loaded, then exit
-        guard let actualPath = path, let data = NSData(contentsOfFile: actualPath) else {
+        guard let actualPath = path, let data = try? Data(contentsOf: URL(fileURLWithPath: actualPath)) else {
             return nil
         }
 
         return Config(data: data)
     }
 
-    public func save(configFile: Config) {
+    func save(_ configFile: Config) {
 
         // create json from cfgFile: UpdateFileCfg
         let json = configFile.jsonRepresentation()
 
-        var jsonData: NSData? = nil
+        var jsonData: Data? = nil
         do {
-            try jsonData =  NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions(rawValue: 0))
+            try jsonData =  JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions(rawValue: 0))
         } catch _ {}
 
         guard let actualJSONData = jsonData else {
@@ -64,15 +64,15 @@ public class LGConfigDAO : ConfigDAO {
         }
 
         // save into cache
-        let fm = NSFileManager.defaultManager()
-        if !fm.fileExistsAtPath(fileCachePath) {
-            fm.createFileAtPath(fileCachePath, contents: actualJSONData, attributes: nil)
+        let fm = FileManager.default
+        if !fm.fileExists(atPath: fileCachePath) {
+            fm.createFile(atPath: fileCachePath, contents: actualJSONData, attributes: nil)
         }
         else {
             do {
-                try fm.removeItemAtPath(fileCachePath)
+                try fm.removeItem(atPath: fileCachePath)
             } catch _ {}
-            fm.createFileAtPath(fileCachePath, contents: actualJSONData, attributes: nil)
+            fm.createFile(atPath: fileCachePath, contents: actualJSONData, attributes: nil)
         }
     }
 }

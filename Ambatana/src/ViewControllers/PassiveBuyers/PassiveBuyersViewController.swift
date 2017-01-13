@@ -11,7 +11,7 @@ import RxSwift
 
 class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDelegate {
 
-    private static let headerTopMargin: CGFloat = 64
+    fileprivate static let headerTopMargin: CGFloat = 64
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topContainer: UIView!
@@ -19,14 +19,14 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
     @IBOutlet weak var contactButton: UIButton!
 
     private let header = UIView()
-    private var headerTopMarginConstraint = NSLayoutConstraint()
-    private let productImage = UIImageView()
-    private let titleLabel = UILabel()
-    private let messageLabel = UILabel()
+    fileprivate var headerTopMarginConstraint = NSLayoutConstraint()
+    fileprivate let productImage = UIImageView()
+    fileprivate let titleLabel = UILabel()
+    fileprivate let messageLabel = UILabel()
 
-    private let viewModel: PassiveBuyersViewModel
+    fileprivate let viewModel: PassiveBuyersViewModel
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - View Lifecycle
@@ -61,16 +61,16 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         view.backgroundColor = UIColor.grayBackground
         topContainer.backgroundColor = UIColor.grayBackground
         topContainer.alpha = 0
-        closeButton.setImage(UIImage(named: "navbar_close")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
 
         setupHeader()
         setupTable()
 
-        contactButton.setStyle(.Primary(fontSize: .Big))
+        contactButton.setStyle(.primary(fontSize: .big))
 
-        closeButton.rx_tap.subscribeNext { [weak self] in self?.viewModel.closeButtonPressed()}
+        closeButton.rx.tap.subscribeNext { [weak self] in self?.viewModel.closeButtonPressed()}
             .addDisposableTo(disposeBag)
-        contactButton.rx_tap.subscribeNext { [weak self] in self?.viewModel.contactButtonPressed()}
+        contactButton.rx.tap.subscribeNext { [weak self] in self?.viewModel.contactButtonPressed()}
             .addDisposableTo(disposeBag)
 
         setAccesibilityIds()
@@ -102,17 +102,17 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
 
         productImage.clipsToBounds = true
         productImage.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        productImage.contentMode = .ScaleAspectFill
+        productImage.contentMode = .scaleAspectFill
 
         titleLabel.textColor = UIColor.blackText
         titleLabel.font = UIFont.systemMediumFont(size: 17)
         titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
 
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.mediumBodyFont
         messageLabel.numberOfLines = 0
-        messageLabel.textAlignment = .Center
+        messageLabel.textAlignment = .center
     }
 
     private func loadData() {
@@ -124,7 +124,7 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
         titleLabel.text = LGLocalizedString.passiveBuyersTitle
         messageLabel.text = LGLocalizedString.passiveBuyersMessage
 
-        contactButton.setTitle(LGLocalizedString.passiveBuyersButton(viewModel.buyersCount), forState: .Normal)
+        contactButton.setTitle(LGLocalizedString.passiveBuyersButton(viewModel.buyersCount), for: .normal)
 
         tableView.reloadData()
     }
@@ -134,22 +134,22 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
 // MARK: - UITableView
 
 extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSource {
-    private func setupTable() {
+    fileprivate func setupTable() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = PassiveBuyerCell.cellHeight
 
         let cellNib = UINib(nibName: PassiveBuyerCell.reusableID, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: PassiveBuyerCell.reusableID)
+        tableView.register(cellNib, forCellReuseIdentifier: PassiveBuyerCell.reusableID)
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.buyersCount
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let buyerCell = tableView.dequeueReusableCellWithIdentifier(PassiveBuyerCell.reusableID,
-                                    forIndexPath: indexPath) as? PassiveBuyerCell else { return UITableViewCell() }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PassiveBuyerCell.reusableID,
+                                    for: indexPath) as? PassiveBuyerCell else { return UITableViewCell() }
         let image = viewModel.buyerImageAtIndex(indexPath.row)
         let name = viewModel.buyerNameAtIndex(indexPath.row)
 
@@ -158,7 +158,7 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
         return buyerCell
     }
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scroll = scrollView.contentOffset.y + scrollView.contentInset.top
         headerTopMarginConstraint.constant = PassiveBuyersViewController.headerTopMargin - scroll
 
@@ -169,11 +169,11 @@ extension PassiveBuyersViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - Accesibility Ids
 
-private extension PassiveBuyersViewController {
+fileprivate extension PassiveBuyersViewController {
     func setAccesibilityIds() {
-        titleLabel.accessibilityId = .PassiveBuyersTitle
-        messageLabel.accessibilityId = .PassiveBuyersMessage
-        contactButton.accessibilityId = .PassiveBuyersContactButton
-        tableView.accessibilityId = .PassiveBuyersTable
+        titleLabel.accessibilityId = .passiveBuyersTitle
+        messageLabel.accessibilityId = .passiveBuyersMessage
+        contactButton.accessibilityId = .passiveBuyersContactButton
+        tableView.accessibilityId = .passiveBuyersTable
     }
 }

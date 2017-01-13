@@ -22,7 +22,7 @@ class MockInstallationRepository: InstallationRepository {
     let installationVar = Variable<Installation?>(nil)
     var installationResult: InstallationResult?
 
-    func updatePushToken(token: String, completion: InstallationCompletion?) {
+    func updatePushToken(_ token: String, completion: InstallationCompletion?) {
         guard let result = installationResult else { return }
         completion?(result)
     }

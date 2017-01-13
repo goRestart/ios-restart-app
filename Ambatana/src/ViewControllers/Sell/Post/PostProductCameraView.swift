@@ -13,9 +13,9 @@ import RxCocoa
 
 protocol PostProductCameraViewDelegate: class {
     func productCameraCloseButton()
-    func productCameraDidTakeImage(image: UIImage)
-    func productCameraRequestsScrollLock(lock: Bool)
-    func productCameraRequestHideTabs(hide: Bool)
+    func productCameraDidTakeImage(_ image: UIImage)
+    func productCameraRequestsScrollLock(_ lock: Bool)
+    func productCameraRequestHideTabs(_ hide: Bool)
 }
 
 class PostProductCameraView: BaseView, LGViewPagerPage {
@@ -55,7 +55,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     var usePhotoButtonText: String? {
         didSet {
-            usePhotoButton?.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
+            usePhotoButton?.setTitle(usePhotoButtonText, for: .normal)
         }
     }
 
@@ -64,12 +64,12 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
             viewModel.cameraDelegate = delegate
         }
     }
-    private var viewModel: PostProductCameraViewModel
+    fileprivate var viewModel: PostProductCameraViewModel
 
-    private var fastCamera: FastttCamera?
+    fileprivate var fastCamera: FastttCamera?
     private var headerShown = true
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
  
 
     // MARK: - View lifecycle
@@ -104,7 +104,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     // MARK: - Public methods
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         updateCamera()
     }
@@ -114,13 +114,13 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         updateCamera()
     }
 
-    func showHeader(show: Bool) {
+    func showHeader(_ show: Bool) {
         guard headerShown != show else { return }
         headerShown = show
         let destinationAlpha: CGFloat = show ? 1.0 : 0.0
-        UIView.animateWithDuration(0.2) { [weak self] in
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
             self?.headerContainer.alpha = destinationAlpha
-        }
+        }) 
     }
 
     func takePhoto() {
@@ -132,34 +132,34 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     }
     
     // MARK: - Actions
-    @IBAction func onCloseButton(sender: AnyObject) {
+    @IBAction func onCloseButton(_ sender: AnyObject) {
         hideFirstTimeAlert()
         viewModel.closeButtonPressed()
     }
 
-    @IBAction func onToggleFlashButton(sender: AnyObject) {
+    @IBAction func onToggleFlashButton(_ sender: AnyObject) {
         hideFirstTimeAlert()
         viewModel.flashButtonPressed()
     }
 
-    @IBAction func onToggleCameraButton(sender: AnyObject) {
+    @IBAction func onToggleCameraButton(_ sender: AnyObject) {
         hideFirstTimeAlert()
         viewModel.cameraButtonPressed()
     }
 
-    @IBAction func onTakePhotoButton(sender: AnyObject) {
+    @IBAction func onTakePhotoButton(_ sender: AnyObject) {
         hideFirstTimeAlert()
         guard let fastCamera = fastCamera else { return }
 
         fastCamera.takePicture()
     }
 
-    @IBAction func onRetryPhotoButton(sender: AnyObject) {
+    @IBAction func onRetryPhotoButton(_ sender: AnyObject) {
         hideFirstTimeAlert()
         viewModel.retryPhotoButtonPressed()
     }
 
-    @IBAction func onUsePhotoButton(sender: AnyObject) {
+    @IBAction func onUsePhotoButton(_ sender: AnyObject) {
         hideFirstTimeAlert()
         viewModel.usePhotoButtonPressed()
     }
@@ -169,22 +169,22 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     private func setupUI() {
 
-        NSBundle.mainBundle().loadNibNamed("PostProductCameraView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("PostProductCameraView", owner: self, options: nil)
         contentView.frame = bounds
-        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = UIColor.black
         addSubview(contentView)
 
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
-        for (index, view) in cornersContainer.subviews.enumerate() {
+        for (index, view) in cornersContainer.subviews.enumerated() {
             guard index > 0 else { continue }
-            view.transform = CGAffineTransformMakeRotation(CGFloat(Double(index) * M_PI_2))
+            view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * M_PI_2))
         }
 
         //i18n
-        retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
-        usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
-        usePhotoButton.setStyle(.Primary(fontSize: .Medium))
+        retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)
+        usePhotoButton.setTitle(usePhotoButtonText, for: .normal)
+        usePhotoButton.setStyle(.primary(fontSize: .medium))
 
         setupInfoView()
         setupFirstTimeAlertView()
@@ -205,28 +205,28 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         let state = viewModel.cameraState.asObservable()
         state.subscribeNext{ [weak self] state in self?.updateCamera() }.addDisposableTo(disposeBag)
         let previewModeHidden = state.map{ !$0.previewMode }
-        previewModeHidden.bindTo(imagePreview.rx_hidden).addDisposableTo(disposeBag)
-        previewModeHidden.bindTo(retryPhotoButton.rx_hidden).addDisposableTo(disposeBag)
-        previewModeHidden.bindTo(usePhotoButton.rx_hidden).addDisposableTo(disposeBag)
+        previewModeHidden.bindTo(imagePreview.rx.isHidden).addDisposableTo(disposeBag)
+        previewModeHidden.bindTo(retryPhotoButton.rx.isHidden).addDisposableTo(disposeBag)
+        previewModeHidden.bindTo(usePhotoButton.rx.isHidden).addDisposableTo(disposeBag)
         let captureModeHidden = state.map{ !$0.captureMode }
-        captureModeHidden.bindTo(cornersContainer.rx_hidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(switchCamButton.rx_hidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(flashButton.rx_hidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(cornersContainer.rx.isHidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(switchCamButton.rx.isHidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(flashButton.rx.isHidden).addDisposableTo(disposeBag)
         
-        viewModel.imageSelected.asObservable().bindTo(imagePreview.rx_image).addDisposableTo(disposeBag)
+        viewModel.imageSelected.asObservable().bindTo(imagePreview.rx.image).addDisposableTo(disposeBag)
 
         let flashMode = viewModel.cameraFlashMode.asObservable()
         flashMode.map{ $0.fastttCameraFlash }.subscribeNext{ [weak self] flashMode in
-            guard let fastCamera = self?.fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
+            guard let fastCamera = self?.fastCamera, fastCamera.isFlashAvailableForCurrentDevice() else { return }
             fastCamera.cameraFlashMode = flashMode
         }.addDisposableTo(disposeBag)
-        flashMode.map{ $0.imageIcon }.bindTo(flashButton.rx_image).addDisposableTo(disposeBag)
+        flashMode.map{ $0.imageIcon }.bindTo(flashButton.rx.image).addDisposableTo(disposeBag)
 
         viewModel.cameraSourceMode.asObservable().map{ $0.fastttCameraDevice }.subscribeNext{ [weak self] deviceMode in
             self?.fastCamera?.cameraDevice = deviceMode
         }.addDisposableTo(disposeBag)
 
-        viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bindTo(firstTimeAlertContainer.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bindTo(firstTimeAlertContainer.rx.isHidden).addDisposableTo(disposeBag)
     }
 
     private dynamic func hideFirstTimeAlert() {
@@ -239,7 +239,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
 extension PostProductCameraView {
     
-    private func updateCamera() {
+    fileprivate func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
             setupCamera()
         } else {
@@ -247,7 +247,7 @@ extension PostProductCameraView {
         }
     }
 
-    private func setupCamera() {
+    fileprivate func setupCamera() {
         guard fastCamera == nil else { return }
 
         fastCamera = FastttCamera()
@@ -261,14 +261,14 @@ extension PostProductCameraView {
         fastCamera.cameraDevice = viewModel.cameraSourceMode.value.fastttCameraDevice
 
         fastCamera.beginAppearanceTransition(true, animated: false)
-        cameraContainerView.insertSubview(fastCamera.view, atIndex: 0)
+        cameraContainerView.insertSubview(fastCamera.view, at: 0)
         fastCamera.endAppearanceTransition()
         fastCamera.view.frame = cameraContainerView.frame
     }
 
-    private func removeCamera() {
+    fileprivate func removeCamera() {
         guard let fastCamera = fastCamera else { return }
-        fastCamera.willMoveToParentViewController(nil)
+        fastCamera.willMove(toParentViewController: nil)
         fastCamera.beginAppearanceTransition(false, animated: false)
         fastCamera.view.removeFromSuperview()
         fastCamera.removeFromParentViewController()
@@ -282,16 +282,16 @@ extension PostProductCameraView {
 
 extension PostProductCameraView {
 
-    private func setupInfoView() {
-        infoButton.setStyle(.Primary(fontSize: .Medium))
+    fileprivate func setupInfoView() {
+        infoButton.setStyle(.primary(fontSize: .medium))
 
-        viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)
-        viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx_text).addDisposableTo(disposeBag)
-        viewModel.infoButton.asObservable().bindTo(infoButton.rx_title).addDisposableTo(disposeBag)
+        viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.infoTitle.asObservable().bindTo(infoTitle.rx.text).addDisposableTo(disposeBag)
+        viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx.text).addDisposableTo(disposeBag)
+        viewModel.infoButton.asObservable().bindTo(infoButton.rx.title).addDisposableTo(disposeBag)
     }
 
-    @IBAction func onInfoButtonPressed(sender: AnyObject) {
+    @IBAction func onInfoButtonPressed(_ sender: AnyObject) {
         viewModel.infoButtonPressed()
     }
 }
@@ -311,8 +311,8 @@ extension PostProductCameraView{
 // MARK: - FastttCameraDelegate
 
 extension PostProductCameraView: FastttCameraDelegate {
-    func cameraController(cameraController: FastttCameraInterface!,
-                          didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
+    func cameraController(_ cameraController: FastttCameraInterface!,
+                          didFinishNormalizing capturedImage: FastttCapturedImage!) {
         viewModel.photoTaken(capturedImage.fullImage)
     }
 }
@@ -320,22 +320,22 @@ extension PostProductCameraView: FastttCameraDelegate {
 extension CameraFlashMode {
     var fastttCameraFlash: FastttCameraFlashMode {
         switch self {
-        case .Auto:
-            return .Auto
-        case .On:
-            return .On
-        case .Off:
-            return .Off
+        case .auto:
+            return .auto
+        case .on:
+            return .on
+        case .off:
+            return .off
         }
     }
 
     var imageIcon: UIImage? {
         switch self {
-        case .Auto:
+        case .auto:
             return UIImage(named: "ic_post_flash_auto")
-        case .On:
+        case .on:
             return UIImage(named: "ic_post_flash")
-        case .Off:
+        case .off:
             return UIImage(named: "ic_post_flash_innactive")
         }
     }
@@ -344,10 +344,10 @@ extension CameraFlashMode {
 extension CameraSourceMode {
     var fastttCameraDevice: FastttCameraDevice {
         switch self {
-        case .Front:
-            return .Front
-        case .Rear:
-            return .Rear
+        case .front:
+            return .front
+        case .rear:
+            return .rear
         }
     }
 }
@@ -357,13 +357,13 @@ extension CameraSourceMode {
 
 extension PostProductCameraView {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .PostingCameraCloseButton
-        imagePreview.accessibilityId = .PostingCameraImagePreview
-        switchCamButton.accessibilityId = .PostingCameraSwitchCamButton
-        usePhotoButton.accessibilityId = .PostingCameraUsePhotoButton
-        infoButton.accessibilityId = .PostingCameraInfoScreenButton
-        flashButton.accessibilityId = .PostingCameraFlashButton
-        retryPhotoButton.accessibilityId = .PostingCameraRetryPhotoButton
-        firstTimeAlert.accessibilityId = .PostingCameraFirstTimeAlert
+        closeButton.accessibilityId = .postingCameraCloseButton
+        imagePreview.accessibilityId = .postingCameraImagePreview
+        switchCamButton.accessibilityId = .postingCameraSwitchCamButton
+        usePhotoButton.accessibilityId = .postingCameraUsePhotoButton
+        infoButton.accessibilityId = .postingCameraInfoScreenButton
+        flashButton.accessibilityId = .postingCameraFlashButton
+        retryPhotoButton.accessibilityId = .postingCameraRetryPhotoButton
+        firstTimeAlert.accessibilityId = .postingCameraFirstTimeAlert
     }
 }

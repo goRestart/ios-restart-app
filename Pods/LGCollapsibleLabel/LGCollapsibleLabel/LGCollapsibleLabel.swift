@@ -39,7 +39,7 @@ public class LGCollapsibleLabel: UIView {
      */
     public var collapsedSize: CGFloat = 80 {
         didSet {
-            guard let _ = labelHeight where collapsed else { return }
+            guard let _ = labelHeight, collapsed else { return }
             updateState()
         }
     }
@@ -50,7 +50,7 @@ public class LGCollapsibleLabel: UIView {
      */
     public var collapseThreshold: CGFloat = 40 {
         didSet {
-            guard let _ = expandContainer where totalHeight < CGFloat.max else { return }
+            guard let _ = expandContainer, totalHeight < CGFloat.greatestFiniteMagnitude else { return }
             checkMinHeight()
         }
     }
@@ -58,7 +58,7 @@ public class LGCollapsibleLabel: UIView {
     /**
      Text color.
      */
-    public var textColor: UIColor = UIColor.whiteColor() {
+    public var textColor: UIColor = UIColor.white {
         didSet {
             guard let _ = textView else { return }
             textView.textColor = textColor
@@ -68,7 +68,7 @@ public class LGCollapsibleLabel: UIView {
     /**
      Color of the gradient that will 'blur' the last line of text when collapsed. TIP: Set it to the same color of background
      */
-    public var gradientColor: UIColor = UIColor.whiteColor() {
+    public var gradientColor: UIColor = UIColor.white {
         didSet {
             guard let _ = gradientView else { return }
             setupGradient()
@@ -85,7 +85,7 @@ public class LGCollapsibleLabel: UIView {
         }
     }
 
-    public var expandTextColor: UIColor = UIColor.blackColor() {
+    public var expandTextColor: UIColor = UIColor.black {
         didSet {
             guard let _ = expandLabel else { return }
             setupExpandLabel()
@@ -112,10 +112,10 @@ public class LGCollapsibleLabel: UIView {
         }
     }
 
-    private var totalHeight : CGFloat = CGFloat.max
+    private var totalHeight : CGFloat = CGFloat.greatestFiniteMagnitude
     private var expansionEnabled : Bool {
         get {
-            guard totalHeight != CGFloat.max else { return false }
+            guard totalHeight != CGFloat.greatestFiniteMagnitude else { return false }
             return totalHeight > (collapsedSize + collapseThreshold)
         }
     }
@@ -160,7 +160,7 @@ public class LGCollapsibleLabel: UIView {
         view.frame = bounds
 
         // Make the view stretch with containing view
-        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
 
         // Adding custom subview on top of our view
         addSubview(view)
@@ -175,9 +175,9 @@ public class LGCollapsibleLabel: UIView {
     }
 
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass: LGCollapsibleLabel.self)
-        if let url = bundle.URLForResource("LGCollapsibleLabelBundle", withExtension: "bundle") {
-            return NSBundle(URL: url)!.loadNibNamed("LGCollapsibleLabel", owner: self, options: nil)!.first as! UIView
+        let bundle = Bundle(for: LGCollapsibleLabel.self)
+        if let url = bundle.url(forResource: "LGCollapsibleLabelBundle", withExtension: "bundle") {
+            return Bundle(url: url)!.loadNibNamed("LGCollapsibleLabel", owner: self, options: nil)!.first as! UIView
         }
         else{
             return bundle.loadNibNamed("LGCollapsibleLabel", owner: self, options: nil)!.first as! UIView
@@ -199,15 +199,15 @@ public class LGCollapsibleLabel: UIView {
         let aTextView = UITextView(frame: self.bounds)
         aTextView.font = self.textView.font
         aTextView.text = self.mainText
-        let sizeThatFits = aTextView.sizeThatFits(CGSizeMake(aTextView.frame.size.width, CGFloat.max))
+        let sizeThatFits = aTextView.sizeThatFits(CGSize(width: aTextView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
         return sizeThatFits.height
     }
 
     private func checkMinHeight() {
         if(!expansionEnabled) {
             //Hiding elements to expand
-            self.gradientView.hidden = true
-            self.expandContainer.hidden = true
+            self.gradientView.isHidden = true
+            self.expandContainer.isHidden = true
             self.expandContainerHeight.constant = 0.0
 
             //Setting it statically expanded
@@ -216,8 +216,8 @@ public class LGCollapsibleLabel: UIView {
         }
         else {
             //Show elements
-            self.gradientView.hidden = false
-            self.expandContainer.hidden = false
+            self.gradientView.isHidden = false
+            self.expandContainer.isHidden = false
             self.expandContainerHeight.constant = 24.0
 
             updateState()
@@ -249,7 +249,7 @@ public class LGCollapsibleLabel: UIView {
         //Adding gradient
         let background = CAGradientLayer.gradientWithColor(gradientColor)
         background.frame = self.gradientView.bounds
-        self.gradientView.layer.insertSublayer(background, atIndex: 0)
+        self.gradientView.layer.insertSublayer(background, at: 0)
     }
 
     private func setupExpandLabel() {
@@ -259,11 +259,11 @@ public class LGCollapsibleLabel: UIView {
     }
 
     private func setupArrow() {
-        let up = UIImage(named: "arrow_up", inBundle: NSBundle.LGCollapsibleLabelBundle(),
-            compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate)
+        let up = UIImage(named: "arrow_up", in: Bundle.LGCollapsibleLabelBundle(),
+            compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
-        let down = UIImage(named: "arrow_down", inBundle: NSBundle.LGCollapsibleLabelBundle(),
-            compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate)
+        let down = UIImage(named: "arrow_down", in: Bundle.LGCollapsibleLabelBundle(),
+            compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
         arrowIcon.tintColor = expandTextColor
         arrowIcon.image = collapsed ? down : up
@@ -272,10 +272,10 @@ public class LGCollapsibleLabel: UIView {
 
 extension CAGradientLayer {
 
-    static func gradientWithColor(mainColor: UIColor) -> CAGradientLayer {
-        let topColor = mainColor.colorWithAlphaComponent(0.0)
+    static func gradientWithColor(_ mainColor: UIColor) -> CAGradientLayer {
+        let topColor = mainColor.withAlphaComponent(0.0)
 
-        let gradientColors: Array <AnyObject> = [topColor.CGColor, mainColor.CGColor]
+        let gradientColors: Array <AnyObject> = [topColor.cgColor, mainColor.cgColor]
 
         let gradientLayer: CAGradientLayer = CAGradientLayer()
         gradientLayer.colors = gradientColors
@@ -285,11 +285,11 @@ extension CAGradientLayer {
     }
 }
 
-extension NSBundle {
-    internal static func LGCollapsibleLabelBundle() -> NSBundle {
-        let frameworkBundle = NSBundle(forClass: LGCollapsibleLabel.self)
-        let lgCoreKitBundleURL = frameworkBundle.URLForResource("LGCollapsibleLabelBundle", withExtension: "bundle")!
-        return NSBundle(URL: lgCoreKitBundleURL)!
+extension Bundle {
+    internal static func LGCollapsibleLabelBundle() -> Bundle {
+        let frameworkBundle = Bundle(for: LGCollapsibleLabel.self)
+        let lgCoreKitBundleURL = frameworkBundle.url(forResource: "LGCollapsibleLabelBundle", withExtension: "bundle")!
+        return Bundle(url: lgCoreKitBundleURL)!
     }
 }
 

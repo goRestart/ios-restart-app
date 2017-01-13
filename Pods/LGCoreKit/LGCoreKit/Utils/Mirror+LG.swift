@@ -12,21 +12,21 @@ import Foundation
 extension Mirror {
 
     /**
-    Creates a dictionary with all the properties of an object like [PropertyName(String): Value(AnyObject)]
+    Creates a dictionary with all the properties of an object like [PropertyName(String): Value(Any)]
 
     - returns: The object transformed into a dictionary
     */
-    func toDictionary() -> [String: AnyObject] {
-        var dict = [String: AnyObject]()
+    func toDictionary() -> [String: Any] {
+        var dict = [String: Any]()
 
         for attr in self.children {
             if let propertyName = attr.label {
-                dict[propertyName] = attr.value as? AnyObject
+                dict[propertyName] = attr.value
             }
         }
 
         // Add properties of superclass:
-        if let parent = self.superclassMirror() {
+        if let parent = self.superclassMirror {
             for (propertyName, value) in parent.toDictionary() {
                 dict[propertyName] = value
             }

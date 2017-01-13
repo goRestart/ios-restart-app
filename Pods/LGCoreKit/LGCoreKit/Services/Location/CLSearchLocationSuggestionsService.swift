@@ -9,14 +9,14 @@
 import CoreLocation
 import Result
 
-public enum SearchLocationSuggestionsServiceError: ErrorType {
-    case Network
-    case Internal
-    case NotFound
+public enum SearchLocationSuggestionsServiceError: Error {
+    case network
+    case internalError
+    case notFound
 }
 
 public typealias SearchLocationSuggestionsServiceResult = Result<[Place], SearchLocationSuggestionsServiceError>
-public typealias SearchLocationSuggestionsServiceCompletion = SearchLocationSuggestionsServiceResult -> Void
+public typealias SearchLocationSuggestionsServiceCompletion = (SearchLocationSuggestionsServiceResult) -> Void
 
 public class CLSearchLocationSuggestionsService {
 
@@ -31,7 +31,7 @@ public class CLSearchLocationSuggestionsService {
 
     // MARK: - PostalAddressRetrievalService
 
-    public func retrieveAddressForLocation(searchText: String, completion: SearchLocationSuggestionsServiceCompletion?) {
+    public func retrieveAddressForLocation(_ searchText: String, completion: SearchLocationSuggestionsServiceCompletion?) {
 
         geocoder.geocodeAddressString(searchText, completionHandler: { (placemarks, error) -> Void in
 
@@ -46,14 +46,14 @@ public class CLSearchLocationSuggestionsService {
             }
             // Error
             else if let actualError = error {
-                if actualError.code == CLError.GeocodeFoundNoResult.rawValue {
-                    completion?(SearchLocationSuggestionsServiceResult(error: .NotFound))
+                if actualError._code == CLError.Code.geocodeFoundNoResult.rawValue {
+                    completion?(SearchLocationSuggestionsServiceResult(error: .notFound))
                 } else {
-                    completion?(SearchLocationSuggestionsServiceResult(error: .Network))
+                    completion?(SearchLocationSuggestionsServiceResult(error: .network))
                 }
             }
             else {
-                completion?(SearchLocationSuggestionsServiceResult(error: .Internal))
+                completion?(SearchLocationSuggestionsServiceResult(error: .internalError))
             }
         })
     }

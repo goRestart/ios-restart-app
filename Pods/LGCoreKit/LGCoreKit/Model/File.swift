@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol File : BaseModel {
-    var fileURL: NSURL? { get }
+    var fileURL: URL? { get }
 }

@@ -21,7 +21,7 @@ class MockMyUser: MyUser {
     var ratingAverage: Float?
     var ratingCount: Int?
 
-    var status: UserStatus = .Active
+    var status: UserStatus = .active
 
     var isDummy: Bool = true
 

@@ -10,7 +10,7 @@ import Foundation
 
 protocol BumperViewModelDelegate: class {
     func featuresUpdated()
-    func showFeature(feature: Int, itemsSelection items: [String])
+    func showFeature(_ feature: Int, itemsSelection items: [String])
 }
 
 struct BumperViewData {
@@ -43,26 +43,26 @@ class BumperViewModel {
         return viewData.count
     }
 
-    func featureNameAtIndex(index: Int) -> String {
+    func featureName(at index: Int) -> String {
         return viewData[index].description
     }
 
-    func featureValueAtIndex(index: Int) -> String {
+    func featureValue(at index: Int) -> String {
         return viewData[index].value
     }
 
-    func featureSelectedAtIndex(index: Int) {
+    func didSelectFeature(at index: Int) {
         delegate?.showFeature(index, itemsSelection: viewData[index].options)
     }
 
-    func selectedFeature(index: Int, item: String) {
+    func updateFeature(at index: Int,with item: String) {
         let data = viewData[index]
-        bumper.setValueForKey(data.key, value: item)
+        bumper.setValue(for: data.key, value: item)
         viewData = bumper.bumperViewData
         delegate?.featuresUpdated()
     }
 
-    func setEnabled(enabled: Bool) {
+    func setEnabled(_ enabled: Bool) {
         bumper.enabled = enabled
         self.enabled = enabled
     }

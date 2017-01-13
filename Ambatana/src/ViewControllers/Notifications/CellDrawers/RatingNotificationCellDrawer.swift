@@ -10,18 +10,18 @@ import LGCoreKit
 
 class RatingNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell> {
     
-    override func draw(cell: NotificationCell, data: NotificationData) {
+    override func draw(_ cell: NotificationCell, data: NotificationData) {
         let placeholder: UIImage?
         let userImageUri: String?
         let message: String
 
         switch data.type {
-        case let .Rating(user):
+        case let .rating(user):
             let userName = user.name
             placeholder = LetgoAvatar.avatarWithID(user.id, name: userName)
             message = LGLocalizedString.notificationsTypeRating(userName ?? "")
             userImageUri = user.avatar
-        case let .RatingUpdated(user):
+        case let .ratingUpdated(user):
             let userName = user.name
             placeholder = LetgoAvatar.avatarWithID(user.id, name: userName)
             message = LGLocalizedString.notificationsTypeRatingUpdated(userName ?? "")
@@ -32,12 +32,12 @@ class RatingNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell>
 
         cell.actionLabel.text = message
         cell.iconImage.image = UIImage(named: "ic_rating_star")
-        if let urlStr = userImageUri, leftUrl = NSURL(string: urlStr) {
+        if let urlStr = userImageUri, let leftUrl = URL(string: urlStr) {
             cell.primaryImage.lg_setImageWithURL(leftUrl, placeholderImage: placeholder)
         } else {
             cell.primaryImage.image = placeholder
         }
         cell.timeLabel.text = data.date.relativeTimeString(true)
-        cell.actionButton.setTitle(LGLocalizedString.notificationsTypeRatingButton, forState: .Normal)
+        cell.actionButton.setTitle(LGLocalizedString.notificationsTypeRatingButton, for: .normal)
     }
 }

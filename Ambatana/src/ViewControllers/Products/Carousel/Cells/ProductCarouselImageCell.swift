@@ -7,24 +7,24 @@
 //
 
 protocol ProductCarouselImageCellDelegate: class {
-    func isZooming(zooming: Bool, pageAtIndex index: Int)
+    func isZooming(_ zooming: Bool, pageAtIndex index: Int)
 }
 
 class ProductCarouselImageCell: UICollectionViewCell {
     
     static let identifier = "ProductCarouselImageCell"
     private static let zoomDecimalsRounding: CGFloat = 0.0001
-    private static let minZoomScale: CGFloat = 0.5
-    private static let maxZoomScale: CGFloat = 2
+    fileprivate static let minZoomScale: CGFloat = 0.5
+    fileprivate static let maxZoomScale: CGFloat = 2
 
 
     var position: Int = 0
-    var imageURL: NSURL?
+    var imageURL: URL?
     var imageView: UIImageView
-    private var scrollView: UIScrollView
-    private var backgroundImage: UIImageView
-    private var effectsView: UIVisualEffectView
-    private var referenceZoomLevel: CGFloat = 1.0
+    fileprivate var scrollView: UIScrollView
+    fileprivate var backgroundImage: UIImageView
+    fileprivate var effectsView: UIVisualEffectView
+    fileprivate var referenceZoomLevel: CGFloat = 1.0
 
     weak var delegate: ProductCarouselImageCellDelegate?
 
@@ -35,7 +35,7 @@ class ProductCarouselImageCell: UICollectionViewCell {
         self.scrollView = UIScrollView()
         self.imageView = UIImageView()
         self.backgroundImage = UIImageView()
-        let effect = UIBlurEffect(style: .Light)
+        let effect = UIBlurEffect(style: .light)
         self.effectsView = UIVisualEffectView(effect: effect)
         super.init(frame: frame)
         setupUI()
@@ -55,11 +55,11 @@ class ProductCarouselImageCell: UICollectionViewCell {
 // MARK: - Public methods
 
 extension ProductCarouselImageCell {
-    func setImage(image: UIImage?) {
+    func setImage(_ image: UIImage?) {
         guard let img = image else { return }
 
         let imgAspectRatio = img.size.width / img.size.height
-        let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
+        let screenAspectRatio = UIScreen.main.bounds.width / UIScreen.main.bounds.height
 
         let zoomLevel = screenAspectRatio / imgAspectRatio
         let actualZoomLevel = imgAspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio ? zoomLevel : 1.0
@@ -73,12 +73,12 @@ extension ProductCarouselImageCell {
         imageView.image = img
         backgroundImage.image = img
 
-        scrollView.scrollEnabled = false
+        scrollView.isScrollEnabled = false
         delegate?.isZooming(false, pageAtIndex: position)
     }
 
     func resetZoom() {
-        scrollView.scrollEnabled = false
+        scrollView.isScrollEnabled = false
         scrollView.zoomScale = referenceZoomLevel
     }
 }
@@ -87,19 +87,19 @@ extension ProductCarouselImageCell {
 // MARK: - UIScrollViewDelegate
 
 extension ProductCarouselImageCell: UIScrollViewDelegate {
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5, 0.0)
         let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5, 0.0)
 
-        imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                       scrollView.contentSize.height * 0.5 + offsetY)
+        imageView.center = CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX,
+                                       y: scrollView.contentSize.height * 0.5 + offsetY)
 
         let zooming = scrollView.zoomScale > referenceZoomLevel
-        scrollView.scrollEnabled = zooming
+        scrollView.isScrollEnabled = zooming
         delegate?.isZooming(zooming, pageAtIndex: position)
     }
 
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
 }
@@ -108,29 +108,29 @@ extension ProductCarouselImageCell: UIScrollViewDelegate {
 // MARK: - Private methods
 // MARK: > Setup
 
-private extension ProductCarouselImageCell {
+fileprivate extension ProductCarouselImageCell {
     func setupUI() {
         clipsToBounds = true
 
         addSubview(backgroundImage)
-        backgroundImage.contentMode = .ScaleAspectFill
+        backgroundImage.contentMode = .scaleAspectFill
         backgroundImage.frame = bounds
-        backgroundImage.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        backgroundImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         addSubview(effectsView)
         effectsView.frame = bounds
-        effectsView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        effectsView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         addSubview(scrollView)
         scrollView.frame = bounds
-        scrollView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        scrollView.contentMode = .Center
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        scrollView.contentMode = .center
 
         scrollView.addSubview(imageView)
         imageView.frame = bounds
-        imageView.contentMode = .ScaleAspectFill
-        imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        imageView.userInteractionEnabled = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        imageView.isUserInteractionEnabled = true
 
         scrollView.contentSize = imageView.frame.size
         scrollView.minimumZoomScale = ProductCarouselImageCell.minZoomScale
@@ -142,9 +142,9 @@ private extension ProductCarouselImageCell {
 
 // MARK: > Accessibility
 
-private extension ProductCarouselImageCell {
+fileprivate extension ProductCarouselImageCell {
     func setAccessibilityIds() {
-        accessibilityId = .ProductCarouselImageCell
-        imageView.accessibilityId = .ProductCarouselImageCellImageView
+        accessibilityId = .productCarouselImageCell
+        imageView.accessibilityId = .productCarouselImageCellImageView
     }
 }

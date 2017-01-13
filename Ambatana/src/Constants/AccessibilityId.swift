@@ -15,515 +15,515 @@
  */
 enum AccessibilityId: String {
     // Tab Bar
-    case TabBarFirstTab
-    case TabBarSecondTab
-    case TabBarThirdTab
-    case TabBarFourthTab
-    case TabBarFifthTab
-    case TabBarFloatingSellButton
+    case tabBarFirstTab
+    case tabBarSecondTab
+    case tabBarThirdTab
+    case tabBarFourthTab
+    case tabBarFifthTab
+    case tabBarFloatingSellButton
 
     // Main Products List
-    case MainProductsNavBarSearch
-    case MainProductsFilterButton
-    case MainProductsInviteButton
-    case MainProductsListView
-    case MainProductsTagsCollection
-    case MainProductsInfoBubbleLabel
-    case MainProductsSuggestionSearchesTable
+    case mainProductsNavBarSearch
+    case mainProductsFilterButton
+    case mainProductsInviteButton
+    case mainProductsListView
+    case mainProductsTagsCollection
+    case mainProductsInfoBubbleLabel
+    case mainProductsSuggestionSearchesTable
 
     // Passive buyers
-    case PassiveBuyersTitle
-    case PassiveBuyersMessage
-    case PassiveBuyersContactButton
-    case PassiveBuyersTable
-    case PassiveBuyerCellName
+    case passiveBuyersTitle
+    case passiveBuyersMessage
+    case passiveBuyersContactButton
+    case passiveBuyersTable
+    case passiveBuyerCellName
 
     // Product List View
-    case ProductListViewFirstLoadView
-    case ProductListViewFirstLoadActivityIndicator
-    case ProductListViewCollection
-    case ProductListViewErrorView
-    case ProductListErrorImageView
-    case ProductListErrorTitleLabel
-    case ProductListErrorBodyLabel
-    case ProductListErrorButton
+    case productListViewFirstLoadView
+    case productListViewFirstLoadActivityIndicator
+    case productListViewCollection
+    case productListViewErrorView
+    case productListErrorImageView
+    case productListErrorTitleLabel
+    case productListErrorBodyLabel
+    case productListErrorButton
 
     // Product Cell
-    case ProductCell
-    case ProductCellThumbnailImageView
-    case ProductCellStripeImageView
-    case ProductCellStripeLabel
-    case ProductCellStripeIcon
+    case productCell
+    case productCellThumbnailImageView
+    case productCellStripeImageView
+    case productCellStripeLabel
+    case productCellStripeIcon
 
     // Collection & Banner Cells
-    case CollectionCell
-    case CollectionCellImageView
-    case CollectionCellTitle
-    case CollectionCellExploreButton
+    case collectionCell
+    case collectionCellImageView
+    case collectionCellTitle
+    case collectionCellExploreButton
 
-    case BannerCell
-    case BannerCellImageView
-    case BannerCellTitle
+    case bannerCell
+    case bannerCellImageView
+    case bannerCellTitle
 
     // Filter Tags VC
-    case FilterTagsCollectionView
-    case FilterTagCell
-    case FilterTagCellTagIcon
-    case FilterTagCellTagLabel
+    case filterTagsCollectionView
+    case filterTagCell
+    case filterTagCellTagIcon
+    case filterTagCellTagLabel
 
     // SuggestionSearchCell
-    case SuggestionSearchCell
-    case SuggestionSearchCellSuggestionText
+    case suggestionSearchCell
+    case suggestionSearchCellSuggestionText
 
     // Categories
-    case CategoriesCollectionView
-    case CategoryCell
-    case CategoryCellTitleLabel
-    case CategoryCellImageView
+    case categoriesCollectionView
+    case categoryCell
+    case categoryCellTitleLabel
+    case categoryCellImageView
 
     // Filters
-    case FiltersCollectionView
-    case FiltersSaveFiltersButton
-    case FiltersCancelButton
-    case FiltersResetButton
+    case filtersCollectionView
+    case filtersSaveFiltersButton
+    case filtersCancelButton
+    case filtersResetButton
 
     // Filters Cells
-    case FilterCategoryCell
-    case FilterCategoryCellIcon
-    case FilterCategoryCellTitleLabel
+    case filterCategoryCell
+    case filterCategoryCellIcon
+    case filterCategoryCellTitleLabel
 
-    case FilterSingleCheckCell
-    case FilterSingleCheckCellTickIcon
-    case FilterSingleCheckCellTitleLabel
+    case filterSingleCheckCell
+    case filterSingleCheckCellTickIcon
+    case filterSingleCheckCellTitleLabel
 
-    case FilterDistanceCell
-    case FilterDistanceSlider
-    case FilterDistanceTip
-    case FilterDistanceLabel
+    case filterDistanceCell
+    case filterDistanceSlider
+    case filterDistanceTip
+    case filterDistanceLabel
 
-    case FilterHeaderCell
-    case FilterHeaderCellTitleLabel
+    case filterHeaderCell
+    case filterHeaderCellTitleLabel
 
-    case FilterLocationCell
-    case FilterLocationCellTitleLabel
-    case FilterLocationCellLocationLabel
+    case filterLocationCell
+    case filterLocationCellTitleLabel
+    case filterLocationCellLocationLabel
 
-    case FilterPriceCell
-    case FilterPriceCellTitleLabel
-    case FilterPriceCellTextField
+    case filterPriceCell
+    case filterPriceCellTitleLabel
+    case filterPriceCellTextField
 
     // Product Detail
-    case ProductDetailOnboarding
+    case productDetailOnboarding
 
     // Product Carousel
-    case ProductCarouselCollectionView
-    case ProductCarouselButtonBottom
-    case ProductCarouselButtonTop
-    case ProductCarouselFavoriteButton
-    case ProductCarouselMoreInfoView
-    case ProductCarouselProductStatusLabel
-    case ProductCarouselDirectChatTable
-    case ProductCarouselStickersButton
-    case ProductCarouselEditButton
-    case ProductCarouselFullScreenAvatarView
-    case ProductCarouselPageControl
-    case ProductCarouselUserView
-    case ProductCarouselChatTextView
+    case productCarouselCollectionView
+    case productCarouselButtonBottom
+    case productCarouselButtonTop
+    case productCarouselFavoriteButton
+    case productCarouselMoreInfoView
+    case productCarouselProductStatusLabel
+    case productCarouselDirectChatTable
+    case productCarouselStickersButton
+    case productCarouselEditButton
+    case productCarouselFullScreenAvatarView
+    case productCarouselPageControl
+    case productCarouselUserView
+    case productCarouselChatTextView
 
-    case ProductCarouselNavBarEditButton
-    case ProductCarouselNavBarShareButton
-    case ProductCarouselNavBarActionsButton
-    case ProductCarouselNavBarFavoriteButton
+    case productCarouselNavBarEditButton
+    case productCarouselNavBarShareButton
+    case productCarouselNavBarActionsButton
+    case productCarouselNavBarFavoriteButton
 
-    case ProductCarouselMoreInfoScrollView
-    case ProductCarouselMoreInfoTitleLabel
-    case ProductCarouselMoreInfoTransTitleLabel
-    case ProductCarouselMoreInfoAddressLabel
-    case ProductCarouselMoreInfoDistanceLabel
-    case ProductCarouselMoreInfoMapView
-    case ProductCarouselMoreInfoSocialShareTitleLabel
-    case ProductCarouselMoreInfoSocialShareView
-    case ProductCarouselMoreInfoRelatedItemsTitleLabel
-    case ProductCarouselMoreInfoRelatedItemsView
-    case ProductCarouselMoreInfoRelatedViewMoreButton
-    case ProductCarouselMoreInfoDescriptionLabel
+    case productCarouselMoreInfoScrollView
+    case productCarouselMoreInfoTitleLabel
+    case productCarouselMoreInfoTransTitleLabel
+    case productCarouselMoreInfoAddressLabel
+    case productCarouselMoreInfoDistanceLabel
+    case productCarouselMoreInfoMapView
+    case productCarouselMoreInfoSocialShareTitleLabel
+    case productCarouselMoreInfoSocialShareView
+    case productCarouselMoreInfoRelatedItemsTitleLabel
+    case productCarouselMoreInfoRelatedItemsView
+    case productCarouselMoreInfoRelatedViewMoreButton
+    case productCarouselMoreInfoDescriptionLabel
 
     // Fullscreen share
-    case ProductCarouselFullscreenShareView
-    case ProductCarouselFullscreenShareCloseButton
-    case ProductCarouselFullscreenShareCopyLinkButton
+    case productCarouselFullscreenShareView
+    case productCarouselFullscreenShareCloseButton
+    case productCarouselFullscreenShareCopyLinkButton
 
     // Product Carousel Cell
-    case ProductCarouselCell
-    case ProductCarouselCellCollectionView
-    case ProductCarouselCellPlaceholderImage
-    case ProductCarouselImageCell
-    case ProductCarouselImageCellImageView
+    case productCarouselCell
+    case productCarouselCellCollectionView
+    case productCarouselCellPlaceholderImage
+    case productCarouselImageCell
+    case productCarouselImageCellImageView
 
     // Product Carousel Post Delete screens
-    case PostDeleteAlertButton
-    case PostDeleteFullscreenButton
-    case PostDeleteFullscreenIncentiveView
+    case postDeleteAlertButton
+    case postDeleteFullscreenButton
+    case postDeleteFullscreenIncentiveView
 
     // Chat Text View
-    case ChatTextViewTextField
-    case ChatTextViewSendButton
+    case chatTextViewTextField
+    case chatTextViewSendButton
 
     // User View
-    case UserViewNameLabel
-    case UserViewSubtitleLabel
-    case UserViewTextInfoContainer
+    case userViewNameLabel
+    case userViewSubtitleLabel
+    case userViewTextInfoContainer
 
     // Notifications
-    case NotificationsRefresh
-    case NotificationsTable
-    case NotificationsLoading
-    case NotificationsEmptyView
-    case NotificationsCellPrimaryImage
-    case NotificationsCellSecondaryImage
+    case notificationsRefresh
+    case notificationsTable
+    case notificationsLoading
+    case notificationsEmptyView
+    case notificationsCellPrimaryImage
+    case notificationsCellSecondaryImage
 
     // Posting
-    case PostingCameraImagePreview
-    case PostingCameraSwitchCamButton
-    case PostingCameraUsePhotoButton
-    case PostingCameraInfoScreenButton
-    case PostingCameraFlashButton
-    case PostingCameraRetryPhotoButton
-    case PostingCameraFirstTimeAlert
-    case PostingCameraCloseButton
-    case PostingGalleryLoading
-    case PostingGalleryCollection
-    case PostingGalleryAlbumButton
-    case PostingGalleryUsePhotoButton
-    case PostingGalleryInfoScreenButton
-    case PostingGalleryImageContainer
-    case PostingGalleryCloseButton
-    case PostingCloseButton
-    case PostingGalleryButton
-    case PostingPhotoButton
-    case PostingLoading
-    case PostingRetryButton
-    case PostingDoneButton
-    case PostingCurrencyLabel
-    case PostingTitleField
-    case PostingPriceField
-    case PostingDescriptionField
-    case PostingBackButton
-    case PostingInfoCloseButton
-    case PostingInfoShareButton
-    case PostingInfoLoading
-    case PostingInfoEditButton
-    case PostingInfoMainButton
-    case PostingInfoIncentiveContainer
+    case postingCameraImagePreview
+    case postingCameraSwitchCamButton
+    case postingCameraUsePhotoButton
+    case postingCameraInfoScreenButton
+    case postingCameraFlashButton
+    case postingCameraRetryPhotoButton
+    case postingCameraFirstTimeAlert
+    case postingCameraCloseButton
+    case postingGalleryLoading
+    case postingGalleryCollection
+    case postingGalleryAlbumButton
+    case postingGalleryUsePhotoButton
+    case postingGalleryInfoScreenButton
+    case postingGalleryImageContainer
+    case postingGalleryCloseButton
+    case postingCloseButton
+    case postingGalleryButton
+    case postingPhotoButton
+    case postingLoading
+    case postingRetryButton
+    case postingDoneButton
+    case postingCurrencyLabel
+    case postingTitleField
+    case postingPriceField
+    case postingDescriptionField
+    case postingBackButton
+    case postingInfoCloseButton
+    case postingInfoShareButton
+    case postingInfoLoading
+    case postingInfoEditButton
+    case postingInfoMainButton
+    case postingInfoIncentiveContainer
 
     // EditProduct
-    case EditProductCloseButton
-    case EditProductScroll
-    case EditProductTitleField
-    case EditProductAutoGenTitleButton
-    case EditProductImageCollection
-    case EditProductCurrencyLabel
-    case EditProductPriceField
-    case EditProductDescriptionField
-    case EditProductLocationButton
-    case EditProductCategoryButton
-    case EditProductSendButton
-    case EditProductShareFBSwitch
-    case EditProductLoadingView
-    case EditProductPostFreeSwitch
+    case editProductCloseButton
+    case editProductScroll
+    case editProductTitleField
+    case editProductAutoGenTitleButton
+    case editProductImageCollection
+    case editProductCurrencyLabel
+    case editProductPriceField
+    case editProductDescriptionField
+    case editProductLocationButton
+    case editProductCategoryButton
+    case editProductSendButton
+    case editProductShareFBSwitch
+    case editProductLoadingView
+    case editProductPostFreeSwitch
 
     // ReportUser
-    case ReportUserCollection
-    case ReportUserCommentField
-    case ReportUserSendButton
+    case reportUserCollection
+    case reportUserCommentField
+    case reportUserSendButton
 
     // RateUser
-    case RateUserUserNameLabel
-    case RateUserStarButton1
-    case RateUserStarButton2
-    case RateUserStarButton3
-    case RateUserStarButton4
-    case RateUserStarButton5
-    case RateUserDescriptionField
-    case RateUserLoading
-    case RateUserPublishButton
+    case rateUserUserNameLabel
+    case rateUserStarButton1
+    case rateUserStarButton2
+    case rateUserStarButton3
+    case rateUserStarButton4
+    case rateUserStarButton5
+    case rateUserDescriptionField
+    case rateUserLoading
+    case rateUserPublishButton
 
     // RatingList
-    case RatingListTable
-    case RatingListLoading
-    case RatingListCellUserName
-    case RatingListCellReport
-    case RatingListCellReview
+    case ratingListTable
+    case ratingListLoading
+    case ratingListCellUserName
+    case ratingListCellReport
+    case ratingListCellReview
 
     // AppRating
-    case AppRatingStarButton1
-    case AppRatingStarButton2
-    case AppRatingStarButton3
-    case AppRatingStarButton4
-    case AppRatingStarButton5
-    case AppRatingBgButton
-    case AppRatingDismissButton
+    case appRatingStarButton1
+    case appRatingStarButton2
+    case appRatingStarButton3
+    case appRatingStarButton4
+    case appRatingStarButton5
+    case appRatingBgButton
+    case appRatingDismissButton
 
     // SafetyTips
-    case SafetyTipsOkButton
+    case safetyTipsOkButton
 
     // EmptyView
-    case EmptyViewPrimaryButton
-    case EmptyViewSecondaryButton
+    case emptyViewPrimaryButton
+    case emptyViewSecondaryButton
 
     // SocialShare
-    case SocialShareFacebook
-    case SocialShareFBMessenger
-    case SocialShareEmail
-    case SocialShareWhatsapp
-    case SocialShareTwitter
-    case SocialShareTelegram
-    case SocialShareCopyLink
-    case SocialShareSMS
-    case SocialShareMore
+    case socialShareFacebook
+    case socialShareFBMessenger
+    case socialShareEmail
+    case socialShareWhatsapp
+    case socialShareTwitter
+    case socialShareTelegram
+    case socialShareCopyLink
+    case socialShareSMS
+    case socialShareMore
 
     // MainSignUp
-    case MainSignUpFacebookButton
-    case MainSignUpGoogleButton
-    case MainSignUpSignupButton
-    case MainSignupLogInButton
-    case MainSignupCloseButton
-    case MainSignupHelpButton
+    case mainSignUpFacebookButton
+    case mainSignUpGoogleButton
+    case mainSignUpSignupButton
+    case mainSignupLogInButton
+    case mainSignupCloseButton
+    case mainSignupHelpButton
 
     // SignUpLogin
-    case SignUpLoginFacebookButton
-    case SignUpLoginGoogleButton
-    case SignUpLoginEmailButton
-    case SignUpLoginEmailTextField
-    case SignUpLoginPasswordButton
-    case SignUpLoginPasswordTextField
-    case SignUpLoginUserNameButton
-    case SignUpLoginUserNameTextField
-    case SignUpLoginShowPasswordButton
-    case SignUpLoginForgotPasswordButton
-    case SignUpLoginSegmentedControl
-    case SignUpLoginHelpButton
-    case SignUpLoginCloseButton
-    case SignUpLoginSendButton
+    case signUpLoginFacebookButton
+    case signUpLoginGoogleButton
+    case signUpLoginEmailButton
+    case signUpLoginEmailTextField
+    case signUpLoginPasswordButton
+    case signUpLoginPasswordTextField
+    case signUpLoginUserNameButton
+    case signUpLoginUserNameTextField
+    case signUpLoginShowPasswordButton
+    case signUpLoginForgotPasswordButton
+    case signUpLoginSegmentedControl
+    case signUpLoginHelpButton
+    case signUpLoginCloseButton
+    case signUpLoginSendButton
 
     // Recaptcha
-    case RecaptchaCloseButton
-    case RecaptchaLoading
-    case RecaptchaWebView
+    case recaptchaCloseButton
+    case recaptchaLoading
+    case recaptchaWebView
 
     // ChatGrouped
-    case ChatGroupedViewRightNavBarButton
+    case chatGroupedViewRightNavBarButton
 
     // ChatList
-    case ChatListViewTabAll
-    case ChatListViewTabSelling
-    case ChatListViewTabBuying
-    case ChatListViewTabBlockedUsers
+    case chatListViewTabAll
+    case chatListViewTabSelling
+    case chatListViewTabBuying
+    case chatListViewTabBlockedUsers
 
-    case ChatListViewFooterButton
-    case ChatListViewTabAllTableView
-    case ChatListViewTabSellingTableView
-    case ChatListViewTabBuyingTableView
-    case ChatListViewTabBlockedUsersTableView
+    case chatListViewFooterButton
+    case chatListViewTabAllTableView
+    case chatListViewTabSellingTableView
+    case chatListViewTabBuyingTableView
+    case chatListViewTabBlockedUsersTableView
 
     // ConversationCell
-    case ConversationCellContainer
-    case ConversationCellUserLabel
-    case ConversationCellProductLabel
-    case ConversationCellTimeLabel
-    case ConversationCellBadgeLabel
-    case ConversationCellThumbnailImageView
-    case ConversationCellAvatarImageView
-    case ConversationCellStatusImageView
+    case conversationCellContainer
+    case conversationCellUserLabel
+    case conversationCellProductLabel
+    case conversationCellTimeLabel
+    case conversationCellBadgeLabel
+    case conversationCellThumbnailImageView
+    case conversationCellAvatarImageView
+    case conversationCellStatusImageView
 
     // BlockedUserCell
-    case BlockedUserCellAvatarImageView
-    case BlockedUserCellUserNameLabel
-    case BlockedUserCellBlockedLabel
-    case BlockedUserCellBlockedIcon
+    case blockedUserCellAvatarImageView
+    case blockedUserCellUserNameLabel
+    case blockedUserCellBlockedLabel
+    case blockedUserCellBlockedIcon
 
     // ChatProductView
-    case ChatProductViewUserAvatar
-    case ChatProductViewUserNameLabel
-    case ChatProductViewProductNameLabel
-    case ChatProductViewProductPriceLabel
-    case ChatProductViewProductButton
-    case ChatProductViewUserButton
-    case ChatProductViewReviewButton
+    case chatProductViewUserAvatar
+    case chatProductViewUserNameLabel
+    case chatProductViewProductNameLabel
+    case chatProductViewProductPriceLabel
+    case chatProductViewProductButton
+    case chatProductViewUserButton
+    case chatProductViewReviewButton
 
     // Chat
-    case ChatViewTableView
-    case ChatViewMoreOptionsButton
-    case ChatViewBackButton
-    case ChatViewStickersButton
-    case ChatViewQuickAnswersButton
-    case ChatViewSendButton
-    case ChatViewTextInputBar
+    case chatViewTableView
+    case chatViewMoreOptionsButton
+    case chatViewBackButton
+    case chatViewStickersButton
+    case chatViewQuickAnswersButton
+    case chatViewSendButton
+    case chatViewTextInputBar
 
     // DirectAnswers
-    case DirectAnswersPresenterCollectionView
+    case directAnswersPresenterCollectionView
 
     // ChatCell
-    case ChatCellMessageLabel
-    case ChatCellDateLabel
+    case chatCellMessageLabel
+    case chatCellDateLabel
 
     // ChatStickerCell
-    case ChatStickerCellLeftImage
-    case ChatStickerCellRightImage
+    case chatStickerCellLeftImage
+    case chatStickerCellRightImage
 
     // ChatDisclaimerCell
-    case ChatDisclaimerCellMessageLabel
-    case ChatDisclaimerCellButton
+    case chatDisclaimerCellMessageLabel
+    case chatDisclaimerCellButton
 
     // ChatOtherInfoCell
-    case ChatOtherInfoCellNameLabel
-    case ChatOtherInfoCell
+    case chatOtherInfoCellNameLabel
+    case chatOtherInfoCell
 
     // TourLogin
-    case TourLoginCloseButton
-    case TourFacebookButton
-    case TourGoogleButton
-    case TourEmailButton
+    case tourLoginCloseButton
+    case tourFacebookButton
+    case tourGoogleButton
+    case tourEmailButton
 
     // TourNotifications
-    case TourNotificationsCloseButton
-    case TourNotificationsOKButton
-    case TourNotificationsAlert
+    case tourNotificationsCloseButton
+    case tourNotificationsOKButton
+    case tourNotificationsAlert
 
     // TourLocation
-    case TourLocationCloseButton
-    case TourLocationOKButton
-    case TourLocationAlert
+    case tourLocationCloseButton
+    case tourLocationOKButton
+    case tourLocationAlert
 
     // TourPosting
-    case TourPostingCloseButton
-    case TourPostingOkButton
+    case tourPostingCloseButton
+    case tourPostingOkButton
 
     // User
-    case UserNavBarShareButton
-    case UserNavBarSettingsButton
-    case UserNavBarMoreButton
-    case UserHeaderCollapsedNameLabel
-    case UserHeaderCollapsedLocationLabel
-    case UserHeaderExpandedNameLabel
-    case UserHeaderExpandedLocationLabel
-    case UserHeaderExpandedAvatarButton
-    case UserHeaderExpandedRatingsButton
-    case UserHeaderExpandedRelationLabel
-    case UserHeaderExpandedVerifyFacebookButton
-    case UserHeaderExpandedVerifyGoogleButton
-    case UserHeaderExpandedVerifyEmailButton
-    case UserHeaderExpandedBuildTrustButton
-    case UserEnableNotificationsButton
-    case UserSellingTab
-    case UserSoldTab
-    case UserFavoritesTab
-    case UserProductsFirstLoad
-    case UserProductsList
-    case UserProductsError
-    case UserPushPermissionOK
-    case UserPushPermissionCancel
+    case userNavBarShareButton
+    case userNavBarSettingsButton
+    case userNavBarMoreButton
+    case userHeaderCollapsedNameLabel
+    case userHeaderCollapsedLocationLabel
+    case userHeaderExpandedNameLabel
+    case userHeaderExpandedLocationLabel
+    case userHeaderExpandedAvatarButton
+    case userHeaderExpandedRatingsButton
+    case userHeaderExpandedRelationLabel
+    case userHeaderExpandedVerifyFacebookButton
+    case userHeaderExpandedVerifyGoogleButton
+    case userHeaderExpandedVerifyEmailButton
+    case userHeaderExpandedBuildTrustButton
+    case userEnableNotificationsButton
+    case userSellingTab
+    case userSoldTab
+    case userFavoritesTab
+    case userProductsFirstLoad
+    case userProductsList
+    case userProductsError
+    case userPushPermissionOK
+    case userPushPermissionCancel
 
     // Verify Accounts popup
-    case VerifyAccountsBackgroundButton
-    case VerifyAccountsFacebookButton
-    case VerifyAccountsGoogleButton
-    case VerifyAccountsEmailButton
-    case VerifyAccountsEmailTextField
-    case VerifyAccountsEmailTextFieldButton
+    case verifyAccountsBackgroundButton
+    case verifyAccountsFacebookButton
+    case verifyAccountsGoogleButton
+    case verifyAccountsEmailButton
+    case verifyAccountsEmailTextField
+    case verifyAccountsEmailTextFieldButton
 
     // Settings
-    case SettingsList
-    case SettingsLogoutAlertCancel
-    case SettingsLogoutAlertOK
+    case settingsList
+    case settingsLogoutAlertCancel
+    case settingsLogoutAlertOK
 
     // SettingsCell
-    case SettingsCellIcon
-    case SettingsCellTitle
-    case SettingsCellValue
-    case SettingsCellSwitch
+    case settingsCellIcon
+    case settingsCellTitle
+    case settingsCellValue
+    case settingsCellSwitch
 
     // ChangeUsername
-    case ChangeUsernameNameField
-    case ChangeUsernameSendButton
+    case changeUsernameNameField
+    case changeUsernameSendButton
 
     // ChangePassword
-    case ChangePasswordPwdTextfield
-    case ChangePasswordPwdConfirmTextfield
-    case ChangePasswordSendButton
+    case changePasswordPwdTextfield
+    case changePasswordPwdConfirmTextfield
+    case changePasswordSendButton
 
     // Help
-    case HelpWebView
+    case helpWebView
 
     // EditLocation
-    case EditLocationMap
-    case EditLocationSearchButton
-    case EditLocationSearchTextField
-    case EditLocationSearchSuggestionsTable
-    case EditLocationSensorLocationButton
-    case EditLocationApproxLocationCircleView
-    case EditLocationPOIImageView
-    case EditLocationSetLocationButton
-    case EditLocationApproxLocationSwitch
+    case editLocationMap
+    case editLocationSearchButton
+    case editLocationSearchTextField
+    case editLocationSearchSuggestionsTable
+    case editLocationSensorLocationButton
+    case editLocationApproxLocationCircleView
+    case editLocationPOIImageView
+    case editLocationSetLocationButton
+    case editLocationApproxLocationSwitch
     
     // NPS Survey
-    case NPSCloseButton
-    case NPSScore1
-    case NPSScore2
-    case NPSScore3
-    case NPSScore4
-    case NPSScore5
-    case NPSScore6
-    case NPSScore7
-    case NPSScore8
-    case NPSScore9
-    case NPSScore10
+    case npsCloseButton
+    case npsScore1
+    case npsScore2
+    case npsScore3
+    case npsScore4
+    case npsScore5
+    case npsScore6
+    case npsScore7
+    case npsScore8
+    case npsScore9
+    case npsScore10
 
     // Express chat
-    case ExpressChatCloseButton
-    case ExpressChatCollection
-    case ExpressChatSendButton
-    case ExpressChatDontAskButton
+    case expressChatCloseButton
+    case expressChatCollection
+    case expressChatSendButton
+    case expressChatDontAskButton
 
     // Express chat cell
-    case ExpressChatCell
-    case ExpressChatCellProductTitle
-    case ExpressChatCellProductPrice
-    case ExpressChatCellTickSelected
+    case expressChatCell
+    case expressChatCellProductTitle
+    case expressChatCellProductPrice
+    case expressChatCellTickSelected
 
     // ExpressChatBanner
-    case ExpressChatBanner
-    case ExpressChatBannerActionButton
-    case ExpressChatBannerCloseButton
+    case expressChatBanner
+    case expressChatBannerActionButton
+    case expressChatBannerCloseButton
     
     // Pop-up alert. 
-    case AcceptPopUpButton
+    case acceptPopUpButton
 
     // Chat Heads
-    case ChatHeadsAvatars
-    case ChatHeadsDelete
+    case chatHeadsAvatars
+    case chatHeadsDelete
     
     // Bubble notifications
-    case BubbleButton
+    case bubbleButton
 
     // Monetization
     // Bubble
-    case BumpUpBanner
-    case BumpUpBannerButton
-    case BumpUpBannerLabel
+    case bumpUpBanner
+    case bumpUpBannerButton
+    case bumpUpBannerLabel
     // Free bump up screen
-    case FreeBumpUpCloseButton
-    case FreeBumpUpImage
-    case FreeBumpUpTitleLabel
-    case FreeBumpUpSubtitleLabel
-    case FreeBumpUpSocialShareView
+    case freeBumpUpCloseButton
+    case freeBumpUpImage
+    case freeBumpUpTitleLabel
+    case freeBumpUpSubtitleLabel
+    case freeBumpUpSocialShareView
     // Payment bump up screen
-    case PaymentBumpUpCloseButton
-    case PaymentBumpUpImage
-    case PaymentBumpUpTitleLabel
-    case PaymentBumpUpSubtitleLabel
-    case PaymentBumpUpButton
-    case PaymentBumpUpBumpsLeftLabel
+    case paymentBumpUpCloseButton
+    case paymentBumpUpImage
+    case paymentBumpUpTitleLabel
+    case paymentBumpUpSubtitleLabel
+    case paymentBumpUpButton
+    case paymentBumpUpBumpsLeftLabel
 }
 
 extension UIAccessibilityIdentification {

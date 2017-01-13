@@ -13,36 +13,36 @@ final class CrashlyticsTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
     }
 
-    func setInstallation(installation: Installation?) {
+    func setInstallation(_ installation: Installation?) {
     }
 
-    func setUser(user: MyUser?) {
+    func setUser(_ user: MyUser?) {
         Crashlytics.sharedInstance().setUserEmail(user?.email)
         Crashlytics.sharedInstance().setUserIdentifier(user?.objectId)
         Crashlytics.sharedInstance().setUserName(user?.name)
     }
     
 
-    func trackEvent(event: TrackerEvent) {
+    func trackEvent(_ event: TrackerEvent) {
     }
 
-    func setLocation(location: LGLocation?) {}
-    func setNotificationsPermission(enabled: Bool) {}
-    func setGPSPermission(enabled: Bool) {}
-    func setMarketingNotifications(enabled: Bool) {}
+    func setLocation(_ location: LGLocation?) {}
+    func setNotificationsPermission(_ enabled: Bool) {}
+    func setGPSPermission(_ enabled: Bool) {}
+    func setMarketingNotifications(_ enabled: Bool) {}
 }

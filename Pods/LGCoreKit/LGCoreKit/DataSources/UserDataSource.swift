@@ -8,13 +8,13 @@
 
 import Result
 
-typealias UsersDataSourceCompletion = Result<[User], ApiError> -> Void
+typealias UsersDataSourceCompletion = (Result<[User], ApiError>) -> Void
 
-typealias UserDataSourceCompletion = Result<User, ApiError> -> Void
-typealias UserDataSourceEmptyCompletion = Result<Void, ApiError> -> Void
+typealias UserDataSourceCompletion = (Result<User, ApiError>) -> Void
+typealias UserDataSourceEmptyCompletion = (Result<Void, ApiError>) -> Void
 
 typealias UserDataSourceUserRelationResult = Result<UserUserRelation, ApiError>
-typealias UserDataSourceUserRelationCompletion = UserDataSourceUserRelationResult -> Void
+typealias UserDataSourceUserRelationCompletion = (UserDataSourceUserRelationResult) -> Void
 
 protocol UserDataSource {
     
@@ -24,7 +24,7 @@ protocol UserDataSource {
     - parameter includeAccounts: If the user entity should include accounts.
     - parameter completion: The completion closure.
     */
-    func show(userId: String, includeAccounts: Bool, completion: UserDataSourceCompletion?)
+    func show(_ userId: String, includeAccounts: Bool, completion: UserDataSourceCompletion?)
 
     /**
      Retrieves the relation data between two users
@@ -33,7 +33,7 @@ protocol UserDataSource {
      - parameter relatedUserId: related User identifier
      - parameter completion:    completion closure
      */
-    func retrieveRelation(userId: String, relatedUserId: String, completion: UserDataSourceUserRelationCompletion?)
+    func retrieveRelation(_ userId: String, relatedUserId: String, completion: UserDataSourceUserRelationCompletion?)
 
     /**
      Retrieves the list of users blocked
@@ -41,7 +41,7 @@ protocol UserDataSource {
      - parameter userId:     caller User identifier
      - parameter completion: Completion closure
      */
-    func indexBlocked(userId: String, completion: UsersDataSourceCompletion?)
+    func indexBlocked(_ userId: String, completion: UsersDataSourceCompletion?)
 
     /**
      Blocks an user
@@ -50,7 +50,7 @@ protocol UserDataSource {
      - parameter relatedUserId:  related User identifier
      - parameter completion:     completion closure
      */
-    func blockUser(userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?)
+    func blockUser(_ userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?)
 
     /**
      Unblocks a users
@@ -59,7 +59,7 @@ protocol UserDataSource {
      - parameter relatedUserId:  related User identifier
      - parameter completion:     completion closure
      */
-    func unblockUser(userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?)
+    func unblockUser(_ userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?)
 
     /**
     Reports a user with the given type and comment
@@ -69,6 +69,6 @@ protocol UserDataSource {
     - parameter parameters:     Report type and message parameters
     - parameter completion:     The completion closure
     */
-    func saveReport(reportedUserId: String, userId: String, parameters: [String: AnyObject],
+    func saveReport(_ reportedUserId: String, userId: String, parameters: [String: Any],
         completion: UserDataSourceEmptyCompletion?)
 }

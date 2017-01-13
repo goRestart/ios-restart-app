@@ -24,29 +24,29 @@ final class ChangePasswordCoordinator: Coordinator {
         let changePasswordVM = ChangePasswordViewModel(token: token)
         let changePasswordVC = ChangePasswordViewController(viewModel: changePasswordVM)
         let navC = UINavigationController(rootViewController: changePasswordVC)
-        navC.modalPresentationStyle = .OverCurrentContext
+        navC.modalPresentationStyle = .overCurrentContext
         self.viewController = navC
         
         changePasswordVM.navigator = self
     }
     
-    func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard viewController.parentViewController == nil else { return }
+    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        guard viewController.parent == nil else { return }
         
         parentViewController = parent
-        parent.presentViewController(viewController, animated: animated, completion: completion)
+        parent.present(viewController, animated: animated, completion: completion)
     }
     
-    func close(animated animated: Bool, completion: (() -> Void)?) {
+    func close(animated: Bool, completion: (() -> Void)?) {
         closeChangePassword(animated: animated, completion: completion)
     }
     
     
     // MARK: - Private
     
-    private func closeChangePassword(animated animated: Bool, completion: (() -> Void)?) {
+    private func closeChangePassword(animated: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
-            self?.viewController.dismissViewControllerAnimated(animated) { [weak self] in
+            self?.viewController.dismiss(animated: animated) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.coordinatorDidClose(strongSelf)
                 completion?()

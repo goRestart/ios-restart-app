@@ -22,18 +22,18 @@ class MyUserUDDAO: MyUserDAO {
         return myUserVar.asObservable()
     }
 
-    private let userDefaults: NSUserDefaults
+    private let userDefaults: UserDefaults
     private let myUserVar = Variable<MyUser?>(nil)
 
 
     // MARK: - Lifecycle
 
     convenience init() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         self.init(userDefaults: userDefaults)
     }
 
-    init(userDefaults: NSUserDefaults) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
         self.myUserVar.value = fetch()
     }
@@ -41,24 +41,24 @@ class MyUserUDDAO: MyUserDAO {
 
     // MARK : - MyUserDAO
 
-    func save(theMyUser: MyUser) {
+    func save(_ theMyUser: MyUser) {
         myUserVar.value = theMyUser
 
         let localMyUser = LocalMyUser(myUser: theMyUser)
-        let dict: [String: AnyObject] = localMyUser.encode()
+        let dict: [String: Any] = localMyUser.encode()
         userDefaults.setValue(dict, forKey: MyUserUDDAO.MyUserKeyMainKey)
     }
 
     func delete() {
         myUserVar.value = nil
-        userDefaults.removeObjectForKey(MyUserUDDAO.MyUserKeyMainKey)
+        userDefaults.removeObject(forKey: MyUserUDDAO.MyUserKeyMainKey)
     }
 
 
     // MARK: - Private methods
 
     private func fetch() -> MyUser? {
-        guard let dict = userDefaults.dictionaryForKey(MyUserUDDAO.MyUserKeyMainKey) else { return nil }
+        guard let dict = userDefaults.dictionary(forKey: MyUserUDDAO.MyUserKeyMainKey) else { return nil }
         return LocalMyUser.decode(dict)
     }
 }

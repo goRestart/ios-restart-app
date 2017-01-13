@@ -20,7 +20,7 @@ class ShareProductViewModel: BaseViewModel {
 
     let product: Product
     let socialSharer: SocialSharer?
-    private let tracker: Tracker
+    fileprivate let tracker: Tracker
 
     weak var delegate: ShareProductViewModelDelegate?
     weak var navigator: ShareProductNavigator?
@@ -31,18 +31,19 @@ class ShareProductViewModel: BaseViewModel {
     var link: String {
         return socialMessage.copyLinkText
     }
-    private var purchasesShopper: PurchasesShopper?
-    private var bumpUp: Bool
+
+    fileprivate var purchasesShopper: PurchasesShopper?
+    fileprivate var bumpUp: Bool
 
     convenience init(product: Product, socialMessage: SocialMessage, bumpUp: Bool) {
-        let purchasesShopper: PurchasesShopper? = bumpUp ? PurchasesShopper.sharedInstance : nil
+    let purchasesShopper: PurchasesShopper? = bumpUp ? PurchasesShopper.sharedInstance : nil
         self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage, bumpUp: bumpUp,
-                  locale: NSLocale.currentLocale(), locationManager: Core.locationManager,
-                  tracker: TrackerProxy.sharedInstance, purchasesShopper: purchasesShopper)
+                  locale: NSLocale.current, locationManager: Core.locationManager, tracker: TrackerProxy.sharedInstance,
+                purchasesShopper: purchasesShopper)
     }
 
-    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, bumpUp: Bool,
-         locale: NSLocale, locationManager: LocationManager, tracker: Tracker, purchasesShopper: PurchasesShopper?) {
+    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, bumpUp: Bool, locale: Locale,
+         locationManager: LocationManager, tracker: Tracker, purchasesShopper: PurchasesShopper?) {
         self.product = product
         self.socialSharer = socialSharer
         self.tracker = tracker
@@ -67,7 +68,7 @@ class ShareProductViewModel: BaseViewModel {
 
     func copyLink() {
         guard let vc = delegate?.vmViewControllerToShare() else { return }
-        socialSharer?.share(socialMessage, shareType: .CopyLink, viewController: vc)
+        socialSharer?.share(socialMessage, shareType: .copyLink, viewController: vc)
     }
     
     func closeActionPressed() {
@@ -83,19 +84,25 @@ class ShareProductViewModel: BaseViewModel {
 // MARK: - SocialShareFacadeDelegate
 
 extension ShareProductViewModel: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
+    func shareStartedIn(_ shareType: ShareType) {
     }
 
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         if let message = messageForShareIn(shareType, finishedWithState: state) {
             delegate?.vmShowAutoFadingMessage(message) { [weak self] in
                 switch state {
+<<<<<<< HEAD
                 case .Completed:
                     self?.delegate?.vmDismiss {
                         guard let isBumpUp = self?.bumpUp where isBumpUp else { return }
                         self?.bumpUpProduct()
                     }
                 case .Cancelled, .Failed:
+=======
+                case .completed:
+                    self?.delegate?.vmDismiss(nil)
+                case .cancelled, .failed:
+>>>>>>> develop
                     break
                 }
             }
@@ -103,35 +110,35 @@ extension ShareProductViewModel: SocialSharerDelegate {
 
         let event: TrackerEvent?
         switch state {
-        case .Completed:
+        case .completed:
             event = TrackerEvent.productShareComplete(product, network: shareType.trackingShareNetwork,
-                                                      typePage: .ProductDetail)
-        case .Failed:
+                                                      typePage: .productDetail)
+        case .failed:
             event = nil
-        case .Cancelled:
+        case .cancelled:
             event = TrackerEvent.productShareCancel(product, network: shareType.trackingShareNetwork,
-                                                    typePage: .ProductDetail)
+                                                    typePage: .productDetail)
         }
         if let event = event {
             tracker.trackEvent(event)
         }
     }
 
-    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
+    private func messageForShareIn(_ shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
         switch (shareType, state) {
-        case (.Email, .Failed):
+        case (.email, .failed):
             return LGLocalizedString.productShareEmailError
-        case (.Facebook, .Failed):
+        case (.facebook, .failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.FBMessenger, .Failed):
+        case (.fbMessenger, .failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.SMS, .Completed):
+        case (.sms, .completed):
             return LGLocalizedString.productShareSmsOk
-        case (.SMS, .Failed):
+        case (.sms, .failed):
             return LGLocalizedString.productShareSmsError
-        case (.CopyLink, .Completed):
+        case (.copyLink, .completed):
             return LGLocalizedString.productShareCopylinkOk
-        case (_, .Completed):
+        case (_, .completed):
             return LGLocalizedString.productShareGenericOk
         default:
             break

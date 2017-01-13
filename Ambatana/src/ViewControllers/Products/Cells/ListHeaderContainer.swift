@@ -13,7 +13,7 @@ class ListHeaderContainer: UICollectionReusableView, ReusableCell {
 
     var totalHeight: CGFloat = 0
 
-    func getHeader(tag: Int) -> UIView? {
+    func getHeader(_ tag: Int) -> UIView? {
         for view in containerView.subviews {
             if view.tag == tag {
                 return view
@@ -22,18 +22,18 @@ class ListHeaderContainer: UICollectionReusableView, ReusableCell {
         return nil
     }
 
-    func addHeader(view: UIView, height: CGFloat) {
+    func addHeader(_ view: UIView, height: CGFloat) {
         guard getHeader(view.tag) == nil else { return }
         view.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(view)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["header"] = view
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["height"] = height
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[header]-0-|",
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[header]-0-|",
             options: [], metrics: nil, views: views))
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[header(height)]-0-|",
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[header(height)]-0-|",
             options: [], metrics: metrics, views: views))
 
         totalHeight += height

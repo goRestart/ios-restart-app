@@ -18,33 +18,33 @@ class LGConfigDAOSpec: QuickSpec {
 
         afterEach {
             // cache cleanup
-            let fm = NSFileManager.defaultManager()
-            do { try fm.removeItemAtPath(sut.fileCachePath) } catch {}
+            let fm = FileManager.default
+            do { try fm.removeItem(atPath: sut.fileCachePath) } catch {}
         }
         
         describe("initialization") {
             context("unexisting file in bundle") {
                 beforeEach {
-                    sut = LGConfigDAO(bundle: NSBundle(forClass: LGConfigDAOSpec.self), configFileName: "unexisting")
+                    sut = LGConfigDAO(bundle: Bundle(for: LGConfigDAOSpec.self), configFileName: "unexisting")
                 }
                 it("all properties should be initialized") {
                     expect(sut.fileCachePath).notTo(beNil())
                 }
                 it("cache should not contain any config file") {
-                    let fm = NSFileManager.defaultManager()
-                    expect(fm.fileExistsAtPath(sut.fileCachePath)).to(beFalse())
+                    let fm = FileManager.default
+                    expect(fm.fileExists(atPath: sut.fileCachePath)).to(beFalse())
                 }
             }
             context("existing file in bundle") {
                 beforeEach {
-                    sut = LGConfigDAO(bundle: NSBundle(forClass: LGConfigDAOSpec.self), configFileName: "iOScfgMockOK")
+                    sut = LGConfigDAO(bundle: Bundle(for: LGConfigDAOSpec.self), configFileName: "iOScfgMockOK")
                 }
                 it("all properties should be initialized") {
                     expect(sut.fileCachePath).notTo(beNil())
                 }
                 it("cache should contain a config file") {
-                    let fm = NSFileManager.defaultManager()
-                    expect(fm.fileExistsAtPath(sut.fileCachePath)).to(beTrue())
+                    let fm = FileManager.default
+                    expect(fm.fileExists(atPath: sut.fileCachePath)).to(beTrue())
                 }
             }
         }
@@ -54,7 +54,7 @@ class LGConfigDAOSpec: QuickSpec {
                 var configFile: Config!
                 
                 beforeEach {
-                    sut = LGConfigDAO(bundle: NSBundle(forClass: LGConfigDAOSpec.self), configFileName: "unexisting")
+                    sut = LGConfigDAO(bundle: Bundle(for: LGConfigDAOSpec.self), configFileName: "unexisting")
                     configFile = sut.retrieve()
                 }
                 it("should return nil when retrieving") {
@@ -65,15 +65,15 @@ class LGConfigDAOSpec: QuickSpec {
                 var configFile: Config!
                 
                 beforeEach {
-                    sut = LGConfigDAO(bundle: NSBundle(forClass: LGConfigDAOSpec.self), configFileName: "iOScfgMockOK")
+                    sut = LGConfigDAO(bundle: Bundle(for: LGConfigDAOSpec.self), configFileName: "iOScfgMockOK")
                     configFile = sut.retrieve()
                 }
                 it("should return a file when retrieving") {
                     expect(configFile).notTo(beNil())
                 }
                 it("cache should contain a config file") {
-                    let fm = NSFileManager.defaultManager()
-                    expect(fm.fileExistsAtPath(sut.fileCachePath)).to(beTrue())
+                    let fm = FileManager.default
+                    expect(fm.fileExists(atPath: sut.fileCachePath)).to(beTrue())
                 }
             }
         }
@@ -82,7 +82,7 @@ class LGConfigDAOSpec: QuickSpec {
             var configFile: Config!
             
             beforeEach {
-                sut = LGConfigDAO(bundle: NSBundle(forClass: LGConfigDAOSpec.self), configFileName: "unexisting")
+                sut = LGConfigDAO(bundle: Bundle(for: LGConfigDAOSpec.self), configFileName: "unexisting")
                 expect(sut.retrieve()).to(beNil())
                 
                 configFile = Config(buildNumber: 3, forceUpdateVersions : [1,2,3], configURL: "http://yahoo.com",
@@ -93,8 +93,8 @@ class LGConfigDAOSpec: QuickSpec {
                 expect(sut.retrieve()).notTo(beNil())
             }
             it("cache should contain a config file") {
-                let fm = NSFileManager.defaultManager()
-                expect(fm.fileExistsAtPath(sut.fileCachePath)).to(beTrue())
+                let fm = FileManager.default
+                expect(fm.fileExists(atPath: sut.fileCachePath)).to(beTrue())
             }
         }
     }

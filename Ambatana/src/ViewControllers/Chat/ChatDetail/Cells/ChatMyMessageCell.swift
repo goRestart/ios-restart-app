@@ -14,7 +14,7 @@ class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
     @IBOutlet weak var disclosureImageView: UIImageView!
     @IBOutlet var marginRightConstraints: [NSLayoutConstraint]!
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         bubbleView.backgroundColor = selected ? UIColor.chatMyBubbleBgColorSelected : UIColor.chatMyBubbleBgColor
     }

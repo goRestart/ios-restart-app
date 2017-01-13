@@ -23,14 +23,14 @@ enum LoginSource: String {
 }
 
 enum LoginAppearance {
-    case Dark, Light
+    case dark, light
 }
 
 // This should become a navigator
 protocol SignUpViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenSignup(viewModel: SignUpLogInViewModel)
+    func vmOpenSignup(_ viewModel: SignUpLogInViewModel)
     func vmFinish(completedLogin completed: Bool)
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker)
+    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker)
 }
 
 class SignUpViewModel: BaseViewModel {
@@ -48,25 +48,25 @@ class SignUpViewModel: BaseViewModel {
         let range = NSMakeRange(0, attributtedLegalText.length)
         attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont, range: range)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .Center
+        paragraphStyle.alignment = .center
         attributtedLegalText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: range)
         return attributtedLegalText
     }
 
-    private var termsAndConditionsURL: NSURL? {
+    private var termsAndConditionsURL: URL? {
         return LetgoURLHelper.buildTermsAndConditionsURL()
     }
-    private var privacyURL: NSURL? {
+    private var privacyURL: URL? {
         return LetgoURLHelper.buildPrivacyURL()
     }
 
-    private let sessionManager: SessionManager
-    private let installationRepository: InstallationRepository
-    private let keyValueStorage: KeyValueStorageable
-    private let featureFlags: FeatureFlaggeable
-    private let tracker: Tracker
+    fileprivate let sessionManager: SessionManager
+    fileprivate let installationRepository: InstallationRepository
+    fileprivate let keyValueStorage: KeyValueStorageable
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let tracker: Tracker
     let appearance: LoginAppearance
-    private let loginSource: EventParameterLoginSourceValue
+    fileprivate let loginSource: EventParameterLoginSourceValue
 
     private let googleLoginHelper: ExternalAuthHelper
     private let fbLoginHelper: ExternalAuthHelper
@@ -133,12 +133,12 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func signUpButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, action: .Signup)
+        let vm = SignUpLogInViewModel(source: loginSource, action: .signup)
         delegate?.vmOpenSignup(vm)
     }
 
     func logInButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, action: .Login)
+        let vm = SignUpLogInViewModel(source: loginSource, action: .login)
         delegate?.vmOpenSignup(vm)
     }
 
@@ -150,9 +150,9 @@ class SignUpViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.delegate?.vmShowLoading(nil)
             }, loginCompletion: { [weak self] result in
-                let error = self?.processAuthResult(result, accountProvider: .Facebook)
+                let error = self?.processAuthResult(result, accountProvider: .facebook)
                 switch result {
-                case .Success:
+                case .success:
                     self?.trackLoginFBOK()
                 default:
                     break
@@ -169,9 +169,9 @@ class SignUpViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.delegate?.vmShowLoading(nil)
         }) { [weak self] result in
-            let error = self?.processAuthResult(result, accountProvider: .Google)
+            let error = self?.processAuthResult(result, accountProvider: .google)
             switch result {
-            case .Success:
+            case .success:
                 self?.trackLoginGoogleOK()
             default:
                 break
@@ -182,51 +182,51 @@ class SignUpViewModel: BaseViewModel {
         }
     }
 
-    private func processAuthResult(result: ExternalServiceAuthResult,
+    private func processAuthResult(_ result: ExternalServiceAuthResult,
                                    accountProvider: AccountProvider) -> EventParameterLoginError? {
         var loginError: EventParameterLoginError? = nil
         switch result {
-        case let .Success(myUser):
+        case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, username: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.delegate?.vmFinish(completedLogin: true)
             }
-        case .Cancelled:
+        case .cancelled:
             delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-        case .Network:
+        case .network:
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .Network
-        case .Scammer:
+            loginError = .network
+        case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(accountProvider.accountNetwork)
             }
-            loginError = .Forbidden
-        case .NotFound:
+            loginError = .forbidden
+        case .notFound:
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .UserNotFoundOrWrongPassword
-        case .BadRequest:
+            loginError = .userNotFoundOrWrongPassword
+        case .badRequest:
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .BadRequest
-        case .Conflict(let cause):
+            loginError = .badRequest
+        case .conflict(let cause):
             var message = ""
             switch cause {
-            case .UserExists, .NotSpecified, .Other:
+            case .userExists, .notSpecified, .other:
                 message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .EmailRejected:
+            case .emailRejected:
                 message = LGLocalizedString.mainSignUpErrorUserRejected
-            case .RequestAlreadyProcessed:
+            case .requestAlreadyProcessed:
                 message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
             }
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            loginError = .EmailTaken
-        case let .Internal(description):
+            loginError = .emailTaken
+        case let .internalError(description):
             delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .Internal(description: description)
+            loginError = .internalError(description: description)
         }
         return loginError
     }
 
-    private func showScammerAlert(network: EventParameterAccountNetwork) {
+    private func showScammerAlert(_ network: EventParameterAccountNetwork) {
         guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
             installation: installationRepository.installation, moderation: true) else {
                 delegate?.vmFinish(completedLogin: false)
@@ -241,7 +241,7 @@ class SignUpViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
     }
 
-    private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
+    private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
         tracker.trackEvent(TrackerEvent.loginFBError(error))
     }
 
@@ -250,7 +250,7 @@ class SignUpViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
     }
 
-    private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {
+    private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {
         tracker.trackEvent(TrackerEvent.loginGoogleError(error))
     }
 }
@@ -258,31 +258,31 @@ class SignUpViewModel: BaseViewModel {
 
 // MARK: > Previous user name
 
-private extension SignUpViewModel {
-    private func updatePreviousEmailAndUsernamesFromKeyValueStorage() -> Bool {
+fileprivate extension SignUpViewModel {
+    func updatePreviousEmailAndUsernamesFromKeyValueStorage() -> Bool {
         guard let accountProviderString = keyValueStorage[.previousUserAccountProvider],
-            accountProvider = AccountProvider(rawValue: accountProviderString) else { return false }
+            let accountProvider = AccountProvider(rawValue: accountProviderString) else { return false }
 
         let username = keyValueStorage[.previousUserEmailOrName]
         updatePreviousEmailAndUsernames(accountProvider, username: username)
         return true
     }
 
-    private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, username: String?) {
+    func updatePreviousEmailAndUsernames(_ accountProvider: AccountProvider, username: String?) {
         switch accountProvider {
-        case .Email:
+        case .email:
             previousFacebookUsername.value = nil
             previousGoogleUsername.value = nil
-        case .Facebook:
+        case .facebook:
             previousFacebookUsername.value = username
             previousGoogleUsername.value = nil
-        case .Google:
+        case .google:
             previousFacebookUsername.value = nil
             previousGoogleUsername.value = username
         }
     }
 
-    private func savePreviousEmailOrUsername(accountProvider: AccountProvider, username: String?) {
+    func savePreviousEmailOrUsername(_ accountProvider: AccountProvider, username: String?) {
         keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
         keyValueStorage[.previousUserEmailOrName] = username
     }

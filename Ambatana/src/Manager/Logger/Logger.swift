@@ -8,65 +8,65 @@
 
 import CocoaLumberjack
 
-public struct AppLoggingOptions: OptionSetType, CustomStringConvertible {
-    public let rawValue : Int
+struct AppLoggingOptions: OptionSet, CustomStringConvertible {
+    let rawValue : Int
 
 
     // MARK: - CustomStringConvertible
 
-    public var description: String {
+    var description: String {
         var options: [String] = []
-        if contains(AppLoggingOptions.Navigation) {
+        if contains(AppLoggingOptions.navigation) {
             options.append("⛵️")
         }
-        if contains(AppLoggingOptions.Tracking) {
+        if contains(AppLoggingOptions.tracking) {
             options.append("🚜")
         }
-        if contains(AppLoggingOptions.DeepLink) {
+        if contains(AppLoggingOptions.deepLink) {
             options.append("🔗")
         }
-        if contains(AppLoggingOptions.Monetization) {
+        if contains(AppLoggingOptions.monetization) {
             options.append("💰")
         }
-        return options.joinWithSeparator("+")
+        return options.joined(separator: "+")
     }
 
 
     // MARK: - OptionSetType
 
-    public init(rawValue:Int) {
+    init(rawValue:Int) {
         self.rawValue = rawValue
     }
 
 
     // MARK: - Options
 
-    public static var None = AppLoggingOptions(rawValue: 0)
-    public static var Navigation = AppLoggingOptions(rawValue: 1)
-    public static var Tracking = AppLoggingOptions(rawValue: 2)
-    public static var DeepLink = AppLoggingOptions(rawValue: 4)
-    public static var Monetization = AppLoggingOptions(rawValue: 8)
+    static var none = AppLoggingOptions(rawValue: 0)
+    static var navigation = AppLoggingOptions(rawValue: 1)
+    static var tracking = AppLoggingOptions(rawValue: 2)
+    static var deepLink = AppLoggingOptions(rawValue: 4)
+    static var monetization = AppLoggingOptions(rawValue: 8)
 }
 
 enum LogLevel {
-    case Verbose, Debug, Info, Warning, Error
+    case verbose, debug, info, warning, error
 }
 
 
-func logMessage(level: LogLevel, type: AppLoggingOptions, message: String) {
+func logMessage(_ level: LogLevel, type: AppLoggingOptions, message: String) {
     guard Debug.loggingOptions.contains(type) else { return }
 
     let logText = "[\(type.description)] \(message)"
     switch level {
-    case .Verbose:
+    case .verbose:
         DDLogVerbose(logText)
-    case .Debug:
+    case .debug:
         DDLogDebug(logText)
-    case .Info:
+    case .info:
         DDLogInfo(logText)
-    case .Warning:
+    case .warning:
         DDLogWarn(logText)
-    case .Error:
+    case .error:
         DDLogError(logText)
     }
 }

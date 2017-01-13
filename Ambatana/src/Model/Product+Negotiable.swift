@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension Priceable {
     func priceString() -> String {
-        let priceValue = price.value ?? 0
+        let priceValue = price.value
         
         // TODO: Injected in priceString the FeatureFlags or a value to check if it is enabled.
         if FeatureFlags.sharedInstance.freePostingModeAllowed && price.free {

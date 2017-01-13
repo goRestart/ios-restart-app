@@ -13,37 +13,37 @@ struct LocalMessage: Message {
     let text: String
     let type: MessageType
     let userId: String
-    let createdAt: NSDate?
+    let createdAt: Date?
     let isRead: Bool
     let warningStatus: MessageWarningStatus
 
     init(sticker: Sticker, userId: String?) {
         self.objectId = NSDate().description
         self.text = sticker.name
-        self.type = .Sticker
+        self.type = .sticker
         self.userId = userId ?? ""
-        self.createdAt = NSDate()
+        self.createdAt = Date()
         self.isRead = false
-        self.warningStatus = .Normal
+        self.warningStatus = .normal
     }
 
     init(text: String, userId: String?) {
-        self.objectId = NSDate().description
+        self.objectId = Date().description
         self.text = text
-        self.type = .Text
+        self.type = .text
         self.userId = userId ?? ""
-        self.createdAt = NSDate()
+        self.createdAt = Date()
         self.isRead = false
-        self.warningStatus = .Normal
+        self.warningStatus = .normal
     }
 
     init(type: ChatWrapperMessageType, userId: String?) {
-        self.objectId = NSDate().description
+        self.objectId = Date().description
         self.text = type.text
         self.type = type.oldChatType
         self.userId = userId ?? ""
-        self.createdAt = NSDate()
+        self.createdAt = Date()
         self.isRead = false
-        self.warningStatus = .Normal
+        self.warningStatus = .normal
     }
 }

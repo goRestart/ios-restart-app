@@ -15,17 +15,15 @@ public let Core: DI = {
 
 public class LGCoreKit {
 
-    public static var loggingOptions = CoreLoggingOptions.None
+    public static var loggingOptions = CoreLoggingOptions.none
     public static var activateWebsocket = false
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
 
-
-
-    public static func initialize(launchOptions: [NSObject: AnyObject]?) {
-        initialize(launchOptions, environmentType: .Production)
+    public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+        initialize(launchOptions, environmentType: .production)
     }
 
-    public static func initialize(launchOptions: [NSObject: AnyObject]?, environmentType: EnvironmentType) {
+    public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?, environmentType: EnvironmentType) {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentType)
 
         // Managers setup
@@ -37,7 +35,7 @@ public class LGCoreKit {
         InternalCore.internalCommercializerRepository.indexTemplates(nil)
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
-        InternalCore.stickersRepository.show(nil) // Sync stickers to NSUserDefaults
+        InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
     }
     
     public static func applicationWillEnterForeground() {
@@ -55,7 +53,7 @@ public class LGCoreKit {
         InternalCore.internalSessionManager.applicationDidEnterBackground()
     }
 
-    static func setupAfterLoggedIn(completion: (() -> ())?) {
+    static func setupAfterLoggedIn(_ completion: (() -> ())?) {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else {
             completion?()
             return

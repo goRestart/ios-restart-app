@@ -12,22 +12,22 @@ enum StickersRouter: URLRequestAuthenticable {
     
     static let stickersEndpoint = "/api/stickers"
     
-    case Show(locale: String)
+    case show(locale: String)
     
     var endpoint: String {
         return StickersRouter.stickersEndpoint
     }
     
     var requiredAuthLevel: AuthLevel {
-        return .Nonexistent
+        return .nonexistent
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
     
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case .Show(let locale):
-            return Router<APIBaseURL>.Show(endpoint: endpoint, objectId: locale).URLRequest
+        case .show(let locale):
+            return try Router<APIBaseURL>.show(endpoint: endpoint, objectId: locale).asURLRequest()
         }
     }
 }

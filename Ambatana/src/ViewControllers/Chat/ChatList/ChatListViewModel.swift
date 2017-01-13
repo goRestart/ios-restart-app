@@ -10,10 +10,10 @@ import LGCoreKit
 
 protocol ChatListViewModelDelegate: class {
     func vmDeleteSelectedChats()
-    func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel)
-    func chatListViewModelDidSucceedArchivingChats(viewModel: ChatListViewModel)
-    func chatListViewModelDidFailUnarchivingChats(viewModel: ChatListViewModel)
-    func chatListViewModelDidSucceedUnarchivingChats(viewModel: ChatListViewModel)
+    func chatListViewModelDidFailArchivingChats(_ viewModel: ChatListViewModel)
+    func chatListViewModelDidSucceedArchivingChats(_ viewModel: ChatListViewModel)
+    func chatListViewModelDidFailUnarchivingChats(_ viewModel: ChatListViewModel)
+    func chatListViewModelDidSucceedUnarchivingChats(_ viewModel: ChatListViewModel)
 }
 
 protocol ChatListViewModel: class, ChatGroupedListViewModel {
@@ -24,14 +24,14 @@ protocol ChatListViewModel: class, ChatGroupedListViewModel {
 
     var hasMessagesToRead: Bool { get }
 
-    func deleteConfirmationTitle(itemCount: Int) -> String
-    func deleteConfirmationMessage(itemCount: Int) -> String
+    func deleteConfirmationTitle(_ itemCount: Int) -> String
+    func deleteConfirmationMessage(_ itemCount: Int) -> String
     func deleteConfirmationCancelTitle() -> String
     func deleteConfirmationSendButton() -> String
 
-    func deleteChatsAtIndexes(indexes: [Int])
+    func deleteChatsAtIndexes(_ indexes: [Int])
     func deleteButtonPressed()
 
-    func conversationDataAtIndex(index: Int) -> ConversationCellData?
-    func conversationSelectedAtIndex(index: Int)
+    func conversationDataAtIndex(_ index: Int) -> ConversationCellData?
+    func conversationSelectedAtIndex(_ index: Int)
 }

@@ -11,8 +11,8 @@ import Foundation
 import LGCoreKit
 
 class GoogleLoginHelper: NSObject {
-    private var googleSignInCompletion: ExternalAuthTokenRetrievalCompletion?
-    private let sessionManager: SessionManager
+    fileprivate var googleSignInCompletion: ExternalAuthTokenRetrievalCompletion?
+    fileprivate let sessionManager: SessionManager
     
     
     // MARK: - Lifecycle
@@ -31,7 +31,7 @@ class GoogleLoginHelper: NSObject {
 // MARK: - Public methods
 
 extension GoogleLoginHelper {
-    func googleSignIn(googleSignInCompletion: ExternalAuthTokenRetrievalCompletion) {
+    func googleSignIn(_ googleSignInCompletion: @escaping ExternalAuthTokenRetrievalCompletion) {
         self.googleSignInCompletion = googleSignInCompletion
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().signOut()
@@ -47,17 +47,17 @@ extension GoogleLoginHelper {
 // MARK: - GIDSignInDelegate
 
 extension GoogleLoginHelper: GIDSignInDelegate {
-    @objc func signIn(signIn: GIDSignIn!, didDisconnectWithUser user: GIDGoogleUser!, withError error: NSError!) {
+    @objc func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error?) {
         // Needs to be implemented by the protocol
     }
 
-    @objc func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
+    @objc func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         if let serverAuthCode = user?.serverAuthCode {
-            googleSignInCompletion?(.Success(serverAuthCode:serverAuthCode))
-        } else if let loginError = error where loginError.code == -5 {
-            googleSignInCompletion?(.Cancelled)
+            googleSignInCompletion?(.success(serverAuthCode:serverAuthCode))
+        } else if let loginError = error as? NSError, loginError.code == -5 {
+            googleSignInCompletion?(.cancelled)
         } else {
-            googleSignInCompletion?(.Error(error: error))
+            googleSignInCompletion?(.error(error: error))
         }
     }
 }
@@ -65,22 +65,22 @@ extension GoogleLoginHelper: GIDSignInDelegate {
 // MARK: - ExternalAuthHelper
 
 extension GoogleLoginHelper: ExternalAuthHelper {
-    func login(authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?) {
+    func login(_ authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?) {
         googleSignIn { [weak self] result in
             switch result {
-            case let .Success(serverAuthCode):
+            case let .success(serverAuthCode):
                 authCompletion?()
                 self?.sessionManager.loginGoogle(serverAuthCode) { result in
                     if let myUser = result.value {
-                        loginCompletion?(.Success(myUser: myUser))
+                        loginCompletion?(.success(myUser: myUser))
                     } else if let error = result.error {
                         loginCompletion?(ExternalServiceAuthResult(sessionError: error))
                     }
                 }
-            case .Cancelled:
-                loginCompletion?(.Cancelled)
-            case .Error:
-                loginCompletion?(.Internal(description: "Google SDK error"))
+            case .cancelled:
+                loginCompletion?(.cancelled)
+            case .error:
+                loginCompletion?(.internalError(description: "Google SDK error"))
             }
         }
     }

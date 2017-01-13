@@ -11,18 +11,18 @@ import LGCoreKit
 extension SessionEvent {
     var isLogin: Bool {
         switch self {
-        case .Login:
+        case .login:
             return true
-        case .Logout:
+        case .logout:
             return false
         }
     }
 
     var isLogout: Bool {
         switch self {
-        case .Login:
+        case .login:
             return false
-        case .Logout:
+        case .logout:
             return true
         }
     }

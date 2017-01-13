@@ -10,16 +10,16 @@ import Foundation
 import LGCoreKit
 import Result
 
-public typealias ChatWrapperResult = Result<Bool, RepositoryError>
-public typealias ChatWrapperCompletion = ChatWrapperResult -> Void
+typealias ChatWrapperResult = Result<Bool, RepositoryError>
+typealias ChatWrapperCompletion = (ChatWrapperResult) -> Void
 
 enum ChatWrapperMessageType {
-    case Text(String)
-    case PeriscopeDirect(String)
-    case ChatSticker(Sticker)
-    case QuickAnswer(String)
-    case ExpressChat(String)
-    case FavoritedProduct(String)
+    case text(String)
+    case periscopeDirect(String)
+    case chatSticker(Sticker)
+    case quickAnswer(String)
+    case expressChat(String)
+    case favoritedProduct(String)
 }
 
 class ChatWrapper {
@@ -43,7 +43,7 @@ class ChatWrapper {
     }
 
 
-    func sendMessageForProduct(product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
+    func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
         if featureFlags.websocketChat {
             sendWebSocketChatMessage(product, text: type.text, type: type.chatType, completion: completion)
         } else {
@@ -51,9 +51,9 @@ class ChatWrapper {
         }
     }
 
-    private func sendOldChatMessage(product: Product, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
+    private func sendOldChatMessage(_ product: Product, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
         guard let text = text else {
-            completion?(Result(error: .Internal(message: "There's no message to send")))
+            completion?(Result(error: .internalError(message: "There's no message to send")))
             return
         }
         oldChatRepository.sendMessage(type, message: text, product: product, recipient: product.user) { result in
@@ -66,32 +66,32 @@ class ChatWrapper {
         }
     }
 
-    private func sendWebSocketChatMessage(product: Product, text: String, type: ChatMessageType,
+    private func sendWebSocketChatMessage(_ product: Product, text: String, type: ChatMessageType,
                                           completion: ChatWrapperCompletion?) {
         // get conversation
         guard let sellerId = product.user.objectId else {
-            completion?(Result(error: .Internal(message: "There's no recipient to send the message")))
+            completion?(Result(error: .internalError(message: "There's no recipient to send the message")))
             return
         }
         guard let productId = product.objectId else {
-            completion?(Result(error: .Internal(message: "There's no product to send the message")))
+            completion?(Result(error: .internalError(message: "There's no product to send the message")))
             return
         }
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 guard let conversationId = value.objectId else {
-                    completion?(Result(error: .Internal(message: "There's no conversation info")))
+                    completion?(Result(error: .internalError(message: "There's no conversation info")))
                     return
                 }
                 guard let userId = self?.myUserRepository.myUser?.objectId else {
-                    completion?(Result(error: .Internal(message: "There's no myUser info")))
+                    completion?(Result(error: .internalError(message: "There's no myUser info")))
                     return
                 }
 
                 let message = self?.chatRepository.createNewMessage(userId, text: text, type: type)
 
                 guard let messageId = message?.objectId else {
-                    completion?(Result(error: .Internal(message: "There's no message info")))
+                    completion?(Result(error: .internalError(message: "There's no message info")))
                     return
                 }
                 let shouldSendFirstMessageEvent = value.lastMessageSentAt == nil
@@ -112,63 +112,63 @@ class ChatWrapper {
 extension ChatWrapperMessageType {
     var text: String {
         switch self {
-        case let .Text(text):
+        case let .text(text):
             return text
-        case let .ChatSticker(sticker):
+        case let .chatSticker(sticker):
             return sticker.name
-        case let .QuickAnswer(text):
+        case let .quickAnswer(text):
             return text
-        case let .ExpressChat(text):
+        case let .expressChat(text):
             return text
-        case let .FavoritedProduct(text):
+        case let .favoritedProduct(text):
             return text
-        case let .PeriscopeDirect(text):
+        case let .periscopeDirect(text):
             return text
         }
     }
 
     var oldChatType: MessageType {
         switch self {
-        case .Text:
-            return .Text
-        case .ChatSticker:
-            return .Sticker
-        case .QuickAnswer, .ExpressChat, .FavoritedProduct, .PeriscopeDirect: // Legacy chat doesn't use this types
-            return .Text
+        case .text:
+            return .text
+        case .chatSticker:
+            return .sticker
+        case .quickAnswer, .expressChat, .favoritedProduct, .periscopeDirect: // Legacy chat doesn't use this types
+            return .text
         }
     }
 
     var chatType: ChatMessageType {
         switch self {
-        case .Text:
-            return .Text
-        case .PeriscopeDirect:
-            return .Text
-        case .ChatSticker:
-            return .Sticker
-        case .QuickAnswer:
-            return .QuickAnswer
-        case .ExpressChat:
-            return .ExpressChat
-        case .FavoritedProduct:
-            return .FavoritedProduct
+        case .text:
+            return .text
+        case .periscopeDirect:
+            return .text
+        case .chatSticker:
+            return .sticker
+        case .quickAnswer:
+            return .quickAnswer
+        case .expressChat:
+            return .expressChat
+        case .favoritedProduct:
+            return .favoritedProduct
         }
     }
     
     var chatTrackerType: EventParameterMessageType {
         switch self {
-        case .Text:
-            return .Text
-        case .ChatSticker:
-            return .Sticker
-        case .QuickAnswer:
-            return .QuickAnswer
-        case .ExpressChat:
-            return .ExpressChat
-        case .FavoritedProduct:
-            return .Favorite
-        case .PeriscopeDirect:
-            return .PeriscopeDirect
+        case .text:
+            return .text
+        case .chatSticker:
+            return .sticker
+        case .quickAnswer:
+            return .quickAnswer
+        case .expressChat:
+            return .expressChat
+        case .favoritedProduct:
+            return .favorite
+        case .periscopeDirect:
+            return .periscopeDirect
         }
     }
 }

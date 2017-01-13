@@ -9,31 +9,31 @@
 import LGCoreKit
 
 enum ChatViewMessageType {
-    case Text(text: String)
-    case Offer(text: String)
-    case Sticker(url: String)
-    case Disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
-    case UserInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
+    case text(text: String)
+    case offer(text: String)
+    case sticker(url: String)
+    case disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
+    case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
 }
 
 enum ChatViewMessageWarningStatus: String {
-    case Normal
-    case Spam
+    case normal
+    case spam
     
     init(status: MessageWarningStatus) {
         switch status {
-        case .Normal:
-            self = .Normal
-        case .Suspicious:
-            self = .Spam
+        case .normal:
+            self = .normal
+        case .suspicious:
+            self = .spam
         }
     }
     
     init(status: [ChatMessageWarning]) {
-        if status.contains(.Spam) {
-            self = .Spam
+        if status.contains(.spam) {
+            self = .spam
         } else {
-            self = .Normal
+            self = .normal
         }
     }
 }
@@ -41,33 +41,33 @@ enum ChatViewMessageWarningStatus: String {
 struct ChatViewMessage: BaseModel {
     var objectId: String?
     var talkerId: String
-    var sentAt: NSDate?
-    var receivedAt: NSDate?
-    var readAt: NSDate?
+    var sentAt: Date?
+    var receivedAt: Date?
+    var readAt: Date?
     var type: ChatViewMessageType
     var status: ChatMessageStatus?
     var warningStatus: ChatViewMessageWarningStatus
 
     var copyEnabled: Bool {
         switch type {
-        case .Text, .Offer:
+        case .text, .offer:
             return true
-        case .Sticker, .Disclaimer, .UserInfo:
+        case .sticker, .disclaimer, .userInfo:
             return false
         }
     }
 
     var value: String {
         switch type {
-        case .Offer(let text):
+        case .offer(let text):
             return text
-        case .Text(let text):
+        case .text(let text):
             return text
-        case .Sticker(let url):
+        case .sticker(let url):
             return url
-        case .Disclaimer(_, let text, _, _):
+        case .disclaimer(_, let text, _, _):
             return text.string
-        case .UserInfo(let name, _, _, _, _):
+        case .userInfo(let name, _, _, _, _):
             return name
         }
     }
@@ -75,19 +75,19 @@ struct ChatViewMessage: BaseModel {
 
 extension ChatViewMessage {
     func markAsSent() -> ChatViewMessage {
-        return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt ?? NSDate(),
-                               receivedAt: receivedAt, readAt: readAt, type: type, status: .Sent,
+        return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt ?? Date(),
+                               receivedAt: receivedAt, readAt: readAt, type: type, status: .sent,
                                warningStatus: warningStatus)
     }
     
     func markAsReceived() -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
-                               receivedAt: receivedAt ?? NSDate(), readAt: readAt, type: type, status: .Received,
+                               receivedAt: receivedAt ?? Date(), readAt: readAt, type: type, status: .received,
                                warningStatus: warningStatus)
     }
     
     func markAsRead() -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt, receivedAt: receivedAt,
-                               readAt: readAt ?? NSDate(), type: type, status: .Read, warningStatus: warningStatus)
+                               readAt: readAt ?? Date(), type: type, status: .read, warningStatus: warningStatus)
     }
 }

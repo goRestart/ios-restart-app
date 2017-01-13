@@ -11,6 +11,6 @@ import RxSwift
 protocol MyUserDAO: class {
     var myUser: MyUser? { get }
     var rx_myUser: Observable<MyUser?> { get }
-    func save(newMyUser: MyUser)
+    func save(_ newMyUser: MyUser)
     func delete()
 }

@@ -15,10 +15,10 @@ class RecaptchaViewController: BaseViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var closeButton: UIButton!
 
-    private let viewModel: RecaptchaViewModel
+    fileprivate let viewModel: RecaptchaViewModel
     private let backgroundImage: UIImage?
 
-    private var currentURL: NSURL?
+    fileprivate var currentURL: URL?
 
     init(viewModel: RecaptchaViewModel, backgroundImage: UIImage?) {
         self.viewModel = viewModel
@@ -42,7 +42,7 @@ class RecaptchaViewController: BaseViewController {
         }
     }
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeButtonPressed()
     }
 
@@ -52,14 +52,14 @@ class RecaptchaViewController: BaseViewController {
     private func setupUI() {
         bgImageView.image = backgroundImage
         let isTransparentMode = backgroundImage != nil
-        bgOverlayView.hidden = !isTransparentMode
+        bgOverlayView.isHidden = !isTransparentMode
         let closeButtonImageName = isTransparentMode ? "ic_close" : "ic_close_red"
-        closeButton.setImage(UIImage(named: closeButtonImageName), forState: .Normal)
+        closeButton.setImage(UIImage(named: closeButtonImageName), for: .normal)
     }
 
-    private func loadUrl(url: NSURL) {
+    private func loadUrl(_ url: URL) {
         activityIndicator.startAnimating()
-        let request = NSURLRequest(URL: url)
+        let request = URLRequest(url: url)
         webView.loadRequest(request)
     }
 }
@@ -69,16 +69,16 @@ class RecaptchaViewController: BaseViewController {
 
 extension RecaptchaViewController: UIWebViewDelegate {
 
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest,
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest,
                  navigationType: UIWebViewNavigationType) -> Bool {
-        currentURL = request.URL
+        currentURL = request.url
         if let url = currentURL {
             viewModel.startedLoadingURL(url)
         }
         return true
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         activityIndicator.stopAnimating()
 
         if let url = currentURL {
@@ -90,10 +90,10 @@ extension RecaptchaViewController: UIWebViewDelegate {
 
 // MARK: - Accesibility ids
 
-extension RecaptchaViewController {
-    private func setAccesibilityIds() {
-        closeButton.accessibilityId = .RecaptchaCloseButton
-        activityIndicator.accessibilityId = .RecaptchaLoading
-        webView.accessibilityId = .RecaptchaWebView
+fileprivate extension RecaptchaViewController {
+    func setAccesibilityIds() {
+        closeButton.accessibilityId = .recaptchaCloseButton
+        activityIndicator.accessibilityId = .recaptchaLoading
+        webView.accessibilityId = .recaptchaWebView
     }
 }

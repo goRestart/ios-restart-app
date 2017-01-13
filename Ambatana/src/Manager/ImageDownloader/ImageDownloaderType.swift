@@ -10,20 +10,25 @@ import Result
 import AlamofireImage
 
 typealias ImageWithSource = (image: UIImage, cached: Bool)
-typealias ImageDownloadResult = Result<ImageWithSource, NSError>
-typealias ImageDownloadCompletion = (result: ImageDownloadResult, url: NSURL) -> Void
+typealias ImageDownloadResult = Result<ImageWithSource, ImageDownloadError>
+typealias ImageDownloadCompletion = (_ result: ImageDownloadResult, _ url: URL) -> Void
+
+enum ImageDownloadError: Error {
+    case downloaderError(error: Error)
+    case unknown
+}
 
 protocol ImageDownloaderType {
-    func setImageView(imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
+    func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?)
-    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion?) -> RequestReceipt?
-    func downloadImagesWithURLs(urls: [NSURL])
-    func cachedImageForUrl(url: NSURL) -> UIImage?
-    func cancelImageDownloading(receipt: RequestReceipt)
+    @discardableResult func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion?) -> RequestReceipt?
+    func downloadImagesWithURLs(_ urls: [URL])
+    func cachedImageForUrl(_ url: URL) -> UIImage?
+    func cancelImageDownloading(_ receipt: RequestReceipt)
 }
 
 extension ImageDownloaderType {
-    func downloadImagesWithURLs(urls: [NSURL]) {
+    func downloadImagesWithURLs(_ urls: [URL]) {
         urls.forEach { downloadImageWithURL($0, completion: nil) }
     }
 }

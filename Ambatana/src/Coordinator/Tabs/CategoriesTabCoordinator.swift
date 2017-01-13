@@ -33,7 +33,7 @@ final class CategoriesTabCoordinator: MainTabCoordinator {
     }
 
     // Note: override in subclasses
-    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+    override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainProductsViewController)
     }
 }

@@ -5,7 +5,7 @@
 "app_notification_reply" = "Svara";
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
-"app_share_error" = "Ett fel inträffade när appen skulle delas. Vänligen försök igen senare.";
+"app_share_error" = "Ett fel inträffade när appen skulle delas. Vänligen försök igen.";
 "app_share_fbmessenger_button" = "Bjud in via Messenger";
 "app_share_invite_text" = "Bjud in";
 "app_share_message_text" = "Kolla in appen letgo och tjäna pengar på att sälja prylar du inte längre använder!";
@@ -57,14 +57,14 @@
 "change_password_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
 "change_password_send_error_link_expired" = "Tyvärr, denna länk har upphört!";
 "change_password_send_error_passwords_mismatch" = "Lösenorden matchar inte. Var god försök igen.";
-"change_password_send_ok" = "Lösenordet har ändrats.";
+"change_password_send_ok" = "Lösenordet har ändrats!";
 "change_password_title" = "Ändra lösenord";
 "change_username_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken.";
 "change_username_error_invalid_username_letgo" = "Ett annat konto använder %@.";
 "change_username_field_hint" = "Fullständigt namn";
 "change_username_loading" = "Sparar ditt användarnamn...";
 "change_username_save_button" = "Spara";
-"change_username_send_ok" = "Användarnamn bytt!";
+"change_username_send_ok" = "Användarnamnet har bytts!";
 "change_username_title" = "Byt namn";
 "chat_account_deleted_w_name" = "%@s konto har avslutats";
 "chat_account_deleted_wo_name" = "Kontot har avslutats";
@@ -131,7 +131,7 @@
 "chat_login_popup_text" = "För att börja chatta, måste du logga in";
 "chat_message_disclaimer_scammer" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. Klicka här för att läsa våra %@.";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
-"chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
+"chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök igen.";
 "chat_not_verified_alert_message" = "Anslut med Facebook, Google eller din e-postadress för att verifiera din identitet.";
 "chat_not_verified_state_check_button" = "Kolla";
 "chat_not_verified_state_message" = "Kolla om du är verifierad för att kunna börja chatta.";
@@ -423,7 +423,7 @@
 "product_delete_post_button_title" = "Lägg upp en sak till";
 "product_delete_post_subtitle" = "Försök lägga upp något annat och börja tjäna pengar.";
 "product_delete_post_title" = "INGEN TUR DEN HÄR GÅNGEN?";
-"product_delete_send_error_generic" = "Hoppsan! Vi kunde inte ta bort din produkt, var god försök igen.";
+"product_delete_send_error_generic" = "Hoppsan! Vi kunde inte ta bort din produkt. Var god försök igen.";
 "product_delete_sold_confirm_message" = "Är du säker på att du vill ta bort denna produkt?";
 "product_delete_success_message" = "Din produkt har tagits bort.";
 "product_distance_X_from_you" = "%@ från dig";
@@ -450,7 +450,7 @@
 "product_mark_as_sold_free_confirm_message" = "Markera din vara som redan bortskänkt";
 "product_mark_as_sold_free_confirm_ok_button" = "Markera";
 "product_mark_as_sold_free_confirm_title" = "Markera den som bortskänkt";
-"product_mark_as_sold_free_success_message" = "Grattis! Din produkt har märkts som bortskänkt";
+"product_mark_as_sold_free_success_message" = "Grattis! Din produkt har märkts som bortskänkt.";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
 "product_more_info_open_button" = "MER INFO";
 "product_more_info_related_title" = "DU KANSKE ÄR INTRESSERAD AV:";
@@ -524,7 +524,7 @@
 "product_report_confirm_message" = "Är du säker på att du vill rapportera denna produkt?";
 "product_report_confirm_title" = "Rapporterar produkt";
 "product_report_product_button" = "Rapporterar produkt";
-"product_reported_error_generic" = "Vi kunde tyvärr inte rapportera produkten just nu. Var vänlig försök igen senare.";
+"product_reported_error_generic" = "Vi kunde tyvärr inte rapportera produkten just nu. Var vänlig försök igen.";
 "product_reported_success_message" = "Denna produkt har rapporterats. Tack!";
 "product_reporting_loading_message" = "Rapporterar produkt...";
 "product_search_no_products_body" = "Försök att söka efter något annat eller kom tillbaka och kolla snart igen!";
@@ -551,7 +551,7 @@
 "product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
 "product_share_fullscreen_subtitle" = "Visste du att det är 100% mer troligt att de som delar sina produkter är superbra?";
 "product_share_fullscreen_title" = "ATT DELA ÄR ATT VINNA!";
-"product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
+"product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen.";
 "product_share_generic_ok" = "Produkten har delats!";
 "product_share_navbar_button" = "Dela";
 "product_share_posted_by" = "upplagd av %@";
@@ -651,7 +651,7 @@
 "sell_picture_label" = "Bild";
 "sell_picture_save_into_camera_roll_error_generic" = "Ett fel uppstod vid sparning av din bild till biblioteket. Var god se till att letgo har tillgång till dina bilder i inställningar i din iPhone.";
 "sell_picture_save_into_camera_roll_loading" = "Sparar bild i bildbibliotek...";
-"sell_picture_save_into_camera_roll_ok" = "Sparade bilder till bibliotek.";
+"sell_picture_save_into_camera_roll_ok" = "Bild sparad till bildsamling.";
 "sell_picture_selected_cancel_button" = "Avbryt";
 "sell_picture_selected_delete_button" = "Ta bort";
 "sell_picture_selected_save_into_camera_roll_button" = "Spara till hårddisk";
@@ -664,7 +664,7 @@
 "sell_send_error_invalid_image_count" = "Minst en bild krävs för att sälja en produkt.";
 "sell_send_error_invalid_price" = "Var god ange ett giltigt pris för produkten. Endast siffror.";
 "sell_send_error_invalid_title" = "Vad god ange en giltig titel för produkten.";
-"sell_send_error_sharing_facebook" = "Ett fel uppstod vid delning till Facebook. Var god försök igen senare.";
+"sell_send_error_sharing_facebook" = "Ett fel uppstod vid delning till Facebook. Var god försök igen.";
 "sell_share_fb_content" = "Kolla vad jag säljer på letgo!";
 "sell_share_on_facebook_label" = "Dela på Facebook";
 "sell_title_autogen_autotrans_label" = "Titel föreslagen av letgo och översatt av Google";
@@ -681,7 +681,7 @@
 "settings_help_button" = "Hjälp";
 "settings_invite_facebook_friends_button" = "Bjud in dina vänner på Facebook";
 "settings_invite_facebook_friends_error" = "Ett fel uppstod då din inbjudan skickades.";
-"settings_invite_facebook_friends_ok" = "Din inbjudan skickades!";
+"settings_invite_facebook_friends_ok" = "Din inbjudan har skickats!";
 "settings_logout_alert_message" = "Är du säker på att du vill logga ut?";
 "settings_logout_alert_ok" = "Logga ut";
 "settings_logout_button" = "Logga ut";
@@ -732,7 +732,7 @@
 "user_rating_review_placeholder_optional" = "Skriv om din upplevelse (valfritt)";
 "user_rating_review_send_success" = "Ditt omdöme har publicerats!";
 "user_rating_title" = "Bedöm din upplevelse med";
-"user_share_error" = "Ett fel inträffade när profilen skulle delas. Vänligen försök igen senare.";
+"user_share_error" = "Ett fel inträffade när profilen skulle delas. Vänligen försök igen.";
 "user_share_message_mine" = "Titta på allt som jag säljer på letgo:";
 "user_share_message_other" = "Titta på allt den här säljaren har på letgo:";
 "user_share_message_other_w_name" = "Titta på allt %@ säljer på letgo!";

@@ -68,7 +68,7 @@ final public class LGLocationCoordinates2D: Equatable {
         return coordinate
     }
 
-    private func toBinary(value: Double, zoomLevel: Int) -> String {
+    private func toBinary(_ value: Double, zoomLevel: Int) -> String {
 
         var modValue = value
         var finalString = ""
@@ -85,7 +85,7 @@ final public class LGLocationCoordinates2D: Equatable {
         return finalString
     }
 
-    private func getCharAtIndexOrZero(value: String, index: Int) -> Int {
+    private func getCharAtIndexOrZero(_ value: String, index: Int) -> Int {
 
         if !value.isEmpty && index < value.characters.count {
 
@@ -99,7 +99,7 @@ final public class LGLocationCoordinates2D: Equatable {
         return 0
     }
 
-    private func binValuesToQuadKey(latBin: String, longBin: String) -> String {
+    private func binValuesToQuadKey(_ latBin: String, longBin: String) -> String {
 
         if latBin.isEmpty || longBin.isEmpty {
             return ""
@@ -118,7 +118,7 @@ final public class LGLocationCoordinates2D: Equatable {
         return finalString
     }
 
-    public func coordsToQuadKey(zoomLevel: Int) -> String {
+    public func coordsToQuadKey(_ zoomLevel: Int) -> String {
 
         let π = M_PI
 
@@ -132,7 +132,7 @@ final public class LGLocationCoordinates2D: Equatable {
         return binValuesToQuadKey(latBin, longBin: longBin)
     }
 
-    private func quadkeyToBinValues(quadKey: String) -> (String,String) {
+    private func quadkeyToBinValues(_ quadKey: String) -> (String,String) {
 
         var latBin = ""
         var lonBin = ""
@@ -145,13 +145,13 @@ final public class LGLocationCoordinates2D: Equatable {
         return (latBin,lonBin)
     }
 
-    private func valueFromBinary(value: String) -> Double {
+    private func valueFromBinary(_ value: String) -> Double {
         let oneVal = value + "1"
         let decimal = strtoul(oneVal, nil, 2)
         return Double(decimal) / pow(2.0, Double(oneVal.characters.count))
     }
 
-    private func coordinatesFromDecimalValues(latDec: Double,_ longDec: Double) -> (Double, Double) {
+    private func coordinatesFromDecimalValues(_ latDec: Double,_ longDec: Double) -> (Double, Double) {
         let π = M_PI
 
         let exponent = exp((0.5 - latDec) * 4 * π)
@@ -165,13 +165,13 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 }
 
 @objc public enum DistanceType: Int, CustomStringConvertible {
-    case Mi, Km
+    case mi, km
     public var string: String {
         get {
             switch self {
-            case .Mi:
+            case .mi:
                 return "mi" //"ML"
-            case .Km:
+            case .km:
                 return "km" //"KM"
             }
         }
@@ -182,21 +182,21 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 
 // @see: https://ambatana.atlassian.net/wiki/display/BAPI/IDs+reference
 @objc public enum ProductStatus: Int, CustomStringConvertible {
-    case Pending = 0, Approved = 1, Discarded = 2, Sold = 3, SoldOld = 5, Deleted = 6
+    case pending = 0, approved = 1, discarded = 2, sold = 3, soldOld = 5, deleted = 6
     public var string: String {
         get {
             switch self {
-            case .Pending:
+            case .pending:
                 return "Pending"
-            case .Approved:
+            case .approved:
                 return "Approved"
-            case .Discarded:
+            case .discarded:
                 return "Discarded"
-            case .Sold:
+            case .sold:
                 return "Sold"
-            case .SoldOld:
+            case .soldOld:
                 return "Sold Old"
-            case .Deleted:
+            case .deleted:
                 return "Deleted"
             }
         }

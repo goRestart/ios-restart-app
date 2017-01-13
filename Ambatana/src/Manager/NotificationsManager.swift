@@ -35,16 +35,16 @@ class NotificationsManager {
         })
     }
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     private let sessionManager: SessionManager
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
     private let notificationsRepository: NotificationsRepository
-    private let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable
 
-    private var loggedIn: Variable<Bool>
+    fileprivate var loggedIn: Variable<Bool>
     private var requestingChat = false
     private var requestingNotifications = false
 
@@ -71,12 +71,12 @@ class NotificationsManager {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     func setup() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground),
-                                                         name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground),
+                                                         name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         setupRxBindings()
         updateCounters()
         setupMarketingNotifications()
@@ -97,7 +97,8 @@ class NotificationsManager {
     }
     
     func requestFavoriteCounter() {
-        favoriteCount.value = keyValueStorage.productsMarkAsFavorite > 0 ? 1 : nil
+        let value = keyValueStorage.productsMarkAsFavorite ?? 0
+        favoriteCount.value = value > 0 ? 1 : nil
     }
     
     
@@ -132,9 +133,9 @@ class NotificationsManager {
     private func setupRxBindings() {
         sessionManager.sessionEvents.bindNext { [weak self] event in
             switch event {
-            case .Login:
+            case .login:
                 self?.updateCounters()
-            case .Logout:
+            case .logout:
                 self?.unreadMessagesCount.value = 0
                 self?.unreadNotificationsCount.value = 0
             }
@@ -144,13 +145,13 @@ class NotificationsManager {
 
         globalCount.bindNext { count in
             guard let count = count else { return }
-            UIApplication.sharedApplication().applicationIconBadgeNumber = count
+            UIApplication.shared.applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
 
         if featureFlags.websocketChat {
             chatRepository.chatEvents.filter { event in
                 switch event.type {
-                case .InterlocutorMessageSent:
+                case .interlocutorMessageSent:
                     return true
                 default:
                     return false
@@ -202,7 +203,7 @@ class NotificationsManager {
 
 // MARK: - MarketingNotifications {
 
-private extension NotificationsManager {
+fileprivate extension NotificationsManager {
     func setupMarketingNotifications() {
         marketingNotifications.asObservable().skip(1).bindNext { [weak self] value in
             self?.keyValueStorage.userMarketingNotifications = value
@@ -218,7 +219,7 @@ private extension NotificationsManager {
 
 // MARK: - UnreadNotificationsCounts
 
-private extension UnreadNotificationsCounts {
+fileprivate extension UnreadNotificationsCounts {
     var totalVisibleCount: Int {
         if FeatureFlags.sharedInstance.userReviews {
             return productLike + productSold + review + reviewUpdated

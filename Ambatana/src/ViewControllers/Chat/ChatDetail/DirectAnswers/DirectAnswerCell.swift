@@ -16,21 +16,21 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     
     private static let cellHeight: CGFloat = 32
 
-    static func sizeForDirectAnswer(answer: DirectAnswer) -> CGSize {
-        let constraintRect = CGSize(width: CGFloat.max, height: DirectAnswerCell.cellHeight)
-        let boundingBox = answer.text.boundingRectWithSize(constraintRect,
-            options: NSStringDrawingOptions.UsesFontLeading,
+    static func sizeForDirectAnswer(_ answer: DirectAnswer) -> CGSize {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)
+        let boundingBox = answer.text.boundingRect(with: constraintRect,
+            options: NSStringDrawingOptions.usesFontLeading,
             attributes: [NSFontAttributeName: UIFont.mediumBodyFont], context: nil)
         return CGSize(width: boundingBox.width+20, height: DirectAnswerCell.cellHeight)
     }
 
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
             refreshBckgState()
         }
     }
 
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             refreshBckgState()
         }
@@ -53,7 +53,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public methods
 
-    func setupWithDirectAnswer(answer: DirectAnswer) {
+    func setupWithDirectAnswer(_ answer: DirectAnswer) {
         cellText.text = answer.text
     }
 
@@ -62,8 +62,8 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     private func setupUI() {
         contentView.layer.cornerRadius = DirectAnswerCell.cellHeight/2
-        contentView.layer.backgroundColor = UIColor.primaryColor.CGColor
-        cellText.textColor = UIColor.whiteColor()
+        contentView.layer.backgroundColor = UIColor.primaryColor.cgColor
+        cellText.textColor = UIColor.white
     }
 
     private func resetUI() {
@@ -71,8 +71,8 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     }
 
     private func refreshBckgState() {
-        let highlighedState = self.highlighted || self.selected
-        contentView.layer.backgroundColor = highlighedState ? UIColor.primaryColorHighlighted.CGColor :
-            UIColor.primaryColor.CGColor
+        let highlighedState = self.isHighlighted || self.isSelected
+        contentView.layer.backgroundColor = highlighedState ? UIColor.primaryColorHighlighted.cgColor :
+            UIColor.primaryColor.cgColor
     }
 }

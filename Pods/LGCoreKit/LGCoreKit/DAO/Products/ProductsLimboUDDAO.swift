@@ -9,16 +9,16 @@
 class ProductsLimboUDDAO {
     static let ProductsLimboMainKey = "ProductsLimbo"
 
-    private let userDefaults: NSUserDefaults
-    private var productsIdsSet: Set<String>
+    fileprivate let userDefaults: UserDefaults
+    fileprivate var productsIdsSet: Set<String>
 
 
     convenience init() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         self.init(userDefaults: userDefaults)
     }
 
-    init(userDefaults: NSUserDefaults) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
         self.productsIdsSet = ProductsLimboUDDAO.fetch(userDefaults)
     }
@@ -32,21 +32,21 @@ extension ProductsLimboUDDAO: ProductsLimboDAO {
         return Array(productsIdsSet)
     }
 
-    func save(product: Product) {
+    func save(_ product: Product) {
         guard let productId = product.objectId else { return }
 
         productsIdsSet.insert(productId)
         sync()
     }
 
-    func save(products: [Product]) {
+    func save(_ products: [Product]) {
         let productIds = products.flatMap { $0.objectId }
 
         productsIdsSet = productsIdsSet.union(Set(productIds))
         sync()
     }
 
-    func remove(product: Product) {
+    func remove(_ product: Product) {
         guard let productId = product.objectId else { return }
 
         productsIdsSet.remove(productId)
@@ -55,7 +55,7 @@ extension ProductsLimboUDDAO: ProductsLimboDAO {
 
     func removeAll() {
         productsIdsSet.removeAll()
-        userDefaults.removeObjectForKey(ProductsLimboUDDAO.ProductsLimboMainKey)
+        userDefaults.removeObject(forKey: ProductsLimboUDDAO.ProductsLimboMainKey)
     }
 }
 
@@ -66,8 +66,8 @@ private extension ProductsLimboUDDAO {
         userDefaults.setValue(productIds, forKey: ProductsLimboUDDAO.ProductsLimboMainKey)
     }
 
-    static func fetch(userDefaults: NSUserDefaults) -> Set<String> {
-        guard let array = userDefaults.arrayForKey(ProductsLimboUDDAO.ProductsLimboMainKey) else { return Set<String>() }
+    static func fetch(_ userDefaults: UserDefaults) -> Set<String> {
+        guard let array = userDefaults.array(forKey: ProductsLimboUDDAO.ProductsLimboMainKey) else { return Set<String>() }
         return Set<String>(array.flatMap{$0 as? String})
     }
 }

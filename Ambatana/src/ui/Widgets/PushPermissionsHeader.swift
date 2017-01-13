@@ -45,7 +45,7 @@ class PushPermissionsHeader: UIView {
         backgroundColor = UIColor.black
 
         let icon = UIImageView(image: UIImage(named: "ic_messages"))
-        icon.contentMode = .Center
+        icon.contentMode = .center
         icon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(icon)
 
@@ -57,25 +57,25 @@ class PushPermissionsHeader: UIView {
         addSubview(label)
 
         let disclosure = UIImageView(image: UIImage(named: "ic_disclosure"))
-        disclosure.contentMode = .Center
+        disclosure.contentMode = .center
         disclosure.translatesAutoresizingMaskIntoConstraints = false
         addSubview(disclosure)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["icon"] = icon
         views["label"] = label
         views["disclosure"] = disclosure
 
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["iconWidth"] = PushPermissionsHeader.iconWidth
         metrics["disclosureWidth"] = PushPermissionsHeader.disclosureWidth
         metrics["messageMargin"] = PushPermissionsHeader.messageMargin
 
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[icon(iconWidth)]-0-[label]-messageMargin-[disclosure(disclosureWidth)]-0-|",
-            options: [.AlignAllCenterY], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[icon]-0-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[icon(iconWidth)]-0-[label]-messageMargin-[disclosure(disclosureWidth)]-0-|",
+            options: [.alignAllCenterY], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[icon]-0-|",
             options: [], metrics: nil, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[disclosure]-0-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[disclosure]-0-|",
             options: [], metrics: nil, views: views))
     }
 

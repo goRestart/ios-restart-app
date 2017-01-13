@@ -17,9 +17,9 @@ class NotificationsViewController: BaseViewController {
 
     weak var tabNavigator: TabNavigator?
 
-    private let refreshControl = UIRefreshControl()
-    private let viewModel: NotificationsViewModel
-    private let disposeBag = DisposeBag()
+    fileprivate let refreshControl = UIRefreshControl()
+    fileprivate let viewModel: NotificationsViewModel
+    fileprivate let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
@@ -62,7 +62,7 @@ class NotificationsViewController: BaseViewController {
 
         // Enable refresh control
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered),
-                                 forControlEvents: UIControlEvents.ValueChanged)
+                                 for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = NotificationCellDrawerFactory.estimatedRowHeight
@@ -74,19 +74,19 @@ class NotificationsViewController: BaseViewController {
     private func setupRX() {
         viewModel.viewState.asObservable().bindNext { [weak self] state in
             switch state {
-            case .Loading:
+            case .loading:
                 self?.activityIndicator.startAnimating()
-                self?.emptyView.hidden = true
-                self?.tableView.hidden = true
-            case .Data:
+                self?.emptyView.isHidden = true
+                self?.tableView.isHidden = true
+            case .data:
                 self?.activityIndicator.stopAnimating()
-                self?.emptyView.hidden = true
-                self?.tableView.hidden = false
+                self?.emptyView.isHidden = true
+                self?.tableView.isHidden = false
                 self?.refreshControl.endRefreshing()
                 self?.tableView.reloadData()
-            case .Error(let emptyViewModel):
+            case .error(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
-            case .Empty(let emptyViewModel):
+            case .empty(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
             }
         }.addDisposableTo(disposeBag)
@@ -101,10 +101,10 @@ class NotificationsViewController: BaseViewController {
 
     // MARK: > UI
 
-    private func setEmptyViewState(emptyViewModel: LGEmptyViewModel) {
+    private func setEmptyViewState(_ emptyViewModel: LGEmptyViewModel) {
         activityIndicator.stopAnimating()
-        emptyView.hidden = false
-        tableView.hidden = true
+        emptyView.isHidden = false
+        tableView.isHidden = true
         emptyView.setupWithModel(emptyViewModel)
     }
 }
@@ -114,11 +114,11 @@ class NotificationsViewController: BaseViewController {
 
 extension NotificationsViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.dataCount
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return UITableViewCell() }
         let cellDrawer = NotificationCellDrawerFactory.drawerForNotificationData(cellData)
         let cell = cellDrawer.cell(tableView, atIndexPath: indexPath)
@@ -127,8 +127,8 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         viewModel.selectedItemAtIndex(indexPath.row)
     }
 }
@@ -146,11 +146,11 @@ extension NotificationsViewController: ScrollableToTop {
 
 // MARK: - Accesibility
 
-private extension NotificationsViewController {
+fileprivate extension NotificationsViewController {
     func setAccesibilityIds() {
-        refreshControl.accessibilityId = .NotificationsRefresh
-        tableView.accessibilityId = .NotificationsTable
-        activityIndicator.accessibilityId = .NotificationsLoading
-        emptyView.accessibilityId = .NotificationsEmptyView
+        refreshControl.accessibilityId = .notificationsRefresh
+        tableView.accessibilityId = .notificationsTable
+        activityIndicator.accessibilityId = .notificationsLoading
+        emptyView.accessibilityId = .notificationsEmptyView
     }
 }

@@ -25,19 +25,19 @@ struct CarouselUI {
 }
 
 class CarouselUIHelper {
-    static func setupPageControl(pageControl: UIPageControl, topBarHeight: CGFloat) {
-        pageControl.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
-        pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+    static func setupPageControl(_ pageControl: UIPageControl, topBarHeight: CGFloat) {
+        pageControl.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
+        pageControl.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
         pageControl.frame.origin = CGPoint(x: CarouselUI.pageControlMargin, y: topBarHeight + CarouselUI.pageControlMargin)
-        pageControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-        pageControl.currentPageIndicatorTintColor = UIColor.whiteColor()
+        pageControl.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        pageControl.currentPageIndicatorTintColor = UIColor.white
         pageControl.hidesForSinglePage = true
         pageControl.layer.cornerRadius = CarouselUI.pageControlWidth/2
         pageControl.clipsToBounds = true
     }
 
-    static func buildShareButton(text: String?, icon: UIImage?) -> UIButton {
-        let shareButton = UIButton(type: .System)
+    static func buildShareButton(_ text: String?, icon: UIImage?) -> UIButton {
+        let shareButton = UIButton(type: .system)
         shareButton.titleEdgeInsets = UIEdgeInsets(top: 0,
                                                    left: CarouselUI.shareButtonHorizontalSpacing,
                                                    bottom: 0,
@@ -46,28 +46,28 @@ class CarouselUIHelper {
                                                      left: 2*CarouselUI.shareButtonHorizontalSpacing,
                                                      bottom: CarouselUI.shareButtonVerticalSpacing,
                                                      right: 3*CarouselUI.shareButtonHorizontalSpacing)
-        shareButton.setTitle(text, forState: .Normal)
-        shareButton.setTitleColor(UIColor.white, forState: .Normal)
+        shareButton.setTitle(text, for: .normal)
+        shareButton.setTitleColor(UIColor.white, for: .normal)
         shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 15)
         if let imageIcon = icon {
-            shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            shareButton.setImage(imageIcon.withRenderingMode(.alwaysTemplate), for: .normal)
         }
         shareButton.tintColor = UIColor.white
         shareButton.sizeToFit()
         shareButton.layer.cornerRadius = shareButton.height/2
-        shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.CGColor
+        shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.cgColor
         return shareButton
     }
 
     static func buildMoreInfoTooltipText() -> NSAttributedString {
-        let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
+        let tapTextAttributes: [String : Any] = [NSForegroundColorAttributeName : UIColor.white,
                                                        NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
-        let infoTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
+        let infoTextAttributes: [String : Any] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
                                                          NSFontAttributeName : UIFont.systemSemiBoldFont(size: 17)]
         let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
         let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
-        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productMoreInfoTooltipPart1,
-                                                                  options: .CaseInsensitiveSearch)
+        let boldRange = NSString(string: plainText).range(of: LGLocalizedString.productMoreInfoTooltipPart1,
+                                                                  options: .caseInsensitive)
         resultText.addAttributes(tapTextAttributes, range: boldRange)
         return resultText
     }

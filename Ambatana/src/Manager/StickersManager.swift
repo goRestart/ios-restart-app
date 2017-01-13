@@ -32,7 +32,7 @@ class StickersManager {
 
     private func setupRx() {
         stickersRepository.stickers
-            .map { $0.flatMap { NSURL(string: $0.url) }
+            .map { $0.flatMap { URL(string: $0.url) }
             }.bindNext { [weak self] urls in
                 self?.imageDownloader.downloadImagesWithURLs(urls)
             }.addDisposableTo(disposeBag)

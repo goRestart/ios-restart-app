@@ -9,49 +9,49 @@
 import LGCoreKit
 
 enum UserDetailData {
-    case Id(userId: String, source: UserSource)
-    case UserAPI(user: User, source: UserSource)
-    case UserChat(user: ChatInterlocutor)
+    case id(userId: String, source: UserSource)
+    case userAPI(user: User, source: UserSource)
+    case userChat(user: ChatInterlocutor)
 }
 
 enum ProductDetailData {
-    case Id(productId: String)
-    case ProductAPI(product: Product, thumbnailImage: UIImage?, originFrame: CGRect?)
-    case ProductList(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
+    case id(productId: String)
+    case productAPI(product: Product, thumbnailImage: UIImage?, originFrame: CGRect?)
+    case productList(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
-    case ProductChat(chatConversation: ChatConversation)
+    case productChat(chatConversation: ChatConversation)
 }
 
 enum ChatDetailData {
-    case DataIds(data: ConversationData)
-    case ChatAPI(chat: Chat)
-    case Conversation(conversation: ChatConversation)
-    case ProductAPI(product: Product)
+    case dataIds(data: ConversationData)
+    case chatAPI(chat: Chat)
+    case conversation(conversation: ChatConversation)
+    case productAPI(product: Product)
 }
 
 enum BackAction {
-    case ExpressChat(products: [Product])
+    case expressChat(products: [Product])
 }
 
 protocol TabNavigator: BaseNavigator {
-    func openSell(source: PostingSource)
-    func openUser(data: UserDetailData)
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource,
+    func openSell(_ source: PostingSource)
+    func openUser(_ data: UserDetailData)
+    func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool)
-    func openChat(data: ChatDetailData)
-    func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
+    func openChat(_ data: ChatDetailData)
+    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
     func canOpenAppInvite() -> Bool
-    func openRatingList(userId: String)
+    func openRatingList(_ userId: String)
 }
 
 protocol ProductDetailNavigator: TabNavigator {
     func closeProductDetail()
      // closeCompletion's Product is nil if edit is cancelled
-    func editProduct(product: Product, editCompletion: ((Product) -> Void)?)
-    func openProductChat(product: Product)
-    func openFullScreenShare(product: Product, socialMessage: SocialMessage)
-    func openRelatedItems(product: Product, productVisitSource: EventParameterProductVisitSource)
+    func editProduct(_ product: Product, editCompletion: ((Product) -> Void)?)
+    func openProductChat(_ product: Product)
+    func openFullScreenShare(_ product: Product, socialMessage: SocialMessage)
+    func openRelatedItems(_ product: Product, productVisitSource: EventParameterProductVisitSource)
     func closeAfterDelete()
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage)
     func openPayBumpUpForProduct(product: Product, price: String, bumpsLeft: Int, purchaseableProduct: PurchaseableProduct)
@@ -59,11 +59,11 @@ protocol ProductDetailNavigator: TabNavigator {
 
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource,
+    func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool)
 }
 
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
-    func openExpressChat(products: [Product], sourceProductId: String, manualOpen: Bool)
+    func openExpressChat(_ products: [Product], sourceProductId: String, manualOpen: Bool)
 }

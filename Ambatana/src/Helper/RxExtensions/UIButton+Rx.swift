@@ -9,28 +9,48 @@
 import RxCocoa
 import RxSwift
 
-extension UIButton {
-    var rx_title: AnyObserver<String> {
-        return UIBindingObserver(UIElement: self) { button, text in
-            button.setTitle(text, forState: UIControlState.Normal)
-        }.asObserver()
+extension Reactive where Base: UIButton {
+    var title: UIBindingObserver<Base, String> {
+        return UIBindingObserver<Base, String>(UIElement: self.base) { (button, title) -> () in
+            button.setTitle(title, for: .normal)
+        }
+    }
+    
+    var optionalTitle: UIBindingObserver<Base, String?> {
+        return UIBindingObserver<Base, String?>(UIElement: self.base) { (button, title) -> () in
+            button.setTitle(title, for: .normal)
+        }
     }
 
-    var rx_optionalTitle: AnyObserver<String?> {
-        return UIBindingObserver(UIElement: self) { button, text in
-            button.setTitle(text, forState: UIControlState.Normal)
-        }.asObserver()
+    var image: UIBindingObserver<Base, UIImage?> {
+        return UIBindingObserver<Base, UIImage?>(UIElement: self.base) { (button, image) -> () in
+            button.setImage(image, for: .normal)
+        }
     }
 
-    var rx_image: AnyObserver<UIImage?> {
-        return UIBindingObserver(UIElement: self) { button, image in
-            button.setImage(image, forState: UIControlState.Normal)
-        }.asObserver()
-    }
-
-    var rx_state: AnyObserver<ButtonState> {
-        return UIBindingObserver(UIElement: self) { button, state in
+    var state: UIBindingObserver<Base, ButtonState> {
+        return UIBindingObserver<Base, ButtonState>(UIElement: self.base) { (button, state) -> () in
             button.setState(state)
-        }.asObserver()
+        }
+    }
+}
+
+
+// MARK: - UIButton + VerifyButtonState
+
+extension Reactive where Base: UIButton {
+    var verifyState: UIBindingObserver<Base, VerifyButtonState>  {
+        return UIBindingObserver<Base, VerifyButtonState>(UIElement: self.base) { (button, state) -> () in
+            switch state {
+            case .hidden:
+                button.isHidden = true
+            case .enabled:
+                button.isHidden = false
+                button.isEnabled = true
+            case .disabled, .loading:
+                button.isHidden = false
+                button.isEnabled = false
+            }
+        }
     }
 }

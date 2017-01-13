@@ -8,146 +8,145 @@
 
 import LGCoreKit
 
-public enum EventName: String {
-    case Location                           = "location"
+enum EventName: String {
+    case location                           = "location"
     
-    case LoginVisit                         = "login-screen"
-    case LoginAbandon                       = "login-abandon"
-    case LoginFB                            = "login-fb"
-    case LoginGoogle                        = "login-google"
-    case LoginEmail                         = "login-email"
-    case SignupEmail                        = "signup-email"
-    case Logout                             = "logout"
+    case loginVisit                         = "login-screen"
+    case loginAbandon                       = "login-abandon"
+    case loginFB                            = "login-fb"
+    case loginGoogle                        = "login-google"
+    case loginEmail                         = "login-email"
+    case signupEmail                        = "signup-email"
+    case logout                             = "logout"
     
-    case LoginEmailError                    = "login-error"
-    case LoginFBError                       = "login-signup-error-facebook"
-    case LoginGoogleError                   = "login-signup-error-google"
-    case SignupError                        = "signup-error"
-    case PasswordResetError                 = "password-reset-error"
-    case LoginBlockedAccountStart           = "login-blocked-account-start"
-    case LoginBlockedAccountContactUs       = "login-blocked-account-contact-us"
-    case LoginBlockedAccountKeepBrowsing    = "login-blocked-account-keep-browsing"
+    case loginEmailError                    = "login-error"
+    case loginFBError                       = "login-signup-error-facebook"
+    case loginGoogleError                   = "login-signup-error-google"
+    case signupError                        = "signup-error"
+    case passwordResetError                 = "password-reset-error"
+    case loginBlockedAccountStart           = "login-blocked-account-start"
+    case loginBlockedAccountContactUs       = "login-blocked-account-contact-us"
+    case loginBlockedAccountKeepBrowsing    = "login-blocked-account-keep-browsing"
 
-    case ProductList                        = "product-list"
-    case ExploreCollection                  = "explore-collection"
+    case productList                        = "product-list"
+    case exploreCollection                  = "explore-collection"
     
-    case SearchStart                        = "search-start"
-    case SearchComplete                     = "search-complete"
+    case searchStart                        = "search-start"
+    case searchComplete                     = "search-complete"
     
-    case FilterStart                        = "filter-start"
-    case FilterComplete                     = "filter-complete"
+    case filterStart                        = "filter-start"
+    case filterComplete                     = "filter-complete"
     
-    case ProductDetailVisit                 = "product-detail-visit"
-    case ProductDetailVisitMoreInfo         = "product-detail-visit-more-info"
-    case MoreInfoRelatedItemsComplete       = "more-info-related-items-complete"
-    case MoreInfoRelatedItemsViewMore       = "more-info-related-items-view-more"
+    case productDetailVisit                 = "product-detail-visit"
+    case productDetailVisitMoreInfo         = "product-detail-visit-more-info"
+    case moreInfoRelatedItemsComplete       = "more-info-related-items-complete"
+    case moreInfoRelatedItemsViewMore       = "more-info-related-items-view-more"
     
-    case ProductFavorite                    = "product-detail-favorite"
-    case ProductShare                       = "product-detail-share"
-    case ProductShareCancel                 = "product-detail-share-cancel"
-    case ProductShareComplete               = "product-detail-share-complete"
+    case productFavorite                    = "product-detail-favorite"
+    case productShare                       = "product-detail-share"
+    case productShareCancel                 = "product-detail-share-cancel"
+    case productShareComplete               = "product-detail-share-complete"
     
-    case FirstMessage                       = "product-detail-ask-question"
-    case ProductOpenChat                    = "product-detail-open-chat"
-    case ProductMarkAsSold                  = "product-detail-sold"
-    case ProductMarkAsUnsold                = "product-detail-unsold"
+    case firstMessage                       = "product-detail-ask-question"
+    case productOpenChat                    = "product-detail-open-chat"
+    case productMarkAsSold                  = "product-detail-sold"
+    case productMarkAsUnsold                = "product-detail-unsold"
     
-    case ProductReport                      = "product-detail-report"
+    case productReport                      = "product-detail-report"
     
-    case ProductSellStart                   = "product-sell-start"
-    case ProductSellSharedFB                = "product-sell-shared-fb"
-    case ProductSellComplete                = "product-sell-complete"
-    case ProductSellComplete24h             = "product-sell-complete-24h"
-    case ProductSellError                   = "product-sell-error"
-    case ProductSellErrorClose              = "product-sell-error-close"
-    case ProductSellErrorPost               = "product-sell-error-post"
-    case ProductSellErrorData               = "product-sell-error-data"
-    case ProductSellConfirmation            = "product-sell-confirmation"
-    case ProductSellConfirmationPost        = "product-sell-confirmation-post"
-    case ProductSellConfirmationClose       = "product-sell-confirmation-close"
-    case ProductSellConfirmationEdit        = "product-sell-confirmation-edit"
-    case ProductSellConfirmationShare       = "product-sell-confirmation-share"
-    case ProductSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
-    case ProductSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
+    case productSellStart                   = "product-sell-start"
+    case productSellSharedFB                = "product-sell-shared-fb"
+    case productSellComplete                = "product-sell-complete"
+    case productSellComplete24h             = "product-sell-complete-24h"
+    case productSellError                   = "product-sell-error"
+    case productSellErrorClose              = "product-sell-error-close"
+    case productSellErrorPost               = "product-sell-error-post"
+    case productSellErrorData               = "product-sell-error-data"
+    case productSellConfirmation            = "product-sell-confirmation"
+    case productSellConfirmationPost        = "product-sell-confirmation-post"
+    case productSellConfirmationClose       = "product-sell-confirmation-close"
+    case productSellConfirmationEdit        = "product-sell-confirmation-edit"
+    case productSellConfirmationShare       = "product-sell-confirmation-share"
+    case productSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
+    case productSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
     
-    case ProductEditStart                   = "product-edit-start"
-//    case ProductEditEditCurrency            = "product-edit-edit-currency"
-    case ProductEditFormValidationFailed    = "product-edit-form-validation-failed"
-    case ProductEditSharedFB                = "product-edit-shared-fb"
-    case ProductEditComplete                = "product-edit-complete"
+    case productEditStart                   = "product-edit-start"
+    case productEditFormValidationFailed    = "product-edit-form-validation-failed"
+    case productEditSharedFB                = "product-edit-shared-fb"
+    case productEditComplete                = "product-edit-complete"
     
-    case ProductDeleteStart                 = "product-delete-start"
-    case ProductDeleteComplete              = "product-delete-complete"
+    case productDeleteStart                 = "product-delete-start"
+    case productDeleteComplete              = "product-delete-complete"
     
-    case UserMessageSent                    = "user-sent-message"
-    case ChatRelatedItemsStart              = "chat-related-items-start"
-    case ChatRelatedItemsComplete           = "chat-related-items-complete"
+    case userMessageSent                    = "user-sent-message"
+    case chatRelatedItemsStart              = "chat-related-items-start"
+    case chatRelatedItemsComplete           = "chat-related-items-complete"
 
-    case ProfileVisit                       = "profile-visit"
-    case ProfileEditStart                   = "profile-edit-start"
-    case ProfileEditEditName                = "profile-edit-edit-name"
-    case ProfileEditEditLocation            = "profile-edit-edit-location"
-    case ProfileEditEditPicture             = "profile-edit-edit-picture"
-    case ProfileReport                      = "profile-report"
-    case ProfileBlock                       = "profile-block"
-    case ProfileUnblock                     = "profile-unblock"
-    case ProfileShareStart                  = "profile-share-start"
-    case ProfileShareComplete               = "profile-share-complete"
+    case profileVisit                       = "profile-visit"
+    case profileEditStart                   = "profile-edit-start"
+    case profileEditEditName                = "profile-edit-edit-name"
+    case profileEditEditLocation            = "profile-edit-edit-location"
+    case profileEditEditPicture             = "profile-edit-edit-picture"
+    case profileReport                      = "profile-report"
+    case profileBlock                       = "profile-block"
+    case profileUnblock                     = "profile-unblock"
+    case profileShareStart                  = "profile-share-start"
+    case profileShareComplete               = "profile-share-complete"
 
-    case AppInviteFriendStart               = "app-invite-friend-start"
-    case AppInviteFriend                    = "app-invite-friend"
-    case AppInviteFriendCancel              = "app-invite-friend-cancel"
-    case AppInviteFriendComplete            = "app-invite-friend-complete"
-    case AppInviteFriendDontAsk             = "app-invite-friend-dont-ask"
+    case appInviteFriendStart               = "app-invite-friend-start"
+    case appInviteFriend                    = "app-invite-friend"
+    case appInviteFriendCancel              = "app-invite-friend-cancel"
+    case appInviteFriendComplete            = "app-invite-friend-complete"
+    case appInviteFriendDontAsk             = "app-invite-friend-dont-ask"
     
-    case AppRatingStart                     = "app-rating-start"
-    case AppRatingRate                      = "app-rating-rate"
-    case AppRatingSuggest                   = "app-rating-suggest"
-    case AppRatingDontAsk                   = "app-rating-dont-ask"
-    case AppRatingRemindMeLater             = "app-rating-remind-later"
+    case appRatingStart                     = "app-rating-start"
+    case appRatingRate                      = "app-rating-rate"
+    case appRatingSuggest                   = "app-rating-suggest"
+    case appRatingDontAsk                   = "app-rating-dont-ask"
+    case appRatingRemindMeLater             = "app-rating-remind-later"
 
-    case PermissionAlertStart               = "permission-alert-start"
-    case PermissionAlertCancel              = "permission-alert-cancel"
-    case PermissionAlertComplete            = "permission-alert-complete"
-    case PermissionSystemStart              = "permission-system-start"
-    case PermissionSystemCancel             = "permission-system-cancel"
-    case PermissionSystemComplete           = "permission-system-complete"
+    case permissionAlertStart               = "permission-alert-start"
+    case permissionAlertCancel              = "permission-alert-cancel"
+    case permissionAlertComplete            = "permission-alert-complete"
+    case permissionSystemStart              = "permission-system-start"
+    case permissionSystemCancel             = "permission-system-cancel"
+    case permissionSystemComplete           = "permission-system-complete"
 
-    case LocationMap                        = "location-map"
+    case locationMap                        = "location-map"
 
-    case CommercializerStart                = "commercializer-start"
-    case CommercializerError                = "commercializer-error"
-    case CommercializerComplete             = "commercializer-complete"
-    case CommercializerOpen                 = "commercializer-open"
-    case CommercializerShareStart           = "commercializer-share-start"
-    case CommercializerShareComplete        = "commercializer-share-complete"
+    case commercializerStart                = "commercializer-start"
+    case commercializerError                = "commercializer-error"
+    case commercializerComplete             = "commercializer-complete"
+    case commercializerOpen                 = "commercializer-open"
+    case commercializerShareStart           = "commercializer-share-start"
+    case commercializerShareComplete        = "commercializer-share-complete"
 
-    case UserRatingStart                    = "user-rating-start"
-    case UserRatingComplete                 = "user-rating-complete"
+    case userRatingStart                    = "user-rating-start"
+    case userRatingComplete                 = "user-rating-complete"
 
-    case OpenApp                            = "open-app-external"
+    case openApp                            = "open-app-external"
 
-    case ExpressChatStart                   = "express-chat-start"
-    case ExpressChatComplete                = "express-chat-complete"
-    case ExpressChatDontAsk                 = "express-chat-dont-ask"
+    case expressChatStart                   = "express-chat-start"
+    case expressChatComplete                = "express-chat-complete"
+    case expressChatDontAsk                 = "express-chat-dont-ask"
 
-    case ProductDetailInterestedUsers       = "product-detail-interested-users"
+    case productDetailInterestedUsers       = "product-detail-interested-users"
     
-    case NPSStart                           = "nps-start"
-    case NPSComplete                        = "nps-complete"
+    case npsStart                           = "nps-start"
+    case npsComplete                        = "nps-complete"
 
-    case VerifyAccountStart                 = "verify-account-start"
-    case VerifyAccountComplete              = "verify-account-complete"
+    case verifyAccountStart                 = "verify-account-start"
+    case verifyAccountComplete              = "verify-account-complete"
 
-    case InappChatNotificationStart         = "in-app-chat-notification-start"
-    case InappChatNotificationComplete      = "in-app-chat-notification-complete"
+    case inappChatNotificationStart         = "in-app-chat-notification-start"
+    case inappChatNotificationComplete      = "in-app-chat-notification-complete"
 
-    case SignupCaptcha                      = "signup-captcha"
+    case signupCaptcha                      = "signup-captcha"
 
-    case NotificationCenterStart            = "notification-center-start"
-    case NotificationCenterComplete         = "notification-center-complete"
+    case notificationCenterStart            = "notification-center-start"
+    case notificationCenterComplete         = "notification-center-complete"
 
-    case MarketingPushNotifications         = "marketing-push-notifications"
+    case marketingPushNotifications         = "marketing-push-notifications"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -172,484 +171,484 @@ public enum EventName: String {
     }
 }
 
-public enum EventParameterName: String {
-    case CategoryId           = "category-id"           // 0 if there's no category
-    case ProductId            = "product-id"
-    case ProductCity          = "product-city"
-    case ProductCountry       = "product-country"
-    case ProductZipCode       = "product-zipcode"
-    case ProductLatitude      = "product-lat"
-    case ProductLongitude     = "product-lng"
-    case ProductName          = "product-name"
-    case ProductPrice         = "product-price"
-    case ProductCurrency      = "product-currency"
-    case ProductDescription   = "product-description"
-    case ProductType          = "item-type"             // real (1) / dummy (0).
-    case UserId               = "user-id"
-    case UserToId             = "user-to-id"
-    case UserEmail            = "user-email"
-    case UserCity             = "user-city"
-    case UserCountry          = "user-country"
-    case UserZipCode          = "user-zipcode"
-    case SearchString         = "search-keyword"
-    case SearchSuccess        = "search-success"
-    case TrendingSearch       = "trending-search"
-    case Description          = "description"           // error description: why form validation failure.
-    case LoginSource          = "login-type"            // the login source
-    case LoginRememberedAccount = "existing"
-    case LocationType         = "location-type"
-    case ShareNetwork         = "share-network"
-    case ButtonPosition       = "button-position"
-    case LocationEnabled      = "location-enabled"
-    case LocationAllowed      = "location-allowed"
-    case ButtonName           = "button-name"
-    case ButtonType           = "button-type"
-    case FilterLat            = "filter-lat"
-    case FilterLng            = "filter-lng"
-    case FilterDistanceRadius = "distance-radius"
-    case FilterDistanceUnit   = "distance-unit"
-    case FilterSortBy         = "sort-by"
-    case FilterPostedWithin   = "posted-within"
-    case ErrorDescription     = "error-description"
-    case ErrorDetails         = "error-details"
-    case PermissionType       = "permission-type"
-    case TypePage             = "type-page"
-    case AlertType            = "alert-type"
-    case PermissionGoToSettings = "permission-go-to-settings"
-    case NegotiablePrice      = "negotiable-price"
-    case PictureSource        = "picture-source"
-    case EditedFields         = "edited-fields"
-    case Newsletter           = "newsletter"
-    case QuickAnswer          = "quick-answer"
-    case ReportReason         = "report-reason"
-    case Tab                  = "tab"
-    case Template             = "template"
-    case UserAction           = "user-action"
-    case AppRatingSource      = "app-rating-source"
-    case MessageType          = "message-type"
-    case RatingStars          = "rating-stars"
-    case RatingComments       = "rating-comments"
-    case SellerUserRating     = "seller-user-rating"
-    case Campaign             = "campaign"
-    case Medium               = "medium"
-    case Source               = "source"
-    case ItemPosition         = "item-position"
-    case ExpressConversations = "express-conversations"
-    case CollectionTitle      = "collection-title"
-    case ProductVisitSource   = "visit-source"
-    case NumberOfUsers        = "number-of-users"
-    case PriceFrom            = "price-from"
-    case PriceTo              = "price-to"
-    case NPSScore             = "nps-score"
-    case AccountNetwork       = "account-network"
-    case ProfileType          = "profile-type"
-    case NotificationType     = "notification-type"
-    case ShownReason          = "shown-reason"
-    case FreePosting          = "free-posting"
-    case SellButtonPosition   = "sell-button-position"
-    case Enabled              = "enabled"
-    case LastSearch           = "last-search"
-    case ExpressChatTrigger   = "express-chat-trigger"
-    case NumberPhotosPosting  = "number-photos-posting"
+enum EventParameterName: String {
+    case categoryId           = "category-id"           // 0 if there's no category
+    case productId            = "product-id"
+    case productCity          = "product-city"
+    case productCountry       = "product-country"
+    case productZipCode       = "product-zipcode"
+    case productLatitude      = "product-lat"
+    case productLongitude     = "product-lng"
+    case productName          = "product-name"
+    case productPrice         = "product-price"
+    case productCurrency      = "product-currency"
+    case productDescription   = "product-description"
+    case productType          = "item-type"             // real (1) / dummy (0).
+    case userId               = "user-id"
+    case userToId             = "user-to-id"
+    case userEmail            = "user-email"
+    case userCity             = "user-city"
+    case userCountry          = "user-country"
+    case userZipCode          = "user-zipcode"
+    case searchString         = "search-keyword"
+    case searchSuccess        = "search-success"
+    case trendingSearch       = "trending-search"
+    case description          = "description"           // error description: why form validation failure.
+    case loginSource          = "login-type"            // the login source
+    case loginRememberedAccount = "existing"
+    case locationType         = "location-type"
+    case shareNetwork         = "share-network"
+    case buttonPosition       = "button-position"
+    case locationEnabled      = "location-enabled"
+    case locationAllowed      = "location-allowed"
+    case buttonName           = "button-name"
+    case buttonType           = "button-type"
+    case filterLat            = "filter-lat"
+    case filterLng            = "filter-lng"
+    case filterDistanceRadius = "distance-radius"
+    case filterDistanceUnit   = "distance-unit"
+    case filterSortBy         = "sort-by"
+    case filterPostedWithin   = "posted-within"
+    case errorDescription     = "error-description"
+    case errorDetails         = "error-details"
+    case permissionType       = "permission-type"
+    case typePage             = "type-page"
+    case alertType            = "alert-type"
+    case permissionGoToSettings = "permission-go-to-settings"
+    case negotiablePrice      = "negotiable-price"
+    case pictureSource        = "picture-source"
+    case editedFields         = "edited-fields"
+    case newsletter           = "newsletter"
+    case quickAnswer          = "quick-answer"
+    case reportReason         = "report-reason"
+    case tab                  = "tab"
+    case template             = "template"
+    case userAction           = "user-action"
+    case appRatingSource      = "app-rating-source"
+    case messageType          = "message-type"
+    case ratingStars          = "rating-stars"
+    case ratingComments       = "rating-comments"
+    case sellerUserRating     = "seller-user-rating"
+    case campaign             = "campaign"
+    case medium               = "medium"
+    case source               = "source"
+    case itemPosition         = "item-position"
+    case expressConversations = "express-conversations"
+    case collectionTitle      = "collection-title"
+    case productVisitSource   = "visit-source"
+    case numberOfUsers        = "number-of-users"
+    case priceFrom            = "price-from"
+    case priceTo              = "price-to"
+    case npsScore             = "nps-score"
+    case accountNetwork       = "account-network"
+    case profileType          = "profile-type"
+    case notificationType     = "notification-type"
+    case shownReason          = "shown-reason"
+    case freePosting          = "free-posting"
+    case sellButtonPosition   = "sell-button-position"
+    case enabled              = "enabled"
+    case lastSearch           = "last-search"
+    case expressChatTrigger   = "express-chat-trigger"
+    case numberPhotosPosting  = "number-photos-posting"
 }
 
-public enum EventParameterLoginSourceValue: String {
-    case Sell = "posting"
-    case Chats = "messages"
-    case Profile = "view-profile"
-    case Notifications = "notifications"
-    case Favourite = "favourite"
-    case MarkAsSold = "mark-as-sold"
-    case MarkAsUnsold = "mark-as-unsold"
-    case AskQuestion = "question"
-    case ReportFraud = "report-fraud"
-    case Delete = "delete"
-    case Install = "install"
-    case DirectSticker = "direct-sticker"
+enum EventParameterLoginSourceValue: String {
+    case sell = "posting"
+    case chats = "messages"
+    case profile = "view-profile"
+    case notifications = "notifications"
+    case favourite = "favourite"
+    case markAsSold = "mark-as-sold"
+    case markAsUnsold = "mark-as-unsold"
+    case askQuestion = "question"
+    case reportFraud = "report-fraud"
+    case delete = "delete"
+    case install = "install"
+    case directSticker = "direct-sticker"
 }
 
-public enum EventParameterSellSourceValue: String {
-    case MarkAsSold = "product-detail"
-    case Delete = "product-delete"
+enum EventParameterSellSourceValue: String {
+    case markAsSold = "product-detail"
+    case delete = "product-delete"
 }
 
-public enum EventParameterProductItemType: String {
-    case Real = "1"
-    case Dummy = "0"
+enum EventParameterProductItemType: String {
+    case real = "1"
+    case dummy = "0"
 }
 
-public enum EventParameterLocationType: String {
-    case Manual = "manual"
-    case Sensor = "sensor"
-    case IPLookUp = "iplookup"
-    case Regional = "regional"
+enum EventParameterLocationType: String {
+    case manual = "manual"
+    case sensor = "sensor"
+    case ipLookUp = "iplookup"
+    case regional = "regional"
 }
 
-public enum EventParameterButtonNameType: String {
-    case Close = "close"
-    case Skip = "skip"
-    case Done = "done"
-    case SellYourStuff = "sell-your-stuff"
-    case StartMakingCash = "start-making-cash"
+enum EventParameterButtonNameType: String {
+    case close = "close"
+    case skip = "skip"
+    case done = "done"
+    case sellYourStuff = "sell-your-stuff"
+    case startMakingCash = "start-making-cash"
 }
 
-public enum EventParameterButtonType: String {
-    case Button = "button"
-    case ItemPicture = "item-picture"
+enum EventParameterButtonType: String {
+    case button = "button"
+    case itemPicture = "item-picture"
 }
 
-public enum EventParameterButtonPosition: String {
-    case Top = "top"
-    case Bottom = "bottom"
-    case None = "N/A"
+enum EventParameterButtonPosition: String {
+    case top = "top"
+    case bottom = "bottom"
+    case none = "N/A"
 }
 
-public enum EventParameterSellButtonPosition: String {
-    case TabBar = "tabbar-camera"
-    case FloatingButton = "big-button"
-    case None = "N/A"
+enum EventParameterSellButtonPosition: String {
+    case tabBar = "tabbar-camera"
+    case floatingButton = "big-button"
+    case none = "N/A"
 }
 
-public enum EventParameterShareNetwork: String {
-    case Email = "email"
-    case Facebook = "facebook"
-    case Whatsapp = "whatsapp"
-    case Twitter = "twitter"
-    case FBMessenger = "facebook-messenger"
-    case Telegram = "telegram"
-    case SMS = "sms"
-    case CopyLink = "copy_link"
-    case Native = "native"
-    case NotAvailable = "N/A"
+enum EventParameterShareNetwork: String {
+    case email = "email"
+    case facebook = "facebook"
+    case whatsapp = "whatsapp"
+    case twitter = "twitter"
+    case fbMessenger = "facebook-messenger"
+    case telegram = "telegram"
+    case sms = "sms"
+    case copyLink = "copy_link"
+    case native = "native"
+    case notAvailable = "N/A"
 }
 
-public enum EventParameterNegotiablePrice: String {
-    case Yes = "yes"
-    case No = "no"
+enum EventParameterNegotiablePrice: String {
+    case yes = "yes"
+    case no = "no"
 }
 
-public enum EventParameterPictureSource: String {
-    case Camera = "camera"
-    case Gallery = "gallery"
+enum EventParameterPictureSource: String {
+    case camera = "camera"
+    case gallery = "gallery"
 }
 
-public enum EventParameterSortBy: String {
-    case Distance = "distance"
-    case CreationDate = "creation-date"
-    case PriceAsc = "price-asc"
-    case PriceDesc = "price-desc"
+enum EventParameterSortBy: String {
+    case distance = "distance"
+    case creationDate = "creation-date"
+    case priceAsc = "price-asc"
+    case priceDesc = "price-desc"
 }
 
-public enum EventParameterPostedWithin: String {
-    case Day = "day"
-    case Week = "week"
-    case Month = "month"
-    case All = ""
+enum EventParameterPostedWithin: String {
+    case day = "day"
+    case week = "week"
+    case month = "month"
+    case all = ""
 }
 
-public enum EventParameterHasPriceFilter: String {
-    case True = "true"
-    case False = "false"
+enum EventParameterHasPriceFilter: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
 }
 
-public enum EventParameterQuickAnswerValue: String {
-    case True = "true"
-    case False = "false"
-    case None = "N/A"
+enum EventParameterQuickAnswerValue: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
+    case none = "N/A"
 }
 
-public enum EventParameterMessageType: String {
-    case Text       = "text"
-    case Offer      = "offer"
-    case Sticker    = "sticker"
-    case Favorite   = "favorite"
-    case QuickAnswer = "quick-answer"
-    case ExpressChat = "express-chat"
-    case PeriscopeDirect = "periscope-direct"
+enum EventParameterMessageType: String {
+    case text       = "text"
+    case offer      = "offer"
+    case sticker    = "sticker"
+    case favorite   = "favorite"
+    case quickAnswer = "quick-answer"
+    case expressChat = "express-chat"
+    case periscopeDirect = "periscope-direct"
 }
 
-public enum EventParameterLoginError {
+enum EventParameterLoginError {
     
-    case Network
-    case Internal(description: String)
-    case Unauthorized
-    case NotFound
-    case Forbidden
-    case InvalidEmail
-    case NonExistingEmail
-    case InvalidPassword
-    case InvalidUsername
-    case UserNotFoundOrWrongPassword
-    case EmailTaken
-    case PasswordMismatch
-    case UsernameTaken
-    case TermsNotAccepted
-    case TooManyRequests
-    case Scammer
-    case BlacklistedDomain
-    case BadRequest
+    case network
+    case internalError(description: String)
+    case unauthorized
+    case notFound
+    case forbidden
+    case invalidEmail
+    case nonExistingEmail
+    case invalidPassword
+    case invalidUsername
+    case userNotFoundOrWrongPassword
+    case emailTaken
+    case passwordMismatch
+    case usernameTaken
+    case termsNotAccepted
+    case tooManyRequests
+    case scammer
+    case blacklistedDomain
+    case badRequest
 
-    public var description: String {
+    var description: String {
         switch self {
-        case .Network:
+        case .network:
             return "Network"
-        case .Internal:
+        case .internalError:
             return "Internal"
-        case .Unauthorized:
+        case .unauthorized:
             return "Unauthorized"
-        case .NotFound:
+        case .notFound:
             return "NotFound"
-        case .Forbidden:
+        case .forbidden:
             return "Forbidden"
-        case .InvalidEmail:
+        case .invalidEmail:
             return "InvalidEmail"
-        case .NonExistingEmail:
+        case .nonExistingEmail:
             return "NonExistingEmail"
-        case .InvalidPassword:
+        case .invalidPassword:
             return "InvalidPassword"
-        case .InvalidUsername:
+        case .invalidUsername:
             return "InvalidUsername"
-        case .UserNotFoundOrWrongPassword:
+        case .userNotFoundOrWrongPassword:
             return "UserNotFoundOrWrongPassword"
-        case .EmailTaken:
+        case .emailTaken:
             return "EmailTaken"
-        case .PasswordMismatch:
+        case .passwordMismatch:
             return "PasswordMismatch"
-        case .UsernameTaken:
+        case .usernameTaken:
             return "UsernameTaken"
-        case .TermsNotAccepted:
+        case .termsNotAccepted:
             return "TermsNotAccepted"
-        case .TooManyRequests:
+        case .tooManyRequests:
             return "TooManyRequests"
-        case .Scammer:
+        case .scammer:
             return "Scammer"
-        case .BlacklistedDomain:
+        case .blacklistedDomain:
             return "BlacklistedDomain"
-        case .BadRequest:
+        case .badRequest:
             return "BadRequest"
         }
 
     }
 
-    public var details: String? {
+    var details: String? {
         switch self {
-        case let .Internal(description):
+        case let .internalError(description):
             return description
-        case .Network, .Unauthorized, .NotFound, .Forbidden, .InvalidEmail, .NonExistingEmail, .InvalidPassword,
-             .InvalidUsername, .UserNotFoundOrWrongPassword, .EmailTaken, .PasswordMismatch, .UsernameTaken,
-             .TermsNotAccepted, .TooManyRequests, .Scammer, BlacklistedDomain, .BadRequest:
+        case .network, .unauthorized, .notFound, .forbidden, .invalidEmail, .nonExistingEmail, .invalidPassword,
+             .invalidUsername, .userNotFoundOrWrongPassword, .emailTaken, .passwordMismatch, .usernameTaken,
+             .termsNotAccepted, .tooManyRequests, .scammer, .blacklistedDomain, .badRequest:
             return nil
         }
     }
 }
 
-public enum EventParameterPostProductError {
-    case Network
-    case Internal
-    case ServerError(code: Int?)
+enum EventParameterPostProductError {
+    case network
+    case internalError
+    case serverError(code: Int?)
 
     var description: String {
         switch self {
-        case .Network:
+        case .network:
             return "product-sell-network"
-        case .Internal:
+        case .internalError:
             return "product-sell-internal"
-        case .ServerError:
+        case .serverError:
             return "product-sell-server-error"
         }
     }
 
     var details: Int? {
         switch self {
-        case .Network, .Internal:
+        case .network, .internalError:
             return nil
-        case let .ServerError(errorCode):
+        case let .serverError(errorCode):
             return errorCode
         }
     }
 }
 
-public enum EventParameterEditedFields: String {
-    case Picture = "picture"
-    case Title = "title"
-    case Price = "price"
-    case Description = "description"
-    case Category = "category"
-    case Location = "location"
-    case Share = "share"
-    case FreePosting = "free-posting"
+enum EventParameterEditedFields: String {
+    case picture = "picture"
+    case title = "title"
+    case price = "price"
+    case description = "description"
+    case category = "category"
+    case location = "location"
+    case share = "share"
+    case freePosting = "free-posting"
 }
 
-public enum EventParameterTypePage: String {
-    case ProductList = "product-list"
-    case ProductListBanner = "product-list-banner"
-    case Chat = "chat"
-    case TabBar = "tab-bar"
-    case ChatList = "chat-list"
-    case Sell = "product-sell"
-    case Edit = "product-edit"
-    case ProductDetail = "product-detail"
-    case ProductDetailMoreInfo = "product-detail-more-info"
-    case Settings = "settings"
-    case Install = "install"
-    case Profile = "profile"
-    case CommercializerPlayer = "commercializer-player"
-    case CommercializerPreview = "commercializer-preview"
-    case PushNotification = "push-notification"
-    case Email = "email"
-    case Onboarding = "onboarding"
-    case External = "external"
-    case Notifications = "notifications"
-    case OpenApp = "open-app"
-    case IncentivizePosting = "incentivize-posting"
-    case UserRatingList = "user-rating-list"
-    case ExpressChat = "express-chat"
-    case ProductDelete = "product-delete"
+enum EventParameterTypePage: String {
+    case productList = "product-list"
+    case productListBanner = "product-list-banner"
+    case chat = "chat"
+    case tabBar = "tab-bar"
+    case chatList = "chat-list"
+    case sell = "product-sell"
+    case edit = "product-edit"
+    case productDetail = "product-detail"
+    case productDetailMoreInfo = "product-detail-more-info"
+    case settings = "settings"
+    case install = "install"
+    case profile = "profile"
+    case commercializerPlayer = "commercializer-player"
+    case commercializerPreview = "commercializer-preview"
+    case pushNotification = "push-notification"
+    case email = "email"
+    case onboarding = "onboarding"
+    case external = "external"
+    case notifications = "notifications"
+    case openApp = "open-app"
+    case incentivizePosting = "incentivize-posting"
+    case userRatingList = "user-rating-list"
+    case expressChat = "express-chat"
+    case productDelete = "product-delete"
 }
 
-public enum EventParameterPermissionType: String {
-    case Push = "push-notification"
-    case Location = "gps"
-    case Camera = "camera"
+enum EventParameterPermissionType: String {
+    case push = "push-notification"
+    case location = "gps"
+    case camera = "camera"
 }
 
-public enum EventParameterPermissionAlertType: String {
-    case Custom = "custom"
-    case NativeLike = "native-alike"
-    case FullScreen = "full-screen"
+enum EventParameterPermissionAlertType: String {
+    case custom = "custom"
+    case nativeLike = "native-alike"
+    case fullScreen = "full-screen"
 }
 
-public enum EventParameterNewsletter: String {
-    case True = "true"
-    case False = "false"
-    case Unset = "N/A"
+enum EventParameterNewsletter: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
+    case unset = "N/A"
 }
 
-public enum EventParameterTab: String {
-    case Selling = "selling"
-    case Sold = "sold"
-    case Favorites = "favorites"
+enum EventParameterTab: String {
+    case selling = "selling"
+    case sold = "sold"
+    case favorites = "favorites"
 }
 
-public enum EventParameterSearchCompleteSuccess: String {
-    case Success = "yes"
-    case Failed = "no"
+enum EventParameterSearchCompleteSuccess: String {
+    case success = "yes"
+    case fail = "no"
 }
 
-public enum EventParameterReportReason: String {
-    case Offensive = "offensive"
-    case Scammer = "scammer"
-    case Mia = "mia"
-    case Suspicious = "suspicious"
-    case Inactive = "inactive"
-    case ProhibitedItems = "prohibited-items"
-    case Spammer = "spammer"
-    case CounterfeitItems = "counterfeit-items"
-    case Other = "other"
+enum EventParameterReportReason: String {
+    case offensive = "offensive"
+    case scammer = "scammer"
+    case mia = "mia"
+    case suspicious = "suspicious"
+    case inactive = "inactive"
+    case prohibitedItems = "prohibited-items"
+    case spammer = "spammer"
+    case counterfeitItems = "counterfeit-items"
+    case other = "other"
 }
 
-public enum EventParameterCommercializerError: String {
-    case Network = "commercializer-network"
-    case Internal = "commercializer-internal"
-    case Duplicated = "commercializer-duplicated"
+enum EventParameterCommercializerError: String {
+    case network = "commercializer-network"
+    case internalError = "commercializer-internal"
+    case duplicated = "commercializer-duplicated"
 }
 
-public enum EventParameterPermissionGoToSettings: String {
-    case True = "true"
-    case NotAvailable = "N/A"
+enum EventParameterPermissionGoToSettings: String {
+    case trueParameter = "true"
+    case notAvailable = "N/A"
 }
 
-public enum ProductVisitUserAction: String {
-    case Tap = "tap"
-    case SwipeLeft = "swipe-left"
-    case SwipeRight = "swipe-right"
-    case None = "N/A"
+enum ProductVisitUserAction: String {
+    case tap = "tap"
+    case swipeLeft = "swipe-left"
+    case swipeRight = "swipe-right"
+    case none = "N/A"
 }
 
-public enum EventParameterRatingSource: String {
-    case Chat = "chat"
-    case ProductSellComplete = "product-sell-complete"
-    case MarkedSold = "marked-sold"
+enum EventParameterRatingSource: String {
+    case chat = "chat"
+    case productSellComplete = "product-sell-complete"
+    case markedSold = "marked-sold"
 }
 
-public enum EventParameterProductVisitSource: String {
-    case ProductList = "product-list"
-    case MoreInfoRelated = "more-info-related"
-    case Collection = "collection"
-    case Search = "search"
-    case Filter = "filter"
-    case SearchAndFilter = "search & filter"
-    case Category = "category"
-    case Profile = "profile"
-    case Chat = "chat"
-    case OpenApp = "open-app"
-    case Notifications = "notifications"
+enum EventParameterProductVisitSource: String {
+    case productList = "product-list"
+    case moreInfoRelated = "more-info-related"
+    case collection = "collection"
+    case search = "search"
+    case filter = "filter"
+    case searchAndFilter = "search & filter"
+    case category = "category"
+    case profile = "profile"
+    case chat = "chat"
+    case openApp = "open-app"
+    case notifications = "notifications"
 }
 
-public enum EventParameterAccountNetwork: String {
-    case Facebook = "facebook"
-    case Google = "google"
-    case Email = "email"
+enum EventParameterAccountNetwork: String {
+    case facebook = "facebook"
+    case google = "google"
+    case email = "email"
 }
 
-public enum EventParameterProfileType: String {
-    case Public = "public"
-    case Private = "private"
+enum EventParameterProfileType: String {
+    case publicParameter = "public"
+    case privateParameter = "private"
 }
 
-public enum EventParameterNotificationType: String {
-    case Welcome = "welcome"
-    case Favorite = "favorite"
-    case ProductSold = "favorite-sold"
-    case Rating = "rating"
-    case RatingUpdated = "rating-updated"
-    case BuyersInterested = "buyers-interested"
-    case ProductSuggested = "product-suggested"
+enum EventParameterNotificationType: String {
+    case welcome = "welcome"
+    case favorite = "favorite"
+    case productSold = "favorite-sold"
+    case rating = "rating"
+    case ratingUpdated = "rating-updated"
+    case buyersInterested = "buyers-interested"
+    case productSuggested = "product-suggested"
 }
 
-public enum EventParameterRelatedShownReason: String {
-    case ProductSold = "product-sold"
-    case ProductDeleted = "product-deleted"
-    case UserDeleted = "user-deleted"
-    case Unanswered48h = "unanswered-48h"
-    case Forbidden = "forbidden"
+enum EventParameterRelatedShownReason: String {
+    case productSold = "product-sold"
+    case productDeleted = "product-deleted"
+    case userDeleted = "user-deleted"
+    case unanswered48h = "unanswered-48h"
+    case forbidden = "forbidden"
 
     init(chatInfoStatus: ChatInfoViewStatus) {
         switch chatInfoStatus {
-        case .Forbidden:
-            self = .Forbidden
-        case .Blocked, .BlockedBy:
-            self = .Unanswered48h
-        case .ProductDeleted:
-            self = .ProductDeleted
-        case .ProductSold:
-            self = .ProductSold
-        case .UserPendingDelete, .UserDeleted:
-            self = .UserDeleted
-        case .Available:
-            self = .Unanswered48h
+        case .forbidden:
+            self = .forbidden
+        case .blocked, .blockedBy:
+            self = .unanswered48h
+        case .productDeleted:
+            self = .productDeleted
+        case .productSold:
+            self = .productSold
+        case .userPendingDelete, .userDeleted:
+            self = .userDeleted
+        case .available:
+            self = .unanswered48h
         }
     }
 }
 
-public enum EventParameterFreePosting: String {
-    case True = "true"
-    case False = "false"
-    case Unset = "N/A"
+enum EventParameterFreePosting: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
+    case unset = "N/A"
 }
 
-public enum EventParameterExpressChatTrigger: String {
-    case Automatic = "automatic"
-    case Manual = "manual"
+enum EventParameterExpressChatTrigger: String {
+    case automatic = "automatic"
+    case manual = "manual"
 }
 
-public struct EventParameters {
-    private var params: [EventParameterName : AnyObject] = [:]
+struct EventParameters {
+    private var params: [EventParameterName : Any] = [:]
     
-    // transforms the params to [String: AnyObject]
-    public var stringKeyParams: [String: AnyObject] {
+    // transforms the params to [String: Any]
+    var stringKeyParams: [String: Any] {
         get {
-            var res = [String: AnyObject]()
+            var res = [String: Any]()
             for (paramName, value) in params {
                 res[paramName.rawValue] = value
             }
@@ -657,37 +656,37 @@ public struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParams(source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
-        params[.LoginSource] = source.rawValue
+    internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
+        params[.loginSource] = source.rawValue
         if let rememberedAccount = rememberedAccount {
-            params[.LoginRememberedAccount] = rememberedAccount
+            params[.loginRememberedAccount] = rememberedAccount
         }
     }
     
-    internal mutating func addProductParams(product: Product) {
-        params[.ProductId] = product.objectId
-        params[.ProductLatitude] = product.location.latitude
-        params[.ProductLongitude] = product.location.longitude
-        params[.ProductPrice] = product.price.value
-        params[.ProductCurrency] = product.currency.code
-        params[.CategoryId] = product.category.rawValue
-        params[.ProductType] = product.user.isDummy ?
-            EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-        params[.UserToId] = product.user.objectId
+    internal mutating func addProductParams(_ product: Product) {
+        params[.productId] = product.objectId
+        params[.productLatitude] = product.location.latitude
+        params[.productLongitude] = product.location.longitude
+        params[.productPrice] = product.price.value
+        params[.productCurrency] = product.currency.code
+        params[.categoryId] = product.category.rawValue
+        params[.productType] = product.user.isDummy ?
+            EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
+        params[.userToId] = product.user.objectId
     }
     
-    internal mutating func addChatProductParams(product: ChatProduct) {
-        params[.ProductId] = product.objectId
-        params[.ProductPrice] = product.price.value
-        params[.ProductCurrency] = product.currency.code
-        params[.ProductType] = EventParameterProductItemType.Real.rawValue
+    internal mutating func addChatProductParams(_ product: ChatProduct) {
+        params[.productId] = product.objectId
+        params[.productPrice] = product.price.value
+        params[.productCurrency] = product.currency.code
+        params[.productType] = EventParameterProductItemType.real.rawValue
     }
     
-    internal mutating func addUserParams(user: User?) {
-        params[.UserToId] = user?.objectId
+    internal mutating func addUserParams(_ user: User?) {
+        params[.userToId] = user?.objectId
     }
 
-    internal subscript(paramName: EventParameterName) -> AnyObject? {
+    internal subscript(paramName: EventParameterName) -> Any? {
         get {
             return params[paramName]
         }
@@ -707,11 +706,11 @@ struct PostProductTrackingInfo {
          imageSource: EventParameterPictureSource?, price: String?) {
         self.buttonName = buttonName
         self.sellButtonPosition = sellButtonPosition
-        self.imageSource = imageSource ?? .Camera
+        self.imageSource = imageSource ?? .camera
         if let price = price, let doublePrice = Double(price) {
-            negotiablePrice = doublePrice > 0 ? .No : .Yes
+            negotiablePrice = doublePrice > 0 ? .no : .yes
         } else {
-            negotiablePrice = .Yes
+            negotiablePrice = .yes
         }
     }
 }

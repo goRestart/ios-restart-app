@@ -9,10 +9,10 @@
 import Branch
 
 extension BranchUniversalObject {
-    func deepLinkWithProperties(properties: BranchLinkProperties?) -> DeepLink? {
+    func deepLinkWithProperties(_ properties: BranchLinkProperties?) -> DeepLink? {
         guard let controlParams = properties?.controlParams else { return nil }
         guard let deepLinkPath = controlParams["$deeplink_path"] as? String else { return nil }
-        guard let deepLinkUrl = NSURL(string: "letgo://"+deepLinkPath) else { return nil }
+        guard let deepLinkUrl = URL(string: "letgo://"+deepLinkPath) else { return nil }
         guard let uriScheme = UriScheme.buildFromUrl(deepLinkUrl) else { return nil }
         return uriScheme.deepLink
     }

@@ -24,24 +24,24 @@ final class FileApiDataSource: FileDataSource {
     
     // MARK: - FileDataSource
     
-    func uploadFile(userId: String, data: NSData, imageName: String, progress: (Float -> ())? = nil, completion: FileDataSourceCompletion?) {
-        let request = FileRouter.Upload
-        
+    func uploadFile(_ userId: String, data: Data, imageName: String, progress: ((Float) -> ())? = nil, completion: FileDataSourceCompletion?) {
+        let request = FileRouter.upload
+
         apiClient.upload(request, decoder: FileApiDataSource.decoder, multipart: { multipart in
-            if let userIdData = userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
-                multipart.appendBodyPart(data: userIdData, name: "userId")
+            if let userIdData = userId.data(using: .utf8, allowLossyConversion: true) {
+                multipart.append(userIdData, withName: "userId")
             }
-            multipart.appendBodyPart(data: data, name: imageName, fileName: imageName+".jpg", mimeType: "image/jpg")
-            }, completion: completion) { (written, totalWritten, totalExpectedToWrite) in
-                let p = Float(totalWritten)/Float(totalExpectedToWrite)
-                progress?(p)
+            multipart.append(data, withName: imageName, fileName: imageName+".jpg", mimeType: "image/jpg")
+        }, completion: completion) { progressData in
+            let p = Float(progressData.completedUnitCount)/Float(progressData.totalUnitCount)
+            progress?(p)
         }
     }
     
     
     // MARK: - Decoders
     
-    static func decoder(object: AnyObject) -> String? {
+    static func decoder(_ object: Any) -> String? {
         let imageId: Decoded<String> = JSON(object) <| "imageId"
         return imageId.value
     }

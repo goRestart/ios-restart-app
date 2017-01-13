@@ -10,17 +10,17 @@ import Foundation
 
 enum LocationRouter: URLRequestAuthenticable {
 
-    case IPLookup
+    case ipLookup
 
     static let endpoint = "/api/iplookup.json"
 
     var requiredAuthLevel: AuthLevel {
-        return .Nonexistent
+        return .nonexistent
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
-        return Router<APIBaseURL>.Read(endpoint: LocationRouter.endpoint, params: [:]).URLRequest
+    func asURLRequest() throws -> URLRequest {
+        return try Router<APIBaseURL>.read(endpoint: LocationRouter.endpoint, params: [:]).asURLRequest()
     }
 }

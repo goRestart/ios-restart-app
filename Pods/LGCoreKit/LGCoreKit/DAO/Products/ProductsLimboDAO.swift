@@ -8,8 +8,8 @@
 
 protocol ProductsLimboDAO: class {
     var productIds: [String] { get }
-    func save(product: Product)
-    func save(products: [Product])
-    func remove(product: Product)
+    func save(_ product: Product)
+    func save(_ products: [Product])
+    func remove(_ product: Product)
     func removeAll()
 }

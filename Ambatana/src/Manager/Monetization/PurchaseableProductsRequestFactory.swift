@@ -9,11 +9,11 @@
 import Foundation
 
 protocol PurchaseableProductsRequestFactory {
-    func generatePurchaseableProductsRequest(ids: [String]) -> PurchaseableProductsRequest
+    func generatePurchaseableProductsRequest(_ ids: [String]) -> PurchaseableProductsRequest
 }
 
 class AppstoreProductsRequestFactory: PurchaseableProductsRequestFactory {
-    func generatePurchaseableProductsRequest(ids: [String]) -> PurchaseableProductsRequest {
+    func generatePurchaseableProductsRequest(_ ids: [String]) -> PurchaseableProductsRequest {
         return AppstoreProductsRequest(ids: ids)
     }
 }

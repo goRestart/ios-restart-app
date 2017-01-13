@@ -22,9 +22,9 @@ final public class LGIPLookupLocationService: IPLookupLocationService {
     
     // MARK: - Public methods
     
-    public func retrieveLocationWithCompletion(completion: IPLookupLocationServiceCompletion?) {
+    public func retrieveLocationWithCompletion(_ completion: IPLookupLocationServiceCompletion?) {
 
-        let request = LocationRouter.IPLookup
+        let request = LocationRouter.ipLookup
         apiClient.request(request, decoder: LGIPLookupLocationService.decoder) {
             (result: Result<LGLocationCoordinates2D, ApiError>) -> () in
 
@@ -36,7 +36,7 @@ final public class LGIPLookupLocationService: IPLookupLocationService {
         }
     }
 
-    static func decoder(object: AnyObject) -> LGLocationCoordinates2D? {
+    static func decoder(_ object: Any) -> LGLocationCoordinates2D? {
         guard let theLocation : LGLocationCoordinates2D = LGArgo.jsonToCoordinates(JSON(object),
             latKey: "latitude", lonKey: "longitude").value else {
                 return nil

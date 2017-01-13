@@ -21,13 +21,13 @@ class InstallationUserDefaultsDAO: InstallationDAO {
         return installationVar.asObservable()
     }
 
-    private let userDefaults: NSUserDefaults
+    private let userDefaults: UserDefaults
     private let installationVar = Variable<Installation?>(nil)
 
 
     // MARK: Inits
 
-    init(userDefaults: NSUserDefaults) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
         installationVar.value = fetch()
     }
@@ -35,14 +35,14 @@ class InstallationUserDefaultsDAO: InstallationDAO {
 
     // MARK: InstallationDAO Protocol
 
-    func save(installation: Installation) {
+    func save(_ installation: Installation) {
         let dict = installation.encode()
         userDefaults.setValue(dict, forKey: InstallationUserDefaultsDAO.userDefaultsKey)
         installationVar.value = installation
     }
 
     func delete() {
-        userDefaults.removeObjectForKey(InstallationUserDefaultsDAO.userDefaultsKey)
+        userDefaults.removeObject(forKey: InstallationUserDefaultsDAO.userDefaultsKey)
         installationVar.value = nil
     }
 
@@ -50,7 +50,7 @@ class InstallationUserDefaultsDAO: InstallationDAO {
     // MARK: Private methods
 
     private func fetch() -> Installation? {
-        guard let dict = userDefaults.dictionaryForKey(InstallationUserDefaultsDAO.userDefaultsKey) else { return nil }
+        guard let dict = userDefaults.dictionary(forKey: InstallationUserDefaultsDAO.userDefaultsKey) else { return nil }
         let installation: LGInstallation? = LGInstallation.decode(dict)
         return installation
     }

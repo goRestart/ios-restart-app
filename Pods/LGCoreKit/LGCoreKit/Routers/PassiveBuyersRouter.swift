@@ -12,33 +12,33 @@ enum PassiveBuyersRouter: URLRequestAuthenticable {
 
     static let productsEndpoint = "/products"
 
-    case Show(productId: String)
-    case CreateContacts(productId: String, params: [String : AnyObject])
+    case show(productId: String)
+    case createContacts(productId: String, params: [String : Any])
 
     var endpoint: String {
         switch self {
-        case let .Show(productId):
+        case let .show(productId):
             return PassiveBuyersRouter.productsEndpoint + "/\(productId)/suggested_buyers"
-        case let .CreateContacts(productId, _):
+        case let .createContacts(productId, _):
             return PassiveBuyersRouter.productsEndpoint + "/\(productId)/suggested_buyers/contacts"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Show, .CreateContacts:
-            return .User
+        case .show, .createContacts:
+            return .user
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case .Show(_):
-            return Router<PassiveBuyersBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
-        case let .CreateContacts(_, params):
-            return Router<PassiveBuyersBaseURL>.Create(endpoint: endpoint, params: params, encoding: .JSON).URLRequest
+        case .show(_):
+            return try Router<PassiveBuyersBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
+        case let .createContacts(_, params):
+            return try Router<PassiveBuyersBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
         }
     }
 }

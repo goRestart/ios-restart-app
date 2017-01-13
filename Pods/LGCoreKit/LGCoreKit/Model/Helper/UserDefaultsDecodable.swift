@@ -7,6 +7,6 @@
 //
 
 public protocol UserDefaultsDecodable {
-    static func decode(dictionary: [String: AnyObject]) -> Self?
-    func encode() -> [String: AnyObject]
+    static func decode(_ dictionary: [String: Any]) -> Self?
+    func encode() -> [String: Any]
 }

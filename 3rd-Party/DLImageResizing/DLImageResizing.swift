@@ -7,16 +7,17 @@
 //
 
 import UIKit
+import CoreGraphics
 
 extension UIImage {
     
     // MARK: - Image resizing.
     
     // Returns a copy of this image, cropped to certain bounds.
-    func croppedImage(bounds: CGRect) -> UIImage? {
-        guard let CGImage = CGImage else { return nil }
-        guard let imageRef = CGImageCreateWithImageInRect(CGImage, bounds) else { return nil }
-        return UIImage(CGImage: imageRef, scale: 1.0, orientation: imageOrientation)
+    func croppedImage(_ bounds: CGRect) -> UIImage? {
+        guard let CGImage = cgImage else { return nil }
+        guard let imageRef = CGImage.cropping(to: bounds) else { return nil }
+        return UIImage(cgImage: imageRef, scale: 1.0, orientation: imageOrientation)
     }
 
     // Returns a copy of this image, cropped to its center.
@@ -24,21 +25,21 @@ extension UIImage {
         let minSize = min(size.width, size.height)
         let originX = round((size.width - minSize) / 2.0)
         let originY = round((size.height - minSize) / 2.0)
-        let bounds = CGRectMake(originX, originY, minSize, minSize)
+        let bounds = CGRect(x: originX, y: originY, width: minSize, height: minSize)
         return croppedImage(bounds)
     }
     
     // Returns a copy of this image, squared to thumbnail size.
     // If transparentBorder is non-zero, adds a transparent border to the image, resulting in an antialiasing when 
     // rotating the image using CoreAnimation.
-    func thumbnailImageOfSize(thumbnailSize: CGFloat, transparentBorder borderSize: UInt, cornerRadius: UInt, interpolationQuality: CGInterpolationQuality) -> UIImage? {
+    func thumbnailImageOfSize(_ thumbnailSize: CGFloat, transparentBorder borderSize: UInt, cornerRadius: UInt, interpolationQuality: CGInterpolationQuality) -> UIImage? {
         // first we resize the image to a thumbnail size
-        guard let resizedImage = resizedImageWithContentMode(.ScaleAspectFit, size: CGSizeMake(thumbnailSize, thumbnailSize),
+        guard let resizedImage = resizedImageWithContentMode(.scaleAspectFit, size: CGSize(width: thumbnailSize, height: thumbnailSize),
                                                              interpolationQuality: interpolationQuality) else { return nil }
         // then we crop the edges
-        let croppedFrame = CGRectMake(round((resizedImage.size.width - thumbnailSize) / 2.0),
-                                      round((resizedImage.size.height - thumbnailSize) / 2.0),
-                                      thumbnailSize, thumbnailSize)
+        let croppedFrame = CGRect(x: round((resizedImage.size.width - thumbnailSize) / 2.0),
+                                      y: round((resizedImage.size.height - thumbnailSize) / 2.0),
+                                      width: thumbnailSize, height: thumbnailSize)
         let croppedImage = resizedImage.croppedImage(croppedFrame)
             
         // take transparent border into account
@@ -48,7 +49,7 @@ extension UIImage {
     }
     
     // Returns a copy of the image, resized proportionally to a max side.
-    func resizedImageToMaxSide(side: CGFloat, interpolationQuality: CGInterpolationQuality) -> UIImage? {
+    func resizedImageToMaxSide(_ side: CGFloat, interpolationQuality: CGInterpolationQuality) -> UIImage? {
         var w = size.width
         var h = size.height
         // resize to max size = kLetGoMaxProductImageSide
@@ -63,13 +64,13 @@ extension UIImage {
             w = w * maxProductImageSide / h
             h = maxProductImageSide
         }
-        return resizedImageToSize(CGSizeMake(w, h), interpolationQuality: interpolationQuality)
+        return resizedImageToSize(CGSize(width: w, height: h), interpolationQuality: interpolationQuality)
     }
     
     // Returns a copy of the image, resized to a new size with certain interpolation quality.
-    func resizedImageToSize(size: CGSize, interpolationQuality: CGInterpolationQuality) -> UIImage? {
+    func resizedImageToSize(_ size: CGSize, interpolationQuality: CGInterpolationQuality) -> UIImage? {
         var needsToBeTransposed = false
-        if imageOrientation == .Left || imageOrientation == .LeftMirrored || imageOrientation == .Right || imageOrientation == .RightMirrored {
+        if imageOrientation == .left || imageOrientation == .leftMirrored || imageOrientation == .right || imageOrientation == .rightMirrored {
             needsToBeTransposed = true
         }
         return resizedImageToSize(size, transform: transformForOrientationWithSize(size),
@@ -77,76 +78,76 @@ extension UIImage {
     }
     
     // Returns a copy of the image, resized to match a content mode in certain bounds, with a given interpolation quality.
-    func resizedImageWithContentMode(contentMode: UIViewContentMode, size: CGSize, interpolationQuality: CGInterpolationQuality) -> UIImage? {
+    func resizedImageWithContentMode(_ contentMode: UIViewContentMode, size: CGSize, interpolationQuality: CGInterpolationQuality) -> UIImage? {
         let horizontalRatio = size.width / self.size.width
         let verticalRatio = size.height / self.size.height
         var finalRatio: CGFloat
         
         switch (contentMode) {
-        case .ScaleAspectFill:
+        case .scaleAspectFill:
             finalRatio = max(horizontalRatio, verticalRatio)
-        case .ScaleAspectFit:
+        case .scaleAspectFit:
             finalRatio = min(horizontalRatio, verticalRatio)
         default:
             finalRatio = 1.0
         }
         
-        let newSize = CGSizeMake(self.size.width * finalRatio, self.size.height * finalRatio)
+        let newSize = CGSize(width: self.size.width * finalRatio, height: self.size.height * finalRatio)
         return self.resizedImageToSize(newSize, interpolationQuality: interpolationQuality)
     }
     
     // Returns a copy of the image transformed by means of an affine transform and scaled to the new size.
-    // Also, it sets the orientation to UIImageOrientation.Up.
-    func resizedImageToSize(size: CGSize, transform: CGAffineTransform, needsToBeTransposed: Bool,
+    // Also, it sets the orientation to UIImageOrientation.up.
+    func resizedImageToSize(_ size: CGSize, transform: CGAffineTransform, needsToBeTransposed: Bool,
                             interpolationQuality: CGInterpolationQuality) -> UIImage? {
         // calculate frames and get initial CGImage
-        let newFrame = CGRectIntegral(CGRectMake(0, 0, size.width, size.height))
-        guard let CGImage = CGImage, colorSpace = CGImageGetColorSpace(CGImage) else { return nil }
+        let newFrame = CGRect(x: 0, y: 0, width: size.width, height: size.height).integral
+        guard let CGImage = cgImage, let colorSpace = CGImage.colorSpace else { return nil }
         
         // Generate a context for the new size
-        guard let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height),
-                                                  CGImageGetBitsPerComponent(CGImage), 0, colorSpace,
-                                                  CGImageGetBitmapInfo(CGImage).rawValue) else { return nil }
+        guard let context = CGContext(data: nil, width: Int(newFrame.size.width), height: Int(newFrame.size.height),
+                                                  bitsPerComponent: CGImage.bitsPerComponent, bytesPerRow: 0, space: colorSpace,
+                                                  bitmapInfo: CGImage.bitmapInfo.rawValue) else { return nil }
         // Apply transform to context.
-        CGContextConcatCTM(context, transform);
+        context.concatenate(transform)
         
         // Use quality level for interpolation.
-        CGContextSetInterpolationQuality(context, interpolationQuality);
+        context.interpolationQuality = interpolationQuality
         
         // Scale the image by drawing it in the resized context.
-        CGContextDrawImage(context, needsToBeTransposed ? CGRectMake(0, 0, newFrame.size.height, newFrame.size.width) :
-                                                          newFrame, CGImage)
+        context.draw(CGImage, in: needsToBeTransposed ? CGRect(x: 0, y: 0, width: newFrame.size.height, height: newFrame.size.width) :
+                                                          newFrame)
         
         // Return the resized image from the context.
-        guard let resultCGImage = CGBitmapContextCreateImage(context) else { return nil }
-        return UIImage(CGImage: resultCGImage)
+        guard let resultCGImage = context.makeImage() else { return nil }
+        return UIImage(cgImage: resultCGImage)
     }
     
     // Returns a transform for correctly displaying the image given its orientation.
-    func transformForOrientationWithSize(size: CGSize) -> CGAffineTransform {
-        var transform = CGAffineTransformIdentity
+    func transformForOrientationWithSize(_ size: CGSize) -> CGAffineTransform {
+        var transform = CGAffineTransform.identity
         // modify transform depending on side orientation
-        if imageOrientation == .Down || imageOrientation == .DownMirrored { // EXIF 3 & 4
-            transform = CGAffineTransformTranslate(transform, size.width, size.height)
-            transform = CGAffineTransformRotate(transform, CGFloat(M_PI))
+        if imageOrientation == .down || imageOrientation == .downMirrored { // EXIF 3 & 4
+            transform = transform.translatedBy(x: size.width, y: size.height)
+            transform = transform.rotated(by: CGFloat(M_PI))
         }
-        else if imageOrientation == .Left || imageOrientation == .LeftMirrored { // EXIF 6 & 5
-            transform = CGAffineTransformTranslate(transform, size.width, 0)
-            transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
+        else if imageOrientation == .left || imageOrientation == .leftMirrored { // EXIF 6 & 5
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.rotated(by: CGFloat(M_PI_2))
         }
-        else if imageOrientation == .Right || imageOrientation == .RightMirrored { // EXIF 7 & 8
-            transform = CGAffineTransformTranslate(transform, 0, size.height)
-            transform = CGAffineTransformRotate(transform, CGFloat(-M_PI_2))
+        else if imageOrientation == .right || imageOrientation == .rightMirrored { // EXIF 7 & 8
+            transform = transform.translatedBy(x: 0, y: size.height)
+            transform = transform.rotated(by: CGFloat(-M_PI_2))
         }
         
         // modify transform for mirrored orientations
-        if imageOrientation == .UpMirrored || imageOrientation == .DownMirrored { // EXIF 2 & 4
-            transform = CGAffineTransformTranslate(transform, size.width, 0)
-            transform = CGAffineTransformScale(transform, -1, 1)
+        if imageOrientation == .upMirrored || imageOrientation == .downMirrored { // EXIF 2 & 4
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
         }
-        else if imageOrientation == .LeftMirrored || imageOrientation == .RightMirrored { // EXIF 5 & 7
-            transform = CGAffineTransformTranslate(transform, size.height, 0)
-            transform = CGAffineTransformScale(transform, -1, 1)
+        else if imageOrientation == .leftMirrored || imageOrientation == .rightMirrored { // EXIF 5 & 7
+            transform = transform.translatedBy(x: size.height, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
         }
         
         
@@ -158,123 +159,126 @@ extension UIImage {
     // Returns a copy of this image, with rounded corners.
     // If transparentBorder is non-zero, adds a transparent border to the image, resulting in an antialiasing when
     // rotating the image using CoreAnimation.
-    func roundedCornersImageOfSize(size: CGFloat, borderSize: UInt) -> UIImage? {
+    func roundedCornersImageOfSize(_ size: CGFloat, borderSize: UInt) -> UIImage? {
         // We need an alpha layer in the image. Create a context
-        guard let image = imageWithAlpha, cgImage = image.CGImage else { return nil }
-        guard let colorSpace = CGImageGetColorSpace(cgImage) else { return nil }
-        guard let context = CGBitmapContextCreate(nil, Int(image.size.width), Int(image.size.height),
-                                                  CGImageGetBitsPerComponent(cgImage), 0,
-                                                  colorSpace, CGImageGetBitmapInfo(cgImage).rawValue) else { return nil }
+        guard let image = imageWithAlpha, let cgImage = image.cgImage else { return nil }
+        guard let colorSpace = cgImage.colorSpace else { return nil }
+        guard let context = CGContext(data: nil, width: Int(image.size.width), height: Int(image.size.height),
+                                                  bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: 0,
+                                                  space: colorSpace, bitmapInfo: cgImage.bitmapInfo.rawValue) else { return nil }
         // Create a clipping path with the rounded corners
-        CGContextBeginPath(context)
+        context.beginPath()
 
 
-        addRoundedRectToPath(CGRectMake(CGFloat(borderSize), CGFloat(borderSize),
-                             image.size.width - CGFloat(borderSize) * 2,
-                             image.size.height - CGFloat(borderSize) * 2), context: context,
+        addRoundedRectToPath(CGRect(x: CGFloat(borderSize), y: CGFloat(borderSize),
+                             width: image.size.width - CGFloat(borderSize) * 2,
+                             height: image.size.height - CGFloat(borderSize) * 2), context: context,
                              ovalWidth: size, ovalHeight: size)
-        CGContextClosePath(context)
-        CGContextClip(context)
+        context.closePath()
+        context.clip()
             
         // draw the image in the clipped context
-        CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), cgImage)
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
             
         // create the image and return it
-        guard let clippedImage = CGBitmapContextCreateImage(context) else { return nil }
-        return UIImage(CGImage: clippedImage, scale: 1.0, orientation: imageOrientation)
+        guard let clippedImage = context.makeImage() else { return nil }
+        return UIImage(cgImage: clippedImage, scale: 1.0, orientation: imageOrientation)
     }
     
     // Creates a rounded rect to be added to a path in a drawing context
-    func addRoundedRectToPath(rect: CGRect, context: CGContextRef, ovalWidth: CGFloat, ovalHeight: CGFloat) {
+    func addRoundedRectToPath(_ rect: CGRect, context: CGContext, ovalWidth: CGFloat, ovalHeight: CGFloat) {
         // safety check: if we don't have a rect...
-        if ovalWidth == 0 || ovalHeight == 0 { CGContextAddRect(context, rect); return }
+        if ovalWidth == 0 || ovalHeight == 0 {
+            context.addRect(rect)
+            return
+        }
     
-        CGContextSaveGState(context);
-        CGContextTranslateCTM(context, CGRectGetMinX(rect), CGRectGetMinY(rect))
-        CGContextScaleCTM(context, ovalWidth, ovalHeight)
-        let fw = CGRectGetWidth(rect) / ovalWidth
-        let fh = CGRectGetHeight(rect) / ovalHeight
-        CGContextMoveToPoint(context, fw, fh/2)
-        CGContextAddArcToPoint(context, fw, fh, fw/2, fh, 1)
-        CGContextAddArcToPoint(context, 0, fh, 0, fh/2, 1)
-        CGContextAddArcToPoint(context, 0, 0, fw/2, 0, 1)
-        CGContextAddArcToPoint(context, fw, 0, fw, fh/2, 1)
-        CGContextClosePath(context)
-        CGContextRestoreGState(context)
+        context.saveGState()
+        context.translateBy(x: rect.minX, y: rect.minY)
+        context.scaleBy(x: ovalWidth, y: ovalHeight)
+        let fw = rect.width / ovalWidth
+        let fh = rect.height / ovalHeight
+        context.move(to: CGPoint(x: fw, y: fh/2))
+        context.addArc(tangent1End: CGPoint(x: fw, y: fh), tangent2End: CGPoint(x: fw/2, y: fh), radius: 1)
+        context.addArc(tangent1End: CGPoint(x: 0, y: fh), tangent2End: CGPoint(x: 0, y: fh/2), radius: 1)
+        context.addArc(tangent1End: CGPoint(x: 0, y: 0), tangent2End: CGPoint(x: fw/2, y: 0), radius: 1)
+        context.addArc(tangent1End: CGPoint(x: fw, y: 0), tangent2End: CGPoint(x: fw, y: fh/2), radius: 1)
+        context.closePath()
+        context.restoreGState()
     }
     
     // MARK: - Alpha layers
     
     // Returns true if the image has an alpha channel.
     var hasAlphaChannel: Bool {
-        guard let CGImage = CGImage else { return false }
-        let alpha = CGImageGetAlphaInfo(CGImage)
-        return (alpha == .First || alpha == .Last || alpha == .PremultipliedFirst || alpha == .PremultipliedLast)
+        guard let CGImage = cgImage else { return false }
+        let alpha = CGImage.alphaInfo
+        return (alpha == .first || alpha == .last || alpha == .premultipliedFirst || alpha == .premultipliedLast)
     }
     
     // Returns a copy of the image after adding an alpha channel if needed
     var imageWithAlpha: UIImage? {
         if hasAlphaChannel { return nil }
         
-        guard let CGImage = CGImage else { return nil }
-        let width = CGImageGetWidth(CGImage)
-        let height = CGImageGetHeight(CGImage)
+        guard let CGImage = cgImage else { return nil }
+        let width = CGImage.width
+        let height = CGImage.height
         
         // bitsPerComponent and bitmapInfo hardcoded for avoiding an "unsupported parameter combination" error message
-        let alphaInfoAsBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedFirst.rawValue)
-        guard let colorSpace = CGImageGetColorSpace(CGImage) else { return nil }
-        guard let context = CGBitmapContextCreate(nil, width, height, 8, 0, colorSpace,
-                                                  CGBitmapInfo.ByteOrderDefault.union(alphaInfoAsBitmapInfo).rawValue)
+        let alphaInfoAsBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
+        guard let colorSpace = CGImage.colorSpace else { return nil }
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+                                                  bitmapInfo: CGBitmapInfo().union(alphaInfoAsBitmapInfo).rawValue)
             else { return nil }
         
         // draw the image in the context and return it
-        CGContextDrawImage(context, CGRectMake(0, 0, CGFloat(width), CGFloat(height)), CGImage)
-        guard let cgAlphaImage = CGBitmapContextCreateImage(context) else { return nil }
-        return UIImage(CGImage: cgAlphaImage, scale: 1.0, orientation: imageOrientation)
+        context.draw(CGImage, in: CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height)))
+        guard let cgAlphaImage = context.makeImage() else { return nil }
+        return UIImage(cgImage: cgAlphaImage, scale: 1.0, orientation: imageOrientation)
     }
     
     // Returns a copy of the image with a transparent border of certain size. Adds an alpha layer if necessary.
-    func transparentBorderedImage(borderSize: UInt) -> UIImage? {
+    func transparentBorderedImage(_ borderSize: UInt) -> UIImage? {
         guard let image = imageWithAlpha else { return nil }
-        let newFrame = CGRectMake(0, 0, image.size.width + CGFloat(borderSize)*2, image.size.height + CGFloat(borderSize)*2)
+        let newFrame = CGRect(x: 0, y: 0, width: image.size.width + CGFloat(borderSize)*2, height: image.size.height + CGFloat(borderSize)*2)
         // generate the context for drawing the image
-        guard let CGImage = image.CGImage, colorSpace = CGImageGetColorSpace(CGImage) else { return nil }
-        guard let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height),
-                                                  CGImageGetBitsPerComponent(CGImage), 0, colorSpace,
-                                                  CGImageGetBitmapInfo(CGImage).rawValue) else { return nil }
+        guard let CGImage = image.cgImage, let colorSpace = CGImage.colorSpace else { return nil }
+        guard let context = CGContext(data: nil, width: Int(newFrame.size.width), height: Int(newFrame.size.height),
+                                                  bitsPerComponent: CGImage.bitsPerComponent, bytesPerRow: 0, space: colorSpace,
+                                                  bitmapInfo: CGImage.bitmapInfo.rawValue) else { return nil }
         // we'll draw the image at the center, with a space for the borders.
-        let centerLocation = CGRectMake(CGFloat(borderSize), CGFloat(borderSize), image.size.width, image.size.height)
-        CGContextDrawImage(context, centerLocation, CGImage)
-        guard let borderImage = CGBitmapContextCreateImage(context) else { return nil }
+        let centerLocation = CGRect(x: CGFloat(borderSize), y: CGFloat(borderSize), width: image.size.width, height: image.size.height)
+        context.draw(CGImage, in: centerLocation)
+        guard let borderImage = context.makeImage() else { return nil }
         
         // create the transparent border image mask
         guard let maskImage = newBorderMask(borderSize, size: newFrame.size) else { return nil }
-        guard let transparentBorderImage = CGImageCreateWithMask(borderImage, maskImage) else { return nil }
-        return UIImage(CGImage: transparentBorderImage, scale: 1.0, orientation: imageOrientation)
+        guard let transparentBorderImage = borderImage.masking(maskImage) else { return nil }
+        return UIImage(cgImage: transparentBorderImage, scale: 1.0, orientation: imageOrientation)
     }
 
     // Creates and returns a mask with transparent borders and opaque center content
     // Size must include the entire mask (opaque + transparent)
-    func newBorderMask(borderSize: UInt, size: CGSize) -> CGImageRef? {
+    func newBorderMask(_ borderSize: UInt, size: CGSize) -> CGImage? {
         let colorSpace = CGColorSpaceCreateDeviceGray()
         // build a context for the new size
-        let alphaInfoAsBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.None.rawValue)
-        guard let context = CGBitmapContextCreate(nil, Int(size.width), Int(size.height), 8, 0, colorSpace,
-                                                  CGBitmapInfo.ByteOrderDefault.union(alphaInfoAsBitmapInfo).rawValue)
+        let alphaInfoAsBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
+        guard let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+                                                  bitmapInfo: CGBitmapInfo().union(alphaInfoAsBitmapInfo).rawValue)
             else { return nil }
         
         // we'll fill it initially with a transparent layer.
-        CGContextSetFillColorWithColor(context, UIColor.blackColor().CGColor)
-        CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height))
+        context.setFillColor(UIColor.black.cgColor)
+        context.fill(CGRect(x: 0, y: 0, width: size.width, height: size.height))
         
         // now the inner opaque part.
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, CGRectMake(CGFloat(borderSize),
-                          CGFloat(borderSize), size.width - CGFloat(borderSize) * 2,
-                          size.height - CGFloat(borderSize) * 2))
+        context.setFillColor(UIColor.white.cgColor)
+        context.fill(CGRect(x: CGFloat(borderSize),
+                          y: CGFloat(borderSize), width: size.width - CGFloat(borderSize) * 2,
+                          height: size.height - CGFloat(borderSize) * 2))
         
         // return the image from the context
-        return CGBitmapContextCreateImage(context)
+        return context.makeImage()
     }
 
 }

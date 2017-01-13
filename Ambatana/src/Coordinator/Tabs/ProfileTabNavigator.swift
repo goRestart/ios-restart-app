@@ -13,7 +13,7 @@ protocol ProfileTabNavigator: TabNavigator {
 }
 
 protocol SettingsNavigator: class {
-    func showFbAppInvite(content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate)
+    func showFbAppInvite(_ content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate)
     func openEditUserName()
     func openEditLocation()
     func openCreateCommercials()
@@ -36,5 +36,5 @@ protocol EditLocationNavigator: class {
 
 protocol HelpNavigator: class {
     func closeHelp()
-    func openURL(url: NSURL)
+    func openURL(_ url: URL)
 }

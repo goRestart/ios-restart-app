@@ -32,7 +32,7 @@ final class ChatsTabCoordinator: TabCoordinator {
         chatGroupedVM.tabNavigator = self
     }
 
-    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+    override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return true
     }
 }

@@ -32,12 +32,12 @@ class MainTabCoordinator: TabCoordinator {
         viewModel.navigator = self
     }
 
-    func openSearch(query: String, categoriesString: String?) {
+    func openSearch(_ query: String, categoriesString: String?) {
         var filters = ProductFilters()
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchType: .User(query: query), filters: filters)
+        let viewModel = MainProductsViewModel(searchType: .user(query: query), filters: filters)
         viewModel.navigator = self
         let vc = MainProductsViewController(viewModel: viewModel)
 
@@ -45,7 +45,7 @@ class MainTabCoordinator: TabCoordinator {
     }
 
     // Note: override in subclasses
-    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+    override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainProductsViewController)
     }
 }
@@ -59,10 +59,10 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func showFilters(with productFilters: ProductFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        let vm = FiltersViewModel(currentFilters: productFilters ?? ProductFilters())
+        let vm = FiltersViewModel(currentFilters: productFilters)
         vm.dataDelegate = filtersVMDataDelegate
         let vc = FiltersViewController(viewModel: vm)
         let navVC = UINavigationController(rootViewController: vc)
-        navigationController.presentViewController(navVC, animated: true, completion: nil)
+        navigationController.present(navVC, animated: true, completion: nil)
     }
 }

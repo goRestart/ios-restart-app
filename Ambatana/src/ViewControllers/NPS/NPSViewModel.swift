@@ -20,12 +20,12 @@ class NPSViewModel: BaseViewModel {
         self.tracker = tracker
     }
     
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         let event = TrackerEvent.npsStart()
         tracker.trackEvent(event)
     }
     
-    func vmDidFinishSurvey(score: Int) {
+    func vmDidFinishSurvey(_ score: Int) {
         let event = TrackerEvent.npsComplete(score)
         tracker.trackEvent(event)
     }

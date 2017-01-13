@@ -8,29 +8,29 @@
 
 
 enum WebSocketErrorType: Int {
-    case NotAuthenticated = 3000
-    case TalkerPermissionsError = 3001 // `talker` does not have permissions for `conversation`
-    case InternalServerError = 3008
-    case ConversationWithYourself = 3009 // You can't fetch conversation id with yourself
-    case SellerDoesNotExists = 3010
-    case SellerDoesNotOwnProduct = 3011
-    case RetrievingProductInfoError = 3012
+    case notAuthenticated = 3000
+    case talkerPermissionsError = 3001 // `talker` does not have permissions for `conversation`
+    case internalServerError = 3008
+    case conversationWithYourself = 3009 // You can't fetch conversation id with yourself
+    case sellerDoesNotExists = 3010
+    case sellerDoesNotOwnProduct = 3011
+    case retrievingProductInfoError = 3012
     
-    case UserNotFound = 6404
-    case Unauthorized = 6401
-    case Forbidden = 6403
-    case IsScammer = 6418
-    case AuthUnknownError = 6001
-    case TokenExpired = 6003
-    case InvalidToken = 6004
-    case UserNotLoggedIn = 6005
-    case UserNotVerified = 6013
+    case userNotFound = 6404
+    case unauthorized = 6401
+    case forbidden = 6403
+    case isScammer = 6418
+    case authUnknownError = 6001
+    case tokenExpired = 6003
+    case invalidToken = 6004
+    case userNotLoggedIn = 6005
+    case userNotVerified = 6013
     
-    case UnknownError = 0
+    case unknownError = 0
     
     init(code: Int) {
         let error = WebSocketErrorType(rawValue: code)
-        self = error ?? ("\(code)".hasPrefix("6") ? .AuthUnknownError : .UnknownError)
+        self = error ?? ("\(code)".hasPrefix("6") ? .authUnknownError : .unknownError)
     }
 }
 
@@ -55,23 +55,23 @@ enum WebSocketResponseType: String {
     case Pong                           = "pong"
     
     enum ResponseSuperType {
-        case ACK
-        case Error
-        case Event
-        case Query
+        case ack
+        case error
+        case event
+        case query
     }
     
     var superType: ResponseSuperType {
         switch self {
         case .ACK:
-            return .ACK
+            return .ack
         case .Error:
-            return .Error
+            return .error
         case .MessageList, .ConversationCreated, .ConversationList, .ConversationDetails, .Pong:
-            return .Query
+            return .query
         case .InterlocutorTypingStarted, .InterlocutorTypingStopped, .InterlocutorMessageSent,
         .InterlocutorReceptionConfirmed, .InterlocutorReadConfirmed, .AuthenticationTokenExpired:
-            return .Event
+            return .event
         }
     }
 }
@@ -88,7 +88,7 @@ struct WebSocketResponseACK: WebSocketResponse {
     var ackedType: WebSocketRequestType
     var ackedId: String
     
-    init?(dict: [String: AnyObject]) {
+    init?(dict: [String: Any]) {
         guard let typeString = dict["acked_type"] as? String else { return nil }
         guard let type = WebSocketRequestType(rawValue: typeString) else { return nil }
         guard let ackedId = dict["acked_id"] as? String else { return nil }
@@ -103,14 +103,14 @@ struct WebSocketResponseQuery: WebSocketResponse {
     var id: String
     var type: WebSocketResponseType
     var responseToId: String
-    var data: [String: AnyObject]
+    var data: [String: Any]
     
-    init?(dict: [String: AnyObject]) {
+    init?(dict: [String: Any]) {
         guard let id = dict["id"] as? String else { return nil }
         guard let typeString = dict["type"] as? String else { return nil }
         guard let type = WebSocketResponseType(rawValue: typeString) else { return nil }
         guard let responseToId = dict["response_to_id"] as? String else { return nil }
-        guard let data = dict["data"] as? [String: AnyObject] else { return nil }
+        guard let data = dict["data"] as? [String: Any] else { return nil }
         self.id = id
         self.type = type
         self.responseToId = responseToId
@@ -121,14 +121,14 @@ struct WebSocketResponseQuery: WebSocketResponse {
 struct WebSocketResponseEvent: WebSocketResponse {
     var id: String
     var type: WebSocketResponseType
-    var data: [String: AnyObject]
+    var data: [String: Any]
     
-    init?(dict: [String: AnyObject]) {
+    init?(dict: [String: Any]) {
         guard let id = dict["id"] as? String else { return nil }
         guard let typeString = dict["type"] as? String else { return nil }
         guard let type = WebSocketResponseType(rawValue: typeString) else { return nil }
-        guard let data = dict["data"] as? [String: AnyObject] else { return nil }
-        guard type.superType == .Event else { return nil }
+        guard let data = dict["data"] as? [String: Any] else { return nil }
+        guard type.superType == .event else { return nil }
         self.id = id
         self.type = type
         self.data = data
@@ -140,15 +140,15 @@ struct WebSocketResponseError: WebSocketResponse {
     var type: WebSocketResponseType = .Error
     var errorType: WebSocketErrorType
     var erroredId: String
-    var data: [String: AnyObject]
+    var data: [String: Any]
     
-    init?(dict: [String: AnyObject]) {
+    init?(dict: [String: Any]) {
         guard let id = dict["id"] as? String else { return nil }
         guard let typeString = dict["type"] as? String else { return nil }
         guard let type = WebSocketResponseType(rawValue: typeString) else { return nil }
         guard let erroredId = dict["errored_id"] as? String else { return nil }
-        guard let dataArray = dict["data"] as? [AnyObject] else { return nil }
-        guard let data = dataArray[0] as? [String: AnyObject] else { return nil }
+        guard let dataArray = dict["data"] as? [Any] else { return nil }
+        guard let data = dataArray[0] as? [String: Any] else { return nil }
         guard let errorCode = data["code"] as? Int else { return nil }
         self.id = id
         self.type = type

@@ -21,7 +21,7 @@ final class LGContactRepository: ContactRepository {
 
     // MARK: - Public
 
-    func send(contact: Contact, completion: ContactCompletion?) {
+    func send(_ contact: Contact, completion: ContactCompletion?) {
         contactDataSource.send(contact.email, title: contact.title, message: contact.message) { result in
             if let _ = result.value {
                 completion?(ContactResult(value: contact))

@@ -254,7 +254,6 @@
 		5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */; };
 		5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */; };
 		502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
-		5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021E8571C490C99001012B6 /* KeyboardAnimation.swift */; };
 		502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 502374541B3D3E8D00E02656 /* InfoPlist.strings */; };
 		502374591B3D3EAB00E02656 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5023745B1B3D3EAB00E02656 /* Localizable.strings */; };
 		50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */; };
@@ -488,12 +487,12 @@
 		6A5E19E71D548F5400F92692 /* Float+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19BD1D548F5400F92692 /* Float+Rounding.swift */; };
 		6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19BE1D548F5400F92692 /* Int+LG.swift */; };
 		6A5E19E91D548F5400F92692 /* Int+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19BE1D548F5400F92692 /* Int+LG.swift */; };
-		6A5E19EA1D548F5400F92692 /* NSDate+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19BF1D548F5400F92692 /* NSDate+LG.swift */; };
-		6A5E19EB1D548F5400F92692 /* NSDate+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19BF1D548F5400F92692 /* NSDate+LG.swift */; };
+		6A5E19EA1D548F5400F92692 /* Date+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19BF1D548F5400F92692 /* Date+LG.swift */; };
+		6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19BF1D548F5400F92692 /* Date+LG.swift */; };
 		6A5E19EC1D548F5400F92692 /* NSError+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C01D548F5400F92692 /* NSError+LG.swift */; };
 		6A5E19ED1D548F5400F92692 /* NSError+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C01D548F5400F92692 /* NSError+LG.swift */; };
-		6A5E19EE1D548F5400F92692 /* NSURL+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C11D548F5400F92692 /* NSURL+LG.swift */; };
-		6A5E19EF1D548F5400F92692 /* NSURL+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C11D548F5400F92692 /* NSURL+LG.swift */; };
+		6A5E19EE1D548F5400F92692 /* URL+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C11D548F5400F92692 /* URL+LG.swift */; };
+		6A5E19EF1D548F5400F92692 /* URL+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C11D548F5400F92692 /* URL+LG.swift */; };
 		6A5E19F01D548F5400F92692 /* String+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C21D548F5400F92692 /* String+LG.swift */; };
 		6A5E19F11D548F5400F92692 /* String+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C21D548F5400F92692 /* String+LG.swift */; };
 		6A5E19F21D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19C31D548F5400F92692 /* UnicodeScalar+LG.swift */; };
@@ -1016,6 +1015,9 @@
 		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
 		C7D23FE11DCC954D00931803 /* ProductCarouselUIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D23FE01DCC954D00931803 /* ProductCarouselUIHelper.swift */; };
 		C7D23FE21DCC96BA00931803 /* ProductCarouselUIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D23FE01DCC954D00931803 /* ProductCarouselUIHelper.swift */; };
+		C7D2AC961E1D361600C98944 /* CollectionVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D2AC951E1D361600C98944 /* CollectionVariable.swift */; };
+		C7D2AC971E1D361600C98944 /* CollectionVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D2AC951E1D361600C98944 /* CollectionVariable.swift */; };
+		C7D2AC991E1D367100C98944 /* CollectionVariableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D2AC981E1D367100C98944 /* CollectionVariableSpec.swift */; };
 		C7DB41811C51239500400945 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47E591BBEA5B70034C19D /* Settings.bundle */; };
 		C7DB41871C5138B500400945 /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
 		C7DB418B1C5138B500400945 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; };
@@ -1092,7 +1094,6 @@
 		C7DB42251C5138B500400945 /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B89CB81C20271E00536A6C /* SocialShareView.swift */; };
 		C7DB42261C5138B500400945 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B8E1B25D18F0021D8D9 /* TabBarController.swift */; };
 		C7DB42281C5138B500400945 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509273351B172D5B00A346F9 /* PushManager.swift */; };
-		C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021E8571C490C99001012B6 /* KeyboardAnimation.swift */; };
 		C7DB42321C5138B500400945 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		C7DB42331C5138B500400945 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C7DB42341C5138B500400945 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
@@ -1412,7 +1413,6 @@
 		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
 		5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RememberPasswordViewController.xib; sourceTree = "<group>"; };
 		5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewModel.swift; sourceTree = "<group>"; };
-		5021E8571C490C99001012B6 /* KeyboardAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimation.swift; sourceTree = "<group>"; };
 		502374551B3D3E8D00E02656 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5023745A1B3D3EAB00E02656 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5023745C1B3D3EDA00E02656 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1584,9 +1584,9 @@
 		6A5E19BC1D548F5400F92692 /* CGAffineTransform+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGAffineTransform+LG.swift"; sourceTree = "<group>"; };
 		6A5E19BD1D548F5400F92692 /* Float+Rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+Rounding.swift"; sourceTree = "<group>"; };
 		6A5E19BE1D548F5400F92692 /* Int+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+LG.swift"; sourceTree = "<group>"; };
-		6A5E19BF1D548F5400F92692 /* NSDate+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+LG.swift"; sourceTree = "<group>"; };
+		6A5E19BF1D548F5400F92692 /* Date+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+LG.swift"; sourceTree = "<group>"; };
 		6A5E19C01D548F5400F92692 /* NSError+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+LG.swift"; sourceTree = "<group>"; };
-		6A5E19C11D548F5400F92692 /* NSURL+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+LG.swift"; sourceTree = "<group>"; };
+		6A5E19C11D548F5400F92692 /* URL+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+LG.swift"; sourceTree = "<group>"; };
 		6A5E19C21D548F5400F92692 /* String+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LG.swift"; sourceTree = "<group>"; };
 		6A5E19C31D548F5400F92692 /* UnicodeScalar+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UnicodeScalar+LG.swift"; sourceTree = "<group>"; };
 		6A5E19C51D548F5400F92692 /* CountryHelper+Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CountryHelper+Product.swift"; sourceTree = "<group>"; };
@@ -1877,6 +1877,8 @@
 		C7C61E061D63505500F9505D /* CollectionType+Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionType+Shuffle.swift"; sourceTree = "<group>"; };
 		C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "Pods/../build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		C7D23FE01DCC954D00931803 /* ProductCarouselUIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselUIHelper.swift; sourceTree = "<group>"; };
+		C7D2AC951E1D361600C98944 /* CollectionVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionVariable.swift; sourceTree = "<group>"; };
+		C7D2AC981E1D367100C98944 /* CollectionVariableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionVariableSpec.swift; sourceTree = "<group>"; };
 		C7DB417F1C51212900400945 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C7DB42941C5138B500400945 /* LetGoGodMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGoGodMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentsHelper.swift; sourceTree = "<group>"; };
@@ -2993,9 +2995,9 @@
 				2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */,
 				6A5E19BD1D548F5400F92692 /* Float+Rounding.swift */,
 				6A5E19BE1D548F5400F92692 /* Int+LG.swift */,
-				6A5E19BF1D548F5400F92692 /* NSDate+LG.swift */,
+				6A5E19BF1D548F5400F92692 /* Date+LG.swift */,
 				6A5E19C01D548F5400F92692 /* NSError+LG.swift */,
-				6A5E19C11D548F5400F92692 /* NSURL+LG.swift */,
+				6A5E19C11D548F5400F92692 /* URL+LG.swift */,
 				6A5E19C21D548F5400F92692 /* String+LG.swift */,
 				6A5E19C31D548F5400F92692 /* UnicodeScalar+LG.swift */,
 				C7C61E061D63505500F9505D /* CollectionType+Shuffle.swift */,
@@ -3026,6 +3028,7 @@
 		6A5E19CF1D548F5400F92692 /* RxExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				C7D2AC951E1D361600C98944 /* CollectionVariable.swift */,
 				6A5E19D01D548F5400F92692 /* LGCollapsibleLabel+Rx.swift */,
 				6A5E19D11D548F5400F92692 /* UIBarItem+Rx.swift */,
 				6A5E19D21D548F5400F92692 /* UIButton+Rx.swift */,
@@ -3340,6 +3343,7 @@
 				50C9E4CB1B7353E6001E4E92 /* Manager */,
 				C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */,
 				C7841AF61E091E5C004A8242 /* CGFloat+LGSpec.swift */,
+				C7D2AC981E1D367100C98944 /* CollectionVariableSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -3731,7 +3735,6 @@
 			isa = PBXGroup;
 			children = (
 				C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */,
-				5021E8571C490C99001012B6 /* KeyboardAnimation.swift */,
 				5063949B1C8D97520091C831 /* UIAction.swift */,
 				5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */,
 				50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */,
@@ -3924,7 +3927,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Ambatana;
 				TargetAttributes = {
 					5067BAAA1C08C3B0007DA73B = {
@@ -3937,7 +3940,7 @@
 					6608E0351A820FBD005895ED = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 3MAE68NKQE;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -3955,7 +3958,7 @@
 					};
 					C7DB41831C5138B500400945 = {
 						DevelopmentTeam = 3MAE68NKQE;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -3965,7 +3968,7 @@
 					D4B5462E1AEFDD920062D183 = {
 						CreatedOnToolsVersion = 6.3;
 						DevelopmentTeam = 3MAE68NKQE;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						TestTargetID = 6608E0351A820FBD005895ED;
 					};
 				};
@@ -4512,7 +4515,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "#if which swiftlint >/dev/null; then\n#swiftlint\n#else\n#echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\n#fi";
 		};
 		C7DB41841C5138B500400945 /* Lint Warnings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4526,7 +4529,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "#if which swiftlint >/dev/null; then\n#swiftlint\n#else\n#echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\n#fi";
 		};
 		C7DB428A1C5138B500400945 /* Fabric Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4602,6 +4605,7 @@
 				C7B588A41CE1E025009B3975 /* ChatListView.swift in Sources */,
 				2E97169E1D59E958009B3A32 /* ExpressChatViewController.swift in Sources */,
 				6A5E19E61D548F5400F92692 /* Float+Rounding.swift in Sources */,
+				C7D2AC961E1D361600C98944 /* CollectionVariable.swift in Sources */,
 				6A5E1A141D548F5400F92692 /* UIScrollView+LG.swift in Sources */,
 				C7B5884D1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
 				2EBC92181E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
@@ -4910,11 +4914,11 @@
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				2E4952E51E26810D00188880 /* BumpUpPayViewController.swift in Sources */,
-				6A5E19EA1D548F5400F92692 /* NSDate+LG.swift in Sources */,
+				6A5E19EA1D548F5400F92692 /* Date+LG.swift in Sources */,
 				2ED27AAD1DC0B5680061545D /* ShareProductViewController.swift in Sources */,
 				C70EA18D1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */,
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
-				6A5E19EE1D548F5400F92692 /* NSURL+LG.swift in Sources */,
+				6A5E19EE1D548F5400F92692 /* URL+LG.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				C74016D91D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */,
@@ -5012,7 +5016,6 @@
 				C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				501340411E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */,
 				2E4952E71E26810D00188880 /* BumpUpPayViewModel.swift in Sources */,
-				5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */,
 				2EF4E3B31D3688AB00A09DFD /* LGConfigRetrieveService.swift in Sources */,
 				2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */,
 				2E4B359C1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
@@ -5043,6 +5046,7 @@
 				C7B588A51CE1E025009B3975 /* ChatListView.swift in Sources */,
 				6A5E19E71D548F5400F92692 /* Float+Rounding.swift in Sources */,
 				6A5E1A151D548F5400F92692 /* UIScrollView+LG.swift in Sources */,
+				C7D2AC971E1D361600C98944 /* CollectionVariable.swift in Sources */,
 				C7B5884E1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
 				C74234071D5A01440082D1CD /* LocalMessage.swift in Sources */,
 				2EBC92191E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
@@ -5352,10 +5356,10 @@
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
 				2EED4D261D23F03E0024328A /* ChatProduct+title.swift in Sources */,
 				C73FABBD1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
-				6A5E19EB1D548F5400F92692 /* NSDate+LG.swift in Sources */,
+				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
 				C70EA18E1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
-				6A5E19EF1D548F5400F92692 /* NSURL+LG.swift in Sources */,
+				6A5E19EF1D548F5400F92692 /* URL+LG.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
 				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				50146BD41D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
@@ -5453,7 +5457,6 @@
 				C7F18A951C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				501340421E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */,
-				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
 				2E28B12D1D991330001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				2E2D53E31D369B0500348D12 /* LGConfigRetrieveService.swift in Sources */,
 				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
@@ -5495,6 +5498,7 @@
 				2E0342F21CDB7A850074EB34 /* CrashManagerSpec.swift in Sources */,
 				2E3081D21D86A25300930E98 /* ProductListMultiRequesterSpec.swift in Sources */,
 				2EF4E3BC1D3688C400A09DFD /* MockConfigFileDAO.swift in Sources */,
+				C7D2AC991E1D367100C98944 /* CollectionVariableSpec.swift in Sources */,
 				50C7428F1DE4682000D629B0 /* MockExternalAuthHelper.swift in Sources */,
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,
@@ -5757,6 +5761,7 @@
 				PROVISIONING_PROFILE = "b7f5195a-cea5-4079-adea-4ca0c1e29021";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -5800,6 +5805,7 @@
 				PROVISIONING_PROFILE = "e71b459e-d9cb-443d-823b-f95c5f414bc4";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -5808,6 +5814,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5828,7 +5835,6 @@
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5838,6 +5844,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5857,7 +5864,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5867,6 +5873,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5887,7 +5894,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5897,6 +5903,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5916,7 +5923,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5926,6 +5932,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5945,7 +5952,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5990,6 +5996,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "f1f184c6-6e43-4456-b0cb-6a02d71260e0";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Adhoc;
@@ -5998,6 +6005,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6017,7 +6025,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -6027,6 +6034,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -6053,7 +6061,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LetGo.app/LetGo";
 			};
 			name = Debug;
@@ -6062,6 +6069,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -6084,7 +6092,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.letgo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LetGo.app/LetGo";
 			};
 			name = Release;
@@ -6093,6 +6100,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -6115,7 +6123,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.letgo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LetGo.app/LetGo";
 			};
 			name = Adhoc;

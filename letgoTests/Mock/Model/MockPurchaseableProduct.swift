@@ -13,7 +13,7 @@ struct MockPurchaseableProduct : PurchaseableProduct{
     var localizedDescription: String
     var localizedTitle: String
     var price: NSDecimalNumber
-    var priceLocale: NSLocale
+    var priceLocale: Locale
     var productIdentifier: String
     var downloadable: Bool
     var downloadContentLengths: [NSNumber]
@@ -22,8 +22,8 @@ struct MockPurchaseableProduct : PurchaseableProduct{
     init() {
         let localizedDescription = "Mock description"
         let localizedTitle = "Mock Title"
-        let price = NSDecimalNumber(double: 1.99)
-        let priceLocale = NSLocale.currentLocale()
+        let price = NSDecimalNumber(value: 1.99 as Double)
+        let priceLocale = Locale.current
         let productIdentifier = "MockId0000"
         let downloadable = false
         let downloadContentLengths: [NSNumber] = []
@@ -33,7 +33,7 @@ struct MockPurchaseableProduct : PurchaseableProduct{
                   downloadContentLengths: downloadContentLengths, downloadContentVersion: downloadContentVersion)
     }
 
-    init(localizedDescription: String, localizedTitle: String, price: NSDecimalNumber, priceLocale: NSLocale,
+    init(localizedDescription: String, localizedTitle: String, price: NSDecimalNumber, priceLocale: Locale,
          productIdentifier: String, downloadable: Bool, downloadContentLengths: [NSNumber], downloadContentVersion: String) {
 
         self.localizedDescription = localizedDescription

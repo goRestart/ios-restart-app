@@ -9,11 +9,11 @@
 import FBSDKCoreKit
 import LGCoreKit
 
-private extension TrackerEvent {
+fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .ProductSellStart, .ProductSellComplete, .FirstMessage, .ProductMarkAsSold, .ProductEditComplete:
+            case .productSellStart, .productSellComplete, .firstMessage, .productMarkAsSold, .productEditComplete:
                 return true
             default:
                 return false
@@ -26,47 +26,47 @@ final class FacebookTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
         
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         FBSDKAppEvents.activateApp()
         
         FBSDKAppLinkUtility.fetchDeferredAppLink { (url, error) -> Void in
             if let actualURL = url {
-                UIApplication.sharedApplication().openURL(actualURL)
+                UIApplication.shared.openURL(actualURL)
             }
         }
 
     }
 
-    func setInstallation(installation: Installation?) {
+    func setInstallation(_ installation: Installation?) {
     }
 
-    func setUser(user: MyUser?) {
+    func setUser(_ user: MyUser?) {
     }
     
-    func trackEvent(event: TrackerEvent) {
+    func trackEvent(_ event: TrackerEvent) {
         if event.shouldTrack {
             FBSDKAppEvents.logEvent(event.actualName, parameters: event.params?.stringKeyParams)
         }
     }
 
-    func setLocation(location: LGLocation?) {}
-    func setNotificationsPermission(enabled: Bool) {}
-    func setGPSPermission(enabled: Bool) {}
-    func setMarketingNotifications(enabled: Bool) {}
+    func setLocation(_ location: LGLocation?) {}
+    func setNotificationsPermission(_ enabled: Bool) {}
+    func setGPSPermission(_ enabled: Bool) {}
+    func setMarketingNotifications(_ enabled: Bool) {}
 }

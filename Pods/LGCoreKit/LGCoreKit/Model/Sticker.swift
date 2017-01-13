@@ -16,8 +16,8 @@ public protocol Sticker: UserDefaultsDecodable {
 }
 
 public enum StickerType: String {
-    case Product = "product"
-    case Chat = "chat"
+    case product = "product"
+    case chat = "chat"
 }
 
 extension StickerType: Decodable {}

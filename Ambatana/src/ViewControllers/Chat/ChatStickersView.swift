@@ -9,7 +9,7 @@
 import LGCoreKit
 
 protocol ChatStickersViewDelegate: class {
-    func stickersViewDidSelectSticker(sticker: Sticker)
+    func stickersViewDidSelectSticker(_ sticker: Sticker)
 }
 
 class ChatStickersView: UIView {
@@ -24,10 +24,10 @@ class ChatStickersView: UIView {
 
     weak var delegate: ChatStickersViewDelegate?
     
-    private var featureFlags: FeatureFlaggeable
-    private let collectionView: UICollectionView
-    private var numberOfColumns: Int = 3
-    private var stickers: [Sticker] = []
+    fileprivate var featureFlags: FeatureFlaggeable
+    fileprivate let collectionView: UICollectionView
+    fileprivate var numberOfColumns: Int = 3
+    fileprivate var stickers: [Sticker] = []
 
     convenience init() {
         self.init(featureFlags: FeatureFlags.sharedInstance)
@@ -36,7 +36,7 @@ class ChatStickersView: UIView {
     init(featureFlags: FeatureFlaggeable) {
         let layout = UICollectionViewFlowLayout()
         self.featureFlags = featureFlags
-        layout.scrollDirection = .Vertical
+        layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         let initialFrame = CGRect(x: 0, y: 0, width: 100, height: 100)
@@ -51,31 +51,31 @@ class ChatStickersView: UIView {
     }
     
     func setupUI() {
-        backgroundColor = UIColor.whiteColor()
-        collectionView.backgroundColor = UIColor.whiteColor()
-        collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        collectionView.registerClass(ChatStickerGridCell.self, forCellWithReuseIdentifier: ChatStickerGridCell.reuseIdentifier)
+        backgroundColor = UIColor.white
+        collectionView.backgroundColor = UIColor.white
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.register(ChatStickerGridCell.self, forCellWithReuseIdentifier: ChatStickerGridCell.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
     
-    func reloadStickers(stickers: [Sticker]) {
+    func reloadStickers(_ stickers: [Sticker]) {
         self.stickers = stickers
         collectionView.reloadData()
     }
 }
 
 extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return stickers.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ChatStickerGridCell.reuseIdentifier,
-                                                                             forIndexPath: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatStickerGridCell.reuseIdentifier,
+                                                                             for: indexPath)
             guard let stickCell = cell as? ChatStickerGridCell else { return UICollectionViewCell() }
-            guard let url = NSURL(string: stickers[indexPath.row].url) else { return UICollectionViewCell() }
+            guard let url = URL(string: stickers[indexPath.row].url) else { return UICollectionViewCell() }
             stickCell.imageView.image = nil
             stickCell.imageView.lg_setImageWithURL(url, placeholderImage: nil) { (result, url) in
                 if let _ = result.error {
@@ -85,31 +85,31 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
             return cell
     }
 
-    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return enabled
     }
 
-    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         return enabled
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if featureFlags.websocketChat {
-            collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+            collectionView.deselectItem(at: indexPath, animated: true)
         }
         guard enabled else { return }
         let sticker = stickers[indexPath.row]
         delegate?.stickersViewDidSelectSticker(sticker)
     }
 
-    func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
         return enabled
     }
 }
 
 extension ChatStickersView: UICollectionViewDelegateFlowLayout {
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = frame.width / CGFloat(numberOfColumns)
         return CGSize(width: width, height: width)
     }

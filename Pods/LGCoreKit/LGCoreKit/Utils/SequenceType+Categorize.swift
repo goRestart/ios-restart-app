@@ -6,9 +6,9 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-extension SequenceType {
-    func categorise<U : Hashable>(@noescape keyFunc: Generator.Element -> U?) -> [U:[Generator.Element]] {
-        var dict: [U:[Generator.Element]] = [:]
+extension Sequence {
+    func categorise<U : Hashable>(_ keyFunc: (Iterator.Element) -> U?) -> [U:[Iterator.Element]] {
+        var dict: [U:[Iterator.Element]] = [:]
         for el in self {
             guard let key = keyFunc(el) else { continue }
             if case nil = dict[key]?.append(el) { dict[key] = [el] }
