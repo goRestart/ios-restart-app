@@ -197,7 +197,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         self.proposedTitle.value = product.nameAuto ?? ""
         self.userIsEditingTitle = false
 
-        self.price = String.fromPriceDouble(product.price.value)
+        self.price = product.price.value > 0 ? String.fromPriceDouble(product.price.value) : nil
 
         currency = product.currency
         if let descr = product.description {
@@ -380,7 +380,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         else if (initialProduct.title ?? "") != (title ?? "") {
             hasChanges = true
         }
-        else if let priceString = price where initialProduct.price.value != Double(priceString) {
+        else if initialProduct.price.value != Double(price ?? "0") {
             hasChanges = true
         }
         else if (initialProduct.descr ?? "") != (descr ?? "") {
