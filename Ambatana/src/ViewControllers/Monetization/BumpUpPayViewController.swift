@@ -106,8 +106,4 @@ class BumpUpPayViewController: BaseViewController {
 
 // MARK: - BumpUpPayViewModelDelegate
 
-extension BumpUpPayViewController: BumpUpPayViewModelDelegate {
-    func viewControllerShouldClose() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-}
+extension BumpUpPayViewController: BumpUpPayViewModelDelegate {}

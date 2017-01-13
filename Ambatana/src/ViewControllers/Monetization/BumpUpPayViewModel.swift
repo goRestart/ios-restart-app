@@ -10,9 +10,7 @@ import Foundation
 import LGCoreKit
 
 
-protocol BumpUpPayViewModelDelegate: BaseViewModelDelegate {
-    func viewControllerShouldClose()
-}
+protocol BumpUpPayViewModelDelegate: BaseViewModelDelegate { }
 
 
 class BumpUpPayViewModel: BaseViewModel {
@@ -47,11 +45,11 @@ class BumpUpPayViewModel: BaseViewModel {
 
     func bumpUpPressed() {
         bumpUpProduct()
-        delegate?.viewControllerShouldClose()
+        delegate?.vmDismiss(nil)
     }
 
     func closeActionPressed() {
-        delegate?.viewControllerShouldClose()
+        delegate?.vmDismiss(nil)
     }
 
 
