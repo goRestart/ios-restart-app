@@ -33,25 +33,29 @@ struct ABTests {
     static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey,
-                interestedUsersMode,
-                productDetailShareMode,
-                notificationCenterEnabled,
-                expressChatBanner,
-                postAfterDeleteMode,
-                keywordsTravelCollection,
-                relatedProductsOnMoreInfo,
-                shareAfterPosting,
-                postingMultiPictureEnabled,
-                periscopeImprovement,
-                userReviews,
-                newQuickAnswers,
-                favoriteWithBadgeOnProfile,
-                favoriteWithBubbleToChat,
-                passiveBuyersShowKeyboard,
-                captchaTransparent,
-                filterIconWithLetters,
-                marketingPush]
+        var result = [ABVariable]()
+
+        result.append(showNPSSurvey)
+        result.append(interestedUsersMode)
+        result.append(productDetailShareMode)
+        result.append(notificationCenterEnabled)
+        result.append(expressChatBanner)
+        result.append(postAfterDeleteMode)
+        result.append(keywordsTravelCollection)
+        result.append(relatedProductsOnMoreInfo)
+        result.append(shareAfterPosting)
+        result.append(postingMultiPictureEnabled)
+        result.append(periscopeImprovement)
+        result.append(userReviews)
+        result.append(newQuickAnswers)
+        result.append(favoriteWithBadgeOnProfile)
+        result.append(favoriteWithBubbleToChat)
+        result.append(passiveBuyersShowKeyboard)
+        result.append(captchaTransparent)
+        result.append(filterIconWithLetters)
+        result.append(marketingPush)
+
+        return result
     }
 
     static func registerVariables() {
