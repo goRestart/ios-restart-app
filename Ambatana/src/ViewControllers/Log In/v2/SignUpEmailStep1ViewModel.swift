@@ -17,14 +17,14 @@ enum SignUpEmailStep1FormError {
 
 protocol SignUpEmailStep1Navigator: class {
     func openHelpFromSignUpEmailStep1()
-    func openNextStepFromSignUpEmailStep1(email email: String, password: String)
-    func openLogInFromSignUpEmailStep1(email email: String, password: String) // TODO: Call navigator to pop + push login
+    func openNextStepFromSignUpEmailStep1(email: String, password: String)
+    func openLogInFromSignUpEmailStep1(email: String, password: String) // TODO: Call navigator to pop + push login
 }
 
 final class SignUpEmailStep1ViewModel: BaseViewModel {
     lazy var helpAction: UIAction = {
         // TODO: New string?
-        return UIAction(interface: .Text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
+        return UIAction(interface: .text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
             self?.openHelp()
         }, accessibilityId: .SignUpEmailHelpButton)
     }()
@@ -36,9 +36,9 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     weak var navigator: SignUpEmailStep1Navigator?
 
-    private let keyValueStorage: KeyValueStorageable
-    private let nextStepEnabledVar: Variable<Bool>
-    private let disposeBag: DisposeBag
+    fileprivate let keyValueStorage: KeyValueStorageable
+    fileprivate let nextStepEnabledVar: Variable<Bool>
+    fileprivate let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
@@ -64,6 +64,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
 
 // MARK: - Public methods
+
 extension SignUpEmailStep1ViewModel {
     func openLogIn() {
         openLogIn(email: email.value, password: password.value)
@@ -93,7 +94,7 @@ extension SignUpEmailStep1ViewModel {
 // MARK: - Private methods
 // MARK: > Rx
 
-private extension SignUpEmailStep1ViewModel {
+fileprivate extension SignUpEmailStep1ViewModel {
     func setupRx() {
         // Next step is enabled when email & password are not empty
         Observable.combineLatest(email.asObservable(), password.asObservable()) { (email, password) -> Bool in
@@ -104,17 +105,17 @@ private extension SignUpEmailStep1ViewModel {
 
 // MARK: > Previous email
 
-private extension SignUpEmailStep1ViewModel {
+fileprivate extension SignUpEmailStep1ViewModel {
     static func readPreviousEmail(fromKeyValueStorageable keyValueStorageble: KeyValueStorageable) -> String? {
         // TODO: Check remember pwd AB test (in step 2 :))
         guard let accountProviderString = keyValueStorageble[.previousUserAccountProvider],
-                  accountProvider = AccountProvider(rawValue: accountProviderString)
-                  where accountProvider == .Email else { return nil }
+              let accountProvider = AccountProvider(rawValue: accountProviderString),
+              accountProvider == .email else { return nil }
         return keyValueStorageble[.previousUserEmailOrName]
     }
 
-    func savePrevious(email email: String) {
-        keyValueStorage[.previousUserAccountProvider] = AccountProvider.Email.rawValue
+    func savePrevious(email: String) {
+        keyValueStorage[.previousUserAccountProvider] = AccountProvider.email.rawValue
         keyValueStorage[.previousUserEmailOrName] = email
     }
 }
@@ -122,16 +123,16 @@ private extension SignUpEmailStep1ViewModel {
 
 // MARK: > Navigation
 
-private extension SignUpEmailStep1ViewModel {
+fileprivate extension SignUpEmailStep1ViewModel {
     func openHelp() {
         navigator?.openHelpFromSignUpEmailStep1()
     }
 
-    func openNextStep(email email: String, password: String) {
+    func openNextStep(email: String, password: String) {
         navigator?.openNextStepFromSignUpEmailStep1(email: email, password: password)
     }
 
-    func openLogIn(email email: String, password: String) {
+    func openLogIn(email: String, password: String) {
         navigator?.openLogInFromSignUpEmailStep1(email: email, password: password)
     }
 }

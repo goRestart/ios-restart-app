@@ -178,11 +178,11 @@ class SignUpLogInViewModel: BaseViewModel {
     func signUp(_ recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
 
-        let fullName = username.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        if usernameContainsLetgoString(fullName) {
+        let trimmedUsername = username.trim
+        if trimmedUsername.containsLetgo() {
             delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorGeneric, afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.usernameTaken)
-        } else if fullName.characters.count < Constants.fullNameMinLength {
+        } else if trimmedUsername.characters.count < Constants.fullNameMinLength {
             delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength), afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.invalidUsername)
         } else if !email.isEmail() {
@@ -239,10 +239,10 @@ class SignUpLogInViewModel: BaseViewModel {
 
             let newsletter: Bool? = termsAndConditionsEnabled ? self.newsletterAccepted : nil
             if let recaptchaToken = recaptchaToken  {
-                sessionManager.signUp(email.lowercased(), password: password, name: fullName, newsletter: newsletter,
+                sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername, newsletter: newsletter,
                                       recaptchaToken: recaptchaToken, completion: completion)
             } else {
-                sessionManager.signUp(email.lowercased(), password: password, name: fullName,
+                sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername,
                                       newsletter: newsletter, completion: completion)
             }
         }
@@ -332,18 +332,6 @@ class SignUpLogInViewModel: BaseViewModel {
 
 
     // MARK: - Private methods
-    
-    private func usernameContainsLetgoString(_ theUsername: String) -> Bool {
-        let lowerCaseUsername = theUsername.lowercased()
-        return lowerCaseUsername.range(of: "letgo") != nil ||
-            lowerCaseUsername.range(of: "ietgo") != nil ||
-            lowerCaseUsername.range(of: "letg0") != nil ||
-            lowerCaseUsername.range(of: "ietg0") != nil ||
-            lowerCaseUsername.range(of: "let go") != nil ||
-            lowerCaseUsername.range(of: "iet go") != nil ||
-            lowerCaseUsername.range(of: "let g0") != nil ||
-            lowerCaseUsername.range(of: "iet g0") != nil
-    }
 
     /**
     Right now terms and conditions will be enabled just for Turkey so it will appear depending on location country code 

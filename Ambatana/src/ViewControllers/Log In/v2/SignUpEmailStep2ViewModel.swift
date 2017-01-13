@@ -23,7 +23,7 @@ protocol SignUpEmailStep2Navigator: class {
 final class SignUpEmailStep2ViewModel: BaseViewModel {
     lazy var helpAction: UIAction = {
         // TODO: New string?
-        return UIAction(interface: .Text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
+        return UIAction(interface: .text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
             self?.openHelp()
         }, accessibilityId: .SignUpEmailHelpButton)
     }()
@@ -39,9 +39,9 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
 
     weak var navigator: SignUpEmailStep2Navigator?
 
-    private let password: String
-    private let signUpEnabledVar: Variable<Bool>
-    private let disposeBag: DisposeBag
+    fileprivate let password: String
+    fileprivate let signUpEnabledVar: Variable<Bool>
+    fileprivate let disposeBag: DisposeBag
 
 
     // MARK : - Lifecycle
@@ -75,8 +75,8 @@ extension SignUpEmailStep2ViewModel {
            password.characters.count > Constants.passwordMaxLength{
             errors.append(.invalidPassword)
         }
-        let trimmedUsername = username.value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        if SignUpEmailStep2ViewModel.containsLetgo(trimmedUsername) {
+        let trimmedUsername = username.value.trim
+        if trimmedUsername.containsLetgo() {
             errors.append(.usernameContainsLetgo)
         }
         if trimmedUsername.characters.count < Constants.fullNameMinLength {
@@ -84,7 +84,7 @@ extension SignUpEmailStep2ViewModel {
         }
 
         if errors.isEmpty {
-            signUp(email: email, password: password, username: username.value)
+            signUp(email: email, password: password, username: trimmedUsername)
         }
         return errors
     }
@@ -94,7 +94,7 @@ extension SignUpEmailStep2ViewModel {
 // MARK: - Private methods
 // MARK: > Rx
 
-private extension SignUpEmailStep2ViewModel {
+fileprivate extension SignUpEmailStep2ViewModel {
     func setupRx() {
         // Sign up is enabled when username is not empty & the required checks are enabled
         let requiredChecks: Observable<Bool>?
@@ -121,8 +121,8 @@ private extension SignUpEmailStep2ViewModel {
 
 // MARK: > Requests
 
-private extension SignUpEmailStep2ViewModel {
-    func signUp(email email: String, password: String, username: String) {
+fileprivate extension SignUpEmailStep2ViewModel {
+    func signUp(email: String, password: String, username: String) {
 
     }
 }
@@ -130,26 +130,8 @@ private extension SignUpEmailStep2ViewModel {
 
 // MARK: > Navigation
 
-private extension SignUpEmailStep2ViewModel {
+fileprivate extension SignUpEmailStep2ViewModel {
     func openHelp() {
         navigator?.openHelpFromSignUpEmailStep2()
-    }
-}
-
-
-// MARK: > Helper
-
-// TODO: move this method as String extension and test it
-private extension SignUpEmailStep2ViewModel {
-    static func containsLetgo(string: String) -> Bool {
-        let lowercaseString = string.lowercaseString
-        return lowercaseString.rangeOfString("letgo") != nil ||
-            lowercaseString.rangeOfString("ietgo") != nil ||
-            lowercaseString.rangeOfString("letg0") != nil ||
-            lowercaseString.rangeOfString("ietg0") != nil ||
-            lowercaseString.rangeOfString("let go") != nil ||
-            lowercaseString.rangeOfString("iet go") != nil ||
-            lowercaseString.rangeOfString("let g0") != nil ||
-            lowercaseString.rangeOfString("iet g0") != nil
     }
 }

@@ -170,6 +170,9 @@ class StringLGSpec: QuickSpec {
                     }
                 }
             }
+            context("contains letgo") {
+                // TODO: Implement tests
+            }
         }
     }
 }

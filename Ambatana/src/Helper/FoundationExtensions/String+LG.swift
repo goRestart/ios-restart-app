@@ -167,4 +167,16 @@ extension String {
         }
         return result
     }
+
+    func containsLetgo() -> Bool {
+        let lowercaseString = lowercased()
+        return lowercaseString.range(of: "letgo") != nil ||
+            lowercaseString.range(of: "ietgo") != nil ||
+            lowercaseString.range(of: "letg0") != nil ||
+            lowercaseString.range(of: "ietg0") != nil ||
+            lowercaseString.range(of: "let go") != nil ||
+            lowercaseString.range(of: "iet go") != nil ||
+            lowercaseString.range(of: "let g0") != nil ||
+            lowercaseString.range(of: "iet g0") != nil
+    }
 }

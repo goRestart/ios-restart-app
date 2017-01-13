@@ -79,18 +79,14 @@ class ChangeUsernameViewModel: BaseViewModel {
 
     
     func saveUsername() {
-        // check if username is ok (func in extension?)
-
-        if usernameContainsLetgoString(username) {
+        // check if username is ok
+        let trimmedUsername = username.trim
+        if trimmedUsername.containsLetgo() {
             delegate?.viewModel(self, didFailValidationWithError:.usernameTaken)
-        }
-        else if isValidUsername(username) {
-            
+        } else if isValidUsername(trimmedUsername) {
             delegate?.viewModelDidStartSendingUser(self)
 
-            username = username.trimmingCharacters(in: CharacterSet.whitespaces)
-
-            myUserRepository.updateName(username) { [weak self] updateResult in
+            myUserRepository.updateName(trimmedUsername) { [weak self] updateResult in
                 guard let strongSelf = self else { return }
                 
                 if let _ = updateResult.value {
@@ -123,18 +119,6 @@ class ChangeUsernameViewModel: BaseViewModel {
     
     
     // MARK: - private methods
-    
-    private func usernameContainsLetgoString(_ theUsername: String) -> Bool {
-        let lowerCaseUsername = theUsername.lowercased()
-        return lowerCaseUsername.range(of: "letgo") != nil ||
-            lowerCaseUsername.range(of: "ietgo") != nil ||
-            lowerCaseUsername.range(of: "letg0") != nil ||
-            lowerCaseUsername.range(of: "ietg0") != nil ||
-            lowerCaseUsername.range(of: "let go") != nil ||
-            lowerCaseUsername.range(of: "iet go") != nil ||
-            lowerCaseUsername.range(of: "let g0") != nil ||
-            lowerCaseUsername.range(of: "iet g0") != nil
-    }
     
     func enableSaveButton() -> Bool {
         return isValidUsername(username)
