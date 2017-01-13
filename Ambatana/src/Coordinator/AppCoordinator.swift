@@ -269,7 +269,7 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
 
     func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator, withRating rating: Int?) {
         if rating == 5 {
-            tabBarCtl.showAppRatingView(EventParameterRatingSource.Chat)
+            tabBarCtl.showAppRatingViewIfNeeded(.Chat)
         }
     }
 }
