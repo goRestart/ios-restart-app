@@ -506,8 +506,8 @@ enum AccessibilityId: String {
     // Bubble notifications
     case BubbleButton
 
-    // SignUpStep1
-    case SignUpStep1HelpButton
+    // SignUpEmail
+    case SignUpEmailHelpButton
 }
 
 extension UIAccessibilityIdentification {

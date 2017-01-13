@@ -22,16 +22,17 @@ protocol SignUpEmailStep1Navigator: class {
 }
 
 final class SignUpEmailStep1ViewModel: BaseViewModel {
+    lazy var helpAction: UIAction = {
+        // TODO: New string?
+        return UIAction(interface: .Text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
+            self?.openHelp()
+        }, accessibilityId: .SignUpEmailHelpButton)
+    }()
     let email: Variable<String>
     let password: Variable<String>
     var nextStepEnabled: Observable<Bool> {
         return nextStepEnabledVar.asObservable()
     }
-    lazy var helpAction: UIAction = {
-        return UIAction(interface: .Text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
-            self?.openHelp()
-        }, accessibilityId: .SignUpStep1HelpButton)
-    }()
 
     weak var navigator: SignUpEmailStep1Navigator?
 
@@ -69,13 +70,12 @@ extension SignUpEmailStep1ViewModel {
     }
 
     func openNextStep() -> [SignUpEmailStep1FormError] {
-        var errors: [SignUpEmailStep1FormError] = []
-        guard nextStepEnabledVar.value else { return errors }
+        guard nextStepEnabledVar.value else { return [] }
 
+        var errors: [SignUpEmailStep1FormError] = []
         if !email.value.isEmail() {
             errors.append(.invalidEmail)
         }
-
         if password.value.characters.count < Constants.passwordMinLength {
             errors.append(.shortPassword)
         } else if password.value.characters.count > Constants.passwordMaxLength {
