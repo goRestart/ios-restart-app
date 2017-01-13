@@ -39,14 +39,14 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 tracker = MockTracker()
                 featureFlags = MockFeatureFlags()
                 let myUser = MockMyUser()
-                googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
-                fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
-                let locale = NSLocale(localeIdentifier: "es_ES")
+                googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
+                fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
+                let locale = Locale(identifier: "es_ES")
 
                 sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                     locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                    locale: locale, source: .Install, action: .Signup)
+                    locale: locale, source: .install, action: .signup)
                 sut.delegate = self
 
                 self.loading = false
@@ -80,11 +80,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale, source: .install, action: .signup)
                     }
 
                     it("has an email") {
@@ -103,11 +103,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has an empty email") {
@@ -126,11 +126,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has an empty email") {
@@ -146,11 +146,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                 context("phone locale is in Turkey") {
                     beforeEach {
-                        let locale = NSLocale(localeIdentifier: "tr_TR")
+                        let locale = Locale(identifier: "tr_TR")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -160,12 +160,12 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                 context("current postal address's country code is Turkey") {
                     beforeEach {
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         locationManager.currentPostalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: "")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -175,13 +175,13 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                 context("phone locale and location are not in Turkey") {
                     beforeEach {
-                        let locale = NSLocale(localeIdentifier: "es_ES")
+                        let locale = Locale(identifier: "es_ES")
                         locationManager.currentPostalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "es", country: "")
 
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .Install, action: .Signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions false") {
@@ -226,7 +226,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("standard") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .Network)
+                            sessionManager.myUserResult = SessionMyUserResult(error: .network)
 
                             sut.email = email
                             sut.password = "123456"
@@ -249,7 +249,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("scammer") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .Scammer)
+                            sessionManager.myUserResult = SessionMyUserResult(error: .scammer)
 
                             sut.email = email
                             sut.password = "123456"
@@ -283,7 +283,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
 
-                        googleLoginHelper.loginResult = .Success(myUser: myUser)
+                        googleLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.logInWithGoogle()
                         expect(self.loading).toEventually(beFalse())
@@ -305,7 +305,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
-                            googleLoginHelper.loginResult = .NotFound
+                            googleLoginHelper.loginResult = .notFound
                             sut.logInWithGoogle()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -324,7 +324,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     }
                     context("scammer") {
                         beforeEach {
-                            googleLoginHelper.loginResult = .Scammer
+                            googleLoginHelper.loginResult = .scammer
                             sut.logInWithGoogle()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -355,7 +355,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
 
-                        fbLoginHelper.loginResult = .Success(myUser: myUser)
+                        fbLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.logInWithFacebook()
                         expect(self.loading).toEventually(beFalse())
@@ -377,7 +377,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
-                            fbLoginHelper.loginResult = .NotFound
+                            fbLoginHelper.loginResult = .notFound
                             sut.logInWithFacebook()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -396,7 +396,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     }
                     context("scammer") {
                         beforeEach {
-                            fbLoginHelper.loginResult = .Scammer
+                            fbLoginHelper.loginResult = .scammer
                             sut.logInWithFacebook()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -424,38 +424,38 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
 extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
 
-    func vmUpdateSendButtonEnabledState(enabled: Bool) {}
-    func vmUpdateShowPasswordVisible(visible: Bool) {}
+    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {}
+    func vmUpdateShowPasswordVisible(_ visible: Bool) {}
     func vmFinish(completedAccess completed: Bool) {
         finishedSuccessfully = completed
     }
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
         finishedSuccessfully = false
         finishedScammer = true
     }
-    func vmShowRecaptcha(viewModel: RecaptchaViewModel) {}
+    func vmShowRecaptcha(_ viewModel: RecaptchaViewModel) {}
     func vmShowHiddenPasswordAlert() {}
 
     // BaseViewModelDelegate
-    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {}
-    func vmShowLoading(loadingMessage: String?) {
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {}
+    func vmShowLoading(_ loadingMessage: String?) {
         loading = true
     }
-    func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         loading = false
         afterMessageCompletion?()
     }
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
-    func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {}
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
-    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {}
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {}
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
-    func vmDismiss(completion: (() -> Void)?){}
-    func vmOpenInternalURL(url: NSURL) {}
+    func vmDismiss(_ completion: (() -> Void)?){}
+    func vmOpenInternalURL(_ url: URL) {}
 }

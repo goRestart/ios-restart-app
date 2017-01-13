@@ -92,7 +92,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Branch/Branch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CollectionVariable/CollectionVariable.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Curry/Curry.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DeviceUtil/DeviceUtil.framework"
@@ -113,6 +112,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ReachabilitySwift/ReachabilitySwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Result/Result.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Runes/Runes.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxBlocking/RxBlocking.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxCocoa/RxCocoa.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxSwift/RxSwift.framework"
@@ -123,7 +123,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Nimble/Nimble.framework"
   install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Quick/Quick.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/RxTests/RxTests.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/RxTest/RxTest.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
@@ -134,7 +134,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Branch/Branch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CollectionVariable/CollectionVariable.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Curry/Curry.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DeviceUtil/DeviceUtil.framework"
@@ -155,6 +154,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ReachabilitySwift/ReachabilitySwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Result/Result.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Runes/Runes.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxBlocking/RxBlocking.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxCocoa/RxCocoa.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxSwift/RxSwift.framework"
@@ -165,7 +165,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Nimble/Nimble.framework"
   install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Quick/Quick.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/RxTests/RxTests.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/RxTest/RxTest.framework"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
@@ -176,7 +176,6 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Branch/Branch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CollectionVariable/CollectionVariable.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Curry/Curry.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DeviceUtil/DeviceUtil.framework"
@@ -197,6 +196,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ReachabilitySwift/ReachabilitySwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Result/Result.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Runes/Runes.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxBlocking/RxBlocking.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxCocoa/RxCocoa.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxSwift/RxSwift.framework"
@@ -207,5 +207,5 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Nimble/Nimble.framework"
   install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Quick/Quick.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/RxTests/RxTests.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/RxTest/RxTest.framework"
 fi

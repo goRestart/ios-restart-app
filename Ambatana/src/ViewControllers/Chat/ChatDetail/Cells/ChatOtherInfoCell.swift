@@ -24,9 +24,9 @@ class ChatOtherInfoCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var locationIconHeight: NSLayoutConstraint!
     @IBOutlet weak var locationIconTop: NSLayoutConstraint!
 
-    private static let iconsMargin: CGFloat = 8
-    private static let iconsHeight: CGFloat = 14
-    private static let verifyIconsWidth: CGFloat = 20
+    fileprivate static let iconsMargin: CGFloat = 8
+    fileprivate static let iconsHeight: CGFloat = 14
+    fileprivate static let verifyIconsWidth: CGFloat = 20
 
 
     // MARK: - Lifecycle
@@ -41,34 +41,34 @@ class ChatOtherInfoCell: UITableViewCell, ReusableCell {
 // MARK: - Public
 
 extension ChatOtherInfoCell {
-    func setupVerifiedInfo(facebook facebook: Bool, google: Bool, email: Bool) {
+    func setupVerifiedInfo(facebook: Bool, google: Bool, email: Bool) {
         guard facebook || google || email else {
             verifyIconTop.constant = 0
             verifyIconHeight.constant = 0
-            verifyLabel.hidden = true
-            verifyContainer.hidden = true
+            verifyLabel.isHidden = true
+            verifyContainer.isHidden = true
             return
         }
         verifyIconTop.constant = ChatOtherInfoCell.iconsMargin
         verifyIconHeight.constant = ChatOtherInfoCell.iconsHeight
-        verifyLabel.hidden = false
-        verifyContainer.hidden = false
+        verifyLabel.isHidden = false
+        verifyContainer.isHidden = false
 
         fbIconWidth.constant = facebook ? ChatOtherInfoCell.verifyIconsWidth : 0
         googleIconWidth.constant = google ? ChatOtherInfoCell.verifyIconsWidth : 0
         mailIconWidth.constant = email ? ChatOtherInfoCell.verifyIconsWidth : 0
     }
 
-    func setupLocation(location: String?) {
-        guard let location = location where !location.isEmpty else {
+    func setupLocation(_ location: String?) {
+        guard let location = location, !location.isEmpty else {
             locationIconTop.constant = 0
             locationIconHeight.constant = 0
-            locationLabel.hidden = true
+            locationLabel.isHidden = true
             return
         }
         locationIconTop.constant = ChatOtherInfoCell.iconsMargin
         locationIconHeight.constant = ChatOtherInfoCell.iconsHeight
-        locationLabel.hidden = false
+        locationLabel.isHidden = false
         locationLabel.text = location
     }
 }
@@ -76,12 +76,12 @@ extension ChatOtherInfoCell {
 
 // MARK: - Private
 
-private extension ChatOtherInfoCell {
+fileprivate extension ChatOtherInfoCell {
     func setupUI() {
         userInfoContainer.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         userInfoContainer.layer.shouldRasterize = true
-        userInfoContainer.layer.rasterizationScale = UIScreen.mainScreen().scale
-        backgroundColor = UIColor.clearColor()
+        userInfoContainer.layer.rasterizationScale = UIScreen.main.scale
+        backgroundColor = UIColor.clear
         verifyLabel.text = LGLocalizedString.chatUserInfoVerifiedWith
     }
 }

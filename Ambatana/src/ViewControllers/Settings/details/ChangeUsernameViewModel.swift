@@ -9,34 +9,34 @@
 import LGCoreKit
 import Result
 
-enum ChangeUsernameError: ErrorType {
-    case UsernameTaken
-    case InvalidUsername
+enum ChangeUsernameError: Error {
+    case usernameTaken
+    case invalidUsername
     
-    case Network
-    case Internal
-    case NotFound
-    case Unauthorized
+    case network
+    case internalError
+    case notFound
+    case unauthorized
     
     init(repositoryError: RepositoryError) {
         switch repositoryError {
-        case .Network:
-            self = .Internal
-        case .NotFound:
-            self = .NotFound
-        case .Unauthorized:
-            self = .Unauthorized
-        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
-            self = .Internal
+        case .network:
+            self = .internalError
+        case .notFound:
+            self = .notFound
+        case .unauthorized:
+            self = .unauthorized
+        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+            self = .internalError
         }
     }
 }
 
 protocol ChangeUsernameViewModelDelegate : class {
-    func viewModel(viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool)
-    func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError)
-    func viewModelDidStartSendingUser(viewModel: ChangeUsernameViewModel)
-    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult
+    func viewModel(_ viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool)
+    func viewModel(_ viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError)
+    func viewModelDidStartSendingUser(_ viewModel: ChangeUsernameViewModel)
+    func viewModel(_ viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult
         result: Result<MyUser, ChangeUsernameError>)
 
 }
@@ -82,13 +82,13 @@ class ChangeUsernameViewModel: BaseViewModel {
         // check if username is ok (func in extension?)
 
         if usernameContainsLetgoString(username) {
-            delegate?.viewModel(self, didFailValidationWithError:.UsernameTaken)
+            delegate?.viewModel(self, didFailValidationWithError:.usernameTaken)
         }
         else if isValidUsername(username) {
             
             delegate?.viewModelDidStartSendingUser(self)
 
-            username = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            username = username.trimmingCharacters(in: CharacterSet.whitespaces)
 
             myUserRepository.updateName(username) { [weak self] updateResult in
                 guard let strongSelf = self else { return }
@@ -100,7 +100,7 @@ class ChangeUsernameViewModel: BaseViewModel {
                 
                 guard let delegate = strongSelf.delegate else { return }
                 
-                var result = Result<MyUser, ChangeUsernameError>(error: .Internal)
+                var result = Result<MyUser, ChangeUsernameError>(error: .internalError)
                 if let value = updateResult.value {
                     result = Result<MyUser, ChangeUsernameError>(value: value)
                 } else if let repositoryError = updateResult.error {
@@ -111,29 +111,29 @@ class ChangeUsernameViewModel: BaseViewModel {
             }
         }
         else {
-            delegate?.viewModel(self, didFailValidationWithError:.InvalidUsername)
+            delegate?.viewModel(self, didFailValidationWithError:.invalidUsername)
         }
 
     }
     
-    func isValidUsername(theUsername: String) -> Bool {
-        let trimmed = theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+    func isValidUsername(_ theUsername: String) -> Bool {
+        let trimmed = theUsername.trimmingCharacters(in: CharacterSet.whitespaces)
         return 2...Constants.maxUserNameLength ~= trimmed.characters.count && trimmed != myUserRepository.myUser?.name
     }
     
     
     // MARK: - private methods
     
-    private func usernameContainsLetgoString(theUsername: String) -> Bool {
-        let lowerCaseUsername = theUsername.lowercaseString
-        return lowerCaseUsername.rangeOfString("letgo") != nil ||
-            lowerCaseUsername.rangeOfString("ietgo") != nil ||
-            lowerCaseUsername.rangeOfString("letg0") != nil ||
-            lowerCaseUsername.rangeOfString("ietg0") != nil ||
-            lowerCaseUsername.rangeOfString("let go") != nil ||
-            lowerCaseUsername.rangeOfString("iet go") != nil ||
-            lowerCaseUsername.rangeOfString("let g0") != nil ||
-            lowerCaseUsername.rangeOfString("iet g0") != nil
+    private func usernameContainsLetgoString(_ theUsername: String) -> Bool {
+        let lowerCaseUsername = theUsername.lowercased()
+        return lowerCaseUsername.range(of: "letgo") != nil ||
+            lowerCaseUsername.range(of: "ietgo") != nil ||
+            lowerCaseUsername.range(of: "letg0") != nil ||
+            lowerCaseUsername.range(of: "ietg0") != nil ||
+            lowerCaseUsername.range(of: "let go") != nil ||
+            lowerCaseUsername.range(of: "iet go") != nil ||
+            lowerCaseUsername.range(of: "let g0") != nil ||
+            lowerCaseUsername.range(of: "iet g0") != nil
     }
     
     func enableSaveButton() -> Bool {

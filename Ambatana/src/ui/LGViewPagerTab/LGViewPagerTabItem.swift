@@ -11,8 +11,8 @@ import UIKit
 class LGViewPagerTabItem: UIButton {
 
     // Constants
-    private static let defaultIndicatorSelectedColor = UIColor.redColor()
-    private static let defaultInfoBadgeColor = UIColor.redColor()
+    private static let defaultIndicatorSelectedColor = UIColor.red
+    private static let defaultInfoBadgeColor = UIColor.red
     private static let infoBadgeDiameter: CGFloat = 6
 
     // UI
@@ -22,23 +22,23 @@ class LGViewPagerTabItem: UIButton {
     // UI setup
     var unselectedTitle: NSAttributedString = NSAttributedString() {
         didSet {
-            setAttributedTitle(unselectedTitle, forState: .Normal)
+            setAttributedTitle(unselectedTitle, for: .normal)
         }
     }
 
     var selectedTitle: NSAttributedString = NSAttributedString() {
         didSet {
-            setAttributedTitle(selectedTitle, forState: .Selected)
-            setAttributedTitle(selectedTitle, forState: .Highlighted)
+            setAttributedTitle(selectedTitle, for: .selected)
+            setAttributedTitle(selectedTitle, for: .highlighted)
         }
     }
 
     var showInfoBadge: Bool {
         get {
-            return !infoBadge.hidden
+            return !infoBadge.isHidden
         }
         set {
-            infoBadge.hidden = !newValue
+            infoBadge.isHidden = !newValue
         }
     }
 
@@ -53,13 +53,13 @@ class LGViewPagerTabItem: UIButton {
 
     var indicatorSelectedColor: UIColor {
         didSet {
-            indicator.backgroundColor = selected ? indicatorSelectedColor : UIColor.clearColor()
+            indicator.backgroundColor = isSelected ? indicatorSelectedColor : UIColor.clear
         }
     }
 
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            indicator.backgroundColor = selected ? indicatorSelectedColor : UIColor.clearColor()
+            indicator.backgroundColor = isSelected ? indicatorSelectedColor : UIColor.clear
         }
     }
 
@@ -70,7 +70,7 @@ class LGViewPagerTabItem: UIButton {
         self.indicator = UIView()
         self.infoBadge = UIView()
         self.indicatorSelectedColor = LGViewPagerTabItem.defaultIndicatorSelectedColor
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
 
         setupUI(indicatorHeight)
         setupConstraints(indicatorHeight)
@@ -83,10 +83,10 @@ class LGViewPagerTabItem: UIButton {
 
     // MARK: - Private methods
 
-    private func setupUI(indicatorHeight: CGFloat) {
+    private func setupUI(_ indicatorHeight: CGFloat) {
         contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8 + indicatorHeight, right: 16)
-        backgroundColor = UIColor.clearColor()
-        setAttributedTitle(unselectedTitle, forState: .Normal)
+        backgroundColor = UIColor.clear
+        setAttributedTitle(unselectedTitle, for: .normal)
 
         indicator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(indicator)
@@ -96,37 +96,37 @@ class LGViewPagerTabItem: UIButton {
         addSubview(infoBadge)
     }
 
-    private func setupConstraints(indicatorHeight: CGFloat) {
+    private func setupConstraints(_ indicatorHeight: CGFloat) {
         setupIndicatorConstraints(indicatorHeight)
         setupInfoBadgeConstraints()
     }
 
-    private func setupIndicatorConstraints(indicatorHeight: CGFloat) {
-        var views = [String: AnyObject]()
+    private func setupIndicatorConstraints(_ indicatorHeight: CGFloat) {
+        var views = [String: Any]()
         views["indicator"] = indicator
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["hIndicator"] = indicatorHeight
 
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[indicator(hIndicator)]|",
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator(hIndicator)]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
         addConstraints(vConstraints)
 
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[indicator]|",
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[indicator]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         addConstraints(hConstraints)
     }
 
     private func setupInfoBadgeConstraints() {
-        let width = NSLayoutConstraint(item: infoBadge, attribute: .Width, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1.0, constant: LGViewPagerTabItem.infoBadgeDiameter)
-        let height = NSLayoutConstraint(item: infoBadge, attribute: .Height, relatedBy: .Equal, toItem: nil,
-            attribute: .NotAnAttribute, multiplier: 1.0, constant: LGViewPagerTabItem.infoBadgeDiameter)
+        let width = NSLayoutConstraint(item: infoBadge, attribute: .width, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1.0, constant: LGViewPagerTabItem.infoBadgeDiameter)
+        let height = NSLayoutConstraint(item: infoBadge, attribute: .height, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1.0, constant: LGViewPagerTabItem.infoBadgeDiameter)
         infoBadge.addConstraints([width,height])
 
-        let left = NSLayoutConstraint(item: infoBadge, attribute: .Left, relatedBy: .Equal, toItem: titleLabel,
-            attribute: .Right, multiplier: 1.0, constant: 2)
-        let center = NSLayoutConstraint(item: infoBadge, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel,
-            attribute: .Top, multiplier: 1.0, constant: 3)
+        let left = NSLayoutConstraint(item: infoBadge, attribute: .left, relatedBy: .equal, toItem: titleLabel,
+            attribute: .right, multiplier: 1.0, constant: 2)
+        let center = NSLayoutConstraint(item: infoBadge, attribute: .centerY, relatedBy: .equal, toItem: titleLabel,
+            attribute: .top, multiplier: 1.0, constant: 3)
         addConstraints([left,center])
     }
 }

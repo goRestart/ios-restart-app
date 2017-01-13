@@ -26,16 +26,16 @@ class PostProductViewController: BaseViewController {
     @IBOutlet weak var detailsContainer: UIView!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
-    private var productDetailView: UIView
+    fileprivate var productDetailView: UIView
 
-    private var viewPager: LGViewPager
-    private var cameraView: PostProductCameraView
-    private var galleryView: PostProductGalleryView
-    private let keyboardHelper: KeyboardHelper
+    fileprivate var viewPager: LGViewPager
+    fileprivate var cameraView: PostProductCameraView
+    fileprivate var galleryView: PostProductGalleryView
+    fileprivate let keyboardHelper: KeyboardHelper
     private var viewDidAppear: Bool = false
 
-    private static let detailTopMarginPrice: CGFloat = 100
-    private let rightMarginCameraIcon:CGFloat = 15.0
+    fileprivate static let detailTopMarginPrice: CGFloat = 100
+    fileprivate let rightMarginCameraIcon:CGFloat = 15.0
 
     private let forceCamera: Bool
     private var initialTab: Int {
@@ -47,7 +47,7 @@ class PostProductViewController: BaseViewController {
 
 
     // ViewModel
-    private var viewModel: PostProductViewModel
+    fileprivate var viewModel: PostProductViewModel
 
 
     // MARK: - Lifecycle
@@ -57,7 +57,7 @@ class PostProductViewController: BaseViewController {
     }
 
     required init(viewModel: PostProductViewModel, forceCamera: Bool, keyboardHelper: KeyboardHelper) {
-        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
+        let viewPagerConfig = LGViewPagerConfig(tabPosition: .hidden, tabLayout: .fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
         self.galleryView = PostProductGalleryView(multiSelectionEnabled: viewModel.galleryMultiSelectionEnabled)
@@ -66,8 +66,8 @@ class PostProductViewController: BaseViewController {
         self.forceCamera = forceCamera
         self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
-                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
-        modalPresentationStyle = .OverCurrentContext
+                   statusBarStyle: UIApplication.shared.statusBarStyle)
+        modalPresentationStyle = .overCurrentContext
         self.viewModel.delegate = self
     }
 
@@ -92,19 +92,19 @@ class PostProductViewController: BaseViewController {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarHidden(true)
         cameraView.active = true
         galleryView.active = true
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewDidAppear = true
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
         galleryView.active = false
@@ -114,17 +114,17 @@ class PostProductViewController: BaseViewController {
 
     // MARK: - Actions
     
-    @IBAction func onCloseButton(sender: AnyObject) {
+    @IBAction func onCloseButton(_ sender: AnyObject) {
         productDetailView.resignFirstResponder()
         viewModel.closeButtonPressed()
     }
 
-    @IBAction func galleryButtonPressed(sender: AnyObject) {
+    @IBAction func galleryButtonPressed(_ sender: AnyObject) {
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(0, animated: true)
     }
 
-    @IBAction func photoButtonPressed(sender: AnyObject) {
+    @IBAction func photoButtonPressed(_ sender: AnyObject) {
         if viewPager.currentPage == 1 {
             cameraView.takePhoto()
         } else {
@@ -132,7 +132,7 @@ class PostProductViewController: BaseViewController {
         }
     }
 
-    @IBAction func onRetryButton(sender: AnyObject) {
+    @IBAction func onRetryButton(_ sender: AnyObject) {
         viewModel.retryButtonPressed()
     }
 
@@ -155,41 +155,41 @@ class PostProductViewController: BaseViewController {
     }
 
     private func setupDetailView() {
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
-        retryButton.setStyle(.Primary(fontSize: .Medium))
+        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButton.setStyle(.primary(fontSize: .medium))
 
         productDetailView.translatesAutoresizingMaskIntoConstraints = false
         detailsContainer.addSubview(productDetailView)
         productDetailView.alpha = 0
 
-        let top = NSLayoutConstraint(item: productDetailView, attribute: .Top, relatedBy: .Equal,
-                                     toItem: postedInfoLabel, attribute: .Bottom, multiplier: 1.0, constant: 15)
-        let left = NSLayoutConstraint(item: productDetailView, attribute: .Left, relatedBy: .Equal,
-                                      toItem: detailsContainer, attribute: .Left, multiplier: 1.0, constant: 0)
-        let right = NSLayoutConstraint(item: productDetailView, attribute: .Right, relatedBy: .Equal,
-                                       toItem: detailsContainer, attribute: .Right, multiplier: 1.0, constant: 0)
-        let bottom = NSLayoutConstraint(item: productDetailView, attribute: .Bottom, relatedBy: .Equal,
-                                        toItem: detailsContainer, attribute: .Bottom, multiplier: 1.0, constant: 0)
+        let top = NSLayoutConstraint(item: productDetailView, attribute: .top, relatedBy: .equal,
+                                     toItem: postedInfoLabel, attribute: .bottom, multiplier: 1.0, constant: 15)
+        let left = NSLayoutConstraint(item: productDetailView, attribute: .left, relatedBy: .equal,
+                                      toItem: detailsContainer, attribute: .left, multiplier: 1.0, constant: 0)
+        let right = NSLayoutConstraint(item: productDetailView, attribute: .right, relatedBy: .equal,
+                                       toItem: detailsContainer, attribute: .right, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: productDetailView, attribute: .bottom, relatedBy: .equal,
+                                        toItem: detailsContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
         detailsContainer.addConstraints([top, left, right, bottom])
     }
 
     private func setupRx() {
         viewModel.state.asObservable().bindNext { [weak self] state in
             switch state {
-            case .ImageSelection:
+            case .imageSelection:
                 self?.setSelectImageState()
-            case .UploadingImage:
+            case .uploadingImage:
                 self?.setSelectPriceState(loading: true, error: nil)
-            case .ErrorUpload(let message):
+            case .errorUpload(let message):
                 self?.setSelectPriceState(loading: false, error: message)
-            case .DetailsSelection:
+            case .detailsSelection:
                self?.setSelectPriceState(loading: false, error: nil)
             }
         }.addDisposableTo(disposeBag)
 
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
-            guard let scrollView = self?.detailsScroll, viewHeight = self?.view.height,
+            guard let scrollView = self?.detailsScroll, let viewHeight = self?.view.height,
             let detailsRect = self?.productDetailView.frame else { return }
             scrollView.contentInset.bottom = viewHeight - origin
             let showingKeyboard = (viewHeight - origin) > 0
@@ -199,16 +199,16 @@ class PostProductViewController: BaseViewController {
         }.addDisposableTo(disposeBag)
     }
 
-    private func updateButtonsForPagerScroll(scroll: CGFloat) {
+    fileprivate func updateButtonsForPagerScroll(_ scroll: CGFloat) {
         galleryButton.alpha = scroll
         let rightOffset = photoButton.frame.width/2 + rightMarginCameraIcon
         let movement = view.width/2 - rightOffset
         photoButtonCenterX.constant = movement * (1.0 - scroll)
     }
     
-    private func loadingViewHidden(hide hide: Bool) {
+    private func loadingViewHidden(hide: Bool) {
         guard !DeviceFamily.current.isWiderOrEqualThan(.iPhone6) else { return }
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.customLoadingView.alpha = hide ? 0.0 : 1.0
         })
     }
@@ -218,14 +218,14 @@ class PostProductViewController: BaseViewController {
 // MARK: - State selection
 
 extension PostProductViewController {
-    private func setSelectImageState() {
-        selectPriceContainer.hidden = true
+    fileprivate func setSelectImageState() {
+        selectPriceContainer.isHidden = true
     }
 
-    private func setSelectPriceState(loading loading: Bool, error: String?) {
+    fileprivate func setSelectPriceState(loading: Bool, error: String?) {
         detailsScroll.contentInset.top = (view.height / 3) - customLoadingView.height
 
-        selectPriceContainer.hidden = false
+        selectPriceContainer.isHidden = false
         let hasError = error != nil
 
         if(loading) {
@@ -239,17 +239,17 @@ extension PostProductViewController {
         }
     }
 
-    private func setSelectPriceItems(loading: Bool, error: String?) {
+    fileprivate func setSelectPriceItems(_ loading: Bool, error: String?) {
 
         postedInfoLabel.alpha = 0
         postedInfoLabel.text = error != nil ?
-            LGLocalizedString.commonErrorTitle.capitalizedString : viewModel.confirmationOkText
+            LGLocalizedString.commonErrorTitle.capitalized : viewModel.confirmationOkText
         postErrorLabel.text = error
 
         if (loading) {
             setSelectPriceBottomItems(loading, error: error)
         } else {
-            UIView.animateWithDuration(0.2,
+            UIView.animate(withDuration: 0.2,
                                        animations: { [weak self] in
                                         self?.postedInfoLabel.alpha = 1
                 },
@@ -261,7 +261,7 @@ extension PostProductViewController {
         }
     }
 
-    private func setSelectPriceBottomItems(loading: Bool, error: String?) {
+    fileprivate func setSelectPriceBottomItems(_ loading: Bool, error: String?) {
         productDetailView.alpha = 0
         postErrorLabel.alpha = 0
         retryButton.alpha = 0
@@ -280,7 +280,7 @@ extension PostProductViewController {
             strongSelf.postedInfoLabel.alpha = loadingItemAlpha
             strongSelf.detailsScroll.contentInset.top = PostProductViewController.detailTopMarginPrice
         }
-        UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
+        UIView.animate(withDuration: 0.2, delay: 0.8, options: UIViewAnimationOptions(),
                                    animations: { () -> Void in
                                     finalAlphaBlock()
             }, completion: { [weak self] (completed: Bool) -> Void in
@@ -300,10 +300,10 @@ extension PostProductViewController {
 // MARK: - PostProductViewModelDelegate
 
 extension PostProductViewController: PostProductViewModelDelegate {
-    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
-        ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),
+    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: @escaping () -> Void) {
+        ifLoggedInThen(.sell, loginStyle: .popup(LGLocalizedString.productPostLoginMessage),
                        preDismissAction: { [weak self] in
-                        self?.view.hidden = true
+                        self?.view.isHidden = true
             },
                        loggedInAction: completion,
                        elsePresentSignUpWithSuccessAction: completion)
@@ -318,16 +318,16 @@ extension PostProductViewController: PostProductCameraViewDelegate {
         onCloseButton(cameraView)
     }
 
-    func productCameraDidTakeImage(image: UIImage) {
-        viewModel.imagesSelected([image], source: .Camera)
+    func productCameraDidTakeImage(_ image: UIImage) {
+        viewModel.imagesSelected([image], source: .camera)
     }
 
-    func productCameraRequestHideTabs(hide: Bool) {
-        galleryButton.hidden = hide
-        photoButton.hidden = hide
+    func productCameraRequestHideTabs(_ hide: Bool) {
+        galleryButton.isHidden = hide
+        photoButton.isHidden = hide
     }
 
-    func productCameraRequestsScrollLock(lock: Bool) {
+    func productCameraRequestsScrollLock(_ lock: Bool) {
         viewPager.scrollEnabled = !lock
     }
 }
@@ -340,11 +340,11 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
         onCloseButton(galleryView)
     }
 
-    func productGalleryDidSelectImages(images: [UIImage]) {
-        viewModel.imagesSelected(images, source: .Gallery)
+    func productGalleryDidSelectImages(_ images: [UIImage]) {
+        viewModel.imagesSelected(images, source: .gallery)
     }
 
-    func productGalleryRequestsScrollLock(lock: Bool) {
+    func productGalleryRequestsScrollLock(_ lock: Bool) {
         viewPager.scrollEnabled = !lock
     }
 
@@ -352,13 +352,13 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
         viewPager.selectTabAtIndex(1)
     }
 
-    func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
+    func productGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         showActionSheet(cancelAction, actions: actions, sourceView: galleryView.albumButton,
                         sourceRect: galleryView.albumButton.frame, completion: nil)
     }
 
-    func productGallerySelectionFull(selectionFull: Bool) {
-        photoButton.hidden = selectionFull
+    func productGallerySelectionFull(_ selectionFull: Bool) {
+        photoButton.isHidden = selectionFull
     }
 }
 
@@ -372,9 +372,9 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         viewPager.scrollDelegate = self
         viewPager.indicatorSelectedColor = UIColor.primaryColor
         viewPager.tabsBackgroundColor = UIColor.black
-        viewPager.tabsSeparatorColor = UIColor.clearColor()
+        viewPager.tabsSeparatorColor = UIColor.clear
         viewPager.translatesAutoresizingMaskIntoConstraints = false
-        cameraGalleryContainer.insertSubview(viewPager, atIndex: 0)
+        cameraGalleryContainer.insertSubview(viewPager, at: 0)
         setupViewPagerConstraints()
 
         viewPager.reloadData()
@@ -382,30 +382,30 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
     private func setupViewPagerConstraints() {
         let views = ["viewPager": viewPager]
-        cameraGalleryContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
+        cameraGalleryContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[viewPager]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        cameraGalleryContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
+        cameraGalleryContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[viewPager]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
     }
 
-    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
+    func viewPager(_ viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
         KeyValueStorage.sharedInstance.userPostProductLastTabSelected = index
     }
 
-    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}
+    func viewPager(_ viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}
 
-    func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
+    func viewPager(_ viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
         cameraView.showHeader(pagePosition == 1.0)
         galleryView.showHeader(pagePosition == 0.0)
 
         updateButtonsForPagerScroll(pagePosition)
     }
 
-    func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
+    func viewPagerNumberOfTabs(_ viewPager: LGViewPager) -> Int {
         return 2
     }
 
-    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
+    func viewPager(_ viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
         if index == 0 {
             return galleryView
         }
@@ -414,11 +414,11 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         }
     }
 
-    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
+    func viewPager(_ viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
         return false
     }
 
-    func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
+    func viewPager(_ viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
         if index == 0 {
             return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: tabTextAttributes(false))
         } else {
@@ -426,7 +426,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         }
     }
 
-    func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
+    func viewPager(_ viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
         if index == 0 {
             return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: tabTextAttributes(true))
         } else {
@@ -434,10 +434,10 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         }
     }
     
-    func viewPager(viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? { return nil }
+    func viewPager(_ viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? { return nil }
 
-    private func tabTextAttributes(selected: Bool)-> [String : AnyObject] {
-        var titleAttributes = [String : AnyObject]()
+    private func tabTextAttributes(_ selected: Bool)-> [String : Any] {
+        var titleAttributes = [String : Any]()
         titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
         titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
         return titleAttributes
@@ -449,10 +449,10 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
 extension PostProductViewController {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .PostingCloseButton
-        galleryButton.accessibilityId = .PostingGalleryButton
-        photoButton.accessibilityId = .PostingPhotoButton
-        customLoadingView.accessibilityId = .PostingLoading
-        retryButton.accessibilityId = .PostingRetryButton
+        closeButton.accessibilityId = .postingCloseButton
+        galleryButton.accessibilityId = .postingGalleryButton
+        photoButton.accessibilityId = .postingPhotoButton
+        customLoadingView.accessibilityId = .postingLoading
+        retryButton.accessibilityId = .postingRetryButton
     }
 }

@@ -17,11 +17,11 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     @IBOutlet weak var textBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
-    private let viewModel: ReportUsersViewModel
+    fileprivate let viewModel: ReportUsersViewModel
 
-    private static let textBottomSpace: CGFloat = 76
-    private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
-    private var isCommentPlaceholder: Bool {
+    fileprivate static let textBottomSpace: CGFloat = 76
+    fileprivate var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
+    fileprivate var isCommentPlaceholder: Bool {
         return commentTextView.text == LGLocalizedString.reportUserTextPlaceholder &&
             commentTextView.textColor == UIColor.grayPlaceholderText
     }
@@ -46,7 +46,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewDidLoad() {
@@ -55,16 +55,16 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         setupUI()
         setAccesibilityIds()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ReportUsersViewController.keyboardWillShow(_:)),
-            name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ReportUsersViewController.keyboardWillHide(_:)),
-            name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ReportUsersViewController.keyboardWillShow(_:)),
+            name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ReportUsersViewController.keyboardWillHide(_:)),
+            name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
 
     // MARK: - Actions
 
-    @IBAction func onSendButton(sender: AnyObject) {
+    @IBAction func onSendButton(_ sender: AnyObject) {
         commentTextView.resignFirstResponder()
         viewModel.sendReport(comment)
     }
@@ -72,16 +72,16 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
 
     // MARK: - ReportUsersViewModelDelegate
 
-    func reportUsersViewModelDidUpdateReasons(viewModel: ReportUsersViewModel) {
+    func reportUsersViewModelDidUpdateReasons(_ viewModel: ReportUsersViewModel) {
         collectionView.reloadData()
-        sendButton.enabled = viewModel.saveButtonEnabled
+        sendButton.isEnabled = viewModel.saveButtonEnabled
     }
 
-    func reportUsersViewModelDidStartSendingReport(viewModel: ReportUsersViewModel) {
+    func reportUsersViewModelDidStartSendingReport(_ viewModel: ReportUsersViewModel) {
         showLoadingMessageAlert()
     }
 
-    func reportUsersViewModel(viewModel: ReportUsersViewModel, didSendReport successMsg: String) {
+    func reportUsersViewModel(_ viewModel: ReportUsersViewModel, didSendReport successMsg: String) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(successMsg) { [weak self] in
                 self?.popViewController(animated: true, completion: nil)
@@ -89,7 +89,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         }
     }
 
-    func reportUsersViewModel(viewModel: ReportUsersViewModel, failedSendingReport errorMsg: String) {
+    func reportUsersViewModel(_ viewModel: ReportUsersViewModel, failedSendingReport errorMsg: String) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(errorMsg)
         }
@@ -101,15 +101,15 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     private func setupUI() {
         ReportUserCellDrawer.registerCell(collectionView)
 
-        sendButton.setStyle(.Primary(fontSize: .Medium))
-        sendButton.setTitle(LGLocalizedString.reportUserSendButton, forState: UIControlState.Normal)
-        sendButton.enabled = false
+        sendButton.setStyle(.primary(fontSize: .medium))
+        sendButton.setTitle(LGLocalizedString.reportUserSendButton, for: .normal)
+        sendButton.isEnabled = false
 
         commentTextView.text = LGLocalizedString.reportUserTextPlaceholder
         commentTextView.textColor = UIColor.grayPlaceholderText
 
-        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.33 //3 columns
-        cellSize = CGSizeMake(cellWidth, 140)
+        let cellWidth = UIScreen.main.bounds.size.width * 0.33 //3 columns
+        cellSize = CGSize(width: cellWidth, height: 140)
 
         setNavBarTitle(LGLocalizedString.reportUserTitle)
     }
@@ -120,16 +120,16 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
 
 extension ReportUsersViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return cellSize
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.reportReasonsCount
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellDrawer = ReportUserCellDrawer()
         let cell = cellDrawer.cell(collectionView, atIndexPath: indexPath)
         let image = viewModel.imageForReasonAtIndex(indexPath.row)
@@ -139,12 +139,12 @@ extension ReportUsersViewController: UICollectionViewDelegate, UICollectionViewD
         return cell
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         commentTextView.resignFirstResponder()
         viewModel.selectedReasonAtIndex(indexPath.row)
     }
 
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         commentTextView.resignFirstResponder()
     }
 }
@@ -153,21 +153,21 @@ extension ReportUsersViewController: UICollectionViewDelegate, UICollectionViewD
 // MARK: - UITextViewDelegate
 
 extension ReportUsersViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         if isCommentPlaceholder {
             textView.text = nil
             textView.textColor = UIColor.blackText
         }
     }
 
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = LGLocalizedString.reportUserTextPlaceholder
             textView.textColor = UIColor.grayPlaceholderText
         }
     }
 
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
             onSendButton(textView)
             return false
@@ -181,19 +181,19 @@ extension ReportUsersViewController: UITextViewDelegate {
 
 extension ReportUsersViewController {
 
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
         moveBottomForKeyboard(notification, showing: true)
     }
 
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: Notification) {
         moveBottomForKeyboard(notification, showing: false)
     }
 
-    func moveBottomForKeyboard(keyboardNotification: NSNotification, showing: Bool) {
-        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
-        textBottomConstraint.constant = showing ? kbAnimation.size.height : ReportUsersViewController.textBottomSpace
-        bottomConstraint.constant = showing ? kbAnimation.size.height - ReportUsersViewController.textBottomSpace : 0
-        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options,
+    func moveBottomForKeyboard(_ keyboardNotification: Notification, showing: Bool) {
+        let kbChange = keyboardNotification.keyboardChange
+        textBottomConstraint.constant = showing ? kbChange.height : ReportUsersViewController.textBottomSpace
+        bottomConstraint.constant = showing ? kbChange.height - ReportUsersViewController.textBottomSpace : 0
+        UIView.animate(withDuration: TimeInterval(kbChange.animationTime), delay: 0, options: kbChange.animationOptions,
             animations: { [weak self] in
                 self?.view.layoutIfNeeded()
             }, completion: { [weak self] completed in
@@ -204,8 +204,8 @@ extension ReportUsersViewController {
 
     func scrollCollectionToSelected() {
         guard let selectedIndex = viewModel.selectedReasonIndex else { return }
-        collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0),
-            atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
+        collectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0),
+            at: UICollectionViewScrollPosition.top, animated: true)
     }
 }
 
@@ -214,8 +214,8 @@ extension ReportUsersViewController {
 
 extension ReportUsersViewController {
     func setAccesibilityIds() {
-        collectionView.accessibilityId = .ReportUserCollection
-        commentTextView.accessibilityId = .ReportUserCommentField
-        sendButton.accessibilityId = .ReportUserSendButton
+        collectionView.accessibilityId = .reportUserCollection
+        commentTextView.accessibilityId = .reportUserCommentField
+        sendButton.accessibilityId = .reportUserSendButton
     }
 }

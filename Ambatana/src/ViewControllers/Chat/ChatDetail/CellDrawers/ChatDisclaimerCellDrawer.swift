@@ -15,9 +15,9 @@ class ChatDisclaimerCellDrawer: BaseChatCellDrawer<ChatDisclaimerCell> {
         super.init(autoHide: autoHide)
     }
     
-    override func draw(cell: ChatDisclaimerCell, message: ChatViewMessage, delegate: AnyObject?) {
+    override func draw(_ cell: ChatDisclaimerCell, message: ChatViewMessage) {
         switch message.type {
-        case let .Disclaimer(showAvatar, text, actionTitle, action):
+        case let .disclaimer(showAvatar, text, actionTitle, action):
             cell.showAvatar(showAvatar)
             cell.setMessage(text)
             cell.setButton(title: actionTitle)

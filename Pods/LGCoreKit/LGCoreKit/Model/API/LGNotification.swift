@@ -8,14 +8,15 @@
 
 import Argo
 import Curry
+import Runes
 
-struct LGNotification: Notification {
+struct LGNotification: NotificationModel {
     let objectId: String?
-    let createdAt: NSDate
+    let createdAt: Date
     let isRead: Bool
     let type: NotificationType
 
-    init(objectId: String?, createdAt: NSDate, isRead: Bool, type: NotificationType) {
+    init(objectId: String?, createdAt: Date, isRead: Bool, type: NotificationType) {
         self.objectId = objectId
         self.createdAt = createdAt
         self.isRead = isRead
@@ -35,7 +36,7 @@ extension LGNotification : Decodable {
          "data" : {... type concrete data ...}
      }
      */
-    static func decode(j: JSON) -> Decoded<LGNotification> {
+    static func decode(_ j: JSON) -> Decoded<LGNotification> {
         let result = curry(LGNotification.init)
             <^> j <|? "uuid"
             <*> j <| "created_at"
@@ -43,7 +44,7 @@ extension LGNotification : Decodable {
             <*> NotificationType.decode(j)
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGNotification parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotification parse error: \(error)")
         }
 
         return result
@@ -58,7 +59,7 @@ extension NotificationType: Decodable {
         static let comments = "comments"
     }
 
-    public static func decode(j: JSON) -> Decoded<NotificationType> {
+    public static func decode(_ j: JSON) -> Decoded<NotificationType> {
         guard let type: String = j.decode("type") else { return Decoded<NotificationType>.fromOptional(nil) }
         guard let data: JSON = j.decode("data") else { return Decoded<NotificationType>.fromOptional(nil) }
 
@@ -75,7 +76,7 @@ extension NotificationType: Decodable {
                  "username": "Prof."
              }
              */
-            result = curry(NotificationType.Like)
+            result = curry(NotificationType.like)
                 <^> LGNotificationProduct.decode(data)
                 <*> LGNotificationUser.decode(data)
         case "sold":
@@ -89,7 +90,7 @@ extension NotificationType: Decodable {
                  "username": "Prof."
              }
              */
-            result = curry(NotificationType.Sold)
+            result = curry(NotificationType.sold)
                 <^> LGNotificationProduct.decode(data)
                 <*> LGNotificationUser.decode(data)
         case "review":
@@ -102,7 +103,7 @@ extension NotificationType: Decodable {
                  "comments": "Super!"
              }
              */
-            result = curry(NotificationType.Rating)
+            result = curry(NotificationType.rating)
                 <^> LGNotificationUser.decode(data)
                 <*> data <| JSONKeys.ratingValue
                 <*> data <|? JSONKeys.comments
@@ -116,7 +117,7 @@ extension NotificationType: Decodable {
                  "comments": "Super!"
              }
              */
-            result = curry(NotificationType.RatingUpdated)
+            result = curry(NotificationType.ratingUpdated)
                 <^> LGNotificationUser.decode(data)
                 <*> data <| JSONKeys.ratingValue
                 <*> data <|? JSONKeys.comments
@@ -133,7 +134,7 @@ extension NotificationType: Decodable {
                 },...]
              }
              */
-            result = curry(buyersInterested)
+            result = curry(buildBuyersInterested)
                 <^> LGNotificationProduct.decode(data)
                 <*> data <|| JSONKeys.buyers
         case "product_suggested":
@@ -147,7 +148,7 @@ extension NotificationType: Decodable {
                 "product_image": "http://cdn.letgo.com/images\/ba\/16\/08\/b4\/c3b3200dee3a8fd0906680fd255779a6.jpg"
              }
             */
-            result = curry(NotificationType.ProductSuggested)
+            result = curry(NotificationType.productSuggested)
                 <^> LGNotificationProduct.decode(data)
                 <*> LGNotificationUser.decode(data)
         default:
@@ -155,12 +156,12 @@ extension NotificationType: Decodable {
         }
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "NotificationType parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "NotificationType parse error: \(error)")
         }
         return result
     }
 
-    private static func buyersInterested(product: NotificationProduct, buyers: [LGNotificationUser]) -> NotificationType {
-        return NotificationType.BuyersInterested(product: product, buyers: buyers.flatMap({$0}))
+    private static func buildBuyersInterested(_ product: NotificationProduct, buyers: [LGNotificationUser]) -> NotificationType {
+        return NotificationType.buyersInterested(product: product, buyers: buyers.flatMap({$0}))
     }
 }

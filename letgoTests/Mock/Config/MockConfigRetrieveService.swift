@@ -9,12 +9,12 @@
 @testable import LetGo
 import Result
 
-public class MockConfigRetrieveService : ConfigRetrieveService {
+class MockConfigRetrieveService : ConfigRetrieveService {
 
     var mockResult : ConfigRetrieveServiceResult?
     var updateFile : Config!
         
-    public func retrieveConfigWithCompletion(completion: ConfigRetrieveServiceCompletion?) {
+    func retrieveConfigWithCompletion(_ completion: ConfigRetrieveServiceCompletion?) {
         if let actualMockResult = mockResult{
             completion?(actualMockResult)
         }

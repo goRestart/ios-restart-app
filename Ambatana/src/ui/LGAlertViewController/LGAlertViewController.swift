@@ -11,23 +11,23 @@ import RxSwift
 import RxCocoa
 
 enum AlertType {
-    case PlainAlert
-    case IconAlert(icon: UIImage?)
+    case plainAlert
+    case iconAlert(icon: UIImage?)
 
     var titleTopSeparation: CGFloat {
         switch self {
-        case .PlainAlert:
+        case .plainAlert:
             return 20
-        case let .IconAlert(icon):
+        case let .iconAlert(icon):
             return icon == nil ? 20 : 75
         }
     }
 
     var contentTopSeparation: CGFloat {
         switch self {
-        case .PlainAlert:
+        case .plainAlert:
             return 0
-        case let .IconAlert(icon):
+        case let .iconAlert(icon):
             return icon == nil ? 0 : 55
         }
     }
@@ -38,7 +38,7 @@ enum AlertType {
 }
 
 enum AlertButtonsLayout {
-    case Horizontal, Vertical
+    case horizontal, vertical
 }
 
 class LGAlertViewController: UIViewController {
@@ -70,15 +70,15 @@ class LGAlertViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init?(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout = .Horizontal, actions: [UIAction]?) {
+    init?(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout = .horizontal, actions: [UIAction]?) {
         self.alertTitle = title
         self.alertText = text
         self.alertActions = actions
         self.alertType = alertType
         self.buttonsLayout = buttonsLayout
         super.init(nibName: "LGAlertViewController", bundle: nil)
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -97,9 +97,9 @@ class LGAlertViewController: UIViewController {
     private func setupUI() {
         
         switch alertType {
-        case .PlainAlert:
+        case .plainAlert:
             alertIcon.image = nil
-        case let .IconAlert(icon):
+        case let .iconAlert(icon):
             alertIcon.image = icon
         }
 
@@ -120,11 +120,11 @@ class LGAlertViewController: UIViewController {
         setupButtons(alertActions)
     }
 
-    private func setupButtons(actions: [UIAction]?) {
+    private func setupButtons(_ actions: [UIAction]?) {
 
         buttonsContainer.subviews.forEach { $0.removeFromSuperview() }
 
-        // Actions must have interface == .Button
+        // Actions must have interface == .button
         let buttonActions: [UIAction] = actions?.filter { $0.buttonStyle != nil } ?? []
         // No actions -> No buttons
         guard buttonActions.count > 0 else {
@@ -134,19 +134,19 @@ class LGAlertViewController: UIViewController {
         buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
 
         switch buttonsLayout {
-        case .Horizontal:
+        case .horizontal:
             buildButtonsHorizontally(buttonActions)
-        case .Vertical:
+        case .vertical:
             buildButtonsVertically(buttonActions)
         }
     }
 
-    private func buildButtonsHorizontally(buttonActions: [UIAction]) {
+    private func buildButtonsHorizontally(_ buttonActions: [UIAction]) {
         let widthMultiplier: CGFloat = 1 / CGFloat(buttonActions.count)
         let widthConstant: CGFloat = buttonActions.count == 1 ? 0 : -(LGAlertViewController.buttonsMargin/2)
         var previous: UIView? = nil
         for action in buttonActions {
-            let button = UIButton(type: .Custom)
+            let button = UIButton(type: .custom)
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
             button.fitVerticallyToParent()
@@ -165,10 +165,10 @@ class LGAlertViewController: UIViewController {
         }
     }
 
-    private func buildButtonsVertically(buttonActions: [UIAction]) {
+    private func buildButtonsVertically(_ buttonActions: [UIAction]) {
         var previous: UIView? = nil
         for action in buttonActions {
-            let button = UIButton(type: .Custom)
+            let button = UIButton(type: .custom)
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
             button.fitHorizontallyToParent()
@@ -186,14 +186,14 @@ class LGAlertViewController: UIViewController {
         }
     }
 
-    private func bindButtonWithAction(button: UIButton, action: UIAction) {
+    private func bindButtonWithAction(_ button: UIButton, action: UIAction) {
         button.titleLabel?.numberOfLines = 2
-        button.titleLabel?.textAlignment = .Center
+        button.titleLabel?.textAlignment = .center
         button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.setTitle(action.text, forState: .Normal)
+        button.setTitle(action.text, for: .normal)
         button.accessibilityId = action.accessibilityId
-        button.setStyle(action.buttonStyle ?? .Primary(fontSize: .Medium))
-        button.rx_tap.bindNext { [weak self] _ in
+        button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
+        button.rx.tap.bindNext { [weak self] _ in
             self?.closeWithFadeOutWithCompletion {
                 action.action()
             }
@@ -204,7 +204,7 @@ class LGAlertViewController: UIViewController {
         closeWithFadeOutWithCompletion(nil)
     }
 
-    private func closeWithFadeOutWithCompletion(completion: (() -> Void)?) {
-        dismissViewControllerAnimated(true, completion: completion)
+    private func closeWithFadeOutWithCompletion(_ completion: (() -> Void)?) {
+        dismiss(animated: true, completion: completion)
     }
 }

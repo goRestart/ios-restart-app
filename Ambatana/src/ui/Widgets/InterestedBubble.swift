@@ -33,7 +33,7 @@ class InterestedBubble: UIView {
     }
 
 
-    func updateInfo(text: String?) {
+    func updateInfo(_ text: String?) {
         textlabel.text = text
     }
 
@@ -56,20 +56,20 @@ class InterestedBubble: UIView {
         addSubview(containerView)
 
         // container view
-        let centerXConstraint = NSLayoutConstraint(item: containerView, attribute: .CenterX, relatedBy: .Equal,
-                                                   toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
-        let containerTopConstraint = NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal,
-                                                        toItem: self, attribute: .Top, multiplier: 1,
+        let centerXConstraint = NSLayoutConstraint(item: containerView, attribute: .centerX, relatedBy: .equal,
+                                                   toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
+        let containerTopConstraint = NSLayoutConstraint(item: containerView, attribute: .top, relatedBy: .equal,
+                                                        toItem: self, attribute: .top, multiplier: 1,
                                                         constant: BubbleNotification.bubbleContentMargin)
-        let containerBottomConstraint = NSLayoutConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal,
-                                                           toItem: self, attribute: .Bottom, multiplier: 1,
+        let containerBottomConstraint = NSLayoutConstraint(item: containerView, attribute: .bottom, relatedBy: .equal,
+                                                           toItem: self, attribute: .bottom, multiplier: 1,
                                                            constant: -BubbleNotification.bubbleContentMargin)
 
-        let containerLeftConstraint = NSLayoutConstraint(item: containerView, attribute: .Left, relatedBy: .GreaterThanOrEqual,
-                                                         toItem: self, attribute: .Left, multiplier: 1,
+        let containerLeftConstraint = NSLayoutConstraint(item: containerView, attribute: .left, relatedBy: .greaterThanOrEqual,
+                                                         toItem: self, attribute: .left, multiplier: 1,
                                                          constant: BubbleNotification.bubbleContentMargin)
-        let containerRightConstraint = NSLayoutConstraint(item: containerView, attribute: .Right, relatedBy: .LessThanOrEqual,
-                                                          toItem: self, attribute: .Right, multiplier: 1,
+        let containerRightConstraint = NSLayoutConstraint(item: containerView, attribute: .right, relatedBy: .lessThanOrEqual,
+                                                          toItem: self, attribute: .right, multiplier: 1,
                                                           constant: -BubbleNotification.bubbleContentMargin)
 
         addConstraints([centerXConstraint, containerTopConstraint, containerBottomConstraint, containerLeftConstraint,
@@ -78,31 +78,31 @@ class InterestedBubble: UIView {
         containerView.addSubview(textlabel)
         containerView.addSubview(iconImageView)
 
-        let iconWidthConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Width, relatedBy: .Equal,
-                                                     toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
+        let iconWidthConstraint = NSLayoutConstraint(item: iconImageView, attribute: .width, relatedBy: .equal,
+                                                     toItem: nil, attribute: .notAnAttribute, multiplier: 1,
                                                      constant: InterestedBubble.iconSize)
-        let iconHeightConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal,
-                                                      toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
+        let iconHeightConstraint = NSLayoutConstraint(item: iconImageView, attribute: .height, relatedBy: .equal,
+                                                      toItem: nil, attribute: .notAnAttribute, multiplier: 1,
                                                       constant: InterestedBubble.iconSize)
         iconImageView.addConstraints([iconWidthConstraint, iconHeightConstraint])
 
         // text label
-        let iconCenterY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal,
-                                             toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let iconCenterY = NSLayoutConstraint(item: iconImageView, attribute: .centerY, relatedBy: .equal,
+                                             toItem: containerView, attribute: .centerY, multiplier: 1, constant: 0)
 
-        let iconToLabelTrailing = NSLayoutConstraint(item: iconImageView, attribute: .Right, relatedBy: .Equal,
-                                                     toItem: textlabel, attribute: .Left, multiplier: 1, constant: -10)
+        let iconToLabelTrailing = NSLayoutConstraint(item: iconImageView, attribute: .right, relatedBy: .equal,
+                                                     toItem: textlabel, attribute: .left, multiplier: 1, constant: -10)
 
-        let labelTopConstraint = NSLayoutConstraint(item: textlabel, attribute: .Top, relatedBy: .Equal,
-                                                    toItem: containerView, attribute: .Top, multiplier: 1, constant: 0)
-        let labelBottomConstraint = NSLayoutConstraint(item: textlabel, attribute: .Bottom, relatedBy: .Equal,
-                                                       toItem: containerView, attribute: .Bottom, multiplier: 1, constant: 0)
+        let labelTopConstraint = NSLayoutConstraint(item: textlabel, attribute: .top, relatedBy: .equal,
+                                                    toItem: containerView, attribute: .top, multiplier: 1, constant: 0)
+        let labelBottomConstraint = NSLayoutConstraint(item: textlabel, attribute: .bottom, relatedBy: .equal,
+                                                       toItem: containerView, attribute: .bottom, multiplier: 1, constant: 0)
 
-        let labelRightConstraint = NSLayoutConstraint(item: textlabel, attribute: .Right, relatedBy: .Equal,
-                                                      toItem: containerView, attribute: .Right, multiplier: 1, constant: 0)
+        let labelRightConstraint = NSLayoutConstraint(item: textlabel, attribute: .right, relatedBy: .equal,
+                                                      toItem: containerView, attribute: .right, multiplier: 1, constant: 0)
 
-        let iconLeftConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Left, relatedBy: .Equal,
-                                                    toItem: containerView, attribute: .Left, multiplier: 1, constant: 0)
+        let iconLeftConstraint = NSLayoutConstraint(item: iconImageView, attribute: .left, relatedBy: .equal,
+                                                    toItem: containerView, attribute: .left, multiplier: 1, constant: 0)
 
         containerView.addConstraints([iconCenterY, iconToLabelTrailing, labelTopConstraint, labelBottomConstraint,
             labelRightConstraint, iconLeftConstraint])

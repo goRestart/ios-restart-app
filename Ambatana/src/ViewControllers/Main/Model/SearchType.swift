@@ -7,60 +7,60 @@
 //
 
 enum SearchType {
-    case User(query: String)
-    case Trending(query: String)
-    case LastSearch(query: String)
-    case Collection(type: CollectionCellType, query: String)
+    case user(query: String)
+    case trending(query: String)
+    case lastSearch(query: String)
+    case collection(type: CollectionCellType, query: String)
 
     var text: String {
         switch self {
-        case let .User(query):
+        case let .user(query):
             return query
-        case let .Trending(query):
+        case let .trending(query):
             return query
-        case let .LastSearch(query):
+        case let .lastSearch(query):
             return query
-        case let .Collection(type, _):
+        case let .collection(type, _):
             return type.title
         }
     }
 
     var query: String {
         switch self {
-        case let .User(query):
+        case let .user(query):
             return query
-        case let .Trending(query):
+        case let .trending(query):
             return query
-        case let .LastSearch(query):
+        case let .lastSearch(query):
             return query
-        case let .Collection(_ , query):
+        case let .collection(_ , query):
             return query
         }
     }
 
     var isTrending: Bool {
         switch self {
-        case .User, .Collection, .LastSearch:
+        case .user, .collection, .lastSearch:
             return false
-        case .Trending:
+        case .trending:
             return true
         }
     }
 
     var isCollection: Bool {
         switch self {
-        case .User, .Trending, .LastSearch:
+        case .user, .trending, .lastSearch:
             return false
-        case .Collection:
+        case .collection:
             return true
         }
     }
     
     var isLastSearch: Bool {
         switch self {
-        case .User, .Trending, .Collection:
+        case .user, .trending, .collection:
             return false
-        case .LastSearch:
+        case .lastSearch:
             return true
         }
     }

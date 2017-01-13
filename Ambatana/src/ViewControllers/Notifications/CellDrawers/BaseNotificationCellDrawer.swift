@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BaseNotificationCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCellDrawer<T>, NotificationCellDrawer {
+class BaseNotificationCellDrawer<T: UITableViewCell>: BaseTableCellDrawer<T>, NotificationCellDrawer where T: ReusableCell {
 
     /**
      Draw the cell, proxy method to `draw(cell: T...)`
@@ -18,7 +18,7 @@ class BaseNotificationCellDrawer<T: UITableViewCell where T: ReusableCell>: Base
      - parameter cell:     Cell where the notification is going to be draw, must be T
      - parameter data:      data to draw
      */
-    func draw(cell: UITableViewCell, data: NotificationData) {
+    func draw(_ cell: UITableViewCell, data: NotificationData) {
         guard let myCell = cell as? T else { return }
         draw(myCell, data: data)
     }
@@ -26,5 +26,5 @@ class BaseNotificationCellDrawer<T: UITableViewCell where T: ReusableCell>: Base
     /**
      Abstract method that should be implemented by the subclasses.
      */
-    func draw(cell: T, data: NotificationData) {}
+    func draw(_ cell: T, data: NotificationData) {}
 }

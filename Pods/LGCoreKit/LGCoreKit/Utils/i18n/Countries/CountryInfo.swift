@@ -10,7 +10,7 @@ import CoreLocation
 
 public protocol CountryInfo {
     var countryCode: String { get }         // ISO 3166-1 alpha-2
-    var locale: NSLocale? { get }
+    var locale: Locale? { get }
     var currencyCode: String { get }        // ISO 4217
     var currencySymbol: String { get }
     var capital: String { get }

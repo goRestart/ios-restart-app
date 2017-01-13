@@ -13,11 +13,11 @@ extension String {
         guard let roles = tokenRoles else { return nil }
 
         if roles.contains("user") {
-            return .User
+            return .user
         } else if roles.contains("app") {
-            return .Installation
+            return .installation
         } else {
-            return .None
+            return .none
         }
     }
 
@@ -28,8 +28,8 @@ extension String {
     }
 
     private var tokenRoles: [String]? {
-        guard let payload = try? JWT.decode(self, algorithm: .HS256(""), verify: false),
-            data = payload["data"] as? [String: AnyObject] else {
+        guard let payload = try? JWT.decode(self, algorithm: .hs256(Data()), verify: false),
+            let data = payload["data"] as? [String: Any] else {
                 return nil
         }
         return data["roles"] as? [String]

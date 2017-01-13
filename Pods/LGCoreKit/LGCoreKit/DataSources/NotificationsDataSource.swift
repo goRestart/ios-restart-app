@@ -8,14 +8,14 @@
 
 import Result
 
-typealias NotificationsDataSourceResult = Result<[Notification], ApiError>
-typealias NotificationsDataSourceCompletion = NotificationsDataSourceResult -> Void
+typealias NotificationsDataSourceResult = Result<[NotificationModel], ApiError>
+typealias NotificationsDataSourceCompletion = (NotificationsDataSourceResult) -> Void
 
 typealias NotificationsDataSourceUnreadCountResult = Result<UnreadNotificationsCounts, ApiError>
-typealias NotificationsDataSourceUnreadCountCompletion = NotificationsDataSourceUnreadCountResult -> Void
+typealias NotificationsDataSourceUnreadCountCompletion = (NotificationsDataSourceUnreadCountResult) -> Void
 
 
 protocol NotificationsDataSource {
-    func index(completion: NotificationsDataSourceCompletion?)
-    func unreadCount(completion: NotificationsDataSourceUnreadCountCompletion?)
+    func index(_ completion: NotificationsDataSourceCompletion?)
+    func unreadCount(_ completion: NotificationsDataSourceUnreadCountCompletion?)
 }

@@ -9,7 +9,7 @@
 import LGCoreKit
 
 protocol StickersSelectorDelegate: class {
-    func stickersSelectorDidSelectSticker(sticker: Sticker)
+    func stickersSelectorDidSelectSticker(_ sticker: Sticker)
     func stickersSelectorDidCancel()
 }
 
@@ -34,9 +34,9 @@ class StickersSelectorViewController: BaseViewController {
     init(stickers: [Sticker], interlocutorName: String?) {
         self.stickers = stickers
         self.interlocutorName = interlocutorName
-        super.init(viewModel: nil, nibName: "StickersSelectorViewController", statusBarStyle: .LightContent)
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        super.init(viewModel: nil, nibName: "StickersSelectorViewController", statusBarStyle: .lightContent)
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -50,7 +50,7 @@ class StickersSelectorViewController: BaseViewController {
         buildStickers()
     }
 
-    override func viewDidFirstAppear(animated: Bool) {
+    override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
 
         animateShow()
@@ -59,20 +59,20 @@ class StickersSelectorViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         animateDismiss() { [weak self] in
             self?.delegate?.stickersSelectorDidCancel()
-            self?.dismissViewControllerAnimated(false, completion: nil)
+            self?.dismiss(animated: false, completion: nil)
         }
     }
 
-    dynamic private func stickerPressed(sender: UITapGestureRecognizer?) {
+    dynamic private func stickerPressed(_ sender: UITapGestureRecognizer?) {
         guard let index = sender?.view?.tag else { return }
 
         //TODO: ANIMATE SELECTION
 
         let sticker = stickers[index]
-        dismissViewControllerAnimated(true) { [weak self] in
+        dismiss(animated: true) { [weak self] in
             self?.delegate?.stickersSelectorDidSelectSticker(sticker)
         }
     }
@@ -80,7 +80,7 @@ class StickersSelectorViewController: BaseViewController {
     // MARK: - Private
 
     private func setupUI() {
-        if let interlocutorName = interlocutorName where !interlocutorName.isEmpty {
+        if let interlocutorName = interlocutorName, !interlocutorName.isEmpty {
             titleLabel.text = LGLocalizedString.productStickersSelectionWName(interlocutorName)
         } else {
             titleLabel.text = LGLocalizedString.productStickersSelectionWoName
@@ -102,13 +102,13 @@ class StickersSelectorViewController: BaseViewController {
         }
     }
 
-    private func buildSticker(sticker: Sticker, top: CGFloat, height: CGFloat, index: Int) -> UIView? {
-        guard let imageUrl = NSURL(string: sticker.url) else { return nil }
+    private func buildSticker(_ sticker: Sticker, top: CGFloat, height: CGFloat, index: Int) -> UIView? {
+        guard let imageUrl = URL(string: sticker.url) else { return nil }
 
         let stickerImage = UIImageView(frame: CGRect(x: 0, y: top, width: height, height: height))
         stickerImage.alpha = 0
         stickerImage.tag = index
-        stickerImage.userInteractionEnabled = true
+        stickerImage.isUserInteractionEnabled = true
         view.addSubview(stickerImage)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(stickerPressed(_:)))
@@ -132,7 +132,7 @@ class StickersSelectorViewController: BaseViewController {
 
         //Animate to final position
         let stickerTop: CGFloat = closeButton.top - itemsMargin - stickerHeight
-        UIView.animateWithDuration(0.2, animations: { [weak self] in
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
             for i in 0..<stickersViews.count {
                 var frame = stickersViews[i].frame
                 frame.top = stickerTop - (stickerHeight * CGFloat(i))
@@ -144,10 +144,10 @@ class StickersSelectorViewController: BaseViewController {
         })
     }
 
-    private func animateDismiss(completion: (() -> Void)?) {
+    private func animateDismiss(_ completion: (() -> Void)?) {
         let stickersViews = self.stickersViews
         let top = closeButton.top
-        UIView.animateWithDuration(0.2, animations: { [weak self] in
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
             for i in 0..<stickersViews.count {
                 var frame = stickersViews[i].frame
                 frame.top = top

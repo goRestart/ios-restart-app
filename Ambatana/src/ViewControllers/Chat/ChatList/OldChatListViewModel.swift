@@ -35,17 +35,16 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         super.init(objects: chats, tabNavigator: tabNavigator)
     }
 
-
     // MARK: - Public methods
 
-    override func didBecomeActive(firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
             setupRxBindings()
         }
     }
 
-    override func index(page: Int, completion: (Result<[Chat], RepositoryError> -> ())?) {
+    override func index(_ page: Int, completion: ((Result<[Chat], RepositoryError>) -> ())?) {
         super.index(page, completion: completion)
         chatRepository.index(chatsType, page: page, numResults: resultsPerPage, completion: completion)
     }
@@ -58,12 +57,12 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         }
     }
 
-    func conversationSelectedAtIndex(index: Int) {
+    func conversationSelectedAtIndex(_ index: Int) {
         guard let chat = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.ChatAPI(chat: chat))
+        tabNavigator?.openChat(.chatAPI(chat: chat))
     }
 
-    func conversationDataAtIndex(index: Int) -> ConversationCellData? {
+    func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let chat = objectAtIndex(index) else { return nil }
         guard let myUser = Core.myUserRepository.myUser else { return nil }
 
@@ -87,7 +86,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     var hasMessagesToRead: Bool {
         for index in 0..<objectCount {
-            if objectAtIndex(index)?.msgUnreadCount > 0 { return true }
+            if let object = objectAtIndex(index), object.msgUnreadCount > 0 { return true }
         }
         return false
     }
@@ -99,12 +98,12 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         delegate?.vmDeleteSelectedChats()
     }
 
-    func deleteConfirmationTitle(itemCount: Int) -> String {
+    func deleteConfirmationTitle(_ itemCount: Int) -> String {
         return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTitleOne :
             LGLocalizedString.chatListDeleteAlertTitleMultiple
     }
 
-    func deleteConfirmationMessage(itemCount: Int) -> String {
+    func deleteConfirmationMessage(_ itemCount: Int) -> String {
         return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTextOne :
             LGLocalizedString.chatListDeleteAlertTextMultiple
     }
@@ -117,7 +116,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         return LGLocalizedString.chatListDeleteAlertSend
     }
 
-    func deleteChatsAtIndexes(indexes: [Int]) {
+    func deleteChatsAtIndexes(_ indexes: [Int]) {
         let chatIds: [String] = indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap {
             objectAtIndex($0)?.objectId
         }
@@ -145,30 +144,30 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
 // MARK: Extension helpers
 
-private extension Chat {
-    func conversationCellStatus(otherUser: User?) -> ConversationCellStatus {
+fileprivate extension Chat {
+    func conversationCellStatus(_ otherUser: User?) -> ConversationCellStatus {
         if let otherUser = otherUser {
             switch otherUser.status {
-            case .Scammer:
-                return .Forbidden
-            case .PendingDelete:
-                return .UserPendingDelete
-            case .Deleted:
-                return .UserDeleted
-            case .Active, .Inactive, .NotFound:
+            case .scammer:
+                return .forbidden
+            case .pendingDelete:
+                return .userPendingDelete
+            case .deleted:
+                return .userDeleted
+            case .active, .inactive, .notFound:
                 break // In this case we rely on the chat status
             }
         }
 
         switch self.status {
-        case .Forbidden:
-            return .Forbidden
-        case .Sold:
-            return .ProductSold
-        case .Deleted:
-            return .ProductDeleted
-        case .Available:
-            return .Available
+        case .forbidden:
+            return .forbidden
+        case .sold:
+            return .productSold
+        case .deleted:
+            return .productDeleted
+        case .available:
+            return .available
         }
     }
 }

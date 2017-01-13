@@ -11,17 +11,17 @@ import Foundation
 final class StickersUDDAO: StickersDAO {
     static let StickersKey = "StickersUDKey"
     var stickers: [Sticker] = []
-    let userDefaults: NSUserDefaults
+    let userDefaults: UserDefaults
     
     
     // MARK: - Lifecycle
     
-    init(userDefaults: NSUserDefaults) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
         self.stickers = fetch()
     }
     
-    func save(stickers: [Sticker]) {
+    func save(_ stickers: [Sticker]) {
         self.stickers = stickers
         let array = stickers.map{$0.encode()}
         userDefaults.setValue(Array(array), forKey: StickersUDDAO.StickersKey)
@@ -34,7 +34,7 @@ final class StickersUDDAO: StickersDAO {
      Return the stickers stored in UserDefaults
     */
     private func fetch() -> [Sticker] {
-        guard let array = userDefaults.arrayForKey(StickersUDDAO.StickersKey) as? [[String: AnyObject]] else {
+        guard let array = userDefaults.array(forKey: StickersUDDAO.StickersKey) as? [[String: Any]] else {
             return [] }
         return  array.flatMap { LGSticker.decode($0) }
     }

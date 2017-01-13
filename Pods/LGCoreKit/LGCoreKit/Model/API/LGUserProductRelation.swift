@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 public struct LGUserProductRelation: UserProductRelation {
 
@@ -26,7 +27,7 @@ extension LGUserProductRelation: Decodable {
           "is_favorited": false
         }
     */
-    public static func decode(j: JSON) -> Decoded<LGUserProductRelation> {
+    public static func decode(_ j: JSON) -> Decoded<LGUserProductRelation> {
 
         return curry(LGUserProductRelation.init)
             <^> LGArgo.mandatoryWithFallback(json: j, key: "is_favorited", fallback: false)

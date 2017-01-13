@@ -14,7 +14,7 @@ extension UIView {
      This method assumes UIView is a container of 5 imageViews with tags from 1 to 5 (indicating each star). It will 
      setup the stars depending on the rating provided.
     */
-    func setupRatingContainer(rating rating: Float) {
+    func setupRatingContainer(rating: Float) {
         var images = [UIImageView]()
         subviews.forEach {
             guard let image = $0 as? UIImageView else { return }

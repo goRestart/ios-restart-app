@@ -11,9 +11,9 @@ import Result
 
 
 protocol BlockedUsersListViewModelDelegate: class {
-    func didStartUnblockingUsers(viewModel: BlockedUsersListViewModel)
-    func didFailUnblockingUsers(viewModel: BlockedUsersListViewModel)
-    func didSucceedUnblockingUsers(viewModel: BlockedUsersListViewModel)
+    func didStartUnblockingUsers(_ viewModel: BlockedUsersListViewModel)
+    func didFailUnblockingUsers(_ viewModel: BlockedUsersListViewModel)
+    func didSucceedUnblockingUsers(_ viewModel: BlockedUsersListViewModel)
 }
 
 class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
@@ -37,7 +37,7 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
     // MARK: - Public methods
     // MARK: > Chats
 
-    override func index(page: Int, completion: (Result<[User], RepositoryError> -> ())?) {
+    override func index(_ page: Int, completion: ((Result<[User], RepositoryError>) -> ())?) {
         super.index(page, completion: completion)
         userRepository.indexBlocked(completion)
     }
@@ -45,7 +45,7 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
 
     // MARK: > Unblock
 
-    func unblockSelectedUsersAtIndexes(indexes: [Int]) {
+    func unblockSelectedUsersAtIndexes(_ indexes: [Int]) {
         guard let selectedUsers = selectedObjectsAtIndexes(indexes) else { return }
         let userIds = selectedUsers.flatMap {$0.objectId}
         trackUnblockUsers(userIds)
@@ -63,8 +63,8 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
 
     // MARK: - Tracking Methods
 
-    private func trackUnblockUsers(userIds: [String]) {
-        let unblockUserEvent = TrackerEvent.profileUnblock(.ChatList, unblockedUsersIds: userIds)
+    private func trackUnblockUsers(_ userIds: [String]) {
+        let unblockUserEvent = TrackerEvent.profileUnblock(.chatList, unblockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
 }

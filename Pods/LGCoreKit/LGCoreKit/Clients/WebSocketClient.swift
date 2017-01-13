@@ -24,17 +24,17 @@ protocol WebSocketQueryRequestConvertible: WebSocketRequestConvertible {}
 
 // MARK: > WebSocket Error
 
-enum WebSocketError: ErrorType {
-    case NotAuthenticated
-    case Internal
-    case UserNotVerified
+enum WebSocketError: Error {
+    case notAuthenticated
+    case internalError
+    case userNotVerified
 
     init(wsErrorType: WebSocketErrorType) {
         switch wsErrorType {
-        case .UserNotVerified:
-            self = .UserNotVerified
+        case .userNotVerified:
+            self = .userNotVerified
         default:
-            self = .Internal
+            self = .internalError
         }
     }
 }
@@ -48,9 +48,9 @@ protocol WebSocketClient {
 
     func suspendOperations()
 
-    func startWebSocket(endpoint: String)
+    func startWebSocket(_ endpoint: String)
     func closeWebSocket()
-    func sendQuery(request: WebSocketQueryRequestConvertible, completion: (Result<[String: AnyObject], WebSocketError> -> Void)?)
-    func sendCommand(request: WebSocketCommandRequestConvertible, completion: (Result<Void, WebSocketError> -> Void)?)
-    func sendEvent(request: WebSocketEventRequestConvertible)
+    func sendQuery(_ request: WebSocketQueryRequestConvertible, completion: ((Result<[String: Any], WebSocketError>) -> Void)?)
+    func sendCommand(_ request: WebSocketCommandRequestConvertible, completion: ((Result<Void, WebSocketError>) -> Void)?)
+    func sendEvent(_ request: WebSocketEventRequestConvertible)
 }

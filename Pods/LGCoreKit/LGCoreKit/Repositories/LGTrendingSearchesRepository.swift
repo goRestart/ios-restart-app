@@ -20,7 +20,7 @@ final class LGTrendingSearchesRepository: TrendingSearchesRepository {
 
     // MARK: - Public methods
 
-    func index(countryCode: String, completion: TrendingSearchesCompletion?) {
+    func index(_ countryCode: String, completion: TrendingSearchesCompletion?) {
 
         if let cached = searchesByCountry[countryCode] {
             completion?(TrendingSearchesResult(value: cached))

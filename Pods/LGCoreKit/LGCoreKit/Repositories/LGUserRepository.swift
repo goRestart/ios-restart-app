@@ -26,7 +26,7 @@ final class LGUserRepository: UserRepository {
      - parameter includeAccounts: If the user entity should include accounts.
      - parameter completion: The completion closure.
      */
-    func show(userId: String, includeAccounts: Bool, completion: UserCompletion?) {
+    func show(_ userId: String, includeAccounts: Bool, completion: UserCompletion?) {
         dataSource.show(userId, includeAccounts: includeAccounts) { result in
             handleApiResult(result, success: nil, completion: completion)
         }
@@ -38,9 +38,9 @@ final class LGUserRepository: UserRepository {
      - parameter relatedUserId: Related user Identifier
      - parameter completion:    The Completion closure
      */
-    func retrieveUserToUserRelation(relatedUserId: String, completion: UserUserRelationCompletion?) {
+    func retrieveUserToUserRelation(_ relatedUserId: String, completion: UserUserRelationCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(UserUserRelationResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UserUserRelationResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
@@ -58,9 +58,9 @@ final class LGUserRepository: UserRepository {
 
      - parameter completion: The completion closure
      */
-    func indexBlocked(completion: UsersCompletion?) {
+    func indexBlocked(_ completion: UsersCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(UsersResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UsersResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
@@ -75,9 +75,9 @@ final class LGUserRepository: UserRepository {
      - parameter user:       user to block
      - parameter completion: Completion closure
      */
-    func blockUserWithId(userId: String, completion: UserVoidCompletion?) {
+    func blockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
-            completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UserVoidResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
@@ -97,9 +97,9 @@ final class LGUserRepository: UserRepository {
      - parameter completion: Completion closure
      */
 
-    func unblockUserWithId(userId: String, completion: UserVoidCompletion?) {
+    func unblockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
-            completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UserVoidResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
@@ -120,35 +120,35 @@ final class LGUserRepository: UserRepository {
      - parameter completion: Completion closure
      */
 
-    func unblockUsersWithIds(userIds: [String], completion: UserVoidCompletion?) {
+    func unblockUsersWithIds(_ userIds: [String], completion: UserVoidCompletion?) {
 
         guard !userIds.isEmpty else {
-            completion?(UserVoidResult(error: .Internal(message: "Missing users to unblock")))
+            completion?(UserVoidResult(error: .internalError(message: "Missing users to unblock")))
             return
         }
 
-        let unblockUsersQueue = dispatch_queue_create("UnblockUsersQueue", DISPATCH_QUEUE_SERIAL)
-        dispatch_async(unblockUsersQueue, {
+        let unblockUsersQueue = DispatchQueue(label: "UnblockUsersQueue", attributes: [])
+        unblockUsersQueue.async(execute: {
             for userId in userIds {
                 let unblockResult = synchronize({ [weak self] synchCompletion in
                     guard let strongSelf = self else {
-                        synchCompletion(UserVoidResult(error: .Internal(message: "self deallocated")))
+                        synchCompletion(UserVoidResult(error: .internalError(message: "self deallocated")))
                         return
                     }
                     strongSelf.unblockUserWithId(userId) { result in
                         synchCompletion(result)
                     }
-                    }, timeoutWith: UserVoidResult(error: .Internal(message: "Timeout blocking")))
+                    }, timeoutWith: UserVoidResult(error: .internalError(message: "Timeout blocking")))
 
                 guard let _ = unblockResult.value else {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         completion?(unblockResult)
                     }
                     return
                 }
             }
 
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completion?(UserVoidResult(value: Void()))
             }
         })
@@ -167,15 +167,15 @@ final class LGUserRepository: UserRepository {
      - parameter params:       Report reason and comment
      - parameter completion:   The completion closure
      */
-    func saveReport(reportedUser: User, params: ReportUserParams, completion: UserCompletion?) {
+    func saveReport(_ reportedUser: User, params: ReportUserParams, completion: UserCompletion?) {
 
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(UserResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UserResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
         guard let reportedUserId = reportedUser.objectId else {
-            completion?(UserResult(error: .Internal(message: "Missing objectId in ReportedUser")))
+            completion?(UserResult(error: .internalError(message: "Missing objectId in ReportedUser")))
             return
         }
 
@@ -184,9 +184,9 @@ final class LGUserRepository: UserRepository {
         }
     }
 
-    func saveReport(reportedUserId: String, params: ReportUserParams, completion: UserVoidCompletion?) {
+    func saveReport(_ reportedUserId: String, params: ReportUserParams, completion: UserVoidCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UserVoidResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
@@ -202,7 +202,7 @@ final class LGUserRepository: UserRepository {
 
     // MARK: - Private methods
 
-    static func handleVoidResultToUser(result: Result<Void, ApiError>, user: User, completion: UserCompletion?) {
+    static func handleVoidResultToUser(_ result: Result<Void, ApiError>, user: User, completion: UserCompletion?) {
         if let error = result.error {
             completion?(UserResult(error: RepositoryError(apiError: error)))
         } else if let _ = result.value {

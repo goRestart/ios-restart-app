@@ -8,10 +8,10 @@
 
 
 public enum WebSocketConversationFilter: String {
-    case None = "default"
-    case AsSeller = "as_seller"
+    case none = "default"
+    case asSeller = "as_seller"
     case asBuyer = "as_buyer"
-    case Archived = "archived"
+    case archived = "archived"
 }
 
 struct WebSocketConversationRequest: WebSocketQueryRequestConvertible {
@@ -24,22 +24,22 @@ struct WebSocketConversationRouter {
 
     let uuidGenerator: UUIDGenerator
 
-    func index(limit: Int = 50, offset: Int = 0, filter: WebSocketConversationFilter = .None)
+    func index(_ limit: Int = 50, offset: Int = 0, filter: WebSocketConversationFilter = .none)
         -> WebSocketConversationRequest {
             let uuid = uuidGenerator.UUIDString
-            let data: [String: AnyObject] = ["limit": limit, "offset": offset, "filter": filter.rawValue]
+            let data: [String: Any] = ["limit": limit, "offset": offset, "filter": filter.rawValue]
             let message = WebSocketRouter.requestWith(uuid, type: .FetchConversations, data: data)
             return WebSocketConversationRequest(message: message, uuid: uuid, type: .FetchConversations)
     }
     
-    func show(conversationId: String) -> WebSocketConversationRequest {
+    func show(_ conversationId: String) -> WebSocketConversationRequest {
         let uuid = uuidGenerator.UUIDString
         let data = ["conversation_id": conversationId]
         let message = WebSocketRouter.requestWith(uuid, type: .ConversationDetails, data: data)
         return WebSocketConversationRequest(message: message, uuid: uuid, type: .ConversationDetails)
     }
     
-    func show(sellerId: String, productId: String) -> WebSocketConversationRequest {
+    func show(_ sellerId: String, productId: String) -> WebSocketConversationRequest {
         let uuid = uuidGenerator.UUIDString
         let data = ["seller_id": sellerId, "product_id": productId]
         let message = WebSocketRouter.requestWith(uuid, type: .FetchConversationID, data: data)

@@ -10,52 +10,52 @@ import LGCoreKit
 import RxSwift
 
 protocol ChatGroupedViewModelDelegate: class {
-    func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel)
-    func viewModelShouldOpenSell(viewModel: ChatGroupedViewModel)
+    func viewModelShouldOpenHome(_ viewModel: ChatGroupedViewModel)
+    func viewModelShouldOpenSell(_ viewModel: ChatGroupedViewModel)
 }
 
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
-        case All = 0, Selling = 1, Buying = 2, BlockedUsers = 3
+        case all = 0, selling = 1, buying = 2, blockedUsers = 3
 
         var chatsType: ChatsType? {
             switch(self) {
-            case .All:
-                return .All
-            case .Selling:
-                return .Selling
-            case .Buying:
-                return .Buying
-            case .BlockedUsers:
+            case .all:
+                return .all
+            case .selling:
+                return .selling
+            case .buying:
+                return .buying
+            case .blockedUsers:
                 return nil
             }
         }
 
-        func editButtonText(editing: Bool) -> String {
+        func editButtonText(_ editing: Bool) -> String {
             guard !editing else { return LGLocalizedString.commonCancel }
 
             switch(self) {
-            case .All, .Selling, .Buying:
+            case .all, .selling, .buying:
                 return LGLocalizedString.chatListDelete
-            case .BlockedUsers:
+            case .blockedUsers:
                 return LGLocalizedString.chatListUnblock
             }
         }
 
         static var allValues: [Tab] {
-            return [.All, .Selling, .Buying, .BlockedUsers]
+            return [.all, .selling, .buying, .blockedUsers]
         }
     }
 
-    private var chatListViewModels: [ChatListViewModel]
-    private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
-    private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
+    fileprivate var chatListViewModels: [ChatListViewModel]
+    fileprivate(set) var blockedUsersListViewModel: BlockedUsersListViewModel
+    fileprivate let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
-    private let sessionManager: SessionManager
-    private let myUserRepository: MyUserRepository
-    private let chatRepository: ChatRepository
-    private let featureFlags: FeatureFlaggeable
+    fileprivate let sessionManager: SessionManager
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let chatRepository: ChatRepository
+    fileprivate let featureFlags: FeatureFlaggeable
 
     weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
@@ -71,7 +71,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     let verificationPending = Variable<Bool>(false)
 
-    private let disposeBag: DisposeBag
+    fileprivate let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
@@ -95,16 +95,16 @@ class ChatGroupedViewModel: BaseViewModel {
         for index in 0..<tabCount {
             guard let tab = Tab(rawValue: index) else { continue }
             switch tab {
-            case .All:
+            case .all:
                 guard let chatsType = tab.chatsType else { continue }
                 chatListViewModels.append(buildChatListAll(chatsType))
-            case.Selling:
+            case.selling:
                 guard let chatsType = tab.chatsType else { continue }
                 chatListViewModels.append(buildChatListSelling(chatsType))
-            case .Buying:
+            case .buying:
                 guard let chatsType = tab.chatsType else { continue }
                 chatListViewModels.append(buildChatListBuying(chatsType))
-            case .BlockedUsers:
+            case .blockedUsers:
                 blockedUsersListViewModel.emptyStatusViewModel = LGEmptyViewModel(
                     icon: UIImage(named: "err_list_no_blocked_users"),
                     title: LGLocalizedString.chatListBlockedEmptyTitle,
@@ -136,67 +136,67 @@ class ChatGroupedViewModel: BaseViewModel {
         return chatListViewModels.count
     }
 
-    let currentTab = Variable<Tab>(.Buying)
+    let currentTab = Variable<Tab>(.buying)
 
-    func showInfoBadgeAtIndex(index: Int) -> Bool {
+    func showInfoBadgeAtIndex(_ index: Int) -> Bool {
         guard let chatListVM = viewModelAtIndex(index) else { return false }
         return chatListVM.hasMessagesToRead
     }
 
-    func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
+    func titleForTabAtIndex(_ index: Int, selected: Bool) -> NSAttributedString {
         guard let tab = Tab(rawValue: index) else { return NSMutableAttributedString() }
 
-        let color: UIColor = selected ? UIColor.primaryColor : UIColor.blackColor()
+        let color: UIColor = selected ? UIColor.primaryColor : UIColor.black
 
-        var titleAttributes = [String : AnyObject]()
+        var titleAttributes = [String : Any]()
         titleAttributes[NSForegroundColorAttributeName] = color
         titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
 
         let string: NSAttributedString
         switch tab {
-        case .All:
+        case .all:
             string = NSAttributedString(string: LGLocalizedString.chatListAllTitle, attributes: titleAttributes)
-        case .Buying:
+        case .buying:
             string = NSAttributedString(string: LGLocalizedString.chatListBuyingTitle, attributes: titleAttributes)
-        case .Selling:
+        case .selling:
             string = NSAttributedString(string: LGLocalizedString.chatListSellingTitle, attributes: titleAttributes)
-        case .BlockedUsers:
+        case .blockedUsers:
             string = NSAttributedString(string: LGLocalizedString.chatListBlockedUsersTitle, attributes: titleAttributes)
         }
         return string
     }
     
-    func accessibilityIdentifierForTabButtonAtIndex(index: Int) -> AccessibilityId? {
+    func accessibilityIdentifierForTabButtonAtIndex(_ index: Int) -> AccessibilityId? {
         guard let tab = Tab(rawValue: index) else { return nil }
         switch tab {
-        case .All: return .ChatListViewTabAll
-        case .Buying: return .ChatListViewTabBuying
-        case .Selling: return .ChatListViewTabSelling
-        case .BlockedUsers: return .ChatListViewTabBlockedUsers
+        case .all: return .chatListViewTabAll
+        case .buying: return .chatListViewTabBuying
+        case .selling: return .chatListViewTabSelling
+        case .blockedUsers: return .chatListViewTabBlockedUsers
         }
     }
     
-    func accessibilityIdentifierForTableViewAtIndex(index: Int) -> AccessibilityId? {
+    func accessibilityIdentifierForTableViewAtIndex(_ index: Int) -> AccessibilityId? {
         guard let tab = Tab(rawValue: index) else { return nil }
         switch tab {
-        case .All: return .ChatListViewTabAllTableView
-        case .Buying: return .ChatListViewTabBuyingTableView
-        case .Selling: return .ChatListViewTabSellingTableView
-        case .BlockedUsers: return .ChatListViewTabBlockedUsersTableView
+        case .all: return .chatListViewTabAllTableView
+        case .buying: return .chatListViewTabBuyingTableView
+        case .selling: return .chatListViewTabSellingTableView
+        case .blockedUsers: return .chatListViewTabBlockedUsersTableView
         }
     }
     
-    func blockedUserPressed(user: User) {
-        let data = UserDetailData.UserAPI(user: user, source: .Chat)
+    func blockedUserPressed(_ user: User) {
+        let data = UserDetailData.userAPI(user: user, source: .chat)
         tabNavigator?.openUser(data)
     }
 
-    func oldChatListViewModelForTabAtIndex(index: Int) -> OldChatListViewModel? {
+    func oldChatListViewModelForTabAtIndex(_ index: Int) -> OldChatListViewModel? {
         guard let chatListVM = viewModelAtIndex(index) else { return nil }
         return chatListVM as? OldChatListViewModel
     }
 
-    func wsChatListViewModelForTabAtIndex(index: Int) -> WSChatListViewModel? {
+    func wsChatListViewModelForTabAtIndex(_ index: Int) -> WSChatListViewModel? {
         guard let chatListVM = viewModelAtIndex(index) else { return nil }
         return chatListVM as? WSChatListViewModel
     }
@@ -208,19 +208,19 @@ class ChatGroupedViewModel: BaseViewModel {
         currentPageViewModel.value?.reloadCurrentPagesWithCompletion(nil)
     }
 
-    func setCurrentPageEditing(editing: Bool) {
+    func setCurrentPageEditing(_ editing: Bool) {
         currentPageViewModel.value?.editing.value = editing
     }
 
 
     // MARK: - Private
 
-    private func viewModelAtIndex(index: Int) -> ChatListViewModel? {
+    private func viewModelAtIndex(_ index: Int) -> ChatListViewModel? {
         guard 0..<chatListViewModels.count ~= index else { return nil }
         return chatListViewModels[index]
     }
 
-    private func buildChatListAll(chatsType: ChatsType) -> ChatListViewModel {
+    private func buildChatListAll(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
             title: LGLocalizedString.chatListAllEmptyTitle,
@@ -245,7 +245,7 @@ class ChatGroupedViewModel: BaseViewModel {
         return chatListViewModel
     }
 
-    private func buildChatListSelling(chatsType: ChatsType) -> ChatListViewModel {
+    private func buildChatListSelling(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
             title: LGLocalizedString.chatListSellingEmptyTitle,
@@ -266,7 +266,7 @@ class ChatGroupedViewModel: BaseViewModel {
         return chatListViewModel
     }
 
-    private func buildChatListBuying(chatsType: ChatsType) -> ChatListViewModel {
+    private func buildChatListBuying(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
             title: LGLocalizedString.chatListBuyingEmptyTitle,
@@ -292,12 +292,12 @@ class ChatGroupedViewModel: BaseViewModel {
 // MARK: - Rx
 
 extension ChatGroupedViewModel {
-    private func setupRxBindings() {
+    fileprivate func setupRxBindings() {
         currentTab.asObservable().map { [weak self] tab -> ChatGroupedListViewModelType? in
             switch tab {
-            case .All, .Selling, .Buying:
+            case .all, .selling, .buying:
                 return self?.chatListViewModels[tab.rawValue]
-            case .BlockedUsers:
+            case .blockedUsers:
                 return self?.blockedUsersListViewModel
             }
         }.bindTo(currentPageViewModel).addDisposableTo(disposeBag)
@@ -323,17 +323,17 @@ extension ChatGroupedViewModel {
 
         chatRepository.chatStatus.map { wsChatStatus in
             switch wsChatStatus {
-            case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
+            case .closed, .closing, .opening, .openAuthenticated, .openNotAuthenticated:
                 return false
-            case .OpenNotVerified:
+            case .openNotVerified:
                 return true
             }
         }.bindTo(verificationPending).addDisposableTo(disposeBag)
 
         // When verification pending changes from false to true then display verify accounts
         verificationPending.asObservable().filter { $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
-            self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],
-                source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+            self?.tabNavigator?.openVerifyAccounts([.facebook, .google, .email(self?.myUserRepository.myUser?.email)],
+                source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
         }.addDisposableTo(disposeBag)

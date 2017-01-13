@@ -9,11 +9,11 @@
 import Foundation
 
 extension MyUserRepository {
-    public func isMessageMine(message: Message) -> Bool {
+    public func isMessageMine(_ message: Message) -> Bool {
         return message.userId == myUser?.objectId
     }
     
-    public func isMessageMine(message: ChatMessage) -> Bool {
+    public func isMessageMine(_ message: ChatMessage) -> Bool {
         return message.talkerId == myUser?.objectId
     }
 }

@@ -10,7 +10,7 @@ struct AppsFlyerDeepLink {
 
     let deepLink: DeepLink
 
-    static func buildFromUserActivity(userActivity: NSUserActivity) -> AppsFlyerDeepLink? {
+    static func buildFromUserActivity(_ userActivity: NSUserActivity) -> AppsFlyerDeepLink? {
         guard let url = userActivity.webpageURL else { return nil }
         return AppsFlyerDeepLink.buildFromUrl(url)
     }
@@ -19,15 +19,15 @@ struct AppsFlyerDeepLink {
      Initializer using Appsflyer urls https://letgo.onelink.me/...
 
      */
-    private static func buildFromUrl(url: NSURL) -> AppsFlyerDeepLink? {
+    private static func buildFromUrl(_ url: URL) -> AppsFlyerDeepLink? {
 
-        guard let host = url.host where host == "letgo.onelink.me" else {
+        guard let host = url.host, host == "letgo.onelink.me" else {
             //Any nil object or host different than letgo.onelink.me will be treated as error
             return nil
         }
         let params = url.queryParameters
         guard let urlSchemeString = params["af_dp"] else { return nil }
-        guard let schemeUrl = NSURL(string: urlSchemeString) else { return nil }
+        guard let schemeUrl = URL(string: urlSchemeString) else { return nil }
         guard let uriScheme = UriScheme.buildFromUrl(schemeUrl) else { return nil }
         return AppsFlyerDeepLink(deepLink: uriScheme.deepLink)
     }

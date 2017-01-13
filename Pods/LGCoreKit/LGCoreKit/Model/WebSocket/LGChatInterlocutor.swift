@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGChatInterlocutor: ChatInterlocutor {
     let objectId: String?
@@ -31,7 +32,7 @@ extension LGChatInterlocutor: Decodable {
         static let status = "status"
     }
     
-    static func decode(j: JSON) -> Decoded<LGChatInterlocutor> {
+    static func decode(_ j: JSON) -> Decoded<LGChatInterlocutor> {
         let init1 = curry(LGChatInterlocutor.init)
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.name
@@ -43,8 +44,8 @@ extension LGChatInterlocutor: Decodable {
         return init1
     }
     
-    static func decodeOptional(json: JSON?) -> Decoded<LGChatInterlocutor?> {
-        guard let j = json else { return Decoded<LGChatInterlocutor?>.Success(nil) }
-        return Decoded<LGChatInterlocutor?>.Success(LGChatInterlocutor.decode(j).value)
+    static func decodeOptional(_ json: JSON?) -> Decoded<LGChatInterlocutor?> {
+        guard let j = json else { return Decoded<LGChatInterlocutor?>.success(nil) }
+        return Decoded<LGChatInterlocutor?>.success(LGChatInterlocutor.decode(j).value)
     }
 }

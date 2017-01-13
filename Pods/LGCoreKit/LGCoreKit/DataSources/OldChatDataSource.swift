@@ -8,11 +8,11 @@
 
 import Result
 
-typealias ChatDataSourceRetrieveChatsCompletion = Result<[Chat], ApiError> -> Void
-typealias ChatDataSourceRetrieveChatCompletion = Result<Chat, ApiError> -> Void
-typealias ChatDataSourceSendMessageCompletion = Result<Void, ApiError> -> Void
-typealias ChatDataSourceUnreadCountCompletion = Result<Int, ApiError> -> Void
-typealias ChatDataSourceArchiveChatCompletion = Result<Void, ApiError> -> Void
+typealias ChatDataSourceRetrieveChatsCompletion = (Result<[Chat], ApiError>) -> Void
+typealias ChatDataSourceRetrieveChatCompletion = (Result<Chat, ApiError>) -> Void
+typealias ChatDataSourceSendMessageCompletion = (Result<Void, ApiError>) -> Void
+typealias ChatDataSourceUnreadCountCompletion = (Result<Int, ApiError>) -> Void
+typealias ChatDataSourceArchiveChatCompletion = (Result<Void, ApiError>) -> Void
 
 protocol OldChatDataSource {
 
@@ -25,7 +25,7 @@ protocol OldChatDataSource {
     - parameter numResults: total number of results to retrieve per page
     - parameter completion: Completion closure to execute when the opeartion finishes
     */
-    func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatDataSourceRetrieveChatsCompletion?)
+    func index(_ type: ChatsType, page: Int, numResults: Int?, completion: ChatDataSourceRetrieveChatsCompletion?)
     
     /**
     Retrieves an specific chat
@@ -36,7 +36,7 @@ protocol OldChatDataSource {
     parameter numResults: the num of messages we want to retrieve
     parameter completion: the completion closure
     */
-    func retrieveMessagesWithProductId(productId: String, buyerId: String, offset: Int, numResults: Int?,
+    func retrieveMessagesWithProductId(_ productId: String, buyerId: String, offset: Int, numResults: Int?,
         completion: ChatDataSourceRetrieveChatCompletion?)
 
     /**
@@ -47,7 +47,7 @@ protocol OldChatDataSource {
     parameter numResults: the num of messages we want to retrieve
     parameter completion: the completion closure
     */
-    func retrieveMessagesWithConversationId(conversationId: String, offset: Int, numResults: Int?,
+    func retrieveMessagesWithConversationId(_ conversationId: String, offset: Int, numResults: Int?,
         completion: ChatDataSourceRetrieveChatCompletion?)
 
     /**
@@ -59,7 +59,7 @@ protocol OldChatDataSource {
     parameter type: the type of message (text or offer)
     parameter completion: the completion closure
     */
-    func sendMessageTo(recipientUserId: String, productId: String, message: String, type: MessageType,
+    func sendMessageTo(_ recipientUserId: String, productId: String, message: String, type: MessageType,
         completion: ChatDataSourceSendMessageCompletion?)
 
     /**
@@ -67,7 +67,7 @@ protocol OldChatDataSource {
 
     parameter completion: the completion closure
     */
-    func fetchUnreadCount(completion: ChatDataSourceUnreadCountCompletion?)
+    func fetchUnreadCount(_ completion: ChatDataSourceUnreadCountCompletion?)
 
     /**
      Archives all the chats for the given ids
@@ -75,7 +75,7 @@ protocol OldChatDataSource {
      - parameter chatIds:    list of chat-id
      - parameter completion: The completion closure
      */
-    func archiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?)
+    func archiveChatsWithIds(_ chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?)
 
     /**
      Unarchives all the chats for the given ids
@@ -83,5 +83,5 @@ protocol OldChatDataSource {
      - parameter chatIds:    list of chat-id
      - parameter completion: The completion closure
      */
-    func unarchiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?)
+    func unarchiveChatsWithIds(_ chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?)
 }

@@ -8,7 +8,7 @@
 
 import CocoaLumberjack
 
-public struct CoreLoggingOptions: OptionSetType, CustomStringConvertible {
+public struct CoreLoggingOptions: OptionSet, CustomStringConvertible {
     public let rawValue : Int
 
 
@@ -16,25 +16,25 @@ public struct CoreLoggingOptions: OptionSetType, CustomStringConvertible {
 
     public var description: String {
         var options: [String] = []
-        if contains(CoreLoggingOptions.Networking) {
+        if contains(CoreLoggingOptions.networking) {
             options.append("✈️")
         }
-        if contains(CoreLoggingOptions.Persistence) {
+        if contains(CoreLoggingOptions.persistence) {
             options.append("💾")
         }
-        if contains(CoreLoggingOptions.Token) {
+        if contains(CoreLoggingOptions.token) {
             options.append("🔑")
         }
-        if contains(CoreLoggingOptions.Session) {
+        if contains(CoreLoggingOptions.session) {
             options.append("🙋🏻")
         }
-        if contains(CoreLoggingOptions.WebSockets) {
+        if contains(CoreLoggingOptions.webSockets) {
             options.append("💬")
         }
-        if contains(CoreLoggingOptions.Parsing) {
+        if contains(CoreLoggingOptions.parsing) {
             options.append("📦")
         }
-        return options.joinWithSeparator("+")
+        return options.joined(separator: "+")
     }
 
     
@@ -47,34 +47,34 @@ public struct CoreLoggingOptions: OptionSetType, CustomStringConvertible {
 
     // MARK: - Options
 
-    public static var None = CoreLoggingOptions(rawValue: 0)
-    public static var Networking = CoreLoggingOptions(rawValue: 1)
-    public static var Persistence = CoreLoggingOptions(rawValue: 2)
-    public static var Token = CoreLoggingOptions(rawValue: 4)
-    public static var Session = CoreLoggingOptions(rawValue: 8)
-    public static var WebSockets = CoreLoggingOptions(rawValue: 16)
-    public static var Parsing = CoreLoggingOptions(rawValue: 32)
+    public static var none = CoreLoggingOptions(rawValue: 0)
+    public static var networking = CoreLoggingOptions(rawValue: 1)
+    public static var persistence = CoreLoggingOptions(rawValue: 2)
+    public static var token = CoreLoggingOptions(rawValue: 4)
+    public static var session = CoreLoggingOptions(rawValue: 8)
+    public static var webSockets = CoreLoggingOptions(rawValue: 16)
+    public static var parsing = CoreLoggingOptions(rawValue: 32)
 }
 
 
 enum LogLevel {
-    case Verbose, Debug, Info, Warning, Error
+    case verbose, debug, info, warning, error
 }
 
-func logMessage(level: LogLevel, type: CoreLoggingOptions, message: String) {
+func logMessage(_ level: LogLevel, type: CoreLoggingOptions, message: String) {
     guard LGCoreKit.loggingOptions.contains(type) else { return }
 
     let logText = "[\(type.description)] \(message)"
     switch level {
-    case .Verbose:
+    case .verbose:
         DDLogVerbose(logText)
-    case .Debug:
+    case .debug:
         DDLogDebug(logText)
-    case .Info:
+    case .info:
         DDLogInfo(logText)
-    case .Warning:
+    case .warning:
         DDLogWarn(logText)
-    case .Error:
+    case .error:
         DDLogError(logText)
     }
 }

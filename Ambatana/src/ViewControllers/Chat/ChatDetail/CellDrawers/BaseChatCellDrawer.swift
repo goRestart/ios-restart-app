@@ -9,10 +9,10 @@
 import Foundation
 import LGCoreKit
 
-class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCellDrawer<T>, ChatCellDrawer {
+class BaseChatCellDrawer<T: UITableViewCell>: BaseTableCellDrawer<T>, ChatCellDrawer where T: ReusableCell {
 
-    private let autoHideTime: NSTimeInterval = 3
-    private let autoHideFadeTime: NSTimeInterval = 0.3
+    private let autoHideTime: TimeInterval = 3
+    private let autoHideFadeTime: TimeInterval = 0.3
 
     let autoHide: Bool
 
@@ -30,37 +30,37 @@ class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCel
     - parameter avatar:   Avatar to draw if any
     - parameter delegate: Delegate of the cell if any
     */
-    func draw(cell: UITableViewCell, message: ChatViewMessage, delegate: AnyObject?) {
+    func draw(_ cell: UITableViewCell, message: ChatViewMessage) {
         guard let myCell = cell as? T else { return }
-        draw(myCell, message: message, delegate: delegate)
+        draw(myCell, message: message)
         checkAutoHide(myCell, message: message)
     }
     
     /**
     Abstract method that should be implemented by the subclasses.
     */
-    func draw(cell: T, message: ChatViewMessage, delegate: AnyObject?) {}
+    func draw(_ cell: T, message: ChatViewMessage) {}
 
 
-    private func checkAutoHide(cell: T, message: ChatViewMessage) {
+    private func checkAutoHide(_ cell: T, message: ChatViewMessage) {
        
-        guard let timeInterval = message.sentAt?.timeIntervalSinceNow where autoHide  else { return }
+        guard let timeInterval = message.sentAt?.timeIntervalSinceNow, autoHide  else { return }
         let diffTime = autoHideTime + timeInterval
         guard 0.0..<autoHideTime ~= diffTime else {
             cell.contentView.alpha = 0
-            cell.contentView.hidden = true
+            cell.contentView.isHidden = true
             return
         }
-        cell.contentView.hidden = false
+        cell.contentView.isHidden = false
         cell.contentView.alpha = 1
         
         // keep a message hash on content view to be sure that completions happens on the correct cell.
-        let messageTag = message.sentAt?.hash ?? 0
+        let messageTag = (message.sentAt as NSDate?)?.hash ?? 0
         cell.contentView.tag = messageTag
-        UIView.animateWithDuration(autoHideFadeTime, delay: diffTime, options: .CurveEaseIn,
+        UIView.animate(withDuration: autoHideFadeTime, delay: diffTime, options: .curveEaseIn,
                                    animations: { cell.contentView.alpha = 0 }, completion: { _ in
                                     guard cell.contentView.tag == messageTag else { return }
-                                    cell.contentView.hidden = true
+                                    cell.contentView.isHidden = true
         })
     }
 }

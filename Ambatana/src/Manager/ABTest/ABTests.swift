@@ -8,7 +8,7 @@
 
 import RxSwift
 
-public struct ABTests {
+struct ABTests {
 
     static let trackingData = Variable<[String]>([])
 

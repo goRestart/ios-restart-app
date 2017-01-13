@@ -17,8 +17,8 @@ protocol Paginable {
 
     func retrieveFirstPage()
     func retrieveNextPage()
-    func retrievePage(page: Int)
-    func setCurrentIndex(index: Int)
+    func retrievePage(_ page: Int)
+    func setCurrentIndex(_ index: Int)
 }
 
 extension Paginable {
@@ -51,7 +51,7 @@ extension Paginable {
         }
     }
     
-    func setCurrentIndex(index: Int) {
+    func setCurrentIndex(_ index: Int) {
         let threshold = Int(Float(objectCount) * thresholdPercentage)
         let shouldRetrieveNextPage = index >= threshold
         if shouldRetrieveNextPage {

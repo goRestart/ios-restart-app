@@ -11,9 +11,9 @@ import LGCoreKit
 class DiscoverProductListRequester {
 
     let itemsPerPage: Int
-    private let productObjectId: String
-    private let productRepository: ProductRepository
-    private var offset: Int = 0
+    fileprivate let productObjectId: String
+    fileprivate let productRepository: ProductRepository
+    fileprivate var offset: Int = 0
 
     convenience init(productId: String, itemsPerPage: Int) {
         self.init(productId: productId, itemsPerPage: itemsPerPage, productRepository: Core.productRepository)
@@ -34,19 +34,19 @@ extension DiscoverProductListRequester: ProductListRequester {
         return true
     }
 
-    func retrieveFirstPage(completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ProductsCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
 
-    func retrieveNextPage(completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ProductsCompletion?) {
         productsRetrieval(completion)
     }
 
-    func isLastPage(resultCount: Int) -> Bool {
+    func isLastPage(_ resultCount: Int) -> Bool {
         return resultCount == 0
     }
-    func updateInitialOffset(newOffset: Int) {}
+    func updateInitialOffset(_ newOffset: Int) {}
 
     func duplicate() -> ProductListRequester {
         let r = DiscoverProductListRequester(productId: productObjectId, itemsPerPage: itemsPerPage)
@@ -58,16 +58,16 @@ extension DiscoverProductListRequester: ProductListRequester {
 
 // MARK: - DiscoverProductListRequester
 
-private extension DiscoverProductListRequester {
+fileprivate extension DiscoverProductListRequester {
 
-    private var retrieveProductsParams: RetrieveProductsParams {
+    var retrieveProductsParams: RetrieveProductsParams {
         var params = RetrieveProductsParams()
         params.offset = offset
         params.numProducts = itemsPerPage
         return params
     }
 
-    func productsRetrieval(completion: ProductsCompletion?) {
+    func productsRetrieval(_ completion: ProductsCompletion?) {
         productRepository.indexDiscover(productId: productObjectId, params: retrieveProductsParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count

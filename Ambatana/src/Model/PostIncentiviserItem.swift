@@ -8,105 +8,108 @@
 
 
 enum PostIncentiviserItem: Int {
-    case PS4 = 1, TV, Bike, Motorcycle, Dresser, Car, KidsClothes, Furniture, Toys
+    case ps4 = 1, tv, bike, motorcycle, dresser, car, kidsClothes, furniture, toys
 
-    static func incentiviserPack(freePosting: Bool) -> [PostIncentiviserItem] {
-        guard !freePosting else { return [.KidsClothes, .Furniture, .Toys] }
+    static func incentiviserPack(_ freePosting: Bool) -> [PostIncentiviserItem] {
+        guard !freePosting else { return [.kidsClothes, .furniture, .toys] }
         let pack = Int.random(0, 1)
-        guard pack == 0 else { return [.Motorcycle, .Dresser, .Car] }
-        return [.PS4, .TV, .Bike]
+        guard pack == 0 else { return [.motorcycle, .dresser, .car] }
+        return [.ps4, .tv, .bike]
     }
 
     var name: String {
         switch self {
-        case .PS4:
+        case .ps4:
             return LGLocalizedString.productPostIncentivePs4
-        case .TV:
+        case .tv:
             return LGLocalizedString.productPostIncentiveTv
-        case .Bike:
+        case .bike:
             return LGLocalizedString.productPostIncentiveBike
-        case .Motorcycle:
+        case .motorcycle:
             return LGLocalizedString.productPostIncentiveMotorcycle
-        case .Dresser:
+        case .dresser:
             return LGLocalizedString.productPostIncentiveDresser
-        case .Car:
+        case .car:
             return LGLocalizedString.productPostIncentiveCar
-        case .KidsClothes:
+        case .kidsClothes:
             return LGLocalizedString.productPostIncentiveKidsClothes
-        case .Furniture:
+        case .furniture:
             return LGLocalizedString.productPostIncentiveFurniture
-        case .Toys:
+        case .toys:
             return LGLocalizedString.productPostIncentiveToys
         }
     }
 
     var image: UIImage? {
         switch self {
-        case .PS4:
+        case .ps4:
             return UIImage(named: "ps4")
-        case .TV:
+        case .tv:
             return UIImage(named: "tv")
-        case .Bike:
+        case .bike:
             return UIImage(named: "bike")
-        case .Motorcycle:
+        case .motorcycle:
             return UIImage(named: "motorcycle")
-        case .Dresser:
+        case .dresser:
             return UIImage(named: "dresser")
-        case .Car:
+        case .car:
             return UIImage(named: "cars")
-        case .KidsClothes:
+        case .kidsClothes:
             return UIImage(named: "kids_clothes")
-        case .Furniture:
+        case .furniture:
             return UIImage(named: "furniture")
-        case .Toys:
+        case .toys:
             return UIImage(named: "toys")
         }
     }
 
     var baseSearchCount: Int {
         switch self {
-        case .PS4:
+        case .ps4:
             return 82801
-        case .TV:
+        case .tv:
             return 71715
-        case .Bike:
+        case .bike:
             return 56687
-        case .Motorcycle:
+        case .motorcycle:
             return 74661
-        case .Dresser:
+        case .dresser:
             return 50559
-        case .Car:
+        case .car:
             return 77296
-        case .KidsClothes:
+        case .kidsClothes:
             return 74111
-        case .Furniture:
+        case .furniture:
             return 50297
-        case .Toys:
+        case .toys:
             return 76985
         }
     }
 
     var searchCount: String? {
-        return searchCount(NSDate())
+        return searchCount(Date())
     }
 
-    func searchCount(date: NSDate) -> String? {
-        let fmt = NSNumberFormatter()
-        fmt.numberStyle = .DecimalStyle
-        fmt.locale = NSLocale.currentLocale()
-        guard let stringNumber = fmt.stringFromNumber(self.baseSearchCount + searchCountIncrement(date)) else { return nil }
+    func searchCount(_ date: Date) -> String? {
+        let fmt = NumberFormatter()
+        fmt.numberStyle = .decimal
+        fmt.locale = Locale.current
+        let value = NSNumber(value: baseSearchCount + searchCountIncrement(date))
+        guard let stringNumber = fmt.string(from:value) else { return nil }
         return stringNumber
     }
 
 
     // MARK: private methods
 
-    private func searchCountIncrement(date: NSDate) -> Int {
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Month,.Day], fromDate: date)
+    private func searchCountIncrement(_ date: Date) -> Int {
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components([.month,.day], from: date)
+        let month = components.month ?? 1
+        let day = components.day ?? 1
         let dailyIncrement = baseSearchCount/200
-        let monthDivision = max(components.month / self.rawValue, 1)
-        let increment = dailyIncrement + (self.rawValue * components.day) / monthDivision // "randomizing" like a baws
+        let monthDivision = max(month / self.rawValue, 1)
+        let increment = dailyIncrement + (self.rawValue * day) / monthDivision // "randomizing" like a baws
         return increment
     }
 }

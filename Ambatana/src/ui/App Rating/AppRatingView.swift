@@ -10,7 +10,7 @@ import UIKit
 import LGCoreKit
 
 protocol AppRatingViewDelegate: class {
-    func appRatingViewDidSelectRating(rating: Int)
+    func appRatingViewDidSelectRating(_ rating: Int)
 }
 
 class AppRatingView: UIView {
@@ -26,8 +26,8 @@ class AppRatingView: UIView {
     weak var delegate: AppRatingViewDelegate?
     var ratingSource: EventParameterRatingSource?
     
-    static func ratingView(source: EventParameterRatingSource) -> AppRatingView? {
-        guard let view = NSBundle.mainBundle().loadNibNamed("AppRatingView", owner: self, options: nil)?.first
+    static func ratingView(_ source: EventParameterRatingSource) -> AppRatingView? {
+        guard let view = Bundle.main.loadNibNamed("AppRatingView", owner: self, options: nil)?.first
             as? AppRatingView else { return nil }
         view.ratingSource = source
         return view
@@ -37,7 +37,7 @@ class AppRatingView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func setupWithFrame(frame: CGRect) {
+    func setupWithFrame(_ frame: CGRect) {
 
         self.alpha = 0
         self.showWithFadeIn()
@@ -47,7 +47,7 @@ class AppRatingView: UIView {
         headerImageView.backgroundColor = UIColor.ratingViewBackgroundColor
         mainTextLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
-        dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, forState: .Normal)
+        dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, for: .normal)
 
         guard let source = ratingSource else { return }
         let trackerEvent = TrackerEvent.appRatingStart(source)
@@ -57,38 +57,38 @@ class AppRatingView: UIView {
     }
     
     
-    @IBAction func ratePressed(sender: AnyObject) {
+    @IBAction func ratePressed(_ sender: AnyObject) {
         userRatesOrGivesFeedback()
         let trackerEvent = TrackerEvent.appRatingRate()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         closeWithFadeOut()
     }
     
-    @IBAction func suggestPressed(sender: AnyObject) {
+    @IBAction func suggestPressed(_ sender: AnyObject) {
         userRatesOrGivesFeedback()
         let trackerEvent = TrackerEvent.appRatingSuggest()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         closeWithFadeOut()
     }
 
-    @IBAction func dismissPressed(sender: AnyObject) {
+    @IBAction func dismissPressed(_ sender: AnyObject) {
         userWantsRemindLater()
         closeWithFadeOut()
     }
 
-    @IBAction func closePressed(sender: AnyObject) {
+    @IBAction func closePressed(_ sender: AnyObject) {
         userWantsRemindLater()
         closeWithFadeOut()
     }
 
-    @IBAction func starHighlighted(sender: AnyObject) {
+    @IBAction func starHighlighted(_ sender: AnyObject) {
         guard let tag = (sender as? UIButton)?.tag else { return }
-        stars.forEach{$0.highlighted = ($0.tag <= tag)}
+        stars.forEach{$0.isHighlighted = ($0.tag <= tag)}
     }
     
-    @IBAction func starSelected(sender: AnyObject) {
+    @IBAction func starSelected(_ sender: AnyObject) {
         guard let button = sender as? UIButton else { return }
-        button.selected = true
+        button.isSelected = true
         delegate?.appRatingViewDidSelectRating(button.tag)
         ratePressed(sender)
     }
@@ -97,17 +97,17 @@ class AppRatingView: UIView {
     // MARK: Private Methods
 
     private func showWithFadeIn() {
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.alpha = 1
         })
     }
     
     private func closeWithFadeOut() {
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.alpha = 0
-        }) { (completed) -> Void in
+        }, completion: { (completed) -> Void in
             self.removeFromSuperview()
-        }
+        }) 
     }
 
     private func userRatesOrGivesFeedback() {
@@ -128,13 +128,13 @@ class AppRatingView: UIView {
 extension AppRatingView {
     func setAccesibilityIds() {
         if stars.count == 5 {
-            stars[0].accessibilityId = .AppRatingStarButton1
-            stars[1].accessibilityId = .AppRatingStarButton2
-            stars[2].accessibilityId = .AppRatingStarButton3
-            stars[3].accessibilityId = .AppRatingStarButton4
-            stars[4].accessibilityId = .AppRatingStarButton5
+            stars[0].accessibilityId = .appRatingStarButton1
+            stars[1].accessibilityId = .appRatingStarButton2
+            stars[2].accessibilityId = .appRatingStarButton3
+            stars[3].accessibilityId = .appRatingStarButton4
+            stars[4].accessibilityId = .appRatingStarButton5
         }
-        bgButton.accessibilityId = .AppRatingBgButton
-        dismissButton.accessibilityId = .AppRatingDismissButton
+        bgButton.accessibilityId = .appRatingBgButton
+        dismissButton.accessibilityId = .appRatingDismissButton
     }
 }

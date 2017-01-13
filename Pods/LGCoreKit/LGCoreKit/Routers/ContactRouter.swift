@@ -12,18 +12,18 @@ enum ContactRouter: URLRequestAuthenticable {
 
     static let endpoint = "/api/contacts"
 
-    case Send(params: [String : AnyObject])
+    case send(params: [String : Any])
 
     var requiredAuthLevel: AuthLevel {
-        return .Nonexistent
+        return .nonexistent
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .Send(params):
-            return Router<APIBaseURL>.Create(endpoint: ContactRouter.endpoint, params: params, encoding: .JSON).URLRequest
+        case let .send(params):
+            return try Router<APIBaseURL>.create(endpoint: ContactRouter.endpoint, params: params, encoding: .json).asURLRequest()
         }
     }
 }

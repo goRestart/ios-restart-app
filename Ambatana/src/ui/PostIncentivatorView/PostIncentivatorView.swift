@@ -30,16 +30,16 @@ class PostIncentivatorView: UIView {
     var isFree: Bool?
 
     var incentiveText: NSAttributedString {
-        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
+        let gotAnyTextAttributes: [String : Any] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
                                                           NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
-        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
+        let lookingForTextAttributes: [String : Any] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
                                                                NSFontAttributeName : UIFont.mediumBodyFont]
 
         let secondPartString = (isFree ?? false)  ? LGLocalizedString.productPostIncentiveGotAnyFree :
             LGLocalizedString.productPostIncentiveGotAny
         let plainText = LGLocalizedString.productPostIncentiveLookingFor(secondPartString)
         let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
-        let boldRange = NSString(string: plainText).rangeOfString(secondPartString, options: .CaseInsensitiveSearch)
+        let boldRange = NSString(string: plainText).range(of: secondPartString, options: .caseInsensitive)
         resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
 
         return resultText
@@ -48,8 +48,8 @@ class PostIncentivatorView: UIView {
 
     // MARK: - Lifecycle
 
-    static func postIncentivatorView(isFree: Bool) -> PostIncentivatorView? {
-        guard let view = NSBundle.mainBundle().loadNibNamed("PostIncentivatorView", owner: self, options: nil)?.first
+    static func postIncentivatorView(_ isFree: Bool) -> PostIncentivatorView? {
+        guard let view = Bundle.main.loadNibNamed("PostIncentivatorView", owner: self, options: nil)?.first
             as? PostIncentivatorView else { return nil }
         view.isFree = isFree
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +67,7 @@ class PostIncentivatorView: UIView {
         let itemPack = PostIncentiviserItem.incentiviserPack(isFree ?? false)
 
         guard itemPack.count == 3 else {
-            self.hidden = true
+            self.isHidden = true
             return
         }
 

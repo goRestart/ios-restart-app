@@ -24,13 +24,13 @@ class RateUserViewController: BaseViewController {
     @IBOutlet weak var publishButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    private var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
-    private let descrPlaceholderColor = UIColor.gray
-    private static let sendButtonMargin: CGFloat = 15
+    fileprivate var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
+    fileprivate let descrPlaceholderColor = UIColor.gray
+    fileprivate static let sendButtonMargin: CGFloat = 15
 
-    private let viewModel: RateUserViewModel
-    private let keyboardHelper: KeyboardHelper
-    private let disposeBag = DisposeBag()
+    fileprivate let viewModel: RateUserViewModel
+    fileprivate let keyboardHelper: KeyboardHelper
+    fileprivate let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
@@ -43,7 +43,7 @@ class RateUserViewController: BaseViewController {
         self.viewModel = viewModel
         self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: "RateUserViewController",
-                   navBarBackgroundStyle: .Transparent(substyle: .Light))
+                   navBarBackgroundStyle: .transparent(substyle: .light))
         self.viewModel.delegate = self
     }
 
@@ -62,17 +62,17 @@ class RateUserViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @IBAction func publishButtonPressed(sender: AnyObject) {
+    @IBAction func publishButtonPressed(_ sender: AnyObject) {
         viewModel.publishButtonPressed()
     }
 
-    @IBAction func starHighlighted(sender: AnyObject) {
+    @IBAction func starHighlighted(_ sender: AnyObject) {
         guard let tag = (sender as? UIButton)?.tag else { return }
-        stars.forEach{$0.highlighted = ($0.tag <= tag)}
+        stars.forEach{$0.isHighlighted = ($0.tag <= tag)}
         viewBackgroundTap()
     }
 
-    @IBAction func starSelected(sender: AnyObject) {
+    @IBAction func starSelected(_ sender: AnyObject) {
         guard let button = sender as? UIButton else { return }
         viewModel.ratingStarPressed(button.tag)
     }
@@ -89,7 +89,7 @@ class RateUserViewController: BaseViewController {
 
     private func setupUI() {
         automaticallyAdjustsScrollViewInsets = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain,
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
                                                            target: self, action: #selector(closeButtonPressed))
 
         setNavBarTitle(LGLocalizedString.userRatingTitle)
@@ -100,13 +100,13 @@ class RateUserViewController: BaseViewController {
         }
         userNameText.text = viewModel.userName
         rateInfoText.text = viewModel.infoText
-        descriptionContainer.layer.borderColor = UIColor.lineGray.CGColor
+        descriptionContainer.layer.borderColor = UIColor.lineGray.cgColor
         descriptionContainer.layer.borderWidth = LGUIKitConstants.onePixelSize
         descriptionText.text = descrPlaceholder
         descriptionText.textColor = descrPlaceholderColor
         descriptionInfoLabel.text = LGLocalizedString.userRatingReviewInfo
 
-        publishButton.setStyle(.Primary(fontSize: .Big))
+        publishButton.setStyle(.primary(fontSize: .big))
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewBackgroundTap))
         view.addGestureRecognizer(tapGesture)
@@ -114,17 +114,18 @@ class RateUserViewController: BaseViewController {
 
     private func setupRx() {
         viewModel.isLoading.asObservable().bindNext { [weak self] loading in
-            self?.publishButton.setTitle(loading ? nil : LGLocalizedString.userRatingReviewButton, forState: .Normal)
+            self?.publishButton.setTitle(loading ? nil : LGLocalizedString.userRatingReviewButton, for: .normal)
             loading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
         }.addDisposableTo(disposeBag)
-        viewModel.sendEnabled.asObservable().bindTo(publishButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.sendEnabled.asObservable().bindTo(publishButton.rx.isEnabled).addDisposableTo(disposeBag)
 
-        viewModel.descriptionCharLimit.asObservable().map { return String($0) }.bindTo(descriptionCharCounter.rx_text)
+        viewModel.descriptionCharLimit.asObservable().map { return String($0) }.bindTo(descriptionCharCounter.rx.text)
             .addDisposableTo(disposeBag)
 
         viewModel.rating.asObservable().bindNext { [weak self] rating in
             onMainThread { [weak self] in
-                self?.stars.forEach{$0.highlighted = ($0.tag <= rating)}
+                let value = rating ?? 0
+                self?.stars.forEach{ $0.isHighlighted = ($0.tag <= value)}
             }
         }.addDisposableTo(disposeBag)
 
@@ -143,11 +144,11 @@ class RateUserViewController: BaseViewController {
 
 extension RateUserViewController: RateUserViewModelDelegate {
 
-    func vmUpdateDescription(description: String?) {
+    func vmUpdateDescription(_ description: String?) {
         setDescription(description)
     }
 
-    func vmUpdateDescriptionPlaceholder(placeholder: String) {
+    func vmUpdateDescriptionPlaceholder(_ placeholder: String) {
         guard let descriptionText = descriptionText else { return }
         guard placeholder != descrPlaceholder else { return }
         if descriptionText.text == descrPlaceholder {
@@ -161,7 +162,7 @@ extension RateUserViewController: RateUserViewModelDelegate {
 // MARK: - Textfield handling
 
 extension RateUserViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         // clear text view placeholder
         if textView.text == descrPlaceholder && textView.textColor ==  descrPlaceholderColor {
             textView.text = nil
@@ -169,18 +170,18 @@ extension RateUserViewController: UITextViewDelegate {
         }
     }
 
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = descrPlaceholder
             textView.textColor = descrPlaceholderColor
         }
     }
 
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let textViewText = textView.text else { return true }
         guard textViewText.characters.count + (text.characters.count - range.length) <= Constants.userRatingDescriptionMaxLength else { return false }
         let cleanReplacement = text.stringByRemovingEmoji()
-        let finalText = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: cleanReplacement)
+        let finalText = (textViewText as NSString).replacingCharacters(in: range, with: cleanReplacement)
         if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
             viewModel.description.value = finalText.isEmpty ? nil : finalText
             if text.hasEmojis() {
@@ -192,8 +193,8 @@ extension RateUserViewController: UITextViewDelegate {
         return true
     }
 
-    private func setDescription(description: String?) {
-        if let description = description where !description.isEmpty {
+    fileprivate func setDescription(_ description: String?) {
+        if let description = description, !description.isEmpty {
             descriptionText.text = description
             descriptionText.textColor = UIColor.grayDark
         } else {
@@ -208,16 +209,16 @@ extension RateUserViewController: UITextViewDelegate {
 
 extension RateUserViewController {
     func setAccesibilityIds() {
-        userNameText.accessibilityId = .RateUserUserNameLabel
+        userNameText.accessibilityId = .rateUserUserNameLabel
         if stars.count == 5 {
-            stars[0].accessibilityId = .RateUserStarButton1
-            stars[1].accessibilityId = .RateUserStarButton2
-            stars[2].accessibilityId = .RateUserStarButton3
-            stars[3].accessibilityId = .RateUserStarButton4
-            stars[4].accessibilityId = .RateUserStarButton5
+            stars[0].accessibilityId = .rateUserStarButton1
+            stars[1].accessibilityId = .rateUserStarButton2
+            stars[2].accessibilityId = .rateUserStarButton3
+            stars[3].accessibilityId = .rateUserStarButton4
+            stars[4].accessibilityId = .rateUserStarButton5
         }
-        descriptionText.accessibilityId = .RateUserDescriptionField
-        activityIndicator.accessibilityId = .RateUserLoading
-        publishButton.accessibilityId = .RateUserPublishButton
+        descriptionText.accessibilityId = .rateUserDescriptionField
+        activityIndicator.accessibilityId = .rateUserLoading
+        publishButton.accessibilityId = .rateUserPublishButton
     }
 }

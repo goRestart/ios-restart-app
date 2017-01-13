@@ -13,7 +13,7 @@ struct BubbleNotificationData {
     let text: String
     let infoText: String?
     let action: UIAction?
-    let iconURL: NSURL?
+    let iconURL: URL?
     let iconImage: UIImage?
 
     var hasIcon: Bool {
@@ -25,7 +25,7 @@ struct BubbleNotificationData {
     }
 
     init(tagGroup: String? = nil, text: String, infoText: String? = nil, action: UIAction?,
-         iconURL: NSURL? = nil, iconImage: UIImage? = nil) {
+         iconURL: URL? = nil, iconImage: UIImage? = nil) {
         self.tagGroup = tagGroup
         self.text = text
         self.infoText = infoText
@@ -36,9 +36,9 @@ struct BubbleNotificationData {
 }
 
 protocol BubbleNotificationDelegate: class {
-    func bubbleNotificationSwiped(notification: BubbleNotification)
-    func bubbleNotificationTimedOut(notification: BubbleNotification)
-    func bubbleNotificationActionPressed(notification: BubbleNotification)
+    func bubbleNotificationSwiped(_ notification: BubbleNotification)
+    func bubbleNotificationTimedOut(_ notification: BubbleNotification)
+    func bubbleNotificationActionPressed(_ notification: BubbleNotification)
 }
 
 class BubbleNotification: UIView {
@@ -53,8 +53,8 @@ class BubbleNotification: UIView {
     static let statusBarHeight: CGFloat = 20
     static let iconDiameter: CGFloat = 46
 
-    static let showAnimationTime: NSTimeInterval = 0.3
-    static let closeAnimationTime: NSTimeInterval = 0.5
+    static let showAnimationTime: TimeInterval = 0.3
+    static let closeAnimationTime: TimeInterval = 0.5
 
     weak var delegate: BubbleNotificationDelegate?
 
@@ -62,9 +62,9 @@ class BubbleNotification: UIView {
     private var leftIcon = UIImageView()
     private var textlabel = UILabel()
     private var infoTextLabel = UILabel()
-    private var actionButton = UIButton(type: .Custom)
+    private var actionButton = UIButton(type: .custom)
 
-    private var autoDismissTimer: NSTimer?
+    private var autoDismissTimer: Timer?
 
     var bottomConstraint = NSLayoutConstraint()
 
@@ -84,32 +84,33 @@ class BubbleNotification: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+
     func setupOnView(parentView: UIView) {
         // bubble constraints
-        let bubbleLeftConstraint = NSLayoutConstraint(item: self, attribute: .Left, relatedBy: .Equal,
-                                                      toItem: parentView, attribute: .Left, multiplier: 1,
+        let bubbleLeftConstraint = NSLayoutConstraint(item: self, attribute: .left, relatedBy: .equal,
+                                                      toItem: parentView, attribute: .left, multiplier: 1,
                                                       constant: BubbleNotification.bubbleMargin)
-        let bubbleRightConstraint = NSLayoutConstraint(item: parentView, attribute: .Right, relatedBy: .Equal,
-                                                       toItem: self, attribute: .Right, multiplier: 1,
+        let bubbleRightConstraint = NSLayoutConstraint(item: parentView, attribute: .right, relatedBy: .equal,
+                                                       toItem: self, attribute: .right, multiplier: 1,
                                                        constant: BubbleNotification.bubbleMargin)
-        bottomConstraint = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal,
-                                                     toItem: parentView, attribute: .Top, multiplier: 1, constant: 0)
+        bottomConstraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal,
+                                                     toItem: parentView, attribute: .top, multiplier: 1, constant: 0)
         parentView.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bottomConstraint])
     }
 
     func showBubble() {
         self.showBubble(autoDismissTime: nil)
     }
-    func showBubble(autoDismissTime time: NSTimeInterval?) {
+    func showBubble(autoDismissTime time: TimeInterval?) {
         // delay to let the setup build the view properly
         delay(0.1) { [weak self] in
             self?.bottomConstraint.constant = (self?.height ?? 0) + BubbleNotification.statusBarHeight
-            UIView.animateWithDuration(BubbleNotification.showAnimationTime) { self?.superview?.layoutIfNeeded() }
+            UIView.animate(withDuration: BubbleNotification.showAnimationTime) { self?.superview?.layoutIfNeeded() }
         }
 
-        if let dismissTime = time where dismissTime > 0 {
+        if let dismissTime = time, dismissTime > 0 {
             let totalTime = BubbleNotification.showAnimationTime + dismissTime
-            autoDismissTimer = NSTimer.scheduledTimerWithTimeInterval(totalTime, target: self,
+            autoDismissTimer = Timer.scheduledTimer(timeInterval: totalTime, target: self,
                                                    selector: #selector(autoDismiss), userInfo: nil, repeats: false)
         }
     }
@@ -117,11 +118,11 @@ class BubbleNotification: UIView {
     func closeBubble() {
         guard superview != nil else { return } // Already closed
         self.bottomConstraint.constant = 0
-        UIView.animateWithDuration(BubbleNotification.closeAnimationTime, animations: { [weak self] in
+        UIView.animate(withDuration: BubbleNotification.closeAnimationTime, animations: { [weak self] in
             self?.superview?.layoutIfNeeded()
-        }) { [weak self ] _ in
+        }, completion: { [weak self ] _ in
             self?.removeBubble()
-        }
+        }) 
     }
 
 
@@ -144,30 +145,30 @@ class BubbleNotification: UIView {
         }
 
         textlabel.numberOfLines = 2
-        textlabel.lineBreakMode = .ByTruncatingTail
+        textlabel.lineBreakMode = .byTruncatingTail
         textlabel.textColor = UIColor.blackText
         textlabel.font = UIFont.mediumBodyFont
         textlabel.text = data.text
 
         if let infoText = data.infoText {
             infoTextLabel.numberOfLines = 2
-            infoTextLabel.lineBreakMode = .ByTruncatingTail
+            infoTextLabel.lineBreakMode = .byTruncatingTail
             infoTextLabel.textColor = UIColor.darkGrayText
             infoTextLabel.font = UIFont.smallBodyFont
             infoTextLabel.text = infoText
         }
 
         if let action = data.action {
-            actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
+            actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
             actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
             actionButton.titleLabel?.minimumScaleFactor = 0.8
-            actionButton.setTitle(action.text, forState: .Normal)
-            actionButton.addTarget(self, action: #selector(buttonTapped), forControlEvents: .TouchUpInside)
+            actionButton.setTitle(action.text, for: .normal)
+            actionButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
             actionButton.accessibilityId =  action.accessibilityId
         }
 
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
-        swipeGesture.direction = .Up
+        swipeGesture.direction = .up
         self.addGestureRecognizer(swipeGesture)
     }
 
@@ -188,7 +189,7 @@ class BubbleNotification: UIView {
         textsContainer.addSubview(infoTextLabel)
         containerView.addSubview(actionButton)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["container"] = containerView
         views["textsContainer"] = textsContainer
         views["icon"] = leftIcon
@@ -196,7 +197,7 @@ class BubbleNotification: UIView {
         views["infoLabel"] = infoTextLabel
         views["button"] = actionButton
 
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["margin"] = BubbleNotification.bubbleContentMargin
         metrics["buttonWidth"] = CGFloat(data.action != nil ? BubbleNotification.buttonMaxWidth : 0)
         metrics["iconDiameter"] = CGFloat(data.hasIcon ? BubbleNotification.iconDiameter : 0)
@@ -204,28 +205,28 @@ class BubbleNotification: UIView {
         metrics["infoLabelMargin"] = CGFloat(data.hasInfo ? 2 : 0)
 
         // container view
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-margin-[container]-margin-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-margin-[container]-margin-|",
             options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[container]-margin-|",
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[container]-margin-|",
             options: [], metrics: metrics, views: views))
 
         // image text label and button
-        actionButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|->=0-[textsContainer]->=0-|",
+        actionButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|->=0-[textsContainer]->=0-|",
             options: [], metrics: metrics, views: views))
-        leftIcon.addConstraint(NSLayoutConstraint(item: leftIcon, attribute: .Height, relatedBy: .Equal,
-            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: BubbleNotification.iconDiameter))
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[icon(iconDiameter)]-iconMargin-[textsContainer]-[button(<=buttonWidth)]-0-|",
-            options: [.AlignAllCenterY], metrics: metrics, views: views))
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|->=0-[icon(iconDiameter)]->=0-|",
+        leftIcon.addConstraint(NSLayoutConstraint(item: leftIcon, attribute: .height, relatedBy: .equal,
+            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: BubbleNotification.iconDiameter))
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[icon(iconDiameter)]-iconMargin-[textsContainer]-[button(<=buttonWidth)]-0-|",
+            options: [.alignAllCenterY], metrics: metrics, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|->=0-[icon(iconDiameter)]->=0-|",
             options: [], metrics: metrics, views: views))
-        actionButton.addConstraint(NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal,
-            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: BubbleNotification.buttonHeight))
-        textsContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]-infoLabelMargin-[infoLabel]|",
+        actionButton.addConstraint(NSLayoutConstraint(item: actionButton, attribute: .height, relatedBy: .equal,
+            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: BubbleNotification.buttonHeight))
+        textsContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[label]-infoLabelMargin-[infoLabel]|",
             options: [], metrics: metrics, views: views))
-        textsContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[label]|",
+        textsContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]|",
             options: [], metrics: metrics, views: views))
-        textsContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[infoLabel]|",
+        textsContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[infoLabel]|",
             options: [], metrics: metrics, views: views))
 
         layoutIfNeeded()

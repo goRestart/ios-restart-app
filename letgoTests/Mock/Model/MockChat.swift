@@ -32,11 +32,11 @@ class MockChat: MockBaseModel, Chat {
         let messageTwo = LGMessage()
         self.messages = [messageOne, messageTwo]
         self.forbidden = false
-        self.archivedStatus = .Active
+        self.archivedStatus = .active
         super.init()
     }
 
-    func prependMessage(message: Message) {
-        self.messages.insert(message, atIndex: 0)
+    func prependMessage(_ message: Message) {
+        self.messages.insert(message, at: 0)
     }
 }

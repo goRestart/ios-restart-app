@@ -1,6 +1,0 @@
-framework module CollectionVariable {
-  umbrella header "CollectionVariable-umbrella.h"
-
-  export *
-  module * { export * }
-}

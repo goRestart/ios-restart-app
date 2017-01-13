@@ -9,39 +9,39 @@
 import LGCoreKit
 import Result
 
-enum ChangePasswordError: ErrorType {
-    case InvalidPassword
-    case PasswordMismatch
+enum ChangePasswordError: Error {
+    case invalidPassword
+    case passwordMismatch
 
-    case Network
-    case Internal
-    case ResetPasswordLinkExpired
+    case network
+    case internalError
+    case resetPasswordLinkExpired
 
     init(repositoryError: RepositoryError, handleUnauthorizedAsLinkExpired: Bool) {
         switch repositoryError {
-        case .Network:
-            self = .Network
-        case .Unauthorized:
+        case .network:
+            self = .network
+        case .unauthorized:
             if handleUnauthorizedAsLinkExpired {
-                self = .ResetPasswordLinkExpired
+                self = .resetPasswordLinkExpired
             } else {
-                self = .Internal
+                self = .internalError
             }
-        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError, .NotFound:
-            self = .Internal
+        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound:
+            self = .internalError
         }
     }
 }
 
 protocol ChangePasswordViewModelDelegate: class {
-    func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: ChangePasswordError)
-    func viewModelDidStartSendingPassword(viewModel: ChangePasswordViewModel)
-    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
+    func viewModel(_ viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool)
+    func viewModel(_ viewModel: ChangePasswordViewModel, didFailValidationWithError error: ChangePasswordError)
+    func viewModelDidStartSendingPassword(_ viewModel: ChangePasswordViewModel)
+    func viewModel(_ viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
         result: Result<MyUser, ChangePasswordError>)
 }
 
-public class ChangePasswordViewModel: BaseViewModel {
+class ChangePasswordViewModel: BaseViewModel {
    
     weak var delegate : ChangePasswordViewModelDelegate?
     weak var navigator: ChangePasswordNavigator?
@@ -49,13 +49,13 @@ public class ChangePasswordViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private var token: String?
     
-    public var password: String {
+    var password: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSaveButton())
         }
     }
 
-    public var confirmPassword: String {
+    var confirmPassword: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSaveButton())
         }
@@ -88,7 +88,7 @@ public class ChangePasswordViewModel: BaseViewModel {
     
     // MARK: - public methods
         
-    public func changePassword() {
+    func changePassword() {
         // check if username is ok (func in extension?)
         if isValidCombination() && isValidPassword() {
             
@@ -101,17 +101,17 @@ public class ChangePasswordViewModel: BaseViewModel {
             }
         }
         else if !isValidPassword() {
-            delegate?.viewModel(self, didFailValidationWithError: .InvalidPassword)
+            delegate?.viewModel(self, didFailValidationWithError: .invalidPassword)
         } else {
-            delegate?.viewModel(self, didFailValidationWithError: .PasswordMismatch)
+            delegate?.viewModel(self, didFailValidationWithError: .passwordMismatch)
         }
     }
 
-    private func resetPassword(password: String, token: String) {
+    private func resetPassword(_ password: String, token: String) {
         myUserRepository.resetPassword(password, token: token) { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
-            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
+            guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
-            var result = Result<MyUser, ChangePasswordError>(error: .Internal)
+            var result = Result<MyUser, ChangePasswordError>(error: .internalError)
             if let value = updatePwdResult.value {
                 result = Result<MyUser, ChangePasswordError>(value: value)
             } else if let repositoryError = updatePwdResult.error {
@@ -122,11 +122,11 @@ public class ChangePasswordViewModel: BaseViewModel {
         }
     }
 
-    private func updatePassword(password: String) {
+    private func updatePassword(_ password: String) {
         myUserRepository.updatePassword(password) { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
-            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
+            guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
-            var result = Result<MyUser, ChangePasswordError>(error: .Internal)
+            var result = Result<MyUser, ChangePasswordError>(error: .internalError)
             if let value = updatePwdResult.value {
                 result = Result<MyUser, ChangePasswordError>(value: value)
             } else if let repositoryError = updatePwdResult.error {
@@ -137,14 +137,14 @@ public class ChangePasswordViewModel: BaseViewModel {
         }
     }
 
-    public func isValidCombination() -> Bool {
+    func isValidCombination() -> Bool {
         if password != confirmPassword { // passwords do not match.
             return false
         }
         return true
     }
     
-    public func isValidPassword() -> Bool {
+    func isValidPassword() -> Bool {
         if password.characters.count < Constants.passwordMinLength ||
             password.characters.count > Constants.passwordMaxLength ||
             confirmPassword.characters.count < Constants.passwordMinLength ||
@@ -155,7 +155,7 @@ public class ChangePasswordViewModel: BaseViewModel {
     }
 
     
-    public func passwordChangedCorrectly() {
+    func passwordChangedCorrectly() {
         navigator?.closeChangePassword()
     }
     

@@ -20,5 +20,5 @@ protocol TourLocationNavigator: class {
 
 protocol TourPostingNavigator: class {
     func tourPostingClose()
-    func tourPostingPost(fromCamera fromCamera: Bool)
+    func tourPostingPost(fromCamera: Bool)
 }

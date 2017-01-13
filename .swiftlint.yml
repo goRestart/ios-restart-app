@@ -32,7 +32,7 @@ disabled_rules: # rule identifiers to exclude from running
   - variable_name_min_length
 included: # paths to include during linting. `--path` is ignored if present. takes precendence over `excluded`.
   # - Ambatana/src/Constants/   #Constants file should not be checked
-  - Ambatana/src/Environment/
+  # - Ambatana/src/Environment/
   # - Ambatana/src/Helper/
   # - Ambatana/src/Manager/
   # - Ambatana/src/Model/

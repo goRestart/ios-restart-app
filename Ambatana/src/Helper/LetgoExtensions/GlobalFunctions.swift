@@ -8,15 +8,15 @@
 
 import Foundation
 
-func delay(time: Double, completion: (() -> Void)) {
-    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC)))
-    dispatch_after(delayTime, dispatch_get_main_queue()) {
+func delay(_ time: Double, completion: @escaping (() -> Void)) {
+    let delayTime = DispatchTime.now() + Double(Int64(time * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: delayTime) {
         completion()
     }
 }
 
-func onMainThread(completion: (() -> Void)) {
-    dispatch_async(dispatch_get_main_queue()) {
+func onMainThread(_ completion: @escaping (() -> Void)) {
+    DispatchQueue.main.async {
         completion()
     }
 }

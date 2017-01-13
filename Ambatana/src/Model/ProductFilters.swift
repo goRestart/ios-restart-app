@@ -8,47 +8,47 @@
 
 import LGCoreKit
 
-public enum FilterPriceRange: Equatable {
-    case FreePrice
-    case PriceRange(min: Int?, max: Int?)
+enum FilterPriceRange: Equatable {
+    case freePrice
+    case priceRange(min: Int?, max: Int?)
 
     var min: Int? {
         switch self {
-        case .FreePrice:
+        case .freePrice:
             return nil
-        case let .PriceRange(min: minPrice, max: _):
+        case let .priceRange(min: minPrice, max: _):
             return minPrice
         }
     }
 
     var max: Int? {
         switch self {
-        case .FreePrice:
+        case .freePrice:
             return nil
-        case let .PriceRange(min: _, max: maxPrice):
+        case let .priceRange(min: _, max: maxPrice):
             return maxPrice
         }
     }
 
     var free: Bool {
         switch self {
-        case .FreePrice:
+        case .freePrice:
             return true
-        case .PriceRange:
+        case .priceRange:
             return false
         }
     }
 }
 
-public func ==(a: FilterPriceRange, b: FilterPriceRange) -> Bool {
+func ==(a: FilterPriceRange, b: FilterPriceRange) -> Bool {
     switch (a, b) {
-    case (let .PriceRange(minA, maxA), let .PriceRange(minB, maxB)) where minA == minB && maxA == maxB : return true
-    case (.FreePrice, .FreePrice): return true
+    case (let .priceRange(minA, maxA), let .priceRange(minB, maxB)) where minA == minB && maxA == maxB : return true
+    case (.freePrice, .freePrice): return true
     default: return false
     }
 }
 
-public struct ProductFilters {
+struct ProductFilters {
     
     var place: Place?
     var distanceRadius: Int?
@@ -69,7 +69,7 @@ public struct ProductFilters {
             selectedCategories: [],
             selectedWithin: ProductTimeCriteria.defaultOption,
             selectedOrdering: ProductSortCriteria.defaultOption,
-            priceRange: .PriceRange(min: nil, max: nil)
+            priceRange: .priceRange(min: nil, max: nil)
         )
     }
     
@@ -84,15 +84,15 @@ public struct ProductFilters {
         self.priceRange = priceRange
     }
     
-    mutating func toggleCategory(category: ProductCategory) {
+    mutating func toggleCategory(_ category: ProductCategory) {
         if let categoryIndex = indexForCategory(category) {
-            selectedCategories.removeAtIndex(categoryIndex)
+            selectedCategories.remove(at: categoryIndex)
         } else {
             selectedCategories.append(category)
         }
     }
     
-    func hasSelectedCategory(category: ProductCategory) -> Bool {
+    func hasSelectedCategory(_ category: ProductCategory) -> Bool {
         return indexForCategory(category) != nil
     }
 
@@ -102,11 +102,11 @@ public struct ProductFilters {
         if !selectedCategories.isEmpty { return false }
         if selectedWithin != ProductTimeCriteria.defaultOption { return false }
         if selectedOrdering != ProductSortCriteria.defaultOption { return false }
-        if priceRange != .PriceRange(min: nil, max: nil) { return false }
+        if priceRange != .priceRange(min: nil, max: nil) { return false }
         return true
     }
     
-    private func indexForCategory(category: ProductCategory) -> Int? {
+    private func indexForCategory(_ category: ProductCategory) -> Int? {
         for i in 0..<selectedCategories.count {
             if(selectedCategories[i] == category){
                 return i

@@ -50,28 +50,28 @@ class ExpressChatViewController: BaseViewController {
         setupAccessibilityIds()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarHidden(true)
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
     }
 
     func setupUI() {
         view.backgroundColor = UIColor.grayBackground
-        scrollView.backgroundColor = UIColor.clearColor()
+        scrollView.backgroundColor = UIColor.clear
         automaticallyAdjustsScrollViewInsets = false
 
-        dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel.uppercaseString
+        dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel.uppercased()
         contactSellersLabel.text = LGLocalizedString.chatExpressContactSellersLabel
 
-        sendMessageButton.setStyle(.Primary(fontSize: .Big))
+        sendMessageButton.setStyle(.primary(fontSize: .big))
         
-        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton.uppercaseString, forState: .Normal)
-        dontAskAgainButton.setTitleColor(UIColor.grayText, forState: .Normal)
+        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton.uppercased(), for: .normal)
+        dontAskAgainButton.setTitleColor(UIColor.grayText, for: .normal)
         dontAskAgainButton.titleLabel?.font = UIFont.mediumBodyFont
 
         collectionView.delegate = self
@@ -79,28 +79,28 @@ class ExpressChatViewController: BaseViewController {
         collectionViewHeightConstraint.constant = viewModel.productListCount > 2 ?
             ExpressChatViewController.collectionHeight : ExpressChatViewController.collectionHeight/2
         let cellNib = UINib(nibName: "ExpressChatCell", bundle: nil)
-        collectionView.registerNib(cellNib, forCellWithReuseIdentifier: ExpressChatViewController.collectionCellIdentifier)
+        collectionView.register(cellNib, forCellWithReuseIdentifier: ExpressChatViewController.collectionCellIdentifier)
         collectionView.allowsMultipleSelection = true
 
         for i in 0...viewModel.productListCount {
-            collectionView.selectItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0), animated: false, scrollPosition: .None)
+            collectionView.selectItem(at: IndexPath(item: i, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
         }
     }
 
     func setupRX() {
-        viewModel.sendMessageTitle.asObservable().bindTo(sendMessageButton.rx_title).addDisposableTo(disposeBag)
-        viewModel.sendButtonEnabled.asObservable().bindTo(sendMessageButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.sendMessageTitle.asObservable().bindTo(sendMessageButton.rx.title).addDisposableTo(disposeBag)
+        viewModel.sendButtonEnabled.asObservable().bindTo(sendMessageButton.rx.isEnabled).addDisposableTo(disposeBag)
     }
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeExpressChat(true)
     }
 
-    @IBAction func sendMessageButtonPressed(sender: AnyObject) {
+    @IBAction func sendMessageButtonPressed(_ sender: AnyObject) {
         viewModel.sendMessage()
     }
 
-    @IBAction func dontAskAgainButtonPressed(sender: AnyObject) {
+    @IBAction func dontAskAgainButtonPressed(_ sender: AnyObject) {
         viewModel.closeExpressChat(false)
     }
 }
@@ -108,21 +108,21 @@ class ExpressChatViewController: BaseViewController {
 
 extension ExpressChatViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let cellSize = (UIScreen.mainScreen().bounds.width - (ExpressChatViewController.cellSeparation*3))/2
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellSize = (UIScreen.main.bounds.width - (ExpressChatViewController.cellSeparation*3))/2
         return CGSize(width: cellSize, height: cellSize)
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.productListCount
     }
 
-    func collectionView(collectionView: UICollectionView,
-                        cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView
-            .dequeueReusableCellWithReuseIdentifier(ExpressChatViewController.collectionCellIdentifier,
-                                                    forIndexPath: indexPath) as? ExpressChatCell else {
+            .dequeueReusableCell(withReuseIdentifier: ExpressChatViewController.collectionCellIdentifier,
+                                                    for: indexPath) as? ExpressChatCell else {
                                                         return UICollectionViewCell()
         }
         let title = viewModel.titleForItemAtIndex(indexPath.item)
@@ -132,11 +132,11 @@ extension ExpressChatViewController: UICollectionViewDataSource, UICollectionVie
         return cell
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.selectItemAtIndex(indexPath.item)
     }
 
-    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         viewModel.deselectItemAtIndex(indexPath.item)
     }
 }
@@ -151,9 +151,9 @@ extension ExpressChatViewController: ExpressChatViewModelDelegate {
 
 extension ExpressChatViewController {
     func setupAccessibilityIds() {
-        self.closeButton.accessibilityId = .ExpressChatCloseButton
-        self.collectionView.accessibilityId = .ExpressChatCollection
-        self.sendMessageButton.accessibilityId = .ExpressChatSendButton
-        self.dontAskAgainButton.accessibilityId = .ExpressChatDontAskButton
+        self.closeButton.accessibilityId = .expressChatCloseButton
+        self.collectionView.accessibilityId = .expressChatCollection
+        self.sendMessageButton.accessibilityId = .expressChatSendButton
+        self.dontAskAgainButton.accessibilityId = .expressChatDontAskButton
    }
 }

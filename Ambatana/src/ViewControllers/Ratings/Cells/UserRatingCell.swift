@@ -11,24 +11,24 @@ import LGCoreKit
 
 extension UserRatingType {
 
-    func ratingTypeText(userName: String) -> String {
+    func ratingTypeText(_ userName: String) -> String {
         switch self {
-        case .Conversation:
+        case .conversation:
             return LGLocalizedString.ratingListRatingTypeConversationTextLabel(userName)
-        case .Seller:
+        case .seller:
             return LGLocalizedString.ratingListRatingTypeSellerTextLabel(userName)
-        case .Buyer:
+        case .buyer:
             return LGLocalizedString.ratingListRatingTypeBuyerTextLabel(userName)
         }
     }
 
     var ratingTypeTextColor: UIColor {
         switch self {
-        case .Conversation:
+        case .conversation:
             return UIColor.blackText
-        case .Seller:
+        case .seller:
             return UIColor.soldText
-        case .Buyer:
+        case .buyer:
             return UIColor.redText
         }
     }
@@ -36,18 +36,18 @@ extension UserRatingType {
 
 struct UserRatingCellData {
     var userName: String
-    var userAvatar: NSURL?
+    var userAvatar: URL?
     var userAvatarPlaceholder: UIImage?
     var ratingType: UserRatingType
     var ratingValue: Int
     var ratingDescription: String?
-    var ratingDate: NSDate
+    var ratingDate: Date
     var isMyRating: Bool
     var pendingReview: Bool
 }
 
 protocol UserRatingCellDelegate: class {
-    func actionButtonPressedForCellAtIndex(indexPath: NSIndexPath)
+    func actionButtonPressedForCellAtIndex(_ indexPath: IndexPath)
 }
 
 class UserRatingCell: UITableViewCell {
@@ -68,7 +68,7 @@ class UserRatingCell: UITableViewCell {
     @IBOutlet weak var actionsButton: UIButton!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
-    private var cellIndex: NSIndexPath?
+    private var cellIndex: IndexPath?
 
     private var lines: [CALayer] = []
 
@@ -101,31 +101,31 @@ class UserRatingCell: UITableViewCell {
 
     // MARK: public methods
 
-    func setupRatingCellWithData(data: UserRatingCellData, indexPath: NSIndexPath) {
-        let tag = indexPath.hash
+    func setupRatingCellWithData(_ data: UserRatingCellData, indexPath: IndexPath) {
+        let tag = (indexPath as NSIndexPath).hash
         cellIndex = indexPath
 
         userNameLabel.text = data.userName
 
         ratingTypeLabelLeadingConstraint.constant = data.pendingReview ? UserRatingCell.ratingTypeLeadingWIcon : 0
-        ratingTypeIcon.hidden = !data.pendingReview
+        ratingTypeIcon.isHidden = !data.pendingReview
         ratingTypeLabel.textColor = data.pendingReview ? UIColor.blackText : data.ratingType.ratingTypeTextColor
         ratingTypeLabel.text = data.pendingReview ? LGLocalizedString.ratingListRatingStatusPending :
             data.ratingType.ratingTypeText(data.userName)
 
-        if let description = data.ratingDescription where description != "" {
+        if let description = data.ratingDescription, description != "" {
             timeLabelTopConstraint.constant = 5
             descriptionLabel.text = description
         }
 
-        actionsButton.hidden = !data.isMyRating || data.pendingReview
+        actionsButton.isHidden = !data.isMyRating || data.pendingReview
 
         userAvatar.image = data.userAvatarPlaceholder
         if let avatarURL = data.userAvatar {
             userAvatar.lg_setImageWithURL(avatarURL, placeholderImage: data.userAvatarPlaceholder) {
                 [weak self] (result, url) in
                 // tag check to prevent wrong image placement cos' of recycling
-                if let image = result.value?.image where self?.tag == tag {
+                if let image = result.value?.image, self?.tag == tag {
                     self?.userAvatar.image = image
                 }
             }
@@ -135,7 +135,7 @@ class UserRatingCell: UITableViewCell {
         drawStarsForValue(data.ratingValue)
     }
 
-    @IBAction func actionsButtonPressed(sender: AnyObject) {
+    @IBAction func actionsButtonPressed(_ sender: AnyObject) {
         guard let index = cellIndex else { return }
         delegate?.actionButtonPressedForCellAtIndex(index)
     }
@@ -145,7 +145,7 @@ class UserRatingCell: UITableViewCell {
 
     private func setupUI() {
         userNameLabel.textColor = UIColor.blackText
-        userNameLabel.accessibilityId = .RatingListCellUserName
+        userNameLabel.accessibilityId = .ratingListCellUserName
         ratingTypeLabel.textColor = UIColor.blackText
         descriptionLabel.textColor = UIColor.darkGrayText
         timeLabel.textColor = UIColor.darkGrayText
@@ -157,13 +157,13 @@ class UserRatingCell: UITableViewCell {
         userNameLabel.text = ""
         ratingTypeLabel.text = ""
         descriptionLabel.text = nil
-        actionsButton.hidden = true
+        actionsButton.isHidden = true
         userAvatar.image = nil
         timeLabel.text = ""
         timeLabelTopConstraint.constant = 0
     }
 
-    private func drawStarsForValue(value: Int) {
+    private func drawStarsForValue(_ value: Int) {
         stars.forEach{
             $0.image = ($0.tag <= value) ? UIImage(named: UserRatingCell.fullStarImage) : UIImage(named: UserRatingCell.emptyStarImage)
         }

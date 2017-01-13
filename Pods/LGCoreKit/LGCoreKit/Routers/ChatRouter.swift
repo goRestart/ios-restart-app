@@ -8,30 +8,30 @@
 
 enum ChatRouter: URLRequestAuthenticable {
 
-    case UnreadCount(userId: String)
+    case unreadCount(userId: String)
 
     var endpoint: String {
         switch self {
-        case let .UnreadCount(userId):
+        case let .unreadCount(userId):
             return "/users/\(userId)/unread-messages"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
-        return .User
+        return .user
     }
 
     var reportingBlacklistedApiError: Array<ApiError> {
         switch self {
-        case .UnreadCount:
-            return [.Scammer]
+        case .unreadCount:
+            return [.scammer]
         }
     }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case .UnreadCount:
-            return Router<ChatBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
+        case .unreadCount:
+            return try Router<ChatBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
         }
     }
 }

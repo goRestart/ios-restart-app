@@ -23,22 +23,22 @@ final class LGCommercializerRepository: InternalCommercializerRepository {
 
     // MARK: - Public methods
 
-    func index(productId: String, completion: CommercializersCompletion?) {
+    func index(_ productId: String, completion: CommercializersCompletion?) {
         dataSource.index(productId) { result in
             handleApiResult(result, completion: completion)
         }
     }
 
-    func create(productId: String, templateId: String, completion: CommercializerCompletion?) {
+    func create(_ productId: String, templateId: String, completion: CommercializerCompletion?) {
         dataSource.create(productId, templateId: templateId) { result in
             handleApiResult(result, completion: completion)
         }
     }
 
-    func indexAvailableProducts(completion: CommercializerProductsCompletion?) {
+    func indexAvailableProducts(_ completion: CommercializerProductsCompletion?) {
 
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(CommercializerProductsResult(error: .Internal(message: "Missing UserId")))
+            completion?(CommercializerProductsResult(error: .internalError(message: "Missing UserId")))
             return
         }
 
@@ -47,12 +47,12 @@ final class LGCommercializerRepository: InternalCommercializerRepository {
         }
     }
 
-    func templatesForCountryCode(countryCode: String) -> [CommercializerTemplate] {
+    func templatesForCountryCode(_ countryCode: String) -> [CommercializerTemplate] {
         guard let actualTemplates = templates else { return [] }
         return actualTemplates[countryCode] ?? []
     }
 
-    func availableTemplatesFor(commercializers: [Commercializer], countryCode: String) -> [CommercializerTemplate] {
+    func availableTemplatesFor(_ commercializers: [Commercializer], countryCode: String) -> [CommercializerTemplate] {
         let allTemplates = templatesForCountryCode(countryCode)
         return allTemplates.availableTemplates(commercializers)
     }
@@ -60,7 +60,7 @@ final class LGCommercializerRepository: InternalCommercializerRepository {
 
     // MARK: - Internal Methods
 
-    func indexTemplates(completion: CommercializerTemplateCompletion?) {
+    func indexTemplates(_ completion: CommercializerTemplateCompletion?) {
         dataSource.indexTemplates { result in
             if let value = result.value {
                 self.templates = value

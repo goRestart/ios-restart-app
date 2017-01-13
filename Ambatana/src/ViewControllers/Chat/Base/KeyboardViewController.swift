@@ -20,7 +20,7 @@ struct KeyboardChange: CustomStringConvertible {
      keyboard to appear and false for any other apps. */
     let isLocal: Bool
 
-    private static func empty() -> KeyboardChange {
+    fileprivate static func empty() -> KeyboardChange {
         return KeyboardChange(height: 0, origin: 0, animationTime: 0, animationOptions: [], visible: false, isLocal: false)
     }
 
@@ -31,8 +31,8 @@ struct KeyboardChange: CustomStringConvertible {
 
 class KeyboardViewController: BaseViewController {
 
-    static let initialKbOrigin = UIScreen.mainScreen().bounds.height
-    static let initialKbWidth = UIScreen.mainScreen().bounds.width
+    static let initialKbOrigin = UIScreen.main.bounds.height
+    static let initialKbWidth = UIScreen.main.bounds.width
 
     var keyboardChanges: Observable<KeyboardChange> {
         return changes.asObservable().skip(1)
@@ -53,8 +53,8 @@ class KeyboardViewController: BaseViewController {
     private var keyboardTopConstraint = NSLayoutConstraint()
 
 
-    override init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .Default,
-                              navBarBackgroundStyle: NavBarBackgroundStyle = .Default, swipeBackGestureEnabled: Bool = true){
+    override init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .default,
+                              navBarBackgroundStyle: NavBarBackgroundStyle = .default, swipeBackGestureEnabled: Bool = true){
         super.init(viewModel: viewModel, nibName: nibNameOrNil, statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle, swipeBackGestureEnabled: swipeBackGestureEnabled)
     }
 
@@ -67,21 +67,21 @@ class KeyboardViewController: BaseViewController {
 
         //Setup keyboard frame
         keyboardView.translatesAutoresizingMaskIntoConstraints = false
-        keyboardView.userInteractionEnabled = false
+        keyboardView.isUserInteractionEnabled = false
         keyboardView.frame = CGRect(x: 0, y: KeyboardViewController.initialKbOrigin,
                                     width: KeyboardViewController.initialKbWidth, height: 0)
         view.addSubview(keyboardView)
         let views = [ "keyboardFrame" : keyboardView ]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[keyboardFrame]|", options: [],
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[keyboardFrame]|", options: [],
             metrics: nil, views: views))
-        keyboardHeightConstraint = NSLayoutConstraint(item: keyboardView, attribute: .Height, relatedBy: .Equal,
-                                                      toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 0)
-        keyboardTopConstraint = NSLayoutConstraint(item: keyboardView, attribute: .Top, relatedBy: .Equal, toItem: view,
-                                                   attribute: .Top, multiplier: 1, constant: KeyboardViewController.initialKbOrigin)
+        keyboardHeightConstraint = NSLayoutConstraint(item: keyboardView, attribute: .height, relatedBy: .equal,
+                                                      toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 0)
+        keyboardTopConstraint = NSLayoutConstraint(item: keyboardView, attribute: .top, relatedBy: .equal, toItem: view,
+                                                   attribute: .top, multiplier: 1, constant: KeyboardViewController.initialKbOrigin)
         view.addConstraints([keyboardHeightConstraint, keyboardTopConstraint])
     }
 
-    override func viewWillAppearFromBackground(fromBackground: Bool) {
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         if changes.value.visible {
             mainResponder?.becomeFirstResponder()
@@ -89,7 +89,7 @@ class KeyboardViewController: BaseViewController {
         setObservers()
     }
 
-    override func viewWillDisappearToBackground(toBackground: Bool) {
+    override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         tearDownObservers()
     }
@@ -98,29 +98,29 @@ class KeyboardViewController: BaseViewController {
     // MARK: - Private
 
     private func setObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
-                                                         name:UIKeyboardWillChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidChange),
-                                                         name:UIKeyboardDidChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange),
+                                                         name:NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChange),
+                                                         name:NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
 
     private func tearDownObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidChangeFrameNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
 
-    dynamic private func keyboardWillChange(notification: NSNotification) {
+    dynamic private func keyboardWillChange(_ notification: Notification) {
         applyChange(notification.keyboardChange, animated: true)
     }
 
-    dynamic private func keyboardDidChange(notification: NSNotification) {
+    dynamic private func keyboardDidChange(_ notification: Notification) {
         applyChange(notification.keyboardChange, animated: false)
     }
 
-    private func applyChange(kbChange: KeyboardChange, animated: Bool) {
+    private func applyChange(_ kbChange: KeyboardChange, animated: Bool) {
         guard kbChange.isLocal else { return }
         // Main responder check
-        if let mainResponder = mainResponder where kbChange.visible && !mainResponder.isFirstResponder() { return }
+        if let mainResponder = mainResponder, kbChange.visible && !mainResponder.isFirstResponder { return }
         guard changes.value.height != kbChange.height || changes.value.origin != kbChange.origin else { return }
 
         keyboardHeightConstraint.constant = kbChange.height
@@ -128,18 +128,17 @@ class KeyboardViewController: BaseViewController {
         changes.value = kbChange
 
         if animated {
-            UIView.animateWithDuration(Double(kbChange.animationTime), delay: 0, options: kbChange.animationOptions,
+            UIView.animate(withDuration: Double(kbChange.animationTime), delay: 0, options: kbChange.animationOptions,
                                        animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
         }
     }
 }
 
 
-private extension NSNotification {
-
+extension Notification {
     var keyboardChange: KeyboardChange {
-        let height = (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().height ?? 0
-        let origin = (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().origin.y ?? KeyboardViewController.initialKbOrigin
+        let height = (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
+        let origin = (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.origin.y ?? KeyboardViewController.initialKbOrigin
         let animationTime = (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? CGFloat) ?? 0.25
         let isLocal: Bool
         if #available(iOS 9.0, *) {
@@ -150,7 +149,7 @@ private extension NSNotification {
         let animOptions: UIViewAnimationOptions
         if let animCurve = userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
             // From: http://stackoverflow.com/a/26939315/1666070
-            animOptions = UIViewAnimationOptions(rawValue: animCurve << 16) ?? []
+            animOptions = UIViewAnimationOptions(rawValue: animCurve << 16)
         } else {
             animOptions = []
         }

@@ -15,9 +15,9 @@ struct LocalChat: Chat {
     var userTo: User
     var msgUnreadCount = 0
     var messages: [Message] = []
-    var updatedAt: NSDate? = nil
+    var updatedAt: Date? = nil
     var forbidden = false
-    var archivedStatus = ChatArchivedStatus.Active
+    var archivedStatus = ChatArchivedStatus.active
 
     var requiresLogin: Bool {
         return userFrom.objectId == nil
@@ -39,7 +39,7 @@ private struct EmptyUser: User {
     let accounts: [Account]? = nil
     var ratingAverage: Float? = nil
     var ratingCount: Int? = nil
-    let status: UserStatus = .Inactive
+    let status: UserStatus = .inactive
 
     var isDummy: Bool = false
 }

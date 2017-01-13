@@ -8,17 +8,17 @@
 
 import Alamofire
 
-extension Manager {
-    static func lgManager(backgroundEnabled: Bool) -> Manager {
-        let configuration: NSURLSessionConfiguration
+extension Alamofire.SessionManager {
+    static func lgManager(_ backgroundEnabled: Bool) -> Alamofire.SessionManager {
+        let configuration: URLSessionConfiguration
         if backgroundEnabled {
-            configuration = NSURLSessionConfiguration
-                .backgroundSessionConfigurationWithIdentifier(LGCoreKitConstants.networkBackgroundIdentifier)
+            configuration = URLSessionConfiguration
+                .background(withIdentifier: LGCoreKitConstants.networkBackgroundIdentifier)
         } else {
-            configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+            configuration = URLSessionConfiguration.default
         }
-        configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
-        configuration.requestCachePolicy = .ReloadIgnoringLocalCacheData
-        return Manager(configuration: configuration)
+        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        return Alamofire.SessionManager(configuration: configuration)
     }
 }

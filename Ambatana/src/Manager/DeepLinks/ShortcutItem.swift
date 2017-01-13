@@ -7,12 +7,12 @@
 //
 
 enum ShortcutItem: String {
-    case Sell = "letgo.sell"
-    case StartBrowsing = "letgo.startBrowsing"
+    case sell = "letgo.sell"
+    case startBrowsing = "letgo.startBrowsing"
 
-    static func buildFromLaunchOptions(launchOptions: [NSObject: AnyObject]) -> ShortcutItem? {
+    static func buildFromLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]) -> ShortcutItem? {
         if #available(iOS 9.0, *) {
-            guard let shortcutItemRaw = launchOptions[UIApplicationLaunchOptionsShortcutItemKey]
+            guard let shortcutItemRaw = launchOptions[UIApplicationLaunchOptionsKey.shortcutItem]
                 as? UIApplicationShortcutItem else { return nil }
             guard let shortcutItem = ShortcutItem.buildFromUIApplicationShortcutItem(shortcutItemRaw) else { return nil }
             return shortcutItem
@@ -22,16 +22,16 @@ enum ShortcutItem: String {
     }
 
     @available(iOS 9.0, *)
-    static func buildFromUIApplicationShortcutItem(item: UIApplicationShortcutItem) -> ShortcutItem? {
+    static func buildFromUIApplicationShortcutItem(_ item: UIApplicationShortcutItem) -> ShortcutItem? {
         return ShortcutItem(rawValue: item.type)
     }
 
     var deepLink: DeepLink {
         switch self {
-        case .Sell:
-            return DeepLink.shortCut(.Sell)
-        case .StartBrowsing:
-            return DeepLink.shortCut(.Home)
+        case .sell:
+            return DeepLink.shortCut(.sell)
+        case .startBrowsing:
+            return DeepLink.shortCut(.home)
         }
     }
 }

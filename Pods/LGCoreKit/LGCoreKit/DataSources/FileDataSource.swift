@@ -11,9 +11,9 @@ import Result
 
 
 typealias FileDataSourceResult = Result<String, ApiError>
-typealias FileDataSourceCompletion = FileDataSourceResult -> Void
+typealias FileDataSourceCompletion = (FileDataSourceResult) -> Void
 
 protocol FileDataSource {
-    func uploadFile(userId: String, data: NSData, imageName: String, progress: (Float -> ())?,
+    func uploadFile(_ userId: String, data: Data, imageName: String, progress: ((Float) -> ())?,
         completion: FileDataSourceCompletion?)
 }

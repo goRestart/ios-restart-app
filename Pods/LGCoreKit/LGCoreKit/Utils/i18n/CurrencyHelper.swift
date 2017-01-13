@@ -9,15 +9,15 @@
 public class CurrencyHelper {
 
     // iVars
-    private let defaultLocale: NSLocale
+    private let defaultLocale: Locale
 
-    private var currencyCodeToFormatter: [String: NSNumberFormatter]
-    private var countryCodeToFormatter: [String: NSNumberFormatter]
+    private var currencyCodeToFormatter: [String: NumberFormatter]
+    private var countryCodeToFormatter: [String: NumberFormatter]
     private var countryInfoDAO: CountryInfoDAO
 
     // MARK: - Lifecycle
 
-    public init(countryInfoDAO: CountryInfoDAO, defaultLocale: NSLocale) {
+    public init(countryInfoDAO: CountryInfoDAO, defaultLocale: Locale) {
 
         self.currencyCodeToFormatter = [:]
         self.countryCodeToFormatter = [:]
@@ -28,7 +28,7 @@ public class CurrencyHelper {
 
     // MARK: - Public methods
 
-    public func selectableCurrenciesForCountryCode(countryCode: String) -> [Currency] {
+    public func selectableCurrenciesForCountryCode(_ countryCode: String) -> [Currency] {
         var currencies: [Currency] = []
         let currency = currencyWithCountryCode(countryCode)
         currencies.append(currency)
@@ -46,8 +46,8 @@ public class CurrencyHelper {
 
         - returns: A currency formatted string.
     */
-    public func formattedAmountWithCurrencyCode(currencyCode: String, amount: NSNumber) -> String {
-        return formatterWithCurrencyCode(currencyCode).stringFromNumber(amount) ?? LGCoreKitConstants.defaultCurrency.code
+    public func formattedAmountWithCurrencyCode(_ currencyCode: String, amount: Double) -> String {
+        return formatterWithCurrencyCode(currencyCode).string(from: NSNumber(value: amount)) ?? LGCoreKitConstants.defaultCurrency.code
     }
 
     /**
@@ -55,8 +55,8 @@ public class CurrencyHelper {
 
      - returns: A currency formatted string.
      */
-    public func formattedAmountWithCountryCode(countryCode: String, amount: NSNumber) -> String {
-        return formatterWithCountryCode(countryCode).stringFromNumber(amount) ?? LGCoreKitConstants.defaultCurrency.code
+    public func formattedAmountWithCountryCode(_ countryCode: String, amount: Double) -> String {
+        return formatterWithCountryCode(countryCode).string(from: NSNumber(value: amount)) ?? LGCoreKitConstants.defaultCurrency.code
     }
 
     /**
@@ -64,7 +64,7 @@ public class CurrencyHelper {
 
         - returns: A currency formatted string.
     */
-    public func currencySymbolWithCurrencyCode(currencyCode: String) -> String {
+    public func currencySymbolWithCurrencyCode(_ currencyCode: String) -> String {
         return formatterWithCurrencyCode(currencyCode).currencySymbol ?? LGCoreKitConstants.defaultCurrency.symbol
     }
 
@@ -73,7 +73,7 @@ public class CurrencyHelper {
 
      - returns: A currency formatted string.
      */
-    public func currencySymbolWithCountryCode(countryCode: String) -> String {
+    public func currencySymbolWithCountryCode(_ countryCode: String) -> String {
         return formatterWithCountryCode(countryCode).currencySymbol ?? LGCoreKitConstants.defaultCurrency.symbol
     }
 
@@ -82,7 +82,7 @@ public class CurrencyHelper {
 
         - returns: A currency.
     */
-    public func currencyWithCurrencyCode(code: String) -> Currency {
+    public func currencyWithCurrencyCode(_ code: String) -> Currency {
         let symbol = self.currencySymbolWithCurrencyCode(code)
         return Currency(code: code, symbol: symbol)
     }
@@ -92,7 +92,7 @@ public class CurrencyHelper {
 
      - returns: A currency.
      */
-    public func currencyWithCountryCode(code: String) -> Currency {
+    public func currencyWithCountryCode(_ code: String) -> Currency {
         guard let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(code) else {
             return LGCoreKitConstants.defaultCurrency
         }
@@ -101,14 +101,14 @@ public class CurrencyHelper {
 
     // MARK: - Private methods
 
-    private func formatterWithCurrencyCode(currencyCode: String) -> NSNumberFormatter {
+    private func formatterWithCurrencyCode(_ currencyCode: String) -> NumberFormatter {
         if let formatter = currencyCodeToFormatter[currencyCode] {
             return formatter
         }
 
-        let currencyLocale: NSLocale
+        let currencyLocale: Locale
         let currencySymbol: String?
-        if let countryInfo = countryInfoDAO.fetchCountryInfoWithCurrencyCode(currencyCode), locale = countryInfo.locale {
+        if let countryInfo = countryInfoDAO.fetchCountryInfoWithCurrencyCode(currencyCode), let locale = countryInfo.locale {
             currencyLocale = locale
             currencySymbol = countryInfo.currencySymbol
         }
@@ -123,14 +123,14 @@ public class CurrencyHelper {
         return formatter
     }
 
-    private func formatterWithCountryCode(countryCode: String) -> NSNumberFormatter {
+    private func formatterWithCountryCode(_ countryCode: String) -> NumberFormatter {
         if let formatter = countryCodeToFormatter[countryCode] {
             return formatter
         }
 
-        let currencyLocale: NSLocale
+        let currencyLocale: Locale
         let currencySymbol: String?
-        if let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(countryCode), locale = countryInfo.locale {
+        if let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(countryCode), let locale = countryInfo.locale {
             currencyLocale = locale
             currencySymbol = countryInfo.currencySymbol
         }
@@ -145,9 +145,9 @@ public class CurrencyHelper {
         return formatter
     }
 
-    private static func currencyFormatterWithLocale(locale: NSLocale, currencySymbol: String?) -> NSNumberFormatter {
-        let currencyFormatter = NSNumberFormatter()
-        currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+    private static func currencyFormatterWithLocale(_ locale: Locale, currencySymbol: String?) -> NumberFormatter {
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.numberStyle = NumberFormatter.Style.currency
         currencyFormatter.locale = locale
         currencyFormatter.minimumFractionDigits = 0
         if let actualCurrencySymbol = currencySymbol {

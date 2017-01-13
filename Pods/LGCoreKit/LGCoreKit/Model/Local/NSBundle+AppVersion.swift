@@ -1,5 +1,5 @@
 //
-//  NSBundle+AppVersion.swift
+//  Bundle+AppVersion.swift
 //  LGCoreKit
 //
 //  Created by Albert Hernández López on 26/05/16.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-extension NSBundle: AppVersion {
+extension Bundle: AppVersion {
     var shortVersionString: String {
-        return objectForInfoDictionaryKey("CFBundleShortVersionString") as? String ?? ""
+        return object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
     }
 }

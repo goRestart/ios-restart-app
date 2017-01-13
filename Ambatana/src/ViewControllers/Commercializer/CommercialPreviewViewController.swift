@@ -25,8 +25,8 @@ class CommercialPreviewViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "CommercialPreviewViewController")
         self.viewModel.delegate = self
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -41,11 +41,11 @@ class CommercialPreviewViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeButtonPressed()
     }
     
-    @IBAction func playButtonPressed(sender: AnyObject) {
+    @IBAction func playButtonPressed(_ sender: AnyObject) {
         viewModel.playButtonPressed()
     }
 
@@ -57,12 +57,12 @@ class CommercialPreviewViewController: BaseViewController {
         
         socialShareView.socialMessage = viewModel.socialShareMessage
         socialShareView.delegate = self
-        socialShareView.style = .Grid
+        socialShareView.style = .grid
 
         titleLabel.text = LGLocalizedString.commercializerPreviewTitle
         subtitleLabel.text = LGLocalizedString.commercializerPreviewSubtitle
 
-        if let imageString = viewModel.thumbURL, let imageUrl = NSURL(string: imageString) {
+        if let imageString = viewModel.thumbURL, let imageUrl = URL(string: imageString) {
             commercialImage.lg_setImageWithURL(imageUrl)
         }
     }
@@ -73,18 +73,18 @@ class CommercialPreviewViewController: BaseViewController {
 
 extension CommercialPreviewViewController: CommercialPreviewViewModelDelegate {
     func vmDismiss() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
-    func vmShowCommercial(viewModel viewModel: CommercialDisplayViewModel) {
+    func vmShowCommercial(viewModel: CommercialDisplayViewModel) {
         let vController = CommercialDisplayViewController(viewModel: viewModel)
         vController.preDismissAction = { [weak self] in
-            self?.view.hidden = true
+            self?.view.isHidden = true
         }
         vController.postDismissAction = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: nil)
+            self?.dismiss(animated: false, completion: nil)
         }
-        presentViewController(vController, animated: true, completion: nil)
+        present(vController, animated: true, completion: nil)
     }
 }
 

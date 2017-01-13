@@ -42,11 +42,11 @@ class MockProduct: MockBaseModel, Product {
         self.images = []
         self.location = LGLocationCoordinates2D(latitude:0,longitude:0)
         self.postalAddress = PostalAddress.emptyAddress()
-        self.status = .Pending
-        self.category = .Electronics
+        self.status = .pending
+        self.category = .electronics
         self.user = MockUser()
         self.favorite = false
-        self.price = .Negotiable(100)
+        self.price = .negotiable(100)
         self.currency = Currency(code: "USD", symbol: "$")
         super.init()
     }
@@ -61,7 +61,7 @@ class MockProduct: MockBaseModel, Product {
         return ""
     }
     
-    func updateWithProduct(product: Product) {
+    func updateWithProduct(_ product: Product) {
         name = product.name
         nameAuto = product.nameAuto
         descr = product.descr
@@ -85,7 +85,7 @@ class MockProduct: MockBaseModel, Product {
     
     // MARK: - Public methods
     
-    static func productFromProduct(product: Product) -> MockProduct {
+    static func productFromProduct(_ product: Product) -> MockProduct {
         let mockProduct = MockProduct()
         mockProduct.name = product.name
         mockProduct.nameAuto = product.nameAuto

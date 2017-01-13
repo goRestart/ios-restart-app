@@ -15,7 +15,7 @@ class MockExternalAuthHelper: ExternalAuthHelper {
         self.loginResult = result
     }
 
-    func login(authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?) {
+    func login(_ authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?) {
         authCompletion?()
         loginCompletion?(loginResult)
     }

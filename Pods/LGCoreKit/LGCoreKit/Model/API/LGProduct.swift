@@ -8,13 +8,14 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGProduct: Product {
 
     // Global iVars
     var objectId: String?
-    var updatedAt: NSDate?
-    var createdAt: NSDate?
+    var updatedAt: Date?
+    var createdAt: Date?
 
     // Product iVars
     var name: String?
@@ -41,7 +42,7 @@ struct LGProduct: Product {
     // the object is created after the decoding.
     var favorite: Bool = false
 
-    init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, nameAuto: String?, descr: String?,
+    init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
          price: ProductPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ProductCategory, status: ProductStatus, thumbnail: File?,
          thumbnailSize: LGSize?, images: [File], user: User) {
@@ -70,7 +71,7 @@ struct LGProduct: Product {
         let images = [chatProduct.image].flatMap{$0}
         let location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
         let postalAddress = PostalAddress.emptyAddress()
-        let category = ProductCategory.Other
+        let category = ProductCategory.other
         
         self.init(objectId: chatProduct.objectId, updatedAt: nil, createdAt: nil, name: chatProduct.name,
                   nameAuto: nil, descr: nil, price: chatProduct.price, currency: chatProduct.currency, location: location,
@@ -79,14 +80,14 @@ struct LGProduct: Product {
                   images: images, user: user)
     }
     
-    static func productWithId(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?,
+    static func productWithId(_ objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?,
                               nameAuto: String?, descr: String?, price: Double?, priceFlag: ProductPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
                               user: LGUser) -> LGProduct {
         let actualCurrency = Currency.currencyWithCode(currency)
-        let actualCategory = ProductCategory(rawValue: category) ?? .Other
-        let actualStatus = ProductStatus(rawValue: status) ?? .Pending
+        let actualCategory = ProductCategory(rawValue: category) ?? .other
+        let actualStatus = ProductStatus(rawValue: status) ?? .pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
         let productPrice = ProductPrice.fromPrice(price, andFlag: priceFlag)
@@ -168,12 +169,12 @@ extension LGProduct : Decodable {
 			"image_information": "black fitbit wireless activity wristband"
 		}
     */
-    static func decode(j: JSON) -> Decoded<LGProduct> {
+    static func decode(_ j: JSON) -> Decoded<LGProduct> {
         let geo: JSON? = j.decode("geo")
         let init1 = curry(LGProduct.productWithId)
                             <^> j <|? "id"                                          // objectId : String?
-                            <*> j <|? "updated_at"                                  // updatedAt : NSDate?
-                            <*> j <|? "created_at"                                  // createdAt : NSDate?
+                            <*> j <|? "updated_at"                                  // updatedAt : Date?
+                            <*> j <|? "created_at"                                  // createdAt : Date?
                             <*> j <|? "name"                                        // name : String?
         let init2 = init1   <*> j <|? "image_information"                           // nameAuto : String?
                             <*> j <|? "description"                                 // descr : String?
@@ -191,7 +192,7 @@ extension LGProduct : Decodable {
                             <*> j <| "owner"                                        // user : LGUser?
 
         if let error = result.error {
-            print("LGProduct parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGProduct parse error: \(error)")
         }
 
         return result

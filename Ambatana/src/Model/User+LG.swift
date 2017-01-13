@@ -10,15 +10,15 @@ import LGCoreKit
 
 extension User {
     var facebookAccount: Account? {
-        return accountWithProvider(.Facebook)
+        return accountWithProvider(.facebook)
     }
     var googleAccount: Account? {
-        return accountWithProvider(.Google)
+        return accountWithProvider(.google)
     }
     var emailAccount: Account? {
-        return accountWithProvider(.Email)
+        return accountWithProvider(.email)
     }
-    private func accountWithProvider(provider: AccountProvider) -> Account? {
+    private func accountWithProvider(_ provider: AccountProvider) -> Account? {
         return accounts?.filter { $0.provider == provider }.first
     }
     var isVerified: Bool {

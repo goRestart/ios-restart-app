@@ -9,12 +9,12 @@
 import Foundation
 
 protocol TableCellDrawer {
-    func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell
-    static func registerCell(tableView: UITableView)
-    static func registerClassCell(tableView: UITableView)
+    func cell(_ tableView: UITableView, atIndexPath: IndexPath) -> UITableViewCell
+    static func registerCell(_ tableView: UITableView)
+    static func registerClassCell(_ tableView: UITableView)
 }
 
 protocol CollectionCellDrawer {
-    func cell(collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell
-    static func registerCell(collectionView: UICollectionView)
+    func cell(_ collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell
+    static func registerCell(_ collectionView: UICollectionView)
 }

@@ -8,9 +8,9 @@
 
 
 enum AuthLevel: Int {
-    case Nonexistent
-    case Installation
-    case User
+    case nonexistent
+    case installation
+    case user
 }
 
 struct Token {

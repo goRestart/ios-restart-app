@@ -36,14 +36,14 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var addressTopText: UILabel!
     @IBOutlet weak var addressBottomText: UILabel!
 
-    private static let suggestionCellId = "suggestionCell"
-    private static let suggestionCellHeight: CGFloat = 44
+    fileprivate static let suggestionCellId = "suggestionCell"
+    fileprivate static let suggestionCellHeight: CGFloat = 44
 
-    private let viewModel: EditLocationViewModel
+    fileprivate let viewModel: EditLocationViewModel
     private let disposeBag = DisposeBag()
 
     private var mapCentered: Bool = false
-    private var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
+    fileprivate var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
 
 
     // MARK: - Lifecycle
@@ -83,11 +83,11 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         viewModel.showGPSLocation()
     }
     
-    @IBAction func setLocationButtonPressed(sender: AnyObject) {
+    @IBAction func setLocationButtonPressed(_ sender: AnyObject) {
         viewModel.applyLocation()
     }
 
-    func goToLocation(resultsIndex: Int?) {
+    func goToLocation(_ resultsIndex: Int?) {
         // Dismissing keyboard so that it doesn't show up after searching. If it fails we will show it programmaticaly
         searchField.resignFirstResponder()
         
@@ -101,30 +101,30 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     
     // MARK: - view model delegate methods
 
-    func vmUpdateSearchTableWithResults(results: [String]) {
+    func vmUpdateSearchTableWithResults(_ results: [String]) {
         /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update
         suggestions table*/
-        if !searchField.isFirstResponder() { return }
+        if !searchField.isFirstResponder { return }
 
         let newHeight = CGFloat(results.count) * EditLocationViewController.suggestionCellHeight
-        suggestionsTableView.frame = CGRectMake(suggestionsTableView.frame.origin.x,
-            suggestionsTableView.frame.origin.y, suggestionsTableView.frame.size.width, newHeight);
-        suggestionsTableView.hidden = false
+        suggestionsTableView.frame = CGRect(x: suggestionsTableView.frame.origin.x,
+            y: suggestionsTableView.frame.origin.y, width: suggestionsTableView.frame.size.width, height: newHeight);
+        suggestionsTableView.isHidden = false
         suggestionsTableView.reloadData()
     }
 
     func vmDidFailFindingSuggestions() {
-        suggestionsTableView.hidden = true
+        suggestionsTableView.isHidden = true
     }
 
-    func vmDidFailToFindLocationWithError(error: String) {
+    func vmDidFailToFindLocationWithError(_ error: String) {
         showAutoFadingOutMessageAlert(error) { [weak self] in
             // Showing keyboard again as the user must update the text
             self?.searchField.becomeFirstResponder()
         }
     }
 
-    func vmShowMessage(message: String, completion: (() -> ())?) {
+    func vmShowMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
@@ -137,21 +137,21 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     
     private func setupUI() {
 
-        view.addConstraint(NSLayoutConstraint(item: searchField, attribute: .Top, relatedBy: .Equal,
-            toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 8.0))
+        view.addConstraint(NSLayoutConstraint(item: searchField, attribute: .top, relatedBy: .equal,
+            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 8.0))
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
         searchField.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        searchField.layer.borderColor = UIColor.lineGray.CGColor
+        searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
         suggestionsTableView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        suggestionsTableView.layer.borderColor = UIColor.lineGray.CGColor
+        suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        setLocationButton.setStyle(.Primary(fontSize: .Medium))
-        setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, forState: UIControlState.Normal)
+        setLocationButton.setStyle(.primary(fontSize: .medium))
+        setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, for: .normal)
         gpsLocationButton.layer.cornerRadius = 10
-        poiImage.hidden = true
-        aproxLocationArea.hidden = true
+        poiImage.isHidden = true
+        aproxLocationArea.isHidden = true
 
         // i18n
         approximateLocationLabel.text = LGLocalizedString.changeLocationApproximateLocationLabel
@@ -162,15 +162,15 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupAccessibilityIds() {
-        mapView.accessibilityId = .EditLocationMap
-        searchButton.accessibilityId = .EditLocationSearchButton
-        searchField.accessibilityId = .EditLocationSearchTextField
-        suggestionsTableView.accessibilityId = .EditLocationSearchSuggestionsTable
-        gpsLocationButton.accessibilityId = .EditLocationSensorLocationButton
-        aproxLocationArea.accessibilityId = .EditLocationApproxLocationCircleView
-        poiImage.accessibilityId = .EditLocationPOIImageView
-        setLocationButton.accessibilityId = .EditLocationSetLocationButton
-        approximateLocationSwitch.accessibilityId = .EditLocationApproxLocationSwitch
+        mapView.accessibilityId = .editLocationMap
+        searchButton.accessibilityId = .editLocationSearchButton
+        searchField.accessibilityId = .editLocationSearchTextField
+        suggestionsTableView.accessibilityId = .editLocationSearchSuggestionsTable
+        gpsLocationButton.accessibilityId = .editLocationSensorLocationButton
+        aproxLocationArea.accessibilityId = .editLocationApproxLocationCircleView
+        poiImage.accessibilityId = .editLocationPOIImageView
+        setLocationButton.accessibilityId = .editLocationSetLocationButton
+        approximateLocationSwitch.accessibilityId = .editLocationApproxLocationSwitch
     }
 
     private func setRxBindings() {
@@ -183,8 +183,9 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     private func setupSearchRx() {
         //When search field is active and user types, forward to viewModel
-        searchField.rx_text.subscribeNext{ [weak self] text in
-            guard let searchField = self?.searchField where searchField.isFirstResponder() else { return }
+        searchField.rx.text.subscribeNext{ [weak self] text in
+            guard let searchField = self?.searchField, searchField.isFirstResponder else { return }
+            guard let text = text else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
             }.addDisposableTo(disposeBag)
 
@@ -196,17 +197,17 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupInfoViewsRx() {
-        viewModel.placeInfoText.asObservable().bindTo(searchField.rx_text).addDisposableTo(disposeBag)
+        viewModel.placeInfoText.asObservable().bindTo(searchField.rx.text).addDisposableTo(disposeBag)
         //When approx location changes show/hide views accordingly
         viewModel.approxLocation.asObservable().subscribeNext { [weak self] approximate in
-            self?.poiImage.hidden = approximate
-            self?.aproxLocationArea.hidden = !approximate
+            self?.poiImage.isHidden = approximate
+            self?.aproxLocationArea.isHidden = !approximate
         }.addDisposableTo(disposeBag)
     }
 
     private func setupApproxLocationRx() {
-        viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx_value).addDisposableTo(disposeBag)
-        approximateLocationSwitch.rx_value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
+        viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx.value).addDisposableTo(disposeBag)
+        approximateLocationSwitch.rx.value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
         //Each time approxLocation value changes, map must zoom-in/out map accordingly
         viewModel.approxLocation.asObservable().subscribeNext{ [weak self] approximate in
             guard let location = self?.viewModel.placeLocation.value else { return }
@@ -214,7 +215,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         }.addDisposableTo(disposeBag)
 
         viewModel.approxLocationHidden.asObservable().subscribeNext { [weak self] hidden in
-            self?.approxLocationContainer.hidden = hidden
+            self?.approxLocationContainer.isHidden = hidden
             self?.approxLocationHeight.constant = hidden ? 0 : 50
         }.addDisposableTo(disposeBag)
     }
@@ -222,7 +223,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     private func setupLocationChangesRx() {
         //When place changes on viewModel map must follow its location
         viewModel.placeLocation.asObservable().subscribeNext { [weak self] location in
-            guard let strongSelf = self, location = location else { return }
+            guard let strongSelf = self, let location = location else { return }
             strongSelf.centerMapInLocation(location)
             }.addDisposableTo(disposeBag)
     }
@@ -231,19 +232,19 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         //Loading variable activates/deactivates locationButtonLoading
         viewModel.loading.asObservable().subscribeNext { [weak self] loading in
             if loading {
-                self?.setLocationButton.setTitle("", forState: UIControlState.Normal)
+                self?.setLocationButton.setTitle("", for: .normal)
                 self?.setLocationLoading.startAnimating()
             } else {
                 self?.setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton,
-                    forState: UIControlState.Normal)
+                    for: .normal)
                 self?.setLocationLoading.stopAnimating()
             }
             }.addDisposableTo(disposeBag)
 
-        viewModel.setLocationEnabled.asObservable().bindTo(setLocationButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.setLocationEnabled.asObservable().bindTo(setLocationButton.rx.isEnabled).addDisposableTo(disposeBag)
     }
 
-    private func centerMapInLocation(coordinate: CLLocationCoordinate2D) {
+    private func centerMapInLocation(_ coordinate: CLLocationCoordinate2D) {
         let approximate = viewModel.approxLocation.value
         let radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
         let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
@@ -255,13 +256,13 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 // MARK: - MKMapViewDelegate
 
 extension EditLocationViewController: MKMapViewDelegate {
-    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         mapGestureFromUserInteraction = false
 
         guard let gestureRecognizers = mapView.subviews.first?.gestureRecognizers else { return }
         for gestureRecognizer in gestureRecognizers {
-            if gestureRecognizer.state == UIGestureRecognizerState.Began ||
-                gestureRecognizer.state == UIGestureRecognizerState.Ended {
+            if gestureRecognizer.state == UIGestureRecognizerState.began ||
+                gestureRecognizer.state == UIGestureRecognizerState.ended {
                     mapGestureFromUserInteraction = true
                     viewModel.userTouchingMap.value = true
                     break
@@ -269,7 +270,7 @@ extension EditLocationViewController: MKMapViewDelegate {
         }
     }
 
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         viewModel.userTouchingMap.value = false
 
         if mapGestureFromUserInteraction {
@@ -285,27 +286,27 @@ extension EditLocationViewController: MKMapViewDelegate {
 extension EditLocationViewController: UITableViewDataSource, UITableViewDelegate {
 
     func registerCells() {
-        suggestionsTableView.registerClass(UITableViewCell.self,
+        suggestionsTableView.register(UITableViewCell.self,
             forCellReuseIdentifier: EditLocationViewController.suggestionCellId)
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.placeCount
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(EditLocationViewController.suggestionCellId, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: EditLocationViewController.suggestionCellId, for: indexPath)
 
-        cell.textLabel!.text = viewModel.placeResumedDataAtPosition(indexPath.row)
-        cell.selectionStyle = .None
+        cell.textLabel?.text = viewModel.placeResumedDataAtPosition(indexPath.row)
+        cell.selectionStyle = .none
 
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
-        suggestionsTableView.hidden = true
+        suggestionsTableView.isHidden = true
         goToLocation(indexPath.row)
     }
 }
@@ -315,34 +316,34 @@ extension EditLocationViewController: UITableViewDataSource, UITableViewDelegate
 
 extension EditLocationViewController: UITextFieldDelegate {
     // "touchesBegan" used to hide the keyboard when touching outside the textField
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         searchField.resignFirstResponder()
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
         replacementString string: String) -> Bool {
             if textField.textReplacingCharactersInRange(range, replacementString: string).isEmpty {
-                suggestionsTableView.hidden = true
+                suggestionsTableView.isHidden = true
             }
             return true
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
-        suggestionsTableView.hidden = true
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        suggestionsTableView.isHidden = true
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if let textFieldText = textField.text where textFieldText.characters.count < 1 {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let textFieldText = textField.text, textFieldText.characters.count < 1 {
             return true
         }
-        suggestionsTableView.hidden = true
+        suggestionsTableView.isHidden = true
         goToLocation(nil)
         return true
     }
 
-    func textFieldShouldClear(textField: UITextField) -> Bool {
-        suggestionsTableView.hidden = true
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        suggestionsTableView.isHidden = true
         return true
     }
 }

@@ -7,14 +7,14 @@
 //
 
 public enum ProductCategory: Int {
-    case Unassigned = 0, Electronics = 1, CarsAndMotors = 2, SportsLeisureAndGames = 3, HomeAndGarden = 4,
-    MoviesBooksAndMusic = 5, FashionAndAccesories = 6, BabyAndChild = 7, Other = 8
+    case unassigned = 0, electronics = 1, carsAndMotors = 2, sportsLeisureAndGames = 3, homeAndGarden = 4,
+    moviesBooksAndMusic = 5, fashionAndAccesories = 6, babyAndChild = 7, other = 8
 
     static func allValues() -> [ProductCategory] {
-        return [.Unassigned] + visibleValues()
+        return [.unassigned] + visibleValues()
     }
     static func visibleValues() -> [ProductCategory] {
-        return [.Electronics, .CarsAndMotors, .SportsLeisureAndGames, .HomeAndGarden, .MoviesBooksAndMusic,
-                .FashionAndAccesories, .BabyAndChild, .Other]
+        return [.electronics, .carsAndMotors, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+                .fashionAndAccesories, .babyAndChild, .other]
     }
 }

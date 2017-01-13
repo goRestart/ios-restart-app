@@ -14,71 +14,71 @@ enum UserRouter: URLRequestAuthenticable {
     static let bouncerUserBaseUrl = "/users"
 
     // TODO: includeAccounts must be removed, as we should only retrieve users from bouncer in the future. Accounts non-optional
-    case Show(userId: String, includeAccounts: Bool)
-    case UserRelation(userId: String, params: [String : AnyObject])
-    case BlockUser(userId: String, userToId: String, params: [String : AnyObject])
-    case UnblockUser(userId: String, userToId: String, params: [String : AnyObject])
-    case IndexBlocked(userId: String, params: [String : AnyObject])
-    case SaveReport(userId: String, reportedUserId: String, params: [String : AnyObject])
+    case show(userId: String, includeAccounts: Bool)
+    case userRelation(userId: String, params: [String : Any])
+    case blockUser(userId: String, userToId: String, params: [String : Any])
+    case unblockUser(userId: String, userToId: String, params: [String : Any])
+    case indexBlocked(userId: String, params: [String : Any])
+    case saveReport(userId: String, reportedUserId: String, params: [String : Any])
 
     var endpoint: String {
         switch self {
-        case let .Show(_, includeAccounts):
+        case let .show(_, includeAccounts):
             return includeAccounts ? UserRouter.bouncerUserBaseUrl : UserRouter.userBaseUrl
-        case let .UserRelation(userId, _):
+        case let .userRelation(userId, _):
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links"
-        case let .IndexBlocked(userId, _):
+        case let .indexBlocked(userId, _):
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links"
-        case let .BlockUser(userId, _, _):
+        case let .blockUser(userId, _, _):
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links/"
-        case let .UnblockUser(userId, _, _):
+        case let .unblockUser(userId, _, _):
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links/"
-        case let .SaveReport(userId, _, _):
+        case let .saveReport(userId, _, _):
             return UserRouter.userBaseUrl + "/\(userId)/reports/users/"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Show:
-            return .Nonexistent
-        case .IndexBlocked, .BlockUser, .UnblockUser, .UserRelation, .SaveReport:
-            return .User
+        case .show:
+            return .nonexistent
+        case .indexBlocked, .blockUser, .unblockUser, .userRelation, .saveReport:
+            return .user
         }
     }
     
     var acceptedStatus: Array<Int> {
         switch self {
-        case .SaveReport:
+        case .saveReport:
             return (200..<400).filter({$0 != 304})
         default:
             return [Int](200..<400)
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .Show(userId, includeAccounts):
+        case let .show(userId, includeAccounts):
             if includeAccounts {
-                return Router<BouncerBaseURL>.Show(endpoint: endpoint, objectId: userId).URLRequest
+                return try Router<BouncerBaseURL>.show(endpoint: endpoint, objectId: userId).asURLRequest()
             } else {
-                return Router<APIBaseURL>.Show(endpoint: endpoint, objectId: userId).URLRequest
+                return try Router<APIBaseURL>.show(endpoint: endpoint, objectId: userId).asURLRequest()
             }
-        case let .UserRelation(_, params):
-            return Router<BouncerBaseURL>.Read(endpoint: endpoint, params: params).URLRequest
-        case let .IndexBlocked(_, params):
-            return Router<BouncerBaseURL>.Read(endpoint: endpoint, params: params).URLRequest
-        case let .BlockUser(_, userToId, params):
-            return Router<BouncerBaseURL>.Patch(endpoint: endpoint, objectId: userToId, params: params, encoding: .JSON)
-                .URLRequest
-        case let .UnblockUser(_, userToId, params):
-            return Router<BouncerBaseURL>.Patch(endpoint: endpoint, objectId: userToId, params: params, encoding: .JSON)
-                .URLRequest
-        case let .SaveReport(_, reportedUserId, params):
-            return Router<APIBaseURL>.Update(endpoint: endpoint, objectId: reportedUserId, params: params,
-                encoding: nil).URLRequest
+        case let .userRelation(_, params):
+            return try Router<BouncerBaseURL>.read(endpoint: endpoint, params: params).asURLRequest()
+        case let .indexBlocked(_, params):
+            return try Router<BouncerBaseURL>.read(endpoint: endpoint, params: params).asURLRequest()
+        case let .blockUser(_, userToId, params):
+            return try Router<BouncerBaseURL>.patch(endpoint: endpoint, objectId: userToId, params: params, encoding: .json)
+                .asURLRequest()
+        case let .unblockUser(_, userToId, params):
+            return try Router<BouncerBaseURL>.patch(endpoint: endpoint, objectId: userToId, params: params, encoding: .json)
+                .asURLRequest()
+        case let .saveReport(_, reportedUserId, params):
+            return try Router<APIBaseURL>.update(endpoint: endpoint, objectId: reportedUserId, params: params,
+                encoding: nil).asURLRequest()
         }
     }
 }

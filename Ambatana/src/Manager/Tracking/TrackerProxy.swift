@@ -19,11 +19,11 @@ final class TrackerProxy: Tracker {
     private var trackers: [Tracker] = []
 
     private var notificationsPermissionEnabled: Bool {
-        return UIApplication.sharedApplication().areRemoteNotificationsEnabled
+        return UIApplication.shared.areRemoteNotificationsEnabled
     }
 
     private var gpsPermissionEnabled: Bool {
-       return locationManager.locationServiceStatus == .Enabled(.Authorized)
+       return locationManager.locationServiceStatus == .enabled(.authorized)
     }
 
     private let locationManager: LocationManager
@@ -62,8 +62,8 @@ final class TrackerProxy: Tracker {
 
     // MARK: - Tracker
 
-    func application(application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         trackers.forEach { $0.application(application, didFinishLaunchingWithOptions: launchOptions) }
 
         setGPSPermission(gpsPermissionEnabled)
@@ -72,54 +72,54 @@ final class TrackerProxy: Tracker {
         setupMktNotificationsRx()
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
-        annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?,
+        annotation: Any?) {
             trackers.forEach {
                 $0.application(application, openURL: url, sourceApplication: sourceApplication,
                 annotation: annotation)
             }
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         trackers.forEach { $0.applicationDidEnterBackground(application) }
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         trackers.forEach { $0.applicationWillEnterForeground(application) }
         setGPSPermission(gpsPermissionEnabled)
         setNotificationsPermission(notificationsPermissionEnabled)
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         trackers.forEach { $0.applicationDidBecomeActive(application) }
     }
 
-    func setInstallation(installation: Installation?) {
+    func setInstallation(_ installation: Installation?) {
         trackers.forEach { $0.setInstallation(installation) }
     }
 
-    func setUser(user: MyUser?) {
+    func setUser(_ user: MyUser?) {
         trackers.forEach { $0.setUser(user) }
     }
 
-    func trackEvent(event: TrackerEvent) {
-        logMessage(.Verbose, type: .Tracking, message: "\(event.actualName) -> \(event.params)")
+    func trackEvent(_ event: TrackerEvent) {
+        logMessage(.verbose, type: .tracking, message: "\(event.actualName) -> \(event.params)")
         trackers.forEach { $0.trackEvent(event) }
     }
 
-    func setLocation(location: LGLocation?) {
+    func setLocation(_ location: LGLocation?) {
         trackers.forEach { $0.setLocation(location) }
     }
 
-    func setNotificationsPermission(enabled: Bool) {
+    func setNotificationsPermission(_ enabled: Bool) {
         trackers.forEach { $0.setNotificationsPermission(enabled) }
     }
 
-    func setGPSPermission(enabled: Bool) {
+    func setGPSPermission(_ enabled: Bool) {
         trackers.forEach { $0.setGPSPermission(enabled) }
     }
 
-    func setMarketingNotifications(enabled: Bool) {
+    func setMarketingNotifications(_ enabled: Bool) {
         trackers.forEach { $0.setMarketingNotifications(enabled) }
     }
 
@@ -137,11 +137,11 @@ final class TrackerProxy: Tracker {
 
         locationManager.locationEvents.bindNext { [weak self] event in
             switch event {
-            case .ChangedPermissions:
+            case .changedPermissions:
                 self?.locationManagerDidChangePermissions()
-            case .LocationUpdate:
+            case .locationUpdate:
                 self?.setLocation(self?.locationManager.currentLocation)
-            case .MovedFarFromSavedManualLocation:
+            case .movedFarFromSavedManualLocation:
                 break
             }
         }.addDisposableTo(disposeBag)
@@ -151,9 +151,9 @@ final class TrackerProxy: Tracker {
         setGPSPermission(gpsPermissionEnabled)
 
         if gpsPermissionEnabled {
-            trackEvent(TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList))
+            trackEvent(TrackerEvent.permissionSystemComplete(.location, typePage: .productList))
         } else {
-            trackEvent(TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList))
+            trackEvent(TrackerEvent.permissionSystemCancel(.location, typePage: .productList))
         }
     }
 

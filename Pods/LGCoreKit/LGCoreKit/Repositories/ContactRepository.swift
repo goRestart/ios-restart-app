@@ -11,8 +11,8 @@ import Result
 
 
 public typealias ContactResult = Result<Contact, RepositoryError>
-public typealias ContactCompletion = ContactResult -> Void
+public typealias ContactCompletion = (ContactResult) -> Void
 
 public protocol ContactRepository {
-    func send(contact: Contact, completion: ContactCompletion?)
+    func send(_ contact: Contact, completion: ContactCompletion?)
 }

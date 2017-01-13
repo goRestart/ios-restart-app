@@ -26,7 +26,7 @@ final class LGNotificationsRepository: NotificationsRepository {
 
      - parameter completion: The completion closure
      */
-    func index(completion: NotificationsCompletion?) {
+    func index(_ completion: NotificationsCompletion?) {
         dataSource.index { result in
             handleApiResult(result, completion: completion)
         }
@@ -37,7 +37,7 @@ final class LGNotificationsRepository: NotificationsRepository {
 
      - parameter completion: The completion closure.
      */
-    func unreadNotificationsCount(completion: NotificationsUnreadCountCompletion?) {
+    func unreadNotificationsCount(_ completion: NotificationsUnreadCountCompletion?) {
         dataSource.unreadCount { result in
             handleApiResult(result, completion: completion)
         }

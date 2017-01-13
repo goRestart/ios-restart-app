@@ -8,11 +8,12 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGChatConversation: ChatConversation {
     let objectId: String?
     let unreadMessageCount: Int
-    let lastMessageSentAt: NSDate?
+    let lastMessageSentAt: Date?
     let amISelling: Bool
     let product: ChatProduct?
     let interlocutor: ChatInterlocutor?
@@ -29,7 +30,7 @@ extension LGChatConversation: Decodable {
         static let amISelling = "am_i_selling"
     }
     
-    static func decode(j: JSON) -> Decoded<LGChatConversation> {
+    static func decode(_ j: JSON) -> Decoded<LGChatConversation> {
         let init1 = curry(LGChatConversation.init)
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.unreadMessageCount

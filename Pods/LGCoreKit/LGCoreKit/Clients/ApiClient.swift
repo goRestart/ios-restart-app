@@ -19,10 +19,10 @@ protocol ApiClient: class {
     var tokenDAO: TokenDAO { get }
 
     var renewingInstallation: Bool { get set }
-    var installationQueue: NSOperationQueue { get }
+    var installationQueue: OperationQueue { get }
 
     var renewingUser: Variable<Bool> { get }
-    var userQueue: NSOperationQueue { get }
+    var userQueue: OperationQueue { get }
 
     /**
     Executes the given request with a decoder.
@@ -30,7 +30,7 @@ protocol ApiClient: class {
     - parameter decoder: The decoder.
     - parameter completion: The completion closure.
     */
-    func privateRequest<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?,
+    func privateRequest<T>(_ request: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
         completion: ((ResultResult<T, ApiError>.t) -> ())?)
 
     /**
@@ -41,9 +41,9 @@ protocol ApiClient: class {
     - parameter completion: The completion closure.
     - parameter progress: The closure that notifies about the upload progress.
     */
-    func upload<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?,
-            multipart: MultipartFormData -> Void, completion: ((ResultResult<T, ApiError>.t) -> ())?,
-            progress: ((written: Int64, totalWritten: Int64, totalExpectedToWrite: Int64) -> Void)?)
+    func upload<T>(_ request: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
+            multipart: @escaping (MultipartFormData) -> Void, completion: ((ResultResult<T, ApiError>.t) -> ())?,
+            progress: ((Progress) -> Void)?)
 }
 
 
@@ -56,7 +56,7 @@ extension ApiClient {
     - parameter decoder:    The decoder.
     - parameter completion: The completion closure.
     */
-    func request<T>(req: URLRequestAuthenticable, decoder: AnyObject -> T?,
+    func request<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
                  completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         renewTokenIfNeeded(req, decoder: decoder, succeeded: { [weak self] in
             self?.request(req, decoder: decoder, completion: completion)
@@ -73,7 +73,7 @@ extension ApiClient {
     - parameter decoder:    The decoder.
     - parameter completion: The completion closure.
     */
-    func request(req: URLRequestAuthenticable, completion: ((ResultResult<Void, ApiError>.t) -> ())?) {
+    func request(_ req: URLRequestAuthenticable, completion: ((ResultResult<Void, ApiError>.t) -> ())?) {
         request(req, decoder: { object in return Void() }, completion: completion)
     }
 
@@ -84,15 +84,15 @@ extension ApiClient {
      - parameter decoder:       The decoder.
      - parameter completion:    The completion closure.
      */
-    func requestRenewUserToken(userToken: String, decoder: AnyObject -> Authentication?,
+    func requestRenewUserToken(_ userToken: String, decoder: @escaping (Any) -> Authentication?,
                                completion: ((ResultResult<Authentication, ApiError>.t) -> ())?) {
-        let request = SessionRouter.UpdateUser(userToken: userToken)
+        let request = SessionRouter.updateUser(userToken: userToken)
         renewingUser.value = true
-        userQueue.suspended = true
+        userQueue.isSuspended = true
         privateRequest(request, decoder: decoder) { [weak self] result in
             completion?(result)
             self?.renewingUser.value = false
-            self?.userQueue.suspended = false
+            self?.userQueue.isSuspended = false
         }
     }
 
@@ -103,31 +103,31 @@ extension ApiClient {
     - parameter response:   The response.
     - parameter completion: The completion closure.
     */
-    func handlePrivateApiResponse<T>(req: URLRequestAuthenticable, decoder: AnyObject -> T?,
-                                     response: Response<T, NSError>,
+    func handlePrivateApiResponse<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
+                                     response: DataResponse<T>,
                                      completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         if shouldRenewToken(response) {
-            logMessage(.Verbose, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+            logMessage(.verbose, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
                        message: response.logMessage)
 
-            let requestTokenLevel = decodeRequestToken(response)?.level ?? .Nonexistent
+            let requestTokenLevel = decodeRequestToken(response)?.level ?? .nonexistent
             switch requestTokenLevel {
-            case .Installation:
+            case .installation:
                 tokenDAO.deleteInstallationToken()
                 request(req, decoder: decoder, completion: completion)
-            case .User:
+            case .user:
                 renewUserTokenOrEnqueueRequest(req, decoder: decoder, completion: completion)
-            case .Nonexistent:
-                logMessage(.Error, type: [CoreLoggingOptions.Networking], message: response.logMessage)
-                completion?(ResultResult<T, ApiError>.t(error: .Unauthorized))
+            case .nonexistent:
+                logMessage(.error, type: [CoreLoggingOptions.networking], message: response.logMessage)
+                completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
             }
         } else if let error = errorFromAlamofireResponse(response) {
-            logMessage(.Verbose, type: [CoreLoggingOptions.Networking], message: response.logMessage)
+            logMessage(.verbose, type: [CoreLoggingOptions.networking], message: response.logMessage)
 
             handlePrivateApiErrorResponse(error, response: response)
             completion?(ResultResult<T, ApiError>.t(error: error))
         } else if let value = response.result.value {
-            logMessage(.Info, type: CoreLoggingOptions.Networking, message: response.logMessage)
+            logMessage(.info, type: CoreLoggingOptions.networking, message: response.logMessage)
             updateToken(response)
             completion?(ResultResult<T, ApiError>.t(value: value))
         }
@@ -138,15 +138,18 @@ extension ApiClient {
      - parameter response: The request response.
      - returns An `ApiError`.
      */
-    func errorFromAlamofireResponse<T>(response: Response<T, NSError>) -> ApiError? {
+    func errorFromAlamofireResponse<T>(_ response: DataResponse<T>) -> ApiError? {
         guard let error = response.result.error else { return nil }
-        if error.domain == NSURLErrorDomain {
-            let onBackground = error.code == -997
-            return .Network(errorCode: error.code, onBackground: onBackground)
+        if let afError = error as? AFError, let urlError = afError.underlyingError as? URLError {
+            let onBackground = urlError.errorCode == -997
+            return .network(errorCode: urlError.errorCode, onBackground: onBackground)
+        } else if let urlError = error as? URLError {
+            let onBackground = urlError.errorCode == -997
+            return .network(errorCode: urlError.errorCode, onBackground: onBackground)
         } else if let statusCode = response.response?.statusCode {
             return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode)
         } else {
-            return ApiError.Internal(description: error.description)
+            return ApiError.internalError(description: error.localizedDescription)
         }
     }
 }
@@ -165,12 +168,12 @@ private extension ApiClient {
      or the required auth level is higher than required.
      - parameter notNeeded:  Completion closure executed when token renew is not needed.
      */
-    func renewTokenIfNeeded<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?, succeeded: (() -> ())?,
+    func renewTokenIfNeeded<T>(_ request: URLRequestAuthenticable, decoder: @escaping (Any) -> T?, succeeded: (() -> ())?,
                             failed: ((ApiError) -> ())?, notNeeded: (() -> ())?) {
         if shouldRenewInstallationTokenForRequest(request) {
             renewInstallationTokenOrEnqueueRequest(succeeded, failed: failed, notNeeded: notNeeded)
         }
-        else if tokenDAO.level == .User && request.requiredAuthLevel == .User {
+        else if tokenDAO.level == .user && request.requiredAuthLevel == .user {
             if shouldRenewUserTokenForRequest(request) {
                 renewUserTokenOrEnqueueRequest(request, decoder: decoder) { result in
                     if let _ = result.value {
@@ -184,8 +187,8 @@ private extension ApiClient {
             }
         }
         else if request.requiredAuthLevel > tokenDAO.level {
-            failed?(.Unauthorized)
-            report(CoreReportSession.InsufficientTokenLevel,
+            failed?(.unauthorized)
+            report(CoreReportSession.insufficientTokenLevel,
                    message: "required auth level: \(request.requiredAuthLevel); current level: \(tokenDAO.level)")
         } else {
             notNeeded?()
@@ -198,9 +201,9 @@ private extension ApiClient {
      - if we don't have installation token
      - if we have installation token but doesn't have version or its version is lower than 2
      */
-    func shouldRenewInstallationTokenForRequest(request: URLRequestAuthenticable) -> Bool {
-        guard request.requiredAuthLevel == .Installation else { return false }
-        guard let installationToken = tokenDAO.get(level: .Installation) else { return true }
+    func shouldRenewInstallationTokenForRequest(_ request: URLRequestAuthenticable) -> Bool {
+        guard request.requiredAuthLevel == .installation else { return false }
+        guard let installationToken = tokenDAO.get(level: .installation) else { return true }
         guard let installationTokenVersion = installationToken.version else { return true }
         return installationTokenVersion < 2
     }
@@ -209,8 +212,8 @@ private extension ApiClient {
      Indicates if the user token should be renewed. It should be renewed on these cases:
      - if we have a user token, the requires requires `.User` level and the token isn't migrated to v2
      */
-    func shouldRenewUserTokenForRequest(request: URLRequestAuthenticable) -> Bool {
-        guard let userToken = tokenDAO.get(level: .User) where request.requiredAuthLevel == .User else { return false }
+    func shouldRenewUserTokenForRequest(_ request: URLRequestAuthenticable) -> Bool {
+        guard let userToken = tokenDAO.get(level: .user), request.requiredAuthLevel == .user else { return false }
         return (userToken.version ?? 0) < 2
     }
 }
@@ -224,7 +227,7 @@ private extension ApiClient {
      - parameter response: The HTTP response.
      - returns: If token should be renewed.
      */
-    func shouldRenewToken<T>(response: Response<T, NSError>) -> Bool {
+    func shouldRenewToken<T>(_ response: DataResponse<T>) -> Bool {
         /**
          When we should renew the token when the response is:
 
@@ -235,26 +238,29 @@ private extension ApiClient {
 
          @see: https://tools.ietf.org/html/rfc6750
          */
-        guard let statusCode = response.response?.statusCode where statusCode == 401 else {
+        guard let statusCode = response.response?.statusCode, statusCode == 401 else {
             return false }
-        guard let wwwAuthenticate = response.response?.allHeaderFields["WWW-Authenticate"] as? String else {
+
+        // 👀 Stubs or alamofire somehow change WWW-Authenticate by Www-Authenticate magically...
+        let authenticateObject: Any? = (response.response?.allHeaderFields["WWW-Authenticate"] ?? response.response?.allHeaderFields["Www-Authenticate"])
+        guard let wwwAuthenticate = authenticateObject as? String else {
             return false
         }
-        return wwwAuthenticate.containsString("invalid_token")
+        return wwwAuthenticate.contains("invalid_token")
     }
 
     /**
      Handles an API error deleting the `Installation` if unauthorized or logging out the current user if scammer.
      - parameter error: The API error.
      */
-    private func handlePrivateApiErrorResponse<T>(error: ApiError, response: Response<T, NSError>) {
+    func handlePrivateApiErrorResponse<T>(_ error: ApiError, response: DataResponse<T>) {
         let currentLevel = tokenDAO.level
         switch error {
-        case .Scammer:
+        case .scammer:
             // If scammer then force logout
             sessionManager?.tearDownSession(kicked: true)
-        case .BadRequest, .Unauthorized, .NotFound, .Conflict, .InternalServerError, .UnprocessableEntity, .UserNotVerified, .Other, .Network,
-             .Internal, .NotModified, .Forbidden, .TooManyRequests:
+        case .badRequest, .unauthorized, .notFound, .conflict, .internalServerError, .unprocessableEntity, .userNotVerified, .other, .network,
+             .internalError, .notModified, .forbidden, .tooManyRequests:
             break
         }
 
@@ -277,11 +283,11 @@ private extension ApiClient {
                              or the required auth level is higher than required.
      - parameter notNeeded:  Completion closure executed when token renew is not needed.
      */
-    func renewInstallationTokenOrEnqueueRequest(succeeded: (() -> ())?, failed: ((ApiError) -> ())?,
+    func renewInstallationTokenOrEnqueueRequest(_ succeeded: (() -> ())?, failed: ((ApiError) -> ())?,
                                                 notNeeded: (() -> ())?) {
         if !renewingInstallation {
             renewingInstallation = true
-            installationQueue.suspended = true
+            installationQueue.isSuspended = true
 
             sessionManager?.authenticateInstallation { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -292,17 +298,17 @@ private extension ApiClient {
                     failed?(error)
                 }
                 strongSelf.renewingInstallation = false
-                strongSelf.installationQueue.suspended = false
+                strongSelf.installationQueue.isSuspended = false
             }
         } else {
-            installationQueue.addOperationWithBlock { [weak self] in
-                dispatch_async(dispatch_get_main_queue()) {
+            installationQueue.addOperation { [weak self] in
+                DispatchQueue.main.async {
                     guard let strongSelf = self else { return }
 
-                    if strongSelf.tokenDAO.level > .Nonexistent {
+                    if strongSelf.tokenDAO.level > .nonexistent {
                         succeeded?()
                     } else {
-                        failed?(.Unauthorized)
+                        failed?(.unauthorized)
                     }
                 }
             }
@@ -323,16 +329,16 @@ private extension ApiClient {
      - parameter decoder:    The decoder.
      - parameter completion: The completion closure.
      */
-    func renewUserTokenOrEnqueueRequest<T>(req: URLRequestAuthenticable, decoder: AnyObject -> T?,
+    func renewUserTokenOrEnqueueRequest<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
                                         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         if !renewingUser.value {
             renewingUser.value = true
-            userQueue.suspended = true
+            userQueue.isSuspended = true
 
             sessionManager?.renewUserToken { [weak self] result in
 
                 self?.renewingUser.value = false
-                self?.userQueue.suspended = false
+                self?.userQueue.isSuspended = false
 
                 if let error = result.error {
                     completion?(ResultResult<T, ApiError>.t(error: error))
@@ -342,10 +348,10 @@ private extension ApiClient {
             }
         } else {
             let tokenBeforeRenew = tokenDAO.token.value
-            userQueue.addOperationWithBlock { [weak self] in
-                dispatch_async(dispatch_get_main_queue()) {
+            userQueue.addOperation { [weak self] in
+                DispatchQueue.main.async {
                     guard self?.tokenDAO.token.value != tokenBeforeRenew else {
-                        completion?(ResultResult<T, ApiError>.t(error: .Unauthorized))
+                        completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
                         return
                     }
                     self?.request(req, decoder: decoder, completion: completion)
@@ -366,10 +372,10 @@ private extension ApiClient {
      - parameter response: The HTTP response.
      - returns: If token should be renewed.
      */
-    private func updateToken<T>(response: Response<T, NSError>) {
+    func updateToken<T>(_ response: DataResponse<T>) {
         guard let token = decodeToken(response) else { return }
-        if let sessionManager = sessionManager where token.level == .User && !sessionManager.loggedIn {
-            logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+        if let sessionManager = sessionManager, token.level == .user && !sessionManager.loggedIn {
+            logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
                         message: "Received user token and the user is not logged in")
             return
         }
@@ -381,8 +387,11 @@ private extension ApiClient {
      - parameter response: The request response.
      - returns: The token with value as `"Bearer <token>"`.
      */
-    func decodeToken<T>(response: Response<T, NSError>) -> Token? {
-        guard let authenticationInfo = response.response?.allHeaderFields["authentication-info"] as? String else {
+    func decodeToken<T>(_ response: DataResponse<T>) -> Token? {
+        // 👀 Stubs or alamofire somehow change authentication-info by Authentication-Info magically...
+        let authenticationData: Any? = (response.response?.allHeaderFields["authentication-info"] ??
+            response.response?.allHeaderFields["Authentication-Info"])
+        guard let authenticationInfo = authenticationData as? String else {
             return nil
         }
         return decodeAuthInfo(authenticationInfo)
@@ -393,11 +402,11 @@ private extension ApiClient {
      - parameter response: The request response.
      - returns: The token with value as `"Bearer <token>"`.
      */
-    func decodeRequestToken<T>(response: Response<T, NSError>) -> Token? {
-        guard let authenticationInfo = response.request?.allHTTPHeaderFields?["Authorization"] else {
+    func decodeRequestToken<T>(_ response: DataResponse<T>) -> Token? {
+        guard let authorization = response.request?.allHTTPHeaderFields?["Authorization"] else {
             return nil
         }
-        return decodeAuthInfo(authenticationInfo)
+        return decodeAuthInfo(authorization)
     }
 
     /**
@@ -405,19 +414,19 @@ private extension ApiClient {
      - parameter authInfo: The auth info.
      - returns: The token with value as `"Bearer <token>"`.
      */
-    func decodeAuthInfo(authInfo: String) -> Token? {
+    func decodeAuthInfo(_ authInfo: String) -> Token? {
         guard let token = authInfo.lastComponentSeparatedByCharacter(" ") else {
-            logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+            logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
                        message: "Invalid JWT with wrong format; authentication-info: \(authInfo)")
-            report(CoreReportNetworking.InvalidJWT(reason: .WrongFormat),
+            report(CoreReportNetworking.invalidJWT(reason: .wrongFormat),
                    message: "authentication-info: \(authInfo)")
             return nil
         }
         guard let authLevel = token.tokenAuthLevel else {
             if !token.isPasswordRecoveryToken {
-                logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+                logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
                            message: "Invalid JWT with unknown auth level; authentication-info: \(authInfo)")
-                report(CoreReportNetworking.InvalidJWT(reason: .UnknownAuthLevel),
+                report(CoreReportNetworking.invalidJWT(reason: .unknownAuthLevel),
                        message: "authentication-info: \(authInfo)")
             }
             return nil
@@ -434,7 +443,7 @@ private extension ApiClient {
 private extension Token {
     var version: Int? {
         guard let token = actualValue,
-            payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false) else { return nil }
+            let payload = try? JWT.decode(token, algorithm: .hs256(Data()), verify: false) else { return nil }
         let version = payload["btv"] as? Int
         return version
     }
@@ -443,10 +452,10 @@ private extension Token {
 
 // MARK: - Custom api error
 
-extension Response {
+extension DataResponse {
     var apiErrorCode: Int? {
-        guard let data = self.data where data.length > 0 else { return nil }
-        guard let value = try? NSJSONSerialization.JSONObjectWithData(data, options: []) else { return nil }
+        guard let data = self.data, data.count > 0 else { return nil }
+        guard let value = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
         let code: LGApiErrorCode? = decode(value)
         guard let codeString = code?.code else { return nil }
         return Int(codeString)
