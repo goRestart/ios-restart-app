@@ -282,7 +282,7 @@ class ProductViewModel: BaseViewModel {
 
         if product.value.isMine && featureFlags.monetizationEnabled {
             guard let productId = product.value.objectId else { return }
-            monetizationRepository.retrieveBumpeableProductInfo(productId) { [weak self] result in
+            monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
                 if let bumpeableProduct = result.value {
                     if bumpeableProduct.isBumpeable && bumpeableProduct.bumpsLeft > 0 {
                         // product is bumpeable
@@ -294,7 +294,7 @@ class ProductViewModel: BaseViewModel {
                         }
                     }
                 }
-            }
+            })
         }
     }
     
