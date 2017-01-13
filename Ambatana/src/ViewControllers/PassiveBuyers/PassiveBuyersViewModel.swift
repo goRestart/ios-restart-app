@@ -34,7 +34,7 @@ class PassiveBuyersViewModel: BaseViewModel {
 
     // MARK: - Public info
 
-    var productImage: NSURL? {
+    var productImage: URL? {
         return passiveBuyers.productImage?.fileURL
     }
 
@@ -42,11 +42,11 @@ class PassiveBuyersViewModel: BaseViewModel {
         return passiveBuyers.passiveBuyers.count
     }
 
-    func buyerImageAtIndex(index: Int) -> NSURL? {
+    func buyerImageAtIndex(_ index: Int) -> URL? {
         return buyerAtIndex(index)?.avatar?.fileURL
     }
 
-    func buyerNameAtIndex(index: Int) -> String? {
+    func buyerNameAtIndex(_ index: Int) -> String? {
         return buyerAtIndex(index)?.name
     }
 
@@ -73,7 +73,7 @@ class PassiveBuyersViewModel: BaseViewModel {
 
     // MARK: - Private
 
-    func buyerAtIndex(index: Int) -> PassiveBuyersUser? {
+    func buyerAtIndex(_ index: Int) -> PassiveBuyersUser? {
         guard 0..<passiveBuyers.passiveBuyers.count ~= index else { return nil }
         return passiveBuyers.passiveBuyers[index]
     }

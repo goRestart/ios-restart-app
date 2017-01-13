@@ -12,7 +12,7 @@ import LGCoreKit
 extension ChatProduct {
 
     var title: String? {
-        if let name = name?.trim where !name.isEmpty {
+        if let name = name?.trim, !name.isEmpty {
             return name.capitalizedFirstLetterOnly
         }
         return nil

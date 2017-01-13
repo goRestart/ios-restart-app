@@ -10,19 +10,19 @@ import LGCoreKit
 import AppsFlyerLib
 
 
-private extension TrackerEvent {
+fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .AppRatingRate, .AppRatingSuggest, .AppRatingDontAsk,
-                 .AppInviteFriendComplete, .AppInviteFriendDontAsk, .AppInviteFriendCancel,
-                 .UserMessageSent,
-                 .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail,
-                 .SearchComplete, .FilterComplete,
-                 .FirstMessage, .ProductOpenChat, .ProductFavorite, .ProductShareComplete,
-                 .ProductMarkAsSold, .ProductDetailVisit,
-                 .ProductSellComplete, .ProductSellStart,
-                 .ProfileVisit, .NPSStart, .NPSComplete:
+            case .appRatingRate, .appRatingSuggest, .appRatingDontAsk,
+                 .appInviteFriendComplete, .appInviteFriendDontAsk, .appInviteFriendCancel,
+                 .userMessageSent,
+                 .loginEmail, .loginFB, .loginGoogle, .signupEmail,
+                 .searchComplete, .filterComplete,
+                 .firstMessage, .productOpenChat, .productFavorite, .productShareComplete,
+                 .productMarkAsSold, .productDetailVisit,
+                 .productSellComplete, .productSellStart,
+                 .profileVisit, .npsStart, .npsComplete:
                 return true
             default:
                 return false
@@ -59,8 +59,8 @@ final class LeanplumTracker: Tracker {
 
     // MARK: - Tracker
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        if let deviceId = AppsFlyerTracker.sharedTracker().getAppsFlyerUID() {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+        if let deviceId = AppsFlyerTracker.shared().getAppsFlyerUID() {
             Leanplum.setDeviceId(deviceId)
         }
         Leanplum.onVariablesChanged {
@@ -69,31 +69,31 @@ final class LeanplumTracker: Tracker {
         Leanplum.start()
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
 
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
 
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
 
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
 
     }
 
-    func setInstallation(installation: Installation?) {
+    func setInstallation(_ installation: Installation?) {
         guard let installationId = installation?.objectId else { return }
         Leanplum.setUserAttributes([LeanplumTracker.userPropInstallationIdKey : installationId])
     }
 
-    func setUser(user: MyUser?) {
+    func setUser(_ user: MyUser?) {
         Leanplum.setUserId(user?.objectId)
 
-        var userAttributes: [NSObject : AnyObject] = [:]
+        var userAttributes: [AnyHashable: Any] = [:]
         userAttributes[LeanplumTracker.userPropIdKey] = user?.objectId
         userAttributes[LeanplumTracker.userPropTypeKey] = (user?.isDummy ?? false) ?
             LeanplumTracker.userPropTypeValueReal : LeanplumTracker.userPropTypeValueDummy
@@ -105,27 +105,27 @@ final class LeanplumTracker: Tracker {
         Leanplum.setUserAttributes(userAttributes)
     }
 
-    func trackEvent(event: TrackerEvent) {
+    func trackEvent(_ event: TrackerEvent) {
         guard event.shouldTrack else { return }
         Leanplum.track(event.actualName, withParameters: event.params?.stringKeyParams)
     }
 
-    func setLocation(location: LGLocation?) {
-        var userAttributes: [NSObject : AnyObject] = [:]
+    func setLocation(_ location: LGLocation?) {
+        var userAttributes: [AnyHashable: Any] = [:]
         userAttributes[LeanplumTracker.userPropLatitudeKey] = location?.coordinate.latitude
         userAttributes[LeanplumTracker.userPropLongitudeKey] = location?.coordinate.longitude
         Leanplum.setUserAttributes(userAttributes)
     }
 
-    func setNotificationsPermission(enabled: Bool) {
+    func setNotificationsPermission(_ enabled: Bool) {
         Leanplum.setUserAttributes([LeanplumTracker.userPropPushEnabled : enabled ? "true" : "false"])
     }
     
-    func setGPSPermission(enabled: Bool) {
+    func setGPSPermission(_ enabled: Bool) {
         Leanplum.setUserAttributes([LeanplumTracker.userPropGpsEnabled : enabled ? "true" : "false"])
     }
 
-    func setMarketingNotifications(enabled: Bool) {
+    func setMarketingNotifications(_ enabled: Bool) {
         Leanplum.setUserAttributes([LeanplumTracker.userPropMktNotificationsEnabled : enabled])
     }
 }

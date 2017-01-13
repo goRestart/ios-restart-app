@@ -61,7 +61,7 @@ struct LGUIKitConstants {
 
     // MARK: - Sizes
     static var onePixelSize: CGFloat {
-        return 1 / UIScreen.mainScreen().scale
+        return 1 / UIScreen.main.scale
     }
     static let enabledButtonHeight: CGFloat = 44
 

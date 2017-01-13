@@ -22,7 +22,7 @@ extension UITextView {
         return height
     }
 
-    func appropriateHeight(maxLines: UInt) -> CGFloat {
+    func appropriateHeight(_ maxLines: UInt) -> CGFloat {
         var height: CGFloat = 0
         let minimumHeight = self.minimumHeight
         let numberOfLines = self.numberOfLines
@@ -55,7 +55,7 @@ extension UITextView {
         return UInt(lines)
     }
 
-    func scrollToCaret(animated animated: Bool) {
+    func scrollToCaret(animated: Bool) {
         if animated {
             scrollRangeToVisible(selectedRange)
         } else {
@@ -66,7 +66,7 @@ extension UITextView {
         }
     }
 
-    private func heightForLines(lines: UInt) -> CGFloat {
+    private func heightForLines(_ lines: UInt) -> CGFloat {
         var height = self.textContainerInset.top + self.textContainerInset.bottom
         height += CGFloat(roundf(Float(lineHeight)*Float(lines)))
         return height

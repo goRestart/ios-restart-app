@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 public struct LGCommercializerProduct: CommercializerProduct {
     public let objectId: String?
@@ -16,7 +17,7 @@ public struct LGCommercializerProduct: CommercializerProduct {
 }
 
 extension LGCommercializerProduct: Decodable {
-    public static func decode(j: JSON) -> Decoded<LGCommercializerProduct> {
+    public static func decode(_ j: JSON) -> Decoded<LGCommercializerProduct> {
         
         let init1 = curry(LGCommercializerProduct.init)
             <^> j <|? "id"

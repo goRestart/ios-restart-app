@@ -24,7 +24,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.0.0"), previousVersion: nil)
                 }
                 it("registers a new install version change") {
-                    expect(sut.versionChange) == VersionChange.NewInstall
+                    expect(sut.versionChange) == VersionChange.newInstall
                 }
             }
             context("major update") {
@@ -32,7 +32,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "2.1.1"), previousVersion: "1.1.1")
                 }
                 it("registers a major version change") {
-                    expect(sut.versionChange) == VersionChange.Major
+                    expect(sut.versionChange) == VersionChange.major
                 }
             }
 
@@ -41,7 +41,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.2.1"), previousVersion: "1.1.1")
                 }
                 it("registers a minor version change") {
-                    expect(sut.versionChange) == VersionChange.Minor
+                    expect(sut.versionChange) == VersionChange.minor
                 }
             }
 
@@ -50,7 +50,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.1.2"), previousVersion: "1.1.1")
                 }
                 it("registers a patch version change") {
-                    expect(sut.versionChange) == VersionChange.Patch
+                    expect(sut.versionChange) == VersionChange.patch
                 }
             }
 
@@ -59,7 +59,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.1.1"), previousVersion: "1.1.1")
                 }
                 it("registers no version change") {
-                    expect(sut.versionChange) == VersionChange.None
+                    expect(sut.versionChange) == VersionChange.none
                 }
             }
 
@@ -68,7 +68,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.1"), previousVersion: "1.1.0")
                 }
                 it("registers no version change") {
-                    expect(sut.versionChange) == VersionChange.None
+                    expect(sut.versionChange) == VersionChange.none
                 }
             }
 
@@ -77,7 +77,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.2"), previousVersion: "1.1.0")
                 }
                 it("registers a minor version change") {
-                    expect(sut.versionChange) == VersionChange.Minor
+                    expect(sut.versionChange) == VersionChange.minor
                 }
             }
 
@@ -86,7 +86,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.1.1"), previousVersion: "1.1")
                 }
                 it("has registered a patch version change") {
-                    expect(sut.versionChange) == VersionChange.Patch
+                    expect(sut.versionChange) == VersionChange.patch
                 }
             }
 
@@ -96,7 +96,7 @@ class VersionCheckerSpec: QuickSpec {
                         previousVersion: "1.1.1.1.1")
                 }
                 it("has registered a patch version change") {
-                    expect(sut.versionChange) == VersionChange.Patch
+                    expect(sut.versionChange) == VersionChange.patch
                 }
             }
 
@@ -105,7 +105,7 @@ class VersionCheckerSpec: QuickSpec {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.1.1"), previousVersion: "1.1.2")
                 }
                 it("registers no version change") {
-                    expect(sut.versionChange) == VersionChange.None
+                    expect(sut.versionChange) == VersionChange.none
                 }
             }
         }

@@ -9,38 +9,38 @@
 
 class CustomTouchesTableView: UITableView {
 
-    var isCellHiddenBlock: (UITableViewCell -> Bool)?
+    var isCellHiddenBlock: ((UITableViewCell) -> Bool)?
     private var touchesEnded: Bool = false
-    var didSelectRowAtIndexPath: (NSIndexPath -> ())?
+    var didSelectRowAtIndexPath: ((IndexPath) -> ())?
     
-    private var pressedIndexPath: NSIndexPath?
-    private var lastPressedTimestamp = NSDate()
+    private var pressedIndexPath: IndexPath?
+    private var lastPressedTimestamp = Date()
     private let maxTimeInTouchDetection: Double = 300
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard let isCellHiddenBlock = isCellHiddenBlock else {
-            return super.hitTest(point, withEvent: event)
+            return super.hitTest(point, with: event)
         }
         
         let actualVisibleCells = visibleCells.filter { !isCellHiddenBlock($0) }
         for cell in actualVisibleCells {
-            let convertedPoint = cell.convertPoint(point, fromView: self)
-            let insideCell = cell.pointInside(convertedPoint, withEvent: event)
+            let convertedPoint = cell.convert(point, from: self)
+            let insideCell = cell.point(inside: convertedPoint, with: event)
             if insideCell {
-                pressedIndexPath = indexPathForCell(cell)
+                pressedIndexPath = indexPath(for: cell)
                 return cell
             }
         }
         return nil
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         guard let indexPath = pressedIndexPath else { return }
         guard lastPressedTimestamp.timeIntervalSinceNow < maxTimeInTouchDetection else { return }
         
         pressedIndexPath = nil
         didSelectRowAtIndexPath?(indexPath)
-        lastPressedTimestamp = NSDate()
+        lastPressedTimestamp = Date()
     }
 }

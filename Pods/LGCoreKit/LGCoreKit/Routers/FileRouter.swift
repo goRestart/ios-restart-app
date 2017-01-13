@@ -11,20 +11,20 @@ import Alamofire
 
 enum FileRouter: URLRequestAuthenticable {
 
-    case Upload
+    case upload
 
     static let endpoint = "/api/products/image"
 
     var requiredAuthLevel: AuthLevel {
-        return .User
+        return .user
     }
     
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case .Upload:
-            return Router<APIBaseURL>.Create(endpoint: FileRouter.endpoint, params: [:], encoding: nil).URLRequest
+        case .upload:
+            return try Router<APIBaseURL>.create(endpoint: FileRouter.endpoint, params: [:], encoding: nil).asURLRequest()
         }
     }
 }

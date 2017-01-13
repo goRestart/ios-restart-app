@@ -11,12 +11,12 @@ import UIKit
 import LGCoreKit
 
 enum CellStyle {
-    case Small, Big
+    case small, big
 }
 
 class GridDrawerManager {
 
-    var cellStyle: CellStyle = .Small
+    var cellStyle: CellStyle = .small
     var freePostingAllowed: Bool = true
     
     private let productDrawer = ProductCellDrawer()
@@ -29,27 +29,27 @@ class GridDrawerManager {
         EmptyCellDrawer.registerCell(collectionView)
     }
     
-    func cell(model: ProductCellModel, collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell {
+    func cell(_ model: ProductCellModel, collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
         switch model {
-        case .ProductCell:
+        case .productCell:
             return productDrawer.cell(collectionView, atIndexPath: atIndexPath)
-        case .CollectionCell:
+        case .collectionCell:
             return collectionDrawer.cell(collectionView, atIndexPath: atIndexPath)
-        case .EmptyCell:
+        case .emptyCell:
             return emptyCellDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
     
-    func draw(model: ProductCellModel, inCell cell: UICollectionViewCell) {
+    func draw(_ model: ProductCellModel, inCell cell: UICollectionViewCell) {
         switch model {
-        case .ProductCell(let product) where cell is ProductCell:
+        case .productCell(let product) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
             let data = ProductData(productID: product.objectId, thumbUrl: product.thumbnail?.fileURL, isFree: product.price.free && freePostingAllowed)
             return productDrawer.draw(data, style: cellStyle, inCell: cell)
-        case .CollectionCell(let style) where cell is CollectionCell:
+        case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }
             return collectionDrawer.draw(style, style: cellStyle, inCell: cell)
-        case .EmptyCell(let vm):
+        case .emptyCell(let vm):
             guard let cell = cell as? EmptyCell else { return }
             return emptyCellDrawer.draw(vm, style: cellStyle, inCell: cell)
         default:

@@ -31,33 +31,33 @@ enum WebSocketRequestType: String {
     case Ping                   = "ping"
     
     enum RequestSuperType {
-        case Command
-        case Event
-        case Query
+        case command
+        case event
+        case query
     }
     
     var superType: RequestSuperType {
         switch self {
         case .Authenticate, .SendMessage, .ConfirmReception, .ConfirmRead, .ArchiveConversations,
         .UnarchiveConversations:
-            return .Command
+            return .command
         case .TypingStarted, .TypingStopped:
-            return .Event
+            return .event
         case .FetchConversations, .ConversationDetails, .FetchConversationID, .FetchMessages, .FetchMessagesNewerThan,
-        .FetchMessagesOlderThan, Ping:
-            return .Query
+        .FetchMessagesOlderThan, .Ping:
+            return .query
         }
     }
 }
 
 struct WebSocketRouter {
-    static func requestWith(id: String, type: WebSocketRequestType, data: [String : AnyObject]?) -> String {
-        var dict: [String : AnyObject] = [:]
+    static func requestWith(_ id: String, type: WebSocketRequestType, data: [String : Any]?) -> String {
+        var dict: [String : Any] = [:]
         dict["id"] = id
         dict["type"] = type.rawValue
         dict["data"] = data
-        guard let JSONData = try? NSJSONSerialization.dataWithJSONObject(dict, options: [.PrettyPrinted]),
-            let JSONText = NSString(data: JSONData, encoding: NSUTF8StringEncoding)
+        guard let JSONData = try? JSONSerialization.data(withJSONObject: dict, options: [.prettyPrinted]),
+            let JSONText = String(data: JSONData, encoding: .utf8)
             else { return "" }
         return String(JSONText)
     }

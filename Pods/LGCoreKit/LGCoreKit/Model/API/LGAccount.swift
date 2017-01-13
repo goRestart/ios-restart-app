@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGAccount: Account {
     let provider: AccountProvider
@@ -23,7 +24,7 @@ extension LGAccount : Decodable {
         "verified": true
      }
      */
-    static func decode(j: JSON) -> Decoded<LGAccount> {
+    static func decode(_ j: JSON) -> Decoded<LGAccount> {
         return curry(LGAccount.init)
             <^> j <| "type"
             <*> j <| "verified"

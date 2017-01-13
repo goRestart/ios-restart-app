@@ -27,18 +27,18 @@ class DeviceLocationUDDAO: DeviceLocationDAO {
     }
     
     // iVars
-    let userDefaults: NSUserDefaults
+    let userDefaults: UserDefaults
     private(set) var deviceLocation: DeviceLocation?
     private(set) var locationStatus: CLAuthorizationStatus?
     
     // MARK: - Lifecycle
     
     convenience init() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         self.init(userDefaults: userDefaults)
     }
     
-    init(userDefaults: NSUserDefaults) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
         self.deviceLocation = fetch()
         self.locationStatus = fetchStatus()
@@ -47,14 +47,14 @@ class DeviceLocationUDDAO: DeviceLocationDAO {
     
     // MARK: - DeviceLocationDAO
     
-    func save(newDeviceLocation: DeviceLocation) {
+    func save(_ newDeviceLocation: DeviceLocation) {
         deviceLocation = newDeviceLocation
         
-        let dict: [String: AnyObject] = newDeviceLocation.encode()
+        let dict: [String: Any] = newDeviceLocation.encode()
         userDefaults.setValue(dict, forKey: DeviceLocationUDDAO.DeviceLocationMainKey)
     }
     
-    func save(locationStatus: CLAuthorizationStatus) {
+    func save(_ locationStatus: CLAuthorizationStatus) {
         self.locationStatus = locationStatus
         userDefaults.setValue(Int(locationStatus.rawValue), forKey: DeviceLocationUDDAO.DeviceLocationStatusKey)
     }
@@ -63,12 +63,12 @@ class DeviceLocationUDDAO: DeviceLocationDAO {
     // MARK: - Private methods
     
     private func fetch() -> DeviceLocation? {
-        guard let dict = userDefaults.dictionaryForKey(DeviceLocationUDDAO.DeviceLocationMainKey) else { return nil }
+        guard let dict = userDefaults.dictionary(forKey: DeviceLocationUDDAO.DeviceLocationMainKey) else { return nil }
         return LGDeviceLocation.decode(dict)
     }
     
     private func fetchStatus() -> CLAuthorizationStatus? {
-        guard let status = userDefaults.valueForKey(DeviceLocationUDDAO.DeviceLocationStatusKey) as? Int else { return nil }
+        guard let status = userDefaults.value(forKey: DeviceLocationUDDAO.DeviceLocationStatusKey) as? Int else { return nil }
         return CLAuthorizationStatus(rawValue: Int32(status))
     }
 }

@@ -57,14 +57,14 @@
 "change_password_send_error_invalid_password_with_max" = "Inserisci una password valida. Deve contenere tra i %d e i %d caratteri.";
 "change_password_send_error_link_expired" = "Spiacenti, questo link è scaduto!";
 "change_password_send_error_passwords_mismatch" = "Le password non corrispondono. Riprova.";
-"change_password_send_ok" = "Password modificata con successo.";
+"change_password_send_ok" = "Password modificata!";
 "change_password_title" = "Cambia password";
 "change_username_error_invalid_username" = "Inserisci un nome valido, deve contenere almeno %d caratteri.";
 "change_username_error_invalid_username_letgo" = "Un altro account sta già utilizzando %@";
 "change_username_field_hint" = "Nome e Cognome";
 "change_username_loading" = "Salvataggio nome utente...";
 "change_username_save_button" = "Salva";
-"change_username_send_ok" = "Nome utente cambiato con successo!";
+"change_username_send_ok" = "Nome utente modificato!";
 "change_username_title" = "Cambia Nome";
 "chat_account_deleted_w_name" = "L'account di %@ è stato eliminato";
 "chat_account_deleted_wo_name" = "Questo account è stato eliminato";
@@ -423,7 +423,7 @@
 "product_delete_post_button_title" = "Pubblica un altro oggetto";
 "product_delete_post_subtitle" = "Prova a pubblicare qualcos'altro e inizia a guadagnare denaro.";
 "product_delete_post_title" = "POCA FORTUNA QUESTA VOLTA?";
-"product_delete_send_error_generic" = "Ops! Non siamo riusciti ad eliminare il tuo prodotto. Ti preghiamo di riprovare.";
+"product_delete_send_error_generic" = "Ops! Si è verificato un errore durante l'eliminazione del tuo prodotto. Riprova più tardi.";
 "product_delete_sold_confirm_message" = "Sei sicuro di voler eliminare questo prodotto?";
 "product_delete_success_message" = "Il tuo prodotto è stato eliminato con successo.";
 "product_distance_X_from_you" = "%@ da te";
@@ -450,7 +450,7 @@
 "product_mark_as_sold_free_confirm_message" = "Segna il tuo prodotto come già regalato";
 "product_mark_as_sold_free_confirm_ok_button" = "Contrassegna";
 "product_mark_as_sold_free_confirm_title" = "Segna come già regalato";
-"product_mark_as_sold_free_success_message" = "Congratulazioni! Il tuo prodotto è stato correttamente contrassegnato come regalato";
+"product_mark_as_sold_free_success_message" = "Congratulazioni! Il tuo prodotto è stato correttamente contrassegnato come regalato.";
 "product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato correttamente contrassegnato come venduto.";
 "product_more_info_open_button" = "ALTRE INFO";
 "product_more_info_related_title" = "POTRESTI ESSERE INTERESSATO A:";
@@ -651,7 +651,7 @@
 "sell_picture_label" = "Foto";
 "sell_picture_save_into_camera_roll_error_generic" = "Si è verificato un errore durante il salvataggio dell'immagine nella libreria fotografica. Per favore, assicurati che letgo sia autorizzato ad accedere alle tue foto, nelle Impostazioni delle Applicazioni.";
 "sell_picture_save_into_camera_roll_loading" = "Salvataggio immagine nella libreria fotografica...";
-"sell_picture_save_into_camera_roll_ok" = "Immagine salvata con successo nella libreria fotografica.";
+"sell_picture_save_into_camera_roll_ok" = "Immagine salvata nella libreria fotografica.";
 "sell_picture_selected_cancel_button" = "Annulla";
 "sell_picture_selected_delete_button" = "Elimina";
 "sell_picture_selected_save_into_camera_roll_button" = "Salva su disco";
@@ -664,7 +664,7 @@
 "sell_send_error_invalid_image_count" = "È necessaria almeno una foto per la vendita di un prodotto.";
 "sell_send_error_invalid_price" = "Inserisci un prezzo valido per il prodotto. Deve essere soltanto un numero.";
 "sell_send_error_invalid_title" = "Inserisci un titolo valido per il prodotto.";
-"sell_send_error_sharing_facebook" = "Si è verificato un errore durante la condivisione su Facebook, riprova più tardi.";
+"sell_send_error_sharing_facebook" = "Si è verificato un errore durante la condivisione su Facebook. Riprova più tardi.";
 "sell_share_fb_content" = "Guarda cosa sto vendendo su letgo!";
 "sell_share_on_facebook_label" = "Condividi su Facebook";
 "sell_title_autogen_autotrans_label" = "Titolo suggerito da letgo e tradotto da Google";

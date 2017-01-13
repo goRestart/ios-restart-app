@@ -8,9 +8,9 @@
 
 
 public enum CommercializerStatus: Int {
-    case Unavailable = 0
-    case Processing
-    case Ready
+    case unavailable = 0
+    case processing
+    case ready
 }
 
 public protocol Commercializer: BaseModel {
@@ -23,6 +23,6 @@ public protocol Commercializer: BaseModel {
     var templateId: String? { get }
     var title: String? { get }
     var duration: Int? { get }
-    var updatedAt : NSDate? { get }
-    var createdAt : NSDate? { get }
+    var updatedAt : Date? { get }
+    var createdAt : Date? { get }
 }

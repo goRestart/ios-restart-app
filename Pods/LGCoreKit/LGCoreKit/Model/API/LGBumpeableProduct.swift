@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 public struct LGBumpeableProduct : BumpeableProduct {
     public let isBumpeable: Bool
@@ -40,7 +41,7 @@ extension LGBumpeableProduct: Decodable {
      }
 
      */
-    public static func decode(j: JSON) -> Decoded<LGBumpeableProduct> {
+    public static func decode(_ j: JSON) -> Decoded<LGBumpeableProduct> {
 
         let result = curry(LGBumpeableProduct.init)
             <^> j <| "is_bumpeable"
@@ -50,7 +51,7 @@ extension LGBumpeableProduct: Decodable {
             <*> j <|| "payment_items"
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGBumpeableProduct parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGBumpeableProduct parse error: \(error)")
         }
         return result
     }

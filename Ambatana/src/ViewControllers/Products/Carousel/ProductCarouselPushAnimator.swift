@@ -37,17 +37,17 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         self.init(originFrame: nil, originThumbnail: nil)
     }
 
-    required init(originFrame: CGRect?, originThumbnail: UIImage?, backgroundColor: UIColor = UIColor.blackColor()) {
+    required init(originFrame: CGRect?, originThumbnail: UIImage?, backgroundColor: UIColor = UIColor.black) {
         self.originFrame = originFrame
         self.originThumbnail = originThumbnail
         self.backgroundColor = backgroundColor
     }
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return animationDuration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         if let originFrame = originFrame {
             if pushing {
                 pushFrameAnimation(transitionContext, originFrame: originFrame)
@@ -59,20 +59,20 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         }
     }
     
-    private func pushFrameAnimation(transitionContext: UIViewControllerContextTransitioning, originFrame: CGRect) {
-        guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+    private func pushFrameAnimation(_ transitionContext: UIViewControllerContextTransitioning, originFrame: CGRect) {
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else { return }
-        guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+        guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else { return }
 
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView
 
         if fromViewController.containsTabBar() {
             fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
         }
 
-        let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
-        let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
+        let fromView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.from) ?? fromViewController.view
+        let toView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.to) ?? toViewController.view
         fromViewSnapshot = fromView.takeSnapshot()
         toView.frame = fromView.frame
         toViewValidatedFrame = true
@@ -86,9 +86,9 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         backgroundColorView.backgroundColor = backgroundColor
     
         let backgroundImage = UIImageView(image: originThumbnail)
-        backgroundImage.contentMode = .ScaleAspectFill
+        backgroundImage.contentMode = .scaleAspectFill
         
-        let effect = UIBlurEffect(style: .Light)
+        let effect = UIBlurEffect(style: .light)
         let effectsView = UIVisualEffectView(effect: effect)
         let effectViewContainer = UIView(frame: CGRect.zero)
         effectViewContainer.alpha = 0
@@ -100,7 +100,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         containerView.addSubview(effectViewContainer)
         containerView.addSubview(snapshot)
         containerView.addSubview(toView)
-        snapshot.contentMode = .ScaleAspectFill
+        snapshot.contentMode = .scaleAspectFill
         snapshot.clipsToBounds = true
         snapshot.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
@@ -118,19 +118,19 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         let aspectRatio = originFrame.width / originFrame.height
         
         if aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio {
-            scale = UIScreen.mainScreen().bounds.width / originFrame.width
+            scale = UIScreen.main.bounds.width / originFrame.width
         } else {
-            scale = UIScreen.mainScreen().bounds.height / originFrame.height
+            scale = UIScreen.main.bounds.height / originFrame.height
         }
         
-        UIView.animateWithDuration(animationDuration, animations: {
-            snapshot.transform = CGAffineTransformMakeScale(scale, scale)
+        UIView.animate(withDuration: animationDuration, animations: {
+            snapshot.transform = CGAffineTransform(scaleX: scale, y: scale)
             snapshot.center = toView.center
             effectViewContainer.alpha = 1.0
             
             },completion:{finished in
                 guard finished else { return }
-                UIView.animateWithDuration(0.3, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     toView.alpha = 1
                     }, completion: { [weak self] _ in
                         fromView.removeFromSuperview()
@@ -144,15 +144,15 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         })
     }
 
-    private func popFrameAnimation(transitionContext: UIViewControllerContextTransitioning, destinationFrame: CGRect) {
-        guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+    private func popFrameAnimation(_ transitionContext: UIViewControllerContextTransitioning, destinationFrame: CGRect) {
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else { return }
-        guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+        guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else { return }
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView
 
-        let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
-        let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
+        let fromView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.from) ?? fromViewController.view
+        let toView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.to) ?? toViewController.view
 
         let originImage = UIImageView(image: fromView.takeSnapshot())
         originImage.frame = fromView.frame
@@ -162,8 +162,8 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         let scaleWidth = destinationFrame.width / originImage.width
         let scaleHeight = destinationFrame.height / originImage.height
 
-        UIView.animateWithDuration(animationDuration, delay: 0, options: [.CurveEaseIn], animations: {
-            originImage.transform = CGAffineTransformMakeScale(scaleWidth, scaleHeight)
+        UIView.animate(withDuration: animationDuration, delay: 0, options: [.curveEaseIn], animations: {
+            originImage.transform = CGAffineTransform(scaleX: scaleWidth, y: scaleHeight)
             originImage.center = destinationFrame.center
             originImage.alpha = 0.0
             },completion:{ [weak self] finished in
@@ -177,15 +177,15 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         })
     }
 
-    private func fadeAnimation(transitionContext: UIViewControllerContextTransitioning, pushing: Bool) {
-        guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+    private func fadeAnimation(_ transitionContext: UIViewControllerContextTransitioning, pushing: Bool) {
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else { return }
-        guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+        guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else { return }
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView
 
-        let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
-        let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
+        let fromView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.from) ?? fromViewController.view
+        let toView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.to) ?? toViewController.view
 
         fromViewSnapshot = fromView.takeSnapshot()
 
@@ -204,7 +204,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             containerView.addSubview(fromView)
         }
 
-        UIView.animateWithDuration(animationDuration, animations: {
+        UIView.animate(withDuration: animationDuration, animations: {
             if pushing {
                 toView.alpha = 1
             } else {

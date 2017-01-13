@@ -9,5 +9,5 @@
 import LGCoreKit
 
 protocol NotificationCellDrawer: TableCellDrawer {
-    func draw(tableViewCell: UITableViewCell, data: NotificationData)
+    func draw(_ tableViewCell: UITableViewCell, data: NotificationData)
 }

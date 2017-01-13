@@ -40,10 +40,10 @@ protocol AppEnvironment {
 }
 
 extension AppEnvironment {
-    func websiteUrl(endpoint: String) -> String {
+    func websiteUrl(_ endpoint: String) -> String {
         return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
     }
-    func localizedWebsiteUrl(country: String, language: String, endpoint: String? = nil) -> String {
+    func localizedWebsiteUrl(_ country: String, language: String, endpoint: String? = nil) -> String {
         let format: String
         if let endpoint = endpoint {
             format = "\(websiteBaseUrlWithLocaleParams)\(endpoint)"

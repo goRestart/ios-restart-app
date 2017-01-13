@@ -11,12 +11,12 @@ import LGCoreKit
 extension AccountProvider {
     var accountNetwork: EventParameterAccountNetwork {
         switch self {
-        case .Facebook:
-            return .Facebook
-        case .Google:
-            return .Google
-        case .Email:
-            return .Email
+        case .facebook:
+            return .facebook
+        case .google:
+            return .google
+        case .email:
+            return .email
         }
     }
 }

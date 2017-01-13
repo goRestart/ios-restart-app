@@ -28,7 +28,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
     // Public methods
 
     func retrieveBumpeableProductInfo(productId: String, completion: MonetizationDataSourceBumpeableProductCompletion?) {
-        let request = MonetizationRouter.ShowBumpeable(productId: productId,
+        let request = MonetizationRouter.showBumpeable(productId: productId,
                                                        params: [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue])
         apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableProduct, completion: completion)
     }
@@ -36,7 +36,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
     // Private methods
 
-    private static func decoderBumpeableProduct(object: AnyObject) -> BumpeableProduct? {
+    private static func decoderBumpeableProduct(object: Any) -> BumpeableProduct? {
         let bumpeableProduct: LGBumpeableProduct? = decode(object)
         return bumpeableProduct
     }

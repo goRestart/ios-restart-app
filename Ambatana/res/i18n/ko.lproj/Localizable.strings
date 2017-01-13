@@ -12,7 +12,7 @@
 "app_share_subject_text" = "letgo에서 구매완료하기";
 "app_share_subtitle" = "친구들에게 렛고를 공유하고 저희 커뮤니티를 성장시켜보세요!";
 "app_share_subtitle_alternative" = "친구들에게 letgo를 공유하고 저희 커뮤니티를 발전시키는데 도움을 주세요!";
-"app_share_success" = "앱을 성공적으로 공유하였습니다!";
+"app_share_success" = "앱이 공유되었습니다!";
 "app_share_title" = "친구 초대하기";
 "app_share_title_alternative" = "사랑을 공유하세요";
 "app_share_whatsapp_button" = "Whatsapp으로 초대하기";
@@ -57,14 +57,14 @@
 "change_password_send_error_invalid_password_with_max" = "사용가능한 %d자 이상 %d자 미만의 비밀번호를 입력해주세요.";
 "change_password_send_error_link_expired" = "죄송하지만 이 링크는 만료되었습니다!";
 "change_password_send_error_passwords_mismatch" = "비밀번호가 일치하지 않습니다. 다시 시도해주세요.";
-"change_password_send_ok" = "비밀번호가 성공적으로 변경되었습니다.";
+"change_password_send_ok" = "비밀번호가 변경되었습니다!";
 "change_password_title" = "비밀번호 변경";
 "change_username_error_invalid_username" = "%d자 이상 등록 가능한 이름을 입력해 주세요.";
 "change_username_error_invalid_username_letgo" = "%@에 다른 계정이 사용 중입니다";
 "change_username_field_hint" = "전체 이름";
 "change_username_loading" = "유저명을 저장하고 있습니다...";
 "change_username_save_button" = "저장";
-"change_username_send_ok" = "유저명이 성공적으로 변경되었습니다!";
+"change_username_send_ok" = "사용자명이 변경되었습니다!";
 "change_username_title" = "이름 변경";
 "chat_account_deleted_w_name" = "%@의 계정은 삭제되었습니다";
 "chat_account_deleted_wo_name" = "이 계정은 삭제되었습니다";
@@ -131,7 +131,7 @@
 "chat_login_popup_text" = "채팅을 시작하기 위해서, 사용자께서는 반드시 로그인 하셔야합니다";
 "chat_message_disclaimer_scammer" = "휴대전화 정보/이메일 정보를 교환할 때는 조심하여 주십시오. 사기를 계획하는 사용자가 letgo 채팅으로 물어볼 수도 있습니다. 이 경우 저희에게 알려주세요!여기를 눌러 저희 %@를 확인하세요";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
-"chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.  ";
 "chat_not_verified_alert_message" = "본인인증을 하기 위해 페이스북, 구글 혹은 이메일로 연결하세요.";
 "chat_not_verified_state_check_button" = "확인";
 "chat_not_verified_state_message" = "채팅을 시작하기 위해서 인증하셨는지 확인해주세요.";
@@ -423,9 +423,9 @@
 "product_delete_post_button_title" = "다른 상품 게시하기";
 "product_delete_post_subtitle" = "다른 상품을 게시하고 다시 현금을 마련해보세요.";
 "product_delete_post_title" = "당첨되지 않으셨나요?";
-"product_delete_send_error_generic" = "앗! 제품을 삭제할 수 없습니다. 다시 시도해주세요.";
+"product_delete_send_error_generic" = "앗! 상품을 삭제하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "product_delete_sold_confirm_message" = "이 상품을 정말 삭제하기를 원하세요?";
-"product_delete_success_message" = "고객님의 상품을 성공적으로 삭제되었습니다.";
+"product_delete_success_message" = "고객님의 상품이 삭제되었습니다.";
 "product_distance_X_from_you" = "당신으로부터 %@";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
 "product_favorite_direct_message" = "마음에 드네요! 아직 판매하시나요?";
@@ -450,7 +450,7 @@
 "product_mark_as_sold_free_confirm_message" = "이미 증정되었다는 표시를 합니다";
 "product_mark_as_sold_free_confirm_ok_button" = "표시";
 "product_mark_as_sold_free_confirm_title" = "증정되었다는 표시하기";
-"product_mark_as_sold_free_success_message" = "축하드립니다! 상품이 증정완료로 표시되었습니다";
+"product_mark_as_sold_free_success_message" = "축하드립니다! 상품이 증정완료로 표시되었습니다.";
 "product_mark_as_sold_success_message" = "축하드립니다, 고객님의 제품이 품절로 표시되었습니다.";
 "product_more_info_open_button" = "더 많은 정보";
 "product_more_info_related_title" = "다음 항목에 관심이 가실 수도 있습니다:";
@@ -525,7 +525,7 @@
 "product_report_confirm_title" = "제품 신고";
 "product_report_product_button" = "제품 신고";
 "product_reported_error_generic" = "상품을 신고하는데 오류가 발생했습니다. 다시 시도해주세요.";
-"product_reported_success_message" = "제품이 성공적으로 신고되었습니다. 감사합니다!";
+"product_reported_success_message" = "제품이 신고되었습니다. 감사합니다!";
 "product_reporting_loading_message" = "제품 신고하기...";
 "product_search_no_products_body" = "다른 제품을 확인하시거나 상품을 다시 확인해보세요!";
 "product_search_no_products_title" = "이런! 주변에 검색결과가 없습니다";
@@ -541,7 +541,7 @@
 "product_sell_again_free_confirm_ok_button" = "증정";
 "product_sell_again_free_confirm_title" = "증정가능으로 표시";
 "product_sell_again_free_success_message" = "축하드립니다! 상품을 다시 증정하실 수 있게 되었습니다.";
-"product_sell_again_success_message" = "축하드립니다! 회원님의 상품이 성공적으로 판매 가능으로 표시되었습니다.";
+"product_sell_again_success_message" = "축하드립니다! 회원님의 상품이 판매 가능으로 표시되었습니다.";
 "product_sell_camera_permissions_error" = "사진을 촬영하기 위해, 설정에서 letgo에 카메라 사용 허가를 설정하여주십시오.";
 "product_sell_camera_restricted_error" = "카메라 접근이 제한되어 있습니다. 설정을 확인하시고 다시 시도해주세요.";
 "product_sell_photolibrary_permissions_error" = "사진을 업로드하기위해, 설정에서 letgo가 사진첩에 접근할 수 있도록 허가해주십시오.";
@@ -552,7 +552,7 @@
 "product_share_fullscreen_subtitle" = "상품을 공유한 사람들의 상품이 100% 더 나은 제품이라는 것을 알고 계신가요?";
 "product_share_fullscreen_title" = "공유가 승리의 지름길!";
 "product_share_generic_error" = "상품을 공유하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
-"product_share_generic_ok" = "제품이 성공적으로 공유되었습니다!";
+"product_share_generic_ok" = "제품이 공유되었습니다!";
 "product_share_navbar_button" = "공유하기";
 "product_share_posted_by" = "%@에 의해 게시됨";
 "product_share_sms_error" = "메세지를 발송하는 동안 오류가 발생했습니다.";
@@ -651,7 +651,7 @@
 "sell_picture_label" = "사진";
 "sell_picture_save_into_camera_roll_error_generic" = "사진을 포토갤러리에 저장하는데 에러가 발생했습니다. 렛고가 세팅 어플리케이션에서 고객님의 사진에 접근할 수 있게 허가해주세요.";
 "sell_picture_save_into_camera_roll_loading" = "사진을 포토 라이브러리에 저장중...";
-"sell_picture_save_into_camera_roll_ok" = "사진을 포토 라이브러리에 저장완료했습니다.";
+"sell_picture_save_into_camera_roll_ok" = "저장된 사진을 포토 라이브러리로";
 "sell_picture_selected_cancel_button" = "취소";
 "sell_picture_selected_delete_button" = "삭제";
 "sell_picture_selected_save_into_camera_roll_button" = "사진 저장";
@@ -681,7 +681,7 @@
 "settings_help_button" = "도움";
 "settings_invite_facebook_friends_button" = "페이스북 친구 초대하기";
 "settings_invite_facebook_friends_error" = "초대를 공유하는 동안 오류가 발생했습니다.";
-"settings_invite_facebook_friends_ok" = "초대가 성공적으로 공유되었습니다!";
+"settings_invite_facebook_friends_ok" = "초대가 공유되었습니다!";
 "settings_logout_alert_message" = "로그아웃 하시겠습니까?";
 "settings_logout_alert_ok" = "로그아웃";
 "settings_logout_button" = "로그아웃";
@@ -737,7 +737,7 @@
 "user_share_message_other" = "이 판매자가 letgo에서 판매하고 있는 모든 제품들을 확인해보세요!";
 "user_share_message_other_w_name" = "%@가 letgo에서 판매하고 있는 모든 제품들을 확인해보세요!";
 "user_share_navbar_button" = "공유하기";
-"user_share_success" = "프로필을 성공적으로 공유하였습니다!";
+"user_share_success" = "프로필이 공유되었습니다!";
 "user_share_title_text_mine" = "제 letgo 프로필을 확인하세요!";
 "user_share_title_text_other" = "이 사용자의 letgo 프로필을 확인하세요!";
 "user_share_title_text_other_w_name" = "%@의 letgo 프로필을 확인하세요!";

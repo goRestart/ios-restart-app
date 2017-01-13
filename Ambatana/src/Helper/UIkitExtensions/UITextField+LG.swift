@@ -7,14 +7,14 @@
 //
 
 extension UITextField {
-    func textReplacingCharactersInRange(range: NSRange, replacementString string: String) -> String {
+    func textReplacingCharactersInRange(_ range: NSRange, replacementString string: String) -> String {
         if let text = self.text {
-            return (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            return (text as NSString).replacingCharacters(in: range, with: string)
         }
         return string
     }
 
-    func shouldChangePriceInRange(range: NSRange, replacementString string: String, acceptsSeparator: Bool) -> Bool {
+    func shouldChangePriceInRange(_ range: NSRange, replacementString string: String, acceptsSeparator: Bool) -> Bool {
         let updatedText = textReplacingCharactersInRange(range, replacementString: string)
         return updatedText.isValidLengthPrice(acceptsSeparator)
     }

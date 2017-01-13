@@ -9,8 +9,8 @@
 import LGCoreKit
 
 protocol PassiveBuyersCoordinatorDelegate: CoordinatorDelegate {
-    func passiveBuyersCoordinatorDidCancel(coordinator: PassiveBuyersCoordinator)
-    func passiveBuyersCoordinatorDidFinish(coordinator: PassiveBuyersCoordinator)
+    func passiveBuyersCoordinatorDidCancel(_ coordinator: PassiveBuyersCoordinator)
+    func passiveBuyersCoordinatorDidFinish(_ coordinator: PassiveBuyersCoordinator)
 }
 
 final class PassiveBuyersCoordinator: Coordinator {
@@ -33,23 +33,23 @@ final class PassiveBuyersCoordinator: Coordinator {
         passiveBuyersVM.navigator = self
     }
 
-    func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard viewController.parentViewController == nil else { return }
+    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        guard viewController.parent == nil else { return }
 
         parentViewController = parent
-        parent.presentViewController(viewController, animated: animated, completion: completion)
+        parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func close(animated animated: Bool, completion: (() -> Void)?) {
+    func close(animated: Bool, completion: (() -> Void)?) {
         close(animated: animated, completed: false, completion: completion)
     }
 
 
     // MARK: - Private
 
-    private func close(animated animated: Bool, completed: Bool, completion: (() -> Void)?) {
+    fileprivate func close(animated: Bool, completed: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
-            self?.viewController.dismissViewControllerAnimated(animated) { [weak self] in
+            self?.viewController.dismiss(animated: animated) { [weak self] in
                 guard let strongSelf = self else { return }
                 completed ? strongSelf.delegate?.passiveBuyersCoordinatorDidFinish(strongSelf) :
                     strongSelf.delegate?.passiveBuyersCoordinatorDidCancel(strongSelf)

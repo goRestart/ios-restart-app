@@ -10,60 +10,60 @@ import Alamofire
 
 enum MyUserRouter: URLRequestAuthenticable {
 
-    case Show(myUserId: String)
-    case Create(params: [String : AnyObject])
-    case Update(myUserId: String, params: [String : AnyObject])
-    case UpdateAvatar(myUserId: String, params: [String : AnyObject])
-    case ResetPassword(myUserId: String, params: [String : AnyObject], token: String)
-    case LinkAccount(myUserId: String, params: [String : AnyObject])
+    case show(myUserId: String)
+    case create(params: [String : Any])
+    case update(myUserId: String, params: [String : Any])
+    case updateAvatar(myUserId: String, params: [String : Any])
+    case resetPassword(myUserId: String, params: [String : Any], token: String)
+    case linkAccount(myUserId: String, params: [String : Any])
 
     private var endpoint: String {
         switch (self) {
-        case .Show, .Create, .Update, .ResetPassword:
+        case .show, .create, .update, .resetPassword:
             return "/users"
-        case let .UpdateAvatar(myUserId, params: _):
+        case let .updateAvatar(myUserId, params: _):
             return "/users/\(myUserId)/avatars"
-        case let .LinkAccount(myUserId, params: _):
+        case let .linkAccount(myUserId, params: _):
             return "/users/\(myUserId)/accounts"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Create:
-            return .Installation
-        case .Show, .Update, .UpdateAvatar, .LinkAccount:
-            return .User
-        case .ResetPassword:
-            return .Nonexistent
+        case .create:
+            return .installation
+        case .show, .update, .updateAvatar, .linkAccount:
+            return .user
+        case .resetPassword:
+            return .nonexistent
         }
     }
-
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
-
-    var URLRequest: NSMutableURLRequest {
+    
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
+    
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .Show(myUserId):
-            return Router<BouncerBaseURL>.Show(endpoint: endpoint, objectId: myUserId).URLRequest
-        case let .Create(params):
-            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: endpoint, params: params, encoding: nil).URLRequest
-            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
+        case let .show(myUserId):
+            return try Router<BouncerBaseURL>.show(endpoint: endpoint, objectId: myUserId).asURLRequest()
+        case let .create(params):
+            var urlRequest = try Router<BouncerBaseURL>.create(endpoint: endpoint, params: params, encoding: nil).asURLRequest()
+            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
             return urlRequest
-        case let .Update(myUserId, params):
-            return Router<BouncerBaseURL>.Patch(endpoint: endpoint, objectId: myUserId, params: params,
-                encoding: nil).URLRequest
-        case .UpdateAvatar(_):
-            return Router<BouncerBaseURL>.Create(endpoint: endpoint, params: [:], encoding: nil).URLRequest
-        case let .ResetPassword(userId, params, token):
-            let req = Router<BouncerBaseURL>.Patch(endpoint: endpoint, objectId: userId, params: params,
-                encoding: nil).URLRequest
+        case let .update(myUserId, params):
+            return try Router<BouncerBaseURL>.patch(endpoint: endpoint, objectId: myUserId, params: params,
+                                                    encoding: nil).asURLRequest()
+        case .updateAvatar(_):
+            return try Router<BouncerBaseURL>.create(endpoint: endpoint, params: [:], encoding: nil).asURLRequest()
+        case let .resetPassword(userId, params, token):
+            var req = try Router<BouncerBaseURL>.patch(endpoint: endpoint, objectId: userId, params: params,
+                                                       encoding: nil).asURLRequest()
             req.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
             return req
-        case let .LinkAccount(_, params):
-            return Router<BouncerBaseURL>.Create(endpoint: endpoint, params: params, encoding: nil).URLRequest
+        case let .linkAccount(_, params):
+            return try Router<BouncerBaseURL>.create(endpoint: endpoint, params: params, encoding: nil).asURLRequest()
         }
     }
 }

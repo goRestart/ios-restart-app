@@ -48,48 +48,48 @@ extension UIFont {
 
     // MARK: Private methods
     
-    static func systemFont(size size: Int) -> UIFont {
-        return systemFontOfSize(CGFloat(size))
+    static func systemFont(size: Int) -> UIFont {
+        return self.systemFont(ofSize: CGFloat(size))
     }
     
-    static func systemMediumFont(size size: Int) -> UIFont {
+    static func systemMediumFont(size: Int) -> UIFont {
         if #available(iOS 9.0, *) {
-            return systemFontOfSize(CGFloat(size), weight: UIFontWeightMedium)
+            return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightMedium)
         } else {
             return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
         }
     }
     
-    static func systemLightFont(size size: Int) -> UIFont {
+    static func systemLightFont(size: Int) -> UIFont {
         if #available(iOS 9.0, *) {
-            return systemFontOfSize(CGFloat(size), weight: UIFontWeightLight)
+            return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
         } else {
             return UIFont(name: "HelveticaNeue-Light", size: CGFloat(size))!
         }
     }
     
-    static func systemRegularFont(size size: Int) -> UIFont {
+    static func systemRegularFont(size: Int) -> UIFont {
         if #available(iOS 9.0, *) {
-            return systemFontOfSize(CGFloat(size), weight: UIFontWeightRegular)
+            return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
         } else {
             return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
         }
     }
     
-    static func systemSemiBoldFont(size size: Int) -> UIFont {
+    static func systemSemiBoldFont(size: Int) -> UIFont {
         if #available(iOS 9.0, *) {
-            return systemFontOfSize(CGFloat(size), weight: UIFontWeightSemibold)
+            return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
         } else {
             return UIFont(name: "HelveticaNeue-Bold", size: CGFloat(size))!
         }
     }
     
-    static func systemBoldFont(size size: Int) -> UIFont {
-        return boldSystemFontOfSize(CGFloat(size))
+    static func systemBoldFont(size: Int) -> UIFont {
+        return boldSystemFont(ofSize: CGFloat(size))
     }
     
-    static func systemItalicFont(size size: Int) -> UIFont {
-        return italicSystemFontOfSize(CGFloat(size))
+    static func systemItalicFont(size: Int) -> UIFont {
+        return italicSystemFont(ofSize: CGFloat(size))
     }
 }
 

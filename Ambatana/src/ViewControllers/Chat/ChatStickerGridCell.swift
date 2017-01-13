@@ -14,8 +14,8 @@ class ChatStickerGridCell: UICollectionViewCell {
     override init(frame: CGRect) {
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         super.init(frame: frame)
-        imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        imageView.contentMode = .ScaleAspectFit
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        imageView.contentMode = .scaleAspectFit
         contentView.addSubview(imageView)
     }
     
@@ -23,20 +23,20 @@ class ChatStickerGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
             refreshState()
         }
     }
 
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             refreshState()
         }
     }
 
     private func refreshState() {
-        let highlighedState = self.highlighted || self.selected
+        let highlighedState = self.isHighlighted || self.isSelected
         contentView.alpha = highlighedState ? 0.6 : 1
     }
 }

@@ -9,8 +9,8 @@
 import Result
 
 typealias TrendingSearchesDataSourceResult = Result<[String], ApiError>
-typealias TrendingSearchesDataSourceCompletion = TrendingSearchesDataSourceResult -> Void
+typealias TrendingSearchesDataSourceCompletion = (TrendingSearchesDataSourceResult) -> Void
 
 protocol TrendingSearchesDataSource {
-    func index(countryCode: String, completion: TrendingSearchesDataSourceCompletion?)
+    func index(_ countryCode: String, completion: TrendingSearchesDataSourceCompletion?)
 }

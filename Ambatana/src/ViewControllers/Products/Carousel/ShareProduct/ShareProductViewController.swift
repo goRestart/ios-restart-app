@@ -11,7 +11,7 @@ import UIKit
 class ShareProductViewController: BaseViewController {
 
     private static let shareButtonWidth: CGFloat = 60
-    private static let gradientSize = 30
+    private static let gradientSize: CGFloat = 30
 
     @IBOutlet weak var closeButton: UIButton!
 
@@ -56,11 +56,11 @@ class ShareProductViewController: BaseViewController {
 
     // MARK: - Public Methods
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeActionPressed()
     }
 
-    @IBAction func copyButtonPressed(sender: AnyObject) {
+    @IBAction func copyButtonPressed(_ sender: AnyObject) {
         viewModel.copyLink()
     }
 
@@ -89,14 +89,14 @@ class ShareProductViewController: BaseViewController {
         socialShareView.socialSharer = viewModel.socialSharer
         socialShareView.delegate = self
         socialShareView.buttonsSide = ShareProductViewController.shareButtonWidth
-        socialShareView.style = .Line
+        socialShareView.style = .line
     }
 
     private func setupGradientView() {
         if let shadowLayer = shadowLayer {
             shadowLayer.removeFromSuperlayer()
         }
-        let gradientFinishSpot = CGFloat(ShareProductViewController.gradientSize)/gradientView.frame.width
+        let gradientFinishSpot = NSNumber(value: Float(ShareProductViewController.gradientSize/gradientView.frame.width))
         shadowLayer = CAGradientLayer.gradientWithColor(UIColor.listBackgroundColor, alphas:[0, 1], locations: [0, gradientFinishSpot])
         if let shadowLayer = shadowLayer {
             // make it horitzontal
@@ -104,7 +104,7 @@ class ShareProductViewController: BaseViewController {
             shadowLayer.endPoint = CGPoint(x: 1, y: 0.5)
 
             shadowLayer.frame = gradientView.bounds
-            gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+            gradientView.layer.insertSublayer(shadowLayer, at: 0)
         }
     }
 }
@@ -123,14 +123,14 @@ extension ShareProductViewController: ShareProductViewModelDelegate {
     }
     
     func viewControllerShouldClose() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 
 extension ShareProductViewController {
     func setAccessibilityIds() {
-        view.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareView
-        closeButton.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareCloseButton
-        copyButton.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareCopyLinkButton
+        view.accessibilityId = AccessibilityId.productCarouselFullscreenShareView
+        closeButton.accessibilityId = AccessibilityId.productCarouselFullscreenShareCloseButton
+        copyButton.accessibilityId = AccessibilityId.productCarouselFullscreenShareCopyLinkButton
     }
 }

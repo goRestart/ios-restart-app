@@ -20,29 +20,29 @@ class MockSessionManager: SessionManager {
 
     var loggedIn: Bool = false
 
-    func signUp(email: String, password: String, name: String, newsletter: Bool?,
+    func signUp(_ email: String, password: String, name: String, newsletter: Bool?,
                 completion: SessionMyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func signUp(email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
+    func signUp(_ email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
                 completion: SessionMyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func login(email: String, password: String, completion: SessionMyUserCompletion?) {
+    func login(_ email: String, password: String, completion: SessionMyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func loginFacebook(token: String, completion: SessionMyUserCompletion?) {
+    func loginFacebook(_ token: String, completion: SessionMyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func loginGoogle(token: String, completion: SessionMyUserCompletion?) {
+    func loginGoogle(_ token: String, completion: SessionMyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
-    func recoverPassword(email: String, completion: SessionEmptyCompletion?) {
+    func recoverPassword(_ email: String, completion: SessionEmptyCompletion?) {
         performAfterDelayWithCompletion(completion, result: resetPasswordResult)
     }
 

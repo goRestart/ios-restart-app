@@ -9,7 +9,7 @@
 import Result
 
 public typealias BumpeableProductResult = Result<BumpeableProduct, RepositoryError>
-public typealias BumpeableProductCompletion = BumpeableProductResult -> Void
+public typealias BumpeableProductCompletion = (BumpeableProductResult) -> Void
 
 public protocol MonetizationRepository {
     func retrieveBumpeableProductInfo(productId: String, completion: BumpeableProductCompletion?)

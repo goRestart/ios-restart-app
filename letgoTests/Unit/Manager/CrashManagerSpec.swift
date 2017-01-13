@@ -18,7 +18,7 @@ class CrashManagerSpec: QuickSpec {
         describe("initialization") {
             context("no crash with no version change") {
                 beforeEach {
-                    sut = CrashManager(appCrashed: false, versionChange: .None)
+                    sut = CrashManager(appCrashed: false, versionChange: .none)
                 }
                 it("indicates that crash flags shouldn't be resetted") {
                     expect(sut.shouldResetCrashFlags) == false
@@ -26,7 +26,7 @@ class CrashManagerSpec: QuickSpec {
             }
             context("no crash with patch version change") {
                 beforeEach {
-                    sut = CrashManager(appCrashed: false, versionChange: .Patch)
+                    sut = CrashManager(appCrashed: false, versionChange: .patch)
                 }
                 it("indicates that crash flags should be resetted") {
                     expect(sut.shouldResetCrashFlags) == true
@@ -34,7 +34,7 @@ class CrashManagerSpec: QuickSpec {
             }
             context("no crash with minor version change") {
                 beforeEach {
-                    sut = CrashManager(appCrashed: false, versionChange: .Minor)
+                    sut = CrashManager(appCrashed: false, versionChange: .minor)
                 }
                 it("indicates that crash flags should be resetted") {
                     expect(sut.shouldResetCrashFlags) == true
@@ -42,7 +42,7 @@ class CrashManagerSpec: QuickSpec {
             }
             context("no crash with major version change") {
                 beforeEach {
-                    sut = CrashManager(appCrashed: false, versionChange: .Major)
+                    sut = CrashManager(appCrashed: false, versionChange: .major)
                 }
                 it("indicates that crash flags should be resetted") {
                     expect(sut.shouldResetCrashFlags) == true
@@ -50,7 +50,7 @@ class CrashManagerSpec: QuickSpec {
             }
             context("crashed with no version change") {
                 beforeEach {
-                    sut = CrashManager(appCrashed: true, versionChange: .None)
+                    sut = CrashManager(appCrashed: true, versionChange: .none)
                 }
                 it("indicates that crash flags shouldn't be resetted") {
                     expect(sut.shouldResetCrashFlags) == false
@@ -58,7 +58,7 @@ class CrashManagerSpec: QuickSpec {
             }
             context("crashed with patch version change") {
                 beforeEach {
-                    sut = CrashManager(appCrashed: true, versionChange: .Patch)
+                    sut = CrashManager(appCrashed: true, versionChange: .patch)
                 }
                 it("indicates that crash flags should be resetted") {
                     expect(sut.shouldResetCrashFlags) == true
@@ -66,7 +66,7 @@ class CrashManagerSpec: QuickSpec {
             }
             context("crashed with minor version change") {
                 beforeEach {
-                    sut = CrashManager(appCrashed: true, versionChange: .Minor)
+                    sut = CrashManager(appCrashed: true, versionChange: .minor)
                 }
                 it("indicates that crash flags should be resetted") {
                     expect(sut.shouldResetCrashFlags) == true
@@ -74,7 +74,7 @@ class CrashManagerSpec: QuickSpec {
             }
             context("crashed with major version change") {
                 beforeEach {
-                    sut = CrashManager(appCrashed: true, versionChange: .Major)
+                    sut = CrashManager(appCrashed: true, versionChange: .major)
                 }
                 it("indicates that crash flags should be resetted") {
                     expect(sut.shouldResetCrashFlags) == true

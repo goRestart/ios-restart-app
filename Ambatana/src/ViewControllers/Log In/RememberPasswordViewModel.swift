@@ -10,14 +10,14 @@ import LGCoreKit
 import Result
 
 protocol RememberPasswordViewModelDelegate: class {
-    func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel)
-    func viewModelDidFinishResetPassword(viewModel: RememberPasswordViewModel)
-    func viewModel(viewModel: RememberPasswordViewModel, didFailResetPassword error: String)
+    func viewModel(_ viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool)
+    func viewModelDidStartResettingPassword(_ viewModel: RememberPasswordViewModel)
+    func viewModelDidFinishResetPassword(_ viewModel: RememberPasswordViewModel)
+    func viewModel(_ viewModel: RememberPasswordViewModel, didFailResetPassword error: String)
 }
 
 
-public class RememberPasswordViewModel: BaseViewModel {
+class RememberPasswordViewModel: BaseViewModel {
    
     // Login source
     let sessionManager: SessionManager
@@ -50,7 +50,7 @@ public class RememberPasswordViewModel: BaseViewModel {
     
     // MARK: - Public methods
     
-    public func resetPassword() {
+    func resetPassword() {
         if !email.isEmail() {
             delegate?.viewModel(self, didFailResetPassword: LGLocalizedString.resetPasswordSendErrorInvalidEmail)
         }
@@ -60,48 +60,48 @@ public class RememberPasswordViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
 
                 switch (recoverPwdResult) {
-                case .Success:
+                case .success:
                     strongSelf.delegate?.viewModelDidFinishResetPassword(strongSelf)
-                case .Failure(let error):
+                case .failure(let error):
                     var errorMessage: String?
                     var errorDescription: EventParameterLoginError?
                     switch (error) {
-                    case .Network:
+                    case .network:
                         errorMessage = LGLocalizedString.commonErrorConnectionFailed
-                        errorDescription = .Network
-                    case .BadRequest(let cause):
+                        errorDescription = .network
+                    case .badRequest(let cause):
                         switch cause {
-                        case .NonAcceptableParams:
-                            errorDescription = .BlacklistedDomain
-                        case .NotSpecified, .Other:
-                            errorDescription = .Internal(description: "BadRequest")
+                        case .nonAcceptableParams:
+                            errorDescription = .blacklistedDomain
+                        case .notSpecified, .other:
+                            errorDescription = .internalError(description: "BadRequest")
                         }
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                    case .NotFound:
+                    case .notFound:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(
                             strongSelf.email)
-                        errorDescription = .NotFound
-                    case .Conflict, .TooManyRequests:
+                        errorDescription = .notFound
+                    case .conflict, .tooManyRequests:
                         errorMessage = LGLocalizedString.resetPasswordSendTooManyRequests
-                        errorDescription = .TooManyRequests
-                    case .Scammer:
+                        errorDescription = .tooManyRequests
+                    case .scammer:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                        errorDescription = .Scammer
-                    case let .Internal(description):
+                        errorDescription = .scammer
+                    case let .internalError(description):
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                        errorDescription = .Internal(description: description)
-                    case .UserNotVerified:
+                        errorDescription = .internalError(description: description)
+                    case .userNotVerified:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                        errorDescription = .Internal(description: "UserNotVerified")
-                    case .Forbidden:
+                        errorDescription = .internalError(description: "UserNotVerified")
+                    case .forbidden:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                        errorDescription = .Forbidden
-                    case .Unauthorized:
+                        errorDescription = .forbidden
+                    case .unauthorized:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                        errorDescription = .Unauthorized
-                    case .NonExistingEmail:
+                        errorDescription = .unauthorized
+                    case .nonExistingEmail:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                        errorDescription = .NonExistingEmail
+                        errorDescription = .nonExistingEmail
                     }
                     if let errorDescription = errorDescription {
                         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.passwordResetError(errorDescription))

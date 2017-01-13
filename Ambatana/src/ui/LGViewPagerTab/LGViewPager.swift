@@ -10,22 +10,22 @@ import UIKit
 
 
 protocol LGViewPagerDelegate: class {
-    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int)
-    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int)
+    func viewPager(_ viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int)
+    func viewPager(_ viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int)
 }
 
 
 protocol LGViewPagerScrollDelegate: class {
-    func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat)
+    func viewPager(_ viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat)
 }
 
 protocol LGViewPagerDataSource: class {
-    func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int
-    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView
-    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool
-    func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString
-    func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString
-    func viewPager(viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId?
+    func viewPagerNumberOfTabs(_ viewPager: LGViewPager) -> Int
+    func viewPager(_ viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView
+    func viewPager(_ viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool
+    func viewPager(_ viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString
+    func viewPager(_ viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString
+    func viewPager(_ viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId?
 }
 
 struct LGViewPagerConfig {
@@ -34,24 +34,24 @@ struct LGViewPagerConfig {
     let tabHeight: CGFloat
 
     static func defaultConfig() -> LGViewPagerConfig {
-        return LGViewPagerConfig(tabPosition: .Top, tabLayout: .Dynamic, tabHeight: 44)
+        return LGViewPagerConfig(tabPosition: .top, tabLayout: .dynamic, tabHeight: 44)
     }
 }
 
 enum LGViewPagerTabPosition {
-    case Top, Bottom, Hidden
+    case top, bottom, hidden
 }
 
 enum LGViewPagerTabLayout {
-    case Dynamic, Fixed
+    case dynamic, fixed
 }
 
 
 class LGViewPager: UIView, UIScrollViewDelegate {
 
     // Constants
-    private static let defaultIndicatorSelectedColor = UIColor.redColor()
-    private static let defaultInfoBadgeColor = UIColor.redColor()
+    private static let defaultIndicatorSelectedColor = UIColor.red
+    private static let defaultInfoBadgeColor = UIColor.red
 
     // UI
     private let tabsScrollView = UIScrollView()
@@ -87,13 +87,13 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
     var tabsHidden: Bool {
         set {
-            tabMenuItems.forEach{ item in item.hidden = newValue }
+            tabMenuItems.forEach{ item in item.isHidden = newValue }
         }
         get {
-            return tabMenuItems.reduce(false, combine: { $0 || $1.hidden })
+            return tabMenuItems.reduce(false, { $0 || $1.isHidden })
         }
     }
-    var tabsSeparatorColor: UIColor = UIColor.grayColor()
+    var tabsSeparatorColor: UIColor = UIColor.gray
 
     // Delegate & data source
     weak var delegate: LGViewPagerDelegate?
@@ -113,11 +113,11 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private var tabsScrollContentSizeSmallThanSize = false
     var scrollEnabled = true {
         didSet {
-            tabsScrollView.scrollEnabled = scrollEnabled
-            pagesScrollView.scrollEnabled = scrollEnabled
-            for (index, tabMenuItem) in tabMenuItems.enumerate() {
+            tabsScrollView.isScrollEnabled = scrollEnabled
+            pagesScrollView.isScrollEnabled = scrollEnabled
+            for (index, tabMenuItem) in tabMenuItems.enumerated() {
                 guard index != currentPage else { continue }
-                tabMenuItem.enabled = scrollEnabled
+                tabMenuItem.isEnabled = scrollEnabled
             }
         }
     }
@@ -169,7 +169,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     func reloadInfoIndicatorState() {
         guard let dataSource = dataSource else { return }
 
-        for (index, tabMenuItem) in tabMenuItems.enumerate() {
+        for (index, tabMenuItem) in tabMenuItems.enumerated() {
             tabMenuItem.showInfoBadge = dataSource.viewPager(self, showInfoBadgeAtIndex: index)
         }
     }
@@ -177,7 +177,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     func reloadTabMenuItemTitles() {
         guard let dataSource = dataSource else { return }
 
-        for (index, tabMenuItem) in tabMenuItems.enumerate() {
+        for (index, tabMenuItem) in tabMenuItems.enumerated() {
             let selectedTitle = dataSource.viewPager(self, titleForSelectedTabAtIndex: index)
             tabMenuItem.selectedTitle = selectedTitle
             let unselectedTitle = dataSource.viewPager(self, titleForUnselectedTabAtIndex: index)
@@ -185,11 +185,11 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         }
     }
 
-    func selectTabAtIndex(index: Int) {
+    func selectTabAtIndex(_ index: Int) {
         selectTabAtIndex(index, animated: false)
     }
 
-    func selectTabAtIndex(index: Int, animated: Bool) {
+    func selectTabAtIndex(_ index: Int, animated: Bool) {
         guard 0..<tabMenuItems.count ~= index else { return }
         changeSelectedTab(tabMenuItems[index], animated: animated)
     }
@@ -197,7 +197,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     // MARK: - UIScrollViewDelegate
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         switch scrollView {
         case pagesScrollView:
             let pagePosition = currentPagePosition()
@@ -243,7 +243,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
     
 
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
 
         switch scrollView {
         case pagesScrollView:
@@ -255,7 +255,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         }
     }
 
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if decelerate {
             switch scrollView {
             case pagesScrollView:
@@ -266,7 +266,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         }
     }
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         switch scrollView {
         case pagesScrollView:
             updateCurrentPageAndNotifyDelegate(true)
@@ -285,7 +285,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         tabsScrollView.bounces = false
         tabsScrollView.showsHorizontalScrollIndicator = false
         tabsScrollView.showsVerticalScrollIndicator = false
-        tabsScrollView.backgroundColor = UIColor.whiteColor()
+        tabsScrollView.backgroundColor = UIColor.white
         tabsScrollView.delegate = self
         addSubview(tabsScrollView)
 
@@ -293,58 +293,58 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         addSubview(indicatorContainer)
 
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicatorContainer.backgroundColor = UIColor.clearColor()
+        indicatorContainer.backgroundColor = UIColor.clear
         indicatorContainer.addSubview(indicator)
 
         pagesScrollView.translatesAutoresizingMaskIntoConstraints = false
-        pagesScrollView.pagingEnabled = true
+        pagesScrollView.isPagingEnabled = true
         pagesScrollView.bounces = false
         pagesScrollView.showsHorizontalScrollIndicator = false
         pagesScrollView.showsVerticalScrollIndicator = false
-        pagesScrollView.backgroundColor = UIColor.clearColor()
+        pagesScrollView.backgroundColor = UIColor.clear
         pagesScrollView.delegate = self
         addSubview(pagesScrollView)
     }
 
     private func setupConstraints() {
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["tabs"] = tabsScrollView
         views["indicator"] = indicatorContainer
         views["pages"] = pagesScrollView
 
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["indicatorH"] = indicatorHeight
         metrics["tabsH"] = config.tabHeight
 
         let vConstraintsFormat, vIndicatorConstraintsFormat: String
         switch config.tabPosition {
-        case .Top:
+        case .top:
             vConstraintsFormat = "V:|-0-[tabs(tabsH)]-0-[pages]-0-|"
             vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-[pages]"
-        case .Bottom:
+        case .bottom:
             vConstraintsFormat = "V:|-0-[pages]-0-[tabs(tabsH)]-0-|"
             vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-|"
-        case .Hidden:
+        case .hidden:
             vConstraintsFormat = "V:|-0-[tabs(0)]-0-[pages]-0-|"
             vIndicatorConstraintsFormat = "V:[indicator(0)]-0-[pages]"
         }
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vConstraintsFormat,
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: vConstraintsFormat,
             options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
         addConstraints(vConstraints)
 
-        let vIndicatorConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vIndicatorConstraintsFormat,
+        let vIndicatorConstraints = NSLayoutConstraint.constraints(withVisualFormat: vIndicatorConstraintsFormat,
             options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
         addConstraints(vIndicatorConstraints)
 
-        let tabsHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tabs]|",
+        let tabsHConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[tabs]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         addConstraints(tabsHConstraints)
 
-        let indicatorHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[indicator]|",
+        let indicatorHConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[indicator]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         addConstraints(indicatorHConstraints)
 
-        let pagesHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pages]|",
+        let pagesHConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[pages]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         addConstraints(pagesHConstraints)
     }
@@ -367,19 +367,19 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             page.translatesAutoresizingMaskIntoConstraints = false
             pagesScrollView.addSubview(page)
 
-            var views = [String: AnyObject]()
+            var views = [String: Any]()
             views["page"] = page
 
-            let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[page]|",
+            let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[page]|",
                 options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
             pagesScrollView.addConstraints(vConstraints)
 
-            let widthConstraint = NSLayoutConstraint(item: page, attribute: .Width, relatedBy: .Equal,
-                toItem: pagesScrollView, attribute: .Width, multiplier: 1, constant: 0)
+            let widthConstraint = NSLayoutConstraint(item: page, attribute: .width, relatedBy: .equal,
+                toItem: pagesScrollView, attribute: .width, multiplier: 1, constant: 0)
             pageWidthConstraints.append(widthConstraint)
 
-            let heightConstraint = NSLayoutConstraint(item: page, attribute: .Height, relatedBy: .Equal,
-                toItem: pagesScrollView, attribute: .Height, multiplier: 1, constant: 0)
+            let heightConstraint = NSLayoutConstraint(item: page, attribute: .height, relatedBy: .equal,
+                toItem: pagesScrollView, attribute: .height, multiplier: 1, constant: 0)
             pageHeightConstraints.append(heightConstraint)
 
             pagesScrollView.addConstraints([widthConstraint, heightConstraint])
@@ -387,11 +387,11 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             // A left constraint in installed to previous page if any, otherwise it installed against the scroll view
             let leftConstraint: NSLayoutConstraint
             if let previousPage = previousPage {
-                leftConstraint = NSLayoutConstraint(item: page, attribute: .Left, relatedBy: .Equal,
-                    toItem: previousPage, attribute: .Right, multiplier: 1, constant: 0)
+                leftConstraint = NSLayoutConstraint(item: page, attribute: .left, relatedBy: .equal,
+                    toItem: previousPage, attribute: .right, multiplier: 1, constant: 0)
             } else {
-                leftConstraint = NSLayoutConstraint(item: page, attribute: .Left, relatedBy: .Equal,
-                    toItem: pagesScrollView, attribute: .Left, multiplier: 1, constant: 0)
+                leftConstraint = NSLayoutConstraint(item: page, attribute: .left, relatedBy: .equal,
+                    toItem: pagesScrollView, attribute: .left, multiplier: 1, constant: 0)
 
             }
             pagesScrollView.addConstraint(leftConstraint)
@@ -400,8 +400,8 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         }
 
         if let lastPage = previousPage {
-            let rightConstraint = NSLayoutConstraint(item: lastPage, attribute: .Right, relatedBy: .Equal,
-                toItem: pagesScrollView, attribute: .Right, multiplier: 1, constant: 0)
+            let rightConstraint = NSLayoutConstraint(item: lastPage, attribute: .right, relatedBy: .equal,
+                toItem: pagesScrollView, attribute: .right, multiplier: 1, constant: 0)
             pagesScrollView.addConstraint(rightConstraint)
         }
     }
@@ -423,62 +423,62 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             tab.accessibilityId = dataSource.viewPager(self, accessibilityIdentifierAtIndex: index)
             tabMenuItems.append(tab)
             if index == 0 {
-                tab.selected = true
+                tab.isSelected = true
             }
 
             tab.translatesAutoresizingMaskIntoConstraints = false
             tabsScrollView.addSubview(tab)
 
-            var metrics = [String: AnyObject]()
+            var metrics = [String: Any]()
             metrics["tabHeight"] = config.tabHeight
 
-            var views = [String: AnyObject]()
+            var views = [String: Any]()
             views["tab"] = tab
 
-            let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[tab(tabHeight)]|",
+            let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[tab(tabHeight)]|",
                 options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
             tabsScrollView.addConstraints(vConstraints)
 
             // A left constraint in installed to previous tab if any, otherwise it installed against the scroll view
             if let previousTab = previousTab {
-                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .Left, relatedBy: .Equal,
-                    toItem: previousTab, attribute: .Right, multiplier: 1, constant: 0))
+                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .left, relatedBy: .equal,
+                    toItem: previousTab, attribute: .right, multiplier: 1, constant: 0))
             } else {
-                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .Left, relatedBy: .Equal,
-                    toItem: tabsScrollView, attribute: .Left, multiplier: 1, constant: 0))
+                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .left, relatedBy: .equal,
+                    toItem: tabsScrollView, attribute: .left, multiplier: 1, constant: 0))
             }
 
-            if config.tabLayout == .Fixed {
+            if config.tabLayout == .fixed {
                 // If fixed each tab must have the width of the container/num-of-tabs
-                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .Width, relatedBy: .Equal,
-                    toItem: tabsScrollView, attribute: .Width, multiplier: 1.0/CGFloat(numberOfTabs), constant: 0))
+                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .width, relatedBy: .equal,
+                    toItem: tabsScrollView, attribute: .width, multiplier: 1.0/CGFloat(numberOfTabs), constant: 0))
             }
 
             previousTab = tab
         }
         if let lastTab = previousTab {
-            let rightConstraint = NSLayoutConstraint(item: lastTab, attribute: .Right, relatedBy: .Equal,
-                toItem: tabsScrollView, attribute: .Right, multiplier: 1, constant: 0)
+            let rightConstraint = NSLayoutConstraint(item: lastTab, attribute: .right, relatedBy: .equal,
+                toItem: tabsScrollView, attribute: .right, multiplier: 1, constant: 0)
             tabsScrollView.addConstraint(rightConstraint)
         }
     }
 
-    private func buildTabMenuItem(selectedTitle: NSAttributedString, unselectedTitle: NSAttributedString) -> LGViewPagerTabItem {
+    private func buildTabMenuItem(_ selectedTitle: NSAttributedString, unselectedTitle: NSAttributedString) -> LGViewPagerTabItem {
         let item = LGViewPagerTabItem(indicatorHeight: indicatorHeight)
         item.selectedTitle = selectedTitle
         item.unselectedTitle = unselectedTitle
         item.indicatorSelectedColor = indicatorSelectedColor
         item.infoBadgeColor = infoBadgeColor
-        item.selected = false
+        item.isSelected = false
         item.showInfoBadge = false
-        item.addTarget(self, action: #selector(LGViewPager.tabMenuItemPressed(_:)), forControlEvents: .TouchUpInside)
+        item.addTarget(self, action: #selector(LGViewPager.tabMenuItemPressed(_:)), for: .touchUpInside)
         return item
     }
 
 
     // MARK: > Helpers
 
-    private func updateCurrentPageAndNotifyDelegate(notifyDelegate: Bool) {
+    private func updateCurrentPageAndNotifyDelegate(_ notifyDelegate: Bool) {
         let newCurrentPage = min(Int(round(currentPagePosition())), pageCount - 1)
         guard newCurrentPage != currentPage else {
             if var nextViewPagerPage = pageViews[currentPage] as? LGViewPagerPage {
@@ -489,10 +489,10 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
         // Unselect the old tab
         var currentTab = tabMenuItems[currentPage]
-        currentTab.selected = false
+        currentTab.isSelected = false
 
         let prevPage = pageViews[currentPage]
-        if let delegate = delegate where notifyDelegate {
+        if let delegate = delegate, notifyDelegate {
             delegate.viewPager(self, didEndDisplayingView: prevPage, atIndex: currentPage)
         }
         if var prevViewPagerPage = prevPage as? LGViewPagerPage {
@@ -504,10 +504,10 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
         // Select the current tab
         currentTab = tabMenuItems[currentPage]
-        currentTab.selected = true
+        currentTab.isSelected = true
 
         let nextPage = pageViews[currentPage]
-        if let delegate = delegate where notifyDelegate {
+        if let delegate = delegate, notifyDelegate {
             delegate.viewPager(self, willDisplayView: nextPage, atIndex: currentPage)
         }
         if var nextViewPagerPage = nextPage as? LGViewPagerPage {
@@ -523,7 +523,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         return pagesScrollView.contentOffset.x / pagesScrollView.contentSize.width
     }
 
-    private func offsetForSelectedTab(tab: LGViewPagerTabItem) -> CGPoint {
+    private func offsetForSelectedTab(_ tab: LGViewPagerTabItem) -> CGPoint {
         let minX = CGFloat(0)
         let maxX = tabsScrollView.contentSize.width - tabsScrollView.frame.size.width
 
@@ -537,7 +537,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     // MARK: > Scroll
 
-    private func scrollTabScrollViewToTab(tab: LGViewPagerTabItem, animated: Bool) {
+    private func scrollTabScrollViewToTab(_ tab: LGViewPagerTabItem, animated: Bool) {
         guard !tabsScrollContentSizeSmallThanSize else { return }
 
         scrollingTabScrollViewAnimately = true
@@ -550,13 +550,13 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     // MARK: > Actions
 
-    private dynamic func tabMenuItemPressed(sender: LGViewPagerTabItem) {
+    private dynamic func tabMenuItemPressed(_ sender: LGViewPagerTabItem) {
         changeSelectedTab(sender, animated: true)
     }
     
-    private func changeSelectedTab(sender: LGViewPagerTabItem, animated: Bool) {
+    private func changeSelectedTab(_ sender: LGViewPagerTabItem, animated: Bool) {
         scrollTabScrollViewToTab(sender, animated: animated)
-        guard let idx = tabMenuItems.indexOf(sender) else { return }
+        guard let idx = tabMenuItems.index(of: sender) else { return }
         let x = CGFloat(idx) * pagesScrollView.frame.size.width
         let rect = CGRect(x: x, y: 0, width: pagesScrollView.frame.size.width, height: pagesScrollView.frame.size.height)
         pagesScrollView.scrollRectToVisible(rect, animated: animated)

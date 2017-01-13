@@ -86,7 +86,7 @@ private struct MyUserUDKeys: LGMyUserUDKeys {
 }
 
 extension LocalMyUser {
-    static func decode(dictionary: [String: AnyObject]) -> LocalMyUser? {
+    static func decode(_ dictionary: [String: Any]) -> LocalMyUser? {
         let keys = MyUserUDKeys()
         let objectId = dictionary[keys.objectId] as? String
         let name = dictionary[keys.name] as? String
@@ -113,13 +113,14 @@ extension LocalMyUser {
             location = LGLocation(location: clLocation, type: locationType)
         }
         var accounts: [LocalAccount]? = nil
-        if let encodedAccounts = dictionary[keys.accounts] as? [[String : AnyObject]] {
+        if let encodedAccounts = dictionary[keys.accounts] as? [[String : Any]] {
             accounts = encodedAccounts.flatMap { LocalAccount.decode($0) }
         }
         let ratingAverage = dictionary[keys.ratingAverage] as? Float
         let ratingCount = dictionary[keys.ratingCount] as? Int
-        var status = UserStatus.Active
-        if let statusStr = dictionary[keys.status] as? String, udStatus = UserStatus(rawValue: statusStr) {
+        var status = UserStatus.active
+        if let statusStr = dictionary[keys.status] as? String,
+            let udStatus = UserStatus(rawValue: statusStr) {
             status = udStatus
         }
         let localeIdentifier = dictionary[keys.localeIdentifier] as? String
@@ -128,16 +129,16 @@ extension LocalMyUser {
                          email: email, location: location, localeIdentifier: localeIdentifier)
     }
 
-    func encode() -> [String: AnyObject] {
+    func encode() -> [String: Any] {
         let keys = MyUserUDKeys()
         return encode(keys)
     }
 
-    func encode(keys: LGMyUserUDKeys) -> [String: AnyObject] {
-        var dictionary: [String: AnyObject] = [:]
+    func encode(_ keys: LGMyUserUDKeys) -> [String: Any] {
+        var dictionary: [String: Any] = [:]
         dictionary[keys.objectId] = objectId
         dictionary[keys.name] = name
-        dictionary[keys.avatar] = avatar?.fileURL?.URLString
+        dictionary[keys.avatar] = avatar?.fileURL?.absoluteString
         dictionary[keys.address] = postalAddress.address
         dictionary[keys.city] = postalAddress.city
         dictionary[keys.zipCode] = postalAddress.zipCode
@@ -147,7 +148,7 @@ extension LocalMyUser {
         dictionary[keys.locationType] = location?.type?.rawValue
         dictionary[keys.latitude] = location?.coordinate.latitude
         dictionary[keys.longitude] = location?.coordinate.longitude
-        var encodedAccounts: [[String : AnyObject]]? = nil
+        var encodedAccounts: [[String : Any]]? = nil
         if let accounts = accounts {
             encodedAccounts = accounts.map { LocalAccount(account: $0).encode() }
         }

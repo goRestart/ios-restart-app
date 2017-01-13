@@ -11,33 +11,33 @@ enum NotificationsRouter: URLRequestAuthenticable {
 
     static let notificationsEndpoint = "/notifications"
 
-    case Index
-    case UnreadCount
+    case index
+    case unreadCount
 
     var endpoint: String {
         switch self {
-        case .Index:
+        case .index:
             return NotificationsRouter.notificationsEndpoint
-        case .UnreadCount:
+        case .unreadCount:
             return NotificationsRouter.notificationsEndpoint + "/unread-count"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Index, .UnreadCount:
-            return .User
+        case .index, .unreadCount:
+            return .user
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case .Index:
-            return Router<NotificationsBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
-        case .UnreadCount:
-            return Router<NotificationsBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
+        case .index:
+            return try Router<NotificationsBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
+        case .unreadCount:
+            return try Router<NotificationsBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
         }
     }
 }

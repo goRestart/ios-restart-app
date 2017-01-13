@@ -6,20 +6,20 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public class LGDateFormatter: NSDateFormatter {
+class LGDateFormatter: DateFormatter {
 
     
     // MARK: - Lifecycle
 
-    public override init() {
+    override init() {
         super.init()
         // ISO 8601
-        let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
+        let enUSPosixLocale = Locale(identifier: "en_US_POSIX")
         self.locale = enUSPosixLocale
         self.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

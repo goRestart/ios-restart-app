@@ -8,6 +8,8 @@
 
 import Argo
 import Curry
+import Runes
+
 
 public struct LGPaymentItem: PaymentItem {
     public let provider: PaymentProvider
@@ -35,14 +37,14 @@ extension LGPaymentItem: Decodable {
 
      */
 
-    public static func decode(j: JSON) -> Decoded<LGPaymentItem> {
+    public static func decode(_ j: JSON) -> Decoded<LGPaymentItem> {
         let result = curry(LGPaymentItem.init)
             <^> j <| "provider"
             <*> j <| "item_id"
             <*> j <| "provider_item_id"
 
         if let error = result.error {
-            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGPaymentItem parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGPaymentItem parse error: \(error)")
         }
         return result
     }

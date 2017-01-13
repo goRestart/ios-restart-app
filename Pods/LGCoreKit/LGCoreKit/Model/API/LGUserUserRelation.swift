@@ -24,15 +24,15 @@ extension LGUserUserRelation {
      "is_blocking": false
      }
      */
-    static func decode(j: JSON) -> LGUserUserRelation? {
+    static func decode(_ j: JSON) -> LGUserUserRelation? {
 
         var userRelation = LGUserUserRelation(isBlocked: false, isBlockedBy: false)
 
         switch j {
-        case let .Array(responseArray):
+        case let .array(responseArray):
             for item in responseArray {
                 switch item {
-                case .Object:
+                case .object:
                     guard let relation = LGUserUserRelation.decode(item) else { break }
                     userRelation.isBlocked = userRelation.isBlocked || relation.isBlocked
                     userRelation.isBlockedBy = userRelation.isBlockedBy || relation.isBlockedBy
@@ -40,10 +40,10 @@ extension LGUserUserRelation {
                     break
                 }
             }
-        case let .Object(element):
+        case let .object(element):
             guard let link_name = element["link_name"] else { break }
             switch link_name {
-            case let .String(value):
+            case let .string(value):
                 userRelation.isBlocked = value == "blocked"
                 userRelation.isBlockedBy = value == "blocked_by"
             default:

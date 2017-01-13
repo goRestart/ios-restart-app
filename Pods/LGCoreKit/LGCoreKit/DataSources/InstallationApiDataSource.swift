@@ -28,8 +28,8 @@ class InstallationApiDataSource: InstallationDataSource {
     - parameter params:     Installation object with default values to create in API
     - parameter completion: Closure to call when the operation finishes
     */
-    func create(params: [String: AnyObject], completion: ((Result<Installation, ApiError>) -> ())?) {
-        let request = InstallationRouter.Create(params: params)
+    func create(_ params: [String: Any], completion: ((Result<Installation, ApiError>) -> ())?) {
+        let request = InstallationRouter.create(params: params)
         apiClient.request(request, decoder: self.decodeJson, completion: completion)
     }
 
@@ -40,22 +40,22 @@ class InstallationApiDataSource: InstallationDataSource {
      - parameter params:            The parameters to update in the Installation.
      - parameter completion:        Closure to call when the operation finishes
     */
-    func update(installationId: String, params: [String: AnyObject],
+    func update(_ installationId: String, params: [String: Any],
                 completion: ((Result<Installation, ApiError>) -> ())?) {
-        let request = InstallationRouter.Patch(installationId: installationId, params: params)
+        let request = InstallationRouter.patch(installationId: installationId, params: params)
         apiClient.request(request, decoder: self.decodeJson, completion: completion)
     }
     
     // MARK: - Private methods
     
     /**
-    Helper method to decode a JSON (AnyObject) to a LGInstallation (Installation protocol)
+    Helper method to decode a JSON (Any) to a LGInstallation (Installation protocol)
 
     - parameter jsonData: JSON with the Installation data
 
     - returns: Installation object (an LGInstallation instance)
     */
-    private func decodeJson(jsonData: AnyObject) -> Installation? {
+    private func decodeJson(_ jsonData: Any) -> Installation? {
         let installation: LGInstallation? = decode(jsonData)
         return installation
     }

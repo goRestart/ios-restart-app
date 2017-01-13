@@ -7,21 +7,21 @@
 //
 
 public enum MessageType: Int {
-    case Text = 0
-    case Offer = 1
-    case Sticker = 2
+    case text = 0
+    case offer = 1
+    case sticker = 2
 }
 
 public enum MessageWarningStatus: Int {
-    case Normal
-    case Suspicious
+    case normal
+    case suspicious
 }
 
 public protocol Message: BaseModel {
     var text: String { get }
     var type: MessageType { get }
     var userId: String { get }
-    var createdAt: NSDate? { get }
+    var createdAt: Date? { get }
     var isRead: Bool { get }
     var warningStatus: MessageWarningStatus { get }
 }

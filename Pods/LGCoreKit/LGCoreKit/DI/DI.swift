@@ -38,7 +38,7 @@ public protocol DI: class {
     var passiveBuyersRepository: PassiveBuyersRepository { get }
 
     // Helper
-    var dateFormatter: NSDateFormatter { get }
+    var dateFormatter: DateFormatter { get }
     var currencyHelper: CurrencyHelper { get }
     var countryHelper: CountryHelper { get }
 

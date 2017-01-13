@@ -19,16 +19,16 @@ final class CoreDI: InternalDI {
     // MARK: - Lifecycle
     
     init(backgroundEnabled: Bool) {
-        self.networkManager = Manager.lgManager(backgroundEnabled)
+        self.networkManager = Alamofire.SessionManager.lgManager(backgroundEnabled)
         let tokenDAO = CoreDI.tokenDAO
         let apiClient = AFApiClient(alamofireManager: self.networkManager, tokenDAO: tokenDAO)
         let webSocketClient = LGWebSocketClient()
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
 
-        let appVersion = NSBundle.mainBundle()
-        let locale = NSLocale.autoupdatingCurrentLocale()
-        let timeZone = NSTimeZone.systemTimeZone()
+        let appVersion = Bundle.main
+        let locale = Locale.autoupdatingCurrent
+        let timeZone = TimeZone.current
 
         let deviceIdDAO = DeviceIdKeychainDAO(keychain: CoreDI.keychain)
         let installationDAO = InstallationUserDefaultsDAO(userDefaults: userDefaults)
@@ -63,7 +63,7 @@ final class CoreDI: InternalDI {
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         let stickersDAO = StickersUDDAO(userDefaults: userDefaults)
         let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
-        let reachability = try? Reachability.reachabilityForInternetConnection()
+        let reachability = Reachability()
 
         let sessionManager = LGSessionManager(apiClient: apiClient, websocketClient: webSocketClient,
             myUserRepository: myUserRepository, installationRepository: installationRepository, tokenDAO: tokenDAO,
@@ -215,7 +215,7 @@ final class CoreDI: InternalDI {
     let currencyHelper: CurrencyHelper
     let countryHelper: CountryHelper
     
-    lazy var dateFormatter: NSDateFormatter = {
+    lazy var dateFormatter: DateFormatter = {
         return LGDateFormatter()
     }()
 
@@ -227,6 +227,6 @@ final class CoreDI: InternalDI {
 
     // MARK: - Private iVars
     
-    private let userDefaults: NSUserDefaults
-    private let networkManager: Manager
+    private let userDefaults: UserDefaults
+    private let networkManager: Alamofire.SessionManager
 }

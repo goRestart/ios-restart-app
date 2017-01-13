@@ -14,8 +14,6 @@ public protocol Priceable {
 extension Priceable {
     public func formattedPrice() -> String {
         let actualCurrencyCode = currency.code
-        let formattedPrice = InternalCore.currencyHelper.formattedAmountWithCurrencyCode(actualCurrencyCode,
-                                                                                         amount: price.value)
-        return formattedPrice ?? "\(price.value)"
+        return InternalCore.currencyHelper.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: price.value)
     }
 }

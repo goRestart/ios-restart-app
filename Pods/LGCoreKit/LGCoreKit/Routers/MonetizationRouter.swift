@@ -8,30 +8,30 @@
 
 enum MonetizationRouter: URLRequestAuthenticable {
 
-    case ShowBumpeable(productId: String, params: [String : AnyObject])
+    case showBumpeable(productId: String, params: [String : Any])
 
     static let bumpeableBaseUrl = "/api/bumpeable-products"
 
     var endpoint: String {
         switch self {
-        case let .ShowBumpeable(productId, _):
+        case let .showBumpeable(productId, _):
             return MonetizationRouter.bumpeableBaseUrl + "/\(productId)"
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .ShowBumpeable:
-            return .User
+        case .showBumpeable:
+            return .user
         }
     }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .ShowBumpeable(_, params):
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
+        case let .showBumpeable(_, params):
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         }
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 protocol ExpressChatCoordinatorDelegate: CoordinatorDelegate {
-    func expressChatCoordinatorDidSentMessages(coordinator: ExpressChatCoordinator, count: Int)
+    func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int)
 }
 
 class ExpressChatCoordinator: Coordinator {
@@ -45,37 +45,37 @@ class ExpressChatCoordinator: Coordinator {
         }
     }
 
-    func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard viewController.parentViewController == nil else { return }
-        parent.presentViewController(viewController, animated: animated, completion: completion)
+    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        guard viewController.parent == nil else { return }
+        parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func close(animated animated: Bool, completion: (() -> Void)?) {
+    func close(animated: Bool, completion: (() -> Void)?) {
         close(0, animated: animated, completion: completion)
     }
 
-    func close(countMessagesSent: Int, animated: Bool, completion: (() -> Void)?) {
-        viewController.dismissViewControllerAnimated(animated, completion: completion)
+    func close(_ countMessagesSent: Int, animated: Bool, completion: (() -> Void)?) {
+        viewController.dismiss(animated: animated, completion: completion)
         delegate?.coordinatorDidClose(self)
         if countMessagesSent > 0 { delegate?.expressChatCoordinatorDidSentMessages(self, count: countMessagesSent) }
     }
 }
 
 extension ExpressChatCoordinator: ExpressChatNavigator {
-    func closeExpressChat(showAgain: Bool, forProduct: String) {
+    func closeExpressChat(_ showAgain: Bool, forProduct: String) {
         keyValueStorage.userShouldShowExpressChat = showAgain
         saveProductAsExpressChatShown(forProduct)
         close(0, animated: true, completion: nil)
     }
 
-    func sentMessage(forProduct: String, count: Int) {
+    func sentMessage(_ forProduct: String, count: Int) {
         saveProductAsExpressChatMessageSent(forProduct)
         saveProductAsExpressChatShown(forProduct)
         close(count, animated: true, completion: nil)
     }
 
     // save products which already have shown the express chat
-    private func saveProductAsExpressChatShown(productId: String) {
+    fileprivate func saveProductAsExpressChatShown(_ productId: String) {
         var productsExpressShown = keyValueStorage.userProductsWithExpressChatAlreadyShown
 
         for productShownId in productsExpressShown {
@@ -85,7 +85,7 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
         keyValueStorage.userProductsWithExpressChatAlreadyShown = productsExpressShown
     }
 
-    private func expressChatAlreadyShownForProduct(productId: String) -> Bool {
+    fileprivate func expressChatAlreadyShownForProduct(_ productId: String) -> Bool {
         for productShownId in keyValueStorage.userProductsWithExpressChatAlreadyShown {
             if productShownId == productId { return true }
         }
@@ -93,7 +93,7 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
     }
 
     // save products which sent messages
-    private func saveProductAsExpressChatMessageSent(productId: String) {
+    fileprivate func saveProductAsExpressChatMessageSent(_ productId: String) {
         var productsExpressSent = keyValueStorage.userProductsWithExpressChatMessageSent
 
         for productSentId in productsExpressSent {
@@ -103,7 +103,7 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
         keyValueStorage.userProductsWithExpressChatMessageSent = productsExpressSent
     }
 
-    private func expressChatMessageSentForProduct(productId: String) -> Bool {
+    fileprivate func expressChatMessageSentForProduct(_ productId: String) -> Bool {
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
             if productSentId == productId { return true }
         }

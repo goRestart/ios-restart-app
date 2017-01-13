@@ -12,18 +12,18 @@ enum TrendingSearchesRouter: URLRequestAuthenticable {
 
     static let endpoint = "/api/trending_searches"
 
-    case Index(params: [String: AnyObject])
+    case index(params: [String: Any])
 
     var requiredAuthLevel: AuthLevel {
-        return .Nonexistent
+        return .nonexistent
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case .Index(let params):
-            return Router<APIBaseURL>.Index(endpoint: TrendingSearchesRouter.endpoint, params: params).URLRequest
+        case .index(let params):
+            return try Router<APIBaseURL>.index(endpoint: TrendingSearchesRouter.endpoint, params: params).asURLRequest()
         }
     }
 }

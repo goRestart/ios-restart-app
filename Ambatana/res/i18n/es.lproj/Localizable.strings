@@ -57,7 +57,7 @@
 "change_password_send_error_invalid_password_with_max" = "Por favor, introduce una contraseña válida. Debe tener entre %d y %d caracteres.";
 "change_password_send_error_link_expired" = "¡Ups! Este enlace ha caducado.";
 "change_password_send_error_passwords_mismatch" = "¡Ups! La contraseña no coincide. Por favor, inténtalo de nuevo.";
-"change_password_send_ok" = "Has cambiado la contraseña.";
+"change_password_send_ok" = "¡Contraseña cambiada!";
 "change_password_title" = "Cambiar contraseña";
 "change_username_error_invalid_username" = "¡Ups! Introduce un nombre válido, debe tener al menos %d caracteres.";
 "change_username_error_invalid_username_letgo" = "Otra cuenta está usando %@";
@@ -450,7 +450,7 @@
 "product_mark_as_sold_free_confirm_message" = "Marca tu producto como regalado";
 "product_mark_as_sold_free_confirm_ok_button" = "Marcar";
 "product_mark_as_sold_free_confirm_title" = "Marcar como regalado";
-"product_mark_as_sold_free_success_message" = "¡Enhorabuena! Tu artículo ha sido marcado como regalado";
+"product_mark_as_sold_free_success_message" = "¡Enhorabuena! Tu artículo ha sido marcado como regalado.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_more_info_open_button" = "MÁS INFO";
 "product_more_info_related_title" = "TAMBIÉN TE PODRÍA INTERESAR:";

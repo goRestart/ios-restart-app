@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    func lastComponentSeparatedByCharacter(character: Character) -> String? {
-        return self.characters.split(character).last.map { String($0) }
+    func lastComponentSeparatedByCharacter(_ character: Character) -> String? {
+        return self.characters.split(separator: character).last.map { String($0) }
     }
 }

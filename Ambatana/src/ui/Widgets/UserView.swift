@@ -9,81 +9,81 @@
 import RxSwift
 
 protocol UserViewDelegate: class {
-    func userViewAvatarPressed(userView: UserView)
-    func userViewAvatarLongPressStarted(userView: UserView)
-    func userViewAvatarLongPressEnded(userView: UserView)
-    func userViewTextInfoContainerPressed(userView: UserView)
+    func userViewAvatarPressed(_ userView: UserView)
+    func userViewAvatarLongPressStarted(_ userView: UserView)
+    func userViewAvatarLongPressEnded(_ userView: UserView)
+    func userViewTextInfoContainerPressed(_ userView: UserView)
 }
 
 enum UserViewStyle {
-    case CompactShadow(size: CGSize)
-    case CompactBorder(size: CGSize)
-    case Full
-    case WithProductInfo
+    case compactShadow(size: CGSize)
+    case compactBorder(size: CGSize)
+    case full
+    case withProductInfo
 
     var bgColor: UIColor {
         switch self {
-        case .Full:
-            return UIColor.white.colorWithAlphaComponent(0.9)
-        case .CompactShadow, .CompactBorder, WithProductInfo:
-            return UIColor.clearColor()
+        case .full:
+            return UIColor.white.withAlphaComponent(0.9)
+        case .compactShadow, .compactBorder, .withProductInfo:
+            return UIColor.clear
         }
     }
 
     var usernameLabelFont: UIFont {
         switch self {
-        case .Full:
+        case .full:
             return UIFont.mediumBodyFont
-        case .CompactShadow, .CompactBorder:
+        case .compactShadow, .compactBorder:
             return UIFont.smallBodyFont
-        case .WithProductInfo:
+        case .withProductInfo:
             return UIFont.systemMediumFont(size: 17)
         }
     }
 
     var usernameLabelColor: UIColor {
         switch self {
-        case .Full:
+        case .full:
             return UIColor.black
-        case .CompactShadow, .CompactBorder, WithProductInfo:
+        case .compactShadow, .compactBorder, .withProductInfo:
             return UIColor.white
         }
     }
 
     var subtitleLabelFont: UIFont {
         switch self {
-        case .Full:
+        case .full:
             return UIFont.systemRegularFont(size: 13)
-        case .CompactShadow, .CompactBorder:
+        case .compactShadow, .compactBorder:
             return UIFont.systemRegularFont(size: 11)
-        case .WithProductInfo:
+        case .withProductInfo:
             return UIFont.systemBoldFont(size: 21)
         }
     }
 
     var subtitleLabelColor: UIColor {
         switch self {
-        case .Full:
+        case .full:
             return UIColor.black
-        case .CompactShadow, .CompactBorder, .WithProductInfo:
+        case .compactShadow, .compactBorder, .withProductInfo:
             return UIColor.white
         }
     }
 
     var avatarBorderColor: UIColor? {
         switch self {
-        case .Full, .CompactShadow:
+        case .full, .compactShadow:
             return nil
-        case .CompactBorder, WithProductInfo:
+        case .compactBorder, .withProductInfo:
             return UIColor.white
         }
     }
     
     var textHasShadow: Bool {
         switch self {
-        case .Full, .CompactBorder, .CompactShadow:
+        case .full, .compactBorder, .compactShadow:
             return false
-        case .WithProductInfo:
+        case .withProductInfo:
             return true
         }
     }
@@ -102,8 +102,8 @@ class UserView: UIView {
 
     private static let ratingsViewVisibleHeight: CGFloat = 12
 
-    private var style: UserViewStyle = .Full
-    private var avatarURL: NSURL?   // Used as an "image id" to avoid loading the avatar of the previous user
+    private var style: UserViewStyle = .full
+    private var avatarURL: URL?   // Used as an "image id" to avoid loading the avatar of the previous user
                                     //if the current doesn't has one
 
     weak var delegate: UserViewDelegate?
@@ -113,11 +113,13 @@ class UserView: UIView {
     
     // MARK: - Lifecycle
 
-    static func userView(style: UserViewStyle) -> UserView {
-        let view = NSBundle.mainBundle().loadNibNamed("UserView", owner: self, options: nil)?.first as? UserView
-        view?.style = style
-        view?.setup()
-        return view!
+    static func userView(_ style: UserViewStyle) -> UserView {
+        guard let view = Bundle.main.loadNibNamed("UserView", owner: self, options: nil)?.first as? UserView else{
+            return UserView()
+        }
+        view.style = style
+        view.setup()
+        return view
     }
 
     override func layoutSubviews() {
@@ -129,26 +131,26 @@ class UserView: UIView {
     
     // MARK: - Public methods
 
-    func setupWith(userAvatar avatar: NSURL?, userName: String?, userId: String?) {
+    func setupWith(userAvatar avatar: URL?, userName: String?, userId: String?) {
         setupWith(userAvatar: avatar, userName: userName, subtitle: nil, userId: userId)
     }
 
-    func setupWith(userAvatar avatar: NSURL?, userName: String?, subtitle: String?, userId: String?) {
+    func setupWith(userAvatar avatar: URL?, userName: String?, subtitle: String?, userId: String?) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
         setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName, subtitle: subtitle)
     }
     
-    func setupWith(userAvatar avatar: NSURL?, userName: String?, productTitle: String?, productPrice: String?, userId: String?) {
+    func setupWith(userAvatar avatar: URL?, userName: String?, productTitle: String?, productPrice: String?, userId: String?) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
         setupWith(userAvatar: avatar, placeholder: placeholder, userName: productTitle, subtitle: productPrice)
     }
 
-    func setupWith(userAvatar avatar: NSURL?, placeholder: UIImage?, userName: String?, subtitle: String?) {
+    func setupWith(userAvatar avatar: URL?, placeholder: UIImage?, userName: String?, subtitle: String?) {
         avatarURL = avatar
         userAvatarImageView.image = placeholder
         if let avatar = avatar {
             ImageDownloader.sharedInstance.downloadImageWithURL(avatar) { [weak self] result, url in
-                guard let imageWithSource = result.value where url == self?.avatarURL else { return }
+                guard let imageWithSource = result.value, url == self?.avatarURL else { return }
                 self?.userAvatarImageView.image = imageWithSource.image
             }
         }
@@ -157,15 +159,15 @@ class UserView: UIView {
         
         if style.textHasShadow {
             [titleLabel, subtitleLabel].forEach { label in
-                label.layer.shadowColor = UIColor.black.CGColor
-                label.layer.shadowOffset = CGSize.zero
-                label.layer.shadowRadius = 2.0
-                label.layer.shadowOpacity = 0.5
+                label?.layer.shadowColor = UIColor.black.cgColor
+                label?.layer.shadowOffset = CGSize.zero
+                label?.layer.shadowRadius = 2.0
+                label?.layer.shadowOpacity = 0.5
             }
         }
     }
     
-    func showShadow(show: Bool) {
+    func showShadow(_ show: Bool) {
         if show {
             layer.shadowOffset = CGSize.zero
             layer.shadowOpacity = 0.24
@@ -192,7 +194,7 @@ class UserView: UIView {
 
         if let borderColor = style.avatarBorderColor {
             userAvatarImageView.layer.borderWidth = 2
-            userAvatarImageView.layer.borderColor = borderColor.CGColor
+            userAvatarImageView.layer.borderColor = borderColor.cgColor
         }
         let tapGestureOnAvatar = UITapGestureRecognizer(target: self, action: #selector(avatarPressed))
         userAvatarImageView.addGestureRecognizer(tapGestureOnAvatar)
@@ -211,7 +213,7 @@ class UserView: UIView {
             } else {
                 self?.ratingsContainerHeight.constant = 0
             }
-            self?.subtitleLabel.hidden = rating > 0
+            self?.subtitleLabel.isHidden = rating > 0
         }.addDisposableTo(disposeBag)
 
         setAccesibilityIds()
@@ -225,11 +227,11 @@ class UserView: UIView {
         delegate?.userViewTextInfoContainerPressed(self)
     }
 
-    dynamic private func avatarLongPressed(recognizer: UILongPressGestureRecognizer) {
+    dynamic private func avatarLongPressed(_ recognizer: UILongPressGestureRecognizer) {
         switch recognizer.state {
-        case .Began:
+        case .began:
             delegate?.userViewAvatarLongPressStarted(self)
-        case .Cancelled, .Ended:
+        case .cancelled, .ended:
             delegate?.userViewAvatarLongPressEnded(self)
         default:
             break
@@ -237,8 +239,8 @@ class UserView: UIView {
     }
 
     private func setAccesibilityIds() {
-        titleLabel.accessibilityId = .UserViewNameLabel
-        subtitleLabel.accessibilityId = .UserViewSubtitleLabel
-        textInfoContainer.accessibilityId = .UserViewTextInfoContainer
+        titleLabel.accessibilityId = .userViewNameLabel
+        subtitleLabel.accessibilityId = .userViewSubtitleLabel
+        textInfoContainer.accessibilityId = .userViewTextInfoContainer
     }
 }

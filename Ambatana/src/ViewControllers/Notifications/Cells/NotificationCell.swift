@@ -31,14 +31,14 @@ class NotificationCell: UITableViewCell, ReusableCell {
         resetUI()
     }
 
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         refreshState()
     }
 
     // MARK: > Actions
 
-    @IBAction func primaryImagePressed(sender: AnyObject) {
+    @IBAction func primaryImagePressed(_ sender: AnyObject) {
         primaryImageAction?()
     }
 
@@ -57,10 +57,10 @@ class NotificationCell: UITableViewCell, ReusableCell {
         timeLabel.textColor = UIColor.black
         primaryImage.backgroundColor = UIColor.placeholderBackgroundColor()
 
-        primaryImage.accessibilityId = .NotificationsCellPrimaryImage
+        primaryImage.accessibilityId = .notificationsCellPrimaryImage
 
-        actionButton.userInteractionEnabled = false
-        actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: false))
+        actionButton.isUserInteractionEnabled = false
+        actionButton.setStyle(.secondary(fontSize: .small, withBorder: false))
         actionButton.contentEdgeInsets = UIEdgeInsets() //Resetting edge insets to align left
     }
 
@@ -73,7 +73,7 @@ class NotificationCell: UITableViewCell, ReusableCell {
     }
 
     private func refreshState() {
-        let highlighedState = self.highlighted || self.selected
+        let highlighedState = self.isHighlighted || self.isSelected
         cellContainer.alpha = highlighedState ? LGUIKitConstants.highlightedStateAlpha : 1.0
     }
 }

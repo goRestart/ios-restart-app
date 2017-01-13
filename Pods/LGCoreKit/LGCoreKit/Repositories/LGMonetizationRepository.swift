@@ -24,7 +24,7 @@ class LGMonetizationRepository : MonetizationRepository {
     // MARK: - PUblic methods
 
     func retrieveBumpeableProductInfo(productId: String, completion: BumpeableProductCompletion?) {
-        dataSource.retrieveBumpeableProductInfo(productId) { result in
+        dataSource.retrieveBumpeableProductInfo(productId: productId) { result in
             if let value = result.value {
                 completion?(BumpeableProductResult(value: value))
             } else if let error = result.error {

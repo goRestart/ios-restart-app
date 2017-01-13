@@ -8,5 +8,5 @@
 
 protocol StickersDAO {
     var stickers: [Sticker] { get }
-    func save(stickers: [Sticker])
+    func save(_ stickers: [Sticker])
 }

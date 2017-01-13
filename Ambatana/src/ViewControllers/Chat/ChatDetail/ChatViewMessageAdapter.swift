@@ -23,41 +23,41 @@ class ChatViewMessageAdapter {
         self.myUserRepository = myUserRepository
     }
     
-    func adapt(message: Message) -> ChatViewMessage {
+    func adapt(_ message: Message) -> ChatViewMessage {
         
         let type: ChatViewMessageType
         switch message.type {
-        case .Offer:
-            type = ChatViewMessageType.Offer(text: message.text)
-        case .Text:
-            type = ChatViewMessageType.Text(text: message.text)
-        case .Sticker:
+        case .offer:
+            type = ChatViewMessageType.offer(text: message.text)
+        case .text:
+            type = ChatViewMessageType.text(text: message.text)
+        case .sticker:
             if let sticker = stickersRepository.sticker(message.text) {
-                type = ChatViewMessageType.Sticker(url: sticker.url)
+                type = ChatViewMessageType.sticker(url: sticker.url)
             } else {
-                type = ChatViewMessageType.Text(text: message.text)
+                type = ChatViewMessageType.text(text: message.text)
             }
         }
         
-        let status: ChatMessageStatus = message.isRead ? .Read : .Sent
+        let status: ChatMessageStatus = message.isRead ? .read : .sent
         return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt,
                                receivedAt: nil, readAt: nil, type: type, status: status,
                                warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus))
     }
     
-    func adapt(message: ChatMessage) -> ChatViewMessage {
+    func adapt(_ message: ChatMessage) -> ChatViewMessage {
         
         let type: ChatViewMessageType
         switch message.type {
-        case .Offer:
-            type = ChatViewMessageType.Offer(text: message.text)
-        case .Text, .QuickAnswer, .ExpressChat, .FavoritedProduct:
-            type = ChatViewMessageType.Text(text: message.text)
-        case .Sticker:
+        case .offer:
+            type = ChatViewMessageType.offer(text: message.text)
+        case .text, .quickAnswer, .expressChat, .favoritedProduct:
+            type = ChatViewMessageType.text(text: message.text)
+        case .sticker:
             if let sticker = stickersRepository.sticker(message.text) {
-                type = ChatViewMessageType.Sticker(url: sticker.url)
+                type = ChatViewMessageType.sticker(url: sticker.url)
             } else {
-                type = ChatViewMessageType.Text(text: message.text)
+                type = ChatViewMessageType.text(text: message.text)
             }
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
@@ -66,16 +66,16 @@ class ChatViewMessageAdapter {
                                warningStatus: ChatViewMessageWarningStatus(status: message.warnings))
     }
     
-    func addDisclaimers(messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
+    func addDisclaimers(_ messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
         return messages.reduce([ChatViewMessage]()) { [weak self] (array, message) -> [ChatViewMessage] in
-            if message.warningStatus == .Spam && message.talkerId != self?.myUserRepository.myUser?.objectId {
+            if message.warningStatus == .spam && message.talkerId != self?.myUserRepository.myUser?.objectId {
                 return array + [disclaimerMessage] + [message]
             }
             return array + [message]
         }
     }
 
-    func createScammerDisclaimerMessage(isBuyer isBuyer: Bool, userName: String?, action: (() -> ())?) -> ChatViewMessage {
+    func createScammerDisclaimerMessage(isBuyer: Bool, userName: String?, action: (() -> ())?) -> ChatViewMessage {
         let chatBlockedMessage =  ChatViewMessageAdapter.alertMutableAttributedString
 
         let message: NSAttributedString
@@ -85,31 +85,31 @@ class ChatViewMessageAdapter {
             } else {
                 message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerBuyerWoName)
             }
-            chatBlockedMessage.appendAttributedString(message)
-            chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
+            chatBlockedMessage.append(message)
+            chatBlockedMessage.append(NSAttributedString(string: " "))
             let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
             let secondPhraseStr = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTips(keyword)
             let secondPhraseNSStr = NSString(string: secondPhraseStr)
-            let range = secondPhraseNSStr.rangeOfString(keyword)
+            let range = secondPhraseNSStr.range(of: keyword)
 
             let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
             if range.location != NSNotFound {
                 secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
             }
-            chatBlockedMessage.appendAttributedString(secondPhrase)
+            chatBlockedMessage.append(secondPhrase)
         } else {
             if let otherUserName = userName {
                 message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerSellerWName(otherUserName))
             } else {
                 message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerSellerWoName)
             }
-            chatBlockedMessage.appendAttributedString(message)
+            chatBlockedMessage.append(message)
         }
 
         return createDisclaimerMessage(chatBlockedMessage, showAvatar: true, actionTitle: nil, action: action)
     }
 
-    func createUserDeletedDisclaimerMessage(userName: String?) -> ChatViewMessage {
+    func createUserDeletedDisclaimerMessage(_ userName: String?) -> ChatViewMessage {
         let chatDeletedMessage = ChatViewMessageAdapter.alertMutableAttributedString
         let message: String
         if let otherUserName = userName {
@@ -117,45 +117,45 @@ class ChatViewMessageAdapter {
         } else {
             message = LGLocalizedString.chatDeletedDisclaimerWoName
         }
-        chatDeletedMessage.appendAttributedString(NSAttributedString(string: message))
+        chatDeletedMessage.append(NSAttributedString(string: message))
         return createDisclaimerMessage(chatDeletedMessage, showAvatar: true, actionTitle: nil, action: nil)
     }
 
-    func createMessageSuspiciousDisclaimerMessage(action: (() -> ())?) -> ChatViewMessage {
+    func createMessageSuspiciousDisclaimerMessage(_ action: (() -> ())?) -> ChatViewMessage {
         let messageSuspiciousMessage = ChatViewMessageAdapter.alertMutableAttributedString
 
         let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
         let secondPhraseStr = LGLocalizedString.chatMessageDisclaimerScammer(keyword)
         let secondPhraseNSStr = NSString(string: secondPhraseStr)
-        let range = secondPhraseNSStr.rangeOfString(keyword)
+        let range = secondPhraseNSStr.range(of: keyword)
 
         let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
         if range.location != NSNotFound {
             secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
         }
-        messageSuspiciousMessage.appendAttributedString(secondPhrase)
+        messageSuspiciousMessage.append(secondPhrase)
         return createDisclaimerMessage(messageSuspiciousMessage, showAvatar: false, actionTitle: nil, action: action)
     }
 
-    func createUserInfoMessage(user: User?) -> ChatViewMessage? {
-        guard let user = user, _ = user.accounts else { return nil }
+    func createUserInfoMessage(_ user: User?) -> ChatViewMessage? {
+        guard let user = user, let _ = user.accounts else { return nil }
         let facebook = user.facebookAccount?.verified ?? false
         let google = user.googleAccount?.verified ?? false
         let email = user.emailAccount?.verified ?? false
         let name = LGLocalizedString.chatUserInfoName(user.name ?? "")
         let address = user.postalAddress.zipCodeCityString
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                               type: .UserInfo(name: name, address: address, facebook: facebook, google: google, email: email),
-                               status: nil, warningStatus: .Normal)
+                               type: .userInfo(name: name, address: address, facebook: facebook, google: google, email: email),
+                               status: nil, warningStatus: .normal)
     }
 
-    private func createDisclaimerMessage(disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
+    private func createDisclaimerMessage(_ disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
                                          action: (() -> ())?) -> ChatViewMessage {
-        let disclaimer = ChatViewMessageType.Disclaimer(showAvatar: showAvatar, text: disclaimerText,
+        let disclaimer = ChatViewMessageType.disclaimer(showAvatar: showAvatar, text: disclaimerText,
                                                         actionTitle: actionTitle, action: action)
         // TODO: use proper warningStatus once the chat team includes the warning info in the messages
         let disclaimerMessage = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                                                type: disclaimer, status: nil, warningStatus: .Normal)
+                                                type: disclaimer, status: nil, warningStatus: .normal)
         return disclaimerMessage
     }
 
@@ -164,7 +164,7 @@ class ChatViewMessageAdapter {
         icon.image = UIImage(named: "ic_alert_gray")
         let iconString = NSAttributedString(attachment: icon)
         let alertString = NSMutableAttributedString(attributedString: iconString)
-        alertString.appendAttributedString(NSAttributedString(string: " "))
+        alertString.append(NSAttributedString(string: " "))
         return alertString
     }
 }

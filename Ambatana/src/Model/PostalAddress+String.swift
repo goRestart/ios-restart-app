@@ -11,25 +11,25 @@ import LGCoreKit
 extension PostalAddress {
     var zipCodeCityString: String? {
         var components = [String]()
-        if let zipCode = zipCode where !zipCode.isEmpty {
+        if let zipCode = zipCode, !zipCode.isEmpty {
             components.append(zipCode)
         }
-        if let city = city where !city.isEmpty {
+        if let city = city, !city.isEmpty {
             components.append(city)
         }
-        return components.isEmpty ? nil : components.joinWithSeparator(", ")
+        return components.isEmpty ? nil : components.joined(separator: ", ")
     }
 
     var cityStateString: String? {
         var components = [String]()
-        if let city = city where !city.isEmpty {
+        if let city = city, !city.isEmpty {
             components.append(city)
         }
-        if let state = state where !state.isEmpty {
+        if let state = state, !state.isEmpty {
             components.append(state)
-        } else if let countryCode = countryCode where !countryCode.isEmpty {
+        } else if let countryCode = countryCode, !countryCode.isEmpty {
             components.append(countryCode)
         }
-        return components.isEmpty ? nil : components.joinWithSeparator(", ")
+        return components.isEmpty ? nil : components.joined(separator: ", ")
     }
 }

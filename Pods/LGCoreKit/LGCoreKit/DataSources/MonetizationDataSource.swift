@@ -9,7 +9,7 @@
 import Result
 
 typealias MonetizationDataSourceBumpeableProductResult = Result<BumpeableProduct, ApiError>
-typealias MonetizationDataSourceBumpeableProductCompletion = MonetizationDataSourceBumpeableProductResult -> Void
+typealias MonetizationDataSourceBumpeableProductCompletion = (MonetizationDataSourceBumpeableProductResult) -> Void
 
 protocol MonetizationDataSource {
     func retrieveBumpeableProductInfo(productId: String, completion: MonetizationDataSourceBumpeableProductCompletion?)

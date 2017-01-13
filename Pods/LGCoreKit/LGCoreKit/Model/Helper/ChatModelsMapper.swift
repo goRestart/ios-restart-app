@@ -10,27 +10,27 @@ import Foundation
 import Argo
 
 class ChatModelsMapper {
-    static func messagesFromDict(dict: [String: AnyObject]) -> [ChatMessage] {
-        guard let array = dict["messages"] as? [[String: AnyObject]] else { return [] }
+    static func messagesFromDict(_ dict: [String : Any]) -> [ChatMessage] {
+        guard let array = dict["messages"] as? [[String : Any]] else { return [] }
         return array.map(messageFromDict).flatMap{$0}
     }
     
-    static func messageFromDict(dict: [String: AnyObject]) -> ChatMessage? {
+    static func messageFromDict(_ dict: [String : Any]) -> ChatMessage? {
         guard let message: LGChatMessage = decode(dict) else { return nil }
         return message
     }
     
-    static func conversationsFromDict(dict: [String: AnyObject]) -> [ChatConversation] {
-        guard let array = dict["conversations"] as? [[String: AnyObject]] else { return [] }
+    static func conversationsFromDict(_ dict: [String : Any]) -> [ChatConversation] {
+        guard let array = dict["conversations"] as? [[String : Any]] else { return [] }
         return array.map(conversationFromDict).flatMap{$0}
     }
     
-    static func conversationFromDict(dict: [String: AnyObject]) -> ChatConversation? {
+    static func conversationFromDict(_ dict: [String : Any]) -> ChatConversation? {
         guard let conversation: LGChatConversation = decode(dict) else { return nil }
         return conversation
     }
     
-    static func eventFromDict(dict: [String: AnyObject], type: WebSocketResponseType) -> ChatEvent? {
+    static func eventFromDict(_ dict: [String : Any], type: WebSocketResponseType) -> ChatEvent? {
         guard let event: LGChatEvent = decode(dict) else { return nil }
         return event
     }

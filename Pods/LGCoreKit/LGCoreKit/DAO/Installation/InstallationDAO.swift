@@ -23,7 +23,7 @@ protocol InstallationDAO {
 
     - parameter installation: Installation to save
     */
-    func save(installation: Installation)
+    func save(_ installation: Installation)
 
     /**
     Deletes the Installation instance.

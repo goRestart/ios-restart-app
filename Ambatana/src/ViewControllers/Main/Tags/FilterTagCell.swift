@@ -10,7 +10,7 @@ import UIKit
 import LGCoreKit
 
 protocol FilterTagCellDelegate : class {
-    func onFilterTagClosed(filterTagCell: FilterTagCell)
+    func onFilterTagClosed(_ filterTagCell: FilterTagCell)
 }
 
 class FilterTagCell: UICollectionViewCell {
@@ -30,40 +30,40 @@ class FilterTagCell: UICollectionViewCell {
 
     // MARK: - Static methods
 
-    static func cellSizeForTag(tag : FilterTag) -> CGSize {
+    static func cellSizeForTag(_ tag : FilterTag) -> CGSize {
         switch tag {
-        case .Location(let place):
+        case .location(let place):
             return FilterTagCell.sizeForText(place.fullText(showAddress: false))
-        case .OrderBy(let sortOption):
+        case .orderBy(let sortOption):
             return FilterTagCell.sizeForText(sortOption.name)
-        case .Within(let timeOption):
+        case .within(let timeOption):
             return FilterTagCell.sizeForText(timeOption.name)
-        case .Category:
+        case .category:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
-        case .PriceRange(let minPrice, let maxPrice, let currency):
+        case .priceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
-        case .FreeStuff:
+        case .freeStuff:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
         }
     }
     
-    private static func sizeForText(text: String) -> CGSize {
-        let constraintRect = CGSize(width: CGFloat.max, height: FilterTagCell.cellHeigh)
-        let boundingBox = text.boundingRectWithSize(constraintRect,
-            options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+    private static func sizeForText(_ text: String) -> CGSize {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: FilterTagCell.cellHeigh)
+        let boundingBox = text.boundingRect(with: constraintRect,
+            options: NSStringDrawingOptions.usesLineFragmentOrigin,
             attributes: [NSFontAttributeName: UIFont.smallBodyFont], context: nil)
         return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
     }
 
-    private static func stringForPriceRange(min: Int?, max: Int?, withCurrency currency: Currency?) -> String {
+    private static func stringForPriceRange(_ min: Int?, max: Int?, withCurrency currency: Currency?) -> String {
         var minText = ""
         var maxText = ""
         if let min = min {
-            minText = Core.currencyHelper.formattedAmountWithCurrencyCode(currency?.code ?? "", amount: min)
+            minText = Core.currencyHelper.formattedAmountWithCurrencyCode(currency?.code ?? "", amount: Double(min))
         }
         if let max = max {
-            maxText = Core.currencyHelper.formattedAmountWithCurrencyCode(currency?.code ?? "", amount: max)
+            maxText = Core.currencyHelper.formattedAmountWithCurrencyCode(currency?.code ?? "", amount: Double(max))
         }
 
         if !minText.isEmpty && !maxText.isEmpty {
@@ -95,29 +95,29 @@ class FilterTagCell: UICollectionViewCell {
     
     // MARK: - IBActions
     
-    @IBAction func onCloseBtn(sender: AnyObject) {
+    @IBAction func onCloseBtn(_ sender: AnyObject) {
         delegate?.onFilterTagClosed(self)
     }
 
 
     // MARK: - Public methods
     
-    func setupWithTag(tag : FilterTag) {
+    func setupWithTag(_ tag : FilterTag) {
         filterTag = tag
         
         switch tag {
-        case .Location(let place):
+        case .location(let place):
             self.tagLabel.text = place.fullText(showAddress: false)
-        case .OrderBy(let sortOption):
+        case .orderBy(let sortOption):
             self.tagLabel.text = sortOption.name
-        case .Within(let timeOption):
+        case .within(let timeOption):
             self.tagLabel.text = timeOption.name
-        case .Category(let category):
+        case .category(let category):
             self.tagIconWidth.constant = FilterTagCell.iconWidth
             self.tagIcon.image = category.image
-        case .PriceRange(let minPrice, let maxPrice, let currency):
+        case .priceRange(let minPrice, let maxPrice, let currency):
             self.tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
-        case .FreeStuff:
+        case .freeStuff:
             self.tagIconWidth.constant = FilterTagCell.iconWidth
             self.tagIcon.image = UIImage(named: "categories_free")
         }
@@ -127,10 +127,10 @@ class FilterTagCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        self.contentView.layer.borderColor = UIColor.lineGray.CGColor
+        self.contentView.layer.borderColor = UIColor.lineGray.cgColor
         self.contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
         self.contentView.layer.cornerRadius = 4.0
-        self.contentView.layer.backgroundColor = UIColor.whiteColor().CGColor
+        self.contentView.layer.backgroundColor = UIColor.white.cgColor
     }
     
     private func resetUI() {
@@ -140,8 +140,8 @@ class FilterTagCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .FilterTagCell
-        tagIcon.accessibilityId = .FilterTagCellTagIcon
-        tagLabel.accessibilityId = .FilterTagCellTagLabel
+        self.accessibilityId = .filterTagCell
+        tagIcon.accessibilityId = .filterTagCellTagIcon
+        tagLabel.accessibilityId = .filterTagCellTagLabel
     }
 }

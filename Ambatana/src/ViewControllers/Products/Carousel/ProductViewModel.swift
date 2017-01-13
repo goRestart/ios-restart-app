@@ -11,24 +11,23 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 import RxSwift
-import CollectionVariable
 
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
-    func vmShowShareFromMain(socialMessage: SocialMessage)
-    func vmShowShareFromMoreInfo(socialMessage: SocialMessage)
+    func vmShowShareFromMain(_ socialMessage: SocialMessage)
+    func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage)
 
-    func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
+    func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ())
 
-    func vmOpenStickersSelector(stickers: [Sticker])
+    func vmOpenStickersSelector(_ stickers: [Sticker])
 
-    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
-    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
+    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
+    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
     func vmShowOnboarding()
-    func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction])
+    func vmShowProductDelegateActionSheet(_ cancelLabel: String, actions: [UIAction])
 
-    func vmShareDidFailedWith(error: String)
+    func vmShareDidFailedWith(_ error: String)
     func vmViewControllerToShowShareOptions() -> UIViewController
 }
 
@@ -36,22 +35,22 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 enum ProductViewModelStatus {
     
     // When Mine:
-    case Pending
-    case PendingAndCommercializable
-    case Available
-    case AvailableAndCommercializable
-    case AvailableFree
-    case Sold
-    case SoldFree
+    case pending
+    case pendingAndCommercializable
+    case available
+    case availableAndCommercializable
+    case availableFree
+    case sold
+    case soldFree
 
     // Other Selling:
-    case OtherAvailable
-    case OtherAvailableFree
-    case OtherSold
-    case OtherSoldFree
+    case otherAvailable
+    case otherAvailableFree
+    case otherSold
+    case otherSoldFree
 
     // Common:
-    case NotAvailable
+    case notAvailable
 }
 
 
@@ -63,8 +62,8 @@ class ProductViewModel: BaseViewModel {
 
     // Data
     let product: Variable<Product>
-    private let commercializers: Variable<[Commercializer]?>
-    private let isReported = Variable<Bool>(false)
+    fileprivate let commercializers: Variable<[Commercializer]?>
+    fileprivate let isReported = Variable<Bool>(false)
     let isFavorite = Variable<Bool>(false)
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
@@ -83,14 +82,14 @@ class ProductViewModel: BaseViewModel {
         let userName = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
         return LGLocalizedString.productChatWithSellerNameButton(userName)
     }
-    private let productIsFavoriteable = Variable<Bool>(false)
-    let favoriteButtonState = Variable<ButtonState>(.Enabled)
-    let editButtonState = Variable<ButtonState>(.Hidden)
-    let productStatusBackgroundColor = Variable<UIColor>(UIColor.blackColor())
+    fileprivate let productIsFavoriteable = Variable<Bool>(false)
+    let favoriteButtonState = Variable<ButtonState>(.enabled)
+    let editButtonState = Variable<ButtonState>(.hidden)
+    let productStatusBackgroundColor = Variable<UIColor>(UIColor.black)
     let productStatusLabelText = Variable<String?>(nil)
-    let productStatusLabelColor = Variable<UIColor>(UIColor.whiteColor())
+    let productStatusLabelColor = Variable<UIColor>(UIColor.white)
 
-    let productImageURLs = Variable<[NSURL]>([])
+    let productImageURLs = Variable<[URL]>([])
 
     let productTitle = Variable<String?>(nil)
     let productPrice = Variable<String>("")
@@ -100,49 +99,51 @@ class ProductViewModel: BaseViewModel {
     let productAddress = Variable<String?>(nil)
     let productLocation = Variable<LGLocationCoordinates2D?>(nil)
     let productDistance = Variable<String?>(nil)
-    let productCreationDate = Variable<NSDate?>(nil)
+    let productCreationDate = Variable<Date?>(nil)
 
     let ownerId: String?
     let ownerName: String
-    let ownerAvatar: NSURL?
+    let ownerAvatar: URL?
     let ownerAvatarPlaceholder: UIImage?
     
-    let status = Variable<ProductViewModelStatus>(.Pending)
-    private let productHasReadyCommercials = Variable<Bool>(false)
+    let status = Variable<ProductViewModelStatus>(.pending)
+    fileprivate let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
 
     let statsViewVisible = Variable<Bool>(false)
 
     let stickersButtonEnabled = Variable<Bool>(false)
-    private var selectableStickers: [Sticker] = []
+    fileprivate var selectableStickers: [Sticker] = []
 
     let showInterestedBubble = Variable<Bool>(false)
     var interestedBubbleTitle: String?
     var isFirstProduct: Bool = false
     var isBumpeable: Bool = false
     
-    private var alreadyTrackedFirstMessageSent: Bool = false
-    private static let bubbleTagGroup = "favorite.bubble.group"
+    fileprivate var alreadyTrackedFirstMessageSent: Bool = false
+    fileprivate static let bubbleTagGroup = "favorite.bubble.group"
 
     // UI - Input
-    let moreInfoState = Variable<MoreInfoState>(.Hidden)
+    let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
-    private let myUserRepository: MyUserRepository
-    private let productRepository: ProductRepository
-    private let commercializerRepository: CommercializerRepository
-    private let chatWrapper: ChatWrapper
-    private let stickersRepository: StickersRepository
-    private let countryHelper: CountryHelper
-    private let locationManager: LocationManager
-    private let chatViewMessageAdapter: ChatViewMessageAdapter
-    private let interestedBubbleManager: InterestedBubbleManager
-    private let bubbleManager: BubbleNotificationManager
-    private let featureFlags: FeatureFlaggeable
-    private let purchasesShopper: PurchasesShopper
-    private var notificationsManager: NotificationsManager
-    private let monetizationRepository: MonetizationRepository
+
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let productRepository: ProductRepository
+    fileprivate let commercializerRepository: CommercializerRepository
+    fileprivate let chatWrapper: ChatWrapper
+    fileprivate let stickersRepository: StickersRepository
+    fileprivate let countryHelper: CountryHelper
+    fileprivate let locationManager: LocationManager
+    fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
+    fileprivate let interestedBubbleManager: InterestedBubbleManager
+    fileprivate let bubbleManager: BubbleNotificationManager
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let purchasesShopper: PurchasesShopper
+    fileprivate var notificationsManager: NotificationsManager
+    fileprivate let monetizationRepository: MonetizationRepository
+
 
     // Retrieval status
     private var relationRetrieved = false
@@ -210,7 +211,7 @@ class ProductViewModel: BaseViewModel {
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
         let ownerIsMyUser: Bool
-        if let productUserId = product.user.objectId, myUser = myUser, myUserId = myUser.objectId {
+        if let productUserId = product.user.objectId, let myUser = myUser, let myUserId = myUser.objectId {
             ownerIsMyUser = ( productUserId == myUserId )
         } else {
             ownerIsMyUser = false
@@ -238,7 +239,7 @@ class ProductViewModel: BaseViewModel {
         setupRxBindings()
     }
     
-    internal override func didBecomeActive(firstTime: Bool) {
+    internal override func didBecomeActive(_ firstTime: Bool) {
         guard let productId = product.value.objectId else { return }
 
         productRepository.incrementViews(product.value, completion: nil)
@@ -254,7 +255,7 @@ class ProductViewModel: BaseViewModel {
 
         if !statsRetrieved {
             productRepository.retrieveStats(product.value) { [weak self] result in
-                guard let strongSelf = self, stats = result.value else { return }
+                guard let strongSelf = self, let stats = result.value else { return }
                 strongSelf.statsRetrieved = true
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
@@ -273,7 +274,7 @@ class ProductViewModel: BaseViewModel {
                     strongSelf.refreshStatus()
                 }
 
-                let readyCommercials = value.filter {$0.status == .Ready }
+                let readyCommercials = value.filter {$0.status == .ready }
                 self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
                 self?.commercializers.value = value
             }
@@ -297,7 +298,7 @@ class ProductViewModel: BaseViewModel {
         }
     }
     
-    func syncProduct(completion: (() -> ())?) {
+    func syncProduct(_ completion: (() -> ())?) {
         guard let productId = product.value.objectId else { return }
         productRepository.retrieve(productId) { [weak self] result in
             if let value = result.value {
@@ -337,7 +338,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product)
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
-            strongSelf.editButtonState.value = product.isMine ? .Enabled : .Hidden
+            strongSelf.editButtonState.value = product.isMine ? .enabled : .hidden
 
             strongSelf.productTitle.value = product.title
             strongSelf.productTitleAutogenerated.value = product.isTitleAutoGenerated
@@ -361,17 +362,17 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
-            self?.favoriteButtonState.value = favoriteable ? .Enabled : .Hidden
+            self?.favoriteButtonState.value = favoriteable ? .enabled : .hidden
         }.addDisposableTo(disposeBag)
 
         moreInfoState.asObservable().map { (state: MoreInfoState) in
-            return state == .Shown
+            return state == .shown
         }.distinctUntilChanged().bindNext { [weak self] shown in
             self?.refreshNavBarButtons()
         }.addDisposableTo(disposeBag)
     }
     
-    private func distanceString(product: Product) -> String? {
+    private func distanceString(_ product: Product) -> String? {
         guard let userLocation = locationManager.currentLocation?.location else { return nil }
         let distance = product.location.distanceTo(userLocation)
         let distanceString = String(format: "%0.1f %@", arguments: [distance, DistanceType.systemDistanceType().string])
@@ -382,7 +383,7 @@ class ProductViewModel: BaseViewModel {
         setStatus(product.value.viewModelStatus(featureFlags))
     }
 
-    private func setStatus(productStatus: ProductViewModelStatus) {
+    private func setStatus(_ productStatus: ProductViewModelStatus) {
         if let templates = commercializerAvailableTemplatesCount {
             status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
         } else {
@@ -390,9 +391,9 @@ class ProductViewModel: BaseViewModel {
         }
     }
 
-    private func refreshDirectChats(productStatus: ProductViewModelStatus) {
+    private func refreshDirectChats(_ productStatus: ProductViewModelStatus) {
         stickersButtonEnabled.value = !selectableStickers.isEmpty && productStatus.directChatsAvailable
-        stickersRepository.show(typeFilter: .Product) { [weak self] result in
+        stickersRepository.show(typeFilter: .product) { [weak self] result in
             guard let stickers = result.value else { return }
             self?.selectableStickers = stickers
             self?.stickersButtonEnabled.value = !stickers.isEmpty && productStatus.directChatsAvailable
@@ -406,7 +407,7 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        let data = UserDetailData.UserAPI(user: product.value.user, source: .ProductDetail)
+        let data = UserDetailData.userAPI(user: product.value.user, source: .productDetail)
         navigator?.openUser(data)
     }
 
@@ -414,9 +415,9 @@ extension ProductViewModel {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
             var alertActions: [UIAction] = []
-            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
+            let markAsSoldAction = UIAction(interface: .text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
                 action: { [weak self] in
-                    self?.markSold(.MarkAsSold)
+                    self?.markSold(.markAsSold)
                 })
             alertActions.append(markAsSoldAction)
             self?.delegate?.vmShowAlert( LGLocalizedString.productMarkAsSoldConfirmTitle,
@@ -424,16 +425,16 @@ extension ProductViewModel {
                 cancelLabel: LGLocalizedString.productMarkAsSoldConfirmCancelButton,
                 actions: alertActions)
 
-            }, source: .MarkAsSold)
+            }, source: .markAsSold)
     }
     
     func markSoldFree() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             
             var alertActions: [UIAction] = []
-            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldFreeConfirmOkButton),
+            let markAsSoldAction = UIAction(interface: .text(LGLocalizedString.productMarkAsSoldFreeConfirmOkButton),
                 action: { [weak self] in
-                    self?.markSold(.MarkAsSold)
+                    self?.markSold(.markAsSold)
                 })
             alertActions.append(markAsSoldAction)
             self?.delegate?.vmShowAlert(LGLocalizedString.productMarkAsSoldFreeConfirmTitle,
@@ -441,7 +442,7 @@ extension ProductViewModel {
                 cancelLabel: LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton,
                 actions: alertActions)
             
-            }, source: .MarkAsSold)
+            }, source: .markAsSold)
     }
 
     func editProduct() {
@@ -454,7 +455,7 @@ extension ProductViewModel {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
             var alertActions: [UIAction] = []
-            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productSellAgainConfirmOkButton),
+            let sellAgainAction = UIAction(interface: .text(LGLocalizedString.productSellAgainConfirmOkButton),
                 action: { [weak self] in
                     self?.markUnsold()
                 })
@@ -464,14 +465,14 @@ extension ProductViewModel {
                 cancelLabel: LGLocalizedString.productSellAgainConfirmCancelButton,
                 actions: alertActions)
 
-            }, source: .MarkAsUnsold)
+            }, source: .markAsUnsold)
     }
 
     func resellFree() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             
             var alertActions: [UIAction] = []
-            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productSellAgainFreeConfirmOkButton),
+            let sellAgainAction = UIAction(interface: .text(LGLocalizedString.productSellAgainFreeConfirmOkButton),
                 action: { [weak self] in
                     self?.markUnsold()
                 })
@@ -481,25 +482,25 @@ extension ProductViewModel {
                 cancelLabel: LGLocalizedString.productSellAgainFreeConfirmCancelButton,
                 actions: alertActions)
             
-            }, source: .MarkAsUnsold)         
+            }, source: .markAsUnsold)
     }
 
     func chatWithSeller() {
-        let source: EventParameterTypePage = (moreInfoState.value == .Shown) ? .ProductDetailMoreInfo : .ProductDetail
+        let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .productDetailMoreInfo : .productDetail
         chatWithSeller(source)
     }
     
-    func chatWithSeller(source: EventParameterTypePage) {
+    func chatWithSeller(_ source: EventParameterTypePage) {
         trackHelper.trackChatWithSeller(source)
         navigator?.openProductChat(product.value)
     }
 
-    func sendDirectMessage(text: String, isDefaultText: Bool) {
+    func sendDirectMessage(_ text: String, isDefaultText: Bool) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
             if isDefaultText {
-                self?.sendMessage(.PeriscopeDirect(text))
+                self?.sendMessage(.periscopeDirect(text))
             } else {
-                self?.sendMessage(.Text(text))
+                self?.sendMessage(.text(text))
             }
         }
     }
@@ -507,17 +508,17 @@ extension ProductViewModel {
     func openVideo() {
         guard let commercializers = commercializers.value else { return }
 
-        let readyCommercializers = commercializers.filter {$0.status == .Ready }
+        let readyCommercializers = commercializers.filter {$0.status == .ready }
 
         guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
                                                                    productId: product.value.objectId,
-                                                                   source: .ProductDetail,
+                                                                   source: .productDetail,
                                                                    isMyVideo: product.value.isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
     func promoteProduct() {
-        promoteProduct(.ProductDetail)
+        promoteProduct(.productDetail)
     }
     
     func reportProduct() {
@@ -530,27 +531,27 @@ extension ProductViewModel {
         delegate?.vmOpenStickersSelector(selectableStickers)
     }
 
-    func sendSticker(sticker: Sticker) {
+    func sendSticker(_ sticker: Sticker) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.ChatSticker(sticker))
+            self?.sendMessage(.chatSticker(sticker))
         }
     }
 
     func switchFavorite() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             self?.switchFavoriteAction()
-        }, source: .Favourite)
+        }, source: .favourite)
     }
 
     func openRelatedItems() {
         trackHelper.trackMoreInfoRelatedItemsViewMore()
-        navigator?.openRelatedItems(product.value, productVisitSource: .MoreInfoRelated)
+        navigator?.openRelatedItems(product.value, productVisitSource: .moreInfoRelated)
     }
 
-    func refreshInterestedBubble(fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
+    func refreshInterestedBubble(_ fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
         // check that the bubble hasn't been shown yet for this product
-        guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) else { return }
-        guard product.value.viewModelStatus(featureFlags) == .OtherAvailable else { return }
+        guard let productId = product.value.objectId, shouldShowInterestedBubbleForProduct(productId, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) else { return }
+        guard product.value.viewModelStatus(featureFlags) == .otherAvailable else { return }
         // we need at least 1 favorited without counting ours but when coming from favorite action,
         // favourites count is not updated, so no need to substract 1)
         let othersFavCount = min(isFavorite.value && !fromFavoriteAction ? favouritesCount.value - 1 : favouritesCount.value, 5)
@@ -565,7 +566,7 @@ extension ProductViewModel {
         showInterestedBubble.value = false
     }
 
-    func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+    func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard let socialMessage = socialMessage.value else { return }
         socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
     }
@@ -585,17 +586,17 @@ extension ProductViewModel {
         return commercializerRepository.templatesForCountryCode(countryCode).count
     }
 
-    private var commercializerIsAvailable: Bool {
+    fileprivate var commercializerIsAvailable: Bool {
         return numberOfCommercializerTemplates() > 0
     }
 
-    private func promoteProduct(source: PromotionSource) {
+    fileprivate func promoteProduct(_ source: PromotionSource) {
         let theProduct = product.value
         if let countryCode = theProduct.postalAddress.countryCode, let productId = theProduct.objectId {
-            let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
+            let themes = commercializerRepository.templatesForCountryCode(countryCode)
             let commercializersArr = commercializers.value ?? []
             guard let promoteProductVM = PromoteProductViewModel(productId: productId,
-                                                                 themes: themes, commercializers: commercializersArr, promotionSource: .ProductDetail) else { return }
+                                                                 themes: themes, commercializers: commercializersArr, promotionSource: .productDetail) else { return }
             trackHelper.trackCommercializerStart()
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
@@ -607,14 +608,14 @@ extension ProductViewModel {
 
 extension ProductViewModel {
 
-    private func refreshNavBarButtons() {
+    fileprivate func refreshNavBarButtons() {
         navBarButtons.value = buildNavBarButtons()
     }
 
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        if (moreInfoState.value == .Shown) {
+        if (moreInfoState.value == .shown) {
             if productIsFavoriteable.value {
                 navBarButtons.append(buildFavoriteNavBarAction())
             }
@@ -627,31 +628,31 @@ extension ProductViewModel {
 
     private func buildFavoriteNavBarAction() -> UIAction {
         let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
-            .imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon, nil), action: { [weak self] in
+            .withRenderingMode(.alwaysOriginal)
+        return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                 self?.switchFavoriteAction()
-                }, source: .Favourite)
-            }, accessibilityId: .ProductCarouselNavBarFavoriteButton)
+                }, source: .favourite)
+            }, accessibilityId: .productCarouselNavBarFavoriteButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
-        let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
-                        accessibilityId: .ProductCarouselNavBarActionsButton)
+        let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
+        return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
+                        accessibilityId: .productCarouselNavBarActionsButton)
     }
 
     private func buildShareNavBarAction() -> UIAction {
  		if featureFlags.shareButtonWithIcon && DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
-            return UIAction(interface: .TextImage(LGLocalizedString.productShareNavbarButton, UIImage(named:"ic_share")), action: { [weak self] in
-                guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
+            return UIAction(interface: .textImage(LGLocalizedString.productShareNavbarButton, UIImage(named:"ic_share")), action: { [weak self] in
+                guard let strongSelf = self, let socialMessage = strongSelf.socialMessage.value else { return }
                 strongSelf.delegate?.vmShowShareFromMain(socialMessage)
-                }, accessibilityId: .ProductCarouselNavBarShareButton)
+                }, accessibilityId: .productCarouselNavBarShareButton)
         } else {
-            return UIAction(interface: .Text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
-                guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
+            return UIAction(interface: .text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
+                guard let strongSelf = self, let socialMessage = strongSelf.socialMessage.value else { return }
                 strongSelf.delegate?.vmShowShareFromMain(socialMessage)
-                }, accessibilityId: .ProductCarouselNavBarShareButton)
+                }, accessibilityId: .productCarouselNavBarShareButton)
         }
     }
 
@@ -659,7 +660,7 @@ extension ProductViewModel {
     private func showOptionsMenu() {
         var actions = [UIAction]()
         let isMine = product.value.isMine
-        let isDeletable = status.value == .NotAvailable ? false : isMine
+        let isDeletable = status.value == .notAvailable ? false : isMine
 
         actions.append(buildShareAction())
         if productHasReadyCommercials.value {
@@ -677,44 +678,44 @@ extension ProductViewModel {
     }
 
     private func buildShareAction() -> UIAction {
-        return UIAction(interface: .Text(LGLocalizedString.productOptionShare), action: { [weak self] in
-            guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
+        return UIAction(interface: .text(LGLocalizedString.productOptionShare), action: { [weak self] in
+            guard let strongSelf = self, let socialMessage = strongSelf.socialMessage.value else { return }
             strongSelf.delegate?.vmShowShareFromMoreInfo(socialMessage)
-        }, accessibilityId: .ProductCarouselNavBarShareButton)
+        }, accessibilityId: .productCarouselNavBarShareButton)
     }
 
     private func buildCommercialAction() -> UIAction {
-        return UIAction(interface: .Text(LGLocalizedString.productOptionShowCommercial), action: { [weak self] in
+        return UIAction(interface: .text(LGLocalizedString.productOptionShowCommercial), action: { [weak self] in
             self?.openVideo()
         })
     }
 
     private func buildReportButton() -> UIAction {
         let title = LGLocalizedString.productReportProductButton
-        return UIAction(interface: .Text(title), action: reportAction)
+        return UIAction(interface: .text(title), action: reportAction)
     }
     
-    private func reportAction() {
+    fileprivate func reportAction() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
             guard let strongSelf = self else { return }
             
-            let alertOKAction = UIAction(interface: .Text(LGLocalizedString.commonYes),
+            let alertOKAction = UIAction(interface: .text(LGLocalizedString.commonYes),
                 action: { [weak self] in
                     self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                         self?.report()
-                        }, source: .ReportFraud)
+                        }, source: .reportFraud)
                     
                 })
             strongSelf.delegate?.vmShowAlert(LGLocalizedString.productReportConfirmTitle,
                 message: LGLocalizedString.productReportConfirmMessage,
                 cancelLabel: LGLocalizedString.commonNo,
                 actions: [alertOKAction])
-            }, source: .ReportFraud)
+            }, source: .reportFraud)
     }
     
     private func buildDeleteButton() -> UIAction {
         let title = LGLocalizedString.productDeleteConfirmTitle
-        return UIAction(interface: .Text(title), action: { [weak self] in
+        return UIAction(interface: .text(title), action: { [weak self] in
             guard let strongSelf = self else { return }
 
             let message: String
@@ -722,13 +723,13 @@ extension ProductViewModel {
             if strongSelf.suggestMarkSoldWhenDeleting {
                 message = LGLocalizedString.productDeleteConfirmMessage
 
-                let soldAction = UIAction(interface: .Text(LGLocalizedString.productDeleteConfirmSoldButton),
+                let soldAction = UIAction(interface: .text(LGLocalizedString.productDeleteConfirmSoldButton),
                     action: { [weak self] in
-                        self?.markSold(.Delete)
+                        self?.markSold(.delete)
                     })
                 alertActions.append(soldAction)
 
-                let deleteAction = UIAction(interface: .Text(LGLocalizedString.productDeleteConfirmOkButton),
+                let deleteAction = UIAction(interface: .text(LGLocalizedString.productDeleteConfirmOkButton),
                     action: { [weak self] in
                         self?.delete()
                     })
@@ -736,7 +737,7 @@ extension ProductViewModel {
             } else {
                 message = LGLocalizedString.productDeleteSoldConfirmMessage
 
-                let deleteAction = UIAction(interface: .Text(LGLocalizedString.commonOk),
+                let deleteAction = UIAction(interface: .text(LGLocalizedString.commonOk),
                     action: { [weak self] in
                         self?.delete()
                     })
@@ -751,7 +752,7 @@ extension ProductViewModel {
     
     private func buildOnboardingButton() -> UIAction {
         let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
-        return UIAction(interface: .Text(title), action: { [weak self] in
+        return UIAction(interface: .text(title), action: { [weak self] in
             KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = false
             self?.delegate?.vmShowOnboarding()
         })
@@ -763,9 +764,9 @@ extension ProductViewModel {
 
     private var suggestMarkSoldWhenDeleting: Bool {
         switch product.value.status {
-        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
+        case .pending, .discarded, .sold, .soldOld, .deleted:
             return false
-        case .Approved:
+        case .approved:
             return true
         }
     }
@@ -776,36 +777,36 @@ extension ProductViewModel {
 
 extension ProductViewModel {
 
-    private func refreshActionButtons(status: ProductViewModelStatus) {
+    fileprivate func refreshActionButtons(_ status: ProductViewModelStatus) {
         actionButtons.value = buildActionButtons(status)
     }
 
-    private func buildActionButtons(status: ProductViewModelStatus) -> [UIAction] {
+    private func buildActionButtons(_ status: ProductViewModelStatus) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
-        case .Pending, .NotAvailable, .OtherSold, .OtherSoldFree:
+        case .pending, .notAvailable, .otherSold, .otherSoldFree:
             break
-        case .PendingAndCommercializable:
-            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productCreateCommercialButton, .Primary(fontSize: .Big)),
+        case .pendingAndCommercializable:
+            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productCreateCommercialButton, .primary(fontSize: .big)),
                 action: { [weak self] in self?.promoteProduct() }))
-        case .Available:
-            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldButton, .Terciary),
+        case .available:
+            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
                 action: { [weak self] in self?.markSold() }))
-        case .AvailableAndCommercializable:
-            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldButton, .Terciary),
+        case .availableAndCommercializable:
+            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
                 action: { [weak self] in self?.markSold() }))
-            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productCreateCommercialButton, .Primary(fontSize: .Big)),
+            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productCreateCommercialButton, .primary(fontSize: .big)),
                 action: { [weak self] in self?.promoteProduct() }))
-        case .Sold:
-            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainButton, .Secondary(fontSize: .Big, withBorder: false)),
+        case .sold:
+            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                 action: { [weak self] in self?.resell() }))
-        case .OtherAvailable, .OtherAvailableFree:
+        case .otherAvailable, .otherAvailableFree:
             break
-        case .AvailableFree:
-            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldFreeButton, .Terciary),
+        case .availableFree:
+            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
                 action: { [weak self] in self?.markSoldFree() }))
-        case .SoldFree:
-            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainFreeButton, .Secondary(fontSize: .Big, withBorder: false)),
+        case .soldFree:
+            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainFreeButton, .secondary(fontSize: .big, withBorder: false)),
                 action: { [weak self] in self?.resellFree() }))
         }
         return actionButtons
@@ -815,10 +816,10 @@ extension ProductViewModel {
 
 // MARK: - Private actions
 
-extension ProductViewModel {
-    private func switchFavoriteAction() {
+fileprivate extension ProductViewModel {
+    func switchFavoriteAction() {
         
-        favoriteButtonState.value = .Disabled
+        favoriteButtonState.value = .disabled
         if isFavorite.value {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -826,7 +827,7 @@ extension ProductViewModel {
                     strongSelf.isFavorite.value = product.favorite
                     strongSelf.notificationsManager.decreaseFavoriteCounter()
                 }
-                strongSelf.favoriteButtonState.value = .Enabled
+                strongSelf.favoriteButtonState.value = .enabled
             }
         } else {
             productRepository.saveFavorite(product.value) { [weak self] result in
@@ -839,7 +840,7 @@ extension ProductViewModel {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }
-                strongSelf.favoriteButtonState.value = .Enabled
+                strongSelf.favoriteButtonState.value = .enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
             if featureFlags.favoriteWithBubbleToChat {
@@ -848,11 +849,11 @@ extension ProductViewModel {
         }
     }
     
-    private func favoriteBubbleNotificationData() -> BubbleNotificationData {
-        let action = UIAction(interface: .Text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
+    func favoriteBubbleNotificationData() -> BubbleNotificationData {
+        let action = UIAction(interface: .text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
             guard let product = self?.product.value else { return }
             self?.navigator?.openProductChat(product)
-        }, accessibilityId: .BubbleButton)
+        }, accessibilityId: .bubbleButton)
         let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
                                           text: LGLocalizedString.productBubbleFavoriteButton,
                                           infoText: LGLocalizedString.productBubbleFavoriteText,
@@ -862,7 +863,7 @@ extension ProductViewModel {
         return data
     }
 
-    private func report() {
+    func report() {
         if isReported.value {
             delegate?.vmHideLoading(LGLocalizedString.productReportedSuccessMessage, afterMessageCompletion: nil)
             return
@@ -884,7 +885,7 @@ extension ProductViewModel {
         }
     }
 
-    private func delete() {
+    func delete() {
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
         trackHelper.trackDeleteStarted()
 
@@ -895,9 +896,9 @@ extension ProductViewModel {
             var message: String? = nil
             if let value = result.value {
                 switch strongSelf.featureFlags.postAfterDeleteMode {
-                case .Original:
+                case .original:
                     message = LGLocalizedString.productDeleteSuccessMessage
-                case .FullScreen, .Alert:
+                case .fullScreen, .alert:
                     break
                 }
                 afterMessageAction = { [weak self] in
@@ -913,7 +914,7 @@ extension ProductViewModel {
         }
     }
 
-    private func markSold(source: EventParameterSellSourceValue) {
+    func markSold(_ source: EventParameterSellSourceValue) {
         delegate?.vmShowLoading(nil)
 
         productRepository.markProductAsSold(product.value) { [weak self] result in
@@ -938,7 +939,7 @@ extension ProductViewModel {
         }
     }
 
-    private func markUnsold() {
+    func markUnsold() {
         delegate?.vmShowLoading(nil)
 
         productRepository.markProductAsUnsold(product.value) { [weak self] result in
@@ -956,7 +957,7 @@ extension ProductViewModel {
         }
     }
 
-    private func sendMessage(type: ChatWrapperMessageType) {
+    func sendMessage(_ type: ChatWrapperMessageType) {
         // Optimistic behavior
         let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
@@ -964,20 +965,20 @@ extension ProductViewModel {
 
         chatWrapper.sendMessageForProduct(product.value, type: type) {
             [weak self] result in
-            if let firstMessage = result.value, alreadyTrackedFirstMessageSent = self?.alreadyTrackedFirstMessageSent {
+            if let firstMessage = result.value, let alreadyTrackedFirstMessageSent = self?.alreadyTrackedFirstMessageSent {
                 self?.trackHelper.trackMessageSent(firstMessage && !alreadyTrackedFirstMessageSent,
                                                    messageType: type.chatTrackerType)
                 self?.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
-                case .Forbidden:
+                case .forbidden:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .network, .internalError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
                 }
 
                 //Removing in case of failure
-                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
+                if let indexToRemove = self?.directChatMessages.value.index(where: { $0.objectId == messageView.objectId }) {
                     self?.directChatMessages.removeAtIndex(indexToRemove)
                 }
             }
@@ -989,17 +990,17 @@ extension ProductViewModel {
 // MARK: - UpdateDetailInfoDelegate
 
 extension ProductViewModel {
-    private func ifLoggedInRunActionElseOpenMainSignUp(action: () -> (), source: EventParameterLoginSourceValue) {
+    fileprivate func ifLoggedInRunActionElseOpenMainSignUp(_ action: @escaping () -> (), source: EventParameterLoginSourceValue) {
         if Core.sessionManager.loggedIn {
             action()
         } else {
-            let signUpVM = SignUpViewModel(appearance: .Light, source: source)
+            let signUpVM = SignUpViewModel(appearance: .light, source: source)
             delegate?.vmOpenMainSignUp(signUpVM, afterLoginAction: { action() })
         }
     }
 
-    private func ifLoggedInRunActionElseOpenChatSignup(action: () -> ()) {
-        delegate?.ifLoggedInThen(.DirectSticker, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+    fileprivate func ifLoggedInRunActionElseOpenChatSignup(_ action: @escaping () -> ()) {
+        delegate?.ifLoggedInThen(.directSticker, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
     }
 }
@@ -1008,11 +1009,11 @@ extension ProductViewModel {
 // MARK: - Interested Bubble logic
 
 extension ProductViewModel {
-    func showInterestedBubbleForProduct(id: String) {
+    func showInterestedBubbleForProduct(_ id: String) {
         interestedBubbleManager.showInterestedBubbleForProduct(id)
     }
 
-    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
+    func shouldShowInterestedBubbleForProduct(_ id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
         return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct, featureFlags: featureFlags) && active
     }
 }
@@ -1021,13 +1022,13 @@ extension ProductViewModel {
 // MARK: - RelatedProductsViewDelegate
 
 extension ProductViewModel: RelatedProductsViewDelegate {
-    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+    func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         trackHelper.trackMoreInfoRelatedItemsComplete(index)
-        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+        let data = ProductDetailData.productList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
-        navigator?.openProduct(data, source: .MoreInfoRelated, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openProduct(data, source: .moreInfoRelated, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 
@@ -1035,27 +1036,27 @@ extension ProductViewModel: RelatedProductsViewDelegate {
 // MARK: - SocialSharerDelegate
 
 extension ProductViewModel: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
+    func shareStartedIn(_ shareType: ShareType) {
         let buttonPosition: EventParameterButtonPosition
 
         switch moreInfoState.value {
-        case .Hidden:
-            buttonPosition = .Top
-        case .Shown, .Moving:
-            buttonPosition = .Bottom
+        case .hidden:
+            buttonPosition = .top
+        case .shown, .moving:
+            buttonPosition = .bottom
         }
 
         trackShareStarted(shareType, buttonPosition: buttonPosition)
     }
 
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         let buttonPosition: EventParameterButtonPosition
 
         switch moreInfoState.value {
-        case .Hidden:
-            buttonPosition = .Top
-        case .Shown, .Moving:
-            buttonPosition = .Bottom
+        case .hidden:
+            buttonPosition = .top
+        case .shown, .moving:
+            buttonPosition = .bottom
         }
 
         if let message = messageForShareIn(shareType, finishedWithState: state) {
@@ -1065,21 +1066,21 @@ extension ProductViewModel: SocialSharerDelegate {
         trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
     }
 
-    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
+    private func messageForShareIn(_ shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
         switch (shareType, state) {
-        case (.Email, .Failed):
+        case (.email, .failed):
             return LGLocalizedString.productShareEmailError
-        case (.Facebook, .Failed):
+        case (.facebook, .failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.FBMessenger, .Failed):
+        case (.fbMessenger, .failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.CopyLink, .Completed):
+        case (.copyLink, .completed):
             return LGLocalizedString.productShareCopylinkOk
-        case (.SMS, .Completed):
+        case (.sms, .completed):
             return LGLocalizedString.productShareSmsOk
-        case (.SMS, .Failed):
+        case (.sms, .failed):
             return LGLocalizedString.productShareSmsError
-        case (_, .Completed):
+        case (_, .completed):
             return LGLocalizedString.productShareGenericOk
         default:
             break
@@ -1092,23 +1093,23 @@ extension ProductViewModel: SocialSharerDelegate {
 // MARK : - Product
 
 extension Product {
-    private func viewModelStatus(featureFlags: FeatureFlaggeable) -> ProductViewModelStatus {
+    func viewModelStatus(_ featureFlags: FeatureFlaggeable) -> ProductViewModelStatus {
         switch status {
-        case .Pending:
-            return isMine ? .Pending : .NotAvailable
-        case .Discarded, .Deleted:
-            return .NotAvailable
-        case .Approved:
+        case .pending:
+            return isMine ? .pending : .notAvailable
+        case .discarded, .deleted:
+            return .notAvailable
+        case .approved:
             if featureFlags.freePostingModeAllowed && price.free {
-                return isMine ? .AvailableFree : .OtherAvailableFree
+                return isMine ? .availableFree : .otherAvailableFree
             } else {
-                return isMine ? .Available : .OtherAvailable
+                return isMine ? .available : .otherAvailable
             }
-        case .Sold, .SoldOld:
+        case .sold, .soldOld:
             if featureFlags.freePostingModeAllowed && price.free {
-                return isMine ? .SoldFree : .OtherSoldFree
+                return isMine ? .soldFree : .otherSoldFree
             } else {
-                return isMine ? .Sold : .OtherSold
+                return isMine ? .sold : .otherSold
             }
         }
     }
@@ -1124,68 +1125,68 @@ extension Product {
 
 // MARK: - ProductViewModelStatus
 
-private extension ProductViewModelStatus {
+fileprivate extension ProductViewModelStatus {
 
     var isEditable: Bool {
         switch self {
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .AvailableFree:
+        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .availableFree:
             return true
-        case .NotAvailable, .Sold, .OtherSold, .OtherAvailable, .OtherSoldFree, .SoldFree, .OtherAvailableFree:
+        case .notAvailable, .sold, .otherSold, .otherAvailable, .otherSoldFree, .soldFree, .otherAvailableFree:
             return false
         }
     }
 
     var directChatsAvailable: Bool {
         switch self {
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .SoldFree,
-             .OtherSoldFree, .AvailableFree, .NotAvailable, .Sold, .OtherSold:
+        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .soldFree,
+             .otherSoldFree, .availableFree, .notAvailable, .sold, .otherSold:
             return false
-        case  .OtherAvailable,  .OtherAvailableFree:
+        case  .otherAvailable,  .otherAvailableFree:
             return true
         }
     }
 
     var string: String? {
         switch self {
-        case .Sold, .OtherSold:
+        case .sold, .otherSold:
             return LGLocalizedString.productListItemSoldStatusLabel
-        case .SoldFree, .OtherSoldFree:
+        case .soldFree, .otherSoldFree:
             return LGLocalizedString.productListItemGivenAwayStatusLabel
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable, .AvailableFree, .OtherAvailableFree,
-             .NotAvailable:
+        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable, .availableFree, .otherAvailableFree,
+             .notAvailable:
             return nil
         }
     }
 
     var labelColor: UIColor {
         switch self {
-        case .Sold, .OtherSold, .SoldFree, .OtherSoldFree:
-            return UIColor.whiteColor()
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
-             .NotAvailable, .AvailableFree, .OtherAvailableFree:
-            return UIColor.clearColor()
+        case .sold, .otherSold, .soldFree, .otherSoldFree:
+            return UIColor.white
+        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable,
+             .notAvailable, .availableFree, .otherAvailableFree:
+            return UIColor.clear
         }
     }
 
     var bgColor: UIColor {
         switch self {
-        case .Sold, .OtherSold:
+        case .sold, .otherSold:
             return UIColor.soldColor
-        case .SoldFree, .OtherSoldFree:
+        case .soldFree, .otherSoldFree:
             return UIColor.soldFreeColor
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
-             .NotAvailable, .AvailableFree, .OtherAvailableFree:
-            return UIColor.clearColor()
+        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable,
+             .notAvailable, .availableFree, .otherAvailableFree:
+            return UIColor.clear
         }
     }
 
-    func setCommercializable(active: Bool) -> ProductViewModelStatus {
+    func setCommercializable(_ active: Bool) -> ProductViewModelStatus {
         switch self {
-        case .Pending, .PendingAndCommercializable:
-            return active ? .PendingAndCommercializable : .Pending
-        case .Available, .AvailableAndCommercializable:
-            return active ? .AvailableAndCommercializable : .Available
-        case .Sold, .OtherSold, .NotAvailable, .OtherAvailable, .OtherSoldFree, .OtherAvailableFree, .SoldFree, .AvailableFree:
+        case .pending, .pendingAndCommercializable:
+            return active ? .pendingAndCommercializable : .pending
+        case .available, .availableAndCommercializable:
+            return active ? .availableAndCommercializable : .available
+        case .sold, .otherSold, .notAvailable, .otherAvailable, .otherSoldFree, .otherAvailableFree, .soldFree, .availableFree:
             return self
         }
     }
@@ -1195,15 +1196,15 @@ private extension ProductViewModelStatus {
 // MARK: PurchasesShopperDelegate
 
 extension ProductViewModel: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestForProductId(productId: String?, withProducts products: [PurchaseableProduct]) {
-        guard let requestProdId = productId, currentProdId = product.value.objectId where
+    func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct]) {
+        guard let requestProdId = productId, let currentProdId = product.value.objectId,
             requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
         // "purchase" is the product to buy in appstore in case the user wants to bump up 
     }
 
-    func shopperFailedProductsRequestForProductId(productId: String?, withError: NSError) {
-        guard let requestProdId = productId, currentProdId = product.value.objectId where
+    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error) {
+        guard let requestProdId = productId, let currentProdId = product.value.objectId,
             requestProdId == currentProdId else { return }
         // update error UI
     }

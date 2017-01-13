@@ -15,8 +15,8 @@ class ChatOthersMessageCellDrawer: BaseChatCellDrawer<ChatOthersMessageCell> {
         super.init(autoHide: autoHide)
     }
 
-    override func draw(cell: ChatOthersMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
-        cell.messageLabel.text = message.value ?? ""
+    override func draw(_ cell: ChatOthersMessageCell, message: ChatViewMessage) {
+        cell.messageLabel.text = message.value
         cell.dateLabel.text = message.sentAt?.formattedTime()
     }
 }

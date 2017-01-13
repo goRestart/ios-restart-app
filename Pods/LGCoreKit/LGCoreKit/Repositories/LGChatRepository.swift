@@ -18,7 +18,7 @@ class LGChatRepository: ChatRepository {
         return dataSource.eventBus.asObservable()
     }
 
-    var wsChatStatus = Variable<WSChatStatus>(.Closed)
+    var wsChatStatus = Variable<WSChatStatus>(.closed)
     let dataSource: ChatDataSource
     let myUserRepository: MyUserRepository
 
@@ -33,44 +33,44 @@ class LGChatRepository: ChatRepository {
     func setupRx() {
         dataSource.socketStatus.asObservable().subscribeNext { [weak self] status in
             self?.wsChatStatus.value = WSChatStatus(wsStatus: status)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
 
         // Automatically mark as received
         chatEvents.subscribeNext { [weak self] event in
             guard let convId = event.conversationId else { return }
             switch event.type {
-            case let .InterlocutorMessageSent(messageId, _, _, _):
+            case let .interlocutorMessageSent(messageId, _, _, _):
                 self?.confirmReception(convId, messageIds: [messageId], completion: nil)
             default:
                 return
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
 
     // MARK: > Public Methods
     // MARK: - Messages
 
-    func createNewMessage(talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
+    func createNewMessage(_ talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
         let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
                                     receivedAt: nil, readAt: nil, type: type, warnings: [])
         return message
     }
 
-    func indexMessages(conversationId: String, numResults: Int, offset: Int,
+    func indexMessages(_ conversationId: String, numResults: Int, offset: Int,
                               completion: ChatMessagesCompletion?) {
         dataSource.indexMessages(conversationId, numResults: numResults, offset: offset) { [weak self] result in
             self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
 
-    func indexMessagesNewerThan(messageId: String, conversationId: String, completion: ChatMessagesCompletion?) {
+    func indexMessagesNewerThan(_ messageId: String, conversationId: String, completion: ChatMessagesCompletion?) {
         dataSource.indexMessagesNewerThan(messageId, conversationId: conversationId) { [weak self] result in
             self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
 
-    func indexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
+    func indexMessagesOlderThan(_ messageId: String, conversationId: String, numResults: Int,
                                        completion: ChatMessagesCompletion?) {
         dataSource.indexMessagesOlderThan(messageId, conversationId: conversationId, numResults: numResults) {
             [weak self] result in
@@ -81,20 +81,20 @@ class LGChatRepository: ChatRepository {
 
     // MARK: - Conversations
 
-    func indexConversations(numResults: Int, offset: Int, filter: WebSocketConversationFilter,
+    func indexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
                                    completion: ChatConversationsCompletion?) {
         dataSource.indexConversations(numResults, offset: offset, filter: filter) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
 
-    func showConversation(conversationId: String, completion: ChatConversationCompletion?) {
+    func showConversation(_ conversationId: String, completion: ChatConversationCompletion?) {
         dataSource.showConversation(conversationId) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
 
-    func showConversation(sellerId: String, productId: String, completion: ChatConversationCompletion?) {
+    func showConversation(_ sellerId: String, productId: String, completion: ChatConversationCompletion?) {
         dataSource.showConversation(sellerId, productId: productId) { result in
             handleWebSocketResult(result, completion: completion)
         }
@@ -103,43 +103,43 @@ class LGChatRepository: ChatRepository {
 
     // MARK: - Events
 
-    func typingStarted(conversationId: String) {
+    func typingStarted(_ conversationId: String) {
         dataSource.typingStarted(conversationId)
     }
 
-    func typingStopped(conversationId: String) {
+    func typingStopped(_ conversationId: String) {
         dataSource.typingStopped(conversationId)
     }
 
 
     // MARK: - Commands
 
-    func sendMessage(conversationId: String, messageId: String, type: ChatMessageType, text: String,
+    func sendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
                             completion: ChatCommandCompletion?) {
         dataSource.sendMessage(conversationId, messageId: messageId, type: type.rawValue, text: text) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
 
-    func confirmRead(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
+    func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmRead(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
 
-    func archiveConversations(conversationIds: [String], completion: ChatCommandCompletion?) {
+    func archiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
         dataSource.archiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
 
-    func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
+    func confirmReception(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmReception(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
 
-    func unarchiveConversations(conversationIds: [String], completion: ChatCommandCompletion?) {
+    func unarchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
         dataSource.unarchiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
@@ -148,9 +148,9 @@ class LGChatRepository: ChatRepository {
 
     // MARK: - Unread counts
 
-    func chatUnreadMessagesCount(completion: ChatUnreadMessagesCompletion?) {
+    func chatUnreadMessagesCount(_ completion: ChatUnreadMessagesCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(ChatUnreadMessagesResult(error: .Internal(message: "Missing myUserId")))
+            completion?(ChatUnreadMessagesResult(error: .internalError(message: "Missing myUserId")))
             return
         }
         dataSource.unreadMessages(userId) { result in
@@ -161,17 +161,17 @@ class LGChatRepository: ChatRepository {
 
     // MARK: - Server events
 
-    func chatEventsIn(conversationId: String) -> Observable<ChatEvent> {
+    func chatEventsIn(_ conversationId: String) -> Observable<ChatEvent> {
         return dataSource.eventBus.filter { $0.conversationId == conversationId }
     }
 
 
     // MARK: - Private
 
-    private func handleQueryMessages(conversationId: String, result: ChatWebSocketMessagesResult,
+    private func handleQueryMessages(_ conversationId: String, result: ChatWebSocketMessagesResult,
                                      completion: ChatMessagesCompletion?) {
         var finalResult = result
-        if let messages = result.value, myUserId = myUserRepository.myUser?.objectId {
+        if let messages = result.value, let myUserId = myUserRepository.myUser?.objectId {
             let receptionIds: [String] = messages.filter { return $0.talkerId != myUserId && $0.receivedAt == nil }
                 .flatMap{ $0.objectId }
             if !receptionIds.isEmpty {
@@ -189,20 +189,20 @@ class LGChatRepository: ChatRepository {
 extension WSChatStatus {
     init(wsStatus: WebSocketStatus) {
         switch wsStatus {
-        case .Closed:
-            self = .Closed
-        case .Closing:
-            self = .Closing
-        case .Opening:
-            self = .Opening
-        case .Open(let authStatus):
+        case .closed:
+            self = .closed
+        case .closing:
+            self = .closing
+        case .opening:
+            self = .opening
+        case .open(let authStatus):
             switch authStatus {
-            case .NotAuthenticated:
-                self = .OpenNotAuthenticated
-            case .Authenticated:
-                self = .OpenAuthenticated
-            case .NotVerified:
-                self = .OpenNotVerified
+            case .notAuthenticated:
+                self = .openNotAuthenticated
+            case .authenticated:
+                self = .openAuthenticated
+            case .notVerified:
+                self = .openNotVerified
             }
         }
     }

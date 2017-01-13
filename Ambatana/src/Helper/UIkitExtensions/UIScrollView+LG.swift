@@ -10,32 +10,32 @@
 extension UIScrollView {
     
     enum RubberBandDirection {
-        case Top
-        case Bottom
-        case Right
-        case Left
+        case top
+        case bottom
+        case right
+        case left
     }
     
-    func showRubberBandEffect(direction: RubberBandDirection) {
+    func showRubberBandEffect(_ direction: RubberBandDirection) {
         let offsetMargin = CGFloat(50.0)
         let originalOffset = contentOffset
         var newOffset = originalOffset
         switch direction {
-        case .Top:
+        case .top:
             newOffset.y -= offsetMargin
-        case .Bottom:
+        case .bottom:
             newOffset.y += offsetMargin
-        case .Left:
+        case .left:
             newOffset.x -= offsetMargin
-        case .Right:
+        case .right:
             newOffset.x += offsetMargin
         }
         
-        UIView.animateWithDuration(0.15, delay: 0, options: .CurveEaseOut, animations: {
+        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
             self.contentOffset = newOffset
             }, completion: nil)
         
-        UIView.animateWithDuration(0.15, delay: 0.15, options: .CurveEaseIn, animations: {
+        UIView.animate(withDuration: 0.15, delay: 0.15, options: .curveEaseIn, animations: {
             self.contentOffset = originalOffset
             }, completion: nil)
     }

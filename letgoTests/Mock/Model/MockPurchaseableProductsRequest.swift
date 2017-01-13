@@ -10,9 +10,9 @@
 import Foundation
 
 class MockProductsRequestFactory: PurchaseableProductsRequestFactory {
-    var responseDelay: NSTimeInterval = 0.03
+    var responseDelay: TimeInterval = 0.03
 
-    func generatePurchaseableProductsRequest(ids: [String]) -> PurchaseableProductsRequest {
+    func generatePurchaseableProductsRequest(_ ids: [String]) -> PurchaseableProductsRequest {
         return MockPurchaseableProductsRequest(responseDelay: responseDelay)
     }
 }
@@ -20,15 +20,15 @@ class MockPurchaseableProductsRequest: PurchaseableProductsRequest {
 
     weak var delegate: PurchaseableProductsRequestDelegate?
 
-    private var timer: NSTimer = NSTimer()
-    private let responseDelay: NSTimeInterval
+    fileprivate var timer: Timer = Timer()
+    fileprivate let responseDelay: TimeInterval
 
-    init(responseDelay: NSTimeInterval) {
+    init(responseDelay: TimeInterval) {
         self.responseDelay = responseDelay
     }
 
     func start() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(responseDelay, target: self, selector: #selector(launchResponse), userInfo: nil,
+        timer = Timer.scheduledTimer(timeInterval: responseDelay, target: self, selector: #selector(launchResponse), userInfo: nil,
                                                        repeats: false)
     }
 

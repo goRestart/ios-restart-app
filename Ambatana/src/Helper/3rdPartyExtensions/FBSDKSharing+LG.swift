@@ -10,19 +10,19 @@ import Foundation
 import FBSDKShareKit
 
 enum FBSDKSharerType {
-    case Facebook
-    case FBMessenger
-    case Unknown
+    case facebook
+    case fbMessenger
+    case unknown
 }
 
 extension FBSDKSharing {
     var type: FBSDKSharerType {
         if self is FBSDKShareDialog {
-            return .Facebook
+            return .facebook
         }
         if self is FBSDKMessageDialog {
-            return .FBMessenger
+            return .fbMessenger
         }
-        return .Unknown
+        return .unknown
     }
 }

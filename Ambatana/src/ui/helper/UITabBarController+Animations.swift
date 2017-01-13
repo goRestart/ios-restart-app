@@ -13,7 +13,7 @@ extension UITabBarController {
     /**
     This cannot be called before viewDidLayoutSubviews(), because the frame is not set before this time
     */
-    func setTabBarHidden(hidden:Bool, animated:Bool, completion: ((Bool) -> (Void))? = nil) {
+    func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> (Void))? = nil) {
 
         // bail if the current state matches the desired state
         if (tabBarHidden() == hidden) { return }
@@ -24,16 +24,17 @@ extension UITabBarController {
         let offsetY = (hidden ? height : -height)
 
         // zero duration means no animation
-        let duration: NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
+        let duration: TimeInterval = (animated ? TimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
 
         //  animate the tabBar
-        UIView.animateWithDuration(duration, delay: 0, options: [.CurveEaseIn], animations: { [weak self] in
-            self?.tabBar.frame = CGRectOffset(frame, 0, offsetY)
+
+        UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn], animations: { [weak self] in
+            self?.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
             self?.view.layoutIfNeeded()
             }, completion: completion)
     }
 
     func tabBarHidden() -> Bool {
-        return tabBar.frame.origin.y >= CGRectGetMaxY(self.view.frame)
+        return tabBar.frame.origin.y >= self.view.frame.maxY
     }
 }

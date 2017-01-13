@@ -10,11 +10,11 @@ import UIKit
 
 public class BumperViewController: UIViewController {
 
-    private let tableView = UITableView()
-    private let enableBumperContainer = UIView()
-    private let enableBumperSwitch = UISwitch()
+    fileprivate let tableView = UITableView()
+    fileprivate let enableBumperContainer = UIView()
+    fileprivate let enableBumperSwitch = UISwitch()
 
-    private let viewModel: BumperViewModel
+    fileprivate let viewModel: BumperViewModel
 
     public convenience init() {
         self.init(viewModel: BumperViewModel())
@@ -42,21 +42,21 @@ public class BumperViewController: UIViewController {
 
 // MARK: - UI
 
-private extension BumperViewController {
-    private func setupUI() {
-        if let viewControllers = navigationController?.viewControllers where viewControllers.count == 1 {
-            let leftItem = UIBarButtonItem(title: "Close", style: .Plain, target: self, action: #selector(dismiss))
+fileprivate extension BumperViewController {
+    func setupUI() {
+        if let viewControllers = navigationController?.viewControllers, viewControllers.count == 1 {
+            let leftItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissViewController))
             navigationItem.leftBarButtonItem = leftItem
         }
         title = "Bumper"
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         setupEnableHeader()
         setupTableView()
     }
 
-    private func setupEnableHeader() {
+    func setupEnableHeader() {
         enableBumperContainer.translatesAutoresizingMaskIntoConstraints = false
-        enableBumperContainer.backgroundColor = UIColor.lightGrayColor()
+        enableBumperContainer.backgroundColor = UIColor.lightGray
         view.addSubview(enableBumperContainer)
 
         let enableLabel = UILabel()
@@ -67,52 +67,52 @@ private extension BumperViewController {
         enableBumperSwitch.translatesAutoresizingMaskIntoConstraints = false
         enableBumperContainer.addSubview(enableBumperSwitch)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["container"] = enableBumperContainer
         views["label"] = enableLabel
         views["switch"] = enableBumperSwitch
 
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["viewsMargin"] = CGFloat(10)
 
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[container]|",
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[container]|",
             options: [], metrics: nil, views: views))
-        enableBumperContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-viewsMargin-[label]-[switch]-viewsMargin-|",
-            options:  .AlignAllCenterY, metrics: metrics, views: views))
-        enableBumperContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|",
+        enableBumperContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-viewsMargin-[label]-[switch]-viewsMargin-|",
+            options:  .alignAllCenterY, metrics: metrics, views: views))
+        enableBumperContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[label]|",
             options: [], metrics: nil, views: views))
     }
 
-    private func setupTableView() {
+    func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
 
-        var views = [String: AnyObject]()
+        var views = [String: Any]()
         views["topLayoutGuide"] = topLayoutGuide
         views["container"] = enableBumperContainer
         views["table"] = tableView
 
-        var metrics = [String: AnyObject]()
+        var metrics = [String: Any]()
         metrics["containerH"] = CGFloat(40)
 
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[topLayoutGuide]-0-[container(containerH)]-0-[table]|",
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[topLayoutGuide]-0-[container(containerH)]-0-[table]|",
             options: [], metrics: metrics, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[table]|",
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[table]|",
             options: [], metrics: metrics, views: views))
     }
 
-    private func initSwitch() {
-        enableBumperSwitch.onTintColor = UIColor.darkGrayColor()
+    func initSwitch() {
+        enableBumperSwitch.onTintColor = UIColor.darkGray
         enableBumperSwitch.setOn(viewModel.enabled, animated: false)
-        enableBumperSwitch.addTarget(self, action: #selector(switchValueChanged), forControlEvents: .ValueChanged)
+        enableBumperSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
     }
 
-    private dynamic func switchValueChanged() {
-        viewModel.setEnabled(enableBumperSwitch.on)
+    dynamic func switchValueChanged() {
+        viewModel.setEnabled(enableBumperSwitch.isOn)
     }
 
-    private dynamic func dismiss() {
-        dismissViewControllerAnimated(true, completion: nil)
+    dynamic func dismissViewController() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -120,32 +120,32 @@ private extension BumperViewController {
 // MARK: TableView
 
 extension BumperViewController: UITableViewDelegate, UITableViewDataSource {
-    private static let cellReuseIdentifier = "bumperCell"
+    fileprivate static let cellReuseIdentifier = "bumperCell"
 
-    private func initTableView() {
+    fileprivate func initTableView() {
         tableView.delegate = self
         tableView.dataSource = self
     }
 
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.featuresCount
     }
 
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        if let dequeuedCell = tableView.dequeueReusableCellWithIdentifier(BumperViewController.cellReuseIdentifier) {
+        if let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: BumperViewController.cellReuseIdentifier) {
             cell = dequeuedCell
         } else {
-            cell = UITableViewCell(style: .Value1, reuseIdentifier: BumperViewController.cellReuseIdentifier)
+            cell = UITableViewCell(style: .value1, reuseIdentifier: BumperViewController.cellReuseIdentifier)
         }
-        cell.textLabel?.text = viewModel.featureNameAtIndex(indexPath.row)
-        cell.detailTextLabel?.text = viewModel.featureValueAtIndex(indexPath.row)
+        cell.textLabel?.text = viewModel.featureName(at: indexPath.row)
+        cell.detailTextLabel?.text = viewModel.featureValue(at: indexPath.row)
         return cell
     }
 
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        viewModel.featureSelectedAtIndex(indexPath.row)
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.didSelectFeature(at: indexPath.row)
     }
 }
 
@@ -157,16 +157,16 @@ extension BumperViewController: BumperViewModelDelegate {
         tableView.reloadData()
     }
 
-    func showFeature(feature: Int, itemsSelection items: [String]) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+    func showFeature(_ feature: Int, itemsSelection items: [String]) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         for item in items {
-            let action = UIAlertAction(title: item, style: .Default) { [weak self] _ in
-                self?.viewModel.selectedFeature(feature, item: item)
+            let action = UIAlertAction(title: item, style: .default) { [weak self] _ in
+                self?.viewModel.updateFeature(at: feature, with: item)
             }
             alert.addAction(action)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(cancelAction)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 }

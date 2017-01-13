@@ -15,73 +15,73 @@ struct DeepLink {
     let medium: String?
     let source: DeepLinkSource
 
-    static func push(action: DeepLinkAction, origin: DeepLinkOrigin, campaign: String?, medium: String?,
+    static func push(_ action: DeepLinkAction, origin: DeepLinkOrigin, campaign: String?, medium: String?,
                      source: DeepLinkSource) -> DeepLink {
         return DeepLink(action: action, origin: origin, campaign: campaign, medium: medium,
                         source: source)
     }
 
-    static func link(action: DeepLinkAction, campaign: String?, medium: String?, source: DeepLinkSource) -> DeepLink {
-        return DeepLink(action: action, origin: .Link, campaign: campaign, medium: medium, source: source)
+    static func link(_ action: DeepLinkAction, campaign: String?, medium: String?, source: DeepLinkSource) -> DeepLink {
+        return DeepLink(action: action, origin: .link, campaign: campaign, medium: medium, source: source)
     }
 
-    static func shortCut(action: DeepLinkAction) -> DeepLink {
-        return DeepLink(action: action, origin: .ShortCut, campaign: nil, medium: nil, source: .None)
+    static func shortCut(_ action: DeepLinkAction) -> DeepLink {
+        return DeepLink(action: action, origin: .shortCut, campaign: nil, medium: nil, source: .none)
     }
 }
 
 enum DeepLinkAction {
-    case Home
-    case Sell
-    case Product(productId: String)
-    case User(userId: String)
-    case Conversations
-    case Conversation(data: ConversationData)
-    case Message(messageType: DeepLinkMessageType, data: ConversationData)
-    case Search(query: String, categories: String?)
-    case ResetPassword(token: String)
-    case Commercializer(productId: String, templateId: String)
-    case CommercializerReady(productId: String, templateId: String)
-    case UserRatings
-    case UserRating(ratingId: String)
-    case PassiveBuyers(productId: String)
+    case home
+    case sell
+    case product(productId: String)
+    case user(userId: String)
+    case conversations
+    case conversation(data: ConversationData)
+    case message(messageType: DeepLinkMessageType, data: ConversationData)
+    case search(query: String, categories: String?)
+    case resetPassword(token: String)
+    case commercializer(productId: String, templateId: String)
+    case commercializerReady(productId: String, templateId: String)
+    case userRatings
+    case userRating(ratingId: String)
+    case passiveBuyers(productId: String)
 }
 
 enum DeepLinkOrigin {
-    case Push(appActive: Bool, alert: String)
-    case Link
-    case ShortCut
+    case push(appActive: Bool, alert: String)
+    case link
+    case shortCut
 
     var appActive: Bool {
         switch self {
-        case .Link, .ShortCut:
+        case .link, .shortCut:
             return false
-        case let .Push(appActive, _):
+        case let .push(appActive, _):
             return appActive
         }
     }
 
     var message: String {
         switch self {
-        case .Link, .ShortCut:
+        case .link, .shortCut:
             return ""
-        case let .Push(_, message):
+        case let .push(_, message):
             return message
         }
     }
 }
 
 enum DeepLinkSource {
-    case External(source: String)
-    case Push
-    case None
+    case external(source: String)
+    case push
+    case none
 
     init(string: String?) {
         guard let string = string else {
-            self = .None
+            self = .none
             return
         }
-        self = .External(source: string)
+        self = .external(source: string)
     }
 }
 
@@ -92,12 +92,12 @@ enum DeepLinkSource {
  - ProductBuyer: By productId and buyerId 
  */
 enum ConversationData {
-    case Conversation(conversationId: String)
-    case ProductBuyer(productId: String, buyerId: String)
+    case conversation(conversationId: String)
+    case productBuyer(productId: String, buyerId: String)
 }
 
 protocol ConversationDataDisplayer {
-    func isDisplayingConversationData(data: ConversationData) -> Bool
+    func isDisplayingConversationData(_ data: ConversationData) -> Bool
 }
 
 /**
@@ -107,7 +107,7 @@ protocol ConversationDataDisplayer {
  - Offer:   Message from an offer
  */
 enum DeepLinkMessageType: Int {
-    case Message = 0
-    case Offer = 1
-    case Sticker = 2
+    case message = 0
+    case offer = 1
+    case sticker = 2
 }

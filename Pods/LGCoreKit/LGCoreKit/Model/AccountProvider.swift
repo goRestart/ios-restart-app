@@ -9,11 +9,11 @@
 import Argo
 
 public enum AccountProvider: String {
-    case Email = "letgo"
-    case Facebook = "facebook"
-    case Google = "google"
+    case email = "letgo"
+    case facebook = "facebook"
+    case google = "google"
 
-    public static let allValues: [AccountProvider] = [.Email, .Facebook, .Google]
+    public static let allValues: [AccountProvider] = [.email, .facebook, .google]
 }
 
 extension AccountProvider: Decodable {}

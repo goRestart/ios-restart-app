@@ -20,7 +20,7 @@ class LGTextField: UITextField {
                 self.tintColor = UIColor.primaryColor
             }
             else {
-                self.tintColor = UIColor.clearColor()
+                self.tintColor = UIColor.clear
             }
         }
     }
@@ -38,24 +38,24 @@ class LGTextField: UITextField {
     }
     
     // placeholder position
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds , insetX , insetY)
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: insetX , dy: insetY)
     }
     
     // text position
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectMake(insetX, insetY, CGRectGetWidth(bounds)-2*insetX-clearButtonSide/2, CGRectGetHeight(bounds)-2*insetY)
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: insetX, y: insetY, width: bounds.width-2*insetX-clearButtonSide/2, height: bounds.height-2*insetY)
     }
 
     // clear button position
-    override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
-        let rect = CGRectMake(bounds.size.width-clearButtonSide-clearButtonOffset , CGRectGetMidY(bounds)-clearButtonSide/2, clearButtonSide, clearButtonSide)
+    override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        let rect = CGRect(x: bounds.size.width-clearButtonSide-clearButtonOffset , y: bounds.midY-clearButtonSide/2, width: clearButtonSide, height: clearButtonSide)
         return rect
     }
     
     
     func setupTextField() {
-        self.borderStyle = UITextBorderStyle.None
+        self.borderStyle = UITextBorderStyle.none
         self.insetX = 16
         self.clearButtonOffset = 12
         self.tintColor = UIColor.primaryColor

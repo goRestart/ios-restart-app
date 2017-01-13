@@ -24,7 +24,7 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
     }
     
 
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         refreshState()
     }
@@ -42,12 +42,12 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
         titleLabel.textColor = UIColor.black
         subtitleLabel.textColor = UIColor.black
 
-        actionButton.setStyle(.Primary(fontSize: .Small))
-        actionButton.userInteractionEnabled = false
+        actionButton.setStyle(.primary(fontSize: .small))
+        actionButton.isUserInteractionEnabled = false
     }
 
     private func refreshState() {
-        let highlighedState = self.highlighted || self.selected
+        let highlighedState = self.isHighlighted || self.isSelected
         cellContainer.alpha = highlighedState ? LGUIKitConstants.highlightedStateAlpha : 1.0
     }
 }

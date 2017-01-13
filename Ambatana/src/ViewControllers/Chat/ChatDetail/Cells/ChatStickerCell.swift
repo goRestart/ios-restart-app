@@ -17,13 +17,13 @@ class ChatStickerCell: UITableViewCell, ReusableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setAccessibilityIds()
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
     }
 }
 
 extension ChatStickerCell {
     func setAccessibilityIds() {
-        leftImage.accessibilityId = .ChatStickerCellLeftImage
-        rightImage.accessibilityId = .ChatStickerCellRightImage
+        leftImage.accessibilityId = .chatStickerCellLeftImage
+        rightImage.accessibilityId = .chatStickerCellRightImage
     }
 }
