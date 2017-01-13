@@ -625,7 +625,7 @@ extension ProductViewModel {
     }
 
     private func buildShareNavBarAction() -> UIAction {
- 		if featureFlags.shareButtonWithIcon && DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
+ 		if DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
             return UIAction(interface: .textImage(LGLocalizedString.productShareNavbarButton, UIImage(named:"ic_share")), action: { [weak self] in
                 guard let strongSelf = self, let socialMessage = strongSelf.socialMessage.value else { return }
                 strongSelf.delegate?.vmShowShareFromMain(socialMessage)

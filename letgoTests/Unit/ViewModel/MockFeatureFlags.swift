@@ -10,7 +10,6 @@
 import Foundation
 
 class MockFeatureFlags: FeatureFlaggeable {
-    
     var websocketChat: Bool = false
     var notificationsSection: Bool = false
     var userReviews: Bool = false
@@ -18,7 +17,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var interestedUsersMode: InterestedUsersMode = .noNotification
     var filtersReorder: Bool = false
     var directPostInOnboarding: Bool = false
-    var shareButtonWithIcon: Bool = false
     var productDetailShareMode: ProductDetailShareMode = .native
     var expressChatBanner: Bool = true
     var postAfterDeleteMode: PostAfterDeleteMode = .original

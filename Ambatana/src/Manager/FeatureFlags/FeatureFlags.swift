@@ -16,7 +16,6 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var interestedUsersMode: InterestedUsersMode { get }
-    var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
     var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
@@ -92,13 +91,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.interestedUsersMode
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
-    }
-    
-     var shareButtonWithIcon: Bool {
-        if Bumper.enabled {
-            return Bumper.shareButtonWithIcon
-        }
-        return ABTests.shareButtonWithIcon.value
     }
 
      var productDetailShareMode: ProductDetailShareMode {
