@@ -210,9 +210,16 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
     }
 
     func vmDidDeselectItemAtIndex(index: Int) {
-        animateToState(collapsed: false) { [weak self] in
-            self?.deselectItemAtIndex(index)
+        // on single selection, the scroll is already animated in the selection, no need to animate again in the deselect
+        // also, the animation duration delays the deselection and at some point we may be trying to deselect unexistent cells
+        if viewModel.multiSelectionEnabled {
+            animateToState(collapsed: false) { [weak self] in
+                self?.deselectItemAtIndex(index)
+            }
+        } else {
+            deselectItemAtIndex(index)
         }
+        
     }
 
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
