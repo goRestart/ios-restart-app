@@ -137,7 +137,7 @@ final class TabBarController: UITabBarController {
         return showAppRatingView(source)
     }
 
-    func showAppRatingView(source: EventParameterRatingSource) -> Bool {
+    private func showAppRatingView(source: EventParameterRatingSource) -> Bool {
         guard let nav = selectedViewController as? UINavigationController,
             let ratingView = AppRatingView.ratingView(source) else { return false}
 
