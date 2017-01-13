@@ -120,6 +120,10 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
             self?.view.isHidden = true
             self?.preDismissAction?()
         }
+        vc.willCloseAction = { [weak self] in
+            guard let strongSelf = self else { return }
+            GIDSignIn.sharedInstance().uiDelegate = strongSelf
+        }
         vc.afterLoginAction = { [weak self] in
             self?.dismiss(animated: false, completion: self?.afterLoginAction)
         }
