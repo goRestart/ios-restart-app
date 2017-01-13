@@ -98,5 +98,10 @@
         "name": "FilterIconWithLetters",
         "values": ["No", "Yes"],
         "description": "Show filter icon as 'FILTERS'"
+    },
+    {
+        "name": "EditDeleteItemUxImprovement",
+        "values": ["No", "Yes"],
+        "description": "Edit & Delete item UX improvements"
     }
  ]

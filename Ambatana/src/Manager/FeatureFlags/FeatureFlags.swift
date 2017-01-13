@@ -33,6 +33,7 @@ protocol FeatureFlaggeable {
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
+    var editDeleteItemUxImprovement: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -198,6 +199,12 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.filterIconWithLetters.value
     }
 
+    var editDeleteItemUxImprovement: Bool {
+        if Bumper.enabled {
+            return Bumper.editDeleteItemUxImprovement
+        }
+        return ABTests.editDeleteItemUxImprovement.value
+    }
 
     // MARK: - Country features
 

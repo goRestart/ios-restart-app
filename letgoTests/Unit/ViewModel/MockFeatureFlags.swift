@@ -34,4 +34,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
     var filterIconWithLetters: Bool = false
+    var editDeleteItemUxImprovement: Bool = false
 }

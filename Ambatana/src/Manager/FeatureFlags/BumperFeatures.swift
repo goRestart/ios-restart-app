@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -113,6 +113,11 @@ extension Bumper  {
     static var filterIconWithLetters: Bool {
         guard let value = Bumper.value(for: FilterIconWithLetters.key) else { return false }
         return FilterIconWithLetters(rawValue: value)?.asBool ?? false
+    }
+
+    static var editDeleteItemUxImprovement: Bool {
+        guard let value = Bumper.value(for: EditDeleteItemUxImprovement.key) else { return false }
+        return EditDeleteItemUxImprovement(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -322,6 +327,15 @@ enum FilterIconWithLetters: String, BumperFeature  {
     static var enumValues: [FilterIconWithLetters] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show filter icon as 'FILTERS'" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum EditDeleteItemUxImprovement: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return EditDeleteItemUxImprovement.no.rawValue }
+    static var enumValues: [EditDeleteItemUxImprovement] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Edit & Delete item UX improvements" } 
     var asBool: Bool { return self == .yes }
 }
 

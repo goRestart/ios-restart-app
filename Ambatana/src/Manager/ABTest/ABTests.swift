@@ -30,6 +30,9 @@ struct ABTests {
     static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     static var filterIconWithLetters = BoolABDynamicVar(key: "filterIconWithLetters", defaultValue: false)
+    static var editDeleteItemUxImprovement = BoolABDynamicVar(key: "editDeleteItemUxImprovement", defaultValue: false)
+
+    // Not used in code, Just a helper for marketing team
     static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
@@ -53,6 +56,8 @@ struct ABTests {
         result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
         result.append(filterIconWithLetters)
+        result.append(editDeleteItemUxImprovement)
+
         result.append(marketingPush)
 
         return result
