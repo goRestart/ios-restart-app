@@ -358,8 +358,6 @@ class ProductViewModel: BaseViewModel {
         }.distinctUntilChanged().bindNext { [weak self] shown in
             self?.refreshNavBarButtons()
         }.addDisposableTo(disposeBag)
-
-
     }
     
     private func distanceString(_ product: Product) -> String? {
