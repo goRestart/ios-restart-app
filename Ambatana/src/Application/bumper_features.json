@@ -25,11 +25,6 @@
         "description": "Interested users bubble mode"
 	},
     {
-        "name": "ShareButtonWithIcon",
-        "values": ["Yes", "No"],
-        "description": "Share button with an icon"
-	},
-    {
         "name": "ProductDetailShareMode",
         "values": ["Native", "InPlace", "FullScreen"],
         "description": "How the share options are presented in product detail"
@@ -103,5 +98,10 @@
         "name": "FilterIconWithLetters",
         "values": ["No", "Yes"],
         "description": "Show filter icon as 'FILTERS'"
+    },
+    {
+        "name": "EditDeleteItemUxImprovement",
+        "values": ["No", "Yes"],
+        "description": "Edit & Delete item UX improvements"
     }
  ]

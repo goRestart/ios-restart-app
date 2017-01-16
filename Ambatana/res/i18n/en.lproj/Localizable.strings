@@ -1401,6 +1401,9 @@
 // Button to open the Commercial of a product inside the product detail
 "product_open_commercial_button" = "Commercial";
 
+// Option to edit product
+"product_option_edit" = "Edit Product";
+
 // Option button to share product
 "product_option_share" = "Share Product";
 

@@ -29,6 +29,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
@@ -290,6 +291,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         editButton.rounded = true
 
+        CarouselUIHelper.setupShareButton(shareButton, text: LGLocalizedString.productShareNavbarButton, icon: UIImage(named:"ic_share"))
+
         mainResponder = chatTextView
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
@@ -380,6 +383,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 self?.moreInfoTooltip?.alpha = zooming ? 0 : 1
                 self?.moreInfoView?.dragView.alpha = zooming ? 0 : 1
                 self?.favoriteButton.alpha = zooming ? 0 : 1
+                self?.shareButton.alpha = zooming ? 0 : 1
                 self?.stickersButton.alpha = zooming ? 0 : 1
                 self?.editButton.alpha = zooming ? 0 : 1
                 self?.productStatusView.alpha = zooming ? 0 : 1
@@ -412,6 +416,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         alphaSignal.bindTo(editButton.rx.alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(shareButton.rx.alpha).addDisposableTo(disposeBag)
 
         if let expandableButtonsView = expandableButtonsView {
             // Hide fav button if expandable buttons view is expanded, otherwise depend on reversed alpha
@@ -497,6 +502,7 @@ extension ProductCarouselViewController {
         refreshProductStatusLabel(viewModel)
         refreshDirectChatElements(viewModel)
         refreshFavoriteButton(viewModel)
+        refreshShareButton(viewModel)
         setupMoreInfo()
         refreshInterestedBubble(viewModel)
         refreshExpandableButtonsView(viewModel)
@@ -731,6 +737,16 @@ extension ProductCarouselViewController {
 
         favoriteButton.rx.tap.bindNext { [weak viewModel] in
             viewModel?.switchFavorite()
+        }.addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshShareButton(_ viewModel: ProductViewModel) {
+        viewModel.shareButtonState.asObservable()
+            .bindTo(shareButton.rx.state)
+            .addDisposableTo(activeDisposeBag)
+
+        shareButton.rx.tap.bindNext { [weak viewModel] in
+            viewModel?.shareProduct()
         }.addDisposableTo(activeDisposeBag)
     }
 

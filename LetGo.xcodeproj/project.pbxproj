@@ -5700,6 +5700,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PROVISIONING_PROFILE = "31c25b2d-ca13-4b39-803e-23bfe06f66fd";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -5744,6 +5745,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PROVISIONING_PROFILE = "e71b459e-d9cb-443d-823b-f95c5f414bc4";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -5936,6 +5938,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PROVISIONING_PROFILE = "75a804a1-b0bd-4082-92a5-78096356e0af";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
