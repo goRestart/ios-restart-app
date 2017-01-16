@@ -30,11 +30,6 @@
         "description": "How the share options are presented in product detail"
 	},
     {
-        "name": "ExpressChatBanner",
-        "values": ["No", "Yes"],
-        "description": "Show express chat banner in chat detail"
-    },
-    {
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"

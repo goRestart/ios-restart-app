@@ -400,10 +400,7 @@ class ChatViewModel: BaseViewModel {
             hasRelatedProducts.asObservable(),
             relatedProductsState.asObservable().map { $0 == .visible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
-            .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
-                guard let strongSelf = self else { return }
-                self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
-        }.addDisposableTo(disposeBag)
+            .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
         if !featureFlags.newQuickAnswers {
             // New quick answers doesn't depend on saved state

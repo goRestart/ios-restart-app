@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ProductDetailShareMode.self, ExpressChatBanner.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ProductDetailShareMode.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -43,11 +43,6 @@ extension Bumper  {
     static var productDetailShareMode: ProductDetailShareMode {
         guard let value = Bumper.value(for: ProductDetailShareMode.key) else { return .native }
         return ProductDetailShareMode(rawValue: value) ?? .native 
-    }
-
-    static var expressChatBanner: Bool {
-        guard let value = Bumper.value(for: ExpressChatBanner.key) else { return false }
-        return ExpressChatBanner(rawValue: value)?.asBool ?? false
     }
 
     static var postAfterDeleteMode: PostAfterDeleteMode {
@@ -188,15 +183,6 @@ enum ProductDetailShareMode: String, BumperFeature  {
             default: return .native
         }
     }
-}
-
-enum ExpressChatBanner: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return ExpressChatBanner.no.rawValue }
-    static var enumValues: [ExpressChatBanner] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show express chat banner in chat detail" } 
-    var asBool: Bool { return self == .yes }
 }
 
 enum PostAfterDeleteMode: String, BumperFeature  {
