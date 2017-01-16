@@ -810,7 +810,7 @@ fileprivate extension ProductViewModel {
                 if let _ = result.value {
                     strongSelf.notificationsManager.decreaseFavoriteCounter()
                 } else {
-                    strongSelf.isFavorite.value = !strongSelf.isFavorite.value
+                    strongSelf.isFavorite.value = currentFavoriteValue
                 }
                 strongSelf.favoriteButtonState.value = .enabled
             }
@@ -824,7 +824,7 @@ fileprivate extension ProductViewModel {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 } else {
-                    strongSelf.isFavorite.value = !strongSelf.isFavorite.value
+                    strongSelf.isFavorite.value = currentFavoriteValue
                 }
                 strongSelf.favoriteButtonState.value = .enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
