@@ -802,20 +802,18 @@ fileprivate extension ProductViewModel {
     func switchFavoriteAction() {
         
         favoriteButtonState.value = .disabled
-        let currentFavoriteValue = isFavorite.value
-        isFavorite.value = !isFavorite.value
-        if currentFavoriteValue {
+        isFavorite.value = !product.value.favorite
+        if product.value.favorite {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     strongSelf.notificationsManager.decreaseFavoriteCounter()
                 } else {
-                    strongSelf.isFavorite.value = !strongSelf.isFavorite.value
+                    strongSelf.isFavorite.value = strongSelf.product.value.favorite
                 }
                 strongSelf.favoriteButtonState.value = .enabled
             }
         } else {
-            isFavorite.value = true
             productRepository.saveFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
@@ -825,7 +823,7 @@ fileprivate extension ProductViewModel {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 } else {
-                    strongSelf.isFavorite.value = !strongSelf.isFavorite.value
+                    strongSelf.isFavorite.value = strongSelf.product.value.favorite
                 }
                 strongSelf.favoriteButtonState.value = .enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
