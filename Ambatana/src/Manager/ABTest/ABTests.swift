@@ -12,6 +12,9 @@ struct ABTests {
 
     static let trackingData = Variable<[String]>([])
 
+    // Not used in code, Just a helper for marketing team
+    static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
+
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
     static var productDetailShareMode = IntABDynamicVar(key: "productDetailShareMode", defaultValue: 0)
@@ -32,12 +35,12 @@ struct ABTests {
     static var filterIconWithLetters = BoolABDynamicVar(key: "filterIconWithLetters", defaultValue: false)
     static var editDeleteItemUxImprovement = BoolABDynamicVar(key: "editDeleteItemUxImprovement", defaultValue: false)
 
-    // Not used in code, Just a helper for marketing team
-    static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
+
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
 
+        result.append(marketingPush)
         result.append(showNPSSurvey)
         result.append(interestedUsersMode)
         result.append(productDetailShareMode)
@@ -57,8 +60,6 @@ struct ABTests {
         result.append(captchaTransparent)
         result.append(filterIconWithLetters)
         result.append(editDeleteItemUxImprovement)
-
-        result.append(marketingPush)
 
         return result
     }
