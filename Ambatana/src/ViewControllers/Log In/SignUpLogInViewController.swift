@@ -66,8 +66,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     }
     
     // Data
-    var afterLoginAction: (() -> Void)?
-    var preDismissAction: (() -> Void)?
+    var afterLoginAction: (() -> Void)? //really means: postSuccessDismissAction
+    var preDismissAction: (() -> Void)? //really means: preSuccessDismissAction
+    var willCloseAction: (() -> Void)?  //but not on success just close button.
     
     var viewModel : SignUpLogInViewModel
     let appearance: LoginAppearance
@@ -263,6 +264,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     func closeButtonPressed() {
         if isRootViewController() {
+            willCloseAction?()
             dismiss(animated: true, completion: nil)
         }
     }
