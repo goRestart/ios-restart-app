@@ -3,6 +3,7 @@
 #endif
 
 #import "BNCCallbacks.h"
+#import "BNCCommerceEvent.h"
 #import "BNCConfig.h"
 #import "BNCContentDiscoveryManager.h"
 #import "BNCDeviceInfo.h"
@@ -46,6 +47,7 @@
 #import "BranchUserCompletedActionRequest.h"
 #import "PromoViewHandler.h"
 #import "BNCCallbacks.h"
+#import "BNCCommerceEvent.h"
 #import "BNCConfig.h"
 #import "BNCContentDiscoveryManager.h"
 #import "BNCDeviceInfo.h"

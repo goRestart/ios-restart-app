@@ -12,11 +12,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.20):
-    - Branch/Core (= 0.12.20)
-    - Branch/without-IDFA (= 0.12.20)
-  - Branch/Core (0.12.20)
-  - Branch/without-IDFA (0.12.20)
+  - Branch (0.12.24):
+    - Branch/Core (= 0.12.24)
+    - Branch/without-IDFA (= 0.12.24)
+  - Branch/Core (0.12.24)
+  - Branch/without-IDFA (0.12.24)
   - bumper (1.0.1)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -76,23 +76,23 @@ PODS:
     - GTMOAuth2 (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
   - GoogleSymbolUtilities (1.1.2)
-  - GoogleToolboxForMac/DebugUtils (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-  - GoogleToolboxForMac/Defines (2.1.0)
-  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.0):
-    - GoogleToolboxForMac/DebugUtils (= 2.1.0)
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.0)
-  - GoogleToolboxForMac/NSString+URLArguments (2.1.0)
+  - GoogleToolboxForMac/DebugUtils (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.1):
+    - GoogleToolboxForMac/DebugUtils (= 2.1.1)
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
+  - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
   - GoogleUtilities (1.3.2):
     - GoogleSymbolUtilities (~> 1.1)
   - GTMOAuth2 (1.1.4):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.7):
-    - GTMSessionFetcher/Full (= 1.1.7)
-  - GTMSessionFetcher/Core (1.1.7)
-  - GTMSessionFetcher/Full (1.1.7):
-    - GTMSessionFetcher/Core (= 1.1.7)
+  - GTMSessionFetcher (1.1.8):
+    - GTMSessionFetcher/Full (= 1.1.8)
+  - GTMSessionFetcher/Core (1.1.8)
+  - GTMSessionFetcher/Full (1.1.8):
+    - GTMSessionFetcher/Core (= 1.1.8)
   - JBKenBurnsView (1.0)
   - JSONWebToken (2.0.2):
     - CryptoSwift (~> 0.6.1)
@@ -206,7 +206,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: 495b343632cda4d1a42e13f25d5adfb91d0ee52a
   Argo: 014ac072f97462bc1a9b83d302edb351488a532f
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: a2c085213fd3953c241ad63aa49f4435bfc84da7
+  Branch: 91bd039aab277cffce763662050d0b4a12b5d196
   bumper: 0fdda32d3b19d8a6065251a5c20f2fbe5c03a24d
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
@@ -231,10 +231,10 @@ SPEC CHECKSUMS:
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSignIn: a8694c0a8e6d1b0ec77c58014de5bfd4ba2fa766
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
-  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
-  GTMSessionFetcher: a1f8ed39e4fe21c68957daed472c7afbcdf29166
+  GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: ca86f02eeb3d1f58ba5197ec2cd53c7de915ecc1
   KeychainSwift: b6947435dd78cc442c64a84ae648dd0e871cf448
@@ -258,6 +258,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 3628b63d2bc94626bb56f0afe1a41b842eae7d43
+PODFILE CHECKSUM: ecf3fc82b54462a60bc7336837df9426f3412bd2
 
 COCOAPODS: 1.1.1
