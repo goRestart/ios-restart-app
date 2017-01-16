@@ -171,7 +171,36 @@ class StringLGSpec: QuickSpec {
                 }
             }
             context("contains letgo") {
-                // TODO: Implement tests
+                it("returns false if does not contain letgo") {
+                    expect("doesnotcontainit".containsLetgo()) == false
+                }
+                it("returns true if contains letgo") {
+                    expect("letgo".containsLetgo()) == true
+                }
+                it("returns true if contains letgo uppercase") {
+                    expect("LETGO".containsLetgo()) == true
+                }
+                it("returns true if contains ietgo") {
+                    expect("ietgo sound like russian".containsLetgo()) == true
+                }
+                it("returns true if contains ietgo") {
+                    expect("should not write ietgo".containsLetgo()) == true
+                }
+                it("returns true if contains ietg0") {
+                    expect("ietg0 sounds super hackish".containsLetgo()) == true
+                }
+                it("returns true if contains let go") {
+                    expect("let go is cool".containsLetgo()) == true
+                }
+                it("returns true if contains iet go") {
+                    expect("iet go is cool".containsLetgo()) == true
+                }
+                it("returns true if contains let g0") {
+                    expect("i work at let g0".containsLetgo()) == true
+                }
+                it("returns true if contains iet g0") {
+                    expect("perhaps iet g0 is worth to publish".containsLetgo()) == true
+                }
             }
         }
     }
