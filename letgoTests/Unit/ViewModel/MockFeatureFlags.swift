@@ -9,31 +9,33 @@
 @testable import LetGo
 import Foundation
 
-class MockFeatureFlags: FeatureFlaggeable {
-    
-    var websocketChat: Bool = false
-    var notificationsSection: Bool = false
-    var userReviews: Bool = false
-    var showNPSSurvey: Bool = false
-    var interestedUsersMode: InterestedUsersMode = .noNotification
-    var filtersReorder: Bool = false
-    var directPostInOnboarding: Bool = false
-    var shareButtonWithIcon: Bool = false
-    var productDetailShareMode: ProductDetailShareMode = .native
-    var expressChatBanner: Bool = true
-    var postAfterDeleteMode: PostAfterDeleteMode = .original
-    var keywordsTravelCollection: KeywordsTravelCollection = .standard
-    var shareAfterPosting: Bool = false
-    var freePostingModeAllowed: Bool = true
-    var postingMultiPictureEnabled: Bool = true
-    var relatedProductsOnMoreInfo: Bool = true
-    var monetizationEnabled: Bool = false
-    var periscopeImprovement: Bool = false
-    var newQuickAnswers: Bool = false
-    var favoriteWithBadgeOnProfile: Bool = false
-    var favoriteWithBubbleToChat: Bool = false
-    var locationMatchesCountry: Bool = false
-    var captchaTransparent: Bool = false
-    var passiveBuyersShowKeyboard: Bool = false
-    var filterIconWithLetters: Bool = false
+class MockFeatureFlags: FeatureFlaggeable {   
+    var websocketChat = false
+    var notificationsSection = false
+    var userReviews = false
+    var showNPSSurvey = false
+    var interestedUsersMode = InterestedUsersMode.noNotification
+    var filtersReorder = false
+    var directPostInOnboarding = false
+    var shareButtonWithIcon = false
+    var productDetailShareMode = ProductDetailShareMode.native
+    var expressChatBanner = true
+    var postAfterDeleteMode = PostAfterDeleteMode.original
+    var keywordsTravelCollection = KeywordsTravelCollection.standard
+    var shareAfterPosting = false
+    var postingMultiPictureEnabled = true
+    var relatedProductsOnMoreInfo = true
+    var monetizationEnabled = false
+    var periscopeImprovement = false
+    var newQuickAnswers = false
+    var favoriteWithBadgeOnProfile = false
+    var favoriteWithBubbleToChat = false
+    var captchaTransparent = false
+    var passiveBuyersShowKeyboard = false
+    var filterIconWithLetters = false
+
+    var freePostingModeAllowed = false
+    var locationMatchesCountry = false
+    var signUpEmailNewsletterAcceptRequired = false
+    var signUpEmailTermsAndConditionsAcceptRequired = false
 }

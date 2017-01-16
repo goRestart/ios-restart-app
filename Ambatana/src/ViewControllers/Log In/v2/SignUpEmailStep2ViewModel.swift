@@ -29,9 +29,13 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     }()
     let email: String
     let username: Variable<String>
-    let termsAndConditionsAcceptRequired: Bool
+    var termsAndConditionsAcceptRequired: Bool {
+        return featureFlags.signUpEmailTermsAndConditionsAcceptRequired
+    }
     let termsAndConditionsAccepted: Variable<Bool>
-    let newsLetterAcceptRequired: Bool
+    var newsLetterAcceptRequired: Bool {
+        return featureFlags.signUpEmailNewsletterAcceptRequired
+    }
     let newsLetterAccepted: Variable<Bool>
     var signUpEnabled: Observable<Bool> {
         return signUpEnabledVar.asObservable()
@@ -40,21 +44,25 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     weak var navigator: SignUpEmailStep2Navigator?
 
     fileprivate let password: String
+    fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let signUpEnabledVar: Variable<Bool>
     fileprivate let disposeBag: DisposeBag
 
 
     // MARK : - Lifecycle
 
-    init(email: String, password: String) {
+    convenience init(email: String, password: String) {
+        self.init(email: email, password: password, featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    init(email: String, password: String, featureFlags: FeatureFlaggeable) {
         self.email = email
         self.username = Variable<String>("")
-        self.termsAndConditionsAcceptRequired = false   // TODO: Rely on country (AB test)
         self.termsAndConditionsAccepted = Variable<Bool>(false)
-        self.newsLetterAcceptRequired = false
         self.newsLetterAccepted = Variable<Bool>(false)
 
         self.password = password
+        self.featureFlags = featureFlags
         self.signUpEnabledVar = Variable<Bool>(false)
         self.disposeBag = DisposeBag()
     }

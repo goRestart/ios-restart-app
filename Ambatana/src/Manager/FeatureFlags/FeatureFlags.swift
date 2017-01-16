@@ -22,7 +22,6 @@ protocol FeatureFlaggeable {
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
-    var freePostingModeAllowed: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var monetizationEnabled: Bool { get }
@@ -30,10 +29,14 @@ protocol FeatureFlaggeable {
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
-    var locationMatchesCountry: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
+    // Country dependant features
+    var freePostingModeAllowed: Bool { get }
+    var locationMatchesCountry: Bool { get }
+    var signUpEmailNewsletterAcceptRequired: Bool { get }
+    var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -61,7 +64,6 @@ class FeatureFlags: FeatureFlaggeable {
         self.carrierCountryInfo = countryInfo
     }
 
-    
     convenience init() {
         self.init(locale: Locale.current, locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
     }
@@ -222,6 +224,22 @@ class FeatureFlags: FeatureFlaggeable {
         switch countryCode {
         case .turkey:
             return locationManager.countryMatchesWith(countryCode: countryCodeString)
+        }
+    }
+
+    var signUpEmailNewsletterAcceptRequired: Bool {
+        guard let countryCode = countryCode else { return false }
+        switch countryCode {
+        case .turkey:
+            return true
+        }
+    }
+
+    var signUpEmailTermsAndConditionsAcceptRequired: Bool {
+        guard let countryCode = countryCode else { return false }
+        switch countryCode {
+        case .turkey:
+            return true
         }
     }
 
