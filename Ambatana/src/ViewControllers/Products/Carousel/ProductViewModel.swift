@@ -283,21 +283,18 @@ class ProductViewModel: BaseViewModel {
         if product.value.isMine && featureFlags.monetizationEnabled {
             guard let productId = product.value.objectId else { return }
             monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
-                if let bumpeableProduct = result.value {
-                    if bumpeableProduct.isBumpeable && bumpeableProduct.bumpsLeft > 0 {
-                        // product is bumpeable
-                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }.map { $0.providerItemId }
-                        let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
-                        self?.isBumpeable = !paymentItems.isEmpty || !freeItems.isEmpty
-                        if !paymentItems.isEmpty {
-                            self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
-                        }
-                    }
+                guard let bumpeableProduct = result.value, bumpeableProduct.isBumpeable, bumpeableProduct.bumpsLeft > 0 else { return }
+                // product is bumpeable
+                let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }.map { $0.providerItemId }
+                let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
+                self?.isBumpeable = !paymentItems.isEmpty || !freeItems.isEmpty
+                if !paymentItems.isEmpty {
+                    self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
                 }
             })
         }
     }
-    
+
     func syncProduct(_ completion: (() -> ())?) {
         guard let productId = product.value.objectId else { return }
         productRepository.retrieve(productId) { [weak self] result in
