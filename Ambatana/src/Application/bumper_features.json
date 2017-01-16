@@ -55,11 +55,6 @@
         "description": "USer can make in-app purchases"
     },
     {
-        "name": "PeriscopeImprovement",
-        "values": ["No", "Yes"],
-        "description": "periscope chat improvements"
-    },
-    {
         "name": "FavoriteWithBadgeOnProfile",
         "values": ["No", "Yes"],
         "description": "Badge on profile when favorite"

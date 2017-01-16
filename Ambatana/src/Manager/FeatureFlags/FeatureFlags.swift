@@ -24,7 +24,6 @@ protocol FeatureFlaggeable {
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var monetizationEnabled: Bool { get }
-    var periscopeImprovement: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
@@ -133,13 +132,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.relatedProductsOnMoreInfo
         }
         return ABTests.relatedProductsOnMoreInfo.value
-    }
-    
-    var periscopeImprovement: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeImprovement
-        }
-        return ABTests.periscopeImprovement.value
     }
     
     var favoriteWithBadgeOnProfile: Bool {

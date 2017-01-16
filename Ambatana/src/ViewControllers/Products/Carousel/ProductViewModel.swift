@@ -569,10 +569,6 @@ extension ProductViewModel {
         guard let socialMessage = socialMessage.value else { return }
         socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
     }
-    
-    func shouldShowTextOnChatView() -> Bool {
-       return featureFlags.periscopeImprovement
-    }
 }
 
 

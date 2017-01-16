@@ -25,7 +25,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var postingMultiPictureEnabled: Bool = true
     var relatedProductsOnMoreInfo: Bool = true
     var monetizationEnabled: Bool = false
-    var periscopeImprovement: Bool = false
     var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false

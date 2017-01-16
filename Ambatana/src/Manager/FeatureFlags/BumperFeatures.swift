@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ProductDetailShareMode.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ProductDetailShareMode.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -68,11 +68,6 @@ extension Bumper  {
     static var monetizationEnabled: Bool {
         guard let value = Bumper.value(for: MonetizationEnabled.key) else { return false }
         return MonetizationEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var periscopeImprovement: Bool {
-        guard let value = Bumper.value(for: PeriscopeImprovement.key) else { return false }
-        return PeriscopeImprovement(rawValue: value)?.asBool ?? false
     }
 
     static var favoriteWithBadgeOnProfile: Bool {
@@ -241,15 +236,6 @@ enum MonetizationEnabled: String, BumperFeature  {
     static var enumValues: [MonetizationEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "USer can make in-app purchases" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum PeriscopeImprovement: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return PeriscopeImprovement.no.rawValue }
-    static var enumValues: [PeriscopeImprovement] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "periscope chat improvements" } 
     var asBool: Bool { return self == .yes }
 }
 

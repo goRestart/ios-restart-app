@@ -701,12 +701,7 @@ extension ProductCarouselViewController {
     private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
         viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx.isHidden).addDisposableTo(disposeBag)
         chatTextView.placeholder = viewModel.directChatPlaceholder
-        if viewModel.shouldShowTextOnChatView() {
-            chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
-        } else {
-            chatTextView.clear()
-            chatTextView.resignFirstResponder()
-        }
+        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
 
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
