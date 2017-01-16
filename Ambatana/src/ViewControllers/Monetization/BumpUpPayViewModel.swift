@@ -16,8 +16,9 @@ protocol BumpUpPayViewModelDelegate: BaseViewModelDelegate { }
 class BumpUpPayViewModel: BaseViewModel {
 
     var product: Product
-    var price: String
-    var bumpsLeft: Int
+    var price: String {
+        return purchaseableProduct.formattedCurrencyPrice
+    }
     var purchaseableProduct: PurchaseableProduct
     var purchasesShopper: PurchasesShopper
 
@@ -26,16 +27,14 @@ class BumpUpPayViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: Product, price: String, bumpsLeft: Int, purchaseableProduct: PurchaseableProduct) {
+    convenience init(product: Product, purchaseableProduct: PurchaseableProduct) {
         let purchasesShopper = PurchasesShopper.sharedInstance
-        self.init(product: product, price: price, bumpsLeft: bumpsLeft, purchaseableProduct: purchaseableProduct,
+        self.init(product: product, purchaseableProduct: purchaseableProduct,
                   purchasesShopper: purchasesShopper)
     }
 
-    init(product: Product, price: String, bumpsLeft: Int, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper) {
-        self.price = price
+    init(product: Product, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper) {
         self.product = product
-        self.bumpsLeft = bumpsLeft
         self.purchaseableProduct = purchaseableProduct
         self.purchasesShopper = purchasesShopper
     }
@@ -56,7 +55,7 @@ class BumpUpPayViewModel: BaseViewModel {
     // MARK: - Private methods
 
     func bumpUpProduct() {
-        logMessage(.Info, type: [.Monetization], message: "TRY TO Bump with purchase: \(purchaseableProduct)")
+        logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(purchaseableProduct)")
         purchasesShopper.requestPaymentForProduct(purchaseableProduct.productIdentifier)
     }
 }

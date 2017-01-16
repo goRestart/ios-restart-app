@@ -280,14 +280,14 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func openFreeBumpUpView() {
         guard let product = currentProductViewModel?.product.value,
-            socialMessage = currentProductViewModel?.socialMessage.value else { return }
-        navigator?.openFreeBumpUpForProduct(product, socialMessage: socialMessage)
+            let socialMessage = currentProductViewModel?.socialMessage.value else { return }
+        navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage)
     }
 
-    func openPaymentBumpUpView(price: String, bumpsLeft: Int) {
+    func openPaymentBumpUpView() {
         guard let product = currentProductViewModel?.product.value else { return }
         guard let purchaseableProduct = currentProductViewModel?.bumpUpPurchaseableProduct else { return }
-        navigator?.openPayBumpUpForProduct(product, price: price, bumpsLeft: bumpsLeft, purchaseableProduct: purchaseableProduct)
+        navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
     }
 
     // MARK: - Private Methods

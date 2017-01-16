@@ -20,7 +20,6 @@ class BumpUpPayViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var bumpUpButton: UIButton!
-    @IBOutlet weak var bumpsLeftLabel: UILabel!
 
     @IBOutlet weak var  titleVerticalCenterConstraint: NSLayoutConstraint!
 
@@ -32,7 +31,7 @@ class BumpUpPayViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "BumpUpPayViewController")
         self.viewModel.delegate = self
-        modalPresentationStyle = .OverCurrentContext
+        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -54,15 +53,15 @@ class BumpUpPayViewController: BaseViewController {
                 [weak self] (result, url) -> Void in
                 if let _ = result.value {
                     self?.titleVerticalCenterConstraint.constant = BumpUpPayViewController.titleVerticalOffsetWithImage
-                    self?.imageContainer.hidden = false
+                    self?.imageContainer.isHidden = false
                 } else {
                     self?.titleVerticalCenterConstraint.constant = BumpUpPayViewController.titleVerticalOffsetWithoutImage
-                    self?.imageContainer.hidden = true
+                    self?.imageContainer.isHidden = true
                 }
                 })
         } else {
             titleVerticalCenterConstraint.constant = BumpUpPayViewController.titleVerticalOffsetWithoutImage
-            imageContainer.hidden = true
+            imageContainer.isHidden = true
         }
 
         productImageView.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
@@ -70,14 +69,13 @@ class BumpUpPayViewController: BaseViewController {
         subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
 
         let rotation = CGFloat(M_PI_4)
-        featuredLabel.transform = CGAffineTransformMakeRotation(rotation)
-        bumpUpButton.setStyle(.Primary(fontSize: .Medium))
-        bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), forState: .Normal)
+        featuredLabel.transform = CGAffineTransform(rotationAngle: rotation)
+        bumpUpButton.setStyle(.primary(fontSize: .medium))
+        bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
 
-        bumpsLeftLabel.text = String(format: LGLocalizedString.bumpUpViewPayBumpsLeftText, Int(viewModel.bumpsLeft))
 
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureClose))
-        swipeDownGesture.direction = .Down
+        swipeDownGesture.direction = .down
         view.addGestureRecognizer(swipeDownGesture)
     }
 
@@ -94,12 +92,11 @@ class BumpUpPayViewController: BaseViewController {
     }
 
     private func setAccessibilityIds() {
-        closeButton.accessibilityId = .PaymentBumpUpCloseButton
-        productImageView.accessibilityId = .PaymentBumpUpImage
-        titleLabel.accessibilityId = .PaymentBumpUpTitleLabel
-        subtitleLabel.accessibilityId = .PaymentBumpUpSubtitleLabel
-        bumpUpButton.accessibilityId = .PaymentBumpUpButton
-        bumpsLeftLabel.accessibilityId = .PaymentBumpUpBumpsLeftLabel
+        closeButton.accessibilityId = .paymentBumpUpCloseButton
+        productImageView.accessibilityId = .paymentBumpUpImage
+        titleLabel.accessibilityId = .paymentBumpUpTitleLabel
+        subtitleLabel.accessibilityId = .paymentBumpUpSubtitleLabel
+        bumpUpButton.accessibilityId = .paymentBumpUpButton
     }
 }
 

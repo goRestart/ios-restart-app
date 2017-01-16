@@ -11,17 +11,15 @@ import RxSwift
 
 struct BumpUpInfo {
     var free: Bool
-    var timeLeftToNextBump: Int
+    var timeSinceLastBump: Int
     var price: String?
-    var bumpsLeft: Int
     var primaryBlock: (()->()?)
     var buttonBlock: (()->()?)
 
-    init(free: Bool, timeLeftToNextBump: Int, price: String?, bumpsLeft: Int, primaryBlock: (()->()?), buttonBlock: (()->()?)) {
+    init(free: Bool, timeSinceLastBump: Int, price: String?, primaryBlock: @escaping (()->()?), buttonBlock: @escaping (()->()?)) {
         self.free = free
-        self.timeLeftToNextBump = timeLeftToNextBump
+        self.timeSinceLastBump = timeSinceLastBump
         self.price = price
-        self.bumpsLeft = bumpsLeft
         self.primaryBlock = primaryBlock
         self.buttonBlock = buttonBlock
     }
@@ -34,9 +32,9 @@ class BumpUpBanner: UIView {
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
     private var textLabel: UILabel = UILabel()
-    private var bumpButton: UIButton = UIButton(type: .Custom)
+    private var bumpButton: UIButton = UIButton(type: .custom)
 
-    private var timer: NSTimer = NSTimer()
+    private var timer: Timer = Timer()
 
     private var isFree: Bool = true
 
@@ -70,13 +68,15 @@ class BumpUpBanner: UIView {
 
     func updateInfo(info: BumpUpInfo) {
         isFree = info.free
-        timeLeft.value = Int(info.timeLeftToNextBump/1000) // timeLeft in seconds
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        timeLeft.value = (60*15) - Int(info.timeSinceLastBump/1000) // timeLeft in seconds = (wait time ABtested - timeSinceLastBump)
+        print("🚧🚧🚧🚧🚧🚧🚧🚧")
+        print(timeLeft.value)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
-        if let price = info.price where !isFree {
-            bumpButton.setTitle(price, forState: .Normal)
+        if let price = info.price, !isFree {
+            bumpButton.setTitle(price, for: .normal)
         } else {
-            bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, forState: .Normal)
+            bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
         }
 
         buttonBlock = info.buttonBlock
@@ -97,6 +97,8 @@ class BumpUpBanner: UIView {
     private func setupRx() {
         let secondsLeft = timeLeft.asObservable().skip(1)
         secondsLeft.bindNext { [weak self] secondsLeft in
+            print("🚧🕐🕐🕐🕐🕐🕐🚧")
+            print(secondsLeft)
             guard let strongSelf = self else { return }
             let localizedText: String
             if secondsLeft < 1 {
@@ -107,10 +109,10 @@ class BumpUpBanner: UIView {
                 strongSelf.iconImageView.image = UIImage(named: "clock")
                 localizedText = LGLocalizedString.bumpUpBannerWaitText
             }
-            strongSelf.text.value = strongSelf.bubbleText(secondsLeft, text: localizedText)
+            strongSelf.text.value = strongSelf.bubbleText(secondsLeft: secondsLeft, text: localizedText)
         }.addDisposableTo(disposeBag)
 
-        text.asObservable().bindTo(textLabel.rx_attributedText).addDisposableTo(disposeBag)
+        text.asObservable().bindTo(textLabel.rx.attributedText).addDisposableTo(disposeBag)
     }
 
     private func setupUI() {
@@ -118,14 +120,14 @@ class BumpUpBanner: UIView {
         textLabel.numberOfLines = 0
         textLabel.minimumScaleFactor = 0.5
         iconImageView.image = UIImage(named: "red_chevron_up")
-        iconImageView.contentMode = .ScaleAspectFit
+        iconImageView.contentMode = .scaleAspectFit
         bumpButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
-        bumpButton.setStyle(.Primary(fontSize: .Small))
-        bumpButton.addTarget(self, action: #selector(bumpButtonPressed), forControlEvents: .TouchUpInside)
+        bumpButton.setStyle(.primary(fontSize: .small))
+        bumpButton.addTarget(self, action: #selector(bumpButtonPressed), for: .touchUpInside)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openBumpView))
         addGestureRecognizer(tapGesture)
         let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(openBumpView))
-        swipeUpGesture.direction = .Up
+        swipeUpGesture.direction = .up
         addGestureRecognizer(swipeUpGesture)
     }
 
@@ -133,28 +135,28 @@ class BumpUpBanner: UIView {
         addSubview(containerView)
 
         // container view
-        containerView.layout(with: self).fill().apply()
+        containerView.layout(with: self).fill()
 
         containerView.addSubview(textLabel)
         containerView.addSubview(iconImageView)
         containerView.addSubview(bumpButton)
 
         // icon
-        iconImageView.layout().width(BumpUpBanner.iconSize).height(BumpUpBanner.iconSize).apply()
+        iconImageView.layout().width(BumpUpBanner.iconSize).height(BumpUpBanner.iconSize)
 
-        iconImageView.layout(with: containerView).left(by: 15).apply()
-        iconImageView.layout(with: textLabel).right(to: .Left, by: -10).apply()
-        iconImageView.layout(with: containerView).centerY().apply()
+        iconImageView.layout(with: containerView).left(by: 15)
+        iconImageView.layout(with: textLabel).right(to: .left, by: -10)
+        iconImageView.layout(with: containerView).centerY()
 
         // text label
-        textLabel.layout(with: containerView).top().apply()
-        textLabel.layout(with: containerView).bottom().apply()
-        textLabel.layout(with: bumpButton).right(to: .Left, by: -10).apply()
+        textLabel.layout(with: containerView).top()
+        textLabel.layout(with: containerView).bottom()
+        textLabel.layout(with: bumpButton).right(to: .left, by: -10)
 
         // button
 
-        bumpButton.layout(with: containerView).top(by: 5).bottom(by: -5).right(by: -15).apply()
-        bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        bumpButton.layout(with: containerView).top(by: 5).bottom(by: -5).right(by: -15)
+        bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
 
         setNeedsLayout()
     }
@@ -163,15 +165,15 @@ class BumpUpBanner: UIView {
 
         let fullText: NSMutableAttributedString = NSMutableAttributedString()
 
-        if let countdownText = textForCountdown(secondsLeft) {
+        if let countdownText = textForCountdown(timeSeconds: secondsLeft) {
             var timeTextAttributes = [String : AnyObject]()
             timeTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
             timeTextAttributes[NSFontAttributeName] = UIFont.systemMediumFont(size: 17)
 
             let timeText = NSAttributedString(string: countdownText, attributes: timeTextAttributes)
 
-            fullText.appendAttributedString(timeText)
-            fullText.appendAttributedString(NSAttributedString(string: " "))
+            fullText.append(timeText)
+            fullText.append(NSAttributedString(string: " "))
         }
 
         var bumpTextAttributes = [String : AnyObject]()
@@ -181,7 +183,7 @@ class BumpUpBanner: UIView {
         let bumpText = NSAttributedString(string: text,
                                           attributes: bumpTextAttributes)
 
-        fullText.appendAttributedString(bumpText)
+        fullText.append(bumpText)
 
         return fullText
     }
@@ -199,8 +201,8 @@ class BumpUpBanner: UIView {
     }
 
     private func setAccessibilityIds() {
-        accessibilityId = .BumpUpBanner
-        bumpButton.accessibilityId = .BumpUpBannerButton
-        textLabel.accessibilityId = .BumpUpBannerLabel
+        accessibilityId = .bumpUpBanner
+        bumpButton.accessibilityId = .bumpUpBannerButton
+        textLabel.accessibilityId = .bumpUpBannerLabel
     }
 }

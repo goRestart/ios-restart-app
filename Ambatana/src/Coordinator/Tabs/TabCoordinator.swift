@@ -420,13 +420,13 @@ extension TabCoordinator: ProductDetailNavigator {
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage) {
         let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: true)
         let bumpUpFreeVC = BumpUpFreeViewController(viewModel: shareProductVM)
-        navigationController.presentViewController(bumpUpFreeVC, animated: true, completion: nil)
+        navigationController.present(bumpUpFreeVC, animated: true, completion: nil)
     }
 
-    func openPayBumpUpForProduct(product: Product, price: String, bumpsLeft: Int, purchaseableProduct: PurchaseableProduct) {
-        let payBumpUpVM = BumpUpPayViewModel(product: product, price: price, bumpsLeft: bumpsLeft, purchaseableProduct: purchaseableProduct)
+    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
+        let payBumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct)
         let payBumpUpVC = BumpUpPayViewController(viewModel: payBumpUpVM)
-        navigationController.presentViewController(payBumpUpVC, animated: true, completion: nil)
+        navigationController.present(payBumpUpVC, animated: true, completion: nil)
     }
 }
 

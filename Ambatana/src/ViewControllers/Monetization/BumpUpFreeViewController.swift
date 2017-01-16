@@ -54,15 +54,15 @@ class BumpUpFreeViewController: BaseViewController {
                 [weak self] (result, url) -> Void in
                 if let _ = result.value {
                     self?.titleVerticalCenterConstraint.constant = BumpUpFreeViewController.titleVerticalOffsetWithImage
-                    self?.imageContainer.hidden = false
+                    self?.imageContainer.isHidden = false
                 } else {
                     self?.titleVerticalCenterConstraint.constant = BumpUpFreeViewController.titleVerticalOffsetWithoutImage
-                    self?.imageContainer.hidden = true
+                    self?.imageContainer.isHidden = true
                 }
             })
         } else {
             titleVerticalCenterConstraint.constant = BumpUpFreeViewController.titleVerticalOffsetWithoutImage
-            imageContainer.hidden = true
+            imageContainer.isHidden = true
         }
 
         productImageView.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
@@ -73,7 +73,7 @@ class BumpUpFreeViewController: BaseViewController {
         setupShareView()
 
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureClose))
-        swipeDownGesture.direction = .Down
+        swipeDownGesture.direction = .down
         view.addGestureRecognizer(swipeDownGesture)
     }
 
@@ -83,7 +83,7 @@ class BumpUpFreeViewController: BaseViewController {
         socialShareView.socialSharer = viewModel.socialSharer
         socialShareView.delegate = self
         socialShareView.buttonsSide = BumpUpFreeViewController.shareButtonWidth
-        socialShareView.style = .Line
+        socialShareView.style = .line
     }
 
     private dynamic func gestureClose() {
@@ -95,11 +95,11 @@ class BumpUpFreeViewController: BaseViewController {
     }
 
     private func setAccessibilityIds() {
-        closeButton.accessibilityId = .FreeBumpUpCloseButton
-        productImageView.accessibilityId = .FreeBumpUpImage
-        titleLabel.accessibilityId = .FreeBumpUpTitleLabel
-        subtitleLabel.accessibilityId = .FreeBumpUpSubtitleLabel
-        socialShareView.accessibilityId = .FreeBumpUpSocialShareView
+        closeButton.accessibilityId = .freeBumpUpCloseButton
+        productImageView.accessibilityId = .freeBumpUpImage
+        titleLabel.accessibilityId = .freeBumpUpTitleLabel
+        subtitleLabel.accessibilityId = .freeBumpUpSubtitleLabel
+        socialShareView.accessibilityId = .freeBumpUpSocialShareView
     }
 }
 
@@ -115,6 +115,6 @@ extension BumpUpFreeViewController: ShareProductViewModelDelegate {
     }
 
     func viewControllerShouldClose() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }

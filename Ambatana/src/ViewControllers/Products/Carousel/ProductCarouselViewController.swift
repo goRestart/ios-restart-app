@@ -305,15 +305,15 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         interestedBubble.translatesAutoresizingMaskIntoConstraints = false
         bubbleContainer.addSubview(interestedBubble)
         let views = ["interestedBubble": interestedBubble]
-        bubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[interestedBubble]-0-|",
+        bubbleContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[interestedBubble]-0-|",
             options: [], metrics: nil, views: views))
-        bubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[interestedBubble]-0-|",
+        bubbleContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[interestedBubble]-0-|",
             options: [], metrics: nil, views: views))
     }
 
     func setupBumpUpBanner() {
         bubbleContainer.addSubview(bumpUpBanner)
-        bumpUpBanner.layout(with: bubbleContainer).fill().apply()
+        bumpUpBanner.layout(with: bubbleContainer).fill()
     }
 
     private func setupExpandableButtonsViewIfNeeded() {
@@ -759,7 +759,7 @@ extension ProductCarouselViewController {
         closeBumpUpBanner()
         viewModel.showBumpUpBanner.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
             let info = viewModel?.bumpUpBannerInfo
-            self?.showBumpUpBanner(info)
+            self?.showBumpUpBanner(bumpInfo: info)
             }.addDisposableTo(activeDisposeBag)
     }
 
@@ -1135,7 +1135,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 extension ProductCarouselViewController {
     func showInterestedBubble(_ text: String?){
         guard !interestedBubbleIsVisible else { return }
-        bubbleContainer.bringSubviewToFront(interestedBubble)
+        bubbleContainer.bringSubview(toFront: interestedBubble)
         interestedBubbleTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(timerCloseInterestedBubble),
                                                                        userInfo: nil, repeats: false)
         interestedBubbleIsVisible = true
@@ -1143,7 +1143,6 @@ extension ProductCarouselViewController {
         interestedBubble.updateInfo(text)
         delay(0.1) { [weak self] in
             self?.bubbleBottom = 0
-            self?.interestedBubbleBottom = 0
             UIView.animate(withDuration: 0.3, animations: {
                 self?.view.layoutIfNeeded()
             })
@@ -1158,7 +1157,7 @@ extension ProductCarouselViewController {
         removeInterestedBubble(0.01)
     }
 
-    func removeInterestedBubble(_ duration: NSTimeInterval) {
+    func removeInterestedBubble(_ duration: TimeInterval) {
         guard interestedBubbleIsVisible else { return }
         interestedBubbleTimer.invalidate()
         interestedBubbleIsVisible = false
@@ -1178,12 +1177,12 @@ extension ProductCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo?){
         guard let actualBumpInfo = bumpInfo else { return}
         guard !bumpUpBannerIsVisible else { return }
-        bubbleContainer.bringSubviewToFront(bumpUpBanner)
+        bubbleContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
-        bumpUpBanner.updateInfo(actualBumpInfo)
+        bumpUpBanner.updateInfo(info: actualBumpInfo)
         delay(0.1) { [weak self] in
             self?.bubbleBottom = 0
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self?.view.layoutIfNeeded()
             })
         }
@@ -1272,8 +1271,8 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         viewModel.openFreeBumpUpView()
     }
 
-    func vmShowPaymentBumpUpView(price: String, bumpsLeft: Int) {
-        viewModel.openPaymentBumpUpView(price, bumpsLeft: bumpsLeft)
+    func vmShowPaymentBumpUpView() {
+        viewModel.openPaymentBumpUpView()
     }
     
 

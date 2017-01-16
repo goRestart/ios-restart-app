@@ -523,7 +523,6 @@ enum AccessibilityId: String {
     case paymentBumpUpTitleLabel
     case paymentBumpUpSubtitleLabel
     case paymentBumpUpButton
-    case paymentBumpUpBumpsLeftLabel
 }
 
 extension UIAccessibilityIdentification {

@@ -91,18 +91,12 @@ extension ShareProductViewModel: SocialSharerDelegate {
         if let message = messageForShareIn(shareType, finishedWithState: state) {
             delegate?.vmShowAutoFadingMessage(message) { [weak self] in
                 switch state {
-<<<<<<< HEAD
-                case .Completed:
+                case .completed:
                     self?.delegate?.vmDismiss {
-                        guard let isBumpUp = self?.bumpUp where isBumpUp else { return }
+                        guard let isBumpUp = self?.bumpUp, isBumpUp else { return }
                         self?.bumpUpProduct()
                     }
-                case .Cancelled, .Failed:
-=======
-                case .completed:
-                    self?.delegate?.vmDismiss(nil)
                 case .cancelled, .failed:
->>>>>>> develop
                     break
                 }
             }
@@ -152,8 +146,8 @@ extension ShareProductViewModel: SocialSharerDelegate {
 
 extension ShareProductViewModel {
     func bumpUpProduct() {
-        logMessage(.Info, type: [.Monetization], message: "TRY TO Bump FREE")
+        logMessage(.info, type: [.monetization], message: "TRY TO Bump FREE")
         guard let productId = product.objectId else { return }
-        purchasesShopper?.requestFreeBumpUpForProduct(productId)
+        purchasesShopper?.requestFreeBumpUpForProduct(productId: productId)
     }
 }

@@ -54,7 +54,7 @@ protocol ProductDetailNavigator: TabNavigator {
     func openRelatedItems(_ product: Product, productVisitSource: EventParameterProductVisitSource)
     func closeAfterDelete()
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage)
-    func openPayBumpUpForProduct(product: Product, price: String, bumpsLeft: Int, purchaseableProduct: PurchaseableProduct)
+    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct)
 }
 
 protocol SimpleProductsNavigator: class {

@@ -32,7 +32,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     // Bump Up
     func vmShowFreeBumpUpView()
-    func vmShowPaymentBumpUpView(price: String, bumpsLeft: Int)
+    func vmShowPaymentBumpUpView()
 }
 
 
@@ -124,9 +124,11 @@ class ProductViewModel: BaseViewModel {
     var isFirstProduct: Bool = false
 
     let showBumpUpBanner = Variable<Bool>(false)
+    var timeSinceLastBump: Int = 0
     var bumpUpBannerInfo: BumpUpInfo?
     var bumpUpPurchaseableProduct: PurchaseableProduct?
 
+    
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
 
@@ -135,6 +137,7 @@ class ProductViewModel: BaseViewModel {
 
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
+
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let productRepository: ProductRepository
     fileprivate let commercializerRepository: CommercializerRepository
@@ -148,6 +151,8 @@ class ProductViewModel: BaseViewModel {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let purchasesShopper: PurchasesShopper
     fileprivate var notificationsManager: NotificationsManager
+    fileprivate let monetizationRepository: MonetizationRepository
+
 
     // Retrieval status
     private var relationRetrieved = false
@@ -173,13 +178,15 @@ class ProductViewModel: BaseViewModel {
         let locationManager = Core.locationManager
         let featureFlags = FeatureFlags.sharedInstance
         let notificationsManager = NotificationsManager.sharedInstance
+        let monetizationRepository = Core.monetizationRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance, featureFlags: featureFlags,
-                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager)
+                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
+                  monetizationRepository: monetizationRepository)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
@@ -187,7 +194,8 @@ class ProductViewModel: BaseViewModel {
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager,
-         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper, notificationsManager: NotificationsManager) {
+         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper, notificationsManager: NotificationsManager,
+         monetizationRepository: MonetizationRepository) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -207,6 +215,7 @@ class ProductViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
         self.notificationsManager = notificationsManager
+        self.monetizationRepository = monetizationRepository
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -279,14 +288,6 @@ class ProductViewModel: BaseViewModel {
                 self?.commercializers.value = value
             }
         }
-
-        // TODO: check if the product is bumpeable and if it is, get the product ids
-        if featureFlags.monetizationEnabled {
-            // also, if the product is bumpeable && there are in-app purchase products
-
-            guard let productId = product.value.objectId else { return }
-            purchasesShopper.productsRequestStartForProduct(productId, withIds: ["letgo.ios.bumpup"])
-        }
     }
     
     func syncProduct(_ completion: (() -> ())?) {
@@ -325,27 +326,7 @@ class ProductViewModel: BaseViewModel {
 
             strongSelf.setStatus(product.viewModelStatus(strongSelf.featureFlags))
 
-            // Mockup Data 👾 -----
-            let freeBumpUp = true
-            let price = "$1,99"
-            let bumpsLeft = 3
-            // Mockup Data 👾 -----
-
-            let freeBlock = {
-                self?.delegate?.vmShowFreeBumpUpView()
-            }
-
-            let showPaymentViewBlock = {
-                self?.delegate?.vmShowPaymentBumpUpView(price, bumpsLeft: bumpsLeft)
-            }
-            let payBumpBlock = {
-                self?.bumpUpProduct()
-            }
-            let primaryBlock = freeBumpUp ? freeBlock : showPaymentViewBlock
-            let buttonBlock = freeBumpUp ? freeBlock : payBumpBlock
-            strongSelf.bumpUpBannerInfo = BumpUpInfo(free: freeBumpUp, timeLeftToNextBump: 0, price: price, bumpsLeft: bumpsLeft,
-                primaryBlock: primaryBlock, buttonBlock: buttonBlock)
-            strongSelf.showBumpUpBanner.value = product.isMine && product.status == .Approved && strongSelf.featureFlags.monetizationEnabled // && bumpeable!
+            strongSelf.checkIsBumpeableFor(product: product)
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
@@ -411,6 +392,49 @@ class ProductViewModel: BaseViewModel {
             self?.selectableStickers = stickers
             self?.stickersButtonEnabled.value = !stickers.isEmpty && productStatus.directChatsAvailable
         }
+    }
+
+    private func checkIsBumpeableFor(product: Product) {
+        if product.isMine && product.status == .approved && featureFlags.monetizationEnabled {
+            guard let productId = product.objectId else { return }
+            monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
+                if let bumpeableProduct = result.value {
+                    if bumpeableProduct.isBumpeable {
+                        // product is bumpeable
+                        self?.timeSinceLastBump = bumpeableProduct.countdown
+                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }.map { $0.providerItemId }
+                        let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
+                        if !paymentItems.isEmpty {
+                            // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                            self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
+                        } else if !freeItems.isEmpty {
+                            self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, freeBumpUp: Bool) {
+
+        let freeBlock = { [weak self] in
+            self?.delegate?.vmShowFreeBumpUpView()
+        }
+
+        let showPaymentViewBlock = { [weak self] in
+            self?.delegate?.vmShowPaymentBumpUpView()
+        }
+        let payBumpBlock = { [weak self] in
+            self?.bumpUpProduct()
+        }
+        let primaryBlock = freeBumpUp ? freeBlock : showPaymentViewBlock
+        let buttonBlock = freeBumpUp ? freeBlock : payBumpBlock
+        bumpUpBannerInfo = BumpUpInfo(free: freeBumpUp, timeSinceLastBump: timeSinceLastBump, price: withPrice,
+                                      primaryBlock: primaryBlock, buttonBlock: buttonBlock)
+
+        // we only show the banner if the user is still in the same product that launched the "bumpeable checks"
+        showBumpUpBanner.value = productId == self.product.value.objectId
     }
 }
 
@@ -589,7 +613,7 @@ extension ProductViewModel {
     }
 
     func bumpUpProduct() {
-        logMessage(.Info, type: [.Monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
+        logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
         guard let purchase = bumpUpPurchaseableProduct else { return }
         purchasesShopper.requestPaymentForProduct(purchase.productIdentifier)
     }
@@ -1221,6 +1245,8 @@ extension ProductViewModel: PurchasesShopperDelegate {
         guard let purchase = products.first else { return }
 
         bumpUpPurchaseableProduct = purchase
+        createBumpeableBannerFor(productId: requestProdId, withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
+                                 freeBumpUp: false)
     }
 
     // Payment
