@@ -17,7 +17,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var interestedUsersMode: InterestedUsersMode = .noNotification
     var filtersReorder: Bool = false
     var directPostInOnboarding: Bool = false
-    var productDetailShareMode: ProductDetailShareMode = .native
     var postAfterDeleteMode: PostAfterDeleteMode = .original
     var keywordsTravelCollection: KeywordsTravelCollection = .standard
     var shareAfterPosting: Bool = false

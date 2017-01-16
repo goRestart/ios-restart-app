@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, ProductDetailShareMode.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -38,11 +38,6 @@ extension Bumper  {
     static var interestedUsersMode: InterestedUsersMode {
         guard let value = Bumper.value(for: InterestedUsersMode.key) else { return .noNotification }
         return InterestedUsersMode(rawValue: value) ?? .noNotification 
-    }
-
-    static var productDetailShareMode: ProductDetailShareMode {
-        guard let value = Bumper.value(for: ProductDetailShareMode.key) else { return .native }
-        return ProductDetailShareMode(rawValue: value) ?? .native 
     }
 
     static var postAfterDeleteMode: PostAfterDeleteMode {
@@ -160,22 +155,6 @@ enum InterestedUsersMode: String, BumperFeature  {
             case 1: return .original
             case 2: return .limitedPrints
             default: return .noNotification
-        }
-    }
-}
-
-enum ProductDetailShareMode: String, BumperFeature  {
-    case native, inPlace, fullScreen
-    static var defaultValue: String { return ProductDetailShareMode.native.rawValue }
-    static var enumValues: [ProductDetailShareMode] { return [.native, .inPlace, .fullScreen]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "How the share options are presented in product detail" } 
-    static func fromPosition(_ position: Int) -> ProductDetailShareMode {
-        switch position { 
-            case 0: return .native
-            case 1: return .inPlace
-            case 2: return .fullScreen
-            default: return .native
         }
     }
 }

@@ -25,11 +25,6 @@
         "description": "Interested users bubble mode"
 	},
     {
-        "name": "ProductDetailShareMode",
-        "values": ["Native", "InPlace", "FullScreen"],
-        "description": "How the share options are presented in product detail"
-	},
-    {
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"

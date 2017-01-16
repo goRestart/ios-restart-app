@@ -376,12 +376,6 @@ extension TabCoordinator: ProductDetailNavigator {
         openChatFromProduct(product)
     }
 
-    func openFullScreenShare(_ product: Product, socialMessage: SocialMessage) {
-        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
-        let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
-        navigationController.present(shareProductVC, animated: true, completion: nil)
-    }
-
     func closeAfterDelete() {
         closeProductDetail()
         switch featureFlags.postAfterDeleteMode {
