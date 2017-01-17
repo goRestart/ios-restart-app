@@ -16,7 +16,6 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var interestedUsersMode: InterestedUsersMode { get }
-    var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
     var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
@@ -34,6 +33,7 @@ protocol FeatureFlaggeable {
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
+    var editDeleteItemUxImprovement: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -92,13 +92,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.interestedUsersMode
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
-    }
-    
-     var shareButtonWithIcon: Bool {
-        if Bumper.enabled {
-            return Bumper.shareButtonWithIcon
-        }
-        return ABTests.shareButtonWithIcon.value
     }
 
      var productDetailShareMode: ProductDetailShareMode {
@@ -206,6 +199,12 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.filterIconWithLetters.value
     }
 
+    var editDeleteItemUxImprovement: Bool {
+        if Bumper.enabled {
+            return Bumper.editDeleteItemUxImprovement
+        }
+        return ABTests.editDeleteItemUxImprovement.value
+    }
 
     // MARK: - Country features
 

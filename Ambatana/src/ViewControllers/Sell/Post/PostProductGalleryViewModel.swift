@@ -353,9 +353,10 @@ class PostProductGalleryViewModel: BaseViewModel {
                 strongSelf.galleryState.value = .loadImageError
             }
         }
+
         if let lastId = lastImageRequestId, imageRequestId != lastId {
             PHImageManager.default().cancelImageRequest(lastId)
-            if !multiSelectionEnabled {
+            if !multiSelectionEnabled && !imagesSelected.value.isEmpty {
                 // on single selection don't let the array have more than 1 pic so we deselect the previous one
                 deselectImageAtIndex(imagesSelected.value[0].index)
             }

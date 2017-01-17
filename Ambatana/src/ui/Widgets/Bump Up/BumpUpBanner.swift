@@ -68,10 +68,12 @@ class BumpUpBanner: UIView {
 
     func updateInfo(info: BumpUpInfo) {
         isFree = info.free
-        timeLeft.value = (60*15) - Int(info.timeSinceLastBump/1000) // timeLeft in seconds = (wait time ABtested - timeSinceLastBump)
-        print("🚧🚧🚧🚧🚧🚧🚧🚧")
-        print(timeLeft.value)
+        // timer logic changed, There will be an ABC test with 3 different times.
+        // logic will be: timeLeft.value = (ABCTest time in secs) - Int(info.timeSinceLastBump/1000)
+        timeLeft.value = Int(info.timeSinceLastBump/1000)
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+
+        bumpButton.isEnabled = timeLeft.value < 1
 
         if let price = info.price, !isFree {
             bumpButton.setTitle(price, for: .normal)
@@ -97,17 +99,17 @@ class BumpUpBanner: UIView {
     private func setupRx() {
         let secondsLeft = timeLeft.asObservable().skip(1)
         secondsLeft.bindNext { [weak self] secondsLeft in
-            print("🚧🕐🕐🕐🕐🕐🕐🚧")
-            print(secondsLeft)
             guard let strongSelf = self else { return }
             let localizedText: String
             if secondsLeft < 1 {
                 strongSelf.timer.invalidate()
                 localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
                 strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
+                strongSelf.bumpButton.isEnabled = true
             } else {
                 strongSelf.iconImageView.image = UIImage(named: "clock")
                 localizedText = LGLocalizedString.bumpUpBannerWaitText
+                strongSelf.bumpButton.isEnabled = false
             }
             strongSelf.text.value = strongSelf.bubbleText(secondsLeft: secondsLeft, text: localizedText)
         }.addDisposableTo(disposeBag)
@@ -197,7 +199,7 @@ class BumpUpBanner: UIView {
         let hours = timeSeconds/3600
         let mins = (timeSeconds%3600)/60
         let secs = timeSeconds%60
-        return "\(hours):\(mins):\(secs)"
+        return "\(String(format: "%02d", hours)):\(String(format: "%02d", mins)):\(String(format: "%02d", secs))"
     }
 
     private func setAccessibilityIds() {

@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -36,6 +36,7 @@
                 <outlet property="imageBackground" destination="a9q-ok-5NH" id="Rng-ni-wSf"/>
                 <outlet property="productStatusLabel" destination="yoR-Fx-XEv" id="rdF-DT-xux"/>
                 <outlet property="productStatusView" destination="cLW-LX-KUg" id="tuY-O4-wBO"/>
+                <outlet property="shareButton" destination="k8u-9M-4kc" id="DY2-OW-lpF"/>
                 <outlet property="stickersButton" destination="uPU-nT-EmU" id="wwk-6v-4qa"/>
                 <outlet property="stickersButtonBottomConstraint" destination="9Nj-Te-mSQ" id="VGb-V4-HiK"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2pA-g3-vP2"/>
@@ -121,6 +122,10 @@
                     </constraints>
                     <state key="normal" image="ic_favorite_big_off"/>
                 </button>
+                <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k8u-9M-4kc" userLabel="Share Button">
+                    <rect key="frame" x="305" y="65" width="55" height="34"/>
+                    <state key="normal" title="_Share"/>
+                </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-dg-QsD">
                     <rect key="frame" x="15" y="482" width="285" height="50"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -179,6 +184,7 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="k8u-9M-4kc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="042-hi-lxQ"/>
                 <constraint firstItem="G8H-Az-QBo" firstAttribute="top" secondItem="uPU-nT-EmU" secondAttribute="bottom" constant="15" id="9Nj-Te-mSQ"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IpU-G3-HED"/>
                 <constraint firstAttribute="trailing" secondItem="v46-dz-RxO" secondAttribute="trailing" id="JyA-NP-pAb"/>
@@ -197,6 +203,7 @@
                 <constraint firstItem="375-7c-Uiw" firstAttribute="centerY" secondItem="uPU-nT-EmU" secondAttribute="centerY" id="WHK-ew-oEd"/>
                 <constraint firstItem="IPt-yE-B8T" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="WbY-7w-9VA"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Z1w-E2-gHK"/>
+                <constraint firstAttribute="trailing" secondItem="k8u-9M-4kc" secondAttribute="trailing" constant="15" id="ZO9-Vf-oJW"/>
                 <constraint firstAttribute="trailing" secondItem="IPt-yE-B8T" secondAttribute="trailing" id="aLA-du-DUK"/>
                 <constraint firstItem="nEH-Ai-mnV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bGX-Mu-bQ7"/>
                 <constraint firstAttribute="bottom" secondItem="G8H-Az-QBo" secondAttribute="bottom" constant="-50" id="cW1-mD-DaV"/>
