@@ -55,7 +55,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         self.relatedProductsView = ChatRelatedProductsView()
         self.stickersView = ChatStickersView()
         self.expressChatBanner = ChatBanner()
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel, nibName: nil, swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
         setReachabilityEnabled(true)
@@ -86,6 +86,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
                                                          name: UIMenuControllerWillHideMenuNotification, object: nil)
+        navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
 
     override func viewWillAppear(animated: Bool) {
