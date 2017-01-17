@@ -194,8 +194,8 @@ class NotificationsManager {
         requestingNotifications = true
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
             self?.requestingNotifications = false
-            guard let notificationCounts = result.value else { return }
-            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount
+            guard let notificationCounts = result.value, let featureFlags = self?.featureFlags else { return }
+            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount(featureFlags: featureFlags)
         }
     }
 }
@@ -220,11 +220,8 @@ fileprivate extension NotificationsManager {
 // MARK: - UnreadNotificationsCounts
 
 fileprivate extension UnreadNotificationsCounts {
-    var totalVisibleCount: Int {
-        if FeatureFlags.sharedInstance.userReviews {
-            return productLike + productSold + review + reviewUpdated
-        } else {
-            return productLike + productSold
-        }
+    func totalVisibleCount(featureFlags: FeatureFlaggeable) -> Int {
+        let totalWoReviews = productLike + productSold + buyersInterested + productSuggested + facebookFriendshipCreated
+        return featureFlags.userReviews ? totalWoReviews + review + reviewUpdated : totalWoReviews
     }
 }
