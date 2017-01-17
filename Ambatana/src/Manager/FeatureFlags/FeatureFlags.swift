@@ -16,8 +16,6 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var interestedUsersMode: InterestedUsersMode { get }
-    var productDetailShareMode: ProductDetailShareMode { get }
-    var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
@@ -25,7 +23,6 @@ protocol FeatureFlaggeable {
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var monetizationEnabled: Bool { get }
-    var periscopeImprovement: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
@@ -94,20 +91,6 @@ class FeatureFlags: FeatureFlaggeable {
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
     }
 
-     var productDetailShareMode: ProductDetailShareMode {
-        if Bumper.enabled {
-            return Bumper.productDetailShareMode
-        }
-        return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
-    }
-
-    var expressChatBanner: Bool {
-        if Bumper.enabled {
-            return Bumper.expressChatBanner
-        }
-        return ABTests.expressChatBanner.value
-    }
-
     var postAfterDeleteMode: PostAfterDeleteMode {
         if Bumper.enabled {
             return Bumper.postAfterDeleteMode
@@ -141,13 +124,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.relatedProductsOnMoreInfo
         }
         return ABTests.relatedProductsOnMoreInfo.value
-    }
-    
-    var periscopeImprovement: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeImprovement
-        }
-        return ABTests.periscopeImprovement.value
     }
     
     var favoriteWithBadgeOnProfile: Bool {

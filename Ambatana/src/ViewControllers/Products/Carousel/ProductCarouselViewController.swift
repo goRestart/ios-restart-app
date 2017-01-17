@@ -109,8 +109,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var bumpUpBanner = BumpUpBanner()
     fileprivate var bumpUpBannerIsVisible: Bool = false
 
-    fileprivate var expandableButtonsView: ExpandableButtonsView?
-
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
@@ -300,7 +298,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
         setupBumpUpBanner()
-        setupExpandableButtonsViewIfNeeded()
     }
 
     func setupInterestedBubble() {
@@ -317,28 +314,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     func setupBumpUpBanner() {
         bubbleContainer.addSubview(bumpUpBanner)
         bumpUpBanner.layout(with: bubbleContainer).fill()
-    }
-
-    private func setupExpandableButtonsViewIfNeeded() {
-        guard featureFlags.productDetailShareMode == .inPlace else { return }
-        let expandableButtons = ExpandableButtonsView(buttonSide: 36, buttonSpacing: 7)
-        expandableButtonsView = expandableButtons
-
-        for type in viewModel.shareTypes {
-            guard SocialSharer.canShareIn(type) else { continue }
-            expandableButtons.addButton(image: type.smallImage, accessibilityId: type.accesibilityId) { [weak self] in
-                guard let vc = self, let socialMessage = self?.viewModel.currentProductViewModel?.socialMessage.value else { return }
-                self?.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: vc, barButtonItem: nil)
-            }
-        }
-
-        expandableButtons.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(expandableButtons)
-
-        view.addConstraint(NSLayoutConstraint(item: expandableButtons, attribute: .trailing, relatedBy: .equal,
-                                              toItem: view, attribute: .trailing, multiplier: 1, constant: -15))
-        view.addConstraint(NSLayoutConstraint(item: expandableButtons, attribute: .top, relatedBy: .equal,
-                                              toItem: view, attribute: .top, multiplier: 1, constant: 64))
     }
 
     private func setupNavigationBar() {
@@ -380,9 +355,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     private func setupZoomRx() {
         cellZooming.asObservable().distinctUntilChanged().bindNext { [weak self] zooming in
             UIApplication.shared.setStatusBarHidden(zooming, with: .fade)
-            if zooming {
-                self?.expandableButtonsView?.shrink(animated: true)
-            }
             UIView.animate(withDuration: 0.3) {
                 self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
                 self?.buttonBottom.alpha = zooming ? 0 : 1
@@ -426,24 +398,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         alphaSignal.bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(shareButton.rx.alpha).addDisposableTo(disposeBag)
-
-        if let expandableButtonsView = expandableButtonsView {
-            // Hide fav button if expandable buttons view is expanded, otherwise depend on reversed alpha
-            Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal,
-                                     resultSelector: { (expanded, alpha) -> CGFloat in
-                                        let hideFav = expanded ? 0 : alpha
-                return hideFav
-            }).bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
-
-            // If expanded & we start to fade out the hide expandable buttons view
-            Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal, resultSelector: { (expanded, alpha) -> Bool in
-                return expanded && alpha < 1
-            }).filter { $0 == true }.subscribeNext(onNext: { [weak self] _ in
-                self?.expandableButtonsView?.switchExpanded(animated: true)
-            }).addDisposableTo(disposeBag)
-        } else {
-            alphaSignal.bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
-        }
+        alphaSignal.bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
 
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
@@ -515,7 +470,6 @@ extension ProductCarouselViewController {
         setupMoreInfo()
         refreshInterestedBubble(viewModel)
         refreshBumpUpBanner(viewModel)
-        refreshExpandableButtonsView(viewModel)
     }
 
     fileprivate func finishedTransition() {
@@ -712,12 +666,7 @@ extension ProductCarouselViewController {
     private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
         viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx.isHidden).addDisposableTo(disposeBag)
         chatTextView.placeholder = viewModel.directChatPlaceholder
-        if viewModel.shouldShowTextOnChatView() {
-            chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
-        } else {
-            chatTextView.clear()
-            chatTextView.resignFirstResponder()
-        }
+        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
 
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
@@ -769,22 +718,12 @@ extension ProductCarouselViewController {
             }.addDisposableTo(activeDisposeBag)
     }
 
-
     private func refreshBumpUpBanner(_ viewModel: ProductViewModel) {
         bumpUpBanner.layoutIfNeeded()
         closeBumpUpBanner()
         viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
             self?.showBumpUpBanner(bumpInfo: info)
             }.addDisposableTo(activeDisposeBag)
-    }
-
-
-    private func refreshExpandableButtonsView(_ viewModel: ProductViewModel) {
-        guard let expandableButtonsView = expandableButtonsView else { return }
-        expandableButtonsView.isHidden = viewModel.socialMessage.value == nil
-        if expandableButtonsView.expanded.value {
-            expandableButtonsView.switchExpanded(animated: false)
-        }
     }
 }
 
@@ -844,10 +783,6 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()
-    }
-
-    func vmHideExpandableShareButtons() {
-        expandableButtonsView?.shrink(animated: true)
     }
 }
 
@@ -1215,17 +1150,7 @@ extension ProductCarouselViewController {
 extension ProductCarouselViewController: ProductViewModelDelegate {
     
     func vmShowShareFromMain(_ socialMessage: SocialMessage) {
-        switch featureFlags.productDetailShareMode {
-        case .native:
-            viewModel.openShare(.native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
-        case .inPlace:
-            if let expandableButtonsView = expandableButtonsView, !expandableButtonsView.expanded.value {
-                viewModel.didOpenInPlaceShare()
-            }
-            expandableButtonsView?.switchExpanded(animated: true)
-        case .fullScreen:
-            viewModel.openFullScreenShare()
-        }
+        viewModel.openShare(.native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 
     func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage) {

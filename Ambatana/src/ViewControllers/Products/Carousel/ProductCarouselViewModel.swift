@@ -12,7 +12,6 @@ import RxSwift
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
-    func vmHideExpandableShareButtons()
 }
 
 enum CarouselMovement {
@@ -262,18 +261,6 @@ class ProductCarouselViewModel: BaseViewModel {
         delegate?.vmRemoveMoreInfoTooltip()
     }
 
-    func didOpenInPlaceShare() {
-        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .top)
-    }
-
-    func openFullScreenShare() {
-        guard let product = currentProductViewModel?.product.value,
-            let socialMessage = currentProductViewModel?.socialMessage.value else { return }
-
-        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .top)
-        navigator?.openFullScreenShare(product, socialMessage: socialMessage)
-    }
-
     func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController)
     }
@@ -365,14 +352,7 @@ extension ProductCarouselViewModel: SocialSharerDelegate {
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         if let message = messageForShareIn(shareType, finishedWithState: state) {
-            delegate?.vmShowAutoFadingMessage(message) { [weak self] in
-                switch state {
-                case .completed:
-                    self?.delegate?.vmHideExpandableShareButtons()
-                case .cancelled, .failed:
-                    break
-                }
-            }
+            delegate?.vmShowAutoFadingMessage(message, completion: nil)
         }
         currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .top, state: state)
     }

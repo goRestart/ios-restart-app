@@ -50,7 +50,6 @@ protocol ProductDetailNavigator: TabNavigator {
      // closeCompletion's Product is nil if edit is cancelled
     func editProduct(_ product: Product, editCompletion: ((Product) -> Void)?)
     func openProductChat(_ product: Product)
-    func openFullScreenShare(_ product: Product, socialMessage: SocialMessage)
     func openRelatedItems(_ product: Product, productVisitSource: EventParameterProductVisitSource)
     func closeAfterDelete()
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage)
