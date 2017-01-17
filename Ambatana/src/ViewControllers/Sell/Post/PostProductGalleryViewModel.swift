@@ -12,10 +12,10 @@ import RxSwift
 import RxCocoa
 
 struct ImageSelected {
-    var image: UIImage
+    var image: UIImage? // TODO: revert to non-optional when doing https://ambatana.atlassian.net/browse/ABIOS-2195
     var index: Int  // the index in the collection
 
-    init(image: UIImage, index: Int) {
+    init(image: UIImage?, index: Int) {
         self.image = image
         self.index = index
     }
@@ -108,8 +108,9 @@ class PostProductGalleryViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func postButtonPressed() {
-        guard !imagesSelected.value.isEmpty else { return }
-        galleryDelegate?.productGalleryDidSelectImages(imagesSelected.value.map { $0.image })
+        let okImages = imagesSelected.value.flatMap { $0.image }
+        guard !okImages.isEmpty else { return }
+        galleryDelegate?.productGalleryDidSelectImages(okImages)
     }
 
     var imagesCount: Int {
@@ -341,7 +342,6 @@ class PostProductGalleryViewModel: BaseViewModel {
             strongSelf.imageSelectionEnabled.value = true
 
             if let image = image {
-                strongSelf.galleryState.value = .normal
                 strongSelf.shouldUpdateDisabledCells = strongSelf.multiSelectionEnabled &&
                     strongSelf.imagesSelected.value.count == strongSelf.maxImagesSelected - 1
                 strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
@@ -349,17 +349,27 @@ class PostProductGalleryViewModel: BaseViewModel {
                     // Block interaction when 5 images are selected
                     strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
                 }
+                strongSelf.galleryState.value = .normal
             } else {
+                // TODO: load the thumbnail if the image laoding fails
+                // https://ambatana.atlassian.net/browse/ABIOS-2195
+                strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
+                if strongSelf.multiSelectionEnabled {
+                    // in multiple selection, we don't want to show as selected only the images that were loaded
+                    for imgSelected in strongSelf.imagesSelected.value {
+                        if imgSelected.image == nil {
+                            strongSelf.deselectImageAtIndex(imgSelected.index)
+                        }
+                    }
+                }
                 strongSelf.galleryState.value = .loadImageError
             }
         }
-
         if let lastId = lastImageRequestId, imageRequestId != lastId {
             PHImageManager.default().cancelImageRequest(lastId)
-            if !multiSelectionEnabled && !imagesSelected.value.isEmpty {
-                // on single selection don't let the array have more than 1 pic so we deselect the previous one
-                deselectImageAtIndex(imagesSelected.value[0].index)
-            }
+            guard !imagesSelected.value.isEmpty && !multiSelectionEnabled else { return }
+            // on single selection don't let the array have more than 1 pic so we deselect the previous one
+            deselectImageAtIndex(imagesSelected.value[0].index)
         }
         lastImageRequestId = imageRequestId
     }
