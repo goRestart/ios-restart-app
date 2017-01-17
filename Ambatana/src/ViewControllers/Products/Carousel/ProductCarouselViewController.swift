@@ -773,10 +773,6 @@ extension ProductCarouselViewController {
     private func refreshBumpUpBanner(_ viewModel: ProductViewModel) {
         bumpUpBanner.layoutIfNeeded()
         closeBumpUpBanner()
-//        viewModel.showBumpUpBanner.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
-//            let info = viewModel?.bumpUpBannerInfo
-//            self?.showBumpUpBanner(bumpInfo: info)
-//            }.addDisposableTo(activeDisposeBag)
         viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
             self?.showBumpUpBanner(bumpInfo: info)
             }.addDisposableTo(activeDisposeBag)
