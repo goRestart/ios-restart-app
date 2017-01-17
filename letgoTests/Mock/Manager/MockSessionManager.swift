@@ -10,7 +10,8 @@ import LGCoreKit
 import RxSwift
 
 class MockSessionManager: SessionManager {
-    var myUserResult: SessionMyUserResult!
+    var signUpResult: SessionMyUserResult!
+    var logInResult: SessionMyUserResult!
     var resetPasswordResult: SessionEmptyResult!
 
     
@@ -22,24 +23,24 @@ class MockSessionManager: SessionManager {
 
     func signUp(_ email: String, password: String, name: String, newsletter: Bool?,
                 completion: SessionMyUserCompletion?) {
-        performAfterDelayWithCompletion(completion, result: myUserResult)
+        performAfterDelayWithCompletion(completion, result: signUpResult)
     }
 
     func signUp(_ email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
                 completion: SessionMyUserCompletion?) {
-        performAfterDelayWithCompletion(completion, result: myUserResult)
+        performAfterDelayWithCompletion(completion, result: signUpResult)
     }
 
     func login(_ email: String, password: String, completion: SessionMyUserCompletion?) {
-        performAfterDelayWithCompletion(completion, result: myUserResult)
+        performAfterDelayWithCompletion(completion, result: logInResult)
     }
 
     func loginFacebook(_ token: String, completion: SessionMyUserCompletion?) {
-        performAfterDelayWithCompletion(completion, result: myUserResult)
+        performAfterDelayWithCompletion(completion, result: logInResult)
     }
 
     func loginGoogle(_ token: String, completion: SessionMyUserCompletion?) {
-        performAfterDelayWithCompletion(completion, result: myUserResult)
+        performAfterDelayWithCompletion(completion, result: logInResult)
     }
 
     func recoverPassword(_ email: String, completion: SessionEmptyCompletion?) {

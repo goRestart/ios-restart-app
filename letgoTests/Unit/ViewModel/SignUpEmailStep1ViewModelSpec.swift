@@ -33,7 +33,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
 
                 keyValueStorage = MockKeyValueStorage()
                 disposeBag = DisposeBag()
-                sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
+                sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                 sut.nextStepEnabled.subscribeNext { enabled in
                     nextStepEnabled = enabled
                 }.addDisposableTo(disposeBag)
@@ -43,7 +43,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
             describe("initialization") {
                 context("did not log in previously") {
                     beforeEach {
-                        sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has an empty email") {
@@ -62,7 +62,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has an email") {
@@ -81,7 +81,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has an empty email") {
@@ -100,7 +100,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has an empty email") {
@@ -115,8 +115,8 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 }
             }
 
-            context("open next step with email & password") {
-                var errors: [SignUpEmailStep1FormError]!
+            describe("open next step with email & password") {
+                var errors: SignUpEmailStep1FormErrors!
 
                 describe("empty") {
                     beforeEach {
@@ -219,11 +219,11 @@ extension SignUpEmailStep1ViewModelSpec: SignUpEmailStep1Navigator {
         navigatorReceivedOpenHelp = true
     }
 
-    func openNextStepFromSignUpEmailStep1(email email: String, password: String) {
+    func openNextStepFromSignUpEmailStep1(email: String, password: String) {
         navigatorReceivedOpenNextStep = true
     }
 
-    func openLogInFromSignUpEmailStep1(email email: String, password: String) {
+    func openLogInFromSignUpEmailStep1(email: String, password: String) {
         navigatorReceivedOpenLogIn = true
     }
 }

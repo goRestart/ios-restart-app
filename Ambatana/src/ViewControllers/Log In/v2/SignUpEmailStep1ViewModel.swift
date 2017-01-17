@@ -9,10 +9,12 @@
 import LGCoreKit
 import RxSwift
 
-enum SignUpEmailStep1FormError {
-    case invalidEmail
-    case shortPassword
-    case longPassword
+struct SignUpEmailStep1FormErrors: OptionSet {
+    let rawValue: Int
+
+    static let invalidEmail     = SignUpEmailStep1FormErrors(rawValue: 1 << 0)
+    static let shortPassword    = SignUpEmailStep1FormErrors(rawValue: 1 << 1)
+    static let longPassword     = SignUpEmailStep1FormErrors(rawValue: 1 << 2)
 }
 
 protocol SignUpEmailStep1Navigator: class {
@@ -36,6 +38,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     weak var navigator: SignUpEmailStep1Navigator?
 
+    fileprivate let source: EventParameterLoginSourceValue
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let nextStepEnabledVar: Variable<Bool>
     fileprivate let disposeBag: DisposeBag
@@ -48,11 +51,12 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 //        self.init(keyValueStorage: keyValueStorage)
 //    }
 
-    init(keyValueStorage: KeyValueStorageable) {
+    init(source: EventParameterLoginSourceValue, keyValueStorage: KeyValueStorageable) {
         let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage) ?? ""
         self.email = Variable<String>(email)
         self.password = Variable<String>("")
 
+        self.source = source
         self.keyValueStorage = keyValueStorage
         self.nextStepEnabledVar = Variable<Bool>(false)
         self.disposeBag = DisposeBag()
@@ -70,17 +74,17 @@ extension SignUpEmailStep1ViewModel {
         openLogIn(email: email.value, password: password.value)
     }
 
-    func openNextStep() -> [SignUpEmailStep1FormError] {
-        guard nextStepEnabledVar.value else { return [] }
+    func openNextStep() -> SignUpEmailStep1FormErrors {
+        var errors: SignUpEmailStep1FormErrors = []
+        guard nextStepEnabledVar.value else { return errors }
 
-        var errors: [SignUpEmailStep1FormError] = []
         if !email.value.isEmail() {
-            errors.append(.invalidEmail)
+            errors.insert(.invalidEmail)
         }
         if password.value.characters.count < Constants.passwordMinLength {
-            errors.append(.shortPassword)
+            errors.insert(.shortPassword)
         } else if password.value.characters.count > Constants.passwordMaxLength {
-            errors.append(.longPassword)
+            errors.insert(.longPassword)
         }
 
         if errors.isEmpty {
@@ -112,11 +116,6 @@ fileprivate extension SignUpEmailStep1ViewModel {
               let accountProvider = AccountProvider(rawValue: accountProviderString),
               accountProvider == .email else { return nil }
         return keyValueStorageble[.previousUserEmailOrName]
-    }
-
-    func savePrevious(email: String) {
-        keyValueStorage[.previousUserAccountProvider] = AccountProvider.email.rawValue
-        keyValueStorage[.previousUserEmailOrName] = email
     }
 }
 

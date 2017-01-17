@@ -14,34 +14,49 @@ import Result
 import RxSwift
 
 class SignUpEmailStep2ViewModelSpec: QuickSpec {
-//    var navigatorReceivedOpenHelp: Bool = false
-//    var navigatorReceivedOpenNextStep: Bool = false
-//    var navigatorReceivedOpenLogIn: Bool = false
+    var delegateReceivedShowLoading: Bool = false
+    var delegateReceivedHideLoading: Bool = false
+
+    var navigatorReceivedOpenHelp: Bool = false
+    var navigatorReceivedCloseAfterSignUp: Bool = false
 
     override func spec() {
 
         fdescribe("SignUpEmailStep2ViewModel") {
-//            var keyValueStorage: MockKeyValueStorage!
             var signUpEnabled: Bool!
             var disposeBag: DisposeBag!
             var featureFlags: MockFeatureFlags!
+            var sessionManager: MockSessionManager!
+            var keyValueStorage: MockKeyValueStorage!
+            var tracker: MockTracker!
             var sut: SignUpEmailStep2ViewModel!
 
             beforeEach {
-//                self.navigatorReceivedOpenHelp = false
-//                self.navigatorReceivedOpenNextStep = false
-//                self.navigatorReceivedOpenLogIn = false
+                self.delegateReceivedShowLoading = false
+                self.delegateReceivedHideLoading = false
+                self.navigatorReceivedOpenHelp = false
+                self.navigatorReceivedCloseAfterSignUp = false
 
-//                keyValueStorage = MockKeyValueStorage()
                 disposeBag = DisposeBag()
                 featureFlags = MockFeatureFlags()
-//                sut = SignUpEmailStep1ViewModel(keyValueStorage: keyValueStorage)
-                sut = SignUpEmailStep2ViewModel(email: "albert@letgo.com", password: "654321",
-                                                featureFlags: featureFlags)
+                sessionManager = MockSessionManager()
+                keyValueStorage = MockKeyValueStorage()
+                tracker = MockTracker()
+
+                let email = "albert@letgo.com"
+                let myUser = MockMyUser()
+                myUser.email = email
+                sessionManager.signUpResult = SessionMyUserResult(value: myUser)
+                sessionManager.logInResult = SessionMyUserResult(value: myUser)
+
+                sut = SignUpEmailStep2ViewModel(email: email, password: "654321", source: .sell,
+                                                sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+                                                featureFlags: featureFlags, tracker: tracker)
                 sut.signUpEnabled.subscribeNext { enabled in
                     signUpEnabled = enabled
                 }.addDisposableTo(disposeBag)
-//                sut.navigator = self
+                sut.delegate = self
+                sut.navigator = self
             }
 
             describe("initialization") {
@@ -86,115 +101,252 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 }
             }
 
-//            context("open next step with email & password") {
-//                var errors: [SignUpEmailStep1FormError]!
-//
-//                describe("empty") {
-//                    beforeEach {
-//                        sut.email.value = ""
-//                        sut.password.value = ""
-//                        errors = sut.openNextStep()
-//                    }
-//
-//                    it("has the next step disabled") {
-//                        expect(nextStepEnabled) == false
-//                    }
-//                    it("does not return any error") {
-//                        expect(errors) == []
-//                    }
-//                    it("does not call open next step in navigator") {
-//                        expect(self.navigatorReceivedOpenNextStep) == false
-//                    }
-//                }
-//
-//                describe("with email non-valid & short password") {
-//                    beforeEach {
-//                        sut.email.value = "a"
-//                        sut.password.value = "a"
-//                        errors = sut.openNextStep()
-//                    }
-//
-//                    it("has the next step enabled") {
-//                        expect(nextStepEnabled) == true
-//                    }
-//                    it("returns that the email is invalid and the password is short") {
-//                        expect(errors) == [.invalidEmail, .shortPassword]
-//                    }
-//                    it("does not call open next step in navigator") {
-//                        expect(self.navigatorReceivedOpenNextStep) == false
-//                    }
-//                }
-//
-//                describe("with valid email & long password") {
-//                    beforeEach {
-//                        sut.email.value = "albert@letgo.com"
-//                        sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-//                        errors = sut.openNextStep()
-//                    }
-//
-//                    it("has the next step enabled") {
-//                        expect(nextStepEnabled) == true
-//                    }
-//                    it("returns that the password is long") {
-//                        expect(errors) == [.longPassword]
-//                    }
-//                    it("does not call open next step in navigator") {
-//                        expect(self.navigatorReceivedOpenNextStep) == false
-//                    }
-//                }
-//
-//                describe("with valid email & password") {
-//                    beforeEach {
-//                        sut.email.value = "albert@letgo.com"
-//                        sut.password.value = "letitgo"
-//                        errors = sut.openNextStep()
-//                    }
-//
-//                    it("has the next step enabled") {
-//                        expect(nextStepEnabled) == true
-//                    }
-//                    it("returns no errors") {
-//                        expect(errors) == []
-//                    }
-//                    it("calls open next step in navigator") {
-//                        expect(self.navigatorReceivedOpenNextStep) == true
-//                    }
-//                }
-//            }
+            describe("sign up with invalid form") {
+                var errors: SignUpEmailStep2FormErrors!
 
-//            describe("open login") {
-//                beforeEach {
-//                    sut.openLogIn()
-//                }
-//
-//                it("calls open login in navigator") {
-//                    expect(self.navigatorReceivedOpenLogIn) == true
-//                }
-//            }
-//
-//            describe("open help") {
-//                beforeEach {
-//                    sut.helpAction.action()
-//                }
-//
-//                it("calls open help in navigator") {
-//                    expect(self.navigatorReceivedOpenHelp) == true
-//                }
-//            }
+                context("username empty") {
+                    beforeEach {
+                        sut.username.value = ""
+                        errors = sut.signUp()
+                    }
+
+                    it("has the sign up disabled") {
+                        expect(signUpEnabled) == false
+                    }
+                    it("does not return any error") {
+                        expect(errors) == []
+                    }
+                    it("does not track a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
+                    }
+                    it("does not call close after signup in navigator") {
+                        expect(self.navigatorReceivedCloseAfterSignUp) == false
+                    }
+                }
+
+                context("username containing letgo keyword") {
+                    beforeEach {
+                        sut.username.value = "albert letgo"
+                        errors = sut.signUp()
+                    }
+
+                    it("has the sign up enabled") {
+                        expect(signUpEnabled) == true
+                    }
+                    it("returns username contains letgo error") {
+                        expect(errors) == [.usernameContainsLetgo]
+                    }
+                    it("tracks a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                    it("does not call close after signup in navigator") {
+                        expect(self.navigatorReceivedCloseAfterSignUp) == false
+                    }
+                }
+
+                context("short username") {
+                    beforeEach {
+                        sut.username.value = "a"
+                        errors = sut.signUp()
+                    }
+
+                    it("has the sign up enabled") {
+                        expect(signUpEnabled) == true
+                    }
+                    it("returns a short username error") {
+                        expect(errors) == [.shortUsername]
+                    }
+                    it("tracks a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                    it("does not call close after signup in navigator") {
+                        expect(self.navigatorReceivedCloseAfterSignUp) == false
+                    }
+                }
+
+                context("valid username but terms and conditions & newsletter required and not accepted") {
+                    beforeEach {
+                        featureFlags.signUpEmailNewsletterAcceptRequired = true
+                        featureFlags.signUpEmailTermsAndConditionsAcceptRequired = true
+
+                        sut.username.value = "Albert"
+                        errors = sut.signUp()
+                    }
+
+                    it("has the sign up enabled") {
+                        expect(signUpEnabled) == true
+                    }
+                    it("returns terms and conditions not accepted error") {
+                        expect(errors) == [.termsAndConditionsNotAccepted]
+                    }
+                    it("tracks a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                    it("does not call close after signup in navigator") {
+                        expect(self.navigatorReceivedCloseAfterSignUp) == false
+                    }
+                }
+            }
+
+            describe("sign up with valid form") {
+                var errors: SignUpEmailStep2FormErrors!
+
+                beforeEach {
+                    sut.username.value = "Albert"
+                    errors = sut.signUp()
+                }
+
+                it("has the sign up enabled") {
+                    expect(signUpEnabled) == true
+                }
+                it("does not return any error") {
+                    expect(errors) == []
+                }
+                it("calls show and hide loading in delegate") {
+                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                    expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                }
+            }
+
+            context("valid form") {
+                beforeEach {
+                    sut.username.value = "Albert"
+                }
+
+                describe("sign up fails with conflict user exists") {
+                    beforeEach {
+                        sessionManager.signUpResult = SessionMyUserResult(error: .conflict(cause: .userExists))
+                    }
+
+                    describe("auto log in fails") {
+                        beforeEach {
+                            sessionManager.logInResult = SessionMyUserResult(error: .network)
+                            _ = sut.signUp()
+
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
+
+                        it("tracks a signupError event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.signupError]
+                        }
+                        it("does not call close after signup in navigator") {
+                            expect(self.navigatorReceivedCloseAfterSignUp) == false
+                        }
+                    }
+
+                    describe("auto log in succeeds") {
+                        beforeEach {
+                            let myUser = MockMyUser()
+                            sessionManager.logInResult = SessionMyUserResult(value: myUser)
+                            _ = sut.signUp()
+
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
+
+                        it("tracks a loginEmail event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.loginEmail]
+                        }
+                        it("calls close after signup in navigator when signup succeeds") {
+                            expect(self.navigatorReceivedCloseAfterSignUp) == true
+                        }
+                    }
+                }
+
+                describe("sign up fails with other reason") {
+                    beforeEach {
+                        sessionManager.signUpResult = SessionMyUserResult(error: .network)
+                        _ = sut.signUp()
+
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+
+                    it("tracks a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                    it("does not call close after signup in navigator") {
+                        expect(self.navigatorReceivedCloseAfterSignUp) == false
+                    }
+                }
+
+                describe("sign up succeeds") {
+                    beforeEach {
+                        let email = "albert@letgo.com"
+                        let myUser = MockMyUser()
+                        myUser.email = email
+                        sessionManager.signUpResult = SessionMyUserResult(value: myUser)
+                        _ = sut.signUp()
+
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+
+                    it("tracks a signupEmail event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupEmail]
+                    }
+                    it("calls close after signup in navigator when signup succeeds") {
+                        expect(self.navigatorReceivedCloseAfterSignUp).toEventually(beTrue())
+                    }
+                }
+            }
+
+            describe("open help") {
+                beforeEach {
+                    sut.helpAction.action()
+                }
+
+                it("calls open help in navigator") {
+                    expect(self.navigatorReceivedOpenHelp) == true
+                }
+            }
         }
     }
 }
 
-//extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2Navigator {
-//    func openHelpFromSignUpEmailStep1() {
-//        navigatorReceivedOpenHelp = true
-//    }
-//
-//    func openNextStepFromSignUpEmailStep1(email email: String, password: String) {
-//        navigatorReceivedOpenNextStep = true
-//    }
-//
-//    func openLogInFromSignUpEmailStep1(email email: String, password: String) {
-//        navigatorReceivedOpenLogIn = true
-//    }
-//}
+extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2ViewModelDelegate {
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
+        completion?()
+    }
+
+    func vmShowLoading(_ loadingMessage: String?) {
+        self.delegateReceivedShowLoading = true
+    }
+
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+        self.delegateReceivedHideLoading = true
+        afterMessageCompletion?()
+    }
+
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
+
+    func vmPop() {}
+    func vmDismiss(_ completion: (() -> Void)?) {}
+
+    func vmOpenInternalURL(_ url: URL) {}
+}
+
+
+extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2Navigator {
+    func openHelpFromSignUpEmailStep2() {
+        navigatorReceivedOpenHelp = true
+    }
+
+    func closeAfterSignUpSuccessful() {
+        navigatorReceivedCloseAfterSignUp = true
+    }
+}

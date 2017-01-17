@@ -200,7 +200,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                         myUser = MockMyUser()
                         myUser.email = email
-                        sessionManager.myUserResult = SessionMyUserResult(value: myUser)
+                        sessionManager.logInResult = SessionMyUserResult(value: myUser)
 
                         sut.email = email
                         sut.password = "123456"
@@ -226,7 +226,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("standard") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .network)
+                            sessionManager.logInResult = SessionMyUserResult(error: .network)
 
                             sut.email = email
                             sut.password = "123456"
@@ -249,7 +249,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("scammer") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .scammer)
+                            sessionManager.logInResult = SessionMyUserResult(error: .scammer)
 
                             sut.email = email
                             sut.password = "123456"
