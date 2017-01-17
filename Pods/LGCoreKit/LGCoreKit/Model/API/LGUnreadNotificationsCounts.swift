@@ -38,8 +38,11 @@ extension LGUnreadNotificationsCounts: Decodable {
      "counts" : {
          "sold": 25,
          "like": 10,
-         "review_updated": 10,
          "review": 5,
+         "review_updated": 10,
+         "buyers_interested": 0,
+         "product_suggested": 0,
+         "facebook_friendship_created": 10,
          "total": 50
      }
      */
