@@ -59,7 +59,7 @@ public class Bumper {
         features = bumperFeatures
         features.forEach({
             guard let value = bumperDAO.stringForKey(Bumper.bumperPrefix + $0.key) else { return }
-            cache[$0.key] = value
+            cache[$0.key] = $0.values.contains(value) ? value : $0.defaultValue
         })
     }
 

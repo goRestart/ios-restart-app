@@ -25,16 +25,6 @@
         "description": "Interested users bubble mode"
 	},
     {
-        "name": "ProductDetailShareMode",
-        "values": ["Native", "InPlace", "FullScreen"],
-        "description": "How the share options are presented in product detail"
-	},
-    {
-        "name": "ExpressChatBanner",
-        "values": ["No", "Yes"],
-        "description": "Show express chat banner in chat detail"
-    },
-    {
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"
@@ -58,11 +48,6 @@
         "name": "MonetizationEnabled",
         "values": ["No", "Yes"],
         "description": "USer can make in-app purchases"
-    },
-    {
-        "name": "PeriscopeImprovement",
-        "values": ["No", "Yes"],
-        "description": "periscope chat improvements"
     },
     {
         "name": "FavoriteWithBadgeOnProfile",

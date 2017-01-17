@@ -632,10 +632,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             hasRelatedProducts.asObservable(),
             relatedProductsState.asObservable().map { (state: ChatRelatedItemsState) -> Bool in return state == .visible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
-            .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
-                guard let strongSelf = self else { return }
-                self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
-        }.addDisposableTo(disposeBag)
+            .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
         relatedProductsState.asObservable().bindNext { [weak self] state in
             switch state {
