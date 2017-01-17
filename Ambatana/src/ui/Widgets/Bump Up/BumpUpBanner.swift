@@ -104,8 +104,6 @@ class BumpUpBanner: UIView {
     private func setupRx() {
         let secondsLeft = timeLeft.asObservable().skip(1)
         secondsLeft.bindNext { [weak self] secondsLeft in
-            print("❌❌❌❌❌❌❌❌❌")
-            print(secondsLeft)
             guard let strongSelf = self else { return }
             let localizedText: String
             if secondsLeft <= 1 {
