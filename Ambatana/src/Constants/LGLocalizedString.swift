@@ -1887,6 +1887,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_open_commercial_button", comment: "")
 	}
 
+	static var productOptionEdit: String {
+		return NSLocalizedString("product_option_edit", comment: "")
+	}
+
 	static var productOptionShare: String {
 		return NSLocalizedString("product_option_share", comment: "")
 	}
