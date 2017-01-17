@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -33,11 +33,6 @@ extension Bumper  {
     static var showNPSSurvey: Bool {
         guard let value = Bumper.value(for: ShowNPSSurvey.key) else { return false }
         return ShowNPSSurvey(rawValue: value)?.asBool ?? false
-    }
-
-    static var interestedUsersMode: InterestedUsersMode {
-        guard let value = Bumper.value(for: InterestedUsersMode.key) else { return .noNotification }
-        return InterestedUsersMode(rawValue: value) ?? .noNotification 
     }
 
     static var postAfterDeleteMode: PostAfterDeleteMode {
@@ -141,22 +136,6 @@ enum ShowNPSSurvey: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show nps survey" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum InterestedUsersMode: String, BumperFeature  {
-    case noNotification, original, limitedPrints
-    static var defaultValue: String { return InterestedUsersMode.noNotification.rawValue }
-    static var enumValues: [InterestedUsersMode] { return [.noNotification, .original, .limitedPrints]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Interested users bubble mode" } 
-    static func fromPosition(_ position: Int) -> InterestedUsersMode {
-        switch position { 
-            case 0: return .noNotification
-            case 1: return .original
-            case 2: return .limitedPrints
-            default: return .noNotification
-        }
-    }
 }
 
 enum PostAfterDeleteMode: String, BumperFeature  {

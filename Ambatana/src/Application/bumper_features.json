@@ -20,11 +20,6 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "InterestedUsersMode",
-        "values": ["NoNotification", "Original", "LimitedPrints"],
-        "description": "Interested users bubble mode"
-	},
-    {
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"

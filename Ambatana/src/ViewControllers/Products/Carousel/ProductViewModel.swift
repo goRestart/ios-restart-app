@@ -130,14 +130,9 @@ class ProductViewModel: BaseViewModel {
     let stickersButtonEnabled = Variable<Bool>(false)
     fileprivate var selectableStickers: [Sticker] = []
 
-    let showInterestedBubble = Variable<Bool>(false)
-    var interestedBubbleTitle: String?
-    var isFirstProduct: Bool = false
-
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     var timeSinceLastBump: Int = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
-
     
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -156,7 +151,6 @@ class ProductViewModel: BaseViewModel {
     fileprivate let countryHelper: CountryHelper
     fileprivate let locationManager: LocationManager
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
-    fileprivate let interestedBubbleManager: InterestedBubbleManager
     fileprivate let bubbleManager: BubbleNotificationManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let purchasesShopper: PurchasesShopper
@@ -193,8 +187,7 @@ class ProductViewModel: BaseViewModel {
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
-                  bubbleManager: BubbleNotificationManager.sharedInstance,
-                  interestedBubbleManager: InterestedBubbleManager.sharedInstance, featureFlags: featureFlags,
+                  bubbleManager: BubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
                   purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
                   monetizationRepository: monetizationRepository)
     }
@@ -203,9 +196,8 @@ class ProductViewModel: BaseViewModel {
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
-         bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager,
-         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper, notificationsManager: NotificationsManager,
-         monetizationRepository: MonetizationRepository) {
+         bubbleManager: BubbleNotificationManager, featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
+         notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -221,7 +213,6 @@ class ProductViewModel: BaseViewModel {
         self.navigator = navigator
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.bubbleManager = bubbleManager
-        self.interestedBubbleManager = interestedBubbleManager
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
         self.notificationsManager = notificationsManager
@@ -278,7 +269,6 @@ class ProductViewModel: BaseViewModel {
                 strongSelf.statsRetrieved = true
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
-                strongSelf.refreshInterestedBubble(false, forFirstProduct: strongSelf.isFirstProduct)
             }
         }
 
@@ -602,24 +592,6 @@ extension ProductViewModel {
         navigator?.openRelatedItems(product.value, productVisitSource: .moreInfoRelated)
     }
 
-    func refreshInterestedBubble(_ fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
-        // check that the bubble hasn't been shown yet for this product
-        guard let productId = product.value.objectId, shouldShowInterestedBubbleForProduct(productId, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) else { return }
-        guard product.value.viewModelStatus(featureFlags) == .otherAvailable else { return }
-        // we need at least 1 favorited without counting ours but when coming from favorite action,
-        // favourites count is not updated, so no need to substract 1)
-        let othersFavCount = min(isFavorite.value && !fromFavoriteAction ? favouritesCount.value - 1 : favouritesCount.value, 5)
-        guard othersFavCount > 0 else { return }
-        let othersFavText = othersFavCount == 1 ? LGLocalizedString.productBubbleOneUserInterested :
-            String(format: LGLocalizedString.productBubbleSeveralUsersInterested, Int(othersFavCount))
-        interestedBubbleTitle = othersFavText
-        showInterestedBubble.value = true
-        // save that the bubble has just been shown for this product
-        showInterestedBubbleForProduct(productId)
-        trackHelper.trackInterestedUsersBubble(othersFavCount, productId: productId)
-        showInterestedBubble.value = false
-    }
-
     func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard let socialMessage = socialMessage.value else { return }
         socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
@@ -919,7 +891,6 @@ fileprivate extension ProductViewModel {
                     strongSelf.isFavorite.value = currentFavoriteValue
                 }
                 strongSelf.favoriteButtonState.value = .enabled
-                strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
             if featureFlags.favoriteWithBubbleToChat {
                 navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
@@ -1080,19 +1051,6 @@ extension ProductViewModel {
     fileprivate func ifLoggedInRunActionElseOpenChatSignup(_ action: @escaping () -> ()) {
         delegate?.ifLoggedInThen(.directSticker, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
-    }
-}
-
-
-// MARK: - Interested Bubble logic
-
-extension ProductViewModel {
-    func showInterestedBubbleForProduct(_ id: String) {
-        interestedBubbleManager.showInterestedBubbleForProduct(id)
-    }
-
-    func shouldShowInterestedBubbleForProduct(_ id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct, featureFlags: featureFlags) && active
     }
 }
 

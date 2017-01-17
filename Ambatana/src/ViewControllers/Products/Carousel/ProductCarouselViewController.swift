@@ -38,8 +38,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var stickersButton: UIButton!
     @IBOutlet weak var stickersButtonBottomConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var bubbleContainer: UIView!
-    @IBOutlet weak var bubbleContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bannerContainer: UIView!
+    @IBOutlet weak var bannerContainerBottomConstraint: NSLayoutConstraint!
 
     fileprivate let userView: UserView
     fileprivate let fullScreenAvatarEffectView: UIVisualEffectView
@@ -73,14 +73,14 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
             stickersButtonBottomConstraint?.constant = bottomItemsMargin
         }
     }
-    fileprivate var bubbleBottom: CGFloat = -CarouselUI.bubbleHeight {
+    fileprivate var bannerBottom: CGFloat = -CarouselUI.bannerHeight {
         didSet {
-            bubbleContainerBottomConstraint.constant = contentBottomMargin + bubbleBottom
+            bannerContainerBottomConstraint.constant = contentBottomMargin + bannerBottom
         }
     }
     fileprivate var contentBottomMargin: CGFloat = 0 {
         didSet {
-            bubbleContainerBottomConstraint.constant = contentBottomMargin + bubbleBottom
+            bannerContainerBottomConstraint.constant = contentBottomMargin + bannerBottom
         }
     }
 
@@ -101,10 +101,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     fileprivate let chatTextView = ChatTextView()
-
-    fileprivate var interestedBubble = InterestedBubble()
-    fileprivate var interestedBubbleIsVisible: Bool = false
-    fileprivate var interestedBubbleTimer: Timer = Timer()
 
     fileprivate var bumpUpBanner = BumpUpBanner()
     fileprivate var bumpUpBannerIsVisible: Bool = false
@@ -178,7 +174,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
-        forceCloseInterestedBubble()
     }
 
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
@@ -296,24 +291,12 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         mainResponder = chatTextView
         setupDirectMessagesAndStickers()
-        setupInterestedBubble()
         setupBumpUpBanner()
     }
 
-    func setupInterestedBubble() {
-        interestedBubble.isHidden = !interestedBubbleIsVisible
-        interestedBubble.translatesAutoresizingMaskIntoConstraints = false
-        bubbleContainer.addSubview(interestedBubble)
-        let views = ["interestedBubble": interestedBubble]
-        bubbleContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[interestedBubble]-0-|",
-            options: [], metrics: nil, views: views))
-        bubbleContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[interestedBubble]-0-|",
-            options: [], metrics: nil, views: views))
-    }
-
     func setupBumpUpBanner() {
-        bubbleContainer.addSubview(bumpUpBanner)
-        bumpUpBanner.layout(with: bubbleContainer).fill()
+        bannerContainer.addSubview(bumpUpBanner)
+        bumpUpBanner.layout(with: bannerContainer).fill()
     }
 
     private func setupNavigationBar() {
@@ -468,7 +451,6 @@ extension ProductCarouselViewController {
         refreshFavoriteButton(viewModel)
         refreshShareButton(viewModel)
         setupMoreInfo()
-        refreshInterestedBubble(viewModel)
         refreshBumpUpBanner(viewModel)
     }
 
@@ -490,7 +472,7 @@ extension ProductCarouselViewController {
             view.bringSubview(toFront: stickersButton)
             view.bringSubview(toFront: editButton)
             view.bringSubview(toFront: chatContainer)
-            view.bringSubview(toFront: bubbleContainer)
+            view.bringSubview(toFront: bannerContainer)
             view.bringSubview(toFront: fullScreenAvatarEffectView)
             view.bringSubview(toFront: fullScreenAvatarView)
             view.bringSubview(toFront: directChatTable)
@@ -708,14 +690,6 @@ extension ProductCarouselViewController {
         shareButton.rx.tap.bindNext { [weak viewModel] in
             viewModel?.shareProduct()
         }.addDisposableTo(activeDisposeBag)
-    }
-
-    private func refreshInterestedBubble(_ viewModel: ProductViewModel) {
-        forceCloseInterestedBubble()
-        viewModel.showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
-            let text = viewModel?.interestedBubbleTitle
-            self?.showInterestedBubble(text)
-            }.addDisposableTo(activeDisposeBag)
     }
 
     private func refreshBumpUpBanner(_ viewModel: ProductViewModel) {
@@ -1080,58 +1054,17 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 }
 
 
-// MARK: > Interested bubble
-
-extension ProductCarouselViewController {
-    func showInterestedBubble(_ text: String?){
-        guard !interestedBubbleIsVisible else { return }
-        bubbleContainer.bringSubview(toFront: interestedBubble)
-        interestedBubbleTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(timerCloseInterestedBubble),
-                                                                       userInfo: nil, repeats: false)
-        interestedBubbleIsVisible = true
-        interestedBubble.isHidden = false
-        interestedBubble.updateInfo(text)
-        delay(0.1) { [weak self] in
-            self?.bubbleBottom = 0
-            UIView.animate(withDuration: 0.3, animations: {
-                self?.view.layoutIfNeeded()
-            })
-        }
-    }
-
-    func timerCloseInterestedBubble() {
-        removeInterestedBubble(0.5)
-    }
-
-    func forceCloseInterestedBubble() {
-        removeInterestedBubble(0.01)
-    }
-
-    func removeInterestedBubble(_ duration: TimeInterval) {
-        guard interestedBubbleIsVisible else { return }
-        interestedBubbleTimer.invalidate()
-        interestedBubbleIsVisible = false
-        bubbleBottom = -CarouselUI.bubbleHeight
-        UIView.animate(withDuration: duration, animations: { [weak self] in
-            self?.view.layoutIfNeeded()
-            }, completion: { [weak self] _ in
-                self?.interestedBubble.isHidden = true
-        })
-    }
-}
-
-
 // MARK: > Bump Up bubble
 
 extension ProductCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo?){
         guard let actualBumpInfo = bumpInfo else { return }
         guard !bumpUpBannerIsVisible else { return }
-        bubbleContainer.bringSubview(toFront: bumpUpBanner)
+        bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
         bumpUpBanner.updateInfo(info: actualBumpInfo)
         delay(0.1) { [weak self] in
-            self?.bubbleBottom = 0
+            self?.bannerBottom = 0
             UIView.animate(withDuration: 0.3, animations: {
                 self?.view.layoutIfNeeded()
             })
@@ -1141,7 +1074,7 @@ extension ProductCarouselViewController {
     func closeBumpUpBanner() {
         guard bumpUpBannerIsVisible else { return }
         bumpUpBannerIsVisible = false
-        bubbleBottom = -CarouselUI.bubbleHeight
+        bannerBottom = -CarouselUI.bannerHeight
     }
 }
 
