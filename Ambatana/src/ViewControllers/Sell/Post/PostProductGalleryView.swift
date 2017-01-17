@@ -311,41 +311,45 @@ extension PostProductGalleryView {
 
     fileprivate func setupRX() {
         viewModel.galleryState.asObservable().subscribeNext{ [weak self] state in
+            guard let strongSelf = self else { return }
             self?.loadImageErrorView.isHidden = true
             self?.imageLoadActivityIndicator.stopAnimating()
             switch state {
             case .empty:
-                self?.infoTitle.text = LGLocalizedString.productPostEmptyGalleryTitle
-                self?.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
-                self?.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, for: .normal)
-                self?.infoContainer.isHidden = false
-                self?.postButton.isEnabled = false
+                strongSelf.infoTitle.text = LGLocalizedString.productPostEmptyGalleryTitle
+                strongSelf.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
+                strongSelf.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, for: .normal)
+                strongSelf.infoContainer.isHidden = false
+                strongSelf.postButton.isEnabled = false
             case .pendingAskPermissions:
-                self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
-                self?.infoSubtitle.text = LGLocalizedString.productPostGalleryPermissionsSubtitle
-                self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
-                self?.infoContainer.isHidden = false
-                self?.postButton.isEnabled = false
-                self?.postButton.isEnabled = false
+                strongSelf.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
+                strongSelf.infoSubtitle.text = LGLocalizedString.productPostGalleryPermissionsSubtitle
+                strongSelf.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
+                strongSelf.infoContainer.isHidden = false
+                strongSelf.postButton.isEnabled = false
+                strongSelf.postButton.isEnabled = false
             case .missingPermissions(let msg):
-                self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
-                self?.infoSubtitle.text = msg
-                self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
-                self?.infoContainer.isHidden = false
-                self?.postButton.isEnabled = false
-                self?.postButton.isEnabled = false
+                strongSelf.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
+                strongSelf.infoSubtitle.text = msg
+                strongSelf.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
+                strongSelf.infoContainer.isHidden = false
+                strongSelf.postButton.isEnabled = false
+                strongSelf.postButton.isEnabled = false
             case .normal:
-                self?.infoContainer.isHidden = true
-                self?.postButton.isEnabled = true
-                self?.loadImageErrorView.isHidden = self?.viewModel.imagesSelectedCount != 0
+                strongSelf.infoContainer.isHidden = true
+                // multi selection shows a "choose photos" text in loadImageErrorView at start instead of the 1st image
+                strongSelf.postButton.isEnabled = strongSelf.viewModel.imagesSelectedCount != 0
+                strongSelf.loadImageErrorView.isHidden = strongSelf.viewModel.imagesSelectedCount != 0
             case .loadImageError:
-                self?.infoContainer.isHidden = true
-                self?.loadImageErrorView.isHidden = false
-                self?.configMessageView(.wrongImage)
-                self?.postButton.isEnabled = false
+                strongSelf.infoContainer.isHidden = true
+                strongSelf.postButton.isEnabled = (strongSelf.viewModel.multiSelectionEnabled &&
+                                                strongSelf.viewModel.imagesSelectedCount != 0)
+                strongSelf.loadImageErrorView.isHidden = (strongSelf.viewModel.multiSelectionEnabled &&
+                                                        strongSelf.viewModel.imagesSelectedCount != 0)
+                strongSelf.configMessageView(.wrongImage)
             case .loading:
-                self?.imageLoadActivityIndicator.startAnimating()
-                self?.postButton.isEnabled = false
+                strongSelf.imageLoadActivityIndicator.startAnimating()
+                strongSelf.postButton.isEnabled = false
             }
         }.addDisposableTo(disposeBag)
 
