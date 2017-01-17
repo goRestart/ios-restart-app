@@ -130,8 +130,6 @@ enum EventName: String {
     case expressChatComplete                = "express-chat-complete"
     case expressChatDontAsk                 = "express-chat-dont-ask"
 
-    case productDetailInterestedUsers       = "product-detail-interested-users"
-    
     case npsStart                           = "nps-start"
     case npsComplete                        = "nps-complete"
 

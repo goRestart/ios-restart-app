@@ -167,7 +167,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.socialSharer.delegate = self
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
-        self.currentProductViewModel?.isFirstProduct = true
         setCurrentIndex(startIndex)
     }
     

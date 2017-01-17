@@ -14,7 +14,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var notificationsSection: Bool = false
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
-    var interestedUsersMode: InterestedUsersMode = .noNotification
     var filtersReorder: Bool = false
     var directPostInOnboarding: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
