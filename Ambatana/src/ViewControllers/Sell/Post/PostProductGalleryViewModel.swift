@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 struct ImageSelected {
-    var image: UIImage?
+    var image: UIImage? // TODO: revert to non-optional when doing https://ambatana.atlassian.net/browse/ABIOS-2195
     var index: Int  // the index in the collection
 
     init(image: UIImage?, index: Int) {
@@ -351,6 +351,8 @@ class PostProductGalleryViewModel: BaseViewModel {
                 }
                 strongSelf.galleryState.value = .Normal
             } else {
+                // TODO: load the thumbnail if the image laoding fails
+                // https://ambatana.atlassian.net/browse/ABIOS-2195
                 strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
                 if strongSelf.multiSelectionEnabled {
                     // in multiple selection, we don't want to show as selected only the images that were loaded
