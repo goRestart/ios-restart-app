@@ -75,7 +75,8 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
         guard let id = productId else { return }
         self.requestsFinished.append(id)
     }
-    
+
     func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error) {
+
     }
 }

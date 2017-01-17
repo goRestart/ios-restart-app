@@ -13,6 +13,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductCarouselViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="bubbleContainer" destination="G8H-Az-QBo" id="TMf-9b-ZUY"/>
+                <outlet property="bubbleContainerBottomConstraint" destination="cW1-mD-DaV" id="LUw-Hk-wFD"/>
                 <outlet property="buttonBottom" destination="ibM-CY-XRt" id="VOT-6P-Mmb"/>
                 <outlet property="buttonBottomBottomConstraint" destination="xy2-xd-eOf" id="ifU-90-OpV"/>
                 <outlet property="buttonBottomHeight" destination="qTj-cW-IDe" id="4N1-Rl-PlK"/>
@@ -32,8 +34,6 @@
                 <outlet property="gradientShadowBottomView" destination="v46-dz-RxO" id="SOd-x8-W3i"/>
                 <outlet property="gradientShadowView" destination="PnK-9l-N8i" id="Cd4-V7-udw"/>
                 <outlet property="imageBackground" destination="a9q-ok-5NH" id="Rng-ni-wSf"/>
-                <outlet property="interestedBubbleContainer" destination="G8H-Az-QBo" id="rkP-xb-97g"/>
-                <outlet property="interestedBubbleContainerBottomConstraint" destination="cW1-mD-DaV" id="j23-UT-xbA"/>
                 <outlet property="productStatusLabel" destination="yoR-Fx-XEv" id="rdF-DT-xux"/>
                 <outlet property="productStatusView" destination="cLW-LX-KUg" id="tuY-O4-wBO"/>
                 <outlet property="shareButton" destination="k8u-9M-4kc" id="DY2-OW-lpF"/>
@@ -174,7 +174,7 @@
                         <outlet property="delegate" destination="-1" id="UcM-Yb-tPM"/>
                     </connections>
                 </tableView>
-                <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="G8H-Az-QBo" userLabel="InterestedBubbleContainer">
+                <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="G8H-Az-QBo" userLabel="bubbleContainer">
                     <rect key="frame" x="0.0" y="667" width="375" height="50"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -230,7 +230,7 @@
                 <constraint firstItem="nEH-Ai-mnV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y74-dp-ujo"/>
                 <constraint firstAttribute="bottom" secondItem="a9q-ok-5NH" secondAttribute="bottom" id="yDB-1u-d6E"/>
             </constraints>
-            <point key="canvasLocation" x="-47" y="56"/>
+            <point key="canvasLocation" x="-507" y="518"/>
         </view>
     </objects>
     <resources>

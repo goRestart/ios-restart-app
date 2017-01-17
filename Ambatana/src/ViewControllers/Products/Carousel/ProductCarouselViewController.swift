@@ -38,8 +38,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var stickersButton: UIButton!
     @IBOutlet weak var stickersButtonBottomConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var interestedBubbleContainer: UIView!
-    @IBOutlet weak var interestedBubbleContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bubbleContainer: UIView!
+    @IBOutlet weak var bubbleContainerBottomConstraint: NSLayoutConstraint!
 
     fileprivate let userView: UserView
     fileprivate let fullScreenAvatarEffectView: UIVisualEffectView
@@ -73,14 +73,14 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
             stickersButtonBottomConstraint?.constant = bottomItemsMargin
         }
     }
-    fileprivate var interestedBubbleBottom: CGFloat = -CarouselUI.interestedBubbleHeight {
+    fileprivate var bubbleBottom: CGFloat = -CarouselUI.bubbleHeight {
         didSet {
-            interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
+            bubbleContainerBottomConstraint.constant = contentBottomMargin + bubbleBottom
         }
     }
     fileprivate var contentBottomMargin: CGFloat = 0 {
         didSet {
-            interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
+            bubbleContainerBottomConstraint.constant = contentBottomMargin + bubbleBottom
         }
     }
 
@@ -105,6 +105,9 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var interestedBubble = InterestedBubble()
     fileprivate var interestedBubbleIsVisible: Bool = false
     fileprivate var interestedBubbleTimer: Timer = Timer()
+
+    fileprivate var bumpUpBanner = BumpUpBanner()
+    fileprivate var bumpUpBannerIsVisible: Bool = false
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
@@ -294,17 +297,23 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         mainResponder = chatTextView
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
+        setupBumpUpBanner()
     }
 
     func setupInterestedBubble() {
         interestedBubble.isHidden = !interestedBubbleIsVisible
         interestedBubble.translatesAutoresizingMaskIntoConstraints = false
-        interestedBubbleContainer.addSubview(interestedBubble)
-        let views = ["bubble": interestedBubble]
-        interestedBubbleContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[bubble]-0-|",
+        bubbleContainer.addSubview(interestedBubble)
+        let views = ["interestedBubble": interestedBubble]
+        bubbleContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[interestedBubble]-0-|",
             options: [], metrics: nil, views: views))
-        interestedBubbleContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[bubble]-0-|",
+        bubbleContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[interestedBubble]-0-|",
             options: [], metrics: nil, views: views))
+    }
+
+    func setupBumpUpBanner() {
+        bubbleContainer.addSubview(bumpUpBanner)
+        bumpUpBanner.layout(with: bubbleContainer).fill()
     }
 
     private func setupNavigationBar() {
@@ -460,6 +469,7 @@ extension ProductCarouselViewController {
         refreshShareButton(viewModel)
         setupMoreInfo()
         refreshInterestedBubble(viewModel)
+        refreshBumpUpBanner(viewModel)
     }
 
     fileprivate func finishedTransition() {
@@ -475,11 +485,12 @@ extension ProductCarouselViewController {
                 moreInfoAlpha.asObservable().bindTo(moreInfoView.rx.alpha).addDisposableTo(disposeBag)
                 moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
             }
+
             view.bringSubview(toFront: buttonBottom)
             view.bringSubview(toFront: stickersButton)
             view.bringSubview(toFront: editButton)
             view.bringSubview(toFront: chatContainer)
-            view.bringSubview(toFront: interestedBubbleContainer)
+            view.bringSubview(toFront: bubbleContainer)
             view.bringSubview(toFront: fullScreenAvatarEffectView)
             view.bringSubview(toFront: fullScreenAvatarView)
             view.bringSubview(toFront: directChatTable)
@@ -704,6 +715,14 @@ extension ProductCarouselViewController {
         viewModel.showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
             let text = viewModel?.interestedBubbleTitle
             self?.showInterestedBubble(text)
+            }.addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshBumpUpBanner(_ viewModel: ProductViewModel) {
+        bumpUpBanner.layoutIfNeeded()
+        closeBumpUpBanner()
+        viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
+            self?.showBumpUpBanner(bumpInfo: info)
             }.addDisposableTo(activeDisposeBag)
     }
 }
@@ -1066,13 +1085,14 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 extension ProductCarouselViewController {
     func showInterestedBubble(_ text: String?){
         guard !interestedBubbleIsVisible else { return }
+        bubbleContainer.bringSubview(toFront: interestedBubble)
         interestedBubbleTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(timerCloseInterestedBubble),
                                                                        userInfo: nil, repeats: false)
         interestedBubbleIsVisible = true
         interestedBubble.isHidden = false
         interestedBubble.updateInfo(text)
         delay(0.1) { [weak self] in
-            self?.interestedBubbleBottom = 0
+            self?.bubbleBottom = 0
             UIView.animate(withDuration: 0.3, animations: {
                 self?.view.layoutIfNeeded()
             })
@@ -1080,26 +1100,50 @@ extension ProductCarouselViewController {
     }
 
     func timerCloseInterestedBubble() {
-        removeBubble(0.5)
+        removeInterestedBubble(0.5)
     }
 
     func forceCloseInterestedBubble() {
-        removeBubble(0.01)
+        removeInterestedBubble(0.01)
     }
 
-    func removeBubble(_ duration: TimeInterval) {
+    func removeInterestedBubble(_ duration: TimeInterval) {
         guard interestedBubbleIsVisible else { return }
         interestedBubbleTimer.invalidate()
         interestedBubbleIsVisible = false
-        interestedBubbleBottom = -CarouselUI.interestedBubbleHeight
+        bubbleBottom = -CarouselUI.bubbleHeight
         UIView.animate(withDuration: duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
             }, completion: { [weak self] _ in
                 self?.interestedBubble.isHidden = true
-            })
+        })
     }
 }
 
+
+// MARK: > Bump Up bubble
+
+extension ProductCarouselViewController {
+    func showBumpUpBanner(bumpInfo: BumpUpInfo?){
+        guard let actualBumpInfo = bumpInfo else { return }
+        guard !bumpUpBannerIsVisible else { return }
+        bubbleContainer.bringSubview(toFront: bumpUpBanner)
+        bumpUpBannerIsVisible = true
+        bumpUpBanner.updateInfo(info: actualBumpInfo)
+        delay(0.1) { [weak self] in
+            self?.bubbleBottom = 0
+            UIView.animate(withDuration: 0.3, animations: {
+                self?.view.layoutIfNeeded()
+            })
+        }
+    }
+
+    func closeBumpUpBanner() {
+        guard bumpUpBannerIsVisible else { return }
+        bumpUpBannerIsVisible = false
+        bubbleBottom = -CarouselUI.bubbleHeight
+    }
+}
 
 // MARK: > Product View Model Delegate
 
@@ -1161,6 +1205,16 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         return self
     }
 
+    // Bump Up
+
+    func vmShowFreeBumpUpView() {
+        viewModel.openFreeBumpUpView()
+    }
+
+    func vmShowPaymentBumpUpView() {
+        viewModel.openPaymentBumpUpView()
+    }
+    
 
     // Loadings and alerts overrides to remove keyboard before showing
 

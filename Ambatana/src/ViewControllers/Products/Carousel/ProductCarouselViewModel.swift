@@ -265,6 +265,17 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController)
     }
 
+    func openFreeBumpUpView() {
+        guard let product = currentProductViewModel?.product.value,
+            let socialMessage = currentProductViewModel?.socialMessage.value else { return }
+        navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage)
+    }
+
+    func openPaymentBumpUpView() {
+        guard let product = currentProductViewModel?.product.value else { return }
+        guard let purchaseableProduct = currentProductViewModel?.bumpUpPurchaseableProduct else { return }
+        navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
+    }
 
     // MARK: - Private Methods
     
