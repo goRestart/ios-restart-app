@@ -14,7 +14,7 @@ extension Int {
     }
 
     func secondsToCountdownFormat() -> String? {
-        guard self > 0 else { return nil }
+        guard self >= 0 else { return nil }
         let hours = self/3600
         let mins = (self%3600)/60
         let secs = self%60

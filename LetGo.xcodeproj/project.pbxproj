@@ -165,6 +165,7 @@
 		2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
 		2E9716AE1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */; };
 		2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */; };
+		2EAC987B1E2E386D00BCF62C /* Int+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAC987A1E2E386D00BCF62C /* Int+LGSpec.swift */; };
 		2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */; };
 		2EB32D661DF1CBC900E01E93 /* Monetization.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */; };
 		2EBC92031E098DE7007F0F82 /* PurchasesShopperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92021E098DE7007F0F82 /* PurchasesShopperSpec.swift */; };
@@ -1348,6 +1349,7 @@
 		2E9716A21D5A0535009B3A32 /* ExpressChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatCell.xib; sourceTree = "<group>"; };
 		2E9716A51D5A08AB009B3A32 /* ExpressChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewModel.swift; sourceTree = "<group>"; };
 		2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatWrapper.swift; path = ChatWrapper/ChatWrapper.swift; sourceTree = "<group>"; };
+		2EAC987A1E2E386D00BCF62C /* Int+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+LGSpec.swift"; sourceTree = "<group>"; };
 		2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpBanner.swift; path = "Bump Up/BumpUpBanner.swift"; sourceTree = "<group>"; };
 		2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Monetization.xcassets; sourceTree = "<group>"; };
 		2EBC92021E098DE7007F0F82 /* PurchasesShopperSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchasesShopperSpec.swift; sourceTree = "<group>"; };
@@ -3341,9 +3343,10 @@
 			isa = PBXGroup;
 			children = (
 				50C9E4CB1B7353E6001E4E92 /* Manager */,
-				C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */,
 				C7841AF61E091E5C004A8242 /* CGFloat+LGSpec.swift */,
 				C7D2AC981E1D367100C98944 /* CollectionVariableSpec.swift */,
+				2EAC987A1E2E386D00BCF62C /* Int+LGSpec.swift */,
+				C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -5523,6 +5526,7 @@
 				5061ACB91DE35519002E5423 /* MockSessionManager.swift in Sources */,
 				50E96E6D1DE3486A009DB88A /* SignUpViewModelSpec.swift in Sources */,
 				50C7428D1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift in Sources */,
+				2EAC987B1E2E386D00BCF62C /* Int+LGSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
