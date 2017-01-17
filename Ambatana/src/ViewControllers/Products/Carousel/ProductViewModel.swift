@@ -850,25 +850,29 @@ fileprivate extension ProductViewModel {
     func switchFavoriteAction() {
         
         favoriteButtonState.value = .disabled
-        if isFavorite.value {
+        let currentFavoriteValue = isFavorite.value
+        isFavorite.value = !isFavorite.value
+        if currentFavoriteValue {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
-                if let product = result.value {
-                    strongSelf.isFavorite.value = product.favorite
+                if let _ = result.value {
                     strongSelf.notificationsManager.decreaseFavoriteCounter()
+                } else {
+                    strongSelf.isFavorite.value = currentFavoriteValue
                 }
                 strongSelf.favoriteButtonState.value = .enabled
             }
         } else {
             productRepository.saveFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
-                if let product = result.value {
-                    strongSelf.isFavorite.value = product.favorite
+                if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted()
                     strongSelf.notificationsManager.increaseFavoriteCounter()
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
+                } else {
+                    strongSelf.isFavorite.value = currentFavoriteValue
                 }
                 strongSelf.favoriteButtonState.value = .enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
@@ -878,7 +882,7 @@ fileprivate extension ProductViewModel {
             }
         }
     }
-    
+  
     func favoriteBubbleNotificationData() -> BubbleNotificationData {
         let action = UIAction(interface: .text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
             guard let product = self?.product.value else { return }
