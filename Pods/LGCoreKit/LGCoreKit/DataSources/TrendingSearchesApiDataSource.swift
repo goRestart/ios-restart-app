@@ -22,15 +22,15 @@ class TrendingSearchesApiDataSource: TrendingSearchesDataSource {
 
     // MARK: - Actions
 
-    func index(countryCode: String, completion: TrendingSearchesDataSourceCompletion?) {
-        let request = TrendingSearchesRouter.Index(params: ["country_code" : countryCode])
+    func index(_ countryCode: String, completion: TrendingSearchesDataSourceCompletion?) {
+        let request = TrendingSearchesRouter.index(params: ["country_code" : countryCode])
         apiClient.request(request, decoder: TrendingSearchesApiDataSource.decoder, completion: completion)
     }
 
 
     // MARK: - Decoders
 
-    private static func decoder(object: AnyObject) -> [String]? {
+    private static func decoder(_ object: Any) -> [String]? {
         return decode(object)
     }
 }

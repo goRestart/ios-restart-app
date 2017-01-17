@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 struct LGChatProduct: ChatProduct {
     let objectId: String?
@@ -21,7 +22,7 @@ struct LGChatProduct: ChatProduct {
          currency: Currency) {
         self.objectId = objectId
         self.name = name
-        self.status = ProductStatus(rawValue: status) ?? .Pending
+        self.status = ProductStatus(rawValue: status) ?? .pending
         self.image = image
         self.price = ProductPrice.fromPrice(price, andFlag: priceFlag)
         self.currency = currency
@@ -40,7 +41,7 @@ extension LGChatProduct: Decodable {
         static let currency = ["price", "currency"]
     }
     
-    static func decode(j: JSON) -> Decoded<LGChatProduct> {
+    static func decode(_ j: JSON) -> Decoded<LGChatProduct> {
         let init1 = curry(LGChatProduct.init)
             <^> j <|? JSONKeys.objectId
             <*> j <|? JSONKeys.name
@@ -53,8 +54,8 @@ extension LGChatProduct: Decodable {
         return init1
     }
     
-    static func decodeOptional(json: JSON?) -> Decoded<LGChatProduct?> {
-        guard let j = json else { return Decoded<LGChatProduct?>.Success(nil) }
-        return Decoded<LGChatProduct?>.Success(LGChatProduct.decode(j).value)
+    static func decodeOptional(_ json: JSON?) -> Decoded<LGChatProduct?> {
+        guard let j = json else { return Decoded<LGChatProduct?>.success(nil) }
+        return Decoded<LGChatProduct?>.success(LGChatProduct.decode(j).value)
     }
 }

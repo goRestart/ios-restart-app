@@ -28,7 +28,7 @@ extension DefaultsKeys {
     static let didEnterBackground = DefaultsKey<Bool>("didEnterBackground")
     static let didCrash = DefaultsKey<Bool>("didCrash")
 
-    static let firstRunDate = DefaultsKey<NSDate?>("firstOpenDate")
+    static let firstRunDate = DefaultsKey<Date?>("firstOpenDate")
     static let lastRunAppVersion = DefaultsKey<String?>("lastRunAppVersion")
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
@@ -36,7 +36,7 @@ extension DefaultsKeys {
     static let didShowProductDetailOnboardingOthersProduct = DefaultsKey<Bool>("didShowProductDetailOnboardingOthersProduct")
     static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
 
-    static let pushPermissionsDailyDate = DefaultsKey<NSDate?>("dailyPermissionDate")
+    static let pushPermissionsDailyDate = DefaultsKey<Date?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
@@ -60,8 +60,8 @@ extension DefaultsKeys {
 class KeyValueStorage {
     static let sharedInstance: KeyValueStorage = KeyValueStorage()
 
-    private var storage: KeyValueStorageable
-    private let myUserRepository: MyUserRepository
+    fileprivate var storage: KeyValueStorageable
+    fileprivate let myUserRepository: MyUserRepository
 
 
     // MARK: - Lifecycle
@@ -73,7 +73,7 @@ class KeyValueStorage {
 
     convenience init() {
         let myUserRepository = Core.myUserRepository
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = StorageableUserDefaults(userDefaults: UserDefaults.standard)
         self.init(storage: userDefaults, myUserRepository: myUserRepository)
     }
 }
@@ -106,10 +106,10 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    func userLoadChatShowDirectAnswersForKey(key: String) -> Bool {
+    func userLoadChatShowDirectAnswersForKey(_ key: String) -> Bool {
         return currentUserProperties?.chatShowDirectAnswers[key] ?? true
     }
-    func userSaveChatShowDirectAnswersForKey(key: String, value: Bool) {
+    func userSaveChatShowDirectAnswersForKey(_ key: String, value: Bool) {
         guard var userProperties = currentUserProperties else { return }
         userProperties.chatShowDirectAnswers[key] = value
         currentUserProperties = userProperties
@@ -125,7 +125,7 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    var userRatingRemindMeLaterDate: NSDate? {
+    var userRatingRemindMeLaterDate: Date? {
         get {
             return currentUserProperties?.ratingRemindMeLaterDate ??
                 UserDefaultsUser.ratingRemindMeLaterDateDefaultValue
@@ -245,15 +245,15 @@ extension KeyValueStorage {
 
 // MARK: - Private methods
 
-private extension KeyValueStorage {
-    private var currentUserId: String? {
+fileprivate extension KeyValueStorage {
+    var currentUserId: String? {
         return myUserRepository.myUser?.objectId
     }
-    private var currentUserKey: DefaultsKey<UserDefaultsUser>? {
+    var currentUserKey: DefaultsKey<UserDefaultsUser>? {
         guard let currentUserId = currentUserId else { return nil }
         return DefaultsKey<UserDefaultsUser>(currentUserId)
     }
-    private var currentUserProperties: UserDefaultsUser? {
+    var currentUserProperties: UserDefaultsUser? {
         get {
             guard let key = currentUserKey else { return nil }
             return get(key) ?? UserDefaultsUser()
@@ -275,14 +275,6 @@ extension KeyValueStorage: KeyValueStorageable {
         set { storage[key] = newValue }
     }
     subscript(key: DefaultsKey<String>) -> String {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSString?>) -> NSString? {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSString>) -> NSString {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
@@ -310,43 +302,31 @@ extension KeyValueStorage: KeyValueStorageable {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<AnyObject?>) -> AnyObject? {
+    subscript(key: DefaultsKey<Any?>) -> Any? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSObject?>) -> NSObject? {
+    subscript(key: DefaultsKey<Data?>) -> Data? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData?>) -> NSData? {
+    subscript(key: DefaultsKey<Data>) -> Data {
+        get { return storage[key] as Data }
+        set { storage[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Date?>) -> Date? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSData>) -> NSData {
+    subscript(key: DefaultsKey<URL?>) -> URL? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSDate?>) -> NSDate? {
+    subscript(key: DefaultsKey<[String: Any]?>) -> [String: Any]? {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    subscript(key: DefaultsKey<NSURL?>) -> NSURL? {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<[String: AnyObject]?>) -> [String: AnyObject]? {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<[String: AnyObject]>) -> [String: AnyObject] {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSDictionary?>) -> NSDictionary? {
-        get { return storage[key] }
-        set { storage[key] = newValue }
-    }
-    subscript(key: DefaultsKey<NSDictionary>) -> NSDictionary {
+    subscript(key: DefaultsKey<[String: Any]>) -> [String: Any] {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
@@ -354,10 +334,10 @@ extension KeyValueStorage: KeyValueStorageable {
         get { return storage[key] }
         set { storage[key] = newValue }
     }
-    func get<T: UserDefaultsDecodable>(key: DefaultsKey<T>) -> T? {
+    func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T? {
         return storage.get(key)
     }
-    func set<T: UserDefaultsDecodable>(key: DefaultsKey<T>, value: T?) {
+    func set<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>, value: T?) {
         storage.set(key, value: value)
     }
 }

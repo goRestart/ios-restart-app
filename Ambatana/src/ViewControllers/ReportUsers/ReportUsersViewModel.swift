@@ -10,10 +10,10 @@ import LGCoreKit
 
 protocol ReportUsersViewModelDelegate: class {
 
-    func reportUsersViewModelDidUpdateReasons(viewModel: ReportUsersViewModel)
-    func reportUsersViewModelDidStartSendingReport(viewModel: ReportUsersViewModel)
-    func reportUsersViewModel(viewModel: ReportUsersViewModel, didSendReport successMsg: String)
-    func reportUsersViewModel(viewModel: ReportUsersViewModel, failedSendingReport errorMsg: String)
+    func reportUsersViewModelDidUpdateReasons(_ viewModel: ReportUsersViewModel)
+    func reportUsersViewModelDidStartSendingReport(_ viewModel: ReportUsersViewModel)
+    func reportUsersViewModel(_ viewModel: ReportUsersViewModel, didSendReport successMsg: String)
+    func reportUsersViewModel(_ viewModel: ReportUsersViewModel, failedSendingReport errorMsg: String)
 
 }
 
@@ -55,23 +55,23 @@ class ReportUsersViewModel: BaseViewModel {
 
     var selectedReasonIndex: Int? {
         guard let reasonSelected = reasonSelected else { return nil }
-        return reportReasons.indexOf(reasonSelected)
+        return reportReasons.index(of: reasonSelected)
     }
 
-    func imageForReasonAtIndex(index: Int) -> UIImage? {
+    func imageForReasonAtIndex(_ index: Int) -> UIImage? {
         return reportReasons[index].image
     }
 
-    func textForReasonAtIndex(index: Int) -> String {
+    func textForReasonAtIndex(_ index: Int) -> String {
         return reportReasons[index].text
     }
 
-    func isReasonSelectedAtIndex(index: Int) -> Bool {
+    func isReasonSelectedAtIndex(_ index: Int) -> Bool {
         guard let reasonSelected = reasonSelected else { return false }
         return reportReasons[index] == reasonSelected
     }
 
-    func selectedReasonAtIndex(index: Int) {
+    func selectedReasonAtIndex(_ index: Int) {
         let reasonToSelect = reportReasons[index]
         if reasonSelected == reasonToSelect {
             reasonSelected = nil
@@ -81,7 +81,7 @@ class ReportUsersViewModel: BaseViewModel {
         delegate?.reportUsersViewModelDidUpdateReasons(self)
     }
     
-    func sendReport(comment: String?) {
+    func sendReport(_ comment: String?) {
         guard let reasonSelected = reasonSelected else { return }
         
         trackReport(reasonSelected)
@@ -111,7 +111,7 @@ class ReportUsersViewModel: BaseViewModel {
     
     // MARK: - Private methods
     
-    private func trackReport(reason: ReportUserReason) {
+    private func trackReport(_ reason: ReportUserReason) {
         let trackerEvent = TrackerEvent.profileReport(origin, reportedUserId: userReportedId, reason: reason.eventReason)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
@@ -121,76 +121,76 @@ class ReportUsersViewModel: BaseViewModel {
 extension ReportUserReason {
 
     static func all() -> [ReportUserReason] {
-        return [.Offensive, .Scammer, .Mia, .Suspicious, .Inactive, .ProhibitedItems, .Spammer, .CounterfeitItems,
-            .Others]
+        return [.offensive, .scammer, .mia, .suspicious, .inactive, .prohibitedItems, .spammer, .counterfeitItems,
+            .others]
     }
 
     var image: UIImage? {
         switch self {
-        case .Offensive:
+        case .offensive:
             return UIImage(named: "ic_report_offensive")
-        case .Scammer:
+        case .scammer:
             return UIImage(named: "ic_report_scammer")
-        case .Mia:
+        case .mia:
             return UIImage(named: "ic_report_mia")
-        case .Suspicious:
+        case .suspicious:
             return UIImage(named: "ic_report_suspicious")
-        case .Inactive:
+        case .inactive:
             return UIImage(named: "ic_report_inactive")
-        case .ProhibitedItems:
+        case .prohibitedItems:
             return UIImage(named: "ic_report_prohibited")
-        case .Spammer:
+        case .spammer:
             return UIImage(named: "ic_report_spammer")
-        case .CounterfeitItems:
+        case .counterfeitItems:
             return UIImage(named: "ic_report_counterfeit")
-        case .Others:
+        case .others:
             return UIImage(named: "ic_report_others")
         }
     }
 
     var text: String {
         switch self {
-        case .Offensive:
+        case .offensive:
             return LGLocalizedString.reportUserOffensive
-        case .Scammer:
+        case .scammer:
             return LGLocalizedString.reportUserScammer
-        case .Mia:
+        case .mia:
             return LGLocalizedString.reportUserMia
-        case .Suspicious:
+        case .suspicious:
             return LGLocalizedString.reportUserSuspcious
-        case .Inactive:
+        case .inactive:
             return LGLocalizedString.reportUserInactive
-        case .ProhibitedItems:
+        case .prohibitedItems:
             return LGLocalizedString.reportUserProhibitedItems
-        case .Spammer:
+        case .spammer:
             return LGLocalizedString.reportUserSpammer
-        case .CounterfeitItems:
+        case .counterfeitItems:
             return LGLocalizedString.reportUserCounterfeit
-        case .Others:
+        case .others:
             return LGLocalizedString.reportUserOthers
         }
     }
 
     var eventReason: EventParameterReportReason {
         switch self {
-        case .Offensive:
-            return .Offensive
-        case .Scammer:
-            return .Scammer
-        case .Mia:
-            return .Mia
-        case .Suspicious:
-            return .Suspicious
-        case .Inactive:
-            return .Inactive
-        case .ProhibitedItems:
-            return .ProhibitedItems
-        case .Spammer:
-            return .Spammer
-        case .CounterfeitItems:
-            return .CounterfeitItems
-        case .Others:
-            return .Other
+        case .offensive:
+            return .offensive
+        case .scammer:
+            return .scammer
+        case .mia:
+            return .mia
+        case .suspicious:
+            return .suspicious
+        case .inactive:
+            return .inactive
+        case .prohibitedItems:
+            return .prohibitedItems
+        case .spammer:
+            return .spammer
+        case .counterfeitItems:
+            return .counterfeitItems
+        case .others:
+            return .other
         }
     }
 }

@@ -34,7 +34,7 @@ class ProductStatsView: UIView {
     // MARK: -Lifecycle
 
     static func productStatsView() -> ProductStatsView? {
-        let view = NSBundle.mainBundle().loadNibNamed("ProductStatsView", owner: self, options: nil)?.first as? ProductStatsView
+        let view = Bundle.main.loadNibNamed("ProductStatsView", owner: self, options: nil)?.first as? ProductStatsView
         view?.setupUI()
         return view
     }
@@ -51,7 +51,7 @@ class ProductStatsView: UIView {
         timePostedWidthConstraint.constant = 0
     }
 
-    func updateStatsWithInfo(viewsCount: Int, favouritesCount: Int, postedDate: NSDate?) {
+    func updateStatsWithInfo(_ viewsCount: Int, favouritesCount: Int, postedDate: Date?) {
 
         favouriteStatsWidthConstraint.constant = favouritesCount < Constants.minimumStatsCountToShow ? 0 : statsViewMaxWidth
         statsSeparationConstraint.constant = favouritesCount < Constants.minimumStatsCountToShow ? 0 : statsSeparationWidth
@@ -65,7 +65,7 @@ class ProductStatsView: UIView {
         layoutSubviews()
     }
 
-    func setupPostedTimeViewWithDate(postedDate: NSDate?) {
+    func setupPostedTimeViewWithDate(_ postedDate: Date?) {
         guard let postedDate = postedDate else {
             timePostedWidthConstraint.constant = 0
             return
@@ -75,12 +75,12 @@ class ProductStatsView: UIView {
 
         if postedDate.isFromLast24h() {
             timePostedIcon.image = UIImage(named: "ic_new_stripe")
-            timePostedView.backgroundColor = UIColor.whiteColor()
+            timePostedView.backgroundColor = UIColor.white
             timePostedLabel.textColor = UIColor.primaryColor
         } else {
             timePostedIcon.image = UIImage(named: "ic_stats_time")
-            timePostedView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.54)
-            timePostedLabel.textColor = UIColor.whiteColor()
+            timePostedView.backgroundColor = UIColor.black.withAlphaComponent(0.54)
+            timePostedLabel.textColor = UIColor.white
         }
     }
 }

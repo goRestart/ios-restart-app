@@ -34,8 +34,8 @@ class CommercialShareViewController: BaseViewController {
 
     init() {
         super.init(viewModel: nil, nibName: "CommercialShareViewController")
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -50,8 +50,8 @@ class CommercialShareViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @IBAction func backgroundButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func backgroundButtonPressed(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
 
 
@@ -63,7 +63,7 @@ class CommercialShareViewController: BaseViewController {
         socialShareView.socialMessage = socialMessage
         socialShareView.delegate = self
         socialShareView.buttonsSide = 70
-        socialShareView.style = .Grid
+        socialShareView.style = .grid
 
         socialSharer.delegate = socialSharerDelegate
         socialShareView.socialSharer = socialSharer

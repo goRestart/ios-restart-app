@@ -9,11 +9,11 @@
 import UIKit
 
 protocol PromoteProductViewControllerDelegate: class {
-    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource)
-    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource)
+    func promoteProductViewControllerDidFinishFromSource(_ promotionSource: PromotionSource)
+    func promoteProductViewControllerDidCancelFromSource(_ promotionSource: PromotionSource)
 }
 
-public class PromoteProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate,
+class PromoteProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var introOverlayView: UIView!
@@ -31,48 +31,48 @@ UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var navigationBar: UINavigationBar!
 
     var videoContainerView: VideoPlayerContainerView
-    private var fullScreen = false
+    fileprivate var fullScreen = false
     var viewModel: PromoteProductViewModel
     weak var delegate: PromoteProductViewControllerDelegate?
 
 
     // MARK: Lifecycle
 
-    public convenience init(viewModel: PromoteProductViewModel) {
+    convenience init(viewModel: PromoteProductViewModel) {
         self.init(viewModel: viewModel, nibName: "PromoteProductViewController")
     }
 
-    public required init(viewModel: PromoteProductViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: PromoteProductViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.videoContainerView = VideoPlayerContainerView.instanceFromNib()
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
         self.videoContainerView.delegate = self
-        modalTransitionStyle = .CrossDissolve
+        modalTransitionStyle = .crossDissolve
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         viewModel.viewDidLoad()
     }
 
-    public override func viewDidFirstAppear(animated: Bool) {
+    override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
         videoContainerView.frame = playerView.bounds
         videoContainerView.setupUI()
         playerView.addSubview(videoContainerView)
     }
 
-    public override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         if viewModel.shouldShowOnboarding {
@@ -80,7 +80,7 @@ UICollectionViewDelegateFlowLayout {
         }
     }
 
-    public override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if !viewModel.shouldShowOnboarding {
@@ -88,18 +88,18 @@ UICollectionViewDelegateFlowLayout {
         }
     }
 
-    override func viewWillDisappearToBackground(toBackground: Bool) {
+    override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         videoContainerView.pausePlayer()
         videoContainerView.didBecomeInactive()
     }
 
-    override func viewWillAppearFromBackground(toBackground: Bool) {
+    override func viewWillAppearFromBackground(_ toBackground: Bool) {
         super.viewWillAppearFromBackground(toBackground)
         videoContainerView.didBecomeActive()
     }
 
-    public override func viewWillLayoutSubviews() {
+    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         // Adjust gradient layer
@@ -113,54 +113,54 @@ UICollectionViewDelegateFlowLayout {
 
     // MARK: public methods
 
-    @IBAction func onCloseButton(sender: AnyObject) {
-        dismissViewControllerAnimated(true) { [weak self] _ in
+    @IBAction func onCloseButton(_ sender: Any) {
+        dismiss(animated: true) { [weak self] _ in
             guard let source = self?.viewModel.promotionSource else { return }
             self?.delegate?.promoteProductViewControllerDidCancelFromSource(source)
         }
     }
 
-    @IBAction func onFullScreenButtonTapped(sender: AnyObject) {
+    @IBAction func onFullScreenButtonTapped(_ sender: AnyObject) {
         switchFullscreen()
     }
 
-    @IBAction func onIntroButtonPressed(sender: AnyObject) {
+    @IBAction func onIntroButtonPressed(_ sender: AnyObject) {
         hideIntro()
         selectFirstAvailableTheme()
     }
 
-    @IBAction func onPromoteButtonPressed(sender: AnyObject) {
+    @IBAction func onPromoteButtonPressed(_ sender: AnyObject) {
         videoContainerView.pausePlayer()
         viewModel.promoteProduct()
     }
 
 
-    private func selectFirstAvailableTheme() {
-        let numberOfItems = collectionView.numberOfItemsInSection(0)
+    fileprivate func selectFirstAvailableTheme() {
+        let numberOfItems = collectionView.numberOfItems(inSection: 0)
         guard let firstAvailableVideoIndex = viewModel.firstAvailableVideoIndex else { return }
         guard 0..<numberOfItems ~= firstAvailableVideoIndex else { return }
 
 
-        let indexPath = NSIndexPath(forItem: firstAvailableVideoIndex, inSection: 0)
+        let indexPath = IndexPath(item: firstAvailableVideoIndex, section: 0)
 
-        collectionView.selectItemAtIndexPath(indexPath, animated: true,
-                                             scrollPosition: UICollectionViewScrollPosition.Top)
+        collectionView.selectItem(at: indexPath, animated: true,
+                                             scrollPosition: UICollectionViewScrollPosition.top)
         viewModel.playFirstAvailableTheme()
     }
 
     // MARK: - UICollectionView Delegate & DataSource
 
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.themesCount ?? 0
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.themesCount
     }
 
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
 
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ThemeCollectionCell",
-                forIndexPath: indexPath) as? ThemeCollectionCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThemeCollectionCell",
+                for: indexPath) as? ThemeCollectionCell else { return UICollectionViewCell() }
 
-            cell.tag = indexPath.hash // used for cell reuse
+            cell.tag = (indexPath as NSIndexPath).hash // used for cell reuse
 
             let index = indexPath.item
             let title = viewModel.titleForThemeAtIndex(index)
@@ -174,12 +174,12 @@ UICollectionViewDelegateFlowLayout {
             return cell
     }
 
-    public func collectionView(collectionView: UICollectionView,
-                               shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView,
+                               shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return viewModel.availableThemeAtIndex(indexPath.item)
     }
 
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         hideIntro()
         switchFullscreen()
         viewModel.playThemeAtIndex(indexPath.item)
@@ -190,23 +190,23 @@ UICollectionViewDelegateFlowLayout {
 
     // MARK: UICollectionViewDelegateFlowLayout
 
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int) -> UIEdgeInsets {
             return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
             return 10
     }
 
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             return 10
     }
 
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                               sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                               sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellWidth = (collectionView.frame.width-30)/2
         guard cellWidth > 0 else { return CGSize.zero }
         return CGSize(width: cellWidth, height: cellWidth*9/16)
@@ -216,53 +216,53 @@ UICollectionViewDelegateFlowLayout {
     // MARK: private methods
 
     private func setupUI() {
-        promoteButton.setStyle(.Primary(fontSize: .Medium))
-        introButton.setStyle(.Primary(fontSize: .Medium))
+        promoteButton.setStyle(.primary(fontSize: .medium))
+        introButton.setStyle(.primary(fontSize: .medium))
         introContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         // Localization
         introLabel.text = LGLocalizedString.commercializerPromoteIntroLabel
-        introButton.setTitle(LGLocalizedString.commercializerPromoteIntroButton, forState: .Normal)
-        promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
+        introButton.setTitle(LGLocalizedString.commercializerPromoteIntroButton, for: .normal)
+        promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, for: .normal)
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
-        collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
+        collectionView.register(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
 
-        let gradient = CAGradientLayer.gradientWithColor(view.backgroundColor ?? UIColor.clearColor(),
+        let gradient = CAGradientLayer.gradientWithColor(view.backgroundColor ?? UIColor.clear,
             alphas:[0.0,1.0], locations: [0.0,1.0])
         gradient.frame = gradientView.bounds
-        gradientView.layer.insertSublayer(gradient, atIndex: 0)
+        gradientView.layer.insertSublayer(gradient, at: 0)
 
         navigationBar.topItem?.title = LGLocalizedString.commercializerPromoteNavigationTitle
         let backIconImage = UIImage(named: "navbar_close")
-        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
+        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(onCloseButton))
         navigationBar.topItem?.leftBarButtonItem = backButton
         refreshUI()
     }
 
-    private func refreshUI() {
-        fullScreenButton.hidden = !viewModel.fullScreenButtonEnabled
+    fileprivate func refreshUI() {
+        fullScreenButton.isHidden = !viewModel.fullScreenButtonEnabled
         collectionView.reloadData()
     }
 
-    private func showIntro() {
-        introOverlayView.hidden = false
+    fileprivate func showIntro() {
+        introOverlayView.isHidden = false
         viewModel.commercializerIntroShown()
     }
 
-    private func hideIntro() {
-        guard !introOverlayView.hidden else { return }
+    fileprivate func hideIntro() {
+        guard !introOverlayView.isHidden else { return }
 
-        UIView.animateWithDuration(0.25, animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, animations: { [weak self] in
             self?.introOverlayView.alpha = 0
-        }) { [weak self] _ in
-            self?.introOverlayView.hidden = true
-        }
+        }, completion: { [weak self] _ in
+            self?.introOverlayView.isHidden = true
+        }) 
     }
 
-    private func switchFullscreen() {
+    fileprivate func switchFullscreen() {
         viewModel.switchFullscreen()
     }
 }
@@ -272,7 +272,7 @@ UICollectionViewDelegateFlowLayout {
 
 extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
     func processingVideoDidDismissOk() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
     func processingVideoDidDismissTryAgain() {
@@ -285,29 +285,29 @@ extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
 
 extension PromoteProductViewController : PromoteProductViewModelDelegate {
 
-    public func viewModelDidRetrieveThemesListSuccessfully() {
+    func viewModelDidRetrieveThemesListSuccessfully() {
         collectionView.reloadData()
     }
 
-    public func viewModelDidRetrieveThemesListWithError(errorMessage: String) {
+    func viewModelDidRetrieveThemesListWithError(_ errorMessage: String) {
         collectionView.reloadData()
     }
 
-    public func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool) {
-        fullScreenButton.hidden = !isFullscreen
+    func viewModelVideoDidSwitchFullscreen(_ isFullscreen: Bool) {
+        fullScreenButton.isHidden = !isFullscreen
     }
 
-    public func viewModelDidSelectThemeAtIndex(index: Int) {
+    func viewModelDidSelectThemeAtIndex(_ index: Int) {
         guard let url = viewModel.videoUrlForThemeAtIndex(index) else { return }
         videoContainerView.updateVideoPlayerWithURL(url)
         refreshUI()
     }
 
-    public func viewModelStartSendingVideoForProcessing() {
+    func viewModelStartSendingVideoForProcessing() {
         showLoadingMessageAlert()
     }
 
-    public func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel,
+    func viewModelSentVideoForProcessing(_ processingViewModel: ProcessingVideoDialogViewModel,
         status: VideoProcessStatus) {
             dismissLoadingMessageAlert { [weak self] in
 
@@ -315,28 +315,28 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
                 let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
                 processingVideoVC.delegate = strongSelf.delegate
                 processingVideoVC.dismissDelegate = strongSelf
-                strongSelf.presentViewController(processingVideoVC, animated: true, completion: nil)
+                strongSelf.present(processingVideoVC, animated: true, completion: nil)
             }
     }
     
     func viewModelWillRetrieveProductCommercials() {
         activityIndicator.startAnimating()
-        view.userInteractionEnabled = false
-        fullScreenButton.hidden = false
+        view.isUserInteractionEnabled = false
+        fullScreenButton.isHidden = false
     }
     
     func viewModelDidRetrieveProductCommercialsSuccessfully() {
         activityIndicator.stopAnimating()
         collectionView.reloadData()
-        view.userInteractionEnabled = true
-        fullScreenButton.hidden = true
+        view.isUserInteractionEnabled = true
+        fullScreenButton.isHidden = true
         selectFirstAvailableTheme()
     }
     
     func viewModelDidRetrieveProductCommercialsWithError() {
         activityIndicator.stopAnimating()
-        view.userInteractionEnabled = true
-        fullScreenButton.hidden = true
+        view.isUserInteractionEnabled = true
+        fullScreenButton.isHidden = true
         showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed) { [weak self] in
             self?.onCloseButton("")
         }
@@ -346,34 +346,34 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
 
 extension PromoteProductViewController: VideoPlayerContainerViewDelegate {
 
-    public func playerDidSwitchPlaying(isPlaying: Bool) {
+    func playerDidSwitchPlaying(_ isPlaying: Bool) {
         guard !isPlaying && !viewModel.isFullscreen else { return }
         switchFullscreen()
     }
 
-    public func playerDidReceiveTap() {
+    func playerDidReceiveTap() {
         // when tapping video player only get into fullscreen, not out
         if !viewModel.isFullscreen { switchFullscreen() }
     }
 
-    public func playerDidFinishPlaying() {
+    func playerDidFinishPlaying() {
         if viewModel.isFullscreen { switchFullscreen() }
         if fullScreen { playerDidPressFullscreen() }
     }
 
-    public func playerDidPressFullscreen() {
+    func playerDidPressFullscreen() {
         let transform: CGAffineTransform
         if fullScreen {
             fullScreen = false
-            transform = CGAffineTransformIdentity
+            transform = CGAffineTransform.identity
         } else {
             fullScreen = true
             transform = CGAffineTransform.commercializerVideoToFullScreenTransform(playerView.frame)
         }
 
-        UIApplication.sharedApplication().setStatusBarHidden(fullScreen, withAnimation: .Fade)
-        UIView.animateWithDuration(0.2) { [weak self] in
+        UIApplication.shared.setStatusBarHidden(fullScreen, with: .fade)
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
             self?.playerView.transform = transform
-        }
+        }) 
     }
 }

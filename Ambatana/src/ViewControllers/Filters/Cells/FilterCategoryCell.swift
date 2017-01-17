@@ -44,12 +44,12 @@ class FilterCategoryCell: UICollectionViewCell {
     private func resetUI() {
         categoryIcon.image = nil
         titleLabel.text = ""
-        rightSeparator.hidden = true
+        rightSeparator.isHidden = true
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .FilterCategoryCell
-        categoryIcon.accessibilityId = .FiltersCollectionView
-        titleLabel.accessibilityId = .FiltersSaveFiltersButton
+        self.accessibilityId = .filterCategoryCell
+        categoryIcon.accessibilityId = .filtersCollectionView
+        titleLabel.accessibilityId = .filtersSaveFiltersButton
     }
 }

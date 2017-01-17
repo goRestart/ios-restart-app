@@ -8,11 +8,11 @@
 
 import Result
 
-public typealias NotificationsResult = Result<[Notification], RepositoryError>
-public typealias NotificationsCompletion = NotificationsResult -> Void
+public typealias NotificationsResult = Result<[NotificationModel], RepositoryError>
+public typealias NotificationsCompletion = (NotificationsResult) -> Void
 
 public typealias NotificationsUnreadCountResult = Result<UnreadNotificationsCounts, RepositoryError>
-public typealias NotificationsUnreadCountCompletion = NotificationsUnreadCountResult -> Void
+public typealias NotificationsUnreadCountCompletion = (NotificationsUnreadCountResult) -> Void
 
 public protocol NotificationsRepository {
 
@@ -21,12 +21,12 @@ public protocol NotificationsRepository {
 
      - parameter completion: The completion closure
      */
-    func index(completion: NotificationsCompletion?)
+    func index(_ completion: NotificationsCompletion?)
 
     /**
      Retrieves the unread notifications count.
 
      - parameter completion: The completion closure.
      */
-    func unreadNotificationsCount(completion: NotificationsUnreadCountCompletion?)
+    func unreadNotificationsCount(_ completion: NotificationsUnreadCountCompletion?)
 }

@@ -11,117 +11,118 @@ import Foundation
 
 enum ProductRouter: URLRequestAuthenticable {
 
-    case Delete(productId: String)
-    case Update(productId: String, params: [String : AnyObject])
-    case Patch(productId: String, params: [String : AnyObject])
-    case Show(productId: String)
-    case Create(params: [String : AnyObject])
-    case Index(params: [String : AnyObject])
+    case delete(productId: String)
+    case update(productId: String, params: [String : Any])
+    case patch(productId: String, params: [String : Any])
+    case show(productId: String)
+    case create(params: [String : Any])
+    case index(params: [String : Any])
 
-    case IndexRelatedProducts(productId: String, params: [String : AnyObject])
-    case IndexDiscoverProducts(productId: String, params: [String : AnyObject])
-    case IndexForUser(userId: String, params: [String : AnyObject])
-    case IndexFavorites(userId: String)
-    case IndexLimbo(params: [String : AnyObject])
-    case IndexTrending(params: [String : AnyObject])
+    case indexRelatedProducts(productId: String, params: [String : Any])
+    case indexDiscoverProducts(productId: String, params: [String : Any])
+    case indexForUser(userId: String, params: [String : Any])
+    case indexFavorites(userId: String)
+    case indexLimbo(params: [String : Any])
+    case indexTrending(params: [String : Any])
 
-    case DeleteFavorite(userId: String, productId: String)
-    case SaveFavorite(userId: String, productId: String)
-    case UserRelation(userId: String, productId: String)
-    case SaveReport(userId: String, productId: String)
+    case deleteFavorite(userId: String, productId: String)
+    case saveFavorite(userId: String, productId: String)
+    case userRelation(userId: String, productId: String)
+    case saveReport(userId: String, productId: String)
 
-    case ShowStats(productId: String, params: [String : AnyObject])
-    case UpdateStats(params: [String : AnyObject])
+    case showStats(productId: String, params: [String : Any])
+    case updateStats(params: [String : Any])
 
 
     static let productBaseUrl = "/api/products"
 
     var endpoint: String {
         switch self {
-        case .Delete, .Update, .Patch, .Show, .Create, .Index:
+        case .delete, .update, .patch, .show, .create, .index:
             return ProductRouter.productBaseUrl
-        case let .IndexRelatedProducts(productId, _):
+        case let .indexRelatedProducts(productId, _):
             return ProductRouter.productBaseUrl + "/\(productId)/related"
-        case let .IndexDiscoverProducts(productId, _):
+        case let .indexDiscoverProducts(productId, _):
             return ProductRouter.productBaseUrl + "/\(productId)/discover"
-        case let .DeleteFavorite(userId, _):
+        case let .deleteFavorite(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
-        case let .SaveFavorite(userId, _):
+        case let .saveFavorite(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
-        case let .UserRelation(userId, productId):
+        case let .userRelation(userId, productId):
             return ProductRouter.productBaseUrl + "/\(productId)/users/\(userId)"
-        case let .SaveReport(userId, _):
+        case let .saveReport(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/reports/products/"
-        case let .IndexForUser(userId, _):
+        case let .indexForUser(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/products"
-        case let .IndexFavorites(userId):
+        case let .indexFavorites(userId):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products"
-        case .IndexLimbo:
+        case .indexLimbo:
             return ProductRouter.productBaseUrl + "/limbo"
-        case .IndexTrending:
+        case .indexTrending:
             return ProductRouter.productBaseUrl + "/trending"
-        case let ShowStats(productId, _) :
+        case let .showStats(productId, _) :
             return ProductRouter.productBaseUrl + "/\(productId)/stats"
-        case UpdateStats(_):
+        case .updateStats(_):
             return ProductRouter.productBaseUrl + "/stats"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Delete, .Update, .Patch, .Create, .DeleteFavorite, .SaveFavorite, .UserRelation, .SaveReport,
-             .IndexLimbo:
-            return .User
-        case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts, .IndexDiscoverProducts,
-             .IndexTrending, ShowStats, UpdateStats:
-            return .Nonexistent
+        case .delete, .update, .patch, .create, .deleteFavorite, .saveFavorite, .userRelation, .saveReport,
+             .indexLimbo:
+            return .user
+        case .show, .index, .indexForUser, .indexFavorites, .indexRelatedProducts, .indexDiscoverProducts,
+             .indexTrending, .showStats, .updateStats:
+            return .nonexistent
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .Delete(productId):
-            return Router<APIBaseURL>.Delete(endpoint: endpoint, objectId: productId).URLRequest
-        case let .DeleteFavorite(_, productId):
-            return Router<APIBaseURL>.Delete(endpoint: endpoint, objectId: productId).URLRequest
-        case let .SaveFavorite(_, productId):
-            return Router<APIBaseURL>.Update(endpoint: endpoint, objectId: productId, params: [:],
-                encoding: nil).URLRequest
-        case let .Update(productId, params):
-            return Router<APIBaseURL>.Update(endpoint: endpoint, objectId: productId, params: params,
-                encoding: .URL).URLRequest
-        case let .Patch(productId, params):
-            return Router<APIBaseURL>.Patch(endpoint: endpoint, objectId: productId, params: params,
-                encoding: .URL).URLRequest
-        case let .Show(productId):
-            return Router<APIBaseURL>.Show(endpoint: endpoint, objectId: productId).URLRequest
-        case let .Create(params):
-            return Router<APIBaseURL>.Create(endpoint: endpoint, params: params, encoding: .URL).URLRequest
-        case let .IndexRelatedProducts(_, params):
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
-        case let .IndexDiscoverProducts(_, params):
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
-        case .UserRelation(_, _):
-            return Router<APIBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
-        case let .SaveReport(_, productId):
-            return Router<APIBaseURL>.Update(endpoint: endpoint, objectId: productId, params: [:],
-                encoding: nil).URLRequest
-        case let .Index(params):
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
-        case let .IndexForUser(_, params):
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
-        case .IndexFavorites:
-            return Router<APIBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
-        case let .IndexLimbo(params):
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
-        case let .IndexTrending(params):
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
-        case .ShowStats:
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
-        case let .UpdateStats(params):
-            return Router<APIBaseURL>.BatchPatch(endpoint: endpoint, params: params, encoding: .URL).URLRequest
+        case let .delete(productId):
+            return try Router<APIBaseURL>.delete(endpoint: endpoint, objectId: productId).asURLRequest()
+        case let .deleteFavorite(_, productId):
+            return try Router<APIBaseURL>.delete(endpoint: endpoint, objectId: productId).asURLRequest()
+        case let .saveFavorite(_, productId):
+            return try Router<APIBaseURL>.update(endpoint: endpoint, objectId: productId, params: [:],
+                                             encoding: nil).asURLRequest()
+        case let .update(productId, params):
+            return try Router<APIBaseURL>.update(endpoint: endpoint, objectId: productId, params: params,
+                                             encoding: .url).asURLRequest()
+        case let .patch(productId, params):
+            return try Router<APIBaseURL>.patch(endpoint: endpoint, objectId: productId, params: params,
+                                            encoding: .url).asURLRequest()
+        case let .show(productId):
+            return try Router<APIBaseURL>.show(endpoint: endpoint, objectId: productId).asURLRequest()
+        case let .create(params):
+            return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
+        case let .indexRelatedProducts(_, params):
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .indexDiscoverProducts(_, params):
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case .userRelation(_, _):
+            return try Router<APIBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
+        case let .saveReport(_, productId):
+            return try Router<APIBaseURL>.update(endpoint: endpoint, objectId: productId, params: [:],
+                                             encoding: nil).asURLRequest()
+        case let .index(params):
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .indexForUser(_, params):
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case .indexFavorites:
+            return try Router<APIBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
+        case let .indexLimbo(params):
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .indexTrending(params):
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case .showStats:
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
+        case let .updateStats(params):
+            return try Router<APIBaseURL>.batchPatch(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
         }
+        
     }
 }

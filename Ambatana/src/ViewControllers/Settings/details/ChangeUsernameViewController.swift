@@ -17,7 +17,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     @IBOutlet weak var usernameTextfield: LGTextField!
     @IBOutlet weak var saveButton: UIButton!
     
-    var viewModel : ChangeUsernameViewModel!
+    let viewModel: ChangeUsernameViewModel
     
     var lines: [CALayer]
     
@@ -38,7 +38,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         setupAccessibilityIds()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         usernameTextfield.becomeFirstResponder()
     }
@@ -55,8 +55,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         
     }
     
-    @IBAction func saveUsername(sender: AnyObject) {
-        viewModel?.saveUsername()
+    @IBAction func saveUsername(_ sender: AnyObject) {
+        viewModel.saveUsername()
     }
     
     func saveBarButtonPressed() {
@@ -65,27 +65,27 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     
     // MARK: - TextFieldDelegate
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard !string.hasEmojis() else { return false }
         guard let text = textField.text else { return false }
         let newLength = text.characters.count + string.characters.count - range.length
         let removing = text.characters.count > newLength
         if !removing && newLength > Constants.maxUserNameLength { return false }
 
-        let updatedText =  (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        let updatedText =  (text as NSString).replacingCharacters(in: range, with: string)
         viewModel.username = updatedText
         return true
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         viewModel.username = ""
         return true
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let textFieldText = textField.text {
             if viewModel.isValidUsername(textFieldText) {
-                viewModel?.saveUsername()
+                viewModel.saveUsername()
                 return true
             }
             else {
@@ -100,44 +100,44 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     
     // MARK : - ChangeUsernameViewModelDelegate Methods
     
-    func viewModelDidStartSendingUser(viewModel: ChangeUsernameViewModel) {
+    func viewModelDidStartSendingUser(_ viewModel: ChangeUsernameViewModel) {
         showLoadingMessageAlert(LGLocalizedString.changeUsernameLoading)
     }
     
-    func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError) {
+    func viewModel(_ viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError) {
         let message: String
         switch (error) {
-        case .Network, .Internal, .NotFound, .Unauthorized:
+        case .network, .internalError, .notFound, .unauthorized:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .InvalidUsername:
+        case .invalidUsername:
             message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
-        case .UsernameTaken:
+        case .usernameTaken:
             message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
         }
         
         self.showAutoFadingOutMessageAlert(message)
     }
     
-    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult
+    func viewModel(_ viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult
         result: Result<MyUser, ChangeUsernameError>) {
         var completion: (() -> Void)? = nil
         
         switch (result) {
-        case .Success:
+        case .success:
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { _ in
                     viewModel.userNameSaved()
                 }
             }
             break
-        case .Failure(let error):
+        case .failure(let error):
             let message: String
             switch (error) {
-            case .Network, .Internal, .NotFound, .Unauthorized:
+            case .network, .internalError, .notFound, .unauthorized:
                 message = LGLocalizedString.commonErrorConnectionFailed
-            case .InvalidUsername:
+            case .invalidUsername:
                 message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
-            case .UsernameTaken:
+            case .usernameTaken:
                 message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
             }
             completion = {
@@ -148,8 +148,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         dismissLoadingMessageAlert(completion)
     }
     
-    func viewModel(viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool) {
-        saveButton.enabled = enabled
+    func viewModel(_ viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool) {
+        saveButton.isEnabled = enabled
     }
 
     
@@ -162,13 +162,13 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         usernameTextfield.placeholder = LGLocalizedString.changeUsernameFieldHint
         usernameTextfield.text = viewModel.username
         
-        saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, forState: .Normal)
-        saveButton.setStyle(.Primary(fontSize: .Big))
-        saveButton.enabled = false
+        saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, for: .normal)
+        saveButton.setStyle(.primary(fontSize: .big))
+        saveButton.isEnabled = false
     }
 
     private func setupAccessibilityIds() {
-        usernameTextfield.accessibilityId = .ChangeUsernameNameField
-        saveButton.accessibilityId = .ChangeUsernameSendButton
+        usernameTextfield.accessibilityId = .changeUsernameNameField
+        saveButton.accessibilityId = .changeUsernameSendButton
     }
 }

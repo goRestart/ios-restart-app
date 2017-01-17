@@ -10,7 +10,7 @@ import Result
 import RxSwift
 
 public typealias MyUserResult = Result<MyUser, RepositoryError>
-public typealias MyUserCompletion = MyUserResult -> Void
+public typealias MyUserCompletion = (MyUserResult) -> Void
 
 public protocol MyUserRepository {
 
@@ -27,7 +27,7 @@ public protocol MyUserRepository {
     - parameter name: The name.
     - parameter completion: The completion closure.
     */
-    func updateName(name: String, completion: MyUserCompletion?)
+    func updateName(_ name: String, completion: MyUserCompletion?)
 
     /**
     Updates the password of my user.
@@ -35,7 +35,7 @@ public protocol MyUserRepository {
     - parameter password: The password.
     - parameter completion: The completion closure.
     */
-    func updatePassword(password: String, completion: MyUserCompletion?)
+    func updatePassword(_ password: String, completion: MyUserCompletion?)
     
     /**
     Updates the password of the given userId using the given token as Authentication
@@ -44,7 +44,7 @@ public protocol MyUserRepository {
     - parameter token:      Token to be used as Authentication
     - parameter completion: Completion closure
     */
-    func resetPassword(password: String, token: String, completion: MyUserCompletion?)
+    func resetPassword(_ password: String, token: String, completion: MyUserCompletion?)
     
     /**
     Updates the email of my user.
@@ -52,14 +52,14 @@ public protocol MyUserRepository {
     - parameter email: The email.
     - parameter completion: The completion closure.
     */
-    func updateEmail(email: String, completion: MyUserCompletion?)
+    func updateEmail(_ email: String, completion: MyUserCompletion?)
 
     /**
     Updates the avatar of my user.
     - parameter avatar: The avatar.
     - parameter completion: The completion closure.
     */
-    func updateAvatar(avatar: NSData, progressBlock: ((Int) -> ())?, completion: MyUserCompletion?)
+    func updateAvatar(_ avatar: Data, progressBlock: ((Int) -> ())?, completion: MyUserCompletion?)
 
 
     /**
@@ -68,7 +68,7 @@ public protocol MyUserRepository {
      - parameter email:      email to be linked
      - parameter completion: completion closure
      */
-    func linkAccount(email: String, completion: MyUserCompletion?)
+    func linkAccount(_ email: String, completion: MyUserCompletion?)
 
     /**
      Links a facebook account with the logged in user
@@ -76,7 +76,7 @@ public protocol MyUserRepository {
      - parameter email:      facebook token of the account to be linked
      - parameter completion: completion closure
      */
-    func linkAccountFacebook(token: String, completion: MyUserCompletion?)
+    func linkAccountFacebook(_ token: String, completion: MyUserCompletion?)
 
     /**
      Links a google account with the logged in user
@@ -84,13 +84,13 @@ public protocol MyUserRepository {
      - parameter email:      google token of the account to be linked
      - parameter completion: completion closure
      */
-    func linkAccountGoogle(token: String, completion: MyUserCompletion?)
+    func linkAccountGoogle(_ token: String, completion: MyUserCompletion?)
 
     /**
     Refreshes my user. (retrieves again the logged in user)
     - parameter completion: The completion closure.
     */
-    func refresh(completion: MyUserCompletion?)
+    func refresh(_ completion: MyUserCompletion?)
 }
 
 
@@ -107,7 +107,7 @@ protocol InternalMyUserRepository: MyUserRepository {
      - parameter completion: The completion closure. Will pass api error as the method is internal so that the caller can
      have the complete error information
      */
-    func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
+    func createWithEmail(_ email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
                          postalAddress: PostalAddress?, completion: ((Result<MyUser, ApiError>) -> ())?)
 
     /**
@@ -115,13 +115,13 @@ protocol InternalMyUserRepository: MyUserRepository {
      - parameter myUserId: My user identifier.
      - parameter completion: The completion closure.
      */
-    func show(myUserId: String, completion: MyUserCompletion?)
+    func show(_ myUserId: String, completion: MyUserCompletion?)
 
     /**
      Updates the user if the locale changed.
      - returns: If the update was performed.
      */
-    func updateIfLocaleChanged() -> Bool
+    @discardableResult func updateIfLocaleChanged() -> Bool
 
     /**
      Updates the location of my user. If no postal address is passed-by it nullifies it.
@@ -129,13 +129,13 @@ protocol InternalMyUserRepository: MyUserRepository {
      - parameter postalAddress: The postal address.
      - parameter completion: The completion closure.
      */
-    func updateLocation(location: LGLocation, postalAddress: PostalAddress, completion: MyUserCompletion?)
+    func updateLocation(_ location: LGLocation, postalAddress: PostalAddress, completion: MyUserCompletion?)
 
     /**
      Saves the given `MyUser`.
      - parameter myUser: My user.
      */
-    func save(myUser: MyUser)
+    func save(_ myUser: MyUser)
 
     /**
      Deletes the user.

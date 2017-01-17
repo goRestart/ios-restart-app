@@ -15,12 +15,12 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         setAccessibilityIds()
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .SuggestionSearchCell
-        suggestionText.accessibilityId = .SuggestionSearchCellSuggestionText
+        self.accessibilityId = .suggestionSearchCell
+        suggestionText.accessibilityId = .suggestionSearchCellSuggestionText
     }
 }

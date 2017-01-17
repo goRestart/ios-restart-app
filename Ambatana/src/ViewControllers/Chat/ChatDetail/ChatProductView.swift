@@ -40,12 +40,17 @@ class ChatProductView: UIView {
     weak var delegate: ChatProductViewDelegate?
     
 
-    static func chatProductView(showUserReviews: Bool) -> ChatProductView {
-        let view = NSBundle.mainBundle().loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
-        view?.showUserReviews = showUserReviews
-        view?.setupUI()
-        view?.setAccessibilityIds()
-        return view!
+    static func chatProductView(_ showUserReviews: Bool) -> ChatProductView {
+        guard let view = Bundle.main.loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
+            else { return ChatProductView() }
+        view.showUserReviews = showUserReviews
+        view.setupUI()
+        view.setAccessibilityIds()
+        return view
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -66,14 +71,14 @@ class ChatProductView: UIView {
         
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
 
-        reviewButton.setStyle(.Review)
-        reviewButton.hidden = true
-        reviewButton.setTitle(LGLocalizedString.chatUserRatingButtonTitle, forState: .Normal)
+        reviewButton.setStyle(.review)
+        reviewButton.isHidden = true
+        reviewButton.setTitle(LGLocalizedString.chatUserRatingButtonTitle, for: .normal)
     }
 
-    func showReviewButton(showButton: Bool, withTooltip: Bool) {
-        userName.hidden = showButton && showUserReviews
-        reviewButton.hidden = !showButton || !showUserReviews
+    func showReviewButton(_ showButton: Bool, withTooltip: Bool) {
+        userName.isHidden = showButton && showUserReviews
+        reviewButton.isHidden = !showButton || !showUserReviews
         if showButton && withTooltip && showUserReviews {
             showUserRatingTooltip()
         }
@@ -83,27 +88,27 @@ class ChatProductView: UIView {
         productName.alpha = 0.3
         productPrice.alpha = 0.3
         productImage.alpha = 0.3
-        productButton.enabled = false
+        productButton.isEnabled = false
     }
 
     func disableUserProfileInteraction() {
         userAvatar.alpha = 0.3
         userName.alpha = 0.3
-        userButton.enabled = false
-        reviewButton.enabled = false
+        userButton.isEnabled = false
+        reviewButton.isEnabled = false
     }
     
     // MARK: - Actions
 
-    @IBAction func productButtonPressed(sender: AnyObject) {
+    @IBAction func productButtonPressed(_ sender: AnyObject) {
         delegate?.productViewDidTapProductImage()
     }
     
-    @IBAction func userButtonPressed(sender: AnyObject) {
+    @IBAction func userButtonPressed(_ sender: AnyObject) {
         delegate?.productViewDidTapUserAvatar()
     }
 
-    @IBAction func reviewButtonPressed(sender: AnyObject) {
+    @IBAction func reviewButtonPressed(_ sender: AnyObject) {
         delegate?.productViewDidTapUserReview()
     }
 }
@@ -112,12 +117,12 @@ class ChatProductView: UIView {
 // MARK: - Tooltip
 
 extension ChatProductView {
-    private func showUserRatingTooltip() {
+    fileprivate func showUserRatingTooltip() {
         guard userRatingTooltip == nil else { return }
         guard let superView = superview else { return }
 
         userRatingTooltip = Tooltip(targetView: reviewButton, superView: superView, title: tooltipText(),
-                                    style: .Black(closeEnabled: true), peakOnTop: true, actionBlock: { [weak self] in
+                                    style: .black(closeEnabled: true), peakOnTop: true, actionBlock: { [weak self] in
                                         self?.delegate?.productViewDidTapUserReview()
             }, closeBlock: { [weak self] in
                 self?.delegate?.productViewDidCloseUserReviewTooltip()
@@ -131,37 +136,37 @@ extension ChatProductView {
     }
 
     private func tooltipText() -> NSAttributedString {
-        var newTextAttributes = [String : AnyObject]()
+        var newTextAttributes = [String : Any]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
         newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
 
-        var titleTextAttributes = [String : AnyObject]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        var titleTextAttributes = [String : Any]()
+        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
         titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let titleText = NSAttributedString(string: LGLocalizedString.chatUserRatingButtonTooltip,
                                            attributes: titleTextAttributes)
 
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.appendAttributedString(NSAttributedString(string: " "))
-        fullTitle.appendAttributedString(titleText)
+        fullTitle.append(NSAttributedString(string: " "))
+        fullTitle.append(titleText)
 
         return fullTitle
     }
 
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         // As userRatingTooltip titleLabel & close button are out of boundaries we intercept touches to handle manually
-        let superResult = super.hitTest(point, withEvent: event)
-        guard let userRatingTooltip = userRatingTooltip where superResult == nil else { return superResult }
+        let superResult = super.hitTest(point, with: event)
+        guard let userRatingTooltip = userRatingTooltip, superResult == nil else { return superResult }
 
         
-        let tooltipTitleConvertedPoint = userRatingTooltip.titleLabel.convertPoint(point, fromView: self)
-        let insideTooltipTitle = userRatingTooltip.titleLabel.pointInside(tooltipTitleConvertedPoint, withEvent: event)
-        let tooltipCloseButtonConvertedPoint = userRatingTooltip.closeButton.convertPoint(point, fromView: self)
-        let insideTooltipCloseButton = userRatingTooltip.closeButton.pointInside(tooltipCloseButtonConvertedPoint,
-                                                                                 withEvent: event)
+        let tooltipTitleConvertedPoint = userRatingTooltip.titleLabel.convert(point, from: self)
+        let insideTooltipTitle = userRatingTooltip.titleLabel.point(inside: tooltipTitleConvertedPoint, with: event)
+        let tooltipCloseButtonConvertedPoint = userRatingTooltip.closeButton.convert(point, from: self)
+        let insideTooltipCloseButton = userRatingTooltip.closeButton.point(inside: tooltipCloseButtonConvertedPoint,
+                                                                                 with: event)
         if insideTooltipTitle {
             return userRatingTooltip.titleLabel
         } else if insideTooltipCloseButton {
@@ -174,12 +179,12 @@ extension ChatProductView {
 
 extension ChatProductView {
     func setAccessibilityIds() {
-        userName.accessibilityId = .ChatProductViewUserNameLabel
-        userAvatar.accessibilityId = .ChatProductViewUserAvatar
-        productName.accessibilityId = .ChatProductViewProductNameLabel
-        productPrice.accessibilityId = .ChatProductViewProductPriceLabel
-        productButton.accessibilityId = .ChatProductViewProductButton
-        userButton.accessibilityId = .ChatProductViewUserButton
-        reviewButton.accessibilityId = .ChatProductViewReviewButton
+        userName.accessibilityId = .chatProductViewUserNameLabel
+        userAvatar.accessibilityId = .chatProductViewUserAvatar
+        productName.accessibilityId = .chatProductViewProductNameLabel
+        productPrice.accessibilityId = .chatProductViewProductPriceLabel
+        productButton.accessibilityId = .chatProductViewProductButton
+        userButton.accessibilityId = .chatProductViewUserButton
+        reviewButton.accessibilityId = .chatProductViewReviewButton
     }
 }

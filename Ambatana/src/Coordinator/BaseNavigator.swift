@@ -9,5 +9,5 @@
 import UIKit
 
 protocol BaseNavigator: class {
-    func showBubble(with bubbleData: BubbleNotificationData, duration: NSTimeInterval)
+    func showBubble(with bubbleData: BubbleNotificationData, duration: TimeInterval)
 }

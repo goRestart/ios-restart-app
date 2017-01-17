@@ -9,19 +9,19 @@
 
 // MARK: - Public
 
-public enum SessionManagerError: ErrorType {
+public enum SessionManagerError: Error {
 
-    case Network
-    case BadRequest(cause: BadRequestCause)
-    case NotFound
-    case Forbidden
-    case Unauthorized
-    case Conflict(cause: ConflictCause)
-    case Scammer
-    case NonExistingEmail
-    case TooManyRequests
-    case UserNotVerified
-    case Internal(message: String)
+    case network
+    case badRequest(cause: BadRequestCause)
+    case notFound
+    case forbidden
+    case unauthorized
+    case conflict(cause: ConflictCause)
+    case scammer
+    case nonExistingEmail
+    case tooManyRequests
+    case userNotVerified
+    case internalError(message: String)
 }
 
 
@@ -30,66 +30,66 @@ public enum SessionManagerError: ErrorType {
 extension SessionManagerError {
     init(apiError: ApiError) {
         switch apiError {
-        case .Network:
-            self = .Network
-        case .BadRequest(let cause):
-            self = .BadRequest(cause: cause)
-        case .Unauthorized:
-            self = .Unauthorized
-        case .NotFound:
-            self = .NotFound
-        case .Forbidden:
-            self = .Forbidden
-        case .Conflict(let cause):
-            self = .Conflict(cause: cause)
-        case .UnprocessableEntity:
-            self = .NonExistingEmail
-        case .Scammer:
-            self = .Scammer
-        case .TooManyRequests:
-            self = .TooManyRequests
-        case .UserNotVerified:
-            self = .UserNotVerified
-        case .InternalServerError:
-            self = .Internal(message: "Internal Server Error")
-        case let .Internal(description):
-            self = .Internal(message: description)
-        case let .Other(httpCode):
-            self = .Internal(message: "\(httpCode) HTTP code is not handled")
-        case .NotModified:
-            self = .Internal(message: "Internal API Error")
+        case .network:
+            self = .network
+        case .badRequest(let cause):
+            self = .badRequest(cause: cause)
+        case .unauthorized:
+            self = .unauthorized
+        case .notFound:
+            self = .notFound
+        case .forbidden:
+            self = .forbidden
+        case .conflict(let cause):
+            self = .conflict(cause: cause)
+        case .unprocessableEntity:
+            self = .nonExistingEmail
+        case .scammer:
+            self = .scammer
+        case .tooManyRequests:
+            self = .tooManyRequests
+        case .userNotVerified:
+            self = .userNotVerified
+        case .internalServerError:
+            self = .internalError(message: "Internal Server Error")
+        case let .internalError(description):
+            self = .internalError(message: description)
+        case let .other(httpCode):
+            self = .internalError(message: "\(httpCode) HTTP code is not handled")
+        case .notModified:
+            self = .internalError(message: "Internal API Error")
         }
     }
 
     init(repositoryError: RepositoryError) {
         switch repositoryError {
-        case .Network:
-            self = .Network
-        case .Unauthorized:
-            self = .Unauthorized
-        case .NotFound:
-            self = .NotFound
-        case .Forbidden:
-            self = .Forbidden
-        case .TooManyRequests:
-            self = .TooManyRequests
-        case .UserNotVerified:
-            self = .UserNotVerified
-        case let .Internal(message):
-            self = .Internal(message: message)
-        case .ServerError:
-            self = .Internal(message: "Internal Server Error")
+        case .network:
+            self = .network
+        case .unauthorized:
+            self = .unauthorized
+        case .notFound:
+            self = .notFound
+        case .forbidden:
+            self = .forbidden
+        case .tooManyRequests:
+            self = .tooManyRequests
+        case .userNotVerified:
+            self = .userNotVerified
+        case let .internalError(message):
+            self = .internalError(message: message)
+        case .serverError:
+            self = .internalError(message: "Internal Server Error")
         }
     }
 
     init(webSocketError: WebSocketError) {
         switch webSocketError {
-        case .NotAuthenticated:
-            self = .Unauthorized
-        case .Internal:
-            self = .Internal(message: "")
-        case .UserNotVerified:
-            self = .UserNotVerified
+        case .notAuthenticated:
+            self = .unauthorized
+        case .internalError:
+            self = .internalError(message: "")
+        case .userNotVerified:
+            self = .userNotVerified
         }
     }
 }

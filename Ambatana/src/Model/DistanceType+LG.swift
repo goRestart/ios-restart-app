@@ -10,16 +10,14 @@ import LGCoreKit
 
 extension DistanceType {
     
-    public static func systemDistanceType() -> DistanceType {
+    static func systemDistanceType() -> DistanceType {
 
         let distanceType: DistanceType
         // use whatever the locale says
-        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
-            distanceType = usesMetric ? .Km : .Mi
-        }
-            // fallback: km
-        else {
-            distanceType = DistanceType.Km
+        if Locale.current.usesMetricSystem {
+            distanceType = .km
+        } else {
+            distanceType = .mi
         }
         return distanceType
     }

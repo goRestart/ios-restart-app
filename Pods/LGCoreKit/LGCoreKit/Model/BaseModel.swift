@@ -16,7 +16,7 @@ public extension BaseModel {
         return objectId != nil
     }
 
-    func toDictionary() -> [String: AnyObject] {
+    func toDictionary() -> [String: Any] {
         return Mirror(reflecting: self).toDictionary()
     }
 }

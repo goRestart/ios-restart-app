@@ -10,83 +10,83 @@ private let coreDomain = "com.letgo.ios.LGCoreKit"
 
 // 100000..<300000
 enum CoreReportNetworking: ReportType {
-    case BadRequest                                     // 140000
-    case Unauthorized(authLevel: AuthLevel)             // 1401XX
-    case NotFound                                       // 140400
-    case Conflict                                       // 140900
-    case Scammer                                        // 141800
-    case UnprocessableEntity                            // 142200
-    case UserNotVerified                                // 142400
-    case InternalServerError                            // 150000
+    case badRequest                                     // 140000
+    case unauthorized(authLevel: AuthLevel)             // 1401XX
+    case notFound                                       // 140400
+    case conflict                                       // 140900
+    case scammer                                        // 141800
+    case unprocessableEntity                            // 142200
+    case userNotVerified                                // 142400
+    case internalServerError                            // 150000
 
-    case InvalidJWT(reason: CoreReportInvalidJWTReason) // 1600XX
+    case invalidJWT(reason: CoreReportInvalidJWTReason) // 1600XX
 
-    case Other(httpCode: Int)                           // 2XXX00
+    case other(httpCode: Int)                           // 2XXX00
 
     var domain: String {
         return coreDomain
     }
     var code: Int {
         switch self {
-        case .BadRequest:
+        case .badRequest:
             return 140000
-        case let .Unauthorized(authLevel):
+        case let .unauthorized(authLevel):
             let baseCode = 140100
             switch authLevel {
-            case .Nonexistent:
+            case .nonexistent:
                 return baseCode
-            case .Installation:
+            case .installation:
                 return baseCode + 1
-            case .User:
+            case .user:
                 return baseCode + 2
         }
-        case .NotFound:
+        case .notFound:
             return 140400
-        case .Conflict:
+        case .conflict:
             return 140900
-        case .Scammer:
+        case .scammer:
             return 141800
-        case .UnprocessableEntity:
+        case .unprocessableEntity:
             return 142200
-        case .UserNotVerified:
+        case .userNotVerified:
             return 142400
-        case .InternalServerError:
+        case .internalServerError:
             return 150000
-        case let .InvalidJWT(reason):
+        case let .invalidJWT(reason):
             let baseCode = 160000
             switch reason {
-            case .WrongFormat:
+            case .wrongFormat:
                 return baseCode + 1
-            case .UnknownAuthLevel:
+            case .unknownAuthLevel:
                 return baseCode + 2
             }
-        case let .Other(code):
+        case let .other(code):
             return 200000 + code * 100
         }
     }
 
     init?(apiError: ApiError, currentAuthLevel: AuthLevel? = nil) {
         switch apiError {
-        case .BadRequest:
-            self = .BadRequest
-        case .Unauthorized where currentAuthLevel != nil:
+        case .badRequest:
+            self = .badRequest
+        case .unauthorized where currentAuthLevel != nil:
             guard let authLevel = currentAuthLevel else { return nil }
-            self = .Unauthorized(authLevel: authLevel)
-        case .Scammer:
-            self = .Scammer
-        case .NotFound:
-            self = .NotFound
-        case .Conflict:
-            self = .Conflict
-        case .InternalServerError:
-            self = .InternalServerError
-        case .UnprocessableEntity:
-            self = .UnprocessableEntity
-        case .UserNotVerified:
-            self = .UserNotVerified
-        case let .Other(httpCode):
-            self = .Other(httpCode: httpCode)
-        case  .Network, .Internal, .NotModified, .Forbidden, .TooManyRequests, .Unauthorized:
+            self = .unauthorized(authLevel: authLevel)
+        case .scammer:
+            self = .scammer
+        case .notFound:
+            self = .notFound
+        case .conflict:
+            self = .conflict
+        case .internalServerError:
+            self = .internalServerError
+        case .unprocessableEntity:
+            self = .unprocessableEntity
+        case .userNotVerified:
+            self = .userNotVerified
+        case let .other(httpCode):
+            self = .other(httpCode: httpCode)
+        case  .network, .internalError, .notModified, .forbidden, .tooManyRequests, .unauthorized:
             break
         }
         return nil
@@ -94,14 +94,14 @@ enum CoreReportNetworking: ReportType {
 }
 
 enum CoreReportInvalidJWTReason {
-    case WrongFormat
-    case UnknownAuthLevel
+    case wrongFormat
+    case unknownAuthLevel
 }
 
 // 300000..<400000
 enum CoreReportSession: Int, ReportType {
-    case InsufficientTokenLevel     = 300000
-    case ForcedSessionCleanup       = 300001
+    case insufficientTokenLevel     = 300000
+    case forcedSessionCleanup       = 300001
 
     var domain: String {
         return coreDomain
@@ -113,7 +113,7 @@ enum CoreReportSession: Int, ReportType {
 
 // 400000..<500000
 enum CoreReportRepository: Int, ReportType {
-    case MyUserInvalidObjectId      = 400000
+    case myUserInvalidObjectId      = 400000
 
     var domain: String {
         return coreDomain

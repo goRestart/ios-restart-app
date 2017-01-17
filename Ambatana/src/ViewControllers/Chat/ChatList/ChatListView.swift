@@ -10,11 +10,11 @@ import Foundation
 import LGCoreKit
 
 protocol ChatListViewDelegate: class {
-    func chatListView(chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
-        cancelText: String, actionText: String, action: () -> ())
-    func chatListViewDidStartArchiving(chatListView: ChatListView)
-    func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
-    func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?)
+    func chatListView(_ chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
+                      cancelText: String, actionText: String, action: @escaping () -> ())
+    func chatListViewDidStartArchiving(_ chatListView: ChatListView)
+    func chatListView(_ chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
+    func chatListView(_ chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?)
 }
 
 class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
@@ -28,18 +28,18 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - Lifecycle
 
-    convenience init<T: BaseViewModel where T: ChatListViewModel>(viewModel: T) {
+    convenience init<T: BaseViewModel>(viewModel: T) where T: ChatListViewModel {
         self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRect.zero)
     }
 
-    override init<T: BaseViewModel where T: ChatListViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) {
+    override init<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) where T: ChatListViewModel {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, sessionManager: sessionManager, frame: frame)
 
         viewModel.delegate = self
     }
 
-    override init?<T: BaseViewModel where T: ChatListViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) {
+    override init?<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) where T: ChatListViewModel {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, sessionManager: sessionManager, coder: aDecoder)
 
@@ -51,19 +51,19 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func setupUI() {
         super.setupUI()
 
         let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: ConversationCell.reusableID)
+        tableView.register(cellNib, forCellReuseIdentifier: ConversationCell.reusableID)
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = ConversationCell.defaultHeight
 
-        footerButton.setTitle(viewModel.titleForDeleteButton, forState: .Normal)
-        footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), forControlEvents: .TouchUpInside)
+        footerButton.setTitle(viewModel.titleForDeleteButton, for: .normal)
+        footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), for: .touchUpInside)
     }
 
 
@@ -71,7 +71,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     func vmDeleteSelectedChats() {
         guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
-        guard let indexes: [Int] = indexPaths.map({ $0.row }) else { return }
+        let indexes: [Int] = indexPaths.map({ $0.row })
         guard !indexes.isEmpty else { return }
 
         let title = viewModel.deleteConfirmationTitle(indexPaths.count)
@@ -89,7 +89,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
             })
     }
 
-    func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel) {
+    func chatListViewModelDidFailArchivingChats(_ viewModel: ChatListViewModel) {
         viewModel.reloadCurrentPagesWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf,
@@ -97,21 +97,21 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         }
     }
 
-    func chatListViewModelDidSucceedArchivingChats(viewModel: ChatListViewModel) {
+    func chatListViewModelDidSucceedArchivingChats(_ viewModel: ChatListViewModel) {
         viewModel.reloadCurrentPagesWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishArchivingWithMessage: nil)
         }
     }
 
-    func chatListViewModelDidFailUnarchivingChats(viewModel: ChatListViewModel) {
+    func chatListViewModelDidFailUnarchivingChats(_ viewModel: ChatListViewModel) {
         viewModel.reloadCurrentPagesWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: LGLocalizedString.chatListUnarchiveErrorMultiple)
         }
     }
 
-    func chatListViewModelDidSucceedUnarchivingChats(viewModel: ChatListViewModel) {
+    func chatListViewModelDidSucceedUnarchivingChats(_ viewModel: ChatListViewModel) {
         viewModel.reloadCurrentPagesWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: nil)
@@ -121,14 +121,14 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - UITableViewDataSource
 
-    override func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    override func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
         let cell = super.cellForRowAtIndexPath(indexPath)
 
         guard let chatData = viewModel.conversationDataAtIndex(indexPath.row) else { return cell }
-        guard let chatCell = tableView.dequeueReusableCellWithIdentifier(ConversationCell.reusableID,
-            forIndexPath: indexPath) as? ConversationCell else { return cell }
+        guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ConversationCell.reusableID,
+            for: indexPath) as? ConversationCell else { return cell }
 
-        chatCell.tag = indexPath.hash // used for cell reuse on "setupCellWithData"
+        chatCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithData"
         chatCell.setupCellWithData(chatData, indexPath: indexPath)
         return chatCell
     }
@@ -136,7 +136,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - UITableViewDelegate
 
-    override func didSelectRowAtIndex(index: Int, editing: Bool) {
+    override func didSelectRowAtIndex(_ index: Int, editing: Bool) {
         super.didSelectRowAtIndex(index, editing: editing)
 
         guard !editing else { return }

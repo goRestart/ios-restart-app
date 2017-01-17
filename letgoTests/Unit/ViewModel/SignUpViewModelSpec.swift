@@ -37,11 +37,11 @@ class SignUpViewModelSpec: QuickSpec {
                 featureFlags = MockFeatureFlags()
                 tracker = MockTracker()
                 let myUser = MockMyUser()
-                googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
-                fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
+                googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
+                fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                    keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
-                    source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                    keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
+                    source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                 sut.delegate = self
 
                 self.loading = false
@@ -65,8 +65,8 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
-                            source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("does not have a previous facebook username") {
@@ -83,8 +83,8 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
-                            source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("has a previous facebook username") {
@@ -101,8 +101,8 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .Dark,
-                            source: .Install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("does not have a previous facebook username") {
@@ -121,7 +121,7 @@ class SignUpViewModelSpec: QuickSpec {
                     beforeEach {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
-                        googleLoginHelper.loginResult = .Success(myUser: myUser)
+                        googleLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.connectGoogleButtonPressed()
                         expect(self.loading).toEventually(beFalse())
@@ -143,7 +143,7 @@ class SignUpViewModelSpec: QuickSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
-                            googleLoginHelper.loginResult = .NotFound
+                            googleLoginHelper.loginResult = .notFound
                             sut.connectGoogleButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -162,7 +162,7 @@ class SignUpViewModelSpec: QuickSpec {
                     }
                     context("scammer") {
                         beforeEach {
-                            googleLoginHelper.loginResult = .Scammer
+                            googleLoginHelper.loginResult = .scammer
                             sut.connectGoogleButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -192,7 +192,7 @@ class SignUpViewModelSpec: QuickSpec {
                     beforeEach {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
-                        fbLoginHelper.loginResult = .Success(myUser: myUser)
+                        fbLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.connectFBButtonPressed()
                         expect(self.loading).toEventually(beFalse())
@@ -214,7 +214,7 @@ class SignUpViewModelSpec: QuickSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
-                            fbLoginHelper.loginResult = .NotFound
+                            fbLoginHelper.loginResult = .notFound
                             sut.connectFBButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -233,7 +233,7 @@ class SignUpViewModelSpec: QuickSpec {
                     }
                     context("scammer") {
                         beforeEach {
-                            fbLoginHelper.loginResult = .Scammer
+                            fbLoginHelper.loginResult = .scammer
                             sut.connectFBButtonPressed()
                             expect(self.loading).toEventually(beFalse())
                         }
@@ -261,38 +261,38 @@ class SignUpViewModelSpec: QuickSpec {
 
 extension SignUpViewModelSpec: SignUpViewModelDelegate {
 
-    func vmOpenSignup(viewModel: SignUpLogInViewModel) {}
+    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {}
 
     func vmFinish(completedLogin completed: Bool) {
         finishedSuccessfully = completed
     }
 
-    func vmFinishAndShowScammerAlert(contactUrl: NSURL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
         finishedSuccessfully = false
         finishedScammer = true
     }
 
 
     // BaseViewModelDelegate
-    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {}
-    func vmShowLoading(loadingMessage: String?) {
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {}
+    func vmShowLoading(_ loadingMessage: String?) {
         loading = true
     }
-    func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         loading = false
         afterMessageCompletion?()
     }
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
-    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
-    func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {}
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
-    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {}
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {}
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
-    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
+    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
-    func vmDismiss(completion: (() -> Void)?){}
-    func vmOpenInternalURL(url: NSURL) {}
+    func vmDismiss(_ completion: (() -> Void)?){}
+    func vmOpenInternalURL(_ url: URL) {}
 }

@@ -10,7 +10,7 @@ import Result
 import RxSwift
 
 public typealias InstallationResult = Result<Installation, RepositoryError>
-public typealias InstallationCompletion = InstallationResult -> Void
+public typealias InstallationCompletion = (InstallationResult) -> Void
 
 
 public protocol InstallationRepository: class {
@@ -30,7 +30,7 @@ public protocol InstallationRepository: class {
     - parameter token:      New Push token to update in API
     - parameter completion: Closure to execute when the opeartion finishes
     */
-    func updatePushToken(token: String, completion: InstallationCompletion?)
+    func updatePushToken(_ token: String, completion: InstallationCompletion?)
 
 }
 
@@ -45,7 +45,7 @@ protocol InternalInstallationRepository: InstallationRepository {
      Updates the installation if there are changes in app version, locale or time zone.
      - returns: If the update was performed.
      */
-    func updateIfChanged() -> Bool
+    @discardableResult func updateIfChanged() -> Bool
 
     /**
      Updates an installation with all parameters.
@@ -55,14 +55,14 @@ protocol InternalInstallationRepository: InstallationRepository {
 
      - parameter completion: The completion closure.
      */
-    func update(completion: ((Result<Installation, ApiError>) -> ())?)
+    func update(_ completion: ((Result<Installation, ApiError>) -> ())?)
 
     /**
      Create an Installation object in the API and save it in local if succeeded.
 
      - parameter completion: Completion Closure to call when the operation finishes. Could be a success or an error
      */
-    func create(completion: ((Result<Installation, ApiError>) -> ())?)
+    func create(_ completion: ((Result<Installation, ApiError>) -> ())?)
 
     /**
      Deletes the `Installation` object locally.

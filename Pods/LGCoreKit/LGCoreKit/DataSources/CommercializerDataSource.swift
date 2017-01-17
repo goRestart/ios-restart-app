@@ -10,20 +10,20 @@ import Result
 
 
 typealias CommercializerDataSourceTemplateResult = Result<CommercializerTemplatesByCountry, ApiError>
-typealias CommercializerDataSourceTemplateCompletion = CommercializerDataSourceTemplateResult -> Void
+typealias CommercializerDataSourceTemplateCompletion = (CommercializerDataSourceTemplateResult) -> Void
 
 typealias CommercializerDataSourceResult = Result<Commercializer, ApiError>
-typealias CommercializerDataSourceCompletion = CommercializerDataSourceResult -> Void
+typealias CommercializerDataSourceCompletion = (CommercializerDataSourceResult) -> Void
 
 typealias CommercializersDataSourceResult = Result<[Commercializer], ApiError>
-typealias CommercializersDataSourceCompletion = CommercializersDataSourceResult -> Void
+typealias CommercializersDataSourceCompletion = (CommercializersDataSourceResult) -> Void
 
 typealias CommercializerDataSourceProductsResult = Result<[CommercializerProduct], ApiError>
-typealias CommercializerDataSourceProductsCompletion = CommercializerDataSourceProductsResult -> Void
+typealias CommercializerDataSourceProductsCompletion = (CommercializerDataSourceProductsResult) -> Void
 
 protocol CommercializerDataSource {
-    func indexTemplates(completion: CommercializerDataSourceTemplateCompletion?)
-    func index(productId: String, completion: CommercializersDataSourceCompletion?)
-    func create(productId: String, templateId: String, completion: CommercializerDataSourceCompletion?)
-    func indexAvailableProducts(userId: String, completion: CommercializerDataSourceProductsCompletion?)
+    func indexTemplates(_ completion: CommercializerDataSourceTemplateCompletion?)
+    func index(_ productId: String, completion: CommercializersDataSourceCompletion?)
+    func create(_ productId: String, templateId: String, completion: CommercializerDataSourceCompletion?)
+    func indexAvailableProducts(_ userId: String, completion: CommercializerDataSourceProductsCompletion?)
 }

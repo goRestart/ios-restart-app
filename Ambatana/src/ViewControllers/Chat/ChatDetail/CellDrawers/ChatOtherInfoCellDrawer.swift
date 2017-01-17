@@ -13,9 +13,9 @@ class ChatOtherInfoCellDrawer: BaseChatCellDrawer<ChatOtherInfoCell> {
         super.init(autoHide: autoHide)
     }
 
-    override func draw(cell: ChatOtherInfoCell, message: ChatViewMessage, delegate: AnyObject?) {
+    override func draw(_ cell: ChatOtherInfoCell, message: ChatViewMessage) {
         switch message.type {
-        case let .UserInfo(name, address, facebook, google, email):
+        case let .userInfo(name, address, facebook, google, email):
             cell.nameLabel.text = name
             cell.setupLocation(address)
             cell.setupVerifiedInfo(facebook: facebook, google: google, email: email)

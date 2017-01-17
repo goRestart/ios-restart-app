@@ -7,13 +7,13 @@
 //
 
 protocol DirectAnswersPresenterDelegate : class {
-    func directAnswersDidTapAnswer(presenter: DirectAnswersPresenter, answer: DirectAnswer)
-    func directAnswersDidTapClose(presenter: DirectAnswersPresenter)
+    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: DirectAnswer)
+    func directAnswersDidTapClose(_ presenter: DirectAnswersPresenter)
 }
 
 class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    private static let defaultWidth = UIScreen.mainScreen().bounds.width
+    private static let defaultWidth = UIScreen.main.bounds.width
 
     weak var delegate: DirectAnswersPresenterDelegate?
 
@@ -30,7 +30,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     var hidden: Bool = true {
         didSet {
             bigView?.setHidden(hidden, animated: true)
-            collectionView?.hidden = hidden
+            collectionView?.isHidden = hidden
         }
     }
 
@@ -61,12 +61,12 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         self.websocketChatActive = websocketChatActive
     }
 
-    func setupOnTopOfView(sibling: UIView) {
+    func setupOnTopOfView(_ sibling: UIView) {
         if newDirectAnswers {
             let directAnswersView = DirectAnswersBigView()
             directAnswersView.delegate = self
             directAnswersView.enabled = enabled
-            directAnswersView.hidden = hidden
+            directAnswersView.isHidden = hidden
             directAnswersView.setDirectAnswers(answers)
             directAnswersView.setupOnTopOfView(sibling)
             bigView = directAnswersView
@@ -77,7 +77,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func setDirectAnswers(answers: [DirectAnswer]) {
+    func setDirectAnswers(_ answers: [DirectAnswer]) {
         self.answers = answers
         self.bigView?.setDirectAnswers(answers)
         self.collectionView?.reloadData()
@@ -86,7 +86,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
     // MARK: - UICollectionViewDelegate & DataSource methods
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         if indexPath.row == answers.count {
             return DirectAnswersCloseCell.size()
         } else {
@@ -94,19 +94,19 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return answers.count + 1
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if indexPath.row == answers.count {
             //Close btn
-            return collectionView.dequeueReusableCellWithReuseIdentifier(DirectAnswersCloseCell.reusableID,
-                forIndexPath: indexPath)
+            return collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswersCloseCell.reusableID,
+                for: indexPath)
         } else {
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(DirectAnswerCell.reusableID,
-                forIndexPath: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
+                for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
 
             cell.setupWithDirectAnswer(answers[indexPath.row])
 
@@ -114,17 +114,17 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return enabled
     }
 
-    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         return enabled
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if websocketChatActive {
-            collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+            collectionView.deselectItem(at: indexPath, animated: true)
         }
         guard enabled else { return }
         if indexPath.row == answers.count {
@@ -134,43 +134,43 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
         return enabled
     }
 
 
     // MARK: - Private methods
 
-    private func buildCollectionAboveView(sibling: UIView) {
+    private func buildCollectionAboveView(_ sibling: UIView) {
         let view = UICollectionView(frame: CGRect(x: 0, y: sibling.top - directAnswersCollectionHeight,
             width: DirectAnswersPresenter.defaultWidth, height: directAnswersCollectionHeight),
             collectionViewLayout: UICollectionViewFlowLayout())
         view.translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
         parentView.insertSubview(view, belowSubview: sibling)
-        let bottom = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Bottom, relatedBy:
-            NSLayoutRelation.Equal, toItem: sibling, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0)
-        let left = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,
-            toItem: sibling, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
-        let right = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal,
-            toItem: sibling, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
-        let height = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal,
-            toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: directAnswersCollectionHeight)
+        let bottom = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.bottom, relatedBy:
+            NSLayoutRelation.equal, toItem: sibling, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0)
+        let left = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal,
+            toItem: sibling, attribute: NSLayoutAttribute.left, multiplier: 1.0, constant: 0)
+        let right = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal,
+            toItem: sibling, attribute: NSLayoutAttribute.right, multiplier: 1, constant: 0)
+        let height = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal,
+            toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: directAnswersCollectionHeight)
         view.addConstraint(height)
         parentView.addConstraints([bottom,left,right])
 
-        view.hidden = hidden
+        view.isHidden = hidden
         collectionView = view
     }
 
-    private func setupCollection(collectionView: UICollectionView) {
+    private func setupCollection(_ collectionView: UICollectionView) {
         // CollectionView cells
         let filterNib = UINib(nibName: DirectAnswerCell.reusableID, bundle: nil)
-        collectionView.registerNib(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID)
+        collectionView.register(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID)
         
         let closeNib = UINib(nibName: DirectAnswersCloseCell.reusableID, bundle: nil)
-        collectionView.registerNib(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID)
+        collectionView.register(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID)
 
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
@@ -181,17 +181,17 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+            layout.scrollDirection = UICollectionViewScrollDirection.horizontal
             layout.minimumInteritemSpacing = 4.0
         }
 
-        collectionView.accessibilityId = .DirectAnswersPresenterCollectionView
+        collectionView.accessibilityId = .directAnswersPresenterCollectionView
     }
 }
 
 
 extension DirectAnswersPresenter: DirectAnswersBigViewDelegate {
-    func directAnswersBigViewDidSelectAnswer(answer: DirectAnswer) {
+    func directAnswersBigViewDidSelectAnswer(_ answer: DirectAnswer) {
         delegate?.directAnswersDidTapAnswer(self, answer: answer)
     }
 }

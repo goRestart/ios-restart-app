@@ -9,7 +9,7 @@
 import Result
 import LGCoreKit
 
-public class ConfigManager {
+class ConfigManager {
 
     static let sharedInstance: ConfigManager = ConfigManager()
 
@@ -24,9 +24,9 @@ public class ConfigManager {
         }
     }
 
-    public var updateTimeout: Double    // seconds
+    var updateTimeout: Double    // seconds
 
-    public var shouldForceUpdate: Bool {
+    var shouldForceUpdate: Bool {
         guard let actualConfig = config else {
             return false
         }
@@ -38,35 +38,35 @@ public class ConfigManager {
         return false
     }
 
-    public var myMessagesCountForRating: Int {
+    var myMessagesCountForRating: Int {
         return config?.myMessagesCountForRating ?? Constants.myMessagesCountForRating
     }
 
-    public var otherMessagesCountForRating: Int {
+    var otherMessagesCountForRating: Int {
         return config?.otherMessagesCountForRating ?? Constants.otherMessagesCountForRating
     }
 
 
     // MARK: - Lifecycle
 
-    public convenience init() {
+    convenience init() {
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
-        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
+        let dao = LGConfigDAO(bundle: Bundle.main, configFileName: configFileName)
         self.init(dao: dao)
     }
 
-    public convenience init(dao: ConfigDAO) {
+    convenience init(dao: ConfigDAO) {
 
         let config = dao.retrieve()
         let configURL = config?.configURL ?? EnvironmentProxy.sharedInstance.configURL
 
         let service = LGConfigRetrieveService(url: configURL)
-        let appVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String) ?? ""
+        let appVersion = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? ""
 
         self.init(service: service, dao: dao, appCurrentVersion: appVersion)
     }
 
-    public init(service: ConfigRetrieveService, dao: ConfigDAO, appCurrentVersion: String) {
+    init(service: ConfigRetrieveService, dao: ConfigDAO, appCurrentVersion: String) {
         self.service = service
         self.dao = dao
         self.appCurrentVersion = appCurrentVersion
@@ -77,16 +77,15 @@ public class ConfigManager {
 
     // MARK : - Public methods
 
-    public func updateWithCompletion(completion: (() -> Void)?) {
+    func updateWithCompletion(_ completion: (() -> Void)?) {
 
         var didNotifyCompletion = false
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(updateTimeout * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
+        delay(self.updateTimeout, completion: {
             if !didNotifyCompletion {
                 didNotifyCompletion = true
                 completion?()
             }
-        }
+        })
 
         service.retrieveConfigWithCompletion { [weak self] (myResult: ConfigRetrieveServiceResult) -> Void in
             if let strongSelf = self {
@@ -107,7 +106,7 @@ public class ConfigManager {
 
     // MARK : - Private methods
 
-    private func shouldForceUpdate(config: Config) -> (forceUpdate: Bool, suggestedUpdate: Bool) {
+    private func shouldForceUpdate(_ config: Config) -> (forceUpdate: Bool, suggestedUpdate: Bool) {
         for version in config.forceUpdateVersions {
             let versionNum = version
             if String(versionNum) == appCurrentVersion {

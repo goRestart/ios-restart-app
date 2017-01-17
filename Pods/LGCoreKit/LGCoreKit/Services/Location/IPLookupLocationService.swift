@@ -8,33 +8,33 @@
 
 import Result
 
-public enum IPLookupLocationServiceError: ErrorType, CustomStringConvertible {
-    case Network
-    case Internal
+public enum IPLookupLocationServiceError: Error, CustomStringConvertible {
+    case network
+    case internalError
 
     public var description: String {
         switch (self) {
-        case Network:
+        case .network:
             return "Network"
-        case Internal:
+        case .internalError:
             return "Internal"
         }
     }
 
     init(apiError: ApiError) {
         switch apiError {
-        case .Network:
-            self = .Network
-        case .Scammer, .NotFound, .Forbidden, .Internal, .BadRequest, .Unauthorized, .Conflict, .UnprocessableEntity,
-             .InternalServerError, .NotModified, .TooManyRequests, .UserNotVerified, .Other:
-            self = .Internal
+        case .network:
+            self = .network
+        case .scammer, .notFound, .forbidden, .internalError, .badRequest, .unauthorized, .conflict, .unprocessableEntity,
+             .internalServerError, .notModified, .tooManyRequests, .userNotVerified, .other:
+            self = .internalError
         }
     }
 }
 
 public typealias IPLookupLocationServiceResult = Result<LGLocationCoordinates2D, IPLookupLocationServiceError>
-public typealias IPLookupLocationServiceCompletion = IPLookupLocationServiceResult -> Void
+public typealias IPLookupLocationServiceCompletion = (IPLookupLocationServiceResult) -> Void
 
 public protocol IPLookupLocationService {
-    func retrieveLocationWithCompletion(completion: IPLookupLocationServiceCompletion?)
+    func retrieveLocationWithCompletion(_ completion: IPLookupLocationServiceCompletion?)
 }

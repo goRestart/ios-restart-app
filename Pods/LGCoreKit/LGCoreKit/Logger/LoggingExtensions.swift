@@ -10,46 +10,50 @@ import Alamofire
 
 extension URLRequestAuthenticable {
     var logMessage: String {
-        var result  = URLRequest.logMessage
+        var result  = urlRequest?.logMessage ?? ""
         result     += " > Req authLevel: " + "\(requiredAuthLevel)\n"
         return result
     }
 }
 
-extension NSURLRequest {
+extension URLRequest {
     var logMessage: String {
         var httpBody: String?
-        if let bodyData = URLRequest.HTTPBody, body = NSString(data: bodyData, encoding: NSUTF8StringEncoding) {
+        if let bodyData = self.httpBody,
+            let body = String(data: bodyData, encoding: .utf8) {
+            
             let maxChars = 20
-            if body.length > maxChars {
-                httpBody = body.substringToIndex(maxChars) + "..."
+            if body.characters.count > maxChars {
+                httpBody = body.substring(to: body.index(body.startIndex, offsetBy: maxChars)) + "..."
             } else {
-                httpBody = body as String
+                httpBody = body
             }
         }
-        let httpHeaders: String? = URLRequest.allHTTPHeaderFields?.description
+        let httpHeaders: String? = allHTTPHeaderFields?.description
 
         var output  = "\n"
-        output     += "Request:          " + "\(URLRequest.HTTPMethod) \(URLRequest.URLString)\n"
+        output     += "Request:          " + "\(httpMethod) \(url?.absoluteString)\n"
         output     += " >          Body: " + "\(httpBody)\n"
         output     += " >       Headers: " + "\(httpHeaders)\n"
         return output
     }
 }
 
-extension Response {
+extension DataResponse {
     var logMessage: String {
-        let httpMethod = request?.HTTPMethod
-        let urlString = request?.URLString
-        let statusCode = String(response?.statusCode)
+        let httpMethod = request?.urlRequest?.httpMethod
+        let urlString = request?.url?.absoluteString
+        let statusCode = response?.statusCode
         let error = result.error
         var httpBody: String?
-        if let bodyData = data, body = NSString(data: bodyData, encoding: NSUTF8StringEncoding) {
+        if let bodyData = data,
+            let body = String(data: bodyData, encoding: .utf8) {
+            
             let maxChars = 20
-            if body.length > maxChars {
-                httpBody = body.substringToIndex(maxChars) + "..."
+            if body.characters.count > maxChars {
+                httpBody = body.substring(to: body.index(body.startIndex, offsetBy: maxChars)) + "..."
             } else {
-                httpBody = body as String
+                httpBody = body
             }
 
         }

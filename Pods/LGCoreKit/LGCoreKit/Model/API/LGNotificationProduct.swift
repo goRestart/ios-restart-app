@@ -8,6 +8,7 @@
 
 import Argo
 import Curry
+import Runes
 
 public struct LGNotificationProduct: NotificationProduct {
     public let id: String
@@ -22,7 +23,7 @@ extension LGNotificationProduct: Decodable {
         static let productImage = "product_image"
     }
 
-    public static func decode(j: JSON) -> Decoded<LGNotificationProduct> {
+    public static func decode(_ j: JSON) -> Decoded<LGNotificationProduct> {
         /*
          {
          "product_id": "a569527f-17e2-3d22-a513-2fc0c6477ac8",

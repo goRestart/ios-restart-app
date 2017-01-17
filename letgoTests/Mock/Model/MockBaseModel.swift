@@ -10,8 +10,8 @@ import LGCoreKit
 
 class MockBaseModel: BaseModel {
     var objectId: String?
-    var createdAt: NSDate?
-    var updatedAt: NSDate?
+    var createdAt: Date?
+    var updatedAt: Date?
     
     var isSaved: Bool {
         return objectId != nil

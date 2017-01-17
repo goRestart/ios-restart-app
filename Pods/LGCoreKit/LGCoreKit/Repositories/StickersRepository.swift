@@ -10,7 +10,7 @@ import Result
 import RxSwift
 
 public typealias StickersResult = Result<[Sticker], RepositoryError>
-public typealias StickersCompletion = StickersResult -> Void
+public typealias StickersCompletion = (StickersResult) -> Void
 
 public protocol StickersRepository {
 
@@ -21,7 +21,7 @@ public protocol StickersRepository {
      
      - parameter completion: The completion closure
      */
-    func show(completion: StickersCompletion?)
+    func show(_ completion: StickersCompletion?)
 
     /**
      Retrieves all stickers for current locale
@@ -31,5 +31,5 @@ public protocol StickersRepository {
      */
     func show(typeFilter filter: StickerType?, completion: StickersCompletion?)
 
-    func sticker(id: String) -> Sticker?
+    func sticker(_ id: String) -> Sticker?
 }

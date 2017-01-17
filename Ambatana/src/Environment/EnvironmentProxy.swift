@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-public enum AppEnvironmentType: String {
-    case Development
-    case Production
-    case Escrow
+enum AppEnvironmentType: String {
+    case development
+    case production
+    case escrow
 }
 
-public class EnvironmentProxy: AppEnvironment {
+class EnvironmentProxy: AppEnvironment {
 
     static let sharedInstance = EnvironmentProxy()
 
@@ -28,13 +28,13 @@ public class EnvironmentProxy: AppEnvironment {
 
     // MARK: - Public methods
 
-    public func setEnvironmentType(type: AppEnvironmentType) {
+    func setEnvironmentType(_ type: AppEnvironmentType) {
         switch type {
-        case .Development:
+        case .development:
             environment = DevelopmentEnvironment()
-        case .Production:
+        case .production:
             environment = ProductionEnvironment()
-        case .Escrow:
+        case .escrow:
             environment = EscrowEnvironment()
         }
     }

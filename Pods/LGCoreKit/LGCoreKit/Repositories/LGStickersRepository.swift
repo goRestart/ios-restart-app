@@ -17,15 +17,15 @@ final class LGStickersRepository: StickersRepository {
 
     let dataSource: StickersDataSource
     let stickersDAO: StickersDAO
-    let locale: NSLocale
-    private var lastRetrieval: NSTimeInterval = 0
+    let locale: Locale
+    private var lastRetrieval: TimeInterval = 0
     private let stickersVar: Variable<[Sticker]>
 
 
     // MARK: - Lifecycle
 
     init(dataSource: StickersDataSource, stickersDAO: StickersDAO,
-         locale: NSLocale = NSLocale.autoupdatingCurrentLocale()) {
+         locale: Locale = Locale.autoupdatingCurrent) {
         self.dataSource = dataSource
         self.stickersDAO = stickersDAO
         self.locale = locale
@@ -39,7 +39,7 @@ final class LGStickersRepository: StickersRepository {
 
      - parameter completion: The completion closure
      */
-    func show(completion: StickersCompletion?) {
+    func show(_ completion: StickersCompletion?) {
         show(typeFilter: nil, completion: completion)
     }
 
@@ -51,7 +51,7 @@ final class LGStickersRepository: StickersRepository {
      */
     func show(typeFilter filter: StickerType?, completion: StickersCompletion?) {
         var calledCompletion = false
-        let currentRetrievalTime = NSDate().timeIntervalSince1970
+        let currentRetrievalTime = Date().timeIntervalSince1970
         if !stickersDAO.stickers.isEmpty {
             LGStickersRepository.handleSuccess(stickersDAO.stickers, filter: filter, completion: completion)
             calledCompletion = true
@@ -77,14 +77,14 @@ final class LGStickersRepository: StickersRepository {
         }
     }
 
-    func sticker(id: String) -> Sticker? {
+    func sticker(_ id: String) -> Sticker? {
         return stickersDAO.stickers.filter{$0.name == id}.first
     }
 
 
     // MARK: - Private
 
-    private static func handleSuccess(data: [Sticker], filter: StickerType?, completion: StickersCompletion?) {
+    private static func handleSuccess(_ data: [Sticker], filter: StickerType?, completion: StickersCompletion?) {
         let resultData = filter != nil ? data.filter{$0.type == filter} : data
         completion?(StickersResult(resultData))
     }

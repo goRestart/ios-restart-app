@@ -9,23 +9,23 @@
 import UIKit
 
 enum ConversationCellStatus {
-    case Available
-    case Forbidden
-    case ProductSold
-    case ProductDeleted
-    case UserPendingDelete
-    case UserDeleted
+    case available
+    case forbidden
+    case productSold
+    case productDeleted
+    case userPendingDelete
+    case userDeleted
 }
 
 struct ConversationCellData {
     let status: ConversationCellStatus
     let userName: String
-    let userImageUrl: NSURL?
+    let userImageUrl: URL?
     let userImagePlaceholder: UIImage?
     let productName: String
-    let productImageUrl: NSURL?
+    let productImageUrl: URL?
     let unreadCount: Int
-    let messageDate: NSDate?
+    let messageDate: Date?
 }
 
 class ConversationCell: UITableViewCell, ReusableCell {
@@ -75,15 +75,15 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
     // MARK: - Overrides
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        if (selected && !editing) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        if (selected && !isEditing) {
             super.setSelected(false, animated: animated)
         } else {
             super.setSelected(selected, animated: animated)
         }
     }
 
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         if (editing) {
             let bgView = UIView()
             selectedBackgroundView = bgView
@@ -97,15 +97,15 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
     // MARK: - Public methods
 
-    func setupCellWithData(data: ConversationCellData, indexPath: NSIndexPath) {
-        let tag = indexPath.hash
+    func setupCellWithData(_ data: ConversationCellData, indexPath: IndexPath) {
+        let tag = (indexPath as NSIndexPath).hash
 
         // thumbnail
         if let thumbURL = data.productImageUrl {
             thumbnailImageView.lg_setImageWithURL(thumbURL) {
                 [weak self] (result, url) in
                 // tag check to prevent wrong image placement cos' of recycling
-                if let image = result.value?.image where self?.tag == tag {
+                if let image = result.value?.image, self?.tag == tag {
                     self?.thumbnailImageView.image = image
                 }
             }
@@ -115,7 +115,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
             avatarImageView.lg_setImageWithURL(avatarURL, placeholderImage: data.userImagePlaceholder) {
                 [weak self] (result, url) in
                 // tag check to prevent wrong image placement cos' of recycling
-                if let image = result.value?.image where self?.tag == tag {
+                if let image = result.value?.image, self?.tag == tag {
                     self?.avatarImageView.image = image
                 }
             }
@@ -135,26 +135,26 @@ class ConversationCell: UITableViewCell, ReusableCell {
         }
 
         switch data.status {
-        case .Forbidden:
+        case .forbidden:
             setInfo(text: LGLocalizedString.accountPendingModeration, icon: UIImage(named: "ic_pending_moderation"))
-        case .ProductSold:
+        case .productSold:
             setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
-        case .ProductDeleted:
+        case .productDeleted:
             setInfo(text: LGLocalizedString.commonProductNotAvailable, icon: UIImage(named: "ic_alert_yellow_white_inside"))
-        case .UserPendingDelete:
+        case .userPendingDelete:
             setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
-        case .UserDeleted:
+        case .userDeleted:
             setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
             userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
             productLabel.text = nil
             avatarImageView.image = UIImage(named: "user_placeholder")
-        case .Available:
+        case .available:
             setInfo(text: data.messageDate?.relativeTimeString(false) ?? "", icon: nil)
         }
 
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil
         badgeLabel.text = badge
-        badgeView.hidden = (badge == nil)
+        badgeView.isHidden = (badge == nil)
     }
 
 
@@ -181,20 +181,20 @@ class ConversationCell: UITableViewCell, ReusableCell {
         productLabel.text = ""
         userLabel.text = ""
         timeLabel.text = ""
-        badgeView.hidden = true
+        badgeView.isHidden = true
         badgeView.backgroundColor = UIColor.primaryColor
         badgeLabel.text = ""
         badgeLabel.font = UIFont.conversationBadgeFont
     }
 
-    private func setInfo(text text: String?, icon: UIImage?) {
+    private func setInfo(text: String?, icon: UIImage?) {
         timeLabel.text = text
         if let icon = icon {
             statusImageView.image = icon
-            statusImageView.hidden = false
+            statusImageView.isHidden = false
             separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         } else {
-            statusImageView.hidden = true
+            statusImageView.isHidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         }
     }
@@ -202,13 +202,13 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
 extension ConversationCell {
     func setAccessibilityIds() {
-        contentView.accessibilityId = AccessibilityId.ConversationCellContainer
-        userLabel.accessibilityId = AccessibilityId.ConversationCellUserLabel
-        timeLabel.accessibilityId = AccessibilityId.ConversationCellTimeLabel
-        productLabel.accessibilityId = AccessibilityId.ConversationCellProductLabel
-        badgeLabel.accessibilityId = AccessibilityId.ConversationCellBadgeLabel
-        thumbnailImageView.accessibilityId = AccessibilityId.ConversationCellThumbnailImageView
-        avatarImageView.accessibilityId = AccessibilityId.ConversationCellAvatarImageView
-        statusImageView.accessibilityId = AccessibilityId.ConversationCellStatusImageView
+        contentView.accessibilityId = AccessibilityId.conversationCellContainer
+        userLabel.accessibilityId = AccessibilityId.conversationCellUserLabel
+        timeLabel.accessibilityId = AccessibilityId.conversationCellTimeLabel
+        productLabel.accessibilityId = AccessibilityId.conversationCellProductLabel
+        badgeLabel.accessibilityId = AccessibilityId.conversationCellBadgeLabel
+        thumbnailImageView.accessibilityId = AccessibilityId.conversationCellThumbnailImageView
+        avatarImageView.accessibilityId = AccessibilityId.conversationCellAvatarImageView
+        statusImageView.accessibilityId = AccessibilityId.conversationCellStatusImageView
     }
 }

@@ -9,9 +9,9 @@
 import Foundation
 import Result
 
-typealias ContactDataSourceCompletion = Result<Void, ApiError> -> Void
+typealias ContactDataSourceCompletion = (Result<Void, ApiError>) -> Void
 
 
 protocol ContactDataSource {
-    func send(email: String, title: String, message: String, completion: ContactDataSourceCompletion?)
+    func send(_ email: String, title: String, message: String, completion: ContactDataSourceCompletion?)
 }

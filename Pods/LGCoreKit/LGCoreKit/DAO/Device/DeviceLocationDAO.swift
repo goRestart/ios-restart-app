@@ -10,8 +10,8 @@ import CoreLocation
 
 protocol DeviceLocationDAO {
     var deviceLocation: DeviceLocation? { get }
-    func save(newDeviceLocation: DeviceLocation)
+    func save(_ newDeviceLocation: DeviceLocation)
     
     var locationStatus: CLAuthorizationStatus? { get }
-    func save(locationStatus: CLAuthorizationStatus)
+    func save(_ locationStatus: CLAuthorizationStatus)
 }

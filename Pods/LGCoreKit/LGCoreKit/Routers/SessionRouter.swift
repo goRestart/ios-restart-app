@@ -12,88 +12,87 @@ import Foundation
 // MARK: - SessionRouter
 
 enum SessionRouter: URLRequestAuthenticable {
-    case RecoverPassword(email: String)
-    case CreateUser(provider: UserSessionProvider)
-    case CreateInstallation(installationId: String)
-    case UpdateUser(userToken: String)
-    case Delete(userToken: String)
-    case Verify(recaptchaToken: String)
+    case recoverPassword(email: String)
+    case createUser(provider: UserSessionProvider)
+    case createInstallation(installationId: String)
+    case updateUser(userToken: String)
+    case delete(userToken: String)
+    case verify(recaptchaToken: String)
 
     private static let endpoint = "/authentication"
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .CreateInstallation:
-            return .Nonexistent
-        case .CreateUser, .RecoverPassword, .Verify:
-            return .Installation
-        case .UpdateUser, .Delete:
-            return .User
+        case .createInstallation:
+            return .nonexistent
+        case .createUser, .recoverPassword, .verify:
+            return .installation
+        case .updateUser, .delete:
+            return .user
         }
     }
 
-    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+    var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .RecoverPassword(email):
-            var params: [String: AnyObject] = [:]
+        case let .recoverPassword(email):
+            var params: [String: Any] = [:]
             params["provider"] = "letgo-password-recovery"
             params["credentials"] = email
-            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
-                                                           encoding: nil).URLRequest
-            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
+            var urlRequest = try Router<BouncerBaseURL>.create(endpoint: SessionRouter.endpoint,
+                                                               params: params, encoding: nil).asURLRequest()
+            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
             return urlRequest
-
-        case let .CreateUser(provider):
-            var params: [String: AnyObject] = [:]
+            
+        case let .createUser(provider):
+            var params: [String: Any] = [:]
             params["provider"] = provider.accountProvider.rawValue
             params["credentials"] = provider.credentials
-            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
-                encoding: nil).URLRequest
-            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
+            var urlRequest = try Router<BouncerBaseURL>.create(endpoint: SessionRouter.endpoint,
+                                                               params: params, encoding: nil).asURLRequest()
+            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
             return urlRequest
-
-        case let .CreateInstallation(installationId):
-            var params: [String: AnyObject] = [:]
+            
+        case let .createInstallation(installationId):
+            var params: [String: Any] = [:]
             params["provider"] = "installations"
             params["credentials"] = installationId
-            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
-                                                 encoding: nil).URLRequest
+            var urlRequest = try Router<BouncerBaseURL>.create(endpoint: SessionRouter.endpoint,
+                                                               params: params,encoding: nil).asURLRequest()
             // create installation requires not to add Authorization header
             urlRequest.setValue(nil, forHTTPHeaderField: "Authorization")
             return urlRequest
-        case let .UpdateUser(userToken):
-            var params: [String: AnyObject] = [:]
+        case let .updateUser(userToken):
+            var params: [String: Any] = [:]
             params["provider"] = "renew-letgo"
             params["credentials"] = userToken
-            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
-                                                           encoding: nil).URLRequest
+            var urlRequest = try Router<BouncerBaseURL>.create(endpoint: SessionRouter.endpoint,
+                                                               params: params, encoding: nil).asURLRequest()
             // renew requires not to add Authorization header
             urlRequest.setValue(nil, forHTTPHeaderField: "Authorization")
             return urlRequest
-
-        case .Delete(let userToken):
-            return Router<BouncerBaseURL>.Delete(endpoint: SessionRouter.endpoint, objectId: userToken).URLRequest
-
-        case .Verify(let recaptchaToken):
-            var params: [String: AnyObject] = [:]
+            
+        case .delete(let userToken):
+            return try Router<BouncerBaseURL>.delete(endpoint: SessionRouter.endpoint, objectId: userToken).asURLRequest()
+            
+        case .verify(let recaptchaToken):
+            var params: [String: Any] = [:]
             params["provider"] = "recaptcha"
             params["credentials"] = recaptchaToken
-            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
-                                                           encoding: nil).URLRequest
-            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
+            var urlRequest = try Router<BouncerBaseURL>.create(endpoint: SessionRouter.endpoint, params: params,
+                                                               encoding: nil).asURLRequest()
+            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
             return urlRequest
-
         }
     }
 }
@@ -104,11 +103,11 @@ enum SessionRouter: URLRequestAuthenticable {
 private extension UserSessionProvider {
     var credentials: String {
         switch self {
-        case let .Email(email, password):
+        case let .email(email, password):
             return "\(email):\(password)"
-        case .Facebook(let facebookToken):
+        case .facebook(let facebookToken):
             return facebookToken
-        case let .Google(googleToken):
+        case let .google(googleToken):
             return googleToken
         }
     }

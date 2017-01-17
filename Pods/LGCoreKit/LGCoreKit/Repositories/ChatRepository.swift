@@ -10,28 +10,28 @@ import Result
 import RxSwift
 
 public enum WSChatStatus {
-    case Closed
-    case Closing
-    case Opening
-    case OpenAuthenticated
-    case OpenNotAuthenticated
-    case OpenNotVerified
+    case closed
+    case closing
+    case opening
+    case openAuthenticated
+    case openNotAuthenticated
+    case openNotVerified
 }
 
 public typealias ChatMessagesResult = Result<[ChatMessage], RepositoryError>
-public typealias ChatMessagesCompletion = ChatMessagesResult -> Void
+public typealias ChatMessagesCompletion = (ChatMessagesResult) -> Void
 
 public typealias ChatConversationsResult = Result<[ChatConversation], RepositoryError>
-public typealias ChatConversationsCompletion = ChatConversationsResult -> Void
+public typealias ChatConversationsCompletion = (ChatConversationsResult) -> Void
 
 public typealias ChatConversationResult = Result<ChatConversation, RepositoryError>
-public typealias ChatConversationCompletion = ChatConversationResult -> Void
+public typealias ChatConversationCompletion = (ChatConversationResult) -> Void
 
 public typealias ChatCommandResult = Result<Void, RepositoryError>
-public typealias ChatCommandCompletion = ChatCommandResult -> Void
+public typealias ChatCommandCompletion = (ChatCommandResult) -> Void
 
 public typealias ChatUnreadMessagesResult = Result<ChatUnreadMessages, RepositoryError>
-public typealias ChatUnreadMessagesCompletion = ChatUnreadMessagesResult -> Void
+public typealias ChatUnreadMessagesCompletion = (ChatUnreadMessagesResult) -> Void
 
 public protocol ChatRepository {
 
@@ -42,53 +42,53 @@ public protocol ChatRepository {
     // MARK: > Public Methods
     // MARK: - Messages
 
-    func createNewMessage(talkerId: String, text: String, type: ChatMessageType) -> ChatMessage
+    func createNewMessage(_ talkerId: String, text: String, type: ChatMessageType) -> ChatMessage
 
-    func indexMessages(conversationId: String, numResults: Int, offset: Int, completion: ChatMessagesCompletion?)
+    func indexMessages(_ conversationId: String, numResults: Int, offset: Int, completion: ChatMessagesCompletion?)
 
-    func indexMessagesNewerThan(messageId: String, conversationId: String, completion: ChatMessagesCompletion?)
+    func indexMessagesNewerThan(_ messageId: String, conversationId: String, completion: ChatMessagesCompletion?)
 
-    func indexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
+    func indexMessagesOlderThan(_ messageId: String, conversationId: String, numResults: Int,
                                        completion: ChatMessagesCompletion?)
 
 
     // MARK: - Conversations
 
-    func indexConversations(numResults: Int, offset: Int, filter: WebSocketConversationFilter,
+    func indexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
                                    completion: ChatConversationsCompletion?)
 
-    func showConversation(conversationId: String, completion: ChatConversationCompletion?)
+    func showConversation(_ conversationId: String, completion: ChatConversationCompletion?)
 
-    func showConversation(sellerId: String, productId: String, completion: ChatConversationCompletion?)
+    func showConversation(_ sellerId: String, productId: String, completion: ChatConversationCompletion?)
 
 
     // MARK: - Events
 
-    func typingStarted(conversationId: String)
+    func typingStarted(_ conversationId: String)
 
-    func typingStopped(conversationId: String)
+    func typingStopped(_ conversationId: String)
 
 
     // MARK: - Commands
 
-    func sendMessage(conversationId: String, messageId: String, type: ChatMessageType, text: String,
+    func sendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
                             completion: ChatCommandCompletion?)
 
-    func confirmRead(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
+    func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
 
-    func archiveConversations(conversationIds: [String], completion: ChatCommandCompletion?)
+    func archiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
 
-    func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
+    func confirmReception(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
 
-    func unarchiveConversations(conversationIds: [String], completion: ChatCommandCompletion?)
+    func unarchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
 
 
     // MARK: - Unread counts
 
-    func chatUnreadMessagesCount(completion: ChatUnreadMessagesCompletion?)
+    func chatUnreadMessagesCount(_ completion: ChatUnreadMessagesCompletion?)
 
 
     // MARK: - Server events
 
-    func chatEventsIn(conversationId: String) -> Observable<ChatEvent>
+    func chatEventsIn(_ conversationId: String) -> Observable<ChatEvent>
 }

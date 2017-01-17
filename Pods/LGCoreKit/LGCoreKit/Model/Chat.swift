@@ -7,17 +7,17 @@
 //
 
 public enum ChatStatus {
-    case Available
-    case Forbidden
-    case Sold
-    case Deleted
+    case available
+    case forbidden
+    case sold
+    case deleted
 }
 
 public enum ChatArchivedStatus: Int {
-    case Active = 0
-    case BuyerArchived = 1
-    case SellerArchived = 2
-    case BothArchived = 3
+    case active = 0
+    case buyerArchived = 1
+    case sellerArchived = 2
+    case bothArchived = 3
 }
 
 public protocol Chat: BaseModel {
@@ -26,55 +26,55 @@ public protocol Chat: BaseModel {
     var userTo: User { get }
     var msgUnreadCount: Int { get }     // Default: 0
     var messages: [Message] { get }     // Default: []
-    var updatedAt: NSDate? { get }
+    var updatedAt: Date? { get }
     var forbidden: Bool { get }
     var archivedStatus: ChatArchivedStatus { get }
 }
 
 
 public extension Chat {
-    public func didReceiveMessageFrom(userID: String) -> Bool {
+    public func didReceiveMessageFrom(_ userID: String) -> Bool {
         return messages.filter { $0.userId == userID }.count > 0
     }
 }
 
 public extension Chat {
     public var status: ChatStatus {
-        if forbidden { return .Forbidden }
+        if forbidden { return .forbidden }
         switch product.status {
-        case .Deleted, .Discarded:
-            return .Deleted
-        case .Sold, .SoldOld:
-            return .Sold
-        case .Approved, .Pending:
-            return .Available
+        case .deleted, .discarded:
+            return .deleted
+        case .sold, .soldOld:
+            return .sold
+        case .approved, .pending:
+            return .available
         }
     }
 
     public var buyer: User {
-        guard let productOwnerId = product.user.objectId, userFromId = userFrom.objectId else { return userFrom }
+        guard let productOwnerId = product.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
         return productOwnerId == userFromId ? userTo : userFrom
     }
 
     public var seller: User {
-        guard let productOwnerId = product.user.objectId, userFromId = userFrom.objectId else { return userFrom }
+        guard let productOwnerId = product.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
         return productOwnerId == userFromId ? userFrom : userTo
     }
 
-    public func otherUser(myUser myUser: MyUser) -> User {
-        guard let myUserId = myUser.objectId, userFromId = userFrom.objectId else { return userFrom }
+    public func otherUser(myUser: MyUser) -> User {
+        guard let myUserId = myUser.objectId, let userFromId = userFrom.objectId else { return userFrom }
         return myUserId == userFromId ? userTo : userFrom
     }
 
-    public func isArchived(myUser myUser: MyUser)  -> Bool {
+    public func isArchived(myUser: MyUser)  -> Bool {
         switch archivedStatus {
-        case .Active:
+        case .active:
             return false
-        case .BuyerArchived:
+        case .buyerArchived:
             return myUser.objectId == buyer.objectId
-        case .SellerArchived:
+        case .sellerArchived:
             return myUser.objectId == seller.objectId
-        case .BothArchived:
+        case .bothArchived:
             return true
         }
     }

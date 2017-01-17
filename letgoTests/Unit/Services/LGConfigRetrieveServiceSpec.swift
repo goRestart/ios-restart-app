@@ -49,15 +49,15 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
         describe("retrieval") {
             context("OK") {
                 beforeEach {
-                    let path = NSBundle(forClass: self.classForCoder).pathForResource("iOScfgMockOK", ofType: "json")
-                    let data = NSData(contentsOfFile: path!)!
+                    let path = Bundle(for: self.classForCoder).path(forResource: "iOScfgMockOK", ofType: "json")
+                    let data = try! Data(contentsOf: URL(fileURLWithPath: path!))
 
                     let cfgFile = Config(data: data)
                     expect(cfgFile).notTo(beNil())
 
-                    stub(isPath("/config/ios.json")) { _ in
+                    stub(condition: isPath("/config/ios.json")) { _ in
                         let path = OHPathForFile("iOScfgMockOK.json", LGConfigRetrieveServiceSpec.self)!
-                        return fixture(path, status: 200, headers: nil)
+                        return fixture(filePath: path, status: 200, headers: nil)
                         }.name = "iOScfgMockOK"
 
                     sut = LGConfigRetrieveService()
@@ -78,8 +78,8 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                 }
                 context("network error") {
                     beforeEach {
-                        stub(isPath("/config/ios.json")) { _ in
-                            let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.CFURLErrorNotConnectedToInternet.rawValue), userInfo:nil)
+                        stub(condition: isPath("/config/ios.json")) { _ in
+                            let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo:nil)
                             return OHHTTPStubsResponse(error:notConnectedError)
                             }.name = "iOScfgMockKONetworkError"
 
@@ -93,15 +93,15 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                         expect(result?.error).notTo(beNil())
                     }
                     it("should receive a network error") {
-                        expect(result?.error).to(equal(ConfigRetrieveServiceError.Network))
+                        expect(result?.error).to(equal(ConfigRetrieveServiceError.network))
                     }
                 }
 
                 context("unexpected format") {
                     beforeEach {
-                        stub(isPath("/config/ios.json")) { _ in
+                        stub(condition: isPath("/config/ios.json")) { _ in
                             let path = OHPathForFile("No_JSON.txt", LGConfigRetrieveServiceSpec.self)!
-                            return fixture(path, status: 200, headers: nil)
+                            return fixture(filePath: path, status: 200, headers: nil)
                             }.name = "iOScfgMockNoJSON"
                         
                         sut.retrieveConfigWithCompletion(completion)
@@ -114,15 +114,15 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                         expect(result?.error).notTo(beNil())
                     }
                     it("should receive an internal error") {
-                        expect(result?.error).to(equal(ConfigRetrieveServiceError.Internal))
+                        expect(result?.error).to(equal(ConfigRetrieveServiceError.internalError))
                     }
                 }
 
                 context("incomplete JSON (well formatted, missing data)") {
                     beforeEach {
-                        stub(isPath("/config/ios.json")) { _ in
+                        stub(condition: isPath("/config/ios.json")) { _ in
                             let path = OHPathForFile("iOScfgMockKOIncomplete.json", LGConfigRetrieveServiceSpec.self)!
-                            return fixture(path, status: 200, headers: nil)
+                            return fixture(filePath: path, status: 200, headers: nil)
                             }.name = "iOScfgMockJSONIncomplete"
                         
                         sut.retrieveConfigWithCompletion(completion)

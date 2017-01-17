@@ -6,9 +6,9 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import bumper
 import LGCoreKit
 import CoreTelephony
+import bumper
 
 protocol FeatureFlaggeable {
     var websocketChat: Bool { get }
@@ -16,9 +16,6 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var interestedUsersMode: InterestedUsersMode { get }
-    var shareButtonWithIcon: Bool { get }
-    var productDetailShareMode: ProductDetailShareMode { get }
-    var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
@@ -26,7 +23,6 @@ protocol FeatureFlaggeable {
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var monetizationEnabled: Bool { get }
-    var periscopeImprovement: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
@@ -34,17 +30,18 @@ protocol FeatureFlaggeable {
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
+    var editDeleteItemUxImprovement: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
-    private let locale: NSLocale
+    private let locale: Locale
     private let locationManager: LocationManager
     private let carrierCountryInfo: CountryConfigurable
     
-    init(locale: NSLocale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
+    init(locale: Locale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
@@ -63,7 +60,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     
     convenience init() {
-        self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
+        self.init(locale: Locale.current, locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
     }
 
 
@@ -92,27 +89,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.interestedUsersMode
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
-    }
-    
-     var shareButtonWithIcon: Bool {
-        if Bumper.enabled {
-            return Bumper.shareButtonWithIcon
-        }
-        return ABTests.shareButtonWithIcon.value
-    }
-
-     var productDetailShareMode: ProductDetailShareMode {
-        if Bumper.enabled {
-            return Bumper.productDetailShareMode
-        }
-        return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
-    }
-
-    var expressChatBanner: Bool {
-        if Bumper.enabled {
-            return Bumper.expressChatBanner
-        }
-        return ABTests.expressChatBanner.value
     }
 
     var postAfterDeleteMode: PostAfterDeleteMode {
@@ -148,13 +124,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.relatedProductsOnMoreInfo
         }
         return ABTests.relatedProductsOnMoreInfo.value
-    }
-    
-    var periscopeImprovement: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeImprovement
-        }
-        return ABTests.periscopeImprovement.value
     }
     
     var favoriteWithBadgeOnProfile: Bool {
@@ -206,22 +175,28 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.filterIconWithLetters.value
     }
 
+    var editDeleteItemUxImprovement: Bool {
+        if Bumper.enabled {
+            return Bumper.editDeleteItemUxImprovement
+        }
+        return ABTests.editDeleteItemUxImprovement.value
+    }
 
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
         guard let countryCode = countryCode else { return true }
         switch countryCode {
-        case .Turkey:
+        case .turkey:
             return false
         }
     }
     
     var locationMatchesCountry: Bool {
-        guard let countryCodeString = carrierCountryInfo.countryCode, countryCode = CountryCode(rawValue: countryCodeString) else { return true }
+        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(rawValue: countryCodeString) else { return true }
         switch countryCode {
-        case .Turkey:
-            return locationManager.countryMatchesWith(countryCodeString)
+        case .turkey:
+            return locationManager.countryMatchesWith(countryCode: countryCodeString)
         }
     }
 
@@ -231,7 +206,7 @@ class FeatureFlags: FeatureFlaggeable {
     /// Return CountryCode from location or phone Region
     private var countryCode: CountryCode? {
         let systemCountryCode = locale.lg_countryCode
-        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
+        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercase
         return CountryCode(rawValue: countryCode)
     }
 }

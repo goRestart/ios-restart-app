@@ -21,7 +21,7 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     var disabled: Bool = false {
         didSet {
-            disabledView.hidden = !disabled
+            disabledView.isHidden = !disabled
         }
     }
     
@@ -38,11 +38,11 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
         self.resetUI()
     }
 
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            simpleSelectionCheckView.hidden = !selected || multipleSelectionEnabled
-            multipleSelectionCountLabel.hidden = !selected || !multipleSelectionEnabled
-            if multipleSelectionCountLabel.hidden {
+            simpleSelectionCheckView.isHidden = !isSelected || multipleSelectionEnabled
+            multipleSelectionCountLabel.isHidden = !isSelected || !multipleSelectionEnabled
+            if multipleSelectionCountLabel.isHidden {
                 multipleSelectionCountLabel.text = nil
             }
         }
@@ -55,20 +55,20 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
         multipleSelectionCountLabel.text = nil
 
         simpleSelectionCheckView.layer.borderWidth = 2
-        simpleSelectionCheckView.layer.borderColor = UIColor.whiteColor().CGColor
+        simpleSelectionCheckView.layer.borderColor = UIColor.white.cgColor
 
         multipleSelectionCountLabel.layer.borderWidth = 2
         multipleSelectionCountLabel.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
-        multipleSelectionCountLabel.layer.borderColor = UIColor.whiteColor().CGColor
+        multipleSelectionCountLabel.layer.borderColor = UIColor.white.cgColor
     }
 
     // Resets the UI to the initial state
     private func resetUI() {
         image.image = nil
-        simpleSelectionCheckView.hidden = true
+        simpleSelectionCheckView.isHidden = true
 
         multipleSelectionCountLabel.text = nil
-        multipleSelectionCountLabel.hidden = true
+        multipleSelectionCountLabel.isHidden = true
         disabled = false
 
         contentView.clipsToBounds = true

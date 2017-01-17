@@ -10,8 +10,8 @@ import Foundation
 import Result
 
 typealias StickersDataSourceResult = Result<[Sticker], ApiError>
-typealias StickersDataSourceCompletion = StickersDataSourceResult -> Void
+typealias StickersDataSourceCompletion = (StickersDataSourceResult) -> Void
 
 protocol StickersDataSource {
-    func show(locale: NSLocale, completion: StickersDataSourceCompletion?)
+    func show(_ locale: Locale, completion: StickersDataSourceCompletion?)
 }

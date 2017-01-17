@@ -9,5 +9,5 @@
 public typealias Domain = String
 
 public protocol Reporter {
-    func report(domain: Domain, code: Int, message: String)
+    func report(_ domain: Domain, code: Int, message: String)
 }

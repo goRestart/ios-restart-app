@@ -23,31 +23,30 @@ class ExpressChatCell: UICollectionViewCell {
         setupGradientView()
     }
 
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            selectedImageView.image = selected ? UIImage(named: "checkbox_selected_round") : nil
-            selectedImageView.layer.borderWidth = selected ? 0 : 2
+            selectedImageView.image = isSelected ? UIImage(named: "checkbox_selected_round") : nil
+            selectedImageView.layer.borderWidth = isSelected ? 0 : 2
         }
     }
 
-    func configureCellWithTitle(title: String, imageUrl: NSURL, price: String) {
-        selectedImageView.layer.borderColor = UIColor.whiteColor().CGColor
+    func configureCellWithTitle(_ title: String, imageUrl: URL?, price: String) {
+        selectedImageView.layer.borderColor = UIColor.white.cgColor
         selectedImageView.layer.cornerRadius = selectedImageView.height/2
         priceLabel.text = price
         titleLabel.text = title
 
         layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         productImageView.image = UIImage(named: "product_placeholder")
-        productImageView.lg_setImageWithURL(imageUrl) { [weak self] (result, _ ) in
-            if let image = result.value?.image {
-                self?.productImageView.image = image
-            } else {
-                self?.productImageView.image = UIImage(named: "product_placeholder")
+        if let imageURL = imageUrl {
+            productImageView.lg_setImageWithURL(imageURL) { [weak self] (result, _ ) in
+                if let image = result.value?.image {
+                    self?.productImageView.image = image
+                }
             }
         }
-
+        
         setupAccessibilityIds()
-
         setNeedsLayout()
         layoutIfNeeded()
     }
@@ -56,17 +55,17 @@ class ExpressChatCell: UICollectionViewCell {
         if let shadowLayer = shadowLayer {
             shadowLayer.removeFromSuperlayer()
         }
-        shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0, 0.4], locations: [0, 1])
+        shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0, 0.4], locations: [0, 1])
         if let shadowLayer = shadowLayer {
             shadowLayer.frame = gradientView.bounds
-            gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+            gradientView.layer.insertSublayer(shadowLayer, at: 0)
         }
     }
 
     func setupAccessibilityIds() {
-        self.accessibilityId = .ExpressChatCell
-        self.titleLabel.accessibilityId = .ExpressChatCellProductTitle
-        self.priceLabel.accessibilityId = .ExpressChatCellProductPrice
-        self.selectedImageView.accessibilityId = .ExpressChatCellTickSelected
+        self.accessibilityId = .expressChatCell
+        self.titleLabel.accessibilityId = .expressChatCellProductTitle
+        self.priceLabel.accessibilityId = .expressChatCellProductPrice
+        self.selectedImageView.accessibilityId = .expressChatCellTickSelected
     }
 }

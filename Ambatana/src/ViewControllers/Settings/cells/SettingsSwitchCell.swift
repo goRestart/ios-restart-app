@@ -17,7 +17,7 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
     var showBottomBorder = true
 
     private var lines: [CALayer] = []
-    private var switchAction: (Bool -> Void)?
+    private var switchAction: ((Bool) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,16 +34,16 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
         }
     }
 
-    func setupWithSetting(setting: LetGoSetting) {
+    func setupWithSetting(_ setting: LetGoSetting) {
         label.text = setting.title
-        label.textColor = UIColor.darkGrayColor()
+        label.textColor = UIColor.darkGray
         iconImageView.image = setting.image
-        settingSwitch.on = setting.switchInitialValue
+        settingSwitch.isOn = setting.switchInitialValue
         switchAction = setting.switchAction
     }
 
-    @IBAction func switchValueChanged(sender: AnyObject) {
-        switchAction?(settingSwitch.on)
+    @IBAction func switchValueChanged(_ sender: AnyObject) {
+        switchAction?(settingSwitch.isOn)
     }
 
     private func setupUI() {
@@ -51,16 +51,16 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
     }
 
     private func setupAccessibilityIds() {
-        iconImageView.accessibilityId = .SettingsCellIcon
-        label.accessibilityId = .SettingsCellTitle
-        settingSwitch.accessibilityId = .SettingsCellSwitch
+        iconImageView.accessibilityId = .settingsCellIcon
+        label.accessibilityId = .settingsCellTitle
+        settingSwitch.accessibilityId = .settingsCellSwitch
     }
 }
 
-private extension LetGoSetting {
+fileprivate extension LetGoSetting {
     var title: String {
         switch (self) {
-        case .MarketingNotifications:
+        case .marketingNotifications:
             return LGLocalizedString.settingsMarketingNotificationsSwitch
         default:
             return ""
@@ -69,16 +69,16 @@ private extension LetGoSetting {
 
     var image: UIImage? {
         switch (self) {
-        case .MarketingNotifications:
+        case .marketingNotifications:
             return UIImage(named: "ic_setting_notifications")
         default:
             return nil
         }
     }
 
-    var switchAction: (Bool -> Void)? {
+    var switchAction: ((Bool) -> Void)? {
         switch self {
-        case let .MarketingNotifications(_, action):
+        case let .marketingNotifications(_, action):
             return action
         default:
             return nil
@@ -87,7 +87,7 @@ private extension LetGoSetting {
 
     var switchInitialValue: Bool {
         switch self {
-        case let .MarketingNotifications(initialValue, _):
+        case let .marketingNotifications(initialValue, _):
             return initialValue
         default:
             return false

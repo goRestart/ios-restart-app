@@ -11,19 +11,19 @@ import Foundation
 
 protocol PostProductNavigator: class {
     func cancelPostProduct()
-    func closePostProductAndPostInBackground(product: Product, images: [File], showConfirmation: Bool,
+    func closePostProductAndPostInBackground(_ product: Product, images: [File], showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo)
-    func closePostProductAndPostLater(product: Product, images: [UIImage], trackingInfo: PostProductTrackingInfo)
+    func closePostProductAndPostLater(_ product: Product, images: [UIImage], trackingInfo: PostProductTrackingInfo)
 }
 
 protocol ProductPostedNavigator: class {
     func cancelProductPosted()
-    func closeProductPosted(product: Product)
-    func closeProductPostedAndOpenEdit(product: Product)
+    func closeProductPosted(_ product: Product)
+    func closeProductPostedAndOpenEdit(_ product: Product)
     func closeProductPostedAndOpenPost()
-    func closeProductPostedAndOpenShare(product: Product, socialMessage: SocialMessage)
+    func closeProductPostedAndOpenShare(_ product: Product, socialMessage: SocialMessage)
 }
 
 protocol ShareProductNavigator: class {
-    func closeShareProduct(product: Product)
+    func closeShareProduct(_ product: Product)
 }

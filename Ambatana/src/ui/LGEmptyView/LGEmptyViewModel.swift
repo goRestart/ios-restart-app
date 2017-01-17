@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-public struct LGEmptyViewModel {
+struct LGEmptyViewModel {
     var icon: UIImage?
     let title: String?
     let body: String?
@@ -15,7 +15,7 @@ public struct LGEmptyViewModel {
     var secondaryButtonTitle: String?
     var secondaryAction: (() -> ())?
 
-    public static func networkErrorWithRetry(action: (() -> ())?) -> LGEmptyViewModel {
+    static func networkErrorWithRetry(_ action: (() -> ())?) -> LGEmptyViewModel {
         let icon = UIImage(named: "err_network")
         let title = LGLocalizedString.commonErrorTitle
         let body = LGLocalizedString.commonErrorNetworkBody
@@ -24,7 +24,7 @@ public struct LGEmptyViewModel {
             secondaryButtonTitle: nil, secondaryAction: nil)
     }
 
-    public static func genericErrorWithRetry(action: (() -> ())?) -> LGEmptyViewModel {
+    static func genericErrorWithRetry(_ action: (() -> ())?) -> LGEmptyViewModel {
         let icon = UIImage(named: "err_generic")
         let title = LGLocalizedString.commonErrorTitle
         let body = LGLocalizedString.commonErrorGenericBody

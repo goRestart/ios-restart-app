@@ -36,16 +36,16 @@ class RelatedProductListRequester: ProductListRequester {
         return true
     }
     
-    func retrieveFirstPage(completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ProductsCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ProductsCompletion?) {
         productsRetrieval(completion)
     }
 
-    func productsRetrieval(completion: ProductsCompletion?) {
+    func productsRetrieval(_ completion: ProductsCompletion?) {
         productRepository.indexRelated(productId: productObjectId, params: retrieveProductParams) {
             [weak self] result in
             if let value = result.value {
@@ -55,11 +55,11 @@ class RelatedProductListRequester: ProductListRequester {
         }
     }
 
-    func isLastPage(resultCount: Int) -> Bool {
+    func isLastPage(_ resultCount: Int) -> Bool {
         return resultCount == 0
     }
 
-    func updateInitialOffset(newOffset: Int) {}
+    func updateInitialOffset(_ newOffset: Int) {}
 
     func duplicate() -> ProductListRequester {
         let r = RelatedProductListRequester(productId: productObjectId, itemsPerPage: itemsPerPage)

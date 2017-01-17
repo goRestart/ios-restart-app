@@ -34,14 +34,14 @@ final class TourLocationViewController: BaseViewController {
         switch DeviceFamily.current {
         case .iPhone4:
             super.init(viewModel: nil, nibName: "TourLocationViewControllerMini",
-                       statusBarStyle: .LightContent)
-        case .iPhone5, .iPhone6, .iPhone6Plus, .BiggerUnknown:
+                       statusBarStyle: .lightContent)
+        case .iPhone5, .iPhone6, .iPhone6Plus, .biggerUnknown:
             super.init(viewModel: nil, nibName: "TourLocationViewController",
-                       statusBarStyle: .LightContent)
+                       statusBarStyle: .lightContent)
         }
 
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -63,16 +63,16 @@ final class TourLocationViewController: BaseViewController {
     
     // MARK: - IBActions
     
-    @IBAction func yesButtonPressed(sender: AnyObject) {
+    @IBAction func yesButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapYesButton()
         Core.locationManager.startSensorLocationUpdates()
     }
     
-    @IBAction func noButtonPressed(sender: AnyObject) {
+    @IBAction func noButtonPressed(_ sender: AnyObject) {
         close()
     }
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         close()
     }
     
@@ -85,8 +85,8 @@ final class TourLocationViewController: BaseViewController {
         distanceLabel.text = LGLocalizedString.locationPermissionsBubble
 
         iphoneBckgImage.image = viewModel.infoImage
-        yesButton.setTitle(LGLocalizedString.locationPermissionsButton, forState: .Normal)
-        yesButton.setStyle(.Primary(fontSize: .Medium))
+        yesButton.setTitle(LGLocalizedString.locationPermissionsButton, for: .normal)
+        yesButton.setStyle(.primary(fontSize: .medium))
 
         labelContainer.rounded = true
         distanceLabel.font = UIFont.tourLocationDistanceLabelFont
@@ -102,20 +102,20 @@ final class TourLocationViewController: BaseViewController {
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
             iphoneRightHeightConstraint.constant = TourLocationViewController.iphone5InfoHeight
-        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
+        case .iPhone6, .iPhone6Plus, .biggerUnknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
 
-        labelContainer.hidden = !viewModel.showBubbleInfo
-        alertContainer.hidden = !viewModel.showAlertInfo
+        labelContainer.isHidden = !viewModel.showBubbleInfo
+        alertContainer.isHidden = !viewModel.showAlertInfo
         let tap = UITapGestureRecognizer(target: self, action: #selector(yesButtonPressed(_:)))
         alertContainer.addGestureRecognizer(tap)
     }
 
     private func setupAccessibilityIds() {
-        closeButton.accessibilityId = .TourLocationCloseButton
-        yesButton.accessibilityId = .TourLocationOKButton
-        alertContainer.accessibilityId = .TourLocationAlert
+        closeButton.accessibilityId = .tourLocationCloseButton
+        yesButton.accessibilityId = .tourLocationOKButton
+        alertContainer.accessibilityId = .tourLocationAlert
     }
 }

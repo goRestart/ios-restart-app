@@ -20,8 +20,8 @@ class BaseCoordinator: NSObject, BaseNavigator {
         super.init()
     }
     
-    func showBubble(with data: BubbleNotificationData, duration: NSTimeInterval) {
-        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else { return }
+    func showBubble(with data: BubbleNotificationData, duration: TimeInterval) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         guard let window = appDelegate.window else { return }
         bubbleNotificationManager.showBubble(data, duration: duration, view: window)
     }

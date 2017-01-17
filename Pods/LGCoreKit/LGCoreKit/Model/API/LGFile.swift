@@ -10,18 +10,18 @@ public struct LGFile: File {
 
     public var objectId: String?
 
-    public var fileURL: NSURL?
+    public var fileURL: URL?
 }
 
 extension LGFile {
     public init(id: String?, urlString: String?) {
         self.objectId = id
         if let urlString = urlString {
-            self.fileURL = NSURL(string: urlString)
+            self.fileURL = URL(string: urlString)
         }
     }
 
-    public init(id: String?, url: NSURL?) {
+    public init(id: String?, url: URL?) {
         self.objectId = id
         self.fileURL = url
     }

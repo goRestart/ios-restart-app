@@ -31,7 +31,7 @@ class CategoryCell: UICollectionViewCell {
     
     // Sets up the UI
     private func setupUI() {
-        self.contentView.layer.borderColor = UIColor.lineGray.CGColor
+        self.contentView.layer.borderColor = UIColor.lineGray.cgColor
         self.contentView.layer.borderWidth = 0.25
     }
     
@@ -42,8 +42,8 @@ class CategoryCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .CategoryCell
-        titleLabel.accessibilityId = .CategoryCellTitleLabel
-        imageView.accessibilityId = .CategoryCellImageView
+        self.accessibilityId = .categoryCell
+        titleLabel.accessibilityId = .categoryCellTitleLabel
+        imageView.accessibilityId = .categoryCellImageView
     }
 }

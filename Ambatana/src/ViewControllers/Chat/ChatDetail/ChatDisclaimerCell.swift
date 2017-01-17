@@ -23,15 +23,15 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var buttonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomConstraint: NSLayoutConstraint!
 
-    private static let backgroundWithImageTop: CGFloat = 25
-    private static let titleVisibleTop: CGFloat = 67
-    private static let titleInvisibleTop: CGFloat = 8
-    private static let buttonVisibleHeight: CGFloat = 30
-    private static let buttonVisibleBottom: CGFloat = 8
-    private static let buttonHContentInset: CGFloat = 16
+    fileprivate static let backgroundWithImageTop: CGFloat = 25
+    fileprivate static let titleVisibleTop: CGFloat = 67
+    fileprivate static let titleInvisibleTop: CGFloat = 8
+    fileprivate static let buttonVisibleHeight: CGFloat = 30
+    fileprivate static let buttonVisibleBottom: CGFloat = 8
+    fileprivate static let buttonHContentInset: CGFloat = 16
 
-    private var buttonAction: (() -> Void)?
-    private let disposeBag = DisposeBag()
+    fileprivate var buttonAction: (() -> Void)?
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -45,7 +45,7 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        button.setStyle(.Primary(fontSize: .Small))
+        button.setStyle(.primary(fontSize: .small))
     }
 }
 
@@ -53,78 +53,76 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
 // MARK: - Public methods
 
 extension ChatDisclaimerCell {
-    func showAvatar(show: Bool) {
+    func showAvatar(_ show: Bool) {
         hideImageAndTitle(!show)
     }
 
-    func setMessage(message: NSAttributedString) {
+    func setMessage(_ message: NSAttributedString) {
         messageLabel.attributedText = message
     }
 
-    func setButton(title title: String?) {
-        button.setTitle(title, forState: .Normal)
-        hideButton(title == nil || button.hidden)
+    func setButton(title: String?) {
+        button.setTitle(title, for: .normal)
+        hideButton(title == nil || button.isHidden)
     }
 
-    func setButton(action action: (() -> Void)?) {
+    func setButton(action: (() -> Void)?) {
         buttonAction = action
-        hideButton(action == nil || button.hidden)
+        hideButton(action == nil || button.isHidden)
     }
 }
 
 
 // MARK: - Private methods
 
-private extension ChatDisclaimerCell {
+fileprivate extension ChatDisclaimerCell {
     func setupUI() {
         backgroundCellView.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
         backgroundCellView.layer.borderWidth = 1
-        backgroundCellView.layer.borderColor = UIColor.whiteColor().CGColor
+        backgroundCellView.layer.borderColor = UIColor.white.cgColor
 
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.bigBodyFont
-        button.setStyle(.Primary(fontSize: .Small))
+        button.setStyle(.primary(fontSize: .small))
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: ChatDisclaimerCell.buttonHContentInset,
                                                 bottom: 0, right: ChatDisclaimerCell.buttonHContentInset)
 
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.mainScreen().scale
+        layer.rasterizationScale = UIScreen.main.scale
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
         addGestureRecognizer(tap)
     }
 
     func setupRxBindings() {
-        button.rx_tap.asObservable().subscribeNext { [weak self] _ in
+        button.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.buttonAction?()
         }.addDisposableTo(disposeBag)
-
-        
     }
     
     dynamic func tapped() {
         buttonAction?()
     }
 
-    func hideImageAndTitle(hide: Bool) {
+    func hideImageAndTitle(_ hide: Bool) {
         backgroundTopConstraint?.constant = hide ? 0 : ChatDisclaimerCell.backgroundWithImageTop
         titleTopConstraint?.constant = hide ? ChatDisclaimerCell.titleInvisibleTop : ChatDisclaimerCell.titleVisibleTop
-        avatarImageView.hidden = hide
+        avatarImageView.isHidden = hide
         titleLabel.text = hide ? nil : LGLocalizedString.chatDisclaimerLetgoTeam
     }
     
-    func hideButton(hide: Bool) {
+    func hideButton(_ hide: Bool) {
         buttonHeightConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleHeight
         buttonBottomConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleBottom
-        button.hidden = hide
+        button.isHidden = hide
     }
 }
 
 extension ChatDisclaimerCell {
     func setAccessibilityIds() {
-        messageLabel.accessibilityId = .ChatDisclaimerCellMessageLabel
-        button.accessibilityId = .ChatDisclaimerCellButton
+        messageLabel.accessibilityId = .chatDisclaimerCellMessageLabel
+        button.accessibilityId = .chatDisclaimerCellButton
     }
 }

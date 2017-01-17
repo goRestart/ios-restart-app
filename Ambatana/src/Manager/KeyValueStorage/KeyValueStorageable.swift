@@ -12,26 +12,21 @@ import SwiftyUserDefaults
 protocol KeyValueStorageable: class {
     subscript(key: DefaultsKey<String?>) -> String? { get set }
     subscript(key: DefaultsKey<String>) -> String { get set }
-    subscript(key: DefaultsKey<NSString?>) -> NSString? { get set }
-    subscript(key: DefaultsKey<NSString>) -> NSString { get set }
     subscript(key: DefaultsKey<Int?>) -> Int? { get set }
     subscript(key: DefaultsKey<Int>) -> Int { get set }
     subscript(key: DefaultsKey<Double?>) -> Double? { get set }
     subscript(key: DefaultsKey<Double>) -> Double { get set }
     subscript(key: DefaultsKey<Bool?>) -> Bool? { get set }
     subscript(key: DefaultsKey<Bool>) -> Bool { get set }
-    subscript(key: DefaultsKey<AnyObject?>) -> AnyObject? { get set }
-    subscript(key: DefaultsKey<NSObject?>) -> NSObject? { get set }
-    subscript(key: DefaultsKey<NSData?>) -> NSData? { get set }
-    subscript(key: DefaultsKey<NSData>) -> NSData { get set }
-    subscript(key: DefaultsKey<NSDate?>) -> NSDate? { get set }
-    subscript(key: DefaultsKey<NSURL?>) -> NSURL? { get set }
-    subscript(key: DefaultsKey<[String: AnyObject]?>) -> [String: AnyObject]? { get set }
-    subscript(key: DefaultsKey<[String: AnyObject]>) -> [String: AnyObject] { get set }
-    subscript(key: DefaultsKey<NSDictionary?>) -> NSDictionary? { get set }
-    subscript(key: DefaultsKey<NSDictionary>) -> NSDictionary { get set }
+    subscript(key: DefaultsKey<Any?>) -> Any? { get set }
+    subscript(key: DefaultsKey<Data?>) -> Data? { get set }
+    subscript(key: DefaultsKey<Data>) -> Data { get set }
+    subscript(key: DefaultsKey<Date?>) -> Date? { get set }
+    subscript(key: DefaultsKey<URL?>) -> URL? { get set }
+    subscript(key: DefaultsKey<[String: Any]?>) -> [String: Any]? { get set }
+    subscript(key: DefaultsKey<[String: Any]>) -> [String: Any] { get set }
     subscript(key: DefaultsKey<[String]>) -> [String] { get set }
 
-    func get<T: UserDefaultsDecodable>(key: DefaultsKey<T>) -> T?
-    func set<T: UserDefaultsDecodable>(key: DefaultsKey<T>, value: T?)
+    func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T?
+    func set<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>, value: T?)
 }

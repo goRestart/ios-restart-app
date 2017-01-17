@@ -14,9 +14,9 @@ final class PushPrePermissionsSettingsViewModel: BaseViewModel {
 
     var title: String {
         switch source {
-        case .Onboarding, .Sell, .Profile, .ProductListBanner:
+        case .onboarding, .sell, .profile, .productListBanner:
             return LGLocalizedString.notificationsPermissionsSettingsTitle
-        case .Chat(let buyer):
+        case .chat(let buyer):
             return buyer ? LGLocalizedString.notificationsPermissionsSettingsTitleChat :
                 LGLocalizedString.notificationsPermissionsSettingsTitle
         }
@@ -30,20 +30,20 @@ final class PushPrePermissionsSettingsViewModel: BaseViewModel {
     // MARK: - Tracking
     
     func viewDidLoad() {
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: source.trackingParam, alertType: .FullScreen,
-            permissionGoToSettings: .True)
+        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: source.trackingParam, alertType: .fullScreen,
+            permissionGoToSettings: .trueParameter)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapNoButton() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: source.trackingParam, alertType: .FullScreen,
-            permissionGoToSettings: .True)
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: source.trackingParam, alertType: .fullScreen,
+            permissionGoToSettings: .trueParameter)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapYesButton() {
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: source.trackingParam, alertType: .FullScreen,
-            permissionGoToSettings: .True)
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: source.trackingParam, alertType: .fullScreen,
+            permissionGoToSettings: .trueParameter)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

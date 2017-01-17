@@ -43,62 +43,62 @@ class LetgoURLHelper {
         return environment.websiteBaseUrl   // not localized
     }
 
-    static func buildHomeURL() -> NSURL? {
-        return NSURL(string: buildHomeURLString())  // not localized
+    static func buildHomeURL() -> URL? {
+        return URL(string: buildHomeURLString())  // not localized
     }
 
-    static func buildProductURL(productId productId: String) -> NSURL? {
-        return NSURL(string: environment.websiteUrl(Constants.websiteProductEndpoint(productId)))   // not localized
+    static func buildProductURL(productId: String) -> URL? {
+        return URL(string: environment.websiteUrl(Constants.websiteProductEndpoint(productId)))   // not localized
     }
 
-    static func buildUserURL(userId userId: String) -> NSURL? {
-        return NSURL(string: environment.websiteUrl(Constants.websiteUserEndpoint(userId))) // not localized
+    static func buildUserURL(userId: String) -> URL? {
+        return URL(string: environment.websiteUrl(Constants.websiteUserEndpoint(userId))) // not localized
     }
 
-    static func buildRecaptchaURL(transparent transparent: Bool) -> NSURL? {
+    static func buildRecaptchaURL(transparent: Bool) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteRecaptchaEndpoint) else { return nil }
-        guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildRecaptchParameters(transparent)
-        return urlComponents.URL
+        return urlComponents.url
     }
 
-    static func buildHelpURL(user: MyUser?, installation: Installation?) -> NSURL? {
+    static func buildHelpURL(_ user: MyUser?, installation: Installation?) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteHelpEndpoint) else { return nil }
-        guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
                                                                                   moderation: false)
-        return urlComponents.URL
+        return urlComponents.url
     }
 
-    static func buildTermsAndConditionsURL() -> NSURL? {
+    static func buildTermsAndConditionsURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(Constants.websiteTermsEndpoint)
     }
 
-    static func buildPrivacyURL() -> NSURL? {
+    static func buildPrivacyURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(Constants.websitePrivacyEndpoint)
     }
 
-    static func buildContactUsURL(user user: MyUser?, installation: Installation?, moderation: Bool = false) -> NSURL? {
+    static func buildContactUsURL(user: MyUser?, installation: Installation?, moderation: Bool = false) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteContactUsEndpoint) else { return nil }
-        guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
                                                                                   moderation: moderation)
-        return urlComponents.URL
+        return urlComponents.url
     }
 
-    static func buildContactUsURL(userEmail email: String?, installation: Installation?, moderation: Bool = false) -> NSURL? {
+    static func buildContactUsURL(userEmail email: String?, installation: Installation?, moderation: Bool = false) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteContactUsEndpoint) else { return nil }
-        guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(nil, userName: nil, email: email,
                                                                                   installationId: installation?.objectId,
                                                                                   moderation: moderation)
-        return urlComponents.URL
+        return urlComponents.url
     }
 
 
     // MARK: - Private methods
 
-    private static func composeLocalizedURL(endpoint: String?) -> NSURL? {
+    private static func composeLocalizedURL(_ endpoint: String?) -> URL? {
         let prefLanguage = systemLanguage()
 
         var language = LetgoURLHelper.defaultLang
@@ -108,33 +108,33 @@ class LetgoURLHelper {
             country = preferredCountry
         }
         let urlString = environment.localizedWebsiteUrl(country, language: language, endpoint: endpoint)
-        return NSURL(string: urlString)
+        return URL(string: urlString)
     }
 
     private static func systemLanguage() -> String {
-        let preferredLanguages = NSLocale.preferredLanguages()
+        let preferredLanguages = Locale.preferredLanguages
         guard !preferredLanguages.isEmpty else { return LetgoURLHelper.defaultLang }
 
         for preferredLanguage in preferredLanguages {
             // In case it's like es-ES, just take the first "es"
-            let components = preferredLanguage.componentsSeparatedByString("-")
+            let components = preferredLanguage.components(separatedBy: "-")
             guard let lang = components.first else { continue }
             guard let _ = langsCountryDict[lang] else { continue }
-            return lang.lowercaseString
+            return lang.lowercased()
         }
         return LetgoURLHelper.defaultLang
     }
 
-    private static func buildContactParameters(user: MyUser?, installation: Installation?, moderation: Bool) -> String? {
+    private static func buildContactParameters(_ user: MyUser?, installation: Installation?, moderation: Bool) -> String? {
         return buildContactParameters(user?.objectId, userName: user?.name, email: user?.email,
                                       installationId: installation?.objectId, moderation: moderation)
     }
     
-    private static func buildContactParameters(userId: String?, userName: String?, email: String?, installationId: String?
+    private static func buildContactParameters(_ userId: String?, userName: String?, email: String?, installationId: String?
         , moderation: Bool) -> String? {
         var param: [String: String] = [:]
-        param["app_version"] = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
-        param["os_version"] = UIDevice.currentDevice().systemVersion
+        param["app_version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        param["os_version"] = UIDevice.current.systemVersion
         param["device_model"] = DeviceUtil.hardwareDescription()
         param["user_id"] = userId
         param["user_name"] = userName
@@ -144,11 +144,11 @@ class LetgoURLHelper {
             param["moderation"] = "true"
         }
         return param.map{"\($0)=\($1)"}
-            .joinWithSeparator("&")
+            .joined(separator: "&")
             .encodeString()
     }
 
-    private static func buildRecaptchParameters(transparent: Bool) -> String {
+    private static func buildRecaptchParameters(_ transparent: Bool) -> String {
         let value = transparent ? "true": "false"
         return "transparent=\(value)"
     }

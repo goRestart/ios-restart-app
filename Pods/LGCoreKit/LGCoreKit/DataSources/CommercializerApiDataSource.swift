@@ -21,50 +21,50 @@ class CommercializerApiDataSource: CommercializerDataSource {
         self.apiClient = apiClient
     }
     
-    func indexTemplates(completion: CommercializerDataSourceTemplateCompletion?) {
-        let request = CommercializerRouter.IndexTemplates
+    func indexTemplates(_ completion: CommercializerDataSourceTemplateCompletion?) {
+        let request = CommercializerRouter.indexTemplates
         apiClient.request(request, decoder: CommercializerApiDataSource.decoderTemplate, completion: completion)
     }
     
-    func index(productId: String, completion: CommercializersDataSourceCompletion?) {
-        let request = CommercializerRouter.Index(productId: productId)
+    func index(_ productId: String, completion: CommercializersDataSourceCompletion?) {
+        let request = CommercializerRouter.index(productId: productId)
         apiClient.request(request, decoder: CommercializerApiDataSource.decoderArray, completion: completion)
     }
     
-    func create(productId: String, templateId: String, completion: CommercializerDataSourceCompletion?) {
-        let request = CommercializerRouter.Create(productId: productId, parameters: ["template_id" : templateId])
+    func create(_ productId: String, templateId: String, completion: CommercializerDataSourceCompletion?) {
+        let request = CommercializerRouter.create(productId: productId, parameters: ["template_id" : templateId])
         apiClient.request(request, decoder: CommercializerApiDataSource.decoder, completion: completion)
     }
     
-    func indexAvailableProducts(userId: String, completion: CommercializerDataSourceProductsCompletion?) {
-        let request = CommercializerRouter.IndexAvailableProducts(userId: userId)
+    func indexAvailableProducts(_ userId: String, completion: CommercializerDataSourceProductsCompletion?) {
+        let request = CommercializerRouter.indexAvailableProducts(userId: userId)
         apiClient.request(request, decoder: CommercializerApiDataSource.decoderProducts, completion: completion)
     }
     
 
     // MARK: - Decoder
     
-    private static func decoderTemplate(object: AnyObject) -> CommercializerTemplatesByCountry? {
+    private static func decoderTemplate(_ object: Any) -> CommercializerTemplatesByCountry? {
         guard let theTemplates : [LGCommercializerTemplate] = decode(object) else { return nil }
         let templates: [CommercializerTemplate] = theTemplates.map { $0 }
         let templatesByCountry = templates.categorise { $0.countryCode }
         return templatesByCountry
     }
     
-    private static func decoderArray(object: AnyObject) -> [Commercializer]? {
-        guard let dict = object as? [String : AnyObject] else { return nil }
+    private static func decoderArray(_ object: Any) -> [Commercializer]? {
+        guard let dict = object as? [String : Any] else { return nil }
         guard let videosArray = dict["videos"] else { return nil }
 
         guard let theCommercializer : [LGCommercializer] = decode(videosArray) else { return nil }
         return theCommercializer.map{$0}
     }
     
-    private static func decoder(object: AnyObject) -> Commercializer? {
+    private static func decoder(_ object: Any) -> Commercializer? {
         guard let theCommercializer : LGCommercializer = decode(object) else { return nil }
         return theCommercializer
     }
     
-    private static func decoderProducts(object: AnyObject) -> [CommercializerProduct]? {
+    private static func decoderProducts(_ object: Any) -> [CommercializerProduct]? {
         guard let products: [LGCommercializerProduct] = decode(object) else { return nil }
         return products.map{$0}
     }

@@ -10,12 +10,12 @@ import UIKit
 
 enum CommercializerDisplaySource {
     // used for tracking and to decide what title should be shown
-    case Push
-    case Mail
-    case App
+    case push
+    case mail
+    case app
 }
 
-public class CommercialDisplayViewController: BaseViewController {
+class CommercialDisplayViewController: BaseViewController {
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
@@ -32,7 +32,7 @@ public class CommercialDisplayViewController: BaseViewController {
     var pages: [CommercialDisplayPageView]
     var viewModel: CommercialDisplayViewModel
 
-    var source: CommercializerDisplaySource = .App
+    var source: CommercializerDisplaySource = .app
 
     var preDismissAction: (() -> Void)?
     var postDismissAction: (() -> Void)?
@@ -41,23 +41,23 @@ public class CommercialDisplayViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    public convenience init(viewModel: CommercialDisplayViewModel) {
+    convenience init(viewModel: CommercialDisplayViewModel) {
         self.init(viewModel: viewModel, nibName: "CommercialDisplayViewController")
     }
 
-    public required init(viewModel: CommercialDisplayViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: CommercialDisplayViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.pages = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         viewModel.viewLoaded()
@@ -66,17 +66,17 @@ public class CommercialDisplayViewController: BaseViewController {
         setupShareUI()
     }
 
-    public override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         topPageConstraints.forEach { $0.constant = playerView.top }
     }
 
-    public override func viewDidFirstAppear(animated: Bool) {
+    override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
         playSelected()
     }
 
-    override func viewWillDisappearToBackground(toBackground: Bool) {
+    override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         pages.forEach {
             $0.pauseVideo()
@@ -84,7 +84,7 @@ public class CommercialDisplayViewController: BaseViewController {
         }
     }
 
-    override func viewWillAppearFromBackground(fromBackground: Bool) {
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         pages.forEach {
             $0.didBecomeActive()
@@ -94,12 +94,12 @@ public class CommercialDisplayViewController: BaseViewController {
     
     // MARK: - Actions
 
-    @IBAction func onCloseButtonPressed(sender: AnyObject) {
+    @IBAction func onCloseButtonPressed(_ sender: AnyObject) {
         preDismissAction?()
-        dismissViewControllerAnimated(true, completion: postDismissAction)
+        dismiss(animated: true, completion: postDismissAction)
     }
 
-    @IBAction func shareButtonPressed(sender: AnyObject) {
+    @IBAction func shareButtonPressed(_ sender: AnyObject) {
         pages.forEach {
             $0.pauseVideo()
         }
@@ -107,7 +107,7 @@ public class CommercialDisplayViewController: BaseViewController {
         shareVC.shareDelegate = self
         shareVC.socialSharerDelegate = self
         shareVC.socialMessage = viewModel.socialShareMessage
-        presentViewController(shareVC, animated: true, completion: nil)
+        present(shareVC, animated: true, completion: nil)
     }
 
     
@@ -124,7 +124,7 @@ public class CommercialDisplayViewController: BaseViewController {
         viewModel.selectCommercialAtIndex(pageControl.currentPage)
 
         scrollView.delegate = self
-        scrollView.pagingEnabled = true
+        scrollView.isPagingEnabled = true
 
         if DeviceFamily.current == .iPhone4 {
             pageControlBottom.constant = 8
@@ -141,21 +141,21 @@ public class CommercialDisplayViewController: BaseViewController {
             pages.append(displayPage)
             scrollView.addSubview(displayPage)
 
-            let topConstraint = NSLayoutConstraint(item: displayPage, attribute: .Top, relatedBy: .Equal,
-                                        toItem: scrollView, attribute: .Top, multiplier: 1, constant: playerView.top)
+            let topConstraint = NSLayoutConstraint(item: displayPage, attribute: .top, relatedBy: .equal,
+                                        toItem: scrollView, attribute: .top, multiplier: 1, constant: playerView.top)
             topPageConstraints.append(topConstraint)
             scrollView.addConstraint(topConstraint)
-            scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Width, relatedBy: .Equal,
-                                                     toItem: scrollView, attribute: .Width, multiplier: 1, constant: 0))
-            displayPage.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Width, relatedBy: .Equal,
-                toItem: displayPage, attribute: .Height, multiplier: 16.0/9.0, constant: 0))
+            scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .width, relatedBy: .equal,
+                                                     toItem: scrollView, attribute: .width, multiplier: 1, constant: 0))
+            displayPage.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .width, relatedBy: .equal,
+                toItem: displayPage, attribute: .height, multiplier: 16.0/9.0, constant: 0))
             // A left constraint in installed to previous page if any, otherwise it installed against the scroll view
             if let previousPage = previousPage {
-                scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Left, relatedBy: .Equal,
-                                            toItem: previousPage, attribute: .Right, multiplier: 1, constant: 0))
+                scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .left, relatedBy: .equal,
+                                            toItem: previousPage, attribute: .right, multiplier: 1, constant: 0))
             } else {
-                scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Left, relatedBy: .Equal,
-                                                    toItem: scrollView, attribute: .Left, multiplier: 1, constant: 0))
+                scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .left, relatedBy: .equal,
+                                                    toItem: scrollView, attribute: .left, multiplier: 1, constant: 0))
             }
 
             guard let url = viewModel.videoUrlAtIndex(index) else { continue }
@@ -167,8 +167,8 @@ public class CommercialDisplayViewController: BaseViewController {
             previousPage = displayPage
         }
         if let lastPage = previousPage {
-            scrollView.addConstraint(NSLayoutConstraint(item: lastPage, attribute: .Right, relatedBy: .Equal,
-                                                     toItem: scrollView, attribute: .Right, multiplier: 1, constant: 0))
+            scrollView.addConstraint(NSLayoutConstraint(item: lastPage, attribute: .right, relatedBy: .equal,
+                                                     toItem: scrollView, attribute: .right, multiplier: 1, constant: 0))
         }
     }
 
@@ -176,11 +176,11 @@ public class CommercialDisplayViewController: BaseViewController {
         closeButton.tintColor = UIColor.primaryColor
         titleLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayTitleLabel : nil
         shareLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayShareLabel : nil
-        shareButton.setStyle(.Primary(fontSize: .Medium))
+        shareButton.setStyle(.primary(fontSize: .medium))
         let shareButtonTitle = viewModel.isMyVideo ?
             LGLocalizedString.commercializerDisplayShareMyVideoButton :
             LGLocalizedString.commercializerDisplayShareOthersVideoButton
-        shareButton.setTitle(shareButtonTitle, forState: .Normal)
+        shareButton.setTitle(shareButtonTitle, for: .normal)
     }
 }
 
@@ -189,7 +189,7 @@ public class CommercialDisplayViewController: BaseViewController {
 
 extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDisplayPageViewDelegate {
 
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let previousVC = pages[pageControl.currentPage]
         previousVC.videoPlayer.controlsAreVisible = true
         previousVC.pauseVideo()
@@ -198,7 +198,7 @@ extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDispl
         viewModel.selectCommercialAtIndex(pageControl.currentPage)
     }
 
-    public func playSelected() {
+    func playSelected() {
         let currentVC = pages[pageControl.currentPage]
         currentVC.playVideo()
     }
@@ -211,14 +211,14 @@ extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDispl
         pageViewWillChangeToFullScreen(false)
     }
 
-    private func pageViewWillChangeToFullScreen(fullscreen: Bool ) {
-        titleLabel.hidden = fullscreen
-        shareLabel.hidden = fullscreen
-        shareButton.hidden = fullscreen
-        pageControl.hidden = fullscreen
-        scrollView.scrollEnabled = !fullscreen
-        closeButton.hidden = fullscreen
-        UIApplication.sharedApplication().setStatusBarHidden(fullscreen, withAnimation: .Fade)
+    private func pageViewWillChangeToFullScreen(_ fullscreen: Bool ) {
+        titleLabel.isHidden = fullscreen
+        shareLabel.isHidden = fullscreen
+        shareButton.isHidden = fullscreen
+        pageControl.isHidden = fullscreen
+        scrollView.isScrollEnabled = !fullscreen
+        closeButton.isHidden = fullscreen
+        UIApplication.shared.setStatusBarHidden(fullscreen, with: .fade)
     }
 }
 
@@ -226,11 +226,11 @@ extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDispl
 // MARK: - SocialSharerDelegate
 
 extension CommercialDisplayViewController: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
+    func shareStartedIn(_ shareType: ShareType) {
         viewModel.shareStartedIn(shareType)
     }
 
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         viewModel.shareFinishedIn(shareType, withState: state)
     }
 }

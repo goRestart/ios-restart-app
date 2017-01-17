@@ -9,7 +9,6 @@
 import UIKit
 import FBSDKShareKit
 import RxSwift
-import CollectionVariable
 
 class SettingsViewController: BaseViewController {
 
@@ -18,7 +17,7 @@ class SettingsViewController: BaseViewController {
     @IBOutlet weak var settingProfileImageLabel: UILabel!
     @IBOutlet weak var settingProfileImageProgressView: UIProgressView!
 
-    private let viewModel: SettingsViewModel
+    fileprivate let viewModel: SettingsViewModel
     private let disposeBag = DisposeBag()
     
     init(viewModel: SettingsViewModel) {
@@ -54,24 +53,24 @@ class SettingsViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = UIColor.grayBackground
         settingProfileImageLabel.text = LGLocalizedString.settingsChangeProfilePictureLoading
-        settingProfileImageView.hidden = true
+        settingProfileImageView.isHidden = true
         setNavBarTitle(LGLocalizedString.settingsTitle)
     
         let cellNib = UINib(nibName: SettingsCell.reusableID, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)
+        tableView.register(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)
         let logoutCellNib = UINib(nibName: SettingsLogoutCell.reusableID, bundle: nil)
-        tableView.registerNib(logoutCellNib, forCellReuseIdentifier: SettingsLogoutCell.reusableID)
+        tableView.register(logoutCellNib, forCellReuseIdentifier: SettingsLogoutCell.reusableID)
         let infoCellNib = UINib(nibName: SettingsInfoCell.reusableID, bundle: nil)
-        tableView.registerNib(infoCellNib, forCellReuseIdentifier: SettingsInfoCell.reusableID)
+        tableView.register(infoCellNib, forCellReuseIdentifier: SettingsInfoCell.reusableID)
         let switchCellNib = UINib(nibName: SettingsSwitchCell.reusableID, bundle: nil)
-        tableView.registerNib(switchCellNib, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
+        tableView.register(switchCellNib, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
         tableView.backgroundColor = UIColor.grayBackground
         tableView.contentInset.bottom = 15
         automaticallyAdjustsScrollViewInsets = false
     }
 
     private func setupAccessibilityIds() {
-        tableView.accessibilityId = .SettingsList
+        tableView.accessibilityId = .settingsList
     }
 
     private func setupRx() {
@@ -80,9 +79,9 @@ class SettingsViewController: BaseViewController {
                 onMainThread { [weak self] in
                     self?.settingProfileImageProgressView.setProgress(progress, animated: true)
                 }
-                self?.settingProfileImageView.hidden = false
+                self?.settingProfileImageView.isHidden = false
             } else {
-                self?.settingProfileImageView.hidden = true
+                self?.settingProfileImageView.isHidden = true
             }
         }.addDisposableTo(disposeBag)
 
@@ -100,16 +99,16 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     private static let headerHeight: CGFloat = 50
     private static let emptyHeaderHeight: CGFloat = 30
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.sectionCount
     }
 
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let title = viewModel.sectionTitle(section)
         return title.isEmpty ? SettingsViewController.emptyHeaderHeight : SettingsViewController.headerHeight
     }
 
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let title = viewModel.sectionTitle(section)
         guard !title.isEmpty else {
             let container = UIView()
@@ -141,35 +140,35 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         return container
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.settingsCount(section)
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let setting = viewModel.settingAtSection(indexPath.section, index: indexPath.row) else { return 0 }
         return setting.cellHeight
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let setting = viewModel.settingAtSection(indexPath.section, index: indexPath.row) else { return UITableViewCell() }
         switch setting {
-        case .LogOut:
-            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsLogoutCell.reusableID, forIndexPath: indexPath)
+        case .logOut:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsLogoutCell.reusableID, for: indexPath)
                 as? SettingsLogoutCell else { return UITableViewCell() }
             return cell
-        case .VersionInfo:
-            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsInfoCell.reusableID, forIndexPath: indexPath)
+        case .versionInfo:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsInfoCell.reusableID, for: indexPath)
                 as? SettingsInfoCell else { return UITableViewCell() }
             cell.refreshData()
             return cell
-        case .MarketingNotifications:
-            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsSwitchCell.reusableID, forIndexPath: indexPath)
+        case .marketingNotifications:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsSwitchCell.reusableID, for: indexPath)
                 as? SettingsSwitchCell else { return UITableViewCell() }
             cell.setupWithSetting(setting)
             cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
             return cell
         default:
-            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsCell.reusableID, forIndexPath: indexPath)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reusableID, for: indexPath)
                 as? SettingsCell else { return UITableViewCell() }
             cell.setupWithSetting(setting)
             cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
@@ -177,12 +176,12 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         viewModel.settingSelectedAtSection(indexPath.section, index: indexPath.row)
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         // Grouped tableview need empty footer to avoid default footer.
         return LGUIKitConstants.onePixelSize
     }
@@ -202,16 +201,16 @@ extension SettingsViewController: SettingsViewModelDelegate {
 
 extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         guard let theImage = image else { return }
         viewModel.imageSelected(theImage)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -220,19 +219,19 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
 
 extension SettingsViewController: FBSDKAppInviteDialogDelegate {
 
-    func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+    func appInviteDialog(_ appInviteDialog: FBSDKAppInviteDialog!, didCompleteWithResults results: [AnyHashable: Any]!) {
         guard let _ = results else {
             viewModel.fbAppInviteCancel()
             return
         }
-        if let completionGesture = results["completionGesture"] as? String where completionGesture == "cancel"{
+        if let completionGesture = results["completionGesture"] as? String, completionGesture == "cancel"{
             viewModel.fbAppInviteCancel()
             return
         }
         viewModel.fbAppInviteDone()
     }
 
-    func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
+    func appInviteDialog(_ appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: Error!) {
         viewModel.fbAppInviteFailed()
     }
 }
@@ -244,12 +243,12 @@ extension LetGoSetting {
 
     var cellHeight: CGFloat {
         switch self {
-        case .InviteFbFriends, .ChangePhoto, .ChangeUsername, .ChangeLocation, .CreateCommercializer, .ChangePassword,
-             .Help, .MarketingNotifications:
+        case .inviteFbFriends, .changePhoto, .changeUsername, .changeLocation, .createCommercializer, .changePassword,
+             .help, .marketingNotifications:
             return 50
-        case .LogOut:
+        case .logOut:
             return 44
-        case .VersionInfo:
+        case .versionInfo:
             return 30
         }
     }

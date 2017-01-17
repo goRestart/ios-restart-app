@@ -58,11 +58,11 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     // MARK: - Lifecycle
 
-    convenience init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T) {
+    convenience init<T: BaseViewModel>(viewModel: T) where T: ChatGroupedListViewModel {
         self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRect.zero)
     }
 
-    init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) {
+    init<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) where T: ChatGroupedListViewModel {
         self.viewModel = viewModel
         self.sessionManager = sessionManager
         super.init(viewModel: viewModel, frame: frame)
@@ -72,7 +72,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         resetUI()
     }
 
-    init?<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) {
+    init?<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) where T: ChatGroupedListViewModel {
         self.viewModel = viewModel
         self.sessionManager = sessionManager
         super.init(viewModel: viewModel, coder: aDecoder)
@@ -87,10 +87,10 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    internal override func didBecomeActive(firstTime: Bool) {
+    internal override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
         if firstTime {
@@ -114,7 +114,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         tableView.reloadData()
     }
 
-    func setEditing(editing: Bool) {
+    func setEditing(_ editing: Bool) {
         tableView.setEditing(editing, animated: true)
         setFooterHidden(!editing, animated: true)
     }
@@ -122,7 +122,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     // MARK: - UITableViewDataSource
 
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
         // Implement in subclasses
         return UITableViewCell()
     }
@@ -130,15 +130,15 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     // MARK: - UITableViewDelegate
 
-    func didSelectRowAtIndex(index: Int, editing: Bool) {
-        if editing {
-            footerButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+    func didSelectRowAtIndex(_ index: Int, editing: Bool) {
+        if editing, let selectedRows = tableView.indexPathsForSelectedRows?.count {
+            footerButton.isEnabled = selectedRows > 0
         }
     }
 
-    func didDeselectRowAtIndex(index: Int, editing: Bool) {
-        if editing {
-            footerButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+    func didDeselectRowAtIndex(_ index: Int, editing: Bool) {
+        if editing, let selectedRows = tableView.indexPathsForSelectedRows?.count{
+            footerButton.isEnabled = selectedRows > 0
         }
     }
 
@@ -150,7 +150,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         resetUI()
     }
 
-    func chatGroupedListViewModelSetEditing(editing: Bool) {
+    func chatGroupedListViewModelSetEditing(_ editing: Bool) {
         setEditing(editing)
     }
 
@@ -158,11 +158,11 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     }
 
-    func chatGroupedListViewModelDidFailRetrievingObjectList(page: Int) {
+    func chatGroupedListViewModelDidFailRetrievingObjectList(_ page: Int) {
         refreshControl.endRefreshing()
     }
 
-    func chatGroupedListViewModelDidSucceedRetrievingObjectList(page: Int) {
+    func chatGroupedListViewModelDidSucceedRetrievingObjectList(_ page: Int) {
         refreshControl.endRefreshing()
     }
 
@@ -171,32 +171,32 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     func scrollToTop() {
         guard let tableView = tableView else { return }
-        tableView.setContentOffset(CGPointZero, animated: true)
+        tableView.setContentOffset(CGPoint.zero, animated: true)
     }
 
 
     // MARK: - UITableViewDelegate & DataSource methods
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return cellForRowAtIndexPath(indexPath)
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        DispatchQueue.main.async { [weak self] in
             self?.viewModel.setCurrentIndex(indexPath.row)
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        didSelectRowAtIndex(indexPath.row, editing: tableView.editing)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didSelectRowAtIndex(indexPath.row, editing: tableView.isEditing)
     }
 
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        didDeselectRowAtIndex(indexPath.row, editing: tableView.editing)
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        didDeselectRowAtIndex(indexPath.row, editing: tableView.isEditing)
     }
 
 
@@ -204,21 +204,21 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     func setupUI() {
         // Load the view, and add it as Subview
-        NSBundle.mainBundle().loadNibNamed("ChatGroupedListView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("ChatGroupedListView", owner: self, options: nil)
         contentView.frame = bounds
-        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = UIColor.listBackgroundColor
         addSubview(contentView)
 
         // Empty view
         emptyView.backgroundColor = UIColor.listBackgroundColor
         refreshControl.addTarget(self, action: #selector(ChatGroupedListView.refresh),
-                                 forControlEvents: UIControlEvents.ValueChanged)
+                                 for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
 
         // Footer
-        footerButton.setStyle(.Primary(fontSize: .Medium))
-        footerButton.enabled = false
+        footerButton.setStyle(.primary(fontSize: .medium))
+        footerButton.isEnabled = false
         bottomInset = tabBarBottomInset
         setFooterHidden(true, animated: false)
     }
@@ -232,23 +232,23 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         if let emptyViewModel = viewModel.emptyViewModel {
             emptyView.setupWithModel(emptyViewModel)
         }
-        emptyView.hidden = viewModel.emptyViewHidden
-        tableView.hidden = viewModel.tableViewHidden
+        emptyView.isHidden = viewModel.emptyViewHidden
+        tableView.isHidden = viewModel.tableViewHidden
         tableView.reloadData()
     }
 
-    func setFooterHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
+    func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
         let visibilityOK = ( footerViewBottom.constant < 0 ) == hidden
         guard !visibilityOK else { return }
 
-        if !hidden {
-            footerButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        if !hidden, let selectedRows = tableView.indexPathsForSelectedRows?.count {
+            footerButton.isEnabled = selectedRows > 0
         }
         bottomInset = hidden ? tabBarBottomInset : 0
         footerViewBottom.constant = hidden ? -footerView.frame.height : 0
 
-        let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
-        UIView.animateWithDuration(duration, animations: { [weak self] in
+        let duration : TimeInterval = (animated ? TimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
+        UIView.animate(withDuration: duration, animations: { [weak self] in
             self?.layoutIfNeeded()
         }, completion: completion)
     }

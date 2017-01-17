@@ -9,13 +9,84 @@
 import LGCoreKit
 import SwiftyUserDefaults
 
-extension NSUserDefaults: KeyValueStorageable {
-    func get<T: UserDefaultsDecodable>(key: DefaultsKey<T>) -> T? {
-        guard let dict = dictionaryForKey(key._key) else { return nil }
+class StorageableUserDefaults: KeyValueStorageable {
+
+    private let userDefaults: UserDefaults
+
+    init(userDefaults: UserDefaults) {
+        self.userDefaults = userDefaults
+    }
+
+    subscript(key: DefaultsKey<String?>) -> String? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<String>) -> String {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Int?>) -> Int? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Int>) -> Int {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Double?>) -> Double? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Double>) -> Double {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Bool?>) -> Bool? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Bool>) -> Bool {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Any?>) -> Any? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Data?>) -> Data? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Data>) -> Data {
+        get { return userDefaults[key] as Data }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<Date?>) -> Date? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<URL?>) -> URL? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<[String: Any]?>) -> [String: Any]? {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<[String: Any]>) -> [String: Any] {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    subscript(key: DefaultsKey<[String]>) -> [String] {
+        get { return userDefaults[key] }
+        set { userDefaults[key] = newValue }
+    }
+    func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T? {
+        guard let dict = userDefaults.dictionary(forKey: key._key) else { return nil }
         return T.decode(dict)
     }
-    func set<T: UserDefaultsDecodable>(key: DefaultsKey<T>, value: T?) {
+    func set<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>, value: T?) {
         let object = value?.encode()
-        setObject(object, forKey: key._key)
+        userDefaults.set(object, forKey: key._key)
     }
 }

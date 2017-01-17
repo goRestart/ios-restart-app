@@ -8,14 +8,14 @@
 import Argo
 
 public enum UserStatus: String {
-    case Active = "active"
-    case Inactive = "inactive"
-    case PendingDelete = "to_be_deleted"
-    case Deleted = "deleted"
-    case Scammer = "scammer"
-    case NotFound = "not_found"
+    case active = "active"
+    case inactive = "inactive"
+    case pendingDelete = "to_be_deleted"
+    case deleted = "deleted"
+    case scammer = "scammer"
+    case notFound = "not_found"
 
-    public static let allValues: [UserStatus] = [.Active, .Inactive, .Deleted, .Scammer, .NotFound]
+    public static let allValues: [UserStatus] = [.active, .inactive, .deleted, .scammer, .notFound]
 }
 
 extension UserStatus: Decodable {}

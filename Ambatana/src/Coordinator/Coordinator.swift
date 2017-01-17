@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CoordinatorDelegate: class {
-    func coordinatorDidClose(coordinator: Coordinator)
+    func coordinatorDidClose(_ coordinator: Coordinator)
 }
 
 protocol Coordinator: CoordinatorDelegate {
@@ -17,15 +17,15 @@ protocol Coordinator: CoordinatorDelegate {
     var viewController: UIViewController { get }
     weak var presentedAlertController: UIAlertController? { get set }
 
-    func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?)
-    func close(animated animated: Bool, completion: (() -> Void)?)
+    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?)
+    func close(animated: Bool, completion: (() -> Void)?)
 }
 
 
 // MARK: - CoordinatorDelegate
 
 extension Coordinator {
-    func coordinatorDidClose(coordinator: Coordinator) {
+    func coordinatorDidClose(_ coordinator: Coordinator) {
         child = nil
     }
 }
@@ -34,7 +34,7 @@ extension Coordinator {
 // MARK: - Helpers
 
 extension Coordinator {
-    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
+    func openCoordinator(coordinator: Coordinator, parent: UIViewController, animated: Bool,
                                      completion: (() -> Void)?) {
         guard child == nil else { return }
         child = coordinator
@@ -46,25 +46,25 @@ extension Coordinator {
 // MARK: - Loading
 
 extension Coordinator {
-    func openLoading(message message: String? = LGLocalizedString.commonLoading,
+    func openLoading(message: String? = LGLocalizedString.commonLoading,
                      animated: Bool = true,
                      completion: (() -> Void)? = nil) {
         let finalMessage = (message ?? LGLocalizedString.commonLoading) + "\n\n\n"
-        let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .Alert)
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        activityIndicator.color = UIColor.blackColor()
-        activityIndicator.center = CGPointMake(130.5, 85.5)
+        let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .alert)
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        activityIndicator.color = UIColor.black
+        activityIndicator.center = CGPoint(x: 130.5, y: 85.5)
         alert.view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         openAlertController(alert, animated: animated, completion: completion)
     }
 
-    func closeLoading(animated animated: Bool = true,
+    func closeLoading(animated: Bool = true,
                       completion: (() -> Void)? = nil) {
         closePresentedAlertController(animated: animated, completion: completion)
     }
 
-    func closeLoading(animated animated: Bool = true,
+    func closeLoading(animated: Bool = true,
                       withAutocloseMessage message: String,
                       autocloseMessageCompletion: (() -> Void)? = nil) {
         closeLoading(animated: animated) { [weak self] in
@@ -79,11 +79,11 @@ extension Coordinator {
 private let autocloseMessageDefaultTime: Double = 2.5
 
 extension Coordinator {
-    func openAutocloseMessage(animated animated: Bool = true,
+    func openAutocloseMessage(animated: Bool = true,
                               message: String,
                               time: Double = autocloseMessageDefaultTime,
                               completion: ((Void) -> Void)? = nil) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         openAlertController(alert)
         delay(time) { [weak self] in
             self?.closePresentedAlertController(animated: animated, completion: completion)
@@ -95,9 +95,9 @@ extension Coordinator {
 // MARK: - Alerts w UIAction
 
 extension Coordinator {
-    func openAlert(animated animated: Bool = true, title: String?, message: String?,
+    func openAlert(animated: Bool = true, title: String?, message: String?,
                             actions: [UIAction], completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         actions.forEach { uiAction in
             guard let title = uiAction.text else { return }
 
@@ -109,19 +109,19 @@ extension Coordinator {
         openAlertController(alert)
     }
 
-    func openAlert(animated animated: Bool = true, title: String?, message: String?,
+    func openAlert(animated: Bool = true, title: String?, message: String?,
                             cancelLabel: String, actions: [UIAction], completion: (() -> Void)? = nil) {
-        let cancelAction = UIAction(interface: .StyledText(cancelLabel, .Cancel), action: {})
+        let cancelAction = UIAction(interface: .styledText(cancelLabel, .cancel), action: {})
         let actualActions = [cancelAction] + actions
         openAlert(animated: animated, title: title, message: message, actions: actualActions, completion: completion)
     }
 
-    func openActionSheet(animated animated: Bool = true, title: String?, message: String?,
+    func openActionSheet(animated: Bool = true, title: String?, message: String?,
                                   actions: [UIAction], completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         actions.forEach { uiAction in
             guard let title = uiAction.text else { return }
-            let action = UIAlertAction(title: title, style: .Default, handler: { _ in
+            let action = UIAlertAction(title: title, style: .default, handler: { _ in
                 uiAction.action()
             })
             alert.addAction(action)
@@ -129,9 +129,9 @@ extension Coordinator {
         openAlertController(alert)
     }
 
-    func openActionSheet(animated animated: Bool = true, title: String?, message: String?,
+    func openActionSheet(animated: Bool = true, title: String?, message: String?,
                                   cancelLabel: String, actions: [UIAction], completion: (() -> Void)? = nil) {
-        let cancelAction = UIAction(interface: .StyledText(cancelLabel, .Cancel), action: {})
+        let cancelAction = UIAction(interface: .styledText(cancelLabel, .cancel), action: {})
         let actualActions = [cancelAction] + actions
         openActionSheet(animated: animated, title: title, message: message, actions: actualActions,
                         completion: completion)
@@ -141,19 +141,19 @@ extension Coordinator {
 
 // MARK: - Private methods
 
-private extension Coordinator {
-    func openAlertController(alert: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
+fileprivate extension Coordinator {
+    func openAlertController(_ alert: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
         guard presentedAlertController == nil else { return }
 
         presentedAlertController = alert
-        viewController.presentViewController(alert, animated: animated, completion: completion)
+        viewController.present(alert, animated: animated, completion: completion)
     }
 
-    func closePresentedAlertController(animated animated: Bool = true,
+    func closePresentedAlertController(animated: Bool = true,
                                                 completion: (() -> Void)? = nil) {
         guard let presentedAlertController = presentedAlertController else { return }
 
-        presentedAlertController.dismissViewControllerAnimated(animated) { [weak self] in
+        presentedAlertController.dismiss(animated: animated) { [weak self] in
             self?.presentedAlertController = nil
             completion?()
         }

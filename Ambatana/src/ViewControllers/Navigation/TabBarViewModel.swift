@@ -10,8 +10,8 @@ import LGCoreKit
 import RxSwift
 
 protocol TabBarViewModelDelegate: BaseViewModelDelegate {
-    func vmSwitchToTab(tab: Tab, force: Bool, completion: (() -> ())?)
-    func vmShowTooltipAtSellButtonWithText(text: NSAttributedString)
+    func vmSwitchToTab(_ tab: Tab, force: Bool, completion: (() -> ())?)
+    func vmShowTooltipAtSellButtonWithText(_ text: NSAttributedString)
 }
 
 
@@ -57,21 +57,21 @@ class TabBarViewModel: BaseViewModel {
         didAppearFirstTime = true
         guard featureFlags.freePostingModeAllowed && !keyValueStorage[.giveAwayTooltipAlreadyShown] else { return }
 
-        var newTextAttributes = [String : AnyObject]()
+        var newTextAttributes = [String : Any]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
         newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
 
-        var titleTextAttributes = [String : AnyObject]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        var titleTextAttributes = [String : Any]()
+        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
         titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let titleText = NSAttributedString(string: LGLocalizedString.tabBarGiveAwayTooltip, attributes: titleTextAttributes)
 
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.appendAttributedString(NSAttributedString(string: " "))
-        fullTitle.appendAttributedString(titleText)
+        fullTitle.append(NSAttributedString(string: " "))
+        fullTitle.append(titleText)
 
         delegate?.vmShowTooltipAtSellButtonWithText(fullTitle)
     }
@@ -84,14 +84,14 @@ class TabBarViewModel: BaseViewModel {
     }
 
     func sellButtonPressed() {
-        navigator?.openSell(.SellButton)
+        navigator?.openSell(.sellButton)
     }
 
-    func userRating(source: RateUserSource, data: RateUserData) {
+    func userRating(_ source: RateUserSource, data: RateUserData) {
         navigator?.openUserRating(source, data: data)
     }
 
-    func externalSwitchToTab(tab: Tab, completion: (() -> ())?) {
+    func externalSwitchToTab(_ tab: Tab, completion: (() -> ())?) {
         delegate?.vmSwitchToTab(tab, force: false, completion: completion)
     }
 
@@ -109,7 +109,7 @@ class TabBarViewModel: BaseViewModel {
 
         Observable.combineLatest(myUserRepository.rx_myUser,
             notificationsManager.unreadNotificationsCount.asObservable(),
-            resultSelector: { [weak self] (myUser, count) in
+            resultSelector: { [weak self] (myUser, count) -> String? in
                 guard let strongSelf = self else { return nil }
                 guard strongSelf.featureFlags.notificationsSection else { return nil }
                 guard myUser != nil else { return String(1) }

@@ -10,8 +10,8 @@ import Crashlytics
 import LGCoreKit
 
 class CrashlyticsReporter: Reporter {
-    func report(domain: Domain, code: Int, message: String) {
-        let userInfo: [NSObject : AnyObject] = ["message": message]
+    func report(_ domain: Domain, code: Int, message: String) {
+        let userInfo: [AnyHashable: Any] = ["message": message]
         let error = NSError(domain: domain, code: code, userInfo: userInfo)
         Crashlytics.sharedInstance().recordError(error)
     }

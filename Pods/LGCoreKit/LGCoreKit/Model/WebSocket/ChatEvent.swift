@@ -10,12 +10,12 @@ import Argo
 import Curry
 
 public enum ChatEventType {
-    case InterlocutorTypingStarted
-    case InterlocutorTypingStopped
-    case InterlocutorMessageSent(messageId: String, sentAt: NSDate, text: String, type: ChatMessageType)
-    case InterlocutorReceptionConfirmed(messagesIds: [String])
-    case InterlocutorReadConfirmed(messagesIds: [String])
-    case AuthenticationTokenExpired
+    case interlocutorTypingStarted
+    case interlocutorTypingStopped
+    case interlocutorMessageSent(messageId: String, sentAt: Date, text: String, type: ChatMessageType)
+    case interlocutorReceptionConfirmed(messagesIds: [String])
+    case interlocutorReadConfirmed(messagesIds: [String])
+    case authenticationTokenExpired
 }
 
 public protocol ChatEvent: BaseModel {

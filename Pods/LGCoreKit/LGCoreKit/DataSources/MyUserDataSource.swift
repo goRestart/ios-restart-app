@@ -9,7 +9,7 @@
 import Result
 
 typealias MyUserApiResult = Result<MyUser, ApiError>
-typealias MyUserApiCompletion = MyUserApiResult -> Void
+typealias MyUserApiCompletion = (MyUserApiResult) -> Void
 
 protocol MyUserDataSource {
     /**
@@ -17,7 +17,7 @@ protocol MyUserDataSource {
     - parameter myUserId: My user identifier.
     - parameter completion: The completion closure.
     */
-    func show(myUserId: String, completion: MyUserApiCompletion?)
+    func show(_ myUserId: String, completion: MyUserApiCompletion?)
 
     /**
     Creates a user with the given email, password and location.
@@ -30,7 +30,7 @@ protocol MyUserDataSource {
     - parameter localeIdentifier: The locale identifier.
     - parameter completion: The completion closure.
     */
-    func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
+    func createWithEmail(_ email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
         postalAddress: PostalAddress?, localeIdentifier: String, completion: MyUserApiCompletion?)
 
     /**
@@ -39,7 +39,7 @@ protocol MyUserDataSource {
     - parameter params: The parameters to be updated.
     - parameter completion: The completion closure.
     */
-    func update(myUserId: String, params: [String : AnyObject], completion: MyUserApiCompletion?)
+    func update(_ myUserId: String, params: [String : Any], completion: MyUserApiCompletion?)
 
     /**
     Uploads a new user avatar.
@@ -47,7 +47,7 @@ protocol MyUserDataSource {
     - parameter myUserId: My user identifier.
     - parameter completion: The completion closure.
     */
-    func uploadAvatar(avatar: NSData, myUserId: String, progressBlock: ((Int) -> ())?,
+    func uploadAvatar(_ avatar: Data, myUserId: String, progressBlock: ((Int) -> ())?,
         completion: MyUserApiCompletion?)
     
     /**
@@ -58,7 +58,7 @@ protocol MyUserDataSource {
     - parameter token:      Token to be used as Authorization header
     - parameter completion: Completion closure
     */
-    func resetPassword(userId: String, params: [String: AnyObject], token: String,
+    func resetPassword(_ userId: String, params: [String: Any], token: String,
         completion: MyUserApiCompletion?)
 
 
@@ -69,5 +69,5 @@ protocol MyUserDataSource {
      - parameter provider:   new account provider
      - parameter completion: completion closure
      */
-    func linkAccount(userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>) -> ())?)
+    func linkAccount(_ userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>) -> ())?)
 }

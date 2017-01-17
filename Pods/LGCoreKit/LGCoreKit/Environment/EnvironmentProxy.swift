@@ -9,10 +9,10 @@
 import Foundation
 
 public enum EnvironmentType: String {
-    case Staging
-    case Canary
-    case Production
-    case Escrow
+    case staging
+    case canary
+    case production
+    case escrow
 }
 
 class EnvironmentProxy: Environment {
@@ -31,15 +31,15 @@ class EnvironmentProxy: Environment {
 
     // MARK: - Public methods
 
-    func setEnvironmentType(type: EnvironmentType) {
+    func setEnvironmentType(_ type: EnvironmentType) {
         switch type {
-        case .Staging:
+        case .staging:
             environment = StagingEnvironment()
-        case .Canary:
+        case .canary:
             environment = CanaryEnvironment()
-        case .Production:
+        case .production:
             environment = ProductionEnvironment()
-        case .Escrow:
+        case .escrow:
             environment = EscrowEnvironment()
         }
     }

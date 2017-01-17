@@ -9,13 +9,13 @@
 import Result
 
 public typealias ChatsResult = Result<[Chat], RepositoryError>
-public typealias ChatsCompletion = ChatsResult -> Void
+public typealias ChatsCompletion = (ChatsResult) -> Void
 
 public typealias ChatResult = Result<Chat, RepositoryError>
-public typealias ChatCompletion = ChatResult -> Void
+public typealias ChatCompletion = (ChatResult) -> Void
 
 public typealias MessageResult = Result<Message, RepositoryError>
-public typealias MessageCompletion = MessageResult -> Void
+public typealias MessageCompletion = (MessageResult) -> Void
 
 
 public protocol OldChatRepository {
@@ -28,7 +28,7 @@ public protocol OldChatRepository {
 
      - returns: Chat in case myUser and product.user have values. nil otherwise
      */
-    func newChatWithProduct(product: Product) -> Chat?
+    func newChatWithProduct(_ product: Product) -> Chat?
 
 
     // MARK: Index methods
@@ -42,7 +42,7 @@ public protocol OldChatRepository {
      - parameter numResults: Number of results per page, if nil the API will use the default value
      - parameter completion: Closure to execute when the operation finishes
      */
-    func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatsCompletion?)
+    func index(_ type: ChatsType, page: Int, numResults: Int?, completion: ChatsCompletion?)
 
 
     // MARK: Show Methods
@@ -54,13 +54,13 @@ public protocol OldChatRepository {
      - parameter buyer: The buyer.
      - parameter completion: The completion closure.
      */
-    func retrieveMessagesWithProduct(product: Product, buyer: User, page: Int, numResults: Int,
+    func retrieveMessagesWithProduct(_ product: Product, buyer: User, page: Int, numResults: Int,
                                             completion: ChatCompletion?)
 
-    func retrieveMessagesWithProductId(productId: String, buyerId: String, page: Int, numResults: Int,
+    func retrieveMessagesWithProductId(_ productId: String, buyerId: String, page: Int, numResults: Int,
                                               completion: ChatCompletion?)
 
-    func retrieveMessagesWithConversationId(conversationId: String, page: Int, numResults: Int,
+    func retrieveMessagesWithConversationId(_ conversationId: String, page: Int, numResults: Int,
                                                    completion: ChatCompletion?)
 
     /**
@@ -68,7 +68,7 @@ public protocol OldChatRepository {
 
      - parameter completion: The completion closure.
      */
-    func retrieveUnreadMessageCountWithCompletion(completion: (Result<Int, RepositoryError> -> Void)?)
+    func retrieveUnreadMessageCountWithCompletion(_ completion: ((Result<Int, RepositoryError>) -> Void)?)
 
 
     // MARK: Post methods
@@ -81,7 +81,7 @@ public protocol OldChatRepository {
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendText(message: String, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendText(_ message: String, product: Product, recipient: User, completion: MessageCompletion?)
 
     /**
      Sends an offer to given recipient for the given product.
@@ -91,7 +91,7 @@ public protocol OldChatRepository {
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendOffer(message: String, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendOffer(_ message: String, product: Product, recipient: User, completion: MessageCompletion?)
 
     /**
      Sends a sticker to given recipient for the given product.
@@ -101,7 +101,7 @@ public protocol OldChatRepository {
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendSticker(sticker: Sticker, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendSticker(_ sticker: Sticker, product: Product, recipient: User, completion: MessageCompletion?)
 
     /**
      Archives a bunch of chats for the current user
@@ -109,7 +109,7 @@ public protocol OldChatRepository {
      - parameter ids: The chats to be archived
      - parameter completion: The completion closure.
      */
-    func archiveChatsWithIds(ids: [String], completion: ((Result<Void, RepositoryError>) -> ())?)
+    func archiveChatsWithIds(_ ids: [String], completion: ((Result<Void, RepositoryError>) -> ())?)
 
 
     // MARK: - Put methods
@@ -120,7 +120,7 @@ public protocol OldChatRepository {
      - parameter ids: The chats to be archived
      - parameter completion: The completion closure.
      */
-    func unarchiveChatsWithIds(ids: [String], completion: ((Result<Void, RepositoryError>) -> ())?)
+    func unarchiveChatsWithIds(_ ids: [String], completion: ((Result<Void, RepositoryError>) -> ())?)
 
 
     // MARK: - Private methods
@@ -134,6 +134,6 @@ public protocol OldChatRepository {
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User,
+    func sendMessage(_ messageType: MessageType, message: String, product: Product, recipient: User,
                             completion: MessageCompletion?)
 }
