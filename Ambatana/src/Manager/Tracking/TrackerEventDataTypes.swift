@@ -604,6 +604,7 @@ enum EventParameterNotificationType: String {
     case ratingUpdated = "rating-updated"
     case buyersInterested = "buyers-interested"
     case productSuggested = "product-suggested"
+    case facebookFriendshipCreated = "facebook-friendship-created"
 }
 
 enum EventParameterRelatedShownReason: String {

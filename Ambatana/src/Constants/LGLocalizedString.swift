@@ -1475,6 +1475,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_type_buyers_interested_button_done", comment: "")
 	}
 
+	static func notificationsTypeFacebookFriend(_ var1: String, _ var2: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_facebook_friend", comment: ""), var1, var2)
+	}
+
+	static var notificationsTypeFacebookFriendButton: String {
+		return NSLocalizedString("notifications_type_facebook_friend_button", comment: "")
+	}
+
 	static var notificationsTypeWelcomeSubtitle: String {
 		return NSLocalizedString("notifications_type_welcome_subtitle", comment: "")
 	}
