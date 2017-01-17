@@ -58,7 +58,7 @@ class ChatViewController: TextViewController {
         self.stickersView = ChatStickersView()
         self.featureFlags = featureFlags
         self.expressChatBanner = ChatBanner()
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel, nibName: nil, swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
         setReachabilityEnabled(true)
