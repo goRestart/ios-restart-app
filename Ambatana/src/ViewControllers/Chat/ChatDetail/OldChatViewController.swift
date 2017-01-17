@@ -86,7 +86,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
                                                          name: UIMenuControllerWillHideMenuNotification, object: nil)
-        navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
 
     override func viewWillAppear(animated: Bool) {
