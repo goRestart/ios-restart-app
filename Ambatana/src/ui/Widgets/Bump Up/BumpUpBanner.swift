@@ -53,8 +53,8 @@ class BumpUpBanner: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupRx()
         setupUI()
+        setupRx()
         setupConstraints()
         setAccessibilityIds()
     }
@@ -68,9 +68,10 @@ class BumpUpBanner: UIView {
 
     func updateInfo(info: BumpUpInfo) {
         isFree = info.free
-        // timer logic changed, There will be an ABC test with 3 different times.
+        // TODO: timer logic changed, There will be an ABC test with 3 different times. https://ambatana.atlassian.net/browse/MONEY-69
         // logic will be: timeLeft.value = (ABCTest time in secs) - Int(info.timeSinceLastBump/1000)
         timeLeft.value = Int(info.timeSinceLastBump/1000)
+        timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
         bumpButton.isEnabled = timeLeft.value < 1
@@ -85,7 +86,11 @@ class BumpUpBanner: UIView {
         primaryBlock = info.primaryBlock
     }
 
-    dynamic private func openBumpView() {
+    dynamic private func bannerTapped() {
+        primaryBlock()
+    }
+
+    dynamic private func bannerSwipped() {
         primaryBlock()
     }
 
@@ -126,9 +131,9 @@ class BumpUpBanner: UIView {
         bumpButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
         bumpButton.setStyle(.primary(fontSize: .small))
         bumpButton.addTarget(self, action: #selector(bumpButtonPressed), for: .touchUpInside)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openBumpView))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(bannerTapped))
         addGestureRecognizer(tapGesture)
-        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(openBumpView))
+        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(bannerSwipped))
         swipeUpGesture.direction = .up
         addGestureRecognizer(swipeUpGesture)
     }
@@ -156,18 +161,15 @@ class BumpUpBanner: UIView {
         textLabel.layout(with: bumpButton).right(to: .left, by: -10)
 
         // button
-
         bumpButton.layout(with: containerView).top(by: 5).bottom(by: -5).right(by: -15)
         bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-
-        setNeedsLayout()
     }
 
     private func bubbleText(secondsLeft: Int, text: String) -> NSAttributedString {
 
         let fullText: NSMutableAttributedString = NSMutableAttributedString()
 
-        if let countdownText = textForCountdown(timeSeconds: secondsLeft) {
+        if let countdownText = secondsLeft.secondsToCountdownFormat() {
             var timeTextAttributes = [String : AnyObject]()
             timeTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
             timeTextAttributes[NSFontAttributeName] = UIFont.systemMediumFont(size: 17)
@@ -192,14 +194,6 @@ class BumpUpBanner: UIView {
 
     private dynamic func updateTimer() {
         timeLeft.value = timeLeft.value-1
-    }
-
-    private func textForCountdown(timeSeconds: Int) -> String? {
-        guard timeSeconds > 0 else { return nil }
-        let hours = timeSeconds/3600
-        let mins = (timeSeconds%3600)/60
-        let secs = timeSeconds%60
-        return "\(String(format: "%02d", hours)):\(String(format: "%02d", mins)):\(String(format: "%02d", secs))"
     }
 
     private func setAccessibilityIds() {
