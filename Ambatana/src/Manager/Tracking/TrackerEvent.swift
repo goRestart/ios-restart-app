@@ -296,8 +296,6 @@ struct TrackerEvent {
         typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params.addProductParams(product)
-            params[.productType] = product.user.isDummy ?
-                EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
             return TrackerEvent(name: .productShareCancel, params: params)
@@ -307,8 +305,6 @@ struct TrackerEvent {
         typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params.addProductParams(product)
-            params[.productType] = product.user.isDummy ?
-                EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
             return TrackerEvent(name: .productShareComplete, params: params)
@@ -951,6 +947,23 @@ struct TrackerEvent {
         params[.userId] = userId ?? ""
         params[.productId] = productId ?? ""
         return TrackerEvent(name: .passiveBuyerAbandon, params: params)
+    }
+
+    static func productBumpUpStart(_ product: Product, price: EventParameterBumpUpPrice) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+
+        params[.bumpUpPrice] = price.description
+        return TrackerEvent(name: .bumpUpStart, params: params)
+    }
+
+    static func productBumpUpComplete(_ product: Product, price: EventParameterBumpUpPrice,
+                                      network: EventParameterShareNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        params[.bumpUpPrice] = price.description
+        params[.shareNetwork] = network.rawValue
+        return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
 

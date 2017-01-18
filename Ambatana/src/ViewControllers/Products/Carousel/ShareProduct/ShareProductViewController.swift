@@ -120,11 +120,7 @@ extension ShareProductViewController: SocialShareViewDelegate {
 extension ShareProductViewController: ShareProductViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController {
         return self
-    }
-    
-    func viewControllerShouldClose() {
-        dismiss(animated: true, completion: nil)
-    }
+    }    
 }
 
 extension ShareProductViewController {

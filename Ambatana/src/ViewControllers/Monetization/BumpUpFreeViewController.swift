@@ -90,7 +90,7 @@ class BumpUpFreeViewController: BaseViewController {
         viewModel.closeActionPressed()
     }
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeActionPressed()
     }
 
@@ -112,9 +112,5 @@ extension BumpUpFreeViewController: SocialShareViewDelegate {
 extension BumpUpFreeViewController: ShareProductViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController {
         return self
-    }
-
-    func viewControllerShouldClose() {
-        dismiss(animated: true, completion: nil)
     }
 }
