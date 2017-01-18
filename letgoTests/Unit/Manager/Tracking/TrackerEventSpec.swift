@@ -2764,6 +2764,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("network matches") {
                     expect(sut.params?.stringKeyParams["share-network"] as? String) == "facebook"
+                }
+            }
             describe("Passive buyer start") {
                 beforeEach {
                     sut = TrackerEvent.passiveBuyerStart(withUser: "123456", productId: "AAAAA")
