@@ -2676,6 +2676,58 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == true
                 }
             }
+            describe("Passive buyer start") {
+                beforeEach {
+                    sut = TrackerEvent.passiveBuyerStart(withUser: "123456", productId: "AAAAA")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("passive-buyer-start"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "123456"
+                }
+                it("contains product-id param") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param).to(equal("AAAAA"))
+                }
+            }
+            describe("Passive buyer complete") {
+                beforeEach {
+                    sut = TrackerEvent.passiveBuyerComplete(withUser: "123456", productId: "AAAAA", passiveConversations: 3)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("passive-buyer-complete"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "123456"
+                }
+                it("contains product-id param") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param).to(equal("AAAAA"))
+                }
+                it("contains passive-conversations param") {
+                    let param = sut.params!.stringKeyParams["passive-conversations"] as? Int
+                    expect(param).to(equal(3))
+                }
+            }
+            describe("Passive buyer abandon") {
+                beforeEach {
+                    sut = TrackerEvent.passiveBuyerAbandon(withUser: "123456", productId: "AAAAA")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("passive-buyer-abandon"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "123456"
+                }
+                it("contains product-id param") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param ).to(equal("AAAAA"))
+                }
+            }
         }
     }
 }
