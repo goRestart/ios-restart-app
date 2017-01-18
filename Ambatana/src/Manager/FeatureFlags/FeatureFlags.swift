@@ -30,6 +30,7 @@ protocol FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
+    var bumpUpFreeTimeLimit: Float { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -173,6 +174,23 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.editDeleteItemUxImprovement.value
     }
+
+    var bumpUpFreeTimeLimit: Float {
+        if Bumper.enabled {
+            switch Bumper.bumpUpFreeTimeLimit {
+            case .oneMin:
+                return 0.016
+            case .eightHours:
+                return 8
+            case .twelveHours:
+                return 12
+            case .twentyFourHours:
+                return 24
+            }
+        }
+        return ABTests.bumpUpFreeTimeLimit.value
+    }
+
 
     // MARK: - Country features
 

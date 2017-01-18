@@ -41,6 +41,7 @@ class BumpUpBanner: UIView {
     private var primaryBlock: (()->()?) = { return nil }
     private var buttonBlock: (()->()?) = { return nil }
 
+    private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
     // - Rx
     let timeLeft = Variable<Int>(0)
@@ -68,9 +69,10 @@ class BumpUpBanner: UIView {
 
     func updateInfo(info: BumpUpInfo) {
         isFree = info.free
-        // TODO: timer logic changed, There will be an ABC test with 3 different times. https://ambatana.atlassian.net/browse/MONEY-69
-        // logic will be: timeLeft.value = (ABCTest time in secs) - Int(info.timeSinceLastBump/1000)
-        timeLeft.value = Int(info.timeSinceLastBump/1000)
+
+        // bumpUpFreeTimeLimit is the time limit in hours
+        let timeLimitInSecs = Int(featureFlags.bumpUpFreeTimeLimit) * 60 * 60
+        timeLeft.value = timeLimitInSecs - Int(info.timeSinceLastBump/1000)
         timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
