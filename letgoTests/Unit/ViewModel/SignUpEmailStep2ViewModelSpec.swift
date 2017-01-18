@@ -18,6 +18,8 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
     var delegateReceivedHideLoading: Bool = false
 
     var navigatorReceivedOpenHelp: Bool = false
+    var navigatorReceivedOpenRecaptcha: Bool = false
+    var navigatorReceivedOpenScammerAlert: Bool = false
     var navigatorReceivedCloseAfterSignUp: Bool = false
 
     override func spec() {
@@ -34,6 +36,8 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
             beforeEach {
                 self.delegateReceivedShowLoading = false
                 self.delegateReceivedHideLoading = false
+                self.navigatorReceivedOpenRecaptcha = false
+                self.navigatorReceivedOpenScammerAlert = false
                 self.navigatorReceivedOpenHelp = false
                 self.navigatorReceivedCloseAfterSignUp = false
 
@@ -49,8 +53,9 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 sessionManager.signUpResult = SessionMyUserResult(value: myUser)
                 sessionManager.logInResult = SessionMyUserResult(value: myUser)
 
-                sut = SignUpEmailStep2ViewModel(email: email, password: "654321", source: .sell,
-                                                sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+                sut = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: false, password: "654321",
+                                                source: .sell, sessionManager: sessionManager,
+                                                keyValueStorage: keyValueStorage,
                                                 featureFlags: featureFlags, tracker: tracker)
                 sut.signUpEnabled.subscribeNext { enabled in
                     signUpEnabled = enabled
@@ -217,7 +222,27 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                     sut.username.value = "Albert"
                 }
 
-                describe("sign up fails with conflict user exists") {
+                describe("sign up fails with user not verified error") {
+                    beforeEach {
+                        sessionManager.signUpResult = SessionMyUserResult(error: .userNotVerified)
+                        _ = sut.signUp()
+
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+
+                    it("tracks a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                    it("does not call close after signup in navigator") {
+                        expect(self.navigatorReceivedCloseAfterSignUp) == false
+                    }
+                    it("calls open recaptcha in navigator") {
+                        expect(self.navigatorReceivedOpenRecaptcha) == true
+                    }
+                }
+
+                describe("sign up fails with conflict user exists error") {
                     beforeEach {
                         sessionManager.signUpResult = SessionMyUserResult(error: .conflict(cause: .userExists))
                     }
@@ -240,8 +265,11 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                     }
 
                     describe("auto log in succeeds") {
+                        let email = "albert@letgo.com"
+
                         beforeEach {
                             let myUser = MockMyUser()
+                            myUser.email = email
                             sessionManager.logInResult = SessionMyUserResult(value: myUser)
                             _ = sut.signUp()
 
@@ -254,6 +282,14 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                         }
                         it("calls close after signup in navigator when signup succeeds") {
                             expect(self.navigatorReceivedCloseAfterSignUp) == true
+                        }
+                        it("saves letgo as previous user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider) == "letgo"
+                        }
+                        it("saves the user email as previous email") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username) == email
                         }
                     }
                 }
@@ -276,8 +312,9 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 }
 
                 describe("sign up succeeds") {
+                    let email = "albert@letgo.com"
+
                     beforeEach {
-                        let email = "albert@letgo.com"
                         let myUser = MockMyUser()
                         myUser.email = email
                         sessionManager.signUpResult = SessionMyUserResult(value: myUser)
@@ -292,6 +329,14 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                     }
                     it("calls close after signup in navigator when signup succeeds") {
                         expect(self.navigatorReceivedCloseAfterSignUp).toEventually(beTrue())
+                    }
+                    it("saves letgo as previous user account provider") {
+                        let provider = keyValueStorage[.previousUserAccountProvider]
+                        expect(provider) == "letgo"
+                    }
+                    it("saves the user email as previous email") {
+                        let username = keyValueStorage[.previousUserEmailOrName]
+                        expect(username) == email
                     }
                 }
             }
@@ -308,6 +353,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
         }
     }
 }
+
 
 extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2ViewModelDelegate {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
@@ -344,6 +390,14 @@ extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2ViewModelDelegate {
 extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2Navigator {
     func openHelpFromSignUpEmailStep2() {
         navigatorReceivedOpenHelp = true
+    }
+
+    func openRecaptchaFromSignUpEmailStep2() {
+        navigatorReceivedOpenRecaptcha = true
+    }
+
+    func openScammerAlertFromSignUpEmailStep2() {
+        navigatorReceivedOpenScammerAlert = true
     }
 
     func closeAfterSignUpSuccessful() {

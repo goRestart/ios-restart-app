@@ -41,6 +41,19 @@ struct SignUpEmailStep2FormErrors: OptionSet {
 
 protocol SignUpEmailStep2Navigator: class {
     func openHelpFromSignUpEmailStep2()
+    func openRecaptchaFromSignUpEmailStep2()
+    //                let vm = RecaptchaViewModel(transparentMode: self?.featureFlags.captchaTransparent ?? false)
+    //                self?.delegate?.vmShowRecaptcha(vm)
+    func openScammerAlertFromSignUpEmailStep2()
+//    private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
+//        guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+//             installation: installationRepository.installation, moderation: true) else {
+//                delegate?.vmFinish(completedAccess: false)
+//                return
+//        }
+//        
+//        delegate?.vmFinishAndShowScammerAlert(url, network: network, tracker: tracker)
+//    }
     func closeAfterSignUpSuccessful()
 }
 
@@ -70,6 +83,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     weak var delegate: SignUpEmailStep2ViewModelDelegate?
     weak var navigator: SignUpEmailStep2Navigator?
 
+    fileprivate let isRememberedEmail: Bool
     fileprivate let password: String
     fileprivate let source: EventParameterLoginSourceValue
     fileprivate let signUpEnabledVar: Variable<Bool>
@@ -83,17 +97,17 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
 
     // MARK : - Lifecycle
 
-    convenience init(email: String, password: String, source: EventParameterLoginSourceValue) {
+    convenience init(email: String, isRememberedEmail: Bool, password: String, source: EventParameterLoginSourceValue) {
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(email: email, password: password, source: source,
+        self.init(email: email, isRememberedEmail: isRememberedEmail, password: password, source: source,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   featureFlags: featureFlags, tracker: tracker)
     }
 
-    init(email: String, password: String, source: EventParameterLoginSourceValue,
+    init(email: String, isRememberedEmail: Bool, password: String, source: EventParameterLoginSourceValue,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
          featureFlags: FeatureFlaggeable, tracker: Tracker) {
         self.email = email
@@ -101,6 +115,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
         self.termsAndConditionsAccepted = Variable<Bool>(false)
         self.newsLetterAccepted = Variable<Bool>(false)
 
+        self.isRememberedEmail = isRememberedEmail
         self.password = password
         self.source = source
         self.signUpEnabledVar = Variable<Bool>(false)
@@ -186,9 +201,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
 fileprivate extension SignUpEmailStep2ViewModel {
     func signUp(email: String, password: String, username: String, newsletter: Bool?) {
         delegate?.vmShowLoading(nil)
-
         sessionManager.signUp(email, password: password, name: username, newsletter: newsletter) { [weak self] result in
-
             if let myUser = result.value {
                 self?.signUpSucceeded(myUser: myUser, newsletter: newsletter)
             } else if let signUpError = result.error {
@@ -200,9 +213,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
     func signUpSucceeded(myUser: MyUser, newsletter: Bool?) {
         savePrevious(email: myUser.email ?? email)
         trackSignUpSucceeded(newsletter: newsletter)
-
-        // TODO: Fix message
-        delegate?.vmHideLoading("message") { [weak self] in
+        delegate?.vmHideLoading(nil) { [weak self] in
             self?.navigator?.closeAfterSignUpSuccessful()
         }
     }
@@ -242,16 +253,14 @@ fileprivate extension SignUpEmailStep2ViewModel {
     func logInSucceeded(myUser: MyUser) {
         savePrevious(email: myUser.email ?? email)
         trackLogIn()
-
-        // TODO: Message!!
-        delegate?.vmHideLoading("message") { [weak self] in
+        delegate?.vmHideLoading(nil) { [weak self] in
             self?.navigator?.closeAfterSignUpSuccessful()
         }
     }
 
     private func process(signUpError: SessionManagerError) {
-        let message: String
-//        var afterMessageCompletion: () -> ()? = nil
+        var message: String? = nil
+        var afterMessageCompletion: (() -> ())? = nil
 
         switch signUpError {
         case .network:
@@ -275,22 +284,20 @@ fileprivate extension SignUpEmailStep2ViewModel {
         case .nonExistingEmail:
             message = LGLocalizedString.signUpSendErrorInvalidEmail
         case .userNotVerified:
-            delegate?.vmHideLoading(nil) { [weak self] in
-//                let vm = RecaptchaViewModel(transparentMode: self?.featureFlags.captchaTransparent ?? false)
-//                self?.delegate?.vmShowRecaptcha(vm)
+            afterMessageCompletion = { [weak self] in
+                self?.navigator?.openRecaptchaFromSignUpEmailStep2()
             }
-            return
         case .scammer:
-//            delegate?.vmHideLoading(nil) { [weak self] in
-//                self?.showScammerAlert(self?.email, network: .email)
-//            }
+            afterMessageCompletion = { [weak self] in
+                self?.navigator?.openScammerAlertFromSignUpEmailStep2()
+            }
             return
         case .notFound, .internalError, .forbidden, .unauthorized, .tooManyRequests:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
 
         trackSignUpFailed(error: signUpError)
-        delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+        delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
     }
 }
 
@@ -321,9 +328,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
     }
 
     func trackLogIn() {
-        // TODO: Implement rememberedAccount
-        let rememberedAccount = true
-        let event = TrackerEvent.loginEmail(source, rememberedAccount: rememberedAccount)
+        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail)
         tracker.trackEvent(event)
     }
 }
