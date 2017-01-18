@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "Посмотрите, кто они";
 "notifications_type_buyers_interested_button_done" = "Покупатели оповещены!";
 "notifications_type_buyers_interested_w_title" = "%1$d покупателей может заинтересовать ваш товар: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "Проверить профиль";
 "notifications_type_like_w_name" = "%@ добавил ваш товар в избранное";
 "notifications_type_like_w_name_w_title" = "%1$@ добавил ваш товар в избранное: \"%2$@\"";
@@ -396,8 +398,6 @@
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
 "product_bubble_favorite_button" = "Дайте знать продавцу!";
 "product_bubble_favorite_text" = "Этот товар добавлен в ваше избранное!";
-"product_bubble_one_user_interested" = "Другой покупатель интересуется товаром!";
-"product_bubble_several_users_interested" = "% других покупателей интересуются товаром!";
 "product_chat_direct_error_blocked_user_message" = "Упс! Чат с этим пользователем заблокирован.";
 "product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_sending" = "Отправка...";

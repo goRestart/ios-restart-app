@@ -149,7 +149,7 @@
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Bekräftad med: ";
 "chat_user_rating_button_title" = "Omdöme";
-"chat_user_rating_button_tooltip" = "Ge ett omdöme om denna användare";
+"chat_user_rating_button_tooltip" = "Bedöm denna användare";
 "chat_verify_alert_message" = "Vi har skickat ett bekräftelsemejl till %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Återsänd";
@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "Se vem de är";
 "notifications_type_buyers_interested_button_done" = "Köpare kontaktad!";
 "notifications_type_buyers_interested_w_title" = "%1$d köpare skulle kunna vara intresserade av din produkt: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "Kolla deras profil";
 "notifications_type_like_w_name" = "%@ favoritmarkerade din produkt";
 "notifications_type_like_w_name_w_title" = "%1$@ favoritmarkerade din produkt: \"%2$@\"";
@@ -396,8 +398,6 @@
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
 "product_bubble_favorite_button" = "Låt säljaren veta!";
 "product_bubble_favorite_text" = "Denna produkt har lagts till i dina favoriter!";
-"product_bubble_one_user_interested" = "En till köpare är intresserad!";
-"product_bubble_several_users_interested" = "%i andra köpare är intresserade!";
 "product_chat_direct_error_blocked_user_message" = "Hoppsan! Chatt med den här användaren är blockad.";
 "product_chat_direct_message" = "Hej %@, jag är intresserad";
 "product_chat_direct_message_sending" = "Sänder...";
@@ -599,12 +599,12 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Logga in med Google för att bekräfta din identitet";
 "profile_verify_google_title" = "GOOGLE";
-"rating_list_action_report_review" = "Rapportera bedömning";
+"rating_list_action_report_review" = "Rapportera omdöme";
 "rating_list_action_report_review_error_message" = "Ett fel uppstod när din rapport skulle skickas.";
 "rating_list_action_report_review_success_message" = "Din rapport har skickats!";
 "rating_list_action_review_user" = "Bedöm användare";
 "rating_list_loading_error_message" = "Ett fel uppstod när omdömdet skulle laddas upp.";
-"rating_list_rating_status_pending" = "Den här bedömningen verifieras";
+"rating_list_rating_status_pending" = "Detta omdöme verifieras";
 "rating_list_rating_type_buyer_text_label" = "%@ köpte en produkt";
 "rating_list_rating_type_conversation_text_label" = "%@ chattade om en produkt";
 "rating_list_rating_type_seller_text_label" = "%@ sålde en produkt";
@@ -726,13 +726,13 @@
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
 "user_rating_message_w_name" = "Får din upplevelse med %@ fem stjärnor? Berätta hur det gick.";
 "user_rating_message_wo_name" = "Får din upplevelse med den här användaren fem stjärnor? Berätta hur det gick.";
-"user_rating_review_button" = "Publicera omdömet";
+"user_rating_review_button" = "Publicera omdöme";
 "user_rating_review_info" = "Du kan uppdatera omdömet när du vill.";
 "user_rating_review_placeholder" = "Skriv om din upplevelse";
 "user_rating_review_placeholder_mandatory" = "Skriv om din upplevelse (obligatoriskt)";
 "user_rating_review_placeholder_optional" = "Skriv om din upplevelse (valfritt)";
 "user_rating_review_send_success" = "Ditt omdöme har publicerats!";
-"user_rating_title" = "Bedöm din upplevelse med";
+"user_rating_title" = "Betygsätt din upplevelse med";
 "user_share_error" = "Ett fel inträffade när profilen skulle delas. Vänligen försök igen.";
 "user_share_message_mine" = "Titta på allt som jag säljer på letgo:";
 "user_share_message_other" = "Titta på allt den här säljaren har på letgo:";

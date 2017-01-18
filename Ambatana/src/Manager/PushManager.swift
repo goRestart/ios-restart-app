@@ -85,8 +85,15 @@ final class PushManager {
     // MARK: - Private methods
 
     private func setupLeanplum() {
-        Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
+        let environmentHelper = EnvironmentsHelper()
+        switch environmentHelper.appEnvironment {
+        case .production:
+            Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
+                              withProductionKey: EnvironmentProxy.sharedInstance.leanplumEnvKey)
+        case .development, .escrow:
+            Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
                               withDevelopmentKey:EnvironmentProxy.sharedInstance.leanplumEnvKey)
+        }
     }
 
     private func tokenStringFromData(_ data: Data) -> String {
