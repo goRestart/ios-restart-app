@@ -46,7 +46,7 @@ class BumpUpBanner: UIView {
     // - Rx
     let timeLeft = Variable<Int>(0)
     let text = Variable<NSAttributedString?>(NSAttributedString())
-
+    let readyToBump = Variable<Bool>(false)
     let disposeBag = DisposeBag()
 
 
@@ -89,14 +89,17 @@ class BumpUpBanner: UIView {
     }
 
     dynamic private func bannerTapped() {
+        guard readyToBump.value else { return }
         primaryBlock()
     }
 
     dynamic private func bannerSwipped() {
+        guard readyToBump.value else { return }
         primaryBlock()
     }
 
     dynamic private func bumpButtonPressed() {
+        guard readyToBump.value else { return }
         buttonBlock()
     }
 
@@ -105,10 +108,13 @@ class BumpUpBanner: UIView {
 
     private func setupRx() {
         let secondsLeft = timeLeft.asObservable().skip(1)
+
+        secondsLeft.map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
+
         secondsLeft.bindNext { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
             let localizedText: String
-            if secondsLeft <= 1 {
+            if secondsLeft <= 0 {
                 strongSelf.timer.invalidate()
                 localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
                 strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
