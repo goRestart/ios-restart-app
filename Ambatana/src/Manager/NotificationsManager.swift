@@ -28,11 +28,10 @@ class NotificationsManager {
     }
     let marketingNotifications: Variable<Bool>
     var loggedInMktNofitications: Observable<Bool> {
-        return Observable.combineLatest(marketingNotifications.asObservable(), loggedIn.asObservable(),
-                                        resultSelector: { enabled, loggedIn in
-                                            guard loggedIn else { return true }
-                                            return enabled
-        })
+        return marketingNotifications.asObservable().map { [weak self] enabled in
+            if let loggedIn = self?.loggedIn.value, !loggedIn { return true }
+            return enabled
+        }
     }
     
     fileprivate let disposeBag = DisposeBag()

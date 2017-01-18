@@ -53,6 +53,22 @@ class NotificationsManagerSpec: QuickSpec {
                 sut.loggedInMktNofitications.asObservable().bindTo(loggedInMarketingNotificationsObserver).addDisposableTo(disposeBag)
             }
 
+            func doLogin() {
+                let myUser = MockMyUser()
+                myUser.objectId = String.random(20)
+                myUserRepository.myUserVar.value = myUser
+                sessionManager.loggedIn = true
+                sessionManager.sessionEventsPublish.onNext(.login)
+            }
+
+            func populateCountersResults() {
+                oldChatRepository.unreadMessagesResult = Result<Int, RepositoryError>(10)
+                let chatUnread = MockChatUnreadMessages(total: 7)
+                chatRepository.chatUnreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
+                let notifications = MockUnreadNotificationsCounts(sold: 2, like: 2, review: 2, reviewUpdate: 2, buyers: 2, suggested: 2, facebook: 2, total: 14)
+                notificationsRepository.notificationsUnreadCountResult = NotificationsUnreadCountResult(notifications)
+            }
+
             beforeEach {
                 sessionManager = MockSessionManager()
                 chatRepository = MockChatRepository()
@@ -74,13 +90,9 @@ class NotificationsManagerSpec: QuickSpec {
             }
 
             describe("initialisation (setup)") {
-                describe("notifications & chat counters"){
+                describe("notifications & chat counters") {
                     beforeEach {
-                        oldChatRepository.unreadMessagesResult = Result<Int, RepositoryError>(10)
-                        let chatUnread = MockChatUnreadMessages(total: 7)
-                        chatRepository.chatUnreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                        let notifications = MockUnreadNotificationsCounts(sold: 2, like: 2, review: 2, reviewUpdate: 2, buyers: 2, suggested: 2, facebook: 2, total: 14)
-                        notificationsRepository.notificationsUnreadCountResult = NotificationsUnreadCountResult(notifications)
+                        populateCountersResults()
                         createNotificationsManager()
                     }
                     context("not logged in") {
@@ -177,10 +189,7 @@ class NotificationsManagerSpec: QuickSpec {
                     }
                     context("logged in") {
                         beforeEach {
-                            sessionManager.loggedIn = true
-                            let myUser = MockMyUser()
-                            myUser.objectId = String.random(20)
-                            myUserRepository.myUserVar.value = myUser
+                            doLogin()
                         }
                         context("nothing stored") {
                             beforeEach {
@@ -255,10 +264,7 @@ class NotificationsManagerSpec: QuickSpec {
                     }
                     context("logged in") {
                         beforeEach {
-                            sessionManager.loggedIn = true
-                            let myUser = MockMyUser()
-                            myUser.objectId = String.random(20)
-                            myUserRepository.myUserVar.value = myUser
+                            doLogin()
                         }
                         context("no stored value") {
                             beforeEach {
@@ -300,7 +306,124 @@ class NotificationsManagerSpec: QuickSpec {
                         }
                     }
                 }
-
+            }
+            describe("login event") {
+                beforeEach {
+                    sessionManager.loggedIn = false
+                    populateCountersResults()
+                }
+                describe("notifications & chat counters") {
+                    beforeEach {
+                        createNotificationsManager()
+                    }
+                    context("notificationsEnabled & old chat & review disabled") {
+                        beforeEach {
+                            featureFlags.notificationsSection = true
+                            featureFlags.websocketChat = false
+                            featureFlags.userReviews = false
+                            sut.setup()
+                            doLogin()
+                            let _ = self.expectation(description: "Wait for network calls")
+                            self.waitForExpectations(timeout: 0.2, handler: nil)
+                        }
+                        it("unreadMessagesCount emits a nil and then the 10") {
+                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10)])
+                        }
+                        it("unreadNotificationsCount emits and then the 10") {
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 10)])
+                        }
+                        it("globalCount is 24") {
+                            expect(globalCountObserver.events.last?.value.element!) == 20
+                        }
+                    }
+                    context("notificationsEnabled & new chat & review enabled") {
+                        beforeEach {
+                            featureFlags.notificationsSection = true
+                            featureFlags.websocketChat = true
+                            featureFlags.userReviews = true
+                            sut.setup()
+                            doLogin()
+                            let _ = self.expectation(description: "Wait for network calls")
+                            self.waitForExpectations(timeout: 0.2, handler: nil)
+                        }
+                        it("unreadMessagesCount emits a nil and then the 7") {
+                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7)])
+                        }
+                        it("unreadNotificationsCount emits and then the 14") {
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 14)])
+                        }
+                        it("globalCount is 21") {
+                            expect(globalCountObserver.events.last?.value.element!) == 21
+                        }
+                    }
+                    context("notificationsDisabled & new chat & review enabled") {
+                        beforeEach {
+                            featureFlags.notificationsSection = false
+                            featureFlags.websocketChat = true
+                            featureFlags.userReviews = true
+                            sut.setup()
+                            doLogin()
+                            let _ = self.expectation(description: "Wait for network calls")
+                            self.waitForExpectations(timeout: 0.2, handler: nil)
+                        }
+                        it("unreadMessagesCount emits a nil and then the 7") {
+                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7)])
+                        }
+                        it("unreadNotificationsCount just emits a nil value") {
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil)])
+                        }
+                        it("globalCount is 7") {
+                            expect(globalCountObserver.events.last?.value.element!) == 7
+                        }
+                    }
+                }
+                fdescribe("mkt notification") {
+                    context("no stored value") {
+                        beforeEach {
+                            createNotificationsManager()
+                            sut.setup()
+                            doLogin()
+                        }
+                        it("enabledMktNotifications emits false, and then true after login") {
+                            XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false), next(0, true)])
+                        }
+                        it("loggedInMktNofitications emits true, and then true again after login") {
+                            XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true), next(0, true)])
+                        }
+                    }
+                    context("stored true value") {
+                        beforeEach {
+                            keyValueStorage.userMarketingNotifications = true
+                            createNotificationsManager()
+                            sut.setup()
+                            doLogin()
+                        }
+                        it("enabledMktNotifications emits false, and then true after login") {
+                            XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false), next(0, true)])
+                        }
+                        it("loggedInMktNofitications emits true, and then true again after login") {
+                            XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true), next(0, true)])
+                        }
+                    }
+                    context("stored false value") {
+                        beforeEach {
+                            createNotificationsManager()
+                            sut.setup()
+                            let myUser = MockMyUser()
+                            myUser.objectId = String.random(20)
+                            myUserRepository.myUserVar.value = myUser
+                            keyValueStorage.userMarketingNotifications = false
+                            sessionManager.loggedIn = true
+                            sessionManager.sessionEventsPublish.onNext(.login)
+                        }
+                        it("enabledMktNotifications emits false, and then false again after login") {
+                            XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false), next(0, true)])
+                        }
+                        it("loggedInMktNofitications emits true, and then false after login") {
+                            XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true), next(0, false)])
+                        }
+                    }
+                }
             }
         }
     }
