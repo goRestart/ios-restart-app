@@ -145,6 +145,10 @@ enum EventName: String {
     case notificationCenterComplete         = "notification-center-complete"
 
     case marketingPushNotifications         = "marketing-push-notifications"
+    
+    case passiveBuyerStart                 = "passive-buyer-start"
+    case passiveBuyerComplete              = "passive-buyer-complete"
+    case passiveBuyerAbandon               = "passive-buyer-abandon"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -248,6 +252,7 @@ enum EventParameterName: String {
     case lastSearch           = "last-search"
     case expressChatTrigger   = "express-chat-trigger"
     case numberPhotosPosting  = "number-photos-posting"
+    case passiveConversations = "passive-conversations"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -600,8 +605,8 @@ enum EventParameterNotificationType: String {
     case productSold = "favorite-sold"
     case rating = "rating"
     case ratingUpdated = "rating-updated"
-    case buyersInterested = "buyers-interested"
-    case productSuggested = "product-suggested"
+    case buyersInterested = "passive-buyer-seller"
+    case productSuggested = "passive-buyer-make-offer"
     case facebookFriendshipCreated = "facebook-friendship-created"
 }
 
