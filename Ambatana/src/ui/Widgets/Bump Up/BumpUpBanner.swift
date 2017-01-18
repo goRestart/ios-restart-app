@@ -70,9 +70,9 @@ class BumpUpBanner: UIView {
     func updateInfo(info: BumpUpInfo) {
         isFree = info.free
 
-        // bumpUpFreeTimeLimit is the time limit in hours
-        let timeLimitInSecs = Int(featureFlags.bumpUpFreeTimeLimit) * 60 * 60
-        timeLeft.value = timeLimitInSecs - Int(info.timeSinceLastBump/1000)
+        // bumpUpFreeTimeLimit is the time limit in milliseconds
+        let timeLimit = Int(featureFlags.bumpUpFreeTimeLimit)
+        timeLeft.value = timeLimit - info.timeSinceLastBump
         timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
@@ -107,7 +107,7 @@ class BumpUpBanner: UIView {
     // - Private Methods
 
     private func setupRx() {
-        let secondsLeft = timeLeft.asObservable().skip(1)
+        let secondsLeft = timeLeft.asObservable().map{ $0/1000 }.skip(1)
 
         secondsLeft.map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
 
@@ -201,7 +201,7 @@ class BumpUpBanner: UIView {
     }
 
     private dynamic func updateTimer() {
-        timeLeft.value = timeLeft.value-1
+        timeLeft.value = timeLeft.value-1000
     }
 
     private func setAccessibilityIds() {

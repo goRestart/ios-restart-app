@@ -31,5 +31,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool = false
     var filterIconWithLetters: Bool = false
     var editDeleteItemUxImprovement: Bool = false
-    var bumpUpFreeTimeLimit: Float = 0.00139 // 5 secs
+    var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
 }

@@ -30,7 +30,7 @@ protocol FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
-    var bumpUpFreeTimeLimit: Float { get }
+    var bumpUpFreeTimeLimit: Int { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -175,20 +175,22 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.editDeleteItemUxImprovement.value
     }
 
-    var bumpUpFreeTimeLimit: Float {
+    var bumpUpFreeTimeLimit: Int {
+        let hoursToMilliseconds = 60 * 60 * 1000
         if Bumper.enabled {
             switch Bumper.bumpUpFreeTimeLimit {
             case .oneMin:
-                return 0.016
+                return 1/60 * hoursToMilliseconds
             case .eightHours:
-                return 8
+                return 8 * hoursToMilliseconds
             case .twelveHours:
-                return 12
+                return 12 * hoursToMilliseconds
             case .twentyFourHours:
-                return 24
+                return 24 * hoursToMilliseconds
             }
         }
-        return ABTests.bumpUpFreeTimeLimit.value
+        let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToMilliseconds)
+        return Int(timeLimit)
     }
 
 
