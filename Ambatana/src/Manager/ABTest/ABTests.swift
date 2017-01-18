@@ -10,7 +10,10 @@ import RxSwift
 
 public struct ABTests {
 
-    static let trackingData = Variable<[String]>([])
+    static let trackingData: Variable<[String]> = {
+        let values = allVariables.flatMap{ $0.trackingData }
+        return Variable<[String]>(values)
+    }()
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
