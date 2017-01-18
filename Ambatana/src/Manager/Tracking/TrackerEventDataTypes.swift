@@ -145,6 +145,10 @@ enum EventName: String {
     case notificationCenterComplete         = "notification-center-complete"
 
     case marketingPushNotifications         = "marketing-push-notifications"
+    
+    case passiveBuyerStart                 = "passive-buyer-start"
+    case passiveBuyerComplete              = "passive-buyer-complete"
+    case passiveBuyerAbandon               = "passive-buyer-abandon"
 
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
@@ -252,6 +256,7 @@ enum EventParameterName: String {
     case expressChatTrigger   = "express-chat-trigger"
     case numberPhotosPosting  = "number-photos-posting"
     case bumpUpPrice          = "price"
+    case passiveConversations = "passive-conversations"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -605,8 +610,8 @@ enum EventParameterNotificationType: String {
     case productSold = "favorite-sold"
     case rating = "rating"
     case ratingUpdated = "rating-updated"
-    case buyersInterested = "buyers-interested"
-    case productSuggested = "product-suggested"
+    case buyersInterested = "passive-buyer-seller"
+    case productSuggested = "passive-buyer-make-offer"
 }
 
 enum EventParameterRelatedShownReason: String {
