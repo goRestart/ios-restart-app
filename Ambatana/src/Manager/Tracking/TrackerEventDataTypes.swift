@@ -605,8 +605,8 @@ enum EventParameterNotificationType: String {
     case productSold = "favorite-sold"
     case rating = "rating"
     case ratingUpdated = "rating-updated"
-    case buyersInterested = "buyers-interested"
-    case productSuggested = "product-suggested"
+    case buyersInterested = "passive-buyer-seller"
+    case productSuggested = "passive-buyer-make-offer"
 }
 
 enum EventParameterRelatedShownReason: String {
