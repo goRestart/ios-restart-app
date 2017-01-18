@@ -11,7 +11,7 @@ class TrackerEventSpec: QuickSpec {
         var sut: TrackerEvent!
         var user: MockUser!
         
-        describe("factory methods") {
+        fdescribe("factory methods") {
             describe("location") {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
@@ -2631,7 +2631,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("notification-center-start"))
                 }
             }
-            describe("Notification center complete") {
+            describe("Notification center complete type welcome") {
                 beforeEach {
                     sut = TrackerEvent.notificationCenterComplete(.welcome)
                 }
@@ -2641,6 +2641,78 @@ class TrackerEventSpec: QuickSpec {
                 it("contains notification-type param") {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "welcome"
+                }
+            }
+            describe("Notification center complete type buyersInterested") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.buyersInterested)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "passive-buyer-seller"
+                }
+            }
+            describe("Notification center complete type favorite") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.favorite)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "favorite"
+                }
+            }
+            describe("Notification center complete type productSold") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.productSold)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "favorite-sold"
+                }
+            }
+            describe("Notification center complete type productSuggested") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.productSuggested)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "passive-buyer-make-offer"
+                }
+            }
+            describe("Notification center complete type rating") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.rating)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "rating"
+                }
+            }
+            describe("Notification center complete type ratingUpdated") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.ratingUpdated)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "rating-updated"
                 }
             }
             describe("Marketing Push Notifications") {
