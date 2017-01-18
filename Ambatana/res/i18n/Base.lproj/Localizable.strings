@@ -202,6 +202,27 @@
 // Change name title.  Check attached image "change_username.png"
 "change_username_title" = "Change Name";
 
+// Change email navigation bar title
+"change_email_title" = "Change Email";
+
+// Change email current email text
+"change_email_current_email_label" = "CURRENT EMAIL";
+
+// Change email success message
+"change_email_send_ok" = "Your email has been changed to %@. Check you email inbox to verify it!";
+
+// Change email button save
+"change_email_save_button" = "Save";
+
+// Change email message while loading
+"change_email_loading" = "Saving email...";
+
+// Change email text field placeholder
+"change_email_field_hint" = "New Email (email@doamin.com)";
+
+// Change email invalid email
+"change_email_error_invalid_email" = "Please insert a valid email.";
+
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
 
@@ -1091,6 +1112,12 @@
 
 // Notifications buyers interested button action has been performed
 "notifications_type_buyers_interested_button_done" = "Buyers contacted!";
+
+// Notifications Facebook friend text
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+
+// Notifications Facebook friend button action
+"notifications_type_facebook_friend_button" = "View Profile";
 
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby";
@@ -2034,6 +2061,9 @@
 
 // Settings change name button. Check image @ "settings_change_password_button" segment
 "settings_change_username_button" = "Name";
+
+// Settings change email button
+"settings_change_email_button" = "Email";
 
 // Settings help button. Check attached image @ "settings_change_password_button" segment
 "settings_help_button" = "Help";

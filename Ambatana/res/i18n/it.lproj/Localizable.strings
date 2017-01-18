@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "Scopri chi sono";
 "notifications_type_buyers_interested_button_done" = "Acquirenti contattati!";
 "notifications_type_buyers_interested_w_title" = "%1$d potrebbero essere interessati al tuo prodotto: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "Dai un'occhiata al loro profilo";
 "notifications_type_like_w_name" = "%@ ha aggiunto il tuo prodotto ai preferiti";
 "notifications_type_like_w_name_w_title" = "%1$@ ha aggiunto il tuo prodotto ai preferiti: \"%2$@\"";

@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "Tìm ra họ là ai";
 "notifications_type_buyers_interested_button_done" = "Người mua đã liên hệ!";
 "notifications_type_buyers_interested_w_title" = "%1$d người mua có thể quan tâm đến sản phẩm của bạn: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "Xem hồ sơ của họ";
 "notifications_type_like_w_name" = "%@ đã thích món đồ của bạn";
 "notifications_type_like_w_name_w_title" = "%1$@ đã thích món đồ của bạn: \"%2$@\"";
