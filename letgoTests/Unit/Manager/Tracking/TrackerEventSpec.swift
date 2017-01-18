@@ -2543,23 +2543,6 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
-
-            describe("product detail interested users") {
-                beforeEach {
-                    sut = TrackerEvent.productDetailInterestedUsers(3, productId: "ABCD")
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue) == "product-detail-interested-users"
-                }
-                it("contains number-of-users param") {
-                    let numUSers = sut.params!.stringKeyParams["number-of-users"] as? Int
-                    expect(numUSers) == 3
-                }
-                it("contains product-id param") {
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId) == "ABCD"
-                }
-            }
             
             describe("NPS Survey") {
                 context("NPS Start") {
