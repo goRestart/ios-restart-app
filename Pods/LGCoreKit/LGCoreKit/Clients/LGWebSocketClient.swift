@@ -261,6 +261,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         }
     }
     
+    
     // MARK: - SRWebSocketDelegate
     
     @objc func webSocketDidOpen(_ webSocket: SRWebSocket!) {
@@ -273,15 +274,17 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     @objc func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
         logMessage(.debug, type: .webSockets, message: "Closed")
         closeCompletion?()
-
+        webSocketDisconnected(with: code)
+    }
+    
+    func webSocketDisconnected(with errorCode: Int) {
         if socketStatus.value == .opening {
             // Close event while opening means websocket is unreachable or connection was refused.
             socketStatus.value = .closed
             pingTimer?.invalidate()
             return
         }
-        
-        switch code {
+        switch errorCode {
         case SRStatusCodeAbnormal.rawValue, SRStatusCodeNormal.rawValue:
             socketStatus.value = .closed
             pingTimer?.invalidate()
@@ -313,7 +316,8 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     }
     
     func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
-        // TODO: Handle websocket errors (network errors)
         logMessage(LogLevel.debug, type: .webSockets, message: "Connection Error: \(error)")
+        let code = (error as NSError).code
+        webSocketDisconnected(with: code)
     }
 }
