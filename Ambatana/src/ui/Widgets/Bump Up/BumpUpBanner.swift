@@ -106,7 +106,7 @@ class BumpUpBanner: UIView {
         secondsLeft.bindNext { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
             let localizedText: String
-            if secondsLeft < 1 {
+            if secondsLeft <= 1 {
                 strongSelf.timer.invalidate()
                 localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
                 strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
@@ -128,7 +128,7 @@ class BumpUpBanner: UIView {
         textLabel.minimumScaleFactor = 0.5
         iconImageView.image = UIImage(named: "red_chevron_up")
         iconImageView.contentMode = .scaleAspectFit
-        bumpButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        bumpButton.frame = CGRect(x: 0, y: 0, width: 100, height: 44)
         bumpButton.setStyle(.primary(fontSize: .small))
         bumpButton.addTarget(self, action: #selector(bumpButtonPressed), for: .touchUpInside)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(bannerTapped))
@@ -161,7 +161,7 @@ class BumpUpBanner: UIView {
         textLabel.layout(with: bumpButton).right(to: .left, by: -10)
 
         // button
-        bumpButton.layout(with: containerView).top(by: 5).bottom(by: -5).right(by: -15)
+        bumpButton.layout(with: containerView).top(by: 10).bottom(by: -10).right(by: -15)
         bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
     }
 
@@ -169,7 +169,7 @@ class BumpUpBanner: UIView {
 
         let fullText: NSMutableAttributedString = NSMutableAttributedString()
 
-        if let countdownText = secondsLeft.secondsToCountdownFormat() {
+        if let countdownText = secondsLeft.secondsToCountdownFormat(), secondsLeft > 0 {
             var timeTextAttributes = [String : AnyObject]()
             timeTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
             timeTextAttributes[NSFontAttributeName] = UIFont.systemMediumFont(size: 17)

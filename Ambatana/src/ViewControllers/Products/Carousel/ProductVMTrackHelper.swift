@@ -141,12 +141,6 @@ extension ProductVMTrackHelper {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType,
                                                             isQuickAnswer: .falseParameter, typePage: .productDetail)
         tracker.trackEvent(messageSentEvent)
-
-    }
-
-    func trackInterestedUsersBubble(_ number: Int, productId: String) {
-        let interestedUsersEvent = TrackerEvent.productDetailInterestedUsers(number, productId: productId)
-        tracker.trackEvent(interestedUsersEvent)
     }
 
     func trackMoreInfoRelatedItemsComplete(_ itemPosition: Int) {
