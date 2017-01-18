@@ -11,7 +11,7 @@ class TrackerEventSpec: QuickSpec {
         var sut: TrackerEvent!
         var user: MockUser!
         
-        fdescribe("factory methods") {
+        describe("factory methods") {
             describe("location") {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
