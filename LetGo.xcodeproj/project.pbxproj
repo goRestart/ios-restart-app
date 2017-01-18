@@ -806,6 +806,19 @@
 		C75BC6A11E2E53FB00483F79 /* TrackerEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC69B1E2E53FB00483F79 /* TrackerEventSpec.swift */; };
 		C75BC6A21E2E53FB00483F79 /* TrackerProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC69C1E2E53FB00483F79 /* TrackerProxySpec.swift */; };
 		C75BC6A31E2E53FB00483F79 /* VersionCheckerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC69D1E2E53FB00483F79 /* VersionCheckerSpec.swift */; };
+		C75BC6A51E2E5BF800483F79 /* NotificationsManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6A41E2E5BF800483F79 /* NotificationsManagerSpec.swift */; };
+		C75BC6A71E2E5C9500483F79 /* MockChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6A61E2E5C9500483F79 /* MockChatRepository.swift */; };
+		C75BC6A91E2E672400483F79 /* MockChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6A81E2E672400483F79 /* MockChatMessage.swift */; };
+		C75BC6B41E2E683C00483F79 /* Array+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6AA1E2E683C00483F79 /* Array+Randomizable.swift */; };
+		C75BC6B51E2E683C00483F79 /* Bool+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6AB1E2E683C00483F79 /* Bool+Randomizable.swift */; };
+		C75BC6B61E2E683C00483F79 /* Double+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6AC1E2E683C00483F79 /* Double+Randomizable.swift */; };
+		C75BC6B71E2E683C00483F79 /* Float+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6AD1E2E683C00483F79 /* Float+Randomizable.swift */; };
+		C75BC6B81E2E683C00483F79 /* Int+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6AE1E2E683C00483F79 /* Int+Randomizable.swift */; };
+		C75BC6BA1E2E683C00483F79 /* NSData+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6B01E2E683C00483F79 /* NSData+Randomizable.swift */; };
+		C75BC6BB1E2E683C00483F79 /* NSURL+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6B11E2E683C00483F79 /* NSURL+Randomizable.swift */; };
+		C75BC6BD1E2E683C00483F79 /* String+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6B31E2E683C00483F79 /* String+Randomizable.swift */; };
+		C75BC6BF1E2E693C00483F79 /* MockOldChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6BE1E2E693C00483F79 /* MockOldChatRepository.swift */; };
+		C75BC6C11E2E6A8D00483F79 /* MockNotificationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BC6C01E2E6A8D00483F79 /* MockNotificationsRepository.swift */; };
 		C75C543D1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */; };
 		C75C543E1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */; };
 		C75C543F1E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */; };
@@ -1750,6 +1763,19 @@
 		C75BC69B1E2E53FB00483F79 /* TrackerEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEventSpec.swift; sourceTree = "<group>"; };
 		C75BC69C1E2E53FB00483F79 /* TrackerProxySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerProxySpec.swift; sourceTree = "<group>"; };
 		C75BC69D1E2E53FB00483F79 /* VersionCheckerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionCheckerSpec.swift; sourceTree = "<group>"; };
+		C75BC6A41E2E5BF800483F79 /* NotificationsManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManagerSpec.swift; sourceTree = "<group>"; };
+		C75BC6A61E2E5C9500483F79 /* MockChatRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatRepository.swift; sourceTree = "<group>"; };
+		C75BC6A81E2E672400483F79 /* MockChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatMessage.swift; sourceTree = "<group>"; };
+		C75BC6AA1E2E683C00483F79 /* Array+Randomizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Randomizable.swift"; sourceTree = "<group>"; };
+		C75BC6AB1E2E683C00483F79 /* Bool+Randomizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+Randomizable.swift"; sourceTree = "<group>"; };
+		C75BC6AC1E2E683C00483F79 /* Double+Randomizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Randomizable.swift"; sourceTree = "<group>"; };
+		C75BC6AD1E2E683C00483F79 /* Float+Randomizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+Randomizable.swift"; sourceTree = "<group>"; };
+		C75BC6AE1E2E683C00483F79 /* Int+Randomizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Randomizable.swift"; sourceTree = "<group>"; };
+		C75BC6B01E2E683C00483F79 /* NSData+Randomizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+Randomizable.swift"; sourceTree = "<group>"; };
+		C75BC6B11E2E683C00483F79 /* NSURL+Randomizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Randomizable.swift"; sourceTree = "<group>"; };
+		C75BC6B31E2E683C00483F79 /* String+Randomizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Randomizable.swift"; sourceTree = "<group>"; };
+		C75BC6BE1E2E693C00483F79 /* MockOldChatRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockOldChatRepository.swift; sourceTree = "<group>"; };
+		C75BC6C01E2E6A8D00483F79 /* MockNotificationsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNotificationsRepository.swift; sourceTree = "<group>"; };
 		C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersViewController.swift; sourceTree = "<group>"; };
 		C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PassiveBuyersViewController.xib; sourceTree = "<group>"; };
 		C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersViewModel.swift; sourceTree = "<group>"; };
@@ -2753,6 +2779,7 @@
 				2EBC920A1E0A9019007F0F82 /* MockPurchaseableProductsRequest.swift */,
 				2EBC920C1E0AB94D007F0F82 /* MockPurchaseableProduct.swift */,
 				2EBC920E1E0AB98C007F0F82 /* MockPurchaseableProductsResponse.swift */,
+				C75BC6A81E2E672400483F79 /* MockChatMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3305,6 +3332,7 @@
 				C75BC6981E2E53FB00483F79 /* CrashManagerSpec.swift */,
 				C75BC6991E2E53FB00483F79 /* PurchasesShopperSpec.swift */,
 				C75BC69D1E2E53FB00483F79 /* VersionCheckerSpec.swift */,
+				C75BC6A41E2E5BF800483F79 /* NotificationsManagerSpec.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -3411,6 +3439,9 @@
 			children = (
 				C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */,
 				C73832821E02A2A2007D0C03 /* MockInstallationRepository.swift */,
+				C75BC6A61E2E5C9500483F79 /* MockChatRepository.swift */,
+				C75BC6BE1E2E693C00483F79 /* MockOldChatRepository.swift */,
+				C75BC6C01E2E6A8D00483F79 /* MockNotificationsRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -3418,6 +3449,14 @@
 		C79895C01DE2FE3600DD58BF /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				C75BC6AA1E2E683C00483F79 /* Array+Randomizable.swift */,
+				C75BC6AB1E2E683C00483F79 /* Bool+Randomizable.swift */,
+				C75BC6AC1E2E683C00483F79 /* Double+Randomizable.swift */,
+				C75BC6AD1E2E683C00483F79 /* Float+Randomizable.swift */,
+				C75BC6AE1E2E683C00483F79 /* Int+Randomizable.swift */,
+				C75BC6B01E2E683C00483F79 /* NSData+Randomizable.swift */,
+				C75BC6B11E2E683C00483F79 /* NSURL+Randomizable.swift */,
+				C75BC6B31E2E683C00483F79 /* String+Randomizable.swift */,
 				C79895C11DE2FE4000DD58BF /* HOF.swift */,
 				50C7428E1DE4682000D629B0 /* MockExternalAuthHelper.swift */,
 			);
@@ -5421,10 +5460,12 @@
 				2EBC920D1E0AB94D007F0F82 /* MockPurchaseableProduct.swift in Sources */,
 				50F344F21D3CDEA2000A8774 /* MockChatProduct.swift in Sources */,
 				C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */,
+				C75BC6B41E2E683C00483F79 /* Array+Randomizable.swift in Sources */,
 				C7841AF71E091E5C004A8242 /* CGFloat+LGSpec.swift in Sources */,
 				C75BC6A31E2E53FB00483F79 /* VersionCheckerSpec.swift in Sources */,
 				C75BC69F1E2E53FB00483F79 /* CrashManagerSpec.swift in Sources */,
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
+				C75BC6A91E2E672400483F79 /* MockChatMessage.swift in Sources */,
 				2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */,
 				2E3081D51D86A40400930E98 /* MockProductListRequester.swift in Sources */,
 				C75BC6A21E2E53FB00483F79 /* TrackerProxySpec.swift in Sources */,
@@ -5432,8 +5473,11 @@
 				2EBC920B1E0A9019007F0F82 /* MockPurchaseableProductsRequest.swift in Sources */,
 				C79842061CC903A500C300FF /* MockAccount.swift in Sources */,
 				2EF4E3C31D36891200A09DFD /* ConfigSpec.swift in Sources */,
+				C75BC6B71E2E683C00483F79 /* Float+Randomizable.swift in Sources */,
 				C75BC6A01E2E53FB00483F79 /* PurchasesShopperSpec.swift in Sources */,
 				5099D12D1C74C910002CD813 /* MockInstallation.swift in Sources */,
+				C75BC6C11E2E6A8D00483F79 /* MockNotificationsRepository.swift in Sources */,
+				C75BC6BB1E2E683C00483F79 /* NSURL+Randomizable.swift in Sources */,
 				2E3081D21D86A25300930E98 /* ProductListMultiRequesterSpec.swift in Sources */,
 				2EF4E3BC1D3688C400A09DFD /* MockConfigFileDAO.swift in Sources */,
 				C75BC6A11E2E53FB00483F79 /* TrackerEventSpec.swift in Sources */,
@@ -5441,22 +5485,30 @@
 				50C7428F1DE4682000D629B0 /* MockExternalAuthHelper.swift in Sources */,
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				C75BC69E1E2E53FB00483F79 /* ConfigFileManagerSpec.swift in Sources */,
+				C75BC6A71E2E5C9500483F79 /* MockChatRepository.swift in Sources */,
 				C70BC68B1E1A5A0500EC74E9 /* PostIncentiviserItemSpec.swift in Sources */,
 				50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */,
+				C75BC6B81E2E683C00483F79 /* Int+Randomizable.swift in Sources */,
 				C79895C21DE2FE4000DD58BF /* HOF.swift in Sources */,
 				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,
+				C75BC6BD1E2E683C00483F79 /* String+Randomizable.swift in Sources */,
 				C79895BF1DE2F60500DD58BF /* MockMyUserRepository.swift in Sources */,
 				50C742911DE4683700D629B0 /* MockLocationManager.swift in Sources */,
 				C73832831E02A2A2007D0C03 /* MockInstallationRepository.swift in Sources */,
+				C75BC6A51E2E5BF800483F79 /* NotificationsManagerSpec.swift in Sources */,
 				2EBC920F1E0AB98C007F0F82 /* MockPurchaseableProductsResponse.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
 				2EF4E3BD1D3688C400A09DFD /* MockConfigRetrieveService.swift in Sources */,
+				C75BC6BA1E2E683C00483F79 /* NSData+Randomizable.swift in Sources */,
 				7215B9BD1DDF2378008AC77B /* MainProductsViewModelSpec.swift in Sources */,
 				2EF4E3C71D36891C00A09DFD /* LGConfigDAOSpec.swift in Sources */,
 				50C59BC51CE0B84700377124 /* RatingManagerSpec.swift in Sources */,
+				C75BC6BF1E2E693C00483F79 /* MockOldChatRepository.swift in Sources */,
 				50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				50C59BE11CE1F06800377124 /* MockKeyValueStorage.swift in Sources */,
+				C75BC6B51E2E683C00483F79 /* Bool+Randomizable.swift in Sources */,
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
+				C75BC6B61E2E683C00483F79 /* Double+Randomizable.swift in Sources */,
 				5061ACB91DE35519002E5423 /* MockSessionManager.swift in Sources */,
 				50E96E6D1DE3486A009DB88A /* SignUpViewModelSpec.swift in Sources */,
 				50C7428D1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift in Sources */,

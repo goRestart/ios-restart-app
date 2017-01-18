@@ -18,7 +18,7 @@ class NotificationsManager {
     let unreadMessagesCount = Variable<Int?>(nil)
     let favoriteCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
-    var globalCount: Observable<Int?> {
+    var globalCount: Observable<Int> {
         return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
                                         (unreadMessages: Int?, notifications: Int?) in
             let chatCount = unreadMessages ?? 0
@@ -144,7 +144,6 @@ class NotificationsManager {
         sessionManager.sessionEvents.map { $0.isLogin }.bindTo(loggedIn).addDisposableTo(disposeBag)
 
         globalCount.bindNext { count in
-            guard let count = count else { return }
             UIApplication.shared.applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
 
