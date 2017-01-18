@@ -17,138 +17,290 @@ import Result
 
 class NotificationsManagerSpec: QuickSpec {
 
-    // Probar chorro eventos y variable
-
-    var disposeBag: DisposeBag!
-
-    var unreadMessagesValue: TestableObserver<Int?>!
-    var favoriteValue: Int?
-    var unreadNotificationsValue: Int?
-    var globalCountValue: Int!
-    var marketingNotificationsValue: Bool!
-    var loggedInMarketingNotificationsValue: Bool!
-
     override func spec() {
 
         var sut: NotificationsManager!
         var sessionManager: MockSessionManager!
+        var myUserRepository: MockMyUserRepository!
         var chatRepository: MockChatRepository!
         var oldChatRepository: MockOldChatRepository!
         var notificationsRepository: MockNotificationsRepository!
         var keyValueStorage: KeyValueStorage!
         var featureFlags: MockFeatureFlags!
 
-        beforeEach {
-            sessionManager = MockSessionManager()
-            chatRepository = MockChatRepository()
-            oldChatRepository = MockOldChatRepository()
-            notificationsRepository = MockNotificationsRepository()
-            keyValueStorage = KeyValueStorage(storage: MockKeyValueStorage(), myUserRepository: MockMyUserRepository())
-            featureFlags = MockFeatureFlags()
+        var disposeBag: DisposeBag!
 
-            let scheduler = TestScheduler(initialClock: 0)
-            scheduler.start()
+        var unreadMessagesObserver: TestableObserver<Int?>!
+        var favoriteObserver: TestableObserver<Int?>!
+        var unreadNotificationsObserver: TestableObserver<Int?>!
+        var globalCountObserver: TestableObserver<Int>!
+        var marketingNotificationsObserver: TestableObserver<Bool>!
+        var loggedInMarketingNotificationsObserver: TestableObserver<Bool>!
 
-            self.unreadMessagesValue = scheduler.createObserver(Optional<Int>.self)
-            self.favoriteValue = nil
-            self.unreadNotificationsValue = nil
-            self.globalCountValue = nil
-            self.marketingNotificationsValue = nil
-            self.loggedInMarketingNotificationsValue = nil
+        describe("NotificationsManagerSpec") {
+            func createNotificationsManager() {
+                sut = NotificationsManager(sessionManager: sessionManager, chatRepository: chatRepository,
+                                           oldChatRepository: oldChatRepository, notificationsRepository: notificationsRepository,
+                                           keyValueStorage: keyValueStorage, featureFlags: featureFlags)
 
-            sut = NotificationsManager(sessionManager: sessionManager, chatRepository: chatRepository,
-                                       oldChatRepository: oldChatRepository, notificationsRepository: notificationsRepository,
-                                       keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+                disposeBag = nil
+                disposeBag = DisposeBag()
+                sut.unreadMessagesCount.asObservable().bindTo(unreadMessagesObserver).addDisposableTo(disposeBag)
+                sut.favoriteCount.asObservable().bindTo(favoriteObserver).addDisposableTo(disposeBag)
+                sut.unreadNotificationsCount.asObservable().bindTo(unreadNotificationsObserver).addDisposableTo(disposeBag)
+                sut.globalCount.bindTo(globalCountObserver).addDisposableTo(disposeBag)
+                sut.marketingNotifications.asObservable().bindTo(marketingNotificationsObserver).addDisposableTo(disposeBag)
+                sut.loggedInMktNofitications.asObservable().bindTo(loggedInMarketingNotificationsObserver).addDisposableTo(disposeBag)
+            }
 
-            self.disposeBag = DisposeBag()
-            sut.unreadMessagesCount.asObservable().bindTo(self.unreadMessagesValue).addDisposableTo(self.disposeBag)
-
-            sut.favoriteCount.asObservable().bindNext {
-                self.favoriteValue = $0
-            }.addDisposableTo(self.disposeBag)
-
-            sut.unreadNotificationsCount.asObservable().bindNext {
-                self.unreadNotificationsValue = $0
-            }.addDisposableTo(self.disposeBag)
-
-            sut.globalCount.bindNext {
-                self.globalCountValue = $0
-            }.addDisposableTo(self.disposeBag)
-
-            sut.marketingNotifications.asObservable().bindNext {
-                self.marketingNotificationsValue = $0
-            }.addDisposableTo(self.disposeBag)
-
-            sut.loggedInMktNofitications.asObservable().bindNext {
-                self.loggedInMarketingNotificationsValue = $0
-            }.addDisposableTo(self.disposeBag)
-
-
-        }
-
-        describe("initialisation") {
             beforeEach {
-                sut.setup()
+                sessionManager = MockSessionManager()
+                chatRepository = MockChatRepository()
+                oldChatRepository = MockOldChatRepository()
+                notificationsRepository = MockNotificationsRepository()
+                myUserRepository = MockMyUserRepository()
+                keyValueStorage = KeyValueStorage(storage: MockKeyValueStorage(), myUserRepository: myUserRepository)
+                featureFlags = MockFeatureFlags()
+
+                let scheduler = TestScheduler(initialClock: 0)
+                scheduler.start()
+
+                unreadMessagesObserver = scheduler.createObserver(Optional<Int>.self)
+                favoriteObserver = scheduler.createObserver(Optional<Int>.self)
+                unreadNotificationsObserver = scheduler.createObserver(Optional<Int>.self)
+                globalCountObserver = scheduler.createObserver(Int.self)
+                marketingNotificationsObserver = scheduler.createObserver(Bool.self)
+                loggedInMarketingNotificationsObserver = scheduler.createObserver(Bool.self)
             }
-            it("doesn't have unreadMessagesCount") {
-                expect(self.unreadMessagesValue.events).to(beEmpty())
-//                expect(self.unreadMessagesValue).to(beNil())
-            }
-            it("doesn't have unreadNotificationsCount") {
-                expect(self.unreadNotificationsValue).to(beNil())
-            }
-            it("doesn't have favoriteCount") {
-                expect(self.favoriteValue).to(beNil())
-            }
-            it("globalCount is 0") {
-                expect(self.globalCountValue) == 0
-            }
-            it("marketing notifications is false") {
-                expect(self.marketingNotificationsValue) == false
-            }
-            it("logged in marketing notifications is true") {
-                expect(self.loggedInMarketingNotificationsValue) == true
-            }
-        }
-        describe("unread messages count") {
-            context("old chat") {
-                var unreadMessagesResult: Result<Int, RepositoryError>!
-                beforeEach {
-                    sessionManager.loggedIn = true
-                    featureFlags.websocketChat = false
-                    unreadMessagesResult = nil
-                    oldChatRepository.unreadMessagesCompletion = { result in
-                        unreadMessagesResult = result
-                    }
-                }
-                context("success") {
+
+            describe("initialisation (setup)") {
+                describe("notifications & chat counters"){
                     beforeEach {
                         oldChatRepository.unreadMessagesResult = Result<Int, RepositoryError>(10)
-                        sut.setup()
-                        expect(unreadMessagesResult).toEventuallyNot(beNil())
+                        let chatUnread = MockChatUnreadMessages(total: 7)
+                        chatRepository.chatUnreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
+                        let notifications = MockUnreadNotificationsCounts(sold: 2, like: 2, review: 2, reviewUpdate: 2, buyers: 2, suggested: 2, facebook: 2, total: 14)
+                        notificationsRepository.notificationsUnreadCountResult = NotificationsUnreadCountResult(notifications)
+                        createNotificationsManager()
                     }
-                    fit("has 10 unread messages on counter") {
-                        expect(self.unreadMessagesValue.events).to(beEmpty())
+                    context("not logged in") {
+                        beforeEach {
+                            sessionManager.loggedIn = false
+                            sut.setup()
+                            let _ = self.expectation(description: "Wait for network calls")
+                            self.waitForExpectations(timeout: 0.2, handler: nil)
+                        }
+                        it("unreadMessagesCount just emits a nil value") {
+                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil)])
+                        }
+                        it("unreadNotificationsCount just emits a nil value") {
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil)])
+                        }
+                        it("globalCount is 0") {
+                            XCTAssertEqual(globalCountObserver.events, [next(0, 0)])
+                        }
+                    }
+                    context("logged in") {
+                        beforeEach {
+                            sessionManager.loggedIn = true
+                        }
+                        context("notificationsEnabled & old chat & review disabled") {
+                            beforeEach {
+                                featureFlags.notificationsSection = true
+                                featureFlags.websocketChat = false
+                                featureFlags.userReviews = false
+                                sut.setup()
+                                let _ = self.expectation(description: "Wait for network calls")
+                                self.waitForExpectations(timeout: 0.2, handler: nil)
+                            }
+                            it("unreadMessagesCount emits a nil and then the 10") {
+                                XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10)])
+                            }
+                            it("unreadNotificationsCount emits and then the 10") {
+                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 10)])
+                            }
+                            it("globalCount is 24") {
+                                expect(globalCountObserver.events.last?.value.element!) == 20
+                            }
+                        }
+                        context("notificationsEnabled & new chat & review enabled") {
+                            beforeEach {
+                                featureFlags.notificationsSection = true
+                                featureFlags.websocketChat = true
+                                featureFlags.userReviews = true
+                                sut.setup()
+                                let _ = self.expectation(description: "Wait for network calls")
+                                self.waitForExpectations(timeout: 0.2, handler: nil)
+                            }
+                            it("unreadMessagesCount emits a nil and then the 7") {
+                                XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7)])
+                            }
+                            it("unreadNotificationsCount emits and then the 14") {
+                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 14)])
+                            }
+                            it("globalCount is 21") {
+                                expect(globalCountObserver.events.last?.value.element!) == 21
+                            }
+                        }
+                        context("notificationsDisabled & new chat & review enabled") {
+                            beforeEach {
+                                featureFlags.notificationsSection = false
+                                featureFlags.websocketChat = true
+                                featureFlags.userReviews = true
+                                sut.setup()
+                                let _ = self.expectation(description: "Wait for network calls")
+                                self.waitForExpectations(timeout: 0.2, handler: nil)
+                            }
+                            it("unreadMessagesCount emits a nil and then the 7") {
+                                XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7)])
+                            }
+                            it("unreadNotificationsCount just emits a nil value") {
+                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil)])
+                            }
+                            it("globalCount is 7") {
+                                expect(globalCountObserver.events.last?.value.element!) == 7
+                            }
+                        }
                     }
                 }
-                context("failure") {
+                describe("favorites count") {
                     beforeEach {
-                        oldChatRepository.unreadMessagesResult = Result<Int, RepositoryError>(error: .internalError(message: ""))
-                        sut.setup()
-                        expect(unreadMessagesResult).toEventuallyNot(beNil())
+                        createNotificationsManager()
                     }
-//                    it("counter is nil") {
-//                        expect(self.unreadMessagesValue).to(beNil())
-//                    }
+                    context("not logged in") {
+                        beforeEach {
+                            sut.setup()
+                        }
+                        it("favoriteCount has an initial nil, and then emits another after setup") {
+                            XCTAssertEqual(favoriteObserver.events, [next(0, nil), next(0, nil)])
+                        }
+                    }
+                    context("logged in") {
+                        beforeEach {
+                            sessionManager.loggedIn = true
+                            let myUser = MockMyUser()
+                            myUser.objectId = String.random(20)
+                            myUserRepository.myUserVar.value = myUser
+                        }
+                        context("nothing stored") {
+                            beforeEach {
+                                keyValueStorage.productsMarkAsFavorite = nil
+                                sut.setup()
+                            }
+                            it("favoriteCount has an initial nil, and then emits another after setup") {
+                                XCTAssertEqual(favoriteObserver.events, [next(0, nil), next(0, nil)])
+                            }
+                        }
+                        context("1 favorite stored") {
+                            beforeEach {
+                                keyValueStorage.productsMarkAsFavorite = 1
+                                sut.setup()
+                            }
+                            it("favoriteCount emits a nil and then the 1") {
+                                XCTAssertEqual(favoriteObserver.events, [next(0, nil), next(0, 1)])
+                            }
+                        }
+                        context("20 favorite stored") {
+                            beforeEach {
+                                keyValueStorage.productsMarkAsFavorite = 20
+                                sut.setup()
+                            }
+                            it("favoriteCount emits a nil and then the 1") {
+                                XCTAssertEqual(favoriteObserver.events, [next(0, nil), next(0, 1)])
+                            }
+                        }
+                    }
                 }
-            }
-            context("api gives 6 counts") {
+                describe("mkt notifications") {
+                    context("not logged in") {
+                        beforeEach {
+                            sessionManager.loggedIn = false
+                            createNotificationsManager()
+                        }
+                        context("no stored value") {
+                            beforeEach {
+                                sut.setup()
+                            }
+                            it("enabledMktNotifications emits just false") {
+                                XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false)])
+                            }
+                            it("loggedInMktNofitications emits true") {
+                                XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true)])
+                            }
+                        }
+                        context("stored true value") {
+                            beforeEach {
+                                keyValueStorage.userMarketingNotifications = true
+                                sut.setup()
+                            }
+                            it("enabledMktNotifications emits just false") {
+                                XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false)])
+                            }
+                            it("loggedInMktNofitications emits true") {
+                                XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true)])
+                            }
+                        }
+                        context("stored false value") {
+                            beforeEach {
+                                keyValueStorage.userMarketingNotifications = false
+                                sut.setup()
+                            }
+                            it("enabledMktNotifications emits just false") {
+                                XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false)])
+                            }
+                            it("loggedInMktNofitications emits true") {
+                                XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true)])
+                            }
+                        }
+                    }
+                    context("logged in") {
+                        beforeEach {
+                            sessionManager.loggedIn = true
+                            let myUser = MockMyUser()
+                            myUser.objectId = String.random(20)
+                            myUserRepository.myUserVar.value = myUser
+                        }
+                        context("no stored value") {
+                            beforeEach {
+                                createNotificationsManager()
+                                sut.setup()
+                            }
+                            it("enabledMktNotifications emits just default value true") {
+                                XCTAssertEqual(marketingNotificationsObserver.events, [next(0, true)])
+                            }
+                            it("loggedInMktNofitications emits true") {
+                                XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true)])
+                            }
+                        }
+                        context("stored true value") {
+                            beforeEach {
+                                keyValueStorage.userMarketingNotifications = true
+                                createNotificationsManager()
+                                sut.setup()
+                            }
+                            it("enabledMktNotifications emits true") {
+                                XCTAssertEqual(marketingNotificationsObserver.events, [next(0, true)])
+                            }
+                            it("loggedInMktNofitications emits true") {
+                                XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true)])
+                            }
+                        }
+                        context("stored false value") {
+                            beforeEach {
+                                keyValueStorage.userMarketingNotifications = false
+                                createNotificationsManager()
+                                sut.setup()
+                            }
+                            it("enabledMktNotifications emits just false") {
+                                XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false)])
+                            }
+                            it("loggedInMktNofitications emits true") {
+                                XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, false)])
+                            }
+                        }
+                    }
+                }
 
-            }
-            context("pre setup") {
-                it("doesn't have unreadMessagesCount") {
-                    expect(self.unreadMessagesValue).to(beNil())
-                }
             }
         }
     }
