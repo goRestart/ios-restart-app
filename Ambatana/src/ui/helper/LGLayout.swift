@@ -21,16 +21,16 @@ extension LGLayout {
     // MARK: Helpers
     
     @discardableResult
-    private func constraint(item1: Any, attritube1: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal,
-                            item2: Any? = nil, attritube2: NSLayoutAttribute = .notAnAttribute,
+    private func constraint(item1: Any, attribute1: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal,
+                            item2: Any? = nil, attribute2: NSLayoutAttribute = .notAnAttribute,
                             multiplier: CGFloat = 1, constant: CGFloat = 0,
                             priority: UILayoutPriority = UILayoutPriorityRequired,
                             constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
         let layoutConstraint = NSLayoutConstraint(item: item1,
-                                                  attribute: attritube1,
+                                                  attribute: attribute1,
                                                   relatedBy: relatedBy,
                                                   toItem: item2,
-                                                  attribute: attritube2,
+                                                  attribute: attribute2,
                                                   multiplier: multiplier,
                                                   constant: constant)
         layoutConstraint.priority = priority
@@ -45,7 +45,7 @@ extension LGLayout {
     func left(to attribute: NSLayoutAttribute = .left, by constant: CGFloat = 0,
               priority: UILayoutPriority = UILayoutPriorityRequired,
               constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .left, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .left, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -54,7 +54,7 @@ extension LGLayout {
     func right(to attribute: NSLayoutAttribute = .right, by constant: CGFloat = 0,
                priority: UILayoutPriority = UILayoutPriorityRequired,
                constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .right, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .right, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -63,7 +63,7 @@ extension LGLayout {
     func top(to attribute: NSLayoutAttribute = .top, by constant: CGFloat = 0,
              priority: UILayoutPriority = UILayoutPriorityRequired,
              constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .top, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .top, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -72,7 +72,7 @@ extension LGLayout {
     func bottom(to attribute: NSLayoutAttribute = .bottom, by constant: CGFloat = 0,
                 priority: UILayoutPriority = UILayoutPriorityRequired,
                 constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .bottom, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .bottom, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -81,7 +81,7 @@ extension LGLayout {
     func leftMargin(to attribute: NSLayoutAttribute = .leftMargin, by constant: CGFloat = 0,
                     priority: UILayoutPriority = UILayoutPriorityRequired,
                     constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .leftMargin, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .leftMargin, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -90,7 +90,7 @@ extension LGLayout {
     func rightMargin(to attribute: NSLayoutAttribute = .rightMargin, by constant: CGFloat = 0,
                      priority: UILayoutPriority = UILayoutPriorityRequired,
                      constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .rightMargin, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .rightMargin, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -99,7 +99,7 @@ extension LGLayout {
     func topMargin(to attribute: NSLayoutAttribute = .topMargin, by constant: CGFloat = 0,
                    priority: UILayoutPriority = UILayoutPriorityRequired,
                    constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .topMargin, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .topMargin, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -108,7 +108,7 @@ extension LGLayout {
     func bottomMargin(to attribute: NSLayoutAttribute = .bottomMargin, by constant: CGFloat = 0,
                       priority: UILayoutPriority = UILayoutPriorityRequired,
                       constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .bottomMargin, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .bottomMargin, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -120,7 +120,7 @@ extension LGLayout {
     func leading(to attribute: NSLayoutAttribute = .leading, by constant: CGFloat = 0,
                  priority: UILayoutPriority = UILayoutPriorityRequired,
                  constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .leading, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .leading, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -129,7 +129,7 @@ extension LGLayout {
     func trailing(to attribute: NSLayoutAttribute = .trailing, by constant: CGFloat = 0,
                   priority: UILayoutPriority = UILayoutPriorityRequired,
                   constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .trailing, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .trailing, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -138,7 +138,7 @@ extension LGLayout {
     func leadingMargin(to attribute: NSLayoutAttribute = .leadingMargin, by constant: CGFloat = 0,
                        priority: UILayoutPriority = UILayoutPriorityRequired,
                        constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .leadingMargin, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .leadingMargin, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -147,7 +147,7 @@ extension LGLayout {
     func trailingMargin(to attribute: NSLayoutAttribute = .trailingMargin, by constant: CGFloat = 0,
                         priority: UILayoutPriority = UILayoutPriorityRequired,
                         constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .trailingMargin, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .trailingMargin, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -159,7 +159,7 @@ extension LGLayout {
     func centerX(to attribute: NSLayoutAttribute = .centerX, by constant: CGFloat = 0,
                  priority: UILayoutPriority = UILayoutPriorityRequired,
                  constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .centerX, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .centerX, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -168,7 +168,7 @@ extension LGLayout {
     func centerY(to attribute: NSLayoutAttribute = .centerY, by constant: CGFloat = 0,
                  priority: UILayoutPriority = UILayoutPriorityRequired,
                  constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .centerY, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .centerY, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -177,7 +177,7 @@ extension LGLayout {
     func centerXWithinMargin(to attribute: NSLayoutAttribute = .centerXWithinMargins, by constant: CGFloat = 0,
                              priority: UILayoutPriority = UILayoutPriorityRequired,
                              constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .centerXWithinMargins, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .centerXWithinMargins, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -186,7 +186,7 @@ extension LGLayout {
     func centerYWithinMargin(to attribute: NSLayoutAttribute = .centerYWithinMargins, by constant: CGFloat = 0,
                              priority: UILayoutPriority = UILayoutPriorityRequired,
                              constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .centerYWithinMargins, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .centerYWithinMargins, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -198,7 +198,7 @@ extension LGLayout {
     func lastBaseline(to attribute: NSLayoutAttribute = .lastBaseline, by constant: CGFloat = 0,
                       priority: UILayoutPriority = UILayoutPriorityRequired,
                       constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .lastBaseline, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .lastBaseline, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -207,7 +207,7 @@ extension LGLayout {
     func firstBaseline(to attribute: NSLayoutAttribute = .firstBaseline, by constant: CGFloat = 0,
                        priority: UILayoutPriority = UILayoutPriorityRequired,
                        constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .firstBaseline, item2: item2, attritube2: attribute,
+        constraint(item1: item1, attribute1: .firstBaseline, item2: item2, attribute2: attribute,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -218,14 +218,14 @@ extension LGLayout {
     @discardableResult
     func width(_ width: CGFloat, priority: UILayoutPriority = UILayoutPriorityRequired,
                constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .width, constant: width, priority: priority, constraintBlock: constraintBlock)
+        constraint(item1: item1, attribute1: .width, constant: width, priority: priority, constraintBlock: constraintBlock)
         return self
     }
 
     @discardableResult
     func height(_ height: CGFloat, priority: UILayoutPriority = UILayoutPriorityRequired,
                 constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attritube1: .height, constant: height, priority: priority, constraintBlock: constraintBlock)
+        constraint(item1: item1, attribute1: .height, constant: height, priority: priority, constraintBlock: constraintBlock)
         return self
     }
 
@@ -250,8 +250,8 @@ extension LGLayout {
 
     @discardableResult
     func widthEqualsHeight(size: CGFloat) -> LGLayout {
-        constraint(item1: item1, attritube1: .width, item2: item1, attritube2: .height)
-        constraint(item1: item1, attritube1: .width, constant: size)
+        constraint(item1: item1, attribute1: .width, item2: item1, attribute2: .height)
+        constraint(item1: item1, attribute1: .width, constant: size)
         return self
     }
 }

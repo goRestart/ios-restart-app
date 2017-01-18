@@ -878,13 +878,6 @@ struct TrackerEvent {
         params[.expressChatTrigger] = trigger.rawValue
         return TrackerEvent(name: .expressChatDontAsk, params: params)
     }
-
-    static func productDetailInterestedUsers(_ number: Int, productId: String)  -> TrackerEvent {
-        var params = EventParameters()
-        params[.numberOfUsers] = number
-        params[.productId] = productId
-        return TrackerEvent(name: .productDetailInterestedUsers, params: params)
-    }
     
     static func npsStart() -> TrackerEvent {
         return TrackerEvent(name: .npsStart, params: nil)

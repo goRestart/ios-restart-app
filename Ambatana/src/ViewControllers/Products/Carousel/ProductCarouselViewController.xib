@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,6 +13,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductCarouselViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="bannerContainer" destination="G8H-Az-QBo" id="p83-Mn-5JX"/>
+                <outlet property="bannerContainerBottomConstraint" destination="cW1-mD-DaV" id="7TA-Cc-9o3"/>
                 <outlet property="buttonBottom" destination="ibM-CY-XRt" id="VOT-6P-Mmb"/>
                 <outlet property="buttonBottomBottomConstraint" destination="xy2-xd-eOf" id="ifU-90-OpV"/>
                 <outlet property="buttonBottomHeight" destination="qTj-cW-IDe" id="4N1-Rl-PlK"/>
@@ -32,8 +34,6 @@
                 <outlet property="gradientShadowBottomView" destination="v46-dz-RxO" id="SOd-x8-W3i"/>
                 <outlet property="gradientShadowView" destination="PnK-9l-N8i" id="Cd4-V7-udw"/>
                 <outlet property="imageBackground" destination="a9q-ok-5NH" id="Rng-ni-wSf"/>
-                <outlet property="interestedBubbleContainer" destination="G8H-Az-QBo" id="rkP-xb-97g"/>
-                <outlet property="interestedBubbleContainerBottomConstraint" destination="cW1-mD-DaV" id="j23-UT-xbA"/>
                 <outlet property="productStatusLabel" destination="yoR-Fx-XEv" id="rdF-DT-xux"/>
                 <outlet property="productStatusView" destination="cLW-LX-KUg" id="tuY-O4-wBO"/>
                 <outlet property="shareButton" destination="k8u-9M-4kc" id="DY2-OW-lpF"/>
@@ -174,11 +174,11 @@
                         <outlet property="delegate" destination="-1" id="UcM-Yb-tPM"/>
                     </connections>
                 </tableView>
-                <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="G8H-Az-QBo" userLabel="InterestedBubbleContainer">
-                    <rect key="frame" x="0.0" y="667" width="375" height="50"/>
+                <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="G8H-Az-QBo" userLabel="bannerContainer">
+                    <rect key="frame" x="0.0" y="667" width="375" height="64"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="xZd-V9-2mw"/>
+                        <constraint firstAttribute="height" constant="64" id="xZd-V9-2mw"/>
                     </constraints>
                 </view>
             </subviews>
@@ -206,7 +206,7 @@
                 <constraint firstAttribute="trailing" secondItem="k8u-9M-4kc" secondAttribute="trailing" constant="15" id="ZO9-Vf-oJW"/>
                 <constraint firstAttribute="trailing" secondItem="IPt-yE-B8T" secondAttribute="trailing" id="aLA-du-DUK"/>
                 <constraint firstItem="nEH-Ai-mnV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bGX-Mu-bQ7"/>
-                <constraint firstAttribute="bottom" secondItem="G8H-Az-QBo" secondAttribute="bottom" constant="-50" id="cW1-mD-DaV"/>
+                <constraint firstAttribute="bottom" secondItem="G8H-Az-QBo" secondAttribute="bottom" constant="-64" id="cW1-mD-DaV"/>
                 <constraint firstItem="G8H-Az-QBo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="dps-ti-PM7"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eCG-dd-JA4"/>
                 <constraint firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="ehR-ym-8FZ"/>
@@ -230,7 +230,7 @@
                 <constraint firstItem="nEH-Ai-mnV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y74-dp-ujo"/>
                 <constraint firstAttribute="bottom" secondItem="a9q-ok-5NH" secondAttribute="bottom" id="yDB-1u-d6E"/>
             </constraints>
-            <point key="canvasLocation" x="-47" y="56"/>
+            <point key="canvasLocation" x="-507" y="518"/>
         </view>
     </objects>
     <resources>

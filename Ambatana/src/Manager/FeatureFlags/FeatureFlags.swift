@@ -15,7 +15,6 @@ protocol FeatureFlaggeable {
     var notificationsSection: Bool { get }
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
-    var interestedUsersMode: InterestedUsersMode { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
@@ -82,13 +81,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showNPSSurvey
         }
         return ABTests.showNPSSurvey.value
-    }
-
-     var interestedUsersMode: InterestedUsersMode {
-        if Bumper.enabled {
-            return Bumper.interestedUsersMode
-        }
-        return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
     }
 
     var postAfterDeleteMode: PostAfterDeleteMode {

@@ -61,10 +61,14 @@ class PurchasesShopper: NSObject {
 
      - parameter product: info of the product to purchase on the appstore
      */
-    func requestPaymentForProduct(_ productId: String) {
-        guard let appstoreProduct = productsDict[productId] else { return }
+    func requestPaymentForProduct(_ appstoreProductId: String) {
+        guard let appstoreProduct = productsDict[appstoreProductId] else { return }
         // request payment to appstore with "appstoreProduct"
 
+    }
+
+    func requestFreeBumpUpForProduct(productId: String) {
+        // confirm "letgo payment" aka "free payment" aka "share"
     }
 }
 
