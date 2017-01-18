@@ -157,8 +157,9 @@ extension BumperViewController: BumperViewModelDelegate {
         tableView.reloadData()
     }
 
-    func showFeature(_ feature: Int, itemsSelection items: [String]) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    func showFeature(_ feature: Int, title: String, itemsSelection items: [String]) {
+        let style: UIAlertControllerStyle = UIDevice.current.userInterfaceIdiom == .pad ? .alert : .actionSheet
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: style)
         for item in items {
             let action = UIAlertAction(title: item, style: .default) { [weak self] _ in
                 self?.viewModel.updateFeature(at: feature, with: item)
