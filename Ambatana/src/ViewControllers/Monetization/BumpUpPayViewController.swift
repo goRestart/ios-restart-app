@@ -83,11 +83,11 @@ class BumpUpPayViewController: BaseViewController {
         viewModel.closeActionPressed()
     }
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeActionPressed()
     }
 
-    @IBAction func bumpUpButtonPressed(sender: AnyObject) {
+    @IBAction func bumpUpButtonPressed(_ sender: AnyObject) {
         viewModel.bumpUpPressed()
     }
 

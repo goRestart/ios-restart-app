@@ -90,7 +90,7 @@ class BumpUpFreeViewController: BaseViewController {
         viewModel.closeActionPressed()
     }
 
-    @IBAction func closeButtonPressed(sender: AnyObject) {
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
         viewModel.closeActionPressed()
     }
 
