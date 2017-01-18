@@ -145,6 +145,10 @@ enum EventName: String {
     case notificationCenterComplete         = "notification-center-complete"
 
     case marketingPushNotifications         = "marketing-push-notifications"
+    
+    case passiveBuyerStart                 = "passive-buyer-start"
+    case passiveBuyerComplete              = "passive-buyer-complete"
+    case passiveBuyerAbandon               = "passive-buyer-abandon"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -248,6 +252,7 @@ enum EventParameterName: String {
     case lastSearch           = "last-search"
     case expressChatTrigger   = "express-chat-trigger"
     case numberPhotosPosting  = "number-photos-posting"
+    case passiveConversations = "passive-conversations"
 }
 
 enum EventParameterLoginSourceValue: String {

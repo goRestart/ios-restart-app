@@ -21,16 +21,32 @@ class PassiveBuyersViewModel: BaseViewModel {
 
     private let passiveBuyers: PassiveBuyersInfo
     private let passiveBuyersRepository: PassiveBuyersRepository
+    private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
 
     convenience init(passiveBuyers: PassiveBuyersInfo) {
-        self.init(passiveBuyers: passiveBuyers, passiveBuyersRepository: Core.passiveBuyersRepository)
+        self.init(passiveBuyers: passiveBuyers,
+                  passiveBuyersRepository: Core.passiveBuyersRepository,
+                  myUserRepository: Core.myUserRepository,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(passiveBuyers: PassiveBuyersInfo, passiveBuyersRepository: PassiveBuyersRepository) {
+    init(passiveBuyers: PassiveBuyersInfo,
+         passiveBuyersRepository: PassiveBuyersRepository,
+         myUserRepository: MyUserRepository,
+         tracker: TrackerProxy) {
         self.passiveBuyers = passiveBuyers
         self.passiveBuyersRepository = passiveBuyersRepository
+        self.tracker = tracker
+        self.myUserRepository = myUserRepository
     }
 
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        
+        trackVisit()
+    }
+    
 
     // MARK: - Public info
 
@@ -54,6 +70,7 @@ class PassiveBuyersViewModel: BaseViewModel {
     // MARK: - Actions
 
     func closeButtonPressed() {
+        trackPassiveBuyerAbandon()
         navigator?.passiveBuyersCancel()
     }
 
@@ -62,6 +79,7 @@ class PassiveBuyersViewModel: BaseViewModel {
         passiveBuyersRepository.contactAllBuyers(passiveBuyersInfo: passiveBuyers) { [weak self] result in
             if let _ = result.value {
                 self?.delegate?.vmHideLoading(LGLocalizedString.passiveBuyersContactSuccess) { [weak self] in
+                    self?.trackPassiveBuyerComplete()
                     self?.navigator?.passiveBuyersCompleted()
                 }
             } else {
@@ -76,5 +94,26 @@ class PassiveBuyersViewModel: BaseViewModel {
     func buyerAtIndex(_ index: Int) -> PassiveBuyersUser? {
         guard 0..<passiveBuyers.passiveBuyers.count ~= index else { return nil }
         return passiveBuyers.passiveBuyers[index]
+    }
+    
+    // MARK: - Trackings
+    
+    private func trackVisit() {
+        let event = TrackerEvent.passiveBuyerStart(withUser: myUserRepository.myUser?.objectId,
+                                                   productId: passiveBuyers.objectId)
+        tracker.trackEvent(event)
+    }
+    
+    private func trackPassiveBuyerComplete() {
+        let event = TrackerEvent.passiveBuyerComplete(withUser: myUserRepository.myUser?.objectId,
+                                                      productId: passiveBuyers.objectId,
+                                                      passiveConversations: buyersCount)
+        tracker.trackEvent(event)
+    }
+    
+    private func trackPassiveBuyerAbandon() {
+        let event = TrackerEvent.passiveBuyerAbandon(withUser: myUserRepository.myUser?.objectId,
+                                                     productId: passiveBuyers.objectId)
+        tracker.trackEvent(event)
     }
 }
