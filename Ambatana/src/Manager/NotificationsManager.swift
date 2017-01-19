@@ -27,13 +27,8 @@ class NotificationsManager {
         }
     }
     let marketingNotifications: Variable<Bool>
-    var loggedInMktNofitications: Observable<Bool> {
-        return marketingNotifications.asObservable().map { [weak self] enabled in
-            if let loggedIn = self?.loggedIn.value, !loggedIn { return true }
-            return enabled
-        }
-    }
-    
+    var loggedInMktNofitications: Variable<Bool>
+
     fileprivate let disposeBag = DisposeBag()
 
     private let sessionManager: SessionManager
@@ -67,6 +62,7 @@ class NotificationsManager {
         self.loggedIn = Variable<Bool>(sessionManager.loggedIn)
         let enabledMktNotifications = sessionManager.loggedIn && keyValueStorage.userMarketingNotifications
         self.marketingNotifications = Variable<Bool>(enabledMktNotifications)
+        self.loggedInMktNofitications = Variable<Bool>(!sessionManager.loggedIn || enabledMktNotifications)
     }
 
     deinit {
@@ -135,12 +131,13 @@ class NotificationsManager {
             case .login:
                 self?.updateCounters()
             case .logout:
-                self?.unreadMessagesCount.value = 0
-                self?.unreadNotificationsCount.value = 0
+                self?.clearCounters()
             }
         }.addDisposableTo(disposeBag)
 
-        sessionManager.sessionEvents.map { $0.isLogin }.bindTo(loggedIn).addDisposableTo(disposeBag)
+        sessionManager.sessionEvents.map {
+            $0.isLogin
+            }.bindTo(loggedIn).addDisposableTo(disposeBag)
 
         globalCount.bindNext { count in
             UIApplication.shared.applicationIconBadgeNumber = count
@@ -166,6 +163,14 @@ class NotificationsManager {
 
     dynamic private func applicationWillEnterForeground() {
         updateCounters()
+    }
+
+    private func clearCounters() {
+        unreadMessagesCount.value = 0
+        if featureFlags.notificationsSection {
+            unreadNotificationsCount.value = 0
+        }
+        favoriteCount.value = nil
     }
 
     private func requestChatCounters() {
@@ -211,6 +216,11 @@ fileprivate extension NotificationsManager {
             guard let keyValueStorage = self?.keyValueStorage else { return }
             self?.marketingNotifications.value = keyValueStorage.userMarketingNotifications
         }.addDisposableTo(disposeBag)
+
+        let loggedInMkt: Observable<Bool> = Observable.combineLatest(marketingNotifications.asObservable(),
+                                                                     loggedIn.asObservable(),
+            resultSelector: { enabled, loggedIn in return !loggedIn || enabled }).skip(1)
+        loggedInMkt.bindTo(loggedInMktNofitications).addDisposableTo(disposeBag)
     }
 }
 

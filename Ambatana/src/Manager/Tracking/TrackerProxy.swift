@@ -158,7 +158,7 @@ final class TrackerProxy: Tracker {
     }
 
     private func setupMktNotificationsRx() {
-        notificationsManager.loggedInMktNofitications.bindNext { [weak self] enabled in
+        notificationsManager.loggedInMktNofitications.asObservable().bindNext { [weak self] enabled in
             self?.setMarketingNotifications(enabled)
         }.addDisposableTo(disposeBag)
     }
