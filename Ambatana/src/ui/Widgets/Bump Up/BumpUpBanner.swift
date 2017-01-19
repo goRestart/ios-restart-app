@@ -71,8 +71,7 @@ class BumpUpBanner: UIView {
         isFree = info.free
 
         // bumpUpFreeTimeLimit is the time limit in milliseconds
-        let timeLimit = Int(featureFlags.bumpUpFreeTimeLimit)
-        timeLeft.value = timeLimit - info.timeSinceLastBump
+        timeLeft.value = featureFlags.bumpUpFreeTimeLimit - info.timeSinceLastBump
         timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
