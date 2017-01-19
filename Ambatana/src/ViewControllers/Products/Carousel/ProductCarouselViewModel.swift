@@ -276,6 +276,9 @@ class ProductCarouselViewModel: BaseViewModel {
         navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
     }
 
+    func refreshBannerInfo() {
+        currentProductViewModel?.refreshBumpeableBanner()
+    }
     // MARK: - Private Methods
     
     private func getOrCreateViewModel(_ product: Product) -> ProductViewModel? {

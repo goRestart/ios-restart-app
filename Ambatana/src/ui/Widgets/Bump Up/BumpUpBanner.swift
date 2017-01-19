@@ -28,6 +28,8 @@ struct BumpUpInfo {
 class BumpUpBanner: UIView {
 
     static let iconSize: CGFloat = 20
+    static let timerUpdateInterval: TimeInterval = 1
+    static let secsToMillisecsRatio = 1000
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
@@ -73,7 +75,7 @@ class BumpUpBanner: UIView {
         // bumpUpFreeTimeLimit is the time limit in milliseconds
         timeLeft.value = featureFlags.bumpUpFreeTimeLimit - info.timeSinceLastBump
         timer.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: BumpUpBanner.timerUpdateInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
         bumpButton.isEnabled = timeLeft.value < 1
 
@@ -85,6 +87,10 @@ class BumpUpBanner: UIView {
 
         buttonBlock = info.buttonBlock
         primaryBlock = info.primaryBlock
+    }
+
+    func stopCountdown() {
+        timer.invalidate()
     }
 
     dynamic private func bannerTapped() {
@@ -106,7 +112,7 @@ class BumpUpBanner: UIView {
     // - Private Methods
 
     private func setupRx() {
-        let secondsLeft = timeLeft.asObservable().map{ $0/1000 }.skip(1)
+        let secondsLeft = timeLeft.asObservable().map{ $0/BumpUpBanner.secsToMillisecsRatio }.skip(1)
 
         secondsLeft.map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
 
@@ -200,7 +206,7 @@ class BumpUpBanner: UIView {
     }
 
     private dynamic func updateTimer() {
-        timeLeft.value = timeLeft.value-1000
+        timeLeft.value = timeLeft.value-(Int(BumpUpBanner.timerUpdateInterval)*BumpUpBanner.secsToMillisecsRatio)
     }
 
     private func setAccessibilityIds() {
