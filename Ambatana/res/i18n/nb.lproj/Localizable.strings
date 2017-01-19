@@ -353,8 +353,8 @@
 "notifications_type_buyers_interested_button" = "Finn ut hvem de er";
 "notifications_type_buyers_interested_button_done" = "Kjøpere ble kontaktet!";
 "notifications_type_buyers_interested_w_title" = "%1$d kjøpere kan være interessert i ditt produkt: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Din Facebook-venn %1$@ har blitt en del av letgo som %2$@";
+"notifications_type_facebook_friend_button" = "Vis profil";
 "notifications_type_like_button" = "Se profilen deres";
 "notifications_type_like_w_name" = "%@ favoriserte ditt produkt";
 "notifications_type_like_w_name_w_title" = "%1$@ favoriserte ditt produkt: \"%2$@\"";

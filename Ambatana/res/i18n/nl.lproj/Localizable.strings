@@ -353,8 +353,8 @@
 "notifications_type_buyers_interested_button" = "Ontdek wie het zijn";
 "notifications_type_buyers_interested_button_done" = "Kopers gecontacteerd!";
 "notifications_type_buyers_interested_w_title" = "%1$d kopers zijn misschien geïnteresseerd in jouw product: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Jouw Facebook vriend %1$@ heeft zich aangesloten bij letgo als %2$@";
+"notifications_type_facebook_friend_button" = "Bekijk Profiel";
 "notifications_type_like_button" = "Bekijk hun profiel";
 "notifications_type_like_w_name" = "%@ heeft jouw product gefavoriseerd";
 "notifications_type_like_w_name_w_title" = "%1$@ heeft jouw product gefavoriseerd: \"%2$@\"";
