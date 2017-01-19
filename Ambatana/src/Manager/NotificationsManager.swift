@@ -27,7 +27,7 @@ class NotificationsManager {
         }
     }
     let marketingNotifications: Variable<Bool>
-    var loggedInMktNofitications: Variable<Bool>
+    let loggedInMktNofitications: Variable<Bool>
 
     fileprivate let disposeBag = DisposeBag()
 
