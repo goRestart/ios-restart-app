@@ -24,7 +24,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
 
     override func spec() {
 
-        fdescribe("SignUpEmailStep2ViewModel") {
+        describe("SignUpEmailStep2ViewModel") {
             var signUpEnabled: Bool!
             var disposeBag: DisposeBag!
             var featureFlags: MockFeatureFlags!

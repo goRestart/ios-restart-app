@@ -31,6 +31,9 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
         }, accessibilityId: .SignUpEmailHelpButton)
     }()
     let email: Variable<String>
+    var suggestedEmail: Observable<String?> {
+        return suggestedEmailVar.asObservable()
+    }
     let password: Variable<String>
     var nextStepEnabled: Observable<Bool> {
         return nextStepEnabledVar.asObservable()
@@ -38,6 +41,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     weak var navigator: SignUpEmailStep1Navigator?
 
+    fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let source: EventParameterLoginSourceValue
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let nextStepEnabledVar: Variable<Bool>
@@ -46,16 +50,17 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-//    convenience override init() {
-//        let keyValueStorage = KeyValueStorage.sharedInstance
-//        self.init(keyValueStorage: keyValueStorage)
-//    }
+    convenience init(source: EventParameterLoginSourceValue) {
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        self.init(source: source, keyValueStorage: keyValueStorage)
+    }
 
     init(source: EventParameterLoginSourceValue, keyValueStorage: KeyValueStorageable) {
         let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage) ?? ""
         self.email = Variable<String>(email)
         self.password = Variable<String>("")
 
+        self.suggestedEmailVar = Variable<String?>(nil)
         self.source = source
         self.keyValueStorage = keyValueStorage
         self.nextStepEnabledVar = Variable<Bool>(false)
@@ -104,6 +109,12 @@ fileprivate extension SignUpEmailStep1ViewModel {
         Observable.combineLatest(email.asObservable(), password.asObservable()) { (email, password) -> Bool in
             return email.characters.count > 0 && password.characters.count > 0
         }.bindTo(nextStepEnabledVar).addDisposableTo(disposeBag)
+
+        // Emails auto suggest
+        email.asObservable()
+            .map { $0.suggestEmail(domains: Constants.emailSuggestedDomains) }
+            .bindTo(suggestedEmailVar)
+            .addDisposableTo(disposeBag)
     }
 }
 

@@ -20,8 +20,9 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
 
     override func spec() {
 
-        describe("SignUpEmailStep1ViewModel") {
+        fdescribe("SignUpEmailStep1ViewModel") {
             var keyValueStorage: MockKeyValueStorage!
+            var suggestedEmail: String!
             var nextStepEnabled: Bool!
             var disposeBag: DisposeBag!
             var sut: SignUpEmailStep1ViewModel!
@@ -34,6 +35,9 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 keyValueStorage = MockKeyValueStorage()
                 disposeBag = DisposeBag()
                 sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
+                sut.suggestedEmail.subscribeNext { email in
+                    suggestedEmail = email
+                }.addDisposableTo(disposeBag)
                 sut.nextStepEnabled.subscribeNext { enabled in
                     nextStepEnabled = enabled
                 }.addDisposableTo(disposeBag)
@@ -111,6 +115,45 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                     }
                     it("has next step disabled") {
                         expect(nextStepEnabled) == false
+                    }
+                }
+            }
+
+            describe("type email") {
+                describe("empty") {
+                    beforeEach {
+                        sut.email.value = ""
+                    }
+
+                    it("does not suggest anything") {
+                        expect(suggestedEmail).to(beNil())
+                    }
+                }
+                describe("user letters") {
+                    beforeEach {
+                        sut.email.value = "albert"
+                    }
+
+                    it("does not suggest anything") {
+                        expect(suggestedEmail).to(beNil())
+                    }
+                }
+                describe("user letters and @ sign") {
+                    beforeEach {
+                        sut.email.value = "albert@"
+                    }
+
+                    it("does not suggest anything") {
+                        expect(suggestedEmail).to(beNil())
+                    }
+                }
+                describe("user letters, @ sign & first domain letters") {
+                    beforeEach {
+                        sut.email.value = "albert@g"
+                    }
+
+                    it("suggests first domain ocurrence") {
+                        expect(suggestedEmail) == "albert@gmail.com"
                     }
                 }
             }

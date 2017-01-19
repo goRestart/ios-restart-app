@@ -14,6 +14,9 @@ struct Constants {
     static let productDescriptionMaxLength = 1500
     static let userRatingDescriptionMaxLength = 255
     static let userRatingMinStarsToOptionalDescr = 3
+    static let emailSuggestedDomains = ["gmail.com", "yahoo.com", "hotmail.com", "aol.com", "icloud.com", "outlook.com",
+                                        "live.com", "comcast.com", "msn.com", "windowslive.com", "mynet.com",
+                                        "yandex.com"]
 
     // Map
     static let accurateRegionRadius = 1000.0    // meters
