@@ -110,7 +110,7 @@ fileprivate extension SignUpEmailStep1ViewModel {
             return email.characters.count > 0 && password.characters.count > 0
         }.bindTo(nextStepEnabledVar).addDisposableTo(disposeBag)
 
-        // Emails auto suggest
+        // Email auto suggest
         email.asObservable()
             .map { $0.suggestEmail(domains: Constants.emailSuggestedDomains) }
             .bindTo(suggestedEmailVar)
@@ -122,7 +122,6 @@ fileprivate extension SignUpEmailStep1ViewModel {
 
 fileprivate extension SignUpEmailStep1ViewModel {
     static func readPreviousEmail(fromKeyValueStorageable keyValueStorageble: KeyValueStorageable) -> String? {
-        // TODO: Check remember pwd AB test (in step 2 :))
         guard let accountProviderString = keyValueStorageble[.previousUserAccountProvider],
               let accountProvider = AccountProvider(rawValue: accountProviderString),
               accountProvider == .email else { return nil }
