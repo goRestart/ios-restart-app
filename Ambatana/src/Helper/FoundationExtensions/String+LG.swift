@@ -80,10 +80,11 @@ extension String {
         let mutableString = NSMutableString(string: self)
         let range = NSMakeRange(0, mutableString.length)
         let regexMatches = regex.replaceMatches(in: mutableString, options: [], range: range, withTemplate: "")
-
-        guard regexMatches == 1 else { return nil }
-
         let string = mutableString as String
+
+        // isEmpty is checked to prevent the first domain suggestion when typing "user@"
+        guard regexMatches == 1, !string.isEmpty else { return nil }
+
         for domain in domains {
             if domain.hasPrefix(string as String) {
                 let concat = domain.stringByReplacingFirstOccurrence(of: string, with: "")

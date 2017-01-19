@@ -14,7 +14,7 @@ class StringLGSpec: QuickSpec {
     override func spec() {
         var sut: String!
 
-        fdescribe("String + LG methods") {
+        describe("String + LG methods") {
             context("hasEmojis") {
                 describe("contains unicodes but not emojis") {
                     beforeEach {
@@ -103,14 +103,14 @@ class StringLGSpec: QuickSpec {
                 it("does not suggest when no @ sign is typed") {
                     expect("alb".suggestEmail(domains: domains)).to(beNil())
                 }
-                it("does not suggest if domain prefix doesn not match any of the given domains") {
+                it("does not suggest if no domain letter is typed after @ sign") {
+                    expect("albert@".suggestEmail(domains: domains)).to(beNil())
+                }
+                it("does not suggest if domain prefix doesnt not match any of the given domains") {
                     expect("albert@x".suggestEmail(domains: domains)).to(beNil())
                 }
-                it("does not suggest if domain prefix doesn not match any of the given domains") {
+                it("does not suggest if domain doesnt not match any of the given domains") {
                     expect("albert@gmail.coma".suggestEmail(domains: domains)).to(beNil())
-                }
-                it("suggest the first domain when no letter is typed after @ sign") {
-                    expect("albert@".suggestEmail(domains: domains)) == "albert@gmail.com"
                 }
                 it("suggests based on domains parameter order") {
                     expect("albert@m".suggestEmail(domains: domains)) == "albert@msn.com"
