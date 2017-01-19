@@ -151,6 +151,18 @@ extension NotificationType: Decodable {
             result = curry(NotificationType.productSuggested)
                 <^> LGNotificationProduct.decode(data)
                 <*> LGNotificationUser.decode(data)
+        case "facebook_friendship_created":
+            /*
+             "data": {
+                "user_id": "06820d78-a604-4acb-8f2e-21348b221876",
+                "username": "Letgo Chuck Norris",
+                "facebook_username": "Facebook Chuck Norris",
+                "user_image": "http://cdn.letgo.com/images\/ba\/16\/08\/b4\/c3b3200dee3a8fd0906680fd255779a6.jpg"
+             }
+            */
+            result = curry(NotificationType.facebookFriendshipCreated)
+                <^> LGNotificationUser.decode(data)
+                <*> data <| "facebook_username"
         default:
             return Decoded<NotificationType>.fromOptional(nil)
         }
