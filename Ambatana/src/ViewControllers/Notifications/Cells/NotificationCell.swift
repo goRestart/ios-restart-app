@@ -51,7 +51,7 @@ class NotificationCell: UITableViewCell, ReusableCell {
 
         primaryImage.rounded = true
         timeLabel.font = UIFont.notificationTimeFont
-        actionLabel.font = UIFont.notificationSubtitleFont
+        actionLabel.font = UIFont.notificationSubtitleFont(read: false)
 
         actionLabel.textColor = UIColor.black
         timeLabel.textColor = UIColor.black

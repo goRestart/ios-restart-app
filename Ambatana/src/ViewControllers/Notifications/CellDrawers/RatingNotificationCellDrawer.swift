@@ -31,6 +31,7 @@ class RatingNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell>
         }
 
         cell.actionLabel.text = message
+        cell.actionLabel.font = UIFont.notificationSubtitleFont(read: data.isRead)
         cell.iconImage.image = UIImage(named: "ic_rating_star")
         if let urlStr = userImageUri, let leftUrl = URL(string: urlStr) {
             cell.primaryImage.lg_setImageWithURL(leftUrl, placeholderImage: placeholder)
