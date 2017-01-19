@@ -75,6 +75,11 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension SignUpEmailStep1ViewModel {
+    func acceptSuggestedEmail() {
+        guard let suggestedEmail = suggestedEmailVar.value else { return }
+        email.value = suggestedEmail
+    }
+
     func openLogIn() {
         openLogIn(email: email.value, password: password.value)
     }
