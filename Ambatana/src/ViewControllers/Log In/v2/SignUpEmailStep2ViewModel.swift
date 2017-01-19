@@ -36,7 +36,6 @@ struct SignUpEmailStep2FormErrors: OptionSet {
         }
         return error
     }
-
 }
 
 protocol SignUpEmailStep2Navigator: class {

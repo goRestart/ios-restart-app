@@ -14,7 +14,7 @@ class StringLGSpec: QuickSpec {
     override func spec() {
         var sut: String!
 
-        describe("String + LG methods") {
+        fdescribe("String + LG methods") {
             context("hasEmojis") {
                 describe("contains unicodes but not emojis") {
                     beforeEach {
@@ -94,6 +94,44 @@ class StringLGSpec: QuickSpec {
                     it("returns false") {
                         expect(sut.isEmail()) == false
                     }
+                }
+            }
+            context("suggest email") {
+                let domains = ["gmail.com", "yahoo.com", "hotmail.com", "aol.com", "icloud.com", "outlook.com",
+                               "live.com", "comcast.com", "msn.com", "windowslive.com", "mynet.com", "yandex.com"]
+
+                it("does not suggest when no @ sign is typed") {
+                    expect("alb".suggestEmail(domains: domains)).to(beNil())
+                }
+                it("does not suggest if domain prefix doesn not match any of the given domains") {
+                    expect("albert@x".suggestEmail(domains: domains)).to(beNil())
+                }
+                it("does not suggest if domain prefix doesn not match any of the given domains") {
+                    expect("albert@gmail.coma".suggestEmail(domains: domains)).to(beNil())
+                }
+                it("suggest the first domain when no letter is typed after @ sign") {
+                    expect("albert@".suggestEmail(domains: domains)) == "albert@gmail.com"
+                }
+                it("suggests based on domains parameter order") {
+                    expect("albert@m".suggestEmail(domains: domains)) == "albert@msn.com"
+                }
+                it("suggests based on domains parameter order") {
+                    expect("albert@my".suggestEmail(domains: domains)) == "albert@mynet.com"
+                }
+            }
+            context("stringByReplacingFirstOccurrence") {
+                it("does nothing if doesn't find any occurrence") {
+                    expect("a vocal is a letter".stringByReplacingFirstOccurrence(of: "the", with: "")) == "a vocal is a letter"
+                }
+                it("replaces the only occurence when having just one") {
+                    expect("vocals are letters".stringByReplacingFirstOccurrence(of: "are", with: "and")) == "vocals and letters"
+                }
+                it("replaces only the first occurence when having two instances") {
+                    expect("a vocal is a letter".stringByReplacingFirstOccurrence(of: "a", with: "this")) == "this vocal is a letter"
+                }
+                it("takes in account options when used") {
+                    expect("A vocal is A letter".stringByReplacingFirstOccurrence(of: "a", with: "this",
+                                                                                  options: .caseInsensitive)) == "this vocal is A letter"
                 }
             }
             context("isValidLengthPrice") {
