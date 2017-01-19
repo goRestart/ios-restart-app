@@ -453,10 +453,10 @@ class NotificationsManagerSpec: QuickSpec {
                             doLogout()
                         }
                         it("unreadMessagesCount emits a nil, 10 and 0") {
-                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10), next(0, 0)])
+                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10), next(0, nil)])
                         }
                         it("unreadNotificationsCount emits nil, 10 and 0") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 10), next(0, 0)])
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 10), next(0, nil)])
                         }
                         it("globalCount is 0") {
                             expect(globalCountObserver.events.last?.value.element!) == 0
@@ -473,10 +473,10 @@ class NotificationsManagerSpec: QuickSpec {
                             doLogout()
                         }
                         it("unreadMessagesCount emits a nil, 7 and 0") {
-                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7), next(0, 0)])
+                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7), next(0, nil)])
                         }
                         it("unreadNotificationsCount emits nil, 14 and 0") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 14), next(0, 0)])
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 14), next(0, nil)])
                         }
                         it("globalCount is 0") {
                             expect(globalCountObserver.events.last?.value.element!) == 0
@@ -493,7 +493,7 @@ class NotificationsManagerSpec: QuickSpec {
                             doLogout()
                         }
                         it("unreadMessagesCount emits a nil, 7 and 0") {
-                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7), next(0,0)])
+                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7), next(0,nil)])
                         }
                         it("unreadNotificationsCount just emits a nil value") {
                             XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil)])
