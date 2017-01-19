@@ -101,8 +101,8 @@ extension ShareProductViewModel: SocialSharerDelegate {
                 switch state {
                 case .completed:
                     self?.close(withCompletion: {
-                            guard let isBumpUp = self?.bumpUp, isBumpUp else { return }
-                            self?.bumpUpProduct()
+                        guard let isBumpUp = self?.bumpUp, isBumpUp else { return }
+                        self?.bumpUpProduct()
                     })
                 case .cancelled, .failed:
                     break

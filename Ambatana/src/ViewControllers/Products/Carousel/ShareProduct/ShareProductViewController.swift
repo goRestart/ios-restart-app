@@ -120,7 +120,7 @@ extension ShareProductViewController: SocialShareViewDelegate {
 extension ShareProductViewController: ShareProductViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController {
         return self
-    }    
+    }
 }
 
 extension ShareProductViewController {
