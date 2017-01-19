@@ -30,19 +30,17 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
     fileprivate var lines: [CALayer] = []
 
-    fileprivate let signUpViewModel: SignUpViewModel
-    fileprivate let tourLoginViewModel: TourLoginViewModel
+    fileprivate let viewModel: TourLoginViewModel
     
     
     // MARK: - Lifecycle
 
-    init(signUpViewModel: SignUpViewModel, tourLoginViewModel: TourLoginViewModel) {
-        self.signUpViewModel = signUpViewModel
-        self.tourLoginViewModel = tourLoginViewModel
-        super.init(viewModel: signUpViewModel, nibName: "TourLoginViewController", statusBarStyle: .lightContent,
+    init(viewModel: TourLoginViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: "TourLoginViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark))
 
-        self.signUpViewModel.delegate = self
+        self.viewModel.delegate = self
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
 
@@ -83,19 +81,19 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     // MARK: - IBActions
     
     @IBAction func closeButtonPressed(_ sender: AnyObject) {
-        openNextStep()
+        viewModel.closeButtonPressed()
     }
 
     @IBAction func facebookButtonPressed(_ sender: AnyObject) {
-        signUpViewModel.connectFBButtonPressed()
+        viewModel.facebookButtonPressed()
     }
 
     @IBAction func googleButtonPressed(_ sender: AnyObject) {
-        signUpViewModel.connectGoogleButtonPressed()
+        viewModel.googleButtonPressed()
     }
 
     @IBAction func emailButtonPressed(_ sender: AnyObject) {
-        signUpViewModel.signUpButtonPressed()
+        viewModel.emailButtonPressed()
     }
 }
 
@@ -104,33 +102,15 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
 extension TourLoginViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
-        openInternalUrl(url)
+        viewModel.textUrlPressed(url: url)
         return false
     }
 }
 
 
-// MARK: - SignUpViewModelDelegate
+// MARK: TourLoginViewModelDelegate 
 
-extension TourLoginViewController: SignUpViewModelDelegate {
-    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
-        let vc = SignUpLogInViewController(viewModel: viewModel, appearance: .dark, keyboardFocus: true)
-        vc.afterLoginAction = { [weak self] in
-            self?.openNextStep()
-        }
-        let nav = UINavigationController(rootViewController: vc)
-        present(nav, animated: true, completion: nil)
-    }
-
-    func vmFinish(completedLogin completed: Bool) {
-        openNextStep()
-    }
-
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
-        // Nothing to do on onboarding. User will notice next time
-        openNextStep()
-    }
-}
+extension TourLoginViewController: TourLoginViewModelDelegate {}
 
 
 // MARK: - Private UI methods
@@ -171,7 +151,7 @@ fileprivate extension TourLoginViewController {
         facebookButton.setTitle(LGLocalizedString.tourFacebookButton, for: .normal)
         googleButton.setTitle(LGLocalizedString.tourGoogleButton, for: .normal)
         emailButton.setTitle(LGLocalizedString.tourEmailButton, for: .normal)
-        footerTextView.attributedText = signUpViewModel.attributedLegalText
+        footerTextView.attributedText = viewModel.attributedLegalText
     }
 
     func adaptConstraintsToiPhone4() {
@@ -201,14 +181,5 @@ fileprivate extension TourLoginViewController {
         let admin = AdminViewController()
         let nav = UINavigationController(rootViewController: admin)
         present(nav, animated: true, completion: nil)
-    }
-}
-
-
-// MARK: - Private Navigation methods
-
-fileprivate extension TourLoginViewController {
-    func openNextStep() {
-        tourLoginViewModel.nextStep()
     }
 }
