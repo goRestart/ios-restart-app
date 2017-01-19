@@ -99,6 +99,19 @@ extension String {
         return replacingOccurrences(of: findString, with: with, options: options, range: rangeOfFoundString)
     }
 
+    func makeUsernameFromEmail() -> String? {
+        guard let atSignRange = range(of: "@"), isEmail() else { return nil }
+        let emailUsername = substring(to: atSignRange.lowerBound)
+        var username = emailUsername
+        username = username.replacingOccurrences(of: ".", with: " ")
+        username = username.replacingOccurrences(of: "_", with: " ")
+        username = username.replacingOccurrences(of: "-", with: " ")
+        if let plusSignRange = username.range(of: "+") {
+            username = username.substring(to: plusSignRange.lowerBound)
+        }
+        return username.capitalized
+    }
+
     func isValidLengthPrice(_ acceptsSeparator: Bool, locale: Locale = Locale.autoupdatingCurrent) -> Bool {
         let separator = components(separatedBy: CharacterSet.decimalDigits)
             .joined(separator: "")

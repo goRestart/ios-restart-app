@@ -25,7 +25,6 @@ protocol SignUpEmailStep1Navigator: class {
 
 final class SignUpEmailStep1ViewModel: BaseViewModel {
     lazy var helpAction: UIAction = {
-        // TODO: New string?
         return UIAction(interface: .text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
             self?.openHelp()
         }, accessibilityId: .SignUpEmailHelpButton)

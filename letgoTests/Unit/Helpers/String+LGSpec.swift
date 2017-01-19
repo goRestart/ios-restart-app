@@ -14,7 +14,7 @@ class StringLGSpec: QuickSpec {
     override func spec() {
         var sut: String!
 
-        describe("String + LG methods") {
+        fdescribe("String + LG methods") {
             context("hasEmojis") {
                 describe("contains unicodes but not emojis") {
                     beforeEach {
@@ -132,6 +132,26 @@ class StringLGSpec: QuickSpec {
                 it("takes in account options when used") {
                     expect("A vocal is A letter".stringByReplacingFirstOccurrence(of: "a", with: "this",
                                                                                   options: .caseInsensitive)) == "this vocal is A letter"
+                }
+            }
+            context("makeUsernameFromEmail") {
+                it("returns nil if the string is not an email") {
+                    expect("albert".makeUsernameFromEmail()).to(beNil())
+                }
+                it("returns the capitalized name if the email username is just the name") {
+                    expect("albert@letgo.com".makeUsernameFromEmail()) == "Albert"
+                }
+                it("returns the capitalized name & surname if the email username has them splitted with a dot") {
+                    expect("albert.hernandez@letgo.com".makeUsernameFromEmail()) == "Albert Hernandez"
+                }
+                it("returns the capitalized name & surname if the email username has them splitted with a dash") {
+                    expect("albert-hernandez@letgo.com".makeUsernameFromEmail()) == "Albert Hernandez"
+                }
+                it("returns the capitalized name & surname if the email username has them splitted with an underscore") {
+                    expect("albert_hernandez@letgo.com".makeUsernameFromEmail()) == "Albert Hernandez"
+                }
+                it("ignores what's behind of a plus sign") {
+                    expect("albert.hernandez+scam.i.love@letgo.com".makeUsernameFromEmail()) == "Albert Hernandez"
                 }
             }
             context("isValidLengthPrice") {
