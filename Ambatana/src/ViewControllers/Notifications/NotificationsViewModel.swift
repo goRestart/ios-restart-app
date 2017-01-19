@@ -206,6 +206,14 @@ fileprivate extension NotificationsViewModel {
                                         self?.navigator?.openProduct(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: true)
                                     })
+        case let .facebookFriendshipCreated(user, facebookUsername):
+            return NotificationData(id: notification.objectId,
+                                    type: .facebookFriendshipCreated(user: user, facebookUsername: facebookUsername),
+                                    date: notification.createdAt, isRead: notification.isRead,
+                                    primaryAction: { [weak self] in
+                                        let data = UserDetailData.id(userId: user.id, source: .notifications)
+                                        self?.navigator?.openUser(data)
+            })
         }
     }
 
@@ -249,6 +257,8 @@ fileprivate extension NotificationDataType {
             return .buyersInterested
         case .productSuggested:
             return .productSuggested
+        case .facebookFriendshipCreated:
+            return .facebookFriendshipCreated
         }
     }
 }

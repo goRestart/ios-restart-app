@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "Find out who they are";
 "notifications_type_buyers_interested_button_done" = "Buyers contacted!";
 "notifications_type_buyers_interested_w_title" = "%1$d buyers might be interested in your product: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "Check out their profile";
 "notifications_type_like_w_name" = "%@ favorited your product";
 "notifications_type_like_w_name_w_title" = "%1$@ favorited your product: \"%2$@\"";
@@ -396,8 +398,6 @@
 "product_auto_generated_translated_title_label" = "(and translated by Google)";
 "product_bubble_favorite_button" = "Let the seller know!";
 "product_bubble_favorite_text" = "This product has been added to your favorites!";
-"product_bubble_one_user_interested" = "Another buyer is interested!";
-"product_bubble_several_users_interested" = "%i other buyers are interested!";
 "product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 "product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_sending" = "Sending...";

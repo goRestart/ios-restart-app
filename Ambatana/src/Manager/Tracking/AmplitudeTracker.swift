@@ -157,6 +157,7 @@ final class AmplitudeTracker: Tracker {
 
     private func setupABTestsRx() {
         ABTests.trackingData.asObservable().bindNext { trackingData in
+            guard let trackingData = trackingData else { return }
             let identify = AMPIdentify()
             let trackingDataValue = NSArray(array: trackingData)
             identify.set(AmplitudeTracker.userPropABTests, value: trackingDataValue)

@@ -88,6 +88,11 @@ class ShareProductViewModel: BaseViewModel {
 
 extension ShareProductViewModel: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
+        // in the "share after posting" there is no track of a share start event
+        guard bumpUp else { return }
+        let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
+                                                     buttonPosition: .bumpUp, typePage: .productDetail)
+        tracker.trackEvent(trackerEvent)
     }
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {

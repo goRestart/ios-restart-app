@@ -18,7 +18,7 @@ class NotificationsManager {
     let unreadMessagesCount = Variable<Int?>(nil)
     let favoriteCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
-    var globalCount: Observable<Int?> {
+    var globalCount: Observable<Int> {
         return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
                                         (unreadMessages: Int?, notifications: Int?) in
             let chatCount = unreadMessages ?? 0
@@ -28,11 +28,10 @@ class NotificationsManager {
     }
     let marketingNotifications: Variable<Bool>
     var loggedInMktNofitications: Observable<Bool> {
-        return Observable.combineLatest(marketingNotifications.asObservable(), loggedIn.asObservable(),
-                                        resultSelector: { enabled, loggedIn in
-                                            guard loggedIn else { return true }
-                                            return enabled
-        })
+        return marketingNotifications.asObservable().map { [weak self] enabled in
+            if let loggedIn = self?.loggedIn.value, !loggedIn { return true }
+            return enabled
+        }
     }
     
     fileprivate let disposeBag = DisposeBag()
@@ -144,7 +143,6 @@ class NotificationsManager {
         sessionManager.sessionEvents.map { $0.isLogin }.bindTo(loggedIn).addDisposableTo(disposeBag)
 
         globalCount.bindNext { count in
-            guard let count = count else { return }
             UIApplication.shared.applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
 
@@ -194,8 +192,8 @@ class NotificationsManager {
         requestingNotifications = true
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
             self?.requestingNotifications = false
-            guard let notificationCounts = result.value else { return }
-            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount
+            guard let notificationCounts = result.value, let featureFlags = self?.featureFlags else { return }
+            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount(featureFlags: featureFlags)
         }
     }
 }
@@ -209,7 +207,7 @@ fileprivate extension NotificationsManager {
             self?.keyValueStorage.userMarketingNotifications = value
         }.addDisposableTo(disposeBag)
 
-        loggedIn.asObservable().filter { $0 }.bindNext { [weak self] _ in
+        loggedIn.asObservable().skip(1).filter { $0 }.bindNext { [weak self] _ in
             guard let keyValueStorage = self?.keyValueStorage else { return }
             self?.marketingNotifications.value = keyValueStorage.userMarketingNotifications
         }.addDisposableTo(disposeBag)
@@ -220,11 +218,8 @@ fileprivate extension NotificationsManager {
 // MARK: - UnreadNotificationsCounts
 
 fileprivate extension UnreadNotificationsCounts {
-    var totalVisibleCount: Int {
-        if FeatureFlags.sharedInstance.userReviews {
-            return productLike + productSold + review + reviewUpdated
-        } else {
-            return productLike + productSold
-        }
+    func totalVisibleCount(featureFlags: FeatureFlaggeable) -> Int {
+        let totalWoReviews = productLike + productSold + buyersInterested + productSuggested + facebookFriendshipCreated
+        return featureFlags.userReviews ? totalWoReviews + review + reviewUpdated : totalWoReviews
     }
 }

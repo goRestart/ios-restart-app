@@ -296,8 +296,6 @@ struct TrackerEvent {
         typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params.addProductParams(product)
-            params[.productType] = product.user.isDummy ?
-                EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
             return TrackerEvent(name: .productShareCancel, params: params)
@@ -307,8 +305,6 @@ struct TrackerEvent {
         typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params.addProductParams(product)
-            params[.productType] = product.user.isDummy ?
-                EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
             return TrackerEvent(name: .productShareComplete, params: params)
@@ -929,6 +925,45 @@ struct TrackerEvent {
         params[.userId] = userId
         params[.enabled] = enabled
         return TrackerEvent(name: .marketingPushNotifications, params: params)
+    }
+    
+    static func passiveBuyerStart(withUser userId: String?, productId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId ?? ""
+        params[.productId] = productId ?? ""
+        return TrackerEvent(name: .passiveBuyerStart, params: params)
+    }
+    
+    static func passiveBuyerComplete(withUser userId: String?, productId: String?, passiveConversations: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId ?? ""
+        params[.productId] = productId ?? ""
+        params[.passiveConversations] = passiveConversations
+        return TrackerEvent(name: .passiveBuyerComplete, params: params)
+    }
+    
+    static func passiveBuyerAbandon(withUser userId: String?, productId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId ?? ""
+        params[.productId] = productId ?? ""
+        return TrackerEvent(name: .passiveBuyerAbandon, params: params)
+    }
+
+    static func productBumpUpStart(_ product: Product, price: EventParameterBumpUpPrice) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+
+        params[.bumpUpPrice] = price.description
+        return TrackerEvent(name: .bumpUpStart, params: params)
+    }
+
+    static func productBumpUpComplete(_ product: Product, price: EventParameterBumpUpPrice,
+                                      network: EventParameterShareNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        params[.bumpUpPrice] = price.description
+        params[.shareNetwork] = network.rawValue
+        return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
 

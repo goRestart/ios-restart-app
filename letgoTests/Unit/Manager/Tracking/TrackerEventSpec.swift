@@ -2543,23 +2543,6 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
-
-            describe("product detail interested users") {
-                beforeEach {
-                    sut = TrackerEvent.productDetailInterestedUsers(3, productId: "ABCD")
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue) == "product-detail-interested-users"
-                }
-                it("contains number-of-users param") {
-                    let numUSers = sut.params!.stringKeyParams["number-of-users"] as? Int
-                    expect(numUSers) == 3
-                }
-                it("contains product-id param") {
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId) == "ABCD"
-                }
-            }
             
             describe("NPS Survey") {
                 context("NPS Start") {
@@ -2648,7 +2631,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("notification-center-start"))
                 }
             }
-            describe("Notification center complete") {
+            describe("Notification center complete type welcome") {
                 beforeEach {
                     sut = TrackerEvent.notificationCenterComplete(.welcome)
                 }
@@ -2658,6 +2641,78 @@ class TrackerEventSpec: QuickSpec {
                 it("contains notification-type param") {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "welcome"
+                }
+            }
+            describe("Notification center complete type buyersInterested") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.buyersInterested)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "passive-buyer-seller"
+                }
+            }
+            describe("Notification center complete type favorite") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.favorite)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "favorite"
+                }
+            }
+            describe("Notification center complete type productSold") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.productSold)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "favorite-sold"
+                }
+            }
+            describe("Notification center complete type productSuggested") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.productSuggested)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "passive-buyer-make-offer"
+                }
+            }
+            describe("Notification center complete type rating") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.rating)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "rating"
+                }
+            }
+            describe("Notification center complete type ratingUpdated") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.ratingUpdated)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "rating-updated"
                 }
             }
             describe("Marketing Push Notifications") {
@@ -2674,6 +2729,93 @@ class TrackerEventSpec: QuickSpec {
                 it("contains enabled param") {
                     let param = sut.params!.stringKeyParams["enabled"] as? Bool
                     expect(param) == true
+                }
+            }
+            describe("bump up start") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "12345"
+                    sut = TrackerEvent.productBumpUpStart(product, price: .free)
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-up-start"))
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "12345"
+                }
+                it("price matches") {
+                    expect(sut.params?.stringKeyParams["price"] as? String) == "free"
+                }
+            }
+            describe("bump up complete") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "12345"
+                    sut = TrackerEvent.productBumpUpComplete(product, price: .free, network: .facebook)
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-up-complete"))
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "12345"
+                }
+                it("price matches") {
+                    expect(sut.params?.stringKeyParams["price"] as? String) == "free"
+                }
+                it("network matches") {
+                    expect(sut.params?.stringKeyParams["share-network"] as? String) == "facebook"
+                }
+            }
+            describe("Passive buyer start") {
+                beforeEach {
+                    sut = TrackerEvent.passiveBuyerStart(withUser: "123456", productId: "AAAAA")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("passive-buyer-start"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "123456"
+                }
+                it("contains product-id param") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param).to(equal("AAAAA"))
+                }
+            }
+            describe("Passive buyer complete") {
+                beforeEach {
+                    sut = TrackerEvent.passiveBuyerComplete(withUser: "123456", productId: "AAAAA", passiveConversations: 3)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("passive-buyer-complete"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "123456"
+                }
+                it("contains product-id param") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param).to(equal("AAAAA"))
+                }
+                it("contains passive-conversations param") {
+                    let param = sut.params!.stringKeyParams["passive-conversations"] as? Int
+                    expect(param).to(equal(3))
+                }
+            }
+            describe("Passive buyer abandon") {
+                beforeEach {
+                    sut = TrackerEvent.passiveBuyerAbandon(withUser: "123456", productId: "AAAAA")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("passive-buyer-abandon"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "123456"
+                }
+                it("contains product-id param") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param ).to(equal("AAAAA"))
                 }
             }
         }

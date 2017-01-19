@@ -10,7 +10,7 @@ import RxSwift
 
 struct ABTests {
 
-    static let trackingData = Variable<[String]>([])
+    static let trackingData = Variable<[String]?>(nil)
 
     // Not used in code, Just a helper for marketing team
     static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
@@ -61,6 +61,6 @@ struct ABTests {
     }
 
     static func variablesUpdated() {
-        trackingData.value = allVariables.flatMap{ $0.trackingData }
+        trackingData.value = allVariables.flatMap { $0.trackingData }
     }
 }
