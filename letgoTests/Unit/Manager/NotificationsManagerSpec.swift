@@ -53,10 +53,16 @@ class NotificationsManagerSpec: QuickSpec {
                 sut.loggedInMktNofitications.asObservable().bindTo(loggedInMarketingNotificationsObserver).addDisposableTo(disposeBag)
             }
 
-            func doLogin() {
+            func setMyUser() {
                 let myUser = MockMyUser()
                 myUser.objectId = String.random(20)
                 myUserRepository.myUserVar.value = myUser
+            }
+
+            func doLogin() {
+                if myUserRepository.myUser == nil {
+                    setMyUser()
+                }
                 sessionManager.loggedIn = true
                 sessionManager.sessionEventsPublish.onNext(.login)
             }
@@ -377,11 +383,13 @@ class NotificationsManagerSpec: QuickSpec {
                         }
                     }
                 }
-                fdescribe("mkt notification") {
+                describe("mkt notification") {
+                    beforeEach {
+                        createNotificationsManager()
+                        sut.setup()
+                    }
                     context("no stored value") {
                         beforeEach {
-                            createNotificationsManager()
-                            sut.setup()
                             doLogin()
                         }
                         it("enabledMktNotifications emits false, and then true after login") {
@@ -393,9 +401,8 @@ class NotificationsManagerSpec: QuickSpec {
                     }
                     context("stored true value") {
                         beforeEach {
+                            setMyUser()
                             keyValueStorage.userMarketingNotifications = true
-                            createNotificationsManager()
-                            sut.setup()
                             doLogin()
                         }
                         it("enabledMktNotifications emits false, and then true after login") {
@@ -407,17 +414,12 @@ class NotificationsManagerSpec: QuickSpec {
                     }
                     context("stored false value") {
                         beforeEach {
-                            createNotificationsManager()
-                            sut.setup()
-                            let myUser = MockMyUser()
-                            myUser.objectId = String.random(20)
-                            myUserRepository.myUserVar.value = myUser
+                            setMyUser()
                             keyValueStorage.userMarketingNotifications = false
-                            sessionManager.loggedIn = true
-                            sessionManager.sessionEventsPublish.onNext(.login)
+                            doLogin()
                         }
                         it("enabledMktNotifications emits false, and then false again after login") {
-                            XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false), next(0, true)])
+                            XCTAssertEqual(marketingNotificationsObserver.events, [next(0, false), next(0, false)])
                         }
                         it("loggedInMktNofitications emits true, and then false after login") {
                             XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, true), next(0, false)])
