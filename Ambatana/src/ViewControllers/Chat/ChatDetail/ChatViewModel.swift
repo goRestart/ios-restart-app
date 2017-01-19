@@ -243,6 +243,8 @@ class ChatViewModel: BaseViewModel {
     }
     
     override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        
         refreshChatInfo()
         if firstTime {
             retrieveRelatedProducts()
@@ -265,8 +267,8 @@ class ChatViewModel: BaseViewModel {
 
     private func refreshChatInfo() {
         // only load messages if the interlocutor is not blocked
-        guard let interlocutor = conversation.value.interlocutor else { return }
-        guard !interlocutor.isBanned else { return }
+        // Note: In some corner cases (staging only atm) the interlocutor may come as nil
+        if let interlocutor = conversation.value.interlocutor, interlocutor.isBanned { return }
         retrieveMoreMessages()
         loadStickersTooltip()
     }
@@ -400,10 +402,7 @@ class ChatViewModel: BaseViewModel {
             hasRelatedProducts.asObservable(),
             relatedProductsState.asObservable().map { $0 == .visible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
-            .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
-                guard let strongSelf = self else { return }
-                self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
-        }.addDisposableTo(disposeBag)
+            .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
         if !featureFlags.newQuickAnswers {
             // New quick answers doesn't depend on saved state

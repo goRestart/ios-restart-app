@@ -20,26 +20,6 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "InterestedUsersMode",
-        "values": ["NoNotification", "Original", "LimitedPrints"],
-        "description": "Interested users bubble mode"
-	},
-    {
-        "name": "ShareButtonWithIcon",
-        "values": ["Yes", "No"],
-        "description": "Share button with an icon"
-	},
-    {
-        "name": "ProductDetailShareMode",
-        "values": ["Native", "InPlace", "FullScreen"],
-        "description": "How the share options are presented in product detail"
-	},
-    {
-        "name": "ExpressChatBanner",
-        "values": ["No", "Yes"],
-        "description": "Show express chat banner in chat detail"
-    },
-    {
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"
@@ -63,11 +43,6 @@
         "name": "MonetizationEnabled",
         "values": ["No", "Yes"],
         "description": "USer can make in-app purchases"
-    },
-    {
-        "name": "PeriscopeImprovement",
-        "values": ["No", "Yes"],
-        "description": "periscope chat improvements"
     },
     {
         "name": "FavoriteWithBadgeOnProfile",
@@ -103,5 +78,10 @@
         "name": "FilterIconWithLetters",
         "values": ["No", "Yes"],
         "description": "Show filter icon as 'FILTERS'"
+    },
+    {
+        "name": "EditDeleteItemUxImprovement",
+        "values": ["No", "Yes"],
+        "description": "Edit & Delete item UX improvements"
     }
  ]

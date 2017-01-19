@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "Finn ut hvem de er";
 "notifications_type_buyers_interested_button_done" = "Kjøpere ble kontaktet!";
 "notifications_type_buyers_interested_w_title" = "%1$d kjøpere kan være interessert i ditt produkt: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "Se profilen deres";
 "notifications_type_like_w_name" = "%@ favoriserte ditt produkt";
 "notifications_type_like_w_name_w_title" = "%1$@ favoriserte ditt produkt: \"%2$@\"";
@@ -396,8 +398,6 @@
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
 "product_bubble_favorite_button" = "Informer selgeren!";
 "product_bubble_favorite_text" = "Dette produktet er lagt til blant dine favoritter!";
-"product_bubble_one_user_interested" = "En annen kjøper er interessert!";
-"product_bubble_several_users_interested" = "%i andre kjøpere er interesserte!";
 "product_chat_direct_error_blocked_user_message" = "Oops! Denne brukeren er blokkert for samtaler.";
 "product_chat_direct_message" = "Hei %@, jeg er interessert";
 "product_chat_direct_message_sending" = "Sender...";
@@ -463,6 +463,7 @@
 "product_onboarding_finger_tap_label" = "Trykk for å gå til neste produkt";
 "product_onboarding_show_again_button_title" = "Hvordan bla i produkter";
 "product_open_commercial_button" = "Commercial";
+"product_option_edit" = "Rediger produkt";
 "product_option_share" = "Del produkt";
 "product_option_show_commercial" = "Reklamefilm";
 "product_popular_near_you" = "Populært i ditt nærområde";

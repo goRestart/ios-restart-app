@@ -12,7 +12,6 @@ import RxSwift
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
-    func vmHideExpandableShareButtons()
 }
 
 enum CarouselMovement {
@@ -168,7 +167,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.socialSharer.delegate = self
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
-        self.currentProductViewModel?.isFirstProduct = true
         setCurrentIndex(startIndex)
     }
     
@@ -262,22 +260,23 @@ class ProductCarouselViewModel: BaseViewModel {
         delegate?.vmRemoveMoreInfoTooltip()
     }
 
-    func didOpenInPlaceShare() {
-        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .top)
-    }
-
-    func openFullScreenShare() {
-        guard let product = currentProductViewModel?.product.value,
-            let socialMessage = currentProductViewModel?.socialMessage.value else { return }
-
-        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .top)
-        navigator?.openFullScreenShare(product, socialMessage: socialMessage)
-    }
-
     func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController)
     }
 
+    func openFreeBumpUpView() {
+        guard let product = currentProductViewModel?.product.value,
+            let socialMessage = currentProductViewModel?.socialMessage.value else { return }
+        currentProductViewModel?.trackBumpUpStarted(.free)
+        navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage)
+    }
+
+    func openPaymentBumpUpView() {
+        guard let product = currentProductViewModel?.product.value else { return }
+        guard let purchaseableProduct = currentProductViewModel?.bumpUpPurchaseableProduct else { return }
+        currentProductViewModel?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
+        navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
+    }
 
     // MARK: - Private Methods
     
@@ -354,14 +353,7 @@ extension ProductCarouselViewModel: SocialSharerDelegate {
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         if let message = messageForShareIn(shareType, finishedWithState: state) {
-            delegate?.vmShowAutoFadingMessage(message) { [weak self] in
-                switch state {
-                case .completed:
-                    self?.delegate?.vmHideExpandableShareButtons()
-                case .cancelled, .failed:
-                    break
-                }
-            }
+            delegate?.vmShowAutoFadingMessage(message, completion: nil)
         }
         currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .top, state: state)
     }

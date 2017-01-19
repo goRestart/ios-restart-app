@@ -113,10 +113,6 @@ struct Constants {
     static let myMessagesCountForRating = 2
     static let otherMessagesCountForRating = 2
 
-    // interested bubble
-    static let maxInterestedBubblesPerSessionOriginal = 2
-    static let maxInterestedBubblesPerSessionLimitedPrints = 3
-
     // FBSDK
     static let fbSdkRequiredDelay: TimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
 }

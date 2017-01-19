@@ -376,12 +376,6 @@ extension TabCoordinator: ProductDetailNavigator {
         openChatFromProduct(product)
     }
 
-    func openFullScreenShare(_ product: Product, socialMessage: SocialMessage) {
-        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
-        let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
-        navigationController.present(shareProductVC, animated: true, completion: nil)
-    }
-
     func closeAfterDelete() {
         closeProductDetail()
         switch featureFlags.postAfterDeleteMode {
@@ -415,6 +409,18 @@ extension TabCoordinator: ProductDetailNavigator {
         vm.navigator = self
         let vc = SimpleProductsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage) {
+        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: true)
+        let bumpUpFreeVC = BumpUpFreeViewController(viewModel: shareProductVM)
+        navigationController.present(bumpUpFreeVC, animated: true, completion: nil)
+    }
+
+    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
+        let payBumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct)
+        let payBumpUpVC = BumpUpPayViewController(viewModel: payBumpUpVM)
+        navigationController.present(payBumpUpVC, animated: true, completion: nil)
     }
 }
 

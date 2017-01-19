@@ -9,7 +9,7 @@
 import Foundation
 
 struct CarouselUI {
-    static let interestedBubbleHeight: CGFloat = 50
+    static let bannerHeight: CGFloat = 64
     static let shareButtonVerticalSpacing: CGFloat = 5
     static let shareButtonHorizontalSpacing: CGFloat = 3
 
@@ -38,6 +38,11 @@ class CarouselUIHelper {
 
     static func buildShareButton(_ text: String?, icon: UIImage?) -> UIButton {
         let shareButton = UIButton(type: .system)
+        setupShareButton(shareButton, text: text, icon: icon)
+        return shareButton
+    }
+
+    static func setupShareButton(_ shareButton: UIButton, text: String?, icon: UIImage?) {
         shareButton.titleEdgeInsets = UIEdgeInsets(top: 0,
                                                    left: CarouselUI.shareButtonHorizontalSpacing,
                                                    bottom: 0,
@@ -56,7 +61,6 @@ class CarouselUIHelper {
         shareButton.sizeToFit()
         shareButton.layer.cornerRadius = shareButton.height/2
         shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.cgColor
-        return shareButton
     }
 
     static func buildMoreInfoTooltipText() -> NSAttributedString {

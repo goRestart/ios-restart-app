@@ -5,14 +5,14 @@
 "app_notification_reply" = "Rispondi";
 "app_share_download_text" = "Scarica";
 "app_share_email_button" = "Invita via Email";
-"app_share_error" = "Si è verificato un errore durante la condivisione dell'app. Riprova più tardi.";
+"app_share_error" = "Si è verificato un errore durante la condivisione dell'app. Riprova.";
 "app_share_fbmessenger_button" = "Invita via Messenger";
 "app_share_invite_text" = "Invita";
 "app_share_message_text" = "Scopri l'app di letgo e guadagna soldi vendendo cose che non usi più!";
 "app_share_subject_text" = "Scopri letgo";
 "app_share_subtitle" = "Invita i tuoi amici su letgo e contribuisci a far crescere la nostra comunità!";
 "app_share_subtitle_alternative" = "Condividi letgo con i tuoi amici e contribuisci a far crescere la nostra comunità!";
-"app_share_success" = "App condivisa con successo!";
+"app_share_success" = "App condivisa!";
 "app_share_title" = "INVITA I TUOI AMICI";
 "app_share_title_alternative" = "CONDIVIDI LA PASSIONE";
 "app_share_whatsapp_button" = "Invita via Whatsapp";
@@ -261,7 +261,7 @@
 "edit_product_location_alert_title" = "MODIFICA POSIZIONE";
 "edit_product_send_button" = "Salva modifiche";
 "edit_product_send_error_uploading_product" = "Si è verificato un errore durante l'aggiornamento del prodotto.";
-"edit_product_send_ok" = "Complimenti! Il tuo articolo è stato aggiornato con successo. A breve apparirà tra le nostre inserzioni.";
+"edit_product_send_ok" = "Complimenti! Il tuo articolo è stato aggiornato. A breve apparirà tra le nostre inserzioni.";
 "edit_product_suggesting_title" = "Suggerimento titolo...";
 "edit_product_title" = "Modifica Prodotto";
 "edit_product_unsaved_changes_alert" = "Sei sicuro di voler eliminare queste modifiche?";
@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "Scopri chi sono";
 "notifications_type_buyers_interested_button_done" = "Acquirenti contattati!";
 "notifications_type_buyers_interested_w_title" = "%1$d potrebbero essere interessati al tuo prodotto: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "Dai un'occhiata al loro profilo";
 "notifications_type_like_w_name" = "%@ ha aggiunto il tuo prodotto ai preferiti";
 "notifications_type_like_w_name_w_title" = "%1$@ ha aggiunto il tuo prodotto ai preferiti: \"%2$@\"";
@@ -396,8 +398,6 @@
 "product_auto_generated_translated_title_label" = "(e tradotto da Google)";
 "product_bubble_favorite_button" = "Fallo sapere al venditore!";
 "product_bubble_favorite_text" = "Il prodotto è stato aggiunto ai tuoi preferiti!";
-"product_bubble_one_user_interested" = "Un altro acquirente è interessato!";
-"product_bubble_several_users_interested" = "%i altri acquirenti sono interessati!";
 "product_chat_direct_error_blocked_user_message" = "Ops! La chat con questo utente è bloccata.";
 "product_chat_direct_message" = "Ciao %@, sono interessato";
 "product_chat_direct_message_sending" = "Invio in corso...";
@@ -425,7 +425,7 @@
 "product_delete_post_title" = "POCA FORTUNA QUESTA VOLTA?";
 "product_delete_send_error_generic" = "Ops! Si è verificato un errore durante l'eliminazione del tuo prodotto. Riprova più tardi.";
 "product_delete_sold_confirm_message" = "Sei sicuro di voler eliminare questo prodotto?";
-"product_delete_success_message" = "Il tuo prodotto è stato eliminato con successo.";
+"product_delete_success_message" = "Il tuo prodotto è stato eliminato.";
 "product_distance_X_from_you" = "%@ da te";
 "product_distance_more_than_from_you" = "Più di %@ da te";
 "product_favorite_direct_message" = "Mi piace! È ancora disponibile?";
@@ -451,7 +451,7 @@
 "product_mark_as_sold_free_confirm_ok_button" = "Contrassegna";
 "product_mark_as_sold_free_confirm_title" = "Segna come già regalato";
 "product_mark_as_sold_free_success_message" = "Congratulazioni! Il tuo prodotto è stato correttamente contrassegnato come regalato.";
-"product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato correttamente contrassegnato come venduto.";
+"product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato contrassegnato come venduto.";
 "product_more_info_open_button" = "ALTRE INFO";
 "product_more_info_related_title" = "POTRESTI ESSERE INTERESSATO A:";
 "product_more_info_related_view_more" = "Vedi altro";
@@ -463,6 +463,7 @@
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";
 "product_onboarding_show_again_button_title" = "Come navigare";
 "product_open_commercial_button" = "Commercial";
+"product_option_edit" = "Modifica prodotto";
 "product_option_share" = "Condividi prodotto";
 "product_option_show_commercial" = "Pubblicità";
 "product_popular_near_you" = "Popolari nella tua zona";
@@ -524,9 +525,9 @@
 "product_report_confirm_message" = "Sei sicuro di voler segnalare questo prodotto?";
 "product_report_confirm_title" = "Segnala Prodotto";
 "product_report_product_button" = "Segnala Prodotto";
-"product_reported_error_generic" = "Al momento non è possibile segnalare il prodotto. Riprova più tardi.";
-"product_reported_success_message" = "Il prodotto è stato segnalato con successo. Grazie!";
-"product_reporting_loading_message" = "Segnalazione Prodotto...";
+"product_reported_error_generic" = "Si è verificato un errore durante la segnalazione del prodotto. Riprova.";
+"product_reported_success_message" = "Il prodotto è stato segnalato. Grazie!";
+"product_reporting_loading_message" = "Segnalazione prodotto...";
 "product_search_no_products_body" = "Prova a cercare qualcosa di diverso o controlla di nuovo più tardi!";
 "product_search_no_products_title" = "OPS! NESSUN RISULTATO VICINO A TE";
 "product_sell_again_button" = "Vendilo di Nuovo";
@@ -541,7 +542,7 @@
 "product_sell_again_free_confirm_ok_button" = "Regala";
 "product_sell_again_free_confirm_title" = "Segna come disponibile";
 "product_sell_again_free_success_message" = "Congratulazioni! Il tuo prodotto è nuovamente disponibile per essere regalato.";
-"product_sell_again_success_message" = "Complimenti! Il tuo prodotto è stato correttamente contrassegnato come disponibile.";
+"product_sell_again_success_message" = "Complimenti! Il tuo prodotto è stato contrassegnato come disponibile.";
 "product_sell_camera_permissions_error" = "Per scattare una foto, consenti a letgo di accedere alla Fotocamera nelle impostazioni.";
 "product_sell_camera_restricted_error" = "L'accesso alla tua Fotocamera è riservato. Controlla le tue impostazioni e riprova.";
 "product_sell_photolibrary_permissions_error" = "Per caricare un'immagine, consenti a letgo di accedere alla Libreria Fotografica nelle impostazioni.";
@@ -551,8 +552,8 @@
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_fullscreen_subtitle" = "Sapevi che coloro che condividono il proprio prodotto hanno una probabilità del 100% di essere eccezionali?";
 "product_share_fullscreen_title" = "LA CONDIVISIONE È VINCENTE";
-"product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
-"product_share_generic_ok" = "Prodotto condiviso con successo!";
+"product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare.";
+"product_share_generic_ok" = "Prodotto condiviso!";
 "product_share_navbar_button" = "Condividi";
 "product_share_posted_by" = "pubblicato da %@";
 "product_share_sms_error" = "Si è verificato un errore durante il tentativo di invio del messaggio.";
@@ -681,7 +682,7 @@
 "settings_help_button" = "Aiuto";
 "settings_invite_facebook_friends_button" = "Invita Amici di Facebook";
 "settings_invite_facebook_friends_error" = "Si è verificato un errore durante la condivisione del tuo invito.";
-"settings_invite_facebook_friends_ok" = "Il tuo invito è stato condiviso con successo!";
+"settings_invite_facebook_friends_ok" = "Il tuo invito è stato condiviso!";
 "settings_logout_alert_message" = "Sei sicuro di voler uscire?";
 "settings_logout_alert_ok" = "Esci";
 "settings_logout_button" = "Esci";
@@ -732,12 +733,12 @@
 "user_rating_review_placeholder_optional" = "Raccontaci la tua esperienza (facoltativo)";
 "user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
 "user_rating_title" = "Valuta la tua esperienza con";
-"user_share_error" = "Si è verificato un errore durante la condivisione del profilo. Riprova più tardi.";
+"user_share_error" = "Si è verificato un errore durante la condivisione del profilo. Riprova.";
 "user_share_message_mine" = "Dai un'occhiata a quello che sto vendendo su letgo!";
 "user_share_message_other" = "Dai un'occhiata a quello che questo venditore ha su letgo!";
 "user_share_message_other_w_name" = "Dai un'occhiata a quello che %@ sta vendendo su letgo!";
 "user_share_navbar_button" = "Condividi";
-"user_share_success" = "Profilo condiviso con successo!";
+"user_share_success" = "Profilo condiviso!";
 "user_share_title_text_mine" = "Scopri il mio profilo letgo!";
 "user_share_title_text_other" = "Scopri il profilo letgo di questo utente!";
 "user_share_title_text_other_w_name" = "Scopri il profilo letgo di %@";

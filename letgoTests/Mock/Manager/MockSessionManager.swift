@@ -16,9 +16,11 @@ class MockSessionManager: SessionManager {
 
     
     // MARK: - SessionManager
+    var sessionEvents: Observable<SessionEvent> {
+        return sessionEventsPublish.asObservable()
+    }
 
-    var sessionEvents: Observable<SessionEvent> = PublishSubject<SessionEvent>()
-
+    var sessionEventsPublish = PublishSubject<SessionEvent>()
     var loggedIn: Bool = false
 
     func signUp(_ email: String, password: String, name: String, newsletter: Bool?,

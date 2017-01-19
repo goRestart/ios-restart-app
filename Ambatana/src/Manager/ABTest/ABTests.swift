@@ -10,20 +10,18 @@ import RxSwift
 
 struct ABTests {
 
-    static let trackingData = Variable<[String]>([])
+    static let trackingData = Variable<[String]?>(nil)
+
+    // Not used in code, Just a helper for marketing team
+    static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
-    static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
-    static var productDetailShareMode = IntABDynamicVar(key: "productDetailShareMode", defaultValue: 0)
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
-    static var shareButtonWithIcon = BoolABDynamicVar(key: "shareButtonWithIcon", defaultValue: false)
-    static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
     static var relatedProductsOnMoreInfo = BoolABDynamicVar(key: "relatedProductsOnMoreInfo", defaultValue: false)
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
-    static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var newQuickAnswers = BoolABDynamicVar(key: "newQuickAnswers", defaultValue: false)
     static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
@@ -31,29 +29,31 @@ struct ABTests {
     static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     static var filterIconWithLetters = BoolABDynamicVar(key: "filterIconWithLetters", defaultValue: false)
-    static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
+    static var editDeleteItemUxImprovement = BoolABDynamicVar(key: "editDeleteItemUxImprovement", defaultValue: false)
+
+
 
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey,
-                interestedUsersMode,
-                productDetailShareMode,
-                notificationCenterEnabled,
-                shareButtonWithIcon,
-                expressChatBanner,
-                postAfterDeleteMode,
-                keywordsTravelCollection,
-                relatedProductsOnMoreInfo,
-                shareAfterPosting,
-                postingMultiPictureEnabled,
-                periscopeImprovement,
-                userReviews,
-                newQuickAnswers,
-                favoriteWithBadgeOnProfile,
-                favoriteWithBubbleToChat,
-                passiveBuyersShowKeyboard,
-                captchaTransparent,
-                filterIconWithLetters,
-                marketingPush]
+        var result = [ABVariable]()
+
+        result.append(marketingPush)
+        result.append(showNPSSurvey)
+        result.append(notificationCenterEnabled)
+        result.append(postAfterDeleteMode)
+        result.append(keywordsTravelCollection)
+        result.append(relatedProductsOnMoreInfo)
+        result.append(shareAfterPosting)
+        result.append(postingMultiPictureEnabled)
+        result.append(userReviews)
+        result.append(newQuickAnswers)
+        result.append(favoriteWithBadgeOnProfile)
+        result.append(favoriteWithBubbleToChat)
+        result.append(passiveBuyersShowKeyboard)
+        result.append(captchaTransparent)
+        result.append(filterIconWithLetters)
+        result.append(editDeleteItemUxImprovement)
+
+        return result
     }
 
     static func registerVariables() {
@@ -61,6 +61,6 @@ struct ABTests {
     }
 
     static func variablesUpdated() {
-        trackingData.value = allVariables.flatMap{ $0.trackingData }
+        trackingData.value = allVariables.flatMap { $0.trackingData }
     }
 }

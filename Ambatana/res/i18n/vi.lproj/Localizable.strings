@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "Tìm ra họ là ai";
 "notifications_type_buyers_interested_button_done" = "Người mua đã liên hệ!";
 "notifications_type_buyers_interested_w_title" = "%1$d người mua có thể quan tâm đến sản phẩm của bạn: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "Xem hồ sơ của họ";
 "notifications_type_like_w_name" = "%@ đã thích món đồ của bạn";
 "notifications_type_like_w_name_w_title" = "%1$@ đã thích món đồ của bạn: \"%2$@\"";
@@ -396,8 +398,6 @@
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
 "product_bubble_favorite_button" = "Cho người bán biết!";
 "product_bubble_favorite_text" = "Sản phẩm này đã được thêm vào mục yêu thích của bạn!";
-"product_bubble_one_user_interested" = "Một người mua khác đang quan tâm!";
-"product_bubble_several_users_interested" = "%i người mua khác đang quan tâm!";
 "product_chat_direct_error_blocked_user_message" = "Ồ! Trò chuyện với người dùng này đã bị chặn.";
 "product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_sending" = "Đang gửi...";
@@ -463,6 +463,7 @@
 "product_onboarding_finger_tap_label" = "Nhấn để tới sản phẩm tiếp theo";
 "product_onboarding_show_again_button_title" = "Cách Duyệt trang";
 "product_open_commercial_button" = "Commercial";
+"product_option_edit" = "Chỉnh sửa Sản phẩm";
 "product_option_share" = "Chia sẻ sản phẩm";
 "product_option_show_commercial" = "Thương mại";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";

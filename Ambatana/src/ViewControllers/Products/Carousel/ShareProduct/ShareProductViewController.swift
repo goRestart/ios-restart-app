@@ -72,8 +72,8 @@ class ShareProductViewController: BaseViewController {
         view.layoutIfNeeded()
         
         shareButtonsContainerWidth.constant = CGFloat(viewModel.shareTypes.count)*ShareProductViewController.shareButtonWidth
-        titleLabel.text = LGLocalizedString.productShareFullscreenTitle
-        subtitleLabel.text = LGLocalizedString.productShareFullscreenSubtitle
+        titleLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
         orLabel.text = LGLocalizedString.commonOr
         copyLabel.text = LGLocalizedString.commonCopy
         linkLabel.text = viewModel.link
@@ -120,10 +120,6 @@ extension ShareProductViewController: SocialShareViewDelegate {
 extension ShareProductViewController: ShareProductViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController {
         return self
-    }
-    
-    func viewControllerShouldClose() {
-        dismiss(animated: true, completion: nil)
     }
 }
 

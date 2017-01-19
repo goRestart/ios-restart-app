@@ -15,23 +15,20 @@ protocol FeatureFlaggeable {
     var notificationsSection: Bool { get }
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
-    var interestedUsersMode: InterestedUsersMode { get }
-    var shareButtonWithIcon: Bool { get }
-    var productDetailShareMode: ProductDetailShareMode { get }
-    var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var monetizationEnabled: Bool { get }
-    var periscopeImprovement: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
+    var editDeleteItemUxImprovement: Bool { get }
+
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var locationMatchesCountry: Bool { get }
@@ -89,34 +86,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.showNPSSurvey.value
     }
 
-     var interestedUsersMode: InterestedUsersMode {
-        if Bumper.enabled {
-            return Bumper.interestedUsersMode
-        }
-        return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
-    }
-    
-     var shareButtonWithIcon: Bool {
-        if Bumper.enabled {
-            return Bumper.shareButtonWithIcon
-        }
-        return ABTests.shareButtonWithIcon.value
-    }
-
-     var productDetailShareMode: ProductDetailShareMode {
-        if Bumper.enabled {
-            return Bumper.productDetailShareMode
-        }
-        return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
-    }
-
-    var expressChatBanner: Bool {
-        if Bumper.enabled {
-            return Bumper.expressChatBanner
-        }
-        return ABTests.expressChatBanner.value
-    }
-
     var postAfterDeleteMode: PostAfterDeleteMode {
         if Bumper.enabled {
             return Bumper.postAfterDeleteMode
@@ -150,13 +119,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.relatedProductsOnMoreInfo
         }
         return ABTests.relatedProductsOnMoreInfo.value
-    }
-    
-    var periscopeImprovement: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeImprovement
-        }
-        return ABTests.periscopeImprovement.value
     }
     
     var favoriteWithBadgeOnProfile: Bool {
@@ -208,6 +170,12 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.filterIconWithLetters.value
     }
 
+    var editDeleteItemUxImprovement: Bool {
+        if Bumper.enabled {
+            return Bumper.editDeleteItemUxImprovement
+        }
+        return ABTests.editDeleteItemUxImprovement.value
+    }
 
     // MARK: - Country features
 

@@ -261,7 +261,7 @@
 "edit_product_location_alert_title" = "위치 변경";
 "edit_product_send_button" = "변경사항 저장하기";
 "edit_product_send_error_uploading_product" = "고객님의 제품을 업데이트하는동안 오류가 발생했습니다.";
-"edit_product_send_ok" = "축하드려요! 고객님의 제품이 성공적으로 게시되었습니다. 잠시 후에 목록에 상품이 보여질 것입니다.";
+"edit_product_send_ok" = "축하드려요! 고객님의 제품이 게시되었습니다. 잠시 후에 목록에 상품이 보여질 것입니다.";
 "edit_product_suggesting_title" = "추천 제목은...";
 "edit_product_title" = "제품 수정";
 "edit_product_unsaved_changes_alert" = "이 변경사항을 취소하시겠습니까?";
@@ -353,6 +353,8 @@
 "notifications_type_buyers_interested_button" = "누구인지 알아보세요";
 "notifications_type_buyers_interested_button_done" = "구매자가 연락을 하였습니다!";
 "notifications_type_buyers_interested_w_title" = "%1$d 구매자들이 상품에 관심이 있는 것 같습니다: \"%2$@\"";
+"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend_button" = "View Profile";
 "notifications_type_like_button" = "프로필 확인하세요";
 "notifications_type_like_w_name" = "%@이 상품에 관심을 표시했습니다";
 "notifications_type_like_w_name_w_title" = "%1$@관심가는 상품:\"%2$@\"";
@@ -396,8 +398,6 @@
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";
 "product_bubble_favorite_button" = "판매자에게 알려보세요!";
 "product_bubble_favorite_text" = "이 상품은 당신의 관심목록에 추가되었습니다!";
-"product_bubble_one_user_interested" = "다른 구매자들이 관심있어합니다!";
-"product_bubble_several_users_interested" = "%i 다른 구매자들이 관심있어합니다!";
 "product_chat_direct_error_blocked_user_message" = "이 사용자와 채팅이 차단되어있습니다";
 "product_chat_direct_message" = "안녕하세요 %@님, 이 상품에 관심이 있는데요.";
 "product_chat_direct_message_sending" = "발송중...";
@@ -463,6 +463,7 @@
 "product_onboarding_finger_tap_label" = "다음 상품으로 가기 위해 누르기";
 "product_onboarding_show_again_button_title" = "검색하는 방법";
 "product_open_commercial_button" = "Commercial";
+"product_option_edit" = "상품 수정";
 "product_option_share" = "상품 공유하기";
 "product_option_show_commercial" = "상업용";
 "product_popular_near_you" = "근처에 인기있는 상품";

@@ -32,13 +32,13 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",            "2.0.0"     #:path => "../lgcorekit"
+    pod "LGCoreKit",            "2.1.1"     #:path => "../lgcorekit" #:git => 'https://github.com/letgoapp/letgo-ios-lgcorekit', :commit => '3eb3e6e5eaf446f03944f93ff9aa65a5a86b760d'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.0.0"     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
-    pod "bumper",               "1.0.1"     #:path => "../bumper"
+    pod "bumper",               "1.0.3"     #:path => "../bumper"
 
     	# Collection View Custom Layout
     pod "CHTCollectionViewWaterfallLayout", "~> 0.9.5"  # Obj-c

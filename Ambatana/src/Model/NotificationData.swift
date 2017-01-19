@@ -16,6 +16,7 @@ enum NotificationDataType {
     case ratingUpdated(user: NotificationUser)
     case buyersInterested(product: NotificationProduct, buyers: [NotificationUser])
     case productSuggested(product: NotificationProduct, seller: NotificationUser)
+    case facebookFriendshipCreated(user: NotificationUser, facebookUsername: String)
 }
 
 struct NotificationData {
