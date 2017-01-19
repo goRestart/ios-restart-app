@@ -31,4 +31,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool = false
     var filterIconWithLetters: Bool = false
     var editDeleteItemUxImprovement: Bool = false
+    var onboardingReview: OnboardingReview = .testA
 }

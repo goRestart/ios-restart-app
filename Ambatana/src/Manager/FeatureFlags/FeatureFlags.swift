@@ -30,6 +30,7 @@ protocol FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
+    var onboardingReview: OnboardingReview { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -172,6 +173,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.editDeleteItemUxImprovement
         }
         return ABTests.editDeleteItemUxImprovement.value
+    }
+
+    var onboardingReview: OnboardingReview {
+        if Bumper.enabled {
+            return Bumper.onboardingReview
+        }
+        return OnboardingReview.fromPosition(ABTests.onboardingReview.value)
     }
 
     // MARK: - Country features
