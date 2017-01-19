@@ -2731,6 +2731,41 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == true
                 }
             }
+            describe("bump up start") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "12345"
+                    sut = TrackerEvent.productBumpUpStart(product, price: .free)
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-up-start"))
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "12345"
+                }
+                it("price matches") {
+                    expect(sut.params?.stringKeyParams["price"] as? String) == "free"
+                }
+            }
+            describe("bump up complete") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "12345"
+                    sut = TrackerEvent.productBumpUpComplete(product, price: .free, network: .facebook)
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-up-complete"))
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "12345"
+                }
+                it("price matches") {
+                    expect(sut.params?.stringKeyParams["price"] as? String) == "free"
+                }
+                it("network matches") {
+                    expect(sut.params?.stringKeyParams["share-network"] as? String) == "facebook"
+                }
+            }
             describe("Passive buyer start") {
                 beforeEach {
                     sut = TrackerEvent.passiveBuyerStart(withUser: "123456", productId: "AAAAA")

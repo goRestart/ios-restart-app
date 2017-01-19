@@ -279,6 +279,34 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_username_title", comment: "")
 	}
 
+	static var changeEmailTitle: String {
+		return NSLocalizedString("change_email_title", comment: "")
+	}
+
+	static var changeEmailCurrentEmailLabel: String {
+		return NSLocalizedString("change_email_current_email_label", comment: "")
+	}
+
+	static func changeEmailSendOk(_ var1: String) -> String {
+		return String(format: NSLocalizedString("change_email_send_ok", comment: ""), var1)
+	}
+
+	static var changeEmailSaveButton: String {
+		return NSLocalizedString("change_email_save_button", comment: "")
+	}
+
+	static var changeEmailLoading: String {
+		return NSLocalizedString("change_email_loading", comment: "")
+	}
+
+	static var changeEmailFieldHint: String {
+		return NSLocalizedString("change_email_field_hint", comment: "")
+	}
+
+	static var changeEmailErrorInvalidEmail: String {
+		return NSLocalizedString("change_email_error_invalid_email", comment: "")
+	}
+
 	static func chatAccountDeletedWName(_ var1: String) -> String {
 		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
 	}
@@ -2741,6 +2769,10 @@ struct LGLocalizedString {
 
 	static var settingsChangeUsernameButton: String {
 		return NSLocalizedString("settings_change_username_button", comment: "")
+	}
+
+	static var settingsChangeEmailButton: String {
+		return NSLocalizedString("settings_change_email_button", comment: "")
 	}
 
 	static var settingsHelpButton: String {
