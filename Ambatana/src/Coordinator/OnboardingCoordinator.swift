@@ -43,7 +43,7 @@ class OnboardingCoordinator: Coordinator {
         parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
             let signUpVM = SignUpViewModel(appearance: .dark, source: .install)
-            let tourVM = TourLoginViewModel(signUpViewModel: signUpVM)
+            let tourVM = TourLoginViewModel(signUpViewModel: signUpVM, featureFlags: strongSelf.featureFlags)
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(viewModel: tourVM)
             strongSelf.presentedViewControllers.append(tourVC)

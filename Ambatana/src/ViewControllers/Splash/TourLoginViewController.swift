@@ -9,6 +9,7 @@
 import Foundation
 import JBKenBurnsView
 import LGCoreKit
+import RxSwift
 
 final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
@@ -17,6 +18,9 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var claimLabel: UILabel!
     @IBOutlet weak var claimLabelTopConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var googleButton: UIButton!
     @IBOutlet var orDividerViews: [UIView]!
@@ -25,12 +29,14 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var emailButton: UIButton!
     @IBOutlet weak var emailButtonTopContraint: NSLayoutConstraint!
     @IBOutlet weak var mainViewBottomConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var footerTextView: UITextView!
     @IBOutlet weak var footerTextViewBottomConstraint: NSLayoutConstraint!
 
     fileprivate var lines: [CALayer] = []
 
     fileprivate let viewModel: TourLoginViewModel
+    fileprivate let disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
@@ -56,6 +62,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupRxBindings()
         setupAccessibilityIds()
 
         if DeviceFamily.current == .iPhone4 {
@@ -181,5 +188,20 @@ fileprivate extension TourLoginViewController {
         let admin = AdminViewController()
         let nav = UINavigationController(rootViewController: admin)
         present(nav, animated: true, completion: nil)
+    }
+
+    func setupRxBindings() {
+        viewModel.state.asObservable().bindNext { [weak self] status in
+            switch status {
+            case .loading:
+                self?.activityIndicator.startAnimating()
+                self?.mainView.isHidden = true
+                self?.closeButton.isHidden = true
+            case let .active(closeEnabled, emailAsField):
+                self?.activityIndicator.stopAnimating()
+                self?.closeButton.isHidden = !closeEnabled
+                self?.mainView.isHidden = false
+            }
+        }.addDisposableTo(disposeBag)
     }
 }

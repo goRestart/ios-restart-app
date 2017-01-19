@@ -6,7 +6,14 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
+
 protocol TourLoginViewModelDelegate: BaseViewModelDelegate {
+}
+
+enum TourLoginState {
+    case loading
+    case active(closeEnabled: Bool, emailAsField: Bool)
 }
 
 final class TourLoginViewModel: BaseViewModel {
@@ -14,16 +21,22 @@ final class TourLoginViewModel: BaseViewModel {
     var attributedLegalText: NSAttributedString {
         return signUpViewModel.attributedLegalText
     }
+    let state = Variable<TourLoginState>(.loading)
 
     weak var navigator: TourLoginNavigator?
     weak var delegate: TourLoginViewModelDelegate?
 
     private let signUpViewModel: SignUpViewModel
+    private let featureFlags: FeatureFlaggeable
 
-    init(signUpViewModel: SignUpViewModel) {
+    private let disposeBag = DisposeBag()
+
+    init(signUpViewModel: SignUpViewModel, featureFlags: FeatureFlaggeable) {
         self.signUpViewModel = signUpViewModel
+        self.featureFlags = featureFlags
         super.init()
         self.signUpViewModel.delegate = self
+        setupRxBindings()
     }
 
     func closeButtonPressed() {
@@ -44,6 +57,26 @@ final class TourLoginViewModel: BaseViewModel {
 
     func textUrlPressed(url: URL) {
         delegate?.vmOpenInternalURL(url)
+    }
+
+
+    // MARK: - Private
+
+    func setupRxBindings() {
+        let stateFromData: Observable<TourLoginState> = featureFlags.syncedData.map { [weak self] syncedData in
+            guard syncedData, let featureFlags = self?.featureFlags else { return .loading }
+            switch featureFlags.onboardingReview {
+            case .testA:
+                return .active(closeEnabled: true, emailAsField: true)
+            case .testB:
+                return .active(closeEnabled: false, emailAsField: true)
+            case .testC:
+                return .active(closeEnabled: true, emailAsField: false)
+            case .testD:
+                return .active(closeEnabled: false, emailAsField: false)
+            }
+        }
+        stateFromData.bindTo(state).addDisposableTo(disposeBag)
     }
 
     fileprivate func nextStep() {
