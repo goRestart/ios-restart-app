@@ -37,7 +37,7 @@ class NotificationsManagerSpec: QuickSpec {
         var marketingNotificationsObserver: TestableObserver<Bool>!
         var loggedInMarketingNotificationsObserver: TestableObserver<Bool>!
 
-        fdescribe("NotificationsManagerSpec") {
+        describe("NotificationsManagerSpec") {
             func createNotificationsManager() {
                 sut = NotificationsManager(sessionManager: sessionManager, chatRepository: chatRepository,
                                            oldChatRepository: oldChatRepository, notificationsRepository: notificationsRepository,

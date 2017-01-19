@@ -135,9 +135,7 @@ class NotificationsManager {
             }
         }.addDisposableTo(disposeBag)
 
-        sessionManager.sessionEvents.map {
-            $0.isLogin
-            }.bindTo(loggedIn).addDisposableTo(disposeBag)
+        sessionManager.sessionEvents.map { $0.isLogin }.bindTo(loggedIn).addDisposableTo(disposeBag)
 
         globalCount.bindNext { count in
             UIApplication.shared.applicationIconBadgeNumber = count
@@ -166,9 +164,9 @@ class NotificationsManager {
     }
 
     private func clearCounters() {
-        unreadMessagesCount.value = 0
+        unreadMessagesCount.value = nil
         if featureFlags.notificationsSection {
-            unreadNotificationsCount.value = 0
+            unreadNotificationsCount.value = nil
         }
         favoriteCount.value = nil
     }
