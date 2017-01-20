@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Sports, Loisirs et Jeux";
 "categories_title" = "Catégories";
 "categories_unassigned" = "Non sélectionnée";
+"change_email_current_email_label" = "EMAIL ACTUEL :";
+"change_email_error_already_registered" = "Cette adresse email est déjà utilisée. Veuillez entrer une adresse différente.";
+"change_email_error_invalid_email" = "Veuillez insérer une adresse email valide.";
+"change_email_field_hint" = "Nouvel email (email@domain.com)";
+"change_email_loading" = "Sauvegarde de l'email...";
+"change_email_save_button" = "Sauvegarder";
+"change_email_send_ok" = "Votre email a été changé %@. Vérifiez votre boite de reception pour le confirmer.";
+"change_email_title" = "Changer email";
 "change_location_apply_button" = "Configurer une localisation";
 "change_location_approximate_location_label" = "Afficher l'adresse approximative";
 "change_location_error_country_alert_message" = "Veuillez choisir une localisation dans le pays où vous vous situez actuellement.";
@@ -398,7 +406,7 @@
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
 "product_bubble_favorite_button" = "Informez le vendeur !";
 "product_bubble_favorite_text" = "Ce bien a été ajouté à vos favoris !";
-"product_chat_direct_error_blocked_user_message" = "Oups ! Le chat avec cet utilisateur est bloqué";
+"product_chat_direct_error_blocked_user_message" = "Oups ! Vous avez bloqué cet utilisateur, vous ne pouvez donc pas chatter avec.";
 "product_chat_direct_message" = "Salut %@, je suis intéressé !";
 "product_chat_direct_message_sending" = "Envoi...";
 "product_chat_with_seller_button" = "Chatter avec le vendeur";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Titre du bien (optionnel)";
 "sell_title_information" = "Rendez la tâche facile pour que les acheteurs trouvent votre bien";
 "sell_uploading_label" = "Upload du bien. Veuillez patienter...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";
 "settings_change_profile_picture_button" = "Photo";
@@ -686,6 +695,9 @@
 "settings_logout_alert_message" = "Êtes-vous sûr de vouloir vous déconnecter ?";
 "settings_logout_alert_ok" = "Se Déconnecter";
 "settings_logout_button" = "Se déconnecter";
+"settings_marketing_notifications_alert_cancel" = "Cancel";
+"settings_marketing_notifications_alert_deactivate" = "Deactivate";
+"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
 "settings_marketing_notifications_switch" = "Notifications Marketing";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Promouvoir";
@@ -716,6 +728,7 @@
 "toast_error_internal" = "Oops ! Quelque chose s'est produit.";
 "toast_no_network" = "Pas de connection Internet";
 "tour_claim_label" = "Achetez et vendez rapidement, de manière sûre et localement";
+"tour_continue_w_email" = "Continuer avec email";
 "tour_email_button" = "Email";
 "tour_facebook_button" = "Continuer avec Facebook";
 "tour_google_button" = "Continuer avec Google";

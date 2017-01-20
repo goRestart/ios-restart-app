@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SettingsSwitchCell: UITableViewCell, ReusableCell {
 
@@ -18,6 +20,7 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
 
     private var lines: [CALayer] = []
     private var switchAction: ((Bool) -> Void)?
+    private let disposeBag = DisposeBag()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,10 +41,10 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
         label.text = setting.title
         label.textColor = UIColor.darkGray
         iconImageView.image = setting.image
-        settingSwitch.isOn = setting.switchInitialValue
+        setting.switchValue.asObservable().bindTo(settingSwitch.rx.value).addDisposableTo(disposeBag)
         switchAction = setting.switchAction
     }
-
+    
     @IBAction func switchValueChanged(_ sender: AnyObject) {
         switchAction?(settingSwitch.isOn)
     }
@@ -85,12 +88,12 @@ fileprivate extension LetGoSetting {
         }
     }
 
-    var switchInitialValue: Bool {
+    var switchValue: Variable<Bool> {
         switch self {
-        case let .marketingNotifications(initialValue, _):
-            return initialValue
+        case let .marketingNotifications(switchValue, _):
+            return switchValue
         default:
-            return false
+            return Variable<Bool>(false)
         }
     }
 }
