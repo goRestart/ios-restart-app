@@ -115,6 +115,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_error_bump_token", comment: "")
 	}
 
+	static var bumpUpProcessingFreeText: String {
+		return NSLocalizedString("bump_up_processing_free_text", comment: "")
+	}
+
+	static var bumpUpProcessingPricedText: String {
+		return NSLocalizedString("bump_up_processing_priced_text", comment: "")
+	}
+
 	static var bumpUpViewFreeTitle: String {
 		return NSLocalizedString("bump_up_view_free_title", comment: "")
 	}
@@ -2827,6 +2835,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("settings_marketing_notifications_switch", comment: "")
 	}
 
+	static var settingsMarketingNotificationsAlertMessage: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_message", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertDeactivate: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_deactivate", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertCancel: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_cancel", comment: "")
+	}
+
 	static var signUpAcceptanceError: String {
 		return NSLocalizedString("sign_up_acceptance_error", comment: "")
 	}
@@ -2929,6 +2949,10 @@ struct LGLocalizedString {
 
 	static var tourEmailButton: String {
 		return NSLocalizedString("tour_email_button", comment: "")
+	}
+
+	static var tourContinueWEmail: String {
+		return NSLocalizedString("tour_continue_w_email", comment: "")
 	}
 
 	static var tourFacebookButton: String {

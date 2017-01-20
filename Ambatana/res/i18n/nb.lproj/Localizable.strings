@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Din betaling er prosessert, men ditt produkt er ikke promotert enda.";
 "bump_up_free_success" = "Produktet er promotert! Fortsett å fremme din annonse, og den vil bli enda mer synlig.";
 "bump_up_pay_success" = "Produktet er promotert! Ditt produkt har nå ekstra synlighet.";
+"bump_up_processing_free_text" = "Processing bump...";
+"bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_view_free_subtitle" = "Jo mere du deler, desto mer synlig blir din annonse.";
 "bump_up_view_free_title" = "PROMOTER DIN ANNONSE";
 "bump_up_view_pay_bumps_left_text" = "Du har %i promoteringer igjen.";
@@ -42,6 +44,14 @@
 "categories_sports_leisure_and_games" = "Sport, fritid og spill";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Ikke valgt";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Velg plassering";
 "change_location_approximate_location_label" = "Vis omtrentlig adresse";
 "change_location_error_country_alert_message" = "Vennligst velg en plassering for hvor du befinner deg.";
@@ -673,6 +683,7 @@
 "sell_title_field_hint" = "Produktnavn (alternativt)";
 "sell_title_information" = "Gjør produktet enkelt å finne for kjøpere";
 "sell_uploading_label" = "Laster opp produktet. Vennligst vent...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Plassering";
 "settings_change_password_button" = "Passord";
 "settings_change_profile_picture_button" = "Bilde";
@@ -686,6 +697,9 @@
 "settings_logout_alert_message" = "Er du sikker på at du vil logge ut?";
 "settings_logout_alert_ok" = "Logg ut";
 "settings_logout_button" = "Logg ut";
+"settings_marketing_notifications_alert_cancel" = "Cancel";
+"settings_marketing_notifications_alert_deactivate" = "Deactivate";
+"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
 "settings_marketing_notifications_switch" = "Reklamevarslinger";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Promoter";
@@ -716,6 +730,7 @@
 "toast_error_internal" = "Oops! En feil oppstod.";
 "toast_no_network" = "Ingen internett-tilkobling";
 "tour_claim_label" = "Kjøp og selg raskt, sikkert og lokalt.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "E-post";
 "tour_facebook_button" = "Fortsett med Facebook";
 "tour_google_button" = "Fortsett med Google";
