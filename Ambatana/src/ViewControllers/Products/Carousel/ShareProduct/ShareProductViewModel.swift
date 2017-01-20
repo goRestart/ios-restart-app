@@ -12,7 +12,6 @@ import LGCoreKit
 
 protocol ShareProductViewModelDelegate: BaseViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController
-    func viewControllerShouldClose()
 }
 
 class ShareProductViewModel: BaseViewModel {
@@ -72,10 +71,14 @@ class ShareProductViewModel: BaseViewModel {
     }
     
     func closeActionPressed() {
+        close(withCompletion: nil)
+    }
+
+    func close(withCompletion completion: (() -> Void)?) {
         if let navigator = navigator {
             navigator.closeShareProduct(product)
         } else {
-            delegate?.viewControllerShouldClose()
+            delegate?.vmDismiss(completion)
         }
     }
 }
@@ -85,6 +88,11 @@ class ShareProductViewModel: BaseViewModel {
 
 extension ShareProductViewModel: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
+        // in the "share after posting" there is no track of a share start event
+        guard bumpUp else { return }
+        let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
+                                                     buttonPosition: .bumpUp, typePage: .productDetail)
+        tracker.trackEvent(trackerEvent)
     }
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
@@ -92,10 +100,10 @@ extension ShareProductViewModel: SocialSharerDelegate {
             delegate?.vmShowAutoFadingMessage(message) { [weak self] in
                 switch state {
                 case .completed:
-                    self?.delegate?.vmDismiss {
+                    self?.close(withCompletion: {
                         guard let isBumpUp = self?.bumpUp, isBumpUp else { return }
                         self?.bumpUpProduct()
-                    }
+                    })
                 case .cancelled, .failed:
                     break
                 }

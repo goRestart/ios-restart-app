@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, BumpUpFreeTimeLimit.self])
     } 
 
     static var websocketChat: Bool {
@@ -98,6 +98,11 @@ extension Bumper  {
     static var editDeleteItemUxImprovement: Bool {
         guard let value = Bumper.value(for: EditDeleteItemUxImprovement.key) else { return false }
         return EditDeleteItemUxImprovement(rawValue: value)?.asBool ?? false
+    }
+
+    static var bumpUpFreeTimeLimit: BumpUpFreeTimeLimit {
+        guard let value = Bumper.value(for: BumpUpFreeTimeLimit.key) else { return .oneMin }
+        return BumpUpFreeTimeLimit(rawValue: value) ?? .oneMin 
     } 
 }
 
@@ -267,5 +272,22 @@ enum EditDeleteItemUxImprovement: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Edit & Delete item UX improvements" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum BumpUpFreeTimeLimit: String, BumperFeature  {
+    case oneMin, eightHours, twelveHours, twentyFourHours
+    static var defaultValue: String { return BumpUpFreeTimeLimit.oneMin.rawValue }
+    static var enumValues: [BumpUpFreeTimeLimit] { return [.oneMin, .eightHours, .twelveHours, .twentyFourHours]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Time to next bump up" } 
+    static func fromPosition(_ position: Int) -> BumpUpFreeTimeLimit {
+        switch position { 
+            case 0: return .oneMin
+            case 1: return .eightHours
+            case 2: return .twelveHours
+            case 3: return .twentyFourHours
+            default: return .oneMin
+        }
+    }
 }
 

@@ -79,12 +79,6 @@
 // Token error when bumping
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
 
-// Text for loading view whiel processing free bump
-"bump_up_processing_free_text" = "Processing bump...";
-
-// Text for loading view whiel processing bump with a price
-"bump_up_processing_priced_text" = "Processing payment...";
-
 // Title for free bump up view
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 
@@ -209,13 +203,13 @@
 "change_username_title" = "Change Name";
 
 // Change email navigation bar title
-"change_email_title" = "Change email";
+"change_email_title" = "Change Email";
 
 // Change email current email text
-"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_current_email_label" = "CURRENT EMAIL";
 
 // Change email success message
-"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_send_ok" = "Your email has been changed to %@. Check you email inbox to verify it!";
 
 // Change email button save
 "change_email_save_button" = "Save";
@@ -224,10 +218,10 @@
 "change_email_loading" = "Saving email...";
 
 // Change email text field placeholder
-"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_field_hint" = "New Email (email@doamin.com)";
 
 // Change email invalid email
-"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_error_invalid_email" = "Please insert a valid email.";
 
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
@@ -1231,7 +1225,7 @@
 "product_bubble_favorite_button" = "Let the seller know!";
 
 // Error shown when one user blocked the other
-"product_chat_direct_error_blocked_user_message" = "Oops! You've blocked this user, so you can't start a chat.";
+"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 
 // direct message sent to the seller fromthe product view
 "product_chat_direct_message" = "Hi %@, I'm interested";
@@ -2110,15 +2104,6 @@
 // Settings option to turn on/off marketing notifications
 "settings_marketing_notifications_switch" = "Marketing Notifications";
 
-// Alert message when user wants to deactivate marketing notification in settings. 
-"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
-
-// Alert button to confirm deactivation.
-"settings_marketing_notifications_alert_deactivate" = "Deactivate";
-
-// Alert button to cancel de action
-"settings_marketing_notifications_alert_cancel" = "Cancel";
-
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 
@@ -2196,9 +2181,6 @@
 
 // Tour email button
 "tour_email_button" = "Email";
-
-// Tour continue with email button
-"tour_continue_w_email" = "Continue with email";
 
 // Tour facebook button
 "tour_facebook_button" = "Continue with Facebook";

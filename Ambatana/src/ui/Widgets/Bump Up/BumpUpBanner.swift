@@ -28,6 +28,8 @@ struct BumpUpInfo {
 class BumpUpBanner: UIView {
 
     static let iconSize: CGFloat = 20
+    static let timerUpdateInterval: TimeInterval = 1
+    static let secsToMillisecsRatio = 1000
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
@@ -41,11 +43,12 @@ class BumpUpBanner: UIView {
     private var primaryBlock: (()->()?) = { return nil }
     private var buttonBlock: (()->()?) = { return nil }
 
+    private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
     // - Rx
     let timeLeft = Variable<Int>(0)
     let text = Variable<NSAttributedString?>(NSAttributedString())
-
+    let readyToBump = Variable<Bool>(false)
     let disposeBag = DisposeBag()
 
 
@@ -68,11 +71,11 @@ class BumpUpBanner: UIView {
 
     func updateInfo(info: BumpUpInfo) {
         isFree = info.free
-        // TODO: timer logic changed, There will be an ABC test with 3 different times. https://ambatana.atlassian.net/browse/MONEY-69
-        // logic will be: timeLeft.value = (ABCTest time in secs) - Int(info.timeSinceLastBump/1000)
-        timeLeft.value = Int(info.timeSinceLastBump/1000)
+
+        // bumpUpFreeTimeLimit is the time limit in milliseconds
+        timeLeft.value = featureFlags.bumpUpFreeTimeLimit - info.timeSinceLastBump
         timer.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: BumpUpBanner.timerUpdateInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
         bumpButton.isEnabled = timeLeft.value < 1
 
@@ -86,15 +89,22 @@ class BumpUpBanner: UIView {
         primaryBlock = info.primaryBlock
     }
 
+    func stopCountdown() {
+        timer.invalidate()
+    }
+
     dynamic private func bannerTapped() {
+        guard readyToBump.value else { return }
         primaryBlock()
     }
 
     dynamic private func bannerSwipped() {
+        guard readyToBump.value else { return }
         primaryBlock()
     }
 
     dynamic private func bumpButtonPressed() {
+        guard readyToBump.value else { return }
         buttonBlock()
     }
 
@@ -102,11 +112,14 @@ class BumpUpBanner: UIView {
     // - Private Methods
 
     private func setupRx() {
-        let secondsLeft = timeLeft.asObservable().skip(1)
+        let secondsLeft = timeLeft.asObservable().map{ $0/BumpUpBanner.secsToMillisecsRatio }.skip(1)
+
+        secondsLeft.map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
+
         secondsLeft.bindNext { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
             let localizedText: String
-            if secondsLeft <= 1 {
+            if secondsLeft <= 0 {
                 strongSelf.timer.invalidate()
                 localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
                 strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
@@ -193,7 +206,7 @@ class BumpUpBanner: UIView {
     }
 
     private dynamic func updateTimer() {
-        timeLeft.value = timeLeft.value-1
+        timeLeft.value = timeLeft.value-(Int(BumpUpBanner.timerUpdateInterval)*BumpUpBanner.secsToMillisecsRatio)
     }
 
     private func setAccessibilityIds() {

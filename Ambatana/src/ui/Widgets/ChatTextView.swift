@@ -204,6 +204,10 @@ extension ChatTextView: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         focus.value = true
+        if initialTextActive {
+            clear()
+        }
+        initialTextActive = false
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -217,10 +221,6 @@ extension ChatTextView: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.isEmpty && initialTextActive {
-            clear()
-        }
-        initialTextActive = false
         guard !string.hasEmojis() else { return false }
         return true
     }

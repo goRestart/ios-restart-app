@@ -13,6 +13,7 @@ public enum NotificationType {
     case ratingUpdated(user: NotificationUser, value: Int, comments: String?)
     case buyersInterested(product: NotificationProduct, buyers: [NotificationUser])
     case productSuggested(product: NotificationProduct, seller: NotificationUser)
+    case facebookFriendshipCreated(user: NotificationUser, facebookUsername: String)
 }
 
 public protocol NotificationModel: BaseModel {

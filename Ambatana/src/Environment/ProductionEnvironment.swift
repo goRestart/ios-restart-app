@@ -24,7 +24,7 @@ class ProductionEnvironment: AppEnvironment {
 
     // Config
     let configFileName = "ios-prod"
-    let configURL = "https://letgo-images.s3.amazonaws.com/config/ios.json"
+    let configURL = "http://cdn.letgo.com/config/ios.json"
     
     // Twitter
     let twitterConsumerKey = "krEbU50JQnxY9WkNp6zevuOpK"

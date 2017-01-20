@@ -26,6 +26,8 @@ class NotificationCellDrawerFactory {
             return BuyersInterestedNotificationCellDrawer()
         case .productSuggested:
             return ProductSuggestedNotificationCellDrawer()
+        case .facebookFriendshipCreated:
+            return FacebookFriendshipNotificationCellDrawer()
         }
     }
 

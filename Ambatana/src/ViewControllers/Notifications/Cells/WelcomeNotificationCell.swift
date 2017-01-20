@@ -37,7 +37,7 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
         cellContainer.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
 
         titleLabel.font = UIFont.notificationTitleFont
-        subtitleLabel.font = UIFont.notificationSubtitleFont
+        subtitleLabel.font = UIFont.notificationSubtitleFont(read: false)
 
         titleLabel.textColor = UIColor.black
         subtitleLabel.textColor = UIColor.black

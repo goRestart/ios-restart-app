@@ -10,6 +10,7 @@ enum ABType {
     case bool
     case int
     case string
+    case float
     case none
 }
 
@@ -71,6 +72,23 @@ struct IntABDynamicVar: ABDynamicVar, ABVariable {
         self.type = .int
         self.defaultValue = defaultValue
         self.lpVar = LPVar.define(key, withLong: defaultValue)
+    }
+}
+
+struct FloatABDynamicVar: ABDynamicVar, ABVariable {
+    let key: String
+    let type: ABType
+    let defaultValue: Float
+    let lpVar: LPVar
+    var value: Float {
+        return lpVar.floatValue()
+    }
+
+    init(key: String, defaultValue: Float) {
+        self.key = key
+        self.type = .float
+        self.defaultValue = defaultValue
+        self.lpVar = LPVar.define(key, with: defaultValue)
     }
 }
 

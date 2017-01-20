@@ -150,6 +150,9 @@ enum EventName: String {
     case passiveBuyerComplete              = "passive-buyer-complete"
     case passiveBuyerAbandon               = "passive-buyer-abandon"
 
+    case bumpUpStart                        = "bump-up-start"
+    case bumpUpComplete                     = "bump-up-complete"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -252,6 +255,7 @@ enum EventParameterName: String {
     case lastSearch           = "last-search"
     case expressChatTrigger   = "express-chat-trigger"
     case numberPhotosPosting  = "number-photos-posting"
+    case bumpUpPrice          = "price"
     case passiveConversations = "passive-conversations"
 }
 
@@ -303,6 +307,7 @@ enum EventParameterButtonType: String {
 enum EventParameterButtonPosition: String {
     case top = "top"
     case bottom = "bottom"
+    case bumpUp = "bump-up"
     case none = "N/A"
 }
 
@@ -607,6 +612,7 @@ enum EventParameterNotificationType: String {
     case ratingUpdated = "rating-updated"
     case buyersInterested = "passive-buyer-seller"
     case productSuggested = "passive-buyer-make-offer"
+    case facebookFriendshipCreated = "facebook-friendship-created"
 }
 
 enum EventParameterRelatedShownReason: String {
@@ -643,6 +649,20 @@ enum EventParameterFreePosting: String {
 enum EventParameterExpressChatTrigger: String {
     case automatic = "automatic"
     case manual = "manual"
+}
+
+enum EventParameterBumpUpPrice {
+    case free
+    case pay(price: String)
+
+    var description: String {
+        switch self {
+        case .free:
+            return "free"
+        case let .pay(price):
+            return price
+        }
+    }
 }
 
 struct EventParameters {

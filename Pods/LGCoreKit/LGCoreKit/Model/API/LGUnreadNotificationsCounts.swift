@@ -15,14 +15,21 @@ struct LGUnreadNotificationsCounts: UnreadNotificationsCounts {
     let productLike: Int
     let review: Int
     let reviewUpdated: Int
+    let buyersInterested: Int
+    let productSuggested: Int
+    let facebookFriendshipCreated: Int
     let total: Int
 
-    init(total: Int?, sold: Int?, like: Int?, review: Int?, reviewUpdated: Int?) {
+    init(total: Int?, sold: Int?, like: Int?, review: Int?, reviewUpdated: Int?, buyersInterested: Int?,
+         productSuggested: Int?, facebookFriendshipCreated: Int?) {
         self.total = total ?? 0
         self.productSold = sold ?? 0
         self.productLike = like ?? 0
         self.review = review ?? 0
         self.reviewUpdated = reviewUpdated ?? 0
+        self.buyersInterested = buyersInterested ?? 0
+        self.productSuggested = productSuggested ?? 0
+        self.facebookFriendshipCreated = facebookFriendshipCreated ?? 0
     }
 }
 
@@ -31,8 +38,11 @@ extension LGUnreadNotificationsCounts: Decodable {
      "counts" : {
          "sold": 25,
          "like": 10,
-         "review_updated": 10,
          "review": 5,
+         "review_updated": 10,
+         "buyers_interested": 0,
+         "product_suggested": 0,
+         "facebook_friendship_created": 10,
          "total": 50
      }
      */
@@ -43,6 +53,9 @@ extension LGUnreadNotificationsCounts: Decodable {
             <*> j <|? "like"
             <*> j <|? "review"
             <*> j <|? "review_updated"
+            <*> j <|? "buyers_interested"
+            <*> j <|? "product_suggested"
+            <*> j <|? "facebook_friendship_created"
 
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUnreadNotificationsCounts parse error: \(error)")

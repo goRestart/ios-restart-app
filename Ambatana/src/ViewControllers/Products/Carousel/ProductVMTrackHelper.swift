@@ -47,6 +47,16 @@ extension ProductViewModel {
     func trackShareCompleted(_ shareType: ShareType, buttonPosition: EventParameterButtonPosition, state: SocialShareState) {
         trackHelper.trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
     }
+
+    // MARK: Bump Up
+
+    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice) {
+        trackHelper.trackBumpUpStarted(price)
+    }
+
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, network: EventParameterShareNetwork) {
+        trackHelper.trackBumpUpCompleted(price, network: network)
+    }
 }
 
 
@@ -74,6 +84,21 @@ extension ProductVMTrackHelper {
         if let event = event {
             tracker.trackEvent(event)
         }
+    }
+}
+
+
+// MARK: - Bump Up
+
+extension ProductVMTrackHelper {
+    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice) {
+        let trackerEvent = TrackerEvent.productBumpUpStart(product, price: price)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, network: EventParameterShareNetwork) {
+        let trackerEvent = TrackerEvent.productBumpUpComplete(product, price: price, network: network)
+        tracker.trackEvent(trackerEvent)
     }
 }
 
