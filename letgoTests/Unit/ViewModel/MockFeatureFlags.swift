@@ -40,4 +40,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var filterIconWithLetters: Bool = false
     var editDeleteItemUxImprovement: Bool = false
     var onboardingReview: OnboardingReview = .testA
+    var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
 }

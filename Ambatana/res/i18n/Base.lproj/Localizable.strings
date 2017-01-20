@@ -226,6 +226,9 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+// Change email already registered
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
 

@@ -133,6 +133,7 @@ class ProductViewModel: BaseViewModel {
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     var timeSinceLastBump: Int = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
+    let becameActive = Variable<Bool>(false)
     
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -342,25 +343,8 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productCreationDate.value = product.createdAt
         }.addDisposableTo(disposeBag)
 
-        // bumpeable product check
-        product.asObservable().filter { $0.isMine && $0.status.isBumpeable && self.featureFlags.monetizationEnabled }.bindNext { [weak self] product in
-            guard let productId = product.objectId else { return }
-            self?.monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
-                if let bumpeableProduct = result.value {
-                    if bumpeableProduct.isBumpeable {
-                        // product is bumpeable
-                        self?.timeSinceLastBump = bumpeableProduct.countdown
-                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }.map { $0.providerItemId }
-                        let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
-                        if !paymentItems.isEmpty {
-                            // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                            self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
-                        } else if !freeItems.isEmpty {
-                            self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
-                        }
-                    }
-                }
-            })
+        product.asObservable().bindNext { [weak self] product in
+            self?.updateBumpUpbannerFor(product: product)
         }.addDisposableTo(disposeBag)
 
         product.asObservable().bindNext { [weak self] product in
@@ -416,6 +400,32 @@ class ProductViewModel: BaseViewModel {
             self?.selectableStickers = stickers
             self?.stickersButtonEnabled.value = !stickers.isEmpty && productStatus.directChatsAvailable
         }
+    }
+
+    func refreshBumpeableBanner() {
+        updateBumpUpbannerFor(product: product.value)
+    }
+
+    private func updateBumpUpbannerFor(product: Product) {
+        guard let productId = product.objectId, product.isMine, product.status.isBumpeable,
+                featureFlags.monetizationEnabled else { return }
+
+        monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
+            if let bumpeableProduct = result.value {
+                if bumpeableProduct.isBumpeable {
+                    // product is bumpeable
+                    self?.timeSinceLastBump = bumpeableProduct.countdown
+                    let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }.map { $0.providerItemId }
+                    let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
+                    if !paymentItems.isEmpty {
+                        // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                        self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
+                    } else if !freeItems.isEmpty {
+                        self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
+                    }
+                }
+            }
+        })
     }
 
     fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, freeBumpUp: Bool) {

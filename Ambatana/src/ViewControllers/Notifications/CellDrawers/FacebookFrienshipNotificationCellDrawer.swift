@@ -15,6 +15,7 @@ class FacebookFriendshipNotificationCellDrawer: BaseNotificationCellDrawer<Notif
         case let .facebookFriendshipCreated(user, facebookUsername):
             let userName = user.name ?? ""
             cell.actionLabel.text = LGLocalizedString.notificationsTypeFacebookFriend(facebookUsername, userName)
+            cell.actionLabel.font = UIFont.notificationSubtitleFont(read: data.isRead)
             cell.iconImage.image = UIImage(named: "ic_notification_facebook")
             let placeholder = LetgoAvatar.avatarWithID(user.id, name: userName)
             if let urlStr = user.avatar, let imageUrl = URL(string: urlStr) {

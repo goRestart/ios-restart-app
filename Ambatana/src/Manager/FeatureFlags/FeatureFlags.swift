@@ -35,6 +35,7 @@ protocol FeatureFlaggeable {
     var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
     var onboardingReview: OnboardingReview { get }
+    var bumpUpFreeTimeLimit: Int { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -190,6 +191,25 @@ class FeatureFlags: FeatureFlaggeable {
         return OnboardingReview.fromPosition(ABTests.onboardingReview.value)
     }
 
+    var bumpUpFreeTimeLimit: Int {
+        let hoursToMilliseconds = 60 * 60 * 1000
+        if Bumper.enabled {
+            switch Bumper.bumpUpFreeTimeLimit {
+            case .oneMin:
+                return 1/60 * hoursToMilliseconds
+            case .eightHours:
+                return 8 * hoursToMilliseconds
+            case .twelveHours:
+                return 12 * hoursToMilliseconds
+            case .twentyFourHours:
+                return 24 * hoursToMilliseconds
+            }
+        }
+        let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToMilliseconds)
+        return Int(timeLimit)
+    }
+
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

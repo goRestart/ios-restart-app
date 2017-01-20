@@ -124,7 +124,7 @@ extension UIFont {
 
 extension UIFont {
     static var notificationTitleFont: UIFont { return systemRegularFont(size: 17) }
-    static var notificationSubtitleFont: UIFont { return systemLightFont(size: 15) }
+    static func notificationSubtitleFont(read: Bool) -> UIFont { return read ? systemLightFont(size: 15) : systemSemiBoldFont(size: 15) }
     static var notificationTimeFont: UIFont { return systemLightFont(size: 15) }
 }
 
