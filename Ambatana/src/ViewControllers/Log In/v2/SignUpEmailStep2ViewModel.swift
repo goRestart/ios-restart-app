@@ -60,7 +60,6 @@ protocol SignUpEmailStep2ViewModelDelegate: BaseViewModelDelegate {}
 
 final class SignUpEmailStep2ViewModel: BaseViewModel {
     lazy var helpAction: UIAction = {
-        // TODO: New string?
         return UIAction(interface: .text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
             self?.openHelp()
         }, accessibilityId: .SignUpEmailHelpButton)
@@ -110,14 +109,15 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
          sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
          featureFlags: FeatureFlaggeable, tracker: Tracker) {
         self.email = email
-        self.username = Variable<String>("")
+        let username = email.makeUsernameFromEmail() ?? ""
+        self.username = Variable<String>(username)
         self.termsAndConditionsAccepted = Variable<Bool>(false)
         self.newsLetterAccepted = Variable<Bool>(false)
 
         self.isRememberedEmail = isRememberedEmail
         self.password = password
         self.source = source
-        self.signUpEnabledVar = Variable<Bool>(false)
+        self.signUpEnabledVar = Variable<Bool>(!username.isEmpty)
 
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage

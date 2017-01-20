@@ -24,7 +24,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
 
     override func spec() {
 
-        describe("SignUpEmailStep2ViewModel") {
+        fdescribe("SignUpEmailStep2ViewModel") {
             var signUpEnabled: Bool!
             var disposeBag: DisposeBag!
             var featureFlags: MockFeatureFlags!
@@ -47,7 +47,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
 
-                let email = "albert@letgo.com"
+                let email = "albert.hernandez@gmail.com"
                 let myUser = MockMyUser()
                 myUser.email = email
                 sessionManager.signUpResult = SessionMyUserResult(value: myUser)
@@ -67,10 +67,10 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
             describe("initialization") {
                 context("common") {
                     it("has the email passed by in the init") {
-                        expect(sut.email) == "albert@letgo.com"
+                        expect(sut.email) == "albert.hernandez@gmail.com"
                     }
-                    it("has an empty username") {
-                        expect(sut.username.value) == ""
+                    it("has a suggested username") {
+                        expect(sut.username.value) == "Albert Hernandez"
                     }
                     it("does not have terms and conditions accept required") {
                         expect(sut.termsAndConditionsAcceptRequired) == false
@@ -78,8 +78,8 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                     it("does not have newsletter accept required") {
                         expect(sut.newsLetterAcceptRequired) == false
                     }
-                    it("does not have sign up enabled") {
-                        expect(signUpEnabled) == false
+                    it("has sign up enabled") {
+                        expect(signUpEnabled) == true
                     }
                 }
             }
@@ -265,7 +265,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                     }
 
                     describe("auto log in succeeds") {
-                        let email = "albert@letgo.com"
+                        let email = "albert.hernandez@gmail.com"
 
                         beforeEach {
                             let myUser = MockMyUser()
@@ -312,7 +312,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 }
 
                 describe("sign up succeeds") {
-                    let email = "albert@letgo.com"
+                    let email = "albert.hernandez@gmail.com"
 
                     beforeEach {
                         let myUser = MockMyUser()
