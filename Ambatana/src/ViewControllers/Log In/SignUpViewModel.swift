@@ -67,6 +67,7 @@ class SignUpViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     let appearance: LoginAppearance
     fileprivate let loginSource: EventParameterLoginSourceValue
+    var collapsedEmailTrackingParam: EventParameterCollapsedEmailField? = nil
 
     private let googleLoginHelper: ExternalAuthHelper
     private let fbLoginHelper: ExternalAuthHelper

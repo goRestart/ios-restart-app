@@ -665,6 +665,12 @@ enum EventParameterBumpUpPrice {
     }
 }
 
+enum EventParameterCollapsedEmailField: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
+    case unset = "N/A"
+}
+
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]
     
