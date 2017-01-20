@@ -14,7 +14,7 @@ class StringLGSpec: QuickSpec {
     override func spec() {
         var sut: String!
 
-        fdescribe("String + LG methods") {
+        describe("String + LG methods") {
             context("hasEmojis") {
                 describe("contains unicodes but not emojis") {
                     beforeEach {

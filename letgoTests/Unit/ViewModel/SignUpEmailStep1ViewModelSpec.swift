@@ -20,7 +20,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
 
     override func spec() {
 
-        fdescribe("SignUpEmailStep1ViewModel") {
+        describe("SignUpEmailStep1ViewModel") {
             var keyValueStorage: MockKeyValueStorage!
             var email: String!
             var suggestedEmail: String!
