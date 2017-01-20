@@ -28,12 +28,18 @@ final class TourLoginViewModel: BaseViewModel {
 
     private let signUpViewModel: SignUpViewModel
     private let featureFlags: FeatureFlaggeable
+    private let abTestSyncTimeout: TimeInterval
 
     private let disposeBag = DisposeBag()
 
-    init(signUpViewModel: SignUpViewModel, featureFlags: FeatureFlaggeable) {
+    convenience init(signUpViewModel: SignUpViewModel, featureFlags: FeatureFlaggeable) {
+        self.init(signUpViewModel: signUpViewModel, featureFlags: featureFlags, syncTimeout: Constants.abTestSyncTimeout)
+    }
+
+    init(signUpViewModel: SignUpViewModel, featureFlags: FeatureFlaggeable, syncTimeout: TimeInterval) {
         self.signUpViewModel = signUpViewModel
         self.featureFlags = featureFlags
+        self.abTestSyncTimeout = syncTimeout
         super.init()
         self.signUpViewModel.delegate = self
         setupRxBindings()
@@ -63,7 +69,7 @@ final class TourLoginViewModel: BaseViewModel {
     // MARK: - Private
 
     func setupRxBindings() {
-        featureFlags.syncedData.filter{ $0 }.timeout(Constants.abTestSyncTimeout, scheduler: MainScheduler.instance)
+        featureFlags.syncedData.filter{ $0 }.timeout(abTestSyncTimeout, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self ] _ in self?.setCurrentState(timeout: false) },
                        onError: { [weak self] _ in self?.setCurrentState(timeout: true) })
             .addDisposableTo(disposeBag)
