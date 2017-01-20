@@ -343,6 +343,59 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("loginGoogle") {
+                it("has its event name") {
+                    sut = TrackerEvent.loginGoogle(.sell, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    expect(sut.name.rawValue).to(equal("login-google"))
+                }
+                it("contains the existing param") {
+                    sut = TrackerEvent.loginGoogle(.sell, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let existing = sut.params!.stringKeyParams["existing"] as! Bool
+                    expect(existing) == true
+                }
+                it("contains the collapsed-email-field param") {
+                    sut = TrackerEvent.loginGoogle(.sell, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let existing = sut.params!.stringKeyParams["collapsed-email-field"] as! String
+                    expect(existing) == "true"
+                }
+                it("contains the appropiate login source logging in via FB from posting") {
+                    sut = TrackerEvent.loginGoogle(.sell, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
+                    expect(loginType).to(equal("posting"))
+                }
+                it("contains the appropiate login source logging in via FB from chats") {
+                    sut = TrackerEvent.loginGoogle(.chats, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
+                    expect(loginType).to(equal("messages"))
+                }
+                it("contains the appropiate login source logging in via FB from profile") {
+                    sut = TrackerEvent.loginGoogle(.profile, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
+                    expect(loginType).to(equal("view-profile"))
+                }
+                it("contains the appropiate login source logging in via FB from mark as favourite") {
+                    sut = TrackerEvent.loginGoogle(.favourite, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
+                    expect(loginType).to(equal("favourite"))
+                }
+                it("contains the appropiate login source logging in via FB from mark as sold") {
+                    sut = TrackerEvent.loginGoogle(.markAsSold, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
+                    expect(loginType).to(equal("mark-as-sold"))
+                }
+                it("contains the appropiate login source logging in via FB from as a question") {
+                    sut = TrackerEvent.loginGoogle(.askQuestion, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
+                    expect(loginType).to(equal("question"))
+                }
+                it("contains the appropiate login source logging in via FB from report fraud") {
+                    sut = TrackerEvent.loginGoogle(.reportFraud, rememberedAccount: true, collapsedEmail: .trueParameter)
+                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
+                    expect(loginType).to(equal("report-fraud"))
+                }
+            }
+
+
             describe("loginEmail") {
                 it("has its event name") {
                     sut = TrackerEvent.loginEmail(.sell, rememberedAccount: true, collapsedEmail: .trueParameter)
