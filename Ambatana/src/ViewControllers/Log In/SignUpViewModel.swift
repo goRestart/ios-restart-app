@@ -135,11 +135,13 @@ class SignUpViewModel: BaseViewModel {
 
     func signUpButtonPressed() {
         let vm = SignUpLogInViewModel(source: loginSource, action: .signup)
+        vm.collapsedEmailTrackingParam = collapsedEmailTrackingParam
         delegate?.vmOpenSignup(vm)
     }
 
     func logInButtonPressed() {
         let vm = SignUpLogInViewModel(source: loginSource, action: .login)
+        vm.collapsedEmailTrackingParam = collapsedEmailTrackingParam
         delegate?.vmOpenSignup(vm)
     }
 
@@ -239,7 +241,8 @@ class SignUpViewModel: BaseViewModel {
 
     private func trackLoginFBOK() {
         let rememberedAccount = previousFacebookUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount,
+                                                collapsedEmail: collapsedEmailTrackingParam))
     }
 
     private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
@@ -248,7 +251,8 @@ class SignUpViewModel: BaseViewModel {
 
     private func trackLoginGoogleOK() {
         let rememberedAccount = previousGoogleUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount,
+                                                    collapsedEmail: collapsedEmailTrackingParam))
     }
 
     private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {

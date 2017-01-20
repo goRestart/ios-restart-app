@@ -26,6 +26,7 @@ protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
 
 class SignUpLogInViewModel: BaseViewModel {
     let loginSource: EventParameterLoginSourceValue
+    var collapsedEmailTrackingParam: EventParameterCollapsedEmailField? = nil
     let googleLoginHelper: ExternalAuthHelper
     let fbLoginHelper: ExternalAuthHelper
     let tracker: Tracker
@@ -204,8 +205,9 @@ class SignUpLogInViewModel: BaseViewModel {
                     self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
 
                     // Tracking
-                    self?.tracker.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
-                        newsletter: strongSelf.newsletterParameter))
+                    self?.tracker.trackEvent(
+                        TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter,
+                                                 collapsedEmail: strongSelf.collapsedEmailTrackingParam))
 
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                         self?.delegate?.vmFinish(completedAccess: true)
@@ -219,7 +221,9 @@ class SignUpLogInViewModel: BaseViewModel {
                                 guard let strongSelf = self else { return }
                                 if let _ = loginResult.value {
                                     let rememberedAccount = strongSelf.previousEmail.value != nil
-                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
+                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
+                                                                               rememberedAccount: rememberedAccount,
+                                                                               collapsedEmail: strongSelf.collapsedEmailTrackingParam)
                                     self?.tracker.trackEvent(trackerEvent)
                                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                                         self?.delegate?.vmFinish(completedAccess: true)
@@ -274,7 +278,8 @@ class SignUpLogInViewModel: BaseViewModel {
                     self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
 
                     let rememberedAccount = strongSelf.previousEmail.value != nil
-                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
+                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount,
+                                                               collapsedEmail: strongSelf.collapsedEmailTrackingParam)
                     self?.tracker.trackEvent(trackerEvent)
 
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
@@ -515,7 +520,8 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func trackLoginFBOK() {
         let rememberedAccount = previousFacebookUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount,
+                                                collapsedEmail: collapsedEmailTrackingParam))
     }
 
     private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
@@ -524,7 +530,8 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func trackLoginGoogleOK() {
         let rememberedAccount = previousGoogleUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount,
+                                                    collapsedEmail: collapsedEmailTrackingParam))
     }
 
     private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {
