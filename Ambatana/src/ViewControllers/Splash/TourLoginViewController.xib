@@ -17,6 +17,7 @@
                 <outlet property="claimLabelTopConstraint" destination="23d-wV-zBT" id="TDL-pk-l2P"/>
                 <outlet property="closeButton" destination="oDf-26-chT" id="4E0-89-okO"/>
                 <outlet property="emailButton" destination="xfu-Bb-nqT" id="3YV-HJ-Pmh"/>
+                <outlet property="emailButtonJustText" destination="5wX-Nd-maq" id="sRJ-1k-xiX"/>
                 <outlet property="emailButtonTopContraint" destination="1IQ-Qs-QzT" id="RQS-xP-wcb"/>
                 <outlet property="facebookButton" destination="sYm-Go-MoG" id="Scq-sW-10b"/>
                 <outlet property="footerTextView" destination="odo-ww-79k" id="hyR-lO-fOS"/>
@@ -50,10 +51,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="334"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a7f-Ix-ddh" userLabel="Logo and Claim View">
-                            <rect key="frame" x="0.0" y="100.5" width="375" height="133"/>
+                            <rect key="frame" x="0.0" y="101" width="375" height="133"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="logo_onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="ZP8-Fg-JQL" userLabel="Logo Image View">
-                                    <rect key="frame" x="127.5" y="0.0" width="120" height="72"/>
+                                    <rect key="frame" x="128" y="0.0" width="120" height="72"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="72" id="YLl-qK-aXS"/>
                                         <constraint firstAttribute="width" constant="120" id="bew-bn-iJn"/>
@@ -139,11 +140,11 @@
                             </constraints>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FfU-wo-Fjf" userLabel="Or Divider View">
-                            <rect key="frame" x="55" y="140" width="63.5" height="8"/>
+                            <rect key="frame" x="55" y="140" width="63" height="8"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="pEx-Y2-CVa" userLabel="Or Container View">
-                            <rect key="frame" x="122.5" y="140" width="131" height="16"/>
+                            <rect key="frame" x="122" y="140" width="131" height="16"/>
                             <subviews>
                                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="_or use your email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sf3-FS-V46" userLabel="Or Label">
                                     <rect key="frame" x="8" y="0.0" width="115" height="16"/>
@@ -163,10 +164,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="syl-iL-OvL" userLabel="Or Divider View">
-                            <rect key="frame" x="257.5" y="140" width="62.5" height="8"/>
+                            <rect key="frame" x="257" y="140" width="63" height="8"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfu-Bb-nqT" userLabel="Sign Up Button">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfu-Bb-nqT" userLabel="Sign Up Button field">
                             <rect key="frame" x="15" y="186" width="345" height="50"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -184,24 +185,43 @@
                                 <action selector="emailButtonPressed:" destination="-1" eventType="touchUpInside" id="Sbw-yu-sic"/>
                             </connections>
                         </button>
+                        <button hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5wX-Nd-maq" userLabel="Sign Up Button text">
+                            <rect key="frame" x="15" y="186" width="345" height="50"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="OmV-8m-wgz"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                            <state key="normal" title="_Email">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="emailButtonPressed:" destination="-1" eventType="touchUpInside" id="Icw-mR-0lv"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="sYm-Go-MoG" firstAttribute="top" secondItem="CyB-qf-8tj" secondAttribute="top" id="028-cW-qtH"/>
                         <constraint firstItem="xfu-Bb-nqT" firstAttribute="top" secondItem="pEx-Y2-CVa" secondAttribute="bottom" constant="30" id="1IQ-Qs-QzT"/>
                         <constraint firstItem="pEx-Y2-CVa" firstAttribute="top" secondItem="FfU-wo-Fjf" secondAttribute="top" id="2L0-p9-lge"/>
+                        <constraint firstItem="5wX-Nd-maq" firstAttribute="centerX" secondItem="xfu-Bb-nqT" secondAttribute="centerX" id="4nD-LJ-FTs"/>
                         <constraint firstItem="sYm-Go-MoG" firstAttribute="leading" secondItem="CyB-qf-8tj" secondAttribute="leading" constant="15" id="77Z-2J-2cr"/>
                         <constraint firstItem="sYm-Go-MoG" firstAttribute="centerY" secondItem="Mc9-Nl-5Hz" secondAttribute="centerY" id="8tj-eE-g2x"/>
                         <constraint firstAttribute="centerX" secondItem="sYm-Go-MoG" secondAttribute="centerX" id="8u0-iq-YsB"/>
                         <constraint firstItem="pEx-Y2-CVa" firstAttribute="height" secondItem="FfU-wo-Fjf" secondAttribute="height" multiplier="2" id="A8D-Q5-6lw"/>
+                        <constraint firstItem="5wX-Nd-maq" firstAttribute="height" secondItem="xfu-Bb-nqT" secondAttribute="height" id="AfR-Bm-f3P"/>
                         <constraint firstAttribute="bottom" secondItem="xfu-Bb-nqT" secondAttribute="bottom" id="BQq-uh-niR"/>
                         <constraint firstAttribute="trailing" secondItem="mEX-y8-IOU" secondAttribute="trailing" constant="15" id="CZi-CS-zI7"/>
                         <constraint firstItem="pEx-Y2-CVa" firstAttribute="leading" secondItem="FfU-wo-Fjf" secondAttribute="trailing" constant="4" id="RIf-5k-RCH"/>
                         <constraint firstItem="mEX-y8-IOU" firstAttribute="leading" secondItem="CyB-qf-8tj" secondAttribute="leading" constant="16" id="SHy-g6-U3A"/>
                         <constraint firstItem="WND-Em-Hte" firstAttribute="leading" secondItem="mEX-y8-IOU" secondAttribute="leading" constant="7" id="STa-MI-hB6"/>
+                        <constraint firstItem="5wX-Nd-maq" firstAttribute="width" secondItem="xfu-Bb-nqT" secondAttribute="width" id="TOd-7b-BNG"/>
                         <constraint firstAttribute="trailing" secondItem="syl-iL-OvL" secondAttribute="trailing" constant="55" id="XVu-lR-Vhf"/>
                         <constraint firstItem="mEX-y8-IOU" firstAttribute="top" secondItem="sYm-Go-MoG" secondAttribute="bottom" constant="10" id="Z25-KA-NSy"/>
                         <constraint firstItem="syl-iL-OvL" firstAttribute="leading" secondItem="pEx-Y2-CVa" secondAttribute="trailing" constant="4" id="ceO-JQ-Cht"/>
+                        <constraint firstItem="5wX-Nd-maq" firstAttribute="centerY" secondItem="xfu-Bb-nqT" secondAttribute="centerY" id="f6d-tV-778"/>
                         <constraint firstItem="syl-iL-OvL" firstAttribute="top" secondItem="FfU-wo-Fjf" secondAttribute="top" id="fKW-02-spF"/>
                         <constraint firstItem="xfu-Bb-nqT" firstAttribute="leading" secondItem="CyB-qf-8tj" secondAttribute="leading" constant="15" id="fbW-ji-QlU"/>
                         <constraint firstAttribute="trailing" secondItem="xfu-Bb-nqT" secondAttribute="trailing" constant="15" id="gfd-BI-KBs"/>

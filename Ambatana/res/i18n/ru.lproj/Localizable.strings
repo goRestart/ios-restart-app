@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Задать местоположение";
 "change_location_approximate_location_label" = "Показать приблизительный адрес";
 "change_location_error_country_alert_message" = "Пожалуйста, выберите местоположение в стране, в которой вы сейчас находитесь.";
@@ -353,8 +361,8 @@
 "notifications_type_buyers_interested_button" = "Посмотрите, кто они";
 "notifications_type_buyers_interested_button_done" = "Покупатели оповещены!";
 "notifications_type_buyers_interested_w_title" = "%1$d покупателей может заинтересовать ваш товар: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Ваш друг на Facebook %1$@ зарегистрировался на letgo как %2$@";
+"notifications_type_facebook_friend_button" = "Смотреть профиль";
 "notifications_type_like_button" = "Проверить профиль";
 "notifications_type_like_w_name" = "%@ добавил ваш товар в избранное";
 "notifications_type_like_w_name_w_title" = "%1$@ добавил ваш товар в избранное: \"%2$@\"";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Название (опционально)";
 "sell_title_information" = "Помогите покупателям быстрее найти ваш товар";
 "sell_uploading_label" = "Загрузка товара. Пожалуйста, подождите...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Местоположение";
 "settings_change_password_button" = "Изменить пароль";
 "settings_change_profile_picture_button" = "Изменить фото";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Упс! Что-то пошло не так.";
 "toast_no_network" = "Нет соединения с интернет";
 "tour_claim_label" = "Покупайте и продавайте быстро, безопасно и удобно.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "E-mail";
 "tour_facebook_button" = "Вход через Facebook";
 "tour_google_button" = "Вход через Google";

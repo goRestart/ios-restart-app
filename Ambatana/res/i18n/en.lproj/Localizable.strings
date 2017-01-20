@@ -203,13 +203,13 @@
 "change_username_title" = "Change Name";
 
 // Change email navigation bar title
-"change_email_title" = "Change Email";
+"change_email_title" = "Change email";
 
 // Change email current email text
-"change_email_current_email_label" = "CURRENT EMAIL";
+"change_email_current_email_label" = "CURRENT EMAIL:";
 
 // Change email success message
-"change_email_send_ok" = "Your email has been changed to %@. Check you email inbox to verify it!";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
 
 // Change email button save
 "change_email_save_button" = "Save";
@@ -218,10 +218,13 @@
 "change_email_loading" = "Saving email...";
 
 // Change email text field placeholder
-"change_email_field_hint" = "New Email (email@doamin.com)";
+"change_email_field_hint" = "New email (email@domain.com)";
 
 // Change email invalid email
-"change_email_error_invalid_email" = "Please insert a valid email.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+
+// Change email already registered
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
@@ -1114,7 +1117,7 @@
 "notifications_type_buyers_interested_button_done" = "Buyers contacted!";
 
 // Notifications Facebook friend text
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend" = "Your Facebook friend %1$@ has joined letgo as %2$@";
 
 // Notifications Facebook friend button action
 "notifications_type_facebook_friend_button" = "View Profile";
@@ -1222,7 +1225,7 @@
 "product_bubble_favorite_button" = "Let the seller know!";
 
 // Error shown when one user blocked the other
-"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
+"product_chat_direct_error_blocked_user_message" = "Oops! You've blocked this user, so you can't start a chat.";
 
 // direct message sent to the seller fromthe product view
 "product_chat_direct_message" = "Hi %@, I'm interested";
@@ -2178,6 +2181,9 @@
 
 // Tour email button
 "tour_email_button" = "Email";
+
+// Tour continue with email button
+"tour_continue_w_email" = "Continue with email";
 
 // Tour facebook button
 "tour_facebook_button" = "Continue with Facebook";

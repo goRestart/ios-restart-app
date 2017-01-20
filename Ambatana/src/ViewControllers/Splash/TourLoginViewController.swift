@@ -27,6 +27,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var orUseEmailLabel: UILabel!
     @IBOutlet weak var orUseEmailLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var emailButton: UIButton!
+    @IBOutlet weak var emailButtonJustText: UIButton!
     @IBOutlet weak var emailButtonTopContraint: NSLayoutConstraint!
     @IBOutlet weak var mainViewBottomConstraint: NSLayoutConstraint!
 
@@ -158,6 +159,7 @@ fileprivate extension TourLoginViewController {
         facebookButton.setTitle(LGLocalizedString.tourFacebookButton, for: .normal)
         googleButton.setTitle(LGLocalizedString.tourGoogleButton, for: .normal)
         emailButton.setTitle(LGLocalizedString.tourEmailButton, for: .normal)
+        emailButtonJustText.setTitle(LGLocalizedString.tourContinueWEmail, for: .normal)
         footerTextView.attributedText = viewModel.attributedLegalText
     }
 
@@ -200,6 +202,8 @@ fileprivate extension TourLoginViewController {
             case let .active(closeEnabled, emailAsField):
                 self?.activityIndicator.stopAnimating()
                 self?.closeButton.isHidden = !closeEnabled
+                self?.emailButton.isHidden = !emailAsField
+                self?.emailButtonJustText.isHidden = emailAsField
                 self?.mainView.isHidden = false
             }
         }.addDisposableTo(disposeBag)

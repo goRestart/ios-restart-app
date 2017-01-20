@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Aplicar ubicación";
 "change_location_approximate_location_label" = "Mostrar la dirección aproximada";
 "change_location_error_country_alert_message" = "Por favor, elige una ubicación en el país en el que te encuentras actualmente.";
@@ -353,8 +361,8 @@
 "notifications_type_buyers_interested_button" = "Descubrir quién son";
 "notifications_type_buyers_interested_button_done" = "¡Compradores contactados!";
 "notifications_type_buyers_interested_w_title" = "A %1$d compradores les podría interesar tu producto: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Tu amigo de Facebook %1$@ usa letgo como %2$@";
+"notifications_type_facebook_friend_button" = "Ver perfil";
 "notifications_type_like_button" = "Visitar su perfil";
 "notifications_type_like_w_name" = "%@ ha marcado tu producto como favorito";
 "notifications_type_like_w_name_w_title" = "%1$@ ha marcado tu producto como favorito: \"%2$@\"";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Título (opcional)";
 "sell_title_information" = "Facilita que los compradores encuentren tu producto";
 "sell_uploading_label" = "Subiendo tu artículo...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";
 "settings_change_profile_picture_button" = "Foto";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "¡Ups! Se ha producido un error.";
 "toast_no_network" = "Sin Conexión a Internet";
 "tour_claim_label" = "Compra y vende rápidamente y con seguridad, cerca de ti.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "Email";
 "tour_facebook_button" = "Continuar con Facebook";
 "tour_google_button" = "Continuar con Google";

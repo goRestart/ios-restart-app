@@ -63,24 +63,34 @@ final class TourLoginViewModel: BaseViewModel {
     // MARK: - Private
 
     func setupRxBindings() {
-        let stateFromData: Observable<TourLoginState> = featureFlags.syncedData.map { [weak self] syncedData in
-            guard syncedData, let featureFlags = self?.featureFlags else { return .loading }
-            switch featureFlags.onboardingReview {
-            case .testA:
-                return .active(closeEnabled: true, emailAsField: true)
-            case .testB:
-                return .active(closeEnabled: false, emailAsField: true)
-            case .testC:
-                return .active(closeEnabled: true, emailAsField: false)
-            case .testD:
-                return .active(closeEnabled: false, emailAsField: false)
-            }
-        }
-        stateFromData.bindTo(state).addDisposableTo(disposeBag)
+        featureFlags.syncedData.filter{ $0 }.timeout(Constants.abTestSyncTimeout, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self ] _ in self?.setCurrentState(timeout: false) },
+                       onError: { [weak self] _ in self?.setCurrentState(timeout: true) })
+            .addDisposableTo(disposeBag)
+    }
+
+    private func setCurrentState(timeout: Bool) {
+        state.value = featureFlags.onboardingReview.tourLoginState
     }
 
     fileprivate func nextStep() {
         navigator?.tourLoginFinish()
+    }
+}
+
+
+extension OnboardingReview {
+    var tourLoginState: TourLoginState {
+        switch self {
+        case .testA:
+            return .active(closeEnabled: true, emailAsField: true)
+        case .testB:
+            return .active(closeEnabled: false, emailAsField: true)
+        case .testC:
+            return .active(closeEnabled: true, emailAsField: false)
+        case .testD:
+            return .active(closeEnabled: false, emailAsField: false)
+        }
     }
 }
 

@@ -307,6 +307,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_email_error_invalid_email", comment: "")
 	}
 
+	static var changeEmailErrorAlreadyRegistered: String {
+		return NSLocalizedString("change_email_error_already_registered", comment: "")
+	}
+
 	static func chatAccountDeletedWName(_ var1: String) -> String {
 		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
 	}
@@ -2925,6 +2929,10 @@ struct LGLocalizedString {
 
 	static var tourEmailButton: String {
 		return NSLocalizedString("tour_email_button", comment: "")
+	}
+
+	static var tourContinueWEmail: String {
+		return NSLocalizedString("tour_continue_w_email", comment: "")
 	}
 
 	static var tourFacebookButton: String {

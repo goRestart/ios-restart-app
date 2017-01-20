@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Desportos, Lazer e Jogos";
 "categories_title" = "Categorias";
 "categories_unassigned" = "Não selecionada";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Definir localização";
 "change_location_approximate_location_label" = "Mostrar endereço apropriado";
 "change_location_error_country_alert_message" = "Por favor escolha uma localização no país onde se encontra atualmente.";
@@ -353,8 +361,8 @@
 "notifications_type_buyers_interested_button" = "Descubra quem são";
 "notifications_type_buyers_interested_button_done" = "Compradores contactados!";
 "notifications_type_buyers_interested_w_title" = "%1$d compradores poderão estar interessados no seu produto: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "O seu amigo/a do Facebook %1$@ aderiu ao letgo como %2$@";
+"notifications_type_facebook_friend_button" = "Ver perfil";
 "notifications_type_like_button" = "Veja o seu perfil";
 "notifications_type_like_w_name" = "%@ marcou o seu produto como favorito";
 "notifications_type_like_w_name_w_title" = "%1$@ marcou como favorito o seu produto: \"%2$@\"";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Título (opcional)";
 "sell_title_information" = "Facilite aos compradores a localização do seu produto";
 "sell_uploading_label" = "A fazer o upload do artigo. Por favor aguarde...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localização";
 "settings_change_password_button" = "Password";
 "settings_change_profile_picture_button" = "Foto";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Ops! Alguma coisa correu mal.";
 "toast_no_network" = "Sem ligação à internet";
 "tour_claim_label" = "Compre e venda rápido, com segurança e localmente.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "Email";
 "tour_facebook_button" = "Continuar com o Facebook";
 "tour_google_button" = "Continuar com o Google";

@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Aseta sijainti";
 "change_location_approximate_location_label" = "Näytä suurpiirteinen osoite";
 "change_location_error_country_alert_message" = "Ole hyvä ja valitse sijainti maasta, jossa tällä hetkellä olet.";
@@ -353,8 +361,8 @@
 "notifications_type_buyers_interested_button" = "Katso keitä he ovat";
 "notifications_type_buyers_interested_button_done" = "Ostajiin on otettu yhteyttä!";
 "notifications_type_buyers_interested_w_title" = "%1$d ostajaa saattaisi olla kiinnostunut tuotteestasi: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Facebook-kaverisi %1$@ on liittynyt letgohun nimellä %2$@";
+"notifications_type_facebook_friend_button" = "Näytä profiili";
 "notifications_type_like_button" = "Käy katsomassa käyttäjän profiili";
 "notifications_type_like_w_name" = "%@ merkitsi tuotteesi suosikikseen";
 "notifications_type_like_w_name_w_title" = "%1$@ merkitsi tuotteesi \"%2$@\" suosikikseen";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
 "sell_title_information" = "Tee tuotteestasi helposti löydettävä ostajille";
 "sell_uploading_label" = "Ladataan tuotetta. Ole hyvä ja odota...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Sijainti";
 "settings_change_password_button" = "Salasana";
 "settings_change_profile_picture_button" = "Kuva";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Hups! Jokin meni vikaan.";
 "toast_no_network" = "Ei Internet-yhteyttä";
 "tour_claim_label" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "Sähköposti";
 "tour_facebook_button" = "Jatka Facebookin avulla";
 "tour_google_button" = "Jatka Googlen avulla";
