@@ -80,7 +80,7 @@ class TourLoginViewModelSpec: QuickSpec {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: true))])
                         }
                         it("sets unset parameter on signupViewModel") {
-                            expect(signupViewModel.collapsedEmailTrackingParam) == .trueParameter
+                            expect(signupViewModel.collapsedEmailTrackingParam) == .falseParameter
                         }
                     }
                     context("testB") {
@@ -93,7 +93,7 @@ class TourLoginViewModelSpec: QuickSpec {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: false, emailAsField: true))])
                         }
                         it("sets unset parameter on signupViewModel") {
-                            expect(signupViewModel.collapsedEmailTrackingParam) == .trueParameter
+                            expect(signupViewModel.collapsedEmailTrackingParam) == .falseParameter
                         }
                     }
                     context("testC") {
@@ -106,7 +106,7 @@ class TourLoginViewModelSpec: QuickSpec {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: false))])
                         }
                         it("sets unset parameter on signupViewModel") {
-                            expect(signupViewModel.collapsedEmailTrackingParam) == .falseParameter
+                            expect(signupViewModel.collapsedEmailTrackingParam) == .trueParameter
                         }
                     }
                     context("testD") {
@@ -119,7 +119,7 @@ class TourLoginViewModelSpec: QuickSpec {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: false, emailAsField: false))])
                         }
                         it("sets unset parameter on signupViewModel") {
-                            expect(signupViewModel.collapsedEmailTrackingParam) == .falseParameter
+                            expect(signupViewModel.collapsedEmailTrackingParam) == .trueParameter
                         }
                     }
                 }

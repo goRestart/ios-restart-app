@@ -103,9 +103,9 @@ extension OnboardingReview {
     var collapsedEmailParam: EventParameterCollapsedEmailField {
         switch self {
         case .testA, .testB:
-            return .trueParameter
-        case .testC, .testD:
             return .falseParameter
+        case .testC, .testD:
+            return .trueParameter
         }
     }
 }
