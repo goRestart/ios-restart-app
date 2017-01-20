@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Tu pago ha sido procesado pero tu producto no ha sido destacado. Por favor, inténtalo de nuevo.";
 "bump_up_free_success" = "¡Destacado! Sigue destacando tu anuncio y tendrá aún más visibilidad.";
 "bump_up_pay_success" = "¡Destacado! Ahora tu producto tiene más visibilidad.";
+"bump_up_processing_free_text" = "Procesando destacado...";
+"bump_up_processing_priced_text" = "Procesando el pago...";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
 "bump_up_view_free_title" = "DESTACA TU ANUNCIO";
 "bump_up_view_pay_bumps_left_text" = "Puedes destacar tu anuncio %i veces más.";
@@ -42,6 +44,14 @@
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
+"change_email_current_email_label" = "EMAIL ACTUAL:";
+"change_email_error_already_registered" = "Este email ya está registrado. Por favor, introduce uno distinto.";
+"change_email_error_invalid_email" = "Por favor, introduce un email válido.";
+"change_email_field_hint" = "Nuevo email (email@dominio.com)";
+"change_email_loading" = "Guardando email...";
+"change_email_save_button" = "Guardar";
+"change_email_send_ok" = "Tu email ha sido cambiado a %@. ¡Revisa tu bandeja de email para verificarlo!";
+"change_email_title" = "Cambiar email";
 "change_location_apply_button" = "Aplicar ubicación";
 "change_location_approximate_location_label" = "Mostrar la dirección aproximada";
 "change_location_error_country_alert_message" = "Por favor, elige una ubicación en el país en el que te encuentras actualmente.";
@@ -398,7 +408,7 @@
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
 "product_bubble_favorite_button" = "¡Avisa al vendedor!";
 "product_bubble_favorite_text" = "¡Has añadido este artículo a tus favoritos!";
-"product_chat_direct_error_blocked_user_message" = "¡Ups! El chat con este usuario está bloqueado.";
+"product_chat_direct_error_blocked_user_message" = "¡Ups! Has bloqueado a este usuario, así que no puedes iniciar un chat.";
 "product_chat_direct_message" = "Hola %@, me interesa";
 "product_chat_direct_message_sending" = "Enviando...";
 "product_chat_with_seller_button" = "Chatea con el vendedor";
@@ -673,6 +683,7 @@
 "sell_title_field_hint" = "Título (opcional)";
 "sell_title_information" = "Facilita que los compradores encuentren tu producto";
 "sell_uploading_label" = "Subiendo tu artículo...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";
 "settings_change_profile_picture_button" = "Foto";
@@ -686,6 +697,9 @@
 "settings_logout_alert_message" = "¿Estás seguro que quieres cerrar sesión?";
 "settings_logout_alert_ok" = "Cerrar sesión";
 "settings_logout_button" = "Cerrar sesión";
+"settings_marketing_notifications_alert_cancel" = "Cancelar";
+"settings_marketing_notifications_alert_deactivate" = "Desactivar";
+"settings_marketing_notifications_alert_message" = "¿Seguro que quieres desactivar las notificaciones de marketing?";
 "settings_marketing_notifications_switch" = "Notificaciones de marketing";
 "settings_section_profile" = "Perfil";
 "settings_section_promote" = "Promover";
@@ -716,6 +730,7 @@
 "toast_error_internal" = "¡Ups! Se ha producido un error.";
 "toast_no_network" = "Sin Conexión a Internet";
 "tour_claim_label" = "Compra y vende rápidamente y con seguridad, cerca de ti.";
+"tour_continue_w_email" = "Continuar con email";
 "tour_email_button" = "Email";
 "tour_facebook_button" = "Continuar con Facebook";
 "tour_google_button" = "Continuar con Google";
