@@ -115,6 +115,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_error_bump_token", comment: "")
 	}
 
+	static var bumpUpProcessingFreeText: String {
+		return NSLocalizedString("bump_up_processing_free_text", comment: "")
+	}
+
+	static var bumpUpProcessingPricedText: String {
+		return NSLocalizedString("bump_up_processing_priced_text", comment: "")
+	}
+
 	static var bumpUpViewFreeTitle: String {
 		return NSLocalizedString("bump_up_view_free_title", comment: "")
 	}
@@ -277,6 +285,38 @@ struct LGLocalizedString {
 
 	static var changeUsernameTitle: String {
 		return NSLocalizedString("change_username_title", comment: "")
+	}
+
+	static var changeEmailTitle: String {
+		return NSLocalizedString("change_email_title", comment: "")
+	}
+
+	static var changeEmailCurrentEmailLabel: String {
+		return NSLocalizedString("change_email_current_email_label", comment: "")
+	}
+
+	static func changeEmailSendOk(_ var1: String) -> String {
+		return String(format: NSLocalizedString("change_email_send_ok", comment: ""), var1)
+	}
+
+	static var changeEmailSaveButton: String {
+		return NSLocalizedString("change_email_save_button", comment: "")
+	}
+
+	static var changeEmailLoading: String {
+		return NSLocalizedString("change_email_loading", comment: "")
+	}
+
+	static var changeEmailFieldHint: String {
+		return NSLocalizedString("change_email_field_hint", comment: "")
+	}
+
+	static var changeEmailErrorInvalidEmail: String {
+		return NSLocalizedString("change_email_error_invalid_email", comment: "")
+	}
+
+	static var changeEmailErrorAlreadyRegistered: String {
+		return NSLocalizedString("change_email_error_already_registered", comment: "")
 	}
 
 	static func chatAccountDeletedWName(_ var1: String) -> String {
@@ -1473,6 +1513,14 @@ struct LGLocalizedString {
 
 	static var notificationsTypeBuyersInterestedButtonDone: String {
 		return NSLocalizedString("notifications_type_buyers_interested_button_done", comment: "")
+	}
+
+	static func notificationsTypeFacebookFriend(_ var1: String, _ var2: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_facebook_friend", comment: ""), var1, var2)
+	}
+
+	static var notificationsTypeFacebookFriendButton: String {
+		return NSLocalizedString("notifications_type_facebook_friend_button", comment: "")
 	}
 
 	static var notificationsTypeWelcomeSubtitle: String {
@@ -2735,6 +2783,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("settings_change_username_button", comment: "")
 	}
 
+	static var settingsChangeEmailButton: String {
+		return NSLocalizedString("settings_change_email_button", comment: "")
+	}
+
 	static var settingsHelpButton: String {
 		return NSLocalizedString("settings_help_button", comment: "")
 	}
@@ -2781,6 +2833,18 @@ struct LGLocalizedString {
 
 	static var settingsMarketingNotificationsSwitch: String {
 		return NSLocalizedString("settings_marketing_notifications_switch", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertMessage: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_message", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertDeactivate: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_deactivate", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertCancel: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_cancel", comment: "")
 	}
 
 	static var signUpAcceptanceError: String {
@@ -2885,6 +2949,10 @@ struct LGLocalizedString {
 
 	static var tourEmailButton: String {
 		return NSLocalizedString("tour_email_button", comment: "")
+	}
+
+	static var tourContinueWEmail: String {
+		return NSLocalizedString("tour_continue_w_email", comment: "")
 	}
 
 	static var tourFacebookButton: String {

@@ -140,7 +140,7 @@ class BumpUpBanner: UIView {
 
     private func setupConstraints() {
         addSubview(containerView)
-
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [containerView, iconImageView, textLabel, bumpButton])
         // container view
         containerView.layout(with: self).fill()
 

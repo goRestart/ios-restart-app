@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά το αντικείμενό σας δεν έχει προταθεί ακόμη. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_free_success" = "Επιτυχής προώθηση! Συνεχίστε την προώθηση και οι καταχωρήσεις σας θα είναι ακόμη πιο ορατές.";
 "bump_up_pay_success" = "Επιτυχής προώθηση! Τώρα το αντικείμενό σας έχει επιπλέον προβολή.";
+"bump_up_processing_free_text" = "Processing bump...";
+"bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_view_free_subtitle" = "Όσο περισσότερο κοινοποιείτε, τόσο περισσότερη προβολή θα έχει η καταχώρησή σας.";
 "bump_up_view_free_title" = "ΠΡΟΩΘΗΣΤΕ ΤΗΝ ΚΑΤΑΧΩΡΗΣΗ ΣΑΣ";
 "bump_up_view_pay_bumps_left_text" = "Σας έχουν μείνει %i προωθήσεις.";
@@ -42,6 +44,14 @@
 "categories_sports_leisure_and_games" = "Αθλητικά, Ψυχαγωγία και Παιχνίδια";
 "categories_title" = "Κατηγορίες";
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Επιλογή τοποθεσίας";
 "change_location_approximate_location_label" = "Παρουσίαση πλησιέστερης τοποθεσίας";
 "change_location_error_country_alert_message" = "Παρακαλώ επιλέξτε μια τοποθεσία στη χώρα που βρίσκεστε τώρα.";
@@ -353,6 +363,8 @@
 "notifications_type_buyers_interested_button" = "Μάθετε ποιοι είναι";
 "notifications_type_buyers_interested_button_done" = "Επικοινωνήσατε με τους αγοραστές!";
 "notifications_type_buyers_interested_w_title" = "%1$d αγοραστές μπορεί να ενδιαφέρονται γι' αυτό το προϊόν: \"%2$@\"";
+"notifications_type_facebook_friend" = "Ο φίλος σας στο Facebook %1$@ είναι στο letgo ως %2$@";
+"notifications_type_facebook_friend_button" = "Δείτε Προφίλ";
 "notifications_type_like_button" = "Δείτε το προφίλ τους";
 "notifications_type_like_w_name" = "%@ favorited your product";
 "notifications_type_like_w_name_w_title" = "Ο %1$@ πρόσθεσε το προϊόν σας στα αγαπημένα του: \"%2$@\"";
@@ -396,8 +408,6 @@
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
 "product_bubble_favorite_button" = "Ενημερώστε τον πωλητή!";
 "product_bubble_favorite_text" = "Αυτό το προϊόν έχει προστεθεί στα αγαπημένα σας!";
-"product_bubble_one_user_interested" = "Άλλος ένας αγοραστής ενδιαφέρεται!";
-"product_bubble_several_users_interested" = "%i άλλοι αγοραστές ενδιαφέρονται!";
 "product_chat_direct_error_blocked_user_message" = "Όπα! Η συνομιλία με αυτόν το χρήστη είναι μπλοκαρισμένη.";
 "product_chat_direct_message" = "Γεια σου %@, ενδιαφέρομαι!";
 "product_chat_direct_message_sending" = "Αποστολή...";
@@ -673,6 +683,7 @@
 "sell_title_field_hint" = "Τίτλος (προαιρετικό)";
 "sell_title_information" = "Κάντε ευκολότερη την εύρεση του προϊόντος σας από αγοραστές";
 "sell_uploading_label" = "Ανέβασμα προϊόντος. Παρακαλώ, περιμένετε...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Τοποθεσία";
 "settings_change_password_button" = "Αλλαγή Κωδικού Πρόσβασης";
 "settings_change_profile_picture_button" = "Αλλαγή Φωτογραφίας";
@@ -686,6 +697,9 @@
 "settings_logout_alert_message" = "Είστε σίγουροι ότι θέλετε να αποσυνδεθείτε;";
 "settings_logout_alert_ok" = "Αποσύνδεση";
 "settings_logout_button" = "Αποσύνδεση";
+"settings_marketing_notifications_alert_cancel" = "Cancel";
+"settings_marketing_notifications_alert_deactivate" = "Deactivate";
+"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
 "settings_marketing_notifications_switch" = "Ειδοποιήσεις Μάρκετινγκ";
 "settings_section_profile" = "Προφίλ";
 "settings_section_promote" = "Προώθηση";
@@ -716,6 +730,7 @@
 "toast_error_internal" = "Όπα! Κάτι πήγε στραβά.";
 "toast_no_network" = "Καμία Σύνδεση στο Διαδίκτυο";
 "tour_claim_label" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "Email";
 "tour_facebook_button" = "Συνέχεια με το Facebook";
 "tour_google_button" = "Συνέχεια με το Google";

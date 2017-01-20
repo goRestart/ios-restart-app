@@ -296,6 +296,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     func setupBumpUpBanner() {
         bannerContainer.addSubview(bumpUpBanner)
+        bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
         bumpUpBanner.layout(with: bannerContainer).fill()
     }
 

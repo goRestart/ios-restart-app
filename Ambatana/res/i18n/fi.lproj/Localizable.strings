@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole vielä nostettu esiin. Ole hyvä ja yritä uudelleen.";
 "bump_up_free_success" = "Nostettu! Nosta tuotettasi useamminkin listalla ylöspäin, jolloin se saa vielä enemmän näkyvyyttä.";
 "bump_up_pay_success" = "Nostettu! Nyt tuotteesi saa lisänäkyvyyttä.";
+"bump_up_processing_free_text" = "Processing bump...";
+"bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
 "bump_up_view_free_title" = "NOSTA TUOTTEESI";
 "bump_up_view_pay_bumps_left_text" = "Sinulla on %i nostoa jäljellä.";
@@ -42,6 +44,14 @@
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Aseta sijainti";
 "change_location_approximate_location_label" = "Näytä suurpiirteinen osoite";
 "change_location_error_country_alert_message" = "Ole hyvä ja valitse sijainti maasta, jossa tällä hetkellä olet.";
@@ -353,6 +363,8 @@
 "notifications_type_buyers_interested_button" = "Katso keitä he ovat";
 "notifications_type_buyers_interested_button_done" = "Ostajiin on otettu yhteyttä!";
 "notifications_type_buyers_interested_w_title" = "%1$d ostajaa saattaisi olla kiinnostunut tuotteestasi: \"%2$@\"";
+"notifications_type_facebook_friend" = "Facebook-kaverisi %1$@ on liittynyt letgohun nimellä %2$@";
+"notifications_type_facebook_friend_button" = "Näytä profiili";
 "notifications_type_like_button" = "Käy katsomassa käyttäjän profiili";
 "notifications_type_like_w_name" = "%@ merkitsi tuotteesi suosikikseen";
 "notifications_type_like_w_name_w_title" = "%1$@ merkitsi tuotteesi \"%2$@\" suosikikseen";
@@ -396,8 +408,6 @@
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
 "product_bubble_favorite_button" = "Kerro myyjälle asiasta!";
 "product_bubble_favorite_text" = "Tämä tuote on lisätty suosikkeihisi!";
-"product_bubble_one_user_interested" = "Toinen ostaja on kiinnostunut!";
-"product_bubble_several_users_interested" = "%i ostajaa on kiinnostunut!";
 "product_chat_direct_error_blocked_user_message" = "Hups! Keskustelu tämän käyttäjän kanssa on estetty.";
 "product_chat_direct_message" = "Hei %@, olen kiinnostunut";
 "product_chat_direct_message_sending" = "Lähetetään...";
@@ -673,6 +683,7 @@
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
 "sell_title_information" = "Tee tuotteestasi helposti löydettävä ostajille";
 "sell_uploading_label" = "Ladataan tuotetta. Ole hyvä ja odota...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Sijainti";
 "settings_change_password_button" = "Salasana";
 "settings_change_profile_picture_button" = "Kuva";
@@ -686,6 +697,9 @@
 "settings_logout_alert_message" = "Oletko varma että haluat kirjautua ulos?";
 "settings_logout_alert_ok" = "Kirjaudu ulos";
 "settings_logout_button" = "Kirjaudu ulos";
+"settings_marketing_notifications_alert_cancel" = "Cancel";
+"settings_marketing_notifications_alert_deactivate" = "Deactivate";
+"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
 "settings_marketing_notifications_switch" = "Markkinointi-ilmoitukset";
 "settings_section_profile" = "Profiili";
 "settings_section_promote" = "Mainosta";
@@ -716,6 +730,7 @@
 "toast_error_internal" = "Hups! Jokin meni vikaan.";
 "toast_no_network" = "Ei Internet-yhteyttä";
 "tour_claim_label" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "Sähköposti";
 "tour_facebook_button" = "Jatka Facebookin avulla";
 "tour_google_button" = "Jatka Googlen avulla";

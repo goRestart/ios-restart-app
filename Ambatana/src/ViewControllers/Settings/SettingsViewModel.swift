@@ -14,6 +14,7 @@ import FBSDKShareKit
 enum LetGoSetting {
     case inviteFbFriends
     case changePhoto(placeholder: UIImage?, avatarUrl: URL?)
+    case changeEmail(email: String)
     case changeUsername(name: String)
     case changeLocation(location: String)
     case marketingNotifications(initialState: Bool, changeClosure: ((Bool) -> Void))
@@ -176,6 +177,9 @@ class SettingsViewModel: BaseViewModel {
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
         profileSettings.append(.changePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
         profileSettings.append(.changeUsername(name: myUser?.name ?? ""))
+        if let email = myUser?.email {
+            profileSettings.append(.changeEmail(email: email))
+        }
         profileSettings.append(.changeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
             myUser?.postalAddress.countryCode ?? ""))
         if let email = myUser?.email, email.isEmail() {
@@ -210,6 +214,8 @@ class SettingsViewModel: BaseViewModel {
             delegate?.vmOpenImagePick()
         case .changeUsername:
             navigator?.openEditUserName()
+        case .changeEmail:
+            navigator?.openEditEmail()
         case .changeLocation:
             navigator?.openEditLocation()
         case .createCommercializer:

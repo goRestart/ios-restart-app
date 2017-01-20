@@ -10,6 +10,7 @@ import UIKit
 
 extension UIView {
     
+    @discardableResult 
     func addTopBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
         let actualWidth = width / UIScreen.main.scale;
         let line = CALayer()
@@ -19,10 +20,12 @@ extension UIView {
         return line
     }
 
+    @discardableResult
     func addBottomBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
         return addBottomBorderWithWidth(width, xPosition: 0, color: color)
     }
 
+    @discardableResult
     func addBottomBorderWithWidth(_ width: CGFloat, xPosition: CGFloat, color: UIColor) -> CALayer {
         let actualWidth = width / UIScreen.main.scale;
         let line = CALayer()
@@ -32,6 +35,7 @@ extension UIView {
         return line
     }
 
+    @discardableResult
     func addRightBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
         let actualWidth = width / UIScreen.main.scale;
         let line = CALayer()
@@ -41,6 +45,7 @@ extension UIView {
         return line
     }
     
+    @discardableResult
     func addLeftBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
         let actualWidth = width / UIScreen.main.scale;
         let line = CALayer()
@@ -50,7 +55,8 @@ extension UIView {
         return line
     }
 
-    @discardableResult func addTopViewBorderWith(width: CGFloat, color: UIColor) -> UIView {
+    @discardableResult
+    func addTopViewBorderWith(width: CGFloat, color: UIColor) -> UIView {
         let topSeparator = UIView()
         topSeparator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topSeparator)
@@ -61,6 +67,7 @@ extension UIView {
         return topSeparator
     }
 
+    @discardableResult
     func addBottomViewBorderWith(width: CGFloat, color: UIColor, leftMargin: CGFloat = 0, rightMargin: CGFloat = 0) -> UIView {
         let separator = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false

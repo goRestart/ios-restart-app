@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng sản phẩm chưa được nổi bật. Xin vui lòng thử lại.";
 "bump_up_free_success" = "Đẩy lên! Hãy liên tục đẩy sản phẩm lên để dễ thấy hơn nữa.";
 "bump_up_pay_success" = "Đẩy lên! Sản phẩm của bạn hiện đã dễ thấy hơn.";
+"bump_up_processing_free_text" = "Processing bump...";
+"bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_view_free_subtitle" = "Càng được chia sẻ nhiều, bài đăng của bạn càng dễ thấy.";
 "bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
 "bump_up_view_pay_bumps_left_text" = "Bạn còn %i lượt đẩy lên.";
@@ -42,6 +44,14 @@
 "categories_sports_leisure_and_games" = "Thể thao, Giải trí và Trò chơi";
 "categories_title" = "Danh mục";
 "categories_unassigned" = "Chưa được chọn";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Cài đặt Địa điểm";
 "change_location_approximate_location_label" = "Hiện địa chỉ tương đối chính xác";
 "change_location_error_country_alert_message" = "Vui lòng chọn một địa điểm ở quốc gia bạn đang sinh sống.";
@@ -353,6 +363,8 @@
 "notifications_type_buyers_interested_button" = "Tìm ra họ là ai";
 "notifications_type_buyers_interested_button_done" = "Người mua đã liên hệ!";
 "notifications_type_buyers_interested_w_title" = "%1$d người mua có thể quan tâm đến sản phẩm của bạn: \"%2$@\"";
+"notifications_type_facebook_friend" = "Bạn Facebook %1$@ của bạn vừa tham gia letgo với tên %2$@";
+"notifications_type_facebook_friend_button" = "Xem Hồ sơ";
 "notifications_type_like_button" = "Xem hồ sơ của họ";
 "notifications_type_like_w_name" = "%@ đã thích món đồ của bạn";
 "notifications_type_like_w_name_w_title" = "%1$@ đã thích món đồ của bạn: \"%2$@\"";
@@ -396,8 +408,6 @@
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
 "product_bubble_favorite_button" = "Cho người bán biết!";
 "product_bubble_favorite_text" = "Sản phẩm này đã được thêm vào mục yêu thích của bạn!";
-"product_bubble_one_user_interested" = "Một người mua khác đang quan tâm!";
-"product_bubble_several_users_interested" = "%i người mua khác đang quan tâm!";
 "product_chat_direct_error_blocked_user_message" = "Ồ! Trò chuyện với người dùng này đã bị chặn.";
 "product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_sending" = "Đang gửi...";
@@ -673,6 +683,7 @@
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
 "sell_title_information" = "Giúp người mua dễ dàng tìm sản phẩm của bạn";
 "sell_uploading_label" = "Đang tải sản phẩm. Vui lòng chờ...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Địa điểm";
 "settings_change_password_button" = "Mật khẩu";
 "settings_change_profile_picture_button" = "Hình ảnh";
@@ -686,6 +697,9 @@
 "settings_logout_alert_message" = "Bạn có chắc chắn muốn đăng xuất?";
 "settings_logout_alert_ok" = "Đăng xuất";
 "settings_logout_button" = "Đăng xuất";
+"settings_marketing_notifications_alert_cancel" = "Cancel";
+"settings_marketing_notifications_alert_deactivate" = "Deactivate";
+"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
 "settings_marketing_notifications_switch" = "Thông báo Marketing";
 "settings_section_profile" = "Hồ sơ";
 "settings_section_promote" = "Xúc tiến";
@@ -716,6 +730,7 @@
 "toast_error_internal" = "Ồ! Có gì đó không đúng.";
 "toast_no_network" = "Không có kết nối Internet";
 "tour_claim_label" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "Email";
 "tour_facebook_button" = "Tiếp tục với Facebook";
 "tour_google_button" = "Tiếp tục với Google";
