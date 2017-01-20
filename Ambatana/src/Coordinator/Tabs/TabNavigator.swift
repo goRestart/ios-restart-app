@@ -52,7 +52,7 @@ protocol ProductDetailNavigator: TabNavigator {
     func openProductChat(_ product: Product)
     func openRelatedItems(_ product: Product, productVisitSource: EventParameterProductVisitSource)
     func closeAfterDelete()
-    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage)
+    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String)
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct)
 }
 

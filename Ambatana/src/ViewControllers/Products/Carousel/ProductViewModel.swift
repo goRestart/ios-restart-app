@@ -33,6 +33,9 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     // Bump Up
     func vmShowFreeBumpUpView()
     func vmShowPaymentBumpUpView()
+    func vmBumpUpStart(withMessage message: String)
+    func vmShowBumpUpSuccess(withMessage message: String)
+    func vmShowBumpUpFail(withMessage message: String)
 }
 
 
@@ -133,6 +136,7 @@ class ProductViewModel: BaseViewModel {
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     var timeSinceLastBump: Int = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
+    var paymentItemId: String?
     
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -349,13 +353,14 @@ class ProductViewModel: BaseViewModel {
                 if let bumpeableProduct = result.value {
                     if bumpeableProduct.isBumpeable {
                         // product is bumpeable
-                        self?.timeSinceLastBump = bumpeableProduct.countdown
-                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }.map { $0.providerItemId }
+                        self?.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
+                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
                         let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
                         if !paymentItems.isEmpty {
                             // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                             self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
                         } else if !freeItems.isEmpty {
+                            self?.paymentItemId = freeItems.first?.itemId
                             self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
                         }
                     }
@@ -1242,14 +1247,23 @@ extension ProductViewModel: PurchasesShopperDelegate {
                                  freeBumpUp: false)
     }
 
-    // Payment
-    func shopperPurchaseDidStart() {
-        // Update UI
-    }
-
     func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error) {
         guard let requestProdId = productId, let currentProdId = product.value.objectId,
             requestProdId == currentProdId else { return }
         // update error UI
+    }
+
+    // Payment
+    func freeBumpStarted() {
+        delegate?.vmBumpUpStart(withMessage: LGLocalizedString.bumpUpProcessingFreeText)
+    }
+
+    func freeBumpSuccess(withNetwork network: EventParameterShareNetwork) {
+        trackHelper.trackBumpUpCompleted(.free, network: network)
+        delegate?.vmShowBumpUpSuccess(withMessage: LGLocalizedString.bumpUpFreeSuccess)
+    }
+
+    func freeBumpFailed(withNetwork network: EventParameterShareNetwork) {
+        delegate?.vmShowBumpUpFail(withMessage: LGLocalizedString.bumpUpErrorBumpGeneric)
     }
 }

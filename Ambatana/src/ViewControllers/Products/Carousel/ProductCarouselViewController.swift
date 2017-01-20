@@ -1147,7 +1147,21 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowPaymentBumpUpView() {
         viewModel.openPaymentBumpUpView()
     }
-    
+
+    func vmBumpUpStart(withMessage message: String) {
+        vmShowLoading(message)
+    }
+
+    func vmShowBumpUpSuccess(withMessage message: String) {
+        vmHideLoading(message, afterMessageCompletion: { [weak self] in
+            self?.closeBumpUpBanner()
+        })
+    }
+
+    func vmShowBumpUpFail(withMessage message: String) {
+        vmHideLoading(message, afterMessageCompletion: nil)
+    }
+
 
     // Loadings and alerts overrides to remove keyboard before showing
 
