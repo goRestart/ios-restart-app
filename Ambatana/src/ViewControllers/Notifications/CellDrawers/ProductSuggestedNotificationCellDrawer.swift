@@ -20,6 +20,7 @@ class ProductSuggestedNotificationCellDrawer: BaseNotificationCellDrawer<Notific
             } else {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeProductSuggested(userName)
             }
+            cell.actionLabel.font = UIFont.notificationSubtitleFont(read: data.isRead)
             cell.iconImage.image = UIImage(named: "ic_fire")
             let placeholder = LetgoAvatar.avatarWithID(seller.id, name: userName)
             if let urlStr = seller.avatar, let imageUrl = URL(string: urlStr) {
