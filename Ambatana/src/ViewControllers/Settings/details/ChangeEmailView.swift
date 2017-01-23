@@ -10,6 +10,13 @@ import Foundation
 
 class ChangeEmailView: UIView {
     
+    let topMargin: CGFloat = 20
+    let sideLabelMargin: CGFloat = 12
+    let sideButtonMargin: CGFloat = 15
+    let textFieldHeight: CGFloat = 44
+    let buttonHeight: CGFloat = 44
+    
+    
     let emailTitleLabel: UILabel
     let emailLabel: UILabel
     let emailTextField: LGTextField
@@ -44,15 +51,15 @@ class ChangeEmailView: UIView {
     
     private func addConstraints() {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [self, emailTitleLabel, emailLabel, emailTextField, saveButton])
-        emailTitleLabel.layout(with: self).leading(by: 12).top(by: 20)
+        emailTitleLabel.layout(with: self).leading(by: sideLabelMargin).top(by: topMargin)
         emailLabel.layout(with: emailTitleLabel).leading(to: .trailing, by: 4).centerY()
-        emailLabel.layout(with: self).trailing(relatedBy: .lessThanOrEqual, by: -12)
-        emailTextField.layout().height(44)
+        emailLabel.layout(with: self).trailing(relatedBy: .lessThanOrEqual, by: -sideLabelMargin)
+        emailTextField.layout().height(textFieldHeight)
         emailTextField.layout(with: self).leading().trailing()
         emailTextField.layout(with: emailTitleLabel).top(to: .bottom, by: 5)
-        saveButton.layout().height(44)
-        saveButton.layout(with: self).leading(by: 15).trailing(by: -15)
-        saveButton.layout(with: emailTextField).top(to: .bottom, by: 15)
+        saveButton.layout().height(buttonHeight)
+        saveButton.layout(with: self).leading(by: sideButtonMargin).trailing(by: -sideButtonMargin)
+        saveButton.layout(with: emailTextField).top(to: .bottom, by: sideButtonMargin)
     }
     
     private func addBorders(to view: UIView) {
