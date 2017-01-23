@@ -137,7 +137,7 @@ class ProductViewModel: BaseViewModel {
     var timeSinceLastBump: Int = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
     var paymentItemId: String?
-    
+
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
 
@@ -347,25 +347,8 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         // bumpeable product check
-        product.asObservable().filter { $0.isMine && $0.status.isBumpeable && self.featureFlags.monetizationEnabled }.bindNext { [weak self] product in
-            guard let productId = product.objectId else { return }
-            self?.monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
-                if let bumpeableProduct = result.value {
-                    if bumpeableProduct.isBumpeable {
-                        // product is bumpeable
-                        self?.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
-                        let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
-                        let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
-                        if !paymentItems.isEmpty {
-                            // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                            self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems)
-                        } else if !freeItems.isEmpty {
-                            self?.paymentItemId = freeItems.first?.itemId
-                            self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
-                        }
-                    }
-                }
-            })
+        product.asObservable().bindNext { [weak self] product in
+            self?.updateBumpUpbannerFor(product: product)
         }.addDisposableTo(disposeBag)
 
         product.asObservable().bindNext { [weak self] product in
@@ -421,6 +404,33 @@ class ProductViewModel: BaseViewModel {
             self?.selectableStickers = stickers
             self?.stickersButtonEnabled.value = !stickers.isEmpty && productStatus.directChatsAvailable
         }
+    }
+
+    func refreshBumpeableBanner() {
+        updateBumpUpbannerFor(product: product.value)
+    }
+
+    private func updateBumpUpbannerFor(product: Product) {
+        guard let productId = product.objectId, product.isMine, product.status.isBumpeable,
+                featureFlags.monetizationEnabled else { return }
+
+        monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
+            if let bumpeableProduct = result.value {
+                if bumpeableProduct.isBumpeable {
+                    // product is bumpeable
+                    self?.timeSinceLastBump = bumpeableProduct.countdown
+                    let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
+                    let paymentItemsIds = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
+                    if !paymentItemsIds.isEmpty {
+                        // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                        self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItemsIds)
+                    } else if !freeItems.isEmpty {
+                        self?.paymentItemId = freeItems.first?.itemId
+                        self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
+                    }
+                }
+            }
+        })
     }
 
     fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, freeBumpUp: Bool) {
@@ -1261,6 +1271,11 @@ extension ProductViewModel: PurchasesShopperDelegate {
     func freeBumpSuccess(withNetwork network: EventParameterShareNetwork) {
         trackHelper.trackBumpUpCompleted(.free, network: network)
         delegate?.vmShowBumpUpSuccess(withMessage: LGLocalizedString.bumpUpFreeSuccess)
+
+//        // Update bump up banner info with "just bumped" time
+//        guard let previousBumpUpInfo = bumpUpBannerInfo.value else { return }
+//        bumpUpBannerInfo.value = BumpUpInfo(free: previousBumpUpInfo.free, timeSinceLastBump: 1, price: previousBumpUpInfo.price,
+//                                            primaryBlock: previousBumpUpInfo.primaryBlock, buttonBlock: previousBumpUpInfo.buttonBlock)
     }
 
     func freeBumpFailed(withNetwork network: EventParameterShareNetwork) {

@@ -20,6 +20,7 @@ class ProductFavoriteNotificationCellDrawer: BaseNotificationCellDrawer<Notifica
             } else {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWName(userName ?? "")
             }
+            cell.actionLabel.font = UIFont.notificationSubtitleFont(read: data.isRead)
             cell.iconImage.image = UIImage(named: "ic_favorite")
             let placeholder = LetgoAvatar.avatarWithID(user.id, name: userName)
             if let urlStr = user.avatar, let imageUrl = URL(string: urlStr) {
