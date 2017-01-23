@@ -222,6 +222,26 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                     sut.username.value = "Albert"
                 }
 
+                describe("sign up fails with scammer error") {
+                    beforeEach {
+                        sessionManager.signUpResult = SessionMyUserResult(error: .scammer)
+                        _ = sut.signUp()
+
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+
+                    it("tracks a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                    it("does not call close after signup in navigator") {
+                        expect(self.navigatorReceivedCloseAfterSignUp) == false
+                    }
+                    it("calls open scammer alert in navigator") {
+                        expect(self.navigatorReceivedOpenScammerAlert) == true
+                    }
+                }
+
                 describe("sign up fails with user not verified error") {
                     beforeEach {
                         sessionManager.signUpResult = SessionMyUserResult(error: .userNotVerified)
