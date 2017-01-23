@@ -2931,6 +2931,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("tour_email_button", comment: "")
 	}
 
+	static var tourContinueWEmail: String {
+		return NSLocalizedString("tour_continue_w_email", comment: "")
+	}
+
 	static var tourFacebookButton: String {
 		return NSLocalizedString("tour_facebook_button", comment: "")
 	}

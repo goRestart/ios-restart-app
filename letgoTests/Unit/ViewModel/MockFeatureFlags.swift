@@ -8,8 +8,16 @@
 
 @testable import LetGo
 import Foundation
+import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
+
+    var syncedData: Observable<Bool> {
+        return syncedDataVar.asObservable()
+    }
+
+    let syncedDataVar = Variable<Bool>(false)
+
     var websocketChat: Bool = false
     var notificationsSection: Bool = false
     var userReviews: Bool = false
@@ -31,5 +39,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool = false
     var filterIconWithLetters: Bool = false
     var editDeleteItemUxImprovement: Bool = false
+    var onboardingReview: OnboardingReview = .testA
     var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
 }

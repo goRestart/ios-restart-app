@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "스포츠,레저 및 게임";
 "categories_title" = "항목";
 "categories_unassigned" = "선택되지 않음";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "위치 설정";
 "change_location_approximate_location_label" = "예상 주소를 보여주세요";
 "change_location_error_country_alert_message" = "사용자께서 현재 위치하고 계신 국가의 위치를 선택하여 주십시오.";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "제품 이름 (선택사항)";
 "sell_title_information" = "구매자들이 사용자의 상품을 찾기 쉽게 만들어보세요";
 "sell_uploading_label" = "제품을 등록중입니다. 잠시만 기다려주세요...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";
 "settings_change_profile_picture_button" = "사진";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "이런! 무언가가 잘못되었네요.";
 "toast_no_network" = "인터넷 연결 없음";
 "tour_claim_label" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "이메일";
 "tour_facebook_button" = "페이스북과 연결하기";
 "tour_google_button" = "구글과 연결하기";

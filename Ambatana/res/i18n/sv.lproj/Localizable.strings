@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Inte vald";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Välj plats";
 "change_location_approximate_location_label" = "Visa uppskattad adress";
 "change_location_error_country_alert_message" = "Välj en plats i det land du är i just nu.";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_title_information" = "Gör det lätt för köpare att hitta din produkt";
 "sell_uploading_label" = "Laddar upp produkt. Var god vänta...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Plats";
 "settings_change_password_button" = "Lösenord";
 "settings_change_profile_picture_button" = "Bild";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Hoppsan! Något blev fel.";
 "toast_no_network" = "Ingen internetanslutning";
 "tour_claim_label" = "Köp och sälj snabbt, säkert och lokalt.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "E-post";
 "tour_facebook_button" = "Fortsätt med Facebook";
 "tour_google_button" = "Fortsätt med Google";

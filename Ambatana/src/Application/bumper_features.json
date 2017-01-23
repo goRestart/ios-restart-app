@@ -85,6 +85,11 @@
         "description": "Edit & Delete item UX improvements"
     },
     {
+        "name": "OnboardingReview",
+        "values": ["testA", "testB", "testC", "testD"],
+        "description": "Onboarding Review A/B/C/D"
+    },
+    {
         "name": "BumpUpFreeTimeLimit",
         "values": ["oneMin", "eightHours", "twelveHours", "twentyFourHours"],
         "description": "Time to next bump up"

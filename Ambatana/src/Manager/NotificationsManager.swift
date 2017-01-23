@@ -115,7 +115,6 @@ class NotificationsManager {
         } else {
             clearFavoriteCounter()
         }
-        
     }
     
     func clearFavoriteCounter() {

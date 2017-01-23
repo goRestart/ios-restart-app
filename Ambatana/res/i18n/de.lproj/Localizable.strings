@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Sport und Freizeit";
 "categories_title" = "Kategorien";
 "categories_unassigned" = "Nichts ausgewählt";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Standort einstellen";
 "change_location_approximate_location_label" = "Zeige ungefähre Adresse";
 "change_location_error_country_alert_message" = "Bitte wähle einen Standort in dem Land, in dem du dich im Moment befindest.";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Produkttitel (optional)";
 "sell_title_information" = "Mache es Käufern leichter, dein Produkt zu finden";
 "sell_uploading_label" = "Lade Produkt hoch. Bitte warten...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Standort";
 "settings_change_password_button" = "Kennwort";
 "settings_change_profile_picture_button" = "Profilbild";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Hoppla! Irgendwas lief schief.";
 "toast_no_network" = "Keine Internetverbindung";
 "tour_claim_label" = "Verkaufe schnell, sicher und lokal.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "E-MAIL";
 "tour_facebook_button" = "Mit Facebook anmelden";
 "tour_google_button" = "Mit Google anmelden";
