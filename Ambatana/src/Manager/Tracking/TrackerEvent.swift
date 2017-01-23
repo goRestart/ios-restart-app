@@ -56,28 +56,32 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginAbandon, params: params)
     }
 
-    static func loginFB(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
+    static func loginFB(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
+                        collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source, rememberedAccount: rememberedAccount)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginFB, params: params)
     }
     
-    static func loginGoogle(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
+    static func loginGoogle(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
+                            collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source, rememberedAccount: rememberedAccount)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginGoogle, params: params)
     }
 
-    static func loginEmail(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
+    static func loginEmail(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
+                           collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source, rememberedAccount: rememberedAccount)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginEmail, params: params)
     }
 
-    static func signupEmail(_ source: EventParameterLoginSourceValue, newsletter: EventParameterNewsletter)
+    static func signupEmail(_ source: EventParameterLoginSourceValue, newsletter: EventParameterNewsletter,
+                            collapsedEmail: EventParameterCollapsedEmailField?)
         -> TrackerEvent {
             var params = EventParameters()
-            params.addLoginParams(source)
+            params.addLoginParams(source, collapsedEmail: collapsedEmail)
             params[.newsletter] = newsletter.rawValue
             return TrackerEvent(name: .signupEmail, params: params)
     }

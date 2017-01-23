@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Sport, vrije tijd en games";
 "categories_title" = "Categorieën";
 "categories_unassigned" = "Niet geselecteerd ";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Locatie instellen";
 "change_location_approximate_location_label" = "Laat adres zien";
 "change_location_error_country_alert_message" = "Kies een locatie in het land waar je je op dit moment bevindt.";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Titel (optioneel)";
 "sell_title_information" = "Maak het makkelijk voor kopers om jouw product te vinden";
 "sell_uploading_label" = "Uploaden van product. Een moment geduld a.u.b.";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Locatie";
 "settings_change_password_button" = "Wachtwoord";
 "settings_change_profile_picture_button" = "Foto";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Oeps! Er ging iets mis.";
 "toast_no_network" = "Geen internetverbinding";
 "tour_claim_label" = "Koop en verkoop snel, veilig en lokaal.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "EMAIL";
 "tour_facebook_button" = "Doorgaan met Facebook";
 "tour_google_button" = "Doorgaan met Google";

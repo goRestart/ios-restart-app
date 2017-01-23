@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
 "categories_title" = "Kategóriák";
 "categories_unassigned" = "Nincs megadva";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Hely beállítása";
 "change_location_approximate_location_label" = "Megközelítőleges cím megjelenítése";
 "change_location_error_country_alert_message" = "Kérjük, olyan helyet válassz, amely abban az országban van, ahol jelenleg tartózkodsz.";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Cím (nem kötelező)";
 "sell_title_information" = "Hogy a vásárlók könnyen megtalálhassák portékádat";
 "sell_uploading_label" = "Portéka feltöltése. Türelmedet kérjük…";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Tartózkodási hely";
 "settings_change_password_button" = "Jelszóváltás";
 "settings_change_profile_picture_button" = "Fotó";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Hoppá! Valami nem sikerült.";
 "toast_no_network" = "Nincs internetkapcsolat";
 "tour_claim_label" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "EMAIL";
 "tour_facebook_button" = "Folytatás a Facebookkal";
 "tour_google_button" = "Google-csatlakozás";

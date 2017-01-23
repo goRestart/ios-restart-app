@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Spor, Eğlence ve Oyunlar";
 "categories_title" = "Kategoriler";
 "categories_unassigned" = "Seçilmedi";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Konum seç";
 "change_location_approximate_location_label" = "Yaklaşık bir adres göster";
 "change_location_error_country_alert_message" = "Lütfen ülke içinde en son bulunduğun güncel konumunu seç";
@@ -606,7 +614,7 @@
 "rating_list_loading_error_message" = "Yorumlar yüklenirken bir hata oluştu.";
 "rating_list_rating_status_pending" = "Bu yorum değerlendirilmektedir";
 "rating_list_rating_type_buyer_text_label" = "%@ bir ürün aldı";
-"rating_list_rating_type_conversation_text_label" = "%@ bir ürün hakkında sohbet etti";
+"rating_list_rating_type_conversation_text_label" = "%@ bu kullanıcıyla sohbet etti";
 "rating_list_rating_type_seller_text_label" = "%@ bir ürün sattı";
 "rating_list_title" = "Yorumlar";
 "rating_view_dont_ask_again_button" = "BUNU BİR DAHA SORMA";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_title_information" = "Başlık yazarsan ürünün aramalarda daha kolay bulunur.";
 "sell_uploading_label" = "Ürün yükleniyor. Lütfen bekle...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";
 "settings_change_profile_picture_button" = "Fotoğraf";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Oops! Bir şeyler ters gitti.";
 "toast_no_network" = "İnternet bağlantısı yok";
 "tour_claim_label" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "e-posta";
 "tour_facebook_button" = "Facebook ile devam et";
 "tour_google_button" = "Google ile devam et";

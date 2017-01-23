@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
 "categories_title" = "Categories";
 "categories_unassigned" = "Not selected";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Set location";
 "change_location_approximate_location_label" = "Use approximate location";
 "change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
@@ -398,7 +406,7 @@
 "product_auto_generated_translated_title_label" = "(and translated by Google)";
 "product_bubble_favorite_button" = "Let the seller know!";
 "product_bubble_favorite_text" = "This product has been added to your favorites!";
-"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
+"product_chat_direct_error_blocked_user_message" = "Oops! You've blocked this user, so you can't start a chat.";
 "product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Chat with the seller";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Title (optional)";
 "sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Uploading product. Please wait...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";
 "settings_change_profile_picture_button" = "Photo";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Oops! Something went wrong.";
 "toast_no_network" = "No Internet Connection";
 "tour_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "Email";
 "tour_facebook_button" = "Continue with Facebook";
 "tour_google_button" = "Continue with Google";

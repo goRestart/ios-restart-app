@@ -42,6 +42,14 @@
 "categories_sports_leisure_and_games" = "Sports, Loisirs et Jeux";
 "categories_title" = "Catégories";
 "categories_unassigned" = "Non sélectionnée";
+"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_field_hint" = "New email (email@domain.com)";
+"change_email_loading" = "Saving email...";
+"change_email_save_button" = "Save";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
+"change_email_title" = "Change email";
 "change_location_apply_button" = "Configurer une localisation";
 "change_location_approximate_location_label" = "Afficher l'adresse approximative";
 "change_location_error_country_alert_message" = "Veuillez choisir une localisation dans le pays où vous vous situez actuellement.";
@@ -673,6 +681,7 @@
 "sell_title_field_hint" = "Titre (optionnel)";
 "sell_title_information" = "Faites en sorte que les acheteurs trouvent facilement votre produit";
 "sell_uploading_label" = "Téléchargement du produit. Veuillez patienter...";
+"settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";
 "settings_change_profile_picture_button" = "Photo";
@@ -716,6 +725,7 @@
 "toast_error_internal" = "Oups ! Ça n'a pas fonctionné.";
 "toast_no_network" = "Pas de Connexion Internet";
 "tour_claim_label" = "Achetez et vendez rapidement, de manière sécuritaire et localement. C'est parti avec letgo !";
+"tour_continue_w_email" = "Continue with email";
 "tour_email_button" = "Courriel";
 "tour_facebook_button" = "Continuer avec Facebook";
 "tour_google_button" = "Continuer avec Google";
