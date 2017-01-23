@@ -1015,6 +1015,7 @@
 		C7BB25D11E36153600649396 /* KeychainChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CF1E36153600649396 /* KeychainChecker.swift */; };
 		C7BB25D21E3618C700649396 /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CD1E3613D500649396 /* VersionChecker.swift */; };
 		C7BB25D41E361C9100649396 /* MockKeychainChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25D31E361C9100649396 /* MockKeychainChecker.swift */; };
+		C7BB25D61E36385500649396 /* KeychainCheckerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25D51E36385500649396 /* KeychainCheckerSpec.swift */; };
 		C7C328411C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
 		C7C328421C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
 		C7C61DF51D63035400F9505D /* ProductCarouselMoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF31D63035400F9505D /* ProductCarouselMoreInfoView.swift */; };
@@ -1905,6 +1906,7 @@
 		C7BB25CD1E3613D500649396 /* VersionChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionChecker.swift; sourceTree = "<group>"; };
 		C7BB25CF1E36153600649396 /* KeychainChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainChecker.swift; sourceTree = "<group>"; };
 		C7BB25D31E361C9100649396 /* MockKeychainChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockKeychainChecker.swift; sourceTree = "<group>"; };
+		C7BB25D51E36385500649396 /* KeychainCheckerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainCheckerSpec.swift; sourceTree = "<group>"; };
 		C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryViewModel.swift; sourceTree = "<group>"; };
 		C7C61DF31D63035400F9505D /* ProductCarouselMoreInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselMoreInfoView.swift; sourceTree = "<group>"; };
 		C7C61DF41D63035400F9505D /* ProductCarouselMoreInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCarouselMoreInfoView.xib; sourceTree = "<group>"; };
@@ -3392,6 +3394,7 @@
 				C75BC6991E2E53FB00483F79 /* PurchasesShopperSpec.swift */,
 				C75BC69D1E2E53FB00483F79 /* VersionCheckerSpec.swift */,
 				C75BC6A41E2E5BF800483F79 /* NotificationsManagerSpec.swift */,
+				C7BB25D51E36385500649396 /* KeychainCheckerSpec.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -5571,6 +5574,7 @@
 				C73832831E02A2A2007D0C03 /* MockInstallationRepository.swift in Sources */,
 				C75BC6A51E2E5BF800483F79 /* NotificationsManagerSpec.swift in Sources */,
 				2EBC920F1E0AB98C007F0F82 /* MockPurchaseableProductsResponse.swift in Sources */,
+				C7BB25D61E36385500649396 /* KeychainCheckerSpec.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
 				2EF4E3BD1D3688C400A09DFD /* MockConfigRetrieveService.swift in Sources */,
 				C75BC6BA1E2E683C00483F79 /* NSData+Randomizable.swift in Sources */,

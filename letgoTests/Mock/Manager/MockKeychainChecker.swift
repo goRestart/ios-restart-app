@@ -29,9 +29,9 @@ class MockBooleanDao: BooleanDao {
 
 class MockKeychainCleaner: KeychainCleaner {
 
-    static var calledClean: Bool = false
+    var calledClean: Bool = false
 
-    static func cleanKeychain() -> Bool {
+    func cleanKeychain() -> Bool {
         calledClean = true
         return true
     }
