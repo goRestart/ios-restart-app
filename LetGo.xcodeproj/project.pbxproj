@@ -256,7 +256,6 @@
 		50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy.swift */; };
 		502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */; };
 		5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033F6CB1B5D0AE60004FECB /* BaseView.swift */; };
-		5036847B1DBF57C100669066 /* ExpandableButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5036847A1DBF57C100669066 /* ExpandableButtonsView.swift */; };
 		5036847C1DBF57C100669066 /* ExpandableButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5036847A1DBF57C100669066 /* ExpandableButtonsView.swift */; };
 		50371F7C1E2CBB1700757FCA /* SignUpEmailStep2ViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50371F7B1E2CBB1700757FCA /* SignUpEmailStep2ViewModelSpec.swift */; };
 		503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; };
@@ -431,6 +430,7 @@
 		50F344F21D3CDEA2000A8774 /* MockChatProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F344F11D3CDEA2000A8774 /* MockChatProduct.swift */; };
 		50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
+		50FE1CB91E35F6B4000E940D /* LogInEmailViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE1CB81E35F6B4000E940D /* LogInEmailViewModelSpec.swift */; };
 		6262F62C201A1B1FE7DA6040 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */; };
@@ -1576,6 +1576,7 @@
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
 		50F344F11D3CDEA2000A8774 /* MockChatProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatProduct.swift; sourceTree = "<group>"; };
 		50F681F11C8F4586001F33A3 /* RxPaginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPaginable.swift; sourceTree = "<group>"; };
+		50FE1CB81E35F6B4000E940D /* LogInEmailViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInEmailViewModelSpec.swift; sourceTree = "<group>"; };
 		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6640F03F1AE13EBE00004556 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -2242,6 +2243,7 @@
 				50C7428C1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift */,
 				7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */,
 				7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */,
+				50FE1CB81E35F6B4000E940D /* LogInEmailViewModelSpec.swift */,
 				50C43DAD1E2681CC00F10E53 /* SignUpEmailStep1ViewModelSpec.swift */,
 				50371F7B1E2CBB1700757FCA /* SignUpEmailStep2ViewModelSpec.swift */,
 			);
@@ -5583,6 +5585,7 @@
 				C75BC6A21E2E53FB00483F79 /* TrackerProxySpec.swift in Sources */,
 				2EF4E3C61D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift in Sources */,
 				2EBC920B1E0A9019007F0F82 /* MockPurchaseableProductsRequest.swift in Sources */,
+				50FE1CB91E35F6B4000E940D /* LogInEmailViewModelSpec.swift in Sources */,
 				C79842061CC903A500C300FF /* MockAccount.swift in Sources */,
 				2EF4E3C31D36891200A09DFD /* ConfigSpec.swift in Sources */,
 				C75BC6B71E2E683C00483F79 /* Float+Randomizable.swift in Sources */,
