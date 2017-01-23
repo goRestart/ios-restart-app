@@ -43,9 +43,9 @@ class OnboardingCoordinator: Coordinator {
         parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
             let signUpVM = SignUpViewModel(appearance: .dark, source: .install)
-            let tourVM = TourLoginViewModel()
+            let tourVM = TourLoginViewModel(signUpViewModel: signUpVM, featureFlags: strongSelf.featureFlags)
             tourVM.navigator = strongSelf
-            let tourVC = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
+            let tourVC = TourLoginViewController(viewModel: tourVM)
             strongSelf.presentedViewControllers.append(tourVC)
             strongSelf.viewController.present(tourVC, animated: true, completion: completion)
         }
@@ -80,7 +80,7 @@ class OnboardingCoordinator: Coordinator {
         }) 
     }
 
-    private func topViewController() -> UIViewController {
+    fileprivate func topViewController() -> UIViewController {
         return presentedViewControllers.last ?? viewController
     }
 
@@ -130,6 +130,14 @@ extension OnboardingCoordinator: TourLoginNavigator {
         } else {
             openTourPosting()
         }
+    }
+
+    func tourLoginOpenLoginSignup(signupLoginVM: SignUpLogInViewModel, afterLoginCompletion: (() -> Void)?) {
+        let topVC = topViewController()
+        let vc = SignUpLogInViewController(viewModel: signupLoginVM, appearance: .dark, keyboardFocus: true)
+        vc.afterLoginAction = afterLoginCompletion
+        let nav = UINavigationController(rootViewController: vc)
+        topVC.present(nav, animated: true, completion: nil)
     }
 }
 

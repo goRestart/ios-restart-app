@@ -67,6 +67,7 @@ class SignUpViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     let appearance: LoginAppearance
     fileprivate let loginSource: EventParameterLoginSourceValue
+    var collapsedEmailTrackingParam: EventParameterCollapsedEmailField? = nil
 
     private let googleLoginHelper: ExternalAuthHelper
     private let fbLoginHelper: ExternalAuthHelper
@@ -133,12 +134,12 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func signUpButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, action: .signup)
+        let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailTrackingParam, action: .signup)
         delegate?.vmOpenSignup(vm)
     }
 
     func logInButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, action: .login)
+        let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailTrackingParam, action: .login)
         delegate?.vmOpenSignup(vm)
     }
 
@@ -238,7 +239,8 @@ class SignUpViewModel: BaseViewModel {
 
     private func trackLoginFBOK() {
         let rememberedAccount = previousFacebookUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount,
+                                                collapsedEmail: collapsedEmailTrackingParam))
     }
 
     private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
@@ -247,7 +249,8 @@ class SignUpViewModel: BaseViewModel {
 
     private func trackLoginGoogleOK() {
         let rememberedAccount = previousGoogleUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount,
+                                                    collapsedEmail: collapsedEmailTrackingParam))
     }
 
     private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {

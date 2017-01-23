@@ -273,10 +273,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        scrollView.setContentOffset(CGPoint(x: 0,y: textFieldsView.frame.origin.y+textField.frame.origin.y),
-            animated: true)
-
+        if textField == emailTextField {
+            scrollView.setContentOffset(CGPoint(x: 0,y: textFieldsView.frame.origin.y+textField.frame.origin.y),
+                                        animated: true)
+        }
         guard let tag = TextFieldTag(rawValue: textField.tag) else { return }
         
         let iconImageView: UIImageView
