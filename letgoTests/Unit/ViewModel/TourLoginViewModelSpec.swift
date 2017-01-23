@@ -65,7 +65,7 @@ class TourLoginViewModelSpec: QuickSpec {
                     it("sets default status .active(closeEnabled: true, emailAsField: true)") {
                         XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: true))])
                     }
-                    it("sets unset parameter on signupViewModel") {
+                    it("sets collapsedEmailTrackingParam as unset in signupViewModel") {
                         expect(signupViewModel.collapsedEmailTrackingParam) == .unset
                     }
                 }
@@ -79,7 +79,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         it("sets status .active(closeEnabled: true, emailAsField: true)") {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: true))])
                         }
-                        it("sets unset parameter on signupViewModel") {
+                        it("sets collapsedEmailTrackingParam as false in signupViewModel") {
                             expect(signupViewModel.collapsedEmailTrackingParam) == .falseParameter
                         }
                     }
@@ -92,7 +92,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         it("sets status .active(closeEnabled: false, emailAsField: true)") {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: false, emailAsField: true))])
                         }
-                        it("sets unset parameter on signupViewModel") {
+                        it("sets collapsedEmailTrackingParam as false in signupViewModel") {
                             expect(signupViewModel.collapsedEmailTrackingParam) == .falseParameter
                         }
                     }
@@ -105,7 +105,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         it("sets status .active(closeEnabled: true, emailAsField: false)") {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: false))])
                         }
-                        it("sets unset parameter on signupViewModel") {
+                        it("sets collapsedEmailTrackingParam as true in signupViewModel") {
                             expect(signupViewModel.collapsedEmailTrackingParam) == .trueParameter
                         }
                     }
@@ -118,7 +118,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         it("sets status .active(closeEnabled: false, emailAsField: false)") {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: false, emailAsField: false))])
                         }
-                        it("sets unset parameter on signupViewModel") {
+                        it("sets collapsedEmailTrackingParam as true in signupViewModel") {
                             expect(signupViewModel.collapsedEmailTrackingParam) == .trueParameter
                         }
                     }
