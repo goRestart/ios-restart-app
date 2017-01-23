@@ -79,6 +79,12 @@
 // Token error when bumping
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
 
+// Text for loading view whiel processing free bump
+"bump_up_processing_free_text" = "Processing bump...";
+
+// Text for loading view whiel processing bump with a price
+"bump_up_processing_priced_text" = "Processing payment...";
+
 // Title for free bump up view
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 
@@ -2106,6 +2112,12 @@
 
 // Alert message when user wants to deactivate marketing notification in settings. 
 "settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
+
+// Alert message to inform user that needs to activate general push notifications. 
+"settings_general_notifications_alert_message" = "Activate your notifications on your device settings?";
+
+// Alert message when user wants to activate marketing notification in settings. 
+"settings_marketing_notifications_alert_activate" = "Activate";
 
 // Alert button to confirm deactivation.
 "settings_marketing_notifications_alert_deactivate" = "Deactivate";

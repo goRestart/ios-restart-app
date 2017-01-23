@@ -58,6 +58,7 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
         label.accessibilityId = .settingsCellTitle
         settingSwitch.accessibilityId = .settingsCellSwitch
     }
+
 }
 
 fileprivate extension LetGoSetting {

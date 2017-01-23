@@ -40,6 +40,7 @@ class SettingsViewModel: BaseViewModel {
 
     let avatarLoadingProgress = Variable<Float?>(nil)
     let sections = Variable<[SettingsSection]>([])
+    let switchMarketingNotificationValue = Variable<Bool>(true)
 
     private let myUserRepository: MyUserRepository
     private let commercializerRepository: CommercializerRepository
@@ -83,6 +84,7 @@ class SettingsViewModel: BaseViewModel {
         if firstTime {
             tracker.trackEvent(TrackerEvent.profileEditStart())
         }
+        switchMarketingNotificationValue.value = pushPermissionManager.pushNotificationActive && notificationsManager.marketingNotifications.value
     }
     
     override func backButtonPressed() -> Bool {
@@ -183,7 +185,7 @@ class SettingsViewModel: BaseViewModel {
         if let email = myUser?.email, email.isEmail() {
             profileSettings.append(.changePassword)
         }
-        profileSettings.append(.marketingNotifications(switchValue: notificationsManager.marketingNotifications,
+        profileSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
             changeClosure: { [weak self] enabled in self?.checkMarketingNotifications(enabled) } ))
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
@@ -248,10 +250,9 @@ class SettingsViewModel: BaseViewModel {
 
     private func checkMarketingNotifications(_ enabled: Bool) {
         if enabled {
-            setMarketingNotification(enabled: enabled)
-            pushPermissionManager.showPushPermissionsAlert(prePermissionType: .profile)
+            showPrePermissionsIfNeeded()
         } else {
-            self.showNotificationsConfirmation()
+            showDeactivateConfirmation()
         }
 
     }
@@ -262,14 +263,35 @@ class SettingsViewModel: BaseViewModel {
         tracker.trackEvent(event)
     }
     
-    private func showNotificationsConfirmation() {
+    private func showPrePermissionsIfNeeded() {
+        guard !pushPermissionManager.pushNotificationActive else {
+            setMarketingNotification(enabled: true)
+            return
+        }
         let cancelAction = UIAction(
             interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
-                self?.forceMarketingNotifications()
+                self?.forceMarketingNotifications(enabled: false)
+        })
+        let  activateAction = UIAction(
+            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertActivate, .primary(fontSize: .medium)),
+            action: { [weak self] in
+                self?.setMarketingNotification(enabled: true)
+                self?.pushPermissionManager.showPushPermissionsAlert(prePermissionType: .profile)
+        })
+        
+        delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsGeneralNotificationsAlertMessage,
+                                       alertType: .plainAlert, actions: [cancelAction, activateAction])
+    }
+    
+    private func showDeactivateConfirmation() {
+        let cancelAction = UIAction(
+            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
+            action: { [weak self] in
+                self?.forceMarketingNotifications(enabled: true)
         })
         let  deactivateAction = UIAction(
-            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertDeactivate, .primary(fontSize: .medium)),
+            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertDeactivate, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
                 self?.setMarketingNotification(enabled: false)
         })
@@ -278,7 +300,8 @@ class SettingsViewModel: BaseViewModel {
                                        alertType: .plainAlert, actions: [cancelAction, deactivateAction])
     }
     
-    private func forceMarketingNotifications() {
-        notificationsManager.marketingNotifications.value = true
+    private func forceMarketingNotifications(enabled: Bool) {
+        notificationsManager.marketingNotifications.value = enabled
+        switchMarketingNotificationValue.value = enabled
     }
 }

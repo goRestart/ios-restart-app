@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád még nincs kiemelve. Próbálkozz újra.";
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
 "bump_up_pay_success" = "Felugrasztva! Portékád mostantól sokkal láthatóbb.";
+"bump_up_processing_free_text" = "Processing bump...";
+"bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_view_free_subtitle" = "Minél többször osztod meg hirdetésedet, annál láthatóbb lesz.";
 "bump_up_view_free_title" = "UGRASZD FEL HIRDETÉSEDET";
 "bump_up_view_pay_bumps_left_text" = "%i ugrasztásod maradt.";

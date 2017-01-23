@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
 "bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
 "bump_up_pay_success" = "Bumped up! Now your item has extra visibility.";
+"bump_up_processing_free_text" = "Processing bump...";
+"bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_view_free_subtitle" = "The more you share, the more visibility your listing will have.";
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 "bump_up_view_pay_bumps_left_text" = "You have %i bump ups left.";

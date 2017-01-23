@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Il pagamento è stato elaborato, ma il tuo articolo non è ancora stato messo in primo piano. Riprova.";
 "bump_up_free_success" = "Promosso! Continua a promuovere il tuo annuncio e sarà sempre più visibile.";
 "bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una visibilità extra.";
+"bump_up_processing_free_text" = "Processing bump...";
+"bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_view_free_subtitle" = "Più condivisioni corrispondono a una maggiore visibilità per il tuo annuncio.";
 "bump_up_view_free_title" = "PROMUOVI IL TUO ANNUNCIO";
 "bump_up_view_pay_bumps_left_text" = "Puoi promuovere il tuo prodotto ancora per %i volte.";

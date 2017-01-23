@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "O seu pagamento está a ser processado mas o item ainda não foi destacado. Tente de novo.";
 "bump_up_free_success" = "Priorizado! Continue a dar prioridade à sua publicação e terá ainda mais visibilidade.";
 "bump_up_pay_success" = "Priorizado! Agora o seu item tem uma visibilidade acrescida.";
+"bump_up_processing_free_text" = "A processar o bump...";
+"bump_up_processing_priced_text" = "A processar o pagamento...";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
 "bump_up_view_free_title" = "DÊ PRIORIDADE À SUA PUBLICAÇÃO";
 "bump_up_view_pay_bumps_left_text" = "Restam-lhe %i prioridades.";
@@ -695,9 +697,9 @@
 "settings_logout_alert_message" = "Tem a certeza que quer fazer logout?";
 "settings_logout_alert_ok" = "Logout";
 "settings_logout_button" = "Logout";
-"settings_marketing_notifications_alert_cancel" = "Cancel";
-"settings_marketing_notifications_alert_deactivate" = "Deactivate";
-"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
+"settings_marketing_notifications_alert_cancel" = "Cancelar";
+"settings_marketing_notifications_alert_deactivate" = "Desativar";
+"settings_marketing_notifications_alert_message" = "Tem a certeza de que quer desativar as notificações de marketing?";
 "settings_marketing_notifications_switch" = "Notificações de marketing";
 "settings_section_profile" = "Perfil";
 "settings_section_promote" = "Promover";
