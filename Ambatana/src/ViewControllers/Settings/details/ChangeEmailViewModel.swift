@@ -11,28 +11,6 @@ import Foundation
 import Result
 import RxSwift
 
-enum ChangeEmailError: Error {
-    case emailTaken
-    case network
-    case internalError
-    case notFound
-    case unauthorized
-    
-    init(repositoryError: RepositoryError) {
-        switch repositoryError {
-        case .network:
-            self = .internalError
-        case .notFound:
-            self = .notFound
-        case .unauthorized:
-            self = .unauthorized
-        // TODO: case .forbidden(with error: 1010) -> .emailTaken
-        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
-            self = .internalError
-        }
-    }
-}
-
 protocol ChangeEmailViewModelDelegate: BaseViewModelDelegate {}
 
 class ChangeEmailViewModel: BaseViewModel {
