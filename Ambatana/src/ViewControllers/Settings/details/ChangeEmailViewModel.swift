@@ -79,20 +79,20 @@ class ChangeEmailViewModel: BaseViewModel {
         }
     }
     
-    func updateEmailDidFail(with error: RepositoryError) {
+    private func updateEmailDidFail(with error: RepositoryError) {
         let message: String
         switch error {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        // TODO: case .forbidden(with error: 1010) -> .emailTaken
-//            message = LGLocalizedString.changeEmailErrorAlreadyRegistered
+        case .forbidden(cause: .emailTaken):
+            message = LGLocalizedString.changeEmailErrorAlreadyRegistered
         case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound, .unauthorized:
             message = LGLocalizedString.commonErrorGenericBody
         }
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
     }
     
-    func updateEmailDidSuccess(with address: String) {
+    private func updateEmailDidSuccess(with address: String) {
         delegate?.vmHideLoading(LGLocalizedString.changeEmailSendOk(address), afterMessageCompletion: { [weak self] in
             self?.navigator?.closeChangeEmail()
         })

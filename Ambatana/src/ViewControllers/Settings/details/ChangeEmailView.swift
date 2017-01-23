@@ -14,7 +14,7 @@ class ChangeEmailView: UIView {
     let sideLabelMargin: CGFloat = 12
     let sideButtonMargin: CGFloat = 15
     let textFieldHeight: CGFloat = 44
-    let buttonHeight: CGFloat = 44
+    let buttonHeight: CGFloat = 50
     
     
     let emailTitleLabel: UILabel

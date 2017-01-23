@@ -608,6 +608,7 @@
 		7EF6F6BA1DF5D0E0002A0277 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6F6B81DF5D0E0002A0277 /* BaseCoordinator.swift */; };
 		7EF6F6BC1DF5D0FF002A0277 /* BaseNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6F6BB1DF5D0FF002A0277 /* BaseNavigator.swift */; };
 		7EF6F6BD1DF5D0FF002A0277 /* BaseNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6F6BB1DF5D0FF002A0277 /* BaseNavigator.swift */; };
+		8E14D8931E363BF000B33C75 /* ChangeEmailViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14D8921E363BF000B33C75 /* ChangeEmailViewModelSpec.swift */; };
 		8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */; };
 		8E2600741E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */; };
 		8E2600761E2FB16D00242B3F /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600751E2FB16D00242B3F /* ChangeEmailViewController.swift */; };
@@ -1669,6 +1670,7 @@
 		7EF6F6B81DF5D0E0002A0277 /* BaseCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		7EF6F6BB1DF5D0FF002A0277 /* BaseNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigator.swift; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E14D8921E363BF000B33C75 /* ChangeEmailViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewModelSpec.swift; sourceTree = "<group>"; };
 		8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewModel.swift; sourceTree = "<group>"; };
 		8E2600751E2FB16D00242B3F /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
 		8E26007B1E30E1C300242B3F /* ChangeEmailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailView.swift; sourceTree = "<group>"; };
@@ -2229,6 +2231,7 @@
 				50C7428C1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift */,
 				7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */,
 				7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */,
+				8E14D8921E363BF000B33C75 /* ChangeEmailViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -5571,6 +5574,7 @@
 				C75BC6A71E2E5C9500483F79 /* MockChatRepository.swift in Sources */,
 				C70BC68B1E1A5A0500EC74E9 /* PostIncentiviserItemSpec.swift in Sources */,
 				50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */,
+				8E14D8931E363BF000B33C75 /* ChangeEmailViewModelSpec.swift in Sources */,
 				C75BC6B81E2E683C00483F79 /* Int+Randomizable.swift in Sources */,
 				C79895C21DE2FE4000DD58BF /* HOF.swift in Sources */,
 				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,

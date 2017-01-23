@@ -74,7 +74,8 @@ class ChangeEmailViewController: BaseViewController, UITextFieldDelegate {
             self?.viewModel.updateEmail()
         }.addDisposableTo(disposeBag)
         customView.emailTextField.rx.text.bindTo(viewModel.newEmail).addDisposableTo(disposeBag)
-        viewModel.shouldAllowToContinue.bindTo(customView.saveButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.shouldAllowToContinue.distinctUntilChanged().bindTo(customView.saveButton.rx.isEnabled)
+            .addDisposableTo(disposeBag)
     }
     
     // MARK: - UITextFieldDelegate
