@@ -353,8 +353,8 @@
 "notifications_type_buyers_interested_button" = "Se vem de är";
 "notifications_type_buyers_interested_button_done" = "Köpare kontaktad!";
 "notifications_type_buyers_interested_w_title" = "%1$d köpare skulle kunna vara intresserade av din produkt: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Din Facebook-vän %1$@ har gått med letgo som %2$@";
+"notifications_type_facebook_friend_button" = "Se Profil";
 "notifications_type_like_button" = "Kolla deras profil";
 "notifications_type_like_w_name" = "%@ favoritmarkerade din produkt";
 "notifications_type_like_w_name_w_title" = "%1$@ favoritmarkerade din produkt: \"%2$@\"";

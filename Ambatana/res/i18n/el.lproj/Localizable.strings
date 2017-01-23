@@ -353,8 +353,8 @@
 "notifications_type_buyers_interested_button" = "Μάθετε ποιοι είναι";
 "notifications_type_buyers_interested_button_done" = "Επικοινωνήσατε με τους αγοραστές!";
 "notifications_type_buyers_interested_w_title" = "%1$d αγοραστές μπορεί να ενδιαφέρονται γι' αυτό το προϊόν: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Ο φίλος σας στο Facebook %1$@ είναι στο letgo ως %2$@";
+"notifications_type_facebook_friend_button" = "Δείτε Προφίλ";
 "notifications_type_like_button" = "Δείτε το προφίλ τους";
 "notifications_type_like_w_name" = "%@ favorited your product";
 "notifications_type_like_w_name_w_title" = "Ο %1$@ πρόσθεσε το προϊόν σας στα αγαπημένα του: \"%2$@\"";

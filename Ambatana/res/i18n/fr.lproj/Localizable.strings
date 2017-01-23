@@ -353,8 +353,8 @@
 "notifications_type_buyers_interested_button" = "Découvrez qui ils sont";
 "notifications_type_buyers_interested_button_done" = "Acheteurs contactés !";
 "notifications_type_buyers_interested_w_title" = "%1$d acheteurs pourraient être intéressés par votre bien : \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Votre ami Facebook %1$@ a rejoint letgo en tant que %2$@";
+"notifications_type_facebook_friend_button" = "Voir le Profil";
 "notifications_type_like_button" = "Découvrez son profil";
 "notifications_type_like_w_name" = "%@ a mis votre bien en favoris";
 "notifications_type_like_w_name_w_title" = "%1$@ a mis votre bien \"%2$@\" en favoris";

@@ -52,7 +52,7 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
 
         primaryImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         timeLabel.font = UIFont.notificationTimeFont
-        actionLabel.font = UIFont.notificationSubtitleFont
+        actionLabel.font = UIFont.notificationSubtitleFont(read: false)
 
         actionLabel.textColor = UIColor.black
         timeLabel.textColor = UIColor.black

@@ -353,8 +353,8 @@
 "notifications_type_buyers_interested_button" = "Derítsd ki, kik azok";
 "notifications_type_buyers_interested_button_done" = "Vásárlók értesítve!";
 "notifications_type_buyers_interested_w_title" = "%1$d vásárlót érdekelhet portékád: „%2$@”";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "Facebook-ismerősöd, %1$@ csatlakozott a letgo piacához %2$@ néven";
+"notifications_type_facebook_friend_button" = "Profil megtekintése";
 "notifications_type_like_button" = "Profil megtekintése";
 "notifications_type_like_w_name" = "%@ kedvencként jelölte portékádat";
 "notifications_type_like_w_name_w_title" = "%1$@ kedvencként jelölte portékádat: \"%2$@”";

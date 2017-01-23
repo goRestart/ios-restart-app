@@ -223,6 +223,9 @@
 // Change email invalid email
 "change_email_error_invalid_email" = "Please insert a valid email.";
 
+// Change email already registered
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
 
@@ -1114,7 +1117,7 @@
 "notifications_type_buyers_interested_button_done" = "Buyers contacted!";
 
 // Notifications Facebook friend text
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
+"notifications_type_facebook_friend" = "Your Facebook friend %1$@ has joined letgo as %2$@";
 
 // Notifications Facebook friend button action
 "notifications_type_facebook_friend_button" = "View Profile";

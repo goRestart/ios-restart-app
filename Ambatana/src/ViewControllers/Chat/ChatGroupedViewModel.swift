@@ -321,14 +321,8 @@ extension ChatGroupedViewModel {
 
         }.addDisposableTo(disposeBag)
 
-        chatRepository.chatStatus.map { wsChatStatus in
-            switch wsChatStatus {
-            case .closed, .closing, .opening, .openAuthenticated, .openNotAuthenticated:
-                return false
-            case .openNotVerified:
-                return true
-            }
-        }.bindTo(verificationPending).addDisposableTo(disposeBag)
+        chatRepository.chatStatus.map { $0.verifiedPending }.bindTo(verificationPending).addDisposableTo(disposeBag)
+        chatRepository.chatStatus.map { $0.available }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
 
         // When verification pending changes from false to true then display verify accounts
         verificationPending.asObservable().filter { $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
@@ -337,8 +331,6 @@ extension ChatGroupedViewModel {
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
         }.addDisposableTo(disposeBag)
-
-        verificationPending.asObservable().filter { !$0 }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
     }
 
     func tryToReconnectChat() {

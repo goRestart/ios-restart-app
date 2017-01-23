@@ -179,6 +179,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         removeIgnoreTouchesForMoreInfo()
+        closeBumpUpBanner()
     }
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -188,8 +189,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         // Force tabBar to hide when view appears from background.
         self.tabBarController?.setTabBarHidden(true, animated: false)
         addIgnoreTouchesForMoreInfo()
+        refreshBannerInfo()
     }
-    
 
     /*
      We need to setup some properties after we are sure the view has the final frame, to do that
@@ -699,6 +700,10 @@ extension ProductCarouselViewController {
             self?.showBumpUpBanner(bumpInfo: info)
             }.addDisposableTo(activeDisposeBag)
     }
+
+    fileprivate func refreshBannerInfo() {
+        viewModel.refreshBannerInfo()
+    }
 }
 
 
@@ -1075,6 +1080,7 @@ extension ProductCarouselViewController {
         guard bumpUpBannerIsVisible else { return }
         bumpUpBannerIsVisible = false
         bannerBottom = -CarouselUI.bannerHeight
+        bumpUpBanner.stopCountdown()
     }
 }
 

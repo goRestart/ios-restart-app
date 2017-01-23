@@ -19,6 +19,7 @@ class BuyersInterestedNotificationCellDrawer: BaseNotificationCellDrawer<BuyersI
             } else {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeBuyersInterested(buyersCount)
             }
+            cell.actionLabel.font = UIFont.notificationSubtitleFont(read: data.isRead)
             cell.iconImage.image = UIImage(named: "ic_user")
 
             let placeholder = UIImage(named: "product_placeholder")

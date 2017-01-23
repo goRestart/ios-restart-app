@@ -353,8 +353,8 @@
 "notifications_type_buyers_interested_button" = "누구인지 알아보세요";
 "notifications_type_buyers_interested_button_done" = "구매자가 연락을 하였습니다!";
 "notifications_type_buyers_interested_w_title" = "%1$d 구매자들이 상품에 관심이 있는 것 같습니다: \"%2$@\"";
-"notifications_type_facebook_friend" = "Your facebook friend %1$@ has joined letgo as %2$@";
-"notifications_type_facebook_friend_button" = "View Profile";
+"notifications_type_facebook_friend" = "사용자의 페이스북 친구 %1$@가 %2$@로 letgo에 가입했습니다";
+"notifications_type_facebook_friend_button" = "프로필 보기";
 "notifications_type_like_button" = "프로필 확인하세요";
 "notifications_type_like_w_name" = "%@이 상품에 관심을 표시했습니다";
 "notifications_type_like_w_name_w_title" = "%1$@관심가는 상품:\"%2$@\"";

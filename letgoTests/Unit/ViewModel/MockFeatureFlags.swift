@@ -28,6 +28,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var passiveBuyersShowKeyboard = false
     var filterIconWithLetters = false
     var editDeleteItemUxImprovement: Bool = false
+    var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
 
     var freePostingModeAllowed = false
     var locationMatchesCountry = false

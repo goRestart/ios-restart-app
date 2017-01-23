@@ -83,5 +83,10 @@
         "name": "EditDeleteItemUxImprovement",
         "values": ["No", "Yes"],
         "description": "Edit & Delete item UX improvements"
+    },
+    {
+        "name": "BumpUpFreeTimeLimit",
+        "values": ["oneMin", "eightHours", "twelveHours", "twentyFourHours"],
+        "description": "Time to next bump up"
     }
  ]

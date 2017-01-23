@@ -14,6 +14,7 @@ class ProductSoldNotificationCellDrawer: BaseNotificationCellDrawer<Notification
         switch data.type {
         case let .productSold(productImage):
             cell.actionLabel.text = LGLocalizedString.notificationsTypeSold
+            cell.actionLabel.font = UIFont.notificationSubtitleFont(read: data.isRead)
             cell.iconImage.image = UIImage(named: "ic_dollar_sold")
             let placeholder = UIImage(named: "product_placeholder")
             if let urlStr = productImage, let imageUrl = URL(string: urlStr) {
