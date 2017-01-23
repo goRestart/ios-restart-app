@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ürünün henüz yayınlanmadı. Lütfen tekrar dene.";
 "bump_up_free_success" = "Öne çıkarıldı! İlanını öne çıkarmaya devam et ki daha da çok kişi görsün.";
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
-"bump_up_processing_free_text" = "Processing bump...";
-"bump_up_processing_priced_text" = "Processing payment...";
+"bump_up_processing_free_text" = "Öne çıkarma işlemi gerçekleştiriliyor...";
+"bump_up_processing_priced_text" = "Ödeme işlemi gerçekleştiriliyor...";
 "bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";
 "bump_up_view_free_title" = "ÜRÜNÜNÜ ÖNE ÇIKAR";
 "bump_up_view_pay_bumps_left_text" = "%i adet öne çıkarma hakkın kaldı.";
@@ -697,9 +697,9 @@
 "settings_logout_alert_message" = "Çıkış yapmak istediğine emin misin?";
 "settings_logout_alert_ok" = "Çıkış yap";
 "settings_logout_button" = "Çıkış yap";
-"settings_marketing_notifications_alert_cancel" = "Cancel";
-"settings_marketing_notifications_alert_deactivate" = "Deactivate";
-"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
+"settings_marketing_notifications_alert_cancel" = "Vazgeç";
+"settings_marketing_notifications_alert_deactivate" = "Kapat";
+"settings_marketing_notifications_alert_message" = "Tanıtım bildirimlerini kapatmak istediğine emin misin?";
 "settings_marketing_notifications_switch" = "Reklam Bildirimleri";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Öne çıkar";

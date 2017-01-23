@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "Votre paiement a été effectué, mais votre produit n'a pas encore été affiché. Veuillez réessayer.";
 "bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
 "bump_up_pay_success" = "Renvoyé vers le haut ! Votre produit bénéficie maintenant d'une meilleure visibilité.";
-"bump_up_processing_free_text" = "Processing bump...";
-"bump_up_processing_priced_text" = "Processing payment...";
+"bump_up_processing_free_text" = "Renvoi vers le haut en cours...";
+"bump_up_processing_priced_text" = "Paiement en cours...";
 "bump_up_view_free_subtitle" = "Plus votre annonce est partagée, plus elle sera visible.";
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
 "bump_up_view_pay_bumps_left_text" = "Il vous reste %i renvois vers le haut à effectuer.";
@@ -697,9 +697,9 @@
 "settings_logout_alert_message" = "Êtes-vous certain de vouloir vous déconnecter ?";
 "settings_logout_alert_ok" = "Se déconnecter";
 "settings_logout_button" = "Se déconnecter";
-"settings_marketing_notifications_alert_cancel" = "Cancel";
-"settings_marketing_notifications_alert_deactivate" = "Deactivate";
-"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
+"settings_marketing_notifications_alert_cancel" = "Annuler";
+"settings_marketing_notifications_alert_deactivate" = "Désactiver";
+"settings_marketing_notifications_alert_message" = "Êtes-vous certain de vouloir désactiver les notifications marketing ?";
 "settings_marketing_notifications_switch" = "Notifications";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Promouvoir";

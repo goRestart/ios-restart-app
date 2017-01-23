@@ -26,7 +26,7 @@
 "bump_up_free_success" = "Omhoog geplaatst! Blijf je item omhoog plaatsen en het zal nog zichtbaarder zijn.";
 "bump_up_pay_success" = "Omhoog geplaatst! Je item is nu extra zichtbaar.";
 "bump_up_processing_free_text" = "Processing bump...";
-"bump_up_processing_priced_text" = "Processing payment...";
+"bump_up_processing_priced_text" = "Verwerken van betaling...";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
 "bump_up_view_pay_bumps_left_text" = "Je kunt nog %i keer omhoog plaatsen.";
@@ -697,9 +697,9 @@
 "settings_logout_alert_message" = "Weet je zeker dat je wilt uitloggen?";
 "settings_logout_alert_ok" = "Uitloggen";
 "settings_logout_button" = "Log uit";
-"settings_marketing_notifications_alert_cancel" = "Cancel";
-"settings_marketing_notifications_alert_deactivate" = "Deactivate";
-"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
+"settings_marketing_notifications_alert_cancel" = "Annuleren";
+"settings_marketing_notifications_alert_deactivate" = "Uitschakelen";
+"settings_marketing_notifications_alert_message" = "Weet je zeker dat je marketing meldingen wilt uitschakelen?";
 "settings_marketing_notifications_switch" = "Marketing Meldingen";
 "settings_section_profile" = "Profiel";
 "settings_section_promote" = "Promoten";

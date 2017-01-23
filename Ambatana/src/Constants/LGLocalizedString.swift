@@ -2839,6 +2839,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("settings_marketing_notifications_alert_message", comment: "")
 	}
 
+	static var settingsGeneralNotificationsAlertMessage: String {
+		return NSLocalizedString("settings_general_notifications_alert_message", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertActivate: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_activate", comment: "")
+	}
+
 	static var settingsMarketingNotificationsAlertDeactivate: String {
 		return NSLocalizedString("settings_marketing_notifications_alert_deactivate", comment: "")
 	}

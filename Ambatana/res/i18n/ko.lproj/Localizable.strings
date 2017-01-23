@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "결제를 진행하고자 하였지만, 상품을 선택하시지 않으셨습니다. 다시 시도해주세요.";
 "bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
-"bump_up_processing_free_text" = "Processing bump...";
-"bump_up_processing_priced_text" = "Processing payment...";
+"bump_up_processing_free_text" = "강조 진행중...";
+"bump_up_processing_priced_text" = "결제 처리중...";
 "bump_up_view_free_subtitle" = "더 많이 공유할 수록, 판매 상품이 더 잘보이게 될 것입니다.";
 "bump_up_view_free_title" = "리스팅 강조하기";
 "bump_up_view_pay_bumps_left_text" = "사용자께서는 강조 기회가 %번 남으셨습니다.";
@@ -697,9 +697,9 @@
 "settings_logout_alert_message" = "로그아웃 하시겠습니까?";
 "settings_logout_alert_ok" = "로그아웃";
 "settings_logout_button" = "로그아웃";
-"settings_marketing_notifications_alert_cancel" = "Cancel";
-"settings_marketing_notifications_alert_deactivate" = "Deactivate";
-"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
+"settings_marketing_notifications_alert_cancel" = "취소";
+"settings_marketing_notifications_alert_deactivate" = "비활성화";
+"settings_marketing_notifications_alert_message" = "마케팅 알림을 비활성화 하시겠습니까?";
 "settings_marketing_notifications_switch" = "마케팅 알림";
 "settings_section_profile" = "프로필";
 "settings_section_promote" = "광고";
