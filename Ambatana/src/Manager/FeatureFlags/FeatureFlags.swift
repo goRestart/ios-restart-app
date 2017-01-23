@@ -153,7 +153,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.monetizationEnabled
         }
-        return false
+        return ABTests.monetizationEnabled.value
     }
 
     var captchaTransparent: Bool {
