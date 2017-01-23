@@ -31,6 +31,8 @@ protocol LogInEmailViewModelNavigator: class {
 
 
 final class LogInEmailViewModel: BaseViewModel {
+    fileprivate static let unauthorizedErrorCountRememberPwd = 2
+
     lazy var helpAction: UIAction = {
         return UIAction(interface: .text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
             self?.openHelp()
@@ -49,8 +51,8 @@ final class LogInEmailViewModel: BaseViewModel {
     weak var navigator: LogInEmailViewModelNavigator?
 
     fileprivate let isRememberedEmail: Bool
+    fileprivate var unauthorizedErrorCount: Int
     fileprivate let suggestedEmailVar: Variable<String?>
-    fileprivate var logInError: PublishSubject<SessionManagerError>
     fileprivate let source: EventParameterLoginSourceValue
 
     fileprivate let sessionManager: SessionManager
@@ -79,8 +81,8 @@ final class LogInEmailViewModel: BaseViewModel {
         self.password = Variable<String>("")
 
         self.isRememberedEmail = isRememberedEmail
+        self.unauthorizedErrorCount = 0
         self.suggestedEmailVar = Variable<String?>(nil)
-        self.logInError = PublishSubject<SessionManagerError>()
         self.source = source
 
         self.sessionManager = sessionManager
@@ -164,17 +166,10 @@ fileprivate extension LogInEmailViewModel {
             .map { $0.suggestEmail(domains: Constants.emailSuggestedDomains) }
             .bindTo(suggestedEmailVar)
             .addDisposableTo(disposeBag)
-
-        // Regular login error display / remember password
-        logInError.asObservable().take(1).subscribeNext { [weak self] logInError in
-            self?.logInFailed(logInError: logInError, askRememberPassword: false)
-        }.addDisposableTo(disposeBag)
-
-        logInError.asObservable().skip(1).subscribeNext { [weak self] logInError in
-            self?.logInFailed(logInError: logInError, askRememberPassword: true)
-        }.addDisposableTo(disposeBag)
     }
 }
+
+
 
 
 // MARK: > Previous email
@@ -203,9 +198,8 @@ fileprivate extension LogInEmailViewModel {
         sessionManager.login(email, password: password) { [weak self] loginResult in
             if let myUser = loginResult.value {
                 self?.logInSucceeded(myUser: myUser)
-            } else if let error = loginResult.error {
-                // Error is handled at setupRx
-                self?.logInError.onNext(error)
+            } else if let logInError = loginResult.error {
+                self?.logInFailed(logInError: logInError)
             }
         }
     }
@@ -218,7 +212,7 @@ fileprivate extension LogInEmailViewModel {
         }
     }
 
-    func logInFailed(logInError: SessionManagerError, askRememberPassword: Bool) {
+    func logInFailed(logInError: SessionManagerError) {
         var message: String? = nil
         var afterMessageCompletion: (() -> ())? = nil
 
@@ -227,6 +221,7 @@ fileprivate extension LogInEmailViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+            unauthorizedErrorCount = unauthorizedErrorCount + 1
         case .scammer:
             afterMessageCompletion = { [weak self] in
                 self?.navigator?.openScammerAlertFromLogInEmail()
@@ -237,7 +232,7 @@ fileprivate extension LogInEmailViewModel {
         }
         trackLogInFailed(error: logInError)
 
-        if askRememberPassword && afterMessageCompletion == nil {
+        if unauthorizedErrorCount >= LogInEmailViewModel.unauthorizedErrorCountRememberPwd && afterMessageCompletion == nil {
             afterMessageCompletion = { [weak self] in
                 self?.showRememberPasswordAlert()
             }

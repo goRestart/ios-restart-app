@@ -51,6 +51,10 @@ class LogInEmailViewModelSpec: QuickSpec {
                 self.navigatorReceiverOpenScammerAlert = false
                 self.navigatorReceivedCloseAfterLogIn = false
 
+                email = nil
+                suggestedEmail = nil
+                logInEnabled = nil
+
                 sessionManager = MockSessionManager()
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
@@ -338,7 +342,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                     sut.password.value = "letitgo"
                 }
 
-                describe("log in fails with unauthorized error once") {
+                describe("log in fails once with unauthorized error") {
                     beforeEach {
                         sessionManager.logInResult = SessionMyUserResult(error: .unauthorized)
                         _ = sut.logIn()
@@ -353,9 +357,12 @@ class LogInEmailViewModelSpec: QuickSpec {
                     it("does not call close after login in navigator") {
                         expect(self.navigatorReceivedCloseAfterLogIn) == false
                     }
+                    it("does not call show alert in the delegate to suggest reset pwd") {
+                        expect(self.delegateReceivedShowAlert) == false
+                    }
                 }
 
-                describe("log in fails with unauthorized error twice") {
+                describe("log in fails twice with unauthorized error") {
                     beforeEach {
                         sessionManager.logInResult = SessionMyUserResult(error: .unauthorized)
                         _ = sut.logIn()
@@ -375,6 +382,29 @@ class LogInEmailViewModelSpec: QuickSpec {
                     }
                     it("calls show alert in the delegate to suggest reset pwd") {
                         expect(self.delegateReceivedShowAlert) == true
+                    }
+                }
+
+                describe("log in fails twice with another error") {
+                    beforeEach {
+                        sessionManager.logInResult = SessionMyUserResult(error: .network)
+                        _ = sut.logIn()
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        self.delegateReceivedHideLoading = false
+
+                        _ = sut.logIn()
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+
+                    it("tracks two loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError, EventName.loginEmailError]
+                    }
+                    it("does not call close after login in navigator") {
+                        expect(self.navigatorReceivedCloseAfterLogIn) == false
+                    }
+                    it("does not call show alert in the delegate to suggest reset pwd") {
+                        expect(self.delegateReceivedShowAlert) == false
                     }
                 }
 
