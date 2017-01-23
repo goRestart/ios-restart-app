@@ -124,6 +124,8 @@ extension TourLoginViewModel: SignUpViewModelDelegate {
     }
 
     func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
+        /*Scammer alert project didn't have any definition for the onboarding. Anyway, if this case happens, scammer
+        will continue onboarding and then he/she will have to login again and then she scammer alert will appear */
         nextStep()
     }
 

@@ -26,7 +26,7 @@ protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
 
 class SignUpLogInViewModel: BaseViewModel {
     let loginSource: EventParameterLoginSourceValue
-    var collapsedEmailTrackingParam: EventParameterCollapsedEmailField? = nil
+    let collapsedEmailParam: EventParameterCollapsedEmailField?
     let googleLoginHelper: ExternalAuthHelper
     let fbLoginHelper: ExternalAuthHelper
     let tracker: Tracker
@@ -119,13 +119,14 @@ class SignUpLogInViewModel: BaseViewModel {
     init(sessionManager: SessionManager, installationRepository: InstallationRepository, locationManager: LocationManager,
          keyValueStorage: KeyValueStorageable, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper,
          tracker: Tracker, featureFlags: FeatureFlaggeable, locale: Locale, source: EventParameterLoginSourceValue,
-         action: LoginActionType) {
+         collapsedEmailParam: EventParameterCollapsedEmailField?, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.installationRepository = installationRepository
         self.locationManager = locationManager
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.loginSource = source
+        self.collapsedEmailParam = collapsedEmailParam
         self.googleLoginHelper = googleLoginHelper
         self.fbLoginHelper = fbLoginHelper
         self.tracker = tracker
@@ -150,7 +151,8 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
-    convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
+    convenience init(source: EventParameterLoginSourceValue, collapsedEmailParam: EventParameterCollapsedEmailField?,
+                     action: LoginActionType) {
         let sessionManager = Core.sessionManager
         let installationRepository = Core.installationRepository
         let locationManager = Core.locationManager
@@ -162,7 +164,8 @@ class SignUpLogInViewModel: BaseViewModel {
         let locale = Locale.current
         self.init(sessionManager: sessionManager, installationRepository: installationRepository, locationManager: locationManager,
                   keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
-                  tracker: tracker, featureFlags: featureFlags, locale: locale, source: source, action: action)
+                  tracker: tracker, featureFlags: featureFlags, locale: locale, source: source,
+                  collapsedEmailParam: collapsedEmailParam, action: action)
     }
     
     
@@ -207,7 +210,7 @@ class SignUpLogInViewModel: BaseViewModel {
                     // Tracking
                     self?.tracker.trackEvent(
                         TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter,
-                                                 collapsedEmail: strongSelf.collapsedEmailTrackingParam))
+                                                 collapsedEmail: strongSelf.collapsedEmailParam))
 
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                         self?.delegate?.vmFinish(completedAccess: true)
@@ -223,7 +226,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                     let rememberedAccount = strongSelf.previousEmail.value != nil
                                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
                                                                                rememberedAccount: rememberedAccount,
-                                                                               collapsedEmail: strongSelf.collapsedEmailTrackingParam)
+                                                                               collapsedEmail: strongSelf.collapsedEmailParam)
                                     self?.tracker.trackEvent(trackerEvent)
                                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                                         self?.delegate?.vmFinish(completedAccess: true)
@@ -279,7 +282,7 @@ class SignUpLogInViewModel: BaseViewModel {
 
                     let rememberedAccount = strongSelf.previousEmail.value != nil
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount,
-                                                               collapsedEmail: strongSelf.collapsedEmailTrackingParam)
+                                                               collapsedEmail: strongSelf.collapsedEmailParam)
                     self?.tracker.trackEvent(trackerEvent)
 
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
@@ -521,7 +524,7 @@ class SignUpLogInViewModel: BaseViewModel {
     private func trackLoginFBOK() {
         let rememberedAccount = previousFacebookUsername.value != nil
         tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount,
-                                                collapsedEmail: collapsedEmailTrackingParam))
+                                                collapsedEmail: collapsedEmailParam))
     }
 
     private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
@@ -531,7 +534,7 @@ class SignUpLogInViewModel: BaseViewModel {
     private func trackLoginGoogleOK() {
         let rememberedAccount = previousGoogleUsername.value != nil
         tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount,
-                                                    collapsedEmail: collapsedEmailTrackingParam))
+                                                    collapsedEmail: collapsedEmailParam))
     }
 
     private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {

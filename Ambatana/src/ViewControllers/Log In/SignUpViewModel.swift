@@ -134,14 +134,12 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func signUpButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, action: .signup)
-        vm.collapsedEmailTrackingParam = collapsedEmailTrackingParam
+        let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailTrackingParam, action: .signup)
         delegate?.vmOpenSignup(vm)
     }
 
     func logInButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, action: .login)
-        vm.collapsedEmailTrackingParam = collapsedEmailTrackingParam
+        let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailTrackingParam, action: .login)
         delegate?.vmOpenSignup(vm)
     }
 
