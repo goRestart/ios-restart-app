@@ -1271,11 +1271,6 @@ extension ProductViewModel: PurchasesShopperDelegate {
     func freeBumpSuccess(withNetwork network: EventParameterShareNetwork) {
         trackHelper.trackBumpUpCompleted(.free, network: network)
         delegate?.vmShowBumpUpSuccess(withMessage: LGLocalizedString.bumpUpFreeSuccess)
-
-//        // Update bump up banner info with "just bumped" time
-//        guard let previousBumpUpInfo = bumpUpBannerInfo.value else { return }
-//        bumpUpBannerInfo.value = BumpUpInfo(free: previousBumpUpInfo.free, timeSinceLastBump: 1, price: previousBumpUpInfo.price,
-//                                            primaryBlock: previousBumpUpInfo.primaryBlock, buttonBlock: previousBumpUpInfo.buttonBlock)
     }
 
     func freeBumpFailed(withNetwork network: EventParameterShareNetwork) {
