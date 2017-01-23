@@ -18,4 +18,5 @@ protocol Environment {
     var webSocketURL: String { get }
     var notificationsBaseURL: String { get }
     var passiveBuyersBaseURL: String { get }
+    var paymentsBaseURL: String { get }
 }

@@ -12,8 +12,13 @@ import Result
 
 class MonetizationApiDataSource : MonetizationDataSource {
 
-    static let platformNameKey = "platformName"
+    static let platformNameKey = "platform"
     static let platformNameValue = "ios"
+
+    static let paymentIdKey = "id"
+    static let itemIdKey = "item_id"
+    static let productIdKey = "product_id"
+    static let receiptDataKey = "receipt_data"
 
     let apiClient: ApiClient
 
@@ -33,6 +38,26 @@ class MonetizationApiDataSource : MonetizationDataSource {
         apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableProduct, completion: completion)
     }
 
+    func freeBump(forProduct productId: String, itemId: String, paymentId: String,
+                  completion: MonetizationDataSourceBumpCompletion?) {
+        let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
+                                      MonetizationApiDataSource.itemIdKey: itemId,
+                                      MonetizationApiDataSource.productIdKey: productId]
+        let request = MonetizationRouter.freeBump(params: params)
+
+        apiClient.request(request, completion: completion)
+    }
+
+    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, paymentId: String,
+                    completion: MonetizationDataSourceBumpCompletion?) {
+        let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
+                                      MonetizationApiDataSource.receiptDataKey: receiptData,
+                                      MonetizationApiDataSource.itemIdKey: itemId,
+                                      MonetizationApiDataSource.productIdKey: productId]
+        let request = MonetizationRouter.pricedBump(params: params)
+
+        apiClient.request(request, completion: completion)
+    }
 
     // Private methods
 

@@ -17,7 +17,7 @@ public enum RepositoryError: Error {
     case network(errorCode: Int, onBackground: Bool)
     case notFound
     case unauthorized(code: Int?)
-    case forbidden
+    case forbidden(cause: ForbiddenCause)
     case tooManyRequests
     case userNotVerified
 
@@ -35,8 +35,8 @@ public enum RepositoryError: Error {
             self = .unauthorized(code: apiError.httpStatusCode)
         case .notFound:
             self = .notFound
-        case .forbidden:
-            self = .forbidden
+        case .forbidden(let cause):
+            self = .forbidden(cause: cause)
         case .scammer:
             self = .unauthorized(code: apiError.httpStatusCode)
         case .tooManyRequests:

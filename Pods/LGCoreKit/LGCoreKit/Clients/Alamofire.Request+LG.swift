@@ -45,7 +45,7 @@ extension DataRequest {
 
             var result: Result<Any>
 
-            if (200..<400).contains(response?.statusCode ?? 0) && response?.expectedContentLength == 0 {
+            if let response = response, (200..<400).contains(response.statusCode), response.expectedContentLength <= 0 {
                 // If the response is empty we can't serialize it, but it may be a success
                 result = .success("")
             } else if response?.statusCode == 304 {
