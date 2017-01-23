@@ -18,24 +18,6 @@ struct SignUpEmailStep2FormErrors: OptionSet {
     static let usernameContainsLetgo            = SignUpEmailStep2FormErrors(rawValue: 1 << 2)
     static let shortUsername                    = SignUpEmailStep2FormErrors(rawValue: 1 << 3)
     static let termsAndConditionsNotAccepted    = SignUpEmailStep2FormErrors(rawValue: 1 << 4)
-
-    fileprivate var trackingError: EventParameterLoginError? {
-        let error: EventParameterLoginError?
-        if contains(.invalidEmail) {
-            error = .invalidEmail
-        } else if contains(.invalidPassword) {
-            error = .invalidPassword
-        } else if contains(.usernameContainsLetgo) {
-            error = .usernameTaken
-        } else if contains(.shortUsername) {
-            error = .invalidUsername
-        } else if contains(.termsAndConditionsNotAccepted) {
-            error = .termsNotAccepted
-        } else {
-            error = nil
-        }
-        return error
-    }
 }
 
 protocol SignUpEmailStep2Navigator: class {
@@ -160,7 +142,7 @@ extension SignUpEmailStep2ViewModel {
             let newsletter: Bool? = newsLetterAcceptRequired ? newsLetterAccepted.value : nil
             signUp(email: email, password: password, username: trimmedUsername, newsletter: newsletter)
         } else {
-            trackFormValidationFailure(errors: errors)
+            trackFormValidationFailed(errors: errors)
         }
         return errors
     }
@@ -290,7 +272,6 @@ fileprivate extension SignUpEmailStep2ViewModel {
             afterMessageCompletion = { [weak self] in
                 self?.navigator?.openScammerAlertFromSignUpEmailStep2()
             }
-            return
         case .notFound, .internalError, .forbidden, .unauthorized, .tooManyRequests:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
@@ -304,7 +285,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
 // MARK: > Tracking
 
 fileprivate extension SignUpEmailStep2ViewModel {
-    func trackFormValidationFailure(errors: SignUpEmailStep2FormErrors) {
+    func trackFormValidationFailed(errors: SignUpEmailStep2FormErrors) {
         guard let error = errors.trackingError else { return }
         let event = TrackerEvent.signupError(error)
         tracker.trackEvent(event)
@@ -364,6 +345,26 @@ fileprivate extension SessionManagerError {
             return .internalError(description: "userNotVerified")
         }
 
+    }
+}
+
+fileprivate extension SignUpEmailStep2FormErrors {
+    var trackingError: EventParameterLoginError? {
+        let error: EventParameterLoginError?
+        if contains(.invalidEmail) {
+            error = .invalidEmail
+        } else if contains(.invalidPassword) {
+            error = .invalidPassword
+        } else if contains(.usernameContainsLetgo) {
+            error = .usernameTaken
+        } else if contains(.shortUsername) {
+            error = .invalidUsername
+        } else if contains(.termsAndConditionsNotAccepted) {
+            error = .termsNotAccepted
+        } else {
+            error = nil
+        }
+        return error
     }
 }
 

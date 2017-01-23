@@ -44,6 +44,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
     fileprivate let source: EventParameterLoginSourceValue
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let nextStepEnabledVar: Variable<Bool>
+    fileprivate let tracker: Tracker
     fileprivate let disposeBag: DisposeBag
 
 
@@ -51,10 +52,11 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     convenience init(source: EventParameterLoginSourceValue) {
         let keyValueStorage = KeyValueStorage.sharedInstance
-        self.init(source: source, keyValueStorage: keyValueStorage)
+        let tracker = TrackerProxy.sharedInstance
+        self.init(source: source, keyValueStorage: keyValueStorage, tracker: tracker)
     }
 
-    init(source: EventParameterLoginSourceValue, keyValueStorage: KeyValueStorageable) {
+    init(source: EventParameterLoginSourceValue, keyValueStorage: KeyValueStorageable, tracker: Tracker) {
         let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage) ?? ""
         self.email = Variable<String>(email)
         self.password = Variable<String>("")
@@ -63,6 +65,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
         self.source = source
         self.keyValueStorage = keyValueStorage
         self.nextStepEnabledVar = Variable<Bool>(false)
+        self.tracker = tracker
         self.disposeBag = DisposeBag()
         super.init()
 
@@ -98,6 +101,8 @@ extension SignUpEmailStep1ViewModel {
 
         if errors.isEmpty {
             openNextStep(email: email.value, password: password.value)
+        } else {
+            trackFormValidationFailed(errors: errors)
         }
         return errors
     }
@@ -130,6 +135,31 @@ fileprivate extension SignUpEmailStep1ViewModel {
               let accountProvider = AccountProvider(rawValue: accountProviderString),
               accountProvider == .email else { return nil }
         return keyValueStorageble[.previousUserEmailOrName]
+    }
+}
+
+
+// MARK: > Tracking
+
+fileprivate extension SignUpEmailStep1ViewModel {
+    func trackFormValidationFailed(errors: SignUpEmailStep1FormErrors) {
+        guard let error = errors.trackingError else { return }
+        let event = TrackerEvent.signupError(error)
+        tracker.trackEvent(event)
+    }
+}
+
+fileprivate extension SignUpEmailStep1FormErrors {
+    var trackingError: EventParameterLoginError? {
+        let error: EventParameterLoginError?
+        if contains(.invalidEmail) {
+            error = .invalidEmail
+        } else if contains(.shortPassword) || contains(.longPassword) {
+            error = .invalidPassword
+        } else {
+            error = nil
+        }
+        return error
     }
 }
 
