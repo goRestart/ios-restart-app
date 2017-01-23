@@ -76,14 +76,15 @@ class ChangeEmailViewModel: BaseViewModel {
     
     // MARK: - Validation
     
-    func isValidEmail(_ emailAddress: String?) -> Bool {
+    private func isValidEmail(_ emailAddress: String?) -> Bool {
         guard let emailAddress = emailAddress else { return false }
         return emailAddress.isEmail() && emailAddress != currentEmail
     }
     
     // MARK: - Request
     
-    func updateEmail(with emailAddress: String) {
+    func updateEmail() {
+        guard let emailAddress = newEmail.value else { return }
         guard isValidEmail(emailAddress) else {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeEmailErrorInvalidEmail, completion: nil)
             return
@@ -91,14 +92,7 @@ class ChangeEmailViewModel: BaseViewModel {
         delegate?.vmShowLoading(LGLocalizedString.changeEmailLoading)
         myUserRepository.updateEmail(emailAddress) { [weak self] (updateResult) in
             guard let strongSelf = self else { return }
-            var result = Result<MyUser, ChangeEmailError>(error: .internalError)
-            if let value = updateResult.value {
-                result = Result<MyUser, ChangeEmailError>(value: value)
-            } else if let repositoryError = updateResult.error {
-                let error = ChangeEmailError(repositoryError: repositoryError)
-                result = Result<MyUser, ChangeEmailError>(error: error)
-            }
-            switch (result) {
+            switch (updateResult) {
             case .success:
                 strongSelf.updateEmailDidSuccess(with: emailAddress)
             case .failure(let error):
@@ -107,15 +101,15 @@ class ChangeEmailViewModel: BaseViewModel {
         }
     }
     
-    func updateEmailDidFail(with error: ChangeEmailError) {
+    func updateEmailDidFail(with error: RepositoryError) {
         let message: String
-        switch (error) {
-        case .internalError, .notFound, .unauthorized:
-            message = LGLocalizedString.commonErrorGenericBody
+        switch error {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .emailTaken:
-            message = LGLocalizedString.changeEmailErrorAlreadyRegistered
+        // TODO: case .forbidden(with error: 1010) -> .emailTaken
+//            message = LGLocalizedString.changeEmailErrorAlreadyRegistered
+        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound, .unauthorized:
+            message = LGLocalizedString.commonErrorGenericBody
         }
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
     }

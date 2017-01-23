@@ -78,15 +78,13 @@ class ChangeEmailViewController: BaseViewController, UITextFieldDelegate {
     // MARK: - UI Actions
     
     dynamic func saveButtonPressed() {
-        guard let textFieldText = customView.emailTextField.text else { return }
-        viewModel.updateEmail(with: textFieldText)
+        viewModel.updateEmail()
     }
     
     // MARK: - UITextFieldDelegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        guard let textFieldText = textField.text else { return false }
-        viewModel.updateEmail(with: textFieldText)
+        viewModel.updateEmail()
         return true
     }
 }
