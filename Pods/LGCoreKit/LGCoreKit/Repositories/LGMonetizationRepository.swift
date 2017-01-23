@@ -32,4 +32,26 @@ class LGMonetizationRepository : MonetizationRepository {
             }
         }
     }
+
+    func freeBump(forProduct productId: String, itemId: String, completion: BumpCompletion?) {
+        let paymentId = LGUUID().UUIDString
+        dataSource.freeBump(forProduct: productId, itemId: itemId, paymentId: paymentId) { result in
+            if let _ = result.value {
+                completion?(BumpResult(value: Void()))
+            } else if let error = result.error {
+                completion?(BumpResult(error: RepositoryError(apiError: error)))
+            }
+        }
+    }
+
+    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, completion: BumpCompletion?) {
+        let paymentId = LGUUID().UUIDString
+        dataSource.pricedBump(forProduct: productId, receiptData: receiptData, itemId: itemId, paymentId: paymentId) { result in
+            if let _ = result.value {
+                completion?(BumpResult(value: Void()))
+            } else if let error = result.error {
+                completion?(BumpResult(error: RepositoryError(apiError: error)))
+            }
+        }
+    }
 }

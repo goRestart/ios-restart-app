@@ -11,6 +11,11 @@ import Result
 public typealias BumpeableProductResult = Result<BumpeableProduct, RepositoryError>
 public typealias BumpeableProductCompletion = (BumpeableProductResult) -> Void
 
+public typealias BumpResult = Result<Void, RepositoryError>
+public typealias BumpCompletion = (BumpResult) -> Void
+
 public protocol MonetizationRepository {
     func retrieveBumpeableProductInfo(productId: String, completion: BumpeableProductCompletion?)
+    func freeBump(forProduct productId: String, itemId: String, completion: BumpCompletion?)
+    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, completion: BumpCompletion?)
 }
