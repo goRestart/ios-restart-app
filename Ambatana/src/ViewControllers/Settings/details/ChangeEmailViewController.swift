@@ -58,7 +58,6 @@ class ChangeEmailViewController: BaseViewController, UITextFieldDelegate {
         customView.emailTextField.placeholder = LGLocalizedString.changeEmailFieldHint
         customView.emailTextField.delegate = self
         customView.saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, for: .normal)
-        customView.saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         customView.saveButton.isEnabled = false
     }
     

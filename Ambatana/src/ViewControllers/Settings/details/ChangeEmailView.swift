@@ -63,8 +63,8 @@ class ChangeEmailView: UIView {
     }
     
     private func addBorders(to view: UIView) {
-        view.addTopBorderWithWidth(1, color: UIColor.lineGray)
-        view.addBottomBorderWithWidth(1, color: UIColor.lineGray)
+        _ = view.addTopBorderWithWidth(1, color: UIColor.lineGray)
+        _ = view.addBottomBorderWithWidth(1, color: UIColor.lineGray)
     }
     
     private func customizeUI() {
