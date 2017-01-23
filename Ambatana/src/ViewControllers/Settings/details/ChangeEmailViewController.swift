@@ -71,14 +71,11 @@ class ChangeEmailViewController: BaseViewController, UITextFieldDelegate {
     }
     
     private func setupRx() {
+        customView.saveButton.rx.tap.subscribeNext { [weak self] in
+            self?.viewModel.updateEmail()
+        }.addDisposableTo(disposeBag)
         customView.emailTextField.rx.text.bindTo(viewModel.newEmail).addDisposableTo(disposeBag)
         viewModel.shouldAllowToContinue.bindTo(customView.saveButton.rx.isEnabled).addDisposableTo(disposeBag)
-    }
-    
-    // MARK: - UI Actions
-    
-    dynamic func saveButtonPressed() {
-        viewModel.updateEmail()
     }
     
     // MARK: - UITextFieldDelegate
