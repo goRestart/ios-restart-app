@@ -178,8 +178,16 @@ class SettingsViewModel: BaseViewModel {
         profileSettings.append(.changePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
         profileSettings.append(.changeUsername(name: myUser?.name ?? ""))
         profileSettings.append(.changeEmail(email: myUser?.email ?? ""))
-        profileSettings.append(.changeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
-            myUser?.postalAddress.countryCode ?? ""))
+        
+        var location: String = ""
+        if let city = myUser?.postalAddress.city {
+            location = city
+        } else if let state = myUser?.postalAddress.state {
+            location = state
+        } else if let countryCode = myUser?.postalAddress.countryCode {
+            location = countryCode
+        }
+        profileSettings.append(.changeLocation(location: location))
         if let email = myUser?.email, email.isEmail() {
             profileSettings.append(.changePassword)
         }
