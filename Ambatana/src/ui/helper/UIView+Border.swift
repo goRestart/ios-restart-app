@@ -50,7 +50,7 @@ extension UIView {
         return line
     }
 
-    @discardableResult func addTopViewBorderWith(width: CGFloat, color: UIColor) -> UIView {
+    func addTopViewBorderWith(width: CGFloat, color: UIColor) -> UIView {
         let topSeparator = UIView()
         topSeparator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topSeparator)

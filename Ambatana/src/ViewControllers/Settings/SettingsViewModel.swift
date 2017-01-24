@@ -14,9 +14,10 @@ import FBSDKShareKit
 enum LetGoSetting {
     case inviteFbFriends
     case changePhoto(placeholder: UIImage?, avatarUrl: URL?)
+    case changeEmail(email: String)
     case changeUsername(name: String)
     case changeLocation(location: String)
-    case marketingNotifications(initialState: Bool, changeClosure: ((Bool) -> Void))
+    case marketingNotifications(switchValue: Variable<Bool>, changeClosure: ((Bool) -> Void))
     case createCommercializer
     case changePassword
     case help
@@ -40,12 +41,14 @@ class SettingsViewModel: BaseViewModel {
 
     let avatarLoadingProgress = Variable<Float?>(nil)
     let sections = Variable<[SettingsSection]>([])
+    let switchMarketingNotificationValue = Variable<Bool>(true)
 
     private let myUserRepository: MyUserRepository
     private let commercializerRepository: CommercializerRepository
     private let notificationsManager: NotificationsManager
     private let locationManager: LocationManager
     private let tracker: Tracker
+    private let pushPermissionManager: PushPermissionsManager
 
     private let kLetGoUserImageSquareSize: CGFloat = 1024
 
@@ -60,17 +63,18 @@ class SettingsViewModel: BaseViewModel {
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository, commercializerRepository: Core.commercializerRepository,
                   locationManager: Core.locationManager, notificationsManager: NotificationsManager.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance, pushPermissionManager: PushPermissionsManager.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, commercializerRepository: CommercializerRepository,
-         locationManager: LocationManager, notificationsManager: NotificationsManager, tracker: Tracker) {
+         locationManager: LocationManager, notificationsManager: NotificationsManager, tracker: Tracker,
+         pushPermissionManager: PushPermissionsManager) {
         self.myUserRepository = myUserRepository
         self.commercializerRepository = commercializerRepository
         self.locationManager = locationManager
         self.notificationsManager = notificationsManager
         self.tracker = tracker
-
+        self.pushPermissionManager = pushPermissionManager
         super.init()
 
         setupRx()
@@ -81,6 +85,7 @@ class SettingsViewModel: BaseViewModel {
         if firstTime {
             tracker.trackEvent(TrackerEvent.profileEditStart())
         }
+        switchMarketingNotificationValue.value = pushPermissionManager.pushNotificationActive && notificationsManager.marketingNotifications.value
     }
     
     override func backButtonPressed() -> Bool {
@@ -176,13 +181,14 @@ class SettingsViewModel: BaseViewModel {
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
         profileSettings.append(.changePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
         profileSettings.append(.changeUsername(name: myUser?.name ?? ""))
+        profileSettings.append(.changeEmail(email: myUser?.email ?? ""))
         profileSettings.append(.changeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
             myUser?.postalAddress.countryCode ?? ""))
         if let email = myUser?.email, email.isEmail() {
             profileSettings.append(.changePassword)
         }
-        profileSettings.append(.marketingNotifications(initialState: notificationsManager.marketingNotifications.value,
-            changeClosure: { [weak self] enabled in self?.setMarketingNotifications(enabled) } ))
+        profileSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
+            changeClosure: { [weak self] enabled in self?.checkMarketingNotifications(enabled) } ))
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
         var supportSettings = [LetGoSetting]()
@@ -210,6 +216,8 @@ class SettingsViewModel: BaseViewModel {
             delegate?.vmOpenImagePick()
         case .changeUsername:
             navigator?.openEditUserName()
+        case .changeEmail:
+            navigator?.openEditEmail()
         case .changeLocation:
             navigator?.openEditLocation()
         case .createCommercializer:
@@ -244,10 +252,60 @@ class SettingsViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
     }
 
-    private func setMarketingNotifications(_ enabled: Bool) {
-        notificationsManager.marketingNotifications.value = enabled
+    private func checkMarketingNotifications(_ enabled: Bool) {
+        if enabled {
+            showPrePermissionsIfNeeded()
+        } else {
+            showDeactivateConfirmation()
+        }
 
+    }
+    
+    private func setMarketingNotification(enabled: Bool) {
+        notificationsManager.marketingNotifications.value = enabled
         let event = TrackerEvent.marketingPushNotifications(myUserRepository.myUser?.objectId, enabled: enabled)
         tracker.trackEvent(event)
+    }
+    
+    private func showPrePermissionsIfNeeded() {
+        guard !pushPermissionManager.pushNotificationActive else {
+            setMarketingNotification(enabled: true)
+            return
+        }
+        let cancelAction = UIAction(
+            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
+            action: { [weak self] in
+                self?.forceMarketingNotifications(enabled: false)
+        })
+        let  activateAction = UIAction(
+            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertActivate, .primary(fontSize: .medium)),
+            action: { [weak self] in
+                self?.setMarketingNotification(enabled: true)
+                self?.pushPermissionManager.showPushPermissionsAlert(prePermissionType: .profile)
+        })
+        
+        delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsGeneralNotificationsAlertMessage,
+                                       alertType: .plainAlert, actions: [cancelAction, activateAction])
+    }
+    
+    private func showDeactivateConfirmation() {
+        let cancelAction = UIAction(
+            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
+            action: { [weak self] in
+                self?.forceMarketingNotifications(enabled: true)
+        })
+        let  deactivateAction = UIAction(
+            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertDeactivate, .secondary(fontSize: .medium, withBorder: true)),
+            action: { [weak self] in
+                self?.setMarketingNotification(enabled: false)
+        })
+        
+        delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsMarketingNotificationsAlertMessage,
+                                       alertType: .plainAlert, actions: [cancelAction, deactivateAction])
+    }
+    
+    private func forceMarketingNotifications(enabled: Bool) {
+        notificationsManager.marketingNotifications.value = enabled
+        switchMarketingNotificationValue.value = enabled
     }
 }

@@ -69,6 +69,8 @@ fileprivate extension LetGoSetting {
             return LGLocalizedString.settingsChangeProfilePictureButton
         case .changeUsername:
             return LGLocalizedString.settingsChangeUsernameButton
+        case .changeEmail:
+            return LGLocalizedString.settingsChangeEmailButton
         case .changeLocation:
             return LGLocalizedString.settingsChangeLocationButton
         case .createCommercializer:
@@ -92,6 +94,8 @@ fileprivate extension LetGoSetting {
             return UIImage(named: "ic_setting_share_fb")
         case .changeUsername:
             return UIImage(named: "ic_setting_name")
+        case .changeEmail:
+            return UIImage(named: "ic_setting_email")
         case .changeLocation:
             return UIImage(named: "ic_setting_location")
         case .createCommercializer:
@@ -142,6 +146,8 @@ fileprivate extension LetGoSetting {
         switch self {
         case let .changeUsername(name):
             return name
+        case let .changeEmail(email):
+            return email
         case let .changeLocation(location):
             return location
         default:

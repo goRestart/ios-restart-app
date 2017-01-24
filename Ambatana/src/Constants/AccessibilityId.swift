@@ -446,6 +446,11 @@ enum AccessibilityId: String {
     // ChangeUsername
     case changeUsernameNameField
     case changeUsernameSendButton
+    
+    // ChangeEmail
+    case changeEmailCurrentEmailLabel
+    case changeEmailTextField
+    case changeEmailSendButton
 
     // ChangePassword
     case changePasswordPwdTextfield
