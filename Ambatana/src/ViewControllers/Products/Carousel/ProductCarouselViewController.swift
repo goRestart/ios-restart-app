@@ -179,7 +179,9 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         removeIgnoreTouchesForMoreInfo()
-        closeBumpUpBanner()
+        if toBackground {
+            closeBumpUpBanner()
+        }
     }
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -315,6 +317,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     private func close() {
         guard let moreInfoView = moreInfoView else { return }
         if moreInfoView.frame.origin.y < 0 {
+            closeBumpUpBanner()
             viewModel.close()
         } else {
             moreInfoView.mapExpanded ? compressMap() : hideMoreInfo()
@@ -1154,7 +1157,11 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowPaymentBumpUpView() {
         viewModel.openPaymentBumpUpView()
     }
-    
+
+    func vmResetBumpUpBannerCountdown() {
+        bumpUpBanner.resetCountdown()
+    }
+
 
     // Loadings and alerts overrides to remove keyboard before showing
 

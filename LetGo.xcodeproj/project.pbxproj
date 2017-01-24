@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E0093711E3642E000F97F87 /* MockMonetizationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0093701E3642E000F97F87 /* MockMonetizationRepository.swift */; };
 		2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD271CDB4C3400EAADF9 /* MockAppVersion.swift */; };
 		2E06EAED1D7051BA00A40704 /* FilterPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */; };
 		2E06EAEE1D7051BA00A40704 /* FilterPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */; };
@@ -1296,6 +1297,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2E0093701E3642E000F97F87 /* MockMonetizationRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMonetizationRepository.swift; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPriceCell.swift; sourceTree = "<group>"; };
 		2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterPriceCell.xib; sourceTree = "<group>"; };
 		2E0C96441DEDCAFA00068B6D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -3525,6 +3527,7 @@
 				C75BC6A61E2E5C9500483F79 /* MockChatRepository.swift */,
 				C75BC6BE1E2E693C00483F79 /* MockOldChatRepository.swift */,
 				C75BC6C01E2E6A8D00483F79 /* MockNotificationsRepository.swift */,
+				2E0093701E3642E000F97F87 /* MockMonetizationRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -5562,6 +5565,7 @@
 				7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */,
 				2EBC920D1E0AB94D007F0F82 /* MockPurchaseableProduct.swift in Sources */,
 				50F344F21D3CDEA2000A8774 /* MockChatProduct.swift in Sources */,
+				2E0093711E3642E000F97F87 /* MockMonetizationRepository.swift in Sources */,
 				C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */,
 				C75BC6B41E2E683C00483F79 /* Array+Randomizable.swift in Sources */,
 				C7841AF71E091E5C004A8242 /* CGFloat+LGSpec.swift in Sources */,
