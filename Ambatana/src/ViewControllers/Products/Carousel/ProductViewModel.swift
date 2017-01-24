@@ -33,9 +33,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     // Bump Up
     func vmShowFreeBumpUpView()
     func vmShowPaymentBumpUpView()
-    func vmBumpUpStart(withMessage message: String)
-    func vmShowBumpUpSuccess(withMessage message: String)
-    func vmShowBumpUpFail(withMessage message: String)
+    func vmResetBumpUpBannerCountdown()
 }
 
 
@@ -1263,17 +1261,21 @@ extension ProductViewModel: PurchasesShopperDelegate {
         // update error UI
     }
 
+
     // Payment
     func freeBumpStarted() {
-        delegate?.vmBumpUpStart(withMessage: LGLocalizedString.bumpUpProcessingFreeText)
+        delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 
     func freeBumpSuccess(withNetwork network: EventParameterShareNetwork) {
         trackHelper.trackBumpUpCompleted(.free, network: network)
-        delegate?.vmShowBumpUpSuccess(withMessage: LGLocalizedString.bumpUpFreeSuccess)
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
+            self?.delegate?.vmResetBumpUpBannerCountdown()
+        })
+
     }
 
     func freeBumpFailed(withNetwork network: EventParameterShareNetwork) {
-        delegate?.vmShowBumpUpFail(withMessage: LGLocalizedString.bumpUpErrorBumpGeneric)
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
     }
 }

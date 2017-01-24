@@ -1157,18 +1157,8 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         viewModel.openPaymentBumpUpView()
     }
 
-    func vmBumpUpStart(withMessage message: String) {
-        vmShowLoading(message)
-    }
-
-    func vmShowBumpUpSuccess(withMessage message: String) {
-        vmHideLoading(message, afterMessageCompletion: { [weak self] in
-            self?.bumpUpBanner.resetCountdown()
-        })
-    }
-
-    func vmShowBumpUpFail(withMessage message: String) {
-        vmHideLoading(message, afterMessageCompletion: nil)
+    func vmResetBumpUpBannerCountdown() {
+        bumpUpBanner.resetCountdown()
     }
 
 
