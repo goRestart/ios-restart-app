@@ -115,6 +115,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_error_bump_token", comment: "")
 	}
 
+	static var bumpUpProcessingFreeText: String {
+		return NSLocalizedString("bump_up_processing_free_text", comment: "")
+	}
+
+	static var bumpUpProcessingPricedText: String {
+		return NSLocalizedString("bump_up_processing_priced_text", comment: "")
+	}
+
 	static var bumpUpViewFreeTitle: String {
 		return NSLocalizedString("bump_up_view_free_title", comment: "")
 	}
@@ -2825,6 +2833,26 @@ struct LGLocalizedString {
 
 	static var settingsMarketingNotificationsSwitch: String {
 		return NSLocalizedString("settings_marketing_notifications_switch", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertMessage: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_message", comment: "")
+	}
+
+	static var settingsGeneralNotificationsAlertMessage: String {
+		return NSLocalizedString("settings_general_notifications_alert_message", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertActivate: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_activate", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertDeactivate: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_deactivate", comment: "")
+	}
+
+	static var settingsMarketingNotificationsAlertCancel: String {
+		return NSLocalizedString("settings_marketing_notifications_alert_cancel", comment: "")
 	}
 
 	static var signUpAcceptanceError: String {

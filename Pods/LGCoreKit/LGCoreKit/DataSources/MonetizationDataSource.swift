@@ -11,6 +11,13 @@ import Result
 typealias MonetizationDataSourceBumpeableProductResult = Result<BumpeableProduct, ApiError>
 typealias MonetizationDataSourceBumpeableProductCompletion = (MonetizationDataSourceBumpeableProductResult) -> Void
 
+typealias MonetizationDataSourceBumpResult = Result<Void, ApiError>
+typealias MonetizationDataSourceBumpCompletion = (MonetizationDataSourceBumpResult) -> Void
+
 protocol MonetizationDataSource {
     func retrieveBumpeableProductInfo(productId: String, completion: MonetizationDataSourceBumpeableProductCompletion?)
+    func freeBump(forProduct productId: String, itemId: String, paymentId: String,
+                  completion: MonetizationDataSourceBumpCompletion?)
+    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, paymentId: String,
+                  completion: MonetizationDataSourceBumpCompletion?)
 }

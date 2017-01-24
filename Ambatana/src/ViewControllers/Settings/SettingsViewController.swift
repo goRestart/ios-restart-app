@@ -243,7 +243,7 @@ extension LetGoSetting {
 
     var cellHeight: CGFloat {
         switch self {
-        case .inviteFbFriends, .changePhoto, .changeUsername, .changeLocation, .createCommercializer, .changePassword,
+        case .inviteFbFriends, .changePhoto, .changeUsername, .changeEmail, .changeLocation, .createCommercializer, .changePassword,
              .help, .marketingNotifications:
             return 50
         case .logOut:

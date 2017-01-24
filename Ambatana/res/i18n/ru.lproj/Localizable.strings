@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Ваш платеж обработан, но товар еще не поднят. Пожалуйста, попробуйте еще раз.";
 "bump_up_free_success" = "Поднято! Продолжайте поднимать ваше объявление, и его будет видно еще лучше.";
 "bump_up_pay_success" = "Поднято! Теперь ваш товар лучше виден.";
+"bump_up_processing_free_text" = "Processing bump...";
+"bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
 "bump_up_view_pay_bumps_left_text" = "У вас осталось %i продвижений.";
@@ -695,6 +697,9 @@
 "settings_logout_alert_message" = "Вы точно хотите выйти?";
 "settings_logout_alert_ok" = "Выйти";
 "settings_logout_button" = "Выйти";
+"settings_marketing_notifications_alert_cancel" = "Cancel";
+"settings_marketing_notifications_alert_deactivate" = "Deactivate";
+"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
 "settings_marketing_notifications_switch" = "Маркетинговые уведомления";
 "settings_section_profile" = "Профиль";
 "settings_section_promote" = "Продвигать";
