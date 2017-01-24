@@ -22,6 +22,8 @@ class ChangeEmailView: UIView {
     let emailTextField: LGTextField
     let saveButton: UIButton
     
+    private var borders: [CALayer] = []
+    
     // MARK: - Lifecycle
     
     init() {
@@ -63,8 +65,12 @@ class ChangeEmailView: UIView {
     }
     
     private func addBorders(to view: UIView) {
-        _ = view.addTopBorderWithWidth(1, color: UIColor.lineGray)
-        _ = view.addBottomBorderWithWidth(1, color: UIColor.lineGray)
+        // remove any previous border added
+        borders.forEach{ $0.removeFromSuperlayer() }
+        borders.removeAll()
+        
+        borders.append(view.addTopBorderWithWidth(1, color: UIColor.lineGray))
+        borders.append(view.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
     
     private func customizeUI() {
