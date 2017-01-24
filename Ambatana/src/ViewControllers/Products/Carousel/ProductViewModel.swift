@@ -415,7 +415,7 @@ class ProductViewModel: BaseViewModel {
 
         monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
             if let bumpeableProduct = result.value {
-                self?.timeSinceLastBump = bumpeableProduct.countdown
+                self?.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
                 let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
                 let paymentItemsIds = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
                 if !paymentItemsIds.isEmpty {
