@@ -196,7 +196,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             switch Bumper.bumpUpFreeTimeLimit {
             case .oneMin:
-                return 1/60 * hoursToMilliseconds
+                return hoursToMilliseconds/60
             case .eightHours:
                 return 8 * hoursToMilliseconds
             case .twelveHours:

@@ -247,7 +247,6 @@ class ProductViewModel: BaseViewModel {
         super.init()
 
         socialSharer.delegate = self
-        purchasesShopper.delegate = self
         setupRxBindings()
     }
     
@@ -290,6 +289,8 @@ class ProductViewModel: BaseViewModel {
                 self?.commercializers.value = value
             }
         }
+
+        purchasesShopper.delegate = self
     }
 
     func syncProduct(_ completion: (() -> ())?) {
@@ -414,24 +415,23 @@ class ProductViewModel: BaseViewModel {
 
         monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
             if let bumpeableProduct = result.value {
-                if bumpeableProduct.isBumpeable {
-                    // product is bumpeable
-                    self?.timeSinceLastBump = bumpeableProduct.countdown
-                    let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
-                    let paymentItemsIds = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
-                    if !paymentItemsIds.isEmpty {
-                        // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                        self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItemsIds)
-                    } else if !freeItems.isEmpty {
-                        self?.paymentItemId = freeItems.first?.itemId
-                        self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
-                    }
+                self?.timeSinceLastBump = bumpeableProduct.countdown
+                let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
+                let paymentItemsIds = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
+                if !paymentItemsIds.isEmpty {
+                    // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                    self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItemsIds)
+                } else if !freeItems.isEmpty {
+                    self?.paymentItemId = freeItems.first?.itemId
+                    self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
                 }
             }
         })
     }
 
     fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, freeBumpUp: Bool) {
+        guard let _ = paymentItemId else { return }
+
         let freeBlock = { [weak self] in
             self?.delegate?.vmShowFreeBumpUpView()
         }
