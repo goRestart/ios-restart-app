@@ -79,12 +79,6 @@
 // Token error when bumping
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
 
-// Text for loading view whiel processing free bump
-"bump_up_processing_free_text" = "Processing bump...";
-
-// Text for loading view whiel processing bump with a price
-"bump_up_processing_priced_text" = "Processing payment...";
-
 // Title for free bump up view
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 
@@ -228,6 +222,9 @@
 
 // Change email invalid email
 "change_email_error_invalid_email" = "Please insert a valid email address.";
+
+// Change email already registered
+"change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
@@ -2109,15 +2106,6 @@
 
 // Settings option to turn on/off marketing notifications
 "settings_marketing_notifications_switch" = "Marketing Notifications";
-
-// Alert message when user wants to deactivate marketing notification in settings. 
-"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
-
-// Alert button to confirm deactivation.
-"settings_marketing_notifications_alert_deactivate" = "Deactivate";
-
-// Alert button to cancel de action
-"settings_marketing_notifications_alert_cancel" = "Cancel";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";

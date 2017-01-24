@@ -257,6 +257,7 @@ enum EventParameterName: String {
     case numberPhotosPosting  = "number-photos-posting"
     case bumpUpPrice          = "price"
     case passiveConversations = "passive-conversations"
+    case collapsedEmailField  = "collapsed-email-field"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -665,6 +666,12 @@ enum EventParameterBumpUpPrice {
     }
 }
 
+enum EventParameterCollapsedEmailField: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
+    case unset = "N/A"
+}
+
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]
     
@@ -679,11 +686,11 @@ struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
+    internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil,
+                                          collapsedEmail: EventParameterCollapsedEmailField? = nil) {
         params[.loginSource] = source.rawValue
-        if let rememberedAccount = rememberedAccount {
-            params[.loginRememberedAccount] = rememberedAccount
-        }
+        params[.loginRememberedAccount] = rememberedAccount
+        params[.collapsedEmailField] = collapsedEmail?.rawValue
     }
     
     internal mutating func addProductParams(_ product: Product) {

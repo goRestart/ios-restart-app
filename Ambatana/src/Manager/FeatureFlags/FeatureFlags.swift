@@ -9,8 +9,12 @@
 import LGCoreKit
 import CoreTelephony
 import bumper
+import RxSwift
 
 protocol FeatureFlaggeable {
+
+    var syncedData: Observable<Bool> { get }
+
     var websocketChat: Bool { get }
     var notificationsSection: Bool { get }
     var userReviews: Bool { get }
@@ -30,11 +34,12 @@ protocol FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
+    var onboardingReview: OnboardingReview { get }
     var bumpUpFreeTimeLimit: Int { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
-    
+
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
     private let locale: Locale
@@ -66,18 +71,22 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-     let websocketChat: Bool
-    
-     let notificationsSection: Bool
+    var syncedData: Observable<Bool> {
+        return ABTests.trackingData.asObservable().map { $0 != nil }
+    }
 
-     var userReviews: Bool {
+    let websocketChat: Bool
+    
+    let notificationsSection: Bool
+
+    var userReviews: Bool {
         if Bumper.enabled {
             return Bumper.userReviews
         }
         return ABTests.userReviews.value
     }
 
-     var showNPSSurvey: Bool {
+    var showNPSSurvey: Bool {
         if Bumper.enabled {
             return Bumper.showNPSSurvey
         }
@@ -175,6 +184,13 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.editDeleteItemUxImprovement.value
     }
 
+    var onboardingReview: OnboardingReview {
+        if Bumper.enabled {
+            return Bumper.onboardingReview
+        }
+        return OnboardingReview.fromPosition(ABTests.onboardingReview.value)
+    }
+
     var bumpUpFreeTimeLimit: Int {
         let hoursToMilliseconds = 60 * 60 * 1000
         if Bumper.enabled {
@@ -193,7 +209,7 @@ class FeatureFlags: FeatureFlaggeable {
         return Int(timeLimit)
     }
 
-
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
