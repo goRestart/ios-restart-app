@@ -44,14 +44,14 @@
 "categories_sports_leisure_and_games" = "Sport, fritid og spill";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Ikke valgt";
-"change_email_current_email_label" = "CURRENT EMAIL:";
+"change_email_current_email_label" = "NÅVÆRENDE E-POSTADRESSE:";
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 "change_email_error_invalid_email" = "Please insert a valid email address.";
 "change_email_field_hint" = "New email (email@domain.com)";
 "change_email_loading" = "Saving email...";
 "change_email_save_button" = "Save";
 "change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
-"change_email_title" = "Change email";
+"change_email_title" = "Endre e-postadresse";
 "change_location_apply_button" = "Velg plassering";
 "change_location_approximate_location_label" = "Vis omtrentlig adresse";
 "change_location_error_country_alert_message" = "Vennligst velg en plassering for hvor du befinner deg.";
@@ -408,7 +408,7 @@
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
 "product_bubble_favorite_button" = "Informer selgeren!";
 "product_bubble_favorite_text" = "Dette produktet er lagt til blant dine favoritter!";
-"product_chat_direct_error_blocked_user_message" = "Oops! Denne brukeren er blokkert for samtaler.";
+"product_chat_direct_error_blocked_user_message" = "Oops! Ettersom du har blokkert denne brukeren kan du ikke starte en samtale.";
 "product_chat_direct_message" = "Hei %@, jeg er interessert";
 "product_chat_direct_message_sending" = "Sender...";
 "product_chat_with_seller_button" = "Snakk med selgeren";
