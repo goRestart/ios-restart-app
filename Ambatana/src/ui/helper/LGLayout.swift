@@ -212,6 +212,25 @@ extension LGLayout {
         return self
     }
 
+
+    // MARK: Horizantal / Vertical arrangement
+
+    @discardableResult
+    func horizontally(by constant: CGFloat = 0, priority: UILayoutPriority = UILayoutPriorityRequired,
+                      constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
+        constraint(item1: item1, attribute1: .left, item2: item2, attribute2: .right,
+                   constant: constant, constraintBlock: constraintBlock)
+        return self
+    }
+
+    @discardableResult
+    func vertically(by constant: CGFloat = 0, priority: UILayoutPriority = UILayoutPriorityRequired,
+                    constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
+        constraint(item1: item1, attribute1: .bottom, item2: item2, attribute2: .top,
+                   constant: constant, constraintBlock: constraintBlock)
+        return self
+    }
+
     
     // MARK: Size
 
@@ -257,7 +276,6 @@ extension LGLayout {
 }
 
 extension UIView {
-    
     func layout(with item: Any? = nil) -> LGLayout {
         self.translatesAutoresizingMaskIntoConstraints = false
         if item == nil {
