@@ -30,7 +30,8 @@ struct ABTests {
     static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     static var filterIconWithLetters = BoolABDynamicVar(key: "filterIconWithLetters", defaultValue: false)
     static var editDeleteItemUxImprovement = BoolABDynamicVar(key: "editDeleteItemUxImprovement", defaultValue: false)
-
+    static var onboardingReview = IntABDynamicVar(key: "onboardingReview", defaultValue: 0)
+    static var bumpUpFreeTimeLimit = FloatABDynamicVar(key: "bumpUpFreeTimeLimit", defaultValue: 8)
 
 
     static private var allVariables: [ABVariable] {
@@ -52,6 +53,8 @@ struct ABTests {
         result.append(captchaTransparent)
         result.append(filterIconWithLetters)
         result.append(editDeleteItemUxImprovement)
+        result.append(onboardingReview)
+        result.append(bumpUpFreeTimeLimit)
 
         return result
     }

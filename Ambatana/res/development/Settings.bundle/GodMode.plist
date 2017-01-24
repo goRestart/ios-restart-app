@@ -5,6 +5,12 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>App Version Tests</string>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
@@ -23,6 +29,22 @@
 			<string>Version</string>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Keychain Tests</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>god_mode_cleanup_keychain</string>
+			<key>Title</key>
+			<string>Clean keychain on start</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>
