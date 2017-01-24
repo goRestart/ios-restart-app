@@ -128,15 +128,15 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
 
     }
 
-    func freeBumpStarted() {
+    func freeBumpDidStart() {
     }
 
-    func freeBumpSuccess(withNetwork network: EventParameterShareNetwork) {
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
         self.network = network
         self.mockBumpResult = .success
     }
 
-    func freeBumpFailed(withNetwork network: EventParameterShareNetwork) {
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
         self.network = network
         self.mockBumpResult = .fail
     }

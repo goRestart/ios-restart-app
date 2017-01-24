@@ -14,9 +14,9 @@ protocol PurchasesShopperDelegate: class {
     func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct])
     func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error)
 
-    func freeBumpStarted()
-    func freeBumpSuccess(withNetwork network: EventParameterShareNetwork)
-    func freeBumpFailed(withNetwork network: EventParameterShareNetwork)
+    func freeBumpDidStart()
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork)
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
 }
 
 class PurchasesShopper: NSObject {
@@ -75,12 +75,12 @@ class PurchasesShopper: NSObject {
     }
 
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
-        delegate?.freeBumpStarted()
+        delegate?.freeBumpDidStart()
         monetizationRepository.freeBump(forProduct: productId, itemId: paymentItemId) { [weak self] result in
             if let _ = result.value {
-                self?.delegate?.freeBumpSuccess(withNetwork: shareNetwork)
+                self?.delegate?.freeBumpDidSucceed(withNetwork: shareNetwork)
             } else if let _ = result.error {
-                self?.delegate?.freeBumpFailed(withNetwork: shareNetwork)
+                self?.delegate?.freeBumpDidFail(withNetwork: shareNetwork)
             }
         }
     }

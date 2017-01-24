@@ -1263,11 +1263,11 @@ extension ProductViewModel: PurchasesShopperDelegate {
 
 
     // Payment
-    func freeBumpStarted() {
+    func freeBumpDidStart() {
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 
-    func freeBumpSuccess(withNetwork network: EventParameterShareNetwork) {
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
         trackHelper.trackBumpUpCompleted(.free, network: network)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
@@ -1275,7 +1275,7 @@ extension ProductViewModel: PurchasesShopperDelegate {
 
     }
 
-    func freeBumpFailed(withNetwork network: EventParameterShareNetwork) {
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
     }
 }
