@@ -2242,11 +2242,8 @@
 				50C7428C1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift */,
 				7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */,
 				7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */,
-<<<<<<< HEAD
 				8E14D8921E363BF000B33C75 /* ChangeEmailViewModelSpec.swift */,
-=======
 				C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */,
->>>>>>> develop
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
