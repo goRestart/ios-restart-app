@@ -19,11 +19,17 @@ class DeviceIdKeychainDAO: DeviceIdDAO {
     }
 
     var deviceId: String {
-        if let deviceId = keychain.get(DeviceIdKeychainDAO.deviceIdKey) { return deviceId }
+        get {
+            if let deviceId = keychain.get(DeviceIdKeychainDAO.deviceIdKey) { return deviceId }
 
-        guard let deviceId = UIDevice.current.identifierForVendor?.uuidString else { return "no-device-id" }
-        keychain.set(deviceId, forKey: DeviceIdKeychainDAO.deviceIdKey,
-            withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
-        return deviceId
+            guard let deviceId = UIDevice.current.identifierForVendor?.uuidString else { return "no-device-id" }
+            keychain.set(deviceId, forKey: DeviceIdKeychainDAO.deviceIdKey,
+                withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
+            return deviceId
+        }
+        set {
+            keychain.set(newValue, forKey: DeviceIdKeychainDAO.deviceIdKey,
+                         withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
+        }
     }
 }

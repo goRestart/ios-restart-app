@@ -8,55 +8,27 @@
 
 import Alamofire
 
-public protocol ResponseObjectSerializable {
-    init?(response: HTTPURLResponse, representation: Any)
-}
-
 extension DataRequest {
 
+    /*
+     Converts response into DataResponse<T> using the provided decoder. This method DOESN'T check statusCodes as it assumes
+     there's a previous validation. Will check if decoder accepts any kind of result if serialisation fails or body is empty
+     */
     @discardableResult
-    public func responseObject<T: ResponseObjectSerializable>(_ completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
-        let responseSerializer = DataResponseSerializer<T> { request, response, data, error in
-            if let error = error { return .failure(error) }
-
-            let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
-            let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
-
-            switch result {
-            case .success(let value):
-                if let response = response, let responseObject = T(response: response, representation: value) {
-                    return .success(responseObject)
-                } else {
-                    return .failure(DataRequest.serializationError(value))
-                }
-            case .failure(let error):
-                return .failure(error)
-            }
-        }
-
-        return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
-    }
-
-    @discardableResult
-    public func responseObject<T>(_ decoder: @escaping (Any) -> T?, completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
+    func responseObject<T>(_ decoder: @escaping (Any) -> T?, completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
 
         let responseSerializer = DataResponseSerializer<T> { (request, response, data, error) in
             if let error = error { return .failure(error) }
 
-            var result: Result<Any>
-
-            if let response = response, (200..<400).contains(response.statusCode), response.expectedContentLength <= 0 {
-                // If the response is empty we can't serialize it, but it may be a success
-                result = .success("")
-            } else if response?.statusCode == 304 {
-                // 304 doesn't provide content-length == 0 even though the content is empty
-                result = .success("")
-            } else {
+            var serializationResult: Result<Any>
+            if let data = data, data.count > 0 {
                 let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
-                result = jsonResponseSerializer.serializeResponse(request, response, data, error)
+                serializationResult = jsonResponseSerializer.serializeResponse(request, response, data, error)
+            } else {
+                serializationResult = .success("")
             }
 
-            switch result {
+            switch serializationResult {
             case .success(let value):
                 if let responseObject = decoder(value) {
                     return .success(responseObject)
@@ -64,7 +36,12 @@ extension DataRequest {
                     return .failure(DataRequest.serializationError(value))
                 }
             case .failure(let error):
-                return .failure(error)
+                //Checking anyway just in case decoder doesn't care about response body
+                if let responseObject = decoder("") {
+                    return .success(responseObject)
+                } else {
+                    return .failure(error)
+                }
             }
         }
 
