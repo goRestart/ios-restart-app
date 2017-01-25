@@ -21,5 +21,6 @@ Note: If you are running the app, the status will be replaced by the running sta
 #### Best practices
 
 [Swift build time optimizations](https://medium.com/@RobertGummesson/regarding-swift-build-time-optimizations-fc92cdd91e31#.4py75x8ho)
+[Swift build time optimizations part2](https://medium.com/swift-programming/swift-build-time-optimizations-part-2-37b0a7514cbe#.i2vnfq20e)
 
 
