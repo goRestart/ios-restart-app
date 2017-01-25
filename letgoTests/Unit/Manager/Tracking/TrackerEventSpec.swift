@@ -2239,7 +2239,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("profileEditEmailComplete") {
                 beforeEach {
-                    sut = TrackerEvent.profileEditEmailStart(withUserId: "1234")
+                    sut = TrackerEvent.profileEditEmailComplete(withUserId: "1234")
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("profile-edit-email-complete"))
