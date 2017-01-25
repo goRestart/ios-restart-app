@@ -1018,14 +1018,14 @@
 		C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B89CB81C20271E00536A6C /* SocialShareView.swift */; };
 		C7B942EE1E2E1EC8005E1946 /* FacebookFrienshipNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B942ED1E2E1EC8005E1946 /* FacebookFrienshipNotificationCellDrawer.swift */; };
 		C7B942EF1E2E1EC8005E1946 /* FacebookFrienshipNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B942ED1E2E1EC8005E1946 /* FacebookFrienshipNotificationCellDrawer.swift */; };
+		C7BB25CA1E3222A900649396 /* TourLoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */; };
+		C7BB25CC1E32315300649396 /* TourLoginState+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CB1E32315300649396 /* TourLoginState+LGSpec.swift */; };
 		C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CD1E3613D500649396 /* VersionChecker.swift */; };
 		C7BB25D01E36153600649396 /* KeychainChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CF1E36153600649396 /* KeychainChecker.swift */; };
 		C7BB25D11E36153600649396 /* KeychainChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CF1E36153600649396 /* KeychainChecker.swift */; };
 		C7BB25D21E3618C700649396 /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CD1E3613D500649396 /* VersionChecker.swift */; };
 		C7BB25D41E361C9100649396 /* MockKeychainChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25D31E361C9100649396 /* MockKeychainChecker.swift */; };
 		C7BB25D61E36385500649396 /* KeychainCheckerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25D51E36385500649396 /* KeychainCheckerSpec.swift */; };
-		C7BB25CA1E3222A900649396 /* TourLoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */; };
-		C7BB25CC1E32315300649396 /* TourLoginState+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CB1E32315300649396 /* TourLoginState+LGSpec.swift */; };
 		C7C328411C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
 		C7C328421C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
 		C7C61DF51D63035400F9505D /* ProductCarouselMoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF31D63035400F9505D /* ProductCarouselMoreInfoView.swift */; };
@@ -1918,12 +1918,12 @@
 		C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCellDrawer.swift; sourceTree = "<group>"; };
 		C7B89CB81C20271E00536A6C /* SocialShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialShareView.swift; sourceTree = "<group>"; };
 		C7B942ED1E2E1EC8005E1946 /* FacebookFrienshipNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookFrienshipNotificationCellDrawer.swift; sourceTree = "<group>"; };
+		C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLoginViewModelSpec.swift; sourceTree = "<group>"; };
+		C7BB25CB1E32315300649396 /* TourLoginState+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TourLoginState+LGSpec.swift"; sourceTree = "<group>"; };
 		C7BB25CD1E3613D500649396 /* VersionChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionChecker.swift; sourceTree = "<group>"; };
 		C7BB25CF1E36153600649396 /* KeychainChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainChecker.swift; sourceTree = "<group>"; };
 		C7BB25D31E361C9100649396 /* MockKeychainChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockKeychainChecker.swift; sourceTree = "<group>"; };
 		C7BB25D51E36385500649396 /* KeychainCheckerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainCheckerSpec.swift; sourceTree = "<group>"; };
-		C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLoginViewModelSpec.swift; sourceTree = "<group>"; };
-		C7BB25CB1E32315300649396 /* TourLoginState+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TourLoginState+LGSpec.swift"; sourceTree = "<group>"; };
 		C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryViewModel.swift; sourceTree = "<group>"; };
 		C7C61DF31D63035400F9505D /* ProductCarouselMoreInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselMoreInfoView.swift; sourceTree = "<group>"; };
 		C7C61DF41D63035400F9505D /* ProductCarouselMoreInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCarouselMoreInfoView.xib; sourceTree = "<group>"; };
@@ -5863,7 +5863,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PROVISIONING_PROFILE = "31c25b2d-ca13-4b39-803e-23bfe06f66fd";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -5908,7 +5907,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PROVISIONING_PROFILE = "e71b459e-d9cb-443d-823b-f95c5f414bc4";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -6101,7 +6099,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PROVISIONING_PROFILE = "75a804a1-b0bd-4082-92a5-78096356e0af";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
