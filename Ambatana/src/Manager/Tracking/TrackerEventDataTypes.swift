@@ -18,6 +18,7 @@ enum EventName: String {
     case loginEmail                         = "login-email"
     case signupEmail                        = "signup-email"
     case logout                             = "logout"
+    case passwordResetVisit                 = "login-reset-password"
     
     case loginEmailError                    = "login-error"
     case loginFBError                       = "login-signup-error-facebook"

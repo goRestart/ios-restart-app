@@ -90,6 +90,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .logout, params: nil)
     }
 
+    static func passwordResetVisit() -> TrackerEvent {
+        return TrackerEvent(name: .passwordResetVisit, params: nil)
+    }
+
     static func loginEmailError(_ errorDescription: EventParameterLoginError) -> TrackerEvent {
         var params = EventParameters()
 
