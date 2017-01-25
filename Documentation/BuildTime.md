@@ -8,6 +8,16 @@
 2. Open project with Xcode and run it
 3. Follow app instructions.
 
+#### Show build time in Xcode
+
+Type this in terminal:
+~~~
+defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES
+~~~
+Duration appears in the activity viewer after a build, alongside the "Succeeded" message.
+
+Note: If you are running the app, the status will be replaced by the running status before you can see the duration.
+
 #### Best practices
 
 [Swift build time optimizations](https://medium.com/@RobertGummesson/regarding-swift-build-time-optimizations-fc92cdd91e31#.4py75x8ho)
