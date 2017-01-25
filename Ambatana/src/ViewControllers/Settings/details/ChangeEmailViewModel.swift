@@ -48,7 +48,9 @@ class ChangeEmailViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
      
-        trackVisit()
+        if firstTime {
+            trackVisit()
+        }
     }
     
     // MARK: - Navigation

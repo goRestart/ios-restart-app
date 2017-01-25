@@ -148,8 +148,9 @@ class ChangeEmailViewModelSpec: QuickSpec {
             
             describe("Tracking") {
                 describe("View model becomes active") {
-                    let event = TrackerEvent.profileEditEmailStart(withUserId: "123")
+                    var event: TrackerEvent!
                     beforeEach {
+                        event = TrackerEvent.profileEditEmailStart(withUserId: "123")
                         sut.active = true
                     }
                     it("Tracks a visit to edit email") {
@@ -157,11 +158,13 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     }
                 }
                 describe("Edit an email succesfully") {
-                    let myUser = MockMyUser()
-                    myUser.objectId = "123"
-                    let event = TrackerEvent.profileEditEmailComplete(withUserId: myUser.objectId!)
+                    var myUser: MockMyUser!
+                    var event: TrackerEvent!
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
+                        myUser = MockMyUser()
+                        myUser.objectId = "123"
+                        event = TrackerEvent.profileEditEmailComplete(withUserId: myUser.objectId!)
                         myUserRepository.myUserResult = MyUserResult(myUser)
                         sut.updateEmail()
                     }
