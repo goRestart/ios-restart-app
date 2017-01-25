@@ -50,3 +50,30 @@ class LGConfigRetrieveService: ConfigRetrieveService {
             }
     }
 }
+
+extension DataRequest {
+
+    @discardableResult
+    func responseObject<T: ResponseObjectSerializable>(_ completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
+        let responseSerializer = DataResponseSerializer<T> { request, response, data, error in
+            if let error = error { return .failure(error) }
+
+            let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
+            let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
+
+            switch result {
+            case .success(let value):
+                if let response = response, let responseObject = T(response: response, representation: value) {
+                    return .success(responseObject)
+                } else {
+                    let error = AFError.responseSerializationFailed(reason: .jsonSerializationFailed(error: NSError()))
+                    return .failure(error)
+                }
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+
+        return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
+    }
+}
