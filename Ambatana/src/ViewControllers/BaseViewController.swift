@@ -486,6 +486,7 @@ class BaseViewController: UIViewController, TabBarShowable {
             viewDidFirstAppear(animated)
             firstAppear = false
         }
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
     }
 
     override func viewDidLayoutSubviews() {
@@ -497,7 +498,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     }
     
     func viewWillFirstAppear(_ animated: Bool) {
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
+        // implement in subclasses
     }
 
     func viewDidFirstAppear(_ animated: Bool) {
