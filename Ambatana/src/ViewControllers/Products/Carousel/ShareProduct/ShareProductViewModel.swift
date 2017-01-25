@@ -18,6 +18,7 @@ class ShareProductViewModel: BaseViewModel {
     let shareTypes: [ShareType]
 
     let product: Product
+    let paymentItemId: String?
     let socialSharer: SocialSharer?
     fileprivate let tracker: Tracker
 
@@ -34,15 +35,15 @@ class ShareProductViewModel: BaseViewModel {
     fileprivate var purchasesShopper: PurchasesShopper?
     fileprivate var bumpUp: Bool
 
-    convenience init(product: Product, socialMessage: SocialMessage, bumpUp: Bool) {
+    convenience init(product: Product, socialMessage: SocialMessage, bumpUp: Bool, paymentItemId: String?) {
     let purchasesShopper: PurchasesShopper? = bumpUp ? PurchasesShopper.sharedInstance : nil
         self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage, bumpUp: bumpUp,
-                  locale: NSLocale.current, locationManager: Core.locationManager, tracker: TrackerProxy.sharedInstance,
-                purchasesShopper: purchasesShopper)
+                  paymentItemId: paymentItemId, locale: NSLocale.current, locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance, purchasesShopper: purchasesShopper)
     }
 
-    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, bumpUp: Bool, locale: Locale,
-         locationManager: LocationManager, tracker: Tracker, purchasesShopper: PurchasesShopper?) {
+    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, bumpUp: Bool, paymentItemId: String?,
+         locale: Locale, locationManager: LocationManager, tracker: Tracker, purchasesShopper: PurchasesShopper?) {
         self.product = product
         self.socialSharer = socialSharer
         self.tracker = tracker
@@ -51,6 +52,7 @@ class ShareProductViewModel: BaseViewModel {
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         self.bumpUp = bumpUp
+        self.paymentItemId = paymentItemId
         if bumpUp {
             self.title = LGLocalizedString.bumpUpViewFreeTitle
             self.subtitle = LGLocalizedString.bumpUpViewFreeSubtitle
@@ -102,7 +104,7 @@ extension ShareProductViewModel: SocialSharerDelegate {
                 case .completed:
                     self?.close(withCompletion: {
                         guard let isBumpUp = self?.bumpUp, isBumpUp else { return }
-                        self?.bumpUpProduct()
+                        self?.bumpUpProduct(withNetwork: shareType.trackingShareNetwork)
                     })
                 case .cancelled, .failed:
                     break
@@ -153,9 +155,10 @@ extension ShareProductViewModel: SocialSharerDelegate {
 // MARK: Bump Up Methods
 
 extension ShareProductViewModel {
-    func bumpUpProduct() {
+    func bumpUpProduct(withNetwork shareNetwork: EventParameterShareNetwork) {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump FREE")
-        guard let productId = product.objectId else { return }
-        purchasesShopper?.requestFreeBumpUpForProduct(productId: productId)
+        guard let productId = product.objectId, let paymentItemId = self.paymentItemId else { return }
+        purchasesShopper?.requestFreeBumpUpForProduct(productId: productId, withPaymentItemId: paymentItemId,
+                                                      shareNetwork: shareNetwork)
     }
 }

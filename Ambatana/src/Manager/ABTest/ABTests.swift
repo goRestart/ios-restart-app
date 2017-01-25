@@ -32,7 +32,7 @@ struct ABTests {
     static var editDeleteItemUxImprovement = BoolABDynamicVar(key: "editDeleteItemUxImprovement", defaultValue: false)
     static var onboardingReview = IntABDynamicVar(key: "onboardingReview", defaultValue: 0)
     static var bumpUpFreeTimeLimit = FloatABDynamicVar(key: "bumpUpFreeTimeLimit", defaultValue: 8)
-
+    static var monetizationEnabled = BoolABDynamicVar(key: "monetizationEnabled", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -55,6 +55,7 @@ struct ABTests {
         result.append(editDeleteItemUxImprovement)
         result.append(onboardingReview)
         result.append(bumpUpFreeTimeLimit)
+        result.append(monetizationEnabled)
 
         return result
     }
