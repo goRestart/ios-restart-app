@@ -23,8 +23,8 @@ protocol LogInEmailViewModelDelegate: BaseViewModelDelegate {
 
 protocol LogInEmailViewModelNavigator: class {
     func openHelpFromLogInEmail()
-    func openRememberPasswordFromLogInEmail(email: String)
-    func openSignUpEmailFromLogInEmail(email: String, password: String) // TODO: Call navigator to pop + push signup
+    func openRememberPasswordFromLogInEmail(email: String?)
+    func openSignUpEmailFromLogInEmail(email: String?, password: String?) // TODO: Call navigator to pop + push signup
     func openScammerAlertFromLogInEmail()
     func closeAfterLogInSuccessful()
 }
@@ -38,11 +38,11 @@ final class LogInEmailViewModel: BaseViewModel {
             self?.openHelp()
             }, accessibilityId: .SignUpEmailHelpButton)
     }()
-    let email: Variable<String>
+    let email: Variable<String?>
     var suggestedEmail: Observable<String?> {
         return suggestedEmailVar.asObservable()
     }
-    let password: Variable<String>
+    let password: Variable<String?>
     var logInEnabled: Observable<Bool> {
         return logInEnabledVar.asObservable()
     }
@@ -76,9 +76,9 @@ final class LogInEmailViewModel: BaseViewModel {
     init(email: String?, isRememberedEmail: Bool,
          source: EventParameterLoginSourceValue, sessionManager: SessionManager,
          keyValueStorage: KeyValueStorageable, tracker: Tracker) {
-        let actualEmail = email ?? LogInEmailViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage) ?? ""
-        self.email = Variable<String>(actualEmail)
-        self.password = Variable<String>("")
+        let actualEmail = email ?? LogInEmailViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
+        self.email = Variable<String?>(actualEmail)
+        self.password = Variable<String?>(nil)
 
         self.isRememberedEmail = isRememberedEmail
         self.unauthorizedErrorCount = 0
@@ -100,6 +100,10 @@ final class LogInEmailViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension LogInEmailViewModel {
+    func openHelp() {
+        navigator?.openHelpFromLogInEmail()
+    }
+    
     func acceptSuggestedEmail() {
         guard let suggestedEmail = suggestedEmailVar.value else { return }
         email.value = suggestedEmail
@@ -116,17 +120,25 @@ extension LogInEmailViewModel {
         }
 
         // Form validation
-        if !email.value.isEmail() {
+        if let email = email.value {
+            if !email.isEmail() {
+                errors.insert(.invalidEmail)
+            }
+        } else {
             errors.insert(.invalidEmail)
         }
-        if password.value.characters.count < Constants.passwordMinLength {
+        if let password = password.value {
+            if password.characters.count < Constants.passwordMinLength {
+                errors.insert(.shortPassword)
+            } else if password.characters.count > Constants.passwordMaxLength {
+                errors.insert(.longPassword)
+            }
+        } else {
             errors.insert(.shortPassword)
-        } else if password.value.characters.count > Constants.passwordMaxLength {
-            errors.insert(.longPassword)
         }
 
-        if errors.isEmpty {
-            logIn(email: email.value, password: password.value)
+        if let email = email.value, let password = password.value, errors.isEmpty {
+            logIn(email: email, password: password)
         } else {
             trackFormValidationFailed(errors: errors)
         }
@@ -158,12 +170,13 @@ fileprivate extension LogInEmailViewModel {
     func setupRx() {
         // Next step is enabled when email & password are not empty
         Observable.combineLatest(email.asObservable(), password.asObservable()) { (email, password) -> Bool in
+            guard let email = email, let password = password else { return false }
             return email.characters.count > 0 && password.characters.count > 0
-            }.bindTo(logInEnabledVar).addDisposableTo(disposeBag)
+        }.bindTo(logInEnabledVar).addDisposableTo(disposeBag)
 
         // Email auto suggest
         email.asObservable()
-            .map { $0.suggestEmail(domains: Constants.emailSuggestedDomains) }
+            .map { $0?.suggestEmail(domains: Constants.emailSuggestedDomains) }
             .bindTo(suggestedEmailVar)
             .addDisposableTo(disposeBag)
     }
@@ -182,7 +195,8 @@ fileprivate extension LogInEmailViewModel {
         return keyValueStorageble[.previousUserEmailOrName]
     }
 
-    func savePrevious(email: String) {
+    func savePrevious(email: String?) {
+        guard let email = email else { return }
         keyValueStorage[.previousUserAccountProvider] = AccountProvider.email.rawValue
         keyValueStorage[.previousUserEmailOrName] = email
     }
@@ -252,7 +266,7 @@ fileprivate extension LogInEmailViewModel {
     }
 
     func recoverPasswordSucceeded() {
-        let message = LGLocalizedString.resetPasswordSendOk(email.value)
+        let message = LGLocalizedString.resetPasswordSendOk(email.value ?? "")
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
     }
 
@@ -264,7 +278,7 @@ fileprivate extension LogInEmailViewModel {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .notFound:
-            message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(email.value)
+            message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(email.value ?? "")
         case .conflict, .tooManyRequests:
             message = LGLocalizedString.resetPasswordSendTooManyRequests
         case .badRequest, .scammer, .internalError, .userNotVerified, .forbidden, .unauthorized, .nonExistingEmail:
@@ -370,15 +384,11 @@ fileprivate extension LogInEmailFormErrors {
 // MARK: > Navigation
 
 fileprivate extension LogInEmailViewModel {
-    func openHelp() {
-        navigator?.openHelpFromLogInEmail()
-    }
-
-    func openRememberPassword(email: String) {
+    func openRememberPassword(email: String?) {
         navigator?.openRememberPasswordFromLogInEmail(email: email)
     }
 
-    func openSignUp(email: String, password: String) {
+    func openSignUp(email: String?, password: String?) {
         navigator?.openSignUpEmailFromLogInEmail(email: email, password: password)
     }
 }

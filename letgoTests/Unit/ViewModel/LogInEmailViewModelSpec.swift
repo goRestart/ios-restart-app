@@ -580,11 +580,11 @@ extension LogInEmailViewModelSpec: LogInEmailViewModelNavigator {
         navigatorReceivedOpenHelp = true
     }
 
-    func openRememberPasswordFromLogInEmail(email: String) {
+    func openRememberPasswordFromLogInEmail(email: String?) {
         navigatorReceivedOpenRememberPassword = true
     }
 
-    func openSignUpEmailFromLogInEmail(email: String, password: String) {
+    func openSignUpEmailFromLogInEmail(email: String?, password: String?) {
         navigatorReceivedOpenSignUp = true
     }
 
