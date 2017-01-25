@@ -486,6 +486,7 @@ class BaseViewController: UIViewController, TabBarShowable {
             viewDidFirstAppear(animated)
             firstAppear = false
         }
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
     }
 
     override func viewDidLayoutSubviews() {
@@ -521,8 +522,6 @@ class BaseViewController: UIViewController, TabBarShowable {
             NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         }
-        
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         
         updateReachableAndToastViewVisibilityIfNeeded()
         active = true
