@@ -218,7 +218,7 @@ extension LGLayout {
     @discardableResult
     func horizontally(by constant: CGFloat = 0, priority: UILayoutPriority = UILayoutPriorityRequired,
                       constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .left, item2: item2, attribute2: .right,
+        constraint(item1: item1, attribute1: .right, item2: item2, attribute2: .left,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -226,7 +226,7 @@ extension LGLayout {
     @discardableResult
     func vertically(by constant: CGFloat = 0, priority: UILayoutPriority = UILayoutPriorityRequired,
                     constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .bottom, item2: item2, attribute2: .top,
+        constraint(item1: item1, attribute1: .top, item2: item2, attribute2: .bottom,
                    constant: constant, constraintBlock: constraintBlock)
         return self
     }
@@ -268,9 +268,8 @@ extension LGLayout {
     }
 
     @discardableResult
-    func widthEqualsHeight(size: CGFloat) -> LGLayout {
-        constraint(item1: item1, attribute1: .width, item2: item1, attribute2: .height)
-        constraint(item1: item1, attribute1: .width, constant: size)
+    func widthProportionalToHeight(multiplier: CGFloat = 1) -> LGLayout {
+        constraint(item1: item1, attribute1: .width, item2: item1, attribute2: .height, multiplier: multiplier)
         return self
     }
 }
