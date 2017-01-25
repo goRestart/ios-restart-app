@@ -79,6 +79,12 @@
 // Token error when bumping
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
 
+// Text for loading view whiel processing free bump
+"bump_up_processing_free_text" = "Processing bump up...";
+
+// Text for loading view whiel processing bump with a price
+"bump_up_processing_priced_text" = "Processing payment...";
+
 // Title for free bump up view
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 
@@ -203,13 +209,13 @@
 "change_username_title" = "Change Name";
 
 // Change email navigation bar title
-"change_email_title" = "Change Email";
+"change_email_title" = "Change email";
 
 // Change email current email text
-"change_email_current_email_label" = "CURRENT EMAIL";
+"change_email_current_email_label" = "CURRENT EMAIL:";
 
 // Change email success message
-"change_email_send_ok" = "Your email has been changed to %@. Check you email inbox to verify it!";
+"change_email_send_ok" = "Your email has been changed to %@. Check your email inbox to verify it!";
 
 // Change email button save
 "change_email_save_button" = "Save";
@@ -218,10 +224,10 @@
 "change_email_loading" = "Saving email...";
 
 // Change email text field placeholder
-"change_email_field_hint" = "New Email (email@doamin.com)";
+"change_email_field_hint" = "New email (email@domain.com)";
 
 // Change email invalid email
-"change_email_error_invalid_email" = "Please insert a valid email.";
+"change_email_error_invalid_email" = "Please insert a valid email address.";
 
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
@@ -945,6 +951,99 @@
 // Alert shown to users that fail to login due to scammer error
 "login_scammer_alert_keep_browsing_button" = "Skip";
 
+// Login v2. Log in w email title
+"log_in_email_title" = "Log In";
+
+// Login v2. Log in w email help button
+"log_in_email_help_button" = "Help";
+
+// Login v2. Log in w email email field hint
+"log_in_email_email_field_hint" = "Email";
+
+// Login v2. Log in w email password field hint
+"log_in_email_password_field_hint" = "Password";
+
+// Login v2. Log in w email forgot password button
+"log_in_email_forgot_password_button" = "Forgot your password?";
+
+// Login v2. Lg in w email footer
+"log_in_email_footer" = "Don't have an account? Sign Up";
+
+// Login v2. Log in w email footer sign up text that we'll look for to highlight it
+"log_in_email_footer_sign_up_kw" = "Sign Up";
+
+// Login v2. Log in w email wrong password alert title
+"log_in_email_wrong_password_alert_title" = "Incorrect password";
+
+// Login v2. Log in w email wrong password alert message
+"log_in_email_wrong_password_alert_message" = "The password you entered for %@ is incorrect.";
+
+// Login v2. Log in w email wrong password alert cancel button
+"log_in_email_wrong_password_alert_cancel_action" = "Try again";
+
+// Login v2. Log in w email forgot password alert title
+"log_in_email_forgot_password_alert_title" = "Forgot your password?";
+
+// Login v2. Log in w email forgot password alert msg
+"log_in_email_forgot_password_alert_message" = "We can send an email to %@ to help you get back into your account.";
+
+// Login v2. Log in w email forgot password alert cancel action
+"log_in_email_forgot_password_alert_cancel_action" = "Try again";
+
+// Login v2. Log in w email forgot password alert remember action
+"log_in_email_forgot_password_alert_remember_action" = "Send email";
+
+// Login v2. Log in w email log in button
+"log_in_email_log_in_button" = "Log In";
+
+// Login v2. Sign up w email step 1 title
+"sign_up_email_step1_title" = "Create a new account";
+
+// Login v2. Sign up w email step 1 help button
+"sign_up_email_step1_help_button" = "Help";
+
+// Login v2. Sign up w email step 1 email field hint
+"sign_up_email_step1_email_field_hint" = "Email";
+
+// Login v2. Sign up w email step 1 password field hint
+"sign_up_email_step1_password_field_hint" = "Password";
+
+// Login v2. Sign up w email step 1 continue button
+"sign_up_email_step1_continue_button" = "Continue";
+
+// Login v2. Sign up w email step 1 footer
+"sign_up_email_step1_footer" = "Already have an account? Log In";
+
+// Login v2. Sign up w email step 1 login keyword to look for in footer to look for and highlight
+"sign_up_email_step1_footer_log_in_kw" = "Log In";
+
+// Login v2. Sign up w email step 2 title
+"sign_up_email_step2_title" = "Full Name";
+
+// Login v2. Sign up w email step 1 help button
+"sign_up_email_step2_help_button" = "Help";
+
+// Login v2. Sign up w email step 2 header example: "signing up with name@domain.com"
+"sign_up_email_step2_header" = "Signing up with %@";
+
+// Login v2. Sign up w email step 2 name
+"sign_up_email_step2_name_field_hint" = "Full name";
+
+// Login v2. Sign up w email step 2 terms and conditions complete text
+"sign_up_email_step2_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+
+// Login v2. Sign up w email step 2 "Privacy Policy" keyword to look for and highlight
+"sign_up_email_step2_terms_conditions_privacy_kw" = "Privacy Policy";
+
+// Login v2. Sign up w email step 2 "Terms of Service" keyword to look for and highlight
+"sign_up_email_step2_terms_conditions_terms_kw" = "Terms & Conditions";
+
+// Login v2. Sign up w email step 2 receive newsleter checkbox
+"sign_up_email_step2_newsletter" = "I want to receive the letgo newsletter";
+
+// Login v2. Sign up w email step 2 sign up button
+"sign_up_email_step2_sign_up_button" = "Sign Up";
+
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 
@@ -1225,7 +1324,7 @@
 "product_bubble_favorite_button" = "Let the seller know!";
 
 // Error shown when one user blocked the other
-"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
+"product_chat_direct_error_blocked_user_message" = "Oops! You've blocked this user, so you can't start a chat.";
 
 // direct message sent to the seller fromthe product view
 "product_chat_direct_message" = "Hi %@, I'm interested";
@@ -2104,6 +2203,21 @@
 // Settings option to turn on/off marketing notifications
 "settings_marketing_notifications_switch" = "Marketing Notifications";
 
+// Alert message when user wants to deactivate marketing notification in settings. 
+"settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
+
+// Alert message to inform user that needs to activate general push notifications. 
+"settings_general_notifications_alert_message" = "Activate notifications for the letgo app in your device's settings.";
+
+// Alert message when user wants to activate marketing notification in settings. 
+"settings_marketing_notifications_alert_activate" = "Activate";
+
+// Alert button to confirm deactivation.
+"settings_marketing_notifications_alert_deactivate" = "Deactivate";
+
+// Alert button to cancel de action
+"settings_marketing_notifications_alert_cancel" = "Cancel";
+
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 
@@ -2181,6 +2295,9 @@
 
 // Tour email button
 "tour_email_button" = "Email";
+
+// Tour continue with email button
+"tour_continue_w_email" = "Continue with email";
 
 // Tour facebook button
 "tour_facebook_button" = "Continue with Facebook";
