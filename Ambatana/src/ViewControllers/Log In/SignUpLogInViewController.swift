@@ -686,8 +686,9 @@ extension SignUpLogInViewController: RecaptchaNavigator {
     }
 
     func recaptchaFinishedWithToken(_ token: String) {
-        presentedViewController?.dismiss(animated: true, completion: nil)
-        viewModel.recaptchaTokenObtained(token)
+        presentedViewController?.dismiss(animated: true) { [weak self] in
+            self?.viewModel.recaptchaTokenObtained(token)
+        }
     }
 }
 
