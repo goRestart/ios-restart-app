@@ -50,8 +50,6 @@ class RememberPasswordViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        guard firstTime else { return }
-
         let event = TrackerEvent.passwordResetVisit()
         tracker.trackEvent(event)
     }
