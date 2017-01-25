@@ -201,7 +201,11 @@ final class CoreDI: InternalDI {
 
     // MARK: > DAO
     
-    static let tokenDAO: TokenDAO = TokenKeychainDAO(keychain: CoreDI.keychain)
+    static let tokenDAO: TokenDAO = {
+        let keychain = TokenKeychainDAO(keychain: CoreDI.keychain)
+        let userDefaults = TokenUserDefaultsDAO(userDefaults: UserDefaults.standard)
+        return TokenRedundanceDAO(primaryDAO: keychain, secondaryDAO: userDefaults)
+    }()
     let deviceIdDAO: DeviceIdDAO
     let installationDAO: InstallationDAO
     let myUserDAO: MyUserDAO

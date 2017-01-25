@@ -87,9 +87,8 @@ enum CoreReportNetworking: ReportType {
         case let .other(httpCode):
             self = .other(httpCode: httpCode)
         case  .network, .internalError, .notModified, .forbidden, .tooManyRequests, .unauthorized:
-            break
+            return nil
         }
-        return nil
     }
 }
 
