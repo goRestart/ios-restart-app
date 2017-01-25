@@ -545,6 +545,13 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("password reset visit") {
+                it("has its event name") {
+                    sut = TrackerEvent.passwordResetVisit()
+                    expect(sut.name.rawValue).to(equal("login-reset-password"))
+                }
+            }
+
             describe("login email error") {
                 let error = EventParameterLoginError.internalError(description: "details")
                 beforeEach {
