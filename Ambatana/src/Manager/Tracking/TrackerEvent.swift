@@ -8,7 +8,15 @@
 
 import LGCoreKit
 
-struct TrackerEvent {
+func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
+    if a.name == b.name && a.actualName == b.actualName,
+        let paramsA = a.params, let paramsB = b.params {
+        return paramsA.stringKeyParams.keys.count == paramsB.stringKeyParams.keys.count
+    }
+    return false
+}
+
+struct TrackerEvent {    
     private(set) var name: EventName
     var actualName: String {
         get {
@@ -633,6 +641,18 @@ struct TrackerEvent {
         params[.profileType] = type.rawValue
         params[.shareNetwork] = shareNetwork.rawValue
         return TrackerEvent(name: .profileShareComplete, params: params)
+    }
+    
+    static func profileEditEmailStart(withUserId userId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        return TrackerEvent(name: .profileEditEmailStart, params: params)
+    }
+    
+    static func profileEditEmailComplete(withUserId userId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        return TrackerEvent(name: .profileEditEmailComplete, params: params)
     }
 
     static func appInviteFriendStart(_ typePage: EventParameterTypePage) -> TrackerEvent {

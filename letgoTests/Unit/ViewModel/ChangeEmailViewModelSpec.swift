@@ -23,13 +23,14 @@ class ChangeEmailViewModelSpec: QuickSpec {
         describe("ChangeEmailViewModelSpec") {
             var sut: ChangeEmailViewModel!
             var myUserRepository: MockMyUserRepository!
+            var tracker = MockTracker()
             var disposeBag: DisposeBag!
             var email: String!
             var buttonEnable: Bool!
             
             beforeEach {
-                let tracker = MockTracker()
                 myUserRepository = MockMyUserRepository()
+                tracker = MockTracker()
                 sut = ChangeEmailViewModel(myUserRepository: myUserRepository, tracker: tracker)
                 sut.delegate = self
                 
@@ -100,7 +101,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         let repositoryError = RepositoryError(apiError: .notFound)
-                        myUserRepository.myUserResult = MyUserResult(nil, failWith: repositoryError)
+                        myUserRepository.myUserResult = MyUserResult(error: repositoryError)
                         sut.updateEmail()
                     }
                     it("Eventually hides indicator") {
@@ -114,7 +115,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         let error = RepositoryError(apiError: .forbidden(cause: .emailTaken))
-                        myUserRepository.myUserResult = MyUserResult(nil, failWith: error)
+                        myUserRepository.myUserResult = MyUserResult(error: error)
                         sut.updateEmail()
                     }
                     it("Shows the emailTaken message") {
@@ -125,7 +126,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         let error = RepositoryError(apiError: .network(errorCode: 0, onBackground: false))
-                        myUserRepository.myUserResult = MyUserResult(nil, failWith: error)
+                        myUserRepository.myUserResult = MyUserResult(error: error)
                         sut.updateEmail()
                     }
                     it("Shows the error connection message") {
@@ -136,11 +137,39 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         let error = RepositoryError(apiError: .notFound)
-                        myUserRepository.myUserResult = MyUserResult(nil, failWith: error)
+                        myUserRepository.myUserResult = MyUserResult(error: error)
                         sut.updateEmail()
                     }
                     it("Shows the generic error message") {
                         expect(self.loadingMessage).toEventually(equal(LGLocalizedString.commonErrorGenericBody))
+                    }
+                }
+            }
+            
+            describe("Tracking") {
+                describe("View model becomes active") {
+                    var event: TrackerEvent!
+                    beforeEach {
+                        event = TrackerEvent.profileEditEmailStart(withUserId: "123")
+                        sut.active = true
+                    }
+                    it("Tracks a visit to edit email") {
+                        expect(tracker.trackedEvents.filter({ $0 == event }).count).toEventually(equal(1))
+                    }
+                }
+                describe("Edit an email succesfully") {
+                    var myUser: MockMyUser!
+                    var event: TrackerEvent!
+                    beforeEach {
+                        sut.newEmail.value = "nestor.garcia@letgo.com"
+                        myUser = MockMyUser()
+                        myUser.objectId = "123"
+                        event = TrackerEvent.profileEditEmailComplete(withUserId: myUser.objectId!)
+                        myUserRepository.myUserResult = MyUserResult(myUser)
+                        sut.updateEmail()
+                    }
+                    it("tracks a edit email complete") {
+                        expect(tracker.trackedEvents.filter({ $0 == event }).count).toEventually(equal(1))
                     }
                 }
             }
