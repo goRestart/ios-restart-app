@@ -2223,6 +2223,32 @@ class TrackerEventSpec: QuickSpec {
                     expect(typePage).to(equal("facebook"))
                 }
             }
+            
+            describe("profileEditEmailStart") {
+                beforeEach {
+                    sut = TrackerEvent.profileEditEmailStart(withUserId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-edit-email-start"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "1234"
+                }
+            }
+            
+            describe("profileEditEmailComplete") {
+                beforeEach {
+                    sut = TrackerEvent.profileEditEmailStart(withUserId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-edit-email-complete"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "1234"
+                }
+            }
 
             describe("appInviteFriendStart") {
                 beforeEach {

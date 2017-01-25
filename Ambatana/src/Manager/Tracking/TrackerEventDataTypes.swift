@@ -92,6 +92,8 @@ enum EventName: String {
     case profileUnblock                     = "profile-unblock"
     case profileShareStart                  = "profile-share-start"
     case profileShareComplete               = "profile-share-complete"
+    case profileEditEmailStart              = "profile-edit-email-start"
+    case profileEditEmailComplete           = "profile-edit-email-complete"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"
