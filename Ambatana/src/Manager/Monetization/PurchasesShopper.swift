@@ -13,6 +13,10 @@ import StoreKit
 protocol PurchasesShopperDelegate: class {
     func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct])
     func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error)
+
+    func freeBumpDidStart()
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork)
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
 }
 
 class PurchasesShopper: NSObject {
@@ -23,6 +27,7 @@ class PurchasesShopper: NSObject {
     private var productsRequest: PurchaseableProductsRequest
 
     private var requestFactory: PurchaseableProductsRequestFactory
+    private var monetizationRepository: MonetizationRepository
 
     weak var delegate: PurchasesShopperDelegate?
 
@@ -30,10 +35,12 @@ class PurchasesShopper: NSObject {
 
     override convenience init() {
         let factory = AppstoreProductsRequestFactory()
-        self.init(requestFactory: factory)
+        let monetizationRepository = Core.monetizationRepository
+        self.init(requestFactory: factory, monetizationRepository: monetizationRepository)
     }
 
-    init(requestFactory: PurchaseableProductsRequestFactory) {
+    init(requestFactory: PurchaseableProductsRequestFactory, monetizationRepository: MonetizationRepository) {
+        self.monetizationRepository = monetizationRepository
         self.requestFactory = requestFactory
         self.productsRequest = requestFactory.generatePurchaseableProductsRequest([])
         super.init()
@@ -67,8 +74,15 @@ class PurchasesShopper: NSObject {
 
     }
 
-    func requestFreeBumpUpForProduct(productId: String) {
-        // confirm "letgo payment" aka "free payment" aka "share"
+    func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
+        delegate?.freeBumpDidStart()
+        monetizationRepository.freeBump(forProduct: productId, itemId: paymentItemId) { [weak self] result in
+            if let _ = result.value {
+                self?.delegate?.freeBumpDidSucceed(withNetwork: shareNetwork)
+            } else if let _ = result.error {
+                self?.delegate?.freeBumpDidFail(withNetwork: shareNetwork)
+            }
+        }
     }
 }
 

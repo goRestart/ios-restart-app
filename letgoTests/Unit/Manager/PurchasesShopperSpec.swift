@@ -7,22 +7,34 @@
 //
 
 @testable import LetGo
+@testable import LGCoreKit
 import Quick
 import Nimble
+import Result
+
+enum MockBumpResult {
+    case success
+    case fail
+    case notDefined
+}
 
 class PurchasesShopperSpec: QuickSpec {
     var requestsFinished: [String]!
+    var mockBumpResult: MockBumpResult!
+    var network: EventParameterShareNetwork!
 
     override func spec() {
 
         var sut: PurchasesShopper!
         var requestFactory: MockProductsRequestFactory!
+        var monetizationRepository: MockMonetizationRepository!
 
         describe("PurchasesShopperSpec") {
             beforeEach {
                 self.requestsFinished = []
                 requestFactory = MockProductsRequestFactory()
-                sut = PurchasesShopper(requestFactory: requestFactory)
+                monetizationRepository = MockMonetizationRepository()
+                    sut = PurchasesShopper(requestFactory: requestFactory, monetizationRepository: monetizationRepository)
                 sut.delegate = self
             }
             context("productsRequestStartForProduct") {
@@ -66,6 +78,42 @@ class PurchasesShopperSpec: QuickSpec {
                     }
                 }
             }
+            context("free bump") {
+                context("bump finishes successfully") {
+                    beforeEach {
+                        self.mockBumpResult = .notDefined
+                        self.network = .notAvailable
+                        monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
+                        sut.requestFreeBumpUpForProduct(productId: "a_product_id", withPaymentItemId: "payment_id_1",
+                                                        shareNetwork: .email)
+                        let _ = self.expectation(description: "Wait for network calls")
+                        self.waitForExpectations(timeout: 0.2, handler: nil)
+                    }
+                    it ("bump request succeeds") {
+                        expect(self.mockBumpResult) == .success
+                    }
+                    it ("network matches") {
+                        expect(self.network) == .email
+                    }
+                }
+                context("bump fails") {
+                    beforeEach {
+                        self.mockBumpResult = .notDefined
+                        self.network = .notAvailable
+                        monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
+                        sut.requestFreeBumpUpForProduct(productId: "a_product_id", withPaymentItemId: "payment_id_1",
+                                                        shareNetwork: .email)
+                        let _ = self.expectation(description: "Wait for network calls")
+                        self.waitForExpectations(timeout: 0.2, handler: nil)
+                    }
+                    it ("bump request fails") {
+                        expect(self.mockBumpResult) == .fail
+                    }
+                    it ("network matches") {
+                        expect(self.network) == .email
+                    }
+                }
+            }
         }
     }
 }
@@ -78,5 +126,18 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
 
     func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error) {
 
+    }
+
+    func freeBumpDidStart() {
+    }
+
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
+        self.network = network
+        self.mockBumpResult = .success
+    }
+
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
+        self.network = network
+        self.mockBumpResult = .fail
     }
 }
