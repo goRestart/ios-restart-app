@@ -21,10 +21,9 @@ protocol UserDataSource {
     /**
     Retrieves a user with the given user identifier.
     - parameter userId: User identifier.
-    - parameter includeAccounts: If the user entity should include accounts.
     - parameter completion: The completion closure.
     */
-    func show(_ userId: String, includeAccounts: Bool, completion: UserDataSourceCompletion?)
+    func show(_ userId: String, completion: UserDataSourceCompletion?)
 
     /**
      Retrieves the relation data between two users

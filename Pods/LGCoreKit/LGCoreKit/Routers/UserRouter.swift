@@ -13,8 +13,7 @@ enum UserRouter: URLRequestAuthenticable {
     static let userBaseUrl = "/api/users"
     static let bouncerUserBaseUrl = "/users"
 
-    // TODO: includeAccounts must be removed, as we should only retrieve users from bouncer in the future. Accounts non-optional
-    case show(userId: String, includeAccounts: Bool)
+    case show(userId: String)
     case userRelation(userId: String, params: [String : Any])
     case blockUser(userId: String, userToId: String, params: [String : Any])
     case unblockUser(userId: String, userToId: String, params: [String : Any])
@@ -23,8 +22,8 @@ enum UserRouter: URLRequestAuthenticable {
 
     var endpoint: String {
         switch self {
-        case let .show(_, includeAccounts):
-            return includeAccounts ? UserRouter.bouncerUserBaseUrl : UserRouter.userBaseUrl
+        case .show:
+            return UserRouter.bouncerUserBaseUrl
         case let .userRelation(userId, _):
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links"
         case let .indexBlocked(userId, _):
@@ -41,7 +40,7 @@ enum UserRouter: URLRequestAuthenticable {
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .show:
-            return .nonexistent
+            return .installation
         case .indexBlocked, .blockUser, .unblockUser, .userRelation, .saveReport:
             return .user
         }
@@ -60,12 +59,8 @@ enum UserRouter: URLRequestAuthenticable {
 
     func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .show(userId, includeAccounts):
-            if includeAccounts {
-                return try Router<BouncerBaseURL>.show(endpoint: endpoint, objectId: userId).asURLRequest()
-            } else {
-                return try Router<APIBaseURL>.show(endpoint: endpoint, objectId: userId).asURLRequest()
-            }
+        case let .show(userId):
+            return try Router<BouncerBaseURL>.show(endpoint: endpoint, objectId: userId).asURLRequest()
         case let .userRelation(_, params):
             return try Router<BouncerBaseURL>.read(endpoint: endpoint, params: params).asURLRequest()
         case let .indexBlocked(_, params):
