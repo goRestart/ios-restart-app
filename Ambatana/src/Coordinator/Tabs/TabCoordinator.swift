@@ -412,9 +412,8 @@ extension TabCoordinator: ProductDetailNavigator {
     }
 
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
-        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage, bumpUp: true,
-                                                   paymentItemId: paymentItemId)
-        let bumpUpFreeVC = BumpUpFreeViewController(viewModel: shareProductVM)
+        let bumpUpFreeVM = BumpUpFreeViewModel(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
+        let bumpUpFreeVC = BumpUpFreeViewController(viewModel: bumpUpFreeVM)
         navigationController.present(bumpUpFreeVC, animated: true, completion: nil)
     }
 

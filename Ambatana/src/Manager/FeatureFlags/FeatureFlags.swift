@@ -21,11 +21,9 @@ protocol FeatureFlaggeable {
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
-    var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
-    var monetizationEnabled: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
@@ -35,6 +33,8 @@ protocol FeatureFlaggeable {
     var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
     var onboardingReview: OnboardingReview { get }
+    var freeBumpUpEnabled: Bool { get }
+    var pricedBumpUpEnabled: Bool { get }
     var bumpUpFreeTimeLimit: Int { get }
 }
 
@@ -106,13 +106,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
     }
-    
-    var shareAfterPosting: Bool {
-        if Bumper.enabled {
-            return Bumper.shareAfterPosting
-        }
-        return ABTests.shareAfterPosting.value
-    }
 
     var postingMultiPictureEnabled: Bool {
         if Bumper.enabled {
@@ -149,13 +142,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.newQuickAnswers.value
     }
 
-    var monetizationEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.monetizationEnabled
-        }
-        return ABTests.monetizationEnabled.value
-    }
-
     var captchaTransparent: Bool {
         if Bumper.enabled {
             return Bumper.captchaTransparent
@@ -189,6 +175,20 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.onboardingReview
         }
         return OnboardingReview.fromPosition(ABTests.onboardingReview.value)
+    }
+
+    var freeBumpUpEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.freeBumpUpEnabled
+        }
+        return ABTests.freeBumpUpEnabled.value
+    }
+
+    var pricedBumpUpEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.pricedBumpUpEnabled
+        }
+        return ABTests.pricedBumpUpEnabled.value
     }
 
     var bumpUpFreeTimeLimit: Int {

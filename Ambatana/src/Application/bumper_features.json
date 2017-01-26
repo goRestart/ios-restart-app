@@ -35,14 +35,14 @@
         "description": "Related Products on More Info"
     },
     {
-        "name": "ShareAfterPosting",
+        "name": "FreeBumpUpEnabled",
         "values": ["No", "Yes"],
-        "description": "Show sharing screen after posting (forced)"
+        "description": "User can bump sharing"
     },
     {
-        "name": "MonetizationEnabled",
+        "name": "PricedBumpUpEnabled",
         "values": ["No", "Yes"],
-        "description": "USer can make in-app purchases"
+        "description": "User can bump paying"
     },
     {
         "name": "FavoriteWithBadgeOnProfile",

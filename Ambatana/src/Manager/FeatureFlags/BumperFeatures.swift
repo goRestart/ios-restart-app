@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, MonetizationEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self])
     } 
 
     static var websocketChat: Bool {
@@ -50,14 +50,14 @@ extension Bumper  {
         return RelatedProductsOnMoreInfo(rawValue: value)?.asBool ?? false
     }
 
-    static var shareAfterPosting: Bool {
-        guard let value = Bumper.value(for: ShareAfterPosting.key) else { return false }
-        return ShareAfterPosting(rawValue: value)?.asBool ?? false
+    static var freeBumpUpEnabled: Bool {
+        guard let value = Bumper.value(for: FreeBumpUpEnabled.key) else { return false }
+        return FreeBumpUpEnabled(rawValue: value)?.asBool ?? false
     }
 
-    static var monetizationEnabled: Bool {
-        guard let value = Bumper.value(for: MonetizationEnabled.key) else { return false }
-        return MonetizationEnabled(rawValue: value)?.asBool ?? false
+    static var pricedBumpUpEnabled: Bool {
+        guard let value = Bumper.value(for: PricedBumpUpEnabled.key) else { return false }
+        return PricedBumpUpEnabled(rawValue: value)?.asBool ?? false
     }
 
     static var favoriteWithBadgeOnProfile: Bool {
@@ -189,21 +189,21 @@ enum RelatedProductsOnMoreInfo: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum ShareAfterPosting: String, BumperFeature  {
+enum FreeBumpUpEnabled: String, BumperFeature  {
     case no, yes
-    static var defaultValue: String { return ShareAfterPosting.no.rawValue }
-    static var enumValues: [ShareAfterPosting] { return [.no, .yes]}
+    static var defaultValue: String { return FreeBumpUpEnabled.no.rawValue }
+    static var enumValues: [FreeBumpUpEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show sharing screen after posting (forced)" } 
+    static var description: String { return "User can bump sharing" } 
     var asBool: Bool { return self == .yes }
 }
 
-enum MonetizationEnabled: String, BumperFeature  {
+enum PricedBumpUpEnabled: String, BumperFeature  {
     case no, yes
-    static var defaultValue: String { return MonetizationEnabled.no.rawValue }
-    static var enumValues: [MonetizationEnabled] { return [.no, .yes]}
+    static var defaultValue: String { return PricedBumpUpEnabled.no.rawValue }
+    static var enumValues: [PricedBumpUpEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "USer can make in-app purchases" } 
+    static var description: String { return "User can bump paying" } 
     var asBool: Bool { return self == .yes }
 }
 
