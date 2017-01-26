@@ -8,6 +8,10 @@
 
 import Result
 
+protocol ResponseObjectSerializable {
+    init?(response: HTTPURLResponse, representation: Any)
+}
+
 enum ConfigRetrieveServiceError: Error, CustomStringConvertible {
     case network
     case internalError

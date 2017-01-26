@@ -27,16 +27,16 @@ class TokenKeychainDAO: TokenDAO {
     func save(_ token: Token) {
         guard let _ = token.value else {
             logMessage(.error, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
-                message: "Token won't be saved as it has no value, level: \(token.level)")
+                message: "Keychain: Token won't be saved as it has no value, level: \(token.level)")
             return
         }
         storeToken(token)
         if token.level < self.token.level {
             logMessage(.warning, type: [CoreLoggingOptions.token],
-                message: "Token won't be saved as its level \(token.level) < current \(self.token.level), value: \(token.value)")
+                message: "Keychain: Token won't be stored in memory as its level \(token.level) < current \(self.token.level), value: \(token.value)")
             return
         }
-        logMessage(.verbose, type: [CoreLoggingOptions.token], message: "\(token.level) token saved in-memory")
+        logMessage(.verbose, type: [CoreLoggingOptions.token], message: "Keychain: \(token.level) token saved in-memory")
         self.token = token
     }
 
@@ -81,11 +81,7 @@ class TokenKeychainDAO: TokenDAO {
     }
 
     private func storeToken(_ token: Token) {
-        guard let tokenString = token.value else {
-            logMessage(.verbose, type: [CoreLoggingOptions.token],
-                message: "Token won't be updated in memory as its level \(token.level) < current \(self.token.level)")
-            return
-        }
+        guard let tokenString = token.value else { return } // Already checked before the call no need to log
 
         let key: String
         switch token.level {

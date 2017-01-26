@@ -45,6 +45,14 @@ class ChangeEmailViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, tracker: tracker)
     }
     
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+     
+        if firstTime {
+            trackVisit()
+        }
+    }
+    
     // MARK: - Navigation
     
     override func backButtonPressed() -> Bool {
@@ -93,8 +101,23 @@ class ChangeEmailViewModel: BaseViewModel {
     }
     
     private func updateEmailDidSuccess(with address: String) {
+        trackEditEmailComplete()
         delegate?.vmHideLoading(LGLocalizedString.changeEmailSendOk(address), afterMessageCompletion: { [weak self] in
             self?.navigator?.closeChangeEmail()
         })
+    }
+    
+    // MARK: Tracking
+    
+    private func trackVisit() {
+        let userId = myUserRepository.myUser?.objectId ?? ""
+        let event = TrackerEvent.profileEditEmailStart(withUserId: userId)
+        tracker.trackEvent(event)
+    }
+    
+    private func trackEditEmailComplete() {
+        let userId = myUserRepository.myUser?.objectId ?? ""
+        let event = TrackerEvent.profileEditEmailComplete(withUserId: userId)
+        tracker.trackEvent(event)
     }
 }

@@ -545,6 +545,13 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("password reset visit") {
+                it("has its event name") {
+                    sut = TrackerEvent.passwordResetVisit()
+                    expect(sut.name.rawValue).to(equal("login-reset-password"))
+                }
+            }
+
             describe("login email error") {
                 let error = EventParameterLoginError.internalError(description: "details")
                 beforeEach {
@@ -2221,6 +2228,32 @@ class TrackerEventSpec: QuickSpec {
                 it("contains share-network param") {
                     let typePage = sut.params!.stringKeyParams["share-network"] as? String
                     expect(typePage).to(equal("facebook"))
+                }
+            }
+            
+            describe("profileEditEmailStart") {
+                beforeEach {
+                    sut = TrackerEvent.profileEditEmailStart(withUserId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-edit-email-start"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "1234"
+                }
+            }
+            
+            describe("profileEditEmailComplete") {
+                beforeEach {
+                    sut = TrackerEvent.profileEditEmailComplete(withUserId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-edit-email-complete"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "1234"
                 }
             }
 

@@ -38,6 +38,8 @@ class LGInstallationRepository: InternalInstallationRepository {
         self.success = { installation in
             dao.save(installation)
         }
+        
+        migrateDeviceIdIfNeeded()
     }
 
 
@@ -210,5 +212,14 @@ class LGInstallationRepository: InternalInstallationRepository {
             params[JSONKeys.timeZone] = timeZone.identifier
         }
         return params
+    }
+
+    /**
+     In case there was a previous installation, deviceIdDao should store
+     installationId as deviceId
+    */
+    private func migrateDeviceIdIfNeeded() {
+        guard let installationId = dao.installation?.objectId else { return }
+        deviceIdDao.deviceId = installationId
     }
 }
