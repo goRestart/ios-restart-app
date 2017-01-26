@@ -135,6 +135,7 @@ class ProductViewModel: BaseViewModel {
     var timeSinceLastBump: Int = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
     var paymentItemId: String?
+    var isUpdatingBumpUpBanner: Bool = false
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -291,6 +292,15 @@ class ProductViewModel: BaseViewModel {
         }
 
         purchasesShopper.delegate = self
+
+        if bumpUpBannerInfo.value == nil {
+            refreshBumpeableBanner()
+        }
+    }
+
+    override func didBecomeInactive() {
+        super.didBecomeInactive()
+        bumpUpBannerInfo.value = nil
     }
 
     func syncProduct(_ completion: (() -> ())?) {
@@ -347,7 +357,7 @@ class ProductViewModel: BaseViewModel {
 
         // bumpeable product check
         product.asObservable().bindNext { [weak self] product in
-            self?.updateBumpUpbannerFor(product: product)
+            self?.updateBumpUpBannerFor(product: product)
         }.addDisposableTo(disposeBag)
 
         product.asObservable().bindNext { [weak self] product in
@@ -406,15 +416,16 @@ class ProductViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        updateBumpUpbannerFor(product: product.value)
+        updateBumpUpBannerFor(product: product.value)
     }
 
-    private func updateBumpUpbannerFor(product: Product) {
-        guard let productId = product.objectId, product.isMine, product.status.isBumpeable,
+    private func updateBumpUpBannerFor(product: Product) {
+        guard let productId = product.objectId, product.isMine, product.status.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
-
+        isUpdatingBumpUpBanner = true
         monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
             guard let strongSelf = self else { return }
+            strongSelf.isUpdatingBumpUpBanner = false
             if let bumpeableProduct = result.value {
                 self?.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
                 let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
