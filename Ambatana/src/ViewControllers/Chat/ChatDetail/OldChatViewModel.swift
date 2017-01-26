@@ -1247,7 +1247,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
 fileprivate extension OldChatViewModel {
     func retrieveInterlocutorInfo() {
         guard let otherUserId = otherUser?.objectId else { return }
-        userRepository.show(otherUserId, includeAccounts: true) { [weak self] result in
+        userRepository.show(otherUserId) { [weak self] result in
             guard let strongSelf = self else { return }
             guard let userWaccounts = result.value else { return }
             strongSelf.otherUser = userWaccounts

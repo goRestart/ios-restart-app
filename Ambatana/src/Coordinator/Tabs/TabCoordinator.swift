@@ -241,7 +241,7 @@ fileprivate extension TabCoordinator {
 
     func openUser(userId: String, source: UserSource) {
         navigationController.showLoadingMessageAlert()
-        userRepository.show(userId, includeAccounts: false) { [weak self] result in
+        userRepository.show(userId) { [weak self] result in
             if let user = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.openUser(user: user, source: source)
