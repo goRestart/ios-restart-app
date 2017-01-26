@@ -1286,7 +1286,7 @@ fileprivate extension ChatViewModel {
     func setupUserInfoRxBindings() {
         interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
             guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
-            self?.userRepository.show(interlocutorId, includeAccounts: true) { [weak self] result in
+            self?.userRepository.show(interlocutorId) { [weak self] result in
                 guard let strongSelf = self else { return }
                 guard let userWaccounts = result.value else { return }
                 strongSelf.interlocutor = userWaccounts
