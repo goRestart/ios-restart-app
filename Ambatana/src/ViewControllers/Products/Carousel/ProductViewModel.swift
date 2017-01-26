@@ -723,6 +723,7 @@ extension ProductViewModel {
         var actions = [UIAction]()
         let isMine = product.value.isMine
         let isDeletable = status.value == .notAvailable ? false : isMine
+        let isCommercializable = (status.value == .pendingAndCommercializable || status.value == .availableAndCommercializable)
 
         if featureFlags.editDeleteItemUxImprovement && isMine {
             actions.append(buildEditAction())
@@ -737,6 +738,10 @@ extension ProductViewModel {
         }
         if isDeletable {
             actions.append(buildDeleteAction())
+        }
+
+        if isCommercializable {
+            actions.append(buildPromoteAction())
         }
 
         delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
@@ -828,6 +833,12 @@ extension ProductViewModel {
         })
     }
 
+    private func buildPromoteAction() -> UIAction {
+        return UIAction(interface: .text(LGLocalizedString.productCreateCommercialButton), action: { [weak self] in
+            self?.promoteProduct()
+        })
+    }
+
     private var socialShareMessage: SocialMessage {
         return ProductSocialMessage(product: product.value)
     }
@@ -854,19 +865,11 @@ extension ProductViewModel {
     private func buildActionButtons(_ status: ProductViewModelStatus) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
-        case .pending, .notAvailable, .otherSold, .otherSoldFree:
+        case .pending, .pendingAndCommercializable, .notAvailable, .otherSold, .otherSoldFree:
             break
-        case .pendingAndCommercializable:
-            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productCreateCommercialButton, .primary(fontSize: .big)),
-                action: { [weak self] in self?.promoteProduct() }))
-        case .available:
+        case .available, .availableAndCommercializable:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
                 action: { [weak self] in self?.markSold() }))
-        case .availableAndCommercializable:
-            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
-                action: { [weak self] in self?.markSold() }))
-            actionButtons.append(UIAction(interface: .button(LGLocalizedString.productCreateCommercialButton, .primary(fontSize: .big)),
-                action: { [weak self] in self?.promoteProduct() }))
         case .sold:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                 action: { [weak self] in self?.resell() }))
