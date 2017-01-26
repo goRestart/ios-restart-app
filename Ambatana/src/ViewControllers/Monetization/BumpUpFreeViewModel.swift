@@ -1,5 +1,5 @@
 //
-//  ShareProductViewModel.swift
+//  BumpUpFreeViewModel.swift
 //  LetGo
 //
 //  Created by Dídac on 26/10/16.
@@ -10,11 +10,11 @@ import Foundation
 import LGCoreKit
 
 
-protocol ShareProductViewModelDelegate: BaseViewModelDelegate {
+protocol BumpUpFreeViewModelDelegate: BaseViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController
 }
 
-class ShareProductViewModel: BaseViewModel {
+class BumpUpFreeViewModel: BaseViewModel {
     let shareTypes: [ShareType]
 
     let product: Product
@@ -22,8 +22,7 @@ class ShareProductViewModel: BaseViewModel {
     let socialSharer: SocialSharer?
     fileprivate let tracker: Tracker
 
-    weak var delegate: ShareProductViewModelDelegate?
-    weak var navigator: ShareProductNavigator?
+    weak var delegate: BumpUpFreeViewModelDelegate?
 
     var socialMessage: SocialMessage
     var title: String
@@ -33,16 +32,14 @@ class ShareProductViewModel: BaseViewModel {
     }
 
     fileprivate var purchasesShopper: PurchasesShopper?
-    fileprivate var bumpUp: Bool
 
-    convenience init(product: Product, socialMessage: SocialMessage, bumpUp: Bool, paymentItemId: String?) {
-    let purchasesShopper: PurchasesShopper? = bumpUp ? PurchasesShopper.sharedInstance : nil
-        self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage, bumpUp: bumpUp,
+    convenience init(product: Product, socialMessage: SocialMessage, paymentItemId: String?) {
+        self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage,
                   paymentItemId: paymentItemId, locale: NSLocale.current, locationManager: Core.locationManager,
-                  tracker: TrackerProxy.sharedInstance, purchasesShopper: purchasesShopper)
+                  tracker: TrackerProxy.sharedInstance, purchasesShopper: PurchasesShopper.sharedInstance)
     }
 
-    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, bumpUp: Bool, paymentItemId: String?,
+    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, paymentItemId: String?,
          locale: Locale, locationManager: LocationManager, tracker: Tracker, purchasesShopper: PurchasesShopper?) {
         self.product = product
         self.socialSharer = socialSharer
@@ -51,15 +48,10 @@ class ShareProductViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
-        self.bumpUp = bumpUp
         self.paymentItemId = paymentItemId
-        if bumpUp {
-            self.title = LGLocalizedString.bumpUpViewFreeTitle
-            self.subtitle = LGLocalizedString.bumpUpViewFreeSubtitle
-        } else {
-            self.title = LGLocalizedString.productShareFullscreenTitle
-            self.subtitle = LGLocalizedString.productShareFullscreenSubtitle
-        }
+        self.title = LGLocalizedString.bumpUpViewFreeTitle
+        self.subtitle = LGLocalizedString.bumpUpViewFreeSubtitle
+
         super.init()
 
         self.socialSharer?.delegate = self
@@ -77,21 +69,15 @@ class ShareProductViewModel: BaseViewModel {
     }
 
     func close(withCompletion completion: (() -> Void)?) {
-        if let navigator = navigator {
-            navigator.closeShareProduct(product)
-        } else {
-            delegate?.vmDismiss(completion)
-        }
+        delegate?.vmDismiss(completion)
     }
 }
 
 
 // MARK: - SocialShareFacadeDelegate
 
-extension ShareProductViewModel: SocialSharerDelegate {
+extension BumpUpFreeViewModel: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
-        // in the "share after posting" there is no track of a share start event
-        guard bumpUp else { return }
         let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
                                                      buttonPosition: .bumpUp, typePage: .productDetail)
         tracker.trackEvent(trackerEvent)
@@ -103,7 +89,6 @@ extension ShareProductViewModel: SocialSharerDelegate {
                 switch state {
                 case .completed:
                     self?.close(withCompletion: {
-                        guard let isBumpUp = self?.bumpUp, isBumpUp else { return }
                         self?.bumpUpProduct(withNetwork: shareType.trackingShareNetwork)
                     })
                 case .cancelled, .failed:
@@ -154,7 +139,7 @@ extension ShareProductViewModel: SocialSharerDelegate {
 
 // MARK: Bump Up Methods
 
-extension ShareProductViewModel {
+extension BumpUpFreeViewModel {
     func bumpUpProduct(withNetwork shareNetwork: EventParameterShareNetwork) {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump FREE")
         guard let productId = product.objectId, let paymentItemId = self.paymentItemId else { return }
