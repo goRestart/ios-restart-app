@@ -411,19 +411,20 @@ class ProductViewModel: BaseViewModel {
 
     private func updateBumpUpbannerFor(product: Product) {
         guard let productId = product.objectId, product.isMine, product.status.isBumpeable,
-                featureFlags.monetizationEnabled else { return }
+                (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
         monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
+            guard let strongSelf = self else { return }
             if let bumpeableProduct = result.value {
                 self?.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
                 let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
                 let paymentItemsIds = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
-                if !paymentItemsIds.isEmpty {
+                if !paymentItemsIds.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
                     // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                    self?.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItemsIds)
-                } else if !freeItems.isEmpty {
-                    self?.paymentItemId = freeItems.first?.itemId
-                    self?.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
+                    strongSelf.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItemsIds)
+                } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
+                    strongSelf.paymentItemId = freeItems.first?.itemId
+                    strongSelf.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
                 }
             }
         })

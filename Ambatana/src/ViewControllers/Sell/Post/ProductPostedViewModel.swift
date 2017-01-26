@@ -164,23 +164,11 @@ class ProductPostedViewModel: BaseViewModel {
             return
         }
         
-        if featureFlags.shareAfterPosting {
-            if let socialMessage = socialMessage {
-                navigator?.closeProductPostedAndOpenShare(productValue, socialMessage: socialMessage)
-            } else {
-                navigator?.cancelProductPosted()
-            }
-        } else {
-            navigator?.closeProductPosted(productValue)
-        }
+        navigator?.closeProductPosted(productValue)
     }
     
     func shareActionPressed() {
-        if featureFlags.shareAfterPosting {
-            closeActionPressed()
-        } else {
-            delegate?.productPostedViewModelShareNative()
-        }
+        delegate?.productPostedViewModelShareNative()
     }
 
     func editActionPressed() {

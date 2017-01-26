@@ -26,11 +26,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var directPostInOnboarding: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
     var keywordsTravelCollection: KeywordsTravelCollection = .standard
-    var shareAfterPosting: Bool = false
     var freePostingModeAllowed: Bool = true
     var postingMultiPictureEnabled: Bool = true
     var relatedProductsOnMoreInfo: Bool = true
-    var monetizationEnabled: Bool = false
     var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false
@@ -40,5 +38,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var filterIconWithLetters: Bool = false
     var editDeleteItemUxImprovement: Bool = false
     var onboardingReview: OnboardingReview = .testA
+    var freeBumpUpEnabled: Bool = false
+    var pricedBumpUpEnabled: Bool = false
     var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
 }
