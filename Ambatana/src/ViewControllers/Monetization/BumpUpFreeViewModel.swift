@@ -27,9 +27,6 @@ class BumpUpFreeViewModel: BaseViewModel {
     var socialMessage: SocialMessage
     var title: String
     var subtitle: String
-    var link: String {
-        return socialMessage.copyLinkText
-    }
 
     fileprivate var purchasesShopper: PurchasesShopper?
 
@@ -59,11 +56,6 @@ class BumpUpFreeViewModel: BaseViewModel {
 
     // MARK: - Public Methods
 
-    func copyLink() {
-        guard let vc = delegate?.vmViewControllerToShare() else { return }
-        socialSharer?.share(socialMessage, shareType: .copyLink, viewController: vc)
-    }
-    
     func closeActionPressed() {
         close(withCompletion: nil)
     }
