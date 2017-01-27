@@ -59,19 +59,19 @@ final class LGProductRepository: ProductRepository {
                        currency: Currency, location: LGLocationCoordinates2D?, postalAddress: PostalAddress?,
                        category: ProductCategory) -> Product {
         var product = LGProduct(product: product)
-        product.name = name
-        product.price = price
-        product.descr = description
-        product.currency = currency
-
+        product = product.updating(name: name)
+        product = product.updating(price: price)
+        product = product.updating(descr: description)
+        product = product.updating(currency: currency)
+        product = product.updating(category: category)
+        
         if let location = location {
-            product.location = location
-            product.postalAddress = postalAddress ?? PostalAddress.emptyAddress()
+            product = product.updating(location: location)
+            let newPostalAddress = postalAddress ?? PostalAddress.emptyAddress()
+            product = product.updating(postalAddress: newPostalAddress)
         }
-
-        product.category = category
         if product.languageCode == nil {
-            product.languageCode = Locale.current.identifier
+            product = product.updating(languageCode: Locale.current.identifier)
         }
         return product
     }
@@ -146,7 +146,7 @@ final class LGProductRepository: ProductRepository {
     func create(_ product: Product, images: [File], completion: ProductCompletion?) {
 
         var product = LGProduct(product: product)
-        product.images = images
+        product = product.updating(images: images)
         dataSource.create(product.encode()) { [weak self] result in
 
             // Cache the product in the limbo
@@ -181,7 +181,7 @@ final class LGProductRepository: ProductRepository {
         }
 
         var newProduct = LGProduct(product: product)
-        newProduct.images = images
+        newProduct = newProduct.updating(images: images)
 
         dataSource.update(productId, product: newProduct.encode()) { result in
             handleApiResult(result, completion: completion)
@@ -229,7 +229,7 @@ final class LGProductRepository: ProductRepository {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
-                newProduct.status = .sold
+                newProduct = newProduct.updating(status: .sold)
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -247,7 +247,7 @@ final class LGProductRepository: ProductRepository {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
-                newProduct.status = .approved
+                newProduct = newProduct.updating(status: .approved)
                 completion?(ProductResult(value: newProduct))
             }
         }

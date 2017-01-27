@@ -13,28 +13,28 @@ import Runes
 struct LGProduct: Product {
 
     // Global iVars
-    var objectId: String?
-    var updatedAt: Date?
-    var createdAt: Date?
+    let objectId: String?
+    let updatedAt: Date?
+    let createdAt: Date?
 
     // Product iVars
-    var name: String?
-    var nameAuto: String?
-    var descr: String?
-    var price: ProductPrice
-    var currency: Currency
+    let name: String?
+    let nameAuto: String?
+    let descr: String?
+    let price: ProductPrice
+    let currency: Currency
 
-    var location: LGLocationCoordinates2D
-    var postalAddress: PostalAddress
+    let location: LGLocationCoordinates2D
+    let postalAddress: PostalAddress
 
-    var languageCode: String?
+    let languageCode: String?
 
-    var category: ProductCategory
-    var status: ProductStatus
+    let category: ProductCategory
+    let status: ProductStatus
 
-    var thumbnail: File?
-    var thumbnailSize: LGSize?
-    var images: [File]
+    let thumbnail: File?
+    let thumbnailSize: LGSize?
+    let images: [File]
 
     var user: User
 
@@ -97,6 +97,96 @@ struct LGProduct: Product {
                          postalAddress: postalAddress, languageCode: languageCode, category: actualCategory,
                          status: actualStatus, thumbnail: actualThumbnail, thumbnailSize: thumbnailSize,
                          images: actualImages, user: user)
+    }
+    
+    // MARK: Updates
+    
+    func updating(objectId: String?) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(name: String?) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(descr: String?) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(price: ProductPrice) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(currency: Currency) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(location: LGLocationCoordinates2D) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(postalAddress: PostalAddress) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(languageCode: String?) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(category: ProductCategory) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(status: ProductStatus) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
+    }
+    
+    func updating(images: [File]) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user)
     }
 }
 
