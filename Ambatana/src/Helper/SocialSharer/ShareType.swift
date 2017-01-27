@@ -19,8 +19,8 @@ enum NativeShareStyle {
 }
 
 enum ShareType {
-    // "nativeRestricted" excludes some shareTypes that are not shares at all, like copyToClipboard, and assign to contact 
-    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms, native, nativeRestricted
+    // native -> "restricted == true" excludes some shareTypes that are not shares at all, like copyToClipboard, and assign to contact
+    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms, native(restricted: Bool)
 
     private static var otherCountriesTypes: [ShareType] { return [.sms, .email, .facebook, .fbMessenger, .twitter, .whatsapp, .telegram] }
     private static var turkeyTypes: [ShareType] { return [.whatsapp, .facebook, .email ,.fbMessenger, .twitter, .sms, .telegram] }
@@ -56,9 +56,9 @@ enum ShareType {
 
         switch nativeShare {
         case .normal:
-            resultShareTypes.append(.native)
+            resultShareTypes.append(.native(restricted: false))
         case .restricted:
-            resultShareTypes.append(.nativeRestricted)
+            resultShareTypes.append(.native(restricted: true))
         case .notAvailable:
             break
         }
@@ -84,7 +84,7 @@ enum ShareType {
             return .copyLink
         case .sms:
             return .sms
-        case .native, .nativeRestricted:
+        case .native:
             return .native
         }
     }
@@ -97,7 +97,7 @@ enum ShareType {
             return UIImage(named: "item_share_fb")
         case .twitter:
             return UIImage(named: "item_share_twitter")
-        case .native, .nativeRestricted:
+        case .native:
             return UIImage(named: "item_share_more")
         case .copyLink:
             return UIImage(named: "item_share_link")
@@ -120,7 +120,7 @@ enum ShareType {
             return UIImage(named: "item_share_fb_big")
         case .twitter:
             return UIImage(named: "item_share_twitter_big")
-        case .native, .nativeRestricted:
+        case .native:
             return UIImage(named: "item_share_more_big")
         case .copyLink:
             return UIImage(named: "item_share_link_big")
@@ -143,7 +143,7 @@ enum ShareType {
             return .socialShareFacebook
         case .twitter:
             return .socialShareTwitter
-        case .native, .nativeRestricted:
+        case .native:
             return .socialShareMore
         case .copyLink:
             return .socialShareCopyLink

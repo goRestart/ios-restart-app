@@ -50,10 +50,8 @@ extension SocialSharer {
             shareInPasteboard(socialMessage)
         case .sms:
             shareInSMS(socialMessage, viewController: viewController, messageComposeDelegate: self)
-        case .native:
-            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem, restricted: false)
-        case .nativeRestricted:
-            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem, restricted: true)
+        case let .native(restricted):
+            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem, restricted: restricted)
         }
     }
 }
@@ -66,7 +64,7 @@ extension SocialSharer {
         switch shareType {
         case .email:
             return MFMailComposeViewController.canSendMail()
-        case .facebook, .twitter, .native, .copyLink, .nativeRestricted:
+        case .facebook, .twitter, .native, .copyLink:
             return true
         case .fbMessenger:
             guard let url = URL(string: "fb-messenger-api://") else { return false }
@@ -298,11 +296,11 @@ fileprivate extension SocialSharer {
                     if let _ = activity.rawValue.range(of: "whatsapp") {
                         shareType = .whatsapp
                     } else {
-                        shareType = .native
+                        shareType = .native(restricted: restricted)
                     }
                 }
             } else {
-                shareType = .native
+                shareType = .native(restricted: restricted)
             }
 
             // Comment left here as a clue to manage future activities
@@ -324,7 +322,7 @@ fileprivate extension SocialSharer {
             }
         }
         viewController.present(shareVC, animated: true) { [weak self] in
-            self?.delegate?.shareStartedIn(.native)
+            self?.delegate?.shareStartedIn(.native(restricted: restricted))
         }
     }
 
