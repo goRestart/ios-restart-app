@@ -16,9 +16,9 @@ def shared_pods
     pod "FBSDKCoreKit",         "~> 4.15.1" # Obj-c
     pod "FBSDKShareKit",		"~> 4.15.1" # Obj-c
 
-    pod "RxSwift",              "~> 3.0.1"
-    pod "RxCocoa",              "~> 3.0.0"
-    pod "RxBlocking",           "~> 3.0.0"
+    pod "RxSwift",              "~> 3.1.0"
+    pod "RxCocoa",              "~> 3.1.0"
+    pod "RxBlocking",           "~> 3.1.0"
 
     #Fabric
     pod "Fabric",               "~> 1.6.10" # Obj-c
@@ -32,7 +32,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",            "2.2.2"     #:git => 'https://github.com/letgoapp/letgo-ios-lgcorekit', :commit => 'ea9abef8c3c26fdecee91af65cb3c45b0ff215c4' #:path => "../lgcorekit"
+    pod "LGCoreKit",            :git => 'https://github.com/letgoapp/letgo-ios-lgcorekit', :commit => '7fe503c521f6d8761d6e8931ce304d7d91a592a7' #:path => "../lgcorekit" #"2.2.2"
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.0.0"     # :path => "../collapsiblelabel"
@@ -89,7 +89,7 @@ target "letgoTests" do
     ## Testing
     pod "Quick",            "~> 1.0.0"
     pod "Nimble",           "~> 5.1.1"
-    pod "RxTest",          "~> 3.1.0"
+    pod "RxTest",           "~> 3.1.0"
 
     # Mocking
     pod "OHHTTPStubs",      "~> 5.2.3"
