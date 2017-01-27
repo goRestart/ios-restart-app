@@ -329,6 +329,14 @@ class ProductViewModel: BaseViewModel {
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
+        status.asObservable().bindNext { [weak self] status in
+            if status.isBumpeable {
+                self?.refreshBumpeableBanner()
+            } else {
+                self?.bumpUpBannerInfo.value = nil
+            }
+        }.addDisposableTo(disposeBag)
+
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             self?.refreshNavBarButtons()
         }.addDisposableTo(disposeBag)
@@ -1252,6 +1260,15 @@ fileprivate extension ProductViewModelStatus {
             return active ? .availableAndCommercializable : .available
         case .sold, .otherSold, .notAvailable, .otherAvailable, .otherSoldFree, .otherAvailableFree, .soldFree, .availableFree:
             return self
+        }
+    }
+
+    var isBumpeable: Bool {
+        switch self {
+        case .available, .availableAndCommercializable, .availableFree, .otherAvailable, .otherAvailableFree:
+            return true
+        case .pending, .pendingAndCommercializable, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
+            return false
         }
     }
 }
