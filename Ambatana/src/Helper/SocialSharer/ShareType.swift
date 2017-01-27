@@ -13,9 +13,9 @@ import MessageUI
 import Branch
 
 enum NativeShareStyle {
-    case normal
-    case restricted
-    case notAvailable
+    case normal         // native share is shown with standard options
+    case restricted     // native share is shown without some options that are not shares at all
+    case notAvailable   // native share is not shown
 }
 
 enum ShareType {
