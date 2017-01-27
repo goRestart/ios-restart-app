@@ -261,7 +261,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
-        currentProductViewModel?.openShare(shareType, fromViewController: fromViewController)
+        currentProductViewModel?.openShare(shareType, fromViewController: fromViewController, barButtonItem: barButtonItem)
     }
 
     func openFreeBumpUpView() {
