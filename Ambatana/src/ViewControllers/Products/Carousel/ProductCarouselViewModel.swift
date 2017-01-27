@@ -266,7 +266,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func openFreeBumpUpView() {
         guard let product = currentProductViewModel?.product.value,
-            let socialMessage = currentProductViewModel?.socialMessage.value,
+            let socialMessage = currentProductViewModel?.freeBumpUpShareMessage.value,
         let paymentItemId = currentProductViewModel?.paymentItemId else { return }
         currentProductViewModel?.trackBumpUpStarted(.free)
         navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage, withPaymentItemId: paymentItemId)
