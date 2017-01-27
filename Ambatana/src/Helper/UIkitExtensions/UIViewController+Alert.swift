@@ -116,10 +116,10 @@ extension UIViewController {
         present(alert, animated: true, completion: completion)
     }
 
-    func showAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+    func showAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction], completion: (() -> Void)? = nil) {
         let cancelAction = UIAction(interface: .styledText(cancelLabel, .cancel), action: {})
         let totalActions = [cancelAction] + actions
-        showAlert(title, message: message, actions: totalActions)
+        showAlert(title, message: message, actions: totalActions, completion: completion)
     }
 
     func showAlertWithTitle(_ title: String?, text: String, alertType: AlertType,
@@ -167,7 +167,7 @@ extension UIViewController {
             alert.popoverPresentationController?.sourceRect = sourceRect
             alert.popoverPresentationController?.sourceView = sourceView
         } else if DeviceFamily.isiPad {
-            showAlert(nil, message: nil, actions: actions, completion: completion)
+            showAlert(nil, message: nil, cancelLabel: LGLocalizedString.commonCancel, actions: actions, completion: completion)
             return
         }
         
