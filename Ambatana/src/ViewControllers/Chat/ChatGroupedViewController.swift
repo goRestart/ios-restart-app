@@ -104,7 +104,9 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         viewModel.setCurrentPageEditing(editing)
-        tabBarController?.setTabBarHidden(editing, animated: true)
+        if viewModel.active {
+            tabBarController?.setTabBarHidden(editing, animated: true)
+        }
         viewPager.scrollEnabled = !editing
     }
 
