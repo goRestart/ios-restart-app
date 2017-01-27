@@ -159,7 +159,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.navigator = navigator
         self.source = source
         self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
-        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
+        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .normal)
         self.socialSharer = socialSharer
         self.featureFlags = featureFlags
         self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded

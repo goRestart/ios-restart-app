@@ -12,18 +12,24 @@ import LGCoreKit
 import MessageUI
 import Branch
 
+enum NativeShareStyle {
+    case normal
+    case restricted
+    case notAvailable
+}
 
 enum ShareType {
-    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms, native
+    // "nativeRestricted" excludes some shareTypes that are not shares at all, like copyToClipboard, and assign to contact 
+    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms, native, nativeRestricted
 
     private static var otherCountriesTypes: [ShareType] { return [.sms, .email, .facebook, .fbMessenger, .twitter, .whatsapp, .telegram] }
     private static var turkeyTypes: [ShareType] { return [.whatsapp, .facebook, .email ,.fbMessenger, .twitter, .sms, .telegram] }
 
     var moreInfoTypes: [ShareType] {
-        return ShareType.shareTypesForCountry("", maxButtons: nil, includeNative: false)
+        return ShareType.shareTypesForCountry("", maxButtons: nil, nativeShare: .notAvailable)
     }
 
-    static func shareTypesForCountry(_ countryCode: String, maxButtons: Int?, includeNative: Bool) -> [ShareType] {
+    static func shareTypesForCountry(_ countryCode: String, maxButtons: Int?, nativeShare: NativeShareStyle) -> [ShareType] {
         let turkey = "tr"
 
         let countryTypes: [ShareType]
@@ -37,14 +43,24 @@ enum ShareType {
         var resultShareTypes = countryTypes.filter { SocialSharer.canShareIn($0) }
 
         if var maxButtons = maxButtons, maxButtons > 0 {
-            maxButtons = includeNative ? maxButtons-1 : maxButtons
+            switch nativeShare {
+            case .normal, .restricted:
+                maxButtons = maxButtons-1
+            case .notAvailable:
+                break
+            }
             if resultShareTypes.count > maxButtons {
                 resultShareTypes = Array(resultShareTypes[0..<maxButtons])
             }
         }
 
-        if includeNative {
+        switch nativeShare {
+        case .normal:
             resultShareTypes.append(.native)
+        case .restricted:
+            resultShareTypes.append(.nativeRestricted)
+        case .notAvailable:
+            break
         }
 
         return resultShareTypes
@@ -68,7 +84,7 @@ enum ShareType {
             return .copyLink
         case .sms:
             return .sms
-        case .native:
+        case .native, .nativeRestricted:
             return .native
         }
     }
@@ -81,7 +97,7 @@ enum ShareType {
             return UIImage(named: "item_share_fb")
         case .twitter:
             return UIImage(named: "item_share_twitter")
-        case .native:
+        case .native, .nativeRestricted:
             return UIImage(named: "item_share_more")
         case .copyLink:
             return UIImage(named: "item_share_link")
@@ -104,7 +120,7 @@ enum ShareType {
             return UIImage(named: "item_share_fb_big")
         case .twitter:
             return UIImage(named: "item_share_twitter_big")
-        case .native:
+        case .native, .nativeRestricted:
             return UIImage(named: "item_share_more_big")
         case .copyLink:
             return UIImage(named: "item_share_link_big")
@@ -127,7 +143,7 @@ enum ShareType {
             return .socialShareFacebook
         case .twitter:
             return .socialShareTwitter
-        case .native:
+        case .native, .nativeRestricted:
             return .socialShareMore
         case .copyLink:
             return .socialShareCopyLink

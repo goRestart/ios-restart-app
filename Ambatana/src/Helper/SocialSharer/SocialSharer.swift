@@ -51,7 +51,9 @@ extension SocialSharer {
         case .sms:
             shareInSMS(socialMessage, viewController: viewController, messageComposeDelegate: self)
         case .native:
-            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem)
+            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem, restricted: false)
+        case .nativeRestricted:
+            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem, restricted: true)
         }
     }
 }
@@ -64,7 +66,7 @@ extension SocialSharer {
         switch shareType {
         case .email:
             return MFMailComposeViewController.canSendMail()
-        case .facebook, .twitter, .native, .copyLink:
+        case .facebook, .twitter, .native, .copyLink, .nativeRestricted:
             return true
         case .fbMessenger:
             guard let url = URL(string: "fb-messenger-api://") else { return false }
@@ -253,9 +255,21 @@ fileprivate extension SocialSharer {
         }
     }
 
-    func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+    func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil,
+                       restricted: Bool) {
         let activityItems = socialMessage.nativeShareItems
         let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+
+        if restricted {
+            var excludedActivities: [UIActivityType] = []
+            excludedActivities.append(.print)
+            excludedActivities.append(.copyToPasteboard)
+            excludedActivities.append(.assignToContact)
+            excludedActivities.append(.saveToCameraRoll)
+            excludedActivities.append(.addToReadingList)
+            shareVC.excludedActivityTypes = excludedActivities
+        }
+
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
         if shareVC.responds(to: #selector(getter: UIViewController.popoverPresentationController)) {
