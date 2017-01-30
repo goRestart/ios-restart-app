@@ -124,13 +124,14 @@ class UserRatingCell: UITableViewCell {
         if let avatarURL = data.userAvatar {
             userAvatar.lg_setImageWithURL(avatarURL, placeholderImage: data.userAvatarPlaceholder) {
                 [weak self] (result, url) in
+                guard let strongSelf = self else { return }
                 // tag check to prevent wrong image placement cos' of recycling
                 if let image = result.value?.image, self?.tag == tag {
-                    self?.userAvatar.image = image
+                    strongSelf.userAvatar.image = image
+                    strongSelf.userAvatar.layer.cornerRadius = strongSelf.userAvatar.height/2
                 }
             }
         }
-        userAvatar.layer.cornerRadius = userAvatar.height/2
         timeLabel.text = data.ratingDate.relativeTimeString(false)
         drawStarsForValue(data.ratingValue)
     }
