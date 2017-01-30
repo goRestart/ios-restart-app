@@ -128,7 +128,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .posting, .error:
             return nil
         case let .success(product):
-            return ProductSocialMessage(product: product)
+            return ProductSocialMessage(product: product, fallbackToStore: false)
         }
     }
 

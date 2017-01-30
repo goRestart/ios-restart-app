@@ -83,6 +83,7 @@ class ProductViewModel: BaseViewModel {
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
     let socialMessage = Variable<SocialMessage?>(nil)
+    let freeBumpUpShareMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
 
     // UI - Output
@@ -349,7 +350,8 @@ class ProductViewModel: BaseViewModel {
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
-            strongSelf.socialMessage.value = ProductSocialMessage(product: product)
+            strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
+            strongSelf.freeBumpUpShareMessage.value = ProductSocialMessage(product: product, fallbackToStore: true)
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
 
             strongSelf.productTitle.value = product.title
@@ -849,7 +851,7 @@ extension ProductViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        return ProductSocialMessage(product: product.value)
+        return ProductSocialMessage(product: product.value, fallbackToStore: false)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {

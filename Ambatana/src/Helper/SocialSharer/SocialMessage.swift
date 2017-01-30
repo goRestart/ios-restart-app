@@ -73,9 +73,10 @@ struct ProductSocialMessage: SocialMessage {
     private let imageURL: URL?
     private let productId: String
     private let isMine: Bool
+    private let fallbackToStore: Bool
     static var utmCampaignValue = "product-detail-share"
 
-    init(title: String, product: Product, isMine: Bool) {
+    init(title: String, product: Product, isMine: Bool, fallbackToStore: Bool) {
         self.title = title
         self.productUserName = product.user.name ?? ""
         self.productTitle = product.title ?? ""
@@ -83,14 +84,15 @@ struct ProductSocialMessage: SocialMessage {
         self.productId = product.objectId ?? ""
         self.productDescription = product.description ?? ""
         self.isMine = isMine
+        self.fallbackToStore = fallbackToStore
     }
 
-    init(product: Product) {
+    init(product: Product, fallbackToStore: Bool) {
         let productIsMine = Core.myUserRepository.myUser?.objectId == product.user.objectId
         let socialTitleMyProduct = product.price.free ? LGLocalizedString.productIsMineShareBodyFree :
             LGLocalizedString.productIsMineShareBody
         let socialTitle = productIsMine ? socialTitleMyProduct : LGLocalizedString.productShareBody
-        self.init(title: socialTitle, product: product, isMine: productIsMine)
+        self.init(title: socialTitle, product: product, isMine: productIsMine, fallbackToStore: fallbackToStore)
     }
 
     var nativeShareItems: [Any] {
@@ -217,11 +219,17 @@ struct ProductSocialMessage: SocialMessage {
         let controlParamString = addCampaignInfoToString("product/"+productId, source: source)
         linkProperties.addControlParam("$deeplink_path", withValue: controlParamString)
         if var letgoUrlString = letgoUrl?.absoluteString {
+
+            let iosUrl = fallbackToStore ? addCampaignInfoToString(Constants.appStoreURL, source: source) :
+                                            letgoUrlString
+            let androidUrl = fallbackToStore ? addCampaignInfoToString(Constants.playStoreURL, source: source) :
+                                            letgoUrlString
+
             letgoUrlString = addCampaignInfoToString(letgoUrlString, source: source)
             linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
             linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
-            linkProperties.addControlParam("$ios_url", withValue: letgoUrlString)
-            linkProperties.addControlParam("$android_url", withValue: letgoUrlString)
+            linkProperties.addControlParam("$ios_url", withValue: iosUrl)
+            linkProperties.addControlParam("$android_url", withValue: androidUrl)
         }
         return linkProperties
     }
