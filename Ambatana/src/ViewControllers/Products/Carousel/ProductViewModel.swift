@@ -315,6 +315,11 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+        if let productId = product.value.objectId {
+            productRepository.updateEventsFor(productId: productId).bindNext { [weak self] product in
+                self?.product.value = product
+            }.addDisposableTo(disposeBag)
+        }
         
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
@@ -516,9 +521,7 @@ extension ProductViewModel {
     }
 
     func editProduct() {
-        navigator?.editProduct(product.value) { [weak self] editedProduct in
-            self?.product.value = editedProduct
-        }
+        navigator?.editProduct(product.value)
     }
 
     func shareProduct() {
