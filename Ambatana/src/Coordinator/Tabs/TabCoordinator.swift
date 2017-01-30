@@ -364,7 +364,7 @@ extension TabCoordinator: ProductDetailNavigator {
     }
 
     func editProduct(_ product: Product) {
-        // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
+        // TODO: Open EditProductCoordinator
         let editProductVM = EditProductViewModel(product: product)
         let editProductVC = EditProductViewController(viewModel: editProductVM)
         let navCtl = UINavigationController(rootViewController: editProductVC)
