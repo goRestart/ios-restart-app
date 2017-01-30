@@ -96,6 +96,8 @@ class UserRatingCell: UITableViewCell {
         }
         lines = []
         lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+        
+        userAvatar.rounded = true
     }
 
 
@@ -124,11 +126,9 @@ class UserRatingCell: UITableViewCell {
         if let avatarURL = data.userAvatar {
             userAvatar.lg_setImageWithURL(avatarURL, placeholderImage: data.userAvatarPlaceholder) {
                 [weak self] (result, url) in
-                guard let strongSelf = self else { return }
                 // tag check to prevent wrong image placement cos' of recycling
-                if let image = result.value?.image, strongSelf.tag == tag {
-                    strongSelf.userAvatar.image = image
-                    strongSelf.userAvatar.rounded = true
+                if let image = result.value?.image, self?.tag == tag {
+                    self?.userAvatar.image = image
                 }
             }
         }
@@ -150,7 +150,6 @@ class UserRatingCell: UITableViewCell {
         ratingTypeLabel.textColor = UIColor.blackText
         descriptionLabel.textColor = UIColor.darkGrayText
         timeLabel.textColor = UIColor.darkGrayText
-        userAvatar.layer.cornerRadius = userAvatar.height/2
     }
 
     // Resets the UI to the initial state
