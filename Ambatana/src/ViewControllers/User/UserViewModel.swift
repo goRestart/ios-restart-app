@@ -173,6 +173,9 @@ class UserViewModel: BaseViewModel {
             refreshMyUserData()
             resetLists()
             cleanFavoriteBadgeIfNeeded()
+            if firstTime {
+                navBarButtons.value = buildNavBarButtons()
+            }
         } else {
             retrieveUserData()
         }
@@ -535,10 +538,12 @@ fileprivate extension UserViewModel {
                                     return nil
             }.bindTo(userRelationText).addDisposableTo(disposeBag)
         
-        userRelationText.asObservable().subscribeNext { [weak self] relation in
-            guard let strongSelf = self else { return }
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-            }.addDisposableTo(disposeBag)
+        if !itsMe {
+            userRelationText.asObservable().subscribeNext { [weak self] relation in
+                guard let strongSelf = self else { return }
+                strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+                }.addDisposableTo(disposeBag)
+        }
     }
     
     func setupTabRxBindings() {
