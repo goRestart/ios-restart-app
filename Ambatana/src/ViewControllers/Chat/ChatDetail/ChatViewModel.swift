@@ -516,7 +516,13 @@ class ChatViewModel: BaseViewModel {
     func safetyTipsDismissed() {
         keyValueStorage.userChatSafetyTipsShown = true
     }
-    
+
+    func scrollViewDidTap() {
+        if featureFlags.newQuickAnswers && userDirectAnswersEnabled.value {
+            showDirectAnswers(false)
+        }
+    }
+
     func messageAtIndex(_ index: Int) -> ChatViewMessage? {
         guard 0..<messages.value.count ~= index else { return nil }
         return messages.value[index]

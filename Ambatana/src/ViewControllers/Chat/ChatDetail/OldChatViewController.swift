@@ -124,6 +124,11 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         viewModel.sendText(textView.text, isQuickAnswer: false)
     }
 
+    override func scrollViewDidTap() {
+        viewModel.scrollViewDidTap()
+    }
+    
+
     /**
      Slack Caches the text in the textView if you close the view before sending
      Need to override this method to set the cache key to the product id

@@ -120,6 +120,10 @@ class ChatViewController: TextViewController {
         guard let message = textView.text else { return }
         viewModel.sendText(message, isQuickAnswer: false)
     }
+
+    override func scrollViewDidTap() {
+        viewModel.scrollViewDidTap()
+    }
     
     /**
      TextViewController Caches the text in the textView if you close the view before sending
