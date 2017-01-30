@@ -230,7 +230,7 @@ class ProductViewModel: BaseViewModel {
             ownerIsMyUser = false
         }
         let myUsername = myUser?.shortName
-        let ownerUsername = product.user.name // TODO: ADD SHORTNAME ON USERPRODUCT
+        let ownerUsername = product.user.shortName
         self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
         let myAvatarURL = myUser?.avatar?.fileURL
         let ownerAvatarURL = product.user.avatar?.fileURL
