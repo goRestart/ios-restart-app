@@ -248,8 +248,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     fileprivate var loadedMessages: [ChatViewMessage]
-    private var buyer: User?
-    fileprivate var otherUser: User?
+    private var buyer: LocalUser?
+    fileprivate var otherUser: LocalUser?
     fileprivate var afterRetrieveMessagesBlock: (() -> Void)?
     fileprivate var autoKeyboardEnabled = true
 
@@ -344,7 +344,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
         let myUserRepository = Core.myUserRepository
-        let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
+        let chat = LocalChat(product: product, myUserProduct: LocalUser(user: myUserRepository.myUser))
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         let featureFlags = FeatureFlags.sharedInstance
@@ -589,14 +589,14 @@ class OldChatViewModel: BaseViewModel, Paginable {
     fileprivate func initUsers() {
         if otherUser == nil || otherUser?.objectId == nil {
             if let myUser = myUserRepository.myUser {
-                self.otherUser = chat.otherUser(myUser: myUser)
+                self.otherUser = LocalUser(userProduct: chat.otherUser(myUser: myUser))
             } else {
-                self.otherUser = chat.userTo
+                self.otherUser = LocalUser(userProduct: chat.userTo)
             }
         }
 
         if let _ = myUserRepository.myUser {
-            self.buyer = chat.buyer
+            self.buyer = LocalUser(userProduct: chat.buyer)
         } else {
             self.buyer = nil
         }
@@ -1025,6 +1025,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             shouldSendFirstMessageEvent = false
             trackFirstMessage(type)
         }
+        
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat)
@@ -1250,7 +1251,7 @@ fileprivate extension OldChatViewModel {
         userRepository.show(otherUserId) { [weak self] result in
             guard let strongSelf = self else { return }
             guard let userWaccounts = result.value else { return }
-            strongSelf.otherUser = userWaccounts
+            strongSelf.otherUser = LocalUser(user: userWaccounts)
             if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                 strongSelf.loadedMessages += [userInfoMessage]
                 strongSelf.delegate?.vmDidRefreshChatMessages()
@@ -1275,7 +1276,8 @@ fileprivate extension OldChatViewModel {
                 return
             }
             strongSelf.autoKeyboardEnabled = true
-            strongSelf.chat = LocalChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
+            let myLocalUser = LocalUser(user: strongSelf.myUserRepository.myUser)
+            strongSelf.chat = LocalChat(product: strongSelf.product , myUserProduct: myLocalUser)
             // Setting the buyer
             strongSelf.initUsers()
             strongSelf.afterRetrieveMessagesBlock = { [weak self] in

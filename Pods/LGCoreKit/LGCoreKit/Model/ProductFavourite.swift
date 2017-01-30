@@ -8,5 +8,5 @@
 
 public protocol ProductFavourite: BaseModel {
     var product: Product { get }
-    var user: User { get }
+    var user: UserProduct { get }
 }

@@ -11,8 +11,8 @@ import LGCoreKit
 struct LocalChat: Chat {
     var objectId: String?
     var product: Product
-    var userFrom: User
-    var userTo: User
+    var userFrom: UserProduct
+    var userTo: UserProduct
     var msgUnreadCount = 0
     var messages: [Message] = []
     var updatedAt: Date? = nil
@@ -23,23 +23,20 @@ struct LocalChat: Chat {
         return userFrom.objectId == nil
     }
 
-    init(product: Product, myUser: User?) {
+    init(product: Product, myUserProduct: UserProduct?) {
         self.product = product
         self.userTo = product.user
-        self.userFrom = myUser ?? EmptyUser()
+        self.userFrom = myUserProduct ?? EmptyUserProduct()
     }
 }
 
 
-private struct EmptyUser: User {
+private struct EmptyUserProduct: UserProduct {
     let objectId: String? = nil
     let name: String? = nil
     let avatar: File? = nil
     let postalAddress: PostalAddress = PostalAddress.emptyAddress()
-    let accounts: [Account]? = nil
-    var ratingAverage: Float? = nil
-    var ratingCount: Int? = nil
     let status: UserStatus = .inactive
-
     var isDummy: Bool = false
+    let banned: Bool? = nil
 }

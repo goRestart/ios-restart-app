@@ -27,7 +27,7 @@ public protocol Product: BaseModel, Priceable {
     var thumbnailSize: LGSize? { get }
     var images: [File] { get }          // Default value []
 
-    var user: User { get }
+    var user: UserProduct { get }
 
     var updatedAt : Date? { get }
     var createdAt : Date? { get }

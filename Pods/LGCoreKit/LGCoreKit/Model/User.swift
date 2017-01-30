@@ -11,9 +11,9 @@ public protocol User: BaseModel {
     var avatar: File? { get }
     var postalAddress: PostalAddress { get }
 
-    var accounts: [Account]? { get }    // TODO: When switching to bouncer only make ratings & accounts non-optional
+    var accounts: [Account] { get }
     var ratingAverage: Float? { get }
-    var ratingCount: Int? { get }
+    var ratingCount: Int { get }
 
     var status: UserStatus { get }
     

@@ -230,7 +230,7 @@ class ProductViewModel: BaseViewModel {
             ownerIsMyUser = false
         }
         let myUsername = myUser?.shortName
-        let ownerUsername = product.user.shortName
+        let ownerUsername = product.user.name // TODO: ADD SHORTNAME ON USERPRODUCT
         self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
         let myAvatarURL = myUser?.avatar?.fileURL
         let ownerAvatarURL = product.user.avatar?.fileURL
@@ -475,7 +475,7 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        let data = UserDetailData.userAPI(user: product.value.user, source: .productDetail)
+        let data = UserDetailData.userAPI(user: LocalUser(userProduct: product.value.user), source: .productDetail)
         navigator?.openUser(data)
     }
 

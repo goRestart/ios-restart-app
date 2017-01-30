@@ -18,8 +18,8 @@ struct LGChat: Chat {
 
     // Chat iVars
     let product: Product
-    let userFrom: User
-    let userTo: User
+    let userFrom: UserProduct
+    let userTo: UserProduct
     let msgUnreadCount: Int
     let messages: [Message]
     let forbidden: Bool
@@ -28,8 +28,8 @@ struct LGChat: Chat {
 
 extension LGChat : Decodable {
 
-    static func newLGChat(_ objectId: String?, updatedAt: Date?, product: LGProduct, userFrom: LGUser,
-        userTo: LGUser, msgUnreadCount: Int, messages: [LGMessage]?, forbidden: Bool, status: Int) -> LGChat {
+    static func newLGChat(_ objectId: String?, updatedAt: Date?, product: LGProduct, userFrom: LGUserProduct,
+        userTo: LGUserProduct, msgUnreadCount: Int, messages: [LGMessage]?, forbidden: Bool, status: Int) -> LGChat {
 
             let theMessages : [Message]
             if let actualMessages = messages {

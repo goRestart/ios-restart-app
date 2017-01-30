@@ -6,6 +6,16 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
+public func ==(lhs: ProductPrice, rhs: ProductPrice) -> Bool {
+    switch (lhs, rhs) {
+    case (.free, .free): return true
+    case (.normal(let a), .normal(let b)) where a == b: return true
+    case (.negotiable(let a), .negotiable(let b)) where a == b: return true
+    case (.firmPrice(let a), .firmPrice(let b)) where a == b: return true
+    default: return false
+    }
+}
+
 public enum ProductPrice {
     case free
     case normal(Double)

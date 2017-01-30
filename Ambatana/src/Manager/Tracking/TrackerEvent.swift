@@ -559,7 +559,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func userMessageSent(_ product: Product, userTo: User?, messageType: EventParameterMessageType,
+    static func userMessageSent(_ product: Product, userTo: UserProduct?, messageType: EventParameterMessageType,
                                 isQuickAnswer: EventParameterQuickAnswerValue, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)

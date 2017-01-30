@@ -480,7 +480,7 @@ fileprivate extension UserViewModel {
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
             
             // If the user has accounts the set them up
-            if let user = user, let _ = user.accounts {
+            if let user = user {
                 strongSelf.updateAccounts(user)
             }
             
