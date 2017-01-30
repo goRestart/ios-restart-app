@@ -577,6 +577,7 @@
 "product_share_email_error" = "Ồ! Có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail.";
 "product_share_generic_error" = "Có lỗi xảy ra trong khi chia sẻ sản phẩm. Xin vui lòng thử lại.";
 "product_share_generic_ok" = "Sản phẩm đã được chia sẻ!";
+"product_share_navbar_button" = "Chia sẻ";
 "product_share_posted_by" = "đăng bởi %@";
 "product_share_sms_error" = "Có lỗi xảy ra trong khi gửi tin nhắn của bạn.";
 "product_share_sms_ok" = "Đang gửi...";

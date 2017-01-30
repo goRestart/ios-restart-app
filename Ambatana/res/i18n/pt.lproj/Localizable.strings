@@ -577,6 +577,7 @@
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again.";
 "product_share_generic_ok" = "Product shared!";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "posted by %@";
 "product_share_sms_error" = "An error occurred while sending your message.";
 "product_share_sms_ok" = "Sending...";

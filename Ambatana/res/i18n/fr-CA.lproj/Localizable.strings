@@ -577,6 +577,7 @@
 "product_share_email_error" = "Oups ! Il semble que vous n'ayez pas paramétré de compte dans l'application Courriel.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du produit. Veuillez réessayer.";
 "product_share_generic_ok" = "Produit partagé !";
+"product_share_navbar_button" = "Partager";
 "product_share_posted_by" = "posté par %@";
 "product_share_sms_error" = "Une erreur est survenue lors de l'envoi de votre message.";
 "product_share_sms_ok" = "Envoi...";
