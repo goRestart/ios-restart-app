@@ -595,6 +595,7 @@
 		72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
+		72B935F91E3F9C1C00F93F73 /* MockUserProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */; };
 		72BABFE81E30E1360035747B /* WSChatStatus+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */; };
 		72BABFE91E30E1360035747B /* WSChatStatus+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */; };
 		72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
@@ -1666,6 +1667,7 @@
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
+		72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserProduct.swift; sourceTree = "<group>"; };
 		72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WSChatStatus+LG.swift"; sourceTree = "<group>"; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
@@ -2838,6 +2840,7 @@
 				5099D12C1C74C910002CD813 /* MockInstallation.swift */,
 				50C9E4DB1B73A238001E4E92 /* MockProduct.swift */,
 				50C9E4D71B73A017001E4E92 /* MockUser.swift */,
+				72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */,
 				C79842031CC903A500C300FF /* MockAccount.swift */,
 				50F344F11D3CDEA2000A8774 /* MockChatProduct.swift */,
 				5061ACBA1DE35E6D002E5423 /* MockMyUser.swift */,
@@ -5609,6 +5612,7 @@
 				C75BC6B51E2E683C00483F79 /* Bool+Randomizable.swift in Sources */,
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
 				C75BC6B61E2E683C00483F79 /* Double+Randomizable.swift in Sources */,
+				72B935F91E3F9C1C00F93F73 /* MockUserProduct.swift in Sources */,
 				5061ACB91DE35519002E5423 /* MockSessionManager.swift in Sources */,
 				C70971C81E2F8CF300680995 /* MockChatUnreadMessages.swift in Sources */,
 				50E96E6D1DE3486A009DB88A /* SignUpViewModelSpec.swift in Sources */,

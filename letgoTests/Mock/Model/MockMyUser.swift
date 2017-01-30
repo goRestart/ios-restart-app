@@ -17,9 +17,9 @@ class MockMyUser: MyUser {
     var avatar: File?
     var postalAddress: PostalAddress = PostalAddress.emptyAddress()
 
-    var accounts: [Account]?
+    var accounts: [Account] = []
     var ratingAverage: Float?
-    var ratingCount: Int?
+    var ratingCount: Int = 0
 
     var status: UserStatus = .active
 

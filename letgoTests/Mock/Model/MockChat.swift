@@ -12,8 +12,8 @@ class MockChat: MockBaseModel, Chat {
 
     // Chat iVars
     var product: Product
-    var userFrom: User
-    var userTo: User
+    var userFrom: UserProduct
+    var userTo: UserProduct
     var msgUnreadCount: Int
     var messages: [Message]
     var forbidden: Bool
@@ -24,8 +24,8 @@ class MockChat: MockBaseModel, Chat {
     override init() {
 
         self.product = MockProduct()
-        self.userFrom = MockUser()
-        self.userTo = MockUser()
+        self.userFrom = MockUserProduct()
+        self.userTo = MockUserProduct()
         self.msgUnreadCount = 1
 
         let messageOne = LGMessage()

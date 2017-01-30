@@ -1,4 +1,15 @@
 //
+//  MockUserProduct.swift
+//  LetGo
+//
+//  Created by Juan Iglesias on 30/01/17.
+//  Copyright © 2017 Ambatana. All rights reserved.
+//
+
+import Foundation
+
+
+//
 //  MockUser.swift
 //  LetGo
 //
@@ -8,7 +19,7 @@
 
 import LGCoreKit
 
-final class MockUser: MockBaseModel, MyUser {
+final class MockUserProduct: MockBaseModel, UserProduct {
     var username: String?
     var password: String?
     var email: String?
@@ -24,22 +35,19 @@ final class MockUser: MockBaseModel, MyUser {
     var isDummy: Bool
     var isAnonymous: Bool
     var isScammer: NSNumber?
+    var banned: Bool?
     
     var sessionToken: String?
     
     var didLogInByFacebook: Bool
-
+    
     
     var location: LGLocation?
-    var accounts: [Account]
     var status: UserStatus
     var name: String?
     
-    var ratingAverage: Float?
-    var ratingCount: Int
-
     var localeIdentifier: String?
-
+    
     // Lifecycle
     
     override init() {
@@ -50,13 +58,12 @@ final class MockUser: MockBaseModel, MyUser {
         self.isScammer = NSNumber(value: false as Bool)
         self.didLogInByFacebook = false
         self.location = nil
-        self.accounts = [MockAccount(provider: .email, verified: true)]
+        self.banned = nil
         self.status = .active
-        self.ratingCount = 0
         super.init()
     }
     
-    required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, accounts: [Account], ratingAccount: Int) {
+    required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, banned: Bool?) {
         self.isDummy = false
         self.isAnonymous = false
         self.didLogInByFacebook = false
@@ -65,8 +72,7 @@ final class MockUser: MockBaseModel, MyUser {
         self.postalAddress = postalAddress
         self.email = email
         self.location = location
-        self.accounts = accounts
         self.status = .active
-        self.ratingCount = ratingAccount
+        self.banned = banned
     }
 }
