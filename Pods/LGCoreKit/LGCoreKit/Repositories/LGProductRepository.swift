@@ -8,6 +8,7 @@
 
 import Result
 import RxSwift
+import RxSwiftExt
 
 
 final class LGProductRepository: ProductRepository {
@@ -44,14 +45,19 @@ final class LGProductRepository: ProductRepository {
     }
 
     func updateEventsFor(productId: String) -> Observable<Product> {
-        return events.filter {
+        let optionalProducts: Observable<Product?> = events.map {
             switch $0 {
-            case .create, .delete, .favorite, .unFavorite:
-                return false
+            case .create, .delete, .favorite, .unFavorite, .sold, .unSold:
+                return nil
             case let .update(product):
-                return product.objectId == productId
+                if product.objectId == productId {
+                    return product
+                } else {
+                    return nil
+                }
             }
-        }.map { $0.product }
+        }
+        return optionalProducts.unwrap()
     }
 
     func buildNewProduct(_ name: String?, description: String?, price: ProductPrice, category: ProductCategory) -> Product? {
@@ -224,7 +230,7 @@ final class LGProductRepository: ProductRepository {
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
-                self?.eventBus.onNext(.delete(product))
+                self?.eventBus.onNext(.delete(productId))
                 completion?(ProductResult(value: product))
             }
         }
@@ -234,10 +240,11 @@ final class LGProductRepository: ProductRepository {
     // MARK: - Mark product as (un)sold
 
     func markProductAsSold(_ productId: String, completion: ProductVoidCompletion?) {
-        dataSource.markAs(sold: true, productId: productId) { result in
+        dataSource.markAs(sold: true, productId: productId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
+                self?.eventBus.onNext(.sold(productId))
                 completion?(ProductVoidResult(value: ()))
             }
         }
@@ -250,12 +257,13 @@ final class LGProductRepository: ProductRepository {
             return
         }
 
-        dataSource.markAs(sold: true, productId: productId) { result in
+        dataSource.markAs(sold: true, productId: productId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
                 newProduct = newProduct.updating(status: .sold)
+                self?.eventBus.onNext(.sold(productId))
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -268,12 +276,13 @@ final class LGProductRepository: ProductRepository {
             return
         }
 
-        dataSource.markAs(sold: false, productId: productId) { result in
+        dataSource.markAs(sold: false, productId: productId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
                 newProduct = newProduct.updating(status: .approved)
+                self?.eventBus.onNext(.unSold(productId))
                 completion?(ProductResult(value: newProduct))
             }
         }

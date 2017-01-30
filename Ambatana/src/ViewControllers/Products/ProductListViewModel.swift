@@ -181,26 +181,24 @@ class ProductListViewModel: BaseViewModel {
         clearList()
     }
 
-    func update(cellModel: ProductCellModel) {
-        guard state.isData else { return }
-        if let index = objects.index(of: cellModel) {
-            objects[index] = cellModel
-            delegate?.vmReloadData(self)
-        }
-    }
-
-    func prepend(cellModel: ProductCellModel) {
-        guard state.isData else { return }
-        objects.insert(cellModel, at: 0)
+    func update(product: Product) {
+        guard state.isData, let productId = product.objectId else { return }
+        guard let index = indexFor(productId: productId) else { return }
+        objects[index] = ProductCellModel(product: product)
         delegate?.vmReloadData(self)
     }
 
-    func delete(cellModel: ProductCellModel) {
+    func prepend(product: Product) {
         guard state.isData else { return }
-        if let index = objects.index(of: cellModel) {
-            objects.remove(at: index)
-            delegate?.vmReloadData(self)
-        }
+        objects.insert(ProductCellModel(product: product), at: 0)
+        delegate?.vmReloadData(self)
+    }
+
+    func delete(productId: String) {
+        guard state.isData else { return }
+        guard let index = indexFor(productId: productId) else { return }
+        objects.remove(at: index)
+        delegate?.vmReloadData(self)
     }
 
     private func retrieveProducts(firstPage: Bool) {
@@ -300,7 +298,18 @@ class ProductListViewModel: BaseViewModel {
             return nil
         }
     }
-    
+
+    func indexFor(productId: String) -> Int? {
+        return objects.index(where: { cellModel in
+            switch cellModel {
+            case let .productCell(cellProduct):
+                return cellProduct.objectId == productId
+            case .collectionCell, .emptyCell:
+                return false
+            }
+        })
+    }
+
     /**
         Returns the size of the cell at the given index path.
     

@@ -27,22 +27,24 @@ public typealias ProductsCompletion = (ProductsResult) -> Void
 public enum ProductEvent {
     case create(Product)
     case update(Product)
-    case delete(Product)
+    case delete(String)
     case favorite(Product)
     case unFavorite(Product)
+    case sold(String)
+    case unSold(String)
 
-    var product: Product {
+    var product: Product? {
         switch self {
         case let .create(product):
             return product
         case let .update(product):
             return product
-        case let .delete(product):
-            return product
         case let .favorite(product):
             return product
         case let .unFavorite(product):
             return product
+        case .delete, .sold, .unSold:
+            return nil
         }
     }
 }

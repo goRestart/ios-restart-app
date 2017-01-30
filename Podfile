@@ -17,6 +17,7 @@ def shared_pods
     pod "FBSDKShareKit",		"~> 4.15.1" # Obj-c
 
     pod "RxSwift",              "~> 3.1.0"
+    pod "RxSwiftExt",           "~> 2.1.0"
     pod "RxCocoa",              "~> 3.1.0"
     pod "RxBlocking",           "~> 3.1.0"
 
@@ -32,7 +33,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",            :git => 'https://github.com/letgoapp/letgo-ios-lgcorekit', :commit => '7fe503c521f6d8761d6e8931ce304d7d91a592a7' #:path => "../lgcorekit" #"2.2.2"
+    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'a1567b73decab217e60a2d22a0906d66f388b5c3' #:path => "../lgcorekit" #"2.2.2"
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.0.0"     # :path => "../collapsiblelabel"
