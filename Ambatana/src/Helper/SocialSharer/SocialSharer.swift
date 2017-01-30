@@ -50,8 +50,8 @@ extension SocialSharer {
             shareInPasteboard(socialMessage)
         case .sms:
             shareInSMS(socialMessage, viewController: viewController, messageComposeDelegate: self)
-        case .native:
-            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem)
+        case let .native(restricted):
+            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem, restricted: restricted)
         }
     }
 }
@@ -253,9 +253,21 @@ fileprivate extension SocialSharer {
         }
     }
 
-    func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+    func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil,
+                       restricted: Bool) {
         let activityItems = socialMessage.nativeShareItems
         let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+
+        if restricted {
+            var excludedActivities: [UIActivityType] = []
+            excludedActivities.append(.print)
+            excludedActivities.append(.copyToPasteboard)
+            excludedActivities.append(.assignToContact)
+            excludedActivities.append(.saveToCameraRoll)
+            excludedActivities.append(.addToReadingList)
+            shareVC.excludedActivityTypes = excludedActivities
+        }
+
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
         if shareVC.responds(to: #selector(getter: UIViewController.popoverPresentationController)) {
@@ -284,11 +296,11 @@ fileprivate extension SocialSharer {
                     if let _ = activity.rawValue.range(of: "whatsapp") {
                         shareType = .whatsapp
                     } else {
-                        shareType = .native
+                        shareType = .native(restricted: restricted)
                     }
                 }
             } else {
-                shareType = .native
+                shareType = .native(restricted: restricted)
             }
 
             // Comment left here as a clue to manage future activities
@@ -310,7 +322,7 @@ fileprivate extension SocialSharer {
             }
         }
         viewController.present(shareVC, animated: true) { [weak self] in
-            self?.delegate?.shareStartedIn(.native)
+            self?.delegate?.shareStartedIn(.native(restricted: restricted))
         }
     }
 

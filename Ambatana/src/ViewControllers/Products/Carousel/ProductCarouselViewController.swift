@@ -1093,11 +1093,11 @@ extension ProductCarouselViewController {
 extension ProductCarouselViewController: ProductViewModelDelegate {
     
     func vmShowShareFromMain(_ socialMessage: SocialMessage) {
-        viewModel.openShare(.native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
+        viewModel.openShare(.native(restricted: false), fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 
     func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage) {
-        viewModel.openShare(.native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
+        viewModel.openShare(.native(restricted: false), fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
     
     func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ()) {

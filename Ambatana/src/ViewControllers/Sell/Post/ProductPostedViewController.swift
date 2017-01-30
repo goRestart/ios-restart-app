@@ -182,7 +182,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
     private func shareButtonPressed() {
         guard let socialMessage = viewModel.socialMessage else { return }
-        socialSharer.share(socialMessage, shareType: .native, viewController: self)
+        socialSharer.share(socialMessage, shareType: .native(restricted: false), viewController: self)
     }
 }
 
