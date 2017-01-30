@@ -23,6 +23,7 @@ class BumpUpPayViewModel: BaseViewModel {
     var purchasesShopper: PurchasesShopper
 
     weak var delegate: BumpUpPayViewModelDelegate?
+    weak var navigator: BumpUpNavigator?
 
 
     // MARK: - Lifecycle
