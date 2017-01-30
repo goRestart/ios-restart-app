@@ -17,8 +17,10 @@ final class LogInEmailViewController: KeyboardViewController {
 
     fileprivate let viewModel: LogInEmailViewModel
     fileprivate let appearance: LoginAppearance
+    fileprivate let backgroundImage: UIImage?
     fileprivate let deviceFamily: DeviceFamily
 
+    fileprivate let backgroundImageView = UIImageView()
     fileprivate let scrollView = UIScrollView()
     fileprivate let headerGradientView = UIView()
     fileprivate let headerGradientLayer = CAGradientLayer.gradientWithColor(UIColor.white,
@@ -43,13 +45,16 @@ final class LogInEmailViewController: KeyboardViewController {
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: LogInEmailViewModel, appearance: LoginAppearance) {
-        self.init(viewModel: viewModel, appearance: appearance, deviceFamily: DeviceFamily.current)
+    convenience init(viewModel: LogInEmailViewModel, appearance: LoginAppearance, backgroundImage: UIImage?) {
+        self.init(viewModel: viewModel, appearance: appearance, backgroundImage: backgroundImage,
+                  deviceFamily: DeviceFamily.current)
     }
 
-    init(viewModel: LogInEmailViewModel, appearance: LoginAppearance, deviceFamily: DeviceFamily) {
+    init(viewModel: LogInEmailViewModel, appearance: LoginAppearance, backgroundImage: UIImage?,
+         deviceFamily: DeviceFamily) {
         self.viewModel = viewModel
         self.appearance = appearance
+        self.backgroundImage = backgroundImage
         self.deviceFamily = deviceFamily
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
@@ -171,6 +176,10 @@ fileprivate extension LogInEmailViewController {
     func setupUI() {
         view.backgroundColor = UIColor.white
 
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundImageView.image = backgroundImage
+        view.addSubview(backgroundImageView)
+
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.bounces = false
         scrollView.alwaysBounceVertical = true
@@ -182,6 +191,7 @@ fileprivate extension LogInEmailViewController {
         headerGradientView.backgroundColor = UIColor.clear
         headerGradientView.isOpaque = true
         headerGradientView.layer.addSublayer(headerGradientLayer)
+        // TODO: Needed?
 //        headerGradientLayer.frame = headerGradientView.bounds
         headerGradientView.layer.sublayers?.removeAll()
         headerGradientView.layer.insertSublayer(headerGradientLayer, at: 0)
@@ -246,7 +256,7 @@ fileprivate extension LogInEmailViewController {
 
         rememberPasswordButton.translatesAutoresizingMaskIntoConstraints = false
         rememberPasswordButton.setTitle(LGLocalizedString.logInEmailForgotPasswordButton, for: .normal)
-        rememberPasswordButton.setTitleColor(UIColor.darkGrayText, for: .normal)
+        rememberPasswordButton.setTitleColor(appearance.rememberPasswordTextColor, for: .normal)
         contentView.addSubview(rememberPasswordButton)
 
         loginButton.translatesAutoresizingMaskIntoConstraints = false
@@ -282,6 +292,8 @@ fileprivate extension LogInEmailViewController {
     }
 
     func setupLayout() {
+        backgroundImageView.layout(with: view).fill()
+
         scrollView.layout(with: topLayoutGuide).vertically()
         scrollView.layout(with: bottomLayoutGuide).vertically(invert: true)
         scrollView.layout(with: view).leading().trailing()
@@ -442,7 +454,15 @@ fileprivate extension LoginAppearance {
         }
     }
 
+    var rememberPasswordTextColor: UIColor {
+        return buttonTextColor
+    }
+
     var footerMainTextColor: UIColor {
+        return buttonTextColor
+    }
+
+    private var buttonTextColor: UIColor {
         switch self {
         case .dark:
             return UIColor.white
