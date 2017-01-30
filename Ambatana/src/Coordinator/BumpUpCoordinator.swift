@@ -24,9 +24,8 @@ class BumpUpCoordinator: Coordinator {
 
         let bumpUpVM = BumpUpFreeViewModel(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
         let bumpUpVC = BumpUpFreeViewController(viewModel: bumpUpVM)
-        let navC = UINavigationController(rootViewController: bumpUpVC)
-        navC.modalPresentationStyle = .overCurrentContext
-        self.viewController = navC
+        bumpUpVC.modalPresentationStyle = .overCurrentContext
+        self.viewController = bumpUpVC
 
         bumpUpVM.navigator = self
     }
@@ -35,9 +34,8 @@ class BumpUpCoordinator: Coordinator {
 
         let bumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct)
         let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
-        let navC = UINavigationController(rootViewController: bumpUpVC)
-        navC.modalPresentationStyle = .overCurrentContext
-        self.viewController = navC
+        bumpUpVC.modalPresentationStyle = .overCurrentContext
+        self.viewController = bumpUpVC
 
         bumpUpVM.navigator = self
     }
