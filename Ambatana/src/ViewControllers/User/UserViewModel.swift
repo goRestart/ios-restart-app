@@ -537,7 +537,9 @@ fileprivate extension UserViewModel {
         
         userRelationText.asObservable().subscribeNext { [weak self] relation in
             guard let strongSelf = self else { return }
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+            if strongSelf.navBarButtons.value.isEmpty || !strongSelf.itsMe {
+                strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+            }
             }.addDisposableTo(disposeBag)
     }
     

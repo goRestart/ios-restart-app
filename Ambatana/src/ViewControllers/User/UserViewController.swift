@@ -79,7 +79,6 @@ class UserViewController: BaseViewController {
     fileprivate var notificationsManager: NotificationsManager
     fileprivate var featureFlags: FeatureFlaggeable
 
-    fileprivate var navigationBarRightBarButtonItemsAdded: Bool = false
 
     // MARK: - Lifecycle
 
@@ -425,8 +424,7 @@ extension UserViewController {
 
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
-            guard strongSelf.shouldAddNavigationRightBarButtonItems() else { return }
-            
+
             var buttons = [UIButton]()
             navBarButtons.forEach { navBarButton in
                 let button = UIButton(type: .system)
@@ -437,12 +435,7 @@ extension UserViewController {
                 buttons.append(button)
             }
             strongSelf.setNavigationBarRightButtons(buttons)
-            strongSelf.navigationBarRightBarButtonItemsAdded = true
         }.addDisposableTo(disposeBag)
-    }
-    
-    private func shouldAddNavigationRightBarButtonItems() -> Bool {
-        return !navigationBarRightBarButtonItemsAdded && viewModel.itsMe
     }
 
     private func setupHeaderRxBindings() {
