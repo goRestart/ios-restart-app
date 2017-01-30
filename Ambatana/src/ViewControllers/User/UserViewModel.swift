@@ -377,7 +377,6 @@ extension UserViewModel {
 fileprivate extension UserViewModel {
     func retrieveUserData() {
         guard let userId = user.value?.objectId else { return }
-        guard user.value?.accounts == nil else { return } // If user already has accounts == complete user
         userRepository.show(userId) { [weak self] result in
             guard let user = result.value else { return }
             self?.updateAccounts(user)
