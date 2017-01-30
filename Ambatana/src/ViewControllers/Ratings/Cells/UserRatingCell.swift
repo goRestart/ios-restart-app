@@ -126,7 +126,7 @@ class UserRatingCell: UITableViewCell {
                 [weak self] (result, url) in
                 guard let strongSelf = self else { return }
                 // tag check to prevent wrong image placement cos' of recycling
-                if let image = result.value?.image, self?.tag == tag {
+                if let image = result.value?.image, strongSelf.tag == tag {
                     strongSelf.userAvatar.image = image
                     strongSelf.userAvatar.layer.cornerRadius = strongSelf.userAvatar.height/2
                 }
