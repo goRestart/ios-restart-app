@@ -370,10 +370,10 @@ class ProductViewModel: BaseViewModel {
             self?.updateBumpUpBannerFor(product: product)
         }.addDisposableTo(disposeBag)
 
-        product.asObservable().bindNext { [weak self] product in
-            guard let flags = self?.featureFlags else { return }
+        status.asObservable().bindNext { [weak self] status in
+            guard let flags = self?.featureFlags, let product = self?.product.value else { return }
             self?.shareButtonState.value = flags.editDeleteItemUxImprovement && product.isMine ? .enabled : .hidden
-            self?.editButtonState.value = !flags.editDeleteItemUxImprovement && product.isMine ? .enabled : .hidden
+            self?.editButtonState.value = !flags.editDeleteItemUxImprovement && status.isEditable ? .enabled : .hidden
         }.addDisposableTo(disposeBag)
 
         Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable(), productCreationDate.asObservable()) {
@@ -679,7 +679,9 @@ extension ProductViewModel {
         var navBarButtons = [UIAction]()
 
         if featureFlags.editDeleteItemUxImprovement && product.value.isMine {
-            navBarButtons.append(buildEditNavBarAction())
+            if status.value.isEditable {
+                navBarButtons.append(buildEditNavBarAction())
+            }
             navBarButtons.append(buildMoreNavBarAction())
         } else {
             if (moreInfoState.value == .shown) {
@@ -733,10 +735,9 @@ extension ProductViewModel {
     private func showOptionsMenu() {
         var actions = [UIAction]()
         let isMine = product.value.isMine
-        let isDeletable = status.value == .notAvailable ? false : isMine
         let isCommercializable = (status.value == .pendingAndCommercializable || status.value == .availableAndCommercializable)
 
-        if featureFlags.editDeleteItemUxImprovement && isMine {
+        if featureFlags.editDeleteItemUxImprovement && status.value.isEditable {
             actions.append(buildEditAction())
         }
         actions.append(buildShareAction())
@@ -747,7 +748,7 @@ extension ProductViewModel {
         if !isMine {
             actions.append(buildReportAction())
         }
-        if isDeletable {
+        if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
 
