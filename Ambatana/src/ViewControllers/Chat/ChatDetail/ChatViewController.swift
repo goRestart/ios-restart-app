@@ -378,7 +378,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
 
         if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .notAvailable {
             let image = UIImage(named: "ic_quick_answers")
-            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? nil : UIColor.primaryColor
+            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? UIColor.primaryColor : nil
             let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
                 }, accessibilityId: .chatViewQuickAnswersButton)
