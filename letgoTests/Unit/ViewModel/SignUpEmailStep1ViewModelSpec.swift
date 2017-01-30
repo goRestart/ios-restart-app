@@ -58,11 +58,11 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                                                         keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
-                    it("has an empty email") {
-                        expect(sut.email.value) == ""
+                    it("has no email") {
+                        expect(sut.email.value).to(beNil())
                     }
-                    it("has an empty password") {
-                        expect(sut.password.value) == ""
+                    it("has no password") {
+                        expect(sut.password.value).to(beNil())
                     }
                     it("has next step disabled") {
                         expect(nextStepEnabled) == false
@@ -81,8 +81,8 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                     it("has an email") {
                         expect(sut.email.value) == "albert@letgo.com"
                     }
-                    it("has an empty password") {
-                        expect(sut.password.value) == ""
+                    it("has no password") {
+                        expect(sut.password.value).to(beNil())
                     }
                     it("has next step disabled") {
                         expect(nextStepEnabled) == false
@@ -98,11 +98,11 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                                                         keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
-                    it("has an empty email") {
-                        expect(sut.email.value) == ""
+                    it("has no email") {
+                        expect(sut.email.value).to(beNil())
                     }
-                    it("has an empty password") {
-                        expect(sut.password.value) == ""
+                    it("has no password") {
+                        expect(sut.password.value).to(beNil())
                     }
                     it("has next step disabled") {
                         expect(nextStepEnabled) == false
@@ -118,11 +118,11 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                                                         keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
-                    it("has an empty email") {
-                        expect(sut.email.value) == ""
+                    it("has no email") {
+                        expect(sut.email.value).to(beNil())
                     }
-                    it("has an empty password") {
-                        expect(sut.password.value) == ""
+                    it("has no password") {
+                        expect(sut.password.value).to(beNil())
                     }
                     it("has next step disabled") {
                         expect(nextStepEnabled) == false
@@ -293,7 +293,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
 
             describe("open help") {
                 beforeEach {
-                    sut.helpAction.action()
+                    sut.openHelp()
                 }
 
                 it("calls open help in navigator") {
@@ -313,7 +313,7 @@ extension SignUpEmailStep1ViewModelSpec: SignUpEmailStep1Navigator {
         navigatorReceivedOpenNextStep = true
     }
 
-    func openLogInFromSignUpEmailStep1(email: String, password: String) {
+    func openLogInFromSignUpEmailStep1(email: String?, password: String?) {
         navigatorReceivedOpenLogIn = true
     }
 }

@@ -20,20 +20,15 @@ struct SignUpEmailStep1FormErrors: OptionSet {
 protocol SignUpEmailStep1Navigator: class {
     func openHelpFromSignUpEmailStep1()
     func openNextStepFromSignUpEmailStep1(email: String, password: String)
-    func openLogInFromSignUpEmailStep1(email: String, password: String) // TODO: Call navigator to pop + push login
+    func openLogInFromSignUpEmailStep1(email: String?, password: String?) // TODO: Call navigator to pop + push login
 }
 
 final class SignUpEmailStep1ViewModel: BaseViewModel {
-    lazy var helpAction: UIAction = {
-        return UIAction(interface: .text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
-            self?.openHelp()
-        }, accessibilityId: .SignUpEmailHelpButton)
-    }()
-    let email: Variable<String>
+    let email: Variable<String?>
     var suggestedEmail: Observable<String?> {
         return suggestedEmailVar.asObservable()
     }
-    let password: Variable<String>
+    let password: Variable<String?>
     var nextStepEnabled: Observable<Bool> {
         return nextStepEnabledVar.asObservable()
     }
@@ -59,9 +54,9 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     init(source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?,
          keyValueStorage: KeyValueStorageable, tracker: Tracker) {
-        let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage) ?? ""
-        self.email = Variable<String>(email)
-        self.password = Variable<String>("")
+        let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
+        self.email = Variable<String?>(email)
+        self.password = Variable<String?>(nil)
 
         self.suggestedEmailVar = Variable<String?>(nil)
         self.source = source
@@ -80,6 +75,10 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension SignUpEmailStep1ViewModel {
+    func openHelp() {
+        navigator?.openHelpFromSignUpEmailStep1()
+    }
+
     func acceptSuggestedEmail() {
         guard let suggestedEmail = suggestedEmailVar.value else { return }
         email.value = suggestedEmail
@@ -93,17 +92,25 @@ extension SignUpEmailStep1ViewModel {
         var errors: SignUpEmailStep1FormErrors = []
         guard nextStepEnabledVar.value else { return errors }
 
-        if !email.value.isEmail() {
+        if let email = email.value {
+            if !email.isEmail() {
+                errors.insert(.invalidEmail)
+            }
+        } else {
             errors.insert(.invalidEmail)
         }
-        if password.value.characters.count < Constants.passwordMinLength {
+        if let password = password.value {
+            if password.characters.count < Constants.passwordMinLength {
+                errors.insert(.shortPassword)
+            } else if password.characters.count > Constants.passwordMaxLength {
+                errors.insert(.longPassword)
+            }
+        } else {
             errors.insert(.shortPassword)
-        } else if password.value.characters.count > Constants.passwordMaxLength {
-            errors.insert(.longPassword)
         }
 
-        if errors.isEmpty {
-            openNextStep(email: email.value, password: password.value)
+        if let email = email.value, let password = password.value, errors.isEmpty {
+            openNextStep(email: email, password: password)
         } else {
             trackFormValidationFailed(errors: errors)
         }
@@ -119,12 +126,13 @@ fileprivate extension SignUpEmailStep1ViewModel {
     func setupRx() {
         // Next step is enabled when email & password are not empty
         Observable.combineLatest(email.asObservable(), password.asObservable()) { (email, password) -> Bool in
+            guard let email = email, let password = password else { return false }
             return email.characters.count > 0 && password.characters.count > 0
         }.bindTo(nextStepEnabledVar).addDisposableTo(disposeBag)
 
         // Email auto suggest
         email.asObservable()
-            .map { $0.suggestEmail(domains: Constants.emailSuggestedDomains) }
+            .map { $0?.suggestEmail(domains: Constants.emailSuggestedDomains) }
             .bindTo(suggestedEmailVar)
             .addDisposableTo(disposeBag)
     }
@@ -170,15 +178,11 @@ fileprivate extension SignUpEmailStep1FormErrors {
 // MARK: > Navigation
 
 fileprivate extension SignUpEmailStep1ViewModel {
-    func openHelp() {
-        navigator?.openHelpFromSignUpEmailStep1()
-    }
-
     func openNextStep(email: String, password: String) {
         navigator?.openNextStepFromSignUpEmailStep1(email: email, password: password)
     }
 
-    func openLogIn(email: String, password: String) {
+    func openLogIn(email: String?, password: String?) {
         navigator?.openLogInFromSignUpEmailStep1(email: email, password: password)
     }
 }
