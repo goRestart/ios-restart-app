@@ -296,11 +296,12 @@ fileprivate extension LogInEmailViewModel {
 
 fileprivate extension LogInEmailViewModel {
     func showRememberPasswordAlert() {
-        // TODO: strings!
-        let title = "Forgot your password?"
-        let message = "We can send an email to \(email.value)"
-        let cancelAction = UIAction(interface: .styledText("Retry", .cancel), action: {})
-        let recoverPasswordAction = UIAction(interface: .styledText("Send email", .destructive), action: { [weak self] in
+        let title = LGLocalizedString.logInEmailForgotPasswordAlertTitle
+        let message = LGLocalizedString.logInEmailForgotPasswordAlertMessage(email.value ?? "")
+        let cancelAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertCancelAction, .cancel),
+                                    action: {})
+        let recoverPasswordAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertRememberAction, .destructive),
+                                             action: { [weak self] in
             guard let email = self?.email.value else { return }
             self?.recoverPassword(email: email)
         })
