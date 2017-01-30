@@ -577,6 +577,7 @@
 "product_share_email_error" = "Hoppá! Úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
 "product_share_generic_error" = "Hiba történt a portéka megosztása során. Próbálkozz újra.";
 "product_share_generic_ok" = "Portéka megosztva!";
+"product_share_navbar_button" = "Megosztás";
 "product_share_posted_by" = "Közzétevő: %@";
 "product_share_sms_error" = "Hiba történt az üzenet küldése során.";
 "product_share_sms_ok" = "Küldés...";

@@ -577,6 +577,7 @@
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, δοκιμάστε ξανά.";
 "product_share_generic_ok" = "Το προϊόν κοινοποιήθηκε!";
+"product_share_navbar_button" = "Κοινοποίηση";
 "product_share_posted_by" = "δημοσιεύτηκε από τον %@";
 "product_share_sms_error" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος.";
 "product_share_sms_ok" = "Αποστολή...";

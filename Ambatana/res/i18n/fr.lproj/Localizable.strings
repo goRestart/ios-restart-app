@@ -577,6 +577,7 @@
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer.";
 "product_share_generic_ok" = "Bien partagé !";
+"product_share_navbar_button" = "Partager";
 "product_share_posted_by" = "posté par %@";
 "product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message.";
 "product_share_sms_ok" = "Envoi...";

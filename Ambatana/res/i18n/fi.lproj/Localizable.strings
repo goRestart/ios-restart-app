@@ -577,6 +577,7 @@
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "product_share_generic_ok" = "Tuote jaettu!";
+"product_share_navbar_button" = "Jaa";
 "product_share_posted_by" = "ilmoittaja: %@";
 "product_share_sms_error" = "Viestiäsi lähetettäessä tapahtui virhe.";
 "product_share_sms_ok" = "Lähetetään...";

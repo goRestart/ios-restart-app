@@ -577,6 +577,7 @@
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare.";
 "product_share_generic_ok" = "Prodotto condiviso!";
+"product_share_navbar_button" = "Condividi";
 "product_share_posted_by" = "pubblicato da %@";
 "product_share_sms_error" = "Si è verificato un errore durante il tentativo di invio del messaggio.";
 "product_share_sms_ok" = "Invio in corso...";
