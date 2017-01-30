@@ -24,7 +24,7 @@ protocol LogInEmailViewModelDelegate: BaseViewModelDelegate {
 protocol LogInEmailViewModelNavigator: class {
     func openHelpFromLogInEmail()
     func openRememberPasswordFromLogInEmail(email: String?)
-    func openSignUpEmailFromLogInEmail(email: String?, password: String?) // TODO: Call navigator to pop + push signup
+    func openSignUpEmailFromLogInEmail(email: String?, password: String?)
     func openScammerAlertFromLogInEmail()
     func closeAfterLogInSuccessful()
 }

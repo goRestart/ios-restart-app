@@ -72,12 +72,6 @@ final class LogInEmailViewController: KeyboardViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        // TODO: try moving this to init
-//
-//    }
-
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         updateUI()
@@ -193,8 +187,6 @@ fileprivate extension LogInEmailViewController {
         headerGradientView.backgroundColor = UIColor.clear
         headerGradientView.isOpaque = true
         headerGradientView.layer.addSublayer(headerGradientLayer)
-        // TODO: Needed?
-//        headerGradientLayer.frame = headerGradientView.bounds
         headerGradientView.layer.sublayers?.removeAll()
         headerGradientView.layer.insertSublayer(headerGradientLayer, at: 0)
         headerGradientView.isHidden = appearance.headerGradientIsHidden
@@ -373,6 +365,21 @@ fileprivate extension LogInEmailViewController {
     dynamic func makePasswordTextFieldFirstResponder() {
         passwordTextField.becomeFirstResponder()
     }
+
+    func loginButtonPressed() {
+        let errors = viewModel.logIn()
+        openAlertWithFormErrors(errors: errors)
+    }
+
+    func openAlertWithFormErrors(errors: LogInEmailFormErrors) {
+        guard !errors.isEmpty else { return }
+
+        if errors.contains(.invalidEmail) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorInvalidEmail)
+        } else if errors.contains(.shortPassword) || errors.contains(.longPassword) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword)
+        }
+    }
 }
 
 // TODO: Move this to a separate extension file
@@ -509,25 +516,3 @@ fileprivate extension LogInEmailViewController {
         }.bindTo(loginButtonVisible).addDisposableTo(disposeBag)
     }
 }
-
-
-// MARK: >
-
-fileprivate extension LogInEmailViewController {
-    func loginButtonPressed() {
-        let errors = viewModel.logIn()
-        openAlertWithFormErrors(errors: errors)
-    }
-
-    func openAlertWithFormErrors(errors: LogInEmailFormErrors) {
-        guard !errors.isEmpty else { return }
-
-        if errors.contains(.invalidEmail) {
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorInvalidEmail)
-        } else if errors.contains(.shortPassword) || errors.contains(.longPassword) {
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword)
-        }
-    }
-}
-
-
