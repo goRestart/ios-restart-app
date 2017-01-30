@@ -96,6 +96,8 @@ class UserRatingCell: UITableViewCell {
         }
         lines = []
         lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+        
+        userAvatar.rounded = true
     }
 
 
@@ -130,7 +132,6 @@ class UserRatingCell: UITableViewCell {
                 }
             }
         }
-        userAvatar.layer.cornerRadius = userAvatar.height/2
         timeLabel.text = data.ratingDate.relativeTimeString(false)
         drawStarsForValue(data.ratingValue)
     }
@@ -149,7 +150,6 @@ class UserRatingCell: UITableViewCell {
         ratingTypeLabel.textColor = UIColor.blackText
         descriptionLabel.textColor = UIColor.darkGrayText
         timeLabel.textColor = UIColor.darkGrayText
-        userAvatar.layer.cornerRadius = userAvatar.height/2
     }
 
     // Resets the UI to the initial state

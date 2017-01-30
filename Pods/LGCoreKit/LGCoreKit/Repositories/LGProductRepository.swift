@@ -7,9 +7,18 @@
 //
 
 import Result
+import RxSwift
+import RxSwiftExt
 
 
 final class LGProductRepository: ProductRepository {
+
+    var events: Observable<ProductEvent> {
+        return eventBus.asObservable()
+    }
+
+    private let eventBus = PublishSubject<ProductEvent>()
+
     let dataSource: ProductDataSource
     let myUserRepository: MyUserRepository
     let favoritesDAO: FavoritesDAO
@@ -33,6 +42,22 @@ final class LGProductRepository: ProductRepository {
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.viewedProductIds = []
+    }
+
+    func updateEventsFor(productId: String) -> Observable<Product> {
+        let optionalProducts: Observable<Product?> = events.map {
+            switch $0 {
+            case .create, .delete, .favorite, .unFavorite, .sold, .unSold:
+                return nil
+            case let .update(product):
+                if product.objectId == productId {
+                    return product
+                } else {
+                    return nil
+                }
+            }
+        }
+        return optionalProducts.unwrap()
     }
 
     func buildNewProduct(_ name: String?, description: String?, price: ProductPrice, category: ProductCategory) -> Product? {
@@ -149,9 +174,11 @@ final class LGProductRepository: ProductRepository {
         product = product.updating(images: images)
         dataSource.create(product.encode()) { [weak self] result in
 
-            // Cache the product in the limbo
             if let product = result.value {
+                // Cache the product in the limbo
                 self?.productsLimboDAO.save(product)
+                // Send event
+                self?.eventBus.onNext(.create(product))
             }
             handleApiResult(result, completion: completion)
         }
@@ -183,7 +210,11 @@ final class LGProductRepository: ProductRepository {
         var newProduct = LGProduct(product: product)
         newProduct = newProduct.updating(images: images)
 
-        dataSource.update(productId, product: newProduct.encode()) { result in
+        dataSource.update(productId, product: newProduct.encode()) { [weak self] result in
+            if let product = result.value {
+                // Send event
+                self?.eventBus.onNext(.update(product))
+            }
             handleApiResult(result, completion: completion)
         }
     }
@@ -195,10 +226,11 @@ final class LGProductRepository: ProductRepository {
             return
         }
 
-        dataSource.delete(productId) { result in
+        dataSource.delete(productId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
+                self?.eventBus.onNext(.delete(productId))
                 completion?(ProductResult(value: product))
             }
         }
@@ -208,10 +240,11 @@ final class LGProductRepository: ProductRepository {
     // MARK: - Mark product as (un)sold
 
     func markProductAsSold(_ productId: String, completion: ProductVoidCompletion?) {
-        dataSource.markAs(sold: true, productId: productId) { result in
+        dataSource.markAs(sold: true, productId: productId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
+                self?.eventBus.onNext(.sold(productId))
                 completion?(ProductVoidResult(value: ()))
             }
         }
@@ -224,12 +257,13 @@ final class LGProductRepository: ProductRepository {
             return
         }
 
-        dataSource.markAs(sold: true, productId: productId) { result in
+        dataSource.markAs(sold: true, productId: productId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
                 newProduct = newProduct.updating(status: .sold)
+                self?.eventBus.onNext(.sold(productId))
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -242,12 +276,13 @@ final class LGProductRepository: ProductRepository {
             return
         }
 
-        dataSource.markAs(sold: false, productId: productId) { result in
+        dataSource.markAs(sold: false, productId: productId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
                 newProduct = newProduct.updating(status: .approved)
+                self?.eventBus.onNext(.unSold(productId))
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -274,6 +309,7 @@ final class LGProductRepository: ProductRepository {
                 var newProduct = LGProduct(product: product)
                 newProduct.favorite = true
                 self?.favoritesDAO.save(product: product)
+                self?.eventBus.onNext(.favorite(newProduct))
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -297,6 +333,7 @@ final class LGProductRepository: ProductRepository {
                 var newProduct = LGProduct(product: product)
                 newProduct.favorite = false
                 self?.favoritesDAO.remove(product: product)
+                self?.eventBus.onNext(.unFavorite(newProduct))
                 completion?(ProductResult(value: newProduct))
             }
         }

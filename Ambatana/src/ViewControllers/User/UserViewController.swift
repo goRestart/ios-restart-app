@@ -20,7 +20,7 @@ class UserViewController: BaseViewController {
     fileprivate static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
     fileprivate static let headerExpandedHeight: CGFloat = 150
 
-    fileprivate static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
+    fileprivate static let headerCollapsedBottom: CGFloat = -(20+44+headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
     fileprivate static let headerCollapsedHeight: CGFloat = 44
 
     fileprivate static let navbarHeaderMaxThresold: CGFloat = 0.5
@@ -304,7 +304,7 @@ extension UserViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
+        productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight
 
         averageRatingView.rounded = true
     }

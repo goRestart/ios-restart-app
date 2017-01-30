@@ -94,6 +94,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let trendingSearchesRepository: TrendingSearchesRepository
+    fileprivate let productRepository: ProductRepository
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
 
@@ -148,13 +149,13 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
-         filters: ProductFilters, keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlaggeable) {
+         productRepository: ProductRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
+        self.productRepository = productRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -184,14 +185,15 @@ class MainProductsViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
+        let productRepository = Core.productRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
-                  filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+                  productRepository: productRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
+                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -294,10 +296,7 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func setup() {
-        listViewModel.dataDelegate = self
-        productListRequester.filters = filters
-
-        productListRequester.queryString = searchType?.query
+        setupProductList()
         setupSessionAndLocation()
         setupPermissionsNotification()
     }
@@ -348,9 +347,32 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 }
 
 
-// MARK: - ProductListViewCellsDelegate 
+// MARK: - ProductListView
 
-extension MainProductsViewModel: ProductListViewCellsDelegate {
+extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListViewCellsDelegate {
+
+    func setupProductList() {
+        listViewModel.dataDelegate = self
+
+        productListRequester.filters = filters
+        productListRequester.queryString = searchType?.query
+
+        productRepository.events.bindNext { [weak self] event in
+            switch event {
+            case let .update(product):
+                self?.listViewModel.update(product: product)
+            case let .create(product):
+                self?.listViewModel.prepend(product: product)
+            case let .delete(productId):
+                self?.listViewModel.delete(productId: productId)
+            case .favorite, .unFavorite, .sold, .unSold:
+                break
+            }
+        }.addDisposableTo(disposeBag)
+    }
+
+    // MARK: > ProductListViewCellsDelegate
+
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
         guard let sortCriteria = filters.selectedOrdering else { return }
 
@@ -375,12 +397,10 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
     }
 
     func visibleBottomCell(_ index: Int) { }
-}
 
 
-// MARK: - ProductListViewModelDataDelegate
+    // MARK: > ProductListViewModelDataDelegate
 
-extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
         

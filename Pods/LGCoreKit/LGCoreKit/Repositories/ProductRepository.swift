@@ -7,6 +7,7 @@
 //
 
 import Result
+import RxSwift
 
 public typealias ProductStatsResult = Result<ProductStats, RepositoryError>
 public typealias ProductStatsCompletion = (ProductStatsResult) -> Void
@@ -23,8 +24,36 @@ public typealias ProductVoidCompletion = (ProductVoidResult) -> Void
 public typealias ProductsResult = Result<[Product], RepositoryError>
 public typealias ProductsCompletion = (ProductsResult) -> Void
 
+public enum ProductEvent {
+    case create(Product)
+    case update(Product)
+    case delete(String)
+    case favorite(Product)
+    case unFavorite(Product)
+    case sold(String)
+    case unSold(String)
+
+    var product: Product? {
+        switch self {
+        case let .create(product):
+            return product
+        case let .update(product):
+            return product
+        case let .favorite(product):
+            return product
+        case let .unFavorite(product):
+            return product
+        case .delete, .sold, .unSold:
+            return nil
+        }
+    }
+}
+
 
 public protocol ProductRepository {
+
+    var events: Observable<ProductEvent> { get }
+    func updateEventsFor(productId: String) -> Observable<Product>
 
     func buildNewProduct(_ name: String?, description: String?, price: ProductPrice, category: ProductCategory) -> Product?
 
