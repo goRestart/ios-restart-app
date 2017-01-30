@@ -1287,6 +1287,130 @@ struct LGLocalizedString {
 		return NSLocalizedString("login_scammer_alert_keep_browsing_button", comment: "")
 	}
 
+	static var logInEmailTitle: String {
+		return NSLocalizedString("log_in_email_title", comment: "")
+	}
+
+	static var logInEmailHelpButton: String {
+		return NSLocalizedString("log_in_email_help_button", comment: "")
+	}
+
+	static var logInEmailEmailFieldHint: String {
+		return NSLocalizedString("log_in_email_email_field_hint", comment: "")
+	}
+
+	static var logInEmailPasswordFieldHint: String {
+		return NSLocalizedString("log_in_email_password_field_hint", comment: "")
+	}
+
+	static var logInEmailForgotPasswordButton: String {
+		return NSLocalizedString("log_in_email_forgot_password_button", comment: "")
+	}
+
+	static var logInEmailFooter: String {
+		return NSLocalizedString("log_in_email_footer", comment: "")
+	}
+
+	static var logInEmailFooterSignUpKw: String {
+		return NSLocalizedString("log_in_email_footer_sign_up_kw", comment: "")
+	}
+
+	static var logInEmailWrongPasswordAlertTitle: String {
+		return NSLocalizedString("log_in_email_wrong_password_alert_title", comment: "")
+	}
+
+	static func logInEmailWrongPasswordAlertMessage(_ var1: String) -> String {
+		return String(format: NSLocalizedString("log_in_email_wrong_password_alert_message", comment: ""), var1)
+	}
+
+	static var logInEmailWrongPasswordAlertCancelAction: String {
+		return NSLocalizedString("log_in_email_wrong_password_alert_cancel_action", comment: "")
+	}
+
+	static var logInEmailForgotPasswordAlertTitle: String {
+		return NSLocalizedString("log_in_email_forgot_password_alert_title", comment: "")
+	}
+
+	static func logInEmailForgotPasswordAlertMessage(_ var1: String) -> String {
+		return String(format: NSLocalizedString("log_in_email_forgot_password_alert_message", comment: ""), var1)
+	}
+
+	static var logInEmailForgotPasswordAlertCancelAction: String {
+		return NSLocalizedString("log_in_email_forgot_password_alert_cancel_action", comment: "")
+	}
+
+	static var logInEmailForgotPasswordAlertRememberAction: String {
+		return NSLocalizedString("log_in_email_forgot_password_alert_remember_action", comment: "")
+	}
+
+	static var logInEmailLogInButton: String {
+		return NSLocalizedString("log_in_email_log_in_button", comment: "")
+	}
+
+	static var signUpEmailStep1Title: String {
+		return NSLocalizedString("sign_up_email_step1_title", comment: "")
+	}
+
+	static var signUpEmailStep1HelpButton: String {
+		return NSLocalizedString("sign_up_email_step1_help_button", comment: "")
+	}
+
+	static var signUpEmailStep1EmailFieldHint: String {
+		return NSLocalizedString("sign_up_email_step1_email_field_hint", comment: "")
+	}
+
+	static var signUpEmailStep1PasswordFieldHint: String {
+		return NSLocalizedString("sign_up_email_step1_password_field_hint", comment: "")
+	}
+
+	static var signUpEmailStep1ContinueButton: String {
+		return NSLocalizedString("sign_up_email_step1_continue_button", comment: "")
+	}
+
+	static var signUpEmailStep1Footer: String {
+		return NSLocalizedString("sign_up_email_step1_footer", comment: "")
+	}
+
+	static var signUpEmailStep1FooterLogInKw: String {
+		return NSLocalizedString("sign_up_email_step1_footer_log_in_kw", comment: "")
+	}
+
+	static var signUpEmailStep2Title: String {
+		return NSLocalizedString("sign_up_email_step2_title", comment: "")
+	}
+
+	static var signUpEmailStep2HelpButton: String {
+		return NSLocalizedString("sign_up_email_step2_help_button", comment: "")
+	}
+
+	static func signUpEmailStep2Header(_ var1: String) -> String {
+		return String(format: NSLocalizedString("sign_up_email_step2_header", comment: ""), var1)
+	}
+
+	static var signUpEmailStep2NameFieldHint: String {
+		return NSLocalizedString("sign_up_email_step2_name_field_hint", comment: "")
+	}
+
+	static var signUpEmailStep2TermsConditions: String {
+		return NSLocalizedString("sign_up_email_step2_terms_conditions", comment: "")
+	}
+
+	static var signUpEmailStep2TermsConditionsPrivacyKw: String {
+		return NSLocalizedString("sign_up_email_step2_terms_conditions_privacy_kw", comment: "")
+	}
+
+	static var signUpEmailStep2TermsConditionsTermsKw: String {
+		return NSLocalizedString("sign_up_email_step2_terms_conditions_terms_kw", comment: "")
+	}
+
+	static var signUpEmailStep2Newsletter: String {
+		return NSLocalizedString("sign_up_email_step2_newsletter", comment: "")
+	}
+
+	static var signUpEmailStep2SignUpButton: String {
+		return NSLocalizedString("sign_up_email_step2_sign_up_button", comment: "")
+	}
+
 	static var mainSignUpClaimLabel: String {
 		return NSLocalizedString("main_sign_up_claim_label", comment: "")
 	}
