@@ -47,7 +47,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
         }, accessibilityId: .SignUpEmailHelpButton)
     }()
     let email: String
-    let username: Variable<String>
+    let username: Variable<String?>
     var termsAndConditionsAcceptRequired: Bool {
         return featureFlags.signUpEmailTermsAndConditionsAcceptRequired
     }
@@ -95,8 +95,8 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
          sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
          featureFlags: FeatureFlaggeable, tracker: Tracker) {
         self.email = email
-        let username = email.makeUsernameFromEmail() ?? ""
-        self.username = Variable<String>(username)
+        let username = email.makeUsernameFromEmail()
+        self.username = Variable<String?>(username)
         self.termsAndConditionsAccepted = Variable<Bool>(false)
         self.newsLetterAccepted = Variable<Bool>(false)
 
@@ -104,7 +104,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
         self.password = password
         self.source = source
         self.collapsedEmail = collapsedEmail
-        self.signUpEnabledVar = Variable<Bool>(!username.isEmpty)
+        self.signUpEnabledVar = Variable<Bool>(!(username ?? "").isEmpty)
 
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
@@ -121,6 +121,10 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension SignUpEmailStep2ViewModel {
+    func openHelp() {
+        navigator?.openHelpFromSignUpEmailStep2()
+    }
+
     func signUp() -> SignUpEmailStep2FormErrors {
         var errors: SignUpEmailStep2FormErrors = []
         guard signUpEnabledVar.value else { return errors }
@@ -132,20 +136,25 @@ extension SignUpEmailStep2ViewModel {
            password.characters.count > Constants.passwordMaxLength{
             errors.insert(.invalidPassword)
         }
-        let trimmedUsername = username.value.trim
-        if trimmedUsername.containsLetgo() {
+        if let username = username.value {
+            let trimmedUsername = username.trim
+            if trimmedUsername.containsLetgo() {
+                errors.insert(.usernameContainsLetgo)
+            }
+            if trimmedUsername.characters.count < Constants.fullNameMinLength {
+                errors.insert(.shortUsername)
+            }
+            if termsAndConditionsAcceptRequired && !termsAndConditionsAccepted.value {
+                errors.insert(.termsAndConditionsNotAccepted)
+            }
+        } else {
             errors.insert(.usernameContainsLetgo)
         }
-        if trimmedUsername.characters.count < Constants.fullNameMinLength {
-            errors.insert(.shortUsername)
-        }
-        if termsAndConditionsAcceptRequired && !termsAndConditionsAccepted.value {
-            errors.insert(.termsAndConditionsNotAccepted)
-        }
 
-        if errors.isEmpty {
+
+        if let username = username.value?.trim, errors.isEmpty {
             let newsletter: Bool? = newsLetterAcceptRequired ? newsLetterAccepted.value : nil
-            signUp(email: email, password: password, username: trimmedUsername, newsletter: newsletter)
+            signUp(email: email, password: password, username: username, newsletter: newsletter)
         } else {
             trackFormValidationFailed(errors: errors)
         }
@@ -171,7 +180,11 @@ fileprivate extension SignUpEmailStep2ViewModel {
         } else {
             requiredChecks = nil
         }
-        let usernameNotEmpty = username.asObservable().map { !$0.characters.isEmpty }
+
+        let usernameNotEmpty = username.asObservable().map { username -> Bool in
+            guard let username = username else { return false }
+            return !username.characters.isEmpty
+        }
         if let requiredChecks = requiredChecks {
             Observable.combineLatest(usernameNotEmpty.asObservable(), requiredChecks) { $0.0 && $0.1 }
                 .bindTo(signUpEnabledVar).addDisposableTo(disposeBag)
@@ -381,14 +394,5 @@ fileprivate extension SignUpEmailStep2ViewModel {
         guard let email = email else { return }
         keyValueStorage[.previousUserAccountProvider] = AccountProvider.email.rawValue
         keyValueStorage[.previousUserEmailOrName] = email
-    }
-}
-
-
-// MARK: > Navigation
-
-fileprivate extension SignUpEmailStep2ViewModel {
-    func openHelp() {
-        navigator?.openHelpFromSignUpEmailStep2()
     }
 }
