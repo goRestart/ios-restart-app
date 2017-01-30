@@ -180,7 +180,28 @@ class ProductListViewModel: BaseViewModel {
         isOnErrorState = false
         clearList()
     }
- 
+
+    func update(cellModel: ProductCellModel) {
+        guard state.isData else { return }
+        if let index = objects.index(of: cellModel) {
+            objects[index] = cellModel
+            delegate?.vmReloadData(self)
+        }
+    }
+
+    func prepend(cellModel: ProductCellModel) {
+        guard state.isData else { return }
+        objects.insert(cellModel, at: 0)
+        delegate?.vmReloadData(self)
+    }
+
+    func delete(cellModel: ProductCellModel) {
+        guard state.isData else { return }
+        if let index = objects.index(of: cellModel) {
+            objects.remove(at: index)
+            delegate?.vmReloadData(self)
+        }
+    }
 
     private func retrieveProducts(firstPage: Bool) {
         guard let productListRequester = productListRequester else { return } //Should not happen

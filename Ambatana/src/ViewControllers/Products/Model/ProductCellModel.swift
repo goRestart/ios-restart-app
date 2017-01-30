@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 
-enum ProductCellModel {
+enum ProductCellModel: Equatable {
     case productCell(product: Product)
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
@@ -26,7 +26,36 @@ enum ProductCellModel {
     init(emptyVM: LGEmptyViewModel) {
         self = ProductCellModel.emptyCell(vm: emptyVM)
     }
+
+
+    public static func ==(lhs: ProductCellModel, rhs: ProductCellModel) -> Bool {
+        switch lhs {
+        case let .productCell(product: lProduct):
+            switch rhs {
+            case let .productCell(rProduct):
+                return lProduct.objectId == rProduct.objectId
+            case .collectionCell, .emptyCell:
+                return false
+            }
+        case let .collectionCell(lCollection):
+            switch rhs {
+            case let .collectionCell(rCollection):
+                return lCollection.rawValue == rCollection.rawValue
+            case .productCell, .emptyCell:
+                return false
+            }
+        case .emptyCell:
+            switch rhs {
+            case .emptyCell:
+                return true
+            case .productCell, .collectionCell:
+                return false
+            }
+        }
+    }
 }
+
+
 
 
 // MARK: Product
