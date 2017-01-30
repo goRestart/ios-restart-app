@@ -35,14 +35,14 @@
         "description": "Related Products on More Info"
     },
     {
-        "name": "ShareAfterPosting",
+        "name": "FreeBumpUpEnabled",
         "values": ["No", "Yes"],
-        "description": "Show sharing screen after posting (forced)"
+        "description": "User can bump sharing"
     },
     {
-        "name": "MonetizationEnabled",
+        "name": "PricedBumpUpEnabled",
         "values": ["No", "Yes"],
-        "description": "USer can make in-app purchases"
+        "description": "User can bump paying"
     },
     {
         "name": "FavoriteWithBadgeOnProfile",
@@ -83,6 +83,11 @@
         "name": "EditDeleteItemUxImprovement",
         "values": ["No", "Yes"],
         "description": "Edit & Delete item UX improvements"
+    },
+    {
+        "name": "OnboardingReview",
+        "values": ["testA", "testB", "testC", "testD"],
+        "description": "Onboarding Review A/B/C/D"
     },
     {
         "name": "BumpUpFreeTimeLimit",

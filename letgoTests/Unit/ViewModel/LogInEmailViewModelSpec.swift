@@ -65,7 +65,8 @@ class LogInEmailViewModelSpec: QuickSpec {
                 sessionManager.logInResult = SessionMyUserResult(value: myUser)
 
                 sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                          source: .sell, sessionManager: sessionManager,
+                                          source: .sell, collapsedEmail: nil,
+                                          sessionManager: sessionManager,
                                           keyValueStorage: keyValueStorage, tracker: tracker)
                 sut.email.asObservable().subscribeNext { newEmail in
                     email = newEmail
@@ -84,15 +85,16 @@ class LogInEmailViewModelSpec: QuickSpec {
                 context("did not log in previously") {
                     beforeEach {
                         sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                                  source: .sell, sessionManager: sessionManager,
+                                                  source: .sell, collapsedEmail: nil,
+                                                  sessionManager: sessionManager,
                                                   keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
-                    it("has an empty email") {
-                        expect(sut.email.value) == ""
+                    it("has no email") {
+                        expect(sut.email.value).to(beNil())
                     }
-                    it("has an empty password") {
-                        expect(sut.password.value) == ""
+                    it("has no password") {
+                        expect(sut.password.value).to(beNil())
                     }
                     it("has log in disabled") {
                         expect(logInEnabled) == false
@@ -105,15 +107,16 @@ class LogInEmailViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
                         sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                                  source: .sell, sessionManager: sessionManager,
+                                                  source: .sell, collapsedEmail: nil,
+                                                  sessionManager: sessionManager,
                                                   keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
                     it("has an email") {
                         expect(sut.email.value) == "albert@letgo.com"
                     }
-                    it("has an empty password") {
-                        expect(sut.password.value) == ""
+                    it("has no password") {
+                        expect(sut.password.value).to(beNil())
                     }
                     it("has log in disabled") {
                         expect(logInEnabled) == false
@@ -126,15 +129,16 @@ class LogInEmailViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
                         sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                                  source: .sell, sessionManager: sessionManager,
+                                                  source: .sell, collapsedEmail: nil,
+                                                  sessionManager: sessionManager,
                                                   keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
-                    it("has an empty email") {
-                        expect(sut.email.value) == ""
+                    it("has no email") {
+                        expect(sut.email.value).to(beNil())
                     }
-                    it("has an empty password") {
-                        expect(sut.password.value) == ""
+                    it("has no password") {
+                        expect(sut.password.value).to(beNil())
                     }
                     it("has log in disabled") {
                         expect(logInEnabled) == false
@@ -147,15 +151,16 @@ class LogInEmailViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
                         sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                                  source: .sell, sessionManager: sessionManager,
+                                                  source: .sell, collapsedEmail: nil,
+                                                  sessionManager: sessionManager,
                                                   keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
-                    it("has an empty email") {
-                        expect(sut.email.value) == ""
+                    it("has no email") {
+                        expect(sut.email.value).to(beNil())
                     }
-                    it("has an empty password") {
-                        expect(sut.password.value) == ""
+                    it("has no password") {
+                        expect(sut.password.value).to(beNil())
                     }
                     it("has log in disabled") {
                         expect(logInEnabled) == false

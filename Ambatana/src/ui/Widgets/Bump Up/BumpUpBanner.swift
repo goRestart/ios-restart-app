@@ -73,10 +73,8 @@ class BumpUpBanner: UIView {
         isFree = info.free
 
         // bumpUpFreeTimeLimit is the time limit in milliseconds
-        timeLeft.value = featureFlags.bumpUpFreeTimeLimit - info.timeSinceLastBump
-        timer.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: BumpUpBanner.timerUpdateInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
-
+        timeLeft.value = info.timeSinceLastBump == 0 ? 0 : featureFlags.bumpUpFreeTimeLimit - info.timeSinceLastBump
+        startCountdown()
         bumpButton.isEnabled = timeLeft.value < 1
 
         if let price = info.price, !isFree {
@@ -89,8 +87,19 @@ class BumpUpBanner: UIView {
         primaryBlock = info.primaryBlock
     }
 
+    func resetCountdown() {
+        // Update countdown with full waiting time
+        timeLeft.value = featureFlags.bumpUpFreeTimeLimit
+        startCountdown()
+    }
+
     func stopCountdown() {
         timer.invalidate()
+    }
+
+    private func startCountdown() {
+        timer.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: BumpUpBanner.timerUpdateInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
 
     dynamic private func bannerTapped() {
@@ -112,9 +121,9 @@ class BumpUpBanner: UIView {
     // - Private Methods
 
     private func setupRx() {
-        let secondsLeft = timeLeft.asObservable().map{ $0/BumpUpBanner.secsToMillisecsRatio }.skip(1)
+        timeLeft.asObservable().map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
 
-        secondsLeft.map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
+        let secondsLeft = timeLeft.asObservable().map{ $0/BumpUpBanner.secsToMillisecsRatio }.skip(1)
 
         secondsLeft.bindNext { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
@@ -153,7 +162,7 @@ class BumpUpBanner: UIView {
 
     private func setupConstraints() {
         addSubview(containerView)
-
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [containerView, iconImageView, textLabel, bumpButton])
         // container view
         containerView.layout(with: self).fill()
 

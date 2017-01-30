@@ -66,6 +66,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     fileprivate let isRememberedEmail: Bool
     fileprivate let password: String
     fileprivate let source: EventParameterLoginSourceValue
+    fileprivate let collapsedEmail: EventParameterCollapsedEmailField?
     fileprivate let signUpEnabledVar: Variable<Bool>
 
     fileprivate let sessionManager: SessionManager
@@ -77,17 +78,20 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
 
     // MARK : - Lifecycle
 
-    convenience init(email: String, isRememberedEmail: Bool, password: String, source: EventParameterLoginSourceValue) {
+    convenience init(email: String, isRememberedEmail: Bool, password: String,
+                     source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?) {
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(email: email, isRememberedEmail: isRememberedEmail, password: password, source: source,
+        self.init(email: email, isRememberedEmail: isRememberedEmail, password: password,
+                  source: source, collapsedEmail: collapsedEmail,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   featureFlags: featureFlags, tracker: tracker)
     }
 
-    init(email: String, isRememberedEmail: Bool, password: String, source: EventParameterLoginSourceValue,
+    init(email: String, isRememberedEmail: Bool, password: String,
+         source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
          featureFlags: FeatureFlaggeable, tracker: Tracker) {
         self.email = email
@@ -99,6 +103,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
         self.isRememberedEmail = isRememberedEmail
         self.password = password
         self.source = source
+        self.collapsedEmail = collapsedEmail
         self.signUpEnabledVar = Variable<Bool>(!username.isEmpty)
 
         self.sessionManager = sessionManager
@@ -298,7 +303,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
         } else {
             newsletterTrackingParam = .unset
         }
-        let event = TrackerEvent.signupEmail(source, newsletter: newsletterTrackingParam)
+        let event = TrackerEvent.signupEmail(source, newsletter: newsletterTrackingParam, collapsedEmail: collapsedEmail)
         tracker.trackEvent(event)
     }
 
@@ -308,7 +313,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
     }
 
     func trackLogIn() {
-        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail)
+        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail, collapsedEmail: collapsedEmail)
         tracker.trackEvent(event)
     }
 }

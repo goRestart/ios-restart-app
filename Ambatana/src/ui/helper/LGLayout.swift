@@ -311,7 +311,6 @@ extension LGLayout {
 
 extension UIView {
     func layout(with item: Any? = nil) -> LGLayout {
-        translatesAutoresizingMaskIntoConstraints = false
         if item == nil {
             return LGLayout(owner: self, item1: self, item2: nil) // self
         } else if let superview = self.superview {
@@ -324,5 +323,24 @@ extension UIView {
             assertionFailure("\(self) must have a superview")
             return LGLayout(owner: UIView(), item1: UIView(), item2: UIView())
         }
+    }
+    
+    func addSubviews(_ subviews: [UIView]) {
+        subviews.forEach { (subview) in
+            addSubview(subview)
+        }
+    }
+    
+    func setTranslatesAutoresizingMaskIntoConstraintsToFalse(for views: [UIView]) {
+        views.forEach { (view) in
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
+    }
+    
+    func addToViewController(_ viewController: UIViewController, inView: UIView) {
+        inView.addSubview(self)
+        self.layout(with: inView).left().right()
+        self.layout(with: viewController.topLayoutGuide).top(to: .bottom)
+        self.layout(with: viewController.bottomLayoutGuide).bottom(to: .top)
     }
 }

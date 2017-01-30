@@ -9,18 +9,20 @@
 import LGCoreKit
 import CoreTelephony
 import bumper
+import RxSwift
 
 protocol FeatureFlaggeable {
+
+    var syncedData: Observable<Bool> { get }
+
     var websocketChat: Bool { get }
     var notificationsSection: Bool { get }
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
-    var shareAfterPosting: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
-    var monetizationEnabled: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
@@ -28,6 +30,9 @@ protocol FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool { get }
     var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
+    var onboardingReview: OnboardingReview { get }
+    var freeBumpUpEnabled: Bool { get }
+    var pricedBumpUpEnabled: Bool { get }
     var bumpUpFreeTimeLimit: Int { get }
 
     // Country dependant features
@@ -38,7 +43,7 @@ protocol FeatureFlaggeable {
 }
 
 class FeatureFlags: FeatureFlaggeable {
-    
+
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
     private let locale: Locale
@@ -69,18 +74,22 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-     let websocketChat: Bool
-    
-     let notificationsSection: Bool
+    var syncedData: Observable<Bool> {
+        return ABTests.trackingData.asObservable().map { $0 != nil }
+    }
 
-     var userReviews: Bool {
+    let websocketChat: Bool
+    
+    let notificationsSection: Bool
+
+    var userReviews: Bool {
         if Bumper.enabled {
             return Bumper.userReviews
         }
         return ABTests.userReviews.value
     }
 
-     var showNPSSurvey: Bool {
+    var showNPSSurvey: Bool {
         if Bumper.enabled {
             return Bumper.showNPSSurvey
         }
@@ -99,13 +108,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.keywordsTravelCollection
         }
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
-    }
-    
-    var shareAfterPosting: Bool {
-        if Bumper.enabled {
-            return Bumper.shareAfterPosting
-        }
-        return ABTests.shareAfterPosting.value
     }
 
     var postingMultiPictureEnabled: Bool {
@@ -143,13 +145,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.newQuickAnswers.value
     }
 
-    var monetizationEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.monetizationEnabled
-        }
-        return false
-    }
-
     var captchaTransparent: Bool {
         if Bumper.enabled {
             return Bumper.captchaTransparent
@@ -178,12 +173,33 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.editDeleteItemUxImprovement.value
     }
 
+    var onboardingReview: OnboardingReview {
+        if Bumper.enabled {
+            return Bumper.onboardingReview
+        }
+        return OnboardingReview.fromPosition(ABTests.onboardingReview.value)
+    }
+
+    var freeBumpUpEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.freeBumpUpEnabled
+        }
+        return ABTests.freeBumpUpEnabled.value
+    }
+
+    var pricedBumpUpEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.pricedBumpUpEnabled
+        }
+        return ABTests.pricedBumpUpEnabled.value
+    }
+
     var bumpUpFreeTimeLimit: Int {
         let hoursToMilliseconds = 60 * 60 * 1000
         if Bumper.enabled {
             switch Bumper.bumpUpFreeTimeLimit {
             case .oneMin:
-                return 1/60 * hoursToMilliseconds
+                return hoursToMilliseconds/60
             case .eightHours:
                 return 8 * hoursToMilliseconds
             case .twelveHours:
@@ -196,7 +212,7 @@ class FeatureFlags: FeatureFlaggeable {
         return Int(timeLimit)
     }
 
-
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

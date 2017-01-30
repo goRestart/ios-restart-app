@@ -15,4 +15,5 @@ struct ProductionEnvironment: Environment {
     let webSocketURL = "wss://chat.letgo.com/socket"
     let notificationsBaseURL = "https://notifications.letgo.com/api"
     let passiveBuyersBaseURL = "https://passivebuyers.letgo.com/api"
+    let paymentsBaseURL = "https://payment.letgo.com/payment"
 }

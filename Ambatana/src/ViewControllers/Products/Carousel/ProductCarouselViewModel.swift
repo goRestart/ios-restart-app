@@ -159,7 +159,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.navigator = navigator
         self.source = source
         self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
-        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
+        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .normal)
         self.socialSharer = socialSharer
         self.featureFlags = featureFlags
         self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded
@@ -261,14 +261,15 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
-        currentProductViewModel?.openShare(shareType, fromViewController: fromViewController)
+        currentProductViewModel?.openShare(shareType, fromViewController: fromViewController, barButtonItem: barButtonItem)
     }
 
     func openFreeBumpUpView() {
         guard let product = currentProductViewModel?.product.value,
-            let socialMessage = currentProductViewModel?.socialMessage.value else { return }
+            let socialMessage = currentProductViewModel?.freeBumpUpShareMessage.value,
+        let paymentItemId = currentProductViewModel?.paymentItemId else { return }
         currentProductViewModel?.trackBumpUpStarted(.free)
-        navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage)
+        navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage, withPaymentItemId: paymentItemId)
     }
 
     func openPaymentBumpUpView() {

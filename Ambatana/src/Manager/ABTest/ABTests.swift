@@ -20,7 +20,6 @@ struct ABTests {
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
     static var relatedProductsOnMoreInfo = BoolABDynamicVar(key: "relatedProductsOnMoreInfo", defaultValue: false)
-    static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var newQuickAnswers = BoolABDynamicVar(key: "newQuickAnswers", defaultValue: false)
@@ -30,9 +29,10 @@ struct ABTests {
     static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     static var filterIconWithLetters = BoolABDynamicVar(key: "filterIconWithLetters", defaultValue: false)
     static var editDeleteItemUxImprovement = BoolABDynamicVar(key: "editDeleteItemUxImprovement", defaultValue: false)
+    static var onboardingReview = IntABDynamicVar(key: "onboardingReview", defaultValue: 0)
     static var bumpUpFreeTimeLimit = FloatABDynamicVar(key: "bumpUpFreeTimeLimit", defaultValue: 8)
-
-
+    static var freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
+    static var pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -43,7 +43,6 @@ struct ABTests {
         result.append(postAfterDeleteMode)
         result.append(keywordsTravelCollection)
         result.append(relatedProductsOnMoreInfo)
-        result.append(shareAfterPosting)
         result.append(postingMultiPictureEnabled)
         result.append(userReviews)
         result.append(newQuickAnswers)
@@ -53,7 +52,10 @@ struct ABTests {
         result.append(captchaTransparent)
         result.append(filterIconWithLetters)
         result.append(editDeleteItemUxImprovement)
+        result.append(onboardingReview)
         result.append(bumpUpFreeTimeLimit)
+        result.append(freeBumpUpEnabled)
+        result.append(pricedBumpUpEnabled)
 
         return result
     }

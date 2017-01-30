@@ -15,6 +15,7 @@ protocol ProfileTabNavigator: TabNavigator {
 protocol SettingsNavigator: class {
     func showFbAppInvite(_ content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate)
     func openEditUserName()
+    func openEditEmail()
     func openEditLocation()
     func openCreateCommercials()
     func openChangePassword()
@@ -24,6 +25,10 @@ protocol SettingsNavigator: class {
 
 protocol ChangeUsernameNavigator: class {
     func closeChangeUsername()
+}
+
+protocol ChangeEmailNavigator: class {
+    func closeChangeEmail()
 }
 
 protocol ChangePasswordNavigator: class {

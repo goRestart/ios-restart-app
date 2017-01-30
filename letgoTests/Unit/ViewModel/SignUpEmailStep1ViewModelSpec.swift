@@ -37,7 +37,8 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
                 disposeBag = DisposeBag()
-                sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage, tracker: tracker)
+                sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil,
+                                                keyValueStorage: keyValueStorage, tracker: tracker)
                 sut.email.asObservable().subscribeNext { newEmail in
                     email = newEmail
                 }.addDisposableTo(disposeBag)
@@ -53,7 +54,8 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
             describe("initialization") {
                 context("did not log in previously") {
                     beforeEach {
-                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage, tracker: tracker)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil,
+                                                        keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
                     it("has an empty email") {
@@ -72,7 +74,8 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage, tracker: tracker)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil,
+                                                        keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
                     it("has an email") {
@@ -91,7 +94,8 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage, tracker: tracker)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil,
+                                                        keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
                     it("has an empty email") {
@@ -110,7 +114,8 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage, tracker: tracker)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil,
+                                                        keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
                     it("has an empty email") {

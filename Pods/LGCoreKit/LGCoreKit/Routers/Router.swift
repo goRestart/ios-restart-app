@@ -57,6 +57,12 @@ struct PassiveBuyersBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct PaymentsBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.paymentsBaseURL
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
+}
+
 enum Encoding {
     case json, url
 }

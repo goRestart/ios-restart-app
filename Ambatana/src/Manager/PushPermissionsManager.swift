@@ -22,6 +22,9 @@ class PushPermissionsManager: NSObject {
     var pushPermissionsSettingsMode: Bool {
         return KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert]
     }
+    var pushNotificationActive: Bool {
+        return UIApplication.shared.areRemoteNotificationsEnabled
+    }
     private var didShowSystemPermissions: Bool = false
     private var prePermissionType: PrePermissionType = .productListBanner
     private var typePage: EventParameterTypePage {

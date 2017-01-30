@@ -54,6 +54,7 @@ final class LogInEmailViewModel: BaseViewModel {
     fileprivate var unauthorizedErrorCount: Int
     fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let source: EventParameterLoginSourceValue
+    fileprivate let collapsedEmail: EventParameterCollapsedEmailField?
 
     fileprivate let sessionManager: SessionManager
     fileprivate let keyValueStorage: KeyValueStorageable
@@ -64,18 +65,19 @@ final class LogInEmailViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(email: String?, isRememberedEmail: Bool, source: EventParameterLoginSourceValue) {
+    convenience init(email: String?, isRememberedEmail: Bool,
+                     source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?) {
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         self.init(email: email, isRememberedEmail: isRememberedEmail,
-                  source: source, sessionManager: sessionManager,
+                  source: source, collapsedEmail: collapsedEmail, sessionManager: sessionManager,
                   keyValueStorage: keyValueStorage, tracker: tracker)
     }
 
     init(email: String?, isRememberedEmail: Bool,
-         source: EventParameterLoginSourceValue, sessionManager: SessionManager,
-         keyValueStorage: KeyValueStorageable, tracker: Tracker) {
+         source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?,
+         sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, tracker: Tracker) {
         let actualEmail = email ?? LogInEmailViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
         self.email = Variable<String?>(actualEmail)
         self.password = Variable<String?>(nil)
@@ -84,6 +86,7 @@ final class LogInEmailViewModel: BaseViewModel {
         self.unauthorizedErrorCount = 0
         self.suggestedEmailVar = Variable<String?>(nil)
         self.source = source
+        self.collapsedEmail = collapsedEmail
 
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
@@ -317,7 +320,7 @@ fileprivate extension LogInEmailViewModel {
     }
 
     func trackLogInSucceeded() {
-        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail)
+        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail, collapsedEmail: collapsedEmail)
         tracker.trackEvent(event)
     }
 

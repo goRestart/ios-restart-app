@@ -13,7 +13,7 @@ fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .firstMessage, .productMarkAsSold, .productSellStart, .productSellComplete,
+            case .loginFB, .loginEmail, .loginGoogle, .signupEmail, .firstMessage, .productMarkAsSold, .productSellStart, .productSellComplete,
                  .productSellComplete24h, .commercializerStart, .commercializerComplete:
                 return true
             default:

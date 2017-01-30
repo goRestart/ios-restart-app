@@ -12,18 +12,24 @@ import LGCoreKit
 import MessageUI
 import Branch
 
+enum NativeShareStyle {
+    case normal         // native share is shown with standard options
+    case restricted     // native share is shown without some options that are not shares at all
+    case notAvailable   // native share is not shown
+}
 
 enum ShareType {
-    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms, native
+    // native -> "restricted == true" excludes some shareTypes that are not shares at all, like copyToClipboard, and assign to contact
+    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms, native(restricted: Bool)
 
     private static var otherCountriesTypes: [ShareType] { return [.sms, .email, .facebook, .fbMessenger, .twitter, .whatsapp, .telegram] }
     private static var turkeyTypes: [ShareType] { return [.whatsapp, .facebook, .email ,.fbMessenger, .twitter, .sms, .telegram] }
 
     var moreInfoTypes: [ShareType] {
-        return ShareType.shareTypesForCountry("", maxButtons: nil, includeNative: false)
+        return ShareType.shareTypesForCountry("", maxButtons: nil, nativeShare: .notAvailable)
     }
 
-    static func shareTypesForCountry(_ countryCode: String, maxButtons: Int?, includeNative: Bool) -> [ShareType] {
+    static func shareTypesForCountry(_ countryCode: String, maxButtons: Int?, nativeShare: NativeShareStyle) -> [ShareType] {
         let turkey = "tr"
 
         let countryTypes: [ShareType]
@@ -37,14 +43,24 @@ enum ShareType {
         var resultShareTypes = countryTypes.filter { SocialSharer.canShareIn($0) }
 
         if var maxButtons = maxButtons, maxButtons > 0 {
-            maxButtons = includeNative ? maxButtons-1 : maxButtons
+            switch nativeShare {
+            case .normal, .restricted:
+                maxButtons = maxButtons-1
+            case .notAvailable:
+                break
+            }
             if resultShareTypes.count > maxButtons {
                 resultShareTypes = Array(resultShareTypes[0..<maxButtons])
             }
         }
 
-        if includeNative {
-            resultShareTypes.append(.native)
+        switch nativeShare {
+        case .normal:
+            resultShareTypes.append(.native(restricted: false))
+        case .restricted:
+            resultShareTypes.append(.native(restricted: true))
+        case .notAvailable:
+            break
         }
 
         return resultShareTypes

@@ -42,6 +42,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let source: EventParameterLoginSourceValue
+    fileprivate let collapsedEmail: EventParameterCollapsedEmailField?
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let nextStepEnabledVar: Variable<Bool>
     fileprivate let tracker: Tracker
@@ -50,19 +51,21 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(source: EventParameterLoginSourceValue) {
+    convenience init(source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?) {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(source: source, keyValueStorage: keyValueStorage, tracker: tracker)
+        self.init(source: source, collapsedEmail: collapsedEmail, keyValueStorage: keyValueStorage, tracker: tracker)
     }
 
-    init(source: EventParameterLoginSourceValue, keyValueStorage: KeyValueStorageable, tracker: Tracker) {
+    init(source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?,
+         keyValueStorage: KeyValueStorageable, tracker: Tracker) {
         let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage) ?? ""
         self.email = Variable<String>(email)
         self.password = Variable<String>("")
 
         self.suggestedEmailVar = Variable<String?>(nil)
         self.source = source
+        self.collapsedEmail = collapsedEmail
         self.keyValueStorage = keyValueStorage
         self.nextStepEnabledVar = Variable<Bool>(false)
         self.tracker = tracker

@@ -8,6 +8,10 @@
 
 import Foundation
 
+public func ==(lhs: File, rhs: File) -> Bool {
+    return lhs.fileURL == rhs.fileURL && lhs.objectId == rhs.objectId
+}
+
 public protocol File : BaseModel {
     var fileURL: URL? { get }
 }

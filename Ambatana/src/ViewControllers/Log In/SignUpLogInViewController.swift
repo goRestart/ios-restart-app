@@ -273,10 +273,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        scrollView.setContentOffset(CGPoint(x: 0,y: textFieldsView.frame.origin.y+textField.frame.origin.y),
-            animated: true)
-
+        if textField == emailTextField {
+            scrollView.setContentOffset(CGPoint(x: 0,y: textFieldsView.frame.origin.y+textField.frame.origin.y),
+                                        animated: true)
+        }
         guard let tag = TextFieldTag(rawValue: textField.tag) else { return }
         
         let iconImageView: UIImageView
@@ -686,8 +686,9 @@ extension SignUpLogInViewController: RecaptchaNavigator {
     }
 
     func recaptchaFinishedWithToken(_ token: String) {
-        presentedViewController?.dismiss(animated: true, completion: nil)
-        viewModel.recaptchaTokenObtained(token)
+        presentedViewController?.dismiss(animated: true) { [weak self] in
+            self?.viewModel.recaptchaTokenObtained(token)
+        }
     }
 }
 

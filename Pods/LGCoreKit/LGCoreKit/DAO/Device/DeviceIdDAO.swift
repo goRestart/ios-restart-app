@@ -7,6 +7,6 @@
 //
 
 
-protocol DeviceIdDAO {
-    var deviceId: String { get }
+protocol DeviceIdDAO: class {
+    var deviceId: String { get set }
 }

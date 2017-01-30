@@ -26,10 +26,9 @@ public protocol UserRepository {
     /**
     Retrieves the user for the given ID.
     - parameter userId: User identifier.
-    - parameter includeAccounts: If the user entity should include accounts.
     - parameter completion: The completion closure.
     */
-    func show(_ userId: String, includeAccounts: Bool, completion: UserCompletion?)
+    func show(_ userId: String, completion: UserCompletion?)
 
     /**
      Retrieves relation data with other user

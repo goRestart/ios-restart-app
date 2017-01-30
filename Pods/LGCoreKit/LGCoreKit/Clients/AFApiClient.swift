@@ -52,6 +52,24 @@ public enum BadRequestCause {
     }
 }
 
+public enum ForbiddenCause {
+    
+    case emailTaken
+    
+    case notSpecified
+    case other(code: Int)
+    
+    static func causeWithCode(_ code: Int?) -> ForbiddenCause {
+        guard let code = code else { return .notSpecified }
+        switch code {
+        case 1010:
+            return .emailTaken
+        default:
+            return .other(code: code)
+        }
+    }
+}
+
 
 public enum ApiError: Error {
     // errorCode references URLError codes (i.e. URLErrorUnknown)
@@ -61,7 +79,7 @@ public enum ApiError: Error {
     case badRequest(cause: BadRequestCause)
     case unauthorized
     case notFound
-    case forbidden
+    case forbidden(cause: ForbiddenCause)
     case conflict(cause: ConflictCause)
     case scammer
     case unprocessableEntity
@@ -80,7 +98,7 @@ public enum ApiError: Error {
         case 401:   // Wrong credentials
             return .unauthorized
         case 403:
-            return .forbidden
+            return .forbidden(cause: ForbiddenCause.causeWithCode(apiCode))
         case 404:
             return .notFound
         case 409:

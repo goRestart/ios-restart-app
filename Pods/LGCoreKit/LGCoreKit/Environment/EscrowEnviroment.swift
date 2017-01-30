@@ -15,4 +15,5 @@ struct EscrowEnvironment: Environment {
     let webSocketURL = "wss://chat.escrowverification.com/socket"
     let notificationsBaseURL = "https://notifications.escrowverification.com/api"
     let passiveBuyersBaseURL = "https://passivebuyers.escrowverification.com/api"
+    let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
 }

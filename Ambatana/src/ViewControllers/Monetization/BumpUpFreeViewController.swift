@@ -25,12 +25,12 @@ class BumpUpFreeViewController: BaseViewController {
     @IBOutlet weak var  titleVerticalCenterConstraint: NSLayoutConstraint!
     @IBOutlet weak var  shareButtonsContainerWidth: NSLayoutConstraint!
 
-    private var viewModel: ShareProductViewModel
+    private var viewModel: BumpUpFreeViewModel
 
     
     // MARK: - Lifecycle
 
-    init(viewModel: ShareProductViewModel) {
+    init(viewModel: BumpUpFreeViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "BumpUpFreeViewController")
         self.viewModel.delegate = self
@@ -109,7 +109,7 @@ extension BumpUpFreeViewController: SocialShareViewDelegate {
     }
 }
 
-extension BumpUpFreeViewController: ShareProductViewModelDelegate {
+extension BumpUpFreeViewController: BumpUpFreeViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController {
         return self
     }

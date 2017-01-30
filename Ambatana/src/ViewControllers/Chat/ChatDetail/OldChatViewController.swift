@@ -55,7 +55,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         self.relatedProductsView = ChatRelatedProductsView()
         self.stickersView = ChatStickersView()
         self.expressChatBanner = ChatBanner()
-        super.init(viewModel: viewModel, nibName: nil, swipeBackGestureEnabled: false)
+        super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
         setReachabilityEnabled(true)

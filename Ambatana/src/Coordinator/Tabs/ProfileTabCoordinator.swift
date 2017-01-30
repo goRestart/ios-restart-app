@@ -57,6 +57,13 @@ extension ProfileTabCoordinator: SettingsNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func openEditEmail() {
+        let vm = ChangeEmailViewModel()
+        vm.navigator = self
+        let vc = ChangeEmailViewController(with: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func openEditLocation() {
         let vm = EditLocationViewModel(mode: .editUserLocation)
         vm.navigator = self
@@ -92,6 +99,13 @@ extension ProfileTabCoordinator: SettingsNavigator {
 extension ProfileTabCoordinator: ChangeUsernameNavigator {
     
     func closeChangeUsername() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension ProfileTabCoordinator: ChangeEmailNavigator {
+    
+    func closeChangeEmail() {
         navigationController.popViewController(animated: true)
     }
 }

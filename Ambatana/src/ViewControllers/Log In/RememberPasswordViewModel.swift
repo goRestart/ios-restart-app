@@ -18,12 +18,10 @@ protocol RememberPasswordViewModelDelegate: class {
 
 
 class RememberPasswordViewModel: BaseViewModel {
-   
-    // Login source
     let sessionManager: SessionManager
+    let tracker: Tracker
     let loginSource: EventParameterLoginSourceValue
-    
-    // Delegate
+
     weak var delegate: RememberPasswordViewModelDelegate?
     
     // Input
@@ -36,8 +34,9 @@ class RememberPasswordViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, source: EventParameterLoginSourceValue, email: String) {
+    init(sessionManager: SessionManager, tracker: Tracker, source: EventParameterLoginSourceValue, email: String) {
         self.sessionManager = sessionManager
+        self.tracker = tracker
         self.email = email
         self.loginSource = source
         super.init()
@@ -45,11 +44,19 @@ class RememberPasswordViewModel: BaseViewModel {
     
     convenience init(source: EventParameterLoginSourceValue, email: String) {
         let sessionManager = Core.sessionManager
-        self.init(sessionManager: sessionManager, source: source, email: email)
+        let tracker = TrackerProxy.sharedInstance
+        self.init(sessionManager: sessionManager, tracker: tracker, source: source, email: email)
     }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        let event = TrackerEvent.passwordResetVisit()
+        tracker.trackEvent(event)
+    }
+
     
     // MARK: - Public methods
-    
+
     func resetPassword() {
         if !email.isEmail() {
             delegate?.viewModel(self, didFailResetPassword: LGLocalizedString.resetPasswordSendErrorInvalidEmail)
@@ -104,7 +111,8 @@ class RememberPasswordViewModel: BaseViewModel {
                         errorDescription = .nonExistingEmail
                     }
                     if let errorDescription = errorDescription {
-                        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.passwordResetError(errorDescription))
+                        let event = TrackerEvent.passwordResetError(errorDescription)
+                        strongSelf.tracker.trackEvent(event)
                     }
 
                     if let errorMessage = errorMessage {

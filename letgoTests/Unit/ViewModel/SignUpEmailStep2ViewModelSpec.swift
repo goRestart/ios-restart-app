@@ -54,8 +54,8 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 sessionManager.logInResult = SessionMyUserResult(value: myUser)
 
                 sut = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: false, password: "654321",
-                                                source: .sell, sessionManager: sessionManager,
-                                                keyValueStorage: keyValueStorage,
+                                                source: .sell, collapsedEmail: nil,
+                                                sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                                                 featureFlags: featureFlags, tracker: tracker)
                 sut.signUpEnabled.subscribeNext { enabled in
                     signUpEnabled = enabled

@@ -286,7 +286,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     var fbShareContent: FBSDKShareLinkContent? {
         if let product = savedProduct {
-            return ProductSocialMessage(product: product).fbShareContent
+            return ProductSocialMessage(product: product, fallbackToStore: false).fbShareContent
         }
         return nil
     }

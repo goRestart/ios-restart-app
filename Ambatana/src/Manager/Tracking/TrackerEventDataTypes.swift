@@ -18,6 +18,7 @@ enum EventName: String {
     case loginEmail                         = "login-email"
     case signupEmail                        = "signup-email"
     case logout                             = "logout"
+    case passwordResetVisit                 = "login-reset-password"
     
     case loginEmailError                    = "login-error"
     case loginFBError                       = "login-signup-error-facebook"
@@ -92,6 +93,8 @@ enum EventName: String {
     case profileUnblock                     = "profile-unblock"
     case profileShareStart                  = "profile-share-start"
     case profileShareComplete               = "profile-share-complete"
+    case profileEditEmailStart              = "profile-edit-email-start"
+    case profileEditEmailComplete           = "profile-edit-email-complete"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"
@@ -257,6 +260,7 @@ enum EventParameterName: String {
     case numberPhotosPosting  = "number-photos-posting"
     case bumpUpPrice          = "price"
     case passiveConversations = "passive-conversations"
+    case collapsedEmailField  = "collapsed-email-field"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -665,6 +669,12 @@ enum EventParameterBumpUpPrice {
     }
 }
 
+enum EventParameterCollapsedEmailField: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
+    case unset = "N/A"
+}
+
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]
     
@@ -679,11 +689,11 @@ struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
+    internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil,
+                                          collapsedEmail: EventParameterCollapsedEmailField? = nil) {
         params[.loginSource] = source.rawValue
-        if let rememberedAccount = rememberedAccount {
-            params[.loginRememberedAccount] = rememberedAccount
-        }
+        params[.loginRememberedAccount] = rememberedAccount
+        params[.collapsedEmailField] = collapsedEmail?.rawValue
     }
     
     internal mutating func addProductParams(_ product: Product) {

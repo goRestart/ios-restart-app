@@ -8,7 +8,15 @@
 
 import LGCoreKit
 
-struct TrackerEvent {
+func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
+    if a.name == b.name && a.actualName == b.actualName,
+        let paramsA = a.params, let paramsB = b.params {
+        return paramsA.stringKeyParams.keys.count == paramsB.stringKeyParams.keys.count
+    }
+    return false
+}
+
+struct TrackerEvent {    
     private(set) var name: EventName
     var actualName: String {
         get {
@@ -56,34 +64,42 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginAbandon, params: params)
     }
 
-    static func loginFB(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
+    static func loginFB(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
+                        collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source, rememberedAccount: rememberedAccount)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginFB, params: params)
     }
     
-    static func loginGoogle(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
+    static func loginGoogle(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
+                            collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source, rememberedAccount: rememberedAccount)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginGoogle, params: params)
     }
 
-    static func loginEmail(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
+    static func loginEmail(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
+                           collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source, rememberedAccount: rememberedAccount)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginEmail, params: params)
     }
 
-    static func signupEmail(_ source: EventParameterLoginSourceValue, newsletter: EventParameterNewsletter)
+    static func signupEmail(_ source: EventParameterLoginSourceValue, newsletter: EventParameterNewsletter,
+                            collapsedEmail: EventParameterCollapsedEmailField?)
         -> TrackerEvent {
             var params = EventParameters()
-            params.addLoginParams(source)
+            params.addLoginParams(source, collapsedEmail: collapsedEmail)
             params[.newsletter] = newsletter.rawValue
             return TrackerEvent(name: .signupEmail, params: params)
     }
 
     static func logout() -> TrackerEvent {
         return TrackerEvent(name: .logout, params: nil)
+    }
+
+    static func passwordResetVisit() -> TrackerEvent {
+        return TrackerEvent(name: .passwordResetVisit, params: nil)
     }
 
     static func loginEmailError(_ errorDescription: EventParameterLoginError) -> TrackerEvent {
@@ -625,6 +641,18 @@ struct TrackerEvent {
         params[.profileType] = type.rawValue
         params[.shareNetwork] = shareNetwork.rawValue
         return TrackerEvent(name: .profileShareComplete, params: params)
+    }
+    
+    static func profileEditEmailStart(withUserId userId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        return TrackerEvent(name: .profileEditEmailStart, params: params)
+    }
+    
+    static func profileEditEmailComplete(withUserId userId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        return TrackerEvent(name: .profileEditEmailComplete, params: params)
     }
 
     static func appInviteFriendStart(_ typePage: EventParameterTypePage) -> TrackerEvent {

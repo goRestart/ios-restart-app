@@ -148,10 +148,6 @@ enum AccessibilityId: String {
     case productCarouselMoreInfoRelatedViewMoreButton
     case productCarouselMoreInfoDescriptionLabel
 
-    // Fullscreen share
-    case productCarouselFullscreenShareView
-    case productCarouselFullscreenShareCloseButton
-    case productCarouselFullscreenShareCopyLinkButton
 
     // Product Carousel Cell
     case productCarouselCell
@@ -446,6 +442,11 @@ enum AccessibilityId: String {
     // ChangeUsername
     case changeUsernameNameField
     case changeUsernameSendButton
+    
+    // ChangeEmail
+    case changeEmailCurrentEmailLabel
+    case changeEmailTextField
+    case changeEmailSendButton
 
     // ChangePassword
     case changePasswordPwdTextfield
