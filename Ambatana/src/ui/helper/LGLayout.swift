@@ -326,21 +326,21 @@ extension UIView {
     }
     
     func addSubviews(_ subviews: [UIView]) {
-        subviews.forEach { (subview) in
+        subviews.forEach { subview in
             addSubview(subview)
         }
     }
     
     func setTranslatesAutoresizingMaskIntoConstraintsToFalse(for views: [UIView]) {
-        views.forEach { (view) in
+        views.forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     
     func addToViewController(_ viewController: UIViewController, inView: UIView) {
         inView.addSubview(self)
-        self.layout(with: inView).left().right()
-        self.layout(with: viewController.topLayoutGuide).top(to: .bottom)
-        self.layout(with: viewController.bottomLayoutGuide).bottom(to: .top)
+        layout(with: inView).left().right()
+        layout(with: viewController.topLayoutGuide).top(to: .bottom)
+        layout(with: viewController.bottomLayoutGuide).bottom(to: .top)
     }
 }

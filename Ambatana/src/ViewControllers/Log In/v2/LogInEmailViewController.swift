@@ -171,23 +171,24 @@ fileprivate extension LogInEmailViewController {
     func setupUI() {
         view.backgroundColor = UIColor.white
 
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.bounces = false
         scrollView.alwaysBounceVertical = true
         scrollView.alwaysBounceHorizontal = false
         scrollView.keyboardDismissMode = .onDrag
         view.addSubview(scrollView)
 
+        headerGradientView.translatesAutoresizingMaskIntoConstraints = false
         headerGradientView.backgroundColor = UIColor.clear
         headerGradientView.isOpaque = true
         headerGradientView.layer.addSublayer(headerGradientLayer)
-        headerGradientLayer.frame = headerGradientView.bounds
-
+//        headerGradientLayer.frame = headerGradientView.bounds
         headerGradientView.layer.sublayers?.removeAll()
         headerGradientView.layer.insertSublayer(headerGradientLayer, at: 0)
+        headerGradientView.isHidden = appearance.headerGradientIsHidden
         view.addSubview(headerGradientView)
 
-        headerGradientView.isHidden = appearance.headerGradientIsHidden
-
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
 
         let textfieldTextColor = UIColor.blackText
@@ -243,10 +244,12 @@ fileprivate extension LogInEmailViewController {
         passwordTextField.delegate = self
         contentView.addSubview(passwordTextField)
 
+        rememberPasswordButton.translatesAutoresizingMaskIntoConstraints = false
         rememberPasswordButton.setTitle(LGLocalizedString.logInEmailForgotPasswordButton, for: .normal)
         rememberPasswordButton.setTitleColor(UIColor.darkGrayText, for: .normal)
         contentView.addSubview(rememberPasswordButton)
 
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
         loginButton.setStyle(.primary(fontSize: .medium))
         loginButton.setTitle(LGLocalizedString.logInEmailLogInButton, for: .normal)
         contentView.addSubview(loginButton)
@@ -270,6 +273,7 @@ fileprivate extension LogInEmailViewController {
                                           range: footerStringRange)
         }
 
+        footerButton.translatesAutoresizingMaskIntoConstraints = false
         footerButton.setTitleColor(UIColor.darkGrayText, for: .normal)
         footerButton.setAttributedTitle(footerAttrString, for: .normal)
         footerButton.titleLabel?.numberOfLines = 2
@@ -408,15 +412,15 @@ fileprivate extension LoginAppearance {
         switch self {
         case .dark:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_email_dark")
-            } else {
                 return #imageLiteral(resourceName: "ic_email_active_dark")
+            } else {
+                return #imageLiteral(resourceName: "ic_email_dark")
             }
         case .light:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_email")
-            } else {
                 return #imageLiteral(resourceName: "ic_email_active")
+            } else {
+                return #imageLiteral(resourceName: "ic_email")
             }
         }
     }
@@ -425,15 +429,15 @@ fileprivate extension LoginAppearance {
         switch self {
         case .dark:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_password_dark")
-            } else {
                 return #imageLiteral(resourceName: "ic_password_active_dark")
+            } else {
+                return #imageLiteral(resourceName: "ic_password_dark")
             }
         case .light:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_password")
-            } else {
                 return #imageLiteral(resourceName: "ic_password_active")
+            } else {
+                return #imageLiteral(resourceName: "ic_password")
             }
         }
     }
