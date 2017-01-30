@@ -340,7 +340,7 @@ fileprivate extension LogInEmailViewController {
         // Redraw masked rounded corners & corner radius
         emailButton.setRoundedCorners([.topLeft, .topRight], cornerRadius: LGUIKitConstants.textfieldCornerRadius)
         passwordButton.setRoundedCorners([.bottomLeft, .bottomRight], cornerRadius: LGUIKitConstants.textfieldCornerRadius)
-        loginButton.layer.cornerRadius = loginButton.bounds.height/2
+        loginButton.rounded = true
     }
 
     func adjustScrollViewContentOffset() {

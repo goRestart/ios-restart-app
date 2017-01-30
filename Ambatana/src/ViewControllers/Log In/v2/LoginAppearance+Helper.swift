@@ -86,6 +86,23 @@ extension LoginAppearance {
         }
     }
 
+    func usernameIcon(highlighted: Bool) -> UIImage? {
+        switch self {
+        case .dark:
+            if highlighted {
+                return #imageLiteral(resourceName: "ic_name_active_dark")
+            } else {
+                return #imageLiteral(resourceName: "ic_name_dark")
+            }
+        case .light:
+            if highlighted {
+                return #imageLiteral(resourceName: "ic_name_active")
+            } else {
+                return #imageLiteral(resourceName: "ic_name")
+            }
+        }
+    }
+
     var rememberPasswordTextColor: UIColor {
         return buttonTextColor
     }
