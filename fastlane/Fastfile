@@ -101,8 +101,7 @@ platform :ios do
       configuration: "Adhoc",
       scheme: "LetGoPROD",
       silent: false,
-      clean: true,
-      use_legacy_build_api: true
+      clean: true
     )
 
     # This reverts icons modified by badge method on the temp folder to avoid pushing them to repo
@@ -157,8 +156,7 @@ platform :ios do
       configuration: "Adhoc",
       scheme: "LetGoPROD",
       silent: false,
-      clean: true,
-      use_legacy_build_api: true
+      clean: true
     )
 
     # This reverts icons modified by badge method on the local copy
@@ -234,9 +232,7 @@ platform :ios do
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       scheme: ENV["XCODE_SCHEME"],
       configuration: "Release",
-      use_legacy_build_api: true,
-      include_bitcode: true,
-      toolchain: "com.apple.dt.toolchain.Swift_2_3"
+      include_bitcode: true
     )
 
     rb_backup_symbols(
