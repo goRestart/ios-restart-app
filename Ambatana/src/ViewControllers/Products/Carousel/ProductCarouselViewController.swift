@@ -301,6 +301,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         bannerContainer.addSubview(bumpUpBanner)
         bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
         bumpUpBanner.layout(with: bannerContainer).fill()
+        bannerContainer.isHidden = true
     }
 
     private func setupNavigationBar() {
@@ -1071,6 +1072,7 @@ extension ProductCarouselViewController {
         guard !bumpUpBannerIsVisible else { return }
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
+        bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: actualBumpInfo)
         delay(0.1) { [weak self] in
             self?.bannerBottom = 0
@@ -1085,6 +1087,7 @@ extension ProductCarouselViewController {
         bumpUpBannerIsVisible = false
         bannerBottom = -CarouselUI.bannerHeight
         bumpUpBanner.stopCountdown()
+        bannerContainer.isHidden = true
     }
 }
 
