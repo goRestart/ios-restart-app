@@ -482,7 +482,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             break
         case .productDeleted, .available, .blocked, .blockedBy, .productSold:
             guard let user = otherUser else { return }
-            delegate?.vmHideKeyboard(animated: false)
             let data = UserDetailData.userAPI(user: user, source: .chat)
             navigator?.openUser(data)
         }
@@ -1291,10 +1290,6 @@ fileprivate extension OldChatViewModel {
             strongSelf.retrieveFirstPage()
             strongSelf.retrieveUsersRelation()
         }
-        /* Needed to avoid showing the keyboard while login in (as the login is overCurrentContext) so chat will become
-         'visible' while login screen is there */
-        autoKeyboardEnabled = false
-        delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
         delegate?.ifLoggedInThen(.askQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
     }
