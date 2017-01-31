@@ -219,20 +219,20 @@ class Tooltip: UIView {
             separationView.addConstraints([separationViewHeight, separationViewWidth])
 
             let separationViewRight = NSLayoutConstraint(item: separationView, attribute: .right, relatedBy: .equal,
-                                                         toItem: closeButton, attribute: .left, multiplier: 1, constant: -19)
+                                                         toItem: closeButton, attribute: .left, multiplier: 1, constant: 0)
             let separationViewCenterY = NSLayoutConstraint(item: separationView, attribute: .centerY, relatedBy: .equal,
                                                            toItem: coloredView, attribute: .centerY, multiplier: 1, constant: 0)
             coloredView.addConstraints([separationViewRight, separationViewCenterY])
 
             // close button
             let closeButtonHeight = NSLayoutConstraint(item: closeButton, attribute: .height, relatedBy: .equal,
-                                                       toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 18)
+                                                       toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
             let closeButtonWidth = NSLayoutConstraint(item: closeButton, attribute: .width, relatedBy: .equal,
-                                                      toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 18)
+                                                      toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
             closeButton.addConstraints([closeButtonHeight, closeButtonWidth])
 
             let closeButtonRight = NSLayoutConstraint(item: closeButton, attribute: .right, relatedBy: .equal,
-                                                      toItem: coloredView, attribute: .right, multiplier: 1, constant: -19)
+                                                      toItem: coloredView, attribute: .right, multiplier: 1, constant: -8)
             let closeButtonCenterY = NSLayoutConstraint(item: closeButton, attribute: .centerY, relatedBy: .equal,
                                                         toItem: coloredView, attribute: .centerY, multiplier: 1, constant: 0)
             coloredView.addConstraints([closeButtonRight, closeButtonCenterY])
