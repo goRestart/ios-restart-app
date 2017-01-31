@@ -58,7 +58,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
-        setReachabilityEnabled(true)
         hidesBottomBarWhenPushed = hidesBottomBar
     }
     
@@ -75,7 +74,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
-        setupToastView()
         setupRelatedProducts()
         setupDirectAnswers()
         setupStickersView()

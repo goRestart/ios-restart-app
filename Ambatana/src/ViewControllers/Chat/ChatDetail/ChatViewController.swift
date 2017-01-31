@@ -60,7 +60,6 @@ class ChatViewController: TextViewController {
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
-        setReachabilityEnabled(true)
         hidesBottomBarWhenPushed = hidesBottomBar
     }
     
@@ -77,7 +76,6 @@ class ChatViewController: TextViewController {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
-        setupToastView()
         setupRelatedProducts()
         setupDirectAnswers()
         setupRxBindings()
