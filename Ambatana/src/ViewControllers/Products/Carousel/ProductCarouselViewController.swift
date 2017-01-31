@@ -481,12 +481,13 @@ extension ProductCarouselViewController {
             view.bringSubview(toFront: fullScreenAvatarEffectView)
             view.bringSubview(toFront: fullScreenAvatarView)
             view.bringSubview(toFront: directChatTable)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMoreInfo))
+            moreInfoView?.addGestureRecognizer(tapGesture)
         }
         moreInfoView?.frame = view.bounds
         moreInfoView?.height = view.height + CarouselUI.moreInfoExtraHeight
         moreInfoView?.frame.origin.y = -view.bounds.height
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMoreInfo))
-        moreInfoView?.addGestureRecognizer(tapGesture)
     }
 
     fileprivate func updateMoreInfo() {
