@@ -411,15 +411,15 @@ extension TabCoordinator: ProductDetailNavigator {
     }
 
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
-        let bumpUpFreeVM = BumpUpFreeViewModel(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
-        let bumpUpFreeVC = BumpUpFreeViewController(viewModel: bumpUpFreeVM)
-        navigationController.present(bumpUpFreeVC, animated: true, completion: nil)
+        let bumpCoordinator = BumpUpCoordinator(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
+        bumpCoordinator.delegate = self
+        openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
-        let payBumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct)
-        let payBumpUpVC = BumpUpPayViewController(viewModel: payBumpUpVM)
-        navigationController.present(payBumpUpVC, animated: true, completion: nil)
+        let bumpCoordinator = BumpUpCoordinator(product: product, purchaseableProduct: purchaseableProduct)
+        bumpCoordinator.delegate = self
+        openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 }
 
