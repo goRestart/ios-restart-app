@@ -485,6 +485,8 @@ extension ProductCarouselViewController {
         moreInfoView?.frame = view.bounds
         moreInfoView?.height = view.height + CarouselUI.moreInfoExtraHeight
         moreInfoView?.frame.origin.y = -view.bounds.height
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMoreInfo))
+        moreInfoView?.addGestureRecognizer(tapGesture)
     }
 
     fileprivate func updateMoreInfo() {
@@ -829,6 +831,10 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 // MARK: > More Info
 
 extension ProductCarouselViewController {
+    
+    dynamic func didTapMoreInfo() {
+        chatTextView.resignFirstResponder()
+    }
     
     func setupMoreInfoDragging() {
         guard let button = moreInfoView?.dragView else { return }
