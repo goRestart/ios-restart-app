@@ -107,8 +107,8 @@ final class TrackerProxy: Tracker {
         trackers.forEach { $0.trackEvent(event) }
     }
 
-    func setLocation(_ location: LGLocation?) {
-        trackers.forEach { $0.setLocation(location) }
+    func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {
+        trackers.forEach { $0.setLocation(location, postalAddress: postalAddress) }
     }
 
     func setNotificationsPermission(_ enabled: Bool) {
@@ -140,7 +140,7 @@ final class TrackerProxy: Tracker {
             case .changedPermissions:
                 self?.locationManagerDidChangePermissions()
             case .locationUpdate:
-                self?.setLocation(self?.locationManager.currentLocation)
+                self?.setLocation(self?.locationManager.currentLocation, postalAddress: self?.locationManager.currentPostalAddress)
             case .movedFarFromSavedManualLocation:
                 break
             }
