@@ -52,6 +52,8 @@ class KeyboardViewController: BaseViewController {
     private var keyboardHeightConstraint = NSLayoutConstraint()
     private var keyboardTopConstraint = NSLayoutConstraint()
 
+    private var controllerVisible: Bool = false
+
 
     override init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .default,
                               navBarBackgroundStyle: NavBarBackgroundStyle = .default, swipeBackGestureEnabled: Bool = true){
@@ -79,6 +81,31 @@ class KeyboardViewController: BaseViewController {
         keyboardTopConstraint = NSLayoutConstraint(item: keyboardView, attribute: .top, relatedBy: .equal, toItem: view,
                                                    attribute: .top, multiplier: 1, constant: KeyboardViewController.initialKbOrigin)
         view.addConstraints([keyboardHeightConstraint, keyboardTopConstraint])
+
+
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        controllerVisible = true
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        controllerVisible = false
+    }
+
+    override func viewWillDisappearToBackground(_ toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
+        tearDownObservers()
+        if toBackground {
+            controllerVisible = false
+        }
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -89,9 +116,8 @@ class KeyboardViewController: BaseViewController {
         setObservers()
     }
 
-    override func viewWillDisappearToBackground(_ toBackground: Bool) {
-        super.viewWillDisappearToBackground(toBackground)
-        tearDownObservers()
+    func applicationDidBecomeActive() {
+        controllerVisible = true
     }
 
 
@@ -118,7 +144,7 @@ class KeyboardViewController: BaseViewController {
     }
 
     private func applyChange(_ kbChange: KeyboardChange, animated: Bool) {
-        guard kbChange.isLocal else { return }
+        guard controllerVisible || kbChange.isLocal else { return }
         // Main responder check
         if let mainResponder = mainResponder, kbChange.visible && !mainResponder.isFirstResponder { return }
         guard changes.value.height != kbChange.height || changes.value.origin != kbChange.origin else { return }

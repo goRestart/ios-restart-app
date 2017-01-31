@@ -495,7 +495,6 @@ class ChatViewModel: BaseViewModel {
     
     func userInfoPressed() {
         guard let interlocutor = conversation.value.interlocutor else { return }
-        delegate?.vmHideKeyboard(false)
         let data = UserDetailData.userChat(user: interlocutor)
         navigator?.openUser(data)
     }
@@ -1060,7 +1059,6 @@ fileprivate extension ChatViewModel {
 
         // Configure login + send actions
         preSendMessageCompletion = { [weak self] (text: String, type: ChatMessageType) in
-            self?.delegate?.vmHideKeyboard(false)
             self?.delegate?.vmRequestLogin() { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.preSendMessageCompletion = nil
