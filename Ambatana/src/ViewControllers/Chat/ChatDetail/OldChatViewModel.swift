@@ -1250,8 +1250,8 @@ fileprivate extension OldChatViewModel {
         guard let otherUserId = otherUser?.objectId else { return }
         userRepository.show(otherUserId) { [weak self] result in
             guard let strongSelf = self else { return }
-            guard let userWaccounts = result.value else { return }
-            strongSelf.otherUser = LocalUser(user: userWaccounts)
+            guard let user = result.value else { return }
+            strongSelf.otherUser = LocalUser(user: user)
             if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                 strongSelf.loadedMessages += [userInfoMessage]
                 strongSelf.delegate?.vmDidRefreshChatMessages()

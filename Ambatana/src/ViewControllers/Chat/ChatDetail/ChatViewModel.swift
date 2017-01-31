@@ -1288,8 +1288,8 @@ fileprivate extension ChatViewModel {
             guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
             self?.userRepository.show(interlocutorId) { [weak self] result in
                 guard let strongSelf = self else { return }
-                guard let userWaccounts = result.value else { return }
-                strongSelf.interlocutor = userWaccounts
+                guard let user = result.value else { return }
+                strongSelf.interlocutor = user
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
