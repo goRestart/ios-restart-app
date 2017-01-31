@@ -538,6 +538,12 @@ class OldChatViewModel: BaseViewModel, Paginable {
         
         delegate?.vmShowOptionsList(texts, actions: actions)
     }
+
+    func scrollViewDidTap() {
+        if featureFlags.newQuickAnswers && userDirectAnswersEnabled.value {
+            showDirectAnswers(false)
+        }
+    }
     
     func messageAtIndex(_ index: Int) -> ChatViewMessage {
         return loadedMessages[index]

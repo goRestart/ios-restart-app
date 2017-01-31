@@ -120,6 +120,10 @@ class ChatViewController: TextViewController {
         guard let message = textView.text else { return }
         viewModel.sendText(message, isQuickAnswer: false)
     }
+
+    override func scrollViewDidTap() {
+        viewModel.scrollViewDidTap()
+    }
     
     /**
      TextViewController Caches the text in the textView if you close the view before sending
@@ -378,7 +382,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
 
         if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .notAvailable {
             let image = UIImage(named: "ic_quick_answers")
-            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? nil : UIColor.primaryColor
+            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? UIColor.primaryColor : nil
             let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
                 }, accessibilityId: .chatViewQuickAnswersButton)
