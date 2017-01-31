@@ -930,8 +930,21 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
         return self
     }
 
-    func requestFocus() {
-        chatTextView.resignFirstResponder()
+    func request(fullScreen: Bool) {
+        if fullScreen {
+            chatTextView.resignFirstResponder()
+        }
+        // If more info requests full screen all items above should be removed/hidden
+        UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) { [weak self] in
+            self?.chatContainer.alpha = fullScreen ? 0 : 1
+            self?.stickersButton.alpha = fullScreen ? 0 : 1
+            self?.editButton.alpha = fullScreen ? 0 : 1
+            self?.buttonBottom.alpha = fullScreen ? 0 : 1
+            self?.navigationItem.rightBarButtonItem?.customView?.alpha = fullScreen ? 0 : 1
+            self?.navigationItem.rightBarButtonItems?.forEach {
+                $0.customView?.alpha = fullScreen ? 0 : 1
+            }
+        }
     }
 }
 

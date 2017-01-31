@@ -19,7 +19,7 @@ enum MoreInfoState {
 
 protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat)
-    func requestFocus()
+    func request(fullScreen: Bool)
     func viewControllerToShowShareOptions() -> UIViewController
 }
 
@@ -71,8 +71,8 @@ class ProductCarouselMoreInfoView: UIView {
     fileprivate var currentVmDisposeBag = DisposeBag()
     fileprivate var viewModel: ProductViewModel?
     fileprivate var locationZone: MKOverlay?
-    fileprivate let bigMapMargin: CGFloat = 65.0
-    fileprivate let bigMapBottomMargin: CGFloat = 210
+    fileprivate let bigMapMargin: CGFloat = 65
+    fileprivate let bigMapBottomMargin: CGFloat = 85
     fileprivate(set) var mapExpanded: Bool = false
     fileprivate var mapZoomBlocker: MapZoomBlocker?
     fileprivate var statsView: ProductStatsView?
@@ -255,11 +255,11 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         if let locationZone = self.locationZone {
             mapView.add(locationZone)
         }
-        
-        self.delegate?.requestFocus()
+
+        self.delegate?.request(fullScreen: true)
         var expandedFrame = mapViewContainerExpandable.frame
         expandedFrame.origin.y = bigMapMargin
-        expandedFrame.size.height = height - bigMapBottomMargin
+        expandedFrame.size.height = height - (bigMapMargin + bigMapBottomMargin)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapViewContainerExpandable?.frame = expandedFrame
             self?.mapViewContainerExpandable?.layoutIfNeeded()
@@ -270,7 +270,8 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     
     func compressMap() {
         guard mapExpanded else { return }
-        
+
+        self.delegate?.request(fullScreen: false)
         let compressedFrame = convert(mapViewContainer.frame, from: scrollViewContent)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapViewContainerExpandable?.frame = compressedFrame
