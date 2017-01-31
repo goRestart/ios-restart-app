@@ -97,7 +97,7 @@ class UserViewModel: BaseViewModel {
     }
 
     convenience init(user: User, source: UserSource) {
-        self.init(user: user, source: source)
+        self.init(user: user, source: source, isMyProfile: false)
     }
 
     private convenience init(user: User?, source: UserSource, isMyProfile: Bool) {
