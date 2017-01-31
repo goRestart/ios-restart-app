@@ -10,10 +10,6 @@ import Foundation
 import LGCoreKit
 
 
-protocol BumpUpFreeViewModelDelegate: BaseViewModelDelegate {
-    func vmViewControllerToShare() -> UIViewController
-}
-
 class BumpUpFreeViewModel: BaseViewModel {
     let shareTypes: [ShareType]
 
@@ -22,7 +18,8 @@ class BumpUpFreeViewModel: BaseViewModel {
     let socialSharer: SocialSharer?
     fileprivate let tracker: Tracker
 
-    weak var delegate: BumpUpFreeViewModelDelegate?
+    weak var delegate: BaseViewModelDelegate?
+    weak var navigator: BumpUpNavigator?
 
     var socialMessage: SocialMessage
     var title: String
@@ -57,11 +54,11 @@ class BumpUpFreeViewModel: BaseViewModel {
     // MARK: - Public Methods
 
     func closeActionPressed() {
-        close(withCompletion: nil)
+        navigator?.bumpUpDidCancel()
     }
 
     func close(withCompletion completion: (() -> Void)?) {
-        delegate?.vmDismiss(completion)
+        navigator?.bumpUpDidFinish(completion: completion)
     }
 }
 

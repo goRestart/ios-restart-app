@@ -495,7 +495,6 @@ class ChatViewModel: BaseViewModel {
     
     func userInfoPressed() {
         guard let interlocutor = conversation.value.interlocutor else { return }
-        delegate?.vmHideKeyboard(false)
         let data = UserDetailData.userChat(user: interlocutor)
         navigator?.openUser(data)
     }
@@ -516,7 +515,13 @@ class ChatViewModel: BaseViewModel {
     func safetyTipsDismissed() {
         keyValueStorage.userChatSafetyTipsShown = true
     }
-    
+
+    func scrollViewDidTap() {
+        if featureFlags.newQuickAnswers && userDirectAnswersEnabled.value {
+            showDirectAnswers(false)
+        }
+    }
+
     func messageAtIndex(_ index: Int) -> ChatViewMessage? {
         guard 0..<messages.value.count ~= index else { return nil }
         return messages.value[index]
@@ -1054,7 +1059,6 @@ fileprivate extension ChatViewModel {
 
         // Configure login + send actions
         preSendMessageCompletion = { [weak self] (text: String, type: ChatMessageType) in
-            self?.delegate?.vmHideKeyboard(false)
             self?.delegate?.vmRequestLogin() { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.preSendMessageCompletion = nil

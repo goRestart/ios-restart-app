@@ -60,7 +60,6 @@ class ChatViewController: TextViewController {
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
-        setReachabilityEnabled(true)
         hidesBottomBarWhenPushed = hidesBottomBar
     }
     
@@ -77,7 +76,6 @@ class ChatViewController: TextViewController {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
-        setupToastView()
         setupRelatedProducts()
         setupDirectAnswers()
         setupRxBindings()
@@ -119,6 +117,10 @@ class ChatViewController: TextViewController {
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
         viewModel.sendText(message, isQuickAnswer: false)
+    }
+
+    override func scrollViewDidTap() {
+        viewModel.scrollViewDidTap()
     }
     
     /**
@@ -378,7 +380,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
 
         if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .notAvailable {
             let image = UIImage(named: "ic_quick_answers")
-            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? nil : UIColor.primaryColor
+            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? UIColor.primaryColor : nil
             let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()
                 }, accessibilityId: .chatViewQuickAnswersButton)

@@ -108,9 +108,3 @@ extension BumpUpFreeViewController: SocialShareViewDelegate {
         return self
     }
 }
-
-extension BumpUpFreeViewController: BumpUpFreeViewModelDelegate {
-    func vmViewControllerToShare() -> UIViewController {
-        return self
-    }
-}

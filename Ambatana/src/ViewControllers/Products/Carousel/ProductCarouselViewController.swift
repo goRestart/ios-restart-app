@@ -301,6 +301,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         bannerContainer.addSubview(bumpUpBanner)
         bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
         bumpUpBanner.layout(with: bannerContainer).fill()
+        bannerContainer.isHidden = true
     }
 
     private func setupNavigationBar() {
@@ -481,6 +482,9 @@ extension ProductCarouselViewController {
             view.bringSubview(toFront: fullScreenAvatarEffectView)
             view.bringSubview(toFront: fullScreenAvatarView)
             view.bringSubview(toFront: directChatTable)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMoreInfo))
+            moreInfoView?.addGestureRecognizer(tapGesture)
         }
         moreInfoView?.frame = view.bounds
         moreInfoView?.height = view.height + CarouselUI.moreInfoExtraHeight
@@ -674,7 +678,19 @@ extension ProductCarouselViewController {
 
     private func refreshFavoriteButton(_ viewModel: ProductViewModel) {
         viewModel.favoriteButtonState.asObservable()
-            .bindTo(favoriteButton.rx.state)
+            .bindNext { [weak self] (buttonState) in
+                guard let strongButton = self?.favoriteButton else { return }
+                switch buttonState {
+                case .hidden:
+                    strongButton.isHidden = true
+                case .enabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 1
+                case .disabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 0.6
+                }
+            }
             .addDisposableTo(activeDisposeBag)
 
         viewModel.isFavorite.asObservable()
@@ -829,6 +845,10 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 // MARK: > More Info
 
 extension ProductCarouselViewController {
+    
+    dynamic func didTapMoreInfo() {
+        chatTextView.resignFirstResponder()
+    }
     
     func setupMoreInfoDragging() {
         guard let button = moreInfoView?.dragView else { return }
@@ -1071,6 +1091,7 @@ extension ProductCarouselViewController {
         guard !bumpUpBannerIsVisible else { return }
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
+        bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: actualBumpInfo)
         delay(0.1) { [weak self] in
             self?.bannerBottom = 0
@@ -1085,6 +1106,7 @@ extension ProductCarouselViewController {
         bumpUpBannerIsVisible = false
         bannerBottom = -CarouselUI.bannerHeight
         bumpUpBanner.stopCountdown()
+        bannerContainer.isHidden = true
     }
 }
 
