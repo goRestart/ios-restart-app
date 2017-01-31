@@ -184,10 +184,10 @@ extension UIButton {
             isHidden = true
         case .enabled:
             isHidden = false
-            alpha = 1
+            isEnabled = true
         case .disabled:
             isHidden = false
-            alpha = 0.6
+            isEnabled = false
         }
     }
 

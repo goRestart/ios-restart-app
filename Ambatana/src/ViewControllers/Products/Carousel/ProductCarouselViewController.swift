@@ -674,7 +674,19 @@ extension ProductCarouselViewController {
 
     private func refreshFavoriteButton(_ viewModel: ProductViewModel) {
         viewModel.favoriteButtonState.asObservable()
-            .bindTo(favoriteButton.rx.state)
+            .bindNext { [weak self] (buttonState) in
+                guard let strongButton = self?.favoriteButton else { return }
+                switch buttonState {
+                case .hidden:
+                    strongButton.isHidden = true
+                case .enabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 1
+                case .disabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 0.6
+                }
+            }
             .addDisposableTo(activeDisposeBag)
 
         viewModel.isFavorite.asObservable()
