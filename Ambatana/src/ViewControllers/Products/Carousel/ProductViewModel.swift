@@ -906,7 +906,7 @@ extension ProductViewModel {
 
 fileprivate extension ProductViewModel {
     func switchFavoriteAction() {
-        
+        guard favoriteButtonState.value != .disabled else { return }
         favoriteButtonState.value = .disabled
         let currentFavoriteValue = isFavorite.value
         isFavorite.value = !isFavorite.value
