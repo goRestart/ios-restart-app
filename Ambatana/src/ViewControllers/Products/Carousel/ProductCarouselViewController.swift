@@ -481,6 +481,9 @@ extension ProductCarouselViewController {
             view.bringSubview(toFront: fullScreenAvatarEffectView)
             view.bringSubview(toFront: fullScreenAvatarView)
             view.bringSubview(toFront: directChatTable)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMoreInfo))
+            moreInfoView?.addGestureRecognizer(tapGesture)
         }
         moreInfoView?.frame = view.bounds
         moreInfoView?.height = view.height + CarouselUI.moreInfoExtraHeight
@@ -829,6 +832,10 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 // MARK: > More Info
 
 extension ProductCarouselViewController {
+    
+    dynamic func didTapMoreInfo() {
+        chatTextView.resignFirstResponder()
+    }
     
     func setupMoreInfoDragging() {
         guard let button = moreInfoView?.dragView else { return }
