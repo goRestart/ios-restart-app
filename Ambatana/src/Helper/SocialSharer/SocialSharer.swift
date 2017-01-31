@@ -102,7 +102,10 @@ extension SocialSharer: FBSDKSharingDelegate {
 
         switch sharer.type {
         case .facebook:
-            delegate?.shareFinishedIn(.facebook, withState: .completed)
+            // Delay added to let FBSDKSharing UI finish before informing Social Sharer Delegate
+            delay(0.2, completion: { [weak self] in
+                self?.delegate?.shareFinishedIn(.facebook, withState: .completed)
+            })
         case .fbMessenger:
             // Messenger always calls didCompleteWithResults, if it works,
             // will include the key "completionGesture" in the results dict
