@@ -167,14 +167,4 @@ extension ProductVMTrackHelper {
                                                             isQuickAnswer: .falseParameter, typePage: .productDetail)
         tracker.trackEvent(messageSentEvent)
     }
-
-    func trackMoreInfoRelatedItemsComplete(_ itemPosition: Int) {
-        let event = TrackerEvent.moreInfoRelatedItemsComplete(product, itemPosition: itemPosition)
-        tracker.trackEvent(event)
-    }
-
-    func trackMoreInfoRelatedItemsViewMore() {
-        let event = TrackerEvent.moreInfoRelatedItemsViewMore(product)
-        tracker.trackEvent(event)
-    }
 }

@@ -30,11 +30,6 @@
         "description": "Keywords prioritize on Travel Collection"
     },
     {
-        "name": "RelatedProductsOnMoreInfo",
-        "values": ["No", "Yes"],
-        "description": "Related Products on More Info"
-    },
-    {
         "name": "FreeBumpUpEnabled",
         "values": ["No", "Yes"],
         "description": "User can bump sharing"
