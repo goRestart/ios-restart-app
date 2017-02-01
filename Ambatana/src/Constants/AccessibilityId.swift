@@ -143,9 +143,6 @@ enum AccessibilityId: String {
     case productCarouselMoreInfoMapView
     case productCarouselMoreInfoSocialShareTitleLabel
     case productCarouselMoreInfoSocialShareView
-    case productCarouselMoreInfoRelatedItemsTitleLabel
-    case productCarouselMoreInfoRelatedItemsView
-    case productCarouselMoreInfoRelatedViewMoreButton
     case productCarouselMoreInfoDescriptionLabel
 
 

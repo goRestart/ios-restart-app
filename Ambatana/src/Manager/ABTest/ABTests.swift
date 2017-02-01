@@ -17,8 +17,6 @@ struct ABTests {
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
-    static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
-    static var relatedProductsOnMoreInfo = BoolABDynamicVar(key: "relatedProductsOnMoreInfo", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var newQuickAnswers = BoolABDynamicVar(key: "newQuickAnswers", defaultValue: false)
@@ -39,8 +37,6 @@ struct ABTests {
         result.append(marketingPush)
         result.append(showNPSSurvey)
         result.append(postAfterDeleteMode)
-        result.append(keywordsTravelCollection)
-        result.append(relatedProductsOnMoreInfo)
         result.append(postingMultiPictureEnabled)
         result.append(userReviews)
         result.append(newQuickAnswers)

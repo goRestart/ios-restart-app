@@ -65,7 +65,7 @@ final class FacebookTracker: Tracker {
         }
     }
 
-    func setLocation(_ location: LGLocation?) {}
+    func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {}
     func setNotificationsPermission(_ enabled: Bool) {}
     func setGPSPermission(_ enabled: Bool) {}
     func setMarketingNotifications(_ enabled: Bool) {}

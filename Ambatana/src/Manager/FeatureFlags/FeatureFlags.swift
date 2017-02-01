@@ -19,10 +19,8 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
-    var keywordsTravelCollection: KeywordsTravelCollection { get }
     var freePostingModeAllowed: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
-    var relatedProductsOnMoreInfo: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
@@ -94,26 +92,12 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
     }
-
-    var keywordsTravelCollection: KeywordsTravelCollection {
-        if Bumper.enabled {
-            return Bumper.keywordsTravelCollection
-        }
-        return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
-    }
-
+    
     var postingMultiPictureEnabled: Bool {
         if Bumper.enabled {
             return Bumper.postingMultiPictureEnabled
         }
         return ABTests.postingMultiPictureEnabled.value
-    }
-
-    var relatedProductsOnMoreInfo: Bool {
-        if Bumper.enabled {
-            return Bumper.relatedProductsOnMoreInfo
-        }
-        return ABTests.relatedProductsOnMoreInfo.value
     }
     
     var favoriteWithBadgeOnProfile: Bool {

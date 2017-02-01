@@ -18,6 +18,7 @@ final class AmplitudeTracker: Tracker {
     private static let userPropEmailKey = "user-email"
     private static let userPropLatitudeKey = "user-lat"
     private static let userPropLongitudeKey = "user-lon"
+    private static let userPropCountryCodeKey = "user-country-code"
 
     private static let userPropTypeKey = "UserType"
     private static let userPropTypeValueReal = "1"
@@ -119,13 +120,17 @@ final class AmplitudeTracker: Tracker {
         }
     }
 
-    func setLocation(_ location: LGLocation?) {
+    func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {
         guard let location = location else { return }
         let identify = AMPIdentify()
         let latitude = NSNumber(value: location.coordinate.latitude)
         let longitude = NSNumber(value: location.coordinate.longitude)
         identify.set(AmplitudeTracker.userPropLatitudeKey, value: latitude)
         identify.set(AmplitudeTracker.userPropLongitudeKey, value: longitude)
+        if let countryCode = postalAddress?.countryCode {
+            let countryObject = NSString(string: countryCode)
+            identify.set(AmplitudeTracker.userPropCountryCodeKey, value: countryObject)
+        }
         Amplitude.instance().identify(identify)
     }
 
