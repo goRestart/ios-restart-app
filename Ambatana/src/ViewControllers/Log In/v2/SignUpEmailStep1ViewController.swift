@@ -189,6 +189,7 @@ fileprivate extension SignUpEmailStep1ViewController {
         contentView.addSubview(emailImageView)
 
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.text = viewModel.email.value
         emailTextField.tag = TextFieldTag.email.rawValue
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
@@ -213,6 +214,7 @@ fileprivate extension SignUpEmailStep1ViewController {
         contentView.addSubview(passwordImageView)
 
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.text = viewModel.password.value
         passwordTextField.tag = TextFieldTag.password.rawValue
         passwordTextField.keyboardType = .default
         passwordTextField.autocapitalizationType = .none

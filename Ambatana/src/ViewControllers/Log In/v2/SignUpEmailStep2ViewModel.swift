@@ -59,6 +59,12 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     var signUpEnabled: Observable<Bool> {
         return signUpEnabledVar.asObservable()
     }
+    var termsAndConditionsURL: URL? {
+        return LetgoURLHelper.buildTermsAndConditionsURL()
+    }
+    var privacyURL: URL? {
+        return LetgoURLHelper.buildPrivacyURL()
+    }
 
     weak var delegate: SignUpEmailStep2ViewModelDelegate?
     weak var navigator: SignUpEmailStep2Navigator?
@@ -170,13 +176,8 @@ fileprivate extension SignUpEmailStep2ViewModel {
     func setupRx() {
         // Sign up is enabled when username is not empty & the required checks are enabled
         let requiredChecks: Observable<Bool>?
-        if termsAndConditionsAcceptRequired  && newsLetterAcceptRequired {
-            requiredChecks = Observable.combineLatest(termsAndConditionsAccepted.asObservable(),
-                                                      newsLetterAccepted.asObservable()) { $0.0 && $0.1 }
-        } else if termsAndConditionsAcceptRequired {
+        if termsAndConditionsAcceptRequired {
             requiredChecks = termsAndConditionsAccepted.asObservable()
-        } else if newsLetterAcceptRequired {
-            requiredChecks = newsLetterAccepted.asObservable()
         } else {
             requiredChecks = nil
         }

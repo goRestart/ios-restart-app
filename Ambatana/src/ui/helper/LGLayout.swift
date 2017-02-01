@@ -219,8 +219,8 @@ extension LGLayout {
                       relatedBy: NSLayoutRelation = .equal, invert: Bool = false,
                       priority: UILayoutPriority = UILayoutPriorityRequired,
                       constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        let attr1: NSLayoutAttribute = invert ? .left : .right
-        let attr2: NSLayoutAttribute = invert ? .right : .left
+        let attr1: NSLayoutAttribute = invert ? .leading : .trailing
+        let attr2: NSLayoutAttribute = invert ? .trailing : .leading
         constraint(item1: item1, attribute1: attr1, relatedBy: relatedBy, item2: item2, attribute2: attr2,
                    constant: constant, multiplier: multiplier, priority: priority, constraintBlock: constraintBlock)
         return self

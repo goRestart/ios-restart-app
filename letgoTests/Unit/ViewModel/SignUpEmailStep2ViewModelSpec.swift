@@ -81,6 +81,12 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                     it("has sign up enabled") {
                         expect(signUpEnabled) == true
                     }
+                    it("has terms and conditions URL") {
+                        expect(sut.termsAndConditionsURL).notTo(beNil())
+                    }
+                    it("has privacy policy URL") {
+                        expect(sut.privacyURL).notTo(beNil())
+                    }
                 }
             }
 

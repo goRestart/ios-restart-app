@@ -25,11 +25,11 @@ final class SignUpEmailStep2ViewController: KeyboardViewController {
     fileprivate let fullNameButton = UIButton()
     fileprivate let fullNameImageView = UIImageView()
     fileprivate let fullNameTextField = LGTextField()
-
+    fileprivate let termsTextView = UITextView()
+    fileprivate let termsSwitch = UISwitch()
+    fileprivate let newsletterLabel = UILabel()
+    fileprivate let newsletterSwitch = UISwitch()
     fileprivate let signUpButton = UIButton()
-    fileprivate let footerButton = UIButton()
-
-    fileprivate let signUpButtonVisible = Variable<Bool>(true)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -88,13 +88,25 @@ extension SignUpEmailStep2ViewController: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        signUpPressed()
+        if signUpButton.isEnabled {
+            signUpPressed()
+        }
         return true
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         return !string.hasEmojis()
+    }
+}
+
+
+// MARK: - UITextViewDelegate
+
+extension SignUpEmailStep2ViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
+        openInternalUrl(url)
+        return false
     }
 }
 
@@ -153,8 +165,8 @@ fileprivate extension SignUpEmailStep2ViewController {
         contentView.addSubview(fullNameImageView)
 
         fullNameTextField.translatesAutoresizingMaskIntoConstraints = false
-
-        fullNameTextField.keyboardType = .emailAddress
+        fullNameTextField.text = viewModel.username.value
+        fullNameTextField.keyboardType = .default
         fullNameTextField.autocapitalizationType = .none
         fullNameTextField.autocorrectionType = .no
         fullNameTextField.returnKeyType = .next
@@ -165,37 +177,50 @@ fileprivate extension SignUpEmailStep2ViewController {
         fullNameTextField.delegate = self
         contentView.addSubview(fullNameTextField)
 
+        if viewModel.termsAndConditionsAcceptRequired {
+            termsTextView.translatesAutoresizingMaskIntoConstraints = false
+            termsTextView.font = UIFont.systemFont(size: 15)
+            termsTextView.tintColor = appearance.textViewTintColor
+            let termsText = LGLocalizedString.signUpEmailStep2TermsConditions
+            if let termsURL = viewModel.termsAndConditionsURL, let privacyURL = viewModel.privacyURL {
+                let linkColor = UIColor.grayText
+                let links = [LGLocalizedString.signUpEmailStep2TermsConditionsTermsKw: termsURL,
+                             LGLocalizedString.signUpEmailStep2TermsConditionsPrivacyKw: privacyURL]
+                let attrTermsText = termsText.attributedHyperlinkedStringWithURLDict(links, textColor: linkColor)
+                attrTermsText.addAttribute(NSFontAttributeName, value: UIFont.mediumBodyFont,
+                                           range: NSMakeRange(0, attrTermsText.length))
+                termsTextView.attributedText = attrTermsText
+            } else {
+                termsTextView.text = LGLocalizedString.signUpTermsConditions
+            }
+            termsTextView.isScrollEnabled = false   // makes textview also to calculate full intrinsec content size
+            termsTextView.isEditable = false
+            termsTextView.dataDetectorTypes = .link
+            termsTextView.delegate = self
+            contentView.addSubview(termsTextView)
+
+            termsSwitch.translatesAutoresizingMaskIntoConstraints = false
+            termsSwitch.isOn = viewModel.termsAndConditionsAccepted.value
+            contentView.addSubview(termsSwitch)
+        }
+
+        if viewModel.newsLetterAcceptRequired {
+            newsletterLabel.translatesAutoresizingMaskIntoConstraints = false
+            newsletterLabel.font = UIFont.systemFont(size: 15)
+            newsletterLabel.textColor = UIColor.grayText
+            newsletterLabel.text = LGLocalizedString.signUpEmailStep2Newsletter
+            newsletterLabel.numberOfLines = 0
+            contentView.addSubview(newsletterLabel)
+
+            newsletterSwitch.translatesAutoresizingMaskIntoConstraints = false
+            newsletterSwitch.isOn = viewModel.newsLetterAccepted.value
+            contentView.addSubview(newsletterSwitch)
+        }
+
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         signUpButton.setStyle(.primary(fontSize: .medium))
         signUpButton.setTitle(LGLocalizedString.signUpEmailStep2SignUpButton, for: .normal)
         contentView.addSubview(signUpButton)
-
-        // TODO: !!!
-//        let footerString = (LGLocalizedString.signUpEmailStep1Footer as NSString)
-//        let footerAttrString = NSMutableAttributedString(string: LGLocalizedString.signUpEmailStep1Footer)
-//
-//        let footerStringRange = NSRange(location: 0, length: footerString.length)
-//        let signUpKwRange = footerString.range(of: LGLocalizedString.signUpEmailStep1FooterLogInKw)
-//
-//        if signUpKwRange.location != NSNotFound {
-//            let prefix = footerString.substring(to: signUpKwRange.location)
-//            let prefixRange = footerString.range(of: prefix)
-//            footerAttrString.addAttribute(NSForegroundColorAttributeName, value: appearance.footerMainTextColor,
-//                                          range: prefixRange)
-//
-//            footerAttrString.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor,
-//                                          range: signUpKwRange)
-//        } else {
-//            footerAttrString.addAttribute(NSForegroundColorAttributeName, value: appearance.footerMainTextColor,
-//                                          range: footerStringRange)
-//        }
-
-        footerButton.translatesAutoresizingMaskIntoConstraints = false
-        footerButton.setTitleColor(UIColor.darkGrayText, for: .normal)
-//        footerButton.setAttributedTitle(footerAttrString, for: .normal)
-        footerButton.titleLabel?.numberOfLines = 2
-        footerButton.contentHorizontalAlignment = .center
-        view.addSubview(footerButton)
     }
 
     func setupLayout() {
@@ -217,17 +242,36 @@ fileprivate extension SignUpEmailStep2ViewController {
         fullNameImageView.layout(with: fullNameButton).top().bottom().leading(by: 15)
         fullNameTextField.layout(with: fullNameButton).top().bottom().leading(by: 30).trailing(by: -8)
 
-        signUpButton.layout(with: fullNameTextField).vertically(by: 20)
+        var topView: UIView = fullNameTextField
+        if viewModel.termsAndConditionsAcceptRequired {
+            termsTextView.layout(with: contentView).leading(by: 10)
+            termsTextView.layout(with: topView).vertically(by: 10)
+            termsTextView.layout(with: termsSwitch).horizontally(by: -5)
+            termsTextView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+
+            termsSwitch.layout(with: contentView).trailing(by: -17)
+            termsSwitch.layout(with: termsTextView).centerY(priority: UILayoutPriorityDefaultLow)
+            termsSwitch.layout(with: topView).vertically(by: 15, relatedBy: .greaterThanOrEqual)
+
+            topView = termsTextView
+        }
+
+        if viewModel.newsLetterAcceptRequired {
+            newsletterLabel.layout(with: contentView).leading(by: 15)
+            newsletterLabel.layout(with: topView).vertically(by: 10)
+            newsletterLabel.layout(with: newsletterSwitch).horizontally(by: -10)
+            newsletterLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+
+            newsletterSwitch.layout(with: contentView).trailing(by: -17)
+            newsletterSwitch.layout(with: newsletterLabel).centerY(priority: UILayoutPriorityDefaultLow)
+            newsletterSwitch.layout(with: topView).vertically(by: 15, relatedBy: .greaterThanOrEqual)
+
+            topView = newsletterLabel
+        }
+
+        signUpButton.layout(with: topView).vertically(by: 20)
         signUpButton.layout(with: contentView).leading(by: 15).trailing(by: -15).bottom(by: 15)
         signUpButton.layout().height(50)
-
-        if deviceFamily.isWiderOrEqualThan(.iPhone6) {
-            footerButton.layout(with: keyboardView).bottom(to: .top)
-        } else {
-            footerButton.layout(with: view).bottom()
-        }
-        footerButton.layout(with: view).leading(by: 15).trailing(by: -15)
-        footerButton.layout().height(55, relatedBy: .greaterThanOrEqual)
     }
 
     func updateUI() {
@@ -255,19 +299,18 @@ fileprivate extension SignUpEmailStep2ViewController {
     func openAlertWithFormErrors(errors: SignUpEmailStep2FormErrors) {
         guard !errors.isEmpty else { return }
 
-        // TODO: ojo
-
-//        static let invalidEmail                     = SignUpEmailStep2FormErrors(rawValue: 1 << 0)
-//        static let invalidPassword                  = SignUpEmailStep2FormErrors(rawValue: 1 << 1)
-//        static let usernameContainsLetgo            = SignUpEmailStep2FormErrors(rawValue: 1 << 2)
-//        static let shortUsername                    = SignUpEmailStep2FormErrors(rawValue: 1 << 3)
-//        static let termsAndConditionsNotAccepted    = SignUpEmailStep2FormErrors(rawValue: 1 << 4)
-
-//        if errors.contains(.invalidEmail) {
-//            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorInvalidEmail)
-//        } else if errors.contains(.shortPassword) || errors.contains(.longPassword) {
-//            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword)
-//        }
+        if errors.contains(.invalidEmail) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.signUpSendErrorInvalidEmail)
+        } else if errors.contains(.invalidPassword) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+                                                                                                  Constants.passwordMaxLength))
+        } else if errors.contains(.usernameContainsLetgo) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.signUpSendErrorGeneric)
+        } else if errors.contains(.shortUsername) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength))
+        } else if errors.contains(.termsAndConditionsNotAccepted) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.signUpAcceptanceError)
+        }
     }
 }
 
@@ -276,31 +319,12 @@ fileprivate extension SignUpEmailStep2ViewController {
 
 fileprivate extension SignUpEmailStep2ViewController {
     func setupRx() {
-
         fullNameTextField.rx.text.bindTo(viewModel.username).addDisposableTo(disposeBag)
+        termsSwitch.rx.value.bindTo(viewModel.termsAndConditionsAccepted).addDisposableTo(disposeBag)
+        newsletterSwitch.rx.value.bindTo(viewModel.newsLetterAccepted).addDisposableTo(disposeBag)
         viewModel.signUpEnabled.bindTo(signUpButton.rx.isEnabled).addDisposableTo(disposeBag)
-        signUpButton.rx.tap.subscribeNext { [weak self] _ in self?.signUpPressed() }.addDisposableTo(disposeBag)
-        footerButton.rx.tap.subscribeNext { [weak self] _ in
-            // TODO: Ojo con esto!
-//            self?.viewModel.openLogIn()
+        signUpButton.rx.tap.subscribeNext { [weak self] _ in
+            self?.signUpPressed()
         }.addDisposableTo(disposeBag)
-
-        // Next button is visible depending on current content offset & keyboard visibility
-        Observable.combineLatest(scrollView.rx.contentOffset.asObservable(), keyboardChanges.asObservable()) { ($0, $1) }
-            .map { [weak self] (offset, keyboardChanges) -> Bool in
-                guard let strongSelf = self else { return false }
-                let scrollY = offset.y
-                let scrollHeight = strongSelf.scrollView.frame.height
-                let scrollMaxY = scrollY + scrollHeight
-
-                let scrollVisibleMaxY: CGFloat
-                if keyboardChanges.visible {
-                    scrollVisibleMaxY = scrollMaxY - keyboardChanges.height
-                } else {
-                    scrollVisibleMaxY = scrollMaxY
-                }
-                let buttonMaxY = strongSelf.signUpButton.frame.maxY
-                return scrollVisibleMaxY > buttonMaxY
-            }.bindTo(signUpButtonVisible).addDisposableTo(disposeBag)
     }
 }

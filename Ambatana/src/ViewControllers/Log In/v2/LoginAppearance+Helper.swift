@@ -43,6 +43,15 @@ extension LoginAppearance {
         }
     }
 
+    var textViewTintColor: UIColor {
+        switch self {
+        case .dark:
+            return UIColor.white
+        case .light:
+            return UIColor.primaryColor
+        }
+    }
+
     var lineColor: UIColor {
         switch self {
         case .dark:
