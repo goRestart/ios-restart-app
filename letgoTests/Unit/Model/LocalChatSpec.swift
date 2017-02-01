@@ -22,7 +22,7 @@ class LocalChatSpec: QuickSpec {
         var myUserProduct: MockUserProduct!
         var product: MockProduct!
         
-        fdescribe("init") {
+        describe("init") {
             context("init with myUserProduct nil") {
                 beforeEach {
                     product = MockProduct()
