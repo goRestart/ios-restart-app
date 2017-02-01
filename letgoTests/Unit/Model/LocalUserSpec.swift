@@ -23,7 +23,7 @@ class LocalUserSpec: QuickSpec {
         var mockUser: MockUser!
         var chatInterlocutor: MockChatInterlocutor!
         
-        fdescribe("init") {
+        describe("init") {
            
             context("init with userProduct") {
                 beforeEach {
