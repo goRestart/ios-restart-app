@@ -316,9 +316,9 @@
 "log_in_email_forgot_password_alert_title" = "Забыли пароль?";
 "log_in_email_forgot_password_button" = "Забыли пароль?";
 "log_in_email_help_button" = "Помощь";
-"log_in_email_log_in_button" = "Вход";
+"log_in_email_log_in_button" = "Войти";
 "log_in_email_password_field_hint" = "Пароль";
-"log_in_email_title" = "Вход";
+"log_in_email_title" = "Войти";
 "log_in_email_wrong_password_alert_cancel_action" = "Try Again";
 "log_in_email_wrong_password_alert_message" = "Пароль, который вы ввели для %@, неверен.";
 "log_in_email_wrong_password_alert_title" = "Неверный пароль";
@@ -725,7 +725,7 @@
 "sign_up_email_step1_continue_button" = "Continue";
 "sign_up_email_step1_email_field_hint" = "E-mail";
 "sign_up_email_step1_footer" = "Уже есть аккаунт? Войти";
-"sign_up_email_step1_footer_log_in_kw" = "Вход";
+"sign_up_email_step1_footer_log_in_kw" = "Войти";
 "sign_up_email_step1_help_button" = "Помощь";
 "sign_up_email_step1_password_field_hint" = "Пароль";
 "sign_up_email_step1_title" = "Создать новый аккаунт";

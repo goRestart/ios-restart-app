@@ -268,19 +268,6 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDetailVisitMoreInfo, params: params)
     }
 
-    static func moreInfoRelatedItemsComplete(_ product: Product, itemPosition: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        params[.itemPosition] = itemPosition
-        return TrackerEvent(name: .moreInfoRelatedItemsComplete, params: params)
-    }
-
-    static func moreInfoRelatedItemsViewMore(_ product: Product) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        return TrackerEvent(name: .moreInfoRelatedItemsViewMore, params: params)
-    }
-
     static func productFavorite(_ product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)

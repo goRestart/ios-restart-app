@@ -402,14 +402,6 @@ extension TabCoordinator: ProductDetailNavigator {
         navigationController.present(vc, animated: true, completion: nil)
     }
 
-    func openRelatedItems(_ product: Product, productVisitSource: EventParameterProductVisitSource) {
-        guard let productId = product.objectId else { return }
-        let vm = SimpleProductsViewModel(relatedProductId: productId, productVisitSource: productVisitSource)
-        vm.navigator = self
-        let vc = SimpleProductsViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
         let bumpCoordinator = BumpUpCoordinator(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
         bumpCoordinator.delegate = self

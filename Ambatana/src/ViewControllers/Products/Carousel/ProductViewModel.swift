@@ -625,11 +625,6 @@ extension ProductViewModel {
         }, source: .favourite)
     }
 
-    func openRelatedItems() {
-        trackHelper.trackMoreInfoRelatedItemsViewMore()
-        navigator?.openRelatedItems(product.value, productVisitSource: .moreInfoRelated)
-    }
-
     func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard let socialMessage = socialMessage.value else { return }
         socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
@@ -1093,20 +1088,6 @@ extension ProductViewModel {
     fileprivate func ifLoggedInRunActionElseOpenChatSignup(_ action: @escaping () -> ()) {
         delegate?.ifLoggedInThen(.directSticker, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
-    }
-}
-
-
-// MARK: - RelatedProductsViewDelegate
-
-extension ProductViewModel: RelatedProductsViewDelegate {
-    func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
-                             thumbnailImage: UIImage?, originFrame: CGRect?) {
-        trackHelper.trackMoreInfoRelatedItemsComplete(index)
-        let data = ProductDetailData.productList(product: product, cellModels: productListModels, requester: requester,
-                                                 thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
-        navigator?.openProduct(data, source: .moreInfoRelated, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 
