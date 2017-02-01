@@ -16,7 +16,6 @@ protocol FeatureFlaggeable {
     var syncedData: Observable<Bool> { get }
 
     var websocketChat: Bool { get }
-    var notificationsSection: Bool { get }
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
@@ -50,10 +49,8 @@ class FeatureFlags: FeatureFlaggeable {
         // Initialize all vars that shouldn't change over application lifetime
         if Bumper.enabled {
             self.websocketChat = Bumper.websocketChat
-            self.notificationsSection = Bumper.notificationsSection
         } else {
             self.websocketChat = false
-            self.notificationsSection = ABTests.notificationCenterEnabled.value
         }
 
         self.locale = locale
@@ -74,8 +71,6 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     let websocketChat: Bool
-    
-    let notificationsSection: Bool
 
     var userReviews: Bool {
         if Bumper.enabled {

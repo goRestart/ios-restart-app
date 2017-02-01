@@ -365,6 +365,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(shareButton.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(bannerContainer.rx.alpha).addDisposableTo(disposeBag)
 
         let width = view.bounds.width
         let midPoint = width/2

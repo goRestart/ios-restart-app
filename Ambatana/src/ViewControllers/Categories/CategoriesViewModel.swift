@@ -24,7 +24,6 @@ class CategoriesViewModel: BaseViewModel {
     }
 
     weak var delegate: CategoriesViewModelDelegate?
-    weak var navigator: CategoriesTabNavigator?
 
     
     override convenience init() {
@@ -89,6 +88,6 @@ class CategoriesViewModel: BaseViewModel {
     
     func didSelectItemAtIndex(_ index: Int) {
         guard let productFilters = filtersForCategoryAtIndex(index) else { return }
-        navigator?.openMainProducts(with: productFilters)
+        //Use a navigator to apply filters (related with: https://ambatana.atlassian.net/browse/ABIOS-2271)
     }
 }

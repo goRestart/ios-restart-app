@@ -16,7 +16,6 @@ struct ABTests {
     static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
-    static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
@@ -37,7 +36,6 @@ struct ABTests {
 
         result.append(marketingPush)
         result.append(showNPSSurvey)
-        result.append(notificationCenterEnabled)
         result.append(postAfterDeleteMode)
         result.append(postingMultiPictureEnabled)
         result.append(userReviews)

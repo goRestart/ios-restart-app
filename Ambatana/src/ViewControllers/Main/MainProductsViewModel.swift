@@ -77,6 +77,10 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
         
+        if let distance = filters.distanceRadius {
+            resultTags.append(.distance(distance: distance))
+        }
+        
         return resultTags
     }
 
@@ -253,6 +257,7 @@ class MainProductsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
+        var distance: Int? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -269,7 +274,10 @@ class MainProductsViewModel: BaseViewModel {
                 maxPrice = maxPriceOption
             case .freeStuff:
                 free = true
+            case .distance(let distanceFilter):
+                distance = distanceFilter
             }
+           
         }
 
         filters.place = place
@@ -288,7 +296,9 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
-
+        
+        filters.distanceRadius = distance
+    
         updateListView()
     }
 

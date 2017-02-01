@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LGCoreKit
 
 extension Int {
     static func random(_ min: Int = 0, _ max: Int = 100) -> Int {
@@ -19,5 +20,10 @@ extension Int {
         let mins = (self%3600)/60
         let secs = self%60
         return "\(String(format: "%02d", hours)):\(String(format: "%02d", mins)):\(String(format: "%02d", secs))"
+    }
+    
+    func intToDistanteFormat() -> String {
+        let value = "\(self) \(DistanceType.systemDistanceType().string)"
+        return value
     }
 }
