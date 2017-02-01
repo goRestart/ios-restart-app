@@ -22,7 +22,6 @@ protocol FeatureFlaggeable {
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var freePostingModeAllowed: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
-    var relatedProductsOnMoreInfo: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
@@ -104,13 +103,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.postingMultiPictureEnabled
         }
         return ABTests.postingMultiPictureEnabled.value
-    }
-
-    var relatedProductsOnMoreInfo: Bool {
-        if Bumper.enabled {
-            return Bumper.relatedProductsOnMoreInfo
-        }
-        return ABTests.relatedProductsOnMoreInfo.value
     }
     
     var favoriteWithBadgeOnProfile: Bool {

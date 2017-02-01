@@ -62,7 +62,7 @@ class MockTracker: Tracker {
         trackEventBlock?(self)
     }
 
-    func setLocation(_ location: LGLocation?) {
+    func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {
         updateCoordsBlock?(self)
     }
 

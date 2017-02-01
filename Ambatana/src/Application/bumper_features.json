@@ -25,11 +25,6 @@
         "description": "Posting incentivation after delete"
     },
     {
-        "name": "RelatedProductsOnMoreInfo",
-        "values": ["No", "Yes"],
-        "description": "Related Products on More Info"
-    },
-    {
         "name": "FreeBumpUpEnabled",
         "values": ["No", "Yes"],
         "description": "User can bump sharing"
