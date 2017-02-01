@@ -482,7 +482,7 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        let data = UserDetailData.userAPI(user: product.value.user, source: .productDetail)
+        let data = UserDetailData.userAPI(user: LocalUser(userProduct: product.value.user), source: .productDetail)
         navigator?.openUser(data)
     }
 

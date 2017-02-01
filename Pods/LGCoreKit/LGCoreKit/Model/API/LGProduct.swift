@@ -36,7 +36,7 @@ struct LGProduct: Product {
     let thumbnailSize: LGSize?
     let images: [File]
 
-    var user: User
+    var user: UserProduct
 
     // This parameters is not included in the API, we set a default value that must be changed if needed once 
     // the object is created after the decoding.
@@ -45,7 +45,7 @@ struct LGProduct: Product {
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
          price: ProductPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ProductCategory, status: ProductStatus, thumbnail: File?,
-         thumbnailSize: LGSize?, images: [File], user: User) {
+         thumbnailSize: LGSize?, images: [File], user: UserProduct) {
         self.objectId = objectId
         self.updatedAt = updatedAt
         self.createdAt = createdAt
@@ -67,7 +67,7 @@ struct LGProduct: Product {
     }
     
     init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor) {
-        let user = LGUser(chatInterlocutor: chatInterlocutor)
+        let user = LGUserProduct(chatInterlocutor: chatInterlocutor)
         let images = [chatProduct.image].flatMap{$0}
         let location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
         let postalAddress = PostalAddress.emptyAddress()
@@ -84,7 +84,7 @@ struct LGProduct: Product {
                               nameAuto: String?, descr: String?, price: Double?, priceFlag: ProductPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
-                              user: LGUser) -> LGProduct {
+                              user: LGUserProduct) -> LGProduct {
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ProductCategory(rawValue: category) ?? .other
         let actualStatus = ProductStatus(rawValue: status) ?? .pending
@@ -279,7 +279,7 @@ extension LGProduct : Decodable {
                             <*> j <|? ["thumb", "url"]                              // thumbnail : String?
         let result = init4  <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
                             <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
-                            <*> j <| "owner"                                        // user : LGUser?
+                            <*> j <| "owner"                                        // user : LGUserProduct?
 
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGProduct parse error: \(error)")

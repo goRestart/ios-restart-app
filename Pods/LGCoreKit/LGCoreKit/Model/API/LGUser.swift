@@ -13,31 +13,31 @@ import Runes
 struct LGUser: User {
 
     // Global iVars
-    var objectId: String?
+    let objectId: String?
 
     // User iVars
-    var name: String?
-    var avatar: File?
-    var postalAddress: PostalAddress
+    let name: String?
+    let avatar: File?
+    let postalAddress: PostalAddress
 
-    var ratingAverage: Float?     // TODO: When switching to bouncer only make ratings & accounts non-optional
-    var ratingCount: Int?
-    var accounts: [Account]?
+    let ratingAverage: Float?
+    let ratingCount: Int
+    let accounts: [Account]
 
-    var status: UserStatus
+    let status: UserStatus
 
     var isDummy: Bool
 
 
     init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, ratingAverage: Float?,
-         ratingCount: Int?, accounts: [LGAccount]?, status: UserStatus?, isDummy: Bool) {
+         ratingCount: Int, accounts: [LGAccount], status: UserStatus?, isDummy: Bool) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
         self.postalAddress = postalAddress
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
-        self.accounts = accounts?.map { $0 as Account }
+        self.accounts = accounts
         self.status = status ?? .active
         self.isDummy = isDummy
     }
@@ -46,19 +46,11 @@ struct LGUser: User {
         let postalAddress = PostalAddress.emptyAddress()
         self.init(objectId: chatInterlocutor.objectId, name: chatInterlocutor.name,
                   avatar: chatInterlocutor.avatar?.fileURL?.absoluteString,
-                  postalAddress: postalAddress, ratingAverage: nil, ratingCount: nil, accounts: nil,
+                  postalAddress: postalAddress, ratingAverage: nil, ratingCount: 0, accounts: [],
                   status: chatInterlocutor.status, isDummy: false)
     }
 }
 
-extension LGUser {
-    // Lifecycle
-    init() {
-        let postalAddress = PostalAddress.emptyAddress()
-        self.init(objectId: nil, name: nil, avatar: nil, postalAddress: postalAddress, ratingAverage: nil,
-                  ratingCount: nil, accounts: nil, status: .active, isDummy: false)
-    }
-}
 
 extension LGUser : Decodable {
 
@@ -97,8 +89,8 @@ extension LGUser : Decodable {
             <*> PostalAddress.decode(j)
         let result = init1
             <*> j <|? "rating_value"
-            <*> j <|? "num_ratings"
-            <*> j <||? "accounts"
+            <*> j <| "num_ratings"
+            <*> j <|| "accounts"
             <*> j <|? "status"
             <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
 

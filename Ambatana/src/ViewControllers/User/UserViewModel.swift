@@ -366,7 +366,6 @@ extension UserViewModel {
 fileprivate extension UserViewModel {
     func retrieveUserData() {
         guard let userId = user.value?.objectId else { return }
-        guard user.value?.accounts == nil else { return } // If user already has accounts == complete user
         userRepository.show(userId) { [weak self] result in
             guard let user = result.value else { return }
             self?.updateAccounts(user)
@@ -469,7 +468,7 @@ fileprivate extension UserViewModel {
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
             
             // If the user has accounts the set them up
-            if let user = user, let _ = user.accounts {
+            if let user = user {
                 strongSelf.updateAccounts(user)
             }
             

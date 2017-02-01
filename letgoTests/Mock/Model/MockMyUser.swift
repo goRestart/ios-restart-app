@@ -17,9 +17,9 @@ class MockMyUser: MyUser {
     var avatar: File?
     var postalAddress: PostalAddress = PostalAddress.emptyAddress()
 
-    var accounts: [Account]?
+    var accounts: [Account] = []
     var ratingAverage: Float?
-    var ratingCount: Int?
+    var ratingCount: Int = 0
 
     var status: UserStatus = .active
 
@@ -27,6 +27,30 @@ class MockMyUser: MyUser {
 
     // MyUser
     var email: String?
-    var location: LGLocation?
+    var location: LGLocation? // FIXME: Why is there an LGLocation on Letgo-ios
     var localeIdentifier: String?
+    
+    init() { }
+    
+    required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [Account], ratingAverage: Float?, ratingCount: Int, status: UserStatus, isDummy: Bool, email: String?, location: LGLocation?, localeIdentifier: String?) {
+        
+        self.objectId = objectId
+        
+        self.name = name
+        self.avatar = avatar
+        self.postalAddress = postalAddress
+        
+        self.accounts = accounts
+        self.ratingAverage = ratingAverage
+        self.ratingCount = ratingCount
+        
+        self.status = status
+        
+        self.isDummy = isDummy
+
+        self.email = email
+        self.location = location
+        self.localeIdentifier = localeIdentifier
+    }
+
 }

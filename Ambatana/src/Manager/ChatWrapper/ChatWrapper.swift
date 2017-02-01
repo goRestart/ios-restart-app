@@ -56,7 +56,7 @@ class ChatWrapper {
             completion?(Result(error: .internalError(message: "There's no message to send")))
             return
         }
-        oldChatRepository.sendMessage(type, message: text, product: product, recipient: product.user) { result in
+        oldChatRepository.sendMessage(type, message: text, product: product, recipient: LocalUser(userProduct: product.user)) { result in
             if let _ = result.value {
                 // Value is true as we can't know (old chat)  if it is first contact or not. (always track)
                 completion?(Result(value: true))

@@ -138,7 +138,7 @@ class ChatViewMessageAdapter {
     }
 
     func createUserInfoMessage(_ user: User?) -> ChatViewMessage? {
-        guard let user = user, let _ = user.accounts else { return nil }
+        guard let user = user else { return nil }
         let facebook = user.facebookAccount?.verified ?? false
         let google = user.googleAccount?.verified ?? false
         let email = user.emailAccount?.verified ?? false

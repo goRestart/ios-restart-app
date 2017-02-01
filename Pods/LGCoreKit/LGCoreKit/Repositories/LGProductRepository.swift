@@ -73,11 +73,11 @@ final class LGProductRepository: ProductRepository {
         let location = LGLocationCoordinates2D(location: lgLocation)
         let languageCode = Locale.current.identifier
         let status = ProductStatus.pending
-
+        let myUserProduct = LGUserProduct(user: myUser)
         return LGProduct(objectId: nil, updatedAt: nil, createdAt: nil, name: name, nameAuto: nil, descr: description,
                          price: price, currency: currency, location: location, postalAddress: postalAddress,
                          languageCode: languageCode, category: category, status: status, thumbnail: nil,
-                         thumbnailSize: nil, images: [], user: myUser)
+                         thumbnailSize: nil, images: [], user: myUserProduct)
     }
 
     func updateProduct(_ product: Product, name: String?, description: String?, price: ProductPrice,
