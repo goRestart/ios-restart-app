@@ -6,16 +6,6 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-import Foundation
-
-
-//
-//  MockUser.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 06/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
 
 import LGCoreKit
 
@@ -74,5 +64,8 @@ final class MockUserProduct: MockBaseModel, UserProduct {
         self.location = location
         self.status = .active
         self.banned = banned
+        super.init()
+        self.objectId = objectId
+       
     }
 }

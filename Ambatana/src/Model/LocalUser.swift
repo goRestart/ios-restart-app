@@ -40,7 +40,7 @@ struct LocalUser: User, UserProduct {
         self.objectId = user.objectId
         self.name = user.name
         self.avatar = user.avatar
-        self.postalAddress =  PostalAddress.emptyAddress()
+        self.postalAddress =  user.postalAddress
         self.accounts = user.accounts
         self.ratingAverage = user.ratingAverage
         self.ratingCount = user.ratingCount
@@ -53,7 +53,7 @@ struct LocalUser: User, UserProduct {
         self.objectId = userProduct.objectId
         self.name = userProduct.name
         self.avatar = userProduct.avatar
-        self.postalAddress =  PostalAddress.emptyAddress()
+        self.postalAddress =  userProduct.postalAddress
         self.accounts = []
         self.ratingAverage = nil
         self.ratingCount = 0

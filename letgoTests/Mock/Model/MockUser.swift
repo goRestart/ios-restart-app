@@ -68,5 +68,7 @@ final class MockUser: MockBaseModel, MyUser {
         self.accounts = accounts
         self.status = .active
         self.ratingCount = ratingAccount
+        super.init()
+        self.objectId = objectId
     }
 }
