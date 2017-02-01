@@ -779,12 +779,4 @@ fileprivate extension Tab {
             return .profile
         }
     }
-    var chatHeadsHidden: Bool {
-        switch self {
-        case .chats, .sell:
-            return true
-        case .home, .notifications, .profile:
-            return false
-        }
-    }
 }
