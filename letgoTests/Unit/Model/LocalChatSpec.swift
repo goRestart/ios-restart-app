@@ -22,11 +22,11 @@ class LocalChatSpec: QuickSpec {
         var myUserProduct: MockUserProduct!
         var product: MockProduct!
         
-        describe("init") {
+        fdescribe("init") {
             context("init with myUserProduct nil") {
                 beforeEach {
                     product = MockProduct()
-                    product.objectId = "1234"
+                    product.user = MockUserProduct(objectId: "1234", name: "Juan", avatar: nil, postalAddress: PostalAddress.emptyAddress(), email: "", location: nil, banned: false)
                     myUserProduct = nil
                     sut = LocalChat(product: product, myUserProduct: myUserProduct)
                 }
@@ -42,7 +42,7 @@ class LocalChatSpec: QuickSpec {
             context("init with a myUserProduct") {
                 beforeEach {
                     product = MockProduct()
-                    product.objectId = "1234"
+                    product.user = MockUserProduct(objectId: "1234", name: "Juan", avatar: nil, postalAddress: PostalAddress.emptyAddress(), email: "", location: nil, banned: false)
                     myUserProduct = MockUserProduct()
                     myUserProduct.objectId = "8910"
                     sut = LocalChat(product: product, myUserProduct: myUserProduct)
