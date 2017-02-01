@@ -718,14 +718,7 @@ fileprivate extension MainProductsViewModel {
         case .You:
             query = keyValueStorage[.lastSearches].reversed().joined(separator: " ")
         case .Transport:
-            switch featureFlags.keywordsTravelCollection {
-            case .standard:
-                query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
-            case .carsPrior:
-                query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
-            case .brandsPrior:
-                query = "mustang Honda Harley corvette dodge Toyota yamaha motorcycle Jeep atv bike boat car kayak trailer truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard bmx rv Chevy sub ford paddle"
-            }
+            query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
         case .Gaming:
             query = "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
         case .Apple:
