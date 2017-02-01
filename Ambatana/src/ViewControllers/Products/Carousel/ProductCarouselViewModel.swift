@@ -32,7 +32,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     var currentProductViewModel: ProductViewModel?
     var startIndex: Int = 0
-    var firstProductIndex: Int
+    var firstProductIndex: Int?
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator?
@@ -87,7 +87,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     convenience init(product: LocalProduct, productListRequester: ProductListRequester?,
                      navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int) {
+                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
@@ -106,7 +106,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     convenience init(product: Product, thumbnailImage: UIImage?, productListRequester: ProductListRequester?,
                      navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int) {
+                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
@@ -125,7 +125,7 @@ class ProductCarouselViewModel: BaseViewModel {
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
                      productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int) {
+                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
@@ -146,7 +146,7 @@ class ProductCarouselViewModel: BaseViewModel {
          productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
          source: EventParameterProductVisitSource, locale: Locale, locationManager: LocationManager,
          socialSharer: SocialSharer, featureFlags: FeatureFlaggeable,
-         showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int) {
+         showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
@@ -405,7 +405,8 @@ extension CarouselMovement {
             return .none
         }
     }
-    func feedPosition(for index: Int) -> EventParameterFeedPosition {
+    func feedPosition(for index: Int?) -> EventParameterFeedPosition {
+        guard let index = index else  { return .none }
         switch self {
         case .tap, .swipeLeft, .swipeRight:
             return .none
