@@ -296,7 +296,9 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
-
+        
+        filters.distanceRadius = distance
+    
         updateListView()
     }
 
