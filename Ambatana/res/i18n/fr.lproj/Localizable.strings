@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Renvoyé vers le haut ! Votre bien bénéficie maintenant d'une meilleure visibilité.";
 "bump_up_processing_free_text" = "Renvoi vers le haut en cours...";
 "bump_up_processing_priced_text" = "Paiement en cours...";
+"bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_view_free_subtitle" = "Plus vous partagez, plus votre annonce sera visible.";
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
 "bump_up_view_pay_bumps_left_text" = "Il vous reste %i renvois vers le haut.";

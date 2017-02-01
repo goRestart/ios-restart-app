@@ -85,6 +85,9 @@
 // Text for loading view whiel processing bump with a price
 "bump_up_processing_priced_text" = "Processing payment...";
 
+// Text for stripe in featured products cells
+"bump_up_product_cell_featured_stripe" = "Featured";
+
 // Title for free bump up view
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 

@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Felugrasztva! Portékád mostantól sokkal láthatóbb.";
 "bump_up_processing_free_text" = "Ugrasztás feldolgozása...";
 "bump_up_processing_priced_text" = "Fizetés feldolgozása...";
+"bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_view_free_subtitle" = "Minél többször osztod meg hirdetésedet, annál láthatóbb lesz.";
 "bump_up_view_free_title" = "UGRASZD FEL HIRDETÉSEDET";
 "bump_up_view_pay_bumps_left_text" = "%i ugrasztásod maradt.";

@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Επιτυχής προώθηση! Τώρα το αντικείμενό σας έχει επιπλέον προβολή.";
 "bump_up_processing_free_text" = "Επεξεργασία προώθησης...";
 "bump_up_processing_priced_text" = "Επεξεργασία πληρωμής...";
+"bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_view_free_subtitle" = "Όσο περισσότερο κοινοποιείτε, τόσο περισσότερη προβολή θα έχει η καταχώρησή σας.";
 "bump_up_view_free_title" = "ΠΡΟΩΘΗΣΤΕ ΤΗΝ ΚΑΤΑΧΩΡΗΣΗ ΣΑΣ";
 "bump_up_view_pay_bumps_left_text" = "Σας έχουν μείνει %i προωθήσεις.";

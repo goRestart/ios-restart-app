@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
 "bump_up_processing_free_text" = "Öne çıkarma işlemi gerçekleştiriliyor...";
 "bump_up_processing_priced_text" = "Ödeme işlemi gerçekleştiriliyor...";
+"bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";
 "bump_up_view_free_title" = "ÜRÜNÜNÜ ÖNE ÇIKAR";
 "bump_up_view_pay_bumps_left_text" = "%i adet öne çıkarma hakkın kaldı.";
