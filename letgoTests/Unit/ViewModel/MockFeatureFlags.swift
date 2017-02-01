@@ -28,7 +28,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var keywordsTravelCollection: KeywordsTravelCollection = .standard
     var freePostingModeAllowed: Bool = true
     var postingMultiPictureEnabled: Bool = true
-    var relatedProductsOnMoreInfo: Bool = true
     var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false
