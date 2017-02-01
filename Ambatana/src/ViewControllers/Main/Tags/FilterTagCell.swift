@@ -15,7 +15,7 @@ protocol FilterTagCellDelegate : class {
 
 class FilterTagCell: UICollectionViewCell {
     
-    private static let cellHeigh : CGFloat = 32.0
+    private static let cellHeight : CGFloat = 32.0
     private static let fixedWidthSpace : CGFloat = 42.0 //10.0 left margin & 32.0 close button
     private static let iconWidth : CGFloat = 28.0
     private static let USDollarCode = "USD"
@@ -39,21 +39,23 @@ class FilterTagCell: UICollectionViewCell {
         case .within(let timeOption):
             return FilterTagCell.sizeForText(timeOption.name)
         case .category:
-            return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
+            return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
         case .priceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
         case .freeStuff:
-            return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
+            return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
+        case .distance(let distance):
+            return FilterTagCell.sizeForText(distance.intToDistanteFormat())
         }
     }
     
     private static func sizeForText(_ text: String) -> CGSize {
-        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: FilterTagCell.cellHeigh)
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: FilterTagCell.cellHeight)
         let boundingBox = text.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesLineFragmentOrigin,
             attributes: [NSFontAttributeName: UIFont.smallBodyFont], context: nil)
-        return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
+        return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeight)
     }
 
     private static func stringForPriceRange(_ min: Int?, max: Int?, withCurrency currency: Currency?) -> String {
@@ -120,6 +122,8 @@ class FilterTagCell: UICollectionViewCell {
         case .freeStuff:
             self.tagIconWidth.constant = FilterTagCell.iconWidth
             self.tagIcon.image = UIImage(named: "categories_free")
+        case .distance(let distance):
+            self.tagLabel.text = distance.intToDistanteFormat()
         }
     }
 
