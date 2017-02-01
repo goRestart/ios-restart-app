@@ -103,7 +103,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.updateCoordsBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.updateCoordsBlock = { (tracker: Tracker) in flags[2] = true }
                 
-                sut.setLocation(nil)
+                sut.setLocation(nil, postalAddress: nil)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }
