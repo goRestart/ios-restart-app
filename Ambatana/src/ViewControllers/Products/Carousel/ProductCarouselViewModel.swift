@@ -94,7 +94,6 @@ class ProductCarouselViewModel: BaseViewModel {
         let locale = Locale.current
         let socialSharer = SocialSharer()
         let featureFlags = FeatureFlags.sharedInstance
-        let firstProductIndex = firstProductIndex
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: nil,
                   productListRequester: productListRequester, navigator: navigator, source: source,
@@ -113,7 +112,6 @@ class ProductCarouselViewModel: BaseViewModel {
         let locale = NSLocale.current
         let socialSharer = SocialSharer()
         let featureFlags = FeatureFlags.sharedInstance
-        let firstProductIndex = firstProductIndex
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester, navigator: navigator, source: source,
@@ -132,7 +130,6 @@ class ProductCarouselViewModel: BaseViewModel {
         let locale = NSLocale.current
         let socialSharer = SocialSharer()
         let featureFlags = FeatureFlags.sharedInstance
-        let firstProductIndex = firstProductIndex
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: productListModels, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, productListRequester: productListRequester, navigator: navigator,
