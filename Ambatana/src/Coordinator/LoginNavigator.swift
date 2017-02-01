@@ -6,4 +6,12 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
+
+protocol MainSignUpNavigator: class {
+    func cancelMainSignUp()
+    func closeMainSignUp(myUser: MyUser)
+    func closeMainSignUpAndOpenScammerAlert(network: EventParameterAccountNetwork)
+    func openSignUpEmailFromMainSignUp(source: EventParameterLoginSourceValue, collapsedEmailParam: EventParameterCollapsedEmailField?)
+    func openLogInEmailFromMainSignUp(source: EventParameterLoginSourceValue, collapsedEmailParam: EventParameterCollapsedEmailField?)
+}

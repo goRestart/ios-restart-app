@@ -524,20 +524,9 @@ fileprivate extension AppCoordinator {
     }
 
     func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> ()) {
-        let viewModel = SignUpViewModel(appearance: .light, source: source)
-        switch style {
-        case .fullScreen:
-            let vc = MainSignUpViewController(viewModel: viewModel)
-            vc.afterLoginAction = afterLogInSuccessful
-            let navCtl = UINavigationController(rootViewController: vc)
-            navCtl.view.backgroundColor = UIColor.white
-            tabBarCtl.present(navCtl, animated: true, completion: nil)
-        case .popup(let message):
-            let vc = PopupSignUpViewController(viewModel: viewModel, topMessage: message)
-            vc.preDismissAction = nil
-            vc.afterLoginAction = afterLogInSuccessful
-            tabBarCtl.present(vc, animated: true, completion: nil)
-        }
+        let coordinator = LoginCoordinator(source: source, appearance: .light, style: style,
+                                           preDismissLoginBlock: nil, loggedInAction: afterLogInSuccessful)
+        openCoordinator(coordinator: coordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
     /**
