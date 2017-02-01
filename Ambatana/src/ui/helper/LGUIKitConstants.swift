@@ -70,4 +70,8 @@ struct LGUIKitConstants {
 
     // MARK: - Highlighted
     static let highlightedStateAlpha: CGFloat = 0.6
+
+    // MARK: - Animation
+
+    static let defaultAnimationTime: TimeInterval = 0.2
 }
