@@ -418,6 +418,8 @@
 		50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */; };
 		50E557BB1E421CB900327B6A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E557BA1E421CB900327B6A /* LoginCoordinator.swift */; };
 		50E557BC1E421CB900327B6A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E557BA1E421CB900327B6A /* LoginCoordinator.swift */; };
+		50E557BE1E421CF500327B6A /* LoginNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E557BD1E421CF500327B6A /* LoginNavigator.swift */; };
+		50E557BF1E421CF500327B6A /* LoginNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E557BD1E421CF500327B6A /* LoginNavigator.swift */; };
 		50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */; };
 		50E96E6D1DE3486A009DB88A /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E96E6C1DE3486A009DB88A /* SignUpViewModelSpec.swift */; };
 		50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; };
@@ -1582,6 +1584,7 @@
 		50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellNavigator.swift; sourceTree = "<group>"; };
 		50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderContainer.swift; sourceTree = "<group>"; };
 		50E557BA1E421CB900327B6A /* LoginCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
+		50E557BD1E421CF500327B6A /* LoginNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginNavigator.swift; sourceTree = "<group>"; };
 		50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactSubject.swift; sourceTree = "<group>"; };
 		50E96E6C1DE3486A009DB88A /* SignUpViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModelSpec.swift; sourceTree = "<group>"; };
 		50EC64031C64B05500DC04C5 /* LGEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGEmptyView.swift; sourceTree = "<group>"; };
@@ -2636,6 +2639,7 @@
 				C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */,
 				C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */,
 				50E557BA1E421CB900327B6A /* LoginCoordinator.swift */,
+				50E557BD1E421CF500327B6A /* LoginNavigator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -4799,6 +4803,7 @@
 				D4BFE5B61B640C36006A8CB6 /* MainProductsViewModel.swift in Sources */,
 				C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				6A5E1A041D548F5400F92692 /* TypeAliases.swift in Sources */,
+				50E557BE1E421CF500327B6A /* LoginNavigator.swift in Sources */,
 				C74931731D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
 				C783D9891C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
@@ -5250,6 +5255,7 @@
 				2E3047F31CA408D00099C0BC /* CommercialDisplayViewModel.swift in Sources */,
 				C7732F761D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
 				C7DB41AA1C5138B500400945 /* MainProductsViewModel.swift in Sources */,
+				50E557BF1E421CF500327B6A /* LoginNavigator.swift in Sources */,
 				6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */,
 				C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				C74931741D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
