@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, RelatedProductsOnMoreInfo.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self])
     } 
 
     static var websocketChat: Bool {
@@ -38,11 +38,6 @@ extension Bumper  {
     static var postAfterDeleteMode: PostAfterDeleteMode {
         guard let value = Bumper.value(for: PostAfterDeleteMode.key) else { return .original }
         return PostAfterDeleteMode(rawValue: value) ?? .original 
-    }
-
-    static var keywordsTravelCollection: KeywordsTravelCollection {
-        guard let value = Bumper.value(for: KeywordsTravelCollection.key) else { return .standard }
-        return KeywordsTravelCollection(rawValue: value) ?? .standard 
     }
 
     static var relatedProductsOnMoreInfo: Bool {
@@ -160,22 +155,6 @@ enum PostAfterDeleteMode: String, BumperFeature  {
             case 1: return .fullScreen
             case 2: return .alert
             default: return .original
-        }
-    }
-}
-
-enum KeywordsTravelCollection: String, BumperFeature  {
-    case standard, carsPrior, brandsPrior
-    static var defaultValue: String { return KeywordsTravelCollection.standard.rawValue }
-    static var enumValues: [KeywordsTravelCollection] { return [.standard, .carsPrior, .brandsPrior]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Keywords prioritize on Travel Collection" } 
-    static func fromPosition(_ position: Int) -> KeywordsTravelCollection {
-        switch position { 
-            case 0: return .standard
-            case 1: return .carsPrior
-            case 2: return .brandsPrior
-            default: return .standard
         }
     }
 }

@@ -25,7 +25,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var filtersReorder: Bool = false
     var directPostInOnboarding: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
-    var keywordsTravelCollection: KeywordsTravelCollection = .standard
     var freePostingModeAllowed: Bool = true
     var postingMultiPictureEnabled: Bool = true
     var relatedProductsOnMoreInfo: Bool = true

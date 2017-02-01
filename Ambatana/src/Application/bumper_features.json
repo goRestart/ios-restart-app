@@ -25,11 +25,6 @@
         "description": "Posting incentivation after delete"
     },
     {
-        "name": "KeywordsTravelCollection",
-        "values": ["Standard", "CarsPrior", "BrandsPrior"],
-        "description": "Keywords prioritize on Travel Collection"
-    },
-    {
         "name": "RelatedProductsOnMoreInfo",
         "values": ["No", "Yes"],
         "description": "Related Products on More Info"
