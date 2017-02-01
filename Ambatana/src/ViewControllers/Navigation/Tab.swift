@@ -10,14 +10,14 @@
  Defines the tabs contained in the TabBarController
  */
 enum Tab {
-    case home, categories, notifications, sell, chats, profile
+    case home, notifications, sell, chats, profile
 
     init?(index: Int,featureFlags: FeatureFlaggeable) {
         switch index {
         case 0:
             self = .home
         case 1:
-            self = featureFlags.notificationsSection ? .notifications : .categories
+            self = .notifications
         case 2:
             self = .sell
         case 3:
@@ -32,8 +32,6 @@ enum Tab {
         switch self {
         case .home:
             return "tabbar_home"
-        case .categories:
-            return "tabbar_categories"
         case .notifications:
             return "tabbar_notifications"
         case .sell:
@@ -49,7 +47,7 @@ enum Tab {
         switch self {
         case .home:
             return 0
-        case .categories, .notifications:
+        case .notifications:
             return 1
         case .sell:
             return 2
@@ -64,7 +62,7 @@ enum Tab {
         switch self {
         case .home:
             return .tabBarFirstTab
-        case .categories, .notifications:
+        case .notifications:
             return .tabBarSecondTab
         case .sell:
             return .tabBarThirdTab
@@ -76,10 +74,6 @@ enum Tab {
     }
 
     func all(_ featureFlags: FeatureFlaggeable) -> [Tab] {
-        if featureFlags.notificationsSection {
-            return [.home, .notifications, .sell, .chats, .profile]
-        } else {
-            return [.home, .categories, .sell, .chats, .profile]
-        }
+        return [.home, .notifications, .sell, .chats, .profile]
     }
 }

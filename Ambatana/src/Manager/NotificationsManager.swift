@@ -164,9 +164,7 @@ class NotificationsManager {
 
     private func clearCounters() {
         unreadMessagesCount.value = nil
-        if featureFlags.notificationsSection {
-            unreadNotificationsCount.value = nil
-        }
+        unreadNotificationsCount.value = nil
         favoriteCount.value = nil
     }
 
@@ -190,7 +188,7 @@ class NotificationsManager {
     }
 
     private func requestNotificationCounters() {
-        guard featureFlags.notificationsSection && sessionManager.loggedIn && !requestingNotifications else { return }
+        guard sessionManager.loggedIn && !requestingNotifications else { return }
         requestingNotifications = true
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
             self?.requestingNotifications = false
