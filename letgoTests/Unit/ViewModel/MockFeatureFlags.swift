@@ -19,7 +19,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     let syncedDataVar = Variable<Bool>(false)
 
     var websocketChat: Bool = false
-    var notificationsSection: Bool = false
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
     var filtersReorder: Bool = false

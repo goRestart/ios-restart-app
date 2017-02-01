@@ -12,17 +12,12 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, RelatedProductsOnMoreInfo.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self])
     } 
 
     static var websocketChat: Bool {
         guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
         return WebsocketChat(rawValue: value)?.asBool ?? false
-    }
-
-    static var notificationsSection: Bool {
-        guard let value = Bumper.value(for: NotificationsSection.key) else { return true }
-        return NotificationsSection(rawValue: value)?.asBool ?? true
     }
 
     static var userReviews: Bool {
@@ -118,15 +113,6 @@ enum WebsocketChat: String, BumperFeature  {
     static var enumValues: [WebsocketChat] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New Websocket Chat" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum NotificationsSection: String, BumperFeature  {
-    case yes, no
-    static var defaultValue: String { return NotificationsSection.yes.rawValue }
-    static var enumValues: [NotificationsSection] { return [.yes, .no]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Notifications Section" } 
     var asBool: Bool { return self == .yes }
 }
 

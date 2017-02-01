@@ -4,11 +4,6 @@
 		"values": ["No", "Yes"],
 		"description": "New Websocket Chat"
 	},
-	{
-		"name": "NotificationsSection",
-		"values": ["Yes", "No"],
-		"description": "Notifications Section"
-	},
     {
         "name": "UserReviews",
         "values": ["Yes", "No"],
