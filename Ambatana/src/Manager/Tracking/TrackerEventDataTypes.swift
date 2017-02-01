@@ -606,7 +606,7 @@ enum EventParameterFeedPosition {
             let value = index + 1
             return String(value)
         case .none:
-                return "N/A"
+            return "N/A"
         }
     }
 }
