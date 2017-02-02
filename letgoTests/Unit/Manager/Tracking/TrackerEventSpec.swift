@@ -2807,6 +2807,30 @@ class TrackerEventSpec: QuickSpec {
                     expect(param ).to(equal("AAAAA"))
                 }
             }
+            describe("app rating start") {
+                beforeEach {
+                    sut = TrackerEvent.appRatingStart(EventParameterRatingSource.productSellComplete)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("app-rating-start"))
+                }
+                it("contains rating source param") {
+                    let param = sut.params!.stringKeyParams["app-rating-source"] as? String
+                    expect(param).to(equal("product-sell-complete"))
+                }
+            }
+            describe("app rating rate") {
+                beforeEach {
+                    sut = TrackerEvent.appRatingRate(rating: 3)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("app-rating-rate"))
+                }
+                it("contains rating source param") {
+                    let param = sut.params!.stringKeyParams["rating"] as? Int
+                    expect(param).to(equal(3))
+                }
+            }
         }
     }
 }

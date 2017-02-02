@@ -261,6 +261,7 @@ enum EventParameterName: String {
     case collapsedEmailField  = "collapsed-email-field"
     case feedPosition         = "feed-position"
     case feedSource           = "feed-source"
+    case rating               = "rating"
 }
 
 enum EventParameterLoginSourceValue: String {

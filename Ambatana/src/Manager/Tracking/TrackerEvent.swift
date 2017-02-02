@@ -687,8 +687,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .appRatingStart, params: params)
     }
 
-    static func appRatingRate() -> TrackerEvent {
-        let params = EventParameters()
+    static func appRatingRate(rating: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rating] = rating
         return TrackerEvent(name: .appRatingRate, params: params)
     }
 
