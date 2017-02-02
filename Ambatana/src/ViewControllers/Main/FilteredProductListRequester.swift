@@ -105,7 +105,7 @@ class FilteredProductListRequester: ProductListRequester {
     }
 
     func hasFilters() -> Bool {
-        return filters?.selectedCategories != nil && filters?.selectedCategories.count != 0 || filters?.selectedWithin != .all || filters?.distanceRadius != nil
+        return filters?.selectedCategories.count != 0 || filters?.selectedWithin != .all || filters?.distanceRadius != nil
     }
 
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double {
