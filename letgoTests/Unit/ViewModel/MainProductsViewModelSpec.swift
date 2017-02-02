@@ -85,63 +85,104 @@ class MainProductsViewModelSpec: QuickSpec {
                 }
             }
             
-            context("Product list event sent") {
-                var userFilters: ProductFilters!
-                var searchType: SearchType!
+            context("Product list VM called") {
+                var mockTracker: MockTracker!
+                var productListViewModel: ProductListViewModel!
                 
-                context("no filter and no search") {
+                beforeEach {
+                    mockTracker = MockTracker()
+                    productListViewModel = ProductListViewModel(requester: MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20))
+                }
+               
+                context("with no filter and no search") {
                     beforeEach {
-                        userFilters = ProductFilters()
+                        var userFilters = ProductFilters()
                         userFilters.selectedCategories = []
-                        searchType = nil
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        let searchType: SearchType? = nil
+                
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("feed source is .home") {
-                        expect(sut.feedSource).to(equal(EventParameterFeedSource.home))
+                    it("fires product list event & searchComplete") {
+                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        expect(eventNames) == [.productList]
+                    }
+                    it("fires product list event and feed source parameter is .home") {
+                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        expect(eventParams?.stringKeyParams["feed-source"] as? String) == "home"
                     }
                 }
                 
-                context("search but no filter") {
+                context("with search but no filter") {
                     beforeEach {
+                        var userFilters = ProductFilters()
                         userFilters.selectedCategories = []
-                        searchType = .user(query: "iphone")
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        let searchType: SearchType = .user(query: "iphone")
+                        
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("feed source is .search") {
-                        expect(sut.feedSource).to(equal(EventParameterFeedSource.search))
+                    it("fires product list event and ") {
+                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        expect(eventNames) == [.productList, .searchComplete]
+                    }
+                    it("fires product list event and feed source parameter is .search") {
+                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        expect(eventParams?.stringKeyParams["feed-source"] as? String) == "search"
                     }
                 }
                 
-                context("filter but no search") {
+                context("with filter but no search") {
                     beforeEach {
+                        var userFilters = ProductFilters()
                         userFilters.selectedCategories = [.carsAndMotors]
-                        searchType = nil
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        let searchType: SearchType? = nil
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("feed source is .filter") {
-                        expect(sut.feedSource).to(equal(EventParameterFeedSource.filter))
+                    it("fires product list event") {
+                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        expect(eventNames) == [.productList]
+                    }
+                    it("fires product list event and feed source parameter is .filter") {
+                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        expect(eventParams?.stringKeyParams["feed-source"] as? String) == "filter"
                     }
                 }
                 
-                context("filter &  search") {
+                context("with filter &  search") {
                     beforeEach {
+                        var userFilters = ProductFilters()
                         userFilters.selectedCategories = [.carsAndMotors]
-                        searchType = .user(query: "iphone")
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        let searchType: SearchType = .user(query: "iphone")
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("feed source is .searchAndFilter") {
-                        expect(sut.feedSource).to(equal(EventParameterFeedSource.searchAndFilter))
+                    it("fires product list event") {
+                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        expect(eventNames) == [.productList]
+                    }
+                    it("fires product list event and feed source parameter is .search&filter") {
+                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        expect(eventParams?.stringKeyParams["feed-source"] as? String) == "search&filter"
                     }
                 }
                 
-                context("search collection") {
+                context("with search collection") {
                     beforeEach {
+                        var userFilters = ProductFilters()
                         userFilters.selectedCategories = []
-                        searchType = .collection(type: .You, query: "iphone")
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        let searchType: SearchType = .collection(type: .You, query: "iphone")
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("feed source is .collection") {
-                        expect(sut.feedSource).to(equal(EventParameterFeedSource.collection))
+                    it("fires product list event") {
+                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        expect(eventNames) == [.productList]
+                    }
+                    it("fires product list event and feed source parameter is .collection") {
+                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        expect(eventParams?.stringKeyParams["feed-source"] as? String) == "collection"
                     }
                 }
             }

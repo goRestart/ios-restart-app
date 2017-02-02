@@ -175,7 +175,7 @@ struct TrackerEvent {
                 categoryIds.append(String(category.rawValue))
             }
         }
-        params[.feedSource] = feedSource
+        params[.feedSource] = feedSource.rawValue
         params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
 
         // Search query

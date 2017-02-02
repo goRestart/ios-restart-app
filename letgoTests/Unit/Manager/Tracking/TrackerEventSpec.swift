@@ -726,12 +726,12 @@ class TrackerEventSpec: QuickSpec {
                     let categoryId = sut.params!.stringKeyParams["search-keyword"] as? String
                     expect(categoryId).to(equal(searchQuery))
                 }
-                it("contains feed source parameter") {
+                fit("contains feed source parameter") {
                     let categories: [ProductCategory] = [.homeAndGarden]
                     sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home)
                     expect(sut.params).notTo(beNil())
                     
-                    expect(sut.params!.stringKeyParams["feed-source"]).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["feed-source"] as? String).to(equal("home"))
                 }
             }
 

@@ -743,7 +743,7 @@ fileprivate extension MainProductsViewModel {
 
 // MARK: - Tracking
 
-extension MainProductsViewModel {
+fileprivate extension MainProductsViewModel {
 
     var productVisitSource: EventParameterProductVisitSource {
         if let searchType = searchType {
