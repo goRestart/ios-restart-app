@@ -158,6 +158,7 @@ class UserViewModel: BaseViewModel {
         
         if itsMe {
             refreshMyUserData()
+            resetLists()
             cleanFavoriteBadgeIfNeeded()
             if firstTime {
                 navBarButtons.value = buildNavBarButtons()
