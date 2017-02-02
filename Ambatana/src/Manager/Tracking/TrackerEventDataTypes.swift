@@ -153,7 +153,8 @@ enum EventName: String {
 
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
-
+    case chatWindowOpen                     = "chat-window-open"
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     

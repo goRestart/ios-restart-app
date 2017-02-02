@@ -406,6 +406,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             chatStatusEnablesRelatedProducts.value = statusEnableRelatedProducts()
             launchExpressChatTimer()
             expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
+            tracker.chatWindowOpen(typePage: source)
         }
 
        refreshChatInfo()
