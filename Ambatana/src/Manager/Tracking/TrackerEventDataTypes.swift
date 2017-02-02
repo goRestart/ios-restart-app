@@ -260,6 +260,7 @@ enum EventParameterName: String {
     case passiveConversations = "passive-conversations"
     case collapsedEmailField  = "collapsed-email-field"
     case feedPosition         = "feed-position"
+    case feedSource           = "feedSource"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -609,6 +610,14 @@ enum EventParameterFeedPosition {
             return "N/A"
         }
     }
+}
+
+enum EventParameterFeedSource: String {
+    case home = "home"
+    case search = "search"
+    case filter = "filter"
+    case searchAndFilter = "search&filter"
+    case collection = "collection"
 }
 
 enum EventParameterAccountNetwork: String {

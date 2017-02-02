@@ -743,7 +743,7 @@ fileprivate extension MainProductsViewModel {
 
 // MARK: - Tracking
 
-fileprivate extension MainProductsViewModel {
+extension MainProductsViewModel {
 
     var productVisitSource: EventParameterProductVisitSource {
         if let searchType = searchType {
@@ -769,13 +769,31 @@ fileprivate extension MainProductsViewModel {
 
         return .productList
     }
+    
+    var feedSource: EventParameterFeedSource {
+        if let search = searchType, search.isCollection {
+            return .collection
+        }
+        if searchType.isEmpty() {
+            if productListRequester.hasFilters() {
+                return .filter
+            }
+        } else {
+            if productListRequester.hasFilters() {
+                return .searchAndFilter
+            } else {
+                return .search
+            }
+        }
+        return .home
+    }
+    
 
     func trackRequestSuccess(page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
-
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
                                                     categories: productListRequester.filters?.selectedCategories,
-                                                    searchQuery: productListRequester.queryString)
+                                                    searchQuery: productListRequester.queryString, feedSource: feedSource)
         tracker.trackEvent(trackerEvent)
 
         if let searchType = searchType, shouldTrackSearch && filters.isDefault() {
