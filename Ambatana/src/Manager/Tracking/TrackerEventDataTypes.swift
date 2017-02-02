@@ -259,6 +259,7 @@ enum EventParameterName: String {
     case bumpUpPrice          = "price"
     case passiveConversations = "passive-conversations"
     case collapsedEmailField  = "collapsed-email-field"
+    case feedPosition         = "feed-position"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -593,6 +594,21 @@ enum EventParameterProductVisitSource: String {
     case chat = "chat"
     case openApp = "open-app"
     case notifications = "notifications"
+}
+
+enum EventParameterFeedPosition {
+    case position(index: Int)
+    case none
+    
+    var value: String {
+        switch self {
+        case let .position(index):
+            let value = index + 1
+            return String(value)
+        case .none:
+            return "N/A"
+        }
+    }
 }
 
 enum EventParameterAccountNetwork: String {

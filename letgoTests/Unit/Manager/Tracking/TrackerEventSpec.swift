@@ -892,8 +892,9 @@ class TrackerEventSpec: QuickSpec {
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "Catalonia",
                         countryCode: "US", country: nil)
+                    
 
-                    sut = TrackerEvent.productDetailVisit(product, visitUserAction: .none, source: .productList)
+                    sut = TrackerEvent.productDetailVisit(product, visitUserAction: .none, source: .productList, feedPosition: .position(index:1))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
@@ -935,6 +936,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains item type") {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("1"))
+                }
+                it("contains feed-position") {
+                    let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
+                    expect(feedPosition).to(equal("2"))
                 }
             }
             

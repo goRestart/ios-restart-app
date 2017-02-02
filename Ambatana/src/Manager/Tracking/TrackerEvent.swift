@@ -254,11 +254,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterComplete, params: params)
     }
 
-    static func productDetailVisit(_ product: Product, visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) -> TrackerEvent {
+    static func productDetailVisit(_ product: Product, visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.userAction] = visitUserAction.rawValue
         params[.productVisitSource] = source.rawValue
+        params[.feedPosition] = feedPosition.value
         return TrackerEvent(name: .productDetailVisit, params: params)
     }
 
