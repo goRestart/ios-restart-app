@@ -165,9 +165,9 @@ class UserViewModel: BaseViewModel {
             }
         } else {
             retrieveUserData()
+            refreshIfLoading()
         }
-        
-        refreshIfLoading()
+
         trackVisit()
     }
 }
