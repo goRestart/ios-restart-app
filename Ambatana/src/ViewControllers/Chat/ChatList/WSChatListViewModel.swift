@@ -1,4 +1,4 @@
- //
+//
 //  WSChatListViewModel.swift
 //  LetGo
 //
@@ -61,7 +61,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     func conversationSelectedAtIndex(_ index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.conversation(conversation: conversation), typePage: .chatList)
+        tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList)
     }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {

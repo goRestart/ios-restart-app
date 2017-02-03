@@ -2818,7 +2818,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("chat-window-open") {
                 beforeEach {
-                    sut = TrackerEvent.chatWindowOpen(.inAppNotification)
+                    sut = TrackerEvent.chatWindowVisit(.inAppNotification)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-window-open"))

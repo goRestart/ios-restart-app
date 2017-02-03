@@ -38,7 +38,7 @@ protocol TabNavigator: BaseNavigator {
     func openUser(_ data: UserDetailData)
     func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool)
-    func openChat(_ data: ChatDetailData, typePage: EventParameterTypePage)
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
     func canOpenAppInvite() -> Bool

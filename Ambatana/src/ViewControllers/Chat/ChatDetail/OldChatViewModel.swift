@@ -242,7 +242,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     fileprivate var shouldSendFirstMessageEvent: Bool = false
     fileprivate var chat: Chat
     fileprivate var product: Product
-    fileprivate var typePage: EventParameterTypePage
+    fileprivate var source: EventParameterTypePage
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     fileprivate var userDefaultsSubKey: String {
@@ -338,13 +338,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: - Lifecycle
 
-    convenience init?(chat: Chat, navigator: ChatDetailNavigator?, typePage: EventParameterTypePage) {
+    convenience init?(chat: Chat, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance,
                   sessionManager: Core.sessionManager, navigator: navigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance, typePage: typePage)
+                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance, source: source)
     }
     
-    convenience init?(product: Product, navigator: ChatDetailNavigator?, typePage: EventParameterTypePage) {
+    convenience init?(product: Product, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         let myUserRepository = Core.myUserRepository
         let chat = LocalChat(product: product, myUserProduct: LocalUser(user: myUserRepository.myUser))
         let configManager = ConfigManager.sharedInstance
@@ -352,12 +352,12 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let featureFlags = FeatureFlags.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository,
                   configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: featureFlags, typePage: typePage)
+                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: featureFlags, source: source)
     }
 
     convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
                       sessionManager: SessionManager, navigator: ChatDetailNavigator?, keyValueStorage: KeyValueStorage,
-						featureFlags: FeatureFlaggeable, typePage: EventParameterTypePage) {
+						featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -369,13 +369,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
                   configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: keyValueStorage, featureFlags: featureFlags, typePage: typePage)
+                  keyValueStorage: keyValueStorage, featureFlags: featureFlags, source: source)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
-          keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, typePage: EventParameterTypePage) {
+          keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -391,7 +391,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         self.keyValueStorage = keyValueStorage
         self.loadedMessages = []
         self.product = chat.product
-        self.typePage = typePage
+        self.source = source
         if let myUser = myUserRepository.myUser {
             self.isDeleted = chat.isArchived(myUser: myUser)
         }
@@ -1052,7 +1052,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func trackVisit() {
-        let chatWindowOpen = TrackerEvent.chatWindowOpen(typePage)
+        let chatWindowOpen = TrackerEvent.chatWindowVisit(source)
         tracker.trackEvent(chatWindowOpen)
     }
     

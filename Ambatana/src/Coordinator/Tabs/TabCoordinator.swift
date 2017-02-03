@@ -109,16 +109,16 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openChat(_ data: ChatDetailData, typePage: EventParameterTypePage) {
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage) {
         switch data {
         case let .chatAPI(chat):
-            openChat(chat, typePage: typePage)
+            openChat(chat, source: source)
         case let .conversation(conversation):
-            openConversation(conversation, typePage: typePage)
+            openConversation(conversation, source: source)
         case let .productAPI(product):
             openProductChat(product)
         case let .dataIds(data):
-            openChatFromConversationData(data, typePage: typePage)
+            openChatFromConversationData(data, source: source)
         }
     }
 
@@ -279,38 +279,38 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChat(_ chat: Chat, typePage: EventParameterTypePage) {
-        guard let vm = OldChatViewModel(chat: chat, navigator: self, typePage: typePage) else { return }
+    func openChat(_ chat: Chat, source: EventParameterTypePage) {
+        guard let vm = OldChatViewModel(chat: chat, navigator: self, source: source) else { return }
         let vc = OldChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openConversation(_ conversation: ChatConversation, typePage: EventParameterTypePage) {
-        let vm = ChatViewModel(conversation: conversation, navigator: self, typePage: typePage)
+    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage) {
+        let vm = ChatViewModel(conversation: conversation, navigator: self, source: source)
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openChatFromProduct(_ product: Product) {
         if featureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(product: product, navigator: self, typePage: .productDetail) else { return }
+            guard let chatVM = ChatViewModel(product: product, navigator: self, source: .productDetail) else { return }
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         } else {
-            guard let chatVM = OldChatViewModel(product: product, navigator: self, typePage: .productDetail) else { return }
+            guard let chatVM = OldChatViewModel(product: product, navigator: self, source: .productDetail) else { return }
             let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         }
     }
 
-    func openChatFromConversationData(_ data: ConversationData, typePage: EventParameterTypePage) {
+    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage) {
         navigationController.showLoadingMessageAlert()
 
         if featureFlags.websocketChat {
             let completion: ChatConversationCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let conversation = result.value {
-                        self?.openConversation(conversation, typePage: typePage)
+                        self?.openConversation(conversation, source: source)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }
@@ -326,7 +326,7 @@ fileprivate extension TabCoordinator {
             let completion: ChatCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let chat = result.value {
-                        self?.openChat(chat, typePage: typePage)
+                        self?.openChat(chat, source: source)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }
