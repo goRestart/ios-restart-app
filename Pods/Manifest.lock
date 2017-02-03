@@ -3,7 +3,7 @@ PODS:
   - AlamofireImage (3.2.0):
     - Alamofire (~> 4.1)
   - Amplitude-iOS (3.8.5)
-  - AppsFlyerFramework (4.5.12)
+  - AppsFlyerFramework (4.6.3)
   - Argo (4.1.2):
     - Runes (>= 4.0.0)
   - Bolts (1.8.4):
@@ -12,11 +12,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.24):
-    - Branch/Core (= 0.12.24)
-    - Branch/without-IDFA (= 0.12.24)
-  - Branch/Core (0.12.24)
-  - Branch/without-IDFA (0.12.24)
+  - Branch (0.12.27):
+    - Branch/Core (= 0.12.27)
+    - Branch/without-IDFA (= 0.12.27)
+  - Branch/Core (0.12.27)
+  - Branch/without-IDFA (0.12.27)
   - bumper (1.0.3)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -98,7 +98,7 @@ PODS:
     - CryptoSwift (~> 0.6.1)
   - KeychainSwift (7.0.0)
   - KMPlaceholderTextView (1.3.0)
-  - Leanplum-iOS-SDK (1.4.2)
+  - Leanplum-iOS-SDK (1.4.3)
   - LGCollapsibleLabel (1.0.0)
   - LGCoreKit (2.3.1):
     - Alamofire (~> 4.2.0)
@@ -152,7 +152,7 @@ PODS:
 DEPENDENCIES:
   - AlamofireImage (~> 3.2.0)
   - Amplitude-iOS (~> 3.8.5)
-  - AppsFlyerFramework (~> 4.5.12)
+  - AppsFlyerFramework (= 4.6.3)
   - Argo (~> 4.1.1)
   - Branch (~> 0.12.20)
   - bumper (= 1.0.3)
@@ -207,10 +207,10 @@ SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
-  AppsFlyerFramework: 495b343632cda4d1a42e13f25d5adfb91d0ee52a
+  AppsFlyerFramework: 6a30709676082f2e453ed3d9c13a8706fbd4b158
   Argo: 5db06502fc1222d83011f574243089dab25202ff
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 91bd039aab277cffce763662050d0b4a12b5d196
+  Branch: 41404cc6de82e84368a26961f66d657b0662ca02
   bumper: abbdce79db20a57b706195a593853d045cf6af27
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
@@ -243,7 +243,7 @@ SPEC CHECKSUMS:
   JSONWebToken: ca86f02eeb3d1f58ba5197ec2cd53c7de915ecc1
   KeychainSwift: b6947435dd78cc442c64a84ae648dd0e871cf448
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
-  Leanplum-iOS-SDK: 4e280bd7d85850dedcd8870c0014f3a15994fcce
+  Leanplum-iOS-SDK: 4b12eb749ec0a0915892548a9703474f5c18ae07
   LGCollapsibleLabel: e33f066be104911c7fb83f29f1f9b5bae218422e
   LGCoreKit: 6dfb2029db1469e420557aa4df7d2f7c2a1c7bd5
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
@@ -263,6 +263,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 88ef54d23a9931b85e17ef62057ab867c30e17bc
+PODFILE CHECKSUM: bc3e07d38eceb6ec8f71216b8d93248ddb26cfd7
 
 COCOAPODS: 1.1.1
