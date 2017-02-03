@@ -182,11 +182,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     func open(url: URL) {
-        if url == termsAndConditionsURL {
-            navigator?.openTermsAndConditionsFromSignUpLogin()
-        } else if url == privacyURL {
-            navigator?.openPrivacyPolicyFromSignUpLogin()
-        }
+        navigator?.openURL(url: url)
     }
 
     func erasePassword() {

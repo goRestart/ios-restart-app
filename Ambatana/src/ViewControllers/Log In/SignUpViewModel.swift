@@ -142,11 +142,7 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func open(url: URL) {
-        if url == termsAndConditionsURL {
-            navigator?.openTermsAndConditionsFromMainSignUp()
-        } else if url == privacyURL {
-            navigator?.openPrivacyPolicyFromMainSignUp()
-        }
+        navigator?.openURL(url: url)
     }
 
 

@@ -177,14 +177,6 @@ extension LoginCoordinator: MainSignUpNavigator {
     func openHelpFromMainSignUp() {
         openHelp()
     }
-
-    func openTermsAndConditionsFromMainSignUp() {
-        openTermsAndConditions()
-    }
-
-    func openPrivacyPolicyFromMainSignUp() {
-        openPrivacyPolicy()
-    }
 }
 
 
@@ -221,14 +213,6 @@ extension LoginCoordinator: SignUpLogInNavigator {
     func openHelpFromSignUpLogin() {
         openHelp()
     }
-
-    func openTermsAndConditionsFromSignUpLogin() {
-        openTermsAndConditions()
-    }
-
-    func openPrivacyPolicyFromSignUpLogin() {
-        openPrivacyPolicy()
-    }
 }
 
 
@@ -239,6 +223,32 @@ extension LoginCoordinator: RememberPasswordNavigator {
         guard let navCtl = viewController as? UINavigationController,
               navCtl.topViewController is RememberPasswordViewController else { return }
         navCtl.popViewController(animated: true)
+    }
+}
+
+
+// MARK: - HelpNavigator
+
+extension LoginCoordinator: HelpNavigator {
+    func closeHelp() {
+        guard let navCtl = viewController as? UINavigationController,
+              navCtl.topViewController is HelpViewController else { return }
+        navCtl.popViewController(animated: true)
+    }
+}
+
+
+// MARK: - Common Navigator
+
+extension LoginCoordinator {
+    func openURL(url: URL) {
+        if #available(iOS 9.0, *) {
+            let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            svc.view.tintColor = UIColor.primaryColor
+            viewController.present(svc, animated: true, completion: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
     }
 }
 
@@ -256,27 +266,9 @@ fileprivate extension LoginCoordinator {
     func openHelp() {
         guard let navCtl = viewController as? UINavigationController else { return }
 
-        let vc = HelpViewController()
+        let vm = HelpViewModel()
+        vm.navigator = self
+        let vc = HelpViewController(viewModel: vm)
         navCtl.pushViewController(vc, animated: true)
-    }
-
-    func openTermsAndConditions() {
-        guard let url = LetgoURLHelper.buildTermsAndConditionsURL() else { return }
-        openURL(url: url)
-    }
-
-    func openPrivacyPolicy() {
-        guard let url = LetgoURLHelper.buildPrivacyURL() else { return }
-        openURL(url: url)
-    }
-
-    func openURL(url: URL) {
-        if #available(iOS 9.0, *) {
-            let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-            svc.view.tintColor = UIColor.primaryColor
-            viewController.present(svc, animated: true, completion: nil)
-        } else {
-            UIApplication.shared.openURL(url)
-        }
     }
 }

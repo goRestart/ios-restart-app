@@ -15,15 +15,11 @@ enum HelpURLType {
     case privacy
 }
 
-protocol HelpViewModelDelegate: BaseViewModelDelegate {
-}
-
 class HelpViewModel: BaseViewModel {
-   
-    let myUserRepository: MyUserRepository
-    let installationRepository: InstallationRepository
+    fileprivate let myUserRepository: MyUserRepository
+    fileprivate let installationRepository: InstallationRepository
+
     weak var navigator: HelpNavigator?
-    weak var delegate: HelpViewModelDelegate?
     
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository, installationRepository: Core.installationRepository)
@@ -35,11 +31,7 @@ class HelpViewModel: BaseViewModel {
     }
     
     override func backButtonPressed() -> Bool {
-        if let navigator = navigator {
-            navigator.closeHelp()
-        } else {
-            return false // Return false for native behavior
-        }
+        navigator?.closeHelp()
         return true
     }
     
@@ -57,19 +49,11 @@ class HelpViewModel: BaseViewModel {
     
     func termsButtonPressed() {
         guard let url = termsAndConditionsURL else { return }
-        if let navigator = navigator {
-            navigator.openURL(url)
-        } else {
-            delegate?.vmOpenInternalURL(url)
-        }
+        navigator?.openURL(url: url)
     }
     
     func privacyButtonPressed() {
         guard let url = privacyURL else { return }
-        if let navigator = navigator {
-            navigator.openURL(url)
-        } else {
-            delegate?.vmOpenInternalURL(url)
-        }
+        navigator?.openURL(url: url)
     }
 }

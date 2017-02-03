@@ -8,28 +8,19 @@
 
 import SafariServices
 
-class HelpViewController: BaseViewController, UIWebViewDelegate, HelpViewModelDelegate {
-
-    // UI
+class HelpViewController: BaseViewController, UIWebViewDelegate {
     @IBOutlet weak var webView: UIWebView!
-    
-    // ViewModel
     private var viewModel: HelpViewModel
-    
+
+
     // MARK: - Lifecycle
     
     required init(viewModel: HelpViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "HelpViewController")
-        viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
     }
-    
-    convenience init() {
-        let viewModel = HelpViewModel()
-        self.init(viewModel: viewModel)
-    }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
