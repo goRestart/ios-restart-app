@@ -429,8 +429,7 @@ extension TabCoordinator: ProductDetailNavigator {
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
-        // TODO: ⚠️ Move 5 to constants
-        showBubble(with: data, duration: 5)
+        showBubble(with: data, duration: Constants.bubbleFavoriteDuration)
     }
 
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {

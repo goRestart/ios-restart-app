@@ -118,4 +118,8 @@ struct Constants {
 
     // FBSDK
     static let fbSdkRequiredDelay: TimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
+
+    // Bubbles
+    static let bubbleChatDuration: TimeInterval = 3         // seconds
+    static let bubbleFavoriteDuration: TimeInterval = 5
 }

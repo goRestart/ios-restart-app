@@ -736,8 +736,7 @@ fileprivate extension AppCoordinator {
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))
-                // TODO: ⚠️ Move this 3 to constants
-                self?.showBubble(with: data, duration: 3)
+                self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
             }
         } else {
             // Old chat cannot retrieve chat because it would mark messages as read.
@@ -750,8 +749,7 @@ fileprivate extension AppCoordinator {
             let data = BubbleNotificationData(tagGroup: conversationId,
                                               text: message,
                                               action: action)
-            // TODO: ⚠️ Move this 3 to constants
-            showBubble(with: data, duration: 3)
+            showBubble(with: data, duration: Constants.bubbleChatDuration)
         }
     }
 
