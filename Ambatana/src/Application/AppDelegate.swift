@@ -346,10 +346,9 @@ fileprivate extension AppDelegate {
                                                                   annotation: annotation)
         if let options = options {
             AppsFlyerTracker.shared().handleOpen(url, options: options)
-        } else {
+        } else if let sourceApplicationValue = sourceApplication {
             //We must keep it (even though it's deprecated) until we drop iOS8
-            AppsFlyerTracker.shared().handleOpen(url, sourceApplication: sourceApplication,
-                                                           withAnnotation: annotation)
+            AppsFlyerTracker.shared().handleOpen(url, sourceApplication: sourceApplicationValue)
         }
         
         return routerHandling || facebookHandling || googleHandling
