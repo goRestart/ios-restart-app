@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "¡Destacado! Ahora tu producto tiene más visibilidad.";
 "bump_up_processing_free_text" = "Procesando destacado...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
+"bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
 "bump_up_view_free_title" = "DESTACA TU ANUNCIO";
 "bump_up_view_pay_bumps_left_text" = "Puedes destacar tu anuncio %i veces más.";
@@ -577,6 +578,7 @@
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir el producto. Por favor, inténtalo de nuevo.";
 "product_share_generic_ok" = "¡Producto compartido!";
+"product_share_navbar_button" = "Compartir";
 "product_share_posted_by" = "publicado por %@";
 "product_share_sms_error" = "Se ha producido un error al enviar tu mensaje.";
 "product_share_sms_ok" = "Enviando...";

@@ -143,9 +143,6 @@ enum AccessibilityId: String {
     case productCarouselMoreInfoMapView
     case productCarouselMoreInfoSocialShareTitleLabel
     case productCarouselMoreInfoSocialShareView
-    case productCarouselMoreInfoRelatedItemsTitleLabel
-    case productCarouselMoreInfoRelatedItemsView
-    case productCarouselMoreInfoRelatedViewMoreButton
     case productCarouselMoreInfoDescriptionLabel
 
 
@@ -499,10 +496,6 @@ enum AccessibilityId: String {
     
     // Pop-up alert. 
     case acceptPopUpButton
-
-    // Chat Heads
-    case chatHeadsAvatars
-    case chatHeadsDelete
     
     // Bubble notifications
     case bubbleButton

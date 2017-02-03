@@ -30,8 +30,8 @@ class ProductVMTrackHelper {
 
 extension ProductViewModel {
 
-    func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) {
-        trackHelper.trackVisit(visitUserAction, source: source)
+    func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition) {
+        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition)
     }
 
     func trackVisitMoreInfo() {
@@ -107,8 +107,8 @@ extension ProductVMTrackHelper {
 
 extension ProductVMTrackHelper {
 
-    func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) {
-        let trackerEvent = TrackerEvent.productDetailVisit(product, visitUserAction: visitUserAction, source: source)
+    func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition) {
+        let trackerEvent = TrackerEvent.productDetailVisit(product, visitUserAction: visitUserAction, source: source, feedPosition: feedPosition)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -166,15 +166,5 @@ extension ProductVMTrackHelper {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType,
                                                             isQuickAnswer: .falseParameter, typePage: .productDetail)
         tracker.trackEvent(messageSentEvent)
-    }
-
-    func trackMoreInfoRelatedItemsComplete(_ itemPosition: Int) {
-        let event = TrackerEvent.moreInfoRelatedItemsComplete(product, itemPosition: itemPosition)
-        tracker.trackEvent(event)
-    }
-
-    func trackMoreInfoRelatedItemsViewMore() {
-        let event = TrackerEvent.moreInfoRelatedItemsViewMore(product)
-        tracker.trackEvent(event)
     }
 }

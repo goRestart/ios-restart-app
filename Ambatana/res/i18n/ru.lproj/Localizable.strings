@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Поднято! Теперь ваш товар лучше виден.";
 "bump_up_processing_free_text" = "Обрабатываем продвижение объявления...";
 "bump_up_processing_priced_text" = "Обрабатываем платеж...";
+"bump_up_product_cell_featured_stripe" = "Популярное";
 "bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
 "bump_up_view_pay_bumps_left_text" = "У вас осталось %i продвижений.";
@@ -316,9 +317,9 @@
 "log_in_email_forgot_password_alert_title" = "Забыли пароль?";
 "log_in_email_forgot_password_button" = "Забыли пароль?";
 "log_in_email_help_button" = "Помощь";
-"log_in_email_log_in_button" = "Вход";
+"log_in_email_log_in_button" = "Войти";
 "log_in_email_password_field_hint" = "Пароль";
-"log_in_email_title" = "Вход";
+"log_in_email_title" = "Войти";
 "log_in_email_wrong_password_alert_cancel_action" = "Try Again";
 "log_in_email_wrong_password_alert_message" = "Пароль, который вы ввели для %@, неверен.";
 "log_in_email_wrong_password_alert_title" = "Неверный пароль";
@@ -577,6 +578,7 @@
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
 "product_share_generic_error" = "При размещении товара произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "product_share_generic_ok" = "Товар размещен!";
+"product_share_navbar_button" = "Поделиться";
 "product_share_posted_by" = "размещено %@";
 "product_share_sms_error" = "При отправке сообщения произошла ошибка.";
 "product_share_sms_ok" = "Отправка...";
@@ -724,7 +726,7 @@
 "sign_up_email_step1_continue_button" = "Continue";
 "sign_up_email_step1_email_field_hint" = "E-mail";
 "sign_up_email_step1_footer" = "Уже есть аккаунт? Войти";
-"sign_up_email_step1_footer_log_in_kw" = "Вход";
+"sign_up_email_step1_footer_log_in_kw" = "Войти";
 "sign_up_email_step1_help_button" = "Помощь";
 "sign_up_email_step1_password_field_hint" = "Пароль";
 "sign_up_email_step1_title" = "Создать новый аккаунт";

@@ -100,6 +100,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let configManager: ConfigManager
     fileprivate let sessionManager: SessionManager
     fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let source: EventParameterTypePage
     
     fileprivate let keyValueStorage: KeyValueStorage
 
@@ -177,7 +178,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?) {
+    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
@@ -192,10 +193,11 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
+                  source: source)
     }
     
-    convenience init?(product: Product, navigator: ChatDetailNavigator?) {
+    convenience init?(product: Product, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         guard let _ = product.objectId, let sellerId = product.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -214,14 +216,15 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
+                  source: source)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
-          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable) {
+          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -236,6 +239,7 @@ class ChatViewModel: BaseViewModel {
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
+        self.source = source
         super.init()
         setupRx()
         loadStickers()
@@ -250,6 +254,7 @@ class ChatViewModel: BaseViewModel {
             launchExpressChatTimer()
             expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
         }
+        trackVisit()
     }
 
     func didAppear() {
@@ -494,7 +499,6 @@ class ChatViewModel: BaseViewModel {
     
     func userInfoPressed() {
         guard let interlocutor = conversation.value.interlocutor else { return }
-        delegate?.vmHideKeyboard(false)
         let data = UserDetailData.userChat(user: interlocutor)
         navigator?.openUser(data)
     }
@@ -515,7 +519,13 @@ class ChatViewModel: BaseViewModel {
     func safetyTipsDismissed() {
         keyValueStorage.userChatSafetyTipsShown = true
     }
-    
+
+    func scrollViewDidTap() {
+        if featureFlags.newQuickAnswers && userDirectAnswersEnabled.value {
+            showDirectAnswers(false)
+        }
+    }
+
     func messageAtIndex(_ index: Int) -> ChatViewMessage? {
         guard 0..<messages.value.count ~= index else { return nil }
         return messages.value[index]
@@ -1054,7 +1064,6 @@ fileprivate extension ChatViewModel {
         // Configure login + send actions
         preSendMessageCompletion = { [weak self] (text: String, type: ChatMessageType) in
             self?.delegate?.vmHideKeyboard(false)
-
             self?.navigator?.openLoginIfNeededFromChatDetail(from: .askQuestion, loggedInAction: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.preSendMessageCompletion = nil
@@ -1117,6 +1126,11 @@ fileprivate extension ChatViewModel {
     func trackUnblockUsers(_ userIds: [String]) {
         let unblockUserEvent = TrackerEvent.profileUnblock(.chat, unblockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
+    }
+    
+    func trackVisit() {
+        let chatWindowOpen = TrackerEvent.chatWindowVisit(source)
+        tracker.trackEvent(chatWindowOpen)
     }
 }
 
@@ -1288,8 +1302,8 @@ fileprivate extension ChatViewModel {
             guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
             self?.userRepository.show(interlocutorId) { [weak self] result in
                 guard let strongSelf = self else { return }
-                guard let userWaccounts = result.value else { return }
-                strongSelf.interlocutor = userWaccounts
+                guard let user = result.value else { return }
+                strongSelf.interlocutor = user
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }

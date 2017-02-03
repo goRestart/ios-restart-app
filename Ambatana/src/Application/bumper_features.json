@@ -4,11 +4,6 @@
 		"values": ["No", "Yes"],
 		"description": "New Websocket Chat"
 	},
-	{
-		"name": "NotificationsSection",
-		"values": ["Yes", "No"],
-		"description": "Notifications Section"
-	},
     {
         "name": "UserReviews",
         "values": ["Yes", "No"],
@@ -23,16 +18,6 @@
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"
-    },
-    {
-        "name": "KeywordsTravelCollection",
-        "values": ["Standard", "CarsPrior", "BrandsPrior"],
-        "description": "Keywords prioritize on Travel Collection"
-    },
-    {
-        "name": "RelatedProductsOnMoreInfo",
-        "values": ["No", "Yes"],
-        "description": "Related Products on More Info"
     },
     {
         "name": "FreeBumpUpEnabled",

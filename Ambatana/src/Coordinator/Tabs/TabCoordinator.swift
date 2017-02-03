@@ -123,16 +123,16 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openChat(_ data: ChatDetailData) {
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage) {
         switch data {
         case let .chatAPI(chat):
-            openChat(chat)
+            openChat(chat, source: source)
         case let .conversation(conversation):
-            openConversation(conversation)
+            openConversation(conversation, source: source)
         case let .productAPI(product):
             openProductChat(product)
         case let .dataIds(data):
-            openChatFromConversationData(data)
+            openChatFromConversationData(data, source: source)
         }
     }
 
@@ -210,7 +210,7 @@ fileprivate extension TabCoordinator {
 
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
                                           productListRequester: requester, navigator: self, source: source,
-                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
+                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, firstProductIndex: nil)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
@@ -227,7 +227,7 @@ fileprivate extension TabCoordinator {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
                                               thumbnailImage: thumbnailImage, productListRequester: requester,
                                               navigator: self, source: source,
-                                              showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
+                                              showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, firstProductIndex: index)
             openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
         }
 
@@ -240,7 +240,7 @@ fileprivate extension TabCoordinator {
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,  navigator: self,
-                                          source: source, showKeyboardOnFirstAppearIfNeeded: false)
+                                          source: source, showKeyboardOnFirstAppearIfNeeded: false, firstProductIndex: nil)
         openProduct(vm, thumbnailImage: nil, originFrame: nil, productId: productId)
     }
 
@@ -293,38 +293,38 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChat(_ chat: Chat) {
-        guard let vm = OldChatViewModel(chat: chat, navigator: self) else { return }
+    func openChat(_ chat: Chat, source: EventParameterTypePage) {
+        guard let vm = OldChatViewModel(chat: chat, navigator: self, source: source) else { return }
         let vc = OldChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openConversation(_ conversation: ChatConversation) {
-        let vm = ChatViewModel(conversation: conversation, navigator: self)
+    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage) {
+        let vm = ChatViewModel(conversation: conversation, navigator: self, source: source)
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openChatFromProduct(_ product: Product) {
         if featureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(product: product, navigator: self) else { return }
+            guard let chatVM = ChatViewModel(product: product, navigator: self, source: .productDetail) else { return }
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         } else {
-            guard let chatVM = OldChatViewModel(product: product, navigator: self) else { return }
+            guard let chatVM = OldChatViewModel(product: product, navigator: self, source: .productDetail) else { return }
             let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         }
     }
 
-    func openChatFromConversationData(_ data: ConversationData) {
+    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage) {
         navigationController.showLoadingMessageAlert()
 
         if featureFlags.websocketChat {
             let completion: ChatConversationCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let conversation = result.value {
-                        self?.openConversation(conversation)
+                        self?.openConversation(conversation, source: source)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }
@@ -340,7 +340,7 @@ fileprivate extension TabCoordinator {
             let completion: ChatCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let chat = result.value {
-                        self?.openChat(chat)
+                        self?.openChat(chat, source: source)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }
@@ -377,10 +377,9 @@ extension TabCoordinator: ProductDetailNavigator {
         navigationController.popViewController(animated: true)
     }
 
-    func editProduct(_ product: Product, editCompletion: ((Product) -> Void)?) {
-        // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
+    func editProduct(_ product: Product) {
+        // TODO: Open EditProductCoordinator
         let editProductVM = EditProductViewModel(product: product)
-        editProductVM.editCompletion = editCompletion
         let editProductVC = EditProductViewController(viewModel: editProductVM)
         let navCtl = UINavigationController(rootViewController: editProductVC)
         navigationController.present(navCtl, animated: true, completion: nil)
@@ -417,24 +416,16 @@ extension TabCoordinator: ProductDetailNavigator {
         navigationController.present(vc, animated: true, completion: nil)
     }
 
-    func openRelatedItems(_ product: Product, productVisitSource: EventParameterProductVisitSource) {
-        guard let productId = product.objectId else { return }
-        let vm = SimpleProductsViewModel(relatedProductId: productId, productVisitSource: productVisitSource)
-        vm.navigator = self
-        let vc = SimpleProductsViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
-        let bumpUpFreeVM = BumpUpFreeViewModel(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
-        let bumpUpFreeVC = BumpUpFreeViewController(viewModel: bumpUpFreeVM)
-        navigationController.present(bumpUpFreeVC, animated: true, completion: nil)
+        let bumpCoordinator = BumpUpCoordinator(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
+        bumpCoordinator.delegate = self
+        openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
-        let payBumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct)
-        let payBumpUpVC = BumpUpPayViewController(viewModel: payBumpUpVM)
-        navigationController.present(payBumpUpVC, animated: true, completion: nil)
+        let bumpCoordinator = BumpUpCoordinator(product: product, purchaseableProduct: purchaseableProduct)
+        bumpCoordinator.delegate = self
+        openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {

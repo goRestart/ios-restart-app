@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Ganz oben! Dein Produkt ist nun besonders sichtbar.";
 "bump_up_processing_free_text" = "Angebot wird hochgeholt...";
 "bump_up_processing_priced_text" = "Zahlung wird verarbeitet...";
+"bump_up_product_cell_featured_stripe" = "Empfohlen";
 "bump_up_view_free_subtitle" = "Je öfter du es teilst, umso sichtbarer wird dein Angebot";
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
 "bump_up_view_pay_bumps_left_text" = "Du kannst noch %i Angebote hochholen.";
@@ -534,7 +535,7 @@
 "product_post_incentive_ps4" = "PS4s";
 "product_post_incentive_subtitle" = "Dein Angebot wurde eingestellt.";
 "product_post_incentive_subtitle_free" = "Du bist dabei, jemanden glücklich zu machen.";
-"product_post_incentive_title" = "GRATULIERE!";
+"product_post_incentive_title" = "GLÜCKWUNSCH!";
 "product_post_incentive_toys" = "Spielzeuge";
 "product_post_incentive_tv" = "Fernseher";
 "product_post_login_message" = "Bitte melde dich an, um Sachen verkaufen zu können";
@@ -577,6 +578,7 @@
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es noch mal.";
 "product_share_generic_ok" = "Produkt geteilt!";
+"product_share_navbar_button" = "Teilen";
 "product_share_posted_by" = "angeboten von %@";
 "product_share_sms_error" = "Beim Senden deiner Nachricht ist ein Fehler aufgetreten.";
 "product_share_sms_ok" = "Wird verschickt...";

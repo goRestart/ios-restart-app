@@ -110,7 +110,7 @@ final class LeanplumTracker: Tracker {
         Leanplum.track(event.actualName, withParameters: event.params?.stringKeyParams)
     }
 
-    func setLocation(_ location: LGLocation?) {
+    func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {
         var userAttributes: [AnyHashable: Any] = [:]
         userAttributes[LeanplumTracker.userPropLatitudeKey] = location?.coordinate.latitude
         userAttributes[LeanplumTracker.userPropLongitudeKey] = location?.coordinate.longitude

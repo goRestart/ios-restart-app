@@ -165,7 +165,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func productList(_ user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
+    static func productList(_ user: User?, categories: [ProductCategory]?, searchQuery: String?, feedSource: EventParameterFeedSource) -> TrackerEvent {
         var params = EventParameters()
 
         // Categories
@@ -175,6 +175,7 @@ struct TrackerEvent {
                 categoryIds.append(String(category.rawValue))
             }
         }
+        params[.feedSource] = feedSource.rawValue
         params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
 
         // Search query
@@ -254,11 +255,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterComplete, params: params)
     }
 
-    static func productDetailVisit(_ product: Product, visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) -> TrackerEvent {
+    static func productDetailVisit(_ product: Product, visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.userAction] = visitUserAction.rawValue
         params[.productVisitSource] = source.rawValue
+        params[.feedPosition] = feedPosition.value
         return TrackerEvent(name: .productDetailVisit, params: params)
     }
 
@@ -266,19 +268,6 @@ struct TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         return TrackerEvent(name: .productDetailVisitMoreInfo, params: params)
-    }
-
-    static func moreInfoRelatedItemsComplete(_ product: Product, itemPosition: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        params[.itemPosition] = itemPosition
-        return TrackerEvent(name: .moreInfoRelatedItemsComplete, params: params)
-    }
-
-    static func moreInfoRelatedItemsViewMore(_ product: Product) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        return TrackerEvent(name: .moreInfoRelatedItemsViewMore, params: params)
     }
 
     static func productFavorite(_ product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
@@ -559,7 +548,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func userMessageSent(_ product: Product, userTo: User?, messageType: EventParameterMessageType,
+    static func userMessageSent(_ product: Product, userTo: UserProduct?, messageType: EventParameterMessageType,
                                 isQuickAnswer: EventParameterQuickAnswerValue, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
@@ -698,8 +687,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .appRatingStart, params: params)
     }
 
-    static func appRatingRate() -> TrackerEvent {
-        let params = EventParameters()
+    static func appRatingRate(rating: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rating] = rating
         return TrackerEvent(name: .appRatingRate, params: params)
     }
 
@@ -992,6 +982,12 @@ struct TrackerEvent {
         params[.bumpUpPrice] = price.description
         params[.shareNetwork] = network.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
+    }
+    
+    static func chatWindowVisit(_ typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .chatWindowVisit, params: params)
     }
 
 

@@ -28,7 +28,7 @@ struct LocalProduct: Product {
     let thumbnailSize: LGSize?
     let images: [File]
 
-    let user: User
+    let user: UserProduct
 
     let updatedAt : Date?
     let createdAt : Date?
@@ -38,8 +38,8 @@ struct LocalProduct: Product {
     init?(chatConversation: ChatConversation, myUser: MyUser?) {
         guard let chatProduct = chatConversation.product else { return nil }
         if chatConversation.amISelling {
-            guard let myUser = myUser else { return nil }
-            self.user = myUser
+            guard let myUser = myUser, let localUser = LocalUser(user: myUser) else { return nil }
+            self.user = localUser
         } else {
             guard let interlocutor = chatConversation.interlocutor else { return nil }
             self.user = LocalUser(chatInterlocutor: interlocutor)

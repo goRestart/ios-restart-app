@@ -93,7 +93,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
     var otherUserName: String? {
         return otherUser?.name
     }
-
+    
+    
     fileprivate(set) var stickers: [Sticker] = [] {
         didSet {
             delegate?.vmDidUpdateStickers()
@@ -241,6 +242,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     fileprivate var shouldSendFirstMessageEvent: Bool = false
     fileprivate var chat: Chat
     fileprivate var product: Product
+    fileprivate var source: EventParameterTypePage
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     fileprivate var userDefaultsSubKey: String {
@@ -248,8 +250,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     fileprivate var loadedMessages: [ChatViewMessage]
-    private var buyer: User?
-    fileprivate var otherUser: User?
+    private var buyer: LocalUser?
+    fileprivate var otherUser: LocalUser?
     fileprivate var afterRetrieveMessagesBlock: (() -> Void)?
     fileprivate var autoKeyboardEnabled = true
 
@@ -336,26 +338,26 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: - Lifecycle
 
-    convenience init?(chat: Chat, navigator: ChatDetailNavigator?) {
+    convenience init?(chat: Chat, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance,
                   sessionManager: Core.sessionManager, navigator: navigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance, source: source)
     }
     
-    convenience init?(product: Product, navigator: ChatDetailNavigator?) {
+    convenience init?(product: Product, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         let myUserRepository = Core.myUserRepository
-        let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
+        let chat = LocalChat(product: product, myUserProduct: LocalUser(user: myUserRepository.myUser))
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         let featureFlags = FeatureFlags.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository,
                   configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: featureFlags)
+                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: featureFlags, source: source)
     }
 
     convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
                       sessionManager: SessionManager, navigator: ChatDetailNavigator?, keyValueStorage: KeyValueStorage,
-						featureFlags: FeatureFlaggeable) {
+						featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -367,13 +369,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
                   configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+                  keyValueStorage: keyValueStorage, featureFlags: featureFlags, source: source)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
-          keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable) {
+          keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -389,6 +391,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         self.keyValueStorage = keyValueStorage
         self.loadedMessages = []
         self.product = chat.product
+        self.source = source
         if let myUser = myUserRepository.myUser {
             self.isDeleted = chat.isArchived(myUser: myUser)
         }
@@ -406,6 +409,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             chatStatusEnablesRelatedProducts.value = statusEnableRelatedProducts()
             launchExpressChatTimer()
             expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
+            trackVisit()
         }
 
        refreshChatInfo()
@@ -482,7 +486,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             break
         case .productDeleted, .available, .blocked, .blockedBy, .productSold:
             guard let user = otherUser else { return }
-            delegate?.vmHideKeyboard(animated: false)
             let data = UserDetailData.userAPI(user: user, source: .chat)
             navigator?.openUser(data)
         }
@@ -538,6 +541,12 @@ class OldChatViewModel: BaseViewModel, Paginable {
         
         delegate?.vmShowOptionsList(texts, actions: actions)
     }
+
+    func scrollViewDidTap() {
+        if featureFlags.newQuickAnswers && userDirectAnswersEnabled.value {
+            showDirectAnswers(false)
+        }
+    }
     
     func messageAtIndex(_ index: Int) -> ChatViewMessage {
         return loadedMessages[index]
@@ -589,14 +598,14 @@ class OldChatViewModel: BaseViewModel, Paginable {
     fileprivate func initUsers() {
         if otherUser == nil || otherUser?.objectId == nil {
             if let myUser = myUserRepository.myUser {
-                self.otherUser = chat.otherUser(myUser: myUser)
+                self.otherUser = LocalUser(userProduct: chat.otherUser(myUser: myUser))
             } else {
-                self.otherUser = chat.userTo
+                self.otherUser = LocalUser(userProduct: chat.userTo)
             }
         }
 
         if let _ = myUserRepository.myUser {
-            self.buyer = chat.buyer
+            self.buyer = LocalUser(userProduct: chat.buyer)
         } else {
             self.buyer = nil
         }
@@ -1025,6 +1034,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             shouldSendFirstMessageEvent = false
             trackFirstMessage(type)
         }
+        
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat)
@@ -1039,6 +1049,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private func trackUnblockUsers(_ userIds: [String]) {
         let unblockUserEvent = TrackerEvent.profileUnblock(.chat, unblockedUsersIds: userIds)
         tracker.trackEvent(unblockUserEvent)
+    }
+    
+    private func trackVisit() {
+        let chatWindowOpen = TrackerEvent.chatWindowVisit(source)
+        tracker.trackEvent(chatWindowOpen)
     }
     
     // MARK: - Paginable
@@ -1249,8 +1264,8 @@ fileprivate extension OldChatViewModel {
         guard let otherUserId = otherUser?.objectId else { return }
         userRepository.show(otherUserId) { [weak self] result in
             guard let strongSelf = self else { return }
-            guard let userWaccounts = result.value else { return }
-            strongSelf.otherUser = userWaccounts
+            guard let user = result.value else { return }
+            strongSelf.otherUser = LocalUser(user: user)
             if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                 strongSelf.loadedMessages += [userInfoMessage]
                 strongSelf.delegate?.vmDidRefreshChatMessages()
@@ -1275,7 +1290,8 @@ fileprivate extension OldChatViewModel {
                 return
             }
             strongSelf.autoKeyboardEnabled = true
-            strongSelf.chat = LocalChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
+            let myLocalUser = LocalUser(user: strongSelf.myUserRepository.myUser)
+            strongSelf.chat = LocalChat(product: strongSelf.product , myUserProduct: myLocalUser)
             // Setting the buyer
             strongSelf.initUsers()
             strongSelf.afterRetrieveMessagesBlock = { [weak self] in

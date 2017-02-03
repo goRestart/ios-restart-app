@@ -31,12 +31,12 @@ final class MockUser: MockBaseModel, MyUser {
 
     
     var location: LGLocation?
-    var accounts: [Account]?
+    var accounts: [Account]
     var status: UserStatus
     var name: String?
     
     var ratingAverage: Float?
-    var ratingCount: Int?
+    var ratingCount: Int
 
     var localeIdentifier: String?
 
@@ -52,10 +52,11 @@ final class MockUser: MockBaseModel, MyUser {
         self.location = nil
         self.accounts = [MockAccount(provider: .email, verified: true)]
         self.status = .active
+        self.ratingCount = 0
         super.init()
     }
     
-    required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, accounts: [Account]?) {
+    required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, accounts: [Account], ratingAccount: Int) {
         self.isDummy = false
         self.isAnonymous = false
         self.didLogInByFacebook = false
@@ -66,5 +67,8 @@ final class MockUser: MockBaseModel, MyUser {
         self.location = location
         self.accounts = accounts
         self.status = .active
+        self.ratingCount = ratingAccount
+        super.init()
+        self.objectId = objectId
     }
 }

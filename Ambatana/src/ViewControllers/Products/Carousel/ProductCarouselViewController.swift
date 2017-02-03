@@ -88,6 +88,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var moreInfoTooltip: Tooltip?
 
     fileprivate let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
+    fileprivate let itemsAlpha = Variable<CGFloat>(1)
     fileprivate let cellZooming = Variable<Bool>(false)
 
     fileprivate var activeDisposeBag = DisposeBag()
@@ -301,6 +302,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         bannerContainer.addSubview(bumpUpBanner)
         bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
         bumpUpBanner.layout(with: bannerContainer).fill()
+        bannerContainer.isHidden = true
     }
 
     private func setupNavigationBar() {
@@ -344,24 +346,27 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         cellZooming.asObservable().distinctUntilChanged().bindNext { [weak self] zooming in
             UIApplication.shared.setStatusBarHidden(zooming, with: .fade)
             UIView.animate(withDuration: 0.3) {
+                self?.itemsAlpha.value = zooming ? 0 : 1
+                self?.moreInfoAlpha.value = zooming ? 0 : 1
                 self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
-                self?.buttonBottom.alpha = zooming ? 0 : 1
-                self?.buttonTop.alpha = zooming ? 0 : 1
-                self?.userView.alpha = zooming ? 0 : 1
-                self?.pageControl.alpha = zooming ? 0 : 1
-                self?.moreInfoTooltip?.alpha = zooming ? 0 : 1
-                self?.moreInfoView?.dragView.alpha = zooming ? 0 : 1
-                self?.favoriteButton.alpha = zooming ? 0 : 1
-                self?.shareButton.alpha = zooming ? 0 : 1
-                self?.stickersButton.alpha = zooming ? 0 : 1
-                self?.editButton.alpha = zooming ? 0 : 1
-                self?.productStatusView.alpha = zooming ? 0 : 1
-                self?.chatContainer.alpha = zooming ? 0 : 1
             }
         }.addDisposableTo(disposeBag)
     }
     
     private func setupAlphaRxBindings() {
+        itemsAlpha.asObservable().bindTo(buttonBottom.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(stickersButton.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(editButton.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(shareButton.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(bannerContainer.rx.alpha).addDisposableTo(disposeBag)
+
         let width = view.bounds.width
         let midPoint = width/2
         let minMargin = midPoint * 0.15
@@ -375,18 +380,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 return newValue
         }
 
-        alphaSignal.bindTo(buttonBottom.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(itemsAlpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(moreInfoAlpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(stickersButton.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(editButton.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(shareButton.rx.alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
 
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
@@ -481,6 +476,9 @@ extension ProductCarouselViewController {
             view.bringSubview(toFront: fullScreenAvatarEffectView)
             view.bringSubview(toFront: fullScreenAvatarView)
             view.bringSubview(toFront: directChatTable)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMoreInfo))
+            moreInfoView?.addGestureRecognizer(tapGesture)
         }
         moreInfoView?.frame = view.bounds
         moreInfoView?.height = view.height + CarouselUI.moreInfoExtraHeight
@@ -674,7 +672,19 @@ extension ProductCarouselViewController {
 
     private func refreshFavoriteButton(_ viewModel: ProductViewModel) {
         viewModel.favoriteButtonState.asObservable()
-            .bindTo(favoriteButton.rx.state)
+            .bindNext { [weak self] (buttonState) in
+                guard let strongButton = self?.favoriteButton else { return }
+                switch buttonState {
+                case .hidden:
+                    strongButton.isHidden = true
+                case .enabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 1
+                case .disabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 0.6
+                }
+            }
             .addDisposableTo(activeDisposeBag)
 
         viewModel.isFavorite.asObservable()
@@ -830,6 +840,10 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
 extension ProductCarouselViewController {
     
+    dynamic func didTapMoreInfo() {
+        chatTextView.resignFirstResponder()
+    }
+    
     func setupMoreInfoDragging() {
         guard let button = moreInfoView?.dragView else { return }
         self.navigationController?.navigationBar.ignoreTouchesFor(button)
@@ -923,8 +937,18 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
         return self
     }
 
-    func requestFocus() {
-        chatTextView.resignFirstResponder()
+    func request(fullScreen: Bool) {
+        if fullScreen {
+            chatTextView.resignFirstResponder()
+        }
+        // If more info requests full screen all items except it should be removed/hidden
+        UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) { [weak self] in
+            self?.itemsAlpha.value = fullScreen ? 0 : 1
+            self?.navigationItem.rightBarButtonItem?.customView?.alpha = fullScreen ? 0 : 1
+            self?.navigationItem.rightBarButtonItems?.forEach {
+                $0.customView?.alpha = fullScreen ? 0 : 1
+            }
+        }
     }
 }
 
@@ -1071,6 +1095,7 @@ extension ProductCarouselViewController {
         guard !bumpUpBannerIsVisible else { return }
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
+        bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: actualBumpInfo)
         delay(0.1) { [weak self] in
             self?.bannerBottom = 0
@@ -1085,6 +1110,7 @@ extension ProductCarouselViewController {
         bumpUpBannerIsVisible = false
         bannerBottom = -CarouselUI.bannerHeight
         bumpUpBanner.stopCountdown()
+        bannerContainer.isHidden = true
     }
 }
 

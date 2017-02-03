@@ -40,8 +40,6 @@ enum EventName: String {
     
     case productDetailVisit                 = "product-detail-visit"
     case productDetailVisitMoreInfo         = "product-detail-visit-more-info"
-    case moreInfoRelatedItemsComplete       = "more-info-related-items-complete"
-    case moreInfoRelatedItemsViewMore       = "more-info-related-items-view-more"
     
     case productFavorite                    = "product-detail-favorite"
     case productShare                       = "product-detail-share"
@@ -155,7 +153,8 @@ enum EventName: String {
 
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
-
+    case chatWindowVisit                     = "chat-window-open"
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -261,6 +260,9 @@ enum EventParameterName: String {
     case bumpUpPrice          = "price"
     case passiveConversations = "passive-conversations"
     case collapsedEmailField  = "collapsed-email-field"
+    case feedPosition         = "feed-position"
+    case feedSource           = "feed-source"
+    case rating               = "rating"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -516,6 +518,7 @@ enum EventParameterTypePage: String {
     case userRatingList = "user-rating-list"
     case expressChat = "express-chat"
     case productDelete = "product-delete"
+    case inAppNotification = "in-app-notification"
 }
 
 enum EventParameterPermissionType: String {
@@ -595,6 +598,29 @@ enum EventParameterProductVisitSource: String {
     case chat = "chat"
     case openApp = "open-app"
     case notifications = "notifications"
+}
+
+enum EventParameterFeedPosition {
+    case position(index: Int)
+    case none
+    
+    var value: String {
+        switch self {
+        case let .position(index):
+            let value = index + 1
+            return String(value)
+        case .none:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterFeedSource: String {
+    case home = "home"
+    case search = "search"
+    case filter = "filter"
+    case searchAndFilter = "search&filter"
+    case collection = "collection"
 }
 
 enum EventParameterAccountNetwork: String {
@@ -715,7 +741,7 @@ struct EventParameters {
         params[.productType] = EventParameterProductItemType.real.rawValue
     }
     
-    internal mutating func addUserParams(_ user: User?) {
+    internal mutating func addUserParams(_ user: UserProduct?) {
         params[.userToId] = user?.objectId
     }
 

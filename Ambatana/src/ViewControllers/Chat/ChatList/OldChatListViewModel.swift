@@ -59,7 +59,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     func conversationSelectedAtIndex(_ index: Int) {
         guard let chat = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.chatAPI(chat: chat))
+        tabNavigator?.openChat(.chatAPI(chat: chat), source: .chatList)
     }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
@@ -68,7 +68,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
         var otherUser: User?
         if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
-            otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
+            otherUser = (myUserId == userFromId) ? LocalUser(userProduct: chat.userTo) : LocalUser(userProduct: chat.userFrom)
         }
 
         return ConversationCellData(status: chat.conversationCellStatus(otherUser),

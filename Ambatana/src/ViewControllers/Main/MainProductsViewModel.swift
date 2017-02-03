@@ -77,6 +77,10 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
         
+        if let distance = filters.distanceRadius {
+            resultTags.append(.distance(distance: distance))
+        }
+        
         return resultTags
     }
 
@@ -94,6 +98,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let trendingSearchesRepository: TrendingSearchesRepository
+    fileprivate let productRepository: ProductRepository
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
 
@@ -148,13 +153,13 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
-         filters: ProductFilters, keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlaggeable) {
+         productRepository: ProductRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
+        self.productRepository = productRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -184,14 +189,15 @@ class MainProductsViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
+        let productRepository = Core.productRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
-                  filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+                  productRepository: productRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
+                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -251,6 +257,7 @@ class MainProductsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
+        var distance: Int? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -267,7 +274,10 @@ class MainProductsViewModel: BaseViewModel {
                 maxPrice = maxPriceOption
             case .freeStuff:
                 free = true
+            case .distance(let distanceFilter):
+                distance = distanceFilter
             }
+           
         }
 
         filters.place = place
@@ -286,7 +296,9 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
-
+        
+        filters.distanceRadius = distance
+    
         updateListView()
     }
 
@@ -294,10 +306,7 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func setup() {
-        listViewModel.dataDelegate = self
-        productListRequester.filters = filters
-
-        productListRequester.queryString = searchType?.query
+        setupProductList()
         setupSessionAndLocation()
         setupPermissionsNotification()
     }
@@ -348,9 +357,32 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 }
 
 
-// MARK: - ProductListViewCellsDelegate 
+// MARK: - ProductListView
 
-extension MainProductsViewModel: ProductListViewCellsDelegate {
+extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListViewCellsDelegate {
+
+    func setupProductList() {
+        listViewModel.dataDelegate = self
+
+        productListRequester.filters = filters
+        productListRequester.queryString = searchType?.query
+
+        productRepository.events.bindNext { [weak self] event in
+            switch event {
+            case let .update(product):
+                self?.listViewModel.update(product: product)
+            case let .create(product):
+                self?.listViewModel.prepend(product: product)
+            case let .delete(productId):
+                self?.listViewModel.delete(productId: productId)
+            case .favorite, .unFavorite, .sold, .unSold:
+                break
+            }
+        }.addDisposableTo(disposeBag)
+    }
+
+    // MARK: > ProductListViewCellsDelegate
+
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
         guard let sortCriteria = filters.selectedOrdering else { return }
 
@@ -375,12 +407,10 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
     }
 
     func visibleBottomCell(_ index: Int) { }
-}
 
 
-// MARK: - ProductListViewModelDataDelegate
+    // MARK: > ProductListViewModelDataDelegate
 
-extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
         
@@ -698,14 +728,7 @@ fileprivate extension MainProductsViewModel {
         case .You:
             query = keyValueStorage[.lastSearches].reversed().joined(separator: " ")
         case .Transport:
-            switch featureFlags.keywordsTravelCollection {
-            case .standard:
-                query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
-            case .carsPrior:
-                query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
-            case .brandsPrior:
-                query = "mustang Honda Harley corvette dodge Toyota yamaha motorcycle Jeep atv bike boat car kayak trailer truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard bmx rv Chevy sub ford paddle"
-            }
+            query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
         case .Gaming:
             query = "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
         case .Apple:
@@ -746,13 +769,31 @@ fileprivate extension MainProductsViewModel {
 
         return .productList
     }
+    
+    var feedSource: EventParameterFeedSource {
+        if let search = searchType, search.isCollection {
+            return .collection
+        }
+        if searchType.isEmpty() {
+            if productListRequester.hasFilters() {
+                return .filter
+            }
+        } else {
+            if productListRequester.hasFilters() {
+                return .searchAndFilter
+            } else {
+                return .search
+            }
+        }
+        return .home
+    }
+    
 
     func trackRequestSuccess(page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
-
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
                                                     categories: productListRequester.filters?.selectedCategories,
-                                                    searchQuery: productListRequester.queryString)
+                                                    searchQuery: productListRequester.queryString, feedSource: feedSource)
         tracker.trackEvent(trackerEvent)
 
         if let searchType = searchType, shouldTrackSearch && filters.isDefault() {

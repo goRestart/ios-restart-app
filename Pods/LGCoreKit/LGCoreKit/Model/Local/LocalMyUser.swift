@@ -17,9 +17,9 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var avatar: File?
     var postalAddress: PostalAddress
 
-    var accounts: [Account]?    // TODO: When switching to bouncer only make ratings & accounts non-optional
+    var accounts: [Account]
     var ratingAverage: Float?
-    var ratingCount: Int?
+    var ratingCount: Int
 
     var status: UserStatus
 
@@ -28,8 +28,8 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var location: LGLocation?
     var localeIdentifier: String?
 
-    init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LocalAccount]?,
-         ratingAverage: Float?, ratingCount: Int?, status: UserStatus, email: String?, location: LGLocation?,
+    init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LocalAccount],
+         ratingAverage: Float?, ratingCount: Int, status: UserStatus, email: String?, location: LGLocation?,
          localeIdentifier: String?) {
         self.objectId = objectId
 
@@ -39,7 +39,7 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
 
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
-        self.accounts = accounts?.map { $0 as Account }
+        self.accounts = accounts
 
         self.status = status
 
@@ -49,7 +49,7 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     }
 
     init(myUser: MyUser) {
-        let localAccounts = myUser.accounts?.map { LocalAccount(account: $0) }
+        let localAccounts = myUser.accounts.map { LocalAccount(account: $0) }
         self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar,
                   postalAddress: myUser.postalAddress, accounts: localAccounts,
                   ratingAverage: myUser.ratingAverage, ratingCount: myUser.ratingCount, status: myUser.status,
@@ -112,12 +112,12 @@ extension LocalMyUser {
             let clLocation = CLLocation(latitude: latitude, longitude: longitude)
             location = LGLocation(location: clLocation, type: locationType)
         }
-        var accounts: [LocalAccount]? = nil
+        var accounts: [LocalAccount] = []
         if let encodedAccounts = dictionary[keys.accounts] as? [[String : Any]] {
             accounts = encodedAccounts.flatMap { LocalAccount.decode($0) }
         }
         let ratingAverage = dictionary[keys.ratingAverage] as? Float
-        let ratingCount = dictionary[keys.ratingCount] as? Int
+        let ratingCount = dictionary[keys.ratingCount] as? Int ?? 0
         var status = UserStatus.active
         if let statusStr = dictionary[keys.status] as? String,
             let udStatus = UserStatus(rawValue: statusStr) {
@@ -148,10 +148,7 @@ extension LocalMyUser {
         dictionary[keys.locationType] = location?.type?.rawValue
         dictionary[keys.latitude] = location?.coordinate.latitude
         dictionary[keys.longitude] = location?.coordinate.longitude
-        var encodedAccounts: [[String : Any]]? = nil
-        if let accounts = accounts {
-            encodedAccounts = accounts.map { LocalAccount(account: $0).encode() }
-        }
+        let encodedAccounts = accounts.map { LocalAccount(account: $0).encode() }
         dictionary[keys.accounts] = encodedAccounts
         dictionary[keys.ratingAverage] = ratingAverage
         dictionary[keys.ratingCount] = ratingCount

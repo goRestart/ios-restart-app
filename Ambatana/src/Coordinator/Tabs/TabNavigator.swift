@@ -38,7 +38,7 @@ protocol TabNavigator: class {
     func openUser(_ data: UserDetailData)
     func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool)
-    func openChat(_ data: ChatDetailData)
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
     func canOpenAppInvite() -> Bool
@@ -47,10 +47,8 @@ protocol TabNavigator: class {
 
 protocol ProductDetailNavigator: TabNavigator {
     func closeProductDetail()
-     // closeCompletion's Product is nil if edit is cancelled
-    func editProduct(_ product: Product, editCompletion: ((Product) -> Void)?)
+    func editProduct(_ product: Product)
     func openProductChat(_ product: Product)
-    func openRelatedItems(_ product: Product, productVisitSource: EventParameterProductVisitSource)
     func closeAfterDelete()
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String)
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct)

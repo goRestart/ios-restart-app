@@ -34,6 +34,7 @@ class UserViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let userRepository: UserRepository
+    fileprivate let productRepository: ProductRepository
     fileprivate let tracker: Tracker
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let notificationsManager: NotificationsManager
@@ -87,52 +88,38 @@ class UserViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     static func myUserUserViewModel(_ source: UserSource) -> UserViewModel {
-        return UserViewModel(source: source)
+        return UserViewModel(user: nil, source: source, isMyProfile: true)
     }
-    
-    private convenience init(source: UserSource) {
-        let sessionManager = Core.sessionManager
-        let myUserRepository = Core.myUserRepository
-        let userRepository = Core.userRepository
-        let tracker = TrackerProxy.sharedInstance
-        let featureFlags = FeatureFlags.sharedInstance
-        let notificationsManager = NotificationsManager.sharedInstance
-        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: true, user: nil, source: source, featureFlags: featureFlags,
-                  notificationsManager: notificationsManager)
-    }
-    
-    convenience init(user: User, source: UserSource) {
-        let sessionManager = Core.sessionManager
-        let myUserRepository = Core.myUserRepository
-        let userRepository = Core.userRepository
-        let tracker = TrackerProxy.sharedInstance
-        let featureFlags = FeatureFlags.sharedInstance
-        let notificationsManager = NotificationsManager.sharedInstance
-        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags,
-                  notificationsManager: notificationsManager)
-    }
-    
+
     convenience init(chatInterlocutor: ChatInterlocutor, source: UserSource) {
+        let user = LocalUser(chatInterlocutor: chatInterlocutor)
+        self.init(user: user, source: source)
+    }
+
+    convenience init(user: User, source: UserSource) {
+        self.init(user: user, source: source, isMyProfile: false)
+    }
+
+    private convenience init(user: User?, source: UserSource, isMyProfile: Bool) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
+        let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let notificationsManager = NotificationsManager.sharedInstance
-        let user = LocalUser(chatInterlocutor: chatInterlocutor)
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags,
-                  notificationsManager: notificationsManager)
+                  productRepository: productRepository, tracker: tracker, isMyProfile: isMyProfile, user: user, source: source,
+                  featureFlags: featureFlags, notificationsManager: notificationsManager)
     }
-    
+
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable,
-         notificationsManager: NotificationsManager) {
+         productRepository: ProductRepository, tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource,
+         featureFlags: FeatureFlaggeable, notificationsManager: NotificationsManager) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
+        self.productRepository = productRepository
         self.tracker = tracker
         self.isMyProfile = isMyProfile
         self.user = Variable<User?>(user)
@@ -171,8 +158,10 @@ class UserViewModel: BaseViewModel {
         
         if itsMe {
             refreshMyUserData()
-            resetLists()
             cleanFavoriteBadgeIfNeeded()
+            if firstTime {
+                navBarButtons.value = buildNavBarButtons()
+            }
         } else {
             retrieveUserData()
         }
@@ -377,7 +366,6 @@ extension UserViewModel {
 fileprivate extension UserViewModel {
     func retrieveUserData() {
         guard let userId = user.value?.objectId else { return }
-        guard user.value?.accounts == nil else { return } // If user already has accounts == complete user
         userRepository.show(userId) { [weak self] result in
             guard let user = result.value else { return }
             self?.updateAccounts(user)
@@ -480,7 +468,7 @@ fileprivate extension UserViewModel {
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
             
             // If the user has accounts the set them up
-            if let user = user, let _ = user.accounts {
+            if let user = user {
                 strongSelf.updateAccounts(user)
             }
             
@@ -535,10 +523,12 @@ fileprivate extension UserViewModel {
                                     return nil
             }.bindTo(userRelationText).addDisposableTo(disposeBag)
         
-        userRelationText.asObservable().subscribeNext { [weak self] relation in
-            guard let strongSelf = self else { return }
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-            }.addDisposableTo(disposeBag)
+        if !itsMe {
+            userRelationText.asObservable().subscribeNext { [weak self] relation in
+                guard let strongSelf = self else { return }
+                strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+                }.addDisposableTo(disposeBag)
+        }
     }
     
     func setupTabRxBindings() {
@@ -565,7 +555,26 @@ fileprivate extension UserViewModel {
             self?.soldProductListRequester.userObjectId = user?.objectId
             self?.favoritesProductListRequester.userObjectId = user?.objectId
             self?.resetLists()
+        }.addDisposableTo(disposeBag)
+
+        if itsMe {
+            productRepository.events.bindNext { [weak self] event in
+                switch event {
+                case let .update(product):
+                    self?.sellingProductListViewModel.update(product: product)
+                case .sold, .unSold:
+                    self?.sellingProductListViewModel.refresh()
+                    self?.soldProductListViewModel.refresh()
+                case .favorite, .unFavorite:
+                    self?.favoritesProductListViewModel.refresh()
+                case let .create(product):
+                    self?.sellingProductListViewModel.prepend(product: product)
+                case let .delete(productId):
+                    self?.sellingProductListViewModel.delete(productId: productId)
+                    self?.soldProductListViewModel.delete(productId: productId)
+                }
             }.addDisposableTo(disposeBag)
+        }
     }
     
     func setupShareRxBindings() {

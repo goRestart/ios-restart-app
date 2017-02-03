@@ -69,7 +69,7 @@ final class TourLoginViewModel: BaseViewModel {
     // MARK: - Private
 
     func setupRxBindings() {
-        featureFlags.syncedData.filter{ $0 }.timeout(abTestSyncTimeout, scheduler: MainScheduler.instance)
+        featureFlags.syncedData.filter{ $0 }.take(1).timeout(abTestSyncTimeout, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self ] _ in self?.setCurrentState(timeout: false) },
                        onError: { [weak self] _ in self?.setCurrentState(timeout: true) })
             .addDisposableTo(disposeBag)

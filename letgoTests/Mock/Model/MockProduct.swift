@@ -31,7 +31,7 @@ class MockProduct: MockBaseModel, Product {
     var thumbnailSize: LGSize?
     var images: [File]
     
-    var user: User
+    var user: UserProduct
     
     var processed: NSNumber?
     var favorite: Bool
@@ -44,7 +44,7 @@ class MockProduct: MockBaseModel, Product {
         self.postalAddress = PostalAddress.emptyAddress()
         self.status = .pending
         self.category = .electronics
-        self.user = MockUser()
+        self.user = MockUserProduct()
         self.favorite = false
         self.price = .negotiable(100)
         self.currency = Currency(code: "USD", symbol: "$")

@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
 "bump_up_processing_free_text" = "Öne çıkarma işlemi gerçekleştiriliyor...";
 "bump_up_processing_priced_text" = "Ödeme işlemi gerçekleştiriliyor...";
+"bump_up_product_cell_featured_stripe" = "Öne çıkan";
 "bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";
 "bump_up_view_free_title" = "ÜRÜNÜNÜ ÖNE ÇIKAR";
 "bump_up_view_pay_bumps_left_text" = "%i adet öne çıkarma hakkın kaldı.";
@@ -138,7 +139,7 @@
 "chat_list_title" = "Sohbet";
 "chat_list_unarchive_error_multiple" = "Konuşmalar arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unblock" = "Engeli Kaldir";
-"chat_login_popup_text" = "Mesajlaşmaya başlamak için, giriş yapmalısın";
+"chat_login_popup_text" = "Mesajlaşmaya başlamak için giriş yapmalısın";
 "chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
@@ -327,7 +328,7 @@
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Geçersiz e-posta adresi veya şifre. Lütfen tekrar dene.";
 "log_in_reset_password_button" = "Şifremi unuttum";
 "log_in_send_button" = "Giriş yap";
-"log_in_title" = "E-posta ile Kaydol";
+"log_in_title" = "E-posta ile giriş yap";
 "login_scammer_alert_contact_button" = "Bize ulaşın";
 "login_scammer_alert_keep_browsing_button" = "Kapat";
 "login_scammer_alert_message" = "Hesabın letgo Ekibi tarafından inceleme altına alınmıştır. Eğer bu durumda bir yanlışlık olduğunu düşünüyorsan bizimle iletişime geçebilirsin.";
@@ -577,6 +578,7 @@
 "product_share_email_error" = "Oops! Görünüşe bakılırsa e-posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_generic_error" = "Ürün paylaşılırken bir hata oluştu. Lütfen tekrar dene.";
 "product_share_generic_ok" = "Ürün paylaşıldı!";
+"product_share_navbar_button" = "Paylaş";
 "product_share_posted_by" = "%@ tarafından yayınlandı";
 "product_share_sms_error" = "Mesajın gönderilirken bir hata oluştu.";
 "product_share_sms_ok" = "Gönderiliyor...";

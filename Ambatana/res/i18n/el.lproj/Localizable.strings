@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Επιτυχής προώθηση! Τώρα το αντικείμενό σας έχει επιπλέον προβολή.";
 "bump_up_processing_free_text" = "Επεξεργασία προώθησης...";
 "bump_up_processing_priced_text" = "Επεξεργασία πληρωμής...";
+"bump_up_product_cell_featured_stripe" = "Προτεινόμενο";
 "bump_up_view_free_subtitle" = "Όσο περισσότερο κοινοποιείτε, τόσο περισσότερη προβολή θα έχει η καταχώρησή σας.";
 "bump_up_view_free_title" = "ΠΡΟΩΘΗΣΤΕ ΤΗΝ ΚΑΤΑΧΩΡΗΣΗ ΣΑΣ";
 "bump_up_view_pay_bumps_left_text" = "Σας έχουν μείνει %i προωθήσεις.";
@@ -577,6 +578,7 @@
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, δοκιμάστε ξανά.";
 "product_share_generic_ok" = "Το προϊόν κοινοποιήθηκε!";
+"product_share_navbar_button" = "Κοινοποίηση";
 "product_share_posted_by" = "δημοσιεύτηκε από τον %@";
 "product_share_sms_error" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος.";
 "product_share_sms_ok" = "Αποστολή...";

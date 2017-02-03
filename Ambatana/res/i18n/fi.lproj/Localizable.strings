@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Nostettu! Nyt tuotteesi saa lisänäkyvyyttä.";
 "bump_up_processing_free_text" = "Käsitellään nostoa...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";
+"bump_up_product_cell_featured_stripe" = "Suositeltu";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
 "bump_up_view_free_title" = "NOSTA TUOTTEESI";
 "bump_up_view_pay_bumps_left_text" = "Sinulla on %i nostoa jäljellä.";
@@ -577,6 +578,7 @@
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "product_share_generic_ok" = "Tuote jaettu!";
+"product_share_navbar_button" = "Jaa";
 "product_share_posted_by" = "ilmoittaja: %@";
 "product_share_sms_error" = "Viestiäsi lähetettäessä tapahtui virhe.";
 "product_share_sms_ok" = "Lähetetään...";

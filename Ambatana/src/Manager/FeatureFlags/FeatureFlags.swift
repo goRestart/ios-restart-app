@@ -16,13 +16,10 @@ protocol FeatureFlaggeable {
     var syncedData: Observable<Bool> { get }
 
     var websocketChat: Bool { get }
-    var notificationsSection: Bool { get }
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
-    var keywordsTravelCollection: KeywordsTravelCollection { get }
     var postingMultiPictureEnabled: Bool { get }
-    var relatedProductsOnMoreInfo: Bool { get }
     var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
@@ -56,10 +53,8 @@ class FeatureFlags: FeatureFlaggeable {
         // Initialize all vars that shouldn't change over application lifetime
         if Bumper.enabled {
             self.websocketChat = Bumper.websocketChat
-            self.notificationsSection = Bumper.notificationsSection
         } else {
             self.websocketChat = false
-            self.notificationsSection = ABTests.notificationCenterEnabled.value
         }
 
         self.locale = locale
@@ -79,8 +74,6 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     let websocketChat: Bool
-    
-    let notificationsSection: Bool
 
     var userReviews: Bool {
         if Bumper.enabled {
@@ -102,26 +95,12 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
     }
-
-    var keywordsTravelCollection: KeywordsTravelCollection {
-        if Bumper.enabled {
-            return Bumper.keywordsTravelCollection
-        }
-        return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
-    }
-
+    
     var postingMultiPictureEnabled: Bool {
         if Bumper.enabled {
             return Bumper.postingMultiPictureEnabled
         }
         return ABTests.postingMultiPictureEnabled.value
-    }
-
-    var relatedProductsOnMoreInfo: Bool {
-        if Bumper.enabled {
-            return Bumper.relatedProductsOnMoreInfo
-        }
-        return ABTests.relatedProductsOnMoreInfo.value
     }
     
     var favoriteWithBadgeOnProfile: Bool {

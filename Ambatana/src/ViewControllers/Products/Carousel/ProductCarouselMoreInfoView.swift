@@ -19,7 +19,7 @@ enum MoreInfoState {
 
 protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat)
-    func requestFocus()
+    func request(fullScreen: Bool)
     func viewControllerToShowShareOptions() -> UIViewController
 }
 
@@ -60,19 +60,12 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
 
-    @IBOutlet weak var relatedItemsContainer: UIView!
-    @IBOutlet weak var relatedItemsTitle: UILabel!
-    @IBOutlet weak var relatedItemsViewMoreButton: UIButton!
-
-    
-    fileprivate var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight,
-                                                          frame: CGRect.zero)
     fileprivate let disposeBag = DisposeBag()
     fileprivate var currentVmDisposeBag = DisposeBag()
     fileprivate var viewModel: ProductViewModel?
     fileprivate var locationZone: MKOverlay?
-    fileprivate let bigMapMargin: CGFloat = 65.0
-    fileprivate let bigMapBottomMargin: CGFloat = 210
+    fileprivate let bigMapMargin: CGFloat = 65
+    fileprivate let bigMapBottomMargin: CGFloat = 85
     fileprivate(set) var mapExpanded: Bool = false
     fileprivate var mapZoomBlocker: MapZoomBlocker?
     fileprivate var statsView: ProductStatsView?
@@ -127,9 +120,6 @@ class ProductCarouselMoreInfoView: UIView {
     }
 
     func viewWillShow() {
-        if !relatedItemsContainer.isHidden {
-            relatedProductsView.productId.value = viewModel?.product.value.objectId
-        }
         setupMapViewIfNeeded()
     }
 
@@ -255,11 +245,11 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         if let locationZone = self.locationZone {
             mapView.add(locationZone)
         }
-        
-        self.delegate?.requestFocus()
+
+        self.delegate?.request(fullScreen: true)
         var expandedFrame = mapViewContainerExpandable.frame
         expandedFrame.origin.y = bigMapMargin
-        expandedFrame.size.height = height - bigMapBottomMargin
+        expandedFrame.size.height = height - (bigMapMargin + bigMapBottomMargin)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapViewContainerExpandable?.frame = expandedFrame
             self?.mapViewContainerExpandable?.layoutIfNeeded()
@@ -270,7 +260,8 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     
     func compressMap() {
         guard mapExpanded else { return }
-        
+
+        self.delegate?.request(fullScreen: false)
         let compressedFrame = convert(mapViewContainer.frame, from: scrollViewContent)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapViewContainerExpandable?.frame = compressedFrame
@@ -363,9 +354,6 @@ fileprivate extension ProductCarouselMoreInfoView {
         descriptionLabel.expandTextColor = UIColor.white
 
         setupSocialShareView()
-        setupRelatedItems()
-        socialShareContainer.isHidden = featureFlags.relatedProductsOnMoreInfo
-        relatedItemsContainer.isHidden = !featureFlags.relatedProductsOnMoreInfo
 
         dragView.rounded = true
         dragView.layer.borderColor = UIColor.white.cgColor
@@ -422,37 +410,6 @@ fileprivate extension ProductCarouselMoreInfoView {
         }
     }
 
-    func setupRelatedItems() {
-        relatedItemsTitle.textColor = UIColor.white
-        relatedItemsTitle.font = UIFont.productRelatedItemsTitleFont
-        relatedItemsTitle.text = LGLocalizedString.productMoreInfoRelatedTitle
-
-        relatedItemsViewMoreButton.setTitle(LGLocalizedString.productMoreInfoRelatedViewMore, for: .normal)
-        relatedItemsViewMoreButton.rx.tap.bindNext { [weak self] in
-            self?.viewModel?.openRelatedItems()
-        }.addDisposableTo(disposeBag)
-
-        relatedProductsView.translatesAutoresizingMaskIntoConstraints = false
-        relatedItemsContainer.addSubview(relatedProductsView)
-
-        let views = [ "title" : relatedItemsTitle, "items" : relatedProductsView ] as [String : Any]
-        let metrics = [ "interMargin" : CGFloat(10), "margin" : CGFloat(15), "height" : ProductCarouselMoreInfoView.relatedItemsHeight]
-        relatedItemsContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[title]-interMargin-[items(height)]-margin-|",
-            options: [], metrics: metrics, views: views))
-        relatedItemsContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[items]-0-|",
-            options: [], metrics: metrics, views: views))
-
-        relatedProductsView.hasProducts.asObservable().distinctUntilChanged()
-            .map { $0 ? CGFloat(1) : CGFloat(0) }
-            .bindNext { [weak self] alpha in
-                UIView.animate(withDuration: 0.2) {
-                    self?.relatedItemsContainer.alpha = alpha
-                }
-            }.addDisposableTo(disposeBag)
-
-        relatedProductsView.delegate = self
-    }
-
 
     // MARK: > Configuration (each view model)
 
@@ -492,10 +449,8 @@ fileprivate extension ProductCarouselMoreInfoView {
     func configureBottomPanel() {
         guard let viewModel = viewModel else { return }
 
-        if !socialShareContainer.isHidden {
-            socialShareView.socialMessage = viewModel.socialMessage.value
-            socialShareView.socialSharer = viewModel.socialSharer
-        }
+        socialShareView.socialMessage = viewModel.socialMessage.value
+        socialShareView.socialSharer = viewModel.socialSharer
     }
 }
 
@@ -521,22 +476,6 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
 }
 
 
-// MARK: - RelatedProductsViewDelegate
-
-extension ProductCarouselMoreInfoView: RelatedProductsViewDelegate {
-    func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
-                             thumbnailImage: UIImage?, originFrame: CGRect?) {
-        var finalFrame: CGRect? = nil
-        if let originFrame = originFrame {
-            finalFrame = relatedItemsContainer.convert(originFrame, to: self)
-        }
-        viewModel?.relatedProductsView(view, showProduct: product, atIndex: index, productListModels: productListModels,
-                                       requester: requester, thumbnailImage: thumbnailImage, originFrame: finalFrame)
-    }
-}
-
-
 // MARK: - Accessibility ids
 
 extension ProductCarouselMoreInfoView {
@@ -550,8 +489,5 @@ extension ProductCarouselMoreInfoView {
         socialShareTitleLabel.accessibilityId = .productCarouselMoreInfoSocialShareTitleLabel
         socialShareView.accessibilityId = .productCarouselMoreInfoSocialShareView
         descriptionLabel.accessibilityId = .productCarouselMoreInfoDescriptionLabel
-        relatedItemsTitle.accessibilityId = .productCarouselMoreInfoRelatedItemsTitleLabel
-        relatedProductsView.accessibilityId = .productCarouselMoreInfoRelatedItemsView
-        relatedItemsViewMoreButton.accessibilityId = .productCarouselMoreInfoRelatedViewMoreButton
     }
 }

@@ -23,11 +23,9 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let selectedTab: Variable<Tab>
 
     fileprivate let mainTabBarCoordinator: MainTabCoordinator
-    fileprivate let secondTabBarCoordinator: TabCoordinator
+    fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
     fileprivate let chatsTabBarCoordinator: ChatsTabCoordinator
     fileprivate let profileTabBarCoordinator: ProfileTabCoordinator
-    fileprivate let categoriesTabBarCoordinator: CategoriesTabCoordinator
-    fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
@@ -102,13 +100,10 @@ final class AppCoordinator: NSObject, Coordinator {
         self.selectedTab = Variable<Tab>(.home)
         
         self.mainTabBarCoordinator = MainTabCoordinator()
-        self.categoriesTabBarCoordinator = CategoriesTabCoordinator()
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
-        self.secondTabBarCoordinator = featureFlags.notificationsSection ? notificationsTabBarCoordinator :
-                                                                           categoriesTabBarCoordinator
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
-        self.tabCoordinators = [mainTabBarCoordinator, secondTabBarCoordinator, chatsTabBarCoordinator,
+        self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
                                 profileTabBarCoordinator]
 
         self.configManager = configManager
@@ -342,7 +337,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
         let afterLogInSuccessful: () -> ()
 
         switch tab {
-        case .home, .categories, .notifications, .chats, .profile:
+        case .home, .notifications, .chats, .profile:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
             result = !shouldOpenLogin
         case .sell:
@@ -359,7 +354,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
             openLogin(.fullScreen, source: source, afterLogInSuccessful: afterLogInSuccessful)
         } else {
             switch tab {
-            case .home, .categories, .notifications, .chats, .profile:
+            case .home, .notifications, .chats, .profile:
                 // tab is changed after returning from this method
                 break
             case .sell:
@@ -392,12 +387,12 @@ fileprivate extension AppCoordinator {
 
     func setupTabCoordinators() {
         mainTabBarCoordinator.tabCoordinatorDelegate = self
-        secondTabBarCoordinator.tabCoordinatorDelegate = self
+        notificationsTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
         
         mainTabBarCoordinator.appNavigator = self
-        secondTabBarCoordinator.appNavigator = self
+        notificationsTabBarCoordinator.appNavigator = self
         chatsTabBarCoordinator.appNavigator = self
         profileTabBarCoordinator.appNavigator = self
     }
@@ -592,13 +587,13 @@ fileprivate extension AppCoordinator {
         case let .conversation(data):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data))
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source:.external)
                 }
             }
         case .message(_, let data):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data))
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external)
                 }
             }
         case .search(let query, let categories):
@@ -733,7 +728,7 @@ fileprivate extension AppCoordinator {
                 let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                     self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                     self?.openTab(.chats, force: false) { [weak self] in
-                        self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation))
+                        self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification )
                     }
                 })
                 let data = BubbleNotificationData(tagGroup: conversationId,
@@ -749,7 +744,7 @@ fileprivate extension AppCoordinator {
             let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                 self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openChat(.dataIds(data: data))
+                    self?.selectedTabCoordinator?.openChat(.dataIds(data: data), source: .inAppNotification)
                 }
             })
             let data = BubbleNotificationData(tagGroup: conversationId,
@@ -781,7 +776,7 @@ extension AppCoordinator: ChangePasswordNavigator {
 fileprivate extension Tab {
     var logInRequired: Bool {
         switch self {
-        case .home, .categories, .sell:
+        case .home, .sell:
             return false
         case .notifications, .chats, .profile:
             return true
@@ -789,7 +784,7 @@ fileprivate extension Tab {
     }
     var logInSource: EventParameterLoginSourceValue? {
         switch self {
-        case .home, .categories:
+        case .home:
             return nil
         case .notifications:
             return .notifications
@@ -799,14 +794,6 @@ fileprivate extension Tab {
             return .chats
         case .profile:
             return .profile
-        }
-    }
-    var chatHeadsHidden: Bool {
-        switch self {
-        case .chats, .sell:
-            return true
-        case .home, .categories, .notifications, .profile:
-            return false
         }
     }
 }

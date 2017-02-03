@@ -19,13 +19,10 @@ class MockFeatureFlags: FeatureFlaggeable {
     let syncedDataVar = Variable<Bool>(false)
 
     var websocketChat: Bool = false
-    var notificationsSection: Bool = false
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
-    var keywordsTravelCollection: KeywordsTravelCollection = .standard
     var postingMultiPictureEnabled: Bool = true
-    var relatedProductsOnMoreInfo: Bool = true
     var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false

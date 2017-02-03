@@ -25,11 +25,12 @@ class LGOldChatRepository: OldChatRepository {
 
     func newChatWithProduct(_ product: Product) -> Chat? {
         if let myUser = myUserRepository.myUser {
+            let myUserProduct = LGUserProduct(user: myUser)
             return LGChat(
                 objectId: nil,
                 updatedAt: Date(),
                 product: product,
-                userFrom: myUser,
+                userFrom: myUserProduct,
                 userTo: product.user,
                 msgUnreadCount: 0,
                 messages: [],

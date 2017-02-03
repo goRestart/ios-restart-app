@@ -134,13 +134,11 @@ class TextViewController: KeyboardViewController {
 
     // MARK: - Methods to override
 
-    func sendButtonPressed() {
+    func sendButtonPressed() { }
 
-    }
+    func scrollViewDidTap() { }
 
-    func keyForTextCaching() -> String? {
-        return nil
-    }
+    func keyForTextCaching() -> String? { return nil }
 
 
     // MARK: - Private
@@ -185,6 +183,7 @@ extension TextViewController {
 
     dynamic fileprivate func scrollViewTap() {
         dismissKeyboard(true)
+        scrollViewDidTap()
     }
 }
 
