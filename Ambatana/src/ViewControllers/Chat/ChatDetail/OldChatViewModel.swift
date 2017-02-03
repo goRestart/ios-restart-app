@@ -999,7 +999,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     private func markProductAsSold() {
         delegate?.vmShowLoading(nil)
-        productRepository.markProductAsSold(product) { [weak self] result in
+        productRepository.markProductAsSold(product, buyerId: nil) { [weak self] result in
             self?.delegate?.vmHideLoading(nil) { [weak self] in
                 guard let strongSelf = self else { return }
                 if let value = result.value {

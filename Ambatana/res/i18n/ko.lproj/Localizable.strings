@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
 "bump_up_processing_free_text" = "강조 진행중...";
 "bump_up_processing_priced_text" = "결제 처리중...";
+"bump_up_product_cell_featured_stripe" = "주요";
 "bump_up_view_free_subtitle" = "더 많이 공유할 수록, 판매 상품이 더 잘보이게 될 것입니다.";
 "bump_up_view_free_title" = "리스팅 강조하기";
 "bump_up_view_pay_bumps_left_text" = "사용자께서는 강조 기회가 %번 남으셨습니다.";
@@ -622,6 +623,10 @@
 "profile_verify_google_button" = "구글";
 "profile_verify_google_message" = "본인인증을 위해 구글로 연결하기";
 "profile_verify_google_title" = "구글";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "리뷰 신고하기";
 "rating_list_action_report_review_error_message" = "신고를 발송하는동안 오류가 발생했습니다.";
 "rating_list_action_report_review_success_message" = "신고가 발송되었습니다!";

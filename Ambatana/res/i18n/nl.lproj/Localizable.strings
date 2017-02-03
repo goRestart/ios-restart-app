@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Omhoog geplaatst! Je item is nu extra zichtbaar.";
 "bump_up_processing_free_text" = "Bezig met het omhoog plaatsen...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
+"bump_up_product_cell_featured_stripe" = "Aanbevolen";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
 "bump_up_view_pay_bumps_left_text" = "Je kunt nog %i keer omhoog plaatsen.";
@@ -622,6 +623,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Verbind met Google om je identiteit te verifiëren";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Rapporteer beoordeling";
 "rating_list_action_report_review_error_message" = "Er is een fout opgetreden tijdens het versturen van jouw melding.";
 "rating_list_action_report_review_success_message" = "Jouw melding is verzonden!";

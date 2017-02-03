@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Produktet er promotert! Ditt produkt har nå ekstra synlighet.";
 "bump_up_processing_free_text" = "Prosesserer promotering...";
 "bump_up_processing_priced_text" = "Prosesserer betaling...";
+"bump_up_product_cell_featured_stripe" = "Aktuelle";
 "bump_up_view_free_subtitle" = "Jo mere du deler, desto mer synlig blir din annonse.";
 "bump_up_view_free_title" = "PROMOTER DIN ANNONSE";
 "bump_up_view_pay_bumps_left_text" = "Du har %i promoteringer igjen.";
@@ -622,6 +623,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Koble til med Google for å verifisere din identitet";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Rapporter vurdering";
 "rating_list_action_report_review_error_message" = "En feil oppstod ved sending av din rapport.";
 "rating_list_action_report_review_success_message" = "Din rapport ble sendt!";

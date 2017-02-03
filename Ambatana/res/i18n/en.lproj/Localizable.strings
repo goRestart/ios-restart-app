@@ -85,6 +85,9 @@
 // Text for loading view whiel processing bump with a price
 "bump_up_processing_priced_text" = "Processing payment...";
 
+// Text for stripe in featured products cells
+"bump_up_product_cell_featured_stripe" = "Featured";
+
 // Title for free bump up view
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 
@@ -1925,6 +1928,18 @@
 
 // Text to verify accounts
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_title" = "Who bought this?";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_message" = "Congratulations!";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_sub_message" = "Who did you sell this to?";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
 
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";

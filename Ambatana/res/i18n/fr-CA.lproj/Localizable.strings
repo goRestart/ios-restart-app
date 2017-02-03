@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Renvoyé vers le haut ! Votre produit bénéficie maintenant d'une meilleure visibilité.";
 "bump_up_processing_free_text" = "Renvoi vers le haut en cours...";
 "bump_up_processing_priced_text" = "Paiement en cours...";
+"bump_up_product_cell_featured_stripe" = "Spécial";
 "bump_up_view_free_subtitle" = "Plus votre annonce est partagée, plus elle sera visible.";
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
 "bump_up_view_pay_bumps_left_text" = "Il vous reste %i renvois vers le haut à effectuer.";
@@ -622,6 +623,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Connectez-vous avec Google pour vérifier votre identité";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Signaler une évaluation";
 "rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
 "rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";

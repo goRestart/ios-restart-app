@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Ganz oben! Dein Produkt ist nun besonders sichtbar.";
 "bump_up_processing_free_text" = "Angebot wird hochgeholt...";
 "bump_up_processing_priced_text" = "Zahlung wird verarbeitet...";
+"bump_up_product_cell_featured_stripe" = "Empfohlen";
 "bump_up_view_free_subtitle" = "Je öfter du es teilst, umso sichtbarer wird dein Angebot";
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
 "bump_up_view_pay_bumps_left_text" = "Du kannst noch %i Angebote hochholen.";
@@ -534,7 +535,7 @@
 "product_post_incentive_ps4" = "PS4s";
 "product_post_incentive_subtitle" = "Dein Angebot wurde eingestellt.";
 "product_post_incentive_subtitle_free" = "Du bist dabei, jemanden glücklich zu machen.";
-"product_post_incentive_title" = "GRATULIERE!";
+"product_post_incentive_title" = "GLÜCKWUNSCH!";
 "product_post_incentive_toys" = "Spielzeuge";
 "product_post_incentive_tv" = "Fernseher";
 "product_post_login_message" = "Bitte melde dich an, um Sachen verkaufen zu können";
@@ -622,6 +623,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Verbinde dich mit Google, um deine Identität zu bestätigen";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Bewertung melden";
 "rating_list_action_report_review_error_message" = "Beim Abschicken deiner Nachricht ist ein Fehler aufgetreten.";
 "rating_list_action_report_review_success_message" = "Deine Nachricht wurde abgeschickt!";

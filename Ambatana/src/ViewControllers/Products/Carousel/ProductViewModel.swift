@@ -1003,7 +1003,7 @@ fileprivate extension ProductViewModel {
     func markSold(_ source: EventParameterSellSourceValue) {
         delegate?.vmShowLoading(nil)
 
-        productRepository.markProductAsSold(product.value) { [weak self] result in
+        productRepository.markProductAsSold(product.value, buyerId: nil) { [weak self] result in
             guard let strongSelf = self else { return }
 
             var markAsSoldCompletion: (()->())? = nil

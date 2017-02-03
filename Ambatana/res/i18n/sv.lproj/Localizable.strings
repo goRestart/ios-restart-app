@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Puffad! Nu har din produkt fått extra synlighet.";
 "bump_up_processing_free_text" = "Bearbetar puff...";
 "bump_up_processing_priced_text" = "Bearbetar betalning...";
+"bump_up_product_cell_featured_stripe" = "Visas";
 "bump_up_view_free_subtitle" = "Ju fler delningar, desto mer synlighet kommer din produkt att få.";
 "bump_up_view_free_title" = "PUFFA DIN VARA UPPÅT";
 "bump_up_view_pay_bumps_left_text" = "Du har %i puffar uppåt kvar.";
@@ -622,6 +623,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Logga in med Google för att bekräfta din identitet";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Rapportera omdöme";
 "rating_list_action_report_review_error_message" = "Ett fel uppstod när din rapport skulle skickas.";
 "rating_list_action_report_review_success_message" = "Din rapport har skickats!";

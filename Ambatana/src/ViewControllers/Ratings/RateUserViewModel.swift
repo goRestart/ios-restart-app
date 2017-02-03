@@ -33,7 +33,7 @@ struct RateUserData {
 }
 
 enum RateUserSource {
-    case chat, deepLink, userRatingList
+    case chat, deepLink, userRatingList, markAsSold
 }
 
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
@@ -201,6 +201,8 @@ fileprivate extension EventParameterTypePage {
             self = .external
         case .userRatingList:
             self = .userRatingList
+        case .markAsSold:
+            self = .productDetail
         }
     }
 }
