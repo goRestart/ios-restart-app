@@ -176,7 +176,9 @@ final class LGProductRepository: ProductRepository {
 
             if let product = result.value {
                 // Cache the product in the limbo
-                self?.productsLimboDAO.save(product)
+                if let productId = product.objectId {
+                    self?.productsLimboDAO.save(productId)
+                }
                 // Send event
                 self?.eventBus.onNext(.create(product))
             }
@@ -403,7 +405,8 @@ final class LGProductRepository: ProductRepository {
                 completion?(ProductsResult(error: RepositoryError(apiError: error)))
             } else if let products = result.value {
                 self?.productsLimboDAO.removeAll()
-                self?.productsLimboDAO.save(products)
+                let productIds = products.flatMap { $0.objectId }
+                self?.productsLimboDAO.save(productIds)
 
                 completion?(ProductsResult(value: products))
             }

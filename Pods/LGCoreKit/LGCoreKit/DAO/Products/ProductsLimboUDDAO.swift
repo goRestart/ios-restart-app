@@ -32,23 +32,17 @@ extension ProductsLimboUDDAO: ProductsLimboDAO {
         return Array(productsIdsSet)
     }
 
-    func save(_ product: Product) {
-        guard let productId = product.objectId else { return }
-
+    func save(_ productId: String) {
         productsIdsSet.insert(productId)
         sync()
     }
 
-    func save(_ products: [Product]) {
-        let productIds = products.flatMap { $0.objectId }
-
+    func save(_ productIds: [String]) {
         productsIdsSet = productsIdsSet.union(Set(productIds))
         sync()
     }
 
-    func remove(_ product: Product) {
-        guard let productId = product.objectId else { return }
-
+    func remove(_ productId: String) {
         productsIdsSet.remove(productId)
         sync()
     }
