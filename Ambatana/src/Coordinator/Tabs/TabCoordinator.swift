@@ -109,16 +109,16 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openChat(_ data: ChatDetailData) {
+    func openChat(_ data: ChatDetailData, typePage: EventParameterTypePage) {
         switch data {
         case let .chatAPI(chat):
-            openChat(chat)
+            openChat(chat, typePage: typePage)
         case let .conversation(conversation):
-            openConversation(conversation)
+            openConversation(conversation, typePage: typePage)
         case let .productAPI(product):
             openProductChat(product)
         case let .dataIds(data):
-            openChatFromConversationData(data)
+            openChatFromConversationData(data, typePage: typePage)
         }
     }
 
@@ -279,38 +279,38 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChat(_ chat: Chat) {
-        guard let vm = OldChatViewModel(chat: chat, navigator: self) else { return }
+    func openChat(_ chat: Chat, typePage: EventParameterTypePage) {
+        guard let vm = OldChatViewModel(chat: chat, navigator: self, typePage: typePage) else { return }
         let vc = OldChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openConversation(_ conversation: ChatConversation) {
-        let vm = ChatViewModel(conversation: conversation, navigator: self)
+    func openConversation(_ conversation: ChatConversation, typePage: EventParameterTypePage) {
+        let vm = ChatViewModel(conversation: conversation, navigator: self, typePage: typePage)
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openChatFromProduct(_ product: Product) {
         if featureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(product: product, navigator: self) else { return }
+            guard let chatVM = ChatViewModel(product: product, navigator: self, typePage: .productDetail) else { return }
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         } else {
-            guard let chatVM = OldChatViewModel(product: product, navigator: self) else { return }
+            guard let chatVM = OldChatViewModel(product: product, navigator: self, typePage: .productDetail) else { return }
             let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         }
     }
 
-    func openChatFromConversationData(_ data: ConversationData) {
+    func openChatFromConversationData(_ data: ConversationData, typePage: EventParameterTypePage) {
         navigationController.showLoadingMessageAlert()
 
         if featureFlags.websocketChat {
             let completion: ChatConversationCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let conversation = result.value {
-                        self?.openConversation(conversation)
+                        self?.openConversation(conversation, typePage: typePage)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }
@@ -326,7 +326,7 @@ fileprivate extension TabCoordinator {
             let completion: ChatCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let chat = result.value {
-                        self?.openChat(chat)
+                        self?.openChat(chat, typePage: typePage)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }

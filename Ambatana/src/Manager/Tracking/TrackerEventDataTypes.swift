@@ -516,6 +516,7 @@ enum EventParameterTypePage: String {
     case userRatingList = "user-rating-list"
     case expressChat = "express-chat"
     case productDelete = "product-delete"
+    case inAppNotification = "in-app-notification"
 }
 
 enum EventParameterPermissionType: String {

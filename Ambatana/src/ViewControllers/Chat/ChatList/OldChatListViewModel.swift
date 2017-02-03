@@ -59,7 +59,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     func conversationSelectedAtIndex(_ index: Int) {
         guard let chat = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.chatAPI(chat: chat))
+        tabNavigator?.openChat(.chatAPI(chat: chat), typePage: .chatList)
     }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
