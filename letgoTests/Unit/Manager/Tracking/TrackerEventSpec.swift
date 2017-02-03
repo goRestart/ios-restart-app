@@ -1979,7 +1979,7 @@ class TrackerEventSpec: QuickSpec {
                     let pageType = sut.params!.stringKeyParams["type-page"] as? String
                     expect(pageType).to(equal("chat"))
                 }
-                it("contains pageType param") {
+                it("contains free-posting param") {
                     let product = MockProduct()
                     product.price = .negotiable(100)
                     sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
