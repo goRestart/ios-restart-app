@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Omhoog geplaatst! Je item is nu extra zichtbaar.";
 "bump_up_processing_free_text" = "Bezig met het omhoog plaatsen...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
+"bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
 "bump_up_view_pay_bumps_left_text" = "Je kunt nog %i keer omhoog plaatsen.";

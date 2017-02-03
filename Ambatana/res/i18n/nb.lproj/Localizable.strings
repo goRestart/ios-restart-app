@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Produktet er promotert! Ditt produkt har nå ekstra synlighet.";
 "bump_up_processing_free_text" = "Prosesserer promotering...";
 "bump_up_processing_priced_text" = "Prosesserer betaling...";
+"bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_view_free_subtitle" = "Jo mere du deler, desto mer synlig blir din annonse.";
 "bump_up_view_free_title" = "PROMOTER DIN ANNONSE";
 "bump_up_view_pay_bumps_left_text" = "Du har %i promoteringer igjen.";

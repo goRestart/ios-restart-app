@@ -12,12 +12,13 @@ import Result
 class LGMonetizationRepository : MonetizationRepository {
 
     let dataSource: MonetizationDataSource
-
+    let productsLimboDAO: ProductsLimboDAO
 
     // MARK: - Lifecycle
 
-    init(dataSource: MonetizationDataSource) {
+    init(dataSource: MonetizationDataSource, productsLimboDAO: ProductsLimboDAO) {
         self.dataSource = dataSource
+        self.productsLimboDAO = productsLimboDAO
     }
 
 
@@ -35,8 +36,9 @@ class LGMonetizationRepository : MonetizationRepository {
 
     func freeBump(forProduct productId: String, itemId: String, completion: BumpCompletion?) {
         let paymentId = LGUUID().UUIDString
-        dataSource.freeBump(forProduct: productId, itemId: itemId, paymentId: paymentId) { result in
+        dataSource.freeBump(forProduct: productId, itemId: itemId, paymentId: paymentId) { [weak self] result in
             if let _ = result.value {
+                self?.productsLimboDAO.save(productId)
                 completion?(BumpResult(value: Void()))
             } else if let error = result.error {
                 completion?(BumpResult(error: RepositoryError(apiError: error)))
@@ -46,8 +48,10 @@ class LGMonetizationRepository : MonetizationRepository {
 
     func pricedBump(forProduct productId: String, receiptData: String, itemId: String, completion: BumpCompletion?) {
         let paymentId = LGUUID().UUIDString
-        dataSource.pricedBump(forProduct: productId, receiptData: receiptData, itemId: itemId, paymentId: paymentId) { result in
+        dataSource.pricedBump(forProduct: productId, receiptData: receiptData, itemId: itemId,
+                              paymentId: paymentId) { [weak self] result in
             if let _ = result.value {
+                self?.productsLimboDAO.save(productId)
                 completion?(BumpResult(value: Void()))
             } else if let error = result.error {
                 completion?(BumpResult(error: RepositoryError(apiError: error)))

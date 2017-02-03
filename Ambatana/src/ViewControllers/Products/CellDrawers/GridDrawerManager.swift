@@ -44,7 +44,8 @@ class GridDrawerManager {
         switch model {
         case .productCell(let product) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
-            let data = ProductData(productID: product.objectId, thumbUrl: product.thumbnail?.fileURL, isFree: product.price.free && freePostingAllowed)
+            let data = ProductData(productID: product.objectId, thumbUrl: product.thumbnail?.fileURL,
+                                   isFree: product.price.free && freePostingAllowed, isFeatured: product.featured ?? false)
             return productDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }
