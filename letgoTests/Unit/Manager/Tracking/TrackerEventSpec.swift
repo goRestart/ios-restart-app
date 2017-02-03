@@ -2800,22 +2800,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(param ).to(equal("AAAAA"))
                 }
             }
-            describe("Passive buyer abandon") {
-                beforeEach {
-                    sut = TrackerEvent.passiveBuyerAbandon(withUser: "123456", productId: "AAAAA")
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("passive-buyer-abandon"))
-                }
-                it("contains user-id param") {
-                    let param = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(param) == "123456"
-                }
-                it("contains product-id param") {
-                    let param = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(param ).to(equal("AAAAA"))
-                }
-            }
             describe("chat-window-open") {
                 beforeEach {
                     sut = TrackerEvent.chatWindowVisit(.inAppNotification)
