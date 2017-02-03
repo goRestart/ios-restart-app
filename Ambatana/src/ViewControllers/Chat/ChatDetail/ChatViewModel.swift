@@ -101,6 +101,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let configManager: ConfigManager
     fileprivate let sessionManager: SessionManager
     fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let source: EventParameterTypePage
     
     fileprivate let keyValueStorage: KeyValueStorage
 
@@ -178,7 +179,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?) {
+    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
@@ -193,10 +194,11 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
+                  source: source)
     }
     
-    convenience init?(product: Product, navigator: ChatDetailNavigator?) {
+    convenience init?(product: Product, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         guard let _ = product.objectId, let sellerId = product.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -215,14 +217,15 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
+                  source: source)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
-          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable) {
+          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -237,6 +240,7 @@ class ChatViewModel: BaseViewModel {
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
+        self.source = source
         super.init()
         setupRx()
         loadStickers()
@@ -251,6 +255,7 @@ class ChatViewModel: BaseViewModel {
             launchExpressChatTimer()
             expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
         }
+        trackVisit()
     }
 
     func didAppear() {
@@ -1121,6 +1126,11 @@ fileprivate extension ChatViewModel {
     func trackUnblockUsers(_ userIds: [String]) {
         let unblockUserEvent = TrackerEvent.profileUnblock(.chat, unblockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
+    }
+    
+    func trackVisit() {
+        let chatWindowOpen = TrackerEvent.chatWindowVisit(source)
+        tracker.trackEvent(chatWindowOpen)
     }
 }
 

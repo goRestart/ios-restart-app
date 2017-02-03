@@ -2807,6 +2807,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(param ).to(equal("AAAAA"))
                 }
             }
+            describe("chat-window-open") {
+                beforeEach {
+                    sut = TrackerEvent.chatWindowVisit(.inAppNotification)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-window-open"))
+                }
+                it("contains typePage parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "in-app-notification"
+                }
+            }
             describe("app rating start") {
                 beforeEach {
                     sut = TrackerEvent.appRatingStart(EventParameterRatingSource.productSellComplete)

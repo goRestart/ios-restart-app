@@ -153,7 +153,8 @@ enum EventName: String {
 
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
-
+    case chatWindowVisit                     = "chat-window-open"
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -517,6 +518,7 @@ enum EventParameterTypePage: String {
     case userRatingList = "user-rating-list"
     case expressChat = "express-chat"
     case productDelete = "product-delete"
+    case inAppNotification = "in-app-notification"
 }
 
 enum EventParameterPermissionType: String {

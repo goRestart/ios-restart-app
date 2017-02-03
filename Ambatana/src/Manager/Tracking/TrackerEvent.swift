@@ -983,6 +983,12 @@ struct TrackerEvent {
         params[.shareNetwork] = network.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
+    
+    static func chatWindowVisit(_ typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .chatWindowVisit, params: params)
+    }
 
 
     // MARK: - Private methods
