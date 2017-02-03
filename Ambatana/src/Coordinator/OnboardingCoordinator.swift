@@ -12,14 +12,13 @@ protocol OnboardingCoordinatorDelegate: CoordinatorDelegate {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
 }
 
-class OnboardingCoordinator: Coordinator {
+final class OnboardingCoordinator: Coordinator {
+    var child: Coordinator?
+    let viewController: UIViewController
+    weak var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
 
     weak var delegate: OnboardingCoordinatorDelegate?
-
-    var child: Coordinator?
-
-    var viewController: UIViewController
-    var presentedAlertController: UIAlertController?
 
     fileprivate let locationManager: LocationManager
     private var presentedViewControllers: [UIViewController] = []
@@ -27,12 +26,16 @@ class OnboardingCoordinator: Coordinator {
     private let featureFlags: FeatureFlaggeable
 
     convenience init() {
-        self.init(keyValueStorage: KeyValueStorage.sharedInstance, locationManager: Core.locationManager,
+        self.init(locationManager: Core.locationManager,
+                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(keyValueStorage: KeyValueStorage, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
+    init(locationManager: LocationManager,
+         bubbleNotificationManager: BubbleNotificationManager,
+         featureFlags: FeatureFlaggeable) {
         self.locationManager = locationManager
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
 
         viewController = TourBlurBackgroundViewController()
@@ -43,6 +46,7 @@ class OnboardingCoordinator: Coordinator {
         parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
             let signUpVM = SignUpViewModel(appearance: .dark, source: .install)
+            // TODO: ⚠️ assign navigator
             let tourVM = TourLoginViewModel(signUpViewModel: signUpVM, featureFlags: strongSelf.featureFlags)
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(viewModel: tourVM)

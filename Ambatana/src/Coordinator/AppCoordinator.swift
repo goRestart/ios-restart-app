@@ -11,8 +11,13 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-final class AppCoordinator: BaseCoordinator {
+final class AppCoordinator: NSObject, Coordinator {
     var child: Coordinator?
+    var viewController: UIViewController {
+        return tabBarCtl
+    }
+    weak var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
 
     let tabBarCtl: TabBarController
     fileprivate let selectedTab: Variable<Tab>
@@ -31,7 +36,6 @@ final class AppCoordinator: BaseCoordinator {
 
     fileprivate let pushPermissionsManager: PushPermissionsManager
     fileprivate let ratingManager: RatingManager
-    fileprivate let bubbleNotificationManager: BubbleNotificationManager
     fileprivate let tracker: Tracker
     fileprivate let deepLinksRouter: DeepLinksRouter
 
@@ -54,42 +58,45 @@ final class AppCoordinator: BaseCoordinator {
 
     convenience init(configManager: ConfigManager) {
         let tabBarViewModel = TabBarViewModel()
-        let tabBarController = TabBarController(viewModel: tabBarViewModel)
-
-        let sessionManager = Core.sessionManager
-        let keyValueStorage = KeyValueStorage.sharedInstance
-        let pushPermissionsManager = PushPermissionsManager.sharedInstance
-        let ratingManager = RatingManager.sharedInstance
-        let deepLinksRouter = DeepLinksRouter.sharedInstance
-        let bubbleManager = BubbleNotificationManager.sharedInstance
-        let tracker = TrackerProxy.sharedInstance
-
-        let productRepository = Core.productRepository
-        let userRepository = Core.userRepository
-        let myUserRepository = Core.myUserRepository
-        let oldChatRepository = Core.oldChatRepository
-        let chatRepository = Core.chatRepository
-        let commercializerRepository = Core.commercializerRepository
-        let userRatingRepository = Core.userRatingRepository
-        let featureFlags = FeatureFlags.sharedInstance
-        let locationManager = Core.locationManager
-
-        self.init(tabBarController: tabBarController, configManager: configManager, sessionManager: sessionManager,
-                  keyValueStorage: keyValueStorage, pushPermissionsManager: pushPermissionsManager,
-                  ratingManager: ratingManager, deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager,
-                  tracker: tracker, productRepository: productRepository, userRepository: userRepository,
-                  myUserRepository: myUserRepository, oldChatRepository: oldChatRepository, chatRepository: chatRepository,
-                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository,
-                  locationManager: locationManager, featureFlags: featureFlags)
+        self.init(tabBarController: TabBarController(viewModel: TabBarViewModel()),
+                  configManager: configManager,
+                  sessionManager: Core.sessionManager,
+                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  pushPermissionsManager: PushPermissionsManager.sharedInstance,
+                  ratingManager: RatingManager.sharedInstance,
+                  deepLinksRouter: DeepLinksRouter.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance,
+                  productRepository: Core.productRepository,
+                  userRepository: Core.userRepository,
+                  myUserRepository: Core.myUserRepository,
+                  oldChatRepository: Core.oldChatRepository,
+                  chatRepository: Core.chatRepository,
+                  commercializerRepository: Core.commercializerRepository,
+                  userRatingRepository: Core.userRatingRepository,
+                  locationManager: Core.locationManager,
+                  featureFlags: FeatureFlags.sharedInstance)
         tabBarViewModel.navigator = self
     }
 
-    init(tabBarController: TabBarController, configManager: ConfigManager, sessionManager: SessionManager,
-         keyValueStorage: KeyValueStorage, pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager,
-         deepLinksRouter: DeepLinksRouter, bubbleManager: BubbleNotificationManager, tracker: Tracker,
-         productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
-         oldChatRepository: OldChatRepository, chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
+    init(tabBarController: TabBarController,
+         configManager: ConfigManager,
+         sessionManager: SessionManager,
+         bubbleNotificationManager: BubbleNotificationManager,
+         keyValueStorage: KeyValueStorage,
+         pushPermissionsManager: PushPermissionsManager,
+         ratingManager: RatingManager,
+         deepLinksRouter: DeepLinksRouter,
+         tracker: Tracker,
+         productRepository: ProductRepository,
+         userRepository: UserRepository,
+         myUserRepository: MyUserRepository,
+         oldChatRepository: OldChatRepository,
+         chatRepository: ChatRepository,
+         commercializerRepository: CommercializerRepository,
+         userRatingRepository: UserRatingRepository,
+         locationManager: LocationManager,
+         featureFlags: FeatureFlaggeable) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.home)
@@ -106,10 +113,10 @@ final class AppCoordinator: BaseCoordinator {
 
         self.configManager = configManager
         self.sessionManager = sessionManager
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
         self.ratingManager = ratingManager
-        self.bubbleNotificationManager = bubbleManager
         self.tracker = tracker
 
         self.deepLinksRouter = deepLinksRouter
@@ -124,8 +131,8 @@ final class AppCoordinator: BaseCoordinator {
         
         self.featureFlags = featureFlags
         self.locationManager = locationManager
+        super.init()
 
-        super.init(viewController: tabBarCtl, bubbleNotificationManager: bubbleNotificationManager)
         setupTabBarController()
         setupTabCoordinators()
         setupDeepLinkingRx()
@@ -135,6 +142,14 @@ final class AppCoordinator: BaseCoordinator {
 
     func openTab(_ tab: Tab, completion: (() -> ())?) {
         openTab(tab, force: false, completion: completion)
+    }
+
+    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        // Cannot open as cannot have a parent view controller
+    }
+
+    func close(animated: Bool, completion: (() -> Void)?) {
+        // Cannot close
     }
 }
 
@@ -236,6 +251,7 @@ extension AppCoordinator: CoordinatorDelegate {
         child = nil
     }
 }
+
 
 // MARK: - SellCoordinatorDelegate
 
@@ -442,20 +458,29 @@ fileprivate extension AppCoordinator {
         guard navCtl.isAtRootViewController else { return }
         
         let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
-            self?.ifLoggedInAction(.profile) { [weak self] in
+            self?.openLoginIfNeeded(from: .profile) { [weak self] in
                 self?.openTab(.profile) { [weak self] in
                     self?.openChangeLocation()
                 }
             }
-            })
+        })
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
     }
-    
-    func ifLoggedInAction(_ tab: EventParameterLoginSourceValue, action: @escaping () -> ()) {
-        viewController?.ifLoggedInThen(tab, loginStyle: .fullScreen, loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
+
+    func openLoginIfNeeded(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
+        openLoginIfNeeded(from: from, appearance: .light, style: .fullScreen,
+                          preDismissLoginBlock: nil, loggedInAction: loggedInAction, delegate: self)
     }
 }
+
+
+// MARK: - LoginCoordinatorDelegate
+
+extension AppCoordinator: LoginCoordinatorDelegate {}
+
+
+// MARK: - CustomLeanplumPresenter
 
 extension AppCoordinator: CustomLeanplumPresenter {
     
@@ -526,6 +551,7 @@ fileprivate extension AppCoordinator {
     func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> ()) {
         let coordinator = LoginCoordinator(source: source, appearance: .light, style: style,
                                            preDismissLoginBlock: nil, loggedInAction: afterLogInSuccessful)
+        coordinator.delegate = self
         openCoordinator(coordinator: coordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
@@ -715,6 +741,7 @@ fileprivate extension AppCoordinator {
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))
+                // TODO: ⚠️ Move this 3 to constants
                 self?.showBubble(with: data, duration: 3)
             }
         } else {
@@ -728,6 +755,7 @@ fileprivate extension AppCoordinator {
             let data = BubbleNotificationData(tagGroup: conversationId,
                                               text: message,
                                               action: action)
+            // TODO: ⚠️ Move this 3 to constants
             showBubble(with: data, duration: 3)
         }
     }

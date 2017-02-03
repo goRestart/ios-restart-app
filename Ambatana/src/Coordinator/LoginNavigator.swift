@@ -12,6 +12,26 @@ protocol MainSignUpNavigator: class {
     func cancelMainSignUp()
     func closeMainSignUp(myUser: MyUser)
     func closeMainSignUpAndOpenScammerAlert(network: EventParameterAccountNetwork)
-    func openSignUpEmailFromMainSignUp(source: EventParameterLoginSourceValue, collapsedEmailParam: EventParameterCollapsedEmailField?)
-    func openLogInEmailFromMainSignUp(source: EventParameterLoginSourceValue, collapsedEmailParam: EventParameterCollapsedEmailField?)
+    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?)
+    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?)
+
+    func openHelpFromMainSignUp()
+    func openTermsAndConditionsFromMainSignUp()
+    func openPrivacyPolicyFromMainSignUp()
+}
+
+protocol SignUpLogInNavigator: class {
+    func cancelSignUpLogIn()
+    func closeSignUpLogIn(myUser: MyUser)
+    func closeSignUpLogInAndOpenScammerAlert(network: EventParameterAccountNetwork)
+    func openRecaptcha(transparentMode: Bool)
+
+    func openRememberPasswordFromSignUpLogIn(email: String)
+    func openHelpFromSignUpLogin()
+    func openTermsAndConditionsFromSignUpLogin()
+    func openPrivacyPolicyFromSignUpLogin()
+}
+
+protocol RememberPasswordNavigator: class {
+    func closeRememberPassword()
 }

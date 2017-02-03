@@ -9,9 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-protocol PostProductViewModelDelegate: BaseViewModelDelegate {
-    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: @escaping () -> Void)
-}
+protocol PostProductViewModelDelegate: BaseViewModelDelegate {}
 
 enum PostingSource {
     case tabBar
@@ -191,10 +189,10 @@ fileprivate extension PostProductViewModel {
             navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: true,
                                                            trackingInfo: trackingInfo)
         } else if let images = pendingToUploadImages {
-            delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
-                guard let product = self?.buildProduct(isFreePosting:false) else { return }
+            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: { [weak self] in
+                guard let product = self?.buildProduct(isFreePosting: false) else { return }
                 self?.navigator?.closePostProductAndPostLater(product, images: images, trackingInfo: trackingInfo)
-                })
+            })
         } else {
             navigator?.cancelPostProduct()
         }

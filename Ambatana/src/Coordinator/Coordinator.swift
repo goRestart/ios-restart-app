@@ -16,9 +16,22 @@ protocol Coordinator: CoordinatorDelegate {
     var child: Coordinator? { get set }
     var viewController: UIViewController { get }
     weak var presentedAlertController: UIAlertController? { get set }
+    var bubbleNotificationManager: BubbleNotificationManager { get }
 
     func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?)
     func close(animated: Bool, completion: (() -> Void)?)
+}
+
+
+// MARK: - Bubble
+
+extension Coordinator {
+    // TODO: ⚠️ Warning using window not viewcontroller!
+    func showBubble(with data: BubbleNotificationData, duration: TimeInterval) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        guard let window = appDelegate.window else { return }
+        bubbleNotificationManager.showBubble(data, duration: duration, view: window)
+    }
 }
 
 
@@ -35,10 +48,24 @@ extension Coordinator {
 
 extension Coordinator {
     func openCoordinator(coordinator: Coordinator, parent: UIViewController, animated: Bool,
-                                     completion: (() -> Void)?) {
+                         completion: (() -> Void)?) {
         guard child == nil else { return }
         child = coordinator
         coordinator.open(parent: parent, animated: animated, completion: completion)
+    }
+}
+
+
+// MARK: - Login
+
+extension Coordinator {
+    func openLoginIfNeeded(from source: EventParameterLoginSourceValue, appearance: LoginAppearance, style: LoginStyle,
+                           preDismissLoginBlock: (() -> Void)?, loggedInAction: @escaping (() -> Void),
+                           delegate: LoginCoordinatorDelegate?) {
+        let coordinator = LoginCoordinator(source: source, appearance: appearance, style: style,
+                                           preDismissLoginBlock: preDismissLoginBlock, loggedInAction: loggedInAction)
+        coordinator.delegate = delegate
+        openCoordinator(coordinator: coordinator, parent: viewController, animated: true, completion: nil)
     }
 }
 

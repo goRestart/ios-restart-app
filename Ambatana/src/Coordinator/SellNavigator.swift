@@ -14,6 +14,7 @@ protocol PostProductNavigator: class {
     func closePostProductAndPostInBackground(_ product: Product, images: [File], showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo)
     func closePostProductAndPostLater(_ product: Product, images: [UIImage], trackingInfo: PostProductTrackingInfo)
+    func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }
 
 protocol ProductPostedNavigator: class {

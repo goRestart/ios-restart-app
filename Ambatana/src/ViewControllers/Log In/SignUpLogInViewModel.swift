@@ -18,9 +18,6 @@ enum LoginActionType: Int{
 protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSendButtonEnabledState(_ enabled: Bool)
     func vmUpdateShowPasswordVisible(_ visible: Bool)
-    func vmFinish(completedAccess completed: Bool)
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker)
-    func vmShowRecaptcha(_ viewModel: RecaptchaViewModel)
     func vmShowHiddenPasswordAlert()
 }
 
@@ -35,6 +32,7 @@ class SignUpLogInViewModel: BaseViewModel {
     let locale: Locale
 
     weak var delegate: SignUpLogInViewModelDelegate?
+    weak var navigator: SignUpLogInNavigator?
     
     // Action Type
     var currentActionType : LoginActionType {
@@ -170,7 +168,27 @@ class SignUpLogInViewModel: BaseViewModel {
     
     
     // MARK: - Public methods
-    
+
+    func cancel() {
+        navigator?.cancelSignUpLogIn()
+    }
+
+    func openHelp() {
+        navigator?.openHelpFromSignUpLogin()
+    }
+
+    func openRememberPassword() {
+        navigator?.openRememberPasswordFromSignUpLogIn(email: email)
+    }
+
+    func open(url: URL) {
+        if url == termsAndConditionsURL {
+            navigator?.openTermsAndConditionsFromSignUpLogin()
+        } else if url == privacyURL {
+            navigator?.openPrivacyPolicyFromSignUpLogin()
+        }
+    }
+
     func erasePassword() {
         password = ""
     }
@@ -213,7 +231,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                  collapsedEmail: strongSelf.collapsedEmailParam))
 
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                        self?.delegate?.vmFinish(completedAccess: true)
+                        self?.navigator?.closeSignUpLogIn(myUser: user)
                     }
                 } else if let sessionManagerError = signUpResult.error {
                     switch sessionManagerError {
@@ -222,14 +240,14 @@ class SignUpLogInViewModel: BaseViewModel {
                         case .userExists:
                             strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
                                 guard let strongSelf = self else { return }
-                                if let _ = loginResult.value {
+                                if let myUser = loginResult.value {
                                     let rememberedAccount = strongSelf.previousEmail.value != nil
                                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
                                                                                rememberedAccount: rememberedAccount,
                                                                                collapsedEmail: strongSelf.collapsedEmailParam)
                                     self?.tracker.trackEvent(trackerEvent)
-                                    strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                                        self?.delegate?.vmFinish(completedAccess: true)
+                                    self?.delegate?.vmHideLoading(nil) { [weak self] in
+                                        self?.navigator?.closeSignUpLogIn(myUser: myUser)
                                     }
                                 } else if let _ = loginResult.error {
                                     strongSelf.processSignUpSessionError(sessionManagerError)
@@ -285,8 +303,8 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                collapsedEmail: strongSelf.collapsedEmailParam)
                     self?.tracker.trackEvent(trackerEvent)
 
-                    strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                        self?.delegate?.vmFinish(completedAccess: true)
+                    self?.delegate?.vmHideLoading(nil) { [weak self] in
+                        self?.navigator?.closeSignUpLogIn(myUser: user)
                     }
                 } else if let sessionManagerError = loginResult.error {
                     strongSelf.processLoginSessionError(sessionManagerError)
@@ -400,8 +418,7 @@ class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.signUpSendErrorInvalidEmail
         case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
-                let vm = RecaptchaViewModel(transparentMode: self?.featureFlags.captchaTransparent ?? false)
-                self?.delegate?.vmShowRecaptcha(vm)
+                self?.navigator?.openRecaptcha(transparentMode: self?.featureFlags.captchaTransparent ?? false)
             }
             return
         case .scammer:
@@ -455,7 +472,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.delegate?.vmFinish(completedAccess: true)
+                self?.navigator?.closeSignUpLogIn(myUser: myUser)
             }
         case .cancelled:
             delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
@@ -493,13 +510,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
-        guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
-             installation: installationRepository.installation, moderation: true) else {
-                delegate?.vmFinish(completedAccess: false)
-                return
-        }
-        
-        delegate?.vmFinishAndShowScammerAlert(url, network: network, tracker: tracker)
+        navigator?.closeSignUpLogInAndOpenScammerAlert(network: network)
     }
     
     

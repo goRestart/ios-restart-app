@@ -633,12 +633,6 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
-    func vmRequestLogin(_ loggedInAction: @escaping () -> Void) {
-        dismissKeyboard(false)
-        ifLoggedInThen(.askQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
-                       loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
-    }
-
     func vmLoadStickersTooltipWithText(_ text: NSAttributedString) {
         guard stickersTooltip == nil else { return }
 

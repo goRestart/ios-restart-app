@@ -279,8 +279,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
             showError(actualError)
             trackValidationFailedWithError(actualError)
         } else {
-            let loggedInAction: () -> Void = { [weak self] in self?.updateProduct() }
-            delegate?.ifLoggedInThen(.sell, loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
+            updateProduct()
         }
     }
 

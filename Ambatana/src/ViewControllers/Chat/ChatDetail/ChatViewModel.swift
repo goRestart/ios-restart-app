@@ -27,7 +27,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowMessage(_ message: String, completion: (() -> ())?)
-    func vmRequestLogin(_ loggedInAction: @escaping () -> Void)
     func vmLoadStickersTooltipWithText(_ text: NSAttributedString)
 }
 
@@ -1055,7 +1054,8 @@ fileprivate extension ChatViewModel {
         // Configure login + send actions
         preSendMessageCompletion = { [weak self] (text: String, type: ChatMessageType) in
             self?.delegate?.vmHideKeyboard(false)
-            self?.delegate?.vmRequestLogin() { [weak self] in
+
+            self?.navigator?.openLoginIfNeededFromChatDetail(from: .askQuestion, loggedInAction: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.preSendMessageCompletion = nil
                 guard sellerId != strongSelf.myUserRepository.myUser?.objectId else {
@@ -1072,7 +1072,7 @@ fileprivate extension ChatViewModel {
                     self?.sendMessage(text, type: type)
                 }
                 self?.syncConversation(productId, sellerId: sellerId)
-            }
+            })
         }
     }
 }

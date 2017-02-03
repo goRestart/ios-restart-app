@@ -239,7 +239,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         let imgButton = passwordTextField.isSecureTextEntry ?
             UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
         showPasswordButton.setImage(imgButton, for: .normal)
-        
+
+        // TODO: ⚠️ i should apply this in new vc
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
         passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
@@ -252,21 +253,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     }
     
     @IBAction func forgotPasswordButtonPressed(_ sender: AnyObject) {
-        let vc = RememberPasswordViewController(source: viewModel.loginSource, email: viewModel.email,
-                                                appearance: appearance)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func helpButtonPressed() {
-        let vc = HelpViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.openRememberPassword()
     }
 
     func closeButtonPressed() {
-        if isRootViewController() {
-            willCloseAction?()
-            dismiss(animated: true, completion: nil)
-        }
+        viewModel.cancel()
+    }
+
+    func helpButtonPressed() {
+        viewModel.openHelp()
     }
 
 
@@ -348,8 +343,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     
     
     // MARK: - UITextViewDelegate
+
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
-        openInternalUrl(url)
+        viewModel.open(url: url)
         return false
     }
 
@@ -622,45 +618,45 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
         showPasswordButton.isHidden = !visible
     }
 
-    func vmFinish(completedAccess completed: Bool) {
-        if completed {
-            preDismissAction?()
-        }
-        dismiss(animated: true, completion: completed ? afterLoginAction : nil)
-    }
-
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
-        let parentController = presentingViewController
-        let contact = UIAction(
-            interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
-            action: {
-                tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
-                parentController?.openInternalUrl(contactUrl)
-        })
-        let keepBrowsing = UIAction(
-            interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium, withBorder: false)),
-            action: {
-                tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
-        })
-        dismiss(animated: false) {
-            tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
-            parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
-                                                 text: LGLocalizedString.loginScammerAlertMessage,
-                                                 alertType: .iconAlert(icon: UIImage(named: "ic_moderation_alert")),
-                                                 buttonsLayout: .vertical, actions:  [contact, keepBrowsing])
-        }
-    }
-
-    func vmShowRecaptcha(_ viewModel: RecaptchaViewModel) {
-        viewModel.navigator = self
-
-        let snapshot: UIImage? = viewModel.transparentMode ? presentingViewController?.view.takeSnapshot() : nil
-        let vc = RecaptchaViewController(viewModel: viewModel, backgroundImage: snapshot)
-        if viewModel.transparentMode {
-            vc.modalTransitionStyle = .crossDissolve
-        }
-        present(vc, animated: true, completion: nil)
-    }
+//    func vmFinish(completedAccess completed: Bool) {
+//        if completed {
+//            preDismissAction?()
+//        }
+//        dismiss(animated: true, completion: completed ? afterLoginAction : nil)
+//    }
+//
+//    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
+//        let parentController = presentingViewController
+//        let contact = UIAction(
+//            interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
+//            action: {
+//                tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
+//                parentController?.openInternalUrl(contactUrl)
+//        })
+//        let keepBrowsing = UIAction(
+//            interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium, withBorder: false)),
+//            action: {
+//                tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+//        })
+//        dismiss(animated: false) {
+//            tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
+//            parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
+//                                                 text: LGLocalizedString.loginScammerAlertMessage,
+//                                                 alertType: .iconAlert(icon: UIImage(named: "ic_moderation_alert")),
+//                                                 buttonsLayout: .vertical, actions:  [contact, keepBrowsing])
+//        }
+//    }
+//
+//    func vmShowRecaptcha(_ viewModel: RecaptchaViewModel) {
+//        viewModel.navigator = self
+//
+//        let snapshot: UIImage? = viewModel.transparentMode ? presentingViewController?.view.takeSnapshot() : nil
+//        let vc = RecaptchaViewController(viewModel: viewModel, backgroundImage: snapshot)
+//        if viewModel.transparentMode {
+//            vc.modalTransitionStyle = .crossDissolve
+//        }
+//        present(vc, animated: true, completion: nil)
+//    }
 
     func vmShowHiddenPasswordAlert() {
         let alertController = UIAlertController(title: "🔑", message: "Speak friend and enter", preferredStyle: .alert)
@@ -680,6 +676,7 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
 
 // MARK: - Recaptcha navigator
 
+// TODO: ⚠️
 extension SignUpLogInViewController: RecaptchaNavigator {
     func recaptchaClose() {
         presentedViewController?.dismiss(animated: true, completion: nil)

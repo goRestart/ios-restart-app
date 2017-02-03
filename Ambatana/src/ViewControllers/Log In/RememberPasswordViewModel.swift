@@ -9,11 +9,8 @@
 import LGCoreKit
 import Result
 
-protocol RememberPasswordViewModelDelegate: class {
+protocol RememberPasswordViewModelDelegate: BaseViewModelDelegate {
     func viewModel(_ viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModelDidStartResettingPassword(_ viewModel: RememberPasswordViewModel)
-    func viewModelDidFinishResetPassword(_ viewModel: RememberPasswordViewModel)
-    func viewModel(_ viewModel: RememberPasswordViewModel, didFailResetPassword error: String)
 }
 
 
@@ -23,6 +20,7 @@ class RememberPasswordViewModel: BaseViewModel {
     let loginSource: EventParameterLoginSourceValue
 
     weak var delegate: RememberPasswordViewModelDelegate?
+    weak var navigator: RememberPasswordNavigator?
     
     // Input
     var email: String {
@@ -59,16 +57,18 @@ class RememberPasswordViewModel: BaseViewModel {
 
     func resetPassword() {
         if !email.isEmail() {
-            delegate?.viewModel(self, didFailResetPassword: LGLocalizedString.resetPasswordSendErrorInvalidEmail)
-        }
-        else {
-            delegate?.viewModelDidStartResettingPassword(self)
+            delegate?.vmShowAutoFadingMessage(LGLocalizedString.resetPasswordSendErrorInvalidEmail, completion: nil)
+        } else {
+            delegate?.vmShowLoading(nil)
             sessionManager.recoverPassword(email) { [weak self] recoverPwdResult in
                 guard let strongSelf = self else { return }
 
                 switch (recoverPwdResult) {
                 case .success:
-                    strongSelf.delegate?.viewModelDidFinishResetPassword(strongSelf)
+                    strongSelf.delegate?.vmHideLoading(LGLocalizedString.resetPasswordSendOk(strongSelf.email),
+                                                       afterMessageCompletion: {
+                        self?.navigator?.closeRememberPassword()
+                    })
                 case .failure(let error):
                     var errorMessage: String?
                     var errorDescription: EventParameterLoginError?
@@ -116,7 +116,7 @@ class RememberPasswordViewModel: BaseViewModel {
                     }
 
                     if let errorMessage = errorMessage {
-                        strongSelf.delegate?.viewModel(strongSelf, didFailResetPassword: errorMessage)
+                        strongSelf.delegate?.vmHideLoading(errorMessage, afterMessageCompletion: nil)
                     }
                 }
             }

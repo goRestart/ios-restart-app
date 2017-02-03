@@ -931,7 +931,7 @@ fileprivate extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .enabled
             }
             if featureFlags.favoriteWithBubbleToChat {
-                navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
+                navigator?.showProductFavoriteBubble(with: favoriteBubbleNotificationData())
             }
         }
     }
@@ -1081,14 +1081,12 @@ extension ProductViewModel {
         if Core.sessionManager.loggedIn {
             action()
         } else {
-            let signUpVM = SignUpViewModel(appearance: .light, source: source)
-            delegate?.vmOpenMainSignUp(signUpVM, afterLoginAction: { action() })
+            navigator?.openLoginIfNeededFromProductDetail(from: source, loggedInAction: action)
         }
     }
 
     fileprivate func ifLoggedInRunActionElseOpenChatSignup(_ action: @escaping () -> ()) {
-        delegate?.ifLoggedInThen(.directSticker, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
-                                 loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
+        navigator?.openLoginIfNeededFromProductDetail(from: .directSticker, loggedInAction: action)
     }
 }
 

@@ -166,14 +166,6 @@ extension TourLoginViewModel: SignUpViewModelDelegate {
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
     }
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {
-        delegate?.ifLoggedInThen(source, loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: afterLogInAction)
-    }
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {
-        delegate?.ifLoggedInThen(source, loginStyle: loginStyle, loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: afterLogInAction)
-    }
     func vmOpenInternalURL(_ url: URL) {
         delegate?.vmOpenInternalURL(url)
     }

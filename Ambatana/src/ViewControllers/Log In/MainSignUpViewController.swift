@@ -105,6 +105,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         lines.append(dividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         lines.append(firstDividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
+
     
     // MARK: - Actions
     
@@ -113,8 +114,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     }
     
     func helpButtonPressed() {
-        let vc = HelpViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.openHelp()
     }
      
     @IBAction func connectFBButtonPressed(_ sender: AnyObject) {
@@ -133,21 +133,16 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         viewModel.logInButtonPressed()
     }
     
-    @IBAction func contactUsButtonPressed() {
-        let vc = HelpViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
     
     // MARK: UITextViewDelegate
     
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
-        openInternalUrl(url)
+        viewModel.open(url: url)
         return false
     }
-    
+
+
     // MARK: - Private methods
-    
     // MARK: > UI
     
     private func setupUI() {
@@ -239,7 +234,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 extension MainSignUpViewController: SignUpViewModelDelegate {
 
     func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
-        let vc = SignUpLogInViewController(viewModel: viewModel)
+        let vc = SignUpLogInViewController(viewModel: viewModel, appearance: .dark)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }

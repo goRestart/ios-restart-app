@@ -1295,8 +1295,7 @@ fileprivate extension OldChatViewModel {
          'visible' while login screen is there */
         autoKeyboardEnabled = false
         delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
-        delegate?.ifLoggedInThen(.askQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
-                                 loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
+        navigator?.openLoginIfNeededFromChatDetail(from: .askQuestion, loggedInAction: completion)
     }
 }
 

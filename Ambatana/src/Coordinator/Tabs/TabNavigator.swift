@@ -33,7 +33,7 @@ enum BackAction {
     case expressChat(products: [Product])
 }
 
-protocol TabNavigator: BaseNavigator {
+protocol TabNavigator: class {
     func openSell(_ source: PostingSource)
     func openUser(_ data: UserDetailData)
     func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
@@ -54,6 +54,8 @@ protocol ProductDetailNavigator: TabNavigator {
     func closeAfterDelete()
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String)
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct)
+    func showProductFavoriteBubble(with data: BubbleNotificationData)
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }
 
 protocol SimpleProductsNavigator: class {
@@ -65,4 +67,5 @@ protocol SimpleProductsNavigator: class {
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
     func openExpressChat(_ products: [Product], sourceProductId: String, manualOpen: Bool)
+    func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }

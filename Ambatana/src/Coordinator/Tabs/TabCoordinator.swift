@@ -13,8 +13,13 @@ protocol TabCoordinatorDelegate: class {
     func tabCoordinator(_ tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
 }
 
-class TabCoordinator: BaseCoordinator {
+class TabCoordinator: NSObject, Coordinator {
     var child: Coordinator?
+    var viewController: UIViewController {
+        return navigationController
+    }
+    weak var presentedAlertController: UIAlertController?
+    var bubbleNotificationManager: BubbleNotificationManager
 
     let rootViewController: UIViewController
     let navigationController: UINavigationController
@@ -25,13 +30,13 @@ class TabCoordinator: BaseCoordinator {
     let oldChatRepository: OldChatRepository
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorage
-    let bubbleNotificationManager: BubbleNotificationManager
     let tracker: Tracker
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
+
 
     // MARK: - Lifecycle
 
@@ -51,10 +56,17 @@ class TabCoordinator: BaseCoordinator {
         self.rootViewController = rootViewController
         self.featureFlags = featureFlags
         self.navigationController = UINavigationController(rootViewController: rootViewController)
-
-        super.init(viewController: rootViewController, bubbleNotificationManager: bubbleNotificationManager)
+        super.init()
+        
         self.navigationController.delegate = self
     }
+
+
+    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        // TODO: ⚠️
+    }
+
+    func close(animated: Bool, completion: (() -> Void)?) {}
 
     func isShowingConversation(_ data: ConversationData) -> Bool {
         if let convDataDisplayer = navigationController.viewControllers.last as? ConversationDataDisplayer {
@@ -63,13 +75,15 @@ class TabCoordinator: BaseCoordinator {
         return false
     }
 
-    func openCoordinator(coordinator: Coordinator, parent: UIViewController, animated: Bool,
-                                     completion: (() -> Void)?) {
-        guard child == nil else { return }
-        child = coordinator
-        coordinator.open(parent: parent, animated: animated, completion: completion)
+    func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
+        return !viewController.isRootViewController()
     }
 }
+
+
+// MARK: - LoginCoordinatorDelegate
+
+extension TabCoordinator: LoginCoordinatorDelegate {}
 
 
 // MARK: - TabNavigator
@@ -422,6 +436,16 @@ extension TabCoordinator: ProductDetailNavigator {
         let payBumpUpVC = BumpUpPayViewController(viewModel: payBumpUpVM)
         navigationController.present(payBumpUpVC, animated: true, completion: nil)
     }
+
+    func showProductFavoriteBubble(with data: BubbleNotificationData) {
+        // TODO: ⚠️ Move 5 to constants
+        showBubble(with: data, duration: 5)
+    }
+
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
+        openLoginIfNeeded(from: from, appearance: .light, style: .fullScreen,
+                          preDismissLoginBlock: nil, loggedInAction: loggedInAction, delegate: self)
+    }
 }
 
 
@@ -446,14 +470,17 @@ extension TabCoordinator: ChatDetailNavigator {
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
+
+    func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
+        openLoginIfNeeded(from: from, appearance: .light, style: .popup(LGLocalizedString.chatLoginPopupText),
+                          preDismissLoginBlock: nil, loggedInAction: loggedInAction, delegate: self)
+    }
 }
 
 
 // MARK: - UINavigationControllerDelegate
 
 extension TabCoordinator: UINavigationControllerDelegate {
-
-
     func navigationController(_ navigationController: UINavigationController,
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
@@ -481,10 +508,6 @@ extension TabCoordinator: UINavigationControllerDelegate {
         tabCoordinatorDelegate?.tabCoordinator(self,
                                                setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
                                                animated: true)
-    }
-
-    func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
-        return !viewController.isRootViewController()
     }
 }
 

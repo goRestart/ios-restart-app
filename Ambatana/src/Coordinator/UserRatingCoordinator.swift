@@ -13,22 +13,29 @@ protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
 
 final class UserRatingCoordinator: Coordinator {
     var child: Coordinator?
+    let viewController: UIViewController
+    weak var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
 
     private var parentViewController: UIViewController?
-    var viewController: UIViewController
-    var presentedAlertController: UIAlertController?
 
     weak var delegate: UserRatingCoordinatorDelegate?
 
 
     // MARK: - Lifecycle
 
-    init(source: RateUserSource, data: RateUserData) {
+    convenience init(source: RateUserSource, data: RateUserData) {
+        let bubbleNotificationManager = BubbleNotificationManager.sharedInstance
+        self.init(source: source, data: data, bubbleNotificationManager: bubbleNotificationManager)
+    }
+
+    init(source: RateUserSource, data: RateUserData, bubbleNotificationManager: BubbleNotificationManager) {
         let userRatingVM = RateUserViewModel(source: source, data: data)
         let userRatingVC = RateUserViewController(viewModel: userRatingVM)
         let navC = UINavigationController(rootViewController: userRatingVC)
         navC.modalPresentationStyle = .overCurrentContext
         self.viewController = navC
+        self.bubbleNotificationManager = bubbleNotificationManager
 
         userRatingVM.navigator = self
     }

@@ -10,25 +10,34 @@ import Foundation
 
 final class ChangePasswordCoordinator: Coordinator {
     var child: Coordinator?
-    
+    let viewController: UIViewController
+    weak var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
+
     private var parentViewController: UIViewController?
-    var viewController: UIViewController
-    var presentedAlertController: UIAlertController?
-    
+
     weak var delegate: CoordinatorDelegate?
     
     
     // MARK: - Lifecycle
-    
-    init(token: String) {
+
+    convenience init(token: String) {
+        self.init(token: token,
+                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance)
+    }
+
+    init(token: String,
+         bubbleNotificationManager: BubbleNotificationManager) {
         let changePasswordVM = ChangePasswordViewModel(token: token)
         let changePasswordVC = ChangePasswordViewController(viewModel: changePasswordVM)
         let navC = UINavigationController(rootViewController: changePasswordVC)
         navC.modalPresentationStyle = .overCurrentContext
         self.viewController = navC
-        
+        self.bubbleNotificationManager = bubbleNotificationManager
+
         changePasswordVM.navigator = self
     }
+
     
     func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
