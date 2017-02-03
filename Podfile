@@ -29,7 +29,7 @@ def shared_pods
 
     # Tracking
     pod "Amplitude-iOS",        "~> 3.8.5"  # Obj-c
-    pod "AppsFlyerFramework",   "~> 4.6.3" # Obj-c
+    pod "AppsFlyerFramework",   "4.6.3" # Obj-c
     pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Obj-c
 
     # letgo Core
