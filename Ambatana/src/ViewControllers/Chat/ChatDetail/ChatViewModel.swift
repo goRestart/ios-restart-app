@@ -422,8 +422,21 @@ class ChatViewModel: BaseViewModel {
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
 
+        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
+            guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
+            self?.userRepository.show(interlocutorId) { [weak self] result in
+                guard let strongSelf = self else { return }
+                guard let user = result.value else { return }
+                strongSelf.interlocutor = user
+                if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
+                    strongSelf.messages.append(userInfoMessage)
+                }
+            }
+        }.addDisposableTo(disposeBag)
+
         setupChatEventsRx()
     }
+
 
     func updateMessagesCounts(_ changeInMessages: CollectionChange<ChatViewMessage>) {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -1279,26 +1292,6 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if chatStatus.value != .productSold {
             shouldAskProductSold = true
         }
-    }
-}
-
-
-// MARK: - UserInfo
-
-fileprivate extension ChatViewModel {
-
-    func setupUserInfoRxBindings() {
-        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
-            guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
-            self?.userRepository.show(interlocutorId) { [weak self] result in
-                guard let strongSelf = self else { return }
-                guard let user = result.value else { return }
-                strongSelf.interlocutor = user
-                if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
-                    strongSelf.messages.append(userInfoMessage)
-                }
-            }
-        }.addDisposableTo(disposeBag)
     }
 }
 
