@@ -126,7 +126,9 @@ extension UserRatingCoordinator: RateUserNavigator {
     }
 
     func rateUserSkip() {
-
+        close(animated: true) { [weak self] in
+            self?.delegate?.userRatingCoordinatorDidFinish(withRating: nil, ratedUserId: self?.ratedUserId)
+        }
     }
 
     func rateUserFinish(withRating rating: Int) {

@@ -36,7 +36,10 @@ class RateBuyersViewController: BaseViewController {
     private func setupUI() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
+        mainView.tableView.rowHeight = PossibleBuyerCell.cellHeight
 
+        let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
+        mainView.tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
     }
 }
 
@@ -50,14 +53,14 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
-//        guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PassiveBuyerCell.reusableID,
-//                                                            for: indexPath) as? PassiveBuyerCell else { return UITableViewCell() }
-//        let image = viewModel.buyerImageAtIndex(indexPath.row)
-//        let name = viewModel.buyerNameAtIndex(indexPath.row)
-//
-//        buyerCell.setupWith(image, name: name, firstCell: indexPath.row == 0,
-//                            lastCell: indexPath.row == viewModel.buyersCount - 1)
-//        return buyerCell
+        guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PossibleBuyerCell.reusableID,
+                                                            for: indexPath) as? PossibleBuyerCell else { return UITableViewCell() }
+        let image = viewModel.imageAt(index: indexPath.row)
+        let name = viewModel.nameAt(index: indexPath.row)
+
+        buyerCell.setupWith(image, name: name, firstCell: indexPath.row == 0,
+                            lastCell: indexPath.row == viewModel.buyersCount - 1)
+        return buyerCell
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
