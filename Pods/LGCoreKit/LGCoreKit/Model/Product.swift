@@ -31,6 +31,9 @@ public protocol Product: BaseModel, Priceable {
 
     var updatedAt : Date? { get }
     var createdAt : Date? { get }
+
+    var featured: Bool? { get }
+
     var favorite: Bool { get }          // Default value false
 }
 

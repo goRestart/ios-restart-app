@@ -38,14 +38,17 @@ struct LGProduct: Product {
 
     var user: UserProduct
 
+    let featured: Bool?
+
     // This parameters is not included in the API, we set a default value that must be changed if needed once 
     // the object is created after the decoding.
     var favorite: Bool = false
 
+
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
          price: ProductPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ProductCategory, status: ProductStatus, thumbnail: File?,
-         thumbnailSize: LGSize?, images: [File], user: UserProduct) {
+         thumbnailSize: LGSize?, images: [File], user: UserProduct, featured: Bool?) {
         self.objectId = objectId
         self.updatedAt = updatedAt
         self.createdAt = createdAt
@@ -63,6 +66,7 @@ struct LGProduct: Product {
         self.thumbnailSize = thumbnailSize
         self.images = images
         self.user = user
+        self.featured = featured ?? false
         self.favorite = false
     }
     
@@ -77,14 +81,14 @@ struct LGProduct: Product {
                   nameAuto: nil, descr: nil, price: chatProduct.price, currency: chatProduct.currency, location: location,
                   postalAddress: postalAddress, languageCode: nil, category: category,
                   status: chatProduct.status, thumbnail: chatProduct.image, thumbnailSize: nil,
-                  images: images, user: user)
+                  images: images, user: user, featured: nil)
     }
     
     static func productWithId(_ objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?,
                               nameAuto: String?, descr: String?, price: Double?, priceFlag: ProductPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
-                              user: LGUserProduct) -> LGProduct {
+                              user: LGUserProduct, featured: Bool?) -> LGProduct {
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ProductCategory(rawValue: category) ?? .other
         let actualStatus = ProductStatus(rawValue: status) ?? .pending
@@ -96,7 +100,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: productPrice, currency: actualCurrency, location: location,
                          postalAddress: postalAddress, languageCode: languageCode, category: actualCategory,
                          status: actualStatus, thumbnail: actualThumbnail, thumbnailSize: thumbnailSize,
-                         images: actualImages, user: user)
+                         images: actualImages, user: user, featured: featured)
     }
     
     // MARK: Updates
@@ -106,7 +110,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(name: String?) -> LGProduct {
@@ -114,7 +118,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(descr: String?) -> LGProduct {
@@ -122,7 +126,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(price: ProductPrice) -> LGProduct {
@@ -130,7 +134,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(currency: Currency) -> LGProduct {
@@ -138,7 +142,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(location: LGLocationCoordinates2D) -> LGProduct {
@@ -146,7 +150,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(postalAddress: PostalAddress) -> LGProduct {
@@ -154,7 +158,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(languageCode: String?) -> LGProduct {
@@ -162,7 +166,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(category: ProductCategory) -> LGProduct {
@@ -170,7 +174,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(status: ProductStatus) -> LGProduct {
@@ -178,7 +182,7 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
     func updating(images: [File]) -> LGProduct {
@@ -186,7 +190,15 @@ struct LGProduct: Product {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
+    }
+
+    func updating(featured: Bool) -> LGProduct {
+        return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                         location: location, postalAddress: postalAddress, languageCode: languageCode,
+                         category: category, status: status, thumbnail: thumbnail,
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
 }
 
@@ -198,7 +210,7 @@ extension LGProduct {
                   currency: product.currency, location: product.location, postalAddress: product.postalAddress,
                   languageCode: product.languageCode, category: product.category, status: product.status,
                   thumbnail: product.thumbnail, thumbnailSize: product.thumbnailSize,
-                  images: product.images, user: product.user)
+                  images: product.images, user: product.user, featured: product.featured)
         self.favorite = product.favorite
     }
 }
@@ -207,7 +219,7 @@ extension LGProduct {
 extension LGProduct: CustomStringConvertible {
     var description: String {
 
-        return "name: \(name); nameAuto: \(nameAuto); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);"
+        return "name: \(name); nameAuto: \(nameAuto); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); featured: \(featured); descr: \(descr);"
     }
 }
 
@@ -256,7 +268,8 @@ extension LGProduct : Decodable {
 			},
 			"created_at": "2016-04-11T12:49:52+00:00",
 			"updated_at": "2016-04-11T13:13:23+00:00",
-			"image_information": "black fitbit wireless activity wristband"
+			"image_information": "black fitbit wireless activity wristband",
+            "featured": false
 		}
     */
     static func decode(_ j: JSON) -> Decoded<LGProduct> {
@@ -280,6 +293,7 @@ extension LGProduct : Decodable {
         let result = init4  <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
                             <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
                             <*> j <| "owner"                                        // user : LGUserProduct?
+                            <*> j <|? "featured"                                    // featured : Bool
 
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGProduct parse error: \(error)")
