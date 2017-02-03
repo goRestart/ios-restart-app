@@ -123,6 +123,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_processing_priced_text", comment: "")
 	}
 
+	static var bumpUpProductCellFeaturedStripe: String {
+		return NSLocalizedString("bump_up_product_cell_featured_stripe", comment: "")
+	}
+
 	static var bumpUpViewFreeTitle: String {
 		return NSLocalizedString("bump_up_view_free_title", comment: "")
 	}

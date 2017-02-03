@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una visibilità extra.";
 "bump_up_processing_free_text" = "Elaborazione promozione...";
 "bump_up_processing_priced_text" = "Elaborazione pagamento...";
+"bump_up_product_cell_featured_stripe" = "In evidenza";
 "bump_up_view_free_subtitle" = "Più condivisioni corrispondono a una maggiore visibilità per il tuo annuncio.";
 "bump_up_view_free_title" = "PROMUOVI IL TUO ANNUNCIO";
 "bump_up_view_pay_bumps_left_text" = "Puoi promuovere il tuo prodotto ancora per %i volte.";

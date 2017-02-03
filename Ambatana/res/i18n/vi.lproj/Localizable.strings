@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Đẩy lên! Sản phẩm của bạn hiện đã dễ thấy hơn.";
 "bump_up_processing_free_text" = "Đang tiến hành đẩy lên...";
 "bump_up_processing_priced_text" = "Đang tiến hành thanh toán...";
+"bump_up_product_cell_featured_stripe" = "Tiêu biểu";
 "bump_up_view_free_subtitle" = "Càng được chia sẻ nhiều, bài đăng của bạn càng dễ thấy.";
 "bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
 "bump_up_view_pay_bumps_left_text" = "Bạn còn %i lượt đẩy lên.";

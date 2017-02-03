@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "¡Destacado! Ahora tu producto tiene más visibilidad.";
 "bump_up_processing_free_text" = "Procesando destacado...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
+"bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
 "bump_up_view_free_title" = "DESTACA TU ANUNCIO";
 "bump_up_view_pay_bumps_left_text" = "Puedes destacar tu anuncio %i veces más.";

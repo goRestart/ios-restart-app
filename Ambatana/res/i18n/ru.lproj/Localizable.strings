@@ -27,6 +27,7 @@
 "bump_up_pay_success" = "Поднято! Теперь ваш товар лучше виден.";
 "bump_up_processing_free_text" = "Обрабатываем продвижение объявления...";
 "bump_up_processing_priced_text" = "Обрабатываем платеж...";
+"bump_up_product_cell_featured_stripe" = "Популярное";
 "bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
 "bump_up_view_pay_bumps_left_text" = "У вас осталось %i продвижений.";
