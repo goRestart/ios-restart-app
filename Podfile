@@ -9,31 +9,31 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-    pod "AlamofireImage",       "~> 3.2.0"
-    pod "Argo",                 "~> 4.1.1"
+    pod "AlamofireImage",       "3.2.0"
+    pod "Argo",                 "4.1.2"
 
-    pod "FBSDKLoginKit",        "~> 4.15.1" # Obj-c
-    pod "FBSDKCoreKit",         "~> 4.15.1" # Obj-c
-    pod "FBSDKShareKit",		"~> 4.15.1" # Obj-c
+    pod "FBSDKLoginKit",        "4.15.1" # Obj-c
+    pod "FBSDKCoreKit",         "4.15.1" # Obj-c
+    pod "FBSDKShareKit",		"4.15.1" # Obj-c
 
-    pod "RxSwift",              "~> 3.1.0"
-    pod "RxSwiftExt",           "~> 2.1.0"
-    pod "RxCocoa",              "~> 3.1.0"
-    pod "RxBlocking",           "~> 3.1.0"
+    pod "RxSwift",              "3.1.0"
+    pod "RxSwiftExt",           "2.1.0"
+    pod "RxCocoa",              "3.1.0"
+    pod "RxBlocking",           "3.1.0"
 
     #Fabric
-    pod "Fabric",               "~> 1.6.10" # Obj-c
-    pod "Crashlytics",          "~> 3.8.2"  # Obj-c
-    pod "TwitterKit",           "~> 2.3.0"  # Obj-c
-    pod "Branch",               "~> 0.12.20"# Obj-c
+    pod "Fabric",               "1.6.11" # Obj-c
+    pod "Crashlytics",          "3.8.3"  # Obj-c
+    pod "TwitterKit",           "2.3.0"  # Obj-c
+    pod "Branch",               "0.12.27"# Obj-c
 
     # Tracking
-    pod "Amplitude-iOS",        "~> 3.8.5"  # Obj-c
-    pod "AppsFlyerFramework",   "4.6.3" # Obj-c
-    pod "Leanplum-iOS-SDK",     "~> 1.4.1"  # Obj-c
+    pod "Amplitude-iOS",        "3.8.5"  # Obj-c
+    pod "AppsFlyerFramework",   "4.6.3"  # Obj-c
+    pod "Leanplum-iOS-SDK",     "1.4.3"  # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",            "2.3.0"     #:path => "../lgcorekit" # :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '73f274b941540863c0cb445915dff58c261abd09'
+    pod "LGCoreKit",            "2.3.1"     #:path => "../lgcorekit" # :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '73f274b941540863c0cb445915dff58c261abd09'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.0.0"     # :path => "../collapsiblelabel"
@@ -42,19 +42,19 @@ def shared_pods
     pod "bumper",               "1.0.3"     #:path => "../bumper"
 
     	# Collection View Custom Layout
-    pod "CHTCollectionViewWaterfallLayout", "~> 0.9.5"  # Obj-c
+    pod "CHTCollectionViewWaterfallLayout", "0.9.5"  # Obj-c
 
     # Device info helper
-    pod "DeviceUtil",           "~> 1.3.8"     # Obj-c
+    pod "DeviceUtil",           "1.3.8"     # Obj-c
 
     # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
-    pod "Google/SignIn",        "~> 3.0.3"     # Obj-c
+    pod "Google/SignIn",        "3.0.3"     # Obj-c
 
-    pod "Firebase/AppIndexing", "~> 3.7.1"     # Obj-c
-    pod "GoogleIDFASupport",    "~> 3.14.0"    # Obj-c
+    pod "Firebase/AppIndexing", "3.7.1"     # Obj-c
+    pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera
-    pod "FastttCamera",         "~> 0.3.4"     # Obj-c
+    pod "FastttCamera",         "0.3.4"     # Obj-c
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -
@@ -63,16 +63,16 @@ def shared_pods
     pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'   # Swift 3.0: -
 
     # Logging
-    pod "CocoaLumberjack/Swift", "~> 3.0.0"
+    pod "CocoaLumberjack/Swift", "3.0.0"
 
     # FLEX debugging tool
-    pod "FLEX",                 "~> 2.4.0"  # Obj-c
+    pod "FLEX",                 "2.4.0"  # Obj-c
 
     # User defaults
-    pod "SwiftyUserDefaults",   "~> 3.0.0"
+    pod "SwiftyUserDefaults",   "3.0.0"
 
     # TextView with placeholder
-    pod "KMPlaceholderTextView", "~> 1.3.0"
+    pod "KMPlaceholderTextView", "1.3.0"
 
 end
 
@@ -88,12 +88,12 @@ target "letgoTests" do
 	shared_pods
 
     ## Testing
-    pod "Quick",            "~> 1.0.0"
-    pod "Nimble",           "~> 5.1.1"
-    pod "RxTest",           "~> 3.1.0"
+    pod "Quick",            "1.0.0"
+    pod "Nimble",           "5.1.1"
+    pod "RxTest",           "3.1.0"
 
     # Mocking
-    pod "OHHTTPStubs",      "~> 5.2.3"
+    pod "OHHTTPStubs",      "5.2.3"
     pod "OHHTTPStubs/Swift"
 end
 
