@@ -85,7 +85,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 }
             }
             
-            context("Product list VM called") {
+            context("Product list VM sucessed retrieving products") {
                 var mockTracker: MockTracker!
                 var productListViewModel: ProductListViewModel!
                 
