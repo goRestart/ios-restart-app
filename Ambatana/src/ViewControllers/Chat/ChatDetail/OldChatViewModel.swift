@@ -1025,7 +1025,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         guard !didSendMessage else { return }
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
-                                                               typePage: .chat, sellerRating: sellerRating)
+                                                          typePage: .chat, sellerRating: sellerRating,
+                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(firstMessageEvent)
     }
     
@@ -1037,7 +1038,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat)
+                                                            isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat,
+                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
     

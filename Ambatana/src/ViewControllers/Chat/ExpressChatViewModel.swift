@@ -18,6 +18,7 @@ class ExpressChatViewModel: BaseViewModel {
 
     private var chatRepository: ChatRepository
     private var keyValueStorage: KeyValueStorage
+    fileprivate var featureFlags: FeatureFlaggeable
     fileprivate var trackerProxy: TrackerProxy
     private var productList: [Product]
     private var sourceProductId: String
@@ -46,11 +47,11 @@ class ExpressChatViewModel: BaseViewModel {
     convenience init(productList: [Product], sourceProductId: String, manualOpen: Bool) {
         self.init(productList: productList, sourceProductId: sourceProductId, manualOpen: manualOpen,
                   chatRepository: Core.chatRepository, keyValueStorage: KeyValueStorage.sharedInstance,
-                  trackerProxy: TrackerProxy.sharedInstance)
+                  trackerProxy: TrackerProxy.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(productList: [Product], sourceProductId: String, manualOpen: Bool, chatRepository: ChatRepository,
-         keyValueStorage: KeyValueStorage, trackerProxy: TrackerProxy) {
+         keyValueStorage: KeyValueStorage, trackerProxy: TrackerProxy, featureFlags: FeatureFlags) {
         self.productList = productList
         self.sourceProductId = sourceProductId
         self.manualOpen = manualOpen
@@ -58,6 +59,7 @@ class ExpressChatViewModel: BaseViewModel {
         self.chatRepository = chatRepository
         self.keyValueStorage = keyValueStorage
         self.trackerProxy = trackerProxy
+        self.featureFlags = featureFlags
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -89,9 +91,9 @@ class ExpressChatViewModel: BaseViewModel {
         let wrapper = ChatWrapper()
         let tracker = trackerProxy
         for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { result in
+            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { [weak self] result in
                 if let value = result.value {
-                    ExpressChatViewModel.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product)
+                    self?.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product)
                 }
             }
         }
@@ -162,14 +164,16 @@ extension ExpressChatViewModel {
         trackerProxy.trackEvent(event)
     }
 
-    static func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product) {
+    func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product) {
         if shouldSendAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .expressChat)
+            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .expressChat,
+                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             tracker.trackEvent(askQuestionEvent)
         }
         
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text,
-                                                            isQuickAnswer: .falseParameter, typePage: .expressChat)
+                                                            isQuickAnswer: .falseParameter, typePage: .expressChat,
+                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
 

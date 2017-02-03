@@ -1253,7 +1253,7 @@ class TrackerEventSpec: QuickSpec {
 
                     product = mockProduct
                     sut = TrackerEvent.firstMessage(product, messageType: .text,
-                                                          typePage: .productDetail, sellerRating: 4)
+                                                    typePage: .productDetail, sellerRating: 4, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1302,6 +1302,10 @@ class TrackerEventSpec: QuickSpec {
                     let typePage = sut.params!.stringKeyParams["seller-user-rating"] as? Float
                     expect(typePage) == 4
                 }
+                it("contains free-posting param") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting) == "false"
+                }
             }
 
             describe("product ask question (ChatProduct)") {
@@ -1314,7 +1318,7 @@ class TrackerEventSpec: QuickSpec {
 
                     product = mockProduct
                     sut = TrackerEvent.firstMessage(product, messageType: .text, interlocutorId: "67890",
-                                                          typePage: .productDetail, sellerRating: 4)
+                                                    typePage: .productDetail, sellerRating: 4, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1898,7 +1902,7 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1919,7 +1923,7 @@ class TrackerEventSpec: QuickSpec {
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .text,
-                                                       isQuickAnswer: .falseParameter, typePage: .chat)
+                                                       isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1971,9 +1975,16 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains pageType param") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
                     let pageType = sut.params!.stringKeyParams["type-page"] as? String
                     expect(pageType).to(equal("chat"))
+                }
+                it("contains pageType param") {
+                    let product = MockProduct()
+                    product.price = .negotiable(100)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting).to(equal("false"))
                 }
             }
 
