@@ -323,16 +323,19 @@ class ProductViewModel: BaseViewModel {
         
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
-            if status.shouldShowStatus {
-                strongSelf.productStatusBackgroundColor.value = status.bgColor
-                strongSelf.productStatusLabelText.value = status.string
-                strongSelf.productStatusLabelColor.value = status.labelColor
-            } else if let featured = strongSelf.product.value.featured, featured, strongSelf.featureFlags.pricedBumpUpEnabled {
+            let productIsFeatured = strongSelf.product.value.featured ?? false
+            let shouldShowFeaturedLabel = !status.shouldShowStatus && productIsFeatured && strongSelf.featureFlags.pricedBumpUpEnabled
+
+            if shouldShowFeaturedLabel {
                 strongSelf.productStatusBackgroundColor.value = UIColor.white
                 strongSelf.productStatusLabelText.value = LGLocalizedString.bumpUpProductDetailFeaturedLabel
                 strongSelf.productStatusLabelColor.value = UIColor.redText
+            } else {
+                strongSelf.productStatusBackgroundColor.value = status.bgColor
+                strongSelf.productStatusLabelText.value = status.string
+                strongSelf.productStatusLabelColor.value = status.labelColor
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
             guard let strongSelf = self else { return }
@@ -341,6 +344,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
+        // bumpeable product check
         status.asObservable().bindNext { [weak self] status in
             if status.isBumpeable {
                 self?.refreshBumpeableBanner()
@@ -374,11 +378,6 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productLocation.value = product.location
             strongSelf.productDistance.value = strongSelf.distanceString(product)
             strongSelf.productCreationDate.value = product.createdAt
-        }.addDisposableTo(disposeBag)
-
-        // bumpeable product check
-        product.asObservable().bindNext { [weak self] product in
-            self?.updateBumpUpBannerFor(product: product)
         }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
@@ -1233,7 +1232,7 @@ fileprivate extension ProductViewModelStatus {
         }
     }
 
-    var labelColor: UIColor {
+    var bgColor: UIColor {
         switch self {
         case .sold, .otherSold, .soldFree, .otherSoldFree:
             return UIColor.white
@@ -1243,7 +1242,7 @@ fileprivate extension ProductViewModelStatus {
         }
     }
 
-    var bgColor: UIColor {
+    var labelColor: UIColor {
         switch self {
         case .sold, .otherSold:
             return UIColor.soldColor
