@@ -160,11 +160,11 @@ extension ProductVMTrackHelper {
     func trackMessageSent(_ isFirstMessage: Bool, messageType: EventParameterMessageType) {
         if isFirstMessage {
             let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
-                                                              typePage: .productDetail)
+                                                              typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             tracker.trackEvent(firstMessageEvent)
         }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType,
-                                                            isQuickAnswer: .falseParameter, typePage: .productDetail)
+                                                            isQuickAnswer: .falseParameter, typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
 }

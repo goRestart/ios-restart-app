@@ -1099,7 +1099,8 @@ fileprivate extension ChatViewModel {
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                                interlocutorId: userId, typePage: .chat,
-                                                               sellerRating: sellerRating)
+                                                               sellerRating: sellerRating,
+                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
@@ -1111,10 +1112,10 @@ fileprivate extension ChatViewModel {
             shouldTrackFirstMessage = false
             trackFirstMessage(type)
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
-                                                            messageType: type.trackingMessageType,
-                                                            isQuickAnswer: type == .quickAnswer ? .trueParameter : .falseParameter,
-                                                            typePage: .chat)
+        let isQuickAnswer: EventParameterQuickAnswerValue = type == .quickAnswer ? .trueParameter : .falseParameter
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.trackingMessageType,
+                                                            isQuickAnswer: isQuickAnswer, typePage: .chat,
+                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
