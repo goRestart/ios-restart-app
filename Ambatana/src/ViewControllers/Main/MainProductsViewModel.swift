@@ -70,7 +70,7 @@ class MainProductsViewModel: BaseViewModel {
         case let .priceRange(min, max):
             if min != nil || max != nil {
                 var currency: Currency? = nil
-                if let countryCode = locationManager.currentPostalAddress?.countryCode {
+                if let countryCode = locationManager.currentLocation?.postalAddress?.countryCode {
                     currency = currencyHelper.currencyWithCountryCode(countryCode)
                 }
                 resultTags.append(.priceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
@@ -636,7 +636,7 @@ extension MainProductsViewModel {
     }
 
     fileprivate func retrieveTrendingSearches() {
-        guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
+        guard let currentCountryCode = locationManager.currentLocation?.postalAddress?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
             self?.trendingSearches.value = result.value ?? []

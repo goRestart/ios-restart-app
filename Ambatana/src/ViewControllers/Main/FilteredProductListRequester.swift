@@ -38,14 +38,20 @@ class FilteredProductListRequester: ProductListRequester {
 
     // MARK: - ProductListRequester
 
-    func canRetrieve() -> Bool { return queryCoordinates != nil }
+    func canRetrieve() -> Bool { // return queryCoordinates != nil
+        var shouldRetrieve = false
+        if let _ = locationManager.currentLocation?.postalAddress?.countryCode, queryCoordinates != nil {
+            shouldRetrieve = true
+        }
+        return shouldRetrieve
+    }
     
     
     func retrieveFirstPage(_ completion: ProductsCompletion?) {
         offset = initialOffset
         if let currentLocation = locationManager.currentLocation {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
-            queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
+            queryFirstCallCountryCode = locationManager.currentLocation?.postalAddress?.countryCode
         }
         
         retrieve() { [weak self] result in
@@ -101,7 +107,7 @@ class FilteredProductListRequester: ProductListRequester {
         if let countryCode = filters?.place?.postalAddress?.countryCode {
             return countryCode
         }
-        return queryFirstCallCountryCode ?? locationManager.currentPostalAddress?.countryCode
+        return queryFirstCallCountryCode ?? locationManager.currentLocation?.postalAddress?.countryCode
     }
 
     func hasFilters() -> Bool {

@@ -46,7 +46,7 @@ class PostProductDetailViewModel: BaseViewModel {
     override convenience  init() {
         var currencySymbol: String? = nil
         let featureFlags = FeatureFlags.sharedInstance
-        if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
+        if let countryCode = Core.locationManager.currentLocation?.postalAddress?.countryCode {
             currencySymbol = Core.currencyHelper.currencyWithCountryCode(countryCode).symbol
         }
         self.init(currencySymbol: currencySymbol, featureFlags: featureFlags)

@@ -361,7 +361,7 @@ class SignUpLogInViewModel: BaseViewModel {
         let turkey = "tr"
 
         let systemCountryCode = locale.lg_countryCode
-        let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
+        let countryCode = locationManager.currentLocation?.postalAddress?.countryCode ?? systemCountryCode
 
         termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercased() == turkey
     }
