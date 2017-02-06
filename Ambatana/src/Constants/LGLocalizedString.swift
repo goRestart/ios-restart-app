@@ -127,6 +127,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_featured_stripe", comment: "")
 	}
 
+	static var bumpUpProductDetailFeaturedLabel: String {
+		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
+	}
+
 	static var bumpUpViewFreeTitle: String {
 		return NSLocalizedString("bump_up_view_free_title", comment: "")
 	}
@@ -2589,6 +2593,22 @@ struct LGLocalizedString {
 
 	static var profileConnectAccountsMessage: String {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
+	}
+
+	static var rateBuyersTitle: String {
+		return NSLocalizedString("rate_buyers_title", comment: "")
+	}
+
+	static var rateBuyersMessage: String {
+		return NSLocalizedString("rate_buyers_message", comment: "")
+	}
+
+	static var rateBuyersSubMessage: String {
+		return NSLocalizedString("rate_buyers_sub_message", comment: "")
+	}
+
+	static var rateBuyersNotOnLetgoButton: String {
+		return NSLocalizedString("rate_buyers_not_on_letgo_button", comment: "")
 	}
 
 	static var ratingListActionReportReview: String {

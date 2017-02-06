@@ -27,7 +27,8 @@
 "bump_up_pay_success" = "Nostettu! Nyt tuotteesi saa lisänäkyvyyttä.";
 "bump_up_processing_free_text" = "Käsitellään nostoa...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";
-"bump_up_product_cell_featured_stripe" = "Featured";
+"bump_up_product_cell_featured_stripe" = "Suositeltu";
+"bump_up_product_detail_featured_label" = "FEATURED";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
 "bump_up_view_free_title" = "NOSTA TUOTTEESI";
 "bump_up_view_pay_bumps_left_text" = "Sinulla on %i nostoa jäljellä.";
@@ -623,6 +624,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Yhdistä Googlen avulla vahvistaaksesi henkilöllisyytesi";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Ilmianna arvostelu";
 "rating_list_action_report_review_error_message" = "Ilmiantoasi lähetettäessä tapahtui virhe.";
 "rating_list_action_report_review_success_message" = "Ilmiantosi on lähetetty!";

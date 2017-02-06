@@ -28,6 +28,7 @@
 "bump_up_processing_free_text" = "Processing bump up...";
 "bump_up_processing_priced_text" = "Processing payment...";
 "bump_up_product_cell_featured_stripe" = "Featured";
+"bump_up_product_detail_featured_label" = "FEATURED";
 "bump_up_view_free_subtitle" = "The more you share, the more visibility your listing will have.";
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 "bump_up_view_pay_bumps_left_text" = "You have %i bump ups left.";
@@ -623,6 +624,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Connect with Google to verify your identity";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Report review";
 "rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
 "rating_list_action_report_review_success_message" = "Your report has been sent!";

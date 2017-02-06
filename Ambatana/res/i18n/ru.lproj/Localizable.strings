@@ -27,7 +27,8 @@
 "bump_up_pay_success" = "Поднято! Теперь ваш товар лучше виден.";
 "bump_up_processing_free_text" = "Обрабатываем продвижение объявления...";
 "bump_up_processing_priced_text" = "Обрабатываем платеж...";
-"bump_up_product_cell_featured_stripe" = "Featured";
+"bump_up_product_cell_featured_stripe" = "Популярное";
+"bump_up_product_detail_featured_label" = "FEATURED";
 "bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
 "bump_up_view_pay_bumps_left_text" = "У вас осталось %i продвижений.";
@@ -623,6 +624,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Войдите через Google, чтобы подтвердить свое имя";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Congratulations!";
+"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Пожаловаться на отзыв";
 "rating_list_action_report_review_error_message" = "При отправке произошла ошибка.";
 "rating_list_action_report_review_success_message" = "Ваша жалоба была отправлена!";
