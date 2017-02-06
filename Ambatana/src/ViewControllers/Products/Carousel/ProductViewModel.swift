@@ -486,40 +486,6 @@ extension ProductViewModel {
         navigator?.openUser(data)
     }
 
-    func markSold() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-
-            var alertActions: [UIAction] = []
-            let markAsSoldAction = UIAction(interface: .text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
-                action: { [weak self] in
-                    self?.markSold(.markAsSold)
-                })
-            alertActions.append(markAsSoldAction)
-            self?.delegate?.vmShowAlert( LGLocalizedString.productMarkAsSoldConfirmTitle,
-                message: LGLocalizedString.productMarkAsSoldConfirmMessage,
-                cancelLabel: LGLocalizedString.productMarkAsSoldConfirmCancelButton,
-                actions: alertActions)
-
-            }, source: .markAsSold)
-    }
-    
-    func markSoldFree() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            
-            var alertActions: [UIAction] = []
-            let markAsSoldAction = UIAction(interface: .text(LGLocalizedString.productMarkAsSoldFreeConfirmOkButton),
-                action: { [weak self] in
-                    self?.markSold(.markAsSold)
-                })
-            alertActions.append(markAsSoldAction)
-            self?.delegate?.vmShowAlert(LGLocalizedString.productMarkAsSoldFreeConfirmTitle,
-                message: LGLocalizedString.productMarkAsSoldFreeConfirmMessage,
-                cancelLabel: LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton,
-                actions: alertActions)
-            
-            }, source: .markAsSold)
-    }
-
     func editProduct() {
         navigator?.editProduct(product.value)
     }
@@ -533,46 +499,43 @@ extension ProductViewModel {
         }
     }
 
-    func resell() {
+    func confirmToMarkAsSold(free: Bool) {
+        let okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
+        let title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
+        let message = free ? LGLocalizedString.productMarkAsSoldFreeConfirmMessage : LGLocalizedString.productMarkAsSoldConfirmMessage
+        let cancel = free ? LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton : LGLocalizedString.productMarkAsSoldConfirmCancelButton
+
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
             var alertActions: [UIAction] = []
-            let sellAgainAction = UIAction(interface: .text(LGLocalizedString.productSellAgainConfirmOkButton),
+            let markAsSoldAction = UIAction(interface: .text(okButton),
                 action: { [weak self] in
-                    self?.markUnsold()
+                    self?.markSold(.markAsSold)
                 })
-            alertActions.append(sellAgainAction)
-            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainConfirmTitle,
-                message: LGLocalizedString.productSellAgainConfirmMessage,
-                cancelLabel: LGLocalizedString.productSellAgainConfirmCancelButton,
-                actions: alertActions)
-
-            }, source: .markAsUnsold)
+            alertActions.append(markAsSoldAction)
+            self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
+        }, source: .markAsSold)
     }
 
-    func resellFree() {
+    func confirmToMarkAsUnSold(free: Bool) {
+        let okButton = free ? LGLocalizedString.productSellAgainFreeConfirmOkButton : LGLocalizedString.productSellAgainConfirmOkButton
+        let title = free ? LGLocalizedString.productSellAgainFreeConfirmTitle : LGLocalizedString.productSellAgainConfirmTitle
+        let message = free ? LGLocalizedString.productSellAgainFreeConfirmMessage : LGLocalizedString.productSellAgainConfirmMessage
+        let cancel = free ? LGLocalizedString.productSellAgainFreeConfirmCancelButton : LGLocalizedString.productSellAgainConfirmCancelButton
+
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            
             var alertActions: [UIAction] = []
-            let sellAgainAction = UIAction(interface: .text(LGLocalizedString.productSellAgainFreeConfirmOkButton),
+            let sellAgainAction = UIAction(interface: .text(okButton),
                 action: { [weak self] in
                     self?.markUnsold()
                 })
             alertActions.append(sellAgainAction)
-            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainFreeConfirmTitle,
-                message: LGLocalizedString.productSellAgainFreeConfirmMessage,
-                cancelLabel: LGLocalizedString.productSellAgainFreeConfirmCancelButton,
-                actions: alertActions)
-            
-            }, source: .markAsUnsold)
+            self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
+        }, source: .markAsUnsold)
     }
 
     func chatWithSeller() {
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .productDetailMoreInfo : .productDetail
-        chatWithSeller(source)
-    }
-    
-    func chatWithSeller(_ source: EventParameterTypePage) {
         trackHelper.trackChatWithSeller(source)
         navigator?.openProductChat(product.value)
     }
@@ -597,15 +560,6 @@ extension ProductViewModel {
                                                                    source: .productDetail,
                                                                    isMyVideo: product.value.isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
-    }
-
-    func promoteProduct() {
-        promoteProduct(.productDetail)
-    }
-    
-    func reportProduct() {
-        guard !product.value.isMine else { return }
-        reportAction()
     }
 
     func stickersButton() {
@@ -777,12 +731,13 @@ extension ProductViewModel {
 
     private func buildReportAction() -> UIAction {
         let title = LGLocalizedString.productReportProductButton
-        return UIAction(interface: .text(title), action: reportAction)
+        return UIAction(interface: .text(title), action: { [weak self] in self?.confirmToReportProduct() } )
     }
     
-    fileprivate func reportAction() {
+    fileprivate func confirmToReportProduct() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
             guard let strongSelf = self else { return }
+            guard !strongSelf.product.value.isMine else { return }
             
             let alertOKAction = UIAction(interface: .text(LGLocalizedString.commonYes),
                 action: { [weak self] in
@@ -845,7 +800,7 @@ extension ProductViewModel {
 
     private func buildPromoteAction() -> UIAction {
         return UIAction(interface: .text(LGLocalizedString.productCreateCommercialButton), action: { [weak self] in
-            self?.promoteProduct()
+            self?.promoteProduct(.productDetail)
         })
     }
 
@@ -879,18 +834,18 @@ extension ProductViewModel {
             break
         case .available, .availableAndCommercializable:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
-                action: { [weak self] in self?.markSold() }))
+                action: { [weak self] in self?.confirmToMarkAsSold(free: false) }))
         case .sold:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
-                action: { [weak self] in self?.resell() }))
+                action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
             break
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
-                action: { [weak self] in self?.markSoldFree() }))
+                action: { [weak self] in self?.confirmToMarkAsSold(free: true) }))
         case .soldFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainFreeButton, .secondary(fontSize: .big, withBorder: false)),
-                action: { [weak self] in self?.resellFree() }))
+                action: { [weak self] in self?.confirmToMarkAsUnSold(free: true) }))
         }
         return actionButtons
     }
@@ -1073,7 +1028,7 @@ fileprivate extension ProductViewModel {
 }
 
 
-// MARK: - UpdateDetailInfoDelegate
+// MARK: - Logged in checks
 
 extension ProductViewModel {
     fileprivate func ifLoggedInRunActionElseOpenMainSignUp(_ action: @escaping () -> (), source: EventParameterLoginSourceValue) {
@@ -1178,6 +1133,15 @@ extension Product {
         let ownerId = user.objectId
         guard user.objectId != nil && myUserId != nil else { return false }
         return ownerId == myUserId
+    }
+
+    var isBumpeable: Bool {
+        switch status {
+        case .approved:
+            return true
+        case .pending, .discarded, .sold, .soldOld, .deleted:
+            return false
+        }
     }
 }
 
