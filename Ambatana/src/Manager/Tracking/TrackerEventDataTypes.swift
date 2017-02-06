@@ -153,7 +153,8 @@ enum EventName: String {
 
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
-
+    case chatWindowVisit                     = "chat-window-open"
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -260,6 +261,8 @@ enum EventParameterName: String {
     case passiveConversations = "passive-conversations"
     case collapsedEmailField  = "collapsed-email-field"
     case feedPosition         = "feed-position"
+    case feedSource           = "feed-source"
+    case rating               = "rating"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -515,6 +518,7 @@ enum EventParameterTypePage: String {
     case userRatingList = "user-rating-list"
     case expressChat = "express-chat"
     case productDelete = "product-delete"
+    case inAppNotification = "in-app-notification"
 }
 
 enum EventParameterPermissionType: String {
@@ -609,6 +613,14 @@ enum EventParameterFeedPosition {
             return "N/A"
         }
     }
+}
+
+enum EventParameterFeedSource: String {
+    case home = "home"
+    case search = "search"
+    case filter = "filter"
+    case searchAndFilter = "search&filter"
+    case collection = "collection"
 }
 
 enum EventParameterAccountNetwork: String {

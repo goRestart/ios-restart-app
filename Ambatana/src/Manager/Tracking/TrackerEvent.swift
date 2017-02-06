@@ -165,7 +165,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func productList(_ user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
+    static func productList(_ user: User?, categories: [ProductCategory]?, searchQuery: String?, feedSource: EventParameterFeedSource) -> TrackerEvent {
         var params = EventParameters()
 
         // Categories
@@ -175,6 +175,7 @@ struct TrackerEvent {
                 categoryIds.append(String(category.rawValue))
             }
         }
+        params[.feedSource] = feedSource.rawValue
         params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
 
         // Search query
@@ -686,8 +687,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .appRatingStart, params: params)
     }
 
-    static func appRatingRate() -> TrackerEvent {
-        let params = EventParameters()
+    static func appRatingRate(rating: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rating] = rating
         return TrackerEvent(name: .appRatingRate, params: params)
     }
 
@@ -980,6 +982,12 @@ struct TrackerEvent {
         params[.bumpUpPrice] = price.description
         params[.shareNetwork] = network.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
+    }
+    
+    static func chatWindowVisit(_ typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .chatWindowVisit, params: params)
     }
 
 

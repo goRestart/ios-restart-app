@@ -696,12 +696,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productList") {
                 it("has its event name") {
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil, feedSource: .home)
                     expect(sut.name.rawValue).to(equal("product-list"))
                 }
                 it("contains the category related params when passing by a category") {
                     let categories: [ProductCategory] = [.homeAndGarden]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -710,7 +710,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the category related params when passing by several categories") {
                     let categories: [ProductCategory] = [.homeAndGarden, .fashionAndAccesories]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -719,12 +719,19 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the search query related params when passing by a search query") {
                     let searchQuery = "iPhone"
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery, feedSource: .home)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["search-keyword"]).notTo(beNil())
                     let categoryId = sut.params!.stringKeyParams["search-keyword"] as? String
                     expect(categoryId).to(equal(searchQuery))
+                }
+                it("contains feed source parameter") {
+                    let categories: [ProductCategory] = [.homeAndGarden]
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home)
+                    expect(sut.params).notTo(beNil())
+                    
+                    expect(sut.params!.stringKeyParams["feed-source"] as? String).to(equal("home"))
                 }
             }
 
@@ -2798,6 +2805,42 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-id param") {
                     let param = sut.params!.stringKeyParams["product-id"] as? String
                     expect(param ).to(equal("AAAAA"))
+                }
+            }
+            describe("chat-window-open") {
+                beforeEach {
+                    sut = TrackerEvent.chatWindowVisit(.inAppNotification)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-window-open"))
+                }
+                it("contains typePage parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "in-app-notification"
+                }
+            }
+            describe("app rating start") {
+                beforeEach {
+                    sut = TrackerEvent.appRatingStart(EventParameterRatingSource.productSellComplete)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("app-rating-start"))
+                }
+                it("contains rating source param") {
+                    let param = sut.params!.stringKeyParams["app-rating-source"] as? String
+                    expect(param).to(equal("product-sell-complete"))
+                }
+            }
+            describe("app rating rate") {
+                beforeEach {
+                    sut = TrackerEvent.appRatingRate(rating: 3)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("app-rating-rate"))
+                }
+                it("contains rating source param") {
+                    let param = sut.params!.stringKeyParams["rating"] as? Int
+                    expect(param).to(equal(3))
                 }
             }
         }

@@ -35,6 +35,7 @@ struct ProductData {
     var productID: String?
     var thumbUrl: URL?
     var isFree: Bool
+    var isFeatured: Bool
 }
 
 enum CollectionCellType: String {

@@ -32,6 +32,8 @@ struct LocalProduct: Product {
 
     let updatedAt : Date?
     let createdAt : Date?
+
+    let featured: Bool?
     let favorite: Bool
 
 
@@ -60,6 +62,7 @@ struct LocalProduct: Product {
         self.images = [chatProduct.image].flatMap{ $0 }
         self.updatedAt = nil
         self.createdAt = nil
+        self.featured = false
         self.favorite = false
     }
 }

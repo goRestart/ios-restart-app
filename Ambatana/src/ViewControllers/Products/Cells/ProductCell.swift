@@ -12,6 +12,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     static let reusableID = "ProductCell"
     static let buttonsContainerShownHeight: CGFloat = 34
+    static let stripeIconWidth: CGFloat = 14
     
     @IBOutlet weak var shadowImage: UIImageView!
     @IBOutlet weak var cellContent: UIView!
@@ -65,12 +66,21 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     }
     
     func setFreeStripe() {
+        stripeIconWidth.constant = ProductCell.stripeIconWidth
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = UIImage(named: "ic_heart")
         stripeLabel.text = LGLocalizedString.productFreePrice
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
+    }
+
+    func setFeaturedStripe() {
+        stripeIconWidth.constant = 0
+        stripeImageView.image = UIImage(named: "stripe_white")
+        stripeIcon.image = nil
+        stripeLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
         stripeImageView.isHidden = false
+        stripeInfoView.isHidden = false
     }
 
 
