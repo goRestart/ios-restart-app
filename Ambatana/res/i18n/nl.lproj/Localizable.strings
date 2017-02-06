@@ -28,6 +28,7 @@
 "bump_up_processing_free_text" = "Bezig met het omhoog plaatsen...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
 "bump_up_product_cell_featured_stripe" = "Aanbevolen";
+"bump_up_product_detail_featured_label" = "AANBEVOLEN";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
 "bump_up_view_pay_bumps_left_text" = "Je kunt nog %i keer omhoog plaatsen.";
@@ -166,7 +167,7 @@
 "chat_verify_alert_resend_button" = "Opnieuw verzenden";
 "chat_verify_alert_title" = "Verifieer je e-mail om te chatten";
 "chat_with_yourself_alert_msg" = "Je kunt een gesprek beginnen over je eigen product.";
-"collection_apple_title" = "Een apple per dag";
+"collection_apple_title" = "Een Apple per dag";
 "collection_explore_button" = "Verkennen";
 "collection_furniture_title" = "Geen plek als thuis";
 "collection_gaming_title" = "Het spel is begonnen";
@@ -623,10 +624,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Verbind met Google om je identiteit te verifiëren";
 "profile_verify_google_title" = "GOOGLE";
-"rate_buyers_message" = "Congratulations!";
-"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
-"rate_buyers_sub_message" = "Who did you sell this to?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_message" = "Gefeliciteerd!";
+"rate_buyers_not_on_letgo_button" = "Ik heb het niet verkocht op letgo";
+"rate_buyers_sub_message" = "Aan wie heb je dit verkocht?";
+"rate_buyers_title" = "Wie heeft dit gekocht?";
 "rating_list_action_report_review" = "Rapporteer beoordeling";
 "rating_list_action_report_review_error_message" = "Er is een fout opgetreden tijdens het versturen van jouw melding.";
 "rating_list_action_report_review_success_message" = "Jouw melding is verzonden!";
@@ -783,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Schrijf over jouw ervaring (vereist)";
 "user_rating_review_placeholder_optional" = "Schrijf over jouw ervaring (optioneel)";
 "user_rating_review_send_success" = "Jouw beoordeling werd gepubliceerd!";
+"user_rating_skip_button" = "Skip";
 "user_rating_title" = "Beoordeel jouw ervaring met";
 "user_share_error" = "Er is een fout opgetreden tijdens het delen van het profiel. Probeer het nog eens.";
 "user_share_message_mine" = "Neem een kijkje naar alles wat ik verkoop op letgo!";

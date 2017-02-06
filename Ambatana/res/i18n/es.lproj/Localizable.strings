@@ -28,6 +28,7 @@
 "bump_up_processing_free_text" = "Procesando destacado...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
 "bump_up_product_cell_featured_stripe" = "Destacado";
+"bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
 "bump_up_view_free_title" = "DESTACA TU ANUNCIO";
 "bump_up_view_pay_bumps_left_text" = "Puedes destacar tu anuncio %i veces más.";
@@ -623,10 +624,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Conéctate con Google para verificar tu identidad";
 "profile_verify_google_title" = "GOOGLE";
-"rate_buyers_message" = "Congratulations!";
-"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
-"rate_buyers_sub_message" = "Who did you sell this to?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_message" = "¡Enhorabuena!";
+"rate_buyers_not_on_letgo_button" = "No lo he vendido en letgo";
+"rate_buyers_sub_message" = "¿A quién se lo has vendido?";
+"rate_buyers_title" = "¿Quién lo ha comprado?";
 "rating_list_action_report_review" = "Denunciar valoración";
 "rating_list_action_report_review_error_message" = "Se ha producido un error al enviar tu denuncia.";
 "rating_list_action_report_review_success_message" = "¡Tu denuncia ha sido enviada!";
@@ -783,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Comenta tu experiencia (requerido)";
 "user_rating_review_placeholder_optional" = "Comenta tu experiencia (opcional)";
 "user_rating_review_send_success" = "¡Tu valoración se ha publicado!";
+"user_rating_skip_button" = "Skip";
 "user_rating_title" = "Valora tu experiencia con";
 "user_share_error" = "Se ha producido un error al compartir el perfil. Por favor, inténtalo de nuevo.";
 "user_share_message_mine" = "¡Mira todo lo que vendo en letgo!";

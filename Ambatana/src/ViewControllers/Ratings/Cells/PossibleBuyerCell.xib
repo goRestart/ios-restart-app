@@ -20,25 +20,34 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k8z-Qc-xEa" userLabel="userImage">
-                        <rect key="frame" x="7" y="7" width="36.5" height="36.5"/>
+                        <rect key="frame" x="7" y="7" width="36" height="36"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="k8z-Qc-xEa" secondAttribute="height" multiplier="1:1" id="XHU-0E-JUP"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jjy-Qi-eo2" userLabel="userName">
-                        <rect key="frame" x="52" y="8" width="260" height="34.5"/>
+                        <rect key="frame" x="51" y="8" width="238" height="34"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_disclosure" translatesAutoresizingMaskIntoConstraints="NO" id="a1X-8f-SlA">
+                        <rect key="frame" x="297" y="0.0" width="8" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="8" id="1WF-h7-JVw"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="k8z-Qc-xEa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="0FC-zW-Tep"/>
+                    <constraint firstAttribute="bottom" secondItem="a1X-8f-SlA" secondAttribute="bottom" id="2Fv-J3-DaJ"/>
                     <constraint firstItem="Jjy-Qi-eo2" firstAttribute="leading" secondItem="k8z-Qc-xEa" secondAttribute="trailing" constant="8" id="4oG-6g-inK"/>
                     <constraint firstItem="k8z-Qc-xEa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="7" id="6Rl-uo-hp4"/>
-                    <constraint firstAttribute="trailing" secondItem="Jjy-Qi-eo2" secondAttribute="trailing" constant="8" id="CPd-an-mN0"/>
+                    <constraint firstItem="a1X-8f-SlA" firstAttribute="leading" secondItem="Jjy-Qi-eo2" secondAttribute="trailing" constant="8" id="OZE-it-RTL"/>
                     <constraint firstItem="Jjy-Qi-eo2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="V8v-Zc-phF"/>
+                    <constraint firstAttribute="trailing" secondItem="a1X-8f-SlA" secondAttribute="trailing" constant="15" id="dxM-HV-EKe"/>
                     <constraint firstAttribute="bottom" secondItem="Jjy-Qi-eo2" secondAttribute="bottom" constant="8" id="ePl-Hk-4Tq"/>
+                    <constraint firstItem="a1X-8f-SlA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="p7T-KV-q0L"/>
                     <constraint firstAttribute="bottom" secondItem="k8z-Qc-xEa" secondAttribute="bottom" constant="7" id="tBX-Rm-Qke"/>
                 </constraints>
             </tableViewCellContentView>
@@ -49,4 +58,7 @@
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_disclosure" width="8" height="13"/>
+    </resources>
 </document>

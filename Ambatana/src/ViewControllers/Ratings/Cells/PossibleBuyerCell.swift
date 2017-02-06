@@ -39,8 +39,8 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
 
         if firstCell {
             separators.append(addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray))
-            separators.append(addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray, leftMargin: 52))
-        } else if lastCell {
+        }
+        if lastCell {
             separators.append(addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray))
         } else {
             separators.append(addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray, leftMargin: 52))

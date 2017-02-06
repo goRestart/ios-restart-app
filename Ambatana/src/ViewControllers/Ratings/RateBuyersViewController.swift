@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import RxSwift
 
 class RateBuyersViewController: BaseViewController {
 
-    fileprivate static let headerTopMargin: CGFloat = 64
-
     fileprivate let mainView: RateBuyersView
     fileprivate let viewModel: RateBuyersViewModel
+
+    private let disposeBag = DisposeBag()
 
     init(with viewModel: RateBuyersViewModel) {
         self.viewModel = viewModel
@@ -34,12 +35,28 @@ class RateBuyersViewController: BaseViewController {
     // MARK: - Private
 
     private func setupUI() {
+        automaticallyAdjustsScrollViewInsets = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
+                                                           target: self, action: #selector(closeButtonPressed))
+
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(mainView)
+        mainView.layout(with: view).leading().trailing().bottom()
+        mainView.layout(with: topLayoutGuide).top(to: .bottom)
+
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
         mainView.tableView.rowHeight = PossibleBuyerCell.cellHeight
 
         let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
         mainView.tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
+
+        mainView.notOnLetgoButton.rx.tap.bindNext { [weak self] in self?.viewModel.notOnLetgoButtonPressed() }
+            .addDisposableTo(disposeBag)
+    }
+
+    dynamic private func closeButtonPressed() {
+        viewModel.closeButtonPressed()
     }
 }
 
@@ -52,7 +69,6 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
         guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PossibleBuyerCell.reusableID,
                                                             for: indexPath) as? PossibleBuyerCell else { return UITableViewCell() }
         let image = viewModel.imageAt(index: indexPath.row)
@@ -65,10 +81,11 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scroll = scrollView.contentOffset.y + scrollView.contentInset.top
-        mainView.headerTopMarginConstraint.constant = RateBuyersViewController.headerTopMargin - scroll
+        mainView.headerTopMarginConstraint.constant = -scroll
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         viewModel.selectedBuyerAt(index: indexPath.row)
     }
 }

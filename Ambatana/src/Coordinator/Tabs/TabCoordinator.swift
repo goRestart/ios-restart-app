@@ -513,7 +513,6 @@ extension TabCoordinator: ExpressChatCoordinatorDelegate {
 
 extension TabCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidCancel() {
-        selectBuyerToRateCompletion?(nil)
         selectBuyerToRateCompletion = nil
     }
 

@@ -841,16 +841,18 @@ fileprivate extension ProductViewModel {
             guard let product = self?.product.value else { return }
             self?.delegate?.vmShowLoading(nil)
             self?.productRepository.possibleBuyersOf(product: product) { result in
-                self?.delegate?.vmHideLoading(nil) {
-                    if let buyers = result.value {
+                if let buyers = result.value, !buyers.isEmpty {
+                    self?.delegate?.vmHideLoading(nil) {
                         self?.navigator?.selectBuyerToRate(buyers: buyers) { [weak self] buyerId in
                             self?.markAsSold(source, buyerId: buyerId)
                         }
-                    } else if showConfirmationFallback {
-                        self?.confirmToMarkAsSold()
-                    } else {
-                        self?.markAsSold(source, buyerId: nil)
                     }
+                } else if showConfirmationFallback {
+                    self?.delegate?.vmHideLoading(nil) {
+                        self?.confirmToMarkAsSold()
+                    }
+                } else {
+                    self?.markAsSold(source, buyerId: nil)
                 }
             }
             }, source: .markAsSold)

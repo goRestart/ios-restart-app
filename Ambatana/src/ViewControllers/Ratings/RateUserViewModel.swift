@@ -106,6 +106,10 @@ class RateUserViewModel: BaseViewModel {
         navigator?.rateUserCancel()
     }
 
+    func skipButtonPressed() {
+        navigator?.rateUserSkip()
+    }
+
     func ratingStarPressed(_ rating: Int) {
         self.rating.value = rating
     }

@@ -30,7 +30,7 @@ final class UserRatingCoordinator: Coordinator {
 
     convenience init(source: RateUserSource, data: RateUserData) {
         self.init()
-        let vc = buildRateUser(source: source, data: data)
+        let vc = buildRateUser(source: source, data: data, showSkipButton: false)
         self.ratedUserId = data.userId
         navigationController.viewControllers = [vc]
     }
@@ -43,7 +43,6 @@ final class UserRatingCoordinator: Coordinator {
 
     init() {
         navigationController = UINavigationController()
-        navigationController.modalPresentationStyle = .overCurrentContext
         self.viewController = navigationController
     }
 
@@ -74,9 +73,9 @@ final class UserRatingCoordinator: Coordinator {
 
     // MARK: - Private
 
-    fileprivate func buildRateUser(source: RateUserSource, data: RateUserData) -> RateUserViewController {
+    fileprivate func buildRateUser(source: RateUserSource, data: RateUserData, showSkipButton: Bool) -> RateUserViewController {
         let userRatingVM = RateUserViewModel(source: source, data: data)
-        let userRatingVC = RateUserViewController(viewModel: userRatingVM)
+        let userRatingVC = RateUserViewController(viewModel: userRatingVM, showSkipButton: showSkipButton)
         userRatingVM.navigator = self
         return userRatingVC
     }
@@ -104,7 +103,7 @@ extension UserRatingCoordinator: RateBuyersNavigator {
             return
         }
         self.ratedUserId = data.userId
-        let vc = buildRateUser(source: .markAsSold, data: data)
+        let vc = buildRateUser(source: .markAsSold, data: data, showSkipButton: true)
         navigationController.pushViewController(vc, animated: true)
     }
 
