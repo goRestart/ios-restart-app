@@ -778,6 +778,10 @@
 		C743FEB81E44E46000B4E912 /* PossibleBuyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C743FEB51E44E46000B4E912 /* PossibleBuyerCell.swift */; };
 		C743FEB91E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C743FEB61E44E46000B4E912 /* PossibleBuyerCell.xib */; };
 		C743FEBA1E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C743FEB61E44E46000B4E912 /* PossibleBuyerCell.xib */; };
+		C743FEBD1E488B0F00B4E912 /* ProductViewModelStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C743FEBC1E488B0F00B4E912 /* ProductViewModelStatus.swift */; };
+		C743FEBE1E488B0F00B4E912 /* ProductViewModelStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C743FEBC1E488B0F00B4E912 /* ProductViewModelStatus.swift */; };
+		C743FEC01E488F0C00B4E912 /* Product+ProductVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C743FEBF1E488F0C00B4E912 /* Product+ProductVM.swift */; };
+		C743FEC11E488F0C00B4E912 /* Product+ProductVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C743FEBF1E488F0C00B4E912 /* Product+ProductVM.swift */; };
 		C749316E1D34FD0200E117F1 /* RateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749316C1D34FD0200E117F1 /* RateUserViewController.swift */; };
 		C749316F1D34FD0200E117F1 /* RateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749316C1D34FD0200E117F1 /* RateUserViewController.swift */; };
 		C74931701D34FD0200E117F1 /* RateUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C749316D1D34FD0200E117F1 /* RateUserViewController.xib */; };
@@ -1793,6 +1797,8 @@
 		C743FEB21E44CFEC00B4E912 /* RateBuyersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateBuyersViewModel.swift; sourceTree = "<group>"; };
 		C743FEB51E44E46000B4E912 /* PossibleBuyerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PossibleBuyerCell.swift; path = Cells/PossibleBuyerCell.swift; sourceTree = "<group>"; };
 		C743FEB61E44E46000B4E912 /* PossibleBuyerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PossibleBuyerCell.xib; path = Cells/PossibleBuyerCell.xib; sourceTree = "<group>"; };
+		C743FEBC1E488B0F00B4E912 /* ProductViewModelStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewModelStatus.swift; sourceTree = "<group>"; };
+		C743FEBF1E488F0C00B4E912 /* Product+ProductVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+ProductVM.swift"; sourceTree = "<group>"; };
 		C749316C1D34FD0200E117F1 /* RateUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUserViewController.swift; sourceTree = "<group>"; };
 		C749316D1D34FD0200E117F1 /* RateUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RateUserViewController.xib; sourceTree = "<group>"; };
 		C74931721D351E8300E117F1 /* RateUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUserViewModel.swift; sourceTree = "<group>"; };
@@ -3149,6 +3155,7 @@
 				C75B5DCD1D59E0C500112368 /* Cells */,
 				C75B5DB31D59E09500112368 /* ProductDetailOnboarding */,
 				C70EA18A1D5B6773003FFC9A /* StickersSelector */,
+				C743FEBB1E488AFE00B4E912 /* Model */,
 				C7C61DF31D63035400F9505D /* ProductCarouselMoreInfoView.swift */,
 				C7C61DF41D63035400F9505D /* ProductCarouselMoreInfoView.xib */,
 				C75B5DAF1D59E09500112368 /* ProductCarouselPushAnimator.swift */,
@@ -3367,6 +3374,15 @@
 				C7415EEA1DEF1E300003D6C1 /* TextViewController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		C743FEBB1E488AFE00B4E912 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C743FEBC1E488B0F00B4E912 /* ProductViewModelStatus.swift */,
+				C743FEBF1E488F0C00B4E912 /* Product+ProductVM.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C749316B1D34FCE100E117F1 /* Ratings */ = {
@@ -4827,6 +4843,7 @@
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				C7B588291CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */,
+				C743FEC01E488F0C00B4E912 /* Product+ProductVM.swift in Sources */,
 				2EF4E3AE1D3688AB00A09DFD /* ConfigManager.swift in Sources */,
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				C7415EE21DEDDB460003D6C1 /* KeyboardViewController.swift in Sources */,
@@ -4957,6 +4974,7 @@
 				C7DE8ABE1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
 				5013403E1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift in Sources */,
+				C743FEBD1E488B0F00B4E912 /* ProductViewModelStatus.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				6A9C9EBE1CCF959E009D866C /* UIButton+LetgoStyles.swift in Sources */,
 				C75B5DD11D59E0C500112368 /* ProductCarouselCell.swift in Sources */,
@@ -5275,6 +5293,7 @@
 				2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */,
 				C7DB41BB1C5138B500400945 /* ProductCategory+LG.swift in Sources */,
 				6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */,
+				C743FEC11E488F0C00B4E912 /* Product+ProductVM.swift in Sources */,
 				C7DB41BC1C5138B500400945 /* ProductFilters.swift in Sources */,
 				2E4A9DBB1D8169CE00F99026 /* ProductListMultiRequester.swift in Sources */,
 				C708C83D1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
@@ -5405,6 +5424,7 @@
 				2E4952EC1E268AC300188880 /* BumpUpPayViewModel.swift in Sources */,
 				C742340A1D5A028B0082D1CD /* ProductVMTrackHelper.swift in Sources */,
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
+				C743FEBE1E488B0F00B4E912 /* ProductViewModelStatus.swift in Sources */,
 				727EF0701E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,

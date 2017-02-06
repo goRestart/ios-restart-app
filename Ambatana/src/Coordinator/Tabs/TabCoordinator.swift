@@ -30,6 +30,8 @@ class TabCoordinator: BaseCoordinator {
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
+    var selectBuyerToRateCompletion: ((String?) -> Void)?
+
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
 
@@ -413,6 +415,13 @@ extension TabCoordinator: ProductDetailNavigator {
         bumpCoordinator.delegate = self
         openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
+
+    func selectBuyerToRate(buyers: [UserProduct], completion: @escaping (String?) -> Void) {
+        selectBuyerToRateCompletion = completion
+        let ratingCoordinator = UserRatingCoordinator(buyers: buyers)
+        ratingCoordinator.delegate = self
+        openCoordinator(coordinator: ratingCoordinator, parent: rootViewController, animated: true, completion: nil)
+    }
 }
 
 
@@ -496,5 +505,20 @@ extension TabCoordinator: ExpressChatCoordinatorDelegate {
         let message = count == 1 ? LGLocalizedString.chatExpressOneMessageSentSuccessAlert :
             LGLocalizedString.chatExpressSeveralMessagesSentSuccessAlert
         rootViewController.showAutoFadingOutMessageAlert(message)
+    }
+}
+
+
+// MARK: - UserRatingCoordinatorDelegate 
+
+extension TabCoordinator: UserRatingCoordinatorDelegate {
+    func userRatingCoordinatorDidCancel() {
+        selectBuyerToRateCompletion?(nil)
+        selectBuyerToRateCompletion = nil
+    }
+
+    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
+        selectBuyerToRateCompletion?(ratedUserId)
+        selectBuyerToRateCompletion = nil
     }
 }
