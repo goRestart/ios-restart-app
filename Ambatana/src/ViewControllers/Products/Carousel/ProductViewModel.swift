@@ -697,7 +697,7 @@ extension ProductViewModel {
 
                 let soldAction = UIAction(interface: .text(LGLocalizedString.productDeleteConfirmSoldButton),
                     action: { [weak self] in
-                        self?.selectBuyerToMarkAsSold(showConfirmationFallback: false, source: .delete)
+                        self?.selectBuyerToMarkAsSold(showConfirmationFallback: false)
                     })
                 alertActions.append(soldAction)
 
@@ -766,7 +766,7 @@ extension ProductViewModel {
             break
         case .available, .availableAndCommercializable:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
-                action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true, source: .markAsSold) }))
+                action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true) }))
         case .sold:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                 action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
@@ -774,7 +774,7 @@ extension ProductViewModel {
             break
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
-                action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true, source: .markAsSold) }))
+                action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true) }))
         case .soldFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainFreeButton, .secondary(fontSize: .big, withBorder: false)),
                 action: { [weak self] in self?.confirmToMarkAsUnSold(free: true) }))
@@ -836,7 +836,7 @@ fileprivate extension ProductViewModel {
         return data
     }
 
-    func selectBuyerToMarkAsSold(showConfirmationFallback: Bool, source: EventParameterSellSourceValue) {
+    func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
         ifLoggedInRunActionElseOpenMainSignUp( { [weak self]  in
             guard let product = self?.product.value else { return }
             self?.delegate?.vmShowLoading(nil)
@@ -844,7 +844,8 @@ fileprivate extension ProductViewModel {
                 if let buyers = result.value, !buyers.isEmpty {
                     self?.delegate?.vmHideLoading(nil) {
                         self?.navigator?.selectBuyerToRate(buyers: buyers) { [weak self] buyerId in
-                            self?.markAsSold(source, buyerId: buyerId)
+                            let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
+                            self?.markAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
                         }
                     }
                 } else if showConfirmationFallback {
@@ -852,7 +853,7 @@ fileprivate extension ProductViewModel {
                         self?.confirmToMarkAsSold()
                     }
                 } else {
-                    self?.markAsSold(source, buyerId: nil)
+                    self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
                 }
             }
             }, source: .markAsSold)
@@ -869,7 +870,7 @@ fileprivate extension ProductViewModel {
         var alertActions: [UIAction] = []
         let markAsSoldAction = UIAction(interface: .text(okButton),
                                         action: { [weak self] in
-                                            self?.markAsSold(.markAsSold, buyerId: nil)
+                                            self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
         })
         alertActions.append(markAsSoldAction)
         delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
@@ -943,7 +944,7 @@ fileprivate extension ProductViewModel {
         }
     }
 
-    func markAsSold(_ source: EventParameterSellSourceValue, buyerId: String?) {
+    func markAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo) {
         delegate?.vmShowLoading(nil)
 
         productRepository.markProductAsSold(product.value, buyerId: buyerId) { [weak self] result in
@@ -955,7 +956,7 @@ fileprivate extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackHelper.trackMarkSoldCompleted(source)
+                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()

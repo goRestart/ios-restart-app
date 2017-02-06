@@ -348,18 +348,17 @@ struct TrackerEvent {
         return TrackerEvent(name: .productOpenChat, params: params)
     }
 
-    static func productMarkAsSold(_ source: EventParameterSellSourceValue, product: Product, freePostingModeAllowed: Bool)
+    static func productMarkAsSold(_ product: Product, soldTo: EventParameterUserSoldTo, freePostingModeAllowed: Bool)
         -> TrackerEvent {
             var params = EventParameters()
 
             // Product
-            if let productId = product.objectId {
-                params[.productId] = productId
-            }
+            params[.productId] = product.objectId
             params[.productPrice] = product.price.value
             params[.productCurrency] = product.currency.code
             params[.categoryId] = product.category.rawValue
             params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
+            params[.userSoldTo] = soldTo.rawValue
             return TrackerEvent(name: .productMarkAsSold, params: params)
     }
 

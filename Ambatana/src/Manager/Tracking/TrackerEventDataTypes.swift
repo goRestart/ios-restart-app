@@ -263,6 +263,7 @@ enum EventParameterName: String {
     case feedPosition         = "feed-position"
     case feedSource           = "feed-source"
     case rating               = "rating"
+    case userSoldTo           = "user-sold-to"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -280,9 +281,10 @@ enum EventParameterLoginSourceValue: String {
     case directSticker = "direct-sticker"
 }
 
-enum EventParameterSellSourceValue: String {
-    case markAsSold = "product-detail"
-    case delete = "product-delete"
+enum EventParameterUserSoldTo: String {
+    case letgoUser = "true"
+    case outsideLetgo = "false"
+    case noConversations = "no-conversations"
 }
 
 enum EventParameterProductItemType: String {
