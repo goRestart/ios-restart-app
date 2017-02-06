@@ -784,7 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Escreva algo sobre a sua experiência (obrigatório)";
 "user_rating_review_placeholder_optional" = "Escreva algo sobre a sua experiência (opcional)";
 "user_rating_review_send_success" = "O seu comentário foi publicado!";
-"user_rating_skip_button" = "Skip";
+"user_rating_skip_button" = "Pular";
 "user_rating_title" = "Comente a sua experiência com";
 "user_share_error" = "Ocorreu um erro ao partilhar o perfil. Por favor tente novamente.";
 "user_share_message_mine" = "Vê tudo o que eu estou a vender no letgo!";

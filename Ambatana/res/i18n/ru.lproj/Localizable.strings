@@ -784,7 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Опишите ваш опыт (обязательно)";
 "user_rating_review_placeholder_optional" = "Опишите свой опыт (опционально)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";
-"user_rating_skip_button" = "Skip";
+"user_rating_skip_button" = "Пропустить";
 "user_rating_title" = "Оцените свое общение с";
 "user_share_error" = "При отправке профиля произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "user_share_message_mine" = "Посмотри, что я продаю на letgo!";

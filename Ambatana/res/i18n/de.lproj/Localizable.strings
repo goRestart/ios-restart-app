@@ -784,7 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Schreibe einen Erfahrungsbericht (Pflichtfeld)";
 "user_rating_review_placeholder_optional" = "Schreibe einen Erfahrungsbericht (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
-"user_rating_skip_button" = "Skip";
+"user_rating_skip_button" = "Überspringen";
 "user_rating_title" = "Bewerte deine Transaktion mit";
 "user_share_error" = "Beim Teilen des Profils ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
 "user_share_message_mine" = "Schau dir all die Sachen an, die ich auf letgo verkaufe!";

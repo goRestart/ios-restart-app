@@ -784,7 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Deneyimin hakkında yorum yap (zorunlu)";
 "user_rating_review_placeholder_optional" = "Deneyimin hakkında yorum yap (isteğe bağlı)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
-"user_rating_skip_button" = "Skip";
+"user_rating_skip_button" = "Geç";
 "user_rating_title" = "Bu kullanıcı ile deneyimini değerlendir";
 "user_share_error" = "Profil paylaşılırken bir hata oluştu. Lütfen tekrar dene.";
 "user_share_message_mine" = "letgo'da sattığım şeylere bir bak!";

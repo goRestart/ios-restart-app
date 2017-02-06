@@ -167,9 +167,9 @@
 "chat_verify_alert_resend_button" = "Renvoyer";
 "chat_verify_alert_title" = "Vérifiez votre courriel pour clavarder";
 "chat_with_yourself_alert_msg" = "Vous ne pouvez pas démarrer une conversation à propos de votre propre produit.";
-"collection_apple_title" = "Passez une bonne journée avec Apple";
+"collection_apple_title" = "Produits Apple";
 "collection_explore_button" = "Explorer";
-"collection_furniture_title" = "Rien ne vaut notre chez-nous";
+"collection_furniture_title" = "On est si bien chez soi";
 "collection_gaming_title" = "La partie est lancée";
 "collection_transport_title" = "Voyagez avec style";
 "collection_you_title" = "Sélectionnés pour vous";
@@ -627,7 +627,7 @@
 "rate_buyers_message" = "Félicitations !";
 "rate_buyers_not_on_letgo_button" = "Je ne l'ai pas vendu sur letgo";
 "rate_buyers_sub_message" = "À qui l'avez-vous vendu ?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_title" = "Qui a acheté ceci ?";
 "rating_list_action_report_review" = "Signaler une évaluation";
 "rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
 "rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
@@ -784,7 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Dites-nous en plus sur votre expérience (requis)";
 "user_rating_review_placeholder_optional" = "Dites-nous en plus sur votre expérience (optionnel)";
 "user_rating_review_send_success" = "Votre avis a été publié !";
-"user_rating_skip_button" = "Skip";
+"user_rating_skip_button" = "Passer";
 "user_rating_title" = "Évaluez votre expérience avec";
 "user_share_error" = "Une erreur est survenue lors du partage du profil. Veuillez réessayer.";
 "user_share_message_mine" = "Jetez un oeil à tout ce que je vends sur letgo !";

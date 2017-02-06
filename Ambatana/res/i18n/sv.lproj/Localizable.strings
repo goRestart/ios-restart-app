@@ -784,7 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Skriv om din upplevelse (obligatoriskt)";
 "user_rating_review_placeholder_optional" = "Skriv om din upplevelse (valfritt)";
 "user_rating_review_send_success" = "Ditt omdöme har publicerats!";
-"user_rating_skip_button" = "Skip";
+"user_rating_skip_button" = "Hoppa över";
 "user_rating_title" = "Betygsätt din upplevelse med";
 "user_share_error" = "Ett fel inträffade när profilen skulle delas. Vänligen försök igen.";
 "user_share_message_mine" = "Titta på allt som jag säljer på letgo:";

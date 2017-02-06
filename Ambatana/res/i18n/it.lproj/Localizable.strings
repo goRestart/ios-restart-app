@@ -627,7 +627,7 @@
 "rate_buyers_message" = "Complimenti!";
 "rate_buyers_not_on_letgo_button" = "Non l'ho venduto su letgo";
 "rate_buyers_sub_message" = "A chi lo hai venduto?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_title" = "Chi lo ha comprato?";
 "rating_list_action_report_review" = "Segnala utente";
 "rating_list_action_report_review_error_message" = "Si è verificato un errore durante l'invio della tua segnalazione.";
 "rating_list_action_report_review_success_message" = "La tua segnalazione è stata inviata!";
@@ -784,7 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Raccontaci la tua esperienza (obbligatorio)";
 "user_rating_review_placeholder_optional" = "Raccontaci la tua esperienza (facoltativo)";
 "user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
-"user_rating_skip_button" = "Skip";
+"user_rating_skip_button" = "Salta";
 "user_rating_title" = "Valuta la tua esperienza con";
 "user_share_error" = "Si è verificato un errore durante la condivisione del profilo. Riprova.";
 "user_share_message_mine" = "Dai un'occhiata a quello che sto vendendo su letgo!";

@@ -427,8 +427,21 @@ class ChatViewModel: BaseViewModel {
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
 
+        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
+            guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
+            self?.userRepository.show(interlocutorId) { [weak self] result in
+                guard let strongSelf = self else { return }
+                guard let user = result.value else { return }
+                strongSelf.interlocutor = user
+                if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
+                    strongSelf.messages.append(userInfoMessage)
+                }
+            }
+        }.addDisposableTo(disposeBag)
+
         setupChatEventsRx()
     }
+
 
     func updateMessagesCounts(_ changeInMessages: CollectionChange<ChatViewMessage>) {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -1099,7 +1112,8 @@ fileprivate extension ChatViewModel {
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                                interlocutorId: userId, typePage: .chat,
-                                                               sellerRating: sellerRating)
+                                                               sellerRating: sellerRating,
+                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
@@ -1111,10 +1125,10 @@ fileprivate extension ChatViewModel {
             shouldTrackFirstMessage = false
             trackFirstMessage(type)
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
-                                                            messageType: type.trackingMessageType,
-                                                            isQuickAnswer: type == .quickAnswer ? .trueParameter : .falseParameter,
-                                                            typePage: .chat)
+        let isQuickAnswer: EventParameterQuickAnswerValue = type == .quickAnswer ? .trueParameter : .falseParameter
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.trackingMessageType,
+                                                            isQuickAnswer: isQuickAnswer, typePage: .chat,
+                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
@@ -1289,26 +1303,6 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if chatStatus.value != .productSold {
             shouldAskProductSold = true
         }
-    }
-}
-
-
-// MARK: - UserInfo
-
-fileprivate extension ChatViewModel {
-
-    func setupUserInfoRxBindings() {
-        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
-            guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
-            self?.userRepository.show(interlocutorId) { [weak self] result in
-                guard let strongSelf = self else { return }
-                guard let user = result.value else { return }
-                strongSelf.interlocutor = user
-                if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
-                    strongSelf.messages.append(userInfoMessage)
-                }
-            }
-        }.addDisposableTo(disposeBag)
     }
 }
 
