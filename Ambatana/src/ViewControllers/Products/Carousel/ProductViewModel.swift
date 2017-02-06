@@ -327,7 +327,7 @@ class ProductViewModel: BaseViewModel {
                 strongSelf.productStatusBackgroundColor.value = status.bgColor
                 strongSelf.productStatusLabelText.value = status.string
                 strongSelf.productStatusLabelColor.value = status.labelColor
-            } else if let featured = strongSelf.product.value.featured, featured {
+            } else if let featured = strongSelf.product.value.featured, featured, strongSelf.featureFlags.pricedBumpUpEnabled {
                 strongSelf.productStatusBackgroundColor.value = UIColor.white
                 strongSelf.productStatusLabelText.value = LGLocalizedString.bumpUpProductDetailFeaturedLabel
                 strongSelf.productStatusLabelColor.value = UIColor.redText
