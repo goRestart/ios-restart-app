@@ -127,6 +127,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_featured_stripe", comment: "")
 	}
 
+	static var bumpUpProductDetailFeaturedLabel: String {
+		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
+	}
+
 	static var bumpUpViewFreeTitle: String {
 		return NSLocalizedString("bump_up_view_free_title", comment: "")
 	}
@@ -2591,6 +2595,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
 	}
 
+	static var rateBuyersTitle: String {
+		return NSLocalizedString("rate_buyers_title", comment: "")
+	}
+
+	static var rateBuyersMessage: String {
+		return NSLocalizedString("rate_buyers_message", comment: "")
+	}
+
+	static var rateBuyersSubMessage: String {
+		return NSLocalizedString("rate_buyers_sub_message", comment: "")
+	}
+
+	static var rateBuyersNotOnLetgoButton: String {
+		return NSLocalizedString("rate_buyers_not_on_letgo_button", comment: "")
+	}
+
 	static var ratingListActionReportReview: String {
 		return NSLocalizedString("rating_list_action_report_review", comment: "")
 	}
@@ -3165,6 +3185,10 @@ struct LGLocalizedString {
 
 	static var userRatingReviewButton: String {
 		return NSLocalizedString("user_rating_review_button", comment: "")
+	}
+
+	static var userRatingSkipButton: String {
+		return NSLocalizedString("user_rating_skip_button", comment: "")
 	}
 
 	static var userRatingReviewInfo: String {
