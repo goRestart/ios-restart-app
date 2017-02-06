@@ -28,7 +28,7 @@
 "bump_up_processing_free_text" = "Đang tiến hành đẩy lên...";
 "bump_up_processing_priced_text" = "Đang tiến hành thanh toán...";
 "bump_up_product_cell_featured_stripe" = "Tiêu biểu";
-"bump_up_product_detail_featured_label" = "FEATURED";
+"bump_up_product_detail_featured_label" = "TIÊU BIỂU";
 "bump_up_view_free_subtitle" = "Càng được chia sẻ nhiều, bài đăng của bạn càng dễ thấy.";
 "bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
 "bump_up_view_pay_bumps_left_text" = "Bạn còn %i lượt đẩy lên.";
@@ -624,9 +624,9 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Kết nối với Google để xác nhận danh tính của bạn";
 "profile_verify_google_title" = "GOOGLE";
-"rate_buyers_message" = "Congratulations!";
-"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
-"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_message" = "Chúc mừng!";
+"rate_buyers_not_on_letgo_button" = "Tôi không bán sản phẩm này trên letgo";
+"rate_buyers_sub_message" = "Bạn đã bán sản phẩm này cho ai?";
 "rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Báo cáo đánh giá";
 "rating_list_action_report_review_error_message" = "Có lỗi xảy ra trong khi gửi báo cáo.";
@@ -784,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Viết về trải nghiệm của bạn (bắt buộc)";
 "user_rating_review_placeholder_optional" = "Viết về trải nghiệm của bạn (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
+"user_rating_skip_button" = "Bỏ qua";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";
 "user_share_error" = "Có lỗi xảy ra trong khi chia sẻ hồ sơ. Xin vui lòng thử lại.";
 "user_share_message_mine" = "Hãy xem tất cả những gì tôi đang bán trên letgo!";

@@ -2374,6 +2374,9 @@
 // Send review button
 "user_rating_review_button" = "Publish review";
 
+// Skip button
+"user_rating_skip_button" = "Skip";
+
 // Information about review comment when rating a user
 "user_rating_review_info" = "You can update this review whenever you want.";
 

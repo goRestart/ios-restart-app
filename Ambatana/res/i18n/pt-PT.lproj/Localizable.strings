@@ -28,7 +28,7 @@
 "bump_up_processing_free_text" = "A processar o bump...";
 "bump_up_processing_priced_text" = "A processar o pagamento...";
 "bump_up_product_cell_featured_stripe" = "Destacado";
-"bump_up_product_detail_featured_label" = "FEATURED";
+"bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
 "bump_up_view_free_title" = "DÊ PRIORIDADE À SUA PUBLICAÇÃO";
 "bump_up_view_pay_bumps_left_text" = "Restam-lhe %i prioridades.";
@@ -624,9 +624,9 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Ligue-se pelo Google para verificar a sua identidade";
 "profile_verify_google_title" = "GOOGLE";
-"rate_buyers_message" = "Congratulations!";
-"rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
-"rate_buyers_sub_message" = "Who did you sell this to?";
+"rate_buyers_message" = "Parabéns!";
+"rate_buyers_not_on_letgo_button" = "Não o vendi no letgo";
+"rate_buyers_sub_message" = "A quem vendeu o artigo?";
 "rate_buyers_title" = "Who bought this?";
 "rating_list_action_report_review" = "Denunciar comentário";
 "rating_list_action_report_review_error_message" = "Ocorreu um erro no envio da sua denúncia.";
@@ -784,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Escreva algo sobre a sua experiência (obrigatório)";
 "user_rating_review_placeholder_optional" = "Escreva algo sobre a sua experiência (opcional)";
 "user_rating_review_send_success" = "O seu comentário foi publicado!";
+"user_rating_skip_button" = "Pular";
 "user_rating_title" = "Comente a sua experiência com";
 "user_share_error" = "Ocorreu um erro ao partilhar o perfil. Por favor tente novamente.";
 "user_share_message_mine" = "Vê tudo o que eu estou a vender no letgo!";

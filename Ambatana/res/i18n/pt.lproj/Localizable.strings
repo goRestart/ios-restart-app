@@ -784,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
 "user_rating_review_placeholder_optional" = "Write about your experience (optional)";
 "user_rating_review_send_success" = "Your review has been published!";
+"user_rating_skip_button" = "Skip";
 "user_rating_title" = "Review your experience with";
 "user_share_error" = "An error occurred while sharing the profile. Please try again.";
 "user_share_message_mine" = "Take a look at everything I'm selling on letgo!";

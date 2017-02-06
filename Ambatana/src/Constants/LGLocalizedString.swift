@@ -3187,6 +3187,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("user_rating_review_button", comment: "")
 	}
 
+	static var userRatingSkipButton: String {
+		return NSLocalizedString("user_rating_skip_button", comment: "")
+	}
+
 	static var userRatingReviewInfo: String {
 		return NSLocalizedString("user_rating_review_info", comment: "")
 	}
