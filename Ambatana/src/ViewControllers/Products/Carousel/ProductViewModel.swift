@@ -323,9 +323,15 @@ class ProductViewModel: BaseViewModel {
         
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
-            strongSelf.productStatusBackgroundColor.value = status.bgColor
-            strongSelf.productStatusLabelText.value = status.string
-            strongSelf.productStatusLabelColor.value = status.labelColor
+            if status.shouldShowStatus {
+                strongSelf.productStatusBackgroundColor.value = status.bgColor
+                strongSelf.productStatusLabelText.value = status.string
+                strongSelf.productStatusLabelColor.value = status.labelColor
+            } else if let featured = strongSelf.product.value.featured, featured {
+                strongSelf.productStatusBackgroundColor.value = UIColor.white
+                strongSelf.productStatusLabelText.value = LGLocalizedString.bumpUpProductDetailFeaturedLabel
+                strongSelf.productStatusLabelColor.value = UIColor.redText
+            }
             }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
@@ -1202,6 +1208,16 @@ fileprivate extension ProductViewModelStatus {
             return false
         case  .otherAvailable,  .otherAvailableFree:
             return true
+        }
+    }
+
+    var shouldShowStatus: Bool {
+        switch self {
+        case .sold, .otherSold, .soldFree, .otherSoldFree:
+            return true
+        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable, .availableFree, .otherAvailableFree,
+             .notAvailable:
+            return false
         }
     }
 
