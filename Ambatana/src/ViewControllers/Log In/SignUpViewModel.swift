@@ -230,13 +230,14 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func showScammerAlert(_ network: EventParameterAccountNetwork) {
-        guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
-            installation: installationRepository.installation, moderation: true) else {
+        guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+                                                                installation: installationRepository.installation,
+                                                                moderation: true) else {
                 navigator?.cancelMainSignUp()
                 return
             }
 
-        navigator?.closeMainSignUpAndOpenScammerAlert(network: network)
+        navigator?.closeMainSignUpAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
     private func trackLoginFBOK() {

@@ -506,7 +506,13 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
-        navigator?.closeSignUpLogInAndOpenScammerAlert(network: network)
+        guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: userEmail,
+                                                                installation: installationRepository.installation,
+                                                                moderation: true) else {
+            navigator?.cancelSignUpLogIn()
+            return
+        }
+        navigator?.closeSignUpLogInAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
     
     

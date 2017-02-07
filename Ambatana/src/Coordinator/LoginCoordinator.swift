@@ -15,13 +15,7 @@ enum LoginStyle {
     case popup(String)
 }
 
-protocol LoginCoordinatorDelegate: CoordinatorDelegate {
-    // TODO: ⚠️
-//    func loginCoordinatorDidCancel(_ coordinator: LoginCoordinator)
-//    func loginCoordinatorWillFinish(_ coordinator: LoginCoordinator)
-//    func loginCoordinatorDidFinishWithFailure(_ coordinator: LoginCoordinator)
-//    func loginCoordinator(_ coordinator: LoginCoordinator, didFinishWithMyUser myUser: MyUser)
-}
+protocol LoginCoordinatorDelegate: CoordinatorDelegate {}
 
 final class LoginCoordinator: Coordinator {
     var child: Coordinator?
@@ -30,6 +24,7 @@ final class LoginCoordinator: Coordinator {
     let bubbleNotificationManager: BubbleNotificationManager
 
     fileprivate var parentViewController: UIViewController?
+    fileprivate weak var signUpLogInViewModel: SignUpLogInViewModel?  // TODO: ⚠️ this is a bit weird
 
     fileprivate let appearance: LoginAppearance
     fileprivate let source: EventParameterLoginSourceValue
@@ -132,28 +127,15 @@ fileprivate extension LoginCoordinator {
 
 extension LoginCoordinator: MainSignUpNavigator {
     func cancelMainSignUp() {
-        close()
+        closeRoot()
     }
 
     func closeMainSignUp(myUser: MyUser) {
-////        delegate?.loginCoordinatorWillFinish(self)
-//        close(animated: true) { [weak self] in
-//            guard let strongSelf = self else { return }
-////            strongSelf.delegate?.loginCoordinator(strongSelf, didFinishWithMyUser: myUser)
-//            strongSelf.delegate?.coordinatorDidClose(strongSelf)
-//        }
-        close()
+        closeRoot()
     }
 
-    func closeMainSignUpAndOpenScammerAlert(network: EventParameterAccountNetwork) {
-////        delegate?.loginCoordinatorWillFinish(self)
-//        close(animated: true) { [weak self] in
-//            guard let strongSelf = self else { return }
-////            strongSelf.delegate?.loginCoordinatorDidFinishWithFailure(strongSelf)
-//            // TODO: ⚠️ Open scammer
-////            strongSelf.delegate?.coordinatorDidClose(strongSelf)
-//        }
-        close()
+    func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        closeAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
@@ -163,6 +145,8 @@ extension LoginCoordinator: MainSignUpNavigator {
         vm.navigator = self
         let vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
         navCtl.pushViewController(vc, animated: true)
+
+        signUpLogInViewModel = vm
     }
 
     func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
@@ -172,6 +156,8 @@ extension LoginCoordinator: MainSignUpNavigator {
         vm.navigator = self
         let vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
         navCtl.pushViewController(vc, animated: true)
+
+        signUpLogInViewModel = vm
     }
 
     func openHelpFromMainSignUp() {
@@ -184,20 +170,27 @@ extension LoginCoordinator: MainSignUpNavigator {
 
 extension LoginCoordinator: SignUpLogInNavigator {
     func cancelSignUpLogIn() {
-        close()
+        closeRoot()
     }
 
     func closeSignUpLogIn(myUser: MyUser) {
-        close()
+        closeRoot()
     }
 
-    func closeSignUpLogInAndOpenScammerAlert(network: EventParameterAccountNetwork) {
-        close()
-        // TODO: ⚠️
+    func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        closeAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
     func openRecaptcha(transparentMode: Bool) {
-        // TODO: ⚠️
+        let vm = RecaptchaViewModel(transparentMode: transparentMode)
+        vm.navigator = self
+        // TODO: ⚠️ instead of presentingViewController ask coordinator delegate
+        let backgroundImage: UIImage? = transparentMode ? viewController.presentingViewController?.view.takeSnapshot() : nil
+        let vc = RecaptchaViewController(viewModel: vm, backgroundImage: backgroundImage)
+        if transparentMode {
+            vc.modalTransitionStyle = .crossDissolve
+        }
+        viewController.present(vc, animated: true, completion: nil)
     }
 
     func openRememberPasswordFromSignUpLogIn(email: String) {
@@ -238,6 +231,21 @@ extension LoginCoordinator: HelpNavigator {
 }
 
 
+// MARK: - RecaptchaNavigator
+
+extension LoginCoordinator: RecaptchaNavigator {
+    func recaptchaClose() {
+        close(animated: true, completion: nil)
+    }
+
+    func recaptchaFinishedWithToken(_ token: String) {
+        close(animated: true) { [weak self] in
+            self?.signUpLogInViewModel?.recaptchaTokenObtained(token)
+        }
+    }
+}
+
+
 // MARK: - Common Navigator
 
 extension LoginCoordinator {
@@ -256,10 +264,37 @@ extension LoginCoordinator {
 // MARK: - Private
 
 fileprivate extension LoginCoordinator {
-    func close() {
+    func closeRoot() {
         close(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.coordinatorDidClose(strongSelf)
+        }
+    }
+
+    func closeAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        close(animated: true) { [weak self] in
+            let contact = UIAction(
+                interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
+                action: {
+                    guard let strongSelf = self else { return }
+                    strongSelf.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
+                    strongSelf.parentViewController?.openInternalUrl(contactURL)
+                    strongSelf.delegate?.coordinatorDidClose(strongSelf)
+
+                })
+            let keepBrowsing = UIAction(
+                interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
+                                                                                                     withBorder: false)),
+                action: {
+                    guard let strongSelf = self else { return }
+                    strongSelf.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+                    strongSelf.delegate?.coordinatorDidClose(strongSelf)
+                })
+            let actions = [contact, keepBrowsing]
+            self?.parentViewController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
+                                                           text: LGLocalizedString.loginScammerAlertMessage,
+                                                           alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_moderation_alert")),
+                                                           buttonsLayout: .vertical, actions: actions)
         }
     }
 
