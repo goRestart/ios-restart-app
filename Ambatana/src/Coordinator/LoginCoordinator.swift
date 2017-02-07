@@ -214,7 +214,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
     }
 
     func openRememberPasswordFromSignUpLogIn(email: String) {
-        guard let navCtl = viewController as? UINavigationController else { return }
+        guard let navCtl = navigationController else { return }
 
         let vm = RememberPasswordViewModel(source: source, email: email)
         vm.navigator = self
@@ -233,8 +233,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
 
 extension LoginCoordinator: RememberPasswordNavigator {
     func closeRememberPassword() {
-        guard let navCtl = viewController as? UINavigationController,
-              navCtl.topViewController is RememberPasswordViewController else { return }
+        guard let navCtl = navigationController else { return }
         navCtl.popViewController(animated: true)
     }
 }
@@ -244,8 +243,7 @@ extension LoginCoordinator: RememberPasswordNavigator {
 
 extension LoginCoordinator: HelpNavigator {
     func closeHelp() {
-        guard let navCtl = viewController as? UINavigationController,
-              navCtl.topViewController is HelpViewController else { return }
+        guard let navCtl = navigationController else { return }
         navCtl.popViewController(animated: true)
     }
 }
@@ -273,7 +271,8 @@ extension LoginCoordinator {
         if #available(iOS 9.0, *) {
             let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             svc.view.tintColor = UIColor.primaryColor
-            viewController.present(svc, animated: true, completion: nil)
+            let vc = navigationController ?? viewController
+            vc.present(svc, animated: true, completion: nil)
         } else {
             UIApplication.shared.openURL(url)
         }
@@ -319,11 +318,20 @@ fileprivate extension LoginCoordinator {
     }
 
     func openHelp() {
-        guard let navCtl = viewController as? UINavigationController else { return }
+        guard let navCtl = navigationController else { return }
 
         let vm = HelpViewModel()
         vm.navigator = self
         let vc = HelpViewController(viewModel: vm)
         navCtl.pushViewController(vc, animated: true)
+    }
+
+    var navigationController: UINavigationController? {
+        switch style {
+        case .fullScreen:
+            return viewController as? UINavigationController
+        case .popup:
+            return viewController.presentedViewController as? UINavigationController
+        }
     }
 }
