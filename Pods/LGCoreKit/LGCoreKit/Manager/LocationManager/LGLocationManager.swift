@@ -44,7 +44,6 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     
     // iVars
     private var lastNotifiedLocation: LGLocation?
-    private var inaccurateLocation: LGLocation?
     private let events = PublishSubject<LocationEvent>()
     
     private var sessionDisposeBag = DisposeBag()
@@ -78,7 +77,6 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         self.countryHelper = countryHelper
         
         self.lastNotifiedLocation = nil
-        self.inaccurateLocation = nil
         self.isManualLocationEnabled = false
         
         self.manualLocationThreshold = LGCoreKitConstants.defaultManualLocationThreshold
@@ -127,8 +125,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
             return deviceLocation
         }
         if let userLocation = myUserRepository.myUser?.location { return userLocation }
-        if let anyDeviceLocation =  dao.deviceLocation?.location { return anyDeviceLocation }
-        return inaccurateLocation
+        return  dao.deviceLocation?.location
+        
     }
     
     /**
@@ -258,26 +256,19 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      Requests the IP lookup location retrieval and, if fails it uses the regional.
      */
     private func retrieveInaccurateLocation() {
-        ipLookupLocationService.retrieveLocationWithCompletion {
-            [weak self] (result: IPLookupLocationServiceResult) -> Void in
+        guard currentLocation == nil else { return }
+        ipLookupLocationService.retrieveLocationWithCompletion { [weak self] (result: IPLookupLocationServiceResult) -> Void in
             if let strongSelf = self {
+                guard strongSelf.currentLocation == nil else { return }
                 // If there's no previous location it should update
-                var shouldUpdateLocation = strongSelf.currentLocation == nil
                 var newLocation: LGLocation? = nil
                 if let coordinates = result.value {
                     newLocation = LGLocation(latitude: coordinates.latitude, longitude: coordinates.longitude,
                                              type: .ipLookup, postalAddress: nil)
-                    strongSelf.inaccurateLocation = newLocation
                 } else {
                     newLocation = strongSelf.retrieveRegionalLocational()
-                    strongSelf.inaccurateLocation = newLocation
                 }
-                // If the current location is not the same as the one received then we notify the delegate
-                shouldUpdateLocation = shouldUpdateLocation ||
-                    strongSelf.currentLocation?.location != newLocation?.location
-                if let newLocation = strongSelf.currentLocation, shouldUpdateLocation {
-                    strongSelf.updateLocation(newLocation)
-                }
+                if let location = newLocation { strongSelf.updateLocation(location) }
             }
         }
     }
