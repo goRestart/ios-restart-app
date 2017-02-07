@@ -644,14 +644,14 @@ extension ProductCarouselViewController {
             .map{$0 ?? ""}
             .bindTo(productStatusLabel.rx.text)
             .addDisposableTo(activeDisposeBag)
-
-        viewModel.productStatusLabelColor.asObservable().bindNext { [weak self] color in
-            self?.productStatusLabel.textColor = color
-        }.addDisposableTo(activeDisposeBag)
-
-        viewModel.productStatusBackgroundColor.asObservable().bindNext { [weak self] color in
-            self?.productStatusView.backgroundColor = color
-        }.addDisposableTo(activeDisposeBag)
+        viewModel.productStatusLabelColor
+            .asObservable()
+            .bindTo(productStatusLabel.rx.textColor)
+            .addDisposableTo(activeDisposeBag)
+        viewModel.productStatusBackgroundColor
+            .asObservable()
+            .bindTo(productStatusView.rx.backgroundColor)
+            .addDisposableTo(activeDisposeBag)
     }
     
 
