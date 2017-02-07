@@ -51,6 +51,7 @@ final class MockUserProduct: MockBaseModel, UserProduct {
         self.banned = nil
         self.status = .active
         super.init()
+        self.objectId = String.random(20)
     }
 
     convenience init(myUser: MyUser) {

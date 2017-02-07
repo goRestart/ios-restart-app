@@ -117,6 +117,7 @@ class ProductViewModel: BaseViewModel {
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
 
+    fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let productRepository: ProductRepository
     fileprivate let commercializerRepository: CommercializerRepository
@@ -147,6 +148,7 @@ class ProductViewModel: BaseViewModel {
 
     convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
         let socialSharer = SocialSharer()
+        let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -157,28 +159,30 @@ class ProductViewModel: BaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         let notificationsManager = LGNotificationsManager.sharedInstance
         let monetizationRepository = Core.monetizationRepository
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+        let tracker = TrackerProxy.sharedInstance
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: LGBubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
                   purchasesShopper: LGPurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
-                  monetizationRepository: monetizationRepository)
+                  monetizationRepository: monetizationRepository, tracker: tracker)
     }
 
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
-         notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository) {
+         notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository, tracker: Tracker) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
+        self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
-        self.trackHelper = ProductVMTrackHelper(product: product)
+        self.trackHelper = ProductVMTrackHelper(tracker: tracker, product: product, featureFlags: featureFlags)
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatWrapper = chatWrapper
@@ -1023,7 +1027,7 @@ fileprivate extension ProductViewModel {
 
 extension ProductViewModel {
     fileprivate func ifLoggedInRunActionElseOpenMainSignUp(_ action: @escaping () -> (), source: EventParameterLoginSourceValue) {
-        if Core.sessionManager.loggedIn {
+        if sessionManager.loggedIn {
             action()
         } else {
             let signUpVM = SignUpViewModel(appearance: .light, source: source)

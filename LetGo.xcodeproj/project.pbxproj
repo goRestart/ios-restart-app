@@ -1054,6 +1054,7 @@
 		C7BAC9CB1E49D433005BD0AF /* MockPurchasesShopper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BAC9CA1E49D433005BD0AF /* MockPurchasesShopper.swift */; };
 		C7BAC9CD1E49E81E005BD0AF /* Product+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BAC9CC1E49E81E005BD0AF /* Product+LG.swift */; };
 		C7BAC9CE1E49E81E005BD0AF /* Product+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BAC9CC1E49E81E005BD0AF /* Product+LG.swift */; };
+		C7BAC9D01E4A0EA6005BD0AF /* TestableObserver+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BAC9CF1E4A0EA6005BD0AF /* TestableObserver+LGSpec.swift */; };
 		C7BB25CA1E3222A900649396 /* TourLoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */; };
 		C7BB25CC1E32315300649396 /* TourLoginState+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CB1E32315300649396 /* TourLoginState+LGSpec.swift */; };
 		C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CD1E3613D500649396 /* VersionChecker.swift */; };
@@ -1980,6 +1981,7 @@
 		C7BAC9C71E49D316005BD0AF /* PurchasesShopper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchasesShopper.swift; sourceTree = "<group>"; };
 		C7BAC9CA1E49D433005BD0AF /* MockPurchasesShopper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPurchasesShopper.swift; sourceTree = "<group>"; };
 		C7BAC9CC1E49E81E005BD0AF /* Product+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+LG.swift"; sourceTree = "<group>"; };
+		C7BAC9CF1E4A0EA6005BD0AF /* TestableObserver+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestableObserver+LGSpec.swift"; sourceTree = "<group>"; };
 		C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLoginViewModelSpec.swift; sourceTree = "<group>"; };
 		C7BB25CB1E32315300649396 /* TourLoginState+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TourLoginState+LGSpec.swift"; sourceTree = "<group>"; };
 		C7BB25CD1E3613D500649396 /* VersionChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionChecker.swift; sourceTree = "<group>"; };
@@ -3470,6 +3472,7 @@
 				2EAC987A1E2E386D00BCF62C /* Int+LGSpec.swift */,
 				C79AF37C1E2F839700E7AB1A /* RxTest+LG.swift */,
 				C7BB25CB1E32315300649396 /* TourLoginState+LGSpec.swift */,
+				C7BAC9CF1E4A0EA6005BD0AF /* TestableObserver+LGSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -5754,6 +5757,7 @@
 				C75BC6B61E2E683C00483F79 /* Double+Randomizable.swift in Sources */,
 				72B935F91E3F9C1C00F93F73 /* MockUserProduct.swift in Sources */,
 				5061ACB91DE35519002E5423 /* MockSessionManager.swift in Sources */,
+				C7BAC9D01E4A0EA6005BD0AF /* TestableObserver+LGSpec.swift in Sources */,
 				C70971C81E2F8CF300680995 /* MockChatUnreadMessages.swift in Sources */,
 				50E96E6D1DE3486A009DB88A /* SignUpViewModelSpec.swift in Sources */,
 				72FCD3061E410C0B00DC6AB7 /* LocalProductSpec.swift in Sources */,

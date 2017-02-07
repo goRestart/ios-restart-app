@@ -21,6 +21,8 @@ class MockProductRepository: ProductRepository {
     var statsResult: ProductStatsResult?
     var buyersResult: ProductBuyersResult?
 
+    var markAsSoldProductId: String?
+    var markAsSoldBuyerId: String?
 
     var events: Observable<ProductEvent> {
         return eventsBus.asObservable()
@@ -113,9 +115,13 @@ class MockProductRepository: ProductRepository {
     // MARK: - Mark product as (un)sold
 
     func markProductAsSold(_ productId: String, buyerId: String?, completion: ProductVoidCompletion?) {
+        markAsSoldProductId = productId
+        markAsSoldBuyerId = buyerId
         performAfterDelayWithCompletion(completion, result: voidResult)
     }
     func markProductAsSold(_ product: Product, buyerId: String?, completion: ProductCompletion?) {
+        markAsSoldProductId = product.objectId
+        markAsSoldBuyerId = buyerId
         performAfterDelayWithCompletion(completion, result: productResult)
     }
     func markProductAsUnsold(_ product: Product, completion: ProductCompletion?) {

@@ -91,6 +91,7 @@ class MockProduct: MockBaseModel, Product {
     
     static func productFromProduct(_ product: Product) -> MockProduct {
         let mockProduct = MockProduct()
+        mockProduct.objectId = product.objectId
         mockProduct.name = product.name
         mockProduct.nameAuto = product.nameAuto
         mockProduct.descr = product.descr

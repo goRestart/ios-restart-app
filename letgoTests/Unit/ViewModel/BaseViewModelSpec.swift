@@ -22,7 +22,11 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
         finishedSuccessfully = false
     }
 
-    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) { }
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            completion?()
+        }
+    }
 
     func vmShowLoading(_ loadingMessage: String?) {
         loading = true
@@ -32,6 +36,9 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         loading = false
         loadingMessage = finishedMessage
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            afterMessageCompletion?()
+        }
     }
 
     func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
