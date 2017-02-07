@@ -15,4 +15,10 @@ extension Reactive where Base: UILabel {
             label.text = text
         }
     }
+
+    var textColor: UIBindingObserver<Base, UIColor> {
+        return UIBindingObserver<Base, UIColor>(UIElement: self.base) { (label, color) -> () in
+            label.textColor = color
+        }
+    }
 }
