@@ -16,6 +16,12 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     var loadingMessage: String?
     var finishedSuccessfully: Bool = false
 
+    func resetViewModelSpec() {
+        loading = false
+        loadingMessage = nil
+        finishedSuccessfully = false
+    }
+
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) { }
 
     func vmShowLoading(_ loadingMessage: String?) {
