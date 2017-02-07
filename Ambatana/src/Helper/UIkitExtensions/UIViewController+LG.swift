@@ -51,8 +51,9 @@ extension UIViewController {
         return rightItem
     }
 
-    func setLetGoRightButtonWith(text: String, selector: String) -> UIBarButtonItem {
-        let rightItem = UIBarButtonItem(title: text, style: .plain, target: self, action: Selector(selector))
+    @discardableResult
+    func setLetGoRightButtonWith(text: String, selector: Selector) -> UIBarButtonItem {
+        let rightItem = UIBarButtonItem(title: text, style: .plain, target: self, action: selector)
         navigationItem.rightBarButtonItems = nil
         navigationItem.rightBarButtonItem = rightItem
         return rightItem

@@ -33,7 +33,7 @@ struct RateUserData {
 }
 
 enum RateUserSource {
-    case chat, deepLink, userRatingList
+    case chat, deepLink, userRatingList, markAsSold
 }
 
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
@@ -104,6 +104,10 @@ class RateUserViewModel: BaseViewModel {
 
     func closeButtonPressed() {
         navigator?.rateUserCancel()
+    }
+
+    func skipButtonPressed() {
+        navigator?.rateUserSkip()
     }
 
     func ratingStarPressed(_ rating: Int) {
@@ -201,6 +205,8 @@ fileprivate extension EventParameterTypePage {
             self = .external
         case .userRatingList:
             self = .userRatingList
+        case .markAsSold:
+            self = .productSold
         }
     }
 }

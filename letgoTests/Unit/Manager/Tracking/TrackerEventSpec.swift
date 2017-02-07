@@ -1380,63 +1380,59 @@ class TrackerEventSpec: QuickSpec {
             }
 
             describe("productMarkAsSold") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
-                    expect(sut.name.rawValue).to(equal("product-detail-sold"))
-                }
-                it("free-posting param is included as Free") {
-                    let product = MockProduct()
-                    product.price = .free
-                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
-                    expect(sut.params!.stringKeyParams["free-posting"] as? String).to(equal("true"))
-                }
-                it("contains the product related params when passing by a product and my user") {
+                beforeEach {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "",
-                        countryCode: "ES", country: nil)
-                    
+                                                         countryCode: "ES", country: nil)
+
                     let productUser = MockUserProduct()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
-                        countryCode: "NL", country: nil)
-                    
+                                                              countryCode: "NL", country: nil)
+
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.983)
+                    product.price = .free
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
-                        countryCode: "US", country: nil)
-                    
-                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
-                    expect(sut.params).notTo(beNil())
-                    
-                    // Product
-                    
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                                                          countryCode: "US", country: nil)
+
+                    sut = TrackerEvent.productMarkAsSold(product, soldTo: .letgoUser, freePostingModeAllowed: true)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-sold"))
+                }
+                it("free-posting param is included as Free") {
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
+                }
+                it("contains product-id param") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    expect(productId) == "AAAAA"
+                }
+                it("contains product-price param") {
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price.value))
-                    
-                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
-                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency.code))
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(productCategory).to(equal(product.category.rawValue))
-                    
+                    expect(productPrice) == Double(0)
+                }
+                it("contains product-currency param") {
+                    let value = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(value) == "EUR"
+                }
+                it("contains category-id param") {
+                    let value = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(value) == ProductCategory.homeAndGarden.rawValue
+                }
+                it("contains user-sold-to param") {
+                    let value = sut.params!.stringKeyParams["user-sold-to"] as? String
+                    expect(value) == "true"
                 }
             }
-            
+
             describe("productMarkAsUnsold") {
                 it("has its event name") {
                     let product = MockProduct()
