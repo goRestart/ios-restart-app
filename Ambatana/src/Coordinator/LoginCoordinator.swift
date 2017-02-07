@@ -135,27 +135,47 @@ extension LoginCoordinator: MainSignUpNavigator {
     }
 
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
-        closeAndOpenScammerAlert(contactURL: contactURL, network: network)
+        closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
-        guard let navCtl = viewController as? UINavigationController else { return }
-
         let vm = SignUpLogInViewModel(source: source, collapsedEmailParam: collapsedEmailParam, action: .signup)
         vm.navigator = self
         let vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
-        navCtl.pushViewController(vc, animated: true)
+
+        switch style {
+        case .fullScreen:
+            guard let navCtl = viewController as? UINavigationController else { return }
+
+            navCtl.pushViewController(vc, animated: true)
+
+        case .popup:
+            guard viewController is PopupSignUpViewController else { return }
+
+            let navCtl = UINavigationController(rootViewController: vc)
+            viewController.present(navCtl, animated: true, completion: nil)
+        }
 
         signUpLogInViewModel = vm
     }
 
     func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
-        guard let navCtl = viewController as? UINavigationController else { return }
-
         let vm = SignUpLogInViewModel(source: source, collapsedEmailParam: collapsedEmailParam, action: .login)
         vm.navigator = self
         let vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
-        navCtl.pushViewController(vc, animated: true)
+
+        switch style {
+        case .fullScreen:
+            guard let navCtl = viewController as? UINavigationController else { return }
+
+            navCtl.pushViewController(vc, animated: true)
+
+        case .popup:
+            guard viewController is PopupSignUpViewController else { return }
+
+            let navCtl = UINavigationController(rootViewController: vc)
+            viewController.present(navCtl, animated: true, completion: nil)
+        }
 
         signUpLogInViewModel = vm
     }
@@ -170,7 +190,7 @@ extension LoginCoordinator: MainSignUpNavigator {
 
 extension LoginCoordinator: SignUpLogInNavigator {
     func cancelSignUpLogIn() {
-        closeRoot()
+        close(animated: true, completion: nil)
     }
 
     func closeSignUpLogIn(myUser: MyUser) {
@@ -178,7 +198,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
     }
 
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
-        closeAndOpenScammerAlert(contactURL: contactURL, network: network)
+        closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
     func openRecaptcha(transparentMode: Bool) {
@@ -271,7 +291,7 @@ fileprivate extension LoginCoordinator {
         }
     }
 
-    func closeAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    func closeRootAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         close(animated: true) { [weak self] in
             let contact = UIAction(
                 interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),

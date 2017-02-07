@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate {
+class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate, SignUpViewModelDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var claimLabel: UILabel!
@@ -112,61 +112,5 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         legalTextView.attributedText = viewModel.attributedLegalText
         legalTextView.textAlignment = .center
         legalTextView.delegate = self
-    }
-
-    fileprivate func presentSignupWithViewModel(_ viewModel: SignUpLogInViewModel) {
-        let vc = SignUpLogInViewController(viewModel: viewModel)
-        vc.preDismissAction = { [weak self] in
-            self?.view.isHidden = true
-            self?.preDismissAction?()
-        }
-        vc.willCloseAction = { [weak self] in
-            guard let strongSelf = self else { return }
-            GIDSignIn.sharedInstance().uiDelegate = strongSelf
-        }
-        vc.afterLoginAction = { [weak self] in
-            self?.dismiss(animated: false, completion: self?.afterLoginAction)
-        }
-        let navC = UINavigationController(rootViewController: vc)
-        present(navC, animated: true, completion: nil)
-    }
-}
-
-
-// MARK: - SignUpViewModelDelegate
-
-extension PopupSignUpViewController: SignUpViewModelDelegate {
-
-    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
-        presentSignupWithViewModel(viewModel)
-    }
-
-    func vmFinish(completedLogin completed: Bool) {
-        if completed {
-            preDismissAction?()
-        }
-        dismiss(animated: true, completion: completed ? afterLoginAction : nil)
-    }
-
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
-        let parentController = presentingViewController
-        let contact = UIAction(
-            interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
-            action: {
-                tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
-                parentController?.openInternalUrl(contactUrl)
-        })
-        let keepBrowsing = UIAction(
-            interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium, withBorder: false)),
-            action: {
-                tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
-        })
-        dismiss(animated: false) {
-            tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
-            parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
-                                                 text: LGLocalizedString.loginScammerAlertMessage,
-                                                 alertType: .iconAlert(icon: UIImage(named: "ic_moderation_alert")),
-                                                 buttonsLayout: .vertical, actions:  [contact, keepBrowsing])
-        }
     }
 }
