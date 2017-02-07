@@ -37,7 +37,7 @@ class TabBarViewModel: BaseViewModel {
 
     convenience override init() {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
-                  notificationsManager: NotificationsManager.sharedInstance,
+                  notificationsManager: LGNotificationsManager.sharedInstance,
                   myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance)
     }
 

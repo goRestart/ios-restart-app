@@ -59,7 +59,7 @@ final class AppCoordinator: BaseCoordinator {
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
         let ratingManager = RatingManager.sharedInstance
         let deepLinksRouter = DeepLinksRouter.sharedInstance
-        let bubbleManager = BubbleNotificationManager.sharedInstance
+        let bubbleManager = LGBubbleNotificationManager.sharedInstance
         let tracker = TrackerProxy.sharedInstance
 
         let productRepository = Core.productRepository

@@ -18,7 +18,7 @@ final class ProfileTabCoordinator: TabCoordinator {
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
         let myUserRepository = Core.myUserRepository
-        let bubbleNotificationManager =  BubbleNotificationManager.sharedInstance
+        let bubbleNotificationManager =  LGBubbleNotificationManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let viewModel = UserViewModel.myUserUserViewModel(.tabBar)

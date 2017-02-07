@@ -8,11 +8,11 @@
 
 import Foundation
 
-class BubbleNotificationManager {
+class LGBubbleNotificationManager: BubbleNotificationManager {
 
     static let defaultDuration: TimeInterval = 3
 
-    static let sharedInstance: BubbleNotificationManager = BubbleNotificationManager()
+    static let sharedInstance: LGBubbleNotificationManager = LGBubbleNotificationManager()
 
     private var taggedNotifications: [String : [BubbleNotification]] = [:]
 
@@ -48,11 +48,11 @@ class BubbleNotificationManager {
 
         guard let duration = duration else {
             // if no duration is defined, we set the default for bubbles with no buttons
-            bubble.showBubble(autoDismissTime: BubbleNotificationManager.defaultDuration)
+            bubble.showBubble(autoDismissTime: LGBubbleNotificationManager.defaultDuration)
             return
         }
 
-        let finalDuration = (data.action == nil && duration <= 0) ? BubbleNotificationManager.defaultDuration : duration
+        let finalDuration = (data.action == nil && duration <= 0) ? LGBubbleNotificationManager.defaultDuration : duration
         bubble.showBubble(autoDismissTime: finalDuration)
     }
 
@@ -66,7 +66,7 @@ class BubbleNotificationManager {
 
 // MARK: - BubbleNotificationDelegate
 
-extension BubbleNotificationManager: BubbleNotificationDelegate {
+extension LGBubbleNotificationManager: BubbleNotificationDelegate {
 
     func bubbleNotificationSwiped(_ notification: BubbleNotification) {
         notification.closeBubble()

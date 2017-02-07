@@ -152,14 +152,14 @@ class ProductViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         let featureFlags = FeatureFlags.sharedInstance
-        let notificationsManager = NotificationsManager.sharedInstance
+        let notificationsManager = LGNotificationsManager.sharedInstance
         let monetizationRepository = Core.monetizationRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
-                  bubbleManager: BubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
-                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
+                  bubbleManager: LGBubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
                   monetizationRepository: monetizationRepository)
     }
 

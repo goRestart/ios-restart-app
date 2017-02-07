@@ -62,7 +62,7 @@ class SettingsViewModel: BaseViewModel {
 
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository, commercializerRepository: Core.commercializerRepository,
-                  locationManager: Core.locationManager, notificationsManager: NotificationsManager.sharedInstance,
+                  locationManager: Core.locationManager, notificationsManager: LGNotificationsManager.sharedInstance,
                   tracker: TrackerProxy.sharedInstance, pushPermissionManager: PushPermissionsManager.sharedInstance)
     }
 
