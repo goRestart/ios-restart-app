@@ -264,7 +264,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
 
     }
-    func selectBuyerToRate(buyers: [UserProduct], completion: @escaping (String?) -> Void) {
+    func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void) {
         let result = self.buyerToRateResult
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
             completion(result)

@@ -1000,10 +1000,26 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: otherUserId)
         delegate?.vmShowReportUser(reportVM)
     }
-    
+
     private func markProductAsSold() {
+        guard let productId = self.product.objectId else { return }
         delegate?.vmShowLoading(nil)
-        productRepository.markProductAsSold(product, buyerId: nil) { [weak self] result in
+        productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+            if let buyers = result.value, !buyers.isEmpty {
+                self?.delegate?.vmHideLoading(nil) {
+                    self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
+                        self?.markProductAsSold(buyerId: buyerId)
+                    }
+                }
+            } else {
+                self?.markProductAsSold(buyerId: nil)
+            }
+        }
+    }
+    
+    private func markProductAsSold(buyerId: String?) {
+        delegate?.vmShowLoading(nil)
+        productRepository.markProductAsSold(product, buyerId: buyerId) { [weak self] result in
             self?.delegate?.vmHideLoading(nil) { [weak self] in
                 guard let strongSelf = self else { return }
                 if let value = result.value {

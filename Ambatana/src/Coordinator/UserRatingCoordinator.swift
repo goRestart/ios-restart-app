@@ -22,6 +22,7 @@ final class UserRatingCoordinator: Coordinator {
 
     fileprivate let navigationController: UINavigationController
     fileprivate var ratedUserId: String?
+    fileprivate let source: RateUserSource
 
     weak var delegate: UserRatingCoordinatorDelegate?
 
@@ -29,19 +30,20 @@ final class UserRatingCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: RateUserSource, data: RateUserData) {
-        self.init()
-        let vc = buildRateUser(source: source, data: data, showSkipButton: false)
+        self.init(source: source)
+        let vc = buildRateUser(data: data, showSkipButton: false)
         self.ratedUserId = data.userId
         navigationController.viewControllers = [vc]
     }
 
-    convenience init(buyers: [UserProduct]) {
-        self.init()
+    convenience init(source: RateUserSource, buyers: [UserProduct]) {
+        self.init(source: source)
         let vc = buildRateBuyers(buyers: buyers)
         navigationController.viewControllers = [vc]
     }
 
-    init() {
+    init(source: RateUserSource) {
+        self.source = source
         navigationController = UINavigationController()
         self.viewController = navigationController
     }
@@ -73,7 +75,7 @@ final class UserRatingCoordinator: Coordinator {
 
     // MARK: - Private
 
-    fileprivate func buildRateUser(source: RateUserSource, data: RateUserData, showSkipButton: Bool) -> RateUserViewController {
+    fileprivate func buildRateUser(data: RateUserData, showSkipButton: Bool) -> RateUserViewController {
         let userRatingVM = RateUserViewModel(source: source, data: data)
         let userRatingVC = RateUserViewController(viewModel: userRatingVM, showSkipButton: showSkipButton)
         userRatingVM.navigator = self
@@ -103,7 +105,7 @@ extension UserRatingCoordinator: RateBuyersNavigator {
             return
         }
         self.ratedUserId = data.userId
-        let vc = buildRateUser(source: .markAsSold, data: data, showSkipButton: true)
+        let vc = buildRateUser(data: data, showSkipButton: true)
         navigationController.pushViewController(vc, animated: true)
     }
 

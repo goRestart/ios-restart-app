@@ -124,5 +124,5 @@ public protocol ProductRepository {
 
     // MARK: - Possible buyers
 
-    func possibleBuyersOf(product: Product, completion: ProductBuyersCompletion?)
+    func possibleBuyersOf(productId: String, completion: ProductBuyersCompletion?)
 }
