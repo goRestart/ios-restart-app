@@ -27,7 +27,8 @@
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
 "bump_up_processing_free_text" = "강조 진행중...";
 "bump_up_processing_priced_text" = "결제 처리중...";
-"bump_up_product_cell_featured_stripe" = "Featured";
+"bump_up_product_cell_featured_stripe" = "주요";
+"bump_up_product_detail_featured_label" = "주요";
 "bump_up_view_free_subtitle" = "더 많이 공유할 수록, 판매 상품이 더 잘보이게 될 것입니다.";
 "bump_up_view_free_title" = "리스팅 강조하기";
 "bump_up_view_pay_bumps_left_text" = "사용자께서는 강조 기회가 %번 남으셨습니다.";
@@ -167,11 +168,11 @@
 "chat_verify_alert_title" = "채팅을 위해 이메일 확인";
 "chat_with_yourself_alert_msg" = "사용자께서는 보유하고 계신 제품에 관한 대화를 시작하실 수 없습니다.";
 "collection_apple_title" = "하루에 사과 한개";
-"collection_explore_button" = "탐색";
+"collection_explore_button" = "검색";
 "collection_furniture_title" = "집처럼 편안한 공간은 없습니다";
-"collection_gaming_title" = "게임이 켜져있습니다";
+"collection_gaming_title" = "게임이 실행되고 있습니다";
 "collection_transport_title" = "화려하게 여행해보세요";
-"collection_you_title" = "당신을 위한 선택";
+"collection_you_title" = "사용자만을 위해 선택된 항목";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -623,6 +624,10 @@
 "profile_verify_google_button" = "구글";
 "profile_verify_google_message" = "본인인증을 위해 구글로 연결하기";
 "profile_verify_google_title" = "구글";
+"rate_buyers_message" = "축하드립니다!";
+"rate_buyers_not_on_letgo_button" = "저는 이것은 letgo에서 판매하지 않았습니다";
+"rate_buyers_sub_message" = "누구에게 이것을 판매하시나요?";
+"rate_buyers_title" = "누가 이것을 구매했나요?";
 "rating_list_action_report_review" = "리뷰 신고하기";
 "rating_list_action_report_review_error_message" = "신고를 발송하는동안 오류가 발생했습니다.";
 "rating_list_action_report_review_success_message" = "신고가 발송되었습니다!";
@@ -779,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "경험하신 것에 대해서 작성해주세요 (선택사항)";
 "user_rating_review_placeholder_optional" = "경험하신 것에 대해서 작성해주세요 (선택사항)";
 "user_rating_review_send_success" = "사용자의 댓글이 정상적으로 등록되었습니다!";
+"user_rating_skip_button" = "넘기기";
 "user_rating_title" = "회원님의 경험을 댓글로 남기기";
 "user_share_error" = "프로필을 공유하는 동안 에러가 발생했습니다. 다시 시도해주세요.";
 "user_share_message_mine" = "제가 letgo에서 판매하고 있는 모든 제품들을 확인해보세요!";
