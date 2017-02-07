@@ -6,9 +6,11 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
-    func userRatingCoordinatorDidCancel(_ coordinator: UserRatingCoordinator)
-    func userRatingCoordinatorDidFinish(_ coordinator: UserRatingCoordinator, withRating rating: Int?)
+    func userRatingCoordinatorDidCancel()
+    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?)
 }
 
 final class UserRatingCoordinator: Coordinator {
@@ -18,19 +20,30 @@ final class UserRatingCoordinator: Coordinator {
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
 
+    fileprivate let navigationController: UINavigationController
+    fileprivate var ratedUserId: String?
+
     weak var delegate: UserRatingCoordinatorDelegate?
 
 
     // MARK: - Lifecycle
 
-    init(source: RateUserSource, data: RateUserData) {
-        let userRatingVM = RateUserViewModel(source: source, data: data)
-        let userRatingVC = RateUserViewController(viewModel: userRatingVM)
-        let navC = UINavigationController(rootViewController: userRatingVC)
-        navC.modalPresentationStyle = .overCurrentContext
-        self.viewController = navC
+    convenience init(source: RateUserSource, data: RateUserData) {
+        self.init()
+        let vc = buildRateUser(source: source, data: data, showSkipButton: false)
+        self.ratedUserId = data.userId
+        navigationController.viewControllers = [vc]
+    }
 
-        userRatingVM.navigator = self
+    convenience init(buyers: [UserProduct]) {
+        self.init()
+        let vc = buildRateBuyers(buyers: buyers)
+        navigationController.viewControllers = [vc]
+    }
+
+    init() {
+        navigationController = UINavigationController()
+        self.viewController = navigationController
     }
 
     func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
@@ -41,21 +54,12 @@ final class UserRatingCoordinator: Coordinator {
     }
 
     func close(animated: Bool, completion: (() -> Void)?) {
-        close(animated: animated, rating: nil, completion: completion)
-    }
-
-
-    // MARK: - Private
-
-    fileprivate func close(animated: Bool, rating: Int?, completion: (() -> Void)?) {
-        let finished = rating != nil
         let dismiss: () -> Void = { [weak self] in
             self?.viewController.dismiss(animated: animated) { [weak self] in
                 guard let strongSelf = self else { return }
-                finished ? strongSelf.delegate?.userRatingCoordinatorDidFinish(strongSelf, withRating: rating) :
-                            strongSelf.delegate?.userRatingCoordinatorDidCancel(strongSelf)
-                strongSelf.delegate?.coordinatorDidClose(strongSelf)
                 completion?()
+                strongSelf.delegate?.coordinatorDidClose(strongSelf)
+
             }
         }
 
@@ -65,6 +69,49 @@ final class UserRatingCoordinator: Coordinator {
             dismiss()
         }
     }
+
+
+    // MARK: - Private
+
+    fileprivate func buildRateUser(source: RateUserSource, data: RateUserData, showSkipButton: Bool) -> RateUserViewController {
+        let userRatingVM = RateUserViewModel(source: source, data: data)
+        let userRatingVC = RateUserViewController(viewModel: userRatingVM, showSkipButton: showSkipButton)
+        userRatingVM.navigator = self
+        return userRatingVC
+    }
+
+    fileprivate func buildRateBuyers(buyers: [UserProduct]) -> RateBuyersViewController {
+        let rateBuyersVM = RateBuyersViewModel(buyers: buyers)
+        let rateBuyersVC = RateBuyersViewController(with: rateBuyersVM)
+        rateBuyersVM.navigator = self
+        return rateBuyersVC
+    }
+}
+
+// MARK: - RateBuyersNavigator
+
+extension UserRatingCoordinator: RateBuyersNavigator {
+    func rateBuyersCancel() {
+        close(animated: true) { [weak self] in
+            self?.delegate?.userRatingCoordinatorDidCancel()
+        }
+    }
+
+    func rateBuyersFinish(withUser user: UserProduct) {
+        guard let data = RateUserData(user: user) else {
+            rateBuyersFinishNotOnLetgo()
+            return
+        }
+        self.ratedUserId = data.userId
+        let vc = buildRateUser(source: .markAsSold, data: data, showSkipButton: true)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func rateBuyersFinishNotOnLetgo() {
+        close(animated: true) { [weak self] in
+            self?.delegate?.userRatingCoordinatorDidFinish(withRating: nil, ratedUserId: nil)
+        }
+    }
 }
 
 
@@ -72,10 +119,20 @@ final class UserRatingCoordinator: Coordinator {
 
 extension UserRatingCoordinator: RateUserNavigator {
     func rateUserCancel() {
-        close(animated: true, rating: nil, completion: nil)
+        close(animated: true) { [weak self] in
+            self?.delegate?.userRatingCoordinatorDidCancel()
+        }
+    }
+
+    func rateUserSkip() {
+        close(animated: true) { [weak self] in
+            self?.delegate?.userRatingCoordinatorDidFinish(withRating: nil, ratedUserId: self?.ratedUserId)
+        }
     }
 
     func rateUserFinish(withRating rating: Int) {
-        close(animated: true, rating: rating, completion: nil)
+        close(animated: true) { [weak self] in
+            self?.delegate?.userRatingCoordinatorDidFinish(withRating: rating, ratedUserId: self?.ratedUserId)
+        }
     }
 }

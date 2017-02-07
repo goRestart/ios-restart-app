@@ -100,7 +100,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (1.4.3)
   - LGCollapsibleLabel (1.0.0)
-  - LGCoreKit (2.4.0):
+  - LGCoreKit (2.5.0):
     - Alamofire (~> 4.2.0)
     - Argo (~> 4.1.1)
     - CocoaLumberjack/Swift (~> 3.0.0)
@@ -150,42 +150,42 @@ PODS:
     - TwitterCore (= 2.3.0)
 
 DEPENDENCIES:
-  - AlamofireImage (~> 3.2.0)
-  - Amplitude-iOS (~> 3.8.5)
+  - AlamofireImage (= 3.2.0)
+  - Amplitude-iOS (= 3.8.5)
   - AppsFlyerFramework (= 4.6.3)
-  - Argo (~> 4.1.1)
-  - Branch (~> 0.12.20)
+  - Argo (= 4.1.2)
+  - Branch (= 0.12.27)
   - bumper (= 1.0.3)
-  - CHTCollectionViewWaterfallLayout (~> 0.9.5)
-  - CocoaLumberjack/Swift (~> 3.0.0)
-  - Crashlytics (~> 3.8.2)
-  - DeviceUtil (~> 1.3.8)
-  - Fabric (~> 1.6.10)
-  - FastttCamera (~> 0.3.4)
-  - FBSDKCoreKit (~> 4.15.1)
-  - FBSDKLoginKit (~> 4.15.1)
-  - FBSDKShareKit (~> 4.15.1)
-  - Firebase/AppIndexing (~> 3.7.1)
-  - FLEX (~> 2.4.0)
-  - Google/SignIn (~> 3.0.3)
-  - GoogleIDFASupport (~> 3.14.0)
+  - CHTCollectionViewWaterfallLayout (= 0.9.5)
+  - CocoaLumberjack/Swift (= 3.0.0)
+  - Crashlytics (= 3.8.3)
+  - DeviceUtil (= 1.3.8)
+  - Fabric (= 1.6.11)
+  - FastttCamera (= 0.3.4)
+  - FBSDKCoreKit (= 4.15.1)
+  - FBSDKLoginKit (= 4.15.1)
+  - FBSDKShareKit (= 4.15.1)
+  - Firebase/AppIndexing (= 3.7.1)
+  - FLEX (= 2.4.0)
+  - Google/SignIn (= 3.0.3)
+  - GoogleIDFASupport (= 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
-  - KMPlaceholderTextView (~> 1.3.0)
-  - Leanplum-iOS-SDK (~> 1.4.1)
+  - KMPlaceholderTextView (= 1.3.0)
+  - Leanplum-iOS-SDK (= 1.4.3)
   - LGCollapsibleLabel (= 1.0.0)
-  - LGCoreKit (= 2.4.0)
-  - Nimble (~> 5.1.1)
-  - OHHTTPStubs (~> 5.2.3)
+  - LGCoreKit (= 2.5.0)
+  - Nimble (= 5.1.1)
+  - OHHTTPStubs (= 5.2.3)
   - OHHTTPStubs/Swift
-  - Quick (~> 1.0.0)
-  - RxBlocking (~> 3.1.0)
-  - RxCocoa (~> 3.1.0)
-  - RxSwift (~> 3.1.0)
-  - RxSwiftExt (~> 2.1.0)
-  - RxTest (~> 3.1.0)
-  - SwiftyUserDefaults (~> 3.0.0)
+  - Quick (= 1.0.0)
+  - RxBlocking (= 3.1.0)
+  - RxCocoa (= 3.1.0)
+  - RxSwift (= 3.1.0)
+  - RxSwiftExt (= 2.1.0)
+  - RxTest (= 3.1.0)
+  - SwiftyUserDefaults (= 3.0.0)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
-  - TwitterKit (~> 2.3.0)
+  - TwitterKit (= 2.3.0)
 
 EXTERNAL SOURCES:
   JBKenBurnsView:
@@ -245,7 +245,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 4b12eb749ec0a0915892548a9703474f5c18ae07
   LGCollapsibleLabel: e33f066be104911c7fb83f29f1f9b5bae218422e
-  LGCoreKit: bf242c60c7a60a4f0e90ac34bc845b4f44b42c75
+  LGCoreKit: 2ea453221621351123279a9d59650b4951461436
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
@@ -263,6 +263,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: f90c0fdee577f25b2c2a7f8c6a9bafc065b5ffbd
+PODFILE CHECKSUM: 22891a81ecec2caaaa7d049e9b1173c82e164049
 
 COCOAPODS: 1.1.1

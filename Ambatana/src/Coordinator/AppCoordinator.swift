@@ -260,9 +260,9 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
 // MARK: - UserRatingCoordinatorDelegate
 
 extension AppCoordinator: UserRatingCoordinatorDelegate {
-    func userRatingCoordinatorDidCancel(_ coordinator: UserRatingCoordinator) {}
+    func userRatingCoordinatorDidCancel() {}
 
-    func userRatingCoordinatorDidFinish(_ coordinator: UserRatingCoordinator, withRating rating: Int?) {
+    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
         if rating == 5 {
             tabBarCtl.showAppRatingViewIfNeeded(.chat)
         }
