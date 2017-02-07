@@ -1379,7 +1379,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            fdescribe("productMarkAsSold") {
+            describe("productMarkAsSold") {
                 beforeEach {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
