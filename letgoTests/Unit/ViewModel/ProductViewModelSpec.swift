@@ -117,9 +117,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(sut.actionButtons.value.count).toEventually(equal(1))
                             sut.actionButtons.value.first?.action()
 
-                            // Calling the action should trigger buyer selection
-                            expect(self.lastBuyersToRate).toEventuallyNot(beNil())
-
                             expect(tracker.trackedEvents.count).toEventually(equal(1))
                         }
                         it("has mark as sold and then sell it again button") {
@@ -148,9 +145,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             // There should appear one button
                             expect(sut.actionButtons.value.count).toEventually(equal(1))
                             sut.actionButtons.value.first?.action()
-
-                            // Calling the action should trigger buyer selection
-                            expect(self.lastBuyersToRate).toEventuallyNot(beNil())
 
                             expect(tracker.trackedEvents.count).toEventually(equal(1))
                         }
