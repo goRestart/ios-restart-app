@@ -44,7 +44,6 @@ public protocol LocationManager {
     */
     var currentAutoLocation: LGLocation? { get }
 
-
     /**
     Sets the given location as manual.
     - parameter location: The location.

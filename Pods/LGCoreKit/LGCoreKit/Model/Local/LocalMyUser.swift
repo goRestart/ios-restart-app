@@ -11,7 +11,7 @@ import CoreLocation
 struct LocalMyUser: MyUser, UserDefaultsDecodable {
     // BaseModel
     var objectId: String?
-
+    
     // User
     var name: String?
     var avatar: File?
@@ -19,12 +19,12 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var ratingAverage: Float?
     var ratingCount: Int
     var status: UserStatus
-
+    
     // MyUser
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
-
+    
     init(objectId: String?, name: String?, avatar: File?, accounts: [LocalAccount],
          ratingAverage: Float?, ratingCount: Int, status: UserStatus, email: String?, location: LGLocation?,
          localeIdentifier: String?) {
@@ -36,12 +36,12 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
         self.ratingCount = ratingCount
         self.accounts = accounts
         self.status = status
-
+        
         self.email = email
         self.location = location
         self.localeIdentifier = localeIdentifier
     }
-
+    
     init(myUser: MyUser) {
         let localAccounts = myUser.accounts.map { LocalAccount(account: $0) }
         self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar, accounts: localAccounts,
@@ -121,12 +121,12 @@ extension LocalMyUser {
                          accounts: accounts, ratingAverage: ratingAverage, ratingCount: ratingCount, status: status,
                          email: email, location: location, localeIdentifier: localeIdentifier)
     }
-
+    
     func encode() -> [String: Any] {
         let keys = MyUserUDKeys()
         return encode(keys)
     }
-
+    
     func encode(_ keys: LGMyUserUDKeys) -> [String: Any] {
         var dictionary: [String: Any] = [:]
         dictionary[keys.objectId] = objectId
@@ -137,6 +137,7 @@ extension LocalMyUser {
         dictionary[keys.zipCode] = postalAddress.zipCode
         dictionary[keys.countryCode] = postalAddress.countryCode
         dictionary[keys.country] = postalAddress.country
+        dictionary[keys.state] = postalAddress.state
         dictionary[keys.email] = email
         dictionary[keys.locationType] = location?.type?.rawValue
         dictionary[keys.latitude] = location?.coordinate.latitude
@@ -147,7 +148,7 @@ extension LocalMyUser {
         dictionary[keys.ratingCount] = ratingCount
         dictionary[keys.status] = status.rawValue
         dictionary[keys.localeIdentifier] = localeIdentifier
-
+        
         return dictionary
     }
 }

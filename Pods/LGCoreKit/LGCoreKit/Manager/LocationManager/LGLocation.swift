@@ -21,9 +21,8 @@ public final class LGLocation: CustomStringConvertible, Equatable {
 
     public let location : LGLocationCoordinates2D
     public let type: LGLocationType?
-    
     public let postalAddress: PostalAddress?
-
+    
     public var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
     }
@@ -48,9 +47,10 @@ public final class LGLocation: CustomStringConvertible, Equatable {
         self.type = type
     }
     
-    func updating(postalAddress: PostalAddress) -> LGLocation {
+    public func updating(postalAddress: PostalAddress) -> LGLocation {
         return LGLocation(latitude: coordinate.latitude, longitude: coordinate.longitude, type: type, postalAddress: postalAddress)
     }
+
 
     public func distanceFromLocation(_ otherLocation: LGLocation) -> Double {
         let clLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
@@ -74,6 +74,6 @@ public func ==(lhs: LGLocation, rhs: LGLocation) -> Bool {
     
     let lPostalAddress = lhs.postalAddress
     let rPostalAddress = rhs.postalAddress
-
+    
     return lLat == rLat && lLon == rLon && lPostalAddress == rPostalAddress
 }

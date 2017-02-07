@@ -161,7 +161,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("current postal address's country code is Turkey") {
                     beforeEach {
                         let locale = Locale(identifier: "es_ES")
-                        locationManager.currentLocation?.postalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: "")
+                        let location = locationManager.currentLocation.updating(PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: ""))
+                        locationManager.currentLocation = location
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
@@ -176,8 +177,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("phone locale and location are not in Turkey") {
                     beforeEach {
                         let locale = Locale(identifier: "es_ES")
-                        locationManager.currentLocation?.postalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "es", country: "")
-
+                        let location = locationManager.currentLocation.updating(PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "es", country: ""))
+                        locationManager.currentLocation = location
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,

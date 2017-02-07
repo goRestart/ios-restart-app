@@ -20,6 +20,9 @@ typealias ProductDataSourceUserRelationCompletion = (ProductDataSourceUserRelati
 typealias ProductDataSourceProductStatsResult = Result<ProductStats, ApiError>
 typealias ProductDataSourceProductStatsCompletion = (ProductDataSourceProductStatsResult) -> Void
 
+typealias ProductDataSourceUsersResult = Result<[UserProduct], ApiError>
+typealias ProductDataSourceUsersCompletion = (ProductDataSourceUsersResult) -> Void
+
 protocol ProductDataSource {
     func index(_ parameters: [String: Any], completion: ProductsDataSourceCompletion?)
     func indexForUser(_ userId: String, parameters: [String: Any], completion: ProductsDataSourceCompletion?)
@@ -29,7 +32,8 @@ protocol ProductDataSource {
     func retrieve(_ productId: String, completion: ProductDataSourceCompletion?)
     func create(_ product: [String: Any], completion: ProductDataSourceCompletion?)
     func update(_ productId: String, product: [String: Any], completion: ProductDataSourceCompletion?)
-    func markAs(sold: Bool, productId: String, completion: ProductDataSourceEmptyCompletion?)
+    func markAsSold(_ productId: String, buyerId: String?, completion: ProductDataSourceEmptyCompletion?)
+    func markAsUnSold(_ productId: String, completion: ProductDataSourceEmptyCompletion?)
     func delete(_ productId: String, completion: ProductDataSourceEmptyCompletion?)
     func deleteFavorite(_ productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?)
     func saveFavorite(_ productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?)
@@ -39,4 +43,5 @@ protocol ProductDataSource {
     func indexTrending(_ parameters: [String: Any], completion: ProductsDataSourceCompletion?)
     func retrieveStats(_ productId: String, completion: ProductDataSourceProductStatsCompletion?)
     func updateStats(_ productIds: [String], action: String, completion: ProductDataSourceEmptyCompletion?)
+    func possibleBuyersOf(productId: String, completion: ProductDataSourceUsersCompletion?)
 }

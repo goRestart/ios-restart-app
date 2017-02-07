@@ -62,10 +62,24 @@ final class ProductApiDataSource: ProductDataSource {
         let request = ProductRouter.update(productId: productId, params: product)
         apiClient.request(request, decoder: ProductApiDataSource.decoder, completion: completion)
     }
-    
-    func markAs(sold: Bool, productId: String, completion: ProductDataSourceEmptyCompletion?) {
-        let status = sold ? ProductStatus.sold.rawValue : ProductStatus.approved.rawValue
-        let params: [String: Any] = ["status": status]
+
+    // MARK: Sold / unsold
+
+    func markAsSold(_ productId: String, buyerId: String?, completion: ProductDataSourceEmptyCompletion?) {
+        var params = [String: Any]()
+        params["status"] = ProductStatus.sold.rawValue
+        if let buyerId = buyerId {
+            params["buyerUserId"] = buyerId
+            params["soldIn"] = "letgo"
+        } else {
+            params["soldIn"] = "external"
+        }
+        let request = ProductRouter.patch(productId: productId, params: params)
+        apiClient.request(request, completion: completion)
+    }
+
+    func markAsUnSold(_ productId: String, completion: ProductDataSourceEmptyCompletion?) {
+        let params: [String: Any] = ["status": ProductStatus.approved.rawValue]
         let request = ProductRouter.patch(productId: productId, params: params)
         apiClient.request(request, completion: completion)
     }
@@ -130,11 +144,18 @@ final class ProductApiDataSource: ProductDataSource {
         apiClient.request(request, completion: completion)
     }
 
+    // MARK: Possible buyers
+
+    func possibleBuyersOf(productId: String, completion: ProductDataSourceUsersCompletion?) {
+        let request = ProductRouter.possibleBuyers(productId: productId)
+        apiClient.request(request, decoder: ProductApiDataSource.decoderUserArray, completion: completion)
+    }
+
     // MARK: Decode products
     
     private static func decoderArray(_ object: Any) -> [Product]? {
         guard let theProduct : [LGProduct] = decode(object) else { return nil }
-        return theProduct.map{$0}
+        return theProduct
     }
     
     private static func decoder(_ object: Any) -> Product? {
@@ -150,5 +171,10 @@ final class ProductApiDataSource: ProductDataSource {
     static func decoderProductStats(_ object: Any) -> ProductStats? {
         let stats: LGProductStats? = decode(object)
         return stats
+    }
+
+    private static func decoderUserArray(_ object: Any) -> [UserProduct]? {
+        guard let theUsers : [LGUserProduct] = decode(object) else { return nil }
+        return theUsers
     }
 }
