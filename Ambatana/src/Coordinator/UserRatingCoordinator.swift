@@ -20,7 +20,7 @@ final class UserRatingCoordinator: Coordinator {
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
 
-    fileprivate var navigationController: UINavigationController
+    fileprivate let navigationController: UINavigationController
     fileprivate var ratedUserId: String?
 
     weak var delegate: UserRatingCoordinatorDelegate?
