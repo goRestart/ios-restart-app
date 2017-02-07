@@ -56,7 +56,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
     convenience init(configManager: ConfigManager) {
         let tabBarViewModel = TabBarViewModel()
-        self.init(tabBarController: TabBarController(viewModel: TabBarViewModel()),
+        self.init(tabBarController: TabBarController(viewModel: tabBarViewModel),
                   configManager: configManager,
                   sessionManager: Core.sessionManager,
                   bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
