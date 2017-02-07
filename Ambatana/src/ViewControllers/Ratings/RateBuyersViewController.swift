@@ -40,9 +40,7 @@ class RateBuyersViewController: BaseViewController {
                                                            target: self, action: #selector(closeButtonPressed))
 
         mainView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(mainView)
-        mainView.layout(with: view).leading().trailing().bottom()
-        mainView.layout(with: topLayoutGuide).top(to: .bottom)
+        mainView.addToViewController(self, inView: view)
 
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
