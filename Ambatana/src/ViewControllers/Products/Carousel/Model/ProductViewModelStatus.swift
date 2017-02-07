@@ -66,6 +66,16 @@ enum ProductViewModelStatus {
         }
     }
 
+    var shouldShowStatus: Bool {
+        switch self {
+        case .sold, .otherSold, .soldFree, .otherSoldFree:
+            return true
+        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable, .availableFree, .otherAvailableFree,
+             .notAvailable:
+            return false
+        }
+    }
+
     var string: String? {
         switch self {
         case .sold, .otherSold:
@@ -78,7 +88,7 @@ enum ProductViewModelStatus {
         }
     }
 
-    var labelColor: UIColor {
+    var bgColor: UIColor {
         switch self {
         case .sold, .otherSold, .soldFree, .otherSoldFree:
             return UIColor.white
@@ -88,7 +98,7 @@ enum ProductViewModelStatus {
         }
     }
 
-    var bgColor: UIColor {
+    var labelColor: UIColor {
         switch self {
         case .sold, .otherSold:
             return UIColor.soldColor
