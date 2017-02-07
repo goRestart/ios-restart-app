@@ -44,6 +44,9 @@ class ProductViewModel: BaseViewModel {
 
     // Data
     let product: Variable<Product>
+    var isMine: Bool {
+        return product.value.isMine(myUserRepository: myUserRepository)
+    }
     fileprivate let commercializers: Variable<[Commercializer]?>
     fileprivate let isReported = Variable<Bool>(false)
     let isFavorite = Variable<Bool>(false)
@@ -327,10 +330,9 @@ class ProductViewModel: BaseViewModel {
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.product = product
-
-            strongSelf.setStatus(product.viewModelStatus(strongSelf.featureFlags))
-
-            strongSelf.productIsFavoriteable.value = !product.isMine
+            let isMine = product.isMine(myUserRepository: strongSelf.myUserRepository)
+            strongSelf.setStatus(ProductViewModelStatus(product: product, isMine: isMine, featureFlags: strongSelf.featureFlags))
+            strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
             strongSelf.freeBumpUpShareMessage.value = ProductSocialMessage(product: product, fallbackToStore: true)
@@ -348,8 +350,8 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
-            guard let flags = self?.featureFlags, let product = self?.product.value else { return }
-            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && product.isMine ? .enabled : .hidden
+            guard let flags = self?.featureFlags, let isMine = self?.isMine else { return }
+            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && isMine ? .enabled : .hidden
             self?.editButtonState.value = !flags.editDeleteItemUxImprovement && status.isEditable ? .enabled : .hidden
         }.addDisposableTo(disposeBag)
 
@@ -382,7 +384,8 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshStatus() {
-        setStatus(product.value.viewModelStatus(featureFlags))
+        let newStatus = ProductViewModelStatus(product: product.value, isMine: isMine, featureFlags: featureFlags)
+        setStatus(newStatus)
     }
 
     private func setStatus(_ productStatus: ProductViewModelStatus) {
@@ -403,11 +406,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        updateBumpUpBannerFor(product: product.value)
-    }
-
-    private func updateBumpUpBannerFor(product: Product) {
-        guard let productId = product.objectId, product.isMine, product.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
         isUpdatingBumpUpBanner = true
         monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
@@ -495,7 +494,7 @@ extension ProductViewModel {
         guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
                                                                    productId: product.value.objectId,
                                                                    source: .productDetail,
-                                                                   isMyVideo: product.value.isMine) else { return }
+                                                                   isMyVideo: isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
@@ -567,7 +566,7 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && product.value.isMine {
+        if featureFlags.editDeleteItemUxImprovement && isMine {
             if status.value.isEditable {
                 navBarButtons.append(buildEditNavBarAction())
             }
@@ -623,7 +622,6 @@ extension ProductViewModel {
 
     private func showOptionsMenu() {
         var actions = [UIAction]()
-        let isMine = product.value.isMine
         let isCommercializable = (status.value == .pendingAndCommercializable || status.value == .availableAndCommercializable)
 
         if featureFlags.editDeleteItemUxImprovement && status.value.isEditable {
@@ -673,8 +671,7 @@ extension ProductViewModel {
     
     fileprivate func confirmToReportProduct() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
-            guard let strongSelf = self else { return }
-            guard !strongSelf.product.value.isMine else { return }
+            guard let strongSelf = self, !strongSelf.isMine else { return }
             
             let alertOKAction = UIAction(interface: .text(LGLocalizedString.commonYes),
                 action: { [weak self] in
@@ -865,7 +862,7 @@ fileprivate extension ProductViewModel {
     }
 
     private func confirmToMarkAsSold() {
-        guard product.value.isMine && status.value.isAvailable else { return }
+        guard isMine && status.value.isAvailable else { return }
         let free = status.value.isFree
         let okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
         let title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
