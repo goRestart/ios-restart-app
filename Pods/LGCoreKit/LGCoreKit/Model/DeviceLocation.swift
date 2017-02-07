@@ -23,15 +23,15 @@ protocol DeviceLocation {
 
 extension DeviceLocation {
 
-    init(location: LGLocation?, postalAddress: PostalAddress?) {
+    init(location: LGLocation?) {
         let latitude = location?.coordinate.latitude
         let longitude = location?.coordinate.longitude
-        let address = postalAddress?.address
-        let city = postalAddress?.city
-        let zipCode = postalAddress?.zipCode
-        let state = postalAddress?.state
-        let countryCode = postalAddress?.countryCode
-        let country = postalAddress?.country
+        let address = location?.postalAddress?.address
+        let city = location?.postalAddress?.city
+        let zipCode = location?.postalAddress?.zipCode
+        let state = location?.postalAddress?.state
+        let countryCode = location?.postalAddress?.countryCode
+        let country = location?.postalAddress?.country
         let locationType = location?.type != .manual ? location?.type?.rawValue : nil
         self.init(latitude: latitude, longitude: longitude, locationType: locationType, address: address,
                   city: city, zipCode: zipCode, state: state, countryCode: countryCode, country: country)
@@ -40,7 +40,7 @@ extension DeviceLocation {
     var location: LGLocation? {
         guard let latitude = latitude, let longitude = longitude, let locationType = locationType,
             let type = LGLocationType(rawValue: locationType) else { return nil }
-        return LGLocation(latitude: latitude, longitude: longitude, type: type)
+        return LGLocation(latitude: latitude, longitude: longitude, type: type, postalAddress: postalAddress)
     }
 
     var postalAddress: PostalAddress {

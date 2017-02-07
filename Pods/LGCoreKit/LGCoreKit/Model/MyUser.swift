@@ -26,4 +26,7 @@ public extension MyUser {
             return false
         }
     }
+    var postalAddress: PostalAddress {
+        return location?.postalAddress ?? PostalAddress.emptyAddress()
+    }
 }

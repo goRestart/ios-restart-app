@@ -21,26 +21,35 @@ public final class LGLocation: CustomStringConvertible, Equatable {
 
     public let location : LGLocationCoordinates2D
     public let type: LGLocationType?
+    
+    public let postalAddress: PostalAddress?
 
     public var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
     }
 
-    public init(latitude: Double, longitude: Double, type: LGLocationType?) {
+    public init(latitude: Double, longitude: Double, type: LGLocationType?, postalAddress: PostalAddress?) {
         self.location = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
+        self.postalAddress = postalAddress
         self.type = type
     }
 
-    public init?(coordinate: CLLocationCoordinate2D, type: LGLocationType?) {
+    public init?(coordinate: CLLocationCoordinate2D, type: LGLocationType?, postalAddress: PostalAddress?) {
         guard let coordinates = LGLocationCoordinates2D(coordinates: coordinate)else { return nil }
         self.location = coordinates
+        self.postalAddress = postalAddress
         self.type = type
     }
 
-    public init?(location: CLLocation, type: LGLocationType?) {
+    public init?(location: CLLocation, type: LGLocationType?, postalAddress: PostalAddress?) {
         guard let coordinates = LGLocationCoordinates2D(coordinates: location.coordinate) else { return nil }
         self.location = coordinates
+        self.postalAddress = postalAddress
         self.type = type
+    }
+    
+    func updating(postalAddress: PostalAddress) -> LGLocation {
+        return LGLocation(latitude: coordinate.latitude, longitude: coordinate.longitude, type: type, postalAddress: postalAddress)
     }
 
     public func distanceFromLocation(_ otherLocation: LGLocation) -> Double {
@@ -62,6 +71,9 @@ public func ==(lhs: LGLocation, rhs: LGLocation) -> Bool {
 
     let rLat = rhs.location.latitude
     let rLon = rhs.location.longitude
+    
+    let lPostalAddress = lhs.postalAddress
+    let rPostalAddress = rhs.postalAddress
 
-    return lLat == rLat && lLon == rLon
+    return lLat == rLat && lLon == rLon && lPostalAddress == rPostalAddress
 }

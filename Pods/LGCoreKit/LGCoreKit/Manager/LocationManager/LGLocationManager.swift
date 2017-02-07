@@ -43,8 +43,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     private let countryHelper: CountryHelper
 
     // iVars
-    private var sensorLocation: LGLocation?
-    private var inaccurateLocation: LGLocation?
+   // private var sensorLocation: LGLocation?
+   // private var inaccurateLocation: LGLocation?
     private var lastNotifiedLocation: LGLocation?
     private let events = PublishSubject<LocationEvent>()
 
@@ -78,10 +78,11 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
 
         self.countryHelper = countryHelper
 
-        if let lastKnownLocation = sensorLocationService.lastKnownLocation {
-            self.sensorLocation = LGLocation(location: lastKnownLocation, type: .sensor)
-        }
-        self.inaccurateLocation = nil
+        //if let lastKnownLocation = sensorLocationService.lastKnownLocation {
+        //    self.sensorLocation = LGLocation(location: lastKnownLocation, type: .sensor, postalAddress: nil)
+        //}
+     //   self.sensorLocation = nil
+     //   self.inaccurateLocation = nil
         self.lastNotifiedLocation = nil
 
         self.isManualLocationEnabled = false
@@ -128,37 +129,20 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         if let userLocation = myUserRepository.myUser?.location, userLocation.type == .manual {
             return userLocation
         }
-        if let sensorLocation = sensorLocation { return sensorLocation }
+        if let deviceLocation = dao.deviceLocation?.location, deviceLocation.type == .sensor {
+            return deviceLocation
+        }
         if let userLocation = myUserRepository.myUser?.location { return userLocation }
-        if let deviceLocation = dao.deviceLocation?.location { return deviceLocation }
-        return inaccurateLocation
+        return dao.deviceLocation?.location
     }
 
     /**
      Returns the best accurate automatic location.
      */
     var currentAutoLocation: LGLocation? {
-        if let sensorLocation = sensorLocation { return sensorLocation }
-        return inaccurateLocation
+        return dao.deviceLocation?.location
     }
 
-    /**
-     Returns the current postal address with the following preference/fallback (follows currentLocation behaviour):
-
-     1. User postalAddress if its type is manual
-     2. Device postalAddress if sensor location enabled
-     3. User postalAddress
-     4. Device postalAddress
-     */
-    var currentPostalAddress: PostalAddress? {
-        if let userLocation = myUserRepository.myUser?.location,
-            let userPostalAddress = myUserRepository.myUser?.postalAddress, userLocation.type == .manual {
-            return userPostalAddress
-        }
-        if let _ = sensorLocation { return dao.deviceLocation?.postalAddress }
-        if let userPostalAddress = myUserRepository.myUser?.postalAddress { return userPostalAddress }
-        return dao.deviceLocation?.postalAddress
-    }
 
     /**
      Sets the given location as manual.
@@ -168,13 +152,13 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      */
     func setManualLocation(_ location: CLLocation, postalAddress: PostalAddress,
                                   completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-        guard let lgLocation = LGLocation(location: location, type: .manual) else {
+        guard let lgLocation = LGLocation(location: location, type: .manual, postalAddress: postalAddress) else {
             completion?(Result<MyUser, RepositoryError>(error: .internalError(message: "Invalid CLLocation")))
             return
         }
         isManualLocationEnabled = true
 
-        updateLocation(lgLocation, postalAddress: postalAddress, userUpdateCompletion: completion)
+        updateLocation(lgLocation, userUpdateCompletion: completion)
     }
 
     /**
@@ -185,7 +169,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         isManualLocationEnabled = false
 
         guard let currentAutoLocation = currentAutoLocation else { return }
-        updateLocation(currentAutoLocation, postalAddress: nil, userUpdateCompletion: userUpdateCompletion)
+        updateLocation(currentAutoLocation, userUpdateCompletion: userUpdateCompletion)
     }
 
     /**
@@ -253,8 +237,9 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
 
-        sensorLocation = LGLocation(location: lastLocation, type: .sensor)
-        guard let location = sensorLocation else { return }
+        // TODO: WHERE DO WE HAVE A POSTALADDRESS!!!!!
+        let newLocation = LGLocation(location: lastLocation, type: .sensor, postalAddress: nil)
+        guard let location = newLocation else { return }
 
         updateLocation(location)
     }
@@ -283,18 +268,16 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
             if let strongSelf = self {
                 // If there's no previous location it should update
                 var shouldUpdateLocation = strongSelf.currentLocation == nil
-
+                var newLocation: LGLocation? = nil
                 if let coordinates = result.value {
-                    let newLocation = LGLocation(latitude: coordinates.latitude, longitude: coordinates.longitude,
-                        type: .ipLookup)
-                    strongSelf.inaccurateLocation = newLocation
+                    newLocation = LGLocation(latitude: coordinates.latitude, longitude: coordinates.longitude,
+                                                 type: .ipLookup, postalAddress: nil)
                 } else {
-                    strongSelf.inaccurateLocation = strongSelf.retrieveRegionalLocational()
+                    newLocation = strongSelf.retrieveRegionalLocational()
                 }
-
                 // If the current location is not the same as the one received then we notify the delegate
                 shouldUpdateLocation = shouldUpdateLocation ||
-                    strongSelf.currentLocation?.location != strongSelf.inaccurateLocation?.location
+                    strongSelf.currentLocation?.location != newLocation?.location
                 if let newLocation = strongSelf.currentLocation, shouldUpdateLocation {
                     strongSelf.updateLocation(newLocation)
                 }
@@ -307,7 +290,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      - returns: The regional location.
      */
     private func retrieveRegionalLocational() -> LGLocation? {
-        return LGLocation(coordinate: countryHelper.regionCoordinate, type: .regional)
+        return LGLocation(coordinate: countryHelper.regionCoordinate, type: .regional, postalAddress: nil)
     }
 
     /**
@@ -320,7 +303,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
 
         postalAddressRetrievalService.retrieveAddressForLocation(location.location) { [weak self] result in
             let postalAddress = result.value?.postalAddress ?? PostalAddress.emptyAddress()
-            self?.updateLocation(location, postalAddress: postalAddress, userUpdateCompletion: completion)
+            let newLocation = location.updating(postalAddress: postalAddress)
+            self?.updateLocation(newLocation, userUpdateCompletion: completion)
         }
     }
 
@@ -335,13 +319,13 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      - parameter postalAddress: The postal address.
      - parameter userUpdateCompletion: The completion closure for `MyUser` update.
      */
-    private func updateLocation(_ location: LGLocation, postalAddress: PostalAddress? = nil,
+    private func updateLocation(_ location: LGLocation,
                                 userUpdateCompletion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
 
-        if let postalAddress = postalAddress {
-            updateDeviceLocation(location, postalAddress: postalAddress)
-            updateUserLocation(location, postalAddress: postalAddress, completion: userUpdateCompletion)
-            handleLocationUpdate(location, postalAddress: postalAddress)
+        if let postalAddress = location.postalAddress {
+            if updateDeviceLocation(location) || updateUserLocation(location, completion: userUpdateCompletion) {
+                handleLocationUpdate(location)
+            }
         } else {
             retrievePostalAddressAndUpdate(location, completion: userUpdateCompletion)
         }
@@ -352,19 +336,23 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      - parameter location: The location.
      - parameter postalAddress: The postal address.
      */
-    private func updateDeviceLocation(_ location: LGLocation, postalAddress: PostalAddress) {
+    private func updateDeviceLocation(_ location: LGLocation) -> Bool {
         var updatedDeviceLocation: DeviceLocation? = nil
+        var willUpdateDeviceLocation = false
         if let deviceLocation = dao.deviceLocation {
             if deviceLocation.shouldReplaceWithNewLocation(location) {
-                updatedDeviceLocation = LGDeviceLocation(location: location, postalAddress: postalAddress)
+                updatedDeviceLocation = LGDeviceLocation(location: location)
+                willUpdateDeviceLocation = true
             }
         } else {
             // If non-cached device location then create a new one
-            updatedDeviceLocation = LGDeviceLocation(location: location, postalAddress: postalAddress)
+            updatedDeviceLocation = LGDeviceLocation(location: location)
+            willUpdateDeviceLocation = false
         }
         if let updatedDeviceLocation = updatedDeviceLocation {
             dao.save(updatedDeviceLocation)
         }
+        return willUpdateDeviceLocation
     }
 
     /**
@@ -373,26 +361,29 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      - parameter postalAddress: The postal address.
      - parameter completion: The completion closure.
      */
-    private func updateUserLocation(_ location: LGLocation, postalAddress: PostalAddress,
-                                    completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
-
+    private func updateUserLocation(_ location: LGLocation,
+                                    completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) -> Bool {
+        var willUpdateUserLocation = false
         guard let myUser = myUserRepository.myUser else {
             completion?(Result<MyUser, RepositoryError>(error: .internalError(message: "Missing MyUser objectId")))
-            return
+            return willUpdateUserLocation
         }
 
         checkFarAwayMovementAndNotify(myUser: myUser, location: location)
 
         if myUser.shouldReplaceWithNewLocation(location, manualLocationEnabled: isManualLocationEnabled) {
+            willUpdateUserLocation = true
             let myCompletion: (Result<MyUser, RepositoryError>) -> () = { [weak self] result in
-                self?.handleLocationUpdate(location, postalAddress: postalAddress)
+                self?.handleLocationUpdate(location)
                 completion?(result)
             }
-            myUserRepository.updateLocation(location, postalAddress: postalAddress, completion: myCompletion)
+            myUserRepository.updateLocation(location, completion: myCompletion)
         } else {
             //We're not updating location but everything is ok
             completion?(Result<MyUser, RepositoryError>(value: myUser))
+            willUpdateUserLocation = false
         }
+        return willUpdateUserLocation
     }
 
 
@@ -415,7 +406,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      - parameter location: The location.
      - parameter postalAddress: The postal address.s
      */
-    private func handleLocationUpdate(_ location: LGLocation, postalAddress: PostalAddress?) {
+    private func handleLocationUpdate(_ location: LGLocation) {
         guard let currentLocation = currentLocation, currentLocation != lastNotifiedLocation else { return }
 
         lastNotifiedLocation = currentLocation
@@ -433,7 +424,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
             return
         }
         if myUser.shouldReplaceWithNewLocation(location, manualLocationEnabled: isManualLocationEnabled) {
-            myUserRepository.updateLocation(location, postalAddress: postalAddress, completion: nil)
+            myUserRepository.updateLocation(location, completion: nil)
         }
     }
 }

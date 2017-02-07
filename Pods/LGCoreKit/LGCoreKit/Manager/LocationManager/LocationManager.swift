@@ -44,15 +44,6 @@ public protocol LocationManager {
     */
     var currentAutoLocation: LGLocation? { get }
 
-    /**
-    Returns the current postal address with the following preference/fallback (follows currentLocation behaviour):
-
-        1. User postalAddress if its type is manual
-        2. Device postalAddress if sensor location enabled
-        3. User postalAddress
-        4. Device postalAddress
-    */
-    var currentPostalAddress: PostalAddress? { get }
 
     /**
     Sets the given location as manual.

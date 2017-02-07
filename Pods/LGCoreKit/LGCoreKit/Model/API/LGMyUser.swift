@@ -45,7 +45,6 @@ struct LGMyUser: MyUser {
     // User
     var name: String?
     var avatar: File?
-    var postalAddress: PostalAddress
     var accounts: [Account]
     var ratingAverage: Float?
     var ratingCount: Int
@@ -56,14 +55,13 @@ struct LGMyUser: MyUser {
     var location: LGLocation?
     var localeIdentifier: String?
 
-    init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LGAccount],
+    init(objectId: String?, name: String?, avatar: File?, accounts: [LGAccount],
          ratingAverage: Float?, ratingCount: Int, status: UserStatus?, email: String?, location: LGLocation?,
          localeIdentifier: String?) {
         self.objectId = objectId
 
         self.name = name
         self.avatar = avatar
-        self.postalAddress = postalAddress
 
         self.accounts = accounts
         self.ratingAverage = ratingAverage
@@ -140,7 +138,6 @@ extension LGMyUser: Decodable {
                             <^> j <|? keys.objectId
                             <*> j <|? keys.name
                             <*> LGArgo.jsonToAvatarFile(j, avatarKey: keys.avatar)
-                            <*> PostalAddress.decode(j)
         let init2 = init1   <*> j <|| keys.accounts
                             <*> j <|? keys.ratingAverage
                             <*> j <| keys.ratingCount

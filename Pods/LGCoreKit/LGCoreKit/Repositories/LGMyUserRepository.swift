@@ -207,18 +207,17 @@ class LGMyUserRepository: InternalMyUserRepository {
      - parameter postalAddress: The postal address.
      - parameter completion: The completion closure.
      */
-    func updateLocation(_ location: LGLocation, postalAddress: PostalAddress,
-                        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    func updateLocation(_ location: LGLocation, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
         let JSONKeys = LGMyUser.ApiMyUserKeys()
         var params = [String: Any]()
         params[JSONKeys.latitude] = location.coordinate.latitude
         params[JSONKeys.longitude] = location.coordinate.longitude
         params[JSONKeys.locationType] = location.type?.rawValue
-        params[JSONKeys.zipCode] = postalAddress.zipCode ?? ""
-        params[JSONKeys.address] = postalAddress.address ?? ""
-        params[JSONKeys.city] = postalAddress.city ?? ""
-        params[JSONKeys.state] = postalAddress.state ?? ""
-        params[JSONKeys.countryCode] = postalAddress.countryCode ?? ""
+        params[JSONKeys.zipCode] = location.postalAddress?.zipCode ?? ""
+        params[JSONKeys.address] = location.postalAddress?.address ?? ""
+        params[JSONKeys.city] = location.postalAddress?.city ?? ""
+        params[JSONKeys.state] = location.postalAddress?.state ?? ""
+        params[JSONKeys.countryCode] = location.postalAddress?.countryCode ?? ""
         update(params, completion: completion)
     }
 
