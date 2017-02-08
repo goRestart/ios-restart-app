@@ -109,7 +109,7 @@ class UserViewController: BaseViewController {
     }
     
     convenience init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false) {
-        let notificationsManager = NotificationsManager.sharedInstance
+        let notificationsManager = LGNotificationsManager.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(viewModel: viewModel, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed, notificationsManager: notificationsManager, featureFlags: featureFlags)
     }

@@ -19,7 +19,7 @@ class NotificationsManagerSpec: QuickSpec {
 
     override func spec() {
 
-        var sut: NotificationsManager!
+        var sut: LGNotificationsManager!
         var sessionManager: MockSessionManager!
         var myUserRepository: MockMyUserRepository!
         var chatRepository: MockChatRepository!
@@ -39,7 +39,7 @@ class NotificationsManagerSpec: QuickSpec {
 
         describe("NotificationsManagerSpec") {
             func createNotificationsManager() {
-                sut = NotificationsManager(sessionManager: sessionManager, chatRepository: chatRepository,
+                sut = LGNotificationsManager(sessionManager: sessionManager, chatRepository: chatRepository,
                                            oldChatRepository: oldChatRepository, notificationsRepository: notificationsRepository,
                                            keyValueStorage: keyValueStorage, featureFlags: featureFlags)
 

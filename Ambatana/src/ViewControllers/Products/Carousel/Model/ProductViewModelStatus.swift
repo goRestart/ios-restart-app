@@ -6,6 +6,7 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
 
 enum ProductViewModelStatus {
 
@@ -26,6 +27,27 @@ enum ProductViewModelStatus {
 
     // Common:
     case notAvailable
+
+    init(product: Product, isMine: Bool, featureFlags: FeatureFlaggeable) {
+        switch product.status {
+        case .pending:
+            self = isMine ? .pending : .notAvailable
+        case .discarded, .deleted:
+            self = .notAvailable
+        case .approved:
+            if featureFlags.freePostingModeAllowed && product.price.free {
+                self = isMine ? .availableFree : .otherAvailableFree
+            } else {
+                self = isMine ? .available : .otherAvailable
+            }
+        case .sold, .soldOld:
+            if featureFlags.freePostingModeAllowed && product.price.free {
+                self = isMine ? .soldFree : .otherSoldFree
+            } else {
+                self = isMine ? .sold : .otherSold
+            }
+        }
+    }
 
     var isEditable: Bool {
         switch self {

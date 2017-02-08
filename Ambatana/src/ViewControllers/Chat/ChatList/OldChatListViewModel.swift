@@ -53,7 +53,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         super.didFinishLoading()
 
         if active {
-            NotificationsManager.sharedInstance.updateChatCounters()
+            LGNotificationsManager.sharedInstance.updateChatCounters()
         }
     }
 

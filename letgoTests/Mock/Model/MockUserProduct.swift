@@ -51,6 +51,13 @@ final class MockUserProduct: MockBaseModel, UserProduct {
         self.banned = nil
         self.status = .active
         super.init()
+        self.objectId = String.random(20)
+    }
+
+    convenience init(myUser: MyUser) {
+        self.init()
+        self.objectId = myUser.objectId
+        self.name = myUser.name
     }
     
     required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, banned: Bool?) {

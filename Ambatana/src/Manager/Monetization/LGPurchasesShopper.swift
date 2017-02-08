@@ -19,9 +19,9 @@ protocol PurchasesShopperDelegate: class {
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
 }
 
-class PurchasesShopper: NSObject {
+class LGPurchasesShopper: NSObject, PurchasesShopper {
 
-    static let sharedInstance: PurchasesShopper = PurchasesShopper()
+    static let sharedInstance: PurchasesShopper = LGPurchasesShopper()
 
     private(set) var currentProductId: String?
     private var productsRequest: PurchaseableProductsRequest
@@ -31,7 +31,7 @@ class PurchasesShopper: NSObject {
 
     weak var delegate: PurchasesShopperDelegate?
 
-    var productsDict: [String : [SKProduct]] = [:]
+    fileprivate var productsDict: [String : [SKProduct]] = [:]
 
     override convenience init() {
         let factory = AppstoreProductsRequestFactory()
@@ -89,7 +89,7 @@ class PurchasesShopper: NSObject {
 
 // MARK: - SKProductsRequestDelegate
 
-extension PurchasesShopper: PurchaseableProductsRequestDelegate {
+extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
     func productsRequest(_ request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse) {
 
         guard let currentProductId = currentProductId else { return }
