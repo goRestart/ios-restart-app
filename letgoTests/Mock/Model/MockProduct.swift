@@ -52,6 +52,7 @@ class MockProduct: MockBaseModel, Product {
         self.price = .negotiable(100)
         self.currency = Currency(code: "USD", symbol: "$")
         super.init()
+        self.objectId = String.random(20)
     }
     
     // MARK: - Product methods

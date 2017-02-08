@@ -187,7 +187,7 @@ class MockProductRepository: ProductRepository {
 
     // MARK: - Possible buyers
 
-    func possibleBuyersOf(product: Product, completion: ProductBuyersCompletion?) {
+    func possibleBuyersOf(productId: String, completion: ProductBuyersCompletion?) {
         performAfterDelayWithCompletion(completion, result: buyersResult)
     }
 }
