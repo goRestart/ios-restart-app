@@ -10,9 +10,7 @@ import UIKit
 import FastttCamera
 import RxSwift
 
-class PostProductViewController: BaseViewController {
-
-    
+class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
@@ -68,6 +66,7 @@ class PostProductViewController: BaseViewController {
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
+        viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
