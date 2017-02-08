@@ -198,7 +198,7 @@ fileprivate extension TabCoordinator {
 
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
                                           productListRequester: requester, navigator: self, source: source,
-                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, firstProductIndex: nil)
+                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, firstProductIndex: index)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
