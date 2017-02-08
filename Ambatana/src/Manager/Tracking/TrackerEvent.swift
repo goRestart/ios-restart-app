@@ -989,9 +989,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
     
-    static func chatWindowVisit(_ typePage: EventParameterTypePage) -> TrackerEvent {
+    static func chatWindowVisit(_ typePage: EventParameterTypePage, chatEnabled: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
+        params[.chatEnabled] = chatEnabled
         return TrackerEvent(name: .chatWindowVisit, params: params)
     }
 
