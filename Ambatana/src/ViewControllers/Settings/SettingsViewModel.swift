@@ -55,7 +55,7 @@ class SettingsViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
 
     private var commercializerEnabled: Bool {
-        guard let countryCode = locationManager.currentLocation?.postalAddress?.countryCode else { return false }
+        guard let countryCode = locationManager.currentLocation?.countryCode else { return false }
         return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
     }
 

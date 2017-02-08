@@ -125,7 +125,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
         if let currentLocation = locationManager.currentLocation {
             params.coordinates = LGLocationCoordinates2D(location: currentLocation)
         }
-        params.countryCode = locationManager.currentLocation?.postalAddress?.countryCode
+        params.countryCode = locationManager.currentLocation?.countryCode
         params.sortCriteria = .creation
         params.statuses = statuses
         return params

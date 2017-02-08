@@ -144,7 +144,7 @@ class ProductCarouselViewModel: BaseViewModel {
          source: EventParameterProductVisitSource, locale: Locale, locationManager: LocationManager,
          socialSharer: SocialSharer, featureFlags: FeatureFlaggeable,
          showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
-        let countryCode = locationManager.currentLocation?.postalAddress?.countryCode ?? locale.lg_countryCode
+        let countryCode = locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         if let productListModels = productListModels {

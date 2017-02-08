@@ -100,7 +100,7 @@ class FilteredProductListRequester: ProductListRequester {
         if let countryCode = filters?.place?.postalAddress?.countryCode {
             return countryCode
         }
-        return queryFirstCallCountryCode ?? locationManager.currentLocation?.postalAddress?.countryCode
+        return queryFirstCallCountryCode ?? locationManager.currentLocation?.countryCode
     }
 
     func hasFilters() -> Bool {
