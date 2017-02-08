@@ -461,11 +461,7 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - Possible buyers
 
-    func possibleBuyersOf(product: Product, completion: ProductBuyersCompletion?) {
-        guard let productId = product.objectId else {
-            completion?(ProductBuyersResult(error: .internalError(message: "Missing objectId in Product")))
-            return
-        }
+    func possibleBuyersOf(productId: String, completion: ProductBuyersCompletion?) {
         guard let _ = myUserRepository.myUser?.objectId else {
             completion?(ProductBuyersResult(error: .internalError(message: "Not logged in")))
             return

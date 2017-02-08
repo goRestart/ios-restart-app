@@ -33,7 +33,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "1.4.3"  # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",            "2.5.0"     #:path => "../lgcorekit" #:git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'abc844d7a0e9b68657d39ff06ffa734170e2d9a6'
+    pod "LGCoreKit",            "2.5.1"     #:path => "../lgcorekit" #:git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0a0a05c56d0885d902025307d412ede170e9bfb1'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.0.0"     # :path => "../collapsiblelabel"

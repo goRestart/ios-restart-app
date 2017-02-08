@@ -844,12 +844,12 @@ fileprivate extension ProductViewModel {
 
     func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
         ifLoggedInRunActionElseOpenMainSignUp( { [weak self]  in
-            guard let product = self?.product.value else { return }
+            guard let productId = self?.product.value.objectId else { return }
             self?.delegate?.vmShowLoading(nil)
-            self?.productRepository.possibleBuyersOf(product: product) { result in
+            self?.productRepository.possibleBuyersOf(productId: productId) { result in
                 if let buyers = result.value, !buyers.isEmpty {
                     self?.delegate?.vmHideLoading(nil) {
-                        self?.navigator?.selectBuyerToRate(buyers: buyers) { [weak self] buyerId in
+                        self?.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers) { [weak self] buyerId in
                             let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
                             self?.markAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
                         }
