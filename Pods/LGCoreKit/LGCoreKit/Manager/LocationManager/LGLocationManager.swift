@@ -89,7 +89,11 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     }
     
     func initialize() {
-        retrieveInaccurateLocation()
+        if let location = currentLocation, currentLocation?.countryCode == nil {
+            updateLocation(location)
+        } else {
+            retrieveInitialLocationIfNeeded()
+        }
     }
     
     func observeSessionManager(_ sessionManager: SessionManager) {
@@ -114,8 +118,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      1. User location if its type is manual
      2. Sensor
      3. User location
-     4. Device location
-     5. Inaccurate (IP, or worst case: regional)
+     4. Device location (IP, or worst case: regional)
      */
     var currentLocation: LGLocation? {
         if let userLocation = myUserRepository.myUser?.location, userLocation.type == .manual {
@@ -231,10 +234,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         guard let lastLocation = locations.last else { return }
         
         // there is no postalAddress at that point, it will update on updateLocation
-        let newLocation = LGLocation(location: lastLocation, type: .sensor, postalAddress: nil)
-        guard let location = newLocation else { return }
-        
-        updateLocation(location)
+        guard let newLocation = LGLocation(location: lastLocation, type: .sensor, postalAddress: nil) else { return }
+        updateLocation(newLocation)
     }
     
     
@@ -255,7 +256,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     /**
      Requests the IP lookup location retrieval and, if fails it uses the regional.
      */
-    private func retrieveInaccurateLocation() {
+    private func retrieveInitialLocationIfNeeded() {
         guard currentLocation == nil else { return }
         ipLookupLocationService.retrieveLocationWithCompletion { [weak self] (result: IPLookupLocationServiceResult) -> Void in
             if let strongSelf = self {
@@ -323,10 +324,11 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     /**
      Updates location and postal address in `DeviceLocation`.
      - parameter location: The location.
+     - returns:  If device location was updated or not.
      */
     private func updateDeviceLocation(_ location: LGLocation) -> Bool {
         var updatedDeviceLocation: DeviceLocation? = nil
-        var willUpdateDeviceLocation = false
+        var didUpdateDeviceLocation = false
         if let deviceLocation = dao.deviceLocation {
             if deviceLocation.shouldReplaceWithNewLocation(location) {
                 updatedDeviceLocation = LGDeviceLocation(location: location)
@@ -337,15 +339,16 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         }
         if let updatedDeviceLocation = updatedDeviceLocation {
             dao.save(updatedDeviceLocation)
-            willUpdateDeviceLocation = true
+            didUpdateDeviceLocation = true
         }
-        return willUpdateDeviceLocation
+        return didUpdateDeviceLocation
     }
     
     /**
      Updates location and postal address in `MyUser`.
      - parameter location: The location.
      - parameter completion: The completion closure.
+     - returns If userLocation will be updated or not
      */
     private func updateUserLocation(_ location: LGLocation,
                                     completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) -> Bool {

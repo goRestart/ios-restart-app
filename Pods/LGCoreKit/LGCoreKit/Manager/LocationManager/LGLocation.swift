@@ -34,7 +34,7 @@ public final class LGLocation: CustomStringConvertible, Equatable {
     }
 
     public init?(coordinate: CLLocationCoordinate2D, type: LGLocationType?, postalAddress: PostalAddress?) {
-        guard let coordinates = LGLocationCoordinates2D(coordinates: coordinate)else { return nil }
+        guard let coordinates = LGLocationCoordinates2D(coordinates: coordinate) else { return nil }
         self.location = coordinates
         self.postalAddress = postalAddress
         self.type = type
@@ -60,6 +60,10 @@ public final class LGLocation: CustomStringConvertible, Equatable {
 
     public var description : String {
         return "location: \(location); type: \(type?.rawValue)"
+    }
+    
+    public var countryCode: String? {
+        return postalAddress?.countryCode
     }
 }
 

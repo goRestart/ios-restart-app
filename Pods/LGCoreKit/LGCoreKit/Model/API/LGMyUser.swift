@@ -42,7 +42,7 @@ protocol LGMyUserApiKeys: LGMyUserKeys {
 struct LGMyUser: MyUser {
     // BaseModel
     var objectId: String?
-    
+
     // User
     var name: String?
     var avatar: File?
@@ -50,26 +50,26 @@ struct LGMyUser: MyUser {
     var ratingAverage: Float?
     var ratingCount: Int
     var status: UserStatus
-    
+
     // MyUser
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
-    
+
     init(objectId: String?, name: String?, avatar: File?, accounts: [LGAccount],
          ratingAverage: Float?, ratingCount: Int, status: UserStatus?, email: String?, location: LGLocation?,
          localeIdentifier: String?) {
         self.objectId = objectId
-        
+
         self.name = name
         self.avatar = avatar
         
         self.accounts = accounts
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
-        
+
         self.status = status ?? .active
-        
+
         self.email = email
         self.location = location
         self.localeIdentifier = localeIdentifier
@@ -101,11 +101,11 @@ extension LGMyUser: Decodable {
         let status = "status"
         let localeIdentifier = "locale"
     }
-    
+
     /**
-     https://ambatana.atlassian.net/wiki/display/BAPI/Users
-     Decodes a json in the form:
-     {
+    https://ambatana.atlassian.net/wiki/display/BAPI/Users
+    Decodes a json in the form:
+    {
     	"id": "d67a38d4-6a80-4ca7-a54e-ccf0c57076a3",
     	"latitude": 40.713054,
     	"longitude": -74.007228,
@@ -118,22 +118,22 @@ extension LGMyUser: Decodable {
     	"city": "New York",
     	"country_code": "US",
     	"is_richy": false,
-     "rating_value": "number|null",
-     "num_ratings": "integer",
+        "rating_value": "number|null",
+        "num_ratings": "integer",
     	"accounts": [{
-     "type": "facebook",
-     "verified": false
+            "type": "facebook",
+            "verified": false
     	}, {
-     "type": "letgo",
-     "verified": true
+            "type": "letgo",
+            "verified": true
     	}],
-     "locale": "string|null"
-     }
-     */
+        "locale": "string|null"
+    }
+    */
     static func decode(_ j: JSON) -> Decoded<LGMyUser> {
         return decode(j, keys: ApiMyUserKeys())
     }
-    
+
     static func decode(_ j: JSON, keys: LGMyUserApiKeys) -> Decoded<LGMyUser> {
         let init1 = curry(LGMyUser.init)
             <^> j <|? keys.objectId

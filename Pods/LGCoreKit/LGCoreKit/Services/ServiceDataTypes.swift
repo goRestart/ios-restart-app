@@ -201,7 +201,9 @@ extension RetrieveProductsParams {
         var params = Dictionary<String, Any>()
         params["search_term"] = queryString
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
-        params["country_code"] = countryCode
+        if countryCode != "" {
+            params["country_code"] = countryCode
+        }
         let categories = categoryIds?.map { String($0) }.joined(separator: ",")
         if categories != "" {
             params["categories"] = categories

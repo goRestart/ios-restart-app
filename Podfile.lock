@@ -173,7 +173,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (= 1.3.0)
   - Leanplum-iOS-SDK (= 1.4.3)
   - LGCollapsibleLabel (= 1.0.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `39909389e55541660663f7159c5b4de9a4b7193a`)
+  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `6392ce82471d0a5275fe6d2701ffea43f162bb5f`)
   - Nimble (= 5.1.1)
   - OHHTTPStubs (= 5.2.3)
   - OHHTTPStubs/Swift
@@ -192,7 +192,7 @@ EXTERNAL SOURCES:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
   LGCoreKit:
-    :commit: 39909389e55541660663f7159c5b4de9a4b7193a
+    :commit: 6392ce82471d0a5275fe6d2701ffea43f162bb5f
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
@@ -203,7 +203,7 @@ CHECKOUT OPTIONS:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
   LGCoreKit:
-    :commit: 39909389e55541660663f7159c5b4de9a4b7193a
+    :commit: 6392ce82471d0a5275fe6d2701ffea43f162bb5f
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
@@ -269,6 +269,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 3327682ef3c8b025f21ec030d05af4f32ada6489
+PODFILE CHECKSUM: 946c8757580dac0071daeebd24c296c8879aeaa1
 
 COCOAPODS: 1.1.1
