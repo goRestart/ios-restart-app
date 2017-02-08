@@ -1126,15 +1126,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         viewModel.openShare(.native(restricted: false), fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
     
-    func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ()) {
-        let mainSignUpVC = MainSignUpViewController(viewModel: signUpVM)
-        mainSignUpVC.afterLoginAction = afterLoginAction
-        
-        let navCtl = UINavigationController(rootViewController: mainSignUpVC)
-        navCtl.view.backgroundColor = UIColor.white
-        present(navCtl, animated: true, completion: nil)
-    }
-    
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {
         let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
         navigationController?.present(promoteProductVC, animated: true, completion: nil)

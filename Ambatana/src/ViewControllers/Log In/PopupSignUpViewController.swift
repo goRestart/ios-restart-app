@@ -18,9 +18,6 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var legalTextView: UITextView!
 
-    var preDismissAction: (() -> Void)?
-    var afterLoginAction: (() -> Void)?
-
     private var viewModel: SignUpViewModel
     private var topMessage: String
 

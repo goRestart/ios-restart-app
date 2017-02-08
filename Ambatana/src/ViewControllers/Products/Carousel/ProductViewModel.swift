@@ -17,8 +17,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmShowShareFromMain(_ socialMessage: SocialMessage)
     func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage)
 
-    func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ())
-
     func vmOpenStickersSelector(_ stickers: [Sticker])
 
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)

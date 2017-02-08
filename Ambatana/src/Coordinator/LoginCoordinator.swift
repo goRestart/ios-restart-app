@@ -29,7 +29,6 @@ final class LoginCoordinator: Coordinator {
     fileprivate let appearance: LoginAppearance
     fileprivate let source: EventParameterLoginSourceValue
     fileprivate let style: LoginStyle
-    fileprivate let preDismissLoginBlock: (() -> Void)?
     fileprivate let loggedInAction: () -> Void
 
     fileprivate let keyValueStorage: KeyValueStorage
@@ -45,12 +44,10 @@ final class LoginCoordinator: Coordinator {
     convenience init(source: EventParameterLoginSourceValue,
                      appearance: LoginAppearance,
                      style: LoginStyle,
-                     preDismissLoginBlock: (() -> Void)?,
                      loggedInAction: @escaping (() -> Void)) {
         self.init(source: source,
                   appearance: appearance,
                   style: style,
-                  preDismissLoginBlock: preDismissLoginBlock,
                   loggedInAction: loggedInAction,
                   bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -61,7 +58,6 @@ final class LoginCoordinator: Coordinator {
     init(source: EventParameterLoginSourceValue,
          appearance: LoginAppearance,
          style: LoginStyle,
-         preDismissLoginBlock: (() -> Void)?,
          loggedInAction: @escaping (() -> Void),
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
@@ -71,7 +67,6 @@ final class LoginCoordinator: Coordinator {
         self.appearance = appearance
         self.source = source
         self.style = style
-        self.preDismissLoginBlock = preDismissLoginBlock
         self.loggedInAction = loggedInAction
 
         self.keyValueStorage = keyValueStorage
@@ -82,14 +77,11 @@ final class LoginCoordinator: Coordinator {
         switch style {
         case .fullScreen:
             let mainSignUpVC = MainSignUpViewController(viewModel: viewModel)
-            mainSignUpVC.afterLoginAction = loggedInAction
             let navCtl = UINavigationController(rootViewController: mainSignUpVC)
             navCtl.view.backgroundColor = UIColor.white
             self.viewController = navCtl
         case .popup(let message):
             let popUpSignUpVC = PopupSignUpViewController(viewModel: viewModel, topMessage: message)
-            popUpSignUpVC.preDismissAction = preDismissLoginBlock
-            popUpSignUpVC.afterLoginAction = loggedInAction
             self.viewController = popUpSignUpVC
         }
         viewModel.navigator = self
@@ -127,11 +119,11 @@ fileprivate extension LoginCoordinator {
 
 extension LoginCoordinator: MainSignUpNavigator {
     func cancelMainSignUp() {
-        closeRoot()
+        closeRoot(didLogIn: false)
     }
 
     func closeMainSignUp(myUser: MyUser) {
-        closeRoot()
+        closeRoot(didLogIn: true)
     }
 
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
@@ -190,18 +182,25 @@ extension LoginCoordinator: MainSignUpNavigator {
 
 extension LoginCoordinator: SignUpLogInNavigator {
     func cancelSignUpLogIn() {
+        // called when closing from popup login so it's not closing root only presented controller
         close(animated: true, completion: nil)
     }
 
     func closeSignUpLogIn(myUser: MyUser) {
-        closeRoot()
+        dismissAllPresentedIfNeededAndExecute { [weak self] in
+            self?.closeRoot(didLogIn: true)
+        }
     }
 
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
-        closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
+        dismissAllPresentedIfNeededAndExecute { [weak self] in
+            self?.closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
+        }
     }
 
     func openRecaptcha(transparentMode: Bool) {
+        guard let navCtl = currentNavigationController() else { return }
+
         let vm = RecaptchaViewModel(transparentMode: transparentMode)
         vm.navigator = self
         // TODO: ⚠️ instead of presentingViewController ask coordinator delegate
@@ -210,11 +209,11 @@ extension LoginCoordinator: SignUpLogInNavigator {
         if transparentMode {
             vc.modalTransitionStyle = .crossDissolve
         }
-        viewController.present(vc, animated: true, completion: nil)
+        navCtl.present(vc, animated: true, completion: nil)
     }
 
     func openRememberPasswordFromSignUpLogIn(email: String) {
-        guard let navCtl = navigationController else { return }
+        guard let navCtl = currentNavigationController() else { return }
 
         let vm = RememberPasswordViewModel(source: source, email: email)
         vm.navigator = self
@@ -233,7 +232,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
 
 extension LoginCoordinator: RememberPasswordNavigator {
     func closeRememberPassword() {
-        guard let navCtl = navigationController else { return }
+        guard let navCtl = currentNavigationController() else { return }
         navCtl.popViewController(animated: true)
     }
 }
@@ -243,7 +242,7 @@ extension LoginCoordinator: RememberPasswordNavigator {
 
 extension LoginCoordinator: HelpNavigator {
     func closeHelp() {
-        guard let navCtl = navigationController else { return }
+        guard let navCtl = currentNavigationController() else { return }
         navCtl.popViewController(animated: true)
     }
 }
@@ -253,11 +252,18 @@ extension LoginCoordinator: HelpNavigator {
 
 extension LoginCoordinator: RecaptchaNavigator {
     func recaptchaClose() {
-        close(animated: true, completion: nil)
+        guard let recaptchaVC = currentNavigationController()?.presentedViewController as? RecaptchaViewController else {
+            return
+        }
+        recaptchaVC.dismiss(animated: true, completion: nil)
     }
 
     func recaptchaFinishedWithToken(_ token: String) {
-        close(animated: true) { [weak self] in
+        guard let recaptchaVC = currentNavigationController()?.presentedViewController as? RecaptchaViewController else {
+            return
+        }
+
+        recaptchaVC.dismiss(animated: true) { [weak self] in
             self?.signUpLogInViewModel?.recaptchaTokenObtained(token)
         }
     }
@@ -271,7 +277,7 @@ extension LoginCoordinator {
         if #available(iOS 9.0, *) {
             let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             svc.view.tintColor = UIColor.primaryColor
-            let vc = navigationController ?? viewController
+            let vc = currentNavigationController() ?? viewController
             vc.present(svc, animated: true, completion: nil)
         } else {
             UIApplication.shared.openURL(url)
@@ -283,10 +289,13 @@ extension LoginCoordinator {
 // MARK: - Private
 
 fileprivate extension LoginCoordinator {
-    func closeRoot() {
+    func closeRoot(didLogIn: Bool) {
         close(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.coordinatorDidClose(strongSelf)
+            if didLogIn {
+                strongSelf.loggedInAction()
+            }
         }
     }
 
@@ -318,7 +327,7 @@ fileprivate extension LoginCoordinator {
     }
 
     func openHelp() {
-        guard let navCtl = navigationController else { return }
+        guard let navCtl = currentNavigationController() else { return }
 
         let vm = HelpViewModel()
         vm.navigator = self
@@ -326,12 +335,23 @@ fileprivate extension LoginCoordinator {
         navCtl.pushViewController(vc, animated: true)
     }
 
-    var navigationController: UINavigationController? {
+    func currentNavigationController() -> UINavigationController? {
         switch style {
         case .fullScreen:
             return viewController as? UINavigationController
         case .popup:
             return viewController.presentedViewController as? UINavigationController
+        }
+    }
+
+    func dismissAllPresentedIfNeededAndExecute(action: @escaping () -> ()) {
+        switch style {
+        case .fullScreen:
+            action()
+        case .popup:
+            viewController.dismissAllPresented {
+                action()
+            }
         }
     }
 }

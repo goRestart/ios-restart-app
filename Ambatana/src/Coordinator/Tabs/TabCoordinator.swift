@@ -434,7 +434,7 @@ extension TabCoordinator: ProductDetailNavigator {
 
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: from, appearance: .light, style: .fullScreen,
-                          preDismissLoginBlock: nil, loggedInAction: loggedInAction, delegate: self)
+                          loggedInAction: loggedInAction, delegate: self)
     }
 }
 
@@ -463,7 +463,7 @@ extension TabCoordinator: ChatDetailNavigator {
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: from, appearance: .light, style: .popup(LGLocalizedString.chatLoginPopupText),
-                          preDismissLoginBlock: nil, loggedInAction: loggedInAction, delegate: self)
+                          loggedInAction: loggedInAction, delegate: self)
     }
 }
 

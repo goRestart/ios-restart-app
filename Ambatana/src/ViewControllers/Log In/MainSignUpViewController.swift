@@ -10,10 +10,7 @@ import LGCoreKit
 import Result
 import RxSwift
 
-class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate {
-
-    // Data
-    var afterLoginAction: (() -> Void)?
+class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate, SignUpViewModelDelegate {
     
     // > ViewModel
     var viewModel: SignUpViewModel
@@ -224,45 +221,6 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         legalTextView.textContainer.maximumNumberOfLines = 3
         legalTextView.textAlignment = .center
         legalTextView.delegate = self
-    }
-}
-
-
-// MARK: - SignUpViewModelDelegate
-
-// This should be done on a coordinator through a navigator from viewModel
-extension MainSignUpViewController: SignUpViewModelDelegate {
-
-    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
-        let vc = SignUpLogInViewController(viewModel: viewModel, appearance: .dark)
-        vc.afterLoginAction = afterLoginAction
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func vmFinish(completedLogin completed: Bool) {
-        dismiss(animated: true, completion: completed ? afterLoginAction : nil)
-    }
-
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
-        let parentController = presentingViewController
-        let contact = UIAction(
-            interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
-            action: {
-                tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
-                parentController?.openInternalUrl(contactUrl)
-            })
-        let keepBrowsing = UIAction(
-            interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium, withBorder: false)),
-            action: {
-                tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
-            })
-        dismiss(animated: false) {
-            tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
-            parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
-                                                 text: LGLocalizedString.loginScammerAlertMessage,
-                                                 alertType: .iconAlert(icon: UIImage(named: "ic_moderation_alert")),
-                                                 buttonsLayout: .vertical, actions:  [contact, keepBrowsing])
-        }
     }
 }
 
