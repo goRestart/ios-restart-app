@@ -9,13 +9,13 @@
 import LGCoreKit
 
 extension Product {
-    func isMine(myUserId: String?) -> Bool {
+    func belongsTo(userId: String?) -> Bool {
         let ownerId = user.objectId
-        guard user.objectId != nil && myUserId != nil else { return false }
-        return ownerId == myUserId
+        guard user.objectId != nil && userId != nil else { return false }
+        return ownerId == userId
     }
 
     func isMine(myUserRepository: MyUserRepository) -> Bool {
-        return isMine(myUserId: myUserRepository.myUser?.objectId)
+        return belongsTo(userId: myUserRepository.myUser?.objectId)
     }
 }

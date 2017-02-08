@@ -225,6 +225,9 @@ fileprivate extension LGNotificationsManager {
 fileprivate extension UnreadNotificationsCounts {
     func totalVisibleCount(featureFlags: FeatureFlaggeable) -> Int {
         let totalWoReviews = productLike + productSold + buyersInterested + productSuggested + facebookFriendshipCreated
-        return featureFlags.userReviews ? totalWoReviews + review + reviewUpdated : totalWoReviews
+        if featureFlags.userReviews {
+            return totalWoReviews + review + reviewUpdated
+        }
+        return totalWoReviews
     }
 }
