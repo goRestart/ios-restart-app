@@ -264,6 +264,7 @@ enum EventParameterName: String {
     case feedSource           = "feed-source"
     case rating               = "rating"
     case userSoldTo           = "user-sold-to"
+    case chatEnabled          = "chat-enabled"
 }
 
 enum EventParameterLoginSourceValue: String {

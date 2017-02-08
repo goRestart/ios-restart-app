@@ -1158,7 +1158,7 @@ fileprivate extension ChatViewModel {
     }
     
     func trackVisit() {
-        let chatWindowOpen = TrackerEvent.chatWindowVisit(source)
+        let chatWindowOpen = TrackerEvent.chatWindowVisit(source, chatEnabled: interlocutorEnabled)
         tracker.trackEvent(chatWindowOpen)
     }
 }
