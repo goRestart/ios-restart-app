@@ -15,6 +15,7 @@ protocol PushAnimator: UIViewControllerAnimatedTransitioning {
     var toViewValidatedFrame: Bool { get }
     var fromViewSnapshot: UIImage? { get }
     var completion: (() -> Void)? { get set }
+    var active: Bool { get }
 }
 
 protocol AnimatableTransition {
@@ -33,6 +34,8 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     var toViewValidatedFrame = false
     var completion: (() -> Void)?
 
+    var active = false
+
     convenience override init() {
         self.init(originFrame: nil, originThumbnail: nil)
     }
@@ -48,6 +51,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        active = true
         if let originFrame = originFrame {
             if pushing {
                 pushFrameAnimation(transitionContext, originFrame: originFrame)
