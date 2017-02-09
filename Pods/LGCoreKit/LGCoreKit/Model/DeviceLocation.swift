@@ -16,33 +16,33 @@ protocol DeviceLocation {
     var state: String? { get }
     var countryCode: String? { get }
     var country : String? { get }
-
+    
     init(latitude: Double?, longitude: Double?, locationType: String?, address: String?,
          city: String?, zipCode: String?, state: String?, countryCode: String?, country : String?)
 }
 
 extension DeviceLocation {
-
-    init(location: LGLocation?, postalAddress: PostalAddress?) {
+    
+    init(location: LGLocation?) {
         let latitude = location?.coordinate.latitude
         let longitude = location?.coordinate.longitude
-        let address = postalAddress?.address
-        let city = postalAddress?.city
-        let zipCode = postalAddress?.zipCode
-        let state = postalAddress?.state
-        let countryCode = postalAddress?.countryCode
-        let country = postalAddress?.country
+        let address = location?.postalAddress?.address
+        let city = location?.postalAddress?.city
+        let zipCode = location?.postalAddress?.zipCode
+        let state = location?.postalAddress?.state
+        let countryCode = location?.postalAddress?.countryCode
+        let country = location?.postalAddress?.country
         let locationType = location?.type != .manual ? location?.type?.rawValue : nil
         self.init(latitude: latitude, longitude: longitude, locationType: locationType, address: address,
                   city: city, zipCode: zipCode, state: state, countryCode: countryCode, country: country)
     }
-
+    
     var location: LGLocation? {
         guard let latitude = latitude, let longitude = longitude, let locationType = locationType,
             let type = LGLocationType(rawValue: locationType) else { return nil }
-        return LGLocation(latitude: latitude, longitude: longitude, type: type)
+        return LGLocation(latitude: latitude, longitude: longitude, type: type, postalAddress: postalAddress)
     }
-
+    
     var postalAddress: PostalAddress {
         return PostalAddress(address: address, city: city, zipCode: zipCode, state: state, countryCode: countryCode, country: country)
     }
@@ -55,7 +55,7 @@ struct DeviceLocationUDKeys {
     static let latitude = "latitude"
     static let longitude = "longitude"
     static let locationType = "locationType"
-
+    
     static let address = "address"
     static let city = "city"
     static let zipCode = "zipCode"
@@ -78,7 +78,7 @@ extension DeviceLocation {
         return self.init(latitude: latitude, longitude: longitude, locationType: locationType, address: address,
                          city: city, zipCode: zipCode, state: state, countryCode: countryCode, country: country)
     }
-
+    
     func encode() -> [String: Any] {
         var dictionary = [String: Any]()
         dictionary[DeviceLocationUDKeys.latitude]  = latitude

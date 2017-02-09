@@ -22,9 +22,9 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
     return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
-final public class LGLocationCoordinates2D: Equatable {
-    public var latitude: Double
-    public var longitude: Double
+public struct LGLocationCoordinates2D: Equatable {
+    public let latitude: Double
+    public let longitude: Double
 
     public init(latitude: Double , longitude: Double) {
         self.latitude = latitude
@@ -49,14 +49,11 @@ final public class LGLocationCoordinates2D: Equatable {
     }
 
     public init(fromCenterOfQuadKey quadKey: String) {
-        //Initializing local properties to avoid compiler errors
-        self.latitude = 0.0
-        self.longitude = 0.0
 
-        let (latBin,longBin) = quadkeyToBinValues(quadKey)
-        let latDec = valueFromBinary(latBin)
-        let longDec = valueFromBinary(longBin)
-        let (lat, lon) = coordinatesFromDecimalValues(latDec, longDec)
+        let (latBin,longBin) = quadKey.getBinaryValues()
+        let latDec = latBin.getBinaryValue()
+        let longDec = longBin.getBinaryValue()
+        let (lat, lon) = latDec.getCoordinates(with: longDec)
         self.latitude = lat
         self.longitude = lon
     }
@@ -85,20 +82,6 @@ final public class LGLocationCoordinates2D: Equatable {
         return finalString
     }
 
-    private func getCharAtIndexOrZero(_ value: String, index: Int) -> Int {
-
-        if !value.isEmpty && index < value.characters.count {
-
-            let singleChar = Array(value.characters)[index]
-            if let singleInt = Int(String(singleChar)) {
-                return singleInt
-            } else {
-                return 0
-            }
-        }
-        return 0
-    }
-
     private func binValuesToQuadKey(_ latBin: String, longBin: String) -> String {
 
         if latBin.isEmpty || longBin.isEmpty {
@@ -109,8 +92,8 @@ final public class LGLocationCoordinates2D: Equatable {
         let maxLength = max(latBin.characters.count, longBin.characters.count)
 
         for i in 0...maxLength-1 {
-            let lat = getCharAtIndexOrZero(latBin, index: i)
-            let long = getCharAtIndexOrZero(longBin, index: i)
+            let lat = latBin.getCharInt(at: i)
+            let long = longBin.getCharInt(at: i)
             let n = lat * 2 + long
 
             finalString += "\(Int(n))"
@@ -132,32 +115,8 @@ final public class LGLocationCoordinates2D: Equatable {
         return binValuesToQuadKey(latBin, longBin: longBin)
     }
 
-    private func quadkeyToBinValues(_ quadKey: String) -> (String,String) {
 
-        var latBin = ""
-        var lonBin = ""
-        for i in 0...quadKey.characters.count - 1 {
-            let quadCharInt = getCharAtIndexOrZero(quadKey, index: i)
-            latBin += String(quadCharInt >> 1)
-            lonBin += String(quadCharInt & 1)
-        }
 
-        return (latBin,lonBin)
-    }
-
-    private func valueFromBinary(_ value: String) -> Double {
-        let oneVal = value + "1"
-        let decimal = strtoul(oneVal, nil, 2)
-        return Double(decimal) / pow(2.0, Double(oneVal.characters.count))
-    }
-
-    private func coordinatesFromDecimalValues(_ latDec: Double,_ longDec: Double) -> (Double, Double) {
-        let π = M_PI
-
-        let exponent = exp((0.5 - latDec) * 4 * π)
-
-        return (asin((exponent - 1) / (exponent + 1)) * 180 / π, longDec * 360 - 180)
-    }
 }
 
 public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bool {

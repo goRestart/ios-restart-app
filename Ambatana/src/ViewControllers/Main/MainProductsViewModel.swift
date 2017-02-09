@@ -70,7 +70,7 @@ class MainProductsViewModel: BaseViewModel {
         case let .priceRange(min, max):
             if min != nil || max != nil {
                 var currency: Currency? = nil
-                if let countryCode = locationManager.currentPostalAddress?.countryCode {
+                if let countryCode = locationManager.currentLocation?.countryCode {
                     currency = currencyHelper.currencyWithCountryCode(countryCode)
                 }
                 resultTags.append(.priceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
@@ -421,7 +421,6 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                 updateLastSearchStoraged(queryString)
             }
         }
-    
         if shouldRetryLoad {
             shouldRetryLoad = false
             listViewModel.retrieveProducts()
@@ -552,7 +551,8 @@ extension MainProductsViewModel {
             let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
             tracker.trackEvent(trackerEvent)
         }
-
+        
+        
         // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
         retrieveProductsIfNeededWithNewLocation(newLocation)
         retrieveLastUserSearch()
@@ -563,25 +563,31 @@ extension MainProductsViewModel {
 
         var shouldUpdate = false
         if listViewModel.canRetrieveProducts {
-            // If there are no products, then refresh
             if listViewModel.numberOfProducts == 0 {
+                // 👆🏾 If there are no products, then refresh
                 shouldUpdate = true
-            }
-            // If new location is manual OR last location was manual, and location has changed then refresh
-            else if newLocation.type == .manual || lastReceivedLocation?.type == .manual {
+            } else if newLocation.type == .manual || lastReceivedLocation?.type == .manual {
+                //👆🏾 If new location is manual OR last location was manual, and location has changed then refresh"
                 if let lastReceivedLocation = lastReceivedLocation, newLocation != lastReceivedLocation {
                     shouldUpdate = true
                 }
-            }
-            // If new location is not manual and we improved the location type to sensors
-            else if lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
+            } else if lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
+                // 👆🏾 If new location is not manual and we improved the location type to sensors
+                shouldUpdate = true
+            } else if let newCountryCode = newLocation.countryCode, lastReceivedLocation?.countryCode != newCountryCode {
+                // in case list loaded with older country code and new location is retrieved with new country code"
                 shouldUpdate = true
             }
-        } else if listViewModel.numberOfProducts == 0 && lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
-            // in case the user allows sensors while loading the product list with the iplookup parameters
-            shouldRetryLoad = true
+        } else if listViewModel.numberOfProducts == 0 {
+            if lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
+                // in case the user allows sensors while loading the product list with the iplookup parameters"
+                shouldRetryLoad = true
+            } else if let newCountryCode = newLocation.countryCode, lastReceivedLocation?.countryCode != newCountryCode {
+                // in case the list is loading with older country code and new location is received with new country code
+                shouldRetryLoad = true
+            }
         }
-
+        
         if shouldUpdate {
             listViewModel.retrieveProducts()
         }
@@ -636,7 +642,7 @@ extension MainProductsViewModel {
     }
 
     fileprivate func retrieveTrendingSearches() {
-        guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
+        guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
             self?.trendingSearches.value = result.value ?? []
