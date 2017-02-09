@@ -24,7 +24,7 @@ final class LoginCoordinator: Coordinator {
     let bubbleNotificationManager: BubbleNotificationManager
 
     fileprivate var parentViewController: UIViewController?
-    fileprivate weak var signUpLogInViewModel: SignUpLogInViewModel?  // TODO: ⚠️ this is a bit weird
+    fileprivate weak var signUpLogInViewModel: SignUpLogInViewModel?
 
     fileprivate let appearance: LoginAppearance
     fileprivate let source: EventParameterLoginSourceValue
@@ -203,7 +203,6 @@ extension LoginCoordinator: SignUpLogInNavigator {
 
         let vm = RecaptchaViewModel(transparentMode: transparentMode)
         vm.navigator = self
-        // TODO: ⚠️ instead of presentingViewController ask coordinator delegate
         let backgroundImage: UIImage? = transparentMode ? viewController.presentingViewController?.view.takeSnapshot() : nil
         let vc = RecaptchaViewController(viewModel: vm, backgroundImage: backgroundImage)
         if transparentMode {

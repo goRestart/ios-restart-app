@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import SafariServices
 
 protocol OnboardingCoordinatorDelegate: CoordinatorDelegate {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
@@ -25,6 +26,14 @@ final class OnboardingCoordinator: Coordinator {
     
     private let featureFlags: FeatureFlaggeable
 
+    fileprivate weak var signUpLogInViewModel: SignUpLogInViewModel?
+    fileprivate let loginSource: EventParameterLoginSourceValue
+    fileprivate let loginAppearance: LoginAppearance
+
+
+    // MARK: - Lifecycle
+
+
     convenience init() {
         self.init(locationManager: Core.locationManager,
                   bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
@@ -37,6 +46,8 @@ final class OnboardingCoordinator: Coordinator {
         self.locationManager = locationManager
         self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
+        self.loginSource = .install
+        self.loginAppearance = .dark
 
         viewController = TourBlurBackgroundViewController()
     }
@@ -45,8 +56,10 @@ final class OnboardingCoordinator: Coordinator {
         guard viewController.parent == nil else { return }
         parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
-            let signUpVM = SignUpViewModel(appearance: .dark, source: .install)
-            // TODO: ⚠️ assign navigator
+
+            let signUpVM = SignUpViewModel(appearance: strongSelf.loginAppearance,
+                                           source: strongSelf.loginSource)
+            signUpVM.navigator = self
             let tourVM = TourLoginViewModel(signUpViewModel: signUpVM, featureFlags: strongSelf.featureFlags)
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(viewModel: tourVM)
@@ -122,12 +135,14 @@ final class OnboardingCoordinator: Coordinator {
 }
 
 
+// MARK: - TourLoginNavigator
+
 extension OnboardingCoordinator: TourLoginNavigator {
     func tourLoginFinish() {
-        let casnAskForPushPermissions = PushPermissionsManager.sharedInstance
-            .shouldShowPushPermissionsAlertFromViewController(.onboarding)
+        let pushPermissionsManager = PushPermissionsManager.sharedInstance
+        let canAskForPushPermissions = pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.onboarding)
 
-        if casnAskForPushPermissions {
+        if canAskForPushPermissions {
             openTourNotifications()
         } else if locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
@@ -135,16 +150,10 @@ extension OnboardingCoordinator: TourLoginNavigator {
             openTourPosting()
         }
     }
-
-    func tourLoginOpenLoginSignup(signupLoginVM: SignUpLogInViewModel, afterLoginCompletion: (() -> Void)?) {
-        let topVC = topViewController()
-        let vc = SignUpLogInViewController(viewModel: signupLoginVM, appearance: .dark, keyboardFocus: true)
-        vc.afterLoginAction = afterLoginCompletion
-        let nav = UINavigationController(rootViewController: vc)
-        topVC.present(nav, animated: true, completion: nil)
-    }
 }
 
+
+// MARK: - TourNotificationsNavigator
 
 extension OnboardingCoordinator: TourNotificationsNavigator {
     func tourNotificationsFinish() {
@@ -156,12 +165,17 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
     }
 }
 
+
+// MARK: - TourLocationNavigator
+
 extension OnboardingCoordinator: TourLocationNavigator {
     func tourLocationFinish() {
         openTourPosting()
     }
 }
 
+
+// MARK: - TourPostingNavigator
 
 extension OnboardingCoordinator: TourPostingNavigator {
     func tourPostingClose() {
@@ -170,5 +184,185 @@ extension OnboardingCoordinator: TourPostingNavigator {
 
     func tourPostingPost(fromCamera: Bool) {
         finish(withPosting: true, source: fromCamera ? .onboardingCamera : .onboardingButton)
+    }
+}
+
+
+// MARK: - MainSignUpNavigator
+
+extension OnboardingCoordinator: MainSignUpNavigator {
+    func cancelMainSignUp() {
+        tourLoginFinish()
+    }
+
+    func closeMainSignUp(myUser: MyUser) {
+        tourLoginFinish()
+    }
+
+    func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        // scammer alert is ignored in on-boarding
+        tourLoginFinish()
+    }
+
+    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
+        let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailParam, action: .signup)
+        vm.navigator = self
+        let vc = SignUpLogInViewController(viewModel: vm, appearance: loginAppearance, keyboardFocus: true)
+        let navCtl = UINavigationController(rootViewController: vc)
+
+        let topVC = topViewController()
+        topVC.present(navCtl, animated: true, completion: nil)
+
+        signUpLogInViewModel = vm
+    }
+
+    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
+        let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailParam, action: .login)
+        vm.navigator = self
+        let vc = SignUpLogInViewController(viewModel: vm, appearance: loginAppearance, keyboardFocus: true)
+        let navCtl = UINavigationController(rootViewController: vc)
+
+        let topVC = topViewController()
+        topVC.present(navCtl, animated: true, completion: nil)
+
+        signUpLogInViewModel = vm
+    }
+    
+    func openHelpFromMainSignUp() {
+        openHelp()
+    }
+}
+
+
+// MARK: - SignUpLogInNavigator
+
+extension OnboardingCoordinator: SignUpLogInNavigator {
+    func cancelSignUpLogIn() {
+        dismissSignUpLogIn()
+    }
+
+    func closeSignUpLogIn(myUser: MyUser) {
+        dismissSignUpLogIn { [weak self] in
+            self?.tourLoginFinish()
+        }
+    }
+
+    func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        // scammer alert is ignored in on-boarding
+        dismissSignUpLogIn { [weak self] in
+            self?.tourLoginFinish()
+        }
+    }
+
+    func openRecaptcha(transparentMode: Bool) {
+        guard let navCtl = signUpLogInNavigationController() else { return }
+
+        let vm = RecaptchaViewModel(transparentMode: transparentMode)
+        vm.navigator = self
+        let backgroundImage: UIImage? = transparentMode ? viewController.presentingViewController?.view.takeSnapshot() : nil
+        let vc = RecaptchaViewController(viewModel: vm, backgroundImage: backgroundImage)
+        if transparentMode {
+            vc.modalTransitionStyle = .crossDissolve
+        }
+        navCtl.present(vc, animated: true, completion: nil)
+    }
+
+    func openRememberPasswordFromSignUpLogIn(email: String) {
+        guard let navCtl = signUpLogInNavigationController() else { return }
+
+        let vm = RememberPasswordViewModel(source: loginSource, email: email)
+        vm.navigator = self
+        let vc = RememberPasswordViewController(viewModel: vm, appearance: loginAppearance)
+        navCtl.pushViewController(vc, animated: true)
+    }
+
+    func openHelpFromSignUpLogin() {
+        openHelp()
+    }
+
+}
+
+
+// MARK: - RecaptchaNavigator
+
+extension OnboardingCoordinator: RecaptchaNavigator {
+    func recaptchaClose() {
+        guard let recaptchaVC = signUpLogInNavigationController()?.presentedViewController as? RecaptchaViewController else {
+            return
+        }
+        recaptchaVC.dismiss(animated: true, completion: nil)
+    }
+
+    func recaptchaFinishedWithToken(_ token: String) {
+        guard let recaptchaVC = signUpLogInNavigationController()?.presentedViewController as? RecaptchaViewController else {
+            return
+        }
+        recaptchaVC.dismiss(animated: true) { [weak self] in
+            self?.signUpLogInViewModel?.recaptchaTokenObtained(token)
+        }
+    }
+}
+
+
+// MARK: - RememberPasswordNavigator
+
+extension OnboardingCoordinator: RememberPasswordNavigator {
+    func closeRememberPassword() {
+        guard let navCtl = signUpLogInNavigationController() else { return }
+        navCtl.popViewController(animated: true)
+    }
+}
+
+
+// MARK: - HelpNavigator
+
+extension OnboardingCoordinator: HelpNavigator {
+    func closeHelp() {
+        guard let navCtl = signUpLogInNavigationController() else { return }
+        navCtl.popViewController(animated: true)
+    }
+}
+
+
+// MARK: - Common Navigator
+
+extension OnboardingCoordinator {
+    func openURL(url: URL) {
+        if let vc = signUpLogInNavigationController() {
+            if #available(iOS 9.0, *) {
+                let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+                svc.view.tintColor = UIColor.primaryColor
+                vc.present(svc, animated: true, completion: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        } else {
+            UIApplication.shared.openURL(url)
+        }
+    }
+
+}
+
+
+// MARK: - Private methods
+
+fileprivate extension OnboardingCoordinator {
+    func openHelp() {
+        guard let navCtl = signUpLogInNavigationController() else { return }
+
+        let vm = HelpViewModel()
+        vm.navigator = self
+        let vc = HelpViewController(viewModel: vm)
+        navCtl.pushViewController(vc, animated: true)
+    }
+
+
+    func dismissSignUpLogIn(completion: (() -> ())? = nil) {
+        signUpLogInNavigationController()?.dismiss(animated: true, completion: completion)
+    }
+
+    func signUpLogInNavigationController() -> UINavigationController? {
+        let topVC = topViewController()
+        return topVC.presentedViewController as? UINavigationController
     }
 }

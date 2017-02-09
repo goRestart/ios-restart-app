@@ -86,6 +86,8 @@ final class TourLoginViewModel: BaseViewModel {
 }
 
 
+// MARK: - Helper
+
 extension OnboardingReview {
     var tourLoginState: TourLoginState {
         switch self {
@@ -111,24 +113,9 @@ extension OnboardingReview {
 }
 
 
+// MARK: - SignUpViewModelDelegate
+
 extension TourLoginViewModel: SignUpViewModelDelegate {
-
-    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
-        navigator?.tourLoginOpenLoginSignup(signupLoginVM: viewModel) { [weak self] in
-            self?.nextStep()
-        }
-    }
-
-    func vmFinish(completedLogin completed: Bool) {
-        nextStep()
-    }
-
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
-        /*Scammer alert project didn't have any definition for the onboarding. Anyway, if this case happens, scammer
-        will continue onboarding and then he/she will have to login again and then she scammer alert will appear */
-        nextStep()
-    }
-
     func vmPop() {
         nextStep()
     }
