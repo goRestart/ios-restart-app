@@ -167,12 +167,12 @@
 "chat_verify_alert_resend_button" = "Gửi lại";
 "chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
 "chat_with_yourself_alert_msg" = "Bạn không thể bắt đầu cuộc trò chuyện về sản phẩm của chính mình.";
-"collection_apple_title" = "Một quả táo một mỗi ngày";
+"collection_apple_title" = "Cho fan của Apple";
 "collection_explore_button" = "Khám phá";
 "collection_furniture_title" = "Không nơi nào như ở nhà";
-"collection_gaming_title" = "Trò chơi đang bật";
-"collection_transport_title" = "Du lịch phong cách";
-"collection_you_title" = "Lựa chọn cho bạn";
+"collection_gaming_title" = "Trò chơi đang diễn ra";
+"collection_transport_title" = "Du lịch theo phong cách";
+"collection_you_title" = "Được lựa chọn cho bạn";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -627,7 +627,7 @@
 "rate_buyers_message" = "Chúc mừng!";
 "rate_buyers_not_on_letgo_button" = "Tôi không bán sản phẩm này trên letgo";
 "rate_buyers_sub_message" = "Bạn đã bán sản phẩm này cho ai?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_title" = "Ai đã mua sản phẩm này?";
 "rating_list_action_report_review" = "Báo cáo đánh giá";
 "rating_list_action_report_review_error_message" = "Có lỗi xảy ra trong khi gửi báo cáo.";
 "rating_list_action_report_review_success_message" = "Báo cáo của bạn đã được gửi đi!";
