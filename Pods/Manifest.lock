@@ -112,6 +112,7 @@ PODS:
     - RxSwift (~> 3.1.0)
     - RxSwiftExt (~> 2.1.0)
     - SocketRocket (= 0.5.1)
+  - NewRelicAgent (5.10.1)
   - Nimble (5.1.1)
   - OHHTTPStubs (5.2.3):
     - OHHTTPStubs/Default (= 5.2.3)
@@ -175,6 +176,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 1.4.3)
   - LGCollapsibleLabel (= 1.0.0)
   - LGCoreKit (= 2.5.1)
+  - NewRelicAgent (= 5.10.1)
   - Nimble (= 5.1.1)
   - OHHTTPStubs (= 5.2.3)
   - OHHTTPStubs/Swift
@@ -253,6 +255,7 @@ SPEC CHECKSUMS:
   Leanplum-iOS-SDK: 4b12eb749ec0a0915892548a9703474f5c18ae07
   LGCollapsibleLabel: e33f066be104911c7fb83f29f1f9b5bae218422e
   LGCoreKit: c3a9ac14b934657841b7ede312660b234cffb9ba
+  NewRelicAgent: d16c572a3355d3ff9a359a6677e946c7a75a8f76
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
@@ -270,6 +273,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: aff4f49bf4cebdeab5dcae9699f10ad45c9749e4
+PODFILE CHECKSUM: d876ec80b1ef125772a7cb8ef5c61d809fc6552c
 
 COCOAPODS: 1.1.1

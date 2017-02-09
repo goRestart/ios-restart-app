@@ -31,6 +31,7 @@ def shared_pods
     pod "Amplitude-iOS",        "3.8.5"  # Obj-c
     pod "AppsFlyerFramework",   "4.6.4"  # Obj-c
     pod "Leanplum-iOS-SDK",     "1.4.3"  # Obj-c
+    pod "NewRelicAgent",        "5.10.1"
 
     # letgo Core
     pod "LGCoreKit",            "2.5.1"     #:path => "../lgcorekit" #:git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0a0a05c56d0885d902025307d412ede170e9bfb1'
