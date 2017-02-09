@@ -198,7 +198,7 @@ fileprivate extension TabCoordinator {
 
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
                                           productListRequester: requester, navigator: self, source: source,
-                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, firstProductIndex: index)
+                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
@@ -215,7 +215,7 @@ fileprivate extension TabCoordinator {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
                                               thumbnailImage: thumbnailImage, productListRequester: requester,
                                               navigator: self, source: source,
-                                              showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, firstProductIndex: index)
+                                              showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
             openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
         }
 
@@ -228,7 +228,7 @@ fileprivate extension TabCoordinator {
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,  navigator: self,
-                                          source: source, showKeyboardOnFirstAppearIfNeeded: false, firstProductIndex: nil)
+                                          source: source, showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: nil)
         openProduct(vm, thumbnailImage: nil, originFrame: nil, productId: productId)
     }
 

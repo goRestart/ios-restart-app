@@ -32,7 +32,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     var currentProductViewModel: ProductViewModel?
     var startIndex: Int = 0
-    var firstProductIndex: Int?
+    var trackingIndex: Int?
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator?
@@ -87,7 +87,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     convenience init(product: LocalProduct, productListRequester: ProductListRequester?,
                      navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
+                     showKeyboardOnFirstAppearIfNeeded: Bool, trackingIndex: Int?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
@@ -99,13 +99,13 @@ class ProductCarouselViewModel: BaseViewModel {
                   productListRequester: productListRequester, navigator: navigator, source: source,
                   locale: locale, locationManager: locationManager,
                   socialSharer: socialSharer, featureFlags: featureFlags,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, firstProductIndex: firstProductIndex)
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: trackingIndex)
         syncFirstProduct()
     }
 
     convenience init(product: Product, thumbnailImage: UIImage?, productListRequester: ProductListRequester?,
                      navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
+                     showKeyboardOnFirstAppearIfNeeded: Bool, trackingIndex: Int?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
@@ -117,13 +117,13 @@ class ProductCarouselViewModel: BaseViewModel {
                   productListRequester: productListRequester, navigator: navigator, source: source,
                   locale: locale, locationManager: locationManager,
                   socialSharer: socialSharer, featureFlags: featureFlags,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, firstProductIndex: firstProductIndex)
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: trackingIndex)
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
                      productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
+                     showKeyboardOnFirstAppearIfNeeded: Bool, trackingIndex: Int?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
@@ -135,7 +135,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   thumbnailImage: thumbnailImage, productListRequester: productListRequester, navigator: navigator,
                   source: source, locale: locale, locationManager: locationManager,
                   socialSharer: socialSharer, featureFlags: featureFlags,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,firstProductIndex: firstProductIndex)
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,trackingIndex: trackingIndex)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
@@ -143,7 +143,7 @@ class ProductCarouselViewModel: BaseViewModel {
          productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
          source: EventParameterProductVisitSource, locale: Locale, locationManager: LocationManager,
          socialSharer: SocialSharer, featureFlags: FeatureFlaggeable,
-         showKeyboardOnFirstAppearIfNeeded: Bool, firstProductIndex: Int?) {
+         showKeyboardOnFirstAppearIfNeeded: Bool, trackingIndex: Int?) {
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
@@ -161,12 +161,11 @@ class ProductCarouselViewModel: BaseViewModel {
         self.socialSharer = socialSharer
         self.featureFlags = featureFlags
         self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded
-        self.firstProductIndex = firstProductIndex
         super.init()
         self.socialSharer.delegate = self
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
-        self.firstProductIndex = firstProductIndex
+        self.trackingIndex = trackingIndex
         setCurrentIndex(startIndex)
     }
     
@@ -209,7 +208,7 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel = viewModel
         currentProductViewModel?.delegate = delegate
         currentProductViewModel?.active = true
-        let feedPosition = movement.feedPosition(for: firstProductIndex)
+        let feedPosition = movement.feedPosition(for: trackingIndex)
         currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
 
         activeDisposeBag = DisposeBag()
