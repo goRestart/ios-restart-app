@@ -4036,11 +4036,11 @@
 				6608E0321A820FBD005895ED /* Sources */,
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
-				5026B0A61B05E2F3006858BB /* Fabric Script */,
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 				40D7DA810D5C1A2EAF1D87FC /* [CP] Embed Pods Frameworks */,
 				BBFA7F7BD5812BEA4BE1060E /* [CP] Copy Pods Resources */,
+				5026B0A61B05E2F3006858BB /* Fabric Script */,
 				C7E1DE4E1E4C8BA7003818F6 /* New Relic */,
 			);
 			buildRules = (
@@ -4062,11 +4062,11 @@
 				C7DB41861C5138B500400945 /* Sources */,
 				C7DB42311C5138B500400945 /* Frameworks */,
 				C7DB42471C5138B500400945 /* Resources */,
-				C7DB428A1C5138B500400945 /* Fabric Script */,
 				C7DB428C1C5138B500400945 /* Embed Frameworks */,
 				C7DB428D1C5138B500400945 /* Warnings Script */,
 				1E5151AD4474E198792A8249 /* [CP] Embed Pods Frameworks */,
 				BDCB40D2F3B8E90C1A9A379A /* [CP] Copy Pods Resources */,
+				C7DB428A1C5138B500400945 /* Fabric Script */,
 				C7E1DE4F1E4C8BFA003818F6 /* ShellScript */,
 			);
 			buildRules = (
@@ -4549,7 +4549,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    \"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe\nfi";
 		};
 		502B70571BA9C7FD00C5D465 /* Warnings Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4563,7 +4563,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT}/Ambatana for ${TAGS}\"\nfind \"${SRCROOT}/Ambatana\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
 		508FF3F51C0DFC850085D070 /* Reset Simulator Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4723,7 +4723,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    \"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe\nfi";
 		};
 		C7DB428D1C5138B500400945 /* Warnings Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4737,7 +4737,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT}/Ambatana for ${TAGS}\"\nfind \"${SRCROOT}/Ambatana\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
 		C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4765,11 +4765,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n/bin/sh \"${SCRIPT}\" \"AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c\"";
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n    /bin/bash \"${SCRIPT}\" \"AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c\"\nfi";
 		};
 		C7E1DE4F1E4C8BFA003818F6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -4778,7 +4778,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n/bin/sh \"${SCRIPT}\" \"AAfcb13d44209d7454436d2efa9974174d063a8d1d\"";
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n    /bin/bash \"${SCRIPT}\" \"AAfcb13d44209d7454436d2efa9974174d063a8d1d\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
