@@ -201,6 +201,7 @@ extension RetrieveProductsParams {
         var params = Dictionary<String, Any>()
         params["search_term"] = queryString
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
+        // In case country code is empty we send the request without it. 
         if countryCode != "" {
             params["country_code"] = countryCode
         }

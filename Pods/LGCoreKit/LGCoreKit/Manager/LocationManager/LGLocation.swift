@@ -17,7 +17,7 @@ public enum LGLocationType: String {
     static let allValues: [LGLocationType] = [.manual, .sensor, .ipLookup, .regional]
 }
 
-public final class LGLocation: CustomStringConvertible, Equatable {
+public struct LGLocation: CustomStringConvertible, Equatable {
 
     public let location : LGLocationCoordinates2D
     public let type: LGLocationType?
@@ -46,7 +46,7 @@ public final class LGLocation: CustomStringConvertible, Equatable {
         self.postalAddress = postalAddress
         self.type = type
     }
-    
+
     public func updating(postalAddress: PostalAddress) -> LGLocation {
         return LGLocation(latitude: coordinate.latitude, longitude: coordinate.longitude, type: type, postalAddress: postalAddress)
     }

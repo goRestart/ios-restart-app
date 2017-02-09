@@ -267,20 +267,13 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
                     newLocation = LGLocation(latitude: coordinates.latitude, longitude: coordinates.longitude,
                                              type: .ipLookup, postalAddress: nil)
                 } else {
-                    newLocation = strongSelf.retrieveRegionalLocational()
+                    newLocation = LGLocation(coordinate: strongSelf.countryHelper.regionCoordinate, type: .regional, postalAddress: nil)
                 }
                 if let location = newLocation { strongSelf.updateLocation(location) }
             }
         }
     }
     
-    /**
-     Requests the regional location.
-     - returns: The regional location.
-     */
-    private func retrieveRegionalLocational() -> LGLocation? {
-        return LGLocation(coordinate: countryHelper.regionCoordinate, type: .regional, postalAddress: nil)
-    }
     
     /**
      Retrieves the postal address for the given location and updates my user & installation.
@@ -328,7 +321,6 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      */
     private func updateDeviceLocation(_ location: LGLocation) -> Bool {
         var updatedDeviceLocation: DeviceLocation? = nil
-        var didUpdateDeviceLocation = false
         if let deviceLocation = dao.deviceLocation {
             if deviceLocation.shouldReplaceWithNewLocation(location) {
                 updatedDeviceLocation = LGDeviceLocation(location: location)
@@ -339,9 +331,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         }
         if let updatedDeviceLocation = updatedDeviceLocation {
             dao.save(updatedDeviceLocation)
-            didUpdateDeviceLocation = true
         }
-        return didUpdateDeviceLocation
+        return updatedDeviceLocation != nil
     }
     
     /**
@@ -352,12 +343,11 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      */
     private func updateUserLocation(_ location: LGLocation,
                                     completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) -> Bool {
-        var willUpdateUserLocation = false
         guard let myUser = myUserRepository.myUser else {
             completion?(Result<MyUser, RepositoryError>(error: .internalError(message: "Missing MyUser objectId")))
-            return willUpdateUserLocation
+            return false
         }
-        
+        let willUpdateUserLocation: Bool
         checkFarAwayMovementAndNotify(myUser: myUser, location: location)
         
         if myUser.shouldReplaceWithNewLocation(location, manualLocationEnabled: isManualLocationEnabled) {
