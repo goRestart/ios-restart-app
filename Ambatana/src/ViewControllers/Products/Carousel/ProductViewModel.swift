@@ -34,39 +34,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmResetBumpUpBannerCountdown()
 }
 
-
-enum ProductViewModelStatus {
-    
-    // When Mine:
-    case pending
-    case pendingAndCommercializable
-    case available
-    case availableAndCommercializable
-    case availableFree
-    case sold
-    case soldFree
-
-    // Other Selling:
-    case otherAvailable
-    case otherAvailableFree
-    case otherSold
-    case otherSoldFree
-
-    // Common:
-    case notAvailable
-}
-
-fileprivate extension ProductStatus {
-    var isBumpeable: Bool {
-        switch self {
-        case .approved:
-            return true
-        case .pending, .discarded, .sold, .soldOld, .deleted:
-            return false
-        }
-    }
-}
-
 class ProductViewModel: BaseViewModel {
 
     // Delegate
@@ -75,6 +42,9 @@ class ProductViewModel: BaseViewModel {
 
     // Data
     let product: Variable<Product>
+    var isMine: Bool {
+        return product.value.isMine(myUserRepository: myUserRepository)
+    }
     fileprivate let commercializers: Variable<[Commercializer]?>
     fileprivate let isReported = Variable<Bool>(false)
     let isFavorite = Variable<Bool>(false)
@@ -145,6 +115,7 @@ class ProductViewModel: BaseViewModel {
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
 
+    fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let productRepository: ProductRepository
     fileprivate let commercializerRepository: CommercializerRepository
@@ -175,6 +146,7 @@ class ProductViewModel: BaseViewModel {
 
     convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
         let socialSharer = SocialSharer()
+        let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -183,30 +155,32 @@ class ProductViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         let featureFlags = FeatureFlags.sharedInstance
-        let notificationsManager = NotificationsManager.sharedInstance
+        let notificationsManager = LGNotificationsManager.sharedInstance
         let monetizationRepository = Core.monetizationRepository
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+        let tracker = TrackerProxy.sharedInstance
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
-                  bubbleManager: BubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
-                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
-                  monetizationRepository: monetizationRepository)
+                  bubbleManager: LGBubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
+                  monetizationRepository: monetizationRepository, tracker: tracker)
     }
 
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
-         notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository) {
+         notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository, tracker: Tracker) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
+        self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
-        self.trackHelper = ProductVMTrackHelper(product: product)
+        self.trackHelper = ProductVMTrackHelper(tracker: tracker, product: product, featureFlags: featureFlags)
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatWrapper = chatWrapper
@@ -321,10 +295,19 @@ class ProductViewModel: BaseViewModel {
         
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
-            strongSelf.productStatusBackgroundColor.value = status.bgColor
-            strongSelf.productStatusLabelText.value = status.string
-            strongSelf.productStatusLabelColor.value = status.labelColor
-            }.addDisposableTo(disposeBag)
+            let productIsFeatured = strongSelf.product.value.featured ?? false
+            let shouldShowFeaturedLabel = !status.shouldShowStatus && productIsFeatured && strongSelf.featureFlags.pricedBumpUpEnabled
+
+            if shouldShowFeaturedLabel {
+                strongSelf.productStatusBackgroundColor.value = UIColor.white
+                strongSelf.productStatusLabelText.value = LGLocalizedString.bumpUpProductDetailFeaturedLabel
+                strongSelf.productStatusLabelColor.value = UIColor.redText
+            } else {
+                strongSelf.productStatusBackgroundColor.value = status.bgColor
+                strongSelf.productStatusLabelText.value = status.string
+                strongSelf.productStatusLabelColor.value = status.labelColor
+            }
+        }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
             guard let strongSelf = self else { return }
@@ -333,6 +316,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
+        // bumpeable product check
         status.asObservable().bindNext { [weak self] status in
             if status.isBumpeable {
                 self?.refreshBumpeableBanner()
@@ -348,10 +332,9 @@ class ProductViewModel: BaseViewModel {
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.product = product
-
-            strongSelf.setStatus(product.viewModelStatus(strongSelf.featureFlags))
-
-            strongSelf.productIsFavoriteable.value = !product.isMine
+            let isMine = product.isMine(myUserRepository: strongSelf.myUserRepository)
+            strongSelf.setStatus(ProductViewModelStatus(product: product, isMine: isMine, featureFlags: strongSelf.featureFlags))
+            strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
             strongSelf.freeBumpUpShareMessage.value = ProductSocialMessage(product: product, fallbackToStore: true)
@@ -368,14 +351,9 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productCreationDate.value = product.createdAt
         }.addDisposableTo(disposeBag)
 
-        // bumpeable product check
-        product.asObservable().bindNext { [weak self] product in
-            self?.updateBumpUpBannerFor(product: product)
-        }.addDisposableTo(disposeBag)
-
         status.asObservable().bindNext { [weak self] status in
-            guard let flags = self?.featureFlags, let product = self?.product.value else { return }
-            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && product.isMine ? .enabled : .hidden
+            guard let flags = self?.featureFlags, let isMine = self?.isMine else { return }
+            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && isMine ? .enabled : .hidden
             self?.editButtonState.value = !flags.editDeleteItemUxImprovement && status.isEditable ? .enabled : .hidden
         }.addDisposableTo(disposeBag)
 
@@ -408,7 +386,8 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshStatus() {
-        setStatus(product.value.viewModelStatus(featureFlags))
+        let newStatus = ProductViewModelStatus(product: product.value, isMine: isMine, featureFlags: featureFlags)
+        setStatus(newStatus)
     }
 
     private func setStatus(_ productStatus: ProductViewModelStatus) {
@@ -429,11 +408,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        updateBumpUpBannerFor(product: product.value)
-    }
-
-    private func updateBumpUpBannerFor(product: Product) {
-        guard let productId = product.objectId, product.isMine, product.status.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
         isUpdatingBumpUpBanner = true
         monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
@@ -484,40 +459,6 @@ extension ProductViewModel {
         navigator?.openUser(data)
     }
 
-    func markSold() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-
-            var alertActions: [UIAction] = []
-            let markAsSoldAction = UIAction(interface: .text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
-                action: { [weak self] in
-                    self?.markSold(.markAsSold)
-                })
-            alertActions.append(markAsSoldAction)
-            self?.delegate?.vmShowAlert( LGLocalizedString.productMarkAsSoldConfirmTitle,
-                message: LGLocalizedString.productMarkAsSoldConfirmMessage,
-                cancelLabel: LGLocalizedString.productMarkAsSoldConfirmCancelButton,
-                actions: alertActions)
-
-            }, source: .markAsSold)
-    }
-    
-    func markSoldFree() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            
-            var alertActions: [UIAction] = []
-            let markAsSoldAction = UIAction(interface: .text(LGLocalizedString.productMarkAsSoldFreeConfirmOkButton),
-                action: { [weak self] in
-                    self?.markSold(.markAsSold)
-                })
-            alertActions.append(markAsSoldAction)
-            self?.delegate?.vmShowAlert(LGLocalizedString.productMarkAsSoldFreeConfirmTitle,
-                message: LGLocalizedString.productMarkAsSoldFreeConfirmMessage,
-                cancelLabel: LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton,
-                actions: alertActions)
-            
-            }, source: .markAsSold)
-    }
-
     func editProduct() {
         navigator?.editProduct(product.value)
     }
@@ -531,46 +472,8 @@ extension ProductViewModel {
         }
     }
 
-    func resell() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-
-            var alertActions: [UIAction] = []
-            let sellAgainAction = UIAction(interface: .text(LGLocalizedString.productSellAgainConfirmOkButton),
-                action: { [weak self] in
-                    self?.markUnsold()
-                })
-            alertActions.append(sellAgainAction)
-            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainConfirmTitle,
-                message: LGLocalizedString.productSellAgainConfirmMessage,
-                cancelLabel: LGLocalizedString.productSellAgainConfirmCancelButton,
-                actions: alertActions)
-
-            }, source: .markAsUnsold)
-    }
-
-    func resellFree() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            
-            var alertActions: [UIAction] = []
-            let sellAgainAction = UIAction(interface: .text(LGLocalizedString.productSellAgainFreeConfirmOkButton),
-                action: { [weak self] in
-                    self?.markUnsold()
-                })
-            alertActions.append(sellAgainAction)
-            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainFreeConfirmTitle,
-                message: LGLocalizedString.productSellAgainFreeConfirmMessage,
-                cancelLabel: LGLocalizedString.productSellAgainFreeConfirmCancelButton,
-                actions: alertActions)
-            
-            }, source: .markAsUnsold)
-    }
-
     func chatWithSeller() {
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .productDetailMoreInfo : .productDetail
-        chatWithSeller(source)
-    }
-    
-    func chatWithSeller(_ source: EventParameterTypePage) {
         trackHelper.trackChatWithSeller(source)
         navigator?.openProductChat(product.value)
     }
@@ -593,17 +496,8 @@ extension ProductViewModel {
         guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
                                                                    productId: product.value.objectId,
                                                                    source: .productDetail,
-                                                                   isMyVideo: product.value.isMine) else { return }
+                                                                   isMyVideo: isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
-    }
-
-    func promoteProduct() {
-        promoteProduct(.productDetail)
-    }
-    
-    func reportProduct() {
-        guard !product.value.isMine else { return }
-        reportAction()
     }
 
     func stickersButton() {
@@ -674,7 +568,7 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && product.value.isMine {
+        if featureFlags.editDeleteItemUxImprovement && isMine {
             if status.value.isEditable {
                 navBarButtons.append(buildEditNavBarAction())
             }
@@ -730,7 +624,6 @@ extension ProductViewModel {
 
     private func showOptionsMenu() {
         var actions = [UIAction]()
-        let isMine = product.value.isMine
         let isCommercializable = (status.value == .pendingAndCommercializable || status.value == .availableAndCommercializable)
 
         if featureFlags.editDeleteItemUxImprovement && status.value.isEditable {
@@ -775,12 +668,12 @@ extension ProductViewModel {
 
     private func buildReportAction() -> UIAction {
         let title = LGLocalizedString.productReportProductButton
-        return UIAction(interface: .text(title), action: reportAction)
+        return UIAction(interface: .text(title), action: { [weak self] in self?.confirmToReportProduct() } )
     }
     
-    fileprivate func reportAction() {
+    fileprivate func confirmToReportProduct() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
-            guard let strongSelf = self else { return }
+            guard let strongSelf = self, !strongSelf.isMine else { return }
             
             let alertOKAction = UIAction(interface: .text(LGLocalizedString.commonYes),
                 action: { [weak self] in
@@ -808,7 +701,7 @@ extension ProductViewModel {
 
                 let soldAction = UIAction(interface: .text(LGLocalizedString.productDeleteConfirmSoldButton),
                     action: { [weak self] in
-                        self?.markSold(.delete)
+                        self?.selectBuyerToMarkAsSold(showConfirmationFallback: false)
                     })
                 alertActions.append(soldAction)
 
@@ -843,7 +736,7 @@ extension ProductViewModel {
 
     private func buildPromoteAction() -> UIAction {
         return UIAction(interface: .text(LGLocalizedString.productCreateCommercialButton), action: { [weak self] in
-            self?.promoteProduct()
+            self?.promoteProduct(.productDetail)
         })
     }
 
@@ -877,18 +770,18 @@ extension ProductViewModel {
             break
         case .available, .availableAndCommercializable:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
-                action: { [weak self] in self?.markSold() }))
+                action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true) }))
         case .sold:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
-                action: { [weak self] in self?.resell() }))
+                action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
             break
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
-                action: { [weak self] in self?.markSoldFree() }))
+                action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true) }))
         case .soldFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainFreeButton, .secondary(fontSize: .big, withBorder: false)),
-                action: { [weak self] in self?.resellFree() }))
+                action: { [weak self] in self?.confirmToMarkAsUnSold(free: true) }))
         }
         return actionButtons
     }
@@ -947,6 +840,63 @@ fileprivate extension ProductViewModel {
         return data
     }
 
+    func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
+        ifLoggedInRunActionElseOpenMainSignUp( { [weak self]  in
+            guard let productId = self?.product.value.objectId else { return }
+            self?.delegate?.vmShowLoading(nil)
+            self?.productRepository.possibleBuyersOf(productId: productId) { result in
+                if let buyers = result.value, !buyers.isEmpty {
+                    self?.delegate?.vmHideLoading(nil) {
+                        self?.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers) { [weak self] buyerId in
+                            let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
+                            self?.markAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
+                        }
+                    }
+                } else if showConfirmationFallback {
+                    self?.delegate?.vmHideLoading(nil) {
+                        self?.confirmToMarkAsSold()
+                    }
+                } else {
+                    self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
+                }
+            }
+            }, source: .markAsSold)
+    }
+
+    private func confirmToMarkAsSold() {
+        guard isMine && status.value.isAvailable else { return }
+        let free = status.value.isFree
+        let okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
+        let title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
+        let message = free ? LGLocalizedString.productMarkAsSoldFreeConfirmMessage : LGLocalizedString.productMarkAsSoldConfirmMessage
+        let cancel = free ? LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton : LGLocalizedString.productMarkAsSoldConfirmCancelButton
+
+        var alertActions: [UIAction] = []
+        let markAsSoldAction = UIAction(interface: .text(okButton),
+                                        action: { [weak self] in
+                                            self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
+        })
+        alertActions.append(markAsSoldAction)
+        delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
+    }
+
+    func confirmToMarkAsUnSold(free: Bool) {
+        let okButton = free ? LGLocalizedString.productSellAgainFreeConfirmOkButton : LGLocalizedString.productSellAgainConfirmOkButton
+        let title = free ? LGLocalizedString.productSellAgainFreeConfirmTitle : LGLocalizedString.productSellAgainConfirmTitle
+        let message = free ? LGLocalizedString.productSellAgainFreeConfirmMessage : LGLocalizedString.productSellAgainConfirmMessage
+        let cancel = free ? LGLocalizedString.productSellAgainFreeConfirmCancelButton : LGLocalizedString.productSellAgainConfirmCancelButton
+
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            var alertActions: [UIAction] = []
+            let sellAgainAction = UIAction(interface: .text(okButton),
+                                           action: { [weak self] in
+                                            self?.markUnsold()
+            })
+            alertActions.append(sellAgainAction)
+            self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
+            }, source: .markAsUnsold)
+    }
+
     func report() {
         if isReported.value {
             delegate?.vmHideLoading(LGLocalizedString.productReportedSuccessMessage, afterMessageCompletion: nil)
@@ -998,10 +948,10 @@ fileprivate extension ProductViewModel {
         }
     }
 
-    func markSold(_ source: EventParameterSellSourceValue) {
+    func markAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo) {
         delegate?.vmShowLoading(nil)
 
-        productRepository.markProductAsSold(product.value) { [weak self] result in
+        productRepository.markProductAsSold(product.value, buyerId: buyerId) { [weak self] result in
             guard let strongSelf = self else { return }
 
             var markAsSoldCompletion: (()->())? = nil
@@ -1010,7 +960,7 @@ fileprivate extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackHelper.trackMarkSoldCompleted(source)
+                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -1071,11 +1021,11 @@ fileprivate extension ProductViewModel {
 }
 
 
-// MARK: - UpdateDetailInfoDelegate
+// MARK: - Logged in checks
 
 extension ProductViewModel {
     fileprivate func ifLoggedInRunActionElseOpenMainSignUp(_ action: @escaping () -> (), source: EventParameterLoginSourceValue) {
-        if Core.sessionManager.loggedIn {
+        if sessionManager.loggedIn {
             action()
         } else {
             navigator?.openLoginIfNeededFromProductDetail(from: source, loggedInAction: action)
@@ -1141,118 +1091,6 @@ extension ProductViewModel: SocialSharerDelegate {
             break
         }
         return nil
-    }
-}
-
-
-// MARK : - Product
-
-extension Product {
-    func viewModelStatus(_ featureFlags: FeatureFlaggeable) -> ProductViewModelStatus {
-        switch status {
-        case .pending:
-            return isMine ? .pending : .notAvailable
-        case .discarded, .deleted:
-            return .notAvailable
-        case .approved:
-            if featureFlags.freePostingModeAllowed && price.free {
-                return isMine ? .availableFree : .otherAvailableFree
-            } else {
-                return isMine ? .available : .otherAvailable
-            }
-        case .sold, .soldOld:
-            if featureFlags.freePostingModeAllowed && price.free {
-                return isMine ? .soldFree : .otherSoldFree
-            } else {
-                return isMine ? .sold : .otherSold
-            }
-        }
-    }
-
-    var isMine: Bool {
-        let myUserId = Core.myUserRepository.myUser?.objectId
-        let ownerId = user.objectId
-        guard user.objectId != nil && myUserId != nil else { return false }
-        return ownerId == myUserId
-    }
-}
-
-
-// MARK: - ProductViewModelStatus
-
-fileprivate extension ProductViewModelStatus {
-
-    var isEditable: Bool {
-        switch self {
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .availableFree:
-            return true
-        case .notAvailable, .sold, .otherSold, .otherAvailable, .otherSoldFree, .soldFree, .otherAvailableFree:
-            return false
-        }
-    }
-
-    var directChatsAvailable: Bool {
-        switch self {
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .soldFree,
-             .otherSoldFree, .availableFree, .notAvailable, .sold, .otherSold:
-            return false
-        case  .otherAvailable,  .otherAvailableFree:
-            return true
-        }
-    }
-
-    var string: String? {
-        switch self {
-        case .sold, .otherSold:
-            return LGLocalizedString.productListItemSoldStatusLabel
-        case .soldFree, .otherSoldFree:
-            return LGLocalizedString.productListItemGivenAwayStatusLabel
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable, .availableFree, .otherAvailableFree,
-             .notAvailable:
-            return nil
-        }
-    }
-
-    var labelColor: UIColor {
-        switch self {
-        case .sold, .otherSold, .soldFree, .otherSoldFree:
-            return UIColor.white
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable,
-             .notAvailable, .availableFree, .otherAvailableFree:
-            return UIColor.clear
-        }
-    }
-
-    var bgColor: UIColor {
-        switch self {
-        case .sold, .otherSold:
-            return UIColor.soldColor
-        case .soldFree, .otherSoldFree:
-            return UIColor.soldFreeColor
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable,
-             .notAvailable, .availableFree, .otherAvailableFree:
-            return UIColor.clear
-        }
-    }
-
-    func setCommercializable(_ active: Bool) -> ProductViewModelStatus {
-        switch self {
-        case .pending, .pendingAndCommercializable:
-            return active ? .pendingAndCommercializable : .pending
-        case .available, .availableAndCommercializable:
-            return active ? .availableAndCommercializable : .available
-        case .sold, .otherSold, .notAvailable, .otherAvailable, .otherSoldFree, .otherAvailableFree, .soldFree, .availableFree:
-            return self
-        }
-    }
-
-    var isBumpeable: Bool {
-        switch self {
-        case .available, .availableAndCommercializable, .availableFree, .otherAvailable, .otherAvailableFree:
-            return true
-        case .pending, .pendingAndCommercializable, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
-            return false
-        }
     }
 }
 

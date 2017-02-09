@@ -7,7 +7,7 @@
 [cocoadocs]: http://cocoadocs.org/docsets/KeychainSwift
 [carthage]: https://github.com/Carthage/Carthage
 
-**⚠️ Xcode 8 warning ⚠️**: Keychain currently does not work on iOS 10 / Xcode 8 unless *Keychain Sharing* is enabled in *Capabilities* tab. See this [stackoverflow answer](http://stackoverflow.com/a/38543243/297131) for details.
+**⚠️ Xcode 8 warning ⚠️**: Keychain currently does not work in iOS 10 simulator in Xcode 8.0/8.1 unless *Keychain Sharing* is enabled in *Capabilities* tab. See this [stackoverflow answer](http://stackoverflow.com/a/38543243/297131) for details. This issue has been fixed in Xcode 8.2.
 
 This is a collection of helper functions for saving text and data in the Keychain.
  As you probably noticed Apple's keychain API is a bit verbose. This library was designed to provide shorter syntax for accomplishing a simple task: reading/writing text values for specified keys:
@@ -18,7 +18,7 @@ keychain.set("hello world", forKey: "my key")
 keychain.get("my key")
  ```
 
- The Keychain library includes the following features:
+The Keychain library includes the following features:
 
  * <a href="#usage">Get, set and delete string, boolean and Data Keychain items</a>
  * <a href="#keychain_item_access">Specify item access security level</a>
@@ -79,7 +79,7 @@ Use [iOS 7 compatible](https://github.com/marketplacer/keychain-swift/blob/iOS7/
 
 <h2 id="usage">Usage</h2>
 
-Add `import KeychainSwift` to your source code if you used Carthage or CocoaPods setup methods.
+Add `import KeychainSwift` to your source code unless you used the file setup method.
 
 #### String values
 
@@ -204,6 +204,10 @@ keychain.set("hello world", forKey: "my key")
 if keychain.lastResultCode != noErr { /* Report error */ }
 ```
 
+## Using KeychainSwift from Objective-C
+
+[This manual](https://github.com/marketplacer/keychain-swift/wiki/Using-KeychainSwift-in-Objective-C-project) describes how to use KeychainSwift in Objective-C apps.
+
 ## Known serious issue
 
 It [has been reported](https://github.com/marketplacer/keychain-swift/issues/15) that the library sometimes returns `nil`  instead of the stored Keychain value. The issue seems to be random and hard to reproduce. It may be connected with [the Keychain issue](https://forums.developer.apple.com/thread/4743) reported on Apple developer forums. If you experienced this problem feel free to create an issue so we can discuss it and find solutions.
@@ -245,6 +249,14 @@ Here are some other Keychain libraries.
 * Thanks to [tcirwin](https://github.com/tcirwin) for adding Swift 3.0 support.
 * Thanks to [Tulleb](https://github.com/Tulleb) for adding Xcode 8 beta 6 support.
 
+
+## Submitting a pull request
+
+Before submitting a pull request please note that this library is not a full featured wrapper around Keychain API. The purpose of this project is to do few things and do them well. There are many excellent [alternative solutions](#alternative-solutions) that provide additional features to people who need them. This project, in contrast, is a single-purpose tool that sacrifices functionality in favor of the ease of use.
+
+## Feedback is welcome
+
+If you notice any issue, got stuck or just want to chat feel free to create an issue. We will be happy to help you.
 
 ## License
 

@@ -127,6 +127,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_featured_stripe", comment: "")
 	}
 
+	static var bumpUpProductDetailFeaturedLabel: String {
+		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
+	}
+
 	static var bumpUpViewFreeTitle: String {
 		return NSLocalizedString("bump_up_view_free_title", comment: "")
 	}
@@ -3181,6 +3185,10 @@ struct LGLocalizedString {
 
 	static var userRatingReviewButton: String {
 		return NSLocalizedString("user_rating_review_button", comment: "")
+	}
+
+	static var userRatingSkipButton: String {
+		return NSLocalizedString("user_rating_skip_button", comment: "")
 	}
 
 	static var userRatingReviewInfo: String {

@@ -27,6 +27,7 @@ class RateUserViewController: BaseViewController {
     fileprivate var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
     fileprivate let descrPlaceholderColor = UIColor.gray
     fileprivate static let sendButtonMargin: CGFloat = 15
+    fileprivate let showSkipButton: Bool
 
     fileprivate let viewModel: RateUserViewModel
     fileprivate let keyboardHelper: KeyboardHelper
@@ -35,12 +36,13 @@ class RateUserViewController: BaseViewController {
     
     // MARK: - Lifecycle
 
-    convenience init(viewModel: RateUserViewModel) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+    convenience init(viewModel: RateUserViewModel, showSkipButton: Bool) {
+        self.init(viewModel: viewModel, showSkipButton: showSkipButton, keyboardHelper: KeyboardHelper.sharedInstance)
     }
 
-    init(viewModel: RateUserViewModel, keyboardHelper: KeyboardHelper) {
+    init(viewModel: RateUserViewModel, showSkipButton: Bool, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
+        self.showSkipButton = showSkipButton
         self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: "RateUserViewController",
                    navBarBackgroundStyle: .transparent(substyle: .light))
@@ -81,6 +83,10 @@ class RateUserViewController: BaseViewController {
         viewModel.closeButtonPressed()
     }
 
+    dynamic private func skipButtonPressed() {
+        viewModel.skipButtonPressed()
+    }
+
     dynamic private func viewBackgroundTap() {
         descriptionText.resignFirstResponder()
     }
@@ -89,8 +95,12 @@ class RateUserViewController: BaseViewController {
 
     private func setupUI() {
         automaticallyAdjustsScrollViewInsets = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
-                                                           target: self, action: #selector(closeButtonPressed))
+        if showSkipButton {
+            setLetGoRightButtonWith(text: LGLocalizedString.userRatingSkipButton, selector: #selector(skipButtonPressed))
+        } else {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
+                                                               target: self, action: #selector(closeButtonPressed))
+        }
 
         setNavBarTitle(LGLocalizedString.userRatingTitle)
 

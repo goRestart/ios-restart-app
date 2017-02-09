@@ -22,7 +22,9 @@ class GridDrawerManager {
     private let productDrawer = ProductCellDrawer()
     private let collectionDrawer = ProductCollectionCellDrawer()
     private let emptyCellDrawer = EmptyCellDrawer()
-    
+    private let featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance
+
+
     func registerCell(inCollectionView collectionView: UICollectionView) {
         ProductCellDrawer.registerCell(collectionView)
         ProductCollectionCellDrawer.registerCell(collectionView)
@@ -44,7 +46,9 @@ class GridDrawerManager {
         switch model {
         case .productCell(let product) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
-            let data = ProductData(productID: product.objectId, thumbUrl: product.thumbnail?.fileURL, isFree: product.price.free && freePostingAllowed)
+            let isFeatured = featureFlags.pricedBumpUpEnabled ? (product.featured ?? false) : false
+            let data = ProductData(productID: product.objectId, thumbUrl: product.thumbnail?.fileURL,
+                                   isFree: product.price.free && freePostingAllowed, isFeatured: isFeatured)
             return productDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }

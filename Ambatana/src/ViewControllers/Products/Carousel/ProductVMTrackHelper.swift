@@ -14,10 +14,6 @@ class ProductVMTrackHelper {
     fileprivate let tracker: Tracker
     fileprivate var featureFlags: FeatureFlaggeable
 
-    convenience init(product: Product) {
-        self.init(tracker: TrackerProxy.sharedInstance, product: product, featureFlags: FeatureFlags.sharedInstance)
-    }
-
     init(tracker: Tracker, product: Product, featureFlags: FeatureFlaggeable) {
         self.tracker = tracker
         self.product = product
@@ -132,8 +128,8 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMarkSoldCompleted(_ source: EventParameterSellSourceValue) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+    func trackMarkSoldCompleted(to userSoldTo: EventParameterUserSoldTo) {
+        let trackerEvent = TrackerEvent.productMarkAsSold(product, soldTo: userSoldTo, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -160,11 +156,11 @@ extension ProductVMTrackHelper {
     func trackMessageSent(_ isFirstMessage: Bool, messageType: EventParameterMessageType) {
         if isFirstMessage {
             let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
-                                                              typePage: .productDetail)
+                                                              typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             tracker.trackEvent(firstMessageEvent)
         }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType,
-                                                            isQuickAnswer: .falseParameter, typePage: .productDetail)
+                                                            isQuickAnswer: .falseParameter, typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
 }

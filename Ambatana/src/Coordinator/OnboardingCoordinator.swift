@@ -36,7 +36,7 @@ final class OnboardingCoordinator: Coordinator {
 
     convenience init() {
         self.init(locationManager: Core.locationManager,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance)
     }
 

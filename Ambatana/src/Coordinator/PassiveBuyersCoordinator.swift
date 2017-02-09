@@ -28,7 +28,7 @@ final class PassiveBuyersCoordinator: Coordinator {
 
     convenience init(passiveBuyersInfo: PassiveBuyersInfo) {
         self.init(passiveBuyersInfo: passiveBuyersInfo,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
     }
 
     init(passiveBuyersInfo: PassiveBuyersInfo,

@@ -77,7 +77,7 @@ final class LGProductRepository: ProductRepository {
         return LGProduct(objectId: nil, updatedAt: nil, createdAt: nil, name: name, nameAuto: nil, descr: description,
                          price: price, currency: currency, location: location, postalAddress: postalAddress,
                          languageCode: languageCode, category: category, status: status, thumbnail: nil,
-                         thumbnailSize: nil, images: [], user: myUserProduct)
+                         thumbnailSize: nil, images: [], user: myUserProduct, featured: false)
     }
 
     func updateProduct(_ product: Product, name: String?, description: String?, price: ProductPrice,
@@ -176,7 +176,9 @@ final class LGProductRepository: ProductRepository {
 
             if let product = result.value {
                 // Cache the product in the limbo
-                self?.productsLimboDAO.save(product)
+                if let productId = product.objectId {
+                    self?.productsLimboDAO.save(productId)
+                }
                 // Send event
                 self?.eventBus.onNext(.create(product))
             }
@@ -239,31 +241,29 @@ final class LGProductRepository: ProductRepository {
 
     // MARK: - Mark product as (un)sold
 
-    func markProductAsSold(_ productId: String, completion: ProductVoidCompletion?) {
-        dataSource.markAs(sold: true, productId: productId) { [weak self] result in
+    func markProductAsSold(_ productId: String, buyerId: String?, completion: ProductVoidCompletion?) {
+        dataSource.markAsSold(productId, buyerId: buyerId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
-            } else if let _ = result.value {
+            } else {
                 self?.eventBus.onNext(.sold(productId))
                 completion?(ProductVoidResult(value: ()))
             }
         }
     }
 
-    func markProductAsSold(_ product: Product, completion: ProductCompletion?) {
+    func markProductAsSold(_ product: Product, buyerId: String?, completion: ProductCompletion?) {
 
         guard let productId = product.objectId else {
             completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
-        dataSource.markAs(sold: true, productId: productId) { [weak self] result in
+        self.markProductAsSold(productId, buyerId: buyerId) { result in
             if let error = result.error {
-                completion?(ProductResult(error: RepositoryError(apiError: error)))
-            } else if let _ = result.value {
-                var newProduct = LGProduct(product: product)
-                newProduct = newProduct.updating(status: .sold)
-                self?.eventBus.onNext(.sold(productId))
+                completion?(ProductResult(error: error))
+            } else {
+                let newProduct = LGProduct(product: product).updating(status: .sold)
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -276,7 +276,7 @@ final class LGProductRepository: ProductRepository {
             return
         }
 
-        dataSource.markAs(sold: false, productId: productId) { [weak self] result in
+        dataSource.markAsUnSold(productId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
@@ -403,7 +403,8 @@ final class LGProductRepository: ProductRepository {
                 completion?(ProductsResult(error: RepositoryError(apiError: error)))
             } else if let products = result.value {
                 self?.productsLimboDAO.removeAll()
-                self?.productsLimboDAO.save(products)
+                let productIds = products.flatMap { $0.objectId }
+                self?.productsLimboDAO.save(productIds)
 
                 completion?(ProductsResult(value: products))
             }
@@ -455,6 +456,19 @@ final class LGProductRepository: ProductRepository {
         guard !viewedProductIds.isEmpty else { return }
         updateProductViewsBatch(Array(viewedProductIds), completion: nil)
         viewedProductIds = []
+    }
+
+
+    // MARK: - Possible buyers
+
+    func possibleBuyersOf(productId: String, completion: ProductBuyersCompletion?) {
+        guard let _ = myUserRepository.myUser?.objectId else {
+            completion?(ProductBuyersResult(error: .internalError(message: "Not logged in")))
+            return
+        }
+        dataSource.possibleBuyersOf(productId: productId) { result in
+            handleApiResult(result, completion: completion)
+        }
     }
 
 

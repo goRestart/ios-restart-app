@@ -1000,10 +1000,26 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: otherUserId)
         delegate?.vmShowReportUser(reportVM)
     }
-    
+
     private func markProductAsSold() {
+        guard let productId = self.product.objectId else { return }
         delegate?.vmShowLoading(nil)
-        productRepository.markProductAsSold(product) { [weak self] result in
+        productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+            if let buyers = result.value, !buyers.isEmpty {
+                self?.delegate?.vmHideLoading(nil) {
+                    self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
+                        self?.markProductAsSold(buyerId: buyerId)
+                    }
+                }
+            } else {
+                self?.markProductAsSold(buyerId: nil)
+            }
+        }
+    }
+    
+    private func markProductAsSold(buyerId: String?) {
+        delegate?.vmShowLoading(nil)
+        productRepository.markProductAsSold(product, buyerId: buyerId) { [weak self] result in
             self?.delegate?.vmHideLoading(nil) { [weak self] in
                 guard let strongSelf = self else { return }
                 if let value = result.value {
@@ -1025,7 +1041,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         guard !didSendMessage else { return }
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
-                                                               typePage: .chat, sellerRating: sellerRating)
+                                                          typePage: .chat, sellerRating: sellerRating,
+                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(firstMessageEvent)
     }
     
@@ -1037,7 +1054,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat)
+                                                            isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat,
+                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
     
@@ -1109,10 +1127,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let mappedChatMessages = newMessages.map(chatViewMessageAdapter.adapt)
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: messageSuspiciousDisclaimerMessage)
-        // Add user info as 1st message
-        if let userInfoMessage = userInfoMessage, isLastPage {
-            chatMessages += [userInfoMessage]
-        }
         // Add disclaimer at the bottom of the first page
         if let bottomDisclaimerMessage = bottomDisclaimerMessage, page == 0 {
             chatMessages = [bottomDisclaimerMessage] + chatMessages
@@ -1122,6 +1136,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         } else {
             loadedMessages += chatMessages
         }
+        // Add user info as 1st message
+        addUserInfoMessageToChat()
     }
 
     private func afterRetrieveChatMessagesEvents() {
@@ -1266,10 +1282,22 @@ fileprivate extension OldChatViewModel {
             guard let strongSelf = self else { return }
             guard let user = result.value else { return }
             strongSelf.otherUser = LocalUser(user: user)
-            if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
-                strongSelf.loadedMessages += [userInfoMessage]
-                strongSelf.delegate?.vmDidRefreshChatMessages()
-            }
+            strongSelf.addUserInfoMessageToChat()
+            strongSelf.delegate?.vmDidRefreshChatMessages()
+        }
+    }
+
+    fileprivate func addUserInfoMessageToChat() {
+        guard let userInfoMessage = userInfoMessage else { return }
+        guard isLastPage else { return }
+        guard objectCount > 0 else { return }
+        let lastMessageType = loadedMessages[objectCount-1].type
+        switch lastMessageType {
+        case .userInfo:
+            loadedMessages[objectCount-1] = userInfoMessage
+            return
+        case .disclaimer, .offer, .sticker, .text:
+            loadedMessages.append(userInfoMessage)
         }
     }
 }

@@ -52,6 +52,7 @@ protocol ProductDetailNavigator: TabNavigator {
     func closeAfterDelete()
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String)
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct)
+    func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void)
     func showProductFavoriteBubble(with data: BubbleNotificationData)
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }
@@ -65,5 +66,6 @@ protocol SimpleProductsNavigator: class {
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
     func openExpressChat(_ products: [Product], sourceProductId: String, manualOpen: Bool)
+    func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }

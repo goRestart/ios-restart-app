@@ -28,6 +28,7 @@
 "bump_up_processing_free_text" = "Bearbetar puff...";
 "bump_up_processing_priced_text" = "Bearbetar betalning...";
 "bump_up_product_cell_featured_stripe" = "Visas";
+"bump_up_product_detail_featured_label" = "VISAS";
 "bump_up_view_free_subtitle" = "Ju fler delningar, desto mer synlighet kommer din produkt att få.";
 "bump_up_view_free_title" = "PUFFA DIN VARA UPPÅT";
 "bump_up_view_pay_bumps_left_text" = "Du har %i puffar uppåt kvar.";
@@ -166,10 +167,10 @@
 "chat_verify_alert_resend_button" = "Återsänd";
 "chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
 "chat_with_yourself_alert_msg" = "Du kan inte starta en konversation om din egen produkt.";
-"collection_apple_title" = "Ett äpple om dagen";
+"collection_apple_title" = "Senaste Apple prylar";
 "collection_explore_button" = "Utforska";
 "collection_furniture_title" = "Borta bra, hemma bäst";
-"collection_gaming_title" = "Nu kör vi";
+"collection_gaming_title" = "Spela mera";
 "collection_transport_title" = "Res med stil";
 "collection_you_title" = "Vald för dig";
 "commercializer_create_from_settings" = "Create a Free Commercial";
@@ -623,6 +624,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Logga in med Google för att bekräfta din identitet";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Grattis!";
+"rate_buyers_not_on_letgo_button" = "Jag sålde det inte på letgo";
+"rate_buyers_sub_message" = "Vem har du sålt detta till?";
+"rate_buyers_title" = "Vem köpte den här?";
 "rating_list_action_report_review" = "Rapportera omdöme";
 "rating_list_action_report_review_error_message" = "Ett fel uppstod när din rapport skulle skickas.";
 "rating_list_action_report_review_success_message" = "Din rapport har skickats!";
@@ -779,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Skriv om din upplevelse (obligatoriskt)";
 "user_rating_review_placeholder_optional" = "Skriv om din upplevelse (valfritt)";
 "user_rating_review_send_success" = "Ditt omdöme har publicerats!";
+"user_rating_skip_button" = "Hoppa över";
 "user_rating_title" = "Betygsätt din upplevelse med";
 "user_share_error" = "Ett fel inträffade när profilen skulle delas. Vänligen försök igen.";
 "user_share_message_mine" = "Titta på allt som jag säljer på letgo:";

@@ -196,7 +196,7 @@ final class CoreDI: InternalDI {
     }()
     lazy var monetizationRepository: MonetizationRepository = {
         let dataSource = MonetizationApiDataSource(apiClient: self.apiClient)
-        return LGMonetizationRepository(dataSource: dataSource)
+        return LGMonetizationRepository(dataSource: dataSource, productsLimboDAO: self.productsLimboDAO)
     }()
 
     // MARK: > DAO

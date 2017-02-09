@@ -28,6 +28,7 @@
 "bump_up_processing_free_text" = "Angebot wird hochgeholt...";
 "bump_up_processing_priced_text" = "Zahlung wird verarbeitet...";
 "bump_up_product_cell_featured_stripe" = "Empfohlen";
+"bump_up_product_detail_featured_label" = "EMPFOHLEN";
 "bump_up_view_free_subtitle" = "Je öfter du es teilst, umso sichtbarer wird dein Angebot";
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
 "bump_up_view_pay_bumps_left_text" = "Du kannst noch %i Angebote hochholen.";
@@ -170,7 +171,7 @@
 "collection_explore_button" = "Entdecken";
 "collection_furniture_title" = "Zuhause ist's doch am schönsten";
 "collection_gaming_title" = "Spiel mit mir";
-"collection_transport_title" = "Reisen mit Stil";
+"collection_transport_title" = "Reise mit Stil";
 "collection_you_title" = "Für dich ausgesucht";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -623,6 +624,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Verbinde dich mit Google, um deine Identität zu bestätigen";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Gratuliere!";
+"rate_buyers_not_on_letgo_button" = "Ich habe es nicht über letgo verkauft";
+"rate_buyers_sub_message" = "An wen hast du es verkauft?";
+"rate_buyers_title" = "Wer hat es gekauft?";
 "rating_list_action_report_review" = "Bewertung melden";
 "rating_list_action_report_review_error_message" = "Beim Abschicken deiner Nachricht ist ein Fehler aufgetreten.";
 "rating_list_action_report_review_success_message" = "Deine Nachricht wurde abgeschickt!";
@@ -779,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Schreibe einen Erfahrungsbericht (Pflichtfeld)";
 "user_rating_review_placeholder_optional" = "Schreibe einen Erfahrungsbericht (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
+"user_rating_skip_button" = "Überspringen";
 "user_rating_title" = "Bewerte deine Transaktion mit";
 "user_share_error" = "Beim Teilen des Profils ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
 "user_share_message_mine" = "Schau dir all die Sachen an, die ich auf letgo verkaufe!";

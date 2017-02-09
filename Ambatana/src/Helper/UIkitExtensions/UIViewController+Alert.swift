@@ -113,7 +113,8 @@ extension UIViewController {
             alert.addAction(action)
         }
 
-        present(alert, animated: true, completion: completion)
+        let presenter: UIViewController = tabBarController ?? navigationController ?? self
+        presenter.present(alert, animated: true, completion: completion)
     }
 
     func showAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction], completion: (() -> Void)? = nil) {

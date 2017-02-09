@@ -107,7 +107,7 @@ class UserViewModel: BaseViewModel {
         let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let notificationsManager = NotificationsManager.sharedInstance
+        let notificationsManager = LGNotificationsManager.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
                   productRepository: productRepository, tracker: tracker, isMyProfile: isMyProfile, user: user, source: source,
                   featureFlags: featureFlags, notificationsManager: notificationsManager)
@@ -158,15 +158,16 @@ class UserViewModel: BaseViewModel {
         
         if itsMe {
             refreshMyUserData()
+            resetLists()
             cleanFavoriteBadgeIfNeeded()
             if firstTime {
                 navBarButtons.value = buildNavBarButtons()
             }
         } else {
             retrieveUserData()
+            refreshIfLoading()
         }
-        
-        refreshIfLoading()
+
         trackVisit()
     }
 }

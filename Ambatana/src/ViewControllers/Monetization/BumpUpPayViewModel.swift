@@ -29,7 +29,7 @@ class BumpUpPayViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(product: Product, purchaseableProduct: PurchaseableProduct) {
-        let purchasesShopper = PurchasesShopper.sharedInstance
+        let purchasesShopper = LGPurchasesShopper.sharedInstance
         self.init(product: product, purchaseableProduct: purchaseableProduct,
                   purchasesShopper: purchasesShopper)
     }

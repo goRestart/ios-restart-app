@@ -28,6 +28,7 @@
 "bump_up_processing_free_text" = "Đang tiến hành đẩy lên...";
 "bump_up_processing_priced_text" = "Đang tiến hành thanh toán...";
 "bump_up_product_cell_featured_stripe" = "Tiêu biểu";
+"bump_up_product_detail_featured_label" = "TIÊU BIỂU";
 "bump_up_view_free_subtitle" = "Càng được chia sẻ nhiều, bài đăng của bạn càng dễ thấy.";
 "bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
 "bump_up_view_pay_bumps_left_text" = "Bạn còn %i lượt đẩy lên.";
@@ -166,12 +167,12 @@
 "chat_verify_alert_resend_button" = "Gửi lại";
 "chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
 "chat_with_yourself_alert_msg" = "Bạn không thể bắt đầu cuộc trò chuyện về sản phẩm của chính mình.";
-"collection_apple_title" = "Một quả táo một mỗi ngày";
+"collection_apple_title" = "Cho fan của Apple";
 "collection_explore_button" = "Khám phá";
 "collection_furniture_title" = "Không nơi nào như ở nhà";
-"collection_gaming_title" = "Trò chơi đang bật";
-"collection_transport_title" = "Du lịch phong cách";
-"collection_you_title" = "Lựa chọn cho bạn";
+"collection_gaming_title" = "Trò chơi đang diễn ra";
+"collection_transport_title" = "Du lịch theo phong cách";
+"collection_you_title" = "Được lựa chọn cho bạn";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -623,6 +624,10 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Kết nối với Google để xác nhận danh tính của bạn";
 "profile_verify_google_title" = "GOOGLE";
+"rate_buyers_message" = "Chúc mừng!";
+"rate_buyers_not_on_letgo_button" = "Tôi không bán sản phẩm này trên letgo";
+"rate_buyers_sub_message" = "Bạn đã bán sản phẩm này cho ai?";
+"rate_buyers_title" = "Ai đã mua sản phẩm này?";
 "rating_list_action_report_review" = "Báo cáo đánh giá";
 "rating_list_action_report_review_error_message" = "Có lỗi xảy ra trong khi gửi báo cáo.";
 "rating_list_action_report_review_success_message" = "Báo cáo của bạn đã được gửi đi!";
@@ -779,6 +784,7 @@
 "user_rating_review_placeholder_mandatory" = "Viết về trải nghiệm của bạn (bắt buộc)";
 "user_rating_review_placeholder_optional" = "Viết về trải nghiệm của bạn (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
+"user_rating_skip_button" = "Bỏ qua";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";
 "user_share_error" = "Có lỗi xảy ra trong khi chia sẻ hồ sơ. Xin vui lòng thử lại.";
 "user_share_message_mine" = "Hãy xem tất cả những gì tôi đang bán trên letgo!";

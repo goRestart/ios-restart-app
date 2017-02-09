@@ -1253,7 +1253,7 @@ class TrackerEventSpec: QuickSpec {
 
                     product = mockProduct
                     sut = TrackerEvent.firstMessage(product, messageType: .text,
-                                                          typePage: .productDetail, sellerRating: 4)
+                                                    typePage: .productDetail, sellerRating: 4, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1302,6 +1302,10 @@ class TrackerEventSpec: QuickSpec {
                     let typePage = sut.params!.stringKeyParams["seller-user-rating"] as? Float
                     expect(typePage) == 4
                 }
+                it("contains free-posting param") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting) == "false"
+                }
             }
 
             describe("product ask question (ChatProduct)") {
@@ -1314,7 +1318,7 @@ class TrackerEventSpec: QuickSpec {
 
                     product = mockProduct
                     sut = TrackerEvent.firstMessage(product, messageType: .text, interlocutorId: "67890",
-                                                          typePage: .productDetail, sellerRating: 4)
+                                                    typePage: .productDetail, sellerRating: 4, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1376,63 +1380,59 @@ class TrackerEventSpec: QuickSpec {
             }
 
             describe("productMarkAsSold") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
-                    expect(sut.name.rawValue).to(equal("product-detail-sold"))
-                }
-                it("free-posting param is included as Free") {
-                    let product = MockProduct()
-                    product.price = .free
-                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
-                    expect(sut.params!.stringKeyParams["free-posting"] as? String).to(equal("true"))
-                }
-                it("contains the product related params when passing by a product and my user") {
+                beforeEach {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "",
-                        countryCode: "ES", country: nil)
-                    
+                                                         countryCode: "ES", country: nil)
+
                     let productUser = MockUserProduct()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
-                        countryCode: "NL", country: nil)
-                    
+                                                              countryCode: "NL", country: nil)
+
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.983)
+                    product.price = .free
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
-                        countryCode: "US", country: nil)
-                    
-                    sut = TrackerEvent.productMarkAsSold(.markAsSold, product: product, freePostingModeAllowed: true)
-                    expect(sut.params).notTo(beNil())
-                    
-                    // Product
-                    
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                                                          countryCode: "US", country: nil)
+
+                    sut = TrackerEvent.productMarkAsSold(product, soldTo: .letgoUser, freePostingModeAllowed: true)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-sold"))
+                }
+                it("free-posting param is included as Free") {
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
+                }
+                it("contains product-id param") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    expect(productId) == "AAAAA"
+                }
+                it("contains product-price param") {
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price.value))
-                    
-                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
-                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency.code))
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(productCategory).to(equal(product.category.rawValue))
-                    
+                    expect(productPrice) == Double(0)
+                }
+                it("contains product-currency param") {
+                    let value = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(value) == "EUR"
+                }
+                it("contains category-id param") {
+                    let value = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(value) == ProductCategory.homeAndGarden.rawValue
+                }
+                it("contains user-sold-to param") {
+                    let value = sut.params!.stringKeyParams["user-sold-to"] as? String
+                    expect(value) == "true"
                 }
             }
-            
+
             describe("productMarkAsUnsold") {
                 it("has its event name") {
                     let product = MockProduct()
@@ -1898,7 +1898,7 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1919,7 +1919,7 @@ class TrackerEventSpec: QuickSpec {
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .text,
-                                                       isQuickAnswer: .falseParameter, typePage: .chat)
+                                                       isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1971,9 +1971,16 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains pageType param") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
                     let pageType = sut.params!.stringKeyParams["type-page"] as? String
                     expect(pageType).to(equal("chat"))
+                }
+                it("contains free-posting param") {
+                    let product = MockProduct()
+                    product.price = .negotiable(100)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting).to(equal("false"))
                 }
             }
 

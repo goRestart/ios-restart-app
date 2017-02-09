@@ -23,7 +23,7 @@ final class ChangePasswordCoordinator: Coordinator {
 
     convenience init(token: String) {
         self.init(token: token,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
     }
 
     init(token: String,

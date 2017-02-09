@@ -32,7 +32,9 @@ class MockProduct: MockBaseModel, Product {
     var images: [File]
     
     var user: UserProduct
-    
+
+    var featured: Bool?
+
     var processed: NSNumber?
     var favorite: Bool
 
@@ -45,10 +47,12 @@ class MockProduct: MockBaseModel, Product {
         self.status = .pending
         self.category = .electronics
         self.user = MockUserProduct()
+        self.featured = false
         self.favorite = false
         self.price = .negotiable(100)
         self.currency = Currency(code: "USD", symbol: "$")
         super.init()
+        self.objectId = String.random(20)
     }
     
     // MARK: - Product methods
@@ -80,6 +84,7 @@ class MockProduct: MockBaseModel, Product {
         favorite = product.favorite
         
         user = product.user
+        featured = product.featured
     }
     
     
@@ -87,6 +92,7 @@ class MockProduct: MockBaseModel, Product {
     
     static func productFromProduct(_ product: Product) -> MockProduct {
         let mockProduct = MockProduct()
+        mockProduct.objectId = product.objectId
         mockProduct.name = product.name
         mockProduct.nameAuto = product.nameAuto
         mockProduct.descr = product.descr
@@ -105,7 +111,8 @@ class MockProduct: MockBaseModel, Product {
         mockProduct.images = product.images
         mockProduct.favorite = product.favorite
         mockProduct.user = product.user
-        
+        mockProduct.featured = product.featured
+
         return mockProduct
     }
 }

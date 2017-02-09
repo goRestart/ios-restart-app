@@ -49,7 +49,7 @@ final class LoginCoordinator: Coordinator {
                   appearance: appearance,
                   style: style,
                   loggedInAction: loggedInAction,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance)

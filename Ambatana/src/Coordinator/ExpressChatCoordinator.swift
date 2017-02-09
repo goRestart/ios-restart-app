@@ -30,7 +30,7 @@ final class ExpressChatCoordinator: Coordinator {
         self.init(products: products,
                   sourceProductId: sourceProductId,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   manualOpen: manualOpen)
     }
 

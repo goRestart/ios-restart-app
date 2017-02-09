@@ -26,14 +26,14 @@ class BumpUpCoordinator: Coordinator {
         self.init(product: product,
                   socialMessage: socialMessage,
                   paymentItemId: paymentItemId,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
     }
 
     convenience init(product: Product,
                      purchaseableProduct: PurchaseableProduct) {
         self.init(product: product,
                   purchaseableProduct: purchaseableProduct,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
     }
 
     init(product: Product,

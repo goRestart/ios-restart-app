@@ -33,7 +33,7 @@ class NotificationsViewModel: BaseViewModel {
                   productRepository: Core.productRepository,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository,
-                  notificationsManager: NotificationsManager.sharedInstance,
+                  notificationsManager: LGNotificationsManager.sharedInstance,
                   locationManager: Core.locationManager,
                   tracker: TrackerProxy.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }

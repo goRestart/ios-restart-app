@@ -27,10 +27,15 @@ class MockMyUser: MyUser {
 
     // MyUser
     var email: String?
-    var location: LGLocation? // FIXME: Why is there an LGLocation on Letgo-ios
+    var location: LGLocation?
     var localeIdentifier: String?
     
-    init() { }
+    init() {
+        objectId = String.random(20)
+        name = String.random(10)
+        avatar = nil
+        isDummy = false
+    }
     
     required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [Account], ratingAverage: Float?, ratingCount: Int, status: UserStatus, isDummy: Bool, email: String?, location: LGLocation?, localeIdentifier: String?) {
         

@@ -426,8 +426,21 @@ class ChatViewModel: BaseViewModel {
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
 
+        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
+            guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
+            self?.userRepository.show(interlocutorId) { [weak self] result in
+                guard let strongSelf = self else { return }
+                guard let user = result.value else { return }
+                strongSelf.interlocutor = user
+                if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
+                    strongSelf.messages.append(userInfoMessage)
+                }
+            }
+        }.addDisposableTo(disposeBag)
+
         setupChatEventsRx()
     }
+
 
     func updateMessagesCounts(_ changeInMessages: CollectionChange<ChatViewMessage>) {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -739,7 +752,22 @@ extension ChatViewModel {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
         delegate?.vmShowLoading(nil)
-        productRepository.markProductAsSold(productId) { [weak self] result in
+        productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+            if let buyers = result.value, !buyers.isEmpty {
+                self?.delegate?.vmHideLoading(nil) {
+                    self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
+                        self?.markProductAsSold(productId: productId, buyerId: buyerId)
+                    }
+                }
+            } else {
+                self?.markProductAsSold(productId: productId, buyerId: nil)
+            }
+        }
+    }
+
+    private func markProductAsSold(productId: String, buyerId: String?) {
+        delegate?.vmShowLoading(nil)
+        productRepository.markProductAsSold(productId, buyerId: nil) { [weak self] result in
             let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
             self?.delegate?.vmHideLoading(errorMessage) {
                 guard let _ = result.value else { return }
@@ -1099,7 +1127,8 @@ fileprivate extension ChatViewModel {
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                                interlocutorId: userId, typePage: .chat,
-                                                               sellerRating: sellerRating)
+                                                               sellerRating: sellerRating,
+                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
@@ -1111,10 +1140,10 @@ fileprivate extension ChatViewModel {
             shouldTrackFirstMessage = false
             trackFirstMessage(type)
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
-                                                            messageType: type.trackingMessageType,
-                                                            isQuickAnswer: type == .quickAnswer ? .trueParameter : .falseParameter,
-                                                            typePage: .chat)
+        let isQuickAnswer: EventParameterQuickAnswerValue = type == .quickAnswer ? .trueParameter : .falseParameter
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.trackingMessageType,
+                                                            isQuickAnswer: isQuickAnswer, typePage: .chat,
+                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
@@ -1289,26 +1318,6 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if chatStatus.value != .productSold {
             shouldAskProductSold = true
         }
-    }
-}
-
-
-// MARK: - UserInfo
-
-fileprivate extension ChatViewModel {
-
-    func setupUserInfoRxBindings() {
-        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
-            guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
-            self?.userRepository.show(interlocutorId) { [weak self] result in
-                guard let strongSelf = self else { return }
-                guard let user = result.value else { return }
-                strongSelf.interlocutor = user
-                if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
-                    strongSelf.messages.append(userInfoMessage)
-                }
-            }
-        }.addDisposableTo(disposeBag)
     }
 }
 

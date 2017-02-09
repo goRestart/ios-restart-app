@@ -45,7 +45,7 @@ final class TrackerProxy: Tracker {
                   myUserRepository: Core.myUserRepository,
                   locationManager: Core.locationManager,
                   installationRepository: Core.installationRepository,
-                  notificationsManager: NotificationsManager.sharedInstance)
+                  notificationsManager: LGNotificationsManager.sharedInstance)
     }
 
     init(trackers: [Tracker], sessionManager: SessionManager, myUserRepository: MyUserRepository,

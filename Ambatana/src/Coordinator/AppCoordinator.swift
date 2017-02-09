@@ -59,7 +59,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.init(tabBarController: TabBarController(viewModel: tabBarViewModel),
                   configManager: configManager,
                   sessionManager: Core.sessionManager,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   pushPermissionsManager: PushPermissionsManager.sharedInstance,
                   ratingManager: RatingManager.sharedInstance,
@@ -276,9 +276,9 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
 // MARK: - UserRatingCoordinatorDelegate
 
 extension AppCoordinator: UserRatingCoordinatorDelegate {
-    func userRatingCoordinatorDidCancel(_ coordinator: UserRatingCoordinator) {}
+    func userRatingCoordinatorDidCancel() {}
 
-    func userRatingCoordinatorDidFinish(_ coordinator: UserRatingCoordinator, withRating rating: Int?) {
+    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
         if rating == 5 {
             tabBarCtl.showAppRatingViewIfNeeded(.chat)
         }

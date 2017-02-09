@@ -37,7 +37,7 @@ final class SellCoordinator: Coordinator {
     convenience init(source: PostingSource) {
         self.init(source: source,
                   productRepository: Core.productRepository,
-                  bubbleNotificationManager: BubbleNotificationManager.sharedInstance,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance)

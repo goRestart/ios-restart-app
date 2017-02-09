@@ -33,6 +33,8 @@ enum ProductRouter: URLRequestAuthenticable {
     case showStats(productId: String, params: [String : Any])
     case updateStats(params: [String : Any])
 
+    case possibleBuyers(productId: String)
+
 
     static let productBaseUrl = "/api/products"
 
@@ -64,13 +66,15 @@ enum ProductRouter: URLRequestAuthenticable {
             return ProductRouter.productBaseUrl + "/\(productId)/stats"
         case .updateStats(_):
             return ProductRouter.productBaseUrl + "/stats"
+        case let .possibleBuyers(productId):
+            return ProductRouter.productBaseUrl + "/\(productId)/conversations/users"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .delete, .update, .patch, .create, .deleteFavorite, .saveFavorite, .userRelation, .saveReport,
-             .indexLimbo:
+             .indexLimbo, .possibleBuyers:
             return .user
         case .show, .index, .indexForUser, .indexFavorites, .indexRelatedProducts, .indexDiscoverProducts,
              .indexTrending, .showStats, .updateStats:
@@ -122,7 +126,8 @@ enum ProductRouter: URLRequestAuthenticable {
             return try Router<APIBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
         case let .updateStats(params):
             return try Router<APIBaseURL>.batchPatch(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
+        case .possibleBuyers:
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
         }
-        
     }
 }
