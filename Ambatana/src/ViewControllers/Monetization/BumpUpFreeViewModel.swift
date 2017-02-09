@@ -30,7 +30,7 @@ class BumpUpFreeViewModel: BaseViewModel {
     convenience init(product: Product, socialMessage: SocialMessage, paymentItemId: String?) {
         self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage,
                   paymentItemId: paymentItemId, locale: NSLocale.current, locationManager: Core.locationManager,
-                  tracker: TrackerProxy.sharedInstance, purchasesShopper: PurchasesShopper.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance, purchasesShopper: LGPurchasesShopper.sharedInstance)
     }
 
     init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, paymentItemId: String?,

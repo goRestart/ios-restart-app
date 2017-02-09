@@ -292,7 +292,7 @@ fileprivate extension AppDelegate {
         FIRAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
 
         CommercializerManager.sharedInstance.setup()
-        NotificationsManager.sharedInstance.setup()
+        LGNotificationsManager.sharedInstance.setup()
         StickersManager.sharedInstance.setup()
     }
 }

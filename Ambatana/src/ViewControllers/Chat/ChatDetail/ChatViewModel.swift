@@ -753,6 +753,21 @@ extension ChatViewModel {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
         delegate?.vmShowLoading(nil)
+        productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+            if let buyers = result.value, !buyers.isEmpty {
+                self?.delegate?.vmHideLoading(nil) {
+                    self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
+                        self?.markProductAsSold(productId: productId, buyerId: buyerId)
+                    }
+                }
+            } else {
+                self?.markProductAsSold(productId: productId, buyerId: nil)
+            }
+        }
+    }
+
+    private func markProductAsSold(productId: String, buyerId: String?) {
+        delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(productId, buyerId: nil) { [weak self] result in
             let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
             self?.delegate?.vmHideLoading(errorMessage) {

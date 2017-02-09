@@ -44,6 +44,9 @@ class ProductViewModel: BaseViewModel {
 
     // Data
     let product: Variable<Product>
+    var isMine: Bool {
+        return product.value.isMine(myUserRepository: myUserRepository)
+    }
     fileprivate let commercializers: Variable<[Commercializer]?>
     fileprivate let isReported = Variable<Bool>(false)
     let isFavorite = Variable<Bool>(false)
@@ -114,6 +117,7 @@ class ProductViewModel: BaseViewModel {
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
 
+    fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let productRepository: ProductRepository
     fileprivate let commercializerRepository: CommercializerRepository
@@ -144,6 +148,7 @@ class ProductViewModel: BaseViewModel {
 
     convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
         let socialSharer = SocialSharer()
+        let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -152,30 +157,32 @@ class ProductViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         let featureFlags = FeatureFlags.sharedInstance
-        let notificationsManager = NotificationsManager.sharedInstance
+        let notificationsManager = LGNotificationsManager.sharedInstance
         let monetizationRepository = Core.monetizationRepository
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+        let tracker = TrackerProxy.sharedInstance
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
-                  bubbleManager: BubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
-                  purchasesShopper: PurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
-                  monetizationRepository: monetizationRepository)
+                  bubbleManager: LGBubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
+                  monetizationRepository: monetizationRepository, tracker: tracker)
     }
 
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
-         notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository) {
+         notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository, tracker: Tracker) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
+        self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
-        self.trackHelper = ProductVMTrackHelper(product: product)
+        self.trackHelper = ProductVMTrackHelper(tracker: tracker, product: product, featureFlags: featureFlags)
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatWrapper = chatWrapper
@@ -327,10 +334,9 @@ class ProductViewModel: BaseViewModel {
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.product = product
-
-            strongSelf.setStatus(product.viewModelStatus(strongSelf.featureFlags))
-
-            strongSelf.productIsFavoriteable.value = !product.isMine
+            let isMine = product.isMine(myUserRepository: strongSelf.myUserRepository)
+            strongSelf.setStatus(ProductViewModelStatus(product: product, isMine: isMine, featureFlags: strongSelf.featureFlags))
+            strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
             strongSelf.freeBumpUpShareMessage.value = ProductSocialMessage(product: product, fallbackToStore: true)
@@ -348,8 +354,8 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
-            guard let flags = self?.featureFlags, let product = self?.product.value else { return }
-            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && product.isMine ? .enabled : .hidden
+            guard let flags = self?.featureFlags, let isMine = self?.isMine else { return }
+            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && isMine ? .enabled : .hidden
             self?.editButtonState.value = !flags.editDeleteItemUxImprovement && status.isEditable ? .enabled : .hidden
         }.addDisposableTo(disposeBag)
 
@@ -382,7 +388,8 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshStatus() {
-        setStatus(product.value.viewModelStatus(featureFlags))
+        let newStatus = ProductViewModelStatus(product: product.value, isMine: isMine, featureFlags: featureFlags)
+        setStatus(newStatus)
     }
 
     private func setStatus(_ productStatus: ProductViewModelStatus) {
@@ -403,11 +410,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        updateBumpUpBannerFor(product: product.value)
-    }
-
-    private func updateBumpUpBannerFor(product: Product) {
-        guard let productId = product.objectId, product.isMine, product.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
         isUpdatingBumpUpBanner = true
         monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
@@ -495,7 +498,7 @@ extension ProductViewModel {
         guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
                                                                    productId: product.value.objectId,
                                                                    source: .productDetail,
-                                                                   isMyVideo: product.value.isMine) else { return }
+                                                                   isMyVideo: isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
@@ -567,7 +570,7 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && product.value.isMine {
+        if featureFlags.editDeleteItemUxImprovement && isMine {
             if status.value.isEditable {
                 navBarButtons.append(buildEditNavBarAction())
             }
@@ -623,7 +626,6 @@ extension ProductViewModel {
 
     private func showOptionsMenu() {
         var actions = [UIAction]()
-        let isMine = product.value.isMine
         let isCommercializable = (status.value == .pendingAndCommercializable || status.value == .availableAndCommercializable)
 
         if featureFlags.editDeleteItemUxImprovement && status.value.isEditable {
@@ -673,8 +675,7 @@ extension ProductViewModel {
     
     fileprivate func confirmToReportProduct() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
-            guard let strongSelf = self else { return }
-            guard !strongSelf.product.value.isMine else { return }
+            guard let strongSelf = self, !strongSelf.isMine else { return }
             
             let alertOKAction = UIAction(interface: .text(LGLocalizedString.commonYes),
                 action: { [weak self] in
@@ -843,12 +844,12 @@ fileprivate extension ProductViewModel {
 
     func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
         ifLoggedInRunActionElseOpenMainSignUp( { [weak self]  in
-            guard let product = self?.product.value else { return }
+            guard let productId = self?.product.value.objectId else { return }
             self?.delegate?.vmShowLoading(nil)
-            self?.productRepository.possibleBuyersOf(product: product) { result in
+            self?.productRepository.possibleBuyersOf(productId: productId) { result in
                 if let buyers = result.value, !buyers.isEmpty {
                     self?.delegate?.vmHideLoading(nil) {
-                        self?.navigator?.selectBuyerToRate(buyers: buyers) { [weak self] buyerId in
+                        self?.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers) { [weak self] buyerId in
                             let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
                             self?.markAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
                         }
@@ -865,7 +866,7 @@ fileprivate extension ProductViewModel {
     }
 
     private func confirmToMarkAsSold() {
-        guard product.value.isMine && status.value.isAvailable else { return }
+        guard isMine && status.value.isAvailable else { return }
         let free = status.value.isFree
         let okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
         let title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
@@ -1026,7 +1027,7 @@ fileprivate extension ProductViewModel {
 
 extension ProductViewModel {
     fileprivate func ifLoggedInRunActionElseOpenMainSignUp(_ action: @escaping () -> (), source: EventParameterLoginSourceValue) {
-        if Core.sessionManager.loggedIn {
+        if sessionManager.loggedIn {
             action()
         } else {
             let signUpVM = SignUpViewModel(appearance: .light, source: source)

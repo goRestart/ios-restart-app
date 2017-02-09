@@ -52,6 +52,7 @@ class MockProduct: MockBaseModel, Product {
         self.price = .negotiable(100)
         self.currency = Currency(code: "USD", symbol: "$")
         super.init()
+        self.objectId = String.random(20)
     }
     
     // MARK: - Product methods
@@ -91,6 +92,7 @@ class MockProduct: MockBaseModel, Product {
     
     static func productFromProduct(_ product: Product) -> MockProduct {
         let mockProduct = MockProduct()
+        mockProduct.objectId = product.objectId
         mockProduct.name = product.name
         mockProduct.nameAuto = product.nameAuto
         mockProduct.descr = product.descr

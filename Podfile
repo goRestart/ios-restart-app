@@ -33,7 +33,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "1.4.3"  # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '6392ce82471d0a5275fe6d2701ffea43f162bb5f' #"2.4.0"     #:path => "../lgcorekit"
+    pod "LGCoreKit",            "2.5.1"     #:path => "../lgcorekit" #:git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0a0a05c56d0885d902025307d412ede170e9bfb1'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.0.0"     # :path => "../collapsiblelabel"
@@ -73,6 +73,9 @@ def shared_pods
 
     # TextView with placeholder
     pod "KMPlaceholderTextView", "1.3.0"
+
+    # TODO: This is an override to check our fork, remove after original repo merges our pr.
+    pod "KeychainSwift",        :git => 'git@github.com:letgoapp/keychain-swift.git', :commit => 'f6230869f4d26d720f36eb227bd269c3d712986b'
 
 end
 
