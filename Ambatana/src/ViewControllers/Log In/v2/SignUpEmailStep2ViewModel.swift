@@ -23,18 +23,7 @@ struct SignUpEmailStep2FormErrors: OptionSet {
 protocol SignUpEmailStep2Navigator: class {
     func openHelpFromSignUpEmailStep2()
     func openRecaptchaFromSignUpEmailStep2()
-    //                let vm = RecaptchaViewModel(transparentMode: self?.featureFlags.captchaTransparent ?? false)
-    //                self?.delegate?.vmShowRecaptcha(vm)
     func openScammerAlertFromSignUpEmailStep2()
-//    private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
-//        guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
-//             installation: installationRepository.installation, moderation: true) else {
-//                delegate?.vmFinish(completedAccess: false)
-//                return
-//        }
-//        
-//        delegate?.vmFinishAndShowScammerAlert(url, network: network, tracker: tracker)
-//    }
     func closeAfterSignUpSuccessful()
 }
 

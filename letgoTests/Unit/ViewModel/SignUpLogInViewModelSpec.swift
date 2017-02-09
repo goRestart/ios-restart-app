@@ -48,6 +48,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                     locale: locale, source: .install, collapsedEmailParam: nil, action: .signup)
                 sut.delegate = self
+                sut.navigator = self
 
                 self.loading = false
                 self.finishedSuccessfully = false
@@ -422,18 +423,27 @@ class SignUpLogInViewModelSpec: QuickSpec {
     }
 }
 
-extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
-
-    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {}
-    func vmUpdateShowPasswordVisible(_ visible: Bool) {}
-    func vmFinish(completedAccess completed: Bool) {
-        finishedSuccessfully = completed
+extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
+    func cancelSignUpLogIn() {
+        finishedSuccessfully = false
     }
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func closeSignUpLogIn(myUser: MyUser) {
+        finishedSuccessfully = true
+    }
+    func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         finishedSuccessfully = false
         finishedScammer = true
     }
-    func vmShowRecaptcha(_ viewModel: RecaptchaViewModel) {}
+    func openRecaptcha(transparentMode: Bool) {}
+
+    func openRememberPasswordFromSignUpLogIn(email: String?) {}
+    func openHelpFromSignUpLogin() {}
+    func openURL(url: URL) {}
+}
+
+extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
+    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {}
+    func vmUpdateShowPasswordVisible(_ visible: Bool) {}
     func vmShowHiddenPasswordAlert() {}
 
     // BaseViewModelDelegate

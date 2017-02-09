@@ -35,6 +35,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     weak var navigator: SignUpEmailStep1Navigator?
 
+    fileprivate let isRememberedEmail: Bool
     fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let source: EventParameterLoginSourceValue
     fileprivate let collapsedEmail: EventParameterCollapsedEmailField?
@@ -46,18 +47,48 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?) {
-        let keyValueStorage = KeyValueStorage.sharedInstance
-        let tracker = TrackerProxy.sharedInstance
-        self.init(source: source, collapsedEmail: collapsedEmail, keyValueStorage: keyValueStorage, tracker: tracker)
+    convenience init(source: EventParameterLoginSourceValue,
+                     collapsedEmail: EventParameterCollapsedEmailField?) {
+        self.init(source: source,
+                  collapsedEmail: collapsedEmail,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
-    init(source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?,
-         keyValueStorage: KeyValueStorageable, tracker: Tracker) {
+    convenience init(source: EventParameterLoginSourceValue,
+                     collapsedEmail: EventParameterCollapsedEmailField?,
+                     keyValueStorage: KeyValueStorageable) {
         let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
+        let isRememberedEmail = email != nil
+        self.init(email: email,
+                  isRememberedEmail: isRememberedEmail,
+                  source: source,
+                  collapsedEmail: collapsedEmail,
+                  keyValueStorage: keyValueStorage,
+                  tracker: TrackerProxy.sharedInstance)
+    }
+
+    convenience init(email: String?,
+                     isRememberedEmail: Bool,
+                     source: EventParameterLoginSourceValue,
+                     collapsedEmail: EventParameterCollapsedEmailField?) {
+        self.init(email: email,
+                  isRememberedEmail: isRememberedEmail,
+                  source: source,
+                  collapsedEmail: collapsedEmail,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
+    }
+
+    init(email: String?,
+         isRememberedEmail: Bool,
+         source: EventParameterLoginSourceValue,
+         collapsedEmail: EventParameterCollapsedEmailField?,
+         keyValueStorage: KeyValueStorageable,
+         tracker: Tracker) {
         self.email = Variable<String?>(email)
         self.password = Variable<String?>(nil)
 
+        self.isRememberedEmail = isRememberedEmail
         self.suggestedEmailVar = Variable<String?>(nil)
         self.source = source
         self.collapsedEmail = collapsedEmail

@@ -21,7 +21,7 @@ protocol LogInEmailViewModelDelegate: BaseViewModelDelegate {
     func vmGodModePasswordAlert()
 }
 
-protocol LogInEmailViewModelNavigator: class {
+protocol LogInEmailNavigator: class {
     func openHelpFromLogInEmail()
     func openRememberPasswordFromLogInEmail(email: String?)
     func openSignUpEmailFromLogInEmail(email: String?, password: String?)
@@ -48,7 +48,7 @@ final class LogInEmailViewModel: BaseViewModel {
     }
 
     weak var delegate: LogInEmailViewModelDelegate?
-    weak var navigator: LogInEmailViewModelNavigator?
+    weak var navigator: LogInEmailNavigator?
 
     fileprivate let isRememberedEmail: Bool
     fileprivate var unauthorizedErrorCount: Int
@@ -65,21 +65,44 @@ final class LogInEmailViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(email: String?, isRememberedEmail: Bool,
-                     source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?) {
-        let sessionManager = Core.sessionManager
-        let keyValueStorage = KeyValueStorage.sharedInstance
-        let tracker = TrackerProxy.sharedInstance
-        self.init(email: email, isRememberedEmail: isRememberedEmail,
-                  source: source, collapsedEmail: collapsedEmail, sessionManager: sessionManager,
-                  keyValueStorage: keyValueStorage, tracker: tracker)
+    convenience init(source: EventParameterLoginSourceValue,
+                     collapsedEmail: EventParameterCollapsedEmailField?) {
+        self.init(source: source,
+                  collapsedEmail: collapsedEmail,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
+    }
+
+    convenience init(source: EventParameterLoginSourceValue,
+                     collapsedEmail: EventParameterCollapsedEmailField?,
+                     keyValueStorage: KeyValueStorageable) {
+        let email = LogInEmailViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
+        let isRememberedEmail = email != nil
+        self.init(email: email,
+                  isRememberedEmail: isRememberedEmail,
+                  source: source,
+                  collapsedEmail: collapsedEmail,
+                  sessionManager: Core.sessionManager,
+                  keyValueStorage: keyValueStorage,
+                  tracker: TrackerProxy.sharedInstance)
+    }
+
+    convenience init(email: String?,
+                     isRememberedEmail: Bool,
+                     source: EventParameterLoginSourceValue,
+                     collapsedEmail: EventParameterCollapsedEmailField?) {
+        self.init(email: email,
+                  isRememberedEmail: isRememberedEmail,
+                  source: source,
+                  collapsedEmail: collapsedEmail,
+                  sessionManager: Core.sessionManager,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(email: String?, isRememberedEmail: Bool,
          source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, tracker: Tracker) {
-        let actualEmail = email ?? LogInEmailViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
-        self.email = Variable<String?>(actualEmail)
+        self.email = Variable<String?>(email)
         self.password = Variable<String?>(nil)
 
         self.isRememberedEmail = isRememberedEmail

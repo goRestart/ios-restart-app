@@ -106,10 +106,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                                  source: .sell, collapsedEmail: nil,
-                                                  sessionManager: sessionManager,
-                                                  keyValueStorage: keyValueStorage, tracker: tracker)
+                        sut = LogInEmailViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
                     }
 
                     it("has an email") {
@@ -128,10 +125,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                                  source: .sell, collapsedEmail: nil,
-                                                  sessionManager: sessionManager,
-                                                  keyValueStorage: keyValueStorage, tracker: tracker)
+                        sut = LogInEmailViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
                     }
 
                     it("has no email") {
@@ -150,10 +144,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                                  source: .sell, collapsedEmail: nil,
-                                                  sessionManager: sessionManager,
-                                                  keyValueStorage: keyValueStorage, tracker: tracker)
+                        sut = LogInEmailViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
                     }
 
                     it("has no email") {
@@ -580,7 +571,7 @@ extension LogInEmailViewModelSpec: LogInEmailViewModelDelegate {
     func vmOpenInternalURL(_ url: URL) {}
 }
 
-extension LogInEmailViewModelSpec: LogInEmailViewModelNavigator {
+extension LogInEmailViewModelSpec: LogInEmailNavigator {
     func openHelpFromLogInEmail() {
         navigatorReceivedOpenHelp = true
     }

@@ -131,9 +131,26 @@ extension LoginCoordinator: MainSignUpNavigator {
     }
 
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
-        let vm = SignUpLogInViewModel(source: source, collapsedEmailParam: collapsedEmailParam, action: .signup)
-        vm.navigator = self
-        let vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
+        let vc: UIViewController
+
+        switch featureFlags.signUpLoginImprovement {
+        case .v1, .v1WImprovements:
+            let vm = SignUpLogInViewModel(source: source, collapsedEmailParam: collapsedEmailParam, action: .signup)
+            vm.navigator = self
+            vc = SignUpLogInViewController(viewModel: vm,
+                                           appearance: appearance,
+                                           keyboardFocus: false)
+
+            signUpLogInViewModel = vm
+        case .v2:
+            let vm = SignUpEmailStep1ViewModel(source: source, collapsedEmail: collapsedEmailParam)
+            vm.navigator = self
+
+            vc = SignUpEmailStep1ViewController(viewModel: vm,
+                                                appearance: appearance,
+                                                backgroundImage: loginV2BackgroundImage)
+            // TODO: ⚠️ keep a ref to that vm!?! uhm.. make a protocol that's shared across the 2
+        }
 
         switch style {
         case .fullScreen:
@@ -147,14 +164,29 @@ extension LoginCoordinator: MainSignUpNavigator {
             let navCtl = UINavigationController(rootViewController: vc)
             viewController.present(navCtl, animated: true, completion: nil)
         }
-
-        signUpLogInViewModel = vm
     }
 
     func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
-        let vm = SignUpLogInViewModel(source: source, collapsedEmailParam: collapsedEmailParam, action: .login)
-        vm.navigator = self
-        let vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
+        let vc: UIViewController
+
+        switch featureFlags.signUpLoginImprovement {
+        case .v1, .v1WImprovements:
+            let vm = SignUpLogInViewModel(source: source, collapsedEmailParam: collapsedEmailParam, action: .login)
+            vm.navigator = self
+            vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
+
+            signUpLogInViewModel = vm
+        case .v2:
+            let vm = LogInEmailViewModel(source: source,
+                                         collapsedEmail: collapsedEmailParam)
+            vm.navigator = self
+            vc = LogInEmailViewController(viewModel: vm,
+                                              appearance: appearance,
+                                              backgroundImage: loginV2BackgroundImage)
+
+            // TODO: ⚠️ keep a ref to that vm!?! uhm.. make a protocol that's shared across the 2
+//            signUpLogInViewModel = vm
+        }
 
         switch style {
         case .fullScreen:
@@ -168,8 +200,6 @@ extension LoginCoordinator: MainSignUpNavigator {
             let navCtl = UINavigationController(rootViewController: vc)
             viewController.present(navCtl, animated: true, completion: nil)
         }
-
-        signUpLogInViewModel = vm
     }
 
     func openHelpFromMainSignUp() {
@@ -177,7 +207,7 @@ extension LoginCoordinator: MainSignUpNavigator {
     }
 }
 
-
+// MARK: - V1
 // MARK: - SignUpLogInNavigator
 
 extension LoginCoordinator: SignUpLogInNavigator {
@@ -211,18 +241,113 @@ extension LoginCoordinator: SignUpLogInNavigator {
         navCtl.present(vc, animated: true, completion: nil)
     }
 
-    func openRememberPasswordFromSignUpLogIn(email: String) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = RememberPasswordViewModel(source: source, email: email)
-        vm.navigator = self
-        let vc = RememberPasswordViewController(viewModel: vm, appearance: appearance)
-        navCtl.pushViewController(vc, animated: true)
-
+    func openRememberPasswordFromSignUpLogIn(email: String?) {
+        openRememberPassword(email: email)
     }
 
     func openHelpFromSignUpLogin() {
         openHelp()
+    }
+}
+
+
+// MARK: - V2
+// MARK: - SignUpEmailStep1Navigator
+
+extension LoginCoordinator: SignUpEmailStep1Navigator {
+    func openHelpFromSignUpEmailStep1() {
+        openHelp()
+    }
+
+    func openNextStepFromSignUpEmailStep1(email: String, password: String) {
+
+    }
+
+    // TODO: ⚠️ remove pwd!
+    func openLogInFromSignUpEmailStep1(email: String?, password: String?) {
+        guard let navCtl = currentNavigationController() else { return }
+
+        navCtl.popViewController(animated: false)
+
+        // TODO: ⚠️ these two params should come via navigator
+        let isRememberedEmail = false
+        let collapsedEmail: EventParameterCollapsedEmailField? = nil
+        let vm = LogInEmailViewModel(email: email, isRememberedEmail: isRememberedEmail,
+                                     source: source, collapsedEmail: collapsedEmail)
+        vm.navigator = self
+        let vc = LogInEmailViewController(viewModel: vm, appearance: appearance,
+                                          backgroundImage: loginV2BackgroundImage)
+        navCtl.pushViewController(vc, animated: false)
+    }
+}
+
+
+// MARK: - SignUpEmailStep2Navigator
+
+extension LoginCoordinator: SignUpEmailStep2Navigator {
+    func openHelpFromSignUpEmailStep2() {
+        openHelp()
+    }
+
+    func openRecaptchaFromSignUpEmailStep2() {
+
+    }
+
+    func openScammerAlertFromSignUpEmailStep2() {
+
+    }
+
+    func closeAfterSignUpSuccessful() {
+        
+    }
+}
+
+
+// MARK: - LogInEmailNavigator
+
+extension LoginCoordinator: LogInEmailNavigator {
+    func openHelpFromLogInEmail() {
+        openHelp()
+    }
+
+    func openRememberPasswordFromLogInEmail(email: String?) {
+        openRememberPassword(email: email)
+    }
+
+    func openSignUpEmailFromLogInEmail(email: String?, password: String?) {
+        guard let navCtl = currentNavigationController() else { return }
+
+        navCtl.popViewController(animated: false)
+
+        // TODO: ⚠️ would be great to pass by the email & collapsedEmailParam
+        let collapsedEmailParam: EventParameterCollapsedEmailField? = nil
+        let vm = SignUpEmailStep1ViewModel(source: source, collapsedEmail: collapsedEmailParam)
+        vm.navigator = self
+
+        let vc = SignUpEmailStep1ViewController(viewModel: vm,
+                                                appearance: appearance,
+                                                backgroundImage: loginV2BackgroundImage)
+        navCtl.pushViewController(vc, animated: false)
+    }
+
+    func openScammerAlertFromLogInEmail() {
+
+    }
+
+    func closeAfterLogInSuccessful() {
+
+    }
+}
+
+
+fileprivate extension LoginCoordinator {
+    var loginV2BackgroundImage: UIImage? {
+        switch appearance {
+        case .dark:
+            return viewController.view.takeSnapshot()
+        case .light:
+            return nil
+        }
     }
 }
 
@@ -267,7 +392,6 @@ extension LoginCoordinator: RecaptchaNavigator {
         }
     }
 }
-
 
 // MARK: - Common Navigator
 
@@ -332,6 +456,16 @@ fileprivate extension LoginCoordinator {
         vm.navigator = self
         let vc = HelpViewController(viewModel: vm)
         navCtl.pushViewController(vc, animated: true)
+    }
+
+    func openRememberPassword(email: String?) {
+        guard let navCtl = currentNavigationController() else { return }
+
+        let vm = RememberPasswordViewModel(source: source, email: email)
+        vm.navigator = self
+        let vc = RememberPasswordViewController(viewModel: vm, appearance: appearance)
+        navCtl.pushViewController(vc, animated: true)
+
     }
 
     func currentNavigationController() -> UINavigationController? {

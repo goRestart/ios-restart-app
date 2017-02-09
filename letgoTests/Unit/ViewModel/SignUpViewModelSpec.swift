@@ -43,6 +43,7 @@ class SignUpViewModelSpec: QuickSpec {
                     keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
                     source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                 sut.delegate = self
+                sut.navigator = self
 
                 self.loading = false
                 self.finishedSuccessfully = false
@@ -259,20 +260,25 @@ class SignUpViewModelSpec: QuickSpec {
     }
 }
 
-extension SignUpViewModelSpec: SignUpViewModelDelegate {
-
-    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {}
-
-    func vmFinish(completedLogin completed: Bool) {
-        finishedSuccessfully = completed
+extension SignUpViewModelSpec: MainSignUpNavigator {
+    func cancelMainSignUp() {
+        finishedSuccessfully = false
     }
-
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func closeMainSignUp(myUser: MyUser) {
+        finishedSuccessfully = true
+    }
+    func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         finishedSuccessfully = false
         finishedScammer = true
     }
+    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {}
+    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {}
 
+    func openHelpFromMainSignUp() {}
+    func openURL(url: URL) {}
+}
 
+extension SignUpViewModelSpec: SignUpViewModelDelegate {
     // BaseViewModelDelegate
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {}
     func vmShowLoading(_ loadingMessage: String?) {

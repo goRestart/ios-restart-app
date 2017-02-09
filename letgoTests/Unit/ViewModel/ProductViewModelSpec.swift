@@ -265,4 +265,9 @@ extension ProductViewModelSpec: ProductDetailNavigator {
             self.lastBuyersToRate = buyers
         }
     }
+    func showProductFavoriteBubble(with data: BubbleNotificationData) {
+    }
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
+                                            loggedInAction: @escaping (() -> Void)) {
+    }
 }

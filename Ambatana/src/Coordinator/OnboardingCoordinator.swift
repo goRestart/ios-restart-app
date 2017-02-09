@@ -267,7 +267,7 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
         navCtl.present(vc, animated: true, completion: nil)
     }
 
-    func openRememberPasswordFromSignUpLogIn(email: String) {
+    func openRememberPasswordFromSignUpLogIn(email: String?) {
         guard let navCtl = signUpLogInNavigationController() else { return }
 
         let vm = RememberPasswordViewModel(source: loginSource, email: email)

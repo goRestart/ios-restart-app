@@ -32,15 +32,15 @@ class RememberPasswordViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, tracker: Tracker, source: EventParameterLoginSourceValue, email: String) {
+    init(sessionManager: SessionManager, tracker: Tracker, source: EventParameterLoginSourceValue, email: String?) {
         self.sessionManager = sessionManager
         self.tracker = tracker
-        self.email = email
+        self.email = email ?? ""
         self.loginSource = source
         super.init()
     }
     
-    convenience init(source: EventParameterLoginSourceValue, email: String) {
+    convenience init(source: EventParameterLoginSourceValue, email: String?) {
         let sessionManager = Core.sessionManager
         let tracker = TrackerProxy.sharedInstance
         self.init(sessionManager: sessionManager, tracker: tracker, source: source, email: email)
