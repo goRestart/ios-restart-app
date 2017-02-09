@@ -115,4 +115,8 @@ struct Constants {
 
     // FBSDK
     static let fbSdkRequiredDelay: TimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
+
+    // NewRelic
+    static let newRelicGodModeToken = "AAfcb13d44209d7454436d2efa9974174d063a8d1d"
+    static let newRelicProductionToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
 }

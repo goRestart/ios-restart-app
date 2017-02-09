@@ -2816,7 +2816,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("chat-window-open") {
                 beforeEach {
-                    sut = TrackerEvent.chatWindowVisit(.inAppNotification)
+                    sut = TrackerEvent.chatWindowVisit(.inAppNotification, chatEnabled: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-window-open"))
@@ -2824,6 +2824,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains typePage parameter") {
                     let param = sut.params!.stringKeyParams["type-page"] as? String
                     expect(param) == "in-app-notification"
+                }
+                it("contains chatEnabled parameter") {
+                    let param = sut.params!.stringKeyParams["chat-enabled"] as? Bool
+                    expect(param) == true
                 }
             }
             describe("app rating start") {
