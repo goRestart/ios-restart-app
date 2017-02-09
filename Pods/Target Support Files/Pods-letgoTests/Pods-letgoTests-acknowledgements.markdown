@@ -77,7 +77,6 @@ THE SOFTWARE.
 
 Copyright 2014 AppsFlyer Ltd. All rights reserved.
 
-
 ## Argo
 
 Copyright (c) 2014 thoughtbot, inc.
