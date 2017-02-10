@@ -65,28 +65,28 @@ struct TrackerEvent {
     }
 
     static func loginFB(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
-                        collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
+                        collapsedEmail: EventParameterBoolean?) -> TrackerEvent {
         var params = EventParameters()
         params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginFB, params: params)
     }
     
     static func loginGoogle(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
-                            collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
+                            collapsedEmail: EventParameterBoolean?) -> TrackerEvent {
         var params = EventParameters()
         params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginGoogle, params: params)
     }
 
     static func loginEmail(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool,
-                           collapsedEmail: EventParameterCollapsedEmailField?) -> TrackerEvent {
+                           collapsedEmail: EventParameterBoolean?) -> TrackerEvent {
         var params = EventParameters()
         params.addLoginParams(source, rememberedAccount: rememberedAccount, collapsedEmail: collapsedEmail)
         return TrackerEvent(name: .loginEmail, params: params)
     }
 
-    static func signupEmail(_ source: EventParameterLoginSourceValue, newsletter: EventParameterNewsletter,
-                            collapsedEmail: EventParameterCollapsedEmailField?)
+    static func signupEmail(_ source: EventParameterLoginSourceValue, newsletter: EventParameterBoolean,
+                            collapsedEmail: EventParameterBoolean?)
         -> TrackerEvent {
             var params = EventParameters()
             params.addLoginParams(source, collapsedEmail: collapsedEmail)
@@ -256,7 +256,7 @@ struct TrackerEvent {
     }
 
     static func productDetailVisit(_ product: Product, visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition,
-                                   isBumpedUp: EventParameterIsBumpedUp) -> TrackerEvent {
+                                   isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.userAction] = visitUserAction.rawValue
@@ -273,7 +273,7 @@ struct TrackerEvent {
     }
 
     static func productFavorite(_ product: Product, typePage: EventParameterTypePage,
-                                isBumpedUp: EventParameterIsBumpedUp) -> TrackerEvent {
+                                isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.typePage] = typePage.rawValue
@@ -283,7 +283,7 @@ struct TrackerEvent {
 
     static func productShare(_ product: Product, network: EventParameterShareNetwork?,
                              buttonPosition: EventParameterButtonPosition,
-                             typePage: EventParameterTypePage, isBumpedUp: EventParameterIsBumpedUp) -> TrackerEvent {
+                             typePage: EventParameterTypePage, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
 
@@ -322,7 +322,7 @@ struct TrackerEvent {
 
     static func firstMessage(_ product: Product, messageType: EventParameterMessageType,
                              typePage: EventParameterTypePage, sellerRating: Float? = nil, freePostingModeAllowed: Bool,
-                             isBumpedUp: EventParameterIsBumpedUp) -> TrackerEvent {
+                             isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.messageType] = messageType.rawValue
@@ -337,7 +337,7 @@ struct TrackerEvent {
     static func firstMessage(_ product: ChatProduct, messageType: EventParameterMessageType,
                                           interlocutorId: String?, typePage: EventParameterTypePage,
                                           sellerRating: Float? = nil, freePostingModeAllowed: Bool,
-                                          isBumpedUp: EventParameterIsBumpedUp) -> TrackerEvent {
+                                          isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         // Note: does not have: category-id, product-lat, product-lng
         var params = EventParameters()
         params.addChatProductParams(product)
@@ -358,7 +358,7 @@ struct TrackerEvent {
     }
 
     static func productMarkAsSold(_ product: Product, soldTo: EventParameterUserSoldTo, freePostingModeAllowed: Bool,
-                                  isBumpedUp: EventParameterIsBumpedUp)
+                                  isBumpedUp: EventParameterBoolean)
         -> TrackerEvent {
             var params = EventParameters()
 
@@ -561,7 +561,7 @@ struct TrackerEvent {
     }
 
     static func userMessageSent(_ product: Product, userTo: UserProduct?, messageType: EventParameterMessageType,
-                                isQuickAnswer: EventParameterQuickAnswerValue, typePage: EventParameterTypePage,
+                                isQuickAnswer: EventParameterBoolean, typePage: EventParameterTypePage,
                                 freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
@@ -575,7 +575,7 @@ struct TrackerEvent {
     
     // Duplicated method from the one above to support tracking using ChatProduct model
     static func userMessageSent(_ product: ChatProduct, userToId: String?, messageType: EventParameterMessageType,
-                                       isQuickAnswer: EventParameterQuickAnswerValue, typePage: EventParameterTypePage,
+                                       isQuickAnswer: EventParameterBoolean, typePage: EventParameterTypePage,
                                        freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
         params.addChatProductParams(product)
@@ -726,7 +726,7 @@ struct TrackerEvent {
 
     static func permissionAlertStart(_ permissionType: EventParameterPermissionType,
         typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,
-        permissionGoToSettings: EventParameterPermissionGoToSettings) -> TrackerEvent {
+        permissionGoToSettings: EventParameterBoolean) -> TrackerEvent {
             var params = EventParameters()
             params[.permissionType] = permissionType.rawValue
             params[.typePage] = typePage.rawValue
@@ -737,7 +737,7 @@ struct TrackerEvent {
 
     static func permissionAlertCancel(_ permissionType: EventParameterPermissionType,
         typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,
-        permissionGoToSettings: EventParameterPermissionGoToSettings) -> TrackerEvent {
+        permissionGoToSettings: EventParameterBoolean) -> TrackerEvent {
             var params = EventParameters()
             params[.permissionType] = permissionType.rawValue
             params[.typePage] = typePage.rawValue
@@ -748,7 +748,7 @@ struct TrackerEvent {
 
     static func permissionAlertComplete(_ permissionType: EventParameterPermissionType,
         typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,
-        permissionGoToSettings: EventParameterPermissionGoToSettings) -> TrackerEvent {
+        permissionGoToSettings: EventParameterBoolean) -> TrackerEvent {
             var params = EventParameters()
             params[.permissionType] = permissionType.rawValue
             params[.typePage] = typePage.rawValue
@@ -1057,17 +1057,17 @@ struct TrackerEvent {
         }
     }
 
-    private static func eventParameterHasPriceFilter(_ price: Int?) -> EventParameterHasPriceFilter {
+    private static func eventParameterHasPriceFilter(_ price: Int?) -> EventParameterBoolean {
         return price != nil ? .trueParameter : .falseParameter
     }
     
-    private static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ProductPrice) -> EventParameterFreePosting {
-        guard freePostingModeAllowed else {return .unset}
+    private static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ProductPrice) -> EventParameterBoolean {
+        guard freePostingModeAllowed else {return .notAvailable}
         return price.free ? .trueParameter : .falseParameter
     }
     
-    private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterFreePosting {
-        guard freePostingModeAllowed else {return .unset}
+    private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterBoolean {
+        guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
     }
 }

@@ -69,7 +69,7 @@ extension BumpUpFreeViewModel: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
         let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
                                                      buttonPosition: .bumpUp, typePage: .productDetail,
-                                                     isBumpedUp: EventParameterIsBumpedUp.falseParameter)
+                                                     isBumpedUp: EventParameterBoolean.falseParameter)
         tracker.trackEvent(trackerEvent)
     }
 

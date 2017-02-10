@@ -268,6 +268,12 @@ enum EventParameterName: String {
     case chatEnabled          = "chat-enabled"
 }
 
+enum EventParameterBoolean: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
+    case notAvailable = "N/A"
+}
+
 enum EventParameterLoginSourceValue: String {
     case sell = "posting"
     case chats = "messages"
@@ -364,16 +370,16 @@ enum EventParameterPostedWithin: String {
     case all = ""
 }
 
-enum EventParameterHasPriceFilter: String {
-    case trueParameter = "true"
-    case falseParameter = "false"
-}
+//enum EventParameter_HasPriceFilter: String {
+//    case trueParameter = "true"
+//    case falseParameter = "false"
+//}
 
-enum EventParameterQuickAnswerValue: String {
-    case trueParameter = "true"
-    case falseParameter = "false"
-    case none = "N/A"
-}
+//enum EventParameter_QuickAnswerValue: String {
+//    case trueParameter = "true"
+//    case falseParameter = "false"
+//    case none = "N/A"
+//}
 
 enum EventParameterMessageType: String {
     case text       = "text"
@@ -538,11 +544,11 @@ enum EventParameterPermissionAlertType: String {
     case fullScreen = "full-screen"
 }
 
-enum EventParameterNewsletter: String {
-    case trueParameter = "true"
-    case falseParameter = "false"
-    case unset = "N/A"
-}
+//enum EventParameter_Newsletter: String {
+//    case trueParameter = "true"
+//    case falseParameter = "false"
+//    case unset = "N/A"
+//}
 
 enum EventParameterTab: String {
     case selling = "selling"
@@ -573,10 +579,10 @@ enum EventParameterCommercializerError: String {
     case duplicated = "commercializer-duplicated"
 }
 
-enum EventParameterPermissionGoToSettings: String {
-    case trueParameter = "true"
-    case notAvailable = "N/A"
-}
+//enum EventParameter_PermissionGoToSettings: String {
+//    case trueParameter = "true"
+//    case notAvailable = "N/A"
+//}
 
 enum ProductVisitUserAction: String {
     case tap = "tap"
@@ -675,11 +681,11 @@ enum EventParameterRelatedShownReason: String {
     }
 }
 
-enum EventParameterFreePosting: String {
-    case trueParameter = "true"
-    case falseParameter = "false"
-    case unset = "N/A"
-}
+//enum EventParameter_FreePosting: String {
+//    case trueParameter = "true"
+//    case falseParameter = "false"
+//    case unset = "N/A"
+//}
 
 enum EventParameterExpressChatTrigger: String {
     case automatic = "automatic"
@@ -700,16 +706,16 @@ enum EventParameterBumpUpPrice {
     }
 }
 
-enum EventParameterIsBumpedUp: String {
-    case trueParameter = "true"
-    case falseParameter = "false"
-}
-
-enum EventParameterCollapsedEmailField: String {
-    case trueParameter = "true"
-    case falseParameter = "false"
-    case unset = "N/A"
-}
+//enum EventParameter_IsBumpedUp: String {
+//    case trueParameter = "true"
+//    case falseParameter = "false"
+//}
+//
+//enum EventParameter_CollapsedEmailField: String {
+//    case trueParameter = "true"
+//    case falseParameter = "false"
+//    case unset = "N/A"
+//}
 
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]
@@ -726,7 +732,7 @@ struct EventParameters {
     }
     
     internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil,
-                                          collapsedEmail: EventParameterCollapsedEmailField? = nil) {
+                                          collapsedEmail: EventParameterBoolean? = nil) {
         params[.loginSource] = source.rawValue
         params[.loginRememberedAccount] = rememberedAccount
         params[.collapsedEmailField] = collapsedEmail?.rawValue
