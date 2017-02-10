@@ -11,7 +11,7 @@ import LGCoreKit
 
 extension LGLocation {
     var isAuto: Bool {
-        switch self.type {
+        switch type {
         case .manual:
             return false
         case .sensor, .ipLookup, .regional:
