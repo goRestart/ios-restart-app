@@ -27,10 +27,7 @@ struct TrackerEvent {
 
     static func location(_ location: LGLocation, locationServiceStatus: LocationServiceStatus) -> TrackerEvent {
         var params = EventParameters()
-        let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
-        if let _ = locationTypeParamValue {
-            params[.locationType] = location.type?.rawValue
-        }
+        params[.locationType] = location.type.rawValue
         let enabled: Bool
         let allowed: Bool
         switch locationServiceStatus {
@@ -611,10 +608,7 @@ struct TrackerEvent {
 
     static func profileEditEditLocation(_ location: LGLocation) -> TrackerEvent {
         var params = EventParameters()
-        let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
-        if let _ = locationTypeParamValue {
-            params[.locationType] = location.type?.rawValue
-        }
+        params[.locationType] = location.type.rawValue
         return TrackerEvent(name: .profileEditEditLocation, params: params)
     }
 
@@ -999,21 +993,6 @@ struct TrackerEvent {
 
     // MARK: - Private methods
 
-    private static func eventParameterLocationTypeForLocation(_ location: LGLocation) -> EventParameterLocationType? {
-        let locationTypeParamValue: EventParameterLocationType?
-        guard let locationType = location.type else { return nil }
-        switch (locationType) {
-        case .manual:
-            locationTypeParamValue = .manual
-        case .sensor:
-            locationTypeParamValue = .sensor
-        case .ipLookup:
-            locationTypeParamValue = .ipLookUp
-        case .regional:
-            locationTypeParamValue = .regional
-        }
-        return locationTypeParamValue
-    }
 
     private static func eventParameterSortByTypeForSorting(_ sorting: ProductSortCriteria?) -> EventParameterSortBy? {
         guard let sorting = sorting else { return nil }

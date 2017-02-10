@@ -32,7 +32,7 @@ extension DeviceLocation {
         let state = location?.postalAddress?.state
         let countryCode = location?.postalAddress?.countryCode
         let country = location?.postalAddress?.country
-        let locationType = location?.type != .manual ? location?.type?.rawValue : nil
+        let locationType = location?.type != .manual ? location?.type.rawValue : nil
         self.init(latitude: latitude, longitude: longitude, locationType: locationType, address: address,
                   city: city, zipCode: zipCode, state: state, countryCode: countryCode, country: country)
     }

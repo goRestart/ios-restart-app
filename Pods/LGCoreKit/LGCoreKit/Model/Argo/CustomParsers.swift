@@ -46,7 +46,7 @@ class LGArgo {
         guard let latitude: Double = json.decode(latKey) else { return Decoded<LGLocation?>.success(nil) }
         guard let longitude: Double = json.decode(lonKey) else { return Decoded<LGLocation?>.success(nil) }
         let locationTypeString: String = json.decode(typeKey) ?? ""
-        let locationType = LGLocationType(rawValue: locationTypeString)
+        let locationType = LGLocationType(rawValue: locationTypeString) ?? .regional
 
         let clLocation = CLLocation(latitude: latitude, longitude: longitude)
         let postalAddress = PostalAddress.decode(json).value
