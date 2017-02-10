@@ -1070,7 +1070,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func trackVisit() {
-        let chatWindowOpen = TrackerEvent.chatWindowVisit(source)
+        let chatWindowOpen = TrackerEvent.chatWindowVisit(source, chatEnabled: chatEnabled)
         tracker.trackEvent(chatWindowOpen)
     }
     

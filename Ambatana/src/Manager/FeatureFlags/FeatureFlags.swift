@@ -240,7 +240,7 @@ class FeatureFlags: FeatureFlaggeable {
     /// Return CountryCode from location or phone Region
     private var countryCode: CountryCode? {
         let systemCountryCode = locale.lg_countryCode
-        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercase
+        let countryCode = (locationManager.currentLocation?.countryCode ?? systemCountryCode).lowercase
         return CountryCode(rawValue: countryCode)
     }
 }

@@ -1253,6 +1253,8 @@
 		C7DE8AE31C88A98B005CF37E /* PostProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8ADF1C88A98B005CF37E /* PostProductViewController.xib */; };
 		C7DFB0B71DDA256E005C9B9D /* UIView+Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFB0B61DDA256E005C9B9D /* UIView+Corners.swift */; };
 		C7DFB0B81DDA256E005C9B9D /* UIView+Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFB0B61DDA256E005C9B9D /* UIView+Corners.swift */; };
+		C7E1DE511E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */; };
+		C7E1DE521E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */; };
 		C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E891CD1F77E000F2591 /* NotificationData.swift */; };
 		C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E891CD1F77E000F2591 /* NotificationData.swift */; };
 		C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E8C1CD20A49000F2591 /* ViewState.swift */; };
@@ -2045,6 +2047,7 @@
 		C7DE8ADE1C88A98B005CF37E /* PostProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductViewController.swift; sourceTree = "<group>"; };
 		C7DE8ADF1C88A98B005CF37E /* PostProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductViewController.xib; sourceTree = "<group>"; };
 		C7DFB0B61DDA256E005C9B9D /* UIView+Corners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Corners.swift"; sourceTree = "<group>"; };
+		C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRelicTracker.swift; sourceTree = "<group>"; };
 		C7E73E891CD1F77E000F2591 /* NotificationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		C7E73E8C1CD20A49000F2591 /* ViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		C7F18A931C89CB3300D23319 /* PostProductGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryView.swift; sourceTree = "<group>"; };
@@ -2920,6 +2923,7 @@
 				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
 				50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */,
 				50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */,
+				C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -4073,11 +4077,12 @@
 				6608E0321A820FBD005895ED /* Sources */,
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
-				5026B0A61B05E2F3006858BB /* Fabric Script */,
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 				40D7DA810D5C1A2EAF1D87FC /* [CP] Embed Pods Frameworks */,
 				BBFA7F7BD5812BEA4BE1060E /* [CP] Copy Pods Resources */,
+				5026B0A61B05E2F3006858BB /* Fabric Script */,
+				C7E1DE4E1E4C8BA7003818F6 /* New Relic */,
 			);
 			buildRules = (
 			);
@@ -4098,11 +4103,12 @@
 				C7DB41861C5138B500400945 /* Sources */,
 				C7DB42311C5138B500400945 /* Frameworks */,
 				C7DB42471C5138B500400945 /* Resources */,
-				C7DB428A1C5138B500400945 /* Fabric Script */,
 				C7DB428C1C5138B500400945 /* Embed Frameworks */,
 				C7DB428D1C5138B500400945 /* Warnings Script */,
 				1E5151AD4474E198792A8249 /* [CP] Embed Pods Frameworks */,
 				BDCB40D2F3B8E90C1A9A379A /* [CP] Copy Pods Resources */,
+				C7DB428A1C5138B500400945 /* Fabric Script */,
+				C7E1DE4F1E4C8BFA003818F6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -4584,7 +4590,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    \"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe\nfi";
 		};
 		502B70571BA9C7FD00C5D465 /* Warnings Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4598,7 +4604,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT}/Ambatana for ${TAGS}\"\nfind \"${SRCROOT}/Ambatana\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
 		508FF3F51C0DFC850085D070 /* Reset Simulator Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4758,7 +4764,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    \"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe\nfi";
 		};
 		C7DB428D1C5138B500400945 /* Warnings Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4772,7 +4778,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT}/Ambatana for ${TAGS}\"\nfind \"${SRCROOT}/Ambatana\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
 		C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4787,6 +4793,33 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/development/Settings.bundle/Root.plist\"";
+		};
+		C7E1DE4E1E4C8BA7003818F6 /* New Relic */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "New Relic";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n    /bin/bash \"${SCRIPT}\" \"AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c\"\nfi";
+		};
+		C7E1DE4F1E4C8BFA003818F6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n    /bin/bash \"${SCRIPT}\" \"AAfcb13d44209d7454436d2efa9974174d063a8d1d\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4899,6 +4932,7 @@
 				2EF4E3B21D3688AB00A09DFD /* LGConfigDAO.swift in Sources */,
 				6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C7DFB0B71DDA256E005C9B9D /* UIView+Corners.swift in Sources */,
+				C7E1DE511E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */,
 				C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */,
 				6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
 				72AAA5A21DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */,
@@ -5359,6 +5393,7 @@
 				C7DB41A41C5138B500400945 /* MainProductsViewController.swift in Sources */,
 				50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2E2D53E21D369B0500348D12 /* LGConfigDAO.swift in Sources */,
+				C7E1DE521E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */,
 				6AA32F3B1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C7DFB0B81DDA256E005C9B9D /* UIView+Corners.swift in Sources */,
 				C7DB41A91C5138B500400945 /* ProductTimeCriteria+LG.swift in Sources */,

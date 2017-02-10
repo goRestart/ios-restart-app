@@ -218,7 +218,7 @@ fileprivate extension NotificationsViewModel {
     }
 
     func buildWelcomeNotification() -> NotificationData {
-        return NotificationData(id: nil, type: .welcome(city: locationManager.currentPostalAddress?.city),
+        return NotificationData(id: nil, type: .welcome(city: locationManager.currentLocation?.postalAddress?.city),
                                 date: Date(), isRead: true, primaryAction: { [weak self] in
                                     self?.navigator?.openSell(.notifications)
                                 })

@@ -202,9 +202,24 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
      */
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard let animator = animator, animator.toViewValidatedFrame && !didSetupAfterLayout else { return }
+        guard !didSetupAfterLayout else { return } // Already setup, just do nothing
+
+        if let animator = animator {
+            if animator.toViewValidatedFrame || !animator.active {
+                setupAfterLayout(backgroundImage: animator.fromViewSnapshot, activeAnimator: animator.active)
+            }
+        } else {
+            setupAfterLayout(backgroundImage: nil, activeAnimator: false)
+        }
+    }
+
+    private func setupAfterLayout(backgroundImage: UIImage?, activeAnimator: Bool) {
         didSetupAfterLayout = true
-        imageBackground.image = animator.fromViewSnapshot
+        if !activeAnimator {
+            //Usually animator takes care of it, but if animator couldn't work, we should hide it manually
+            tabBarController?.setTabBarHidden(true, animated: false)
+        }
+        imageBackground.image = backgroundImage
         flowLayout.itemSize = view.bounds.size
         setupAlphaRxBindings()
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)

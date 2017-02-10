@@ -70,9 +70,9 @@ enum ProductViewModelStatus {
 
     var isAvailable: Bool {
         switch self {
-        case .availableFree, .otherAvailableFree, .available, .otherAvailable:
+        case .availableFree, .otherAvailableFree, .available, .otherAvailable, .availableAndCommercializable:
             return true
-        case .pending, .pendingAndCommercializable, .availableAndCommercializable, .notAvailable, .sold, .otherSold,
+        case .pending, .pendingAndCommercializable, .notAvailable, .sold, .otherSold,
              .otherSoldFree, .soldFree:
             return false
         }

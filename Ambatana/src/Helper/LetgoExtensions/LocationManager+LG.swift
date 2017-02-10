@@ -12,6 +12,6 @@ import CoreLocation
 extension LocationManager {
     
     func countryMatchesWith(countryCode: String) -> Bool {
-       return  countryCode == currentPostalAddress?.countryCode?.lowercased()
+       return  countryCode == currentLocation?.countryCode?.lowercased()
     }
 }

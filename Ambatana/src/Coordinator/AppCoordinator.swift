@@ -570,6 +570,7 @@ fileprivate extension AppCoordinator {
                 self?.openSell(.deepLink)
             }
         case let .product(productId):
+            tabBarCtl.clearAllPresented()
             afterDelayClosure = { [weak self] in
                 self?.selectedTabCoordinator?.openProduct(ProductDetailData.id(productId: productId), source: .openApp,
                                                           showKeyboardOnFirstAppearIfNeeded: false)
@@ -578,6 +579,7 @@ fileprivate extension AppCoordinator {
             if userId == myUserRepository.myUser?.objectId {
                 openTab(.profile, force: false, completion: nil)
             } else {
+                tabBarCtl.clearAllPresented()
                 afterDelayClosure = { [weak self] in
                     self?.selectedTabCoordinator?.openUser(UserDetailData.id(userId: userId, source: .link))
                 }
