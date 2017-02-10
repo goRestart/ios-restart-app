@@ -1128,7 +1128,8 @@ fileprivate extension ChatViewModel {
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                                interlocutorId: userId, typePage: .chat,
                                                                sellerRating: sellerRating,
-                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                               isBumpedUp: EventParameterIsBumpedUp.falseParameter)
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 

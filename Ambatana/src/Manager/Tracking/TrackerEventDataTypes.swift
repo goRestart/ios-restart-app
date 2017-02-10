@@ -264,6 +264,7 @@ enum EventParameterName: String {
     case feedSource           = "feed-source"
     case rating               = "rating"
     case userSoldTo           = "user-sold-to"
+    case isBumpedUp           = "bump-up"
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -696,6 +697,11 @@ enum EventParameterBumpUpPrice {
             return price
         }
     }
+}
+
+enum EventParameterIsBumpedUp: String {
+    case trueParameter = "true"
+    case falseParameter = "false"
 }
 
 enum EventParameterCollapsedEmailField: String {
