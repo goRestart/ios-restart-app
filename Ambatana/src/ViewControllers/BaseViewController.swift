@@ -368,7 +368,6 @@ extension UIViewController {
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(UIViewController.popBackViewController))
         self.navigationItem.leftBarButtonItem = backButton
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
     }
     
     func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
@@ -460,6 +459,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         didCallViewDidLoaded = true
         setNavBarBackButton(nil)
         setupToastView()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         
         //Listen to status bar changes
         NotificationCenter.default.addObserver(self, selector: #selector(BaseViewController.statusBarDidShow(_:)),
@@ -486,6 +486,7 @@ class BaseViewController: UIViewController, TabBarShowable {
             viewDidFirstAppear(animated)
             firstAppear = false
         }
+        navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
     }
 
