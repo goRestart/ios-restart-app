@@ -623,7 +623,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         } else { return }
         
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
-                                              action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil)
+                                              action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil, errorReason: .emptyResults)
         
         viewModel.setEmptyState(emptyViewModel)
     }

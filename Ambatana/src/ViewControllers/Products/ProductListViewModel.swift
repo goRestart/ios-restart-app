@@ -98,6 +98,9 @@ class ProductListViewModel: BaseViewModel {
         return !isLastPage && canRetrieveProducts
     }
     
+    // Tracking
+    
+    fileprivate let tracker: Tracker
 
     // MARK: - Computed iVars
     
@@ -110,7 +113,8 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2) {
+    init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.objects = (products ?? []).map(ProductCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -118,6 +122,7 @@ class ProductListViewModel: BaseViewModel {
         self.numberOfColumns = numberOfColumns
         self.productListRequester = requester
         self.defaultCellSize = CGSize.zero
+        self.tracker = tracker
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
@@ -144,10 +149,12 @@ class ProductListViewModel: BaseViewModel {
 
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
+        trackErrorStateShown(reason: viewModel.errorReason)
     }
 
     func setEmptyState(_ viewModel: LGEmptyViewModel) {
         state = .empty(viewModel)
+        trackErrorStateShown(reason: viewModel.errorReason)
         objects = [ProductCellModel.emptyCell(vm: viewModel)]
     }
 
@@ -351,3 +358,14 @@ class ProductListViewModel: BaseViewModel {
         }
     }
 }
+
+
+// MARK: - Tracking
+
+extension ProductListViewModel {
+    func trackErrorStateShown(reason: EventParameterErrorReason) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .productList , reason: reason)
+        tracker.trackEvent(event)
+    }
+}
+

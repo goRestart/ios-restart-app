@@ -711,8 +711,9 @@ enum EventParameterCollapsedEmailField: String {
 enum EventParameterErrorReason: String {
     case noInternetConection = "no-internet-connection"
     case serverError         = "server-error"
-    case emptyResults       = "empty-results"
+    case emptyResults        = "empty-results"
     case unknown             = "unknown"
+    case verification        = "verification"
 }
 
 struct EventParameters {

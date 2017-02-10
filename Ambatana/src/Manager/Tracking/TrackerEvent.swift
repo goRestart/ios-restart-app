@@ -996,9 +996,8 @@ struct TrackerEvent {
         return TrackerEvent(name: .chatWindowVisit, params: params)
     }
     
-    static func emptyStateVisit(withUser userId: String?, typePage: EventParameterTypePage, reason: EventParameterErrorReason) -> TrackerEvent {
+    static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterErrorReason) -> TrackerEvent {
         var params = EventParameters()
-        params[.userId] = userId ?? ""
         params[.typePage] = typePage.rawValue
         params[.errorReason] = reason.rawValue
         return TrackerEvent(name: .emptyStateError, params: params)
