@@ -29,14 +29,13 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var editButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
     
     @IBOutlet weak var directChatTable: CustomTouchesTableView!
-    @IBOutlet weak var stickersButton: UIButton!
-    @IBOutlet weak var stickersButtonBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var bannerContainer: UIView!
     @IBOutlet weak var bannerContainerBottomConstraint: NSLayoutConstraint!
@@ -70,7 +69,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             chatContainerBottomConstraint?.constant = bottomItemsMargin
-            stickersButtonBottomConstraint?.constant = bottomItemsMargin
+            editButtonBottomConstraint?.constant = bottomItemsMargin
         }
     }
     fileprivate var bannerBottom: CGFloat = -CarouselUI.bannerHeight {
@@ -374,7 +373,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(stickersButton.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(editButton.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
@@ -484,7 +482,6 @@ extension ProductCarouselViewController {
             }
 
             view.bringSubview(toFront: buttonBottom)
-            view.bringSubview(toFront: stickersButton)
             view.bringSubview(toFront: editButton)
             view.bringSubview(toFront: chatContainer)
             view.bringSubview(toFront: bannerContainer)
@@ -617,15 +614,13 @@ extension ProductCarouselViewController {
             viewModel?.editProduct()
         }.addDisposableTo(activeDisposeBag)
 
-        // When there's the edit/stickers button, the bottom button must adapt right margin to give space for it
-        let bottomRightButtonPresent = Observable.combineLatest(
-            viewModel.stickersButtonEnabled.asObservable(), viewModel.editButtonState.asObservable(),
-            resultSelector: { (stickers, edit) in return stickers || (edit != .hidden) })
+        // When there's the edit button, the bottom button must adapt right margin to give space for it
+        let bottomRightButtonPresent = viewModel.editButtonState.asObservable().map { $0 != .hidden }
         bottomRightButtonPresent.bindNext { [weak self] present in
             self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
         }.addDisposableTo(activeDisposeBag)
 
-        // When there's the edit/stickers button and there are no actionButtons, header is at bottom and must not overlap edit button
+        // When there's the edit button and there are no actionButtons, header is at bottom and must not overlap edit button
         let userViewCollapsed = Observable.combineLatest(
             bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
             resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
@@ -671,7 +666,6 @@ extension ProductCarouselViewController {
     
 
     private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
-        viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx.isHidden).addDisposableTo(disposeBag)
         chatTextView.placeholder = viewModel.directChatPlaceholder
         chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
 
@@ -1047,7 +1041,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 // MARK: > Direct messages and stickers
 
-extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate, StickersSelectorDelegate {
+extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate {
 
     func setupDirectMessagesAndStickers() {
         ChatCellDrawerFactory.registerCells(directChatTable)
@@ -1065,17 +1059,11 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         chatContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[chatText]-0-|",
             options: [], metrics: nil, views: views))
 
-        stickersButton.rx.tap.bindNext { [weak self] in
-            self?.viewModel.currentProductViewModel?.stickersButton()
-        }.addDisposableTo(disposeBag)
-
         keyboardChanges.bindNext { [weak self] change in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
             self?.contentBottomMargin = viewHeight - change.origin
-            strongSelf.chatContainerTrailingConstraint.constant = change.visible ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
             UIView.animate(withDuration: Double(change.animationTime)) {
-                strongSelf.stickersButton.alpha = change.visible ? 0 : 1
                 strongSelf.view.layoutIfNeeded()
             }
         }.addDisposableTo(disposeBag)
@@ -1097,15 +1085,6 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
         return cell
     }
-
-
-    // MARK: StickersSelectorDelegate
-
-    func stickersSelectorDidSelectSticker(_ sticker: Sticker) {
-        viewModel.currentProductViewModel?.sendSticker(sticker)
-    }
-
-    func stickersSelectorDidCancel() {}
 }
 
 
@@ -1181,13 +1160,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 
-    func vmOpenStickersSelector(_ stickers: [Sticker]) {
-        let interlocutorName = viewModel.currentProductViewModel?.ownerName
-        let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
-        vc.delegate = self
-        navigationController?.present(vc, animated: false, completion: nil)
-    }
-
     func vmShareDidFailedWith(_ error: String) {
         showAutoFadingOutMessageAlert(error)
     }
@@ -1252,7 +1224,6 @@ fileprivate extension ProductCarouselViewController {
         moreInfoView?.accessibilityId = .productCarouselMoreInfoView
         productStatusLabel.accessibilityId = .productCarouselProductStatusLabel
         directChatTable.accessibilityId = .productCarouselDirectChatTable
-        stickersButton.accessibilityId = .productCarouselStickersButton
         editButton.accessibilityId = .productCarouselEditButton
         fullScreenAvatarView.accessibilityId = .productCarouselFullScreenAvatarView
         pageControl.accessibilityId = .productCarouselPageControl

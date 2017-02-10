@@ -19,8 +19,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ())
 
-    func vmOpenStickersSelector(_ stickers: [Sticker])
-
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
@@ -98,9 +96,6 @@ class ProductViewModel: BaseViewModel {
     var commercializerAvailableTemplatesCount: Int? = nil
 
     let statsViewVisible = Variable<Bool>(false)
-
-    let stickersButtonEnabled = Variable<Bool>(false)
-    fileprivate var selectableStickers: [Sticker] = []
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     var timeSinceLastBump: Int = 0
@@ -313,7 +308,6 @@ class ProductViewModel: BaseViewModel {
 
         status.asObservable().bindNext { [weak self] status in
             guard let strongSelf = self else { return }
-            strongSelf.refreshDirectChats(status)
             strongSelf.refreshActionButtons(status)
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
@@ -397,15 +391,6 @@ class ProductViewModel: BaseViewModel {
             status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
         } else {
             status.value = productStatus
-        }
-    }
-
-    private func refreshDirectChats(_ productStatus: ProductViewModelStatus) {
-        stickersButtonEnabled.value = !selectableStickers.isEmpty && productStatus.directChatsAvailable
-        stickersRepository.show(typeFilter: .product) { [weak self] result in
-            guard let stickers = result.value else { return }
-            self?.selectableStickers = stickers
-            self?.stickersButtonEnabled.value = !stickers.isEmpty && productStatus.directChatsAvailable
         }
     }
 
@@ -500,17 +485,6 @@ extension ProductViewModel {
                                                                    source: .productDetail,
                                                                    isMyVideo: isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
-    }
-
-    func stickersButton() {
-        guard !selectableStickers.isEmpty else { return }
-        delegate?.vmOpenStickersSelector(selectableStickers)
-    }
-
-    func sendSticker(_ sticker: Sticker) {
-        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.chatSticker(sticker))
-        }
     }
 
     func switchFavorite() {

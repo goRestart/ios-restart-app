@@ -634,10 +634,6 @@
 		C70BC6881E16B3C100EC74E9 /* UISwitch+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */; };
 		C70BC6891E16B47700EC74E9 /* UISwitch+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */; };
 		C70BC68B1E1A5A0500EC74E9 /* PostIncentiviserItemSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC68A1E1A5A0500EC74E9 /* PostIncentiviserItemSpec.swift */; };
-		C70EA18D1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */; };
-		C70EA18E1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */; };
-		C70EA18F1D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */; };
-		C70EA1901D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */; };
 		C7111EF91CA43822000C5C5A /* DeepLinksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7111EF81CA43822000C5C5A /* DeepLinksRouter.swift */; };
 		C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7111EF81CA43822000C5C5A /* DeepLinksRouter.swift */; };
 		C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7111EFB1CA43885000C5C5A /* DeepLink.swift */; };
@@ -1738,8 +1734,6 @@
 		C70971C71E2F8CF300680995 /* MockChatUnreadMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatUnreadMessages.swift; sourceTree = "<group>"; };
 		C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISwitch+Rx.swift"; sourceTree = "<group>"; };
 		C70BC68A1E1A5A0500EC74E9 /* PostIncentiviserItemSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItemSpec.swift; sourceTree = "<group>"; };
-		C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersSelectorViewController.swift; sourceTree = "<group>"; };
-		C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickersSelectorViewController.xib; sourceTree = "<group>"; };
 		C7111EF81CA43822000C5C5A /* DeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouter.swift; sourceTree = "<group>"; };
 		C7111EFB1CA43885000C5C5A /* DeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		C7111EFE1CA4389C000C5C5A /* PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
@@ -3204,7 +3198,6 @@
 				2E36656E1DE4983400000F68 /* PostAfterDelete */,
 				C75B5DCD1D59E0C500112368 /* Cells */,
 				C75B5DB31D59E09500112368 /* ProductDetailOnboarding */,
-				C70EA18A1D5B6773003FFC9A /* StickersSelector */,
 				C743FEBB1E488AFE00B4E912 /* Model */,
 				C7C61DF31D63035400F9505D /* ProductCarouselMoreInfoView.swift */,
 				C7C61DF41D63035400F9505D /* ProductCarouselMoreInfoView.xib */,
@@ -3274,15 +3267,6 @@
 				C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */,
 			);
 			path = Location;
-			sourceTree = "<group>";
-		};
-		C70EA18A1D5B6773003FFC9A /* StickersSelector */ = {
-			isa = PBXGroup;
-			children = (
-				C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */,
-				C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */,
-			);
-			path = StickersSelector;
 			sourceTree = "<group>";
 		};
 		C7111EF71CA43819000C5C5A /* DeepLinks */ = {
@@ -4235,7 +4219,6 @@
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
 				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
-				C70EA18F1D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				2E5350441CF8A181003B06CC /* ProductStatsView.xib in Resources */,
 				508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
@@ -4370,7 +4353,6 @@
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				2E373FAE1D3E6F4500AC811C /* UserRatingCell.xib in Resources */,
 				5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
-				C70EA1901D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
 				2E5350451CF8A181003B06CC /* ProductStatsView.xib in Resources */,
 				508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
@@ -5134,7 +5116,6 @@
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				2E4952E51E26810D00188880 /* BumpUpPayViewController.swift in Sources */,
 				6A5E19EA1D548F5400F92692 /* Date+LG.swift in Sources */,
-				C70EA18D1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */,
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				6A5E19EE1D548F5400F92692 /* URL+LG.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
@@ -5590,7 +5571,6 @@
 				2EED4D261D23F03E0024328A /* ChatProduct+title.swift in Sources */,
 				C73FABBD1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
 				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
-				C70EA18E1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				C7BB25D11E36153600649396 /* KeychainChecker.swift in Sources */,
 				6A5E19EF1D548F5400F92692 /* URL+LG.swift in Sources */,
