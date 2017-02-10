@@ -7,7 +7,7 @@
 //
 
 protocol DirectAnswersPresenterDelegate : class {
-    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: DirectAnswer)
+    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: QuickAnswer)
     func directAnswersDidTapClose(_ presenter: DirectAnswersPresenter)
 }
 
@@ -48,7 +48,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     private weak var bigView: DirectAnswersBigView?
 
 
-    private var answers: [DirectAnswer] = []
+    private var answers: [QuickAnswer] = []
     private let websocketChatActive: Bool
     private let newDirectAnswers: Bool
     private static let disabledAlpha: CGFloat = 0.6
@@ -77,7 +77,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func setDirectAnswers(_ answers: [DirectAnswer]) {
+    func setDirectAnswers(_ answers: [QuickAnswer]) {
         self.answers = answers
         self.bigView?.setDirectAnswers(answers)
         self.collectionView?.reloadData()
@@ -191,7 +191,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
 
 extension DirectAnswersPresenter: DirectAnswersBigViewDelegate {
-    func directAnswersBigViewDidSelectAnswer(_ answer: DirectAnswer) {
+    func directAnswersBigViewDidSelectAnswer(_ answer: QuickAnswer) {
         delegate?.directAnswersDidTapAnswer(self, answer: answer)
     }
 }
