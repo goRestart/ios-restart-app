@@ -100,6 +100,10 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension SignUpEmailStep1ViewModel {
+    func cancel() {
+        navigator?.cancelSignUpEmailStep1()
+    }
+
     func openHelp() {
         navigator?.openHelpFromSignUpEmailStep1()
     }

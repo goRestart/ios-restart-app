@@ -58,15 +58,18 @@ final class SignUpEmailStep1ViewController: KeyboardViewController {
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
                    navBarBackgroundStyle: appearance.navBarBackgroundStyle)
-
-        setupNavigationBar()
-        setupUI()
-        setupLayout()
-        setupRx()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+        setupUI()
+        setupLayout()
+        setupRx()
     }
 
     override func viewWillLayoutSubviews() {
@@ -142,6 +145,12 @@ extension SignUpEmailStep1ViewController: UITextFieldDelegate {
 fileprivate extension SignUpEmailStep1ViewController {
     func setupNavigationBar() {
         title = LGLocalizedString.signUpEmailStep1Title
+
+        if isRootViewController() {
+            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
+                                              action: #selector(closeButtonPressed))
+            navigationItem.leftBarButtonItem = closeButton
+        }
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: LGLocalizedString.signUpEmailStep1HelpButton, style: .plain,
                                                             target: self, action: #selector(openHelp))
     }
@@ -325,6 +334,10 @@ fileprivate extension SignUpEmailStep1ViewController {
         } else {
             scrollView.setContentOffset(CGPoint.zero, animated: true)
         }
+    }
+
+    dynamic func closeButtonPressed() {
+        viewModel.cancel()
     }
 
     dynamic func openHelp() {

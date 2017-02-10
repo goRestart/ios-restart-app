@@ -240,7 +240,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
         showPasswordButton.setImage(imgButton, for: .normal)
 
-        // TODO: ⚠️ i should apply this in new vc
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
         passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,

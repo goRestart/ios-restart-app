@@ -52,15 +52,18 @@ final class SignUpEmailStep2ViewController: KeyboardViewController, SignUpEmailS
                    navBarBackgroundStyle: appearance.navBarBackgroundStyle)
 
         viewModel.delegate = self
-
-        setupNavigationBar()
-        setupUI()
-        setupLayout()
-        setupRx()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+        setupUI()
+        setupLayout()
+        setupRx()
     }
 
     override func viewWillLayoutSubviews() {

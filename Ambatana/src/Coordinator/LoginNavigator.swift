@@ -35,6 +35,7 @@ protocol RememberPasswordNavigator: class {
 }
 
 protocol LogInEmailNavigator: class {
+    func cancelLogInEmail()
     func openHelpFromLogInEmail()
     func openRememberPasswordFromLogInEmail(email: String?)
     func openSignUpEmailFromLogInEmail(email: String?,
@@ -44,6 +45,7 @@ protocol LogInEmailNavigator: class {
 }
 
 protocol SignUpEmailStep1Navigator: class {
+    func cancelSignUpEmailStep1()
     func openHelpFromSignUpEmailStep1()
     func openNextStepFromSignUpEmailStep1(email: String, password: String,
                                           isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?)

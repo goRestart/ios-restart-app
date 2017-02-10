@@ -126,6 +126,10 @@ final class LogInEmailViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension LogInEmailViewModel {
+    func cancel() {
+        navigator?.cancelLogInEmail()
+    }
+    
     func openHelp() {
         navigator?.openHelpFromLogInEmail()
     }

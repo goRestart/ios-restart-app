@@ -14,6 +14,7 @@ import Result
 import RxSwift
 
 class SignUpEmailStep1ViewModelSpec: QuickSpec {
+    var navigatorReceivedCancel: Bool = false
     var navigatorReceivedOpenHelp: Bool = false
     var navigatorReceivedOpenNextStep: Bool = false
     var navigatorReceivedOpenLogIn: Bool = false
@@ -30,6 +31,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
             var sut: SignUpEmailStep1ViewModel!
 
             beforeEach {
+                self.navigatorReceivedCancel = false
                 self.navigatorReceivedOpenHelp = false
                 self.navigatorReceivedOpenNextStep = false
                 self.navigatorReceivedOpenLogIn = false
@@ -300,11 +302,25 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                     expect(self.navigatorReceivedOpenHelp) == true
                 }
             }
+
+            describe("cancel") {
+                beforeEach {
+                    sut.cancel()
+                }
+
+                it("calls cancel in navigator") {
+                    expect(self.navigatorReceivedCancel) == true
+                }
+            }
         }
     }
 }
 
 extension SignUpEmailStep1ViewModelSpec: SignUpEmailStep1Navigator {
+    func cancelSignUpEmailStep1() {
+        navigatorReceivedCancel = true
+    }
+
     func openHelpFromSignUpEmailStep1() {
         navigatorReceivedOpenHelp = true
     }

@@ -19,6 +19,7 @@ class LogInEmailViewModelSpec: QuickSpec {
     var delegateReceivedShowAlert = false
     var delegateReceivedShowGodModeAlert = false
 
+    var navigatorReceivedCancel = false
     var navigatorReceivedOpenHelp = false
     var navigatorReceivedOpenRememberPassword = false
     var navigatorReceivedOpenSignUp = false
@@ -41,6 +42,7 @@ class LogInEmailViewModelSpec: QuickSpec {
             var sut: LogInEmailViewModel!
 
             beforeEach {
+                self.navigatorReceivedCancel = false
                 self.delegateReceivedShowLoading = false
                 self.delegateReceivedHideLoading = false
                 self.delegateReceivedShowAlert = false
@@ -525,6 +527,16 @@ class LogInEmailViewModelSpec: QuickSpec {
                     expect(self.navigatorReceivedOpenHelp) == true
                 }
             }
+
+            describe("cancel") {
+                beforeEach {
+                    sut.cancel()
+                }
+
+                it("calls cancel in navigator") {
+                    expect(self.navigatorReceivedCancel) == true
+                }
+            }
         }
     }
 }
@@ -577,6 +589,10 @@ extension LogInEmailViewModelSpec: LogInEmailViewModelDelegate {
 }
 
 extension LogInEmailViewModelSpec: LogInEmailNavigator {
+    func cancelLogInEmail() {
+        navigatorReceivedCancel = true
+    }
+
     func openHelpFromLogInEmail() {
         navigatorReceivedOpenHelp = true
     }

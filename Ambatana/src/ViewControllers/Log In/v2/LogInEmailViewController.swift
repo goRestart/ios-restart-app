@@ -59,9 +59,11 @@ final class LogInEmailViewController: KeyboardViewController {
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
                    navBarBackgroundStyle: appearance.navBarBackgroundStyle)
-
         viewModel.delegate = self
+    }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupNavigationBar()
         setupUI()
         setupLayout()
@@ -165,6 +167,12 @@ extension LogInEmailViewController: UITextFieldDelegate {
 fileprivate extension LogInEmailViewController {
     func setupNavigationBar() {
         title = LGLocalizedString.logInEmailTitle
+
+        if isRootViewController() {
+            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
+                                              action: #selector(closeButtonPressed))
+            navigationItem.leftBarButtonItem = closeButton
+        }
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: LGLocalizedString.logInEmailHelpButton, style: .plain,
                                                             target: self, action: #selector(openHelp))
     }
@@ -357,6 +365,10 @@ fileprivate extension LogInEmailViewController {
         } else {
             scrollView.setContentOffset(CGPoint.zero, animated: true)
         }
+    }
+
+    dynamic func closeButtonPressed() {
+        viewModel.cancel()
     }
 
     dynamic func openHelp() {

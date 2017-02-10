@@ -254,6 +254,11 @@ extension LoginCoordinator: SignUpLogInNavigator {
 // MARK: - SignUpEmailStep1Navigator
 
 extension LoginCoordinator: SignUpEmailStep1Navigator {
+    func cancelSignUpEmailStep1() {
+        // called when closing from popup so it's not closing root only presented controller
+        close(animated: true, completion: nil)
+    }
+
     func openHelpFromSignUpEmailStep1() {
         openHelp()
     }
@@ -281,8 +286,8 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
         vm.navigator = self
         let vc = LogInEmailViewController(viewModel: vm, appearance: appearance,
                                           backgroundImage: loginV2BackgroundImage)
-        navCtl.popViewController(animated: false)
-        navCtl.pushViewController(vc, animated: false)
+        let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
+        navCtl.setViewControllers(navCtlVCs, animated: false)
     }
 }
 
@@ -324,6 +329,11 @@ extension LoginCoordinator: SignUpEmailStep2Navigator {
 // MARK: - LogInEmailNavigator
 
 extension LoginCoordinator: LogInEmailNavigator {
+    func cancelLogInEmail() {
+        // called when closing from popup so it's not closing root only presented controller
+        close(animated: true, completion: nil)
+    }
+
     func openHelpFromLogInEmail() {
         openHelp()
     }
@@ -345,8 +355,8 @@ extension LoginCoordinator: LogInEmailNavigator {
         let vc = SignUpEmailStep1ViewController(viewModel: vm,
                                                 appearance: appearance,
                                                 backgroundImage: loginV2BackgroundImage)
-        navCtl.popViewController(animated: false)
-        navCtl.pushViewController(vc, animated: false)
+        let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
+        navCtl.setViewControllers(navCtlVCs, animated: false)
     }
 
     func openScammerAlertFromLogInEmail(contactURL: URL) {
