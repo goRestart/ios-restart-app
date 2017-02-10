@@ -198,6 +198,7 @@ fileprivate extension SignUpEmailStep1ViewController {
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailStep1EmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
+        emailTextField.clearButtonMode = .whileEditing
         emailTextField.clearButtonOffset = 0
         emailTextField.delegate = self
         contentView.addSubview(emailTextField)
@@ -217,12 +218,14 @@ fileprivate extension SignUpEmailStep1ViewController {
         passwordTextField.text = viewModel.password.value
         passwordTextField.tag = TextFieldTag.password.rawValue
         passwordTextField.keyboardType = .default
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.autocapitalizationType = .none
         passwordTextField.autocorrectionType = .no
         passwordTextField.returnKeyType = .send
         passwordTextField.textColor = textfieldTextColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailStep1PasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
+        passwordTextField.clearButtonMode = .whileEditing
         passwordTextField.clearButtonOffset = 0
         passwordTextField.delegate = self
         contentView.addSubview(passwordTextField)

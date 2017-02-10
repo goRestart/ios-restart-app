@@ -175,6 +175,7 @@ fileprivate extension SignUpEmailStep2ViewController {
         fullNameTextField.textColor = textfieldTextColor
         fullNameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailStep2NameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
+        fullNameTextField.clearButtonMode = .whileEditing
         fullNameTextField.clearButtonOffset = 0
         fullNameTextField.delegate = self
         contentView.addSubview(fullNameTextField)
