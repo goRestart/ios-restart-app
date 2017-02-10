@@ -174,6 +174,13 @@ fileprivate extension ChatConversation {
             break // In this case we rely on the product status
         }
 
+        if interlocutor.isMuted {
+            return .userBlocked
+        }
+        if interlocutor.hasMutedYou {
+            return .blockedByUser
+        }
+
         switch product.status {
         case .deleted, .discarded:
             return .productDeleted
