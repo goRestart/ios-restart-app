@@ -1128,7 +1128,8 @@ fileprivate extension ChatViewModel {
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                                interlocutorId: userId, typePage: .chat,
                                                                sellerRating: sellerRating,
-                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                               isBumpedUp: EventParameterBoolean.falseParameter)
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
@@ -1140,7 +1141,7 @@ fileprivate extension ChatViewModel {
             shouldTrackFirstMessage = false
             trackFirstMessage(type)
         }
-        let isQuickAnswer: EventParameterQuickAnswerValue = type == .quickAnswer ? .trueParameter : .falseParameter
+        let isQuickAnswer: EventParameterBoolean = type == .quickAnswer ? .trueParameter : .falseParameter
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer, typePage: .chat,
                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)

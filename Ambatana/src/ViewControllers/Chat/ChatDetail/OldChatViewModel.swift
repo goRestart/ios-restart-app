@@ -1042,7 +1042,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                           typePage: .chat, sellerRating: sellerRating,
-                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                          isBumpedUp: .falseParameter)
         tracker.trackEvent(firstMessageEvent)
     }
     

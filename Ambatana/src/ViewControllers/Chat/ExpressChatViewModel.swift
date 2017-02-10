@@ -167,7 +167,8 @@ extension ExpressChatViewModel {
     func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product) {
         if shouldSendAskQuestion {
             let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .expressChat,
-                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                             isBumpedUp: .falseParameter)
             tracker.trackEvent(askQuestionEvent)
         }
         
