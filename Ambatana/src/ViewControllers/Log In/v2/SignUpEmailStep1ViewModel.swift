@@ -17,12 +17,6 @@ struct SignUpEmailStep1FormErrors: OptionSet {
     static let longPassword     = SignUpEmailStep1FormErrors(rawValue: 1 << 2)
 }
 
-protocol SignUpEmailStep1Navigator: class {
-    func openHelpFromSignUpEmailStep1()
-    func openNextStepFromSignUpEmailStep1(email: String, password: String)
-    func openLogInFromSignUpEmailStep1(email: String?, password: String?) // TODO: Call navigator to pop + push login
-}
-
 final class SignUpEmailStep1ViewModel: BaseViewModel {
     let email: Variable<String?>
     var suggestedEmail: Observable<String?> {

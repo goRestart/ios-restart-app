@@ -21,15 +21,6 @@ protocol LogInEmailViewModelDelegate: BaseViewModelDelegate {
     func vmGodModePasswordAlert()
 }
 
-protocol LogInEmailNavigator: class {
-    func openHelpFromLogInEmail()
-    func openRememberPasswordFromLogInEmail(email: String?)
-    func openSignUpEmailFromLogInEmail(email: String?, password: String?)
-    func openScammerAlertFromLogInEmail(contactURL: URL)
-    func closeAfterLogInSuccessful()
-}
-
-
 final class LogInEmailViewModel: BaseViewModel {
     fileprivate static let unauthorizedErrorCountRememberPwd = 2
 

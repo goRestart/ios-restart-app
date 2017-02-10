@@ -33,3 +33,24 @@ protocol SignUpLogInNavigator: class {
 protocol RememberPasswordNavigator: class {
     func closeRememberPassword()
 }
+
+protocol LogInEmailNavigator: class {
+    func openHelpFromLogInEmail()
+    func openRememberPasswordFromLogInEmail(email: String?)
+    func openSignUpEmailFromLogInEmail(email: String?, password: String?)
+    func openScammerAlertFromLogInEmail(contactURL: URL)
+    func closeAfterLogInSuccessful()
+}
+
+protocol SignUpEmailStep1Navigator: class {
+    func openHelpFromSignUpEmailStep1()
+    func openNextStepFromSignUpEmailStep1(email: String, password: String)
+    func openLogInFromSignUpEmailStep1(email: String?, password: String?)
+}
+
+protocol SignUpEmailStep2Navigator: class {
+    func openHelpFromSignUpEmailStep2()
+    func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool)
+    func openScammerAlertFromSignUpEmailStep2(contactURL: URL)
+    func closeAfterSignUpSuccessful()
+}

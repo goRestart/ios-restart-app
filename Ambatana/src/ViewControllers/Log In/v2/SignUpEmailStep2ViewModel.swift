@@ -20,13 +20,6 @@ struct SignUpEmailStep2FormErrors: OptionSet {
     static let termsAndConditionsNotAccepted    = SignUpEmailStep2FormErrors(rawValue: 1 << 4)
 }
 
-protocol SignUpEmailStep2Navigator: class {
-    func openHelpFromSignUpEmailStep2()
-    func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool)
-    func openScammerAlertFromSignUpEmailStep2(contactURL: URL)
-    func closeAfterSignUpSuccessful()
-}
-
 protocol SignUpEmailStep2ViewModelDelegate: BaseViewModelDelegate {}
 
 final class SignUpEmailStep2ViewModel: BaseViewModel {
