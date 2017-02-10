@@ -302,9 +302,6 @@ class ProductViewModel: BaseViewModel {
         
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
-//            let productIsFeatured = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(strongSelf.product.value)
-//            let shouldShowFeaturedLabel = !status.shouldShowStatus && productIsFeatured
-            
             if strongSelf.isShowingFeaturedStripe {
                 strongSelf.productStatusBackgroundColor.value = UIColor.white
                 strongSelf.productStatusLabelText.value = LGLocalizedString.bumpUpProductDetailFeaturedLabel
