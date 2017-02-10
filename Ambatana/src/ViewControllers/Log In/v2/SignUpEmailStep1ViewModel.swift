@@ -110,7 +110,7 @@ extension SignUpEmailStep1ViewModel {
     }
 
     func openLogIn() {
-        openLogIn(email: email.value, password: password.value)
+        openLogIn(email: email.value)
     }
 
     func openNextStep() -> SignUpEmailStep1FormErrors {
@@ -209,7 +209,7 @@ fileprivate extension SignUpEmailStep1ViewModel {
                                                     collapsedEmail: collapsedEmail)
     }
 
-    func openLogIn(email: String?, password: String?) {
+    func openLogIn(email: String?) {
         navigator?.openLogInFromSignUpEmailStep1(email: email,
                                                  isRememberedEmail: isRememberedEmail,
                                                  collapsedEmail: collapsedEmail)
