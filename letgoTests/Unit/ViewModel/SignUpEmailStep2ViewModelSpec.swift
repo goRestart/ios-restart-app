@@ -29,6 +29,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
             var disposeBag: DisposeBag!
             var featureFlags: MockFeatureFlags!
             var sessionManager: MockSessionManager!
+            var installationRepository: MockInstallationRepository!
             var keyValueStorage: MockKeyValueStorage!
             var tracker: MockTracker!
             var sut: SignUpEmailStep2ViewModel!
@@ -52,11 +53,15 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 myUser.email = email
                 sessionManager.signUpResult = SessionMyUserResult(value: myUser)
                 sessionManager.logInResult = SessionMyUserResult(value: myUser)
-
+                installationRepository = MockInstallationRepository()
+                installationRepository.installationVar.value = MockInstallation()
                 sut = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: false, password: "654321",
                                                 source: .sell, collapsedEmail: nil,
-                                                sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                                                featureFlags: featureFlags, tracker: tracker)
+                                                sessionManager: sessionManager,
+                                                installationRepository: installationRepository,
+                                                keyValueStorage: keyValueStorage,
+                                                featureFlags: featureFlags,
+                                                tracker: tracker)
                 sut.signUpEnabled.subscribeNext { enabled in
                     signUpEnabled = enabled
                 }.addDisposableTo(disposeBag)
@@ -422,7 +427,7 @@ extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2Navigator {
         navigatorReceivedOpenRecaptcha = true
     }
 
-    func openScammerAlertFromSignUpEmailStep2() {
+    func openScammerAlertFromSignUpEmailStep2(contactURL: URL) {
         navigatorReceivedOpenScammerAlert = true
     }
 

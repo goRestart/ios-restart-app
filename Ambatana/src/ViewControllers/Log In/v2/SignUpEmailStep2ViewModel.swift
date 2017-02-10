@@ -23,7 +23,7 @@ struct SignUpEmailStep2FormErrors: OptionSet {
 protocol SignUpEmailStep2Navigator: class {
     func openHelpFromSignUpEmailStep2()
     func openRecaptchaFromSignUpEmailStep2()
-    func openScammerAlertFromSignUpEmailStep2()
+    func openScammerAlertFromSignUpEmailStep2(contactURL: URL)
     func closeAfterSignUpSuccessful()
 }
 
@@ -65,6 +65,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     fileprivate let signUpEnabledVar: Variable<Bool>
 
     fileprivate let sessionManager: SessionManager
+    fileprivate let installationRepository: InstallationRepository
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let tracker: Tracker
@@ -75,20 +76,28 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
 
     convenience init(email: String, isRememberedEmail: Bool, password: String,
                      source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?) {
-        let sessionManager = Core.sessionManager
-        let keyValueStorage = KeyValueStorage.sharedInstance
-        let featureFlags = FeatureFlags.sharedInstance
-        let tracker = TrackerProxy.sharedInstance
-        self.init(email: email, isRememberedEmail: isRememberedEmail, password: password,
-                  source: source, collapsedEmail: collapsedEmail,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                  featureFlags: featureFlags, tracker: tracker)
+        self.init(email: email,
+                  isRememberedEmail: isRememberedEmail,
+                  password: password,
+                  source: source,
+                  collapsedEmail: collapsedEmail,
+                  sessionManager: Core.sessionManager,
+                  installationRepository: Core.installationRepository,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(email: String, isRememberedEmail: Bool, password: String,
-         source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?,
-         sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlaggeable, tracker: Tracker) {
+    init(email: String,
+         isRememberedEmail: Bool,
+         password: String,
+         source: EventParameterLoginSourceValue,
+         collapsedEmail: EventParameterCollapsedEmailField?,
+         sessionManager: SessionManager,
+         installationRepository: InstallationRepository,
+         keyValueStorage: KeyValueStorageable,
+         featureFlags: FeatureFlaggeable,
+         tracker: Tracker) {
         self.email = email
         let username = email.makeUsernameFromEmail()
         self.username = Variable<String?>(username)
@@ -102,6 +111,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
         self.signUpEnabledVar = Variable<Bool>(!(username ?? "").isEmpty)
 
         self.sessionManager = sessionManager
+        self.installationRepository = installationRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.tracker = tracker
@@ -278,7 +288,8 @@ fileprivate extension SignUpEmailStep2ViewModel {
             }
         case .scammer:
             afterMessageCompletion = { [weak self] in
-                self?.navigator?.openScammerAlertFromSignUpEmailStep2()
+                guard let contactURL = self?.contactURL else { return }
+                self?.navigator?.openScammerAlertFromSignUpEmailStep2(contactURL: contactURL)
             }
         case .notFound, .internalError, .forbidden, .unauthorized, .tooManyRequests:
             message = LGLocalizedString.signUpSendErrorGeneric
@@ -384,5 +395,16 @@ fileprivate extension SignUpEmailStep2ViewModel {
         guard let email = email else { return }
         keyValueStorage[.previousUserAccountProvider] = AccountProvider.email.rawValue
         keyValueStorage[.previousUserEmailOrName] = email
+    }
+}
+
+
+// MARK: > Helper
+
+fileprivate extension SignUpEmailStep2ViewModel {
+    var contactURL: URL? {
+        return LetgoURLHelper.buildContactUsURL(userEmail: email,
+                                                installation: installationRepository.installation,
+                                                moderation: true)
     }
 }

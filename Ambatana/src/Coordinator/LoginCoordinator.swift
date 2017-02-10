@@ -260,7 +260,7 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
     }
 
     func openNextStepFromSignUpEmailStep1(email: String, password: String) {
-
+        
     }
 
     // TODO: ⚠️ remove pwd!
@@ -293,12 +293,16 @@ extension LoginCoordinator: SignUpEmailStep2Navigator {
 
     }
 
-    func openScammerAlertFromSignUpEmailStep2() {
-
+    func openScammerAlertFromSignUpEmailStep2(contactURL: URL) {
+        dismissAllPresentedIfNeededAndExecute { [weak self] in
+            self?.closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
+        }
     }
 
     func closeAfterSignUpSuccessful() {
-        
+        dismissAllPresentedIfNeededAndExecute { [weak self] in
+            self?.closeRoot(didLogIn: true)
+        }
     }
 }
 
@@ -330,12 +334,16 @@ extension LoginCoordinator: LogInEmailNavigator {
         navCtl.pushViewController(vc, animated: false)
     }
 
-    func openScammerAlertFromLogInEmail() {
-
+    func openScammerAlertFromLogInEmail(contactURL: URL) {
+        dismissAllPresentedIfNeededAndExecute { [weak self] in
+            self?.closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
+        }
     }
 
     func closeAfterLogInSuccessful() {
-
+        dismissAllPresentedIfNeededAndExecute { [weak self] in
+            self?.closeRoot(didLogIn: true)
+        }
     }
 }
 

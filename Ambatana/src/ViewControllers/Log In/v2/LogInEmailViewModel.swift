@@ -25,7 +25,7 @@ protocol LogInEmailNavigator: class {
     func openHelpFromLogInEmail()
     func openRememberPasswordFromLogInEmail(email: String?)
     func openSignUpEmailFromLogInEmail(email: String?, password: String?)
-    func openScammerAlertFromLogInEmail()
+    func openScammerAlertFromLogInEmail(contactURL: URL)
     func closeAfterLogInSuccessful()
 }
 
@@ -57,6 +57,7 @@ final class LogInEmailViewModel: BaseViewModel {
     fileprivate let collapsedEmail: EventParameterCollapsedEmailField?
 
     fileprivate let sessionManager: SessionManager
+    fileprivate let installationRepository: InstallationRepository
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let logInEnabledVar: Variable<Bool>
     fileprivate let tracker: Tracker
@@ -82,6 +83,7 @@ final class LogInEmailViewModel: BaseViewModel {
                   source: source,
                   collapsedEmail: collapsedEmail,
                   sessionManager: Core.sessionManager,
+                  installationRepository: Core.installationRepository,
                   keyValueStorage: keyValueStorage,
                   tracker: TrackerProxy.sharedInstance)
     }
@@ -95,13 +97,19 @@ final class LogInEmailViewModel: BaseViewModel {
                   source: source,
                   collapsedEmail: collapsedEmail,
                   sessionManager: Core.sessionManager,
+                  installationRepository: Core.installationRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance)
     }
 
-    init(email: String?, isRememberedEmail: Bool,
-         source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?,
-         sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, tracker: Tracker) {
+    init(email: String?,
+         isRememberedEmail: Bool,
+         source: EventParameterLoginSourceValue,
+         collapsedEmail: EventParameterCollapsedEmailField?,
+         sessionManager: SessionManager,
+         installationRepository: InstallationRepository,
+         keyValueStorage: KeyValueStorageable,
+         tracker: Tracker) {
         self.email = Variable<String?>(email)
         self.password = Variable<String?>(nil)
 
@@ -112,6 +120,7 @@ final class LogInEmailViewModel: BaseViewModel {
         self.collapsedEmail = collapsedEmail
 
         self.sessionManager = sessionManager
+        self.installationRepository = installationRepository
         self.keyValueStorage = keyValueStorage
         self.logInEnabledVar = Variable<Bool>(false)
         self.tracker = tracker
@@ -209,8 +218,6 @@ fileprivate extension LogInEmailViewModel {
 }
 
 
-
-
 // MARK: > Previous email
 
 fileprivate extension LogInEmailViewModel {
@@ -227,7 +234,6 @@ fileprivate extension LogInEmailViewModel {
         keyValueStorage[.previousUserEmailOrName] = email
     }
 }
-
 
 
 // MARK: > Requests
@@ -264,7 +270,8 @@ fileprivate extension LogInEmailViewModel {
             unauthorizedErrorCount = unauthorizedErrorCount + 1
         case .scammer:
             afterMessageCompletion = { [weak self] in
-                self?.navigator?.openScammerAlertFromLogInEmail()
+                guard let contactURL = self?.contactURL else { return }
+                self?.navigator?.openScammerAlertFromLogInEmail(contactURL: contactURL)
             }
         case .notFound, .internalError, .forbidden, .nonExistingEmail, .conflict, .tooManyRequests, .badRequest,
              .userNotVerified:
@@ -417,5 +424,16 @@ fileprivate extension LogInEmailViewModel {
 
     func openSignUp(email: String?, password: String?) {
         navigator?.openSignUpEmailFromLogInEmail(email: email, password: password)
+    }
+}
+
+
+// MARK: > Helper
+
+fileprivate extension LogInEmailViewModel {
+    var contactURL: URL? {
+        return LetgoURLHelper.buildContactUsURL(userEmail: email.value,
+                                                installation: installationRepository.installation,
+                                                moderation: true)
     }
 }

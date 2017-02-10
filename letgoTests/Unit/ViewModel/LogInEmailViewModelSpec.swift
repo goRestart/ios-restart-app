@@ -29,6 +29,7 @@ class LogInEmailViewModelSpec: QuickSpec {
 
         describe("LogInEmailViewModel") {
             var sessionManager: MockSessionManager!
+            var installationRepository: MockInstallationRepository!
             var keyValueStorage: MockKeyValueStorage!
             var tracker: MockTracker!
 
@@ -56,6 +57,8 @@ class LogInEmailViewModelSpec: QuickSpec {
                 logInEnabled = nil
 
                 sessionManager = MockSessionManager()
+                installationRepository = MockInstallationRepository()
+                installationRepository.installationVar.value = MockInstallation()
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
                 disposeBag = DisposeBag()
@@ -67,6 +70,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                 sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
                                           source: .sell, collapsedEmail: nil,
                                           sessionManager: sessionManager,
+                                          installationRepository: installationRepository,
                                           keyValueStorage: keyValueStorage, tracker: tracker)
                 sut.email.asObservable().subscribeNext { newEmail in
                     email = newEmail
@@ -87,6 +91,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                         sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
                                                   source: .sell, collapsedEmail: nil,
                                                   sessionManager: sessionManager,
+                                                  installationRepository: installationRepository,
                                                   keyValueStorage: keyValueStorage, tracker: tracker)
                     }
 
@@ -584,7 +589,7 @@ extension LogInEmailViewModelSpec: LogInEmailNavigator {
         navigatorReceivedOpenSignUp = true
     }
 
-    func openScammerAlertFromLogInEmail() {
+    func openScammerAlertFromLogInEmail(contactURL: URL) {
         navigatorReceiverOpenScammerAlert = true
     }
 
