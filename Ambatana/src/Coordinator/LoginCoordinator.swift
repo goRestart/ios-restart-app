@@ -17,6 +17,10 @@ enum LoginStyle {
 
 protocol LoginCoordinatorDelegate: CoordinatorDelegate {}
 
+protocol RecaptchaTokenDelegate: class {
+    func recaptchaTokenObtained(token: String)
+}
+
 final class LoginCoordinator: Coordinator {
     var child: Coordinator?
     var viewController: UIViewController
@@ -24,7 +28,7 @@ final class LoginCoordinator: Coordinator {
     let bubbleNotificationManager: BubbleNotificationManager
 
     fileprivate var parentViewController: UIViewController?
-    fileprivate weak var signUpLogInViewModel: SignUpLogInViewModel?
+    fileprivate weak var recaptchaTokenDelegate: RecaptchaTokenDelegate?
 
     fileprivate let appearance: LoginAppearance
     fileprivate let source: EventParameterLoginSourceValue
@@ -140,8 +144,7 @@ extension LoginCoordinator: MainSignUpNavigator {
             vc = SignUpLogInViewController(viewModel: vm,
                                            appearance: appearance,
                                            keyboardFocus: false)
-
-            signUpLogInViewModel = vm
+            recaptchaTokenDelegate = vm
         case .v2:
             let vm = SignUpEmailStep1ViewModel(source: source, collapsedEmail: collapsedEmailParam)
             vm.navigator = self
@@ -149,7 +152,6 @@ extension LoginCoordinator: MainSignUpNavigator {
             vc = SignUpEmailStep1ViewController(viewModel: vm,
                                                 appearance: appearance,
                                                 backgroundImage: loginV2BackgroundImage)
-            // TODO: ⚠️ keep a ref to that vm!?! uhm.. make a protocol that's shared across the 2
         }
 
         switch style {
@@ -175,7 +177,7 @@ extension LoginCoordinator: MainSignUpNavigator {
             vm.navigator = self
             vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
 
-            signUpLogInViewModel = vm
+            recaptchaTokenDelegate = vm
         case .v2:
             let vm = LogInEmailViewModel(source: source,
                                          collapsedEmail: collapsedEmailParam)
@@ -183,9 +185,6 @@ extension LoginCoordinator: MainSignUpNavigator {
             vc = LogInEmailViewController(viewModel: vm,
                                               appearance: appearance,
                                               backgroundImage: loginV2BackgroundImage)
-
-            // TODO: ⚠️ keep a ref to that vm!?! uhm.. make a protocol that's shared across the 2
-//            signUpLogInViewModel = vm
         }
 
         switch style {
@@ -260,7 +259,18 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
     }
 
     func openNextStepFromSignUpEmailStep1(email: String, password: String) {
-        
+        guard let navCtl = currentNavigationController() else { return }
+        // TODO: ⚠️ these two params should come via navigator
+        let isRememberedEmail = false
+        let collapsedEmail: EventParameterCollapsedEmailField? = nil
+        let vm = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: isRememberedEmail,
+                                           password: password, source: source, collapsedEmail: collapsedEmail)
+        vm.navigator = self
+        let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: appearance,
+                                                backgroundImage: loginV2BackgroundImage)
+        navCtl.pushViewController(vc, animated: false)
+
+        recaptchaTokenDelegate = vm
     }
 
     // TODO: ⚠️ remove pwd!
@@ -289,8 +299,17 @@ extension LoginCoordinator: SignUpEmailStep2Navigator {
         openHelp()
     }
 
-    func openRecaptchaFromSignUpEmailStep2() {
+    func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool) {
+        guard let navCtl = currentNavigationController() else { return }
 
+        let vm = RecaptchaViewModel(transparentMode: transparentMode)
+        vm.navigator = self
+        let backgroundImage: UIImage? = transparentMode ? viewController.presentingViewController?.view.takeSnapshot() : nil
+        let vc = RecaptchaViewController(viewModel: vm, backgroundImage: backgroundImage)
+        if transparentMode {
+            vc.modalTransitionStyle = .crossDissolve
+        }
+        navCtl.present(vc, animated: true, completion: nil)
     }
 
     func openScammerAlertFromSignUpEmailStep2(contactURL: URL) {
@@ -396,7 +415,7 @@ extension LoginCoordinator: RecaptchaNavigator {
         }
 
         recaptchaVC.dismiss(animated: true) { [weak self] in
-            self?.signUpLogInViewModel?.recaptchaTokenObtained(token)
+            self?.recaptchaTokenDelegate?.recaptchaTokenObtained(token: token)
         }
     }
 }

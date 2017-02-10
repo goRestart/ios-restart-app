@@ -22,7 +22,7 @@ struct SignUpEmailStep2FormErrors: OptionSet {
 
 protocol SignUpEmailStep2Navigator: class {
     func openHelpFromSignUpEmailStep2()
-    func openRecaptchaFromSignUpEmailStep2()
+    func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool)
     func openScammerAlertFromSignUpEmailStep2(contactURL: URL)
     func closeAfterSignUpSuccessful()
 }
@@ -159,11 +159,22 @@ extension SignUpEmailStep2ViewModel {
 
         if let username = username.value?.trim, errors.isEmpty {
             let newsletter: Bool? = newsLetterAcceptRequired ? newsLetterAccepted.value : nil
-            signUp(email: email, password: password, username: username, newsletter: newsletter)
+            signUp(email: email, password: password, username: username, newsletter: newsletter, recaptchaToken: nil)
         } else {
             trackFormValidationFailed(errors: errors)
         }
         return errors
+    }
+}
+
+
+// MARK: - RecaptchaTokenDelegate
+
+extension SignUpEmailStep2ViewModel: RecaptchaTokenDelegate {
+    func recaptchaTokenObtained(token: String) {
+        guard let username = username.value?.trim else { return }
+        let newsletter: Bool? = newsLetterAcceptRequired ? newsLetterAccepted.value : nil
+        signUp(email: email, password: password, username: username, newsletter: newsletter, recaptchaToken: token)
     }
 }
 
@@ -198,14 +209,22 @@ fileprivate extension SignUpEmailStep2ViewModel {
 // MARK: > Requests
 
 fileprivate extension SignUpEmailStep2ViewModel {
-    func signUp(email: String, password: String, username: String, newsletter: Bool?) {
+    func signUp(email: String, password: String, username: String, newsletter: Bool?, recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
-        sessionManager.signUp(email, password: password, name: username, newsletter: newsletter) { [weak self] result in
+
+        let completion: SessionMyUserCompletion = { [weak self] result in
             if let myUser = result.value {
                 self?.signUpSucceeded(myUser: myUser, newsletter: newsletter)
             } else if let signUpError = result.error {
                 self?.signUpFailed(signUpError: signUpError)
             }
+        }
+        if let recaptchaToken = recaptchaToken {
+            sessionManager.signUp(email, password: password, name: username, newsletter: newsletter,
+                                  recaptchaToken: recaptchaToken, completion: completion)
+        } else {
+            sessionManager.signUp(email, password: password, name: username, newsletter: newsletter,
+                                  completion: completion)
         }
     }
 
@@ -284,7 +303,8 @@ fileprivate extension SignUpEmailStep2ViewModel {
             message = LGLocalizedString.signUpSendErrorInvalidEmail
         case .userNotVerified:
             afterMessageCompletion = { [weak self] in
-                self?.navigator?.openRecaptchaFromSignUpEmailStep2()
+                let transparentMode = self?.featureFlags.captchaTransparent ?? false
+                self?.navigator?.openRecaptchaFromSignUpEmailStep2(transparentMode: transparentMode)
             }
         case .scammer:
             afterMessageCompletion = { [weak self] in

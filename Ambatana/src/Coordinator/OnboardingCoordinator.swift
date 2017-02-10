@@ -298,7 +298,7 @@ extension OnboardingCoordinator: RecaptchaNavigator {
             return
         }
         recaptchaVC.dismiss(animated: true) { [weak self] in
-            self?.signUpLogInViewModel?.recaptchaTokenObtained(token)
+            self?.signUpLogInViewModel?.recaptchaTokenObtained(token: token)
         }
     }
 }

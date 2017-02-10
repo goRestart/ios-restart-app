@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-final class SignUpEmailStep2ViewController: KeyboardViewController {
+final class SignUpEmailStep2ViewController: KeyboardViewController, SignUpEmailStep2ViewModelDelegate {
     fileprivate let viewModel: SignUpEmailStep2ViewModel
     fileprivate let appearance: LoginAppearance
     fileprivate let backgroundImage: UIImage?
@@ -50,6 +50,8 @@ final class SignUpEmailStep2ViewController: KeyboardViewController {
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
                    navBarBackgroundStyle: appearance.navBarBackgroundStyle)
+
+        viewModel.delegate = self
 
         setupNavigationBar()
         setupUI()

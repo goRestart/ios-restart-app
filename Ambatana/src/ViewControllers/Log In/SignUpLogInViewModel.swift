@@ -269,10 +269,6 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
 
-    func recaptchaTokenObtained(_ token: String) {
-        signUp(token)
-    }
-    
     func logIn() {
         if email == "admin" && password == "wat" {
             delegate?.vmShowHiddenPasswordAlert()
@@ -544,6 +540,15 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func trackSignupEmailFailedWithError(_ error: EventParameterLoginError) {
         tracker.trackEvent(TrackerEvent.signupError(error))
+    }
+}
+
+
+// MARK: - RecaptchaTokenDelegate
+
+extension SignUpLogInViewModel: RecaptchaTokenDelegate {
+    func recaptchaTokenObtained(token: String) {
+        signUp(token)
     }
 }
 

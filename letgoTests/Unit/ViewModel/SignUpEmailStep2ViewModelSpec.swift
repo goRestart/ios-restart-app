@@ -423,7 +423,7 @@ extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2Navigator {
         navigatorReceivedOpenHelp = true
     }
 
-    func openRecaptchaFromSignUpEmailStep2() {
+    func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool) {
         navigatorReceivedOpenRecaptcha = true
     }
 
