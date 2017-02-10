@@ -66,7 +66,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: true))])
                     }
                     it("sets collapsedEmailTrackingParam as unset in signupViewModel") {
-                        expect(signupViewModel.collapsedEmailTrackingParam) == .unset
+                        expect(signupViewModel.collapsedEmailTrackingParam) == .notAvailable
                     }
                 }
                 context("flags syncrhonize") {

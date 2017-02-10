@@ -370,17 +370,6 @@ enum EventParameterPostedWithin: String {
     case all = ""
 }
 
-//enum EventParameter_HasPriceFilter: String {
-//    case trueParameter = "true"
-//    case falseParameter = "false"
-//}
-
-//enum EventParameter_QuickAnswerValue: String {
-//    case trueParameter = "true"
-//    case falseParameter = "false"
-//    case none = "N/A"
-//}
-
 enum EventParameterMessageType: String {
     case text       = "text"
     case offer      = "offer"
@@ -544,12 +533,6 @@ enum EventParameterPermissionAlertType: String {
     case fullScreen = "full-screen"
 }
 
-//enum EventParameter_Newsletter: String {
-//    case trueParameter = "true"
-//    case falseParameter = "false"
-//    case unset = "N/A"
-//}
-
 enum EventParameterTab: String {
     case selling = "selling"
     case sold = "sold"
@@ -578,11 +561,6 @@ enum EventParameterCommercializerError: String {
     case internalError = "commercializer-internal"
     case duplicated = "commercializer-duplicated"
 }
-
-//enum EventParameter_PermissionGoToSettings: String {
-//    case trueParameter = "true"
-//    case notAvailable = "N/A"
-//}
 
 enum ProductVisitUserAction: String {
     case tap = "tap"
@@ -681,12 +659,6 @@ enum EventParameterRelatedShownReason: String {
     }
 }
 
-//enum EventParameter_FreePosting: String {
-//    case trueParameter = "true"
-//    case falseParameter = "false"
-//    case unset = "N/A"
-//}
-
 enum EventParameterExpressChatTrigger: String {
     case automatic = "automatic"
     case manual = "manual"
@@ -705,17 +677,6 @@ enum EventParameterBumpUpPrice {
         }
     }
 }
-
-//enum EventParameter_IsBumpedUp: String {
-//    case trueParameter = "true"
-//    case falseParameter = "false"
-//}
-//
-//enum EventParameter_CollapsedEmailField: String {
-//    case trueParameter = "true"
-//    case falseParameter = "false"
-//    case unset = "N/A"
-//}
 
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]

@@ -471,16 +471,16 @@ class TrackerEventSpec: QuickSpec {
             
             describe("signupEmail") {
                 it("has its event name") {
-                    sut = TrackerEvent.signupEmail(.sell, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.sell, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     expect(sut.name.rawValue).to(equal("signup-email"))
                 }
                 it("contains the collapsed-email-field param") {
-                    sut = TrackerEvent.signupEmail(.sell, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.sell, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     let existing = sut.params!.stringKeyParams["collapsed-email-field"] as! String
                     expect(existing) == "true"
                 }
                 it("contains the appropiate login source signing in via email from posting") {
-                    sut = TrackerEvent.signupEmail(.sell, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.sell, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -488,7 +488,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source signing in via email from chats") {
-                    sut = TrackerEvent.signupEmail(.chats, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.chats, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -496,7 +496,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source signing in via email from profile") {
-                    sut = TrackerEvent.signupEmail(.profile, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.profile, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -504,7 +504,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source signing in via email from mark as favourite") {
-                    sut = TrackerEvent.signupEmail(.favourite, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.favourite, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -512,7 +512,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source signing in via email from mark as sold") {
-                    sut = TrackerEvent.signupEmail(.markAsSold, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.markAsSold, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -520,7 +520,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source signing in via email from as a question") {
-                    sut = TrackerEvent.signupEmail(.askQuestion, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.askQuestion, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -528,7 +528,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source signing in via email from report fraud") {
-                    sut = TrackerEvent.signupEmail(.reportFraud, newsletter: .unset, collapsedEmail: .trueParameter)
+                    sut = TrackerEvent.signupEmail(.reportFraud, newsletter: .notAvailable, collapsedEmail: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
