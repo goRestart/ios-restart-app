@@ -25,9 +25,6 @@ struct Constants {
     // URLs
     static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"
     static let playStoreURL = "https://play.google.com/store/apps/details?id=com.abtnprojects.ambatana"
-    static let appShareFbMessengerURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=facebook-messenger-sold"
-    static let appShareWhatsappURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=whatsapp-sold"
-    static let appShareEmailURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=email-sold"
 
     // Branch
     static let branchWebsiteURL = "https://app.letgo.com"
