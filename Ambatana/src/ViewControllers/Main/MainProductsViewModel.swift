@@ -491,7 +491,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         
         guard let product = viewModel.productAtIndex(index) else { return }
         let cellModels = viewModel.objects
-        let showRelated = searchType == nil
+        let showRelated = searchType == nil && filters.isDefault()
         let data = ProductDetailData.productList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
