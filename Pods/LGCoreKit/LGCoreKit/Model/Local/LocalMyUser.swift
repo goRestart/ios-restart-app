@@ -11,47 +11,40 @@ import CoreLocation
 struct LocalMyUser: MyUser, UserDefaultsDecodable {
     // BaseModel
     var objectId: String?
-
+    
     // User
     var name: String?
     var avatar: File?
-    var postalAddress: PostalAddress
-
     var accounts: [Account]
     var ratingAverage: Float?
     var ratingCount: Int
-
     var status: UserStatus
-
+    
     // MyUser
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
-
-    init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LocalAccount],
+    
+    init(objectId: String?, name: String?, avatar: File?, accounts: [LocalAccount],
          ratingAverage: Float?, ratingCount: Int, status: UserStatus, email: String?, location: LGLocation?,
          localeIdentifier: String?) {
         self.objectId = objectId
-
+        
         self.name = name
         self.avatar = avatar
-        self.postalAddress = postalAddress
-
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
         self.accounts = accounts
-
         self.status = status
-
+        
         self.email = email
         self.location = location
         self.localeIdentifier = localeIdentifier
     }
-
+    
     init(myUser: MyUser) {
         let localAccounts = myUser.accounts.map { LocalAccount(account: $0) }
-        self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar,
-                  postalAddress: myUser.postalAddress, accounts: localAccounts,
+        self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar, accounts: localAccounts,
                   ratingAverage: myUser.ratingAverage, ratingCount: myUser.ratingCount, status: myUser.status,
                   email: myUser.email, location: myUser.location, localeIdentifier: myUser.localeIdentifier)
     }
@@ -110,7 +103,7 @@ extension LocalMyUser {
         var location: LGLocation? = nil
         if let latitude = dictionary[keys.latitude] as? Double, let longitude = dictionary[keys.longitude] as? Double {
             let clLocation = CLLocation(latitude: latitude, longitude: longitude)
-            location = LGLocation(location: clLocation, type: locationType)
+            location = LGLocation(location: clLocation, type: locationType, postalAddress: postalAddress)
         }
         var accounts: [LocalAccount] = []
         if let encodedAccounts = dictionary[keys.accounts] as? [[String : Any]] {
@@ -124,16 +117,16 @@ extension LocalMyUser {
             status = udStatus
         }
         let localeIdentifier = dictionary[keys.localeIdentifier] as? String
-        return self.init(objectId: objectId, name: name, avatar: avatar, postalAddress: postalAddress,
+        return self.init(objectId: objectId, name: name, avatar: avatar,
                          accounts: accounts, ratingAverage: ratingAverage, ratingCount: ratingCount, status: status,
                          email: email, location: location, localeIdentifier: localeIdentifier)
     }
-
+    
     func encode() -> [String: Any] {
         let keys = MyUserUDKeys()
         return encode(keys)
     }
-
+    
     func encode(_ keys: LGMyUserUDKeys) -> [String: Any] {
         var dictionary: [String: Any] = [:]
         dictionary[keys.objectId] = objectId
@@ -144,6 +137,7 @@ extension LocalMyUser {
         dictionary[keys.zipCode] = postalAddress.zipCode
         dictionary[keys.countryCode] = postalAddress.countryCode
         dictionary[keys.country] = postalAddress.country
+        dictionary[keys.state] = postalAddress.state
         dictionary[keys.email] = email
         dictionary[keys.locationType] = location?.type?.rawValue
         dictionary[keys.latitude] = location?.coordinate.latitude
@@ -154,7 +148,7 @@ extension LocalMyUser {
         dictionary[keys.ratingCount] = ratingCount
         dictionary[keys.status] = status.rawValue
         dictionary[keys.localeIdentifier] = localeIdentifier
-
+        
         return dictionary
     }
 }

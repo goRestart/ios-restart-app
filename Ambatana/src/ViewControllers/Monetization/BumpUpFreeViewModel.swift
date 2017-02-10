@@ -40,7 +40,7 @@ class BumpUpFreeViewModel: BaseViewModel {
         self.tracker = tracker
         self.socialMessage = socialMessage
         self.purchasesShopper = purchasesShopper
-        let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
+        let countryCode = Core.locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .restricted)
         self.paymentItemId = paymentItemId
         self.title = LGLocalizedString.bumpUpViewFreeTitle

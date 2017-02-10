@@ -179,7 +179,7 @@ class EditLocationViewModel: BaseViewModel {
             if let place = initialPlace {
                 setPlace(place, forceLocation: true, fromGps: false, enableSave: false)
             } else {
-                guard let location = locationManager.currentLocation, let postalAddress = locationManager.currentPostalAddress
+                guard let location = locationManager.currentLocation, let postalAddress = locationManager.currentLocation?.postalAddress
                     else { return }
                 let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
                 setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
@@ -191,11 +191,11 @@ class EditLocationViewModel: BaseViewModel {
                     guard let strongSelf = self else { return }
                     if let resolvedPlace = result.value {
                         strongSelf.currentPlace = resolvedPlace.postalAddress?.countryCode != nil ?
-                            resolvedPlace : Place(postalAddress: strongSelf.locationManager.currentPostalAddress,
+                            resolvedPlace : Place(postalAddress: strongSelf.locationManager.currentLocation?.postalAddress,
                                                   location: strongSelf.locationManager.currentLocation?.location)
                         strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: true, enableSave: true)
                     } else if let _ = result.error {
-                        strongSelf.currentPlace = Place(postalAddress: strongSelf.locationManager.currentPostalAddress,
+                        strongSelf.currentPlace = Place(postalAddress: strongSelf.locationManager.currentLocation?.postalAddress,
                                                         location: strongSelf.locationManager.currentLocation?.location)
                         strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: false, enableSave: true)
                     }

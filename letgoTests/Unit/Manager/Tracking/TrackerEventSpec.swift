@@ -15,14 +15,14 @@ class TrackerEventSpec: QuickSpec {
             describe("location") {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .sensor)!
+                    let lgLocation = LGLocation(location: location, type: .sensor, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     expect(sut.name.rawValue).to(equal("location"))
                 }
                 it("contains the location type when retrieving from sensors") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .sensor)!
+                    let lgLocation = LGLocation(location: location, type: .sensor, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -33,7 +33,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location type when setting manually") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .manual)!
+                    let lgLocation = LGLocation(location: location, type: .manual, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -44,7 +44,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location type when retrieving from ip lookup") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -55,7 +55,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled false & location allowed false when location Disabled") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .disabled
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -69,7 +69,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed false when location Enabled/NotDetermined") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.notDetermined)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -83,7 +83,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed false when location Enabled/Restricted") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.restricted)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -97,7 +97,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed false when location Enabled/Denied") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.denied)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -111,7 +111,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed true when location Enabled/AuthorizedAlways") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.authorized)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -125,7 +125,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location enabled true & location allowed true when location Enabled/AuthorizedWhenInUse") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup, postalAddress: PostalAddress.emptyAddress())!
                     let locationServiceStatus: LocationServiceStatus = .enabled(.authorized)
                     sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
                     
@@ -2066,13 +2066,13 @@ class TrackerEventSpec: QuickSpec {
             describe("profileEditEditLocation") {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .sensor)!
+                    let lgLocation = LGLocation(location: location, type: .sensor, postalAddress: PostalAddress.emptyAddress())!
                     sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     expect(sut.name.rawValue).to(equal("profile-edit-edit-location"))
                 }
                 it("contains the location type when retrieving from sensors") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .sensor)!
+                    let lgLocation = LGLocation(location: location, type: .sensor, postalAddress: PostalAddress.emptyAddress())!
                     sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     
                     expect(sut.params).notTo(beNil())
@@ -2082,7 +2082,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location type when setting manually") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .manual)!
+                    let lgLocation = LGLocation(location: location, type: .manual, postalAddress: PostalAddress.emptyAddress())!
                     sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     
                     expect(sut.params).notTo(beNil())
@@ -2092,7 +2092,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the location type when retrieving from ip lookup") {
                     let location = CLLocation(latitude: 42, longitude: 2)
-                    let lgLocation = LGLocation(location: location, type: .ipLookup)!
+                    let lgLocation = LGLocation(location: location, type: .ipLookup, postalAddress: PostalAddress.emptyAddress())!
                     sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     
                     expect(sut.params).notTo(beNil())
@@ -2829,7 +2829,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("chat-window-open") {
                 beforeEach {
-                    sut = TrackerEvent.chatWindowVisit(.inAppNotification)
+                    sut = TrackerEvent.chatWindowVisit(.inAppNotification, chatEnabled: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-window-open"))
@@ -2837,6 +2837,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains typePage parameter") {
                     let param = sut.params!.stringKeyParams["type-page"] as? String
                     expect(param) == "in-app-notification"
+                }
+                it("contains chatEnabled parameter") {
+                    let param = sut.params!.stringKeyParams["chat-enabled"] as? Bool
+                    expect(param) == true
                 }
             }
             describe("app rating start") {

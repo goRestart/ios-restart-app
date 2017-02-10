@@ -84,6 +84,11 @@ final class TabBarController: UITabBarController {
         viewModel.externalSwitchToTab(tab, completion: completion)
     }
 
+    func clearAllPresented() {
+        self.dismissAllPresented(nil)
+        viewControllers?.forEach { $0.dismissAllPresented(nil) }
+    }
+
 
     /**
     Shows/hides the sell floating button

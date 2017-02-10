@@ -627,7 +627,7 @@
 "rate_buyers_message" = "Félicitations !";
 "rate_buyers_not_on_letgo_button" = "Je ne l'ai pas vendu sur letgo";
 "rate_buyers_sub_message" = "À qui l'avez-vous vendu ?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_title" = "Qui a acheté ceci ?";
 "rating_list_action_report_review" = "Signaler une note";
 "rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
 "rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
