@@ -95,6 +95,14 @@ extension LoginAppearance {
         }
     }
 
+    func showPasswordIcon(highlighted: Bool) -> UIImage? {
+        if highlighted {
+            return #imageLiteral(resourceName: "ic_show_password")
+        } else {
+            return #imageLiteral(resourceName: "ic_show_password_inactive")
+        }
+    }
+
     func usernameIcon(highlighted: Bool) -> UIImage? {
         switch self {
         case .dark:

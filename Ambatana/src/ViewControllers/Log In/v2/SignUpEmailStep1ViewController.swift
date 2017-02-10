@@ -32,6 +32,7 @@ final class SignUpEmailStep1ViewController: KeyboardViewController {
     fileprivate let passwordButton = UIButton()
     fileprivate let passwordImageView = UIImageView()
     fileprivate let passwordTextField = LGTextField()
+    fileprivate let showPasswordButton = UIButton()
     fileprivate let nextStepButton = UIButton()
     fileprivate let footerButton = UIButton()
 
@@ -239,6 +240,12 @@ fileprivate extension SignUpEmailStep1ViewController {
         passwordTextField.delegate = self
         contentView.addSubview(passwordTextField)
 
+        showPasswordButton.translatesAutoresizingMaskIntoConstraints = false
+        showPasswordButton.setImage(appearance.showPasswordIcon(highlighted: false), for: .normal)
+        showPasswordButton.setImage(appearance.showPasswordIcon(highlighted: true), for: .highlighted)
+        showPasswordButton.setImage(appearance.showPasswordIcon(highlighted: true), for: .selected)
+        contentView.addSubview(showPasswordButton)
+
         nextStepButton.translatesAutoresizingMaskIntoConstraints = false
         nextStepButton.setStyle(.primary(fontSize: .medium))
         nextStepButton.setTitle(LGLocalizedString.signUpEmailStep1ContinueButton, for: .normal)
@@ -295,7 +302,11 @@ fileprivate extension SignUpEmailStep1ViewController {
         passwordButton.layout().height(50)
         passwordImageView.layout().width(20)
         passwordImageView.layout(with: passwordButton).top().bottom().leading(by: 15)
-        passwordTextField.layout(with: passwordButton).top().bottom().leading(by: 30).trailing(by: -8)
+        passwordTextField.layout(with: passwordButton).top().bottom().leading(by: 30)
+        passwordTextField.layout(with: showPasswordButton).horizontally(by: -5)
+        passwordTextField.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        showPasswordButton.layout().width(30).widthProportionalToHeight()
+        showPasswordButton.layout(with: passwordButton).trailing(by: -10).centerY()
 
         nextStepButton.layout(with: passwordTextField).vertically(by: 20)
         nextStepButton.layout(with: contentView).leading(by: 15).trailing(by: -15).bottom(by: 15)
@@ -352,6 +363,19 @@ fileprivate extension SignUpEmailStep1ViewController {
         passwordTextField.becomeFirstResponder()
     }
 
+    func showPasswordPressed() {
+        passwordTextField.isSecureTextEntry = !passwordTextField.isSecureTextEntry
+        showPasswordButton.isSelected = !passwordTextField.isSecureTextEntry
+
+        // workaround to avoid weird font type
+        passwordTextField.font = UIFont(name: "systemFont", size: 17)
+        var textfieldPlaceholderAttrs = [String: AnyObject]()
+        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
+        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.blackTextHighAlpha
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailStep1PasswordFieldHint,
+                                                                     attributes: textfieldPlaceholderAttrs)
+    }
+
     func nextStepButtonPressed() {
         let errors = viewModel.openNextStep()
         openAlertWithFormErrors(errors: errors)
@@ -376,6 +400,7 @@ fileprivate extension SignUpEmailStep1ViewController {
         emailTextField.rx.text.bindTo(viewModel.email).addDisposableTo(disposeBag)
         passwordTextField.rx.text.bindTo(viewModel.password).addDisposableTo(disposeBag)
         viewModel.nextStepEnabled.bindTo(nextStepButton.rx.isEnabled).addDisposableTo(disposeBag)
+        showPasswordButton.rx.tap.subscribeNext { [weak self] _ in self?.showPasswordPressed() }.addDisposableTo(disposeBag)
         nextStepButton.rx.tap.subscribeNext { [weak self] _ in self?.nextStepButtonPressed() }.addDisposableTo(disposeBag)
         footerButton.rx.tap.subscribeNext { [weak self] _ in
             self?.viewModel.openLogIn()
