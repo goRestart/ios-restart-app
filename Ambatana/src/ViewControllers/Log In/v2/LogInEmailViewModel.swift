@@ -414,7 +414,9 @@ fileprivate extension LogInEmailViewModel {
     }
 
     func openSignUp(email: String?, password: String?) {
-        navigator?.openSignUpEmailFromLogInEmail(email: email, password: password)
+        navigator?.openSignUpEmailFromLogInEmail(email: email, 
+                                                 isRememberedEmail: isRememberedEmail,
+                                                 collapsedEmail: collapsedEmail)
     }
 }
 

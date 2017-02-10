@@ -585,7 +585,8 @@ extension LogInEmailViewModelSpec: LogInEmailNavigator {
         navigatorReceivedOpenRememberPassword = true
     }
 
-    func openSignUpEmailFromLogInEmail(email: String?, password: String?) {
+    func openSignUpEmailFromLogInEmail(email: String?,
+                                       isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
         navigatorReceivedOpenSignUp = true
     }
 

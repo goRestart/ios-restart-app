@@ -204,10 +204,14 @@ fileprivate extension SignUpEmailStep1FormErrors {
 
 fileprivate extension SignUpEmailStep1ViewModel {
     func openNextStep(email: String, password: String) {
-        navigator?.openNextStepFromSignUpEmailStep1(email: email, password: password)
+        navigator?.openNextStepFromSignUpEmailStep1(email: email, password: password,
+                                                    isRememberedEmail: isRememberedEmail,
+                                                    collapsedEmail: collapsedEmail)
     }
 
     func openLogIn(email: String?, password: String?) {
-        navigator?.openLogInFromSignUpEmailStep1(email: email, password: password)
+        navigator?.openLogInFromSignUpEmailStep1(email: email,
+                                                 isRememberedEmail: isRememberedEmail,
+                                                 collapsedEmail: collapsedEmail)
     }
 }

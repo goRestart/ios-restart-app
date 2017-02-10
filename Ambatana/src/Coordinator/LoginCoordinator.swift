@@ -258,11 +258,10 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
         openHelp()
     }
 
-    func openNextStepFromSignUpEmailStep1(email: String, password: String) {
+    func openNextStepFromSignUpEmailStep1(email: String, password: String,
+                                          isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
         guard let navCtl = currentNavigationController() else { return }
-        // TODO: ⚠️ these two params should come via navigator
-        let isRememberedEmail = false
-        let collapsedEmail: EventParameterCollapsedEmailField? = nil
+
         let vm = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: isRememberedEmail,
                                            password: password, source: source, collapsedEmail: collapsedEmail)
         vm.navigator = self
@@ -273,20 +272,16 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
         recaptchaTokenDelegate = vm
     }
 
-    // TODO: ⚠️ remove pwd!
-    func openLogInFromSignUpEmailStep1(email: String?, password: String?) {
+    func openLogInFromSignUpEmailStep1(email: String?,
+                                       isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
         guard let navCtl = currentNavigationController() else { return }
 
-        navCtl.popViewController(animated: false)
-
-        // TODO: ⚠️ these two params should come via navigator
-        let isRememberedEmail = false
-        let collapsedEmail: EventParameterCollapsedEmailField? = nil
         let vm = LogInEmailViewModel(email: email, isRememberedEmail: isRememberedEmail,
                                      source: source, collapsedEmail: collapsedEmail)
         vm.navigator = self
         let vc = LogInEmailViewController(viewModel: vm, appearance: appearance,
                                           backgroundImage: loginV2BackgroundImage)
+        navCtl.popViewController(animated: false)
         navCtl.pushViewController(vc, animated: false)
     }
 }
@@ -337,19 +332,20 @@ extension LoginCoordinator: LogInEmailNavigator {
         openRememberPassword(email: email)
     }
 
-    func openSignUpEmailFromLogInEmail(email: String?, password: String?) {
+    func openSignUpEmailFromLogInEmail(email: String?,
+                                       isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
         guard let navCtl = currentNavigationController() else { return }
 
-        navCtl.popViewController(animated: false)
-
-        // TODO: ⚠️ would be great to pass by the email & collapsedEmailParam
-        let collapsedEmailParam: EventParameterCollapsedEmailField? = nil
-        let vm = SignUpEmailStep1ViewModel(source: source, collapsedEmail: collapsedEmailParam)
+        let vm = SignUpEmailStep1ViewModel(email: email,
+                                           isRememberedEmail: isRememberedEmail,
+                                           source: source,
+                                           collapsedEmail: collapsedEmail)
         vm.navigator = self
 
         let vc = SignUpEmailStep1ViewController(viewModel: vm,
                                                 appearance: appearance,
                                                 backgroundImage: loginV2BackgroundImage)
+        navCtl.popViewController(animated: false)
         navCtl.pushViewController(vc, animated: false)
     }
 
