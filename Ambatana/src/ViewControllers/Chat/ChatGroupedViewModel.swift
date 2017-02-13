@@ -109,7 +109,7 @@ class ChatGroupedViewModel: BaseViewModel {
                     icon: UIImage(named: "err_list_no_blocked_users"),
                     title: LGLocalizedString.chatListBlockedEmptyTitle,
                     body: LGLocalizedString.chatListBlockedEmptyBody, buttonTitle: nil, action: nil,
-                    secondaryButtonTitle: nil, secondaryAction: nil)
+                    secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
             }
         }
         setupRxBindings()
@@ -122,7 +122,7 @@ class ChatGroupedViewModel: BaseViewModel {
                                           body: LGLocalizedString.chatNotVerifiedStateMessage,
                                           buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
                                           action: { [weak self] in self?.tryToReconnectChat() },
-                                          secondaryButtonTitle: nil, secondaryAction: nil)
+                                          secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .verification)
     }
 
     // MARK: - Public methods
@@ -233,7 +233,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryAction: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
-            }
+            }, emptyReason: .emptyResults
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {
@@ -254,7 +254,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
             },
-            secondaryButtonTitle: nil, secondaryAction: nil
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {
@@ -275,7 +275,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
             },
-            secondaryButtonTitle: nil, secondaryAction: nil
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {

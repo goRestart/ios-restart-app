@@ -2870,6 +2870,23 @@ class TrackerEventSpec: QuickSpec {
                     expect(param).to(equal(3))
                 }
             }
+            
+            describe("empty state error") {
+                beforeEach {
+                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .unknown)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("empty-state-error"))
+                }
+                it("contains typePage parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "chat"
+                }
+                it("contains reason parameter") {
+                    let param = sut.params!.stringKeyParams["reason"] as? String
+                    expect(param) == "unknown"
+                }
+            }
         }
     }
 }

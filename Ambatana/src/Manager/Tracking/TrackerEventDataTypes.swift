@@ -155,6 +155,8 @@ enum EventName: String {
     case bumpUpComplete                     = "bump-up-complete"
     case chatWindowVisit                     = "chat-window-open"
     
+    case emptyStateError                    = "empty-state-error"
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -266,6 +268,7 @@ enum EventParameterName: String {
     case userSoldTo           = "user-sold-to"
     case isBumpedUp           = "bump-up"
     case chatEnabled          = "chat-enabled"
+    case errorReason          = "reason"
 }
 
 enum EventParameterBoolean: String {
@@ -670,6 +673,15 @@ enum EventParameterBumpUpPrice {
         }
     }
 }
+
+enum EventParameterEmptyReason: String {
+    case noInternetConection = "no-internet-connection"
+    case serverError         = "server-error"
+    case emptyResults        = "empty-results"
+    case unknown             = "unknown"
+    case verification        = "verification"
+}
+
 
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]

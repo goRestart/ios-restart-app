@@ -39,8 +39,20 @@ protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelT
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     fileprivate let objects: Variable<[T]>
-
-    private(set) var status: ViewState
+    fileprivate let tracker: Tracker
+    private(set) var status: ViewState {
+        didSet {
+            switch status {
+            case .empty, .error:
+                if let emptyReason = emptyViewModel?.emptyReason {
+                    trackErrorStateShown(reason: emptyReason)
+                }
+                
+            case .loading, .data:
+                break
+            }
+        }
+    }
 
     var emptyStatusViewModel: LGEmptyViewModel?
 
@@ -63,14 +75,16 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - Lifecycle
 
-    init(objects: [T], tabNavigator: TabNavigator?) {
+    init(objects: [T], tabNavigator: TabNavigator?, tracker: Tracker = TrackerProxy.sharedInstance) {
         self.objects = Variable<[T]>(objects)
         self.status = .loading
         self.tabNavigator = tabNavigator
+        self.tracker = tracker
         super.init()
 
         setupPaginableRxBindings()
     }
+
 
     override func didBecomeActive(_ firstTime: Bool) {
         if canRetrieve {
@@ -298,5 +312,15 @@ extension BaseChatGroupedListViewModel {
         editing.asObservable().subscribeNext { [weak self] editing in
             self?.chatGroupedDelegate?.chatGroupedListViewModelSetEditing(editing)
             }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: - Tracking
+
+fileprivate extension BaseChatGroupedListViewModel {
+    func trackErrorStateShown(reason: EventParameterEmptyReason) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason)
+        tracker.trackEvent(event)
     }
 }

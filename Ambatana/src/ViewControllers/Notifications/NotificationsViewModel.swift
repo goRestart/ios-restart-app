@@ -21,7 +21,7 @@ class NotificationsViewModel: BaseViewModel {
     private let notificationsRepository: NotificationsRepository
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
-    private let myUserRepository: MyUserRepository
+    fileprivate let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
     fileprivate let locationManager: LocationManager
     fileprivate let tracker: Tracker
@@ -83,6 +83,11 @@ class NotificationsViewModel: BaseViewModel {
         trackItemPressed(data.type.eventType)
         data.primaryAction?()
     }
+    
+    
+    func emptyStateBecomeVisible(errorReason: EventParameterEmptyReason) {
+        trackErrorStateShown(reason: errorReason)
+    }
 
 
     // MARK: - Private methods
@@ -105,9 +110,10 @@ class NotificationsViewModel: BaseViewModel {
                         title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
                         action: { [weak self] in self?.navigator?.openSell(.notifications) },
-                        secondaryButtonTitle: nil, secondaryAction: nil)
+                        secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
 
                     strongSelf.viewState.value = .empty(emptyViewModel)
+                    strongSelf.trackErrorStateShown(reason: emptyViewModel.emptyReason)
                 } else {
                     strongSelf.viewState.value = .data
                     strongSelf.afterReloadOk()
@@ -122,6 +128,7 @@ class NotificationsViewModel: BaseViewModel {
                                 self?.reloadNotifications()
                             }) {
                             strongSelf.viewState.value = .error(emptyViewModel)
+                            strongSelf.trackErrorStateShown(reason: emptyViewModel.emptyReason)
                     }
                     case .network(errorCode: _, onBackground: true):
                         break
@@ -236,6 +243,11 @@ fileprivate extension NotificationsViewModel {
 
     func trackItemPressed(_ type: EventParameterNotificationType) {
         let event = TrackerEvent.notificationCenterComplete(type)
+        tracker.trackEvent(event)
+    }
+    
+    func trackErrorStateShown(reason: EventParameterEmptyReason) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .notifications, reason: reason)
         tracker.trackEvent(event)
     }
 }
