@@ -129,7 +129,9 @@ extension ProductVMTrackHelper {
     }
 
     func trackMarkSoldCompleted(to userSoldTo: EventParameterUserSoldTo) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(product, soldTo: userSoldTo, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+        let trackerEvent = TrackerEvent.productMarkAsSold(product, typePage: .productDetail,
+                                                          soldTo: featureFlags.userRatingMarkAsSold ? userSoldTo : nil,
+                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(trackerEvent)
     }
 

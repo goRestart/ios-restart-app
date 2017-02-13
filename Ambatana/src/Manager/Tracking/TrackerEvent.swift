@@ -345,18 +345,31 @@ struct TrackerEvent {
         return TrackerEvent(name: .productOpenChat, params: params)
     }
 
-    static func productMarkAsSold(_ product: Product, soldTo: EventParameterUserSoldTo, freePostingModeAllowed: Bool)
+    static func productMarkAsSold(_ product: ChatProduct, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?, freePostingModeAllowed: Bool)
         -> TrackerEvent {
-            var params = EventParameters()
+            return productMarkAsSold(productId: product.objectId, price: product.price, currency: product.currency.code,
+                                     categoryId: nil, typePage: typePage, soldTo: soldTo,
+                                     freePostingModeAllowed: freePostingModeAllowed)
+    }
 
-            // Product
-            params[.productId] = product.objectId
-            params[.productPrice] = product.price.value
-            params[.productCurrency] = product.currency.code
-            params[.categoryId] = product.category.rawValue
-            params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-            params[.userSoldTo] = soldTo.rawValue
-            return TrackerEvent(name: .productMarkAsSold, params: params)
+    static func productMarkAsSold(_ product: Product, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?, freePostingModeAllowed: Bool)
+        -> TrackerEvent {
+            return productMarkAsSold(productId: product.objectId, price: product.price, currency: product.currency.code,
+                              categoryId: product.category.rawValue, typePage: typePage, soldTo: soldTo,
+                              freePostingModeAllowed: freePostingModeAllowed)
+    }
+
+    private static func productMarkAsSold(productId: String?, price: ProductPrice, currency: String, categoryId: Int?,
+                                          typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?, freePostingModeAllowed: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.productId] = productId
+        params[.productPrice] = price.value
+        params[.productCurrency] = currency
+        params[.categoryId] = categoryId
+        params[.typePage] = typePage.rawValue
+        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: price).rawValue
+        params[.userSoldTo] = soldTo?.rawValue
+        return TrackerEvent(name: .productMarkAsSold, params: params)
     }
 
     static func productMarkAsUnsold(_ product: Product) -> TrackerEvent {
