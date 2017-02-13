@@ -107,7 +107,6 @@ class NotificationsViewController: BaseViewController {
         emptyView.isHidden = false
         tableView.isHidden = true
         emptyView.setupWithModel(emptyViewModel)
-        viewModel.emptyStateBecomeVisible(errorReason: emptyViewModel.errorReason)
     }
 }
 

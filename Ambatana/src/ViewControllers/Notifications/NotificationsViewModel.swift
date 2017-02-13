@@ -113,6 +113,7 @@ class NotificationsViewModel: BaseViewModel {
                         secondaryButtonTitle: nil, secondaryAction: nil, errorReason: .emptyResults)
 
                     strongSelf.viewState.value = .empty(emptyViewModel)
+                    strongSelf.trackErrorStateShown(reason: emptyViewModel.errorReason)
                 } else {
                     strongSelf.viewState.value = .data
                     strongSelf.afterReloadOk()
@@ -127,6 +128,7 @@ class NotificationsViewModel: BaseViewModel {
                                 self?.reloadNotifications()
                             }) {
                             strongSelf.viewState.value = .error(emptyViewModel)
+                            strongSelf.trackErrorStateShown(reason: emptyViewModel.errorReason)
                     }
                     case .network(errorCode: _, onBackground: true):
                         break
