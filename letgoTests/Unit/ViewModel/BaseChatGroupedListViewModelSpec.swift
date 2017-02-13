@@ -31,7 +31,7 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                     context("with zero items") {
                         beforeEach {
                             sut.result = Result<[String], RepositoryError>(value: [])
-                            sut.emptyStatusViewModel = LGEmptyViewModel(icon: nil, title: "", body: "", buttonTitle: "", action: nil, secondaryButtonTitle: nil, secondaryAction: nil, errorReason: .emptyResults)
+                            sut.emptyStatusViewModel = LGEmptyViewModel(icon: nil, title: "", body: "", buttonTitle: "", action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
                             sut.retrievePage(1)
                         }
                         it("tracks empty-state-error event") {

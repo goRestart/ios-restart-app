@@ -85,7 +85,7 @@ class NotificationsViewModel: BaseViewModel {
     }
     
     
-    func emptyStateBecomeVisible(errorReason: EventParameterErrorReason) {
+    func emptyStateBecomeVisible(errorReason: EventParameterEmptyReason) {
         trackErrorStateShown(reason: errorReason)
     }
 
@@ -110,10 +110,10 @@ class NotificationsViewModel: BaseViewModel {
                         title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
                         action: { [weak self] in self?.navigator?.openSell(.notifications) },
-                        secondaryButtonTitle: nil, secondaryAction: nil, errorReason: .emptyResults)
+                        secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
 
                     strongSelf.viewState.value = .empty(emptyViewModel)
-                    strongSelf.trackErrorStateShown(reason: emptyViewModel.errorReason)
+                    strongSelf.trackErrorStateShown(reason: emptyViewModel.emptyReason)
                 } else {
                     strongSelf.viewState.value = .data
                     strongSelf.afterReloadOk()
@@ -128,7 +128,7 @@ class NotificationsViewModel: BaseViewModel {
                                 self?.reloadNotifications()
                             }) {
                             strongSelf.viewState.value = .error(emptyViewModel)
-                            strongSelf.trackErrorStateShown(reason: emptyViewModel.errorReason)
+                            strongSelf.trackErrorStateShown(reason: emptyViewModel.emptyReason)
                     }
                     case .network(errorCode: _, onBackground: true):
                         break
@@ -246,7 +246,7 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
     
-    func trackErrorStateShown(reason: EventParameterErrorReason) {
+    func trackErrorStateShown(reason: EventParameterEmptyReason) {
         let event = TrackerEvent.emptyStateVisit(typePage: .notifications, reason: reason)
         tracker.trackEvent(event)
     }

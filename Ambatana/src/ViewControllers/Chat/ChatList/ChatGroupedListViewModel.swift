@@ -44,8 +44,8 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         didSet {
             switch status {
             case .empty, .error:
-                if let errorReason = emptyViewModel?.errorReason {
-                    trackErrorStateShown(reason: errorReason)
+                if let emptyReason = emptyViewModel?.emptyReason {
+                    trackErrorStateShown(reason: emptyReason)
                 }
                 
             case .loading, .data:
@@ -319,7 +319,7 @@ extension BaseChatGroupedListViewModel {
 // MARK: - Tracking
 
 fileprivate extension BaseChatGroupedListViewModel {
-    func trackErrorStateShown(reason: EventParameterErrorReason) {
+    func trackErrorStateShown(reason: EventParameterEmptyReason) {
         let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason)
         tracker.trackEvent(event)
     }

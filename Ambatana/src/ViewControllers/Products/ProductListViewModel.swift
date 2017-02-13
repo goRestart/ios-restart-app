@@ -149,12 +149,12 @@ class ProductListViewModel: BaseViewModel {
 
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
-        trackErrorStateShown(reason: viewModel.errorReason)
+        trackErrorStateShown(reason: viewModel.emptyReason)
     }
 
     func setEmptyState(_ viewModel: LGEmptyViewModel) {
         state = .empty(viewModel)
-        trackErrorStateShown(reason: viewModel.errorReason)
+        trackErrorStateShown(reason: viewModel.emptyReason)
         objects = [ProductCellModel.emptyCell(vm: viewModel)]
     }
 
@@ -363,7 +363,7 @@ class ProductListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ProductListViewModel {
-    func trackErrorStateShown(reason: EventParameterErrorReason) {
+    func trackErrorStateShown(reason: EventParameterEmptyReason) {
         let event = TrackerEvent.emptyStateVisit(typePage: .productList , reason: reason)
         tracker.trackEvent(event)
     }

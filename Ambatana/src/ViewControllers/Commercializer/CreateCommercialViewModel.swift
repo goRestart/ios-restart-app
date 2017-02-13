@@ -75,7 +75,7 @@ class CreateCommercialViewModel: BaseViewModel {
                                 body: LGLocalizedString.commercializerProductListEmptyBody,
                                 buttonTitle: LGLocalizedString.commercializerProductListEmptyButton,
                                 action: delegate?.vmOpenSell,
-                                secondaryButtonTitle: nil, secondaryAction: nil, errorReason: .emptyResults)
+                                secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
     }
     
     private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel {

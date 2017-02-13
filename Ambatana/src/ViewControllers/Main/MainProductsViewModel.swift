@@ -446,7 +446,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             }
 
             let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil, errorReason: .emptyResults)
+                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
             listViewModel.setEmptyState(emptyViewModel)
         }
 

@@ -708,7 +708,7 @@ enum EventParameterCollapsedEmailField: String {
     case unset = "N/A"
 }
 
-enum EventParameterErrorReason: String {
+enum EventParameterEmptyReason: String {
     case noInternetConection = "no-internet-connection"
     case serverError         = "server-error"
     case emptyResults        = "empty-results"

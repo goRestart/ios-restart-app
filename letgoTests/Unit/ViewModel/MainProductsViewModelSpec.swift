@@ -191,7 +191,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                 }
             }
-            fcontext("Product list VM failed retrieving products") {
+            context("Product list VM failed retrieving products") {
                 var mockTracker: MockTracker!
                 var productListViewModel: ProductListViewModel!
                 
