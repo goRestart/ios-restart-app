@@ -16,7 +16,7 @@
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
-fastlane_version "1.37.0"
+fastlane_version "2.14.0"
 
 default_platform :ios
 
@@ -107,17 +107,13 @@ platform :ios do
     # This reverts icons modified by badge method on the temp folder to avoid pushing them to repo
     lg_revert_git(repository_path: repository_path, items_to_revert: "Ambatana/res/img/Icons*")
 
-    changelog = lg_changelog(
-      only_upcoming: true
-    )
+    changelog = "Beta #{version_number}-#{build_number}"
 
     crashlytics(
-      ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
-      crashlytics_path: "./Pods/Crashlytics",
       api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
       build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
       notes: "#{changelog}",
-      groups: ['letgo-testers']
+      groups: "letgo-testers"
     )
 
     # Update the next version number in remote branch
@@ -162,17 +158,13 @@ platform :ios do
     # This reverts icons modified by badge method on the local copy
     lg_revert_git(repository_path: nil, items_to_revert: "Ambatana/Icons*")
 
-    changelog = lg_changelog(
-      only_upcoming: true
-    )
+    changelog = "Beta #{version_number}-#{build_number}"
 
     crashlytics(
-      ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
-      crashlytics_path: "./Pods/Crashlytics",
       api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
       build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
       notes: "#{changelog}",
-      groups: ['letgo-testers']
+      groups: "letgo-testers"
     )
 
     slack(
