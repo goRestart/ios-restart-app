@@ -108,9 +108,10 @@ extension SignUpEmailStep1ViewModel {
         navigator?.openHelpFromSignUpEmailStep1()
     }
 
-    func acceptSuggestedEmail() {
-        guard let suggestedEmail = suggestedEmailVar.value else { return }
+    func acceptSuggestedEmail() -> Bool {
+        guard let suggestedEmail = suggestedEmailVar.value else { return false }
         email.value = suggestedEmail
+        return true
     }
 
     func openLogIn() {

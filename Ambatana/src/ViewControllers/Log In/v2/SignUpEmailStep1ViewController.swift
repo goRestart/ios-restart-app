@@ -28,7 +28,8 @@ final class SignUpEmailStep1ViewController: KeyboardViewController {
     fileprivate let contentView = UIView()
     fileprivate let emailButton = UIButton()
     fileprivate let emailImageView = UIImageView()
-    fileprivate let emailTextField = LGTextField()
+    fileprivate let emailTextField = AutocompleteField()
+
     fileprivate let passwordButton = UIButton()
     fileprivate let passwordImageView = UIImageView()
     fileprivate let passwordTextField = LGTextField()
@@ -124,6 +125,10 @@ extension SignUpEmailStep1ViewController: UITextFieldDelegate {
 
         if textField.returnKeyType == .next {
             guard let nextView = view.viewWithTag(tag + 1) else { return true }
+
+            if tag == TextFieldTag.email.rawValue && viewModel.acceptSuggestedEmail() {
+                emailTextField.text = viewModel.email.value
+            }
             nextView.becomeFirstResponder()
             return false
         } else {
@@ -206,10 +211,12 @@ fileprivate extension SignUpEmailStep1ViewController {
         emailTextField.autocorrectionType = .no
         emailTextField.returnKeyType = .next
         emailTextField.textColor = textfieldTextColor
+        emailTextField.font = UIFont.systemFont(size: 17)
         emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailStep1EmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         emailTextField.clearButtonMode = .whileEditing
         emailTextField.clearButtonOffset = 0
+        emailTextField.pixelCorrection = -1
         emailTextField.delegate = self
         contentView.addSubview(emailTextField)
 
@@ -398,6 +405,9 @@ fileprivate extension SignUpEmailStep1ViewController {
 fileprivate extension SignUpEmailStep1ViewController {
     func setupRx() {
         emailTextField.rx.text.bindTo(viewModel.email).addDisposableTo(disposeBag)
+        viewModel.suggestedEmail.asObservable().subscribeNext { [weak self] suggestedEmail in
+            self?.emailTextField.suggestion = suggestedEmail
+        }.addDisposableTo(disposeBag)
         passwordTextField.rx.text.bindTo(viewModel.password).addDisposableTo(disposeBag)
         viewModel.nextStepEnabled.bindTo(nextStepButton.rx.isEnabled).addDisposableTo(disposeBag)
         showPasswordButton.rx.tap.subscribeNext { [weak self] _ in self?.showPasswordPressed() }.addDisposableTo(disposeBag)
