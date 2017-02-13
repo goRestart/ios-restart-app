@@ -191,20 +191,24 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                 }
             }
-            context("Product list VM failed retrieving products") {
+            fcontext("Product list VM failed retrieving products") {
                 var mockTracker: MockTracker!
                 var productListViewModel: ProductListViewModel!
+                
+                beforeEach {
+                    mockTracker = MockTracker()
+                    productListViewModel = ProductListViewModel(requester: MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20))
+                    sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
+                                                trendingSearchesRepository: Core.trendingSearchesRepository,
+                                                productRepository: Core.productRepository, locationManager: Core.locationManager,
+                                                currencyHelper: Core.currencyHelper, tracker: mockTracker,
+                                                searchType: nil, filters: ProductFilters(), keyValueStorage: keyValueStorage,
+                                                featureFlags: mockFeatureFlags)
+                }
+                
                 context("with too many requests") {
                     beforeEach {
-                        mockTracker = MockTracker()
-                        productListViewModel = ProductListViewModel(requester: MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20))
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                    trendingSearchesRepository: Core.trendingSearchesRepository,
-                                                    productRepository: Core.productRepository, locationManager: Core.locationManager,
-                                                    currencyHelper: Core.currencyHelper, tracker: mockTracker,
-                                                    searchType: nil, filters: ProductFilters(), keyValueStorage: keyValueStorage,
-                                                    featureFlags: mockFeatureFlags)
-                        sut.productListMV(productListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.tooManyRequests)
+                       sut.productListMV(productListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.tooManyRequests)
                     }
                     it("fires empty-state-error") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -217,21 +221,13 @@ class MainProductsViewModelSpec: QuickSpec {
                 }
                 context("with internet connection error") {
                     beforeEach {
-                        mockTracker = MockTracker()
-                        productListViewModel = ProductListViewModel(requester: MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20))
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                    trendingSearchesRepository: Core.trendingSearchesRepository,
-                                                    productRepository: Core.productRepository, locationManager: Core.locationManager,
-                                                    currencyHelper: Core.currencyHelper, tracker: mockTracker,
-                                                    searchType: nil, filters: ProductFilters(), keyValueStorage: keyValueStorage,
-                                                    featureFlags: mockFeatureFlags)
                         sut.productListMV(productListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.network(errorCode: -1, onBackground: false))
                     }
                     it("fires empty-state-error") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
                         expect(eventNames) == [.emptyStateError]
                     }
-                    it("fires empty-state-error with .unknown") {
+                    it("fires empty-state-error with .no-internet-connection") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["reason"] as? String) == "no-internet-connection"
                     }
