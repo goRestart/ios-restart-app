@@ -24,7 +24,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var chatContainer: UIView!
     @IBOutlet weak var chatContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var chatContainerBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var chatContainerTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
@@ -61,9 +60,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
         didSet {
             buttonBottomTrailingConstraint?.constant = buttonsRightMargin
-            if !chatTextView.isFirstResponder {
-                chatContainerTrailingConstraint?.constant = buttonsRightMargin
-            }
         }
     }
     fileprivate var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
@@ -101,6 +97,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     fileprivate let chatTextView = ChatTextView()
+    fileprivate let directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
 
     fileprivate var bumpUpBanner = BumpUpBanner()
     fileprivate var bumpUpBannerIsVisible: Bool = false
@@ -308,7 +305,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         CarouselUIHelper.setupShareButton(shareButton, text: LGLocalizedString.productShareNavbarButton, icon: UIImage(named:"ic_share"))
 
         mainResponder = chatTextView
-        setupDirectMessagesAndStickers()
+        setupDirectMessages()
         setupBumpUpBanner()
     }
 
@@ -671,8 +668,10 @@ extension ProductCarouselViewController {
 
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
-            self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
+            self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerHeight : 0
             }.addDisposableTo(activeDisposeBag)
+
+        directAnswersView.update(answers: viewModel.quickAnswers)
 
         chatTextView.rx.send.bindNext { [weak self, weak viewModel] textToSend in
             guard let strongSelf = self else { return }
@@ -1041,9 +1040,9 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 // MARK: > Direct messages and stickers
 
-extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate {
+extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
 
-    func setupDirectMessagesAndStickers() {
+    func setupDirectMessages() {
         ChatCellDrawerFactory.registerCells(directChatTable)
         directChatTable.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
         directChatTable.rowHeight = UITableViewAutomaticDimension
@@ -1051,13 +1050,16 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
         directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.openChatWithSeller() }
 
+        directAnswersView.delegate = self
+        directAnswersView.closeButtonEnabled = false
+        directAnswersView.translatesAutoresizingMaskIntoConstraints = false
+        chatContainer.addSubview(directAnswersView)
+        directAnswersView.layout(with: chatContainer).leading().trailing().top()
+
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
         chatContainer.addSubview(chatTextView)
-        let views = ["chatText": chatTextView]
-        chatContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[chatText]-0-|",
-            options: [], metrics: nil, views: views))
-        chatContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[chatText]-0-|",
-            options: [], metrics: nil, views: views))
+        chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
+        chatTextView.layout(with: directAnswersView).top(to: .bottom)
 
         keyboardChanges.bindNext { [weak self] change in
             guard let strongSelf = self else { return }
@@ -1085,6 +1087,12 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
         return cell
     }
+
+    func directAnswersBigViewDidSelect(answer: QuickAnswer) {
+        viewModel.currentProductViewModel?.sendQuickAnswer(quickAnswer: answer)
+    }
+
+    func directAnswersBigViewDidSelectClose() {}
 }
 
 

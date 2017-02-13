@@ -58,6 +58,11 @@ class ProductViewModel: BaseViewModel {
     let thumbnailImage: UIImage?
 
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
+    var quickAnswers: [QuickAnswer] {
+        guard !isMine else { return [] }
+        let isFree = product.value.price.free && featureFlags.freePostingModeAllowed
+        return QuickAnswer.quickAnswersFor(buyer: true, isFree: isFree, newQuickAnswers: false)
+    }
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
@@ -474,6 +479,12 @@ extension ProductViewModel {
             } else {
                 self?.sendMessage(.text(text))
             }
+        }
+    }
+
+    func sendQuickAnswer(quickAnswer: QuickAnswer) {
+        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
+            self?.sendMessage(.quickAnswer(quickAnswer.text))
         }
     }
 
