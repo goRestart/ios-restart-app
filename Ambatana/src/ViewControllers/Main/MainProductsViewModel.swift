@@ -173,7 +173,7 @@ class MainProductsViewModel: BaseViewModel {
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
         self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
-                                                  numberOfColumns: columns)
+                                                  numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, !search.isCollection && !search.query.isEmpty {
