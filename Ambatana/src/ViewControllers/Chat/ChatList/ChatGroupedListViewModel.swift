@@ -40,7 +40,19 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     fileprivate let objects: Variable<[T]>
     fileprivate let tracker: Tracker
-    private(set) var status: ViewState
+    private(set) var status: ViewState {
+        didSet {
+            switch status {
+            case .empty, .error:
+                if let errorReason = emptyViewModel?.errorReason {
+                    trackErrorStateShown(reason: errorReason)
+                }
+                
+            case .loading, .data:
+                break
+            }
+        }
+    }
 
     var emptyStatusViewModel: LGEmptyViewModel?
 
@@ -123,9 +135,6 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     var emptyViewHidden: Bool {
         switch status {
         case .empty, .error:
-            if let errorReason = emptyViewModel?.errorReason {
-                trackErrorStateShown(reason: errorReason)
-            }
             return false
         case .loading, .data:
             return true

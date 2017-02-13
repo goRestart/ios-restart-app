@@ -593,6 +593,7 @@
 		72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
 		72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
+		72B8B16C1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B8B16B1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift */; };
 		72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72B935F91E3F9C1C00F93F73 /* MockUserProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */; };
@@ -1706,6 +1707,7 @@
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
+		72B8B16B1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatGroupedListViewModelSpec.swift; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
 		72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserProduct.swift; sourceTree = "<group>"; };
 		72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WSChatStatus+LG.swift"; sourceTree = "<group>"; };
@@ -2318,6 +2320,7 @@
 				8E14D8921E363BF000B33C75 /* ChangeEmailViewModelSpec.swift */,
 				C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */,
 				C743FEC41E48E0E300B4E912 /* ProductViewModelSpec.swift */,
+				72B8B16B1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -5725,6 +5728,7 @@
 				C75BC6B41E2E683C00483F79 /* Array+Randomizable.swift in Sources */,
 				72FCD30A1E41D39C00DC6AB7 /* LocalChatSpec.swift in Sources */,
 				C7841AF71E091E5C004A8242 /* CGFloat+LGSpec.swift in Sources */,
+				72B8B16C1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift in Sources */,
 				C75BC6A31E2E53FB00483F79 /* VersionCheckerSpec.swift in Sources */,
 				C75BC69F1E2E53FB00483F79 /* CrashManagerSpec.swift in Sources */,
 				72FCD3021E40F3AC00DC6AB7 /* LocalUserSpec.swift in Sources */,
