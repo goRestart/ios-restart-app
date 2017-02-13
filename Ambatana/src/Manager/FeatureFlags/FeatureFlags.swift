@@ -33,6 +33,7 @@ protocol FeatureFlaggeable {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var bumpUpFreeTimeLimit: Int { get }
+    var userRatingMarkAsSold: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -186,6 +187,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToMilliseconds)
         return Int(timeLimit)
+    }
+
+    var userRatingMarkAsSold: Bool {
+        if Bumper.enabled {
+            return Bumper.userRatingMarkAsSold
+        }
+        return ABTests.userRatingMarkAsSold.value
     }
 
     

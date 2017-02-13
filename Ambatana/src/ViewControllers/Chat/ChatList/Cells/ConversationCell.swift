@@ -15,6 +15,8 @@ enum ConversationCellStatus {
     case productDeleted
     case userPendingDelete
     case userDeleted
+    case userBlocked
+    case blockedByUser
 }
 
 struct ConversationCellData {
@@ -150,6 +152,10 @@ class ConversationCell: UITableViewCell, ReusableCell {
             avatarImageView.image = UIImage(named: "user_placeholder")
         case .available:
             setInfo(text: data.messageDate?.relativeTimeString(false) ?? "", icon: nil)
+        case .userBlocked:
+            setInfo(text: LGLocalizedString.chatListBlockedUserLabel, icon: UIImage(named: "ic_blocked"))
+        case .blockedByUser:
+            setInfo(text: LGLocalizedString.chatBlockedByOtherLabel, icon: UIImage(named: "ic_blocked"))
         }
 
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil

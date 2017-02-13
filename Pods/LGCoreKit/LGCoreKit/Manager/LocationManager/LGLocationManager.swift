@@ -257,11 +257,11 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      Requests the IP lookup location retrieval and, if fails it uses the regional.
      */
     private func retrieveInitialLocationIfNeeded() {
-        guard currentLocation == nil else { return }
+        if let currentLocationType = currentLocation?.type, currentLocationType > .ipLookup { return }
         ipLookupLocationService.retrieveLocationWithCompletion { [weak self] (result: IPLookupLocationServiceResult) -> Void in
             if let strongSelf = self {
-                guard strongSelf.currentLocation == nil else { return }
-                // If there's no previous location it should update
+                if let currentLocationType = strongSelf.currentLocation?.type, currentLocationType > .ipLookup { return }
+                // If there's no previous location or is with lower priority. it should update
                 var newLocation: LGLocation? = nil
                 if let coordinates = result.value {
                     newLocation = LGLocation(latitude: coordinates.latitude, longitude: coordinates.longitude,
@@ -411,7 +411,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
 private extension MyUser {
     func shouldReplaceWithNewLocation(_ newLocation: LGLocation, manualLocationEnabled: Bool) -> Bool {
         guard let savedLocationType = location?.type else { return true }
-        guard let newLocationType = newLocation.type else { return false }
+        let newLocationType = newLocation.type
         
         switch savedLocationType {
         case .ipLookup:
@@ -452,7 +452,7 @@ private extension MyUser {
 private extension DeviceLocation {
     func shouldReplaceWithNewLocation(_ newLocation: LGLocation) -> Bool {
         guard let savedLocationType = location?.type else { return true }
-        guard let newLocationType = newLocation.type else { return false }
+        let newLocationType = newLocation.type
         
         switch savedLocationType {
         case .ipLookup:

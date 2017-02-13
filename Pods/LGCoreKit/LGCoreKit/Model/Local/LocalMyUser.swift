@@ -96,10 +96,9 @@ extension LocalMyUser {
         let postalAddress = PostalAddress(address: address, city: city, zipCode: zipCode, state: state,
                                           countryCode: countryCode, country: country)
         let email = dictionary[keys.email] as? String
-        var locationType: LGLocationType? = nil
-        if let locationTypeRaw = dictionary[keys.locationType] as? String {
-            locationType = LGLocationType(rawValue: locationTypeRaw)
-        }
+        let locationTypeRaw = dictionary[keys.locationType] as? String ?? ""
+        let locationType = LGLocationType(rawValue: locationTypeRaw) ?? .regional
+        
         var location: LGLocation? = nil
         if let latitude = dictionary[keys.latitude] as? Double, let longitude = dictionary[keys.longitude] as? Double {
             let clLocation = CLLocation(latitude: latitude, longitude: longitude)
@@ -139,7 +138,7 @@ extension LocalMyUser {
         dictionary[keys.country] = postalAddress.country
         dictionary[keys.state] = postalAddress.state
         dictionary[keys.email] = email
-        dictionary[keys.locationType] = location?.type?.rawValue
+        dictionary[keys.locationType] = location?.type.rawValue
         dictionary[keys.latitude] = location?.coordinate.latitude
         dictionary[keys.longitude] = location?.coordinate.longitude
         let encodedAccounts = accounts.map { LocalAccount(account: $0).encode() }

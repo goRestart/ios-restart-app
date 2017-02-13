@@ -34,7 +34,7 @@ def shared_pods
     pod "NewRelicAgent",        "5.10.1"
 
     # letgo Core
-    pod "LGCoreKit",            "2.6.0"     #:path => "../lgcorekit" #:git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0a0a05c56d0885d902025307d412ede170e9bfb1'
+    pod "LGCoreKit",            "2.7.0"     #:path => "../lgcorekit" #:git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0a5395b478aea4abf1100321134296a60e044199'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.0.0"     # :path => "../collapsiblelabel"
