@@ -30,6 +30,7 @@ struct ABTests {
     static var bumpUpFreeTimeLimit = FloatABDynamicVar(key: "bumpUpFreeTimeLimit", defaultValue: 8)
     static var freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     static var pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
+    static var userRatingMarkAsSold = BoolABDynamicVar(key: "userRatingMarkAsSold", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -50,6 +51,7 @@ struct ABTests {
         result.append(bumpUpFreeTimeLimit)
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
+        result.append(userRatingMarkAsSold)
 
         return result
     }
