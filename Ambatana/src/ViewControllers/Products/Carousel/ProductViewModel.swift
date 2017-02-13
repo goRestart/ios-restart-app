@@ -846,6 +846,11 @@ fileprivate extension ProductViewModel {
 
     func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
         ifLoggedInRunActionElseOpenMainSignUp( { [weak self]  in
+            guard let featureFlags = self?.featureFlags, featureFlags.userRatingMarkAsSold else {
+                self?.confirmToMarkAsSold()
+                return
+            }
+
             guard let productId = self?.product.value.objectId else { return }
             self?.delegate?.vmShowLoading(nil)
             self?.productRepository.possibleBuyersOf(productId: productId) { result in

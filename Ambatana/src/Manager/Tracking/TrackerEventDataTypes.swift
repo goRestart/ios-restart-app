@@ -300,13 +300,6 @@ enum EventParameterProductItemType: String {
     case dummy = "0"
 }
 
-enum EventParameterLocationType: String {
-    case manual = "manual"
-    case sensor = "sensor"
-    case ipLookUp = "iplookup"
-    case regional = "regional"
-}
-
 enum EventParameterButtonNameType: String {
     case close = "close"
     case skip = "skip"

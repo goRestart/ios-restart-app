@@ -212,7 +212,7 @@ class LGMyUserRepository: InternalMyUserRepository {
         var params = [String: Any]()
         params[JSONKeys.latitude] = location.coordinate.latitude
         params[JSONKeys.longitude] = location.coordinate.longitude
-        params[JSONKeys.locationType] = location.type?.rawValue
+        params[JSONKeys.locationType] = location.type.rawValue
         params[JSONKeys.zipCode] = location.postalAddress?.zipCode ?? ""
         params[JSONKeys.address] = location.postalAddress?.address ?? ""
         params[JSONKeys.city] = location.postalAddress?.city ?? ""

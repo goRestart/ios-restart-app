@@ -1406,12 +1406,15 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.productMarkAsSold(product, soldTo: .letgoUser, freePostingModeAllowed: true,
-                                                         isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.productMarkAsSold(product, typePage: .productDetail, soldTo: .letgoUser,
+                                                         freePostingModeAllowed: true, isBumpedUp: .trueParameter)
                 }
 
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-sold"))
+                }
+                it("type-page param is included with value product-detail") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail"
                 }
                 it("free-posting param is included as Free") {
                     expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"

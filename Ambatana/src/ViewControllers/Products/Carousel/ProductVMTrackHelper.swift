@@ -135,9 +135,9 @@ extension ProductVMTrackHelper {
     }
 
     func trackMarkSoldCompleted(to userSoldTo: EventParameterUserSoldTo, isShowingFeaturedStripe: Bool) {
-        let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
-                                                   EventParameterBoolean.falseParameter
-        let trackerEvent = TrackerEvent.productMarkAsSold(product, soldTo: userSoldTo,
+        let isBumpedUp: EventParameterBoolean = isShowingFeaturedStripe ? .trueParameter : .falseParameter
+        let trackerEvent = TrackerEvent.productMarkAsSold(product, typePage: .productDetail,
+                                                          soldTo: featureFlags.userRatingMarkAsSold ? userSoldTo : nil,
                                                           freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                           isBumpedUp: isBumpedUp)
         tracker.trackEvent(trackerEvent)

@@ -752,23 +752,31 @@ extension ChatViewModel {
     fileprivate func markProductAsSold() {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
+        guard featureFlags.userRatingMarkAsSold else {
+            markProductAsSold(productId: productId, buyerId: nil, userSoldTo: nil)
+            return
+        }
         delegate?.vmShowLoading(nil)
         productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
-                        self?.markProductAsSold(productId: productId, buyerId: buyerId)
+                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
+                        self?.markProductAsSold(productId: productId, buyerId: buyerId, userSoldTo: userSoldTo)
                     }
                 }
             } else {
-                self?.markProductAsSold(productId: productId, buyerId: nil)
+                self?.markProductAsSold(productId: productId, buyerId: nil, userSoldTo: .noConversations)
             }
         }
     }
 
-    private func markProductAsSold(productId: String, buyerId: String?) {
+    private func markProductAsSold(productId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(productId, buyerId: nil) { [weak self] result in
+            if let _ = result.value {
+                self?.trackMarkAsSold(userSoldTo: userSoldTo)
+            }
             let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
             self?.delegate?.vmHideLoading(errorMessage) {
                 guard let _ = result.value else { return }
@@ -1161,6 +1169,14 @@ fileprivate extension ChatViewModel {
     func trackVisit() {
         let chatWindowOpen = TrackerEvent.chatWindowVisit(source, chatEnabled: interlocutorEnabled)
         tracker.trackEvent(chatWindowOpen)
+    }
+
+    func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
+        guard let product = conversation.value.product else { return }
+        let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat, soldTo: userSoldTo,
+                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                        isBumpedUp: .notAvailable)
+        tracker.trackEvent(markAsSold)
     }
 }
 
