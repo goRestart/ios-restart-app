@@ -64,7 +64,7 @@ final class LGProductRepository: ProductRepository {
         guard let myUser = myUserRepository.myUser, let lgLocation = locationManager.currentLocation else { return nil }
 
         let currency: Currency
-        let postalAddress = locationManager.currentPostalAddress ?? PostalAddress.emptyAddress()
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         if let countryCode = postalAddress.countryCode {
             currency = currencyHelper.currencyWithCountryCode(countryCode)
         } else {

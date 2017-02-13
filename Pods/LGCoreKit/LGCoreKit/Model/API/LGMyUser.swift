@@ -22,6 +22,7 @@ protocol LGMyUserKeys {
     var address: String { get }
     var city: String { get }
     var zipCode: String { get }
+    var state: String { get }
     var countryCode: String { get }
     var ratingAverage: String { get }
     var ratingCount: String { get }
@@ -45,7 +46,6 @@ struct LGMyUser: MyUser {
     // User
     var name: String?
     var avatar: File?
-    var postalAddress: PostalAddress
     var accounts: [Account]
     var ratingAverage: Float?
     var ratingCount: Int
@@ -56,15 +56,14 @@ struct LGMyUser: MyUser {
     var location: LGLocation?
     var localeIdentifier: String?
 
-    init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LGAccount],
+    init(objectId: String?, name: String?, avatar: File?, accounts: [LGAccount],
          ratingAverage: Float?, ratingCount: Int, status: UserStatus?, email: String?, location: LGLocation?,
          localeIdentifier: String?) {
         self.objectId = objectId
 
         self.name = name
         self.avatar = avatar
-        self.postalAddress = postalAddress
-
+        
         self.accounts = accounts
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
@@ -122,11 +121,11 @@ extension LGMyUser: Decodable {
         "rating_value": "number|null",
         "num_ratings": "integer",
     	"accounts": [{
-    		"type": "facebook",
-    		"verified": false
+            "type": "facebook",
+            "verified": false
     	}, {
-    		"type": "letgo",
-    		"verified": true
+            "type": "letgo",
+            "verified": true
     	}],
         "locale": "string|null"
     }
@@ -137,20 +136,19 @@ extension LGMyUser: Decodable {
 
     static func decode(_ j: JSON, keys: LGMyUserApiKeys) -> Decoded<LGMyUser> {
         let init1 = curry(LGMyUser.init)
-                            <^> j <|? keys.objectId
-                            <*> j <|? keys.name
-                            <*> LGArgo.jsonToAvatarFile(j, avatarKey: keys.avatar)
-                            <*> PostalAddress.decode(j)
+            <^> j <|? keys.objectId
+            <*> j <|? keys.name
+            <*> LGArgo.jsonToAvatarFile(j, avatarKey: keys.avatar)
         let init2 = init1   <*> j <|| keys.accounts
-                            <*> j <|? keys.ratingAverage
-                            <*> j <| keys.ratingCount
-                            <*> j <|? keys.status
+            <*> j <|? keys.ratingAverage
+            <*> j <| keys.ratingCount
+            <*> j <|? keys.status
         let init3 = init2   <*> j <|? keys.email
-                            <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
+            <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
                                       typeKey: keys.locationType)
-                            <*> j <|? keys.localeIdentifier
-
-
+            <*> j <|? keys.localeIdentifier
+        
+        
         if let error = init3.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGMyUser parse error: \(error)")
         }

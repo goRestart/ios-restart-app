@@ -148,7 +148,7 @@ final class TrackerProxy: Tracker {
             case .changedPermissions:
                 self?.locationManagerDidChangePermissions()
             case .locationUpdate:
-                self?.setLocation(self?.locationManager.currentLocation, postalAddress: self?.locationManager.currentPostalAddress)
+                self?.setLocation(self?.locationManager.currentLocation, postalAddress: self?.locationManager.currentLocation?.postalAddress)
             case .movedFarFromSavedManualLocation:
                 break
             }

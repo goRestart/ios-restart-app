@@ -126,10 +126,9 @@ protocol InternalMyUserRepository: MyUserRepository {
     /**
      Updates the location of my user. If no postal address is passed-by it nullifies it.
      - parameter location: The location.
-     - parameter postalAddress: The postal address.
      - parameter completion: The completion closure.
      */
-    func updateLocation(_ location: LGLocation, postalAddress: PostalAddress, completion: MyUserCompletion?)
+    func updateLocation(_ location: LGLocation, completion: MyUserCompletion?)
 
     /**
      Saves the given `MyUser`.

@@ -131,7 +131,11 @@ class ProductViewModel: BaseViewModel {
     fileprivate let purchasesShopper: PurchasesShopper
     fileprivate var notificationsManager: NotificationsManager
     fileprivate let monetizationRepository: MonetizationRepository
+    fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
 
+    var isShowingFeaturedStripe: Bool {
+        return showFeaturedStripeHelper.shouldShowFeaturedStripeFor(product.value) && !status.value.shouldShowStatus
+    }
 
     // Retrieval status
     private var relationRetrieved = false
@@ -195,6 +199,7 @@ class ProductViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         self.notificationsManager = notificationsManager
         self.monetizationRepository = monetizationRepository
+        self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -297,10 +302,7 @@ class ProductViewModel: BaseViewModel {
         
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
-            let productIsFeatured = strongSelf.product.value.featured ?? false
-            let shouldShowFeaturedLabel = !status.shouldShowStatus && productIsFeatured && strongSelf.featureFlags.pricedBumpUpEnabled
-
-            if shouldShowFeaturedLabel {
+            if strongSelf.isShowingFeaturedStripe {
                 strongSelf.productStatusBackgroundColor.value = UIColor.white
                 strongSelf.productStatusLabelText.value = LGLocalizedString.bumpUpProductDetailFeaturedLabel
                 strongSelf.productStatusLabelColor.value = UIColor.redText
@@ -812,7 +814,7 @@ fileprivate extension ProductViewModel {
             productRepository.saveFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
-                    self?.trackHelper.trackSaveFavoriteCompleted()
+                    self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe)
                     strongSelf.notificationsManager.increaseFavoriteCounter()
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -844,6 +846,11 @@ fileprivate extension ProductViewModel {
 
     func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
         ifLoggedInRunActionElseOpenMainSignUp( { [weak self]  in
+            guard let featureFlags = self?.featureFlags, featureFlags.userRatingMarkAsSold else {
+                self?.confirmToMarkAsSold()
+                return
+            }
+
             guard let productId = self?.product.value.objectId else { return }
             self?.delegate?.vmShowLoading(nil)
             self?.productRepository.possibleBuyersOf(productId: productId) { result in
@@ -962,7 +969,7 @@ fileprivate extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo)
+                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -1001,21 +1008,22 @@ fileprivate extension ProductViewModel {
 
         chatWrapper.sendMessageForProduct(product.value, type: type) {
             [weak self] result in
-            if let firstMessage = result.value, let alreadyTrackedFirstMessageSent = self?.alreadyTrackedFirstMessageSent {
-                self?.trackHelper.trackMessageSent(firstMessage && !alreadyTrackedFirstMessageSent,
-                                                   messageType: type.chatTrackerType)
-                self?.alreadyTrackedFirstMessageSent = true
+            guard let strongSelf = self else { return }
+            if let firstMessage = result.value {
+                strongSelf.trackHelper.trackMessageSent(firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
+                                                   messageType: type.chatTrackerType, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
+                strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
                 case .forbidden:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
+                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
                 case .network, .internalError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
                 }
 
                 //Removing in case of failure
-                if let indexToRemove = self?.directChatMessages.value.index(where: { $0.objectId == messageView.objectId }) {
-                    self?.directChatMessages.removeAtIndex(indexToRemove)
+                if let indexToRemove = strongSelf.directChatMessages.value.index(where: { $0.objectId == messageView.objectId }) {
+                    strongSelf.directChatMessages.removeAtIndex(indexToRemove)
                 }
             }
         }

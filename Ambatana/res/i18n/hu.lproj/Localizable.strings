@@ -167,11 +167,11 @@
 "chat_verify_alert_resend_button" = "Újraküldés";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "chat_with_yourself_alert_msg" = "Nem indíthatsz csevegést saját portékádról.";
-"collection_apple_title" = "Alma!!";
+"collection_apple_title" = "Minden nap egy alma...";
 "collection_explore_button" = "Felfedezés";
 "collection_furniture_title" = "Az én váram...";
 "collection_gaming_title" = "Játékra fel";
-"collection_transport_title" = "Stílusos utazás";
+"collection_transport_title" = "Utazz stílusosan";
 "collection_you_title" = "Neked válogatva";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -627,7 +627,7 @@
 "rate_buyers_message" = "GRATULÁLUNK";
 "rate_buyers_not_on_letgo_button" = "Nem a letgo piacán adtam el";
 "rate_buyers_sub_message" = "Kinek adtad el?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_title" = "Ki vette meg?";
 "rating_list_action_report_review" = "Értékelés jelentése";
 "rating_list_action_report_review_error_message" = "Hiba történt jelentésed beküldése során.";
 "rating_list_action_report_review_success_message" = "Jelentésed beküldve!";

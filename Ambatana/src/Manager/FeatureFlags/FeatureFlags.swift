@@ -33,6 +33,7 @@ protocol FeatureFlaggeable {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var bumpUpFreeTimeLimit: Int { get }
+    var userRatingMarkAsSold: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -188,6 +189,13 @@ class FeatureFlags: FeatureFlaggeable {
         return Int(timeLimit)
     }
 
+    var userRatingMarkAsSold: Bool {
+        if Bumper.enabled {
+            return Bumper.userRatingMarkAsSold
+        }
+        return ABTests.userRatingMarkAsSold.value
+    }
+
     
     // MARK: - Country features
 
@@ -213,7 +221,7 @@ class FeatureFlags: FeatureFlaggeable {
     /// Return CountryCode from location or phone Region
     private var countryCode: CountryCode? {
         let systemCountryCode = locale.lg_countryCode
-        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercase
+        let countryCode = (locationManager.currentLocation?.countryCode ?? systemCountryCode).lowercase
         return CountryCode(rawValue: countryCode)
     }
 }

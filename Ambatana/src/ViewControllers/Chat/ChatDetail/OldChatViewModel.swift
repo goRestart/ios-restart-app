@@ -1002,22 +1002,27 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func markProductAsSold() {
+        guard featureFlags.userRatingMarkAsSold else {
+            markProductAsSold(buyerId: nil, userSoldTo: nil)
+            return
+        }
         guard let productId = self.product.objectId else { return }
         delegate?.vmShowLoading(nil)
         productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
-                        self?.markProductAsSold(buyerId: buyerId)
+                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
+                        self?.markProductAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
                     }
                 }
             } else {
-                self?.markProductAsSold(buyerId: nil)
+                self?.markProductAsSold(buyerId: nil, userSoldTo: .noConversations)
             }
         }
     }
     
-    private func markProductAsSold(buyerId: String?) {
+    private func markProductAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(product, buyerId: buyerId) { [weak self] result in
             self?.delegate?.vmHideLoading(nil) { [weak self] in
@@ -1026,6 +1031,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.product = value
                     strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
                     strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
+                    strongSelf.trackMarkAsSold(userSoldTo: userSoldTo)
                 } else {
                     strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)
                 }
@@ -1042,7 +1048,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                           typePage: .chat, sellerRating: sellerRating,
-                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                          isBumpedUp: .falseParameter)
         tracker.trackEvent(firstMessageEvent)
     }
     
@@ -1072,6 +1079,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private func trackVisit() {
         let chatWindowOpen = TrackerEvent.chatWindowVisit(source, chatEnabled: chatEnabled)
         tracker.trackEvent(chatWindowOpen)
+    }
+
+    private func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
+        let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat, soldTo: userSoldTo,
+                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                        isBumpedUp: .notAvailable)
+        tracker.trackEvent(markAsSold)
     }
     
     // MARK: - Paginable

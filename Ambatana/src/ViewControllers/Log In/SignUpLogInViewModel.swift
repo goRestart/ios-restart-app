@@ -26,7 +26,7 @@ protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
 
 class SignUpLogInViewModel: BaseViewModel {
     let loginSource: EventParameterLoginSourceValue
-    let collapsedEmailParam: EventParameterCollapsedEmailField?
+    let collapsedEmailParam: EventParameterBoolean?
     let googleLoginHelper: ExternalAuthHelper
     let fbLoginHelper: ExternalAuthHelper
     let tracker: Tracker
@@ -105,9 +105,9 @@ class SignUpLogInViewModel: BaseViewModel {
     private let installationRepository: InstallationRepository
     private let locationManager: LocationManager
 
-    private var newsletterParameter: EventParameterNewsletter {
+    private var newsletterParameter: EventParameterBoolean {
         if !termsAndConditionsEnabled {
-            return .unset
+            return .notAvailable
         } else {
             return newsletterAccepted ? .trueParameter : .falseParameter
         }
@@ -119,7 +119,7 @@ class SignUpLogInViewModel: BaseViewModel {
     init(sessionManager: SessionManager, installationRepository: InstallationRepository, locationManager: LocationManager,
          keyValueStorage: KeyValueStorageable, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper,
          tracker: Tracker, featureFlags: FeatureFlaggeable, locale: Locale, source: EventParameterLoginSourceValue,
-         collapsedEmailParam: EventParameterCollapsedEmailField?, action: LoginActionType) {
+         collapsedEmailParam: EventParameterBoolean?, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.installationRepository = installationRepository
         self.locationManager = locationManager
@@ -151,7 +151,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
-    convenience init(source: EventParameterLoginSourceValue, collapsedEmailParam: EventParameterCollapsedEmailField?,
+    convenience init(source: EventParameterLoginSourceValue, collapsedEmailParam: EventParameterBoolean?,
                      action: LoginActionType) {
         let sessionManager = Core.sessionManager
         let installationRepository = Core.installationRepository
@@ -361,7 +361,7 @@ class SignUpLogInViewModel: BaseViewModel {
         let turkey = "tr"
 
         let systemCountryCode = locale.lg_countryCode
-        let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
+        let countryCode = locationManager.currentLocation?.countryCode ?? systemCountryCode
 
         termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercased() == turkey
     }

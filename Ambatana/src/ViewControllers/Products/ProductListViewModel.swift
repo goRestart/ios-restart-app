@@ -221,6 +221,7 @@ class ProductListViewModel: BaseViewModel {
         let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
+            self?.isLoading = false
             if let newProducts = result.value {
                 let productCellModels = newProducts.map(ProductCellModel.init)
                 let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
@@ -245,7 +246,6 @@ class ProductListViewModel: BaseViewModel {
             } else if let error = result.error {
                 strongSelf.processError(error, nextPageNumber: nextPageNumber)
             }
-            self?.isLoading = false
         }
 
         if firstPage {

@@ -38,7 +38,7 @@ class MyUserApiDataSource: MyUserDataSource {
         data[JSONKeys.name] = name
         data[JSONKeys.latitude] = location?.coordinate.latitude
         data[JSONKeys.longitude] = location?.coordinate.longitude
-        data[JSONKeys.locationType] = location?.type?.rawValue
+        data[JSONKeys.locationType] = location?.type.rawValue
         data[JSONKeys.zipCode] = postalAddress?.zipCode
         data[JSONKeys.address] = postalAddress?.address
         data[JSONKeys.city] = postalAddress?.city
