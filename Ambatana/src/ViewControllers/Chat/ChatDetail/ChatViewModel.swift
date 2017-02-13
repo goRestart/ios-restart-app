@@ -1249,7 +1249,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     var directAnswers: [QuickAnswer] {
         let isFree = featureFlags.freePostingModeAllowed && productIsFree.value
         let isBuyer = !conversation.value.amISelling
-        return QuickAnswer.quickAnswersFor(buyer: isBuyer, isFree: isFree, newQuickAnswers: featureFlags.newQuickAnswers)
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, newQuickAnswers: featureFlags.newQuickAnswers)
     }
     
     func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {

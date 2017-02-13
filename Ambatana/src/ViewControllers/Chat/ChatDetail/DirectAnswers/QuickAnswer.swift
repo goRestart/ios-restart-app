@@ -62,7 +62,7 @@ enum QuickAnswer {
         }
     }
 
-    static func quickAnswersFor(buyer: Bool, isFree: Bool, newQuickAnswers: Bool) -> [QuickAnswer] {
+    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, newQuickAnswers: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
         if isFree {
             if buyer {
@@ -107,6 +107,21 @@ enum QuickAnswer {
                     result.append(.productSold)
                 }
             }
+        }
+        return result
+    }
+
+    static func quickAnswersForPeriscope(isFree: Bool) -> [QuickAnswer] {
+        var result = [QuickAnswer]()
+        if isFree {
+            result.append(.interested)
+            result.append(.meetUp)
+            result.append(.productCondition)
+        } else {
+            result.append(.interested)
+            result.append(.likeToBuy)
+            result.append(.isNegotiable)
+            result.append(.meetUp)
         }
         return result
     }
