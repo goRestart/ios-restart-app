@@ -50,26 +50,25 @@ extension UIView {
         return line
     }
 
+    @discardableResult
     func addTopViewBorderWith(width: CGFloat, color: UIColor) -> UIView {
         let topSeparator = UIView()
         topSeparator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topSeparator)
-        topSeparator.fitHorizontallyToParent()
-        topSeparator.alignParentTop()
+        topSeparator.layout(with: self).leading().trailing().top()
+        topSeparator.layout().height(width)
         topSeparator.backgroundColor = color
-        topSeparator.setHeightConstraint(width)
         return topSeparator
     }
 
+    @discardableResult
     func addBottomViewBorderWith(width: CGFloat, color: UIColor, leftMargin: CGFloat = 0, rightMargin: CGFloat = 0) -> UIView {
         let separator = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(separator)
-        separator.alignParentLeft(margin: leftMargin)
-        separator.alignParentRight(margin: rightMargin)
-        separator.alignParentBottom()
+        separator.layout(with: self).leading(by: leftMargin).trailing(by: -rightMargin).bottom()
+        separator.layout().height(width)
         separator.backgroundColor = color
-        separator.setHeightConstraint(width)
         return separator
     }
 }
