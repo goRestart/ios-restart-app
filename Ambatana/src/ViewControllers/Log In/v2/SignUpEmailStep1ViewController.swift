@@ -409,6 +409,10 @@ fileprivate extension SignUpEmailStep1ViewController {
             self?.emailTextField.suggestion = suggestedEmail
         }.addDisposableTo(disposeBag)
         passwordTextField.rx.text.bindTo(viewModel.password).addDisposableTo(disposeBag)
+        viewModel.password.asObservable().map { password -> Bool in
+            guard let password = password else { return true }
+            return password.isEmpty
+        }.bindTo(showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.nextStepEnabled.bindTo(nextStepButton.rx.isEnabled).addDisposableTo(disposeBag)
         showPasswordButton.rx.tap.subscribeNext { [weak self] _ in self?.showPasswordPressed() }.addDisposableTo(disposeBag)
         nextStepButton.rx.tap.subscribeNext { [weak self] _ in self?.nextStepButtonPressed() }.addDisposableTo(disposeBag)

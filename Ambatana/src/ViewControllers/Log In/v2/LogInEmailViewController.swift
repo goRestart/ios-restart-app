@@ -439,6 +439,10 @@ fileprivate extension LogInEmailViewController {
             self?.emailTextField.suggestion = suggestedEmail
         }.addDisposableTo(disposeBag)
         passwordTextField.rx.text.bindTo(viewModel.password).addDisposableTo(disposeBag)
+        viewModel.password.asObservable().map { password -> Bool in
+            guard let password = password else { return true }
+            return password.isEmpty
+        }.bindTo(showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.logInEnabled.bindTo(loginButton.rx.isEnabled).addDisposableTo(disposeBag)
         rememberPasswordButton.rx.tap.subscribeNext {
             [weak self] _ in self?.viewModel.openRememberPassword()
