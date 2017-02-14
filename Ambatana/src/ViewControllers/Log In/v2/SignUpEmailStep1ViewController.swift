@@ -114,6 +114,7 @@ extension SignUpEmailStep1ViewController: UITextFieldDelegate {
         switch tag {
         case .email:
             iconImageView = emailImageView
+            emailTextField.suggestion = nil
         case .password:
             iconImageView = passwordImageView
         }
