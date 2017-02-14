@@ -70,4 +70,7 @@ protocol InternalDI: DI {
     var myUserDAO: MyUserDAO { get }
     var favoritesDAO: FavoritesDAO { get }
     var productsLimboDAO: ProductsLimboDAO { get }
+    
+    // Reachability
+    var reachability: LGReachabilityProtocol? { get }
 }

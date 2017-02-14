@@ -81,15 +81,4 @@ extension SessionManagerError {
             self = .internalError(message: "Internal Server Error")
         }
     }
-
-    init(webSocketError: WebSocketError) {
-        switch webSocketError {
-        case .notAuthenticated:
-            self = .unauthorized
-        case .internalError:
-            self = .internalError(message: "")
-        case .userNotVerified:
-            self = .userNotVerified
-        }
-    }
 }

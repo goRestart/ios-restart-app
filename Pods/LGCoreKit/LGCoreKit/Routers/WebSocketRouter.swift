@@ -10,25 +10,25 @@
 enum WebSocketRequestType: String {
     
     // Commands
-    case Authenticate           = "authenticate"
-    case SendMessage            = "send_message"
-    case ConfirmReception       = "confirm_reception"
-    case ConfirmRead            = "confirm_read"
-    case ArchiveConversations   = "archive_conversations"
-    case UnarchiveConversations = "unarchive_conversations"
+    case authenticate           = "authenticate"
+    case sendMessage            = "send_message"
+    case confirmReception       = "confirm_reception"
+    case confirmRead            = "confirm_read"
+    case archiveConversations   = "archive_conversations"
+    case unarchiveConversations = "unarchive_conversations"
     
     // Events
-    case TypingStarted          = "typing_started"
-    case TypingStopped          = "typing_stopped"
+    case typingStarted          = "typing_started"
+    case typingStopped          = "typing_stopped"
     
     // Queries
-    case FetchConversations     = "fetch_conversations"
-    case ConversationDetails    = "fetch_conversation_details"
-    case FetchConversationID    = "fetch_conversation_id"
-    case FetchMessages          = "fetch_messages"
-    case FetchMessagesNewerThan = "fetch_messages_newer_than_id"
-    case FetchMessagesOlderThan = "fetch_messages_older_than_id"
-    case Ping                   = "ping"
+    case fetchConversations         = "fetch_conversations"
+    case fetchConversationDetails   = "fetch_conversation_details"
+    case fetchConversationID        = "fetch_conversation_id"
+    case fetchMessages              = "fetch_messages"
+    case fetchMessagesNewerThan     = "fetch_messages_newer_than_id"
+    case fetchMessagesOlderThan     = "fetch_messages_older_than_id"
+    case ping                       = "ping"
     
     enum RequestSuperType {
         case command
@@ -38,20 +38,20 @@ enum WebSocketRequestType: String {
     
     var superType: RequestSuperType {
         switch self {
-        case .Authenticate, .SendMessage, .ConfirmReception, .ConfirmRead, .ArchiveConversations,
-        .UnarchiveConversations:
+        case .authenticate, .sendMessage, .confirmReception, .confirmRead, .archiveConversations,
+        .unarchiveConversations:
             return .command
-        case .TypingStarted, .TypingStopped:
+        case .typingStarted, .typingStopped:
             return .event
-        case .FetchConversations, .ConversationDetails, .FetchConversationID, .FetchMessages, .FetchMessagesNewerThan,
-        .FetchMessagesOlderThan, .Ping:
+        case .fetchConversations, .fetchConversationDetails, .fetchConversationID, .fetchMessages, .fetchMessagesNewerThan,
+        .fetchMessagesOlderThan, .ping:
             return .query
         }
     }
 }
 
 struct WebSocketRouter {
-    static func requestWith(_ id: String, type: WebSocketRequestType, data: [String : Any]?) -> String {
+    static func request(with id: String, type: WebSocketRequestType, data: [String : Any]?) -> String {
         var dict: [String : Any] = [:]
         dict["id"] = id
         dict["type"] = type.rawValue

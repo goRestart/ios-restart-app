@@ -64,7 +64,7 @@ class LGSessionManager: InternalSessionManager {
         return events
     }
 
-    var reachability: ReachableNotifier?
+    private let reachability: LGReachabilityProtocol?
 
     // Manager & repositories
     private let apiClient: ApiClient
@@ -81,6 +81,8 @@ class LGSessionManager: InternalSessionManager {
     let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
 
     private var disconnectChatTimer = Timer()
+    private let websocketChatDisconnectTimeout: TimeInterval
+    private var shouldReconnectChat: Bool = false
     private let events = PublishSubject<SessionEvent>()
     private let disposeBag = DisposeBag()
 
@@ -90,11 +92,12 @@ class LGSessionManager: InternalSessionManager {
 
     // MARK: - Lifecycle
 
-    init(apiClient: ApiClient, websocketClient: WebSocketClient, myUserRepository: InternalMyUserRepository,
+    init(apiClient: ApiClient, websocketClient: WebSocketClient, websocketChatDisconnectTimeout: TimeInterval, myUserRepository: InternalMyUserRepository,
          installationRepository: InternalInstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
-         favoritesDAO: FavoritesDAO, reachability: ReachableNotifier?) {
+         favoritesDAO: FavoritesDAO, reachability: LGReachabilityProtocol?) {
         self.apiClient = apiClient
         self.websocketClient = websocketClient
+        self.websocketChatDisconnectTimeout = websocketChatDisconnectTimeout
         self.myUserRepository = myUserRepository
         self.tokenDAO = tokenDAO
         self.deviceLocationDAO = deviceLocationDAO
@@ -102,11 +105,11 @@ class LGSessionManager: InternalSessionManager {
         self.favoritesDAO = favoritesDAO
         self.reachability = reachability
 
-        configureReachability()
-        setupRx()
-
+        configureWebSocketReachability()
+        setupWebSocketRx()
+        
         self.websocketClient.openCompletion = { [weak self] in
-            self?.authenticateWebSocket(nil)
+            self?.authenticateWebSocket()
         }
         self.websocketClient.closeCompletion = nil
     }
@@ -130,6 +133,10 @@ class LGSessionManager: InternalSessionManager {
         }
         installationRepository.updateIfChanged()
         myUserRepository.updateIfLocaleChanged()
+        
+        if LGCoreKit.activateWebsocket {
+            reachability?.start()
+        }
     }
 
     /**
@@ -249,17 +256,22 @@ class LGSessionManager: InternalSessionManager {
         logMessage(.info, type: CoreLoggingOptions.session, message: "Log out")
 
         tearDownSession(kicked: false)
-        disconnectChat()
     }
 
     func applicationDidEnterBackground() {
-        disconnectChatTimer = Timer.scheduledTimer(timeInterval: LGCoreKitConstants.websocketChatDisconnectTimeout,
-                                                                     target: self, selector: #selector(disconnectChat),
-                                                                     userInfo: nil, repeats: false)
+        guard LGCoreKit.activateWebsocket else { return }
+        guard loggedIn else { return }
+        disconnectChatTimer = Timer.scheduledTimer(timeInterval: websocketChatDisconnectTimeout,
+                                                   target: self, selector: #selector(disconnectChat),
+                                                   userInfo: nil, repeats: false)
+        shouldReconnectChat = true
     }
 
     func applicationDidBecomeActive() {
+        guard LGCoreKit.activateWebsocket else { return }
+        guard shouldReconnectChat else { return }
         disconnectChatTimer.invalidate()
+        shouldReconnectChat = false
         connectChat()
     }
 
@@ -269,15 +281,32 @@ class LGSessionManager: InternalSessionManager {
     func connectChat() {
         guard LGCoreKit.activateWebsocket else { return }
         guard loggedIn else { return }
-
-        websocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL)
+        websocketClient.openWebSocket(EnvironmentProxy.sharedInstance.webSocketURL)
     }
 
-    /*
-     Disconnects the chat
+    /**
+     Disconnects the chat removing requestQueue and finishing activeRequests
      */
     dynamic func disconnectChat() {
+        guard LGCoreKit.activateWebsocket else { return }
         websocketClient.closeWebSocket()
+    }
+    
+    /**
+     Connects the chat and resumes requestQueue
+     */
+    private func resumeChat() {
+        guard LGCoreKit.activateWebsocket else { return }
+        guard loggedIn else { return }
+        websocketClient.resumeOperations()
+    }
+
+    /**
+     Disconnects the chat saving requestQueue and finishing activeRequests
+     */
+    private func suspendChat() {
+        guard LGCoreKit.activateWebsocket else { return }
+        websocketClient.suspendOperations()
     }
 
 
@@ -325,48 +354,44 @@ class LGSessionManager: InternalSessionManager {
         if previouslyLogged {
             events.onNext(.logout(kickedOut: kicked))
         }
+        if LGCoreKit.activateWebsocket {
+            disconnectChat()
+        }
     }
 
-    func authenticateWebSocket(_ completion: ((Result<Void, SessionManagerError>) -> ())?) {
+    func authenticateWebSocket() {
+        guard LGCoreKit.activateWebsocket else { return }
         let tokenString = tokenDAO.token.actualValue
-        guard let token = tokenString, tokenDAO.level >= .user else {
-            completion?(Result<Void, SessionManagerError>(error: .unauthorized))
-            return
-        }
-        guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(Result<Void, SessionManagerError>(error: .unauthorized))
-            return
-        }
+        guard let token = tokenString, tokenDAO.level >= .user else { return }
+        guard let userId = myUserRepository.myUser?.objectId else { return }
 
         let request = webSocketCommandRouter.authenticate(userId, authToken: token)
-        websocketClient.sendCommand(request) { result in
-            if let error = result.error {
-                completion?(Result<Void, SessionManagerError>(error: SessionManagerError(webSocketError: error)))
-            } else {
-                completion?(Result<Void, SessionManagerError>(value: ()))
-            }
+        websocketClient.sendCommand(request) { (result) in
+            // empty result, LGWebSocketClient uses completion to store requets
         }
     }
 
 
-    // MARK: - Private methods
+    // MARK: - Private websocket methods
 
-    private func setupRx() {
+    private func setupWebSocketRx() {
         apiClient.renewingUser.asObservable().distinctUntilChanged().skip(1).subscribeNext { [weak self] renewing in
             if !renewing {
-                self?.authenticateWebSocket(nil)
+                self?.authenticateWebSocket()
             } else {
                 self?.websocketClient.suspendOperations()
             }
             }.addDisposableTo(disposeBag)
     }
 
-    private func configureReachability() {
-        guard let _ = reachability else { return }
-        reachability?.onReachable = { [weak self] in
+    private func configureWebSocketReachability() {
+        guard let reachability = reachability else { return }
+        reachability.reachableBlock = { [weak self] in
             self?.connectChat()
         }
-        reachability?.start()
+        reachability.unreachableBlock = { [weak self] in
+            self?.disconnectChat()
+        }
     }
 
     // MARK: > Installation authentication

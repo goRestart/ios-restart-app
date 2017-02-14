@@ -6,9 +6,6 @@
 //
 //
 
-import Argo
-import Curry
-
 public enum ChatEventType {
     case interlocutorTypingStarted
     case interlocutorTypingStopped

@@ -89,11 +89,6 @@ public protocol SessionManager: class {
     Connects the chat (will be done automatically too after login, startup)
     */
     func connectChat()
-
-    /*
-    Disconnects the chat
-    */
-    func disconnectChat()
 }
 
 
@@ -152,6 +147,6 @@ protocol InternalSessionManager: SessionManager {
      */
     func tearDownSession(kicked: Bool)
 
-    func authenticateWebSocket(_ completion: SessionEmptyCompletion?)
+    func authenticateWebSocket()
 }
 

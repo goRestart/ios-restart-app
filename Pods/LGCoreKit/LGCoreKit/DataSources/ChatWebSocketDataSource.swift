@@ -65,7 +65,7 @@ class ChatWebSocketDataSource: ChatDataSource {
             }
     }
     
-    private func handleMessagesResult(_ result: Result<[String : Any], WebSocketError>,
+    private func handleMessagesResult(_ result: Result<[AnyHashable : Any], WebSocketError>,
         completion: ChatWebSocketMessagesCompletion?) {
             if let value = result.value {
                 let messages = ChatModelsMapper.messagesFromDict(value)
