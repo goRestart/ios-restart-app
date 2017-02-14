@@ -642,10 +642,6 @@
 		C70BC6881E16B3C100EC74E9 /* UISwitch+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */; };
 		C70BC6891E16B47700EC74E9 /* UISwitch+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */; };
 		C70BC68B1E1A5A0500EC74E9 /* PostIncentiviserItemSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC68A1E1A5A0500EC74E9 /* PostIncentiviserItemSpec.swift */; };
-		C70EA18D1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */; };
-		C70EA18E1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */; };
-		C70EA18F1D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */; };
-		C70EA1901D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */; };
 		C7111EF91CA43822000C5C5A /* DeepLinksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7111EF81CA43822000C5C5A /* DeepLinksRouter.swift */; };
 		C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7111EF81CA43822000C5C5A /* DeepLinksRouter.swift */; };
 		C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7111EFB1CA43885000C5C5A /* DeepLink.swift */; };
@@ -980,8 +976,8 @@
 		C7B5884A1CE1DE1C009B3975 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588101CE1DE1C009B3975 /* ChatViewController.swift */; };
 		C7B5884B1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */; };
 		C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */; };
-		C7B5884D1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588131CE1DE1C009B3975 /* DirectAnswer.swift */; };
-		C7B5884E1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588131CE1DE1C009B3975 /* DirectAnswer.swift */; };
+		C7B5884D1CE1DE1C009B3975 /* QuickAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588131CE1DE1C009B3975 /* QuickAnswer.swift */; };
+		C7B5884E1CE1DE1C009B3975 /* QuickAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588131CE1DE1C009B3975 /* QuickAnswer.swift */; };
 		C7B5884F1CE1DE1C009B3975 /* DirectAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588141CE1DE1C009B3975 /* DirectAnswerCell.swift */; };
 		C7B588501CE1DE1C009B3975 /* DirectAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588141CE1DE1C009B3975 /* DirectAnswerCell.swift */; };
 		C7B588511CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B588151CE1DE1C009B3975 /* DirectAnswerCell.xib */; };
@@ -1247,6 +1243,8 @@
 		C7DFB0B81DDA256E005C9B9D /* UIView+Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFB0B61DDA256E005C9B9D /* UIView+Corners.swift */; };
 		C7E1DE511E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */; };
 		C7E1DE521E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */; };
+		C7E1DE541E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE531E51F644003818F6 /* DirectAnswersHorizontalView.swift */; };
+		C7E1DE551E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE531E51F644003818F6 /* DirectAnswersHorizontalView.swift */; };
 		C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E891CD1F77E000F2591 /* NotificationData.swift */; };
 		C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E891CD1F77E000F2591 /* NotificationData.swift */; };
 		C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E8C1CD20A49000F2591 /* ViewState.swift */; };
@@ -1753,8 +1751,6 @@
 		C70971C71E2F8CF300680995 /* MockChatUnreadMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatUnreadMessages.swift; sourceTree = "<group>"; };
 		C70BC6871E16B3C100EC74E9 /* UISwitch+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISwitch+Rx.swift"; sourceTree = "<group>"; };
 		C70BC68A1E1A5A0500EC74E9 /* PostIncentiviserItemSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItemSpec.swift; sourceTree = "<group>"; };
-		C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersSelectorViewController.swift; sourceTree = "<group>"; };
-		C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickersSelectorViewController.xib; sourceTree = "<group>"; };
 		C7111EF81CA43822000C5C5A /* DeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouter.swift; sourceTree = "<group>"; };
 		C7111EFB1CA43885000C5C5A /* DeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		C7111EFE1CA4389C000C5C5A /* PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
@@ -1952,7 +1948,7 @@
 		C7B5880F1CE1DE1C009B3975 /* ChatProductView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatProductView.xib; sourceTree = "<group>"; };
 		C7B588101CE1DE1C009B3975 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
-		C7B588131CE1DE1C009B3975 /* DirectAnswer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswer.swift; sourceTree = "<group>"; };
+		C7B588131CE1DE1C009B3975 /* QuickAnswer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAnswer.swift; sourceTree = "<group>"; };
 		C7B588141CE1DE1C009B3975 /* DirectAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswerCell.swift; sourceTree = "<group>"; };
 		C7B588151CE1DE1C009B3975 /* DirectAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectAnswerCell.xib; sourceTree = "<group>"; };
 		C7B588161CE1DE1C009B3975 /* DirectAnswersCloseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersCloseCell.swift; sourceTree = "<group>"; };
@@ -2038,6 +2034,7 @@
 		C7DE8ADF1C88A98B005CF37E /* PostProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductViewController.xib; sourceTree = "<group>"; };
 		C7DFB0B61DDA256E005C9B9D /* UIView+Corners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Corners.swift"; sourceTree = "<group>"; };
 		C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRelicTracker.swift; sourceTree = "<group>"; };
+		C7E1DE531E51F644003818F6 /* DirectAnswersHorizontalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersHorizontalView.swift; sourceTree = "<group>"; };
 		C7E73E891CD1F77E000F2591 /* NotificationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		C7E73E8C1CD20A49000F2591 /* ViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		C7F18A931C89CB3300D23319 /* PostProductGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryView.swift; sourceTree = "<group>"; };
@@ -3224,7 +3221,6 @@
 				2E36656E1DE4983400000F68 /* PostAfterDelete */,
 				C75B5DCD1D59E0C500112368 /* Cells */,
 				C75B5DB31D59E09500112368 /* ProductDetailOnboarding */,
-				C70EA18A1D5B6773003FFC9A /* StickersSelector */,
 				C743FEBB1E488AFE00B4E912 /* Model */,
 				C7C61DF31D63035400F9505D /* ProductCarouselMoreInfoView.swift */,
 				C7C61DF41D63035400F9505D /* ProductCarouselMoreInfoView.xib */,
@@ -3294,15 +3290,6 @@
 				C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */,
 			);
 			path = Location;
-			sourceTree = "<group>";
-		};
-		C70EA18A1D5B6773003FFC9A /* StickersSelector */ = {
-			isa = PBXGroup;
-			children = (
-				C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */,
-				C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */,
-			);
-			path = StickersSelector;
 			sourceTree = "<group>";
 		};
 		C7111EF71CA43819000C5C5A /* DeepLinks */ = {
@@ -3701,12 +3688,13 @@
 		C7B588121CE1DE1C009B3975 /* DirectAnswers */ = {
 			isa = PBXGroup;
 			children = (
-				C7B588131CE1DE1C009B3975 /* DirectAnswer.swift */,
+				C7B588131CE1DE1C009B3975 /* QuickAnswer.swift */,
 				C7B588141CE1DE1C009B3975 /* DirectAnswerCell.swift */,
 				C7B588151CE1DE1C009B3975 /* DirectAnswerCell.xib */,
 				C7B588161CE1DE1C009B3975 /* DirectAnswersCloseCell.swift */,
 				C7B588171CE1DE1C009B3975 /* DirectAnswersCloseCell.xib */,
 				C7736EA51DF57B1D00005FFA /* DirectAnswersBigView.swift */,
+				C7E1DE531E51F644003818F6 /* DirectAnswersHorizontalView.swift */,
 				C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */,
 			);
 			path = DirectAnswers;
@@ -4257,7 +4245,6 @@
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
 				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
-				C70EA18F1D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				2E5350441CF8A181003B06CC /* ProductStatsView.xib in Resources */,
 				508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
@@ -4392,7 +4379,6 @@
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				2E373FAE1D3E6F4500AC811C /* UserRatingCell.xib in Resources */,
 				5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
-				C70EA1901D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
 				2E5350451CF8A181003B06CC /* ProductStatsView.xib in Resources */,
 				508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
@@ -4836,7 +4822,7 @@
 				6A5E19E61D548F5400F92692 /* Float+Rounding.swift in Sources */,
 				C7D2AC961E1D361600C98944 /* CollectionVariable.swift in Sources */,
 				6A5E1A141D548F5400F92692 /* UIScrollView+LG.swift in Sources */,
-				C7B5884D1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
+				C7B5884D1CE1DE1C009B3975 /* QuickAnswer.swift in Sources */,
 				2EBC92181E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
 				C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */,
 				7EF6F6B91DF5D0E0002A0277 /* BaseCoordinator.swift in Sources */,
@@ -5083,6 +5069,7 @@
 				C7DE8AD61C88929A005CF37E /* PostProductCameraView.swift in Sources */,
 				C7B543281D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
+				C7E1DE541E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
 				C74234091D5A028B0082D1CD /* ProductVMTrackHelper.swift in Sources */,
 				727EF06F1E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				C7DE8ABE1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
@@ -5156,7 +5143,6 @@
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				2E4952E51E26810D00188880 /* BumpUpPayViewController.swift in Sources */,
 				6A5E19EA1D548F5400F92692 /* Date+LG.swift in Sources */,
-				C70EA18D1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */,
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				6A5E19EE1D548F5400F92692 /* URL+LG.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
@@ -5291,7 +5277,7 @@
 				6A5E19E71D548F5400F92692 /* Float+Rounding.swift in Sources */,
 				6A5E1A151D548F5400F92692 /* UIScrollView+LG.swift in Sources */,
 				C7D2AC971E1D361600C98944 /* CollectionVariable.swift in Sources */,
-				C7B5884E1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
+				C7B5884E1CE1DE1C009B3975 /* QuickAnswer.swift in Sources */,
 				C74234071D5A01440082D1CD /* LocalMessage.swift in Sources */,
 				2EBC92191E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
 				504652F31CC0F398003F5070 /* Product+Title.swift in Sources */,
@@ -5539,6 +5525,7 @@
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				6A5E19E51D548F5400F92692 /* CGAffineTransform+LG.swift in Sources */,
 				C7DE8AD71C88929A005CF37E /* PostProductCameraView.swift in Sources */,
+				C7E1DE551E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
 				2E50E9A81D057E92002DC4C1 /* LGAlertViewController.swift in Sources */,
 				C7B543291D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */,
 				2E4952EC1E268AC300188880 /* BumpUpPayViewModel.swift in Sources */,
@@ -5613,7 +5600,6 @@
 				2EED4D261D23F03E0024328A /* ChatProduct+title.swift in Sources */,
 				C73FABBD1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
 				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
-				C70EA18E1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				C7BB25D11E36153600649396 /* KeychainChecker.swift in Sources */,
 				6A5E19EF1D548F5400F92692 /* URL+LG.swift in Sources */,

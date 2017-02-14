@@ -269,6 +269,7 @@ enum EventParameterName: String {
     case isBumpedUp           = "bump-up"
     case chatEnabled          = "chat-enabled"
     case errorReason          = "reason"
+    case quickAnswerType      = "quick-answer-type"
 }
 
 enum EventParameterBoolean: String {
@@ -682,6 +683,24 @@ enum EventParameterEmptyReason: String {
     case verification        = "verification"
 }
 
+enum EventParameterQuickAnswerType: String {
+    case interested = "interested"
+    case notInterested = "not-interested"
+    case meetUp = "meet-up"
+    case stillAvailable = "still-available"
+    case isNegotiable = "is-negotiable"
+    case likeToBuy = "like-to-buy"
+    case productCondition = "condition"
+    case productStillForSale = "still-for-sale"
+    case productSold = "sold"
+    case whatsOffer = "whats-offer"
+    case negotiableYes = "negotiable-yes"
+    case negotiableNo = "negotiable-no"
+    case freeStillHave = "free-still-have"
+    case freeYours = "free-yours"
+    case freeAvailable = "free-available"
+    case freeNotAvailable = "free-not-available"
+}
 
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]

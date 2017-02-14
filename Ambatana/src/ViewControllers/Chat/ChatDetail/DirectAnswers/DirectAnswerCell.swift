@@ -16,7 +16,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     
     private static let cellHeight: CGFloat = 32
 
-    static func sizeForDirectAnswer(_ answer: DirectAnswer) -> CGSize {
+    static func sizeForDirectAnswer(_ answer: QuickAnswer) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)
         let boundingBox = answer.text.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesFontLeading,
@@ -53,7 +53,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public methods
 
-    func setupWithDirectAnswer(_ answer: DirectAnswer) {
+    func setupWithDirectAnswer(_ answer: QuickAnswer) {
         cellText.text = answer.text
     }
 

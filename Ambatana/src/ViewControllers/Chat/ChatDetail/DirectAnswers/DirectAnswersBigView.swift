@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DirectAnswersBigViewDelegate: class {
-    func directAnswersBigViewDidSelectAnswer(_ answer: DirectAnswer)
+    func directAnswersBigViewDidSelectAnswer(_ answer: QuickAnswer)
 }
 
 class DirectAnswersBigView: UIView {
@@ -41,7 +41,7 @@ class DirectAnswersBigView: UIView {
     private var bottomConstraint: NSLayoutConstraint?
     private var lastItemConstraint: NSLayoutConstraint?
 
-    private var directAnswers: [DirectAnswer] = []
+    private var directAnswers: [QuickAnswer] = []
     private var layeredOut = false
 
     // MARK: - Lifecycle
@@ -81,7 +81,7 @@ class DirectAnswersBigView: UIView {
         bottomConstraint = toTopOf(sibling, margin: isHidden ? -accurateHeight : 0)
     }
 
-    func setDirectAnswers(_ directAnswers: [DirectAnswer]) {
+    func setDirectAnswers(_ directAnswers: [QuickAnswer]) {
         answerButtons.forEach { $0.removeFromSuperview() }
         answerButtons.removeAll()
         if let lastItemConstraint = lastItemConstraint {
@@ -134,7 +134,7 @@ class DirectAnswersBigView: UIView {
         addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
     }
 
-    private func buildAnswerButton(_ answer: DirectAnswer) -> UIButton {
+    private func buildAnswerButton(_ answer: QuickAnswer) -> UIButton {
         let width = DirectAnswersBigView.defaultWidth - DirectAnswersBigView.itemMargin*2
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: DirectAnswersBigView.itemHeight))
         button.translatesAutoresizingMaskIntoConstraints = false

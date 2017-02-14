@@ -165,17 +165,17 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMessageSent(_ isFirstMessage: Bool, messageType: EventParameterMessageType, isShowingFeaturedStripe: Bool) {
+    func trackMessageSent(_ isFirstMessage: Bool, messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool) {
         if isFirstMessage {
             let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
                                                        EventParameterBoolean.falseParameter
-            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
+            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType.chatTrackerType, quickAnswerType: messageType.quickAnswerType,
                                                               typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                               isBumpedUp: isBumpedUp)
             tracker.trackEvent(firstMessageEvent)
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType,
-                                                            isQuickAnswer: .falseParameter, typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType.chatTrackerType, quickAnswerType: messageType.quickAnswerType,
+                                                            typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
 }

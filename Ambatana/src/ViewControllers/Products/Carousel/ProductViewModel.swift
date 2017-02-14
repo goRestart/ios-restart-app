@@ -19,8 +19,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ())
 
-    func vmOpenStickersSelector(_ stickers: [Sticker])
-
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
@@ -60,6 +58,11 @@ class ProductViewModel: BaseViewModel {
     let thumbnailImage: UIImage?
 
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
+    var quickAnswers: [QuickAnswer] {
+        guard !isMine else { return [] }
+        let isFree = product.value.price.free && featureFlags.freePostingModeAllowed
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
+    }
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
@@ -98,9 +101,6 @@ class ProductViewModel: BaseViewModel {
     var commercializerAvailableTemplatesCount: Int? = nil
 
     let statsViewVisible = Variable<Bool>(false)
-
-    let stickersButtonEnabled = Variable<Bool>(false)
-    fileprivate var selectableStickers: [Sticker] = []
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     var timeSinceLastBump: Int = 0
@@ -315,7 +315,6 @@ class ProductViewModel: BaseViewModel {
 
         status.asObservable().bindNext { [weak self] status in
             guard let strongSelf = self else { return }
-            strongSelf.refreshDirectChats(status)
             strongSelf.refreshActionButtons(status)
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
@@ -402,15 +401,6 @@ class ProductViewModel: BaseViewModel {
         }
     }
 
-    private func refreshDirectChats(_ productStatus: ProductViewModelStatus) {
-        stickersButtonEnabled.value = !selectableStickers.isEmpty && productStatus.directChatsAvailable
-        stickersRepository.show(typeFilter: .product) { [weak self] result in
-            guard let stickers = result.value else { return }
-            self?.selectableStickers = stickers
-            self?.stickersButtonEnabled.value = !stickers.isEmpty && productStatus.directChatsAvailable
-        }
-    }
-
     func refreshBumpeableBanner() {
         guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
@@ -485,10 +475,16 @@ extension ProductViewModel {
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
             if isDefaultText {
-                self?.sendMessage(.periscopeDirect(text))
+                self?.sendMessage(type: .periscopeDirect(text))
             } else {
-                self?.sendMessage(.text(text))
+                self?.sendMessage(type: .text(text))
             }
+        }
+    }
+
+    func sendQuickAnswer(quickAnswer: QuickAnswer) {
+        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
+            self?.sendMessage(type: .quickAnswer(quickAnswer))
         }
     }
 
@@ -502,17 +498,6 @@ extension ProductViewModel {
                                                                    source: .productDetail,
                                                                    isMyVideo: isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
-    }
-
-    func stickersButton() {
-        guard !selectableStickers.isEmpty else { return }
-        delegate?.vmOpenStickersSelector(selectableStickers)
-    }
-
-    func sendSticker(_ sticker: Sticker) {
-        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.chatSticker(sticker))
-        }
     }
 
     func switchFavorite() {
@@ -1000,7 +985,7 @@ fileprivate extension ProductViewModel {
         }
     }
 
-    func sendMessage(_ type: ChatWrapperMessageType) {
+    func sendMessage(type: ChatWrapperMessageType) {
         // Optimistic behavior
         let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
@@ -1011,7 +996,7 @@ fileprivate extension ProductViewModel {
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
                 strongSelf.trackHelper.trackMessageSent(firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
-                                                   messageType: type.chatTrackerType, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
+                                                   messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
