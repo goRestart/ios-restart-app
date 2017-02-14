@@ -1282,10 +1282,6 @@ class TrackerEventSpec: QuickSpec {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType) == "1"
                 }
-                it("contains message-type param") {
-                    let itemType = sut.params!.stringKeyParams["message-type"] as? String
-                    expect(itemType) == "text"
-                }
                 it("contains type-page param") {
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
                     expect(typePage) == "product-detail"
@@ -1301,6 +1297,52 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bumped up param") {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
                     expect(bumpedUp) == "true"
+                }
+                describe("text message") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
+                                                        typePage: .productDetail, sellerRating: 4,
+                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "text"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("sticker message") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(product, messageType: .sticker, quickAnswerType: nil,
+                                                        typePage: .productDetail, sellerRating: 4,
+                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "sticker"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("quick answer message") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(product, messageType: .quickAnswer, quickAnswerType: .notInterested,
+                                                        typePage: .productDetail, sellerRating: 4,
+                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "quick-answer"
+                    }
+                    it("has no quick-answer-type") {
+                        let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
+                        expect(value) == "not-interested"
+                    }
                 }
             }
 
@@ -1340,10 +1382,6 @@ class TrackerEventSpec: QuickSpec {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType) == "1"
                 }
-                it("contains message-type param") {
-                    let itemType = sut.params!.stringKeyParams["message-type"] as? String
-                    expect(itemType) == "text"
-                }
                 it("contains type-page param") {
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
                     expect(typePage) == "product-detail"
@@ -1359,6 +1397,49 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bumped up param") {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
                     expect(bumpedUp) == "true"
+                }
+                describe("text message") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
+                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
+                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "text"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("sticker message") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(product, messageType: .sticker, quickAnswerType: nil,
+                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
+                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "sticker"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("quick answer message") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(product, messageType: .quickAnswer, quickAnswerType: .notInterested,
+                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
+                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "quick-answer"
+                    }
+                    it("has no quick-answer-type") {
+                        let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
+                        expect(value) == "not-interested"
+                    }
                 }
             }
 
