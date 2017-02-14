@@ -578,6 +578,8 @@
 		6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */; };
 		6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
 		6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
+		721537AA1E51CBC5008DE006 /* NotificationsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721537A91E51CBC5008DE006 /* NotificationsViewModelSpec.swift */; };
+		721537AC1E51CDEF008DE006 /* MockUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721537AB1E51CDEF008DE006 /* MockUserRepository.swift */; };
 		7215B9BD1DDF2378008AC77B /* MainProductsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */; };
 		7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */; };
 		723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
@@ -590,12 +592,15 @@
 		727EF0701E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */; };
 		7288D7431DF0752B003A9B90 /* CustomTouchesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7288D7421DF0752B003A9B90 /* CustomTouchesTableView.swift */; };
 		7288D7441DF0752B003A9B90 /* CustomTouchesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7288D7421DF0752B003A9B90 /* CustomTouchesTableView.swift */; };
+		729CA27F1E51EF8C00E8CEF0 /* MockNotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729CA27E1E51EF8C00E8CEF0 /* MockNotificationModel.swift */; };
+		729CA2811E51F0F300E8CEF0 /* MockNotificationUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729CA2801E51F0F300E8CEF0 /* MockNotificationUser.swift */; };
 		72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72AAA5A21DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
 		72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
 		72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
+		72B8B16C1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B8B16B1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift */; };
 		72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72B935F91E3F9C1C00F93F73 /* MockUserProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */; };
@@ -1699,6 +1704,8 @@
 		6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessageAdapter.swift; sourceTree = "<group>"; };
 		6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatStickerCell.xib; sourceTree = "<group>"; };
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		721537A91E51CBC5008DE006 /* NotificationsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModelSpec.swift; sourceTree = "<group>"; };
+		721537AB1E51CDEF008DE006 /* MockUserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserRepository.swift; sourceTree = "<group>"; };
 		7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewModelSpec.swift; sourceTree = "<group>"; };
 		7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFeatureFlags.swift; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
@@ -1706,9 +1713,12 @@
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGLocation+isAuto.swift"; sourceTree = "<group>"; };
 		7288D7421DF0752B003A9B90 /* CustomTouchesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTouchesTableView.swift; sourceTree = "<group>"; };
+		729CA27E1E51EF8C00E8CEF0 /* MockNotificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNotificationModel.swift; sourceTree = "<group>"; };
+		729CA2801E51F0F300E8CEF0 /* MockNotificationUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNotificationUser.swift; sourceTree = "<group>"; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
+		72B8B16B1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatGroupedListViewModelSpec.swift; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
 		72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserProduct.swift; sourceTree = "<group>"; };
 		72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WSChatStatus+LG.swift"; sourceTree = "<group>"; };
@@ -2320,6 +2330,8 @@
 				8E14D8921E363BF000B33C75 /* ChangeEmailViewModelSpec.swift */,
 				C7BB25C91E3222A900649396 /* TourLoginViewModelSpec.swift */,
 				C743FEC41E48E0E300B4E912 /* ProductViewModelSpec.swift */,
+				72B8B16B1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift */,
+				721537A91E51CBC5008DE006 /* NotificationsViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2926,10 +2938,12 @@
 				50C9E4D71B73A017001E4E92 /* MockUser.swift */,
 				72FCD3031E4104B900DC6AB7 /* MockChatInterlocutor.swift */,
 				72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */,
+				729CA27E1E51EF8C00E8CEF0 /* MockNotificationModel.swift */,
 				C79842031CC903A500C300FF /* MockAccount.swift */,
 				50F344F11D3CDEA2000A8774 /* MockChatProduct.swift */,
 				5061ACBA1DE35E6D002E5423 /* MockMyUser.swift */,
 				2EBC920A1E0A9019007F0F82 /* MockPurchaseableProductsRequest.swift */,
+				729CA2801E51F0F300E8CEF0 /* MockNotificationUser.swift */,
 				2EBC920C1E0AB94D007F0F82 /* MockPurchaseableProduct.swift */,
 				2EBC920E1E0AB98C007F0F82 /* MockPurchaseableProductsResponse.swift */,
 				C75BC6A81E2E672400483F79 /* MockChatMessage.swift */,
@@ -3609,6 +3623,7 @@
 			isa = PBXGroup;
 			children = (
 				C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */,
+				721537AB1E51CDEF008DE006 /* MockUserRepository.swift */,
 				C73832821E02A2A2007D0C03 /* MockInstallationRepository.swift */,
 				C75BC6A61E2E5C9500483F79 /* MockChatRepository.swift */,
 				C75BC6BE1E2E693C00483F79 /* MockOldChatRepository.swift */,
@@ -5710,6 +5725,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				721537AA1E51CBC5008DE006 /* NotificationsViewModelSpec.swift in Sources */,
 				5061ACBB1DE35E6D002E5423 /* MockMyUser.swift in Sources */,
 				7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */,
 				C7BAC9C61E49D178005BD0AF /* MockNotificationsManager.swift in Sources */,
@@ -5720,12 +5736,14 @@
 				C75BC6B41E2E683C00483F79 /* Array+Randomizable.swift in Sources */,
 				72FCD30A1E41D39C00DC6AB7 /* LocalChatSpec.swift in Sources */,
 				C7841AF71E091E5C004A8242 /* CGFloat+LGSpec.swift in Sources */,
+				72B8B16C1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift in Sources */,
 				C75BC6A31E2E53FB00483F79 /* VersionCheckerSpec.swift in Sources */,
 				C75BC69F1E2E53FB00483F79 /* CrashManagerSpec.swift in Sources */,
 				72FCD3021E40F3AC00DC6AB7 /* LocalUserSpec.swift in Sources */,
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
 				C75BC6A91E2E672400483F79 /* MockChatMessage.swift in Sources */,
 				2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */,
+				721537AC1E51CDEF008DE006 /* MockUserRepository.swift in Sources */,
 				2E3081D51D86A40400930E98 /* MockProductListRequester.swift in Sources */,
 				C75BC6A21E2E53FB00483F79 /* TrackerProxySpec.swift in Sources */,
 				2EF4E3C61D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift in Sources */,
@@ -5763,6 +5781,7 @@
 				C7BAC9B61E49B87D005BD0AF /* MockCountryHelper.swift in Sources */,
 				C79895BF1DE2F60500DD58BF /* MockMyUserRepository.swift in Sources */,
 				50C742911DE4683700D629B0 /* MockLocationManager.swift in Sources */,
+				729CA27F1E51EF8C00E8CEF0 /* MockNotificationModel.swift in Sources */,
 				C73832831E02A2A2007D0C03 /* MockInstallationRepository.swift in Sources */,
 				C75BC6A51E2E5BF800483F79 /* NotificationsManagerSpec.swift in Sources */,
 				C7BAC9CB1E49D433005BD0AF /* MockPurchasesShopper.swift in Sources */,
@@ -5794,6 +5813,7 @@
 				72FCD3061E410C0B00DC6AB7 /* LocalProductSpec.swift in Sources */,
 				50C7428D1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift in Sources */,
 				2EAC987B1E2E386D00BCF62C /* Int+LGSpec.swift in Sources */,
+				729CA2811E51F0F300E8CEF0 /* MockNotificationUser.swift in Sources */,
 				C7BAC9B21E49B6B6005BD0AF /* MockChatWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

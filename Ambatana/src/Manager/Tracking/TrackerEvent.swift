@@ -1019,6 +1019,13 @@ struct TrackerEvent {
         params[.chatEnabled] = chatEnabled
         return TrackerEvent(name: .chatWindowVisit, params: params)
     }
+    
+    static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.errorReason] = reason.rawValue
+        return TrackerEvent(name: .emptyStateError, params: params)
+    }
 
 
     // MARK: - Private methods
