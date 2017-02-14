@@ -36,23 +36,22 @@ enum WebSocketErrorType: Int {
 
 
 enum WebSocketResponseType: String {
+    case ack                            = "ack"
     
-    case ACK                            = "ack"
+    case error                          = "error"
     
-    case Error                          = "error"
+    case messageList                    = "message_list"
+    case conversationCreated            = "conversation_created"
+    case conversationList               = "conversation_list"
+    case conversationDetails            = "conversation_details"
     
-    case MessageList                    = "message_list"
-    case ConversationCreated            = "conversation_created"
-    case ConversationList               = "conversation_list"
-    case ConversationDetails            = "conversation_details"
-    
-    case InterlocutorTypingStarted      = "interlocutor_typing_started"
-    case InterlocutorTypingStopped      = "interlocutor_typing_stopped"
-    case InterlocutorMessageSent        = "interlocutor_message_sent"
-    case InterlocutorReceptionConfirmed = "interlocutor_reception_confirmed"
-    case InterlocutorReadConfirmed      = "interlocutor_read_confirmed"
-    case AuthenticationTokenExpired     = "authentication_token_expired"
-    case Pong                           = "pong"
+    case interlocutorTypingStarted      = "interlocutor_typing_started"
+    case interlocutorTypingStopped      = "interlocutor_typing_stopped"
+    case interlocutorMessageSent        = "interlocutor_message_sent"
+    case interlocutorReceptionConfirmed = "interlocutor_reception_confirmed"
+    case interlocutorReadConfirmed      = "interlocutor_read_confirmed"
+    case authenticationTokenExpired     = "authentication_token_expired"
+    case pong                           = "pong"
     
     enum ResponseSuperType {
         case ack
@@ -63,14 +62,14 @@ enum WebSocketResponseType: String {
     
     var superType: ResponseSuperType {
         switch self {
-        case .ACK:
+        case .ack:
             return .ack
-        case .Error:
+        case .error:
             return .error
-        case .MessageList, .ConversationCreated, .ConversationList, .ConversationDetails, .Pong:
+        case .messageList, .conversationCreated, .conversationList, .conversationDetails, .pong:
             return .query
-        case .InterlocutorTypingStarted, .InterlocutorTypingStopped, .InterlocutorMessageSent,
-        .InterlocutorReceptionConfirmed, .InterlocutorReadConfirmed, .AuthenticationTokenExpired:
+        case .interlocutorTypingStarted, .interlocutorTypingStopped, .interlocutorMessageSent,
+        .interlocutorReceptionConfirmed, .interlocutorReadConfirmed, .authenticationTokenExpired:
             return .event
         }
     }
@@ -84,11 +83,11 @@ protocol WebSocketResponse {
 
 struct WebSocketResponseACK: WebSocketResponse {
     var id: String
-    let type: WebSocketResponseType = .ACK
+    let type: WebSocketResponseType = .ack
     var ackedType: WebSocketRequestType
     var ackedId: String
     
-    init?(dict: [String: Any]) {
+    init?(dict: [AnyHashable: Any]) {
         guard let typeString = dict["acked_type"] as? String else { return nil }
         guard let type = WebSocketRequestType(rawValue: typeString) else { return nil }
         guard let ackedId = dict["acked_id"] as? String else { return nil }
@@ -103,9 +102,9 @@ struct WebSocketResponseQuery: WebSocketResponse {
     var id: String
     var type: WebSocketResponseType
     var responseToId: String
-    var data: [String: Any]
+    var data: [AnyHashable: Any]
     
-    init?(dict: [String: Any]) {
+    init?(dict: [AnyHashable: Any]) {
         guard let id = dict["id"] as? String else { return nil }
         guard let typeString = dict["type"] as? String else { return nil }
         guard let type = WebSocketResponseType(rawValue: typeString) else { return nil }
@@ -121,9 +120,9 @@ struct WebSocketResponseQuery: WebSocketResponse {
 struct WebSocketResponseEvent: WebSocketResponse {
     var id: String
     var type: WebSocketResponseType
-    var data: [String: Any]
+    var data: [AnyHashable: Any]
     
-    init?(dict: [String: Any]) {
+    init?(dict: [AnyHashable: Any]) {
         guard let id = dict["id"] as? String else { return nil }
         guard let typeString = dict["type"] as? String else { return nil }
         guard let type = WebSocketResponseType(rawValue: typeString) else { return nil }
@@ -137,12 +136,12 @@ struct WebSocketResponseEvent: WebSocketResponse {
 
 struct WebSocketResponseError: WebSocketResponse {
     var id: String
-    var type: WebSocketResponseType = .Error
+    var type: WebSocketResponseType = .error
     var errorType: WebSocketErrorType
     var erroredId: String
-    var data: [String: Any]
+    var data: [AnyHashable: Any]
     
-    init?(dict: [String: Any]) {
+    init?(dict: [AnyHashable: Any]) {
         guard let id = dict["id"] as? String else { return nil }
         guard let typeString = dict["type"] as? String else { return nil }
         guard let type = WebSocketResponseType(rawValue: typeString) else { return nil }

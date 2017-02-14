@@ -45,7 +45,7 @@ final class LogInEmailViewModel: BaseViewModel {
     fileprivate var unauthorizedErrorCount: Int
     fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let source: EventParameterLoginSourceValue
-    fileprivate let collapsedEmail: EventParameterCollapsedEmailField?
+    fileprivate let collapsedEmail: EventParameterBoolean?
 
     fileprivate let sessionManager: SessionManager
     fileprivate let installationRepository: InstallationRepository
@@ -58,14 +58,14 @@ final class LogInEmailViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterCollapsedEmailField?) {
+                     collapsedEmail: EventParameterBoolean?) {
         self.init(source: source,
                   collapsedEmail: collapsedEmail,
                   keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     convenience init(source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterCollapsedEmailField?,
+                     collapsedEmail: EventParameterBoolean?,
                      keyValueStorage: KeyValueStorageable) {
         let email = LogInEmailViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
         let isRememberedEmail = email != nil
@@ -82,7 +82,7 @@ final class LogInEmailViewModel: BaseViewModel {
     convenience init(email: String?,
                      isRememberedEmail: Bool,
                      source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterCollapsedEmailField?) {
+                     collapsedEmail: EventParameterBoolean?) {
         self.init(email: email,
                   isRememberedEmail: isRememberedEmail,
                   source: source,
@@ -96,7 +96,7 @@ final class LogInEmailViewModel: BaseViewModel {
     init(email: String?,
          isRememberedEmail: Bool,
          source: EventParameterLoginSourceValue,
-         collapsedEmail: EventParameterCollapsedEmailField?,
+         collapsedEmail: EventParameterBoolean?,
          sessionManager: SessionManager,
          installationRepository: InstallationRepository,
          keyValueStorage: KeyValueStorageable,

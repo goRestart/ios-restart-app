@@ -134,7 +134,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
-    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
+    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
         let vc: UIViewController
 
         switch featureFlags.signUpLoginImprovement {
@@ -168,7 +168,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         }
     }
 
-    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
+    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
         let vc: UIViewController
 
         switch featureFlags.signUpLoginImprovement {
@@ -264,7 +264,7 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
     }
 
     func openNextStepFromSignUpEmailStep1(email: String, password: String,
-                                          isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
+                                          isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
         guard let navCtl = currentNavigationController() else { return }
 
         let vm = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: isRememberedEmail,
@@ -278,7 +278,7 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
     }
 
     func openLogInFromSignUpEmailStep1(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
+                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
         guard let navCtl = currentNavigationController() else { return }
 
         let vm = LogInEmailViewModel(email: email, isRememberedEmail: isRememberedEmail,
@@ -343,7 +343,7 @@ extension LoginCoordinator: LogInEmailNavigator {
     }
 
     func openSignUpEmailFromLogInEmail(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
+                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
         guard let navCtl = currentNavigationController() else { return }
 
         let vm = SignUpEmailStep1ViewModel(email: email,

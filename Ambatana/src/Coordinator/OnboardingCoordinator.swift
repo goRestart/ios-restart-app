@@ -59,7 +59,7 @@ final class OnboardingCoordinator: Coordinator {
 
             let signUpVM = SignUpViewModel(appearance: strongSelf.loginAppearance,
                                            source: strongSelf.loginSource)
-            signUpVM.navigator = self
+            signUpVM.navigator = strongSelf
             let tourVM = TourLoginViewModel(signUpViewModel: signUpVM, featureFlags: strongSelf.featureFlags)
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(viewModel: tourVM)
@@ -204,7 +204,7 @@ extension OnboardingCoordinator: MainSignUpNavigator {
         tourLoginFinish()
     }
 
-    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
+    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
         let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailParam, action: .signup)
         vm.navigator = self
         let vc = SignUpLogInViewController(viewModel: vm, appearance: loginAppearance, keyboardFocus: true)
@@ -216,7 +216,7 @@ extension OnboardingCoordinator: MainSignUpNavigator {
         signUpLogInViewModel = vm
     }
 
-    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {
+    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
         let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailParam, action: .login)
         vm.navigator = self
         let vc = SignUpLogInViewController(viewModel: vm, appearance: loginAppearance, keyboardFocus: true)

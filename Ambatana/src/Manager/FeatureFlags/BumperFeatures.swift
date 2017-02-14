@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, SignUpLoginImprovement.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, SignUpLoginImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -93,6 +93,11 @@ extension Bumper  {
     static var bumpUpFreeTimeLimit: BumpUpFreeTimeLimit {
         guard let value = Bumper.value(for: BumpUpFreeTimeLimit.key) else { return .oneMin }
         return BumpUpFreeTimeLimit(rawValue: value) ?? .oneMin 
+    }
+
+    static var userRatingMarkAsSold: Bool {
+        guard let value = Bumper.value(for: UserRatingMarkAsSold.key) else { return false }
+        return UserRatingMarkAsSold(rawValue: value)?.asBool ?? false
     }
 
     static var signUpLoginImprovement: SignUpLoginImprovement {
@@ -267,6 +272,15 @@ enum BumpUpFreeTimeLimit: String, BumperFeature  {
             default: return .oneMin
         }
     }
+}
+
+enum UserRatingMarkAsSold: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return UserRatingMarkAsSold.no.rawValue }
+    static var enumValues: [UserRatingMarkAsSold] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Select buyer before mark sold" } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum SignUpLoginImprovement: String, BumperFeature  {

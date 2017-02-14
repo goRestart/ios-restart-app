@@ -20,27 +20,27 @@ struct WebSocketMessageRouter {
     func index(_ conversationId: String, limit: Int = 50, offset: Int = 0) -> WebSocketMessageRequest {
         let uuid = uuidGenerator.UUIDString
         let data: [String: Any] = ["conversation_id": conversationId, "limit": limit, "offset": offset]
-        let message = WebSocketRouter.requestWith(uuid, type: .FetchMessages, data: data)
-        return WebSocketMessageRequest(message: message, uuid: uuid, type: .FetchMessages)
+        let message = WebSocketRouter.request(with: uuid, type: .fetchMessages, data: data)
+        return WebSocketMessageRequest(message: message, uuid: uuid, type: .fetchMessages)
     }
     
     func indexNewerThan(_ messageId: String, conversationId: String) -> WebSocketMessageRequest {
         let uuid = uuidGenerator.UUIDString
         let data = ["conversation_id": conversationId, "message_id": messageId]
-        let message = WebSocketRouter.requestWith(uuid, type: .FetchMessagesNewerThan, data: data)
-        return WebSocketMessageRequest(message: message, uuid: uuid, type: .FetchMessagesNewerThan)
+        let message = WebSocketRouter.request(with: uuid, type: .fetchMessagesNewerThan, data: data)
+        return WebSocketMessageRequest(message: message, uuid: uuid, type: .fetchMessagesNewerThan)
     }
     
     func indexOlderThan(_ messageId: String, conversationId: String, limit: Int = 50) -> WebSocketMessageRequest {
         let uuid = uuidGenerator.UUIDString
         let data: [String: Any] = ["conversation_id": conversationId, "message_id": messageId, "limit": limit]
-        let message = WebSocketRouter.requestWith(uuid, type: .FetchMessagesOlderThan, data: data)
-        return WebSocketMessageRequest(message: message, uuid: uuid, type: .FetchMessagesOlderThan)
+        let message = WebSocketRouter.request(with: uuid, type: .fetchMessagesOlderThan, data: data)
+        return WebSocketMessageRequest(message: message, uuid: uuid, type: .fetchMessagesOlderThan)
     }
     
     func pingMessage() -> WebSocketMessageRequest {
         let uuid = uuidGenerator.UUIDString
-        let message = WebSocketRouter.requestWith(uuid, type: .Ping, data: nil)
-        return WebSocketMessageRequest(message: message, uuid: uuid, type: .Ping)
+        let message = WebSocketRouter.request(with: uuid, type: .ping, data: nil)
+        return WebSocketMessageRequest(message: message, uuid: uuid, type: .ping)
     }
 }

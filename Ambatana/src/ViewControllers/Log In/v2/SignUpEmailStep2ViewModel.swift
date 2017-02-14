@@ -54,7 +54,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     fileprivate let isRememberedEmail: Bool
     fileprivate let password: String
     fileprivate let source: EventParameterLoginSourceValue
-    fileprivate let collapsedEmail: EventParameterCollapsedEmailField?
+    fileprivate let collapsedEmail: EventParameterBoolean?
     fileprivate let signUpEnabledVar: Variable<Bool>
 
     fileprivate let sessionManager: SessionManager
@@ -68,7 +68,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     // MARK : - Lifecycle
 
     convenience init(email: String, isRememberedEmail: Bool, password: String,
-                     source: EventParameterLoginSourceValue, collapsedEmail: EventParameterCollapsedEmailField?) {
+                     source: EventParameterLoginSourceValue, collapsedEmail: EventParameterBoolean?) {
         self.init(email: email,
                   isRememberedEmail: isRememberedEmail,
                   password: password,
@@ -85,7 +85,7 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
          isRememberedEmail: Bool,
          password: String,
          source: EventParameterLoginSourceValue,
-         collapsedEmail: EventParameterCollapsedEmailField?,
+         collapsedEmail: EventParameterBoolean?,
          sessionManager: SessionManager,
          installationRepository: InstallationRepository,
          keyValueStorage: KeyValueStorageable,
@@ -324,11 +324,11 @@ fileprivate extension SignUpEmailStep2ViewModel {
     }
 
     func trackSignUpSucceeded(newsletter: Bool?) {
-        let newsletterTrackingParam: EventParameterNewsletter
+        let newsletterTrackingParam: EventParameterBoolean
         if let newsletter = newsletter {
             newsletterTrackingParam = newsletter ? .trueParameter : .falseParameter
         } else {
-            newsletterTrackingParam = .unset
+            newsletterTrackingParam = .notAvailable
         }
         let event = TrackerEvent.signupEmail(source, newsletter: newsletterTrackingParam, collapsedEmail: collapsedEmail)
         tracker.trackEvent(event)

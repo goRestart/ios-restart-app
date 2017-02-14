@@ -119,7 +119,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     // MARK: > Slack methods
 
     override func sendButtonPressed() {
-        viewModel.sendText(textView.text, isQuickAnswer: false)
+        viewModel.send(text: textView.text)
     }
 
     override func scrollViewDidTap() {
@@ -797,7 +797,7 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
 
 extension OldChatViewController: ChatStickersViewDelegate {
     func stickersViewDidSelectSticker(_ sticker: Sticker) {
-        viewModel.sendSticker(sticker)
+        viewModel.send(sticker: sticker)
     }
 }
 

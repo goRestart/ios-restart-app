@@ -28,6 +28,7 @@ enum WebSocketError: Error {
     case notAuthenticated
     case internalError
     case userNotVerified
+    case suspended(withCode: Int)
 
     init(wsErrorType: WebSocketErrorType) {
         switch wsErrorType {
@@ -46,11 +47,12 @@ protocol WebSocketClient {
     var openCompletion: (() -> ())? { get set }
     var closeCompletion: (() -> ())? { get set }
 
+    func resumeOperations()
     func suspendOperations()
 
-    func startWebSocket(_ endpoint: String)
+    func openWebSocket(_ endpoint: String)
     func closeWebSocket()
-    func sendQuery(_ request: WebSocketQueryRequestConvertible, completion: ((Result<[String: Any], WebSocketError>) -> Void)?)
+    func sendQuery(_ request: WebSocketQueryRequestConvertible, completion: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)?)
     func sendCommand(_ request: WebSocketCommandRequestConvertible, completion: ((Result<Void, WebSocketError>) -> Void)?)
     func sendEvent(_ request: WebSocketEventRequestConvertible)
 }

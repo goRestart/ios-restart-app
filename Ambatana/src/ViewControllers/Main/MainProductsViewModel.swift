@@ -173,7 +173,7 @@ class MainProductsViewModel: BaseViewModel {
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
         self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
-                                                  numberOfColumns: columns)
+                                                  numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, !search.isCollection && !search.query.isEmpty {
@@ -445,7 +445,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             }
 
             let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil)
+                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
             listViewModel.setEmptyState(emptyViewModel)
         }
 
@@ -812,7 +812,7 @@ fileprivate extension MainProductsViewModel {
     }
 
     func trackPushPermissionStart() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .productListBanner, alertType: .custom,
                                                              permissionGoToSettings: goToSettings)
@@ -820,7 +820,7 @@ fileprivate extension MainProductsViewModel {
     }
 
     func trackPushPermissionComplete() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .productListBanner, alertType: .custom,
                                                                 permissionGoToSettings: goToSettings)
@@ -828,7 +828,7 @@ fileprivate extension MainProductsViewModel {
     }
 
     func trackPushPermissionCancel() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)

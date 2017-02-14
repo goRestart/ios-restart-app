@@ -31,6 +31,7 @@ protocol FeatureFlaggeable {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var bumpUpFreeTimeLimit: Int { get }
+    var userRatingMarkAsSold: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
 
     // Country dependant features
@@ -190,6 +191,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToMilliseconds)
         return Int(timeLimit)
+    }
+
+    var userRatingMarkAsSold: Bool {
+        if Bumper.enabled {
+            return Bumper.userRatingMarkAsSold
+        }
+        return ABTests.userRatingMarkAsSold.value
     }
 
     var signUpLoginImprovement: SignUpLoginImprovement {

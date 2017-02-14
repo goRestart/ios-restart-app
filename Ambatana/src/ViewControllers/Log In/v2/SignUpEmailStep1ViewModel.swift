@@ -32,7 +32,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
     fileprivate let isRememberedEmail: Bool
     fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let source: EventParameterLoginSourceValue
-    fileprivate let collapsedEmail: EventParameterCollapsedEmailField?
+    fileprivate let collapsedEmail: EventParameterBoolean?
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let nextStepEnabledVar: Variable<Bool>
     fileprivate let tracker: Tracker
@@ -42,14 +42,14 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterCollapsedEmailField?) {
+                     collapsedEmail: EventParameterBoolean?) {
         self.init(source: source,
                   collapsedEmail: collapsedEmail,
                   keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     convenience init(source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterCollapsedEmailField?,
+                     collapsedEmail: EventParameterBoolean?,
                      keyValueStorage: KeyValueStorageable) {
         let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
         let isRememberedEmail = email != nil
@@ -64,7 +64,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
     convenience init(email: String?,
                      isRememberedEmail: Bool,
                      source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterCollapsedEmailField?) {
+                     collapsedEmail: EventParameterBoolean?) {
         self.init(email: email,
                   isRememberedEmail: isRememberedEmail,
                   source: source,
@@ -76,7 +76,7 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
     init(email: String?,
          isRememberedEmail: Bool,
          source: EventParameterLoginSourceValue,
-         collapsedEmail: EventParameterCollapsedEmailField?,
+         collapsedEmail: EventParameterBoolean?,
          keyValueStorage: KeyValueStorageable,
          tracker: Tracker) {
         self.email = Variable<String?>(email)

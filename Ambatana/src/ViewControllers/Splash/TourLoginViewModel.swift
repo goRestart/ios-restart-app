@@ -77,7 +77,7 @@ final class TourLoginViewModel: BaseViewModel {
 
     private func setCurrentState(timeout: Bool) {
         state.value = timeout ? .active(closeEnabled: true, emailAsField: true) : featureFlags.onboardingReview.tourLoginState
-        signUpViewModel.collapsedEmailTrackingParam = timeout ? .unset : featureFlags.onboardingReview.collapsedEmailParam
+        signUpViewModel.collapsedEmailTrackingParam = timeout ? .notAvailable : featureFlags.onboardingReview.collapsedEmailParam
     }
 
     fileprivate func nextStep() {
@@ -102,7 +102,7 @@ extension OnboardingReview {
         }
     }
 
-    var collapsedEmailParam: EventParameterCollapsedEmailField {
+    var collapsedEmailParam: EventParameterBoolean {
         switch self {
         case .testA, .testB:
             return .falseParameter

@@ -80,8 +80,13 @@
         "description": "Time to next bump up"
     },
     {
+        "name": "UserRatingMarkAsSold",
+        "values": ["no", "yes"],
+        "description": "Select buyer before mark sold"
+    },
+    {
         "name": "SignUpLoginImprovement",
         "values": ["V1", "V1WImprovements", "V2"],
         "description": "SignUp LogIn A/B/C"
     }
- ]
+]

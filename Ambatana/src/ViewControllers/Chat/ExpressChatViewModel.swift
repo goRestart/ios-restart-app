@@ -166,14 +166,14 @@ extension ExpressChatViewModel {
 
     func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product) {
         if shouldSendAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, typePage: .expressChat,
-                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil, typePage: .expressChat,
+                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                             isBumpedUp: .falseParameter)
             tracker.trackEvent(askQuestionEvent)
         }
         
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text,
-                                                            isQuickAnswer: .falseParameter, typePage: .expressChat,
-                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text, quickAnswerType: nil,
+                                                            typePage: .expressChat, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
 

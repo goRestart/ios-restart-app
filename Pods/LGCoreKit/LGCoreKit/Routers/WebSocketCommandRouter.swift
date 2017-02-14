@@ -20,42 +20,42 @@ struct WebSocketCommandRouter {
     func authenticate(_ userId: String, authToken: String) -> WebSocketCommandRequest {
         let uuid = uuidGenerator.UUIDString
         let data = ["user_id": userId, "auth_token": authToken]
-        let message = WebSocketRouter.requestWith(uuid, type: .Authenticate, data: data)
-        return WebSocketCommandRequest(message: message, uuid: uuid, type: .Authenticate)
+        let message = WebSocketRouter.request(with: uuid, type: .authenticate, data: data)
+        return WebSocketCommandRequest(message: message, uuid: uuid, type: .authenticate)
     }
     
     func sendMessage(_ conversationId: String, messageId: String, type: String, text: String) -> WebSocketCommandRequest {
         let uuid = uuidGenerator.UUIDString
         let data = ["conversation_id": conversationId, "message_id": messageId, "message_type": type, "text": text]
-        let message = WebSocketRouter.requestWith(uuid, type: .SendMessage, data: data)
-        return WebSocketCommandRequest(message: message, uuid: uuid, type: .SendMessage)
+        let message = WebSocketRouter.request(with: uuid, type: .sendMessage, data: data)
+        return WebSocketCommandRequest(message: message, uuid: uuid, type: .sendMessage)
     }
     
     func confirmReception(_ conversationId: String, messageIds: [String]) -> WebSocketCommandRequest {
         let uuid = uuidGenerator.UUIDString
         let data: [String: Any] = ["conversation_id": conversationId, "message_ids": messageIds]
-        let message = WebSocketRouter.requestWith(uuid, type: .ConfirmReception, data: data)
-        return WebSocketCommandRequest(message: message, uuid: uuid, type: .ConfirmReception)
+        let message = WebSocketRouter.request(with: uuid, type: .confirmReception, data: data)
+        return WebSocketCommandRequest(message: message, uuid: uuid, type: .confirmReception)
     }
     
     func confirmRead(_ conversationId: String, messageIds: [String]) -> WebSocketCommandRequest {
         let uuid = uuidGenerator.UUIDString
         let data: [String: Any] = ["conversation_id": conversationId, "message_ids": messageIds]
-        let message = WebSocketRouter.requestWith(uuid, type: .ConfirmRead, data: data)
-        return WebSocketCommandRequest(message: message, uuid: uuid, type: .ConfirmRead)
+        let message = WebSocketRouter.request(with: uuid, type: .confirmRead, data: data)
+        return WebSocketCommandRequest(message: message, uuid: uuid, type: .confirmRead)
     }
     
     func archiveConversations(_ conversationIds: [String]) -> WebSocketCommandRequest {
         let uuid = uuidGenerator.UUIDString
         let data: [String: Any] = ["conversation_ids": conversationIds]
-        let message = WebSocketRouter.requestWith(uuid, type: .ArchiveConversations, data: data)
-        return WebSocketCommandRequest(message: message, uuid: uuid, type: .ArchiveConversations)
+        let message = WebSocketRouter.request(with: uuid, type: .archiveConversations, data: data)
+        return WebSocketCommandRequest(message: message, uuid: uuid, type: .archiveConversations)
     }
     
     func unarchiveConversations(_ conversationIds: [String]) -> WebSocketCommandRequest {
         let uuid = uuidGenerator.UUIDString
         let data: [String: Any] = ["conversation_ids": conversationIds]
-        let message = WebSocketRouter.requestWith(uuid, type: .UnarchiveConversations, data: data)
-        return WebSocketCommandRequest(message: message, uuid: uuid, type: .UnarchiveConversations)
+        let message = WebSocketRouter.request(with: uuid, type: .unarchiveConversations, data: data)
+        return WebSocketCommandRequest(message: message, uuid: uuid, type: .unarchiveConversations)
     }
 }
