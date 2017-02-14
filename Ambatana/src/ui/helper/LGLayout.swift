@@ -216,16 +216,18 @@ extension LGLayout {
     // MARK: Size
 
     @discardableResult
-    func width(_ width: CGFloat, relatedBy: NSLayoutRelation = .equal, priority: UILayoutPriority = UILayoutPriorityRequired,
+    func width(_ width: CGFloat, multiplier: CGFloat = 1, relatedBy: NSLayoutRelation = .equal, priority: UILayoutPriority = UILayoutPriorityRequired,
                constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .width, relatedBy: relatedBy, constant: width, priority: priority, constraintBlock: constraintBlock)
+        constraint(item1: item1, attribute1: .width, relatedBy: relatedBy, multiplier: multiplier, constant: width,
+                   priority: priority, constraintBlock: constraintBlock)
         return self
     }
 
     @discardableResult
-    func height(_ height: CGFloat, relatedBy: NSLayoutRelation = .equal, priority: UILayoutPriority = UILayoutPriorityRequired,
+    func height(_ height: CGFloat, multiplier: CGFloat = 1, relatedBy: NSLayoutRelation = .equal, priority: UILayoutPriority = UILayoutPriorityRequired,
                 constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .height, relatedBy: relatedBy, constant: height, priority: priority, constraintBlock: constraintBlock)
+        constraint(item1: item1, attribute1: .height, relatedBy: relatedBy, multiplier: multiplier, constant: height,
+                   priority: priority, constraintBlock: constraintBlock)
         return self
     }
 
@@ -239,6 +241,16 @@ extension LGLayout {
         top()
         bottom()
         return self
+    }
+
+    @discardableResult
+    func fillHorizontal(by constant: CGFloat = 0) -> LGLayout {
+        return left(by: constant).right(by: -constant)
+    }
+
+    @discardableResult
+    func fillVertical(by constant: CGFloat = 0) -> LGLayout {
+        return top(by: constant).bottom(by: -constant)
     }
 
     @discardableResult
