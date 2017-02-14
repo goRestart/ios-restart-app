@@ -50,8 +50,12 @@ class SignUpLogInViewModel: BaseViewModel {
     var email: String {
         didSet {
             email = email.trim
+            suggest(emailText: email)
             delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
         }
+    }
+    var suggestedEmail: Observable<String?> {
+        return suggestedEmailVar.asObservable()
     }
     var password: String {
         didSet {
@@ -73,6 +77,7 @@ class SignUpLogInViewModel: BaseViewModel {
 
     var termsAndConditionsEnabled: Bool
 
+    fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let previousEmail: Variable<String?>
     let previousFacebookUsername: Variable<String?>
     let previousGoogleUsername: Variable<String?>
@@ -136,6 +141,7 @@ class SignUpLogInViewModel: BaseViewModel {
         self.newsletterAccepted = false
         self.currentActionType = action
         self.termsAndConditionsEnabled = false
+        self.suggestedEmailVar = Variable<String?>(nil)
         self.previousEmail = Variable<String?>(nil)
         self.previousFacebookUsername = Variable<String?>(nil)
         self.previousGoogleUsername = Variable<String?>(nil)
@@ -183,6 +189,20 @@ class SignUpLogInViewModel: BaseViewModel {
 
     func open(url: URL) {
         navigator?.openURL(url: url)
+    }
+
+    func acceptSuggestedEmail() -> Bool {
+        guard let suggestedEmail = suggestedEmailVar.value else { return false }
+        
+        switch featureFlags.signUpLoginImprovement {
+        case .v1, .v2:
+            return false
+        case .v1WImprovements:
+            break
+        }
+
+        email = suggestedEmail
+        return true
     }
 
     func erasePassword() {
@@ -584,5 +604,21 @@ fileprivate extension SignUpLogInViewModel {
     func savePreviousEmailOrUsername(_ accountProvider: AccountProvider, userEmailOrName: String?) {
         keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
         keyValueStorage[.previousUserEmailOrName] = userEmailOrName
+    }
+}
+
+
+// MARK: > Autosuggest
+
+fileprivate extension SignUpLogInViewModel {
+    func suggest(emailText: String) {
+        switch featureFlags.signUpLoginImprovement {
+        case .v1, .v2:
+            return
+        case .v1WImprovements:
+            break
+        }
+
+        suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
     }
 }

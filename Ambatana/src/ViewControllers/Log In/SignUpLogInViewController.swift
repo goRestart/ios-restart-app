@@ -33,7 +33,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var usernameButton: UIButton!
     
     @IBOutlet weak var emailIconImageView: UIImageView!
-    @IBOutlet weak var emailTextField: LGTextField!
+    @IBOutlet weak var emailTextField: AutocompleteField!
     @IBOutlet weak var emailButton: UIButton!
     
     @IBOutlet weak var passwordIconImageView: UIImageView!
@@ -294,6 +294,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             iconImageView = usernameIconImageView
         case .email:
             iconImageView = emailIconImageView
+            emailTextField.suggestion = nil
         case .password:
             iconImageView = passwordIconImageView
         }
@@ -311,6 +312,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         
         if textField.returnKeyType == .next {
             guard let actualNextView = nextView else { return true }
+            if tag == TextFieldTag.email.rawValue && viewModel.acceptSuggestedEmail() {
+                emailTextField.text = viewModel.email
+            }
             actualNextView.becomeFirstResponder()
             return false
         }
@@ -335,7 +339,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         if textField === usernameTextField && !removing && newLength > Constants.maxUserNameLength { return false }
 
         let updatedText = (text as NSString).replacingCharacters(in: range, with: string)
-        updateViewModelText(updatedText, fromTextFieldTag: textField.tag)
+
+        // Delay needed, otherwise when deleting autosuggest does not update as textfield still has the old text
+        delay(0.01) { [weak self] in
+            self?.updateViewModelText(updatedText, fromTextFieldTag: textField.tag)
+        }
         return true
     }
     
@@ -447,6 +455,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 }
             }.bindTo(connectGoogleButton.rx.title)
             .addDisposableTo(disposeBag)
+
+        // Autosuggest
+        viewModel.suggestedEmail.subscribeNext { [weak self] suggestion in
+            self?.emailTextField.suggestion = suggestion
+        }.addDisposableTo(disposeBag)
     }
 
     private func updateUI() {
@@ -591,7 +604,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     private func updateViewModelText(_ text: String, fromTextFieldTag tag: Int) {
         
         guard let tag = TextFieldTag(rawValue: tag) else { return }
-        
+
         switch (tag) {
         case .username:
             viewModel.username = text
@@ -607,7 +620,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 // MARK: - SignUpLogInViewModelDelegate
 
 extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
-
     func vmUpdateSendButtonEnabledState(_ enabled: Bool) {
         sendButton.isEnabled = enabled
     }
