@@ -498,7 +498,6 @@ fileprivate extension LoginCoordinator {
         vm.navigator = self
         let vc = RememberPasswordViewController(viewModel: vm, appearance: appearance)
         navCtl.pushViewController(vc, animated: true)
-
     }
 
     func currentNavigationController() -> UINavigationController? {
