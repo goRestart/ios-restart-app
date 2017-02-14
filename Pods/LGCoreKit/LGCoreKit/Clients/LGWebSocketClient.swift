@@ -46,10 +46,10 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     
     var ws: SRWebSocket?
     
-    private var activeCommands: [String: ((Result<Void, WebSocketError>) -> Void)] = [:]
-    private var activeQueries: [String: ((Result<[String: Any], WebSocketError>) -> Void)] = [:]
-    private var activeRequests: [String: WebSocketRequestConvertible] = [:]
-    private var activeAuthRequests: [String: ((Result<Void, WebSocketError>) -> Void)] = [:]
+    private var activeCommands: [AnyHashable: ((Result<Void, WebSocketError>) -> Void)] = [:]
+    private var activeQueries: [AnyHashable: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)] = [:]
+    private var activeRequests: [AnyHashable: WebSocketRequestConvertible] = [:]
+    private var activeAuthRequests: [AnyHashable: ((Result<Void, WebSocketError>) -> Void)] = [:]
 
     var openCompletion: (() -> ())?
     var closeCompletion: (() -> ())?
@@ -100,7 +100,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         ws?.open()
     }
     
-    func startWebSocket(_ endpoint: String) {
+    func openWebSocket(_ endpoint: String) {
         switch socketStatus.value {
         case .open:
             logMessage(LogLevel.debug, type: .webSockets, message: "Chat already connected to: \(endpoint)")
@@ -127,24 +127,65 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         }
     }
     
+    func webSocketDidClose(with errorCode: Int) {
+        if socketStatus.value == .opening {
+            // Close event while opening means websocket is unreachable or connection was refused.
+            socketStatus.value = .closed
+            pingTimer?.invalidate()
+            return
+        }
+        
+        switch errorCode {
+        case SRStatusCodeAbnormal.rawValue, SRStatusCodeNormal.rawValue:
+            socketStatus.value = .closed
+            pingTimer?.invalidate()
+            requestQueue.cancelAllOperations()
+            finishActiveRequests(withCode: errorCode)
+        default:
+            socketStatus.value = .opening
+            // Finish active requests and pause requestQueue until socket becomes open(.authenticated)
+            suspendOperations()
+            reconnectWebSocket(with: endpointURL)
+        }
+    }
+    
     func suspendOperations() {
         requestQueue.isSuspended = true
+        finishActiveRequests(withCode: SRStatusCodeGoingAway.rawValue)
     }
-
-    private func resumeOperations() {
+    
+    func resumeOperations() {
         requestQueue.isSuspended = false
+    }
+    
+    func finishActiveRequests(withCode errorCode: Int) {
+        activeRequests.forEach { (request) in
+            let requestId = request.value.uuid.lowercased()
+            if let completion = activeCommands[requestId] {
+                completion(Result<Void, WebSocketError>(error: .suspended(withCode: errorCode)))
+            }
+            else if let completion = activeQueries[requestId] {
+                completion(Result<[AnyHashable: Any], WebSocketError>(error: .suspended(withCode: errorCode)))
+            } else if let completion = activeAuthRequests[requestId] {
+                completion(Result<Void, WebSocketError>(error: .suspended(withCode: errorCode)))
+            }
+        }
+        activeRequests.removeAll()
+        activeCommands.removeAll()
+        activeQueries.removeAll()
+        activeAuthRequests.removeAll()
     }
 
     
     // MARK: Send
     
-    func sendQuery(_ request: WebSocketQueryRequestConvertible, completion: ((Result<[String: Any], WebSocketError>) -> Void)?) {
+    func sendQuery(_ request: WebSocketQueryRequestConvertible, completion: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)?) {
         activeQueries[request.uuid.lowercased()] = completion
         send(request)
     }
     
     func sendCommand(_ request: WebSocketCommandRequestConvertible, completion: ((Result<Void, WebSocketError>) -> Void)?) {
-        if request.type == .Authenticate {
+        if request.type == .authenticate {
             activeAuthRequests[request.uuid.lowercased()] = completion
         } else {
             activeCommands[request.uuid.lowercased()] = completion
@@ -160,32 +201,39 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         
         let sendAction = { [weak self] in
             // Only add the request to the array if its not an Authenticate request, those shouldn't be saved to repeat
-            if request.type != .Authenticate { self?.activeRequests[request.uuid.lowercased()] = request }
-            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] Send: \(request.message)")
+            if request.type != .authenticate {
+                self?.activeRequests[request.uuid.lowercased()] = request
+            }
             self?.privateSend(request)
         }
         
         // The authentication request can't enter the queue or they will get blocked
-        request.type == .Authenticate ? sendAction() : requestQueue.addOperation(sendAction)
+        request.type == .authenticate ? sendAction() : requestQueue.addOperation(sendAction)
     }
     
     func privateSend(_ request: WebSocketRequestConvertible) {
-        ws?.send(request.message)
+        logMessage(LogLevel.debug, type: .webSockets, message: "[WS] Send: \(request.message)")
+        switch socketStatus.value {
+        case .open:
+            ws?.send(request.message)
+        default:
+            break
+        }
     }
     
     
     // MARK: Response handlers
     
-    private func stringToJSON(_ text: String) -> [String: Any]? {
+    private func stringToJSON(_ text: String) -> [AnyHashable: Any]? {
         guard let data = text.data(using: .utf8) else { return nil }
         guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
-        guard let dict = json as? [String: Any] else { return nil }
+        guard let dict = json as? [AnyHashable: Any] else { return nil }
         return dict
     }
     
-    private func handleACK(_ dict: [String: Any]) {
+    private func handleACK(_ dict: [AnyHashable: Any]) {
         guard let ack = WebSocketResponseACK(dict: dict) else { return }
-        if ack.ackedType == .Authenticate {
+        if ack.ackedType == .authenticate {
             resumeOperations()
             socketStatus.value = .open(authenticated: .authenticated)
             activeAuthRequests.values.forEach{ $0(Result<Void, WebSocketError>(value: ()))}
@@ -198,15 +246,15 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         }
     }
     
-    private func handleQueryResponse(_ dict: [String: Any]) {
+    private func handleQueryResponse(_ dict: [AnyHashable: Any]) {
         guard let response = WebSocketResponseQuery(dict: dict) else { return }
         let completion = activeQueries[response.responseToId.lowercased()]
         activeQueries.removeValue(forKey: response.responseToId.lowercased())
         activeRequests.removeValue(forKey: response.responseToId.lowercased())
-        completion?(Result<[String: Any], WebSocketError>(value: response.data))
+        completion?(Result<[AnyHashable: Any], WebSocketError>(value: response.data))
     }
     
-    private func handleEvent(_ dict: [String: Any]) {
+    private func handleEvent(_ dict: [AnyHashable: Any]) {
         guard let response = WebSocketResponseEvent(dict: dict) else { return }
         guard let event = ChatModelsMapper.eventFromDict(dict, type: response.type) else { return }
         switch event.type {
@@ -220,11 +268,13 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
 
     private func reauthenticate() {
         suspendOperations()
-        socketStatus.value = .open(authenticated: .notAuthenticated)
+        if socketStatus.value != .open(authenticated: .notAuthenticated) {
+            socketStatus.value = .open(authenticated: .notAuthenticated)
+        }
         sessionManager?.renewUserToken(nil)
     }
     
-    private func handleError(_ dict: [String: Any]) {
+    private func handleError(_ dict: [AnyHashable: Any]) {
         guard let error = WebSocketResponseError(dict: dict) else { return }
 
         switch error.errorType {
@@ -235,28 +285,24 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
             }
             return
         case .isScammer:
-            closeWebSocket()
-            sessionManager?.logout()
+            sessionManager?.tearDownSession(kicked: true)
         case .userNotVerified:
             socketStatus.value = .open(authenticated: .notVerified)
         default:
             break
         }
         
-        activeRequests.removeValue(forKey: error.erroredId.lowercased())
+        let errorID = error.erroredId.lowercased()
+        activeRequests.removeValue(forKey: errorID)
         
-        if let completion = activeCommands[error.erroredId.lowercased()] {
-            activeCommands.removeValue(forKey: error.erroredId.lowercased())
+        if let completion = activeCommands[errorID] {
+            activeCommands.removeValue(forKey: errorID)
             completion(Result<Void, WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
-        }
-        
-        if let completion = activeQueries[error.erroredId.lowercased()] {
-            activeQueries.removeValue(forKey: error.erroredId.lowercased())
-            completion(Result<[String: Any], WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
-        }
-        
-        if let completion = activeAuthRequests[error.erroredId.lowercased()] {
-            activeAuthRequests.removeValue(forKey: error.erroredId.lowercased())
+        } else if let completion = activeQueries[errorID] {
+            activeQueries.removeValue(forKey: errorID)
+            completion(Result<[AnyHashable: Any], WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
+        } else if let completion = activeAuthRequests[errorID] {
+            activeAuthRequests.removeValue(forKey: errorID)
             completion(Result<Void, WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
         }
     }
@@ -265,33 +311,16 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     // MARK: - SRWebSocketDelegate
     
     @objc func webSocketDidOpen(_ webSocket: SRWebSocket!) {
+        logMessage(.debug, type: .webSockets, message: "Opened")
         socketStatus.value = .open(authenticated: .notAuthenticated)
         openCompletion?()
-        logMessage(.debug, type: .webSockets, message: "Opened")
         setupTimer()
     }
     
     @objc func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
         logMessage(.debug, type: .webSockets, message: "Closed")
         closeCompletion?()
-        webSocketDisconnected(with: code)
-    }
-    
-    func webSocketDisconnected(with errorCode: Int) {
-        if socketStatus.value == .opening {
-            // Close event while opening means websocket is unreachable or connection was refused.
-            socketStatus.value = .closed
-            pingTimer?.invalidate()
-            return
-        }
-        switch errorCode {
-        case SRStatusCodeAbnormal.rawValue, SRStatusCodeNormal.rawValue:
-            socketStatus.value = .closed
-            pingTimer?.invalidate()
-        default:
-            socketStatus.value = .opening
-            reconnectWebSocket(with: endpointURL)
-        }
+        webSocketDidClose(with: code)
     }
     
     func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
@@ -318,6 +347,6 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
         logMessage(LogLevel.debug, type: .webSockets, message: "Connection Error: \(error)")
         let code = (error as NSError).code
-        webSocketDisconnected(with: code)
+        webSocketDidClose(with: code)
     }
 }

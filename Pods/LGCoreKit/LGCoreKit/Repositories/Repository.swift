@@ -56,6 +56,8 @@ public enum RepositoryError: Error {
             self = .internalError(message: "")
         case .userNotVerified:
             self = .userNotVerified
+        case .suspended(let code):
+            self = .network(errorCode: code, onBackground: false)
         }
     }
 
