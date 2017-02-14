@@ -22,6 +22,8 @@ protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
 }
 
 class SignUpLogInViewModel: BaseViewModel {
+    fileprivate static let unauthorizedErrorCountRememberPwd = 2
+
     let loginSource: EventParameterLoginSourceValue
     let collapsedEmailParam: EventParameterCollapsedEmailField?
     let googleLoginHelper: ExternalAuthHelper
@@ -77,6 +79,7 @@ class SignUpLogInViewModel: BaseViewModel {
 
     var termsAndConditionsEnabled: Bool
 
+    fileprivate var unauthorizedErrorCount: Int
     fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let previousEmail: Variable<String?>
     let previousFacebookUsername: Variable<String?>
@@ -104,7 +107,7 @@ class SignUpLogInViewModel: BaseViewModel {
         return LetgoURLHelper.buildPrivacyURL()
     }
 
-    private let sessionManager: SessionManager
+    fileprivate let sessionManager: SessionManager
     private let installationRepository: InstallationRepository
     private let locationManager: LocationManager
 
@@ -141,6 +144,7 @@ class SignUpLogInViewModel: BaseViewModel {
         self.newsletterAccepted = false
         self.currentActionType = action
         self.termsAndConditionsEnabled = false
+        self.unauthorizedErrorCount = 0
         self.suggestedEmailVar = Variable<String?>(nil)
         self.previousEmail = Variable<String?>(nil)
         self.previousFacebookUsername = Variable<String?>(nil)
@@ -391,6 +395,7 @@ class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+            unauthorizedErrorCount = unauthorizedErrorCount + 1
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .email)
@@ -401,7 +406,20 @@ class SignUpLogInViewModel: BaseViewModel {
              .userNotVerified:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
-        delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+
+        var afterMessageCompletion: (() -> ())? = nil
+        switch featureFlags.signUpLoginImprovement {
+        case .v1WImprovements:
+            if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
+                afterMessageCompletion = { [weak self] in
+                    self?.showRememberPasswordAlert()
+                }
+            }
+        case .v1, .v2:
+            break
+        }
+
+        delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
         trackLoginEmailFailedWithError(eventParameterForSessionError(error))
     }
 
@@ -561,6 +579,12 @@ class SignUpLogInViewModel: BaseViewModel {
     private func trackSignupEmailFailedWithError(_ error: EventParameterLoginError) {
         tracker.trackEvent(TrackerEvent.signupError(error))
     }
+
+    fileprivate func trackPasswordRecoverFailed(error: SessionManagerError) {
+        let trackingError = eventParameterForSessionError(error)
+        let event = TrackerEvent.passwordResetError(trackingError)
+        tracker.trackEvent(event)
+    }
 }
 
 
@@ -620,5 +644,57 @@ fileprivate extension SignUpLogInViewModel {
         }
 
         suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
+    }
+}
+
+
+// MARK: > Recover password
+
+fileprivate extension SignUpLogInViewModel {
+    func showRememberPasswordAlert() {
+        let title = LGLocalizedString.logInEmailForgotPasswordAlertTitle
+        let message = LGLocalizedString.logInEmailForgotPasswordAlertMessage(email)
+        let cancelAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertCancelAction, .cancel),
+                                    action: {})
+        let recoverPasswordAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertRememberAction, .destructive),
+                                             action: { [weak self] in
+            guard let email = self?.email else { return }
+            self?.recoverPassword(email: email)
+        })
+        let actions = [cancelAction, recoverPasswordAction]
+        delegate?.vmShowAlert(title, message: message, actions: actions)
+    }
+
+    func recoverPassword(email: String) {
+        delegate?.vmShowLoading(nil)
+        sessionManager.recoverPassword(email) { [weak self] result in
+            if let _ = result.value {
+                self?.recoverPasswordSucceeded()
+            } else if let error = result.error {
+                self?.recoverPasswordFailed(error: error)
+            }
+        }
+    }
+
+    func recoverPasswordSucceeded() {
+        let message = LGLocalizedString.resetPasswordSendOk(email)
+        delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+    }
+
+    func recoverPasswordFailed(error: SessionManagerError) {
+        trackPasswordRecoverFailed(error: error)
+
+        var message: String? = nil
+        switch error {
+        case .network:
+            message = LGLocalizedString.commonErrorConnectionFailed
+        case .notFound:
+            message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(email)
+        case .conflict, .tooManyRequests:
+            message = LGLocalizedString.resetPasswordSendTooManyRequests
+        case .badRequest, .scammer, .internalError, .userNotVerified, .forbidden, .unauthorized, .nonExistingEmail:
+            message = LGLocalizedString.resetPasswordSendErrorGeneric
+        }
+        delegate?.vmHideLoading(message, afterMessageCompletion: nil)
     }
 }
