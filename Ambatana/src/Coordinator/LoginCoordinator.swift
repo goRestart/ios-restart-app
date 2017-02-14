@@ -272,7 +272,7 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
         vm.navigator = self
         let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: appearance,
                                                 backgroundImage: loginV2BackgroundImage)
-        navCtl.pushViewController(vc, animated: false)
+        navCtl.pushViewController(vc, animated: true)
 
         recaptchaTokenDelegate = vm
     }
