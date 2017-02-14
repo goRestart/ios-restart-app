@@ -556,12 +556,16 @@ class OldChatViewModel: BaseViewModel, Paginable {
         return loadedMessages[index].value
     }
     
-    func sendSticker(_ sticker: Sticker) {
-        sendMessage(sticker.name, isQuickAnswer: false, type: .sticker)
+    func send(sticker: Sticker) {
+        sendMessage(type: .chatSticker(sticker))
     }
     
-    func sendText(_ text: String, isQuickAnswer: Bool) {
-        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .text)
+    func send(text: String) {
+        sendMessage(type: .text(text))
+    }
+
+    func send(quickAnswer: QuickAnswer) {
+        sendMessage(type: .quickAnswer(quickAnswer))
     }
     
     func isMatchingConversationData(_ data: ConversationData) -> Bool {
@@ -688,26 +692,27 @@ class OldChatViewModel: BaseViewModel, Paginable {
             }.addDisposableTo(disposeBag)
     }
 
-    fileprivate func sendMessage(_ text: String, isQuickAnswer: Bool, type: MessageType) {
+    fileprivate func sendMessage(type: ChatWrapperMessageType) {
         guard myUserRepository.myUser != nil else {
-            loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
+            loginAndResend(type: type)
             return
         }
 
         if isSendingMessage.value { return }
-        let message = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let toUser = otherUser else { return }
-        if !isQuickAnswer && type != .sticker {
+        if type.isUserText {
             delegate?.vmClearText()
         }
         isSendingMessage.value = true
 
-        chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
+        let chatType = type.oldChatType
+        chatRepository.sendMessage(chatType, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
                 //This is required to be called BEFORE any message insertion
-                strongSelf.trackMessageSent(isQuickAnswer, type: type)
+                strongSelf.trackMessageSent(type: type)
 
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, at: 0)
@@ -1042,26 +1047,26 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackFirstMessage(_ type: MessageType) {
+    private func trackFirstMessage(type: ChatWrapperMessageType) {
         // only track ask question if I didn't send any previous message
         guard !didSendMessage else { return }
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
+        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.chatTrackerType, quickAnswerType: type.quickAnswerType,
                                                           typePage: .chat, sellerRating: sellerRating,
                                                           freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                           isBumpedUp: .falseParameter)
         tracker.trackEvent(firstMessageEvent)
     }
     
-    private func trackMessageSent(_ isQuickAnswer: Bool, type: MessageType) {
+    private func trackMessageSent(type: ChatWrapperMessageType) {
         if shouldSendFirstMessageEvent {
             shouldSendFirstMessageEvent = false
-            trackFirstMessage(type)
+            trackFirstMessage(type: type)
         }
         
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
-                                                            messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat,
+                                                            messageType: type.chatTrackerType,
+                                                            quickAnswerType: type.quickAnswerType, typePage: .chat,
                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
@@ -1219,7 +1224,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
         default:
             clearProductSoldDirectAnswer()
         }
-        sendText(answer.text, isQuickAnswer: true)
+        send(quickAnswer: answer)
     }
     
     func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {
@@ -1272,7 +1277,7 @@ fileprivate extension OldChatViewModel {
 // MARK: - User verification & Second step login
 
 fileprivate extension OldChatViewModel {
-    func loginAndResend(_ text: String, isQuickAnswer: Bool, type: MessageType) {
+    func loginAndResend(type: ChatWrapperMessageType) {
         let completion = { [weak self] in
             guard let strongSelf = self else { return }
             guard !strongSelf.isMyProduct else {
@@ -1296,7 +1301,7 @@ fileprivate extension OldChatViewModel {
                     strongSelf.isSendingMessage.value = false
                     return
                 }
-                self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+                self?.sendMessage(type: type)
             }
             strongSelf.retrieveFirstPage()
             strongSelf.retrieveUsersRelation()

@@ -116,7 +116,7 @@ class ChatViewController: TextViewController {
     
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
-        viewModel.sendText(message, isQuickAnswer: false)
+        viewModel.send(text: message)
     }
 
     override func scrollViewDidTap() {
@@ -393,7 +393,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
 
 extension ChatViewController: ChatStickersViewDelegate {
     func stickersViewDidSelectSticker(_ sticker: Sticker) {
-        viewModel.sendSticker(sticker)
+        viewModel.send(sticker: sticker)
     }
 }
 

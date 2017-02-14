@@ -62,6 +62,43 @@ enum QuickAnswer {
         }
     }
 
+    var quickAnswerType: EventParameterQuickAnswerType {
+        switch self {
+        case .interested:
+            return .interested
+        case .notInterested:
+            return .notInterested
+        case .meetUp:
+            return .meetUp
+        case .stillAvailable:
+            return .stillAvailable
+        case .isNegotiable:
+            return .isNegotiable
+        case .likeToBuy:
+            return .likeToBuy
+        case .productCondition:
+            return .productCondition
+        case .productStillForSale:
+            return .productStillForSale
+        case .productSold:
+            return .productSold
+        case .whatsOffer:
+            return .whatsOffer
+        case .negotiableYes:
+            return .negotiableYes
+        case .negotiableNo:
+            return .negotiableNo
+        case .freeStillHave:
+            return .freeStillHave
+        case .freeYours:
+            return .freeYours
+        case .freeAvailable:
+            return .freeAvailable
+        case .freeNotAvailable:
+            return .freeNotAvailable
+        }
+    }
+
     static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, newQuickAnswers: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
         if isFree {

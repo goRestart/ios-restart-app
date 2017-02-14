@@ -1243,7 +1243,8 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
 
                     product = mockProduct
-                    sut = TrackerEvent.firstMessage(product, messageType: .text, typePage: .productDetail, sellerRating: 4,
+                    sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
+                                                    typePage: .productDetail, sellerRating: 4,
                                                     freePostingModeAllowed: true, isBumpedUp: .trueParameter)
                 }
                 it("has its event name") {
@@ -1312,9 +1313,9 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     product = mockProduct
-                    sut = TrackerEvent.firstMessage(product, messageType: .text, interlocutorId: "67890",
-                                                    typePage: .productDetail, sellerRating: 4, freePostingModeAllowed: true,
-                                                    isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
+                                                    interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
+                                                    freePostingModeAllowed: true, isBumpedUp: .trueParameter)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1912,18 +1913,15 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("userMessageSent") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
-                    expect(sut.name.rawValue).to(equal("user-sent-message"))
-                }
-                it("contains the product related params when passing by a product and my user") {
-                    let productUser = MockUserProduct()
+                var productUser: MockUserProduct!
+                var product: MockProduct!
+                beforeEach {
+                    productUser = MockUserProduct()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
-                        countryCode: "NL", country: nil)
-                    
-                    let product = MockProduct()
+                                                              countryCode: "NL", country: nil)
+
+                    product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.983)
@@ -1932,71 +1930,104 @@ class TrackerEventSpec: QuickSpec {
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
-                        countryCode: "US", country: nil)
-                    
+                                                          countryCode: "US", country: nil)
+
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .text,
-                                                       isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
-                    expect(sut.params).notTo(beNil())
-                    
-                    // Product
-                    
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                                                       quickAnswerType: nil, typePage: .chat, freePostingModeAllowed: true)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("user-sent-message"))
+                }
+                it("has product-id param") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    expect(productId) == "AAAAA"
+                }
+                it("has product-price param") {
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price.value))
-                    
-                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
+                    expect(productPrice) == 123.983
+                }
+                it("has product-currency param") {
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency.code))
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                    expect(productCurrency) == "EUR"
+                }
+                it("has category-id param") {
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(productCategory).to(equal(product.category.rawValue))
-                    
-                    expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
+                    expect(productCategory) == ProductCategory.homeAndGarden.rawValue
+                }
+                it("has coordinates params") {
                     let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
-                    expect(productLat).to(equal(product.location.latitude))
-                    
-                    expect(sut.params!.stringKeyParams["product-lng"]).notTo(beNil())
+                    expect(productLat) == 3.12354534
+
                     let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
-                    expect(productLng).to(equal(product.location.longitude))
-                    
-                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
+                    expect(productLng) == 7.23983292
+                }
+                it("has item-type param") {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("1"))
-                    
-                    // the other user
-                    
-                    expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
+                    expect(itemType) == "1"
+                }
+                it("has user-to-id param") {
                     let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
-                    expect(productUserId).to(equal(productUser.objectId))
-
-                    // Quick answer param
-
-                    expect(sut.params!.stringKeyParams["quick-answer"]).notTo(beNil())
-                    let quickAnswer = sut.params!.stringKeyParams["quick-answer"] as? String
-                    expect(quickAnswer).to(equal("false"))
-
-                    // Type param
-                    expect(sut.params!.stringKeyParams["message-type"]).notTo(beNil())
-                    let messageType = sut.params!.stringKeyParams["message-type"] as? String
-                    expect(messageType).to(equal("text"))
+                    expect(productUserId) == "56897"
                 }
-                it("contains pageType param") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
+                it("has type-page param") {
                     let pageType = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(pageType).to(equal("chat"))
+                    expect(pageType) == "chat"
                 }
-                it("contains free-posting param") {
-                    let product = MockProduct()
-                    product.price = .negotiable(100)
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .text, isQuickAnswer: .falseParameter, typePage: .chat, freePostingModeAllowed: true)
+                it("has free-posting param") {
                     let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
-                    expect(freePosting).to(equal("false"))
+                    expect(freePosting) == "false"
+                }
+                describe("text message") {
+                    beforeEach {
+                        sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .text,
+                                                           quickAnswerType: nil, typePage: .chat, freePostingModeAllowed: true)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "text"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "false"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("sticker message") {
+                    beforeEach {
+                        sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .sticker,
+                                                           quickAnswerType: nil, typePage: .chat, freePostingModeAllowed: true)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "sticker"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "false"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("quick answer message") {
+                    beforeEach {
+                        sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .quickAnswer,
+                                                           quickAnswerType: .notInterested, typePage: .chat, freePostingModeAllowed: true)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "quick-answer"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "true"
+                    }
+                    it("has no quick-answer-type") {
+                        let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
+                        expect(value) == "not-interested"
+                    }
                 }
             }
 

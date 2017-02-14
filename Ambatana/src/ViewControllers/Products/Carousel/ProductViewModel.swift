@@ -475,16 +475,16 @@ extension ProductViewModel {
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
             if isDefaultText {
-                self?.sendMessage(.periscopeDirect(text))
+                self?.sendMessage(type: .periscopeDirect(text))
             } else {
-                self?.sendMessage(.text(text))
+                self?.sendMessage(type: .text(text))
             }
         }
     }
 
     func sendQuickAnswer(quickAnswer: QuickAnswer) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.quickAnswer(quickAnswer.text))
+            self?.sendMessage(type: .quickAnswer(quickAnswer))
         }
     }
 
@@ -985,7 +985,7 @@ fileprivate extension ProductViewModel {
         }
     }
 
-    func sendMessage(_ type: ChatWrapperMessageType) {
+    func sendMessage(type: ChatWrapperMessageType) {
         // Optimistic behavior
         let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
@@ -996,7 +996,7 @@ fileprivate extension ProductViewModel {
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
                 strongSelf.trackHelper.trackMessageSent(firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
-                                                   messageType: type.chatTrackerType, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
+                                                   messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
