@@ -17,7 +17,7 @@ class TextViewController: KeyboardViewController {
     var textViewMargin: CGFloat = 5
     var tableBottomMargin: CGFloat = 0 {
         didSet {
-            tableBottomMarginConstraint.constant = tableBottomMargin
+            tableBottomMarginConstraint.constant = -tableBottomMargin
         }
     }
 
@@ -29,7 +29,7 @@ class TextViewController: KeyboardViewController {
     }
     var textViewBarHidden = false {
         didSet {
-            textViewBarBottom.constant = textViewBarHidden ? -textViewBar.height : 0
+            textViewBarBottom.constant = textViewBarHidden ? textViewBar.height : 0
         }
     }
     var textViewFont: UIFont = UIFont.systemFont(ofSize: 17) {
@@ -63,6 +63,14 @@ class TextViewController: KeyboardViewController {
     fileprivate let textViewInsets: CGFloat = 7
     fileprivate var textViewBarBottom = NSLayoutConstraint()
     fileprivate var textViewRightConstraint = NSLayoutConstraint()
+    var textRightMargin: CGFloat {
+        get {
+            return -textViewRightConstraint.constant
+        }
+        set {
+            textViewRightConstraint.constant = -newValue
+        }
+    }
     fileprivate var textViewHeight = NSLayoutConstraint()
     fileprivate var tableBottomMarginConstraint = NSLayoutConstraint()
     fileprivate var leftActionsDisposeBag = DisposeBag()
@@ -161,9 +169,9 @@ extension TextViewController {
     fileprivate func setupTable() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        tableView.fitHorizontallyToParent()
-        tableView.alignParentTop()
-        tableBottomMarginConstraint = tableView.toTopOf(textViewBar, margin: tableBottomMargin)
+        tableView.layout(with: view).fillHorizontal().top()
+        tableView.layout(with: textViewBar)
+            .bottom(to: .top, by: -tableBottomMargin, constraintBlock: { [weak self] in self?.tableBottomMarginConstraint = $0 })
         tableView.backgroundColor = UIColor.clear
         tableView.separatorStyle = .none
         tableView.clipsToBounds = false
@@ -205,30 +213,30 @@ extension TextViewController: UITextViewDelegate {
         textViewBar.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.clipsToBounds = true
         view.addSubview(textViewBar)
-        textViewBar.fitHorizontallyToParent()
+        textViewBar.layout(with: view).fillHorizontal()
 
         leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(leftButtonsContainer)
-        leftButtonsContainer.alignParentLeft(margin: viewMargins)
-        leftButtonsContainer.alignParentBottom(margin: textViewMargin)
+        leftButtonsContainer.layout(with: textViewBar).left(by: viewMargins).bottom(by: -textViewMargin)
         leftButtonsContainer.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
 
         textView.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(textView)
-        textView.fitVerticallyToParent(margin: textViewMargin)
-        textView.toRightOf(leftButtonsContainer, margin: viewMargins)
-        textViewRightConstraint = textView.alignParentRight(margin: viewMargins)
-        textViewHeight = textView.setHeightConstraint(textView.minimumHeight)
+        textView.layout(with: textViewBar).fillVertical(by: textViewMargin)
+            .right(by: -viewMargins, constraintBlock: {[weak self] in self?.textViewRightConstraint = $0 })
+        textView.layout(with: leftButtonsContainer).left(to: .right, by: viewMargins)
+        textView.layout().height(textView.minimumHeight, constraintBlock: {[weak self] in self?.textViewHeight = $0 })
 
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(sendButton)
-        sendButton.alignParentBottom()
-        sendButton.toRightOf(textView, margin: viewMargins)
-        sendButton.setHeightConstraint(minHeight)
+        sendButton.layout(with: textViewBar).bottom()
+        sendButton.layout(with: textView).left(to: .right, by: viewMargins)
+        sendButton.layout().height(minHeight)
 
         textViewBar.addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
 
-        textViewBarBottom = textViewBar.toTopOf(keyboardView, margin: textViewBarHidden ? -textViewBar.height : 0)
+        textViewBar.layout(with: keyboardView).bottom(to: .top, by: textViewBarHidden ? textViewBar.height : 0,
+                                                      constraintBlock: {[weak self] in self?.textViewBarBottom = $0 })
 
         mainResponder = textView
         textView.delegate = self
@@ -252,8 +260,8 @@ extension TextViewController: UITextViewDelegate {
         emptyText.bindNext { [weak self] empty in
                 guard let strongSelf = self, let margin = self?.viewMargins else { return }
                 let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
-                guard strongSelf.textViewRightConstraint.constant != rightConstraint else { return }
-                self?.textViewRightConstraint.constant = rightConstraint
+                guard strongSelf.textRightMargin != rightConstraint else { return }
+                self?.textRightMargin = rightConstraint
                 UIView.animate(withDuration: TextViewController.animationTime, delay: 0, options: [.beginFromCurrentState],
                                animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
                 }.addDisposableTo(disposeBag)
@@ -286,18 +294,17 @@ extension TextViewController: UITextViewDelegate {
             button.rx.tap.subscribeNext(onNext: action.action).addDisposableTo(leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
-            button.setHeightConstraint(buttonDiameter)
-            button.setWidthConstraint(buttonDiameter)
-            button.fitVerticallyToParent()
+            button.layout().widthEqualsHeight(size: buttonDiameter)
+            button.layout(with: leftButtonsContainer).fillVertical()
             if let prevButton = prevButton {
-                button.toRightOf(prevButton)
+                button.layout(with: prevButton).left(to: .right)
             } else {
-                button.alignParentLeft()
+                button.layout(with: leftButtonsContainer).left()
             }
             prevButton = button
         }
         if let lastButton = prevButton {
-            lastButton.alignParentRight()
+            lastButton.layout(with: leftButtonsContainer).right()
         }
         textViewBar.layoutIfNeeded()
     }

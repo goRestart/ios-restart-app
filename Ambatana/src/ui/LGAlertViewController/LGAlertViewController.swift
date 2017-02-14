@@ -149,19 +149,18 @@ class LGAlertViewController: UIViewController {
             let button = UIButton(type: .custom)
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
-            button.fitVerticallyToParent()
-            button.setHeightConstraint(LGUIKitConstants.mediumButtonHeight)
-            button.setWidthConstraint(multiplier: widthMultiplier, constant: widthConstant)
+            button.layout(with: buttonsContainer).fillVertical()
+            button.layout().height(LGUIKitConstants.mediumButtonHeight).width(widthConstant, multiplier: widthMultiplier)
             if let previous = previous {
-                button.toRightOf(previous, margin: LGAlertViewController.buttonsMargin)
+                button.layout(with: previous).left(to: .right, by: LGAlertViewController.buttonsMargin)
             } else {
-                button.alignParentLeft()
+                button.layout(with: buttonsContainer).left()
             }
             bindButtonWithAction(button, action: action)
             previous = button
         }
         if let lastBtn = previous {
-            lastBtn.alignParentRight()
+            lastBtn.layout(with: buttonsContainer).right()
         }
     }
 
@@ -171,18 +170,18 @@ class LGAlertViewController: UIViewController {
             let button = UIButton(type: .custom)
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
-            button.fitHorizontallyToParent()
-            button.setHeightConstraint(LGUIKitConstants.mediumButtonHeight)
+            button.layout(with: buttonsContainer).fillHorizontal()
+            button.layout().height(LGUIKitConstants.mediumButtonHeight)
             if let previous = previous {
-                button.toBottomOf(previous, margin: LGAlertViewController.buttonsMargin)
+                button.layout(with: previous).top(to: .bottom, by: LGAlertViewController.buttonsMargin)
             } else {
-                button.alignParentTop()
+                button.layout(with: buttonsContainer).top()
             }
             bindButtonWithAction(button, action: action)
             previous = button
         }
         if let lastBtn = previous {
-            lastBtn.alignParentBottom()
+            lastBtn.layout(with: buttonsContainer).bottom()
         }
     }
 
