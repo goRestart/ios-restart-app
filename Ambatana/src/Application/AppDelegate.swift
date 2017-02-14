@@ -136,6 +136,11 @@ extension AppDelegate: UIApplicationDelegate {
         LGCoreKit.applicationDidEnterBackground()
         productRepository?.updateProductViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
+
+        // stop observing payment transactions
+        if let actualFeatureflags = featureFlags, actualFeatureflags.pricedBumpUpEnabled {
+            LGPurchasesShopper.sharedInstance.stopObservingTransactions()
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -156,6 +161,10 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openNPSSurvey()
+        // observe payment transactions
+        if let actualfeatureflags = featureFlags, actualfeatureflags.pricedBumpUpEnabled {
+            LGPurchasesShopper.sharedInstance.startObservingTransactions()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

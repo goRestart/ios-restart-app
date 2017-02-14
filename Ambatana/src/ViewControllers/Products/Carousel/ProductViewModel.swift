@@ -419,10 +419,11 @@ class ProductViewModel: BaseViewModel {
             if let bumpeableProduct = result.value {
                 self?.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
                 let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
-                let paymentItemsIds = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
-                if !paymentItemsIds.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
+                if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
                     // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                    strongSelf.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItemsIds)
+                    strongSelf.paymentItemId = paymentItems.first?.itemId
+                    strongSelf.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems.map { $0.providerItemId })
                 } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
                     strongSelf.paymentItemId = freeItems.first?.itemId
                     strongSelf.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
@@ -526,8 +527,8 @@ extension ProductViewModel {
 
     func bumpUpProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
-        guard let purchase = bumpUpPurchaseableProduct else { return }
-        purchasesShopper.requestPaymentForProduct(purchase.productIdentifier)
+        guard let productId = product.value.objectId, let purchase = bumpUpPurchaseableProduct else { return }
+        purchasesShopper.requestPaymentForProduct(productId, appstoreProduct: purchase)
     }
 }
 

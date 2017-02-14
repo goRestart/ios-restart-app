@@ -28,6 +28,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     private var requestFactory: PurchaseableProductsRequestFactory
     private var monetizationRepository: MonetizationRepository
+    private var myUserRepository: MyUserRepository
 
     weak var delegate: PurchasesShopperDelegate?
 
@@ -36,15 +37,34 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     override convenience init() {
         let factory = AppstoreProductsRequestFactory()
         let monetizationRepository = Core.monetizationRepository
-        self.init(requestFactory: factory, monetizationRepository: monetizationRepository)
+        let myUserRepository = Core.myUserRepository
+        self.init(requestFactory: factory, monetizationRepository: monetizationRepository, myUserRepository: myUserRepository)
     }
 
-    init(requestFactory: PurchaseableProductsRequestFactory, monetizationRepository: MonetizationRepository) {
+    init(requestFactory: PurchaseableProductsRequestFactory, monetizationRepository: MonetizationRepository,
+         myUserRepository: MyUserRepository) {
         self.monetizationRepository = monetizationRepository
         self.requestFactory = requestFactory
         self.productsRequest = requestFactory.generatePurchaseableProductsRequest([])
+        self.myUserRepository = myUserRepository
         super.init()
         productsRequest.delegate = self
+    }
+
+    // MARK: Public methods
+
+    /**
+     Sets itself as the payment transactions observer
+     */
+    func startObservingTransactions() {
+        SKPaymentQueue.default().add(self)
+    }
+
+    /**
+     Removes itself as the payment transactions observer
+     */
+    func stopObservingTransactions() {
+        SKPaymentQueue.default().remove(self)
     }
 
     /**
@@ -68,10 +88,20 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
      - parameter product: info of the product to purchase on the appstore
      */
-    func requestPaymentForProduct(_ appstoreProductId: String) {
-        guard let appstoreProduct = productsDict[appstoreProductId] else { return }
-        // request payment to appstore with "appstoreProduct"
+    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct) {
+        guard let appstoreProducts = productsDict[productId],
+              let appstoreChosenProduct = appstoreProduct as? SKProduct else { return }
+        guard appstoreProducts.contains(appstoreChosenProduct) else { return }
 
+        // request payment to appstore with "appstoreChosenProduct"
+        let payment = SKMutablePayment(product: appstoreChosenProduct)
+        if let myUserId = myUserRepository.myUser?.objectId {
+            // add encrypted user id to help appstore prevent fraud
+            let hashedUserName = myUserId.sha256()
+            payment.applicationUsername = hashedUserName
+        }
+
+        SKPaymentQueue.default().add(payment)
     }
 
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
@@ -102,11 +132,48 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             report(AppReport.monetization(error: .invalidAppstoreProductIdentifiers), message: message)
         }
 
-        productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }
-        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
+
+//        productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }
+//        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
+
+        let mockPurchaseableProduct = MockPurchaseableProduct()
+        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: [mockPurchaseableProduct])
     }
 
     func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
         delegate?.shopperFailedProductsRequestForProductId(currentProductId, withError: error)
     }
+}
+
+
+// MARK: SKPaymentTransactionObserver
+
+extension LGPurchasesShopper: SKPaymentTransactionObserver {
+
+    // Sent when the transaction array has changed (additions or state changes).
+    // Client should check state of transactions and finish as appropriate.
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+
+    }
+}
+
+class MockPurchaseableProduct: PurchaseableProduct {
+    var localizedDescription: String {
+        return "Mock bump up descr."
+    }
+    var localizedTitle: String {
+        return "MOCK BUMP!"
+    }
+    var price: NSDecimalNumber {
+        return NSDecimalNumber(value: 1.99)
+    }
+    var priceLocale: Locale {
+        return Locale.current
+    }
+    var productIdentifier: String {
+        return "com.letgo.ios.dcbump1"
+    }
+    var downloadable: Bool { return true }
+    var downloadContentLengths: [NSNumber] { return [NSNumber(value: 200)] }
+    var downloadContentVersion: String { return "1.2.3"}
 }

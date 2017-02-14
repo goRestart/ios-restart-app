@@ -10,6 +10,16 @@ protocol PurchasesShopper: class {
     var delegate: PurchasesShopperDelegate? { get set }
 
     /**
+     Sets itself as the payment transactions observer
+     */
+    func startObservingTransactions()
+
+    /**
+     Removes itself as the payment transactions observer
+     */
+    func stopObservingTransactions()
+    
+    /**
      Checks purchases available on appstore
 
      - parameter productId: ID of the listing for wich will request the appstore products
@@ -22,7 +32,7 @@ protocol PurchasesShopper: class {
 
      - parameter product: info of the product to purchase on the appstore
      */
-    func requestPaymentForProduct(_ appstoreProductId: String)
+    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct)
 
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork)
 }
