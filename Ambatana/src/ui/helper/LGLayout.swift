@@ -302,6 +302,16 @@ extension LGLayout {
     }
 
     @discardableResult
+    func fillHorizontal(by constant: CGFloat = 0) -> LGLayout {
+        return left(by: constant).right(by: -constant)
+    }
+
+    @discardableResult
+    func fillVertical(by constant: CGFloat = 0) -> LGLayout {
+        return top(by: constant).bottom(by: -constant)
+    }
+
+    @discardableResult
     func center() -> LGLayout {
         centerX()
         centerY()

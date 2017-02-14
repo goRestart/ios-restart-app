@@ -20,7 +20,7 @@ class DirectAnswersBigView: UIView {
 
     override var isHidden: Bool {
         didSet {
-            bottomConstraint?.constant = isHidden ? -accurateHeight : 0
+            bottomConstraint?.constant = isHidden ? accurateHeight : 0
         }
     }
 
@@ -77,8 +77,9 @@ class DirectAnswersBigView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
         parentView.insertSubview(self, belowSubview: sibling)
-        fitHorizontallyToParent()
-        bottomConstraint = toTopOf(sibling, margin: isHidden ? -accurateHeight : 0)
+        layout(with: parentView).fillHorizontal()
+        layout(with: sibling).bottom(to: .top, by: isHidden ? accurateHeight : 0,
+                                     constraintBlock: { [weak self] in self?.bottomConstraint = $0 })
     }
 
     func setDirectAnswers(_ directAnswers: [QuickAnswer]) {
@@ -96,13 +97,14 @@ class DirectAnswersBigView: UIView {
             let button = buildAnswerButton(answer)
             button.tag = index
             addSubview(button)
-            button.fitHorizontallyToParent(margin: DirectAnswersBigView.itemMargin)
-            button.toBottomOf(previousItem)
+            button.layout(with: self).fillHorizontal(by: DirectAnswersBigView.itemMargin)
+            button.layout(with: previousItem).top(to: .bottom)
             button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
 
             previousItem = button
         }
-        lastItemConstraint = previousItem.alignParentBottom(margin: DirectAnswersBigView.itemMargin)
+        previousItem.layout(with: self).bottom(by: -DirectAnswersBigView.itemMargin,
+                                               constraintBlock: { [weak self] in self?.lastItemConstraint = $0 })
     }
 
     func setHidden(_ hidden: Bool, animated: Bool) {
@@ -127,9 +129,9 @@ class DirectAnswersBigView: UIView {
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)
-        titleLabel.alignParentTop()
-        titleLabel.setHeightConstraint(DirectAnswersBigView.itemHeight)
-        titleLabel.fitHorizontallyToParent(margin: DirectAnswersBigView.itemMargin)
+        titleLabel.layout(with: self).top()
+        titleLabel.layout().height(DirectAnswersBigView.itemHeight)
+        titleLabel.layout(with: self).fillHorizontal(by: DirectAnswersBigView.itemMargin)
 
         addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
     }
@@ -138,7 +140,7 @@ class DirectAnswersBigView: UIView {
         let width = DirectAnswersBigView.defaultWidth - DirectAnswersBigView.itemMargin*2
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: DirectAnswersBigView.itemHeight))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setHeightConstraint(DirectAnswersBigView.itemHeight)
+        button.layout().height(DirectAnswersBigView.itemHeight)
         button.setTitle(answer.text, for: .normal)
         button.setTitleColor(UIColor.primaryColor, for: .normal)
         button.titleLabel?.font = UIFont.systemMediumFont(size: 17)
