@@ -375,6 +375,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, for: .normal)
 
         emailTextField.clearButtonOffset = 0
+        emailTextField.pixelCorrection = -1
         emailTextField.text = viewModel.email
         passwordTextField.clearButtonOffset = 0
         usernameTextField.clearButtonOffset = 0

@@ -28,7 +28,7 @@ final class LogInEmailViewController: KeyboardViewController {
     fileprivate let contentView = UIView()
     fileprivate let emailButton = UIButton()
     fileprivate let emailImageView = UIImageView()
-    fileprivate let emailTextField = LGTextField()
+    fileprivate let emailTextField = AutocompleteField()
     fileprivate let passwordButton = UIButton()
     fileprivate let passwordImageView = UIImageView()
     fileprivate let passwordTextField = LGTextField()
@@ -135,6 +135,7 @@ extension LogInEmailViewController: UITextFieldDelegate {
         switch tag {
         case .email:
             iconImageView = emailImageView
+            emailTextField.suggestion = nil
         case .password:
             iconImageView = passwordImageView
         }
@@ -146,6 +147,10 @@ extension LogInEmailViewController: UITextFieldDelegate {
 
         if textField.returnKeyType == .next {
             guard let nextView = view.viewWithTag(tag + 1) else { return true }
+
+            if tag == TextFieldTag.email.rawValue && viewModel.acceptSuggestedEmail() {
+                emailTextField.text = viewModel.email.value
+            }
             nextView.becomeFirstResponder()
             return false
         } else {
@@ -232,6 +237,7 @@ fileprivate extension LogInEmailViewController {
                                                                   attributes: textfieldPlaceholderAttrs)
         emailTextField.clearButtonMode = .whileEditing
         emailTextField.clearButtonOffset = 0
+        emailTextField.pixelCorrection = -1
         emailTextField.delegate = self
         contentView.addSubview(emailTextField)
 
@@ -429,6 +435,9 @@ fileprivate extension LogInEmailViewController {
 fileprivate extension LogInEmailViewController {
     func setupRx() {
         emailTextField.rx.text.bindTo(viewModel.email).addDisposableTo(disposeBag)
+        viewModel.suggestedEmail.asObservable().subscribeNext { [weak self] suggestedEmail in
+            self?.emailTextField.suggestion = suggestedEmail
+        }.addDisposableTo(disposeBag)
         passwordTextField.rx.text.bindTo(viewModel.password).addDisposableTo(disposeBag)
         viewModel.logInEnabled.bindTo(loginButton.rx.isEnabled).addDisposableTo(disposeBag)
         rememberPasswordButton.rx.tap.subscribeNext {

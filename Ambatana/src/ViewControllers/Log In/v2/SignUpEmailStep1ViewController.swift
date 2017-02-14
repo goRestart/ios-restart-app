@@ -212,7 +212,6 @@ fileprivate extension SignUpEmailStep1ViewController {
         emailTextField.autocorrectionType = .no
         emailTextField.returnKeyType = .next
         emailTextField.textColor = textfieldTextColor
-        emailTextField.font = UIFont.systemFont(size: 17)
         emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailStep1EmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         emailTextField.clearButtonMode = .whileEditing
