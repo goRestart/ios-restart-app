@@ -17,6 +17,7 @@ final class SignUpEmailStep2ViewController: KeyboardViewController, SignUpEmailS
     fileprivate let deviceFamily: DeviceFamily
 
     fileprivate let backgroundImageView = UIImageView()
+    fileprivate let backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     fileprivate let scrollView = UIScrollView()
     fileprivate let headerGradientView = UIView()
     fileprivate let headerGradientLayer = CAGradientLayer.gradientWithColor(UIColor.white,
@@ -130,9 +131,14 @@ fileprivate extension SignUpEmailStep2ViewController {
     func setupUI() {
         view.backgroundColor = UIColor.white
 
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundImageView.image = backgroundImage
-        view.addSubview(backgroundImageView)
+        if appearance.hasBackgroundImage {
+            backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+            backgroundImageView.image = backgroundImage
+            view.addSubview(backgroundImageView)
+
+            backgroundEffectView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(backgroundEffectView)
+        }
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.bounces = false
@@ -153,10 +159,10 @@ fileprivate extension SignUpEmailStep2ViewController {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
 
-        let textfieldTextColor = UIColor.blackText
+        let textfieldTextColor = appearance.textFieldTextColor
         var textfieldPlaceholderAttrs = [String: AnyObject]()
         textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
-        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.blackTextHighAlpha
+        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = appearance.textFieldPlaceholderColor
 
         fullNameButton.translatesAutoresizingMaskIntoConstraints = false
         fullNameButton.setStyle(appearance.textFieldButtonStyle)
@@ -230,7 +236,10 @@ fileprivate extension SignUpEmailStep2ViewController {
     }
 
     func setupLayout() {
-        backgroundImageView.layout(with: view).fill()
+        if appearance.hasBackgroundImage {
+            backgroundImageView.layout(with: view).fill()
+            backgroundEffectView.layout(with: view).fill()
+        }
 
         scrollView.layout(with: topLayoutGuide).vertically()
         scrollView.layout(with: bottomLayoutGuide).vertically(invert: true)

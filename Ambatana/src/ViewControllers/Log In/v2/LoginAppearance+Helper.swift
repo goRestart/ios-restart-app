@@ -34,12 +34,39 @@ extension LoginAppearance {
         }
     }
 
+    var hasBackgroundImage: Bool {
+        switch self {
+        case .dark:
+            return true
+        case .light:
+            return false
+        }
+    }
+
     var textFieldButtonStyle: ButtonStyle {
         switch self {
         case .dark:
             return .darkField
         case .light:
             return .lightField
+        }
+    }
+
+    var textFieldTextColor: UIColor {
+        switch self {
+        case .dark:
+            return UIColor.whiteText
+        case .light:
+            return UIColor.blackText
+        }
+    }
+
+    var textFieldPlaceholderColor: UIColor {
+        switch self {
+        case .dark:
+            return UIColor.whiteTextHighAlpha
+        case .light:
+            return UIColor.blackTextHighAlpha
         }
     }
 
