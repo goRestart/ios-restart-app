@@ -30,7 +30,6 @@ final class LoginCoordinator: Coordinator {
     fileprivate var parentViewController: UIViewController?
     fileprivate weak var recaptchaTokenDelegate: RecaptchaTokenDelegate?
 
-    fileprivate let appearance: LoginAppearance
     fileprivate let source: EventParameterLoginSourceValue
     fileprivate let style: LoginStyle
     fileprivate let loggedInAction: () -> Void
@@ -46,11 +45,9 @@ final class LoginCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: EventParameterLoginSourceValue,
-                     appearance: LoginAppearance,
                      style: LoginStyle,
                      loggedInAction: @escaping (() -> Void)) {
         self.init(source: source,
-                  appearance: appearance,
                   style: style,
                   loggedInAction: loggedInAction,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -60,7 +57,6 @@ final class LoginCoordinator: Coordinator {
     }
 
     init(source: EventParameterLoginSourceValue,
-         appearance: LoginAppearance,
          style: LoginStyle,
          loggedInAction: @escaping (() -> Void),
          bubbleNotificationManager: BubbleNotificationManager,
@@ -68,7 +64,6 @@ final class LoginCoordinator: Coordinator {
          tracker: Tracker,
          featureFlags: FeatureFlags) {
         self.bubbleNotificationManager = bubbleNotificationManager
-        self.appearance = appearance
         self.source = source
         self.style = style
         self.loggedInAction = loggedInAction
@@ -77,7 +72,7 @@ final class LoginCoordinator: Coordinator {
         self.tracker = tracker
         self.featureFlags = featureFlags
 
-        let viewModel = SignUpViewModel(appearance: appearance, source: source)
+        let viewModel = SignUpViewModel(appearance: .light, source: source)
         switch style {
         case .fullScreen:
             let mainSignUpVC = MainSignUpViewController(viewModel: viewModel)
@@ -142,16 +137,14 @@ extension LoginCoordinator: MainSignUpNavigator {
             let vm = SignUpLogInViewModel(source: source, collapsedEmailParam: collapsedEmailParam, action: .signup)
             vm.navigator = self
             vc = SignUpLogInViewController(viewModel: vm,
-                                           appearance: appearance,
+                                           appearance: .light,
                                            keyboardFocus: false)
             recaptchaTokenDelegate = vm
         case .v2:
             let vm = SignUpEmailStep1ViewModel(source: source, collapsedEmail: collapsedEmailParam)
             vm.navigator = self
 
-            vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: appearance,
-                                                backgroundImage: loginV2BackgroundImage)
+            vc = SignUpEmailStep1ViewController(viewModel: vm, appearance: .light, backgroundImage: nil)
         }
 
         switch style {
@@ -175,7 +168,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         case .v1, .v1WImprovements:
             let vm = SignUpLogInViewModel(source: source, collapsedEmailParam: collapsedEmailParam, action: .login)
             vm.navigator = self
-            vc = SignUpLogInViewController(viewModel: vm, appearance: appearance, keyboardFocus: false)
+            vc = SignUpLogInViewController(viewModel: vm, appearance: .light, keyboardFocus: false)
 
             recaptchaTokenDelegate = vm
         case .v2:
@@ -183,8 +176,8 @@ extension LoginCoordinator: MainSignUpNavigator {
                                          collapsedEmail: collapsedEmailParam)
             vm.navigator = self
             vc = LogInEmailViewController(viewModel: vm,
-                                              appearance: appearance,
-                                              backgroundImage: loginV2BackgroundImage)
+                                          appearance: .light,
+                                          backgroundImage: nil)
         }
 
         switch style {
@@ -270,8 +263,7 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
         let vm = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: isRememberedEmail,
                                            password: password, source: source, collapsedEmail: collapsedEmail)
         vm.navigator = self
-        let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: appearance,
-                                                backgroundImage: loginV2BackgroundImage)
+        let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: .light, backgroundImage: nil)
         navCtl.pushViewController(vc, animated: true)
 
         recaptchaTokenDelegate = vm
@@ -284,8 +276,7 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
         let vm = LogInEmailViewModel(email: email, isRememberedEmail: isRememberedEmail,
                                      source: source, collapsedEmail: collapsedEmail)
         vm.navigator = self
-        let vc = LogInEmailViewController(viewModel: vm, appearance: appearance,
-                                          backgroundImage: loginV2BackgroundImage)
+        let vc = LogInEmailViewController(viewModel: vm, appearance: .light, backgroundImage: nil)
         let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
         navCtl.setViewControllers(navCtlVCs, animated: false)
     }
@@ -353,8 +344,8 @@ extension LoginCoordinator: LogInEmailNavigator {
         vm.navigator = self
 
         let vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: appearance,
-                                                backgroundImage: loginV2BackgroundImage)
+                                                appearance: .light,
+                                                backgroundImage: nil)
         let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
         navCtl.setViewControllers(navCtlVCs, animated: false)
     }
@@ -368,18 +359,6 @@ extension LoginCoordinator: LogInEmailNavigator {
     func closeAfterLogInSuccessful() {
         dismissAllPresentedIfNeededAndExecute { [weak self] in
             self?.closeRoot(didLogIn: true)
-        }
-    }
-}
-
-
-fileprivate extension LoginCoordinator {
-    var loginV2BackgroundImage: UIImage? {
-        switch appearance {
-        case .dark:
-            return viewController.view.takeSnapshot()
-        case .light:
-            return nil
         }
     }
 }
@@ -496,7 +475,7 @@ fileprivate extension LoginCoordinator {
 
         let vm = RememberPasswordViewModel(source: source, email: email)
         vm.navigator = self
-        let vc = RememberPasswordViewController(viewModel: vm, appearance: appearance)
+        let vc = RememberPasswordViewController(viewModel: vm, appearance: .light)
         navCtl.pushViewController(vc, animated: true)
     }
 

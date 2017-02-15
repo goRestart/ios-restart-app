@@ -27,8 +27,6 @@ final class OnboardingCoordinator: Coordinator {
     fileprivate let featureFlags: FeatureFlaggeable
 
     fileprivate weak var recaptchaTokenDelegate: RecaptchaTokenDelegate?
-    fileprivate let loginSource: EventParameterLoginSourceValue
-    fileprivate let loginAppearance: LoginAppearance
 
 
     // MARK: - Lifecycle
@@ -46,8 +44,6 @@ final class OnboardingCoordinator: Coordinator {
         self.locationManager = locationManager
         self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
-        self.loginSource = .install
-        self.loginAppearance = .dark
 
         viewController = TourBlurBackgroundViewController()
     }
@@ -57,8 +53,8 @@ final class OnboardingCoordinator: Coordinator {
         parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
 
-            let signUpVM = SignUpViewModel(appearance: strongSelf.loginAppearance,
-                                           source: strongSelf.loginSource)
+            let signUpVM = SignUpViewModel(appearance: .dark,
+                                           source: .install)
             signUpVM.navigator = strongSelf
             let tourVM = TourLoginViewModel(signUpViewModel: signUpVM, featureFlags: strongSelf.featureFlags)
             tourVM.navigator = strongSelf
@@ -209,18 +205,18 @@ extension OnboardingCoordinator: MainSignUpNavigator {
 
         switch featureFlags.signUpLoginImprovement {
         case .v1, .v1WImprovements:
-            let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailParam, action: .signup)
+            let vm = SignUpLogInViewModel(source: .install, collapsedEmailParam: collapsedEmailParam, action: .signup)
             vm.navigator = self
             vc = SignUpLogInViewController(viewModel: vm,
-                                           appearance: loginAppearance,
+                                           appearance: .dark,
                                            keyboardFocus: true)
             recaptchaTokenDelegate = vm
         case .v2:
-            let vm = SignUpEmailStep1ViewModel(source: loginSource, collapsedEmail: collapsedEmailParam)
+            let vm = SignUpEmailStep1ViewModel(source: .install, collapsedEmail: collapsedEmailParam)
             vm.navigator = self
 
             vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: loginAppearance,
+                                                appearance: .dark,
                                                 backgroundImage: loginV2BackgroundImage)
         }
 
@@ -303,9 +299,9 @@ extension OnboardingCoordinator: SignUpEmailStep1Navigator {
         guard let navCtl = currentNavigationController() else { return }
 
         let vm = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: isRememberedEmail,
-                                           password: password, source: loginSource, collapsedEmail: collapsedEmail)
+                                           password: password, source: .install, collapsedEmail: collapsedEmail)
         vm.navigator = self
-        let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: loginAppearance,
+        let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: .dark,
                                                 backgroundImage: loginV2BackgroundImage)
         navCtl.pushViewController(vc, animated: true)
 
@@ -317,9 +313,9 @@ extension OnboardingCoordinator: SignUpEmailStep1Navigator {
         guard let navCtl = currentNavigationController() else { return }
 
         let vm = LogInEmailViewModel(email: email, isRememberedEmail: isRememberedEmail,
-                                     source: loginSource, collapsedEmail: collapsedEmail)
+                                     source: .install, collapsedEmail: collapsedEmail)
         vm.navigator = self
-        let vc = LogInEmailViewController(viewModel: vm, appearance: loginAppearance,
+        let vc = LogInEmailViewController(viewModel: vm, appearance: .dark,
                                           backgroundImage: loginV2BackgroundImage)
         let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
         navCtl.setViewControllers(navCtlVCs, animated: false)
@@ -357,7 +353,7 @@ extension OnboardingCoordinator: SignUpEmailStep2Navigator {
 
 extension OnboardingCoordinator: LogInEmailNavigator {
     func cancelLogInEmail() {
-        // as log in should not be opened in on-boarding, it cannot be cancelled (only "back")
+        dismissCurrentNavigationController()
     }
 
     func openHelpFromLogInEmail() {
@@ -374,12 +370,12 @@ extension OnboardingCoordinator: LogInEmailNavigator {
 
         let vm = SignUpEmailStep1ViewModel(email: email,
                                            isRememberedEmail: isRememberedEmail,
-                                           source: loginSource,
+                                           source: .install,
                                            collapsedEmail: collapsedEmail)
         vm.navigator = self
 
         let vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: loginAppearance,
+                                                appearance: .dark,
                                                 backgroundImage: loginV2BackgroundImage)
         let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
         navCtl.setViewControllers(navCtlVCs, animated: false)
@@ -402,13 +398,8 @@ extension OnboardingCoordinator: LogInEmailNavigator {
 
 fileprivate extension OnboardingCoordinator {
     var loginV2BackgroundImage: UIImage? {
-        switch loginAppearance {
-        case .dark:
-            let vc = presentedViewControllers.last ?? viewController
-            return vc.view.takeSnapshot()
-        case .light:
-            return nil
-        }
+        let vc = presentedViewControllers.last ?? viewController
+        return vc.view.takeSnapshot()
     }
 }
 
@@ -489,9 +480,9 @@ fileprivate extension OnboardingCoordinator {
     func openRememberPassword(email: String?) {
         guard let navCtl = currentNavigationController() else { return }
 
-        let vm = RememberPasswordViewModel(source: loginSource, email: email)
+        let vm = RememberPasswordViewModel(source: .install, email: email)
         vm.navigator = self
-        let vc = RememberPasswordViewController(viewModel: vm, appearance: loginAppearance)
+        let vc = RememberPasswordViewController(viewModel: vm, appearance: .dark)
         navCtl.pushViewController(vc, animated: true)
     }
 

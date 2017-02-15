@@ -464,7 +464,7 @@ fileprivate extension AppCoordinator {
     }
 
     func openLoginIfNeeded(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, appearance: .light, style: .fullScreen,
+        openLoginIfNeeded(from: from, style: .fullScreen,
                           loggedInAction: loggedInAction, delegate: self)
     }
 }
@@ -544,8 +544,7 @@ fileprivate extension AppCoordinator {
     }
 
     func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> ()) {
-        let coordinator = LoginCoordinator(source: source, appearance: .light, style: style,
-                                           loggedInAction: afterLogInSuccessful)
+        let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: afterLogInSuccessful)
         coordinator.delegate = self
         openCoordinator(coordinator: coordinator, parent: tabBarCtl, animated: true, completion: nil)
     }

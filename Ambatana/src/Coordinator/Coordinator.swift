@@ -59,11 +59,9 @@ extension Coordinator {
 // MARK: - Login
 
 extension Coordinator {
-    func openLoginIfNeeded(from source: EventParameterLoginSourceValue, appearance: LoginAppearance, style: LoginStyle,
-                           loggedInAction: @escaping (() -> Void),
-                           delegate: LoginCoordinatorDelegate?) {
-        let coordinator = LoginCoordinator(source: source, appearance: appearance, style: style,
-                                           loggedInAction: loggedInAction)
+    func openLoginIfNeeded(from source: EventParameterLoginSourceValue, style: LoginStyle,
+                           loggedInAction: @escaping (() -> Void), delegate: LoginCoordinatorDelegate?) {
+        let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: loggedInAction)
         coordinator.delegate = delegate
         openCoordinator(coordinator: coordinator, parent: viewController, animated: true, completion: nil)
     }
