@@ -211,10 +211,11 @@ class FeatureFlags: FeatureFlaggeable {
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        guard let countryCode = countryCode else { return true }
-        switch countryCode {
-        case .turkey:
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
             return false
+        default:
+            return true
         }
     }
     
@@ -227,28 +228,32 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     var signUpEmailNewsletterAcceptRequired: Bool {
-        guard let countryCode = countryCode else { return false }
-        switch countryCode {
-        case .turkey:
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
             return true
+        default:
+            return false
         }
     }
 
     var signUpEmailTermsAndConditionsAcceptRequired: Bool {
-        guard let countryCode = countryCode else { return false }
-        switch countryCode {
-        case .turkey:
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
             return true
+        default:
+            return false
         }
     }
 
     
     // MARK: - Private
     
-    /// Return CountryCode from location or phone Region
-    private var countryCode: CountryCode? {
-        let systemCountryCode = locale.lg_countryCode
-        let countryCode = (locationManager.currentLocation?.countryCode ?? systemCountryCode).lowercase
+    private var locationCountryCode: CountryCode? {
+        guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
         return CountryCode(rawValue: countryCode)
+    }
+
+    private var localeCountryCode: CountryCode? {
+        return CountryCode(rawValue: locale.lg_countryCode)
     }
 }
