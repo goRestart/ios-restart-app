@@ -192,6 +192,7 @@ fileprivate extension SignUpEmailStep2ViewController {
         if viewModel.termsAndConditionsAcceptRequired {
             termsTextView.translatesAutoresizingMaskIntoConstraints = false
             termsTextView.font = UIFont.systemFont(size: 15)
+            termsTextView.backgroundColor = UIColor.clear
             termsTextView.tintColor = appearance.textViewTintColor
             let termsText = LGLocalizedString.signUpEmailStep2TermsConditions
             if let termsURL = viewModel.termsAndConditionsURL, let privacyURL = viewModel.privacyURL {
