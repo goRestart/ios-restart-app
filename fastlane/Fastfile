@@ -101,7 +101,8 @@ platform :ios do
       configuration: "Adhoc",
       scheme: "LetGoPROD",
       silent: false,
-      clean: true
+      clean: true,
+      export_method: "ad-hoc"
     )
 
     # This reverts icons modified by badge method on the temp folder to avoid pushing them to repo
@@ -152,7 +153,8 @@ platform :ios do
       configuration: "Adhoc",
       scheme: "LetGoPROD",
       silent: false,
-      clean: true
+      clean: true,
+      export_method: "ad-hoc"
     )
 
     # This reverts icons modified by badge method on the local copy
