@@ -26,7 +26,7 @@ protocol Coordinator: CoordinatorDelegate {
 // MARK: - Bubble
 
 extension Coordinator {
-    // TODO: ⚠️ Warning using window not viewcontroller!
+    // TODO: using window not viewcontroller
     func showBubble(with data: BubbleNotificationData, duration: TimeInterval) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         guard let window = appDelegate.window else { return }

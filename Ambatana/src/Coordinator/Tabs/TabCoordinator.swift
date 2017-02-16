@@ -64,9 +64,7 @@ class TabCoordinator: NSObject, Coordinator {
     }
 
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        // TODO: ⚠️
-    }
+    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {}
 
     func close(animated: Bool, completion: (() -> Void)?) {}
 
