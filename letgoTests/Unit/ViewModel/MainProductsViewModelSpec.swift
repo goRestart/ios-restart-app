@@ -158,9 +158,9 @@ class MainProductsViewModelSpec: QuickSpec {
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("fires product list event") {
+                    it("fires product list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
-                        expect(eventNames) == [.productList]
+                        expect(eventNames) == [.productList, .searchComplete]
                     }
                     it("fires product list event and feed source parameter is .search&filter") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
