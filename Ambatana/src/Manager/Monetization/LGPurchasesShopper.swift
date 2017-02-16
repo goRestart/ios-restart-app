@@ -153,7 +153,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
     // Sent when the transaction array has changed (additions or state changes).
     // Client should check state of transactions and finish as appropriate.
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-
+        // https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW4
     }
 }
 
