@@ -55,7 +55,6 @@ def shared_pods
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera
-    pod "FastttCamera",         "0.3.4"     # Obj-c
     pod "CameraManager",        "3.1.0"
 
     # Ken Burns effect
