@@ -130,30 +130,30 @@ fileprivate extension CameraSource {
 
 fileprivate extension UIImage {
     func imageByRotatingBasedOn(deviceOrientation: UIDeviceOrientation) -> UIImage {
-        let imageOrientation: UIImageOrientation
-        let mirrored = self.isMirrored
+        let orientation: UIImageOrientation
+        let mirrored = isMirrored
         switch deviceOrientation {
         case .landscapeLeft:
-            imageOrientation = mirrored ? .upMirrored : .up
+            orientation = mirrored ? .upMirrored : .up
         case .landscapeRight:
-            imageOrientation = mirrored ? .downMirrored : .down
+            orientation = mirrored ? .downMirrored : .down
         case .portraitUpsideDown:
-            imageOrientation = mirrored ? .rightMirrored : .left
+            orientation = mirrored ? .rightMirrored : .left
         default:
-            imageOrientation = mirrored ? .leftMirrored : .right
+            orientation = mirrored ? .leftMirrored : .right
         }
 
-        guard let cgImage = self.cgImage, self.imageOrientation != imageOrientation else { return self }
+        guard let cgImage = cgImage, imageOrientation != orientation else { return self }
 
-        return UIImage(cgImage: cgImage, scale: 1, orientation: imageOrientation)
+        return UIImage(cgImage: cgImage, scale: scale, orientation: orientation)
     }
 
 
     func imageByCroppingTo(aspectRatio: CGFloat) -> UIImage {
 
-        guard let cgImage = self.cgImage else { return self }
+        guard let cgImage = cgImage else { return self }
 
-        let imageRatio: CGFloat = self.size.width / self.size.height
+        let imageRatio: CGFloat = size.width / size.height
         let destWidth: CGFloat
         let destHeight: CGFloat
         let ratioVertical = aspectRatio < 1
@@ -162,16 +162,16 @@ fileprivate extension UIImage {
 
         if adaptedRatio > imageRatio {
             //We must crop height
-            destWidth = self.size.width
-            destHeight = self.size.width / adaptedRatio
+            destWidth = size.width
+            destHeight = size.width / adaptedRatio
         } else {
             //We must crop width
-            destHeight = self.size.height
-            destWidth = self.size.height * adaptedRatio
+            destHeight = size.height
+            destWidth = size.height * adaptedRatio
         }
 
-        let posX: CGFloat = (self.size.width - destWidth) / 2
-        let posY: CGFloat = (self.size.height - destHeight) / 2
+        let posX: CGFloat = (size.width - destWidth) / 2
+        let posY: CGFloat = (size.height - destHeight) / 2
 
         let rect = CGRect(x: posX, y: posY, width: destWidth, height: destHeight)
         guard let imageRef: CGImage = cgImage.cropping(to: rect) else { return self }
@@ -180,9 +180,9 @@ fileprivate extension UIImage {
     }
 
     var imageByNormalizingOrientation: UIImage {
-        guard self.imageOrientation != .up else { return self }
-        let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
-        UIGraphicsBeginImageContextWithOptions(rect.size, true, self.scale)
+        guard imageOrientation != .up else { return self }
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(rect.size, true, scale)
         draw(in: rect)
         let normalized = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -190,7 +190,7 @@ fileprivate extension UIImage {
     }
 
     var isMirrored: Bool {
-        switch self.imageOrientation {
+        switch imageOrientation {
         case .rightMirrored, .leftMirrored, .upMirrored, .downMirrored:
             return true
         case .right, .left, .up, .down:
