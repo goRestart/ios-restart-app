@@ -374,7 +374,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
 
             describe("open help") {
                 beforeEach {
-                    sut.helpAction.action()
+                    sut.openHelp()
                 }
 
                 it("calls open help in navigator") {

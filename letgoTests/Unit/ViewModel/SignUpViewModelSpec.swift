@@ -271,8 +271,8 @@ extension SignUpViewModelSpec: MainSignUpNavigator {
         finishedSuccessfully = false
         finishedScammer = true
     }
-    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {}
-    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterCollapsedEmailField?) {}
+    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {}
+    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {}
 
     func openHelpFromMainSignUp() {}
     func openURL(url: URL) {}

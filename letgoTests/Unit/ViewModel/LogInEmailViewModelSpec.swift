@@ -520,7 +520,7 @@ class LogInEmailViewModelSpec: QuickSpec {
 
             describe("open help") {
                 beforeEach {
-                    sut.helpAction.action()
+                    sut.openHelp()
                 }
                 
                 it("calls open help in navigator") {
@@ -602,7 +602,7 @@ extension LogInEmailViewModelSpec: LogInEmailNavigator {
     }
 
     func openSignUpEmailFromLogInEmail(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
+                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
         navigatorReceivedOpenSignUp = true
     }
 

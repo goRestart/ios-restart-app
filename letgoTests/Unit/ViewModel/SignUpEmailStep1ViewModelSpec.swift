@@ -326,12 +326,12 @@ extension SignUpEmailStep1ViewModelSpec: SignUpEmailStep1Navigator {
     }
 
     func openNextStepFromSignUpEmailStep1(email: String, password: String,
-                                          isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
+                                          isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
         navigatorReceivedOpenNextStep = true
     }
 
     func openLogInFromSignUpEmailStep1(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterCollapsedEmailField?) {
+                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
         navigatorReceivedOpenLogIn = true
     }
 }
