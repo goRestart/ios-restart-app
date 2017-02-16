@@ -78,20 +78,24 @@ class NotificationService: UNNotificationServiceExtension {
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
         if let bestAttemptContent = bestAttemptContent {
+            var urlResource: String?
+            var mediaType: MediaType?
             
-            // check for a media attachment
-            if let notificationData = request.content.userInfo["aps"] as? [String : Any], let notiData = notificationData["data"] as? [String : String] {
-                // Grab the attachment
-                if let urlString = notiData["attachment-url"], let rawMediaType = notificationData["mediaType"] as? String {
-                let mediaType = MediaType(rawValue: rawMediaType)
-                loadAttachment(forMediaType: mediaType, withUrlString: urlString, completionHandler: { attachment in
-                    if let attachment = attachment {
-                        bestAttemptContent.attachments = [attachment]
-                    }
-                    contentHandler(bestAttemptContent)
-                })
-            }
+            if let leanplumURL = request.content.userInfo["LP_URL"] as? String {
+                urlResource = leanplumURL
+                mediaType = .image
+            } else if let notificationData = request.content.userInfo["aps"] as? [String : Any], let notiData = notificationData["data"] as? [String : String] {
+                if let urlString = notiData["attachment-url"], let rawMediaType = notificationData["media-type"] as? String {
+                    urlResource = urlString
+                    mediaType = MediaType(rawValue: rawMediaType)
+                }
         }
+        loadAttachment(forMediaType: mediaType, withUrlString: urlResource, completionHandler: { attachment in
+            if let attachment = attachment {
+                bestAttemptContent.attachments = [attachment]
+            }
+            contentHandler(bestAttemptContent)
+        })
     }
 }
     
