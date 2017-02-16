@@ -20,14 +20,11 @@ protocol FeatureFlaggeable {
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var freePostingModeAllowed: Bool { get }
-    var postingMultiPictureEnabled: Bool { get }
-    var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var favoriteWithBubbleToChat: Bool { get }
     var locationMatchesCountry: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
-    var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
     var onboardingReview: OnboardingReview { get }
     var freeBumpUpEnabled: Bool { get }
@@ -94,13 +91,6 @@ class FeatureFlags: FeatureFlaggeable {
         return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
     }
     
-    var postingMultiPictureEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.postingMultiPictureEnabled
-        }
-        return ABTests.postingMultiPictureEnabled.value
-    }
-    
     var favoriteWithBadgeOnProfile: Bool {
         if Bumper.enabled {
             return Bumper.favoriteWithBadgeOnProfile
@@ -113,13 +103,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.favoriteWithBubbleToChat
         }
         return false
-    }
-
-    var newQuickAnswers: Bool {
-        if Bumper.enabled {
-            return Bumper.newQuickAnswers
-        }
-        return ABTests.newQuickAnswers.value
     }
 
     var captchaTransparent: Bool {
@@ -136,13 +119,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.passiveBuyersShowKeyboard.value
     }
     
-    var filterIconWithLetters: Bool {
-        if Bumper.enabled {
-            return Bumper.filterIconWithLetters
-        }
-        return ABTests.filterIconWithLetters.value
-    }
-
     var editDeleteItemUxImprovement: Bool {
         if Bumper.enabled {
             return Bumper.editDeleteItemUxImprovement

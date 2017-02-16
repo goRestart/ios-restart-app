@@ -35,16 +35,6 @@
         "description": "Badge on profile when favorite"
     },
     {
-        "name": "NewQuickAnswers",
-        "values": ["No", "Yes"],
-        "description": "Use quick answers v2"
-    },
-    {
-        "name": "PostingMultiPictureEnabled",
-        "values": ["No", "Yes"],
-        "description": "Posting multi picture enabled"
-    },
-    {
         "name": "FavoriteWithBubbleToChat",
         "values": ["No", "Yes"],
         "description": "Bubble to chat when favorite"
@@ -58,11 +48,6 @@
         "name": "PassiveBuyersShowKeyboard",
         "values": ["No", "Yes"],
         "description": "Passive buyers products suggested notification opens product with keyboard opened"
-    },
-    {
-        "name": "FilterIconWithLetters",
-        "values": ["No", "Yes"],
-        "description": "Show filter icon as 'FILTERS'"
     },
     {
         "name": "EditDeleteItemUxImprovement",
