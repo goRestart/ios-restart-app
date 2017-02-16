@@ -52,6 +52,15 @@ extension LoginAppearance {
         }
     }
 
+    var labelTextColor: UIColor {
+        switch self {
+        case .dark:
+            return UIColor.whiteTextHighAlpha
+        case .light:
+            return UIColor.blackTextHighAlpha
+        }
+    }
+
     var textFieldTextColor: UIColor {
         switch self {
         case .dark:

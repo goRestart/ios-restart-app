@@ -23,6 +23,7 @@ final class SignUpEmailStep2ViewController: KeyboardViewController, SignUpEmailS
     fileprivate let headerGradientLayer = CAGradientLayer.gradientWithColor(UIColor.white,
                                                                             alphas: [1, 0], locations: [0, 1])
     fileprivate let contentView = UIView()
+    fileprivate let headerLabel = UILabel()
     fileprivate let fullNameButton = UIButton()
     fileprivate let fullNameImageView = UIImageView()
     fileprivate let fullNameTextField = LGTextField()
@@ -159,6 +160,12 @@ fileprivate extension SignUpEmailStep2ViewController {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
 
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerLabel.textColor = appearance.labelTextColor
+        headerLabel.text = LGLocalizedString.signUpEmailStep2Header(viewModel.email)
+        headerLabel.numberOfLines = 0
+        contentView.addSubview(headerLabel)
+
         let textfieldTextColor = appearance.textFieldTextColor
         var textfieldPlaceholderAttrs = [String: AnyObject]()
         textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
@@ -252,7 +259,10 @@ fileprivate extension SignUpEmailStep2ViewController {
 
         contentView.layout(with: scrollView).top().leading().proportionalWidth()
 
-        fullNameButton.layout(with: contentView).top(by: 30).leading(by: 15).trailing(by: -15)
+        headerLabel.layout(with: contentView).top(by: 30).leading(by: 15).trailing(by: -15)
+
+        fullNameButton.layout(with: headerLabel).vertically(by: 20)
+        fullNameButton.layout(with: contentView).leading(by: 15).trailing(by: -15)
         fullNameButton.layout().height(50)
         fullNameImageView.layout().width(20)
         fullNameImageView.layout(with: fullNameButton).top().bottom().leading(by: 15)
