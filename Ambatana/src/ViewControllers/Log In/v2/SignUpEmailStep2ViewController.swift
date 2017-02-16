@@ -64,6 +64,7 @@ final class SignUpEmailStep2ViewController: KeyboardViewController, SignUpEmailS
         super.viewDidLoad()
         setupNavigationBar()
         setupUI()
+        setupAccessibilityIds()
         setupLayout()
         setupRx()
     }
@@ -241,6 +242,19 @@ fileprivate extension SignUpEmailStep2ViewController {
         signUpButton.setStyle(.primary(fontSize: .medium))
         signUpButton.setTitle(LGLocalizedString.signUpEmailStep2SignUpButton, for: .normal)
         contentView.addSubview(signUpButton)
+    }
+
+    func setupAccessibilityIds() {
+        scrollView.accessibilityId = .signUpEmailStep2ScrollView
+        headerLabel.accessibilityId = .signUpEmailStep2HeaderLabel
+        fullNameButton.accessibilityId = .signUpEmailStep2FullNameButton
+        fullNameImageView.accessibilityId = .signUpEmailStep2FullNameImageView
+        fullNameTextField.accessibilityId = .signUpEmailStep2FullNameTextField
+        termsTextView.accessibilityId = .signUpEmailStep2TermsTextView
+        termsSwitch.accessibilityId = .signUpEmailStep2TermsSwitch
+        newsletterLabel.accessibilityId = .signUpEmailStep2NewsletterLabel
+        newsletterSwitch.accessibilityId = .signUpEmailStep2NewsletterSwitch
+        signUpButton.accessibilityId = .signUpEmailStep2SignUpButton
     }
 
     func setupLayout() {

@@ -71,6 +71,7 @@ final class SignUpEmailStep1ViewController: KeyboardViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupUI()
+        setupAccessibilityIds()
         setupLayout()
         setupRx()
     }
@@ -336,6 +337,19 @@ fileprivate extension SignUpEmailStep1ViewController {
         }
         footerButton.layout(with: view).leading(by: 15).trailing(by: -15)
         footerButton.layout().height(55, relatedBy: .greaterThanOrEqual)
+    }
+
+    func setupAccessibilityIds() {
+        scrollView.accessibilityId = .signUpEmailStep1ScrollView
+        emailButton.accessibilityId = .signUpEmailStep1EmailButton
+        emailImageView.accessibilityId = .signUpEmailStep1EmailImageView
+        emailTextField.accessibilityId = .signUpEmailStep1EmailTextField
+        passwordButton.accessibilityId = .signUpEmailStep1PasswordButton
+        passwordImageView.accessibilityId = .signUpEmailStep1PasswordImageView
+        passwordTextField.accessibilityId = .signUpEmailStep1PasswordTextField
+        showPasswordButton.accessibilityId = .signUpEmailStep1ShowPasswordButton
+        nextStepButton.accessibilityId = .signUpEmailStep1NextStepButton
+        footerButton.accessibilityId = .signUpEmailStep1FooterButton
     }
 
     func updateUI() {

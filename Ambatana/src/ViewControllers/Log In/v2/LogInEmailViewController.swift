@@ -68,6 +68,7 @@ final class LogInEmailViewController: KeyboardViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupUI()
+        setupAccessibilityIds()
         setupLayout()
         setupRx()
     }
@@ -316,6 +317,20 @@ fileprivate extension LogInEmailViewController {
         footerButton.titleLabel?.numberOfLines = 2
         footerButton.contentHorizontalAlignment = .center
         view.addSubview(footerButton)
+    }
+
+    func setupAccessibilityIds() {
+        scrollView.accessibilityId = .logInEmailScrollView
+        emailButton.accessibilityId = .logInEmailEmailButton
+        emailImageView.accessibilityId = .logInEmailEmailImageView
+        emailTextField.accessibilityId = .logInEmailEmailTextField
+        passwordButton.accessibilityId = .logInEmailPasswordButton
+        passwordImageView.accessibilityId = .logInEmailPasswordImageView
+        passwordTextField.accessibilityId = .logInEmailPasswordTextField
+        showPasswordButton.accessibilityId = .logInEmailShowPasswordButton
+        rememberPasswordButton.accessibilityId = .logInEmailRememberPasswordButton
+        loginButton.accessibilityId = .logInEmailLoginButton
+        footerButton.accessibilityId = .logInEmailFooterButton
     }
 
     func setupLayout() {

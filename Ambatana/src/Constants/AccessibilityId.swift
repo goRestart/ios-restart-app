@@ -499,8 +499,42 @@ enum AccessibilityId: String {
     // Bubble notifications
     case bubbleButton
 
-    // SignUpEmail
-    case SignUpEmailHelpButton
+    // LogInEmail
+    case logInEmailScrollView
+    case logInEmailEmailButton
+    case logInEmailEmailImageView
+    case logInEmailEmailTextField
+    case logInEmailPasswordButton
+    case logInEmailPasswordImageView
+    case logInEmailPasswordTextField
+    case logInEmailShowPasswordButton
+    case logInEmailRememberPasswordButton
+    case logInEmailLoginButton
+    case logInEmailFooterButton
+
+    // SignUpEmailStep1
+    case signUpEmailStep1ScrollView
+    case signUpEmailStep1EmailButton
+    case signUpEmailStep1EmailImageView
+    case signUpEmailStep1EmailTextField
+    case signUpEmailStep1PasswordButton
+    case signUpEmailStep1PasswordImageView
+    case signUpEmailStep1PasswordTextField
+    case signUpEmailStep1ShowPasswordButton
+    case signUpEmailStep1NextStepButton
+    case signUpEmailStep1FooterButton
+
+    // SignUpEmailStep2
+    case signUpEmailStep2ScrollView
+    case signUpEmailStep2HeaderLabel
+    case signUpEmailStep2FullNameButton
+    case signUpEmailStep2FullNameImageView
+    case signUpEmailStep2FullNameTextField
+    case signUpEmailStep2TermsTextView
+    case signUpEmailStep2TermsSwitch
+    case signUpEmailStep2NewsletterLabel
+    case signUpEmailStep2NewsletterSwitch
+    case signUpEmailStep2SignUpButton
 
     // Monetization
     // Bubble
