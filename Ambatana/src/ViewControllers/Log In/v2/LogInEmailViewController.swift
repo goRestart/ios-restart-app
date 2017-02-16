@@ -239,6 +239,7 @@ fileprivate extension LogInEmailViewController {
         emailTextField.autocorrectionType = .no
         emailTextField.returnKeyType = .next
         emailTextField.textColor = textfieldTextColor
+        emailTextField.completionColor = appearance.textFieldPlaceholderColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.logInEmailEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         emailTextField.clearButtonMode = .whileEditing

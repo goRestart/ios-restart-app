@@ -418,6 +418,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         case .dark:
             setupDarkAppearance()
         }
+        emailTextField.completionColor = appearance.textFieldPlaceholderColor
 
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
