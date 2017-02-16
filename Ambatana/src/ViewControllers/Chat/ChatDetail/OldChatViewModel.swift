@@ -982,7 +982,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                         }
                                         let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
                                         self?.delegate?.vmShowMessage(message) { [weak self] in
-                                            self?.delegate?.vmClose()
+                                            self?.navigator?.closeChatDetail()
                                         }
                                     }
             },
