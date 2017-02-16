@@ -99,9 +99,6 @@ class FeatureFlags: FeatureFlaggeable {
     }
     
     var favoriteWithBubbleToChat: Bool {
-        if Bumper.enabled {
-            return Bumper.favoriteWithBubbleToChat
-        }
         return false
     }
 

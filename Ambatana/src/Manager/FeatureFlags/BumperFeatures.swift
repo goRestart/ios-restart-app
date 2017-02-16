@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self])
     } 
 
     static var websocketChat: Bool {
@@ -48,11 +48,6 @@ extension Bumper  {
     static var favoriteWithBadgeOnProfile: Bool {
         guard let value = Bumper.value(for: FavoriteWithBadgeOnProfile.key) else { return false }
         return FavoriteWithBadgeOnProfile(rawValue: value)?.asBool ?? false
-    }
-
-    static var favoriteWithBubbleToChat: Bool {
-        guard let value = Bumper.value(for: FavoriteWithBubbleToChat.key) else { return false }
-        return FavoriteWithBubbleToChat(rawValue: value)?.asBool ?? false
     }
 
     static var captchaTransparent: Bool {
@@ -154,15 +149,6 @@ enum FavoriteWithBadgeOnProfile: String, BumperFeature  {
     static var enumValues: [FavoriteWithBadgeOnProfile] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Badge on profile when favorite" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum FavoriteWithBubbleToChat: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return FavoriteWithBubbleToChat.no.rawValue }
-    static var enumValues: [FavoriteWithBubbleToChat] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Bubble to chat when favorite" } 
     var asBool: Bool { return self == .yes }
 }
 

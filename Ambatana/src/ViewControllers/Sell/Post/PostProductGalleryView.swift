@@ -273,10 +273,6 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         viewModel.imageDeselectedAtIndex(indexPath.row)
     }
 
-    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
     fileprivate func selectItemAtIndex(_ index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())

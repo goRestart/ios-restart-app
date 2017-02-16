@@ -158,7 +158,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     fileprivate var shouldShowSafetyTips: Bool {
-        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
+        return !keyValueStorage.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
 
     fileprivate var didReceiveMessageFromOtherUser: Bool {
@@ -1255,7 +1255,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
 
     fileprivate func showDirectAnswers(_ show: Bool) {
-        KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
+        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         userDirectAnswersEnabled.value = show
     }
     
