@@ -112,7 +112,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.favoriteWithBubbleToChat
         }
-        return ABTests.favoriteWithBubbleToChat.value
+        return false
     }
 
     var newQuickAnswers: Bool {
