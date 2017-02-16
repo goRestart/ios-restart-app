@@ -7,7 +7,6 @@
 //
 
 import CameraManager
-import FastttCamera
 import Result
 
 typealias CameraPhotoResult = Result<UIImage, NSError>
@@ -66,11 +65,14 @@ class CameraWrapper {
 
 
     func capturePhoto(completion: @escaping CameraPhotoCompletion) {
-        let deviceOrientation = UIDevice.current.orientation
         let motionOrientation = motionDeviceOrientation.orientation
+        let viewBounds = cameraContainer?.bounds
         cameraManager.capturePictureWithCompletion { (image, error) in
-            if let image = image {
-                print("🌈 Motion Orientation: \(motionOrientation.description), device: \(deviceOrientation.description)")
+            if var image = image {
+                image = image.imageByRotatingBasedOn(deviceOrientation: motionOrientation).imageByNormalizingOrientation
+                if let bounds = viewBounds {
+                    image = image.imageByCroppingTo(aspectRatio: bounds.width/bounds.height)
+                }
                 completion(CameraPhotoResult(image))
             } else if let error = error {
                 completion(CameraPhotoResult(error: error))
@@ -103,17 +105,6 @@ class CameraWrapper {
 }
 
 fileprivate extension CameraFlashState {
-    var fastttCameraFlash: FastttCameraFlashMode {
-        switch self {
-        case .auto:
-            return .auto
-        case .on:
-            return .on
-        case .off:
-            return .off
-        }
-    }
-
     var cameraFlashMode: CameraFlashMode {
         switch self {
         case .auto:
@@ -127,15 +118,6 @@ fileprivate extension CameraFlashState {
 }
 
 fileprivate extension CameraSource {
-    var fastttCameraDevice: FastttCameraDevice {
-        switch self {
-        case .front:
-            return .front
-        case .rear:
-            return .rear
-        }
-    }
-
     var cameraDevice: CameraDevice {
         switch self {
         case .front:
@@ -146,49 +128,73 @@ fileprivate extension CameraSource {
     }
 }
 
+fileprivate extension UIImage {
+    func imageByRotatingBasedOn(deviceOrientation: UIDeviceOrientation) -> UIImage {
+        let imageOrientation: UIImageOrientation
+        let mirrored = self.isMirrored
+        switch deviceOrientation {
+        case .landscapeLeft:
+            imageOrientation = mirrored ? .upMirrored : .up
+        case .landscapeRight:
+            imageOrientation = mirrored ? .downMirrored : .down
+        case .portraitUpsideDown:
+            imageOrientation = mirrored ? .rightMirrored : .left
+        default:
+            imageOrientation = mirrored ? .leftMirrored : .right
+        }
 
-extension UIImageOrientation {
-    var description: String {
-        switch self {
-        case .up: // default
-            return "up"
-        case .down: // 180 deg rotation
-            return "down"
-        case .left: // 90 deg CCW
-            return "left"
-        case .right: // 90 deg CW
-            return "right"
-        case .upMirrored: // as above but image mirrored along other axis. horizontal flip
-            return "up-mirrored"
-        case .downMirrored: // horizontal flip
-            return "down-mirrored"
-        case .leftMirrored: // vertical flip
-            return "left-mirrored"
-        case .rightMirrored: // vertical flip
-            return "right-mirrored"
+        guard let cgImage = self.cgImage, self.imageOrientation != imageOrientation else { return self }
+
+        return UIImage(cgImage: cgImage, scale: 1, orientation: imageOrientation)
+    }
+
+
+    func imageByCroppingTo(aspectRatio: CGFloat) -> UIImage {
+
+        guard let cgImage = self.cgImage else { return self }
+
+        let imageRatio: CGFloat = self.size.width / self.size.height
+        let destWidth: CGFloat
+        let destHeight: CGFloat
+        let ratioVertical = aspectRatio < 1
+        let imageVertical = imageRatio < 1
+        let adaptedRatio = ratioVertical == imageVertical ? aspectRatio : 1 / aspectRatio
+
+        if adaptedRatio > imageRatio {
+            //We must crop height
+            destWidth = self.size.width
+            destHeight = self.size.width / adaptedRatio
+        } else {
+            //We must crop width
+            destHeight = self.size.height
+            destWidth = self.size.height * adaptedRatio
+        }
+
+        let posX: CGFloat = (self.size.width - destWidth) / 2
+        let posY: CGFloat = (self.size.height - destHeight) / 2
+
+        let rect = CGRect(x: posX, y: posY, width: destWidth, height: destHeight)
+        guard let imageRef: CGImage = cgImage.cropping(to: rect) else { return self }
+        let image: UIImage = UIImage(cgImage: imageRef, scale: scale, orientation: imageOrientation)
+        return image
+    }
+
+    var imageByNormalizingOrientation: UIImage {
+        guard self.imageOrientation != .up else { return self }
+        let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        UIGraphicsBeginImageContextWithOptions(rect.size, true, self.scale)
+        draw(in: rect)
+        let normalized = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return normalized ?? self
+    }
+
+    var isMirrored: Bool {
+        switch self.imageOrientation {
+        case .rightMirrored, .leftMirrored, .upMirrored, .downMirrored:
+            return true
+        case .right, .left, .up, .down:
+            return false
         }
     }
 }
-
-extension UIDeviceOrientation {
-    var description: String {
-
-        switch self {
-        case .unknown:
-            return "unknown"
-        case .portrait: // Device oriented vertically, home button on the bottom
-            return "portrait"
-        case .portraitUpsideDown: // Device oriented vertically, home button on the top
-            return "portraitUpsideDown"
-        case .landscapeLeft: // Device oriented horizontally, home button on the right
-            return "landscapeLeft"
-        case .landscapeRight: // Device oriented horizontally, home button on the left
-            return "landscapeRight"
-        case .faceUp: // Device oriented flat, face up
-            return "faceUp"
-        case .faceDown: // Device oriented flat, face down
-            return "faceDown"
-        }
-    }
-}
-

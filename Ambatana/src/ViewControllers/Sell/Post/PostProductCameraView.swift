@@ -21,7 +21,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     @IBOutlet var contentView: UIView!
 
-    @IBOutlet weak var cameraContainerView: UIView!
+    @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var cornersContainer: UIView!
 
@@ -188,7 +188,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
 
-        cameraWrapper.addPreviewLayerTo(view: cameraContainerView)
+        cameraWrapper.addPreviewLayerTo(view: cameraView)
     }
 
     private func setupRX() {
@@ -231,13 +231,15 @@ extension PostProductCameraView {
     
     fileprivate func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
-            if cameraWrapper.cameraContainer == cameraContainerView {
+            if cameraWrapper.cameraContainer == cameraView {
                 cameraWrapper.resume()
             } else {
-                cameraWrapper.addPreviewLayerTo(view: cameraContainerView)
+                cameraWrapper.addPreviewLayerTo(view: cameraView)
             }
+            cameraView.isHidden = false
         } else {
             cameraWrapper.pause()
+            cameraView.isHidden = true
         }
     }
 }
