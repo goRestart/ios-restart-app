@@ -60,7 +60,7 @@ class PostProductViewController: BaseViewController {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .hidden, tabLayout: .fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView(multiSelectionEnabled: viewModel.galleryMultiSelectionEnabled)
+        self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
