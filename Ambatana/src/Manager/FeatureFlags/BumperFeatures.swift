@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self])
     } 
 
     static var websocketChat: Bool {
@@ -98,6 +98,11 @@ extension Bumper  {
     static var userRatingMarkAsSold: Bool {
         guard let value = Bumper.value(for: UserRatingMarkAsSold.key) else { return false }
         return UserRatingMarkAsSold(rawValue: value)?.asBool ?? false
+    }
+
+    static var productDetailNextRelated: Bool {
+        guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
+        return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -275,6 +280,15 @@ enum UserRatingMarkAsSold: String, BumperFeature  {
     static var enumValues: [UserRatingMarkAsSold] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Select buyer before mark sold" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum ProductDetailNextRelated: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ProductDetailNextRelated.no.rawValue }
+    static var enumValues: [ProductDetailNextRelated] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Item page next item related" } 
     var asBool: Bool { return self == .yes }
 }
 

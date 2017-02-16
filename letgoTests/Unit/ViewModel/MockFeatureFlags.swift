@@ -39,4 +39,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
     var userRatingMarkAsSold: Bool = false
+    var productDetailNextDiscovery: Bool = false
 }
