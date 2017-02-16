@@ -23,11 +23,6 @@ struct SignUpEmailStep2FormErrors: OptionSet {
 protocol SignUpEmailStep2ViewModelDelegate: BaseViewModelDelegate {}
 
 final class SignUpEmailStep2ViewModel: BaseViewModel {
-    lazy var helpAction: UIAction = {
-        return UIAction(interface: .text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
-            self?.openHelp()
-        }, accessibilityId: .SignUpEmailHelpButton)
-    }()
     let email: String
     let username: Variable<String?>
     var termsAndConditionsAcceptRequired: Bool {

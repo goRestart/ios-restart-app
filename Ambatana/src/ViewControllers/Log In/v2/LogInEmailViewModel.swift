@@ -24,11 +24,6 @@ protocol LogInEmailViewModelDelegate: BaseViewModelDelegate {
 final class LogInEmailViewModel: BaseViewModel {
     fileprivate static let unauthorizedErrorCountRememberPwd = 2
 
-    lazy var helpAction: UIAction = {
-        return UIAction(interface: .text(LGLocalizedString.mainSignUpHelpButton), action: { [weak self] in
-            self?.openHelp()
-            }, accessibilityId: .SignUpEmailHelpButton)
-    }()
     let email: Variable<String?>
     var suggestedEmail: Observable<String?> {
         return suggestedEmailVar.asObservable()
