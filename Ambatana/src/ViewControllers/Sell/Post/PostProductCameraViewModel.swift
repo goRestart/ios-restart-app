@@ -14,13 +14,7 @@ enum CameraState {
     case pendingAskPermissions, missingPermissions(String), capture, takingPhoto, preview
 }
 
-enum CameraFlashMode {
-    case auto, on, off
-}
 
-enum CameraSourceMode {
-    case front, rear
-}
 
 class PostProductCameraViewModel: BaseViewModel {
 
@@ -29,8 +23,8 @@ class PostProductCameraViewModel: BaseViewModel {
     let visible = Variable<Bool>(false)
 
     let cameraState = Variable<CameraState>(.pendingAskPermissions)
-    let cameraFlashMode = Variable<CameraFlashMode>(.auto)
-    let cameraSourceMode = Variable<CameraSourceMode>(.rear)
+    let cameraFlashState = Variable<CameraFlashState>(.auto)
+    let cameraSource = Variable<CameraSource>(.rear)
     let imageSelected = Variable<UIImage?>(nil)
 
     let infoShown = Variable<Bool>(false)
@@ -93,11 +87,11 @@ class PostProductCameraViewModel: BaseViewModel {
     }
 
     func flashButtonPressed() {
-        cameraFlashMode.value = cameraFlashMode.value.next
+        cameraFlashState.value = cameraFlashState.value.next
     }
 
     func cameraButtonPressed() {
-        cameraSourceMode.value = cameraSourceMode.value.toggle
+        cameraSource.value = cameraSource.value.toggle
     }
 
     func takePhotoButtonPressed() {
@@ -273,8 +267,8 @@ extension CameraState {
     }
 }
 
-fileprivate extension CameraFlashMode {
-    var next: CameraFlashMode {
+fileprivate extension CameraFlashState {
+    var next: CameraFlashState {
         switch self {
         case .auto:
             return .on
@@ -286,8 +280,8 @@ fileprivate extension CameraFlashMode {
     }
 }
 
-fileprivate extension CameraSourceMode {
-    var toggle: CameraSourceMode {
+fileprivate extension CameraSource {
+    var toggle: CameraSource {
         switch self {
         case .front:
             return .rear

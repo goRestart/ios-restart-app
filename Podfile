@@ -56,6 +56,7 @@ def shared_pods
 
     # Custom camera
     pod "FastttCamera",         "0.3.4"     # Obj-c
+    pod "CameraManager",        "3.1.0"
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -

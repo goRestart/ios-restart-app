@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FastttCamera
 import RxSwift
 
 class PostProductViewController: BaseViewController {
