@@ -48,10 +48,12 @@ class CameraWrapper {
 
     private(set) var cameraContainer: UIView?
     private let cameraManager: CameraManager
+    private let motionDeviceOrientation: MotionDeviceOrientation
     private var addingCamera: Bool = false
 
     init() {
         cameraManager = CameraManager()
+        motionDeviceOrientation = MotionDeviceOrientation()
 
         cameraManager.cameraOutputQuality = .high
         cameraManager.showAccessPermissionPopupAutomatically = false
@@ -65,9 +67,10 @@ class CameraWrapper {
 
     func capturePhoto(completion: @escaping CameraPhotoCompletion) {
         let deviceOrientation = UIDevice.current.orientation
+        let motionOrientation = motionDeviceOrientation.orientation
         cameraManager.capturePictureWithCompletion { (image, error) in
             if let image = image {
-                print("🌈 Image Orientation: \(image.imageOrientation.description), device: \(deviceOrientation.description)")
+                print("🌈 Motion Orientation: \(motionOrientation.description), device: \(deviceOrientation.description)")
                 completion(CameraPhotoResult(image))
             } else if let error = error {
                 completion(CameraPhotoResult(error: error))
