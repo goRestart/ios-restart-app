@@ -202,11 +202,9 @@ class SignUpLogInViewModel: BaseViewModel {
         case .v1, .v2:
             return false
         case .v1WImprovements:
-            break
+            email = suggestedEmail
+            return true
         }
-
-        email = suggestedEmail
-        return true
     }
 
     func erasePassword() {
