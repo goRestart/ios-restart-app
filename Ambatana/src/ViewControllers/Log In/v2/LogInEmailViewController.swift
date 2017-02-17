@@ -12,7 +12,8 @@ import UIKit
 
 final class LogInEmailViewController: KeyboardViewController {
     fileprivate enum TextFieldTag: Int {
-        case email = 1000, password
+        case email = 1000
+        case password
     }
 
     fileprivate let viewModel: LogInEmailViewModel
