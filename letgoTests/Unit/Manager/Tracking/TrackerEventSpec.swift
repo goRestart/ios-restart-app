@@ -696,12 +696,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productList") {
                 it("has its event name") {
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil, feedSource: .home)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil, feedSource: .home, success: .trueParameter)
                     expect(sut.name.rawValue).to(equal("product-list"))
                 }
                 it("contains the category related params when passing by a category") {
                     let categories: [ProductCategory] = [.homeAndGarden]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home, success: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -710,7 +710,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the category related params when passing by several categories") {
                     let categories: [ProductCategory] = [.homeAndGarden, .fashionAndAccesories]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home, success: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -719,7 +719,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the search query related params when passing by a search query") {
                     let searchQuery = "iPhone"
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery, feedSource: .home)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery, feedSource: .home, success: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["search-keyword"]).notTo(beNil())
@@ -728,7 +728,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains feed source parameter") {
                     let categories: [ProductCategory] = [.homeAndGarden]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home, success: .trueParameter)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["feed-source"] as? String).to(equal("home"))

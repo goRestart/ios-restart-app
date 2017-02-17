@@ -43,12 +43,12 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     private(set) var status: ViewState {
         didSet {
             switch status {
-            case .empty, .error:
+            case .error:
                 if let emptyReason = emptyViewModel?.emptyReason {
                     trackErrorStateShown(reason: emptyReason)
                 }
                 
-            case .loading, .data:
+            case .loading, .data, .empty:
                 break
             }
         }
