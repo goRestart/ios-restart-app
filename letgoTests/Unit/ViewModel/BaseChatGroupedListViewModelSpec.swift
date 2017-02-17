@@ -34,13 +34,9 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                             sut.emptyStatusViewModel = LGEmptyViewModel(icon: nil, title: "", body: "", buttonTitle: "", action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
                             sut.retrievePage(1)
                         }
-                        it("tracks empty-state-error event") {
+                        it("does not trach empty state error because there was not an error") {
                             let eventNames = tracker.trackedEvents.flatMap { $0.name }
-                            expect(eventNames) == [.emptyStateError]
-                        }
-                        it("tracks an event with param error-reason as empty-results") {
-                            let eventParams = tracker.trackedEvents.flatMap { $0.params }.first
-                            expect(eventParams?.stringKeyParams["reason"] as? String) == "empty-results"
+                            expect(eventNames) == []
                         }
                     }
                     context("with items") {

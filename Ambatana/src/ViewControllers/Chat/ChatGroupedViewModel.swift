@@ -233,7 +233,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryAction: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
-            }, emptyReason: .emptyResults
+            }, emptyReason: nil
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {
@@ -254,7 +254,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
             },
-            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {
@@ -275,7 +275,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
             },
-            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {

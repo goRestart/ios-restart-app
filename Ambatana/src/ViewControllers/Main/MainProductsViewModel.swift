@@ -441,7 +441,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             }
 
             let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
+                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
             listViewModel.setEmptyState(emptyViewModel)
         }
 
@@ -793,9 +793,10 @@ fileprivate extension MainProductsViewModel {
 
     func trackRequestSuccess(page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
+        let successParameter: EventParameterBoolean = hasProducts ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
                                                     categories: productListRequester.filters?.selectedCategories,
-                                                    searchQuery: productListRequester.queryString, feedSource: feedSource)
+                                                    searchQuery: productListRequester.queryString, feedSource: feedSource, success: successParameter)
         tracker.trackEvent(trackerEvent)
 
         if let searchType = searchType, shouldTrackSearch {
