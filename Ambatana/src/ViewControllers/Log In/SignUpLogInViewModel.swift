@@ -638,10 +638,8 @@ fileprivate extension SignUpLogInViewModel {
         case .v1, .v2:
             return
         case .v1WImprovements:
-            break
+            suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
         }
-
-        suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
     }
 }
 
