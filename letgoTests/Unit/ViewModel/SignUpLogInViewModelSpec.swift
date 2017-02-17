@@ -437,7 +437,7 @@ extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
 
     func openRememberPasswordFromSignUpLogIn(email: String?) {}
     func openHelpFromSignUpLogin() {}
-    func openURL(url: URL) {}
+    func open(url: URL) {}
 }
 
 extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {

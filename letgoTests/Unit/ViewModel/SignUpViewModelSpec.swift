@@ -275,7 +275,7 @@ extension SignUpViewModelSpec: MainSignUpNavigator {
     func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {}
 
     func openHelpFromMainSignUp() {}
-    func openURL(url: URL) {}
+    func open(url: URL) {}
 }
 
 extension SignUpViewModelSpec: SignUpViewModelDelegate {
