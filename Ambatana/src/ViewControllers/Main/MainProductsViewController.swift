@@ -260,18 +260,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setFiltersNavBarButton() {
         let tagsIsEmpty = tagsViewController?.tags.isEmpty ?? false
-        if viewModel.shouldUseNavigationBarFilterIconWithLetters {
-            let icon = UIBarButtonItem(title: LGLocalizedString.mainProductsFilterNavigationBarButton,
-                                       style: .plain,
-                                       target: self,
-                                       action: #selector(filtersButtonPressed(_:)))
-            icon.setTitleTextAttributes([NSFontAttributeName:tagsIsEmpty ? UIFont.regularBarButtonFont : UIFont.boldBarButtonFont],
-                                        for: .normal)
-            navigationItem.rightBarButtonItem = icon
-        } else {
-            setLetGoRightButtonWith(imageName: tagsIsEmpty ? "ic_filters" : "ic_filters_active",
-                                    renderingMode: .alwaysOriginal, selector: "filtersButtonPressed:")
-        }
+        setLetGoRightButtonWith(imageName: tagsIsEmpty ? "ic_filters" : "ic_filters_active",
+                                renderingMode: .alwaysOriginal, selector: "filtersButtonPressed:")
     }
     
     private func setInviteNavBarButton() {

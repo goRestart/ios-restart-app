@@ -79,26 +79,23 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
     private func setupHeader() {
         header.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(header, belowSubview: tableView)
-        headerTopMarginConstraint = header.alignParentTop(margin: PassiveBuyersViewController.headerTopMargin)
-        header.fitHorizontallyToParent(margin: 0)
+        header.layout(with: view).fillHorizontal().top(by: PassiveBuyersViewController.headerTopMargin,
+                                                       constraintBlock: {[weak self] in self?.headerTopMarginConstraint = $0 })
 
         productImage.translatesAutoresizingMaskIntoConstraints = false
         header.addSubview(productImage)
-        productImage.setHeightConstraint(110)
-        productImage.setWidthConstraint(110)
-        productImage.alignParentTop()
-        productImage.centerParentHorizontal()
+        productImage.layout().widthEqualsHeight(size: 110)
+        productImage.layout(with: header).top().centerX()
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         header.addSubview(titleLabel)
-        titleLabel.toBottomOf(productImage, margin: 20)
-        titleLabel.fitHorizontallyToParent(margin: 40)
+        titleLabel.layout(with: header).fillHorizontal(by: 40)
+        titleLabel.layout(with: productImage).top(to: .bottom, by: 20)
 
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         header.addSubview(messageLabel)
-        messageLabel.toBottomOf(titleLabel, margin: 10)
-        messageLabel.fitHorizontallyToParent(margin: 40)
-        messageLabel.alignParentBottom(margin: 20)
+        messageLabel.layout(with: header).fillHorizontal(by: 40).bottom(by: -20)
+        messageLabel.layout(with: titleLabel).top(to: .bottom, by: 20)
 
         productImage.clipsToBounds = true
         productImage.cornerRadius = LGUIKitConstants.defaultCornerRadius

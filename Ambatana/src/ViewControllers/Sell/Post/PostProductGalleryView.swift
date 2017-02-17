@@ -89,8 +89,8 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Lifecycle
 
-    convenience init(multiSelectionEnabled: Bool) {
-        let viewModel = PostProductGalleryViewModel(multiSelectionEnabled: multiSelectionEnabled)
+    convenience init() {
+        let viewModel = PostProductGalleryViewModel()
         self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
@@ -210,16 +210,9 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
     }
 
     func vmDidDeselectItemAtIndex(_ index: Int) {
-        // on single selection, the scroll is already animated in the selection, no need to animate again in the deselect
-        // also, the animation duration delays the deselection and at some point we may be trying to deselect unexistent cells
-        if viewModel.multiSelectionEnabled {
-            animateToState(collapsed: false) { [weak self] in
-                self?.deselectItemAtIndex(index)
-            }
-        } else {
-            deselectItemAtIndex(index)
+        animateToState(collapsed: false) { [weak self] in
+            self?.deselectItemAtIndex(index)
         }
-        
     }
 
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
@@ -250,7 +243,6 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 guard galleryCell.tag == indexPath.row else { return }
                 galleryCell.image.image = image
             }
-            galleryCell.multipleSelectionEnabled = viewModel.multiSelectionEnabled
             let selectedIndexes: [Int] = viewModel.imagesSelected.value.map { $0.index }
             if selectedIndexes.contains(indexPath.item) {
                 galleryCell.disabled = false
@@ -260,7 +252,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                     galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
             } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
-                galleryCell.disabled = viewModel.multiSelectionEnabled
+                galleryCell.disabled = true
                 galleryCell.isSelected = false
             } else {
                 galleryCell.isSelected = false
@@ -279,10 +271,6 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         viewModel.imageDeselectedAtIndex(indexPath.row)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
-        return viewModel.multiSelectionEnabled
     }
 
     fileprivate func selectItemAtIndex(_ index: Int) {
@@ -342,10 +330,8 @@ extension PostProductGalleryView {
                 strongSelf.loadImageErrorView.isHidden = strongSelf.viewModel.imagesSelectedCount != 0
             case .loadImageError:
                 strongSelf.infoContainer.isHidden = true
-                strongSelf.postButton.isEnabled = (strongSelf.viewModel.multiSelectionEnabled &&
-                                                strongSelf.viewModel.imagesSelectedCount != 0)
-                strongSelf.loadImageErrorView.isHidden = (strongSelf.viewModel.multiSelectionEnabled &&
-                                                        strongSelf.viewModel.imagesSelectedCount != 0)
+                strongSelf.postButton.isEnabled = (strongSelf.viewModel.imagesSelectedCount != 0)
+                strongSelf.loadImageErrorView.isHidden = (strongSelf.viewModel.imagesSelectedCount != 0)
                 strongSelf.configMessageView(.wrongImage)
             case .loading:
                 strongSelf.imageLoadActivityIndicator.startAnimating()
@@ -355,7 +341,6 @@ extension PostProductGalleryView {
 
         viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bindNext { [weak self] imgsSelected in
             guard let strongSelf = self else { return }
-            guard strongSelf.viewModel.multiSelectionEnabled else { return }
             strongSelf.collectionView.isUserInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
                 self?.collectionView.reloadData()
