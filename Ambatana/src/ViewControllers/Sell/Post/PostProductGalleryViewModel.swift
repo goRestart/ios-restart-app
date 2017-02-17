@@ -57,7 +57,6 @@ class PostProductGalleryViewModel: BaseViewModel {
     var imageSelectionFull: Observable<Bool> {
         return imagesSelected.asObservable().map { [weak self] imagesSelected in
             guard let strongSelf = self else { return false }
-            guard strongSelf.multiSelectionEnabled else { return false }
             return imagesSelected.count >= strongSelf.maxImagesSelected
         }
     }
@@ -67,8 +66,6 @@ class PostProductGalleryViewModel: BaseViewModel {
     private let cellWidth: CGFloat = (UIScreen.main.bounds.size.width -
         (PostProductGalleryViewModel.cellSpacing * (PostProductGalleryViewModel.columnCount + 1))) /
         PostProductGalleryViewModel.columnCount
-
-    let multiSelectionEnabled: Bool
 
     var shouldUpdateDisabledCells: Bool = false
 
@@ -86,13 +83,12 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(multiSelectionEnabled: Bool) {
-        self.init(multiSelectionEnabled: multiSelectionEnabled, keyValueStorage: KeyValueStorage.sharedInstance)
+    convenience override init() {
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
-    required init(multiSelectionEnabled: Bool, keyValueStorage: KeyValueStorage) {
-        self.multiSelectionEnabled = multiSelectionEnabled
-        self.maxImagesSelected = multiSelectionEnabled ? Constants.maxImageCount : 1
+    required init(keyValueStorage: KeyValueStorage) {
+        self.maxImagesSelected = Constants.maxImageCount
         self.keyValueStorage = keyValueStorage
         super.init()
         setupRX()
@@ -171,16 +167,24 @@ class PostProductGalleryViewModel: BaseViewModel {
     // MARK - Private methods
 
     fileprivate func setupRX() {
+        let galleryStateIsNormal: Observable<Bool> = galleryState.asObservable().map {
+            switch $0 {
+            case .normal:
+                return true
+            case .missingPermissions, .empty, .pendingAskPermissions, .loading, .loadImageError:
+                return false
+            }
+        }
+        let hasImagesSelected = imagesSelected.asObservable().map { $0.count > 0 }
+        Observable.combineLatest(galleryStateIsNormal, hasImagesSelected) { $0 && !$1 }.bindNext { [weak self] in
+            self?.albumIconState.value = $0 ? .down : .hidden
+        }.addDisposableTo(disposeBag)
+
         galleryState.asObservable().subscribeNext{ [weak self] state in
             switch state {
             case .missingPermissions:
                 self?.albumTitle.value = LGLocalizedString.productPostGalleryTab
-                self?.albumIconState.value = .hidden
-            case .normal:
-                self?.albumIconState.value = .down
-            case .empty:
-                self?.albumIconState.value = .hidden
-            case .pendingAskPermissions, .loading, .loadImageError:
+            case .pendingAskPermissions, .loading, .loadImageError, .normal, .empty:
                 break
             }
         }.addDisposableTo(disposeBag)
@@ -195,15 +199,13 @@ class PostProductGalleryViewModel: BaseViewModel {
             if numImgs < 1 {
                 if let title = strongSelf.keyValueStorage[.postProductLastGalleryAlbumSelected] {
                     strongSelf.albumTitle.value = title
-                    strongSelf.albumIconState.value = .down
                     strongSelf.albumButtonEnabled.value = true
                 }
                 strongSelf.lastImageSelected.value = nil
-            } else if strongSelf.multiSelectionEnabled {
+            } else {
                 // build title with num of selected pics
                 strongSelf.albumButtonEnabled.value = false
                 strongSelf.albumTitle.value =  String(format: LGLocalizedString.productPostGalleryMultiplePicsSelected, numImgs)
-                strongSelf.albumIconState.value = .hidden
             }
         }.addDisposableTo(disposeBag)
     }
@@ -323,9 +325,6 @@ class PostProductGalleryViewModel: BaseViewModel {
             galleryState.value = .empty
         } else {
             galleryState.value = .normal
-            // for multiple selection we don't select an initial image
-            guard !multiSelectionEnabled else { return }
-            selectImageAtIndex(0, autoScroll: false)
         }
     }
 
@@ -342,24 +341,19 @@ class PostProductGalleryViewModel: BaseViewModel {
             strongSelf.imageSelectionEnabled.value = true
 
             if let image = image {
-                strongSelf.shouldUpdateDisabledCells = strongSelf.multiSelectionEnabled &&
-                    strongSelf.imagesSelected.value.count == strongSelf.maxImagesSelected - 1
+                strongSelf.shouldUpdateDisabledCells = strongSelf.imagesSelected.value.count == strongSelf.maxImagesSelected - 1
                 strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
-                if strongSelf.multiSelectionEnabled {
-                    // Block interaction when 5 images are selected
-                    strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
-                }
+                // Block interaction when 5 images are selected
+                strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
                 strongSelf.galleryState.value = .normal
             } else {
                 // TODO: load the thumbnail if the image laoding fails
                 // https://ambatana.atlassian.net/browse/ABIOS-2195
                 strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
-                if strongSelf.multiSelectionEnabled {
-                    // in multiple selection, we don't want to show as selected only the images that were loaded
-                    for imgSelected in strongSelf.imagesSelected.value {
-                        if imgSelected.image == nil {
-                            strongSelf.deselectImageAtIndex(imgSelected.index)
-                        }
+                // in multiple selection, we don't want to show as selected only the images that were loaded
+                for imgSelected in strongSelf.imagesSelected.value {
+                    if imgSelected.image == nil {
+                        strongSelf.deselectImageAtIndex(imgSelected.index)
                     }
                 }
                 strongSelf.galleryState.value = .loadImageError
@@ -367,9 +361,6 @@ class PostProductGalleryViewModel: BaseViewModel {
         }
         if let lastId = lastImageRequestId, imageRequestId != lastId {
             PHImageManager.default().cancelImageRequest(lastId)
-            guard !imagesSelected.value.isEmpty && !multiSelectionEnabled else { return }
-            // on single selection don't let the array have more than 1 pic so we deselect the previous one
-            deselectImageAtIndex(imagesSelected.value[0].index)
         }
         lastImageRequestId = imageRequestId
     }
@@ -379,8 +370,8 @@ class PostProductGalleryViewModel: BaseViewModel {
         guard let selectedImageIndex = selectedIndexes.index(of: index),
             0..<imagesSelectedCount ~= selectedImageIndex else { return }
 
-        imageSelectionEnabled.value = multiSelectionEnabled
-        shouldUpdateDisabledCells = multiSelectionEnabled && imagesSelected.value.count == maxImagesSelected
+        imageSelectionEnabled.value = true
+        shouldUpdateDisabledCells = imagesSelected.value.count == maxImagesSelected
 
         imagesSelected.value.remove(at: selectedImageIndex)
 

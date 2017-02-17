@@ -99,50 +99,34 @@ enum QuickAnswer {
         }
     }
 
-    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, newQuickAnswers: Bool) -> [QuickAnswer] {
+    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
         if isFree {
             if buyer {
                 result.append(.interested)
                 result.append(.freeStillHave)
                 result.append(.meetUp)
-                if !newQuickAnswers {
-                    result.append(.notInterested)
-                }
+                result.append(.notInterested)
             } else {
                 result.append(.freeYours)
                 result.append(.freeAvailable)
                 result.append(.meetUp)
-                if !newQuickAnswers {
-                    result.append(.freeNotAvailable)
-                }
+                result.append(.freeNotAvailable)
             }
         } else {
             if buyer {
-                if newQuickAnswers {
-                    result.append(.stillAvailable)
-                    result.append(.isNegotiable)
-                    result.append(.productCondition)
-                } else {
-                    result.append(.interested)
-                    result.append(.isNegotiable)
-                    result.append(.likeToBuy)
-                    result.append(.meetUp)
-                    result.append(.notInterested)
-                }
+                result.append(.interested)
+                result.append(.isNegotiable)
+                result.append(.likeToBuy)
+                result.append(.meetUp)
+                result.append(.notInterested)
             } else {
-                if newQuickAnswers {
-                    result.append(.productStillForSale)
-                    result.append(.productSold)
-                    result.append(.whatsOffer)
-                } else {
-                    result.append(.productStillForSale)
-                    result.append(.whatsOffer)
-                    result.append(.negotiableYes)
-                    result.append(.negotiableNo)
-                    result.append(.notInterested)
-                    result.append(.productSold)
-                }
+                result.append(.productStillForSale)
+                result.append(.whatsOffer)
+                result.append(.negotiableYes)
+                result.append(.negotiableNo)
+                result.append(.notInterested)
+                result.append(.productSold)
             }
         }
         return result

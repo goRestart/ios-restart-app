@@ -87,10 +87,6 @@ class MainProductsViewModel: BaseViewModel {
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
     }
-    
-    var shouldUseNavigationBarFilterIconWithLetters: Bool {
-        return featureFlags.filterIconWithLetters
-    }
 
     let mainProductsHeader = Variable<MainProductsHeader>([])
 
@@ -802,7 +798,7 @@ fileprivate extension MainProductsViewModel {
                                                     searchQuery: productListRequester.queryString, feedSource: feedSource)
         tracker.trackEvent(trackerEvent)
 
-        if let searchType = searchType, shouldTrackSearch && filters.isDefault() {
+        if let searchType = searchType, shouldTrackSearch {
             shouldTrackSearch = false
             let successValue = hasProducts ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
