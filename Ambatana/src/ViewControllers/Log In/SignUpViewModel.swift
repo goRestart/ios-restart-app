@@ -142,7 +142,7 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func open(url: URL) {
-        navigator?.openURL(url: url)
+        navigator?.open(url: url)
     }
 
 

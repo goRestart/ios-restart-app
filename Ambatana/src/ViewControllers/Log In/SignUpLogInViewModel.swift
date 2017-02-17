@@ -192,7 +192,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     func open(url: URL) {
-        navigator?.openURL(url: url)
+        navigator?.open(url: url)
     }
 
     func acceptSuggestedEmail() -> Bool {

@@ -448,7 +448,7 @@ extension OnboardingCoordinator: HelpNavigator {
 // MARK: - Common Navigator
 
 extension OnboardingCoordinator {
-    func openURL(url: URL) {
+    func open(url: URL) {
         if let vc = currentNavigationController() {
             if #available(iOS 9.0, *) {
                 let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)

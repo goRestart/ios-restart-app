@@ -49,11 +49,11 @@ class HelpViewModel: BaseViewModel {
     
     func termsButtonPressed() {
         guard let url = termsAndConditionsURL else { return }
-        navigator?.openURL(url: url)
+        navigator?.open(url: url)
     }
     
     func privacyButtonPressed() {
         guard let url = privacyURL else { return }
-        navigator?.openURL(url: url)
+        navigator?.open(url: url)
     }
 }

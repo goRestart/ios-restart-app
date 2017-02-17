@@ -16,7 +16,7 @@ protocol MainSignUpNavigator: class {
     func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?)
 
     func openHelpFromMainSignUp()
-    func openURL(url: URL)
+    func open(url: URL)
 }
 
 protocol SignUpLogInNavigator: class {
@@ -27,7 +27,7 @@ protocol SignUpLogInNavigator: class {
 
     func openRememberPasswordFromSignUpLogIn(email: String?)
     func openHelpFromSignUpLogin()
-    func openURL(url: URL)
+    func open(url: URL)
 }
 
 protocol RememberPasswordNavigator: class {

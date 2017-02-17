@@ -408,7 +408,7 @@ extension LoginCoordinator: RecaptchaNavigator {
 // MARK: - Common Navigator
 
 extension LoginCoordinator {
-    func openURL(url: URL) {
+    func open(url: URL) {
         if #available(iOS 9.0, *) {
             let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             svc.view.tintColor = UIColor.primaryColor
