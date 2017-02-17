@@ -11,63 +11,6 @@
 import UIKit
 import UserNotifications
 
-public enum MediaType: String {
-    case image = "image"
-    case gif = "gif"
-    case video = "video"
-    case audio = "audio"
-}
-
-fileprivate struct Media {
-    private var data: Data
-    private var ext: String
-    private var type: MediaType
-    
-    init(forMediaType mediaType: MediaType, withData data: Data, fileExtension ext: String) {
-        self.type = mediaType
-        self.data = data
-        self.ext = ext
-    }
-    
-    var attachmentOptions: [String: Any?] {
-        switch(self.type) {
-        case .image:
-            return [UNNotificationAttachmentOptionsThumbnailClippingRectKey: CGRect(x: 0.0, y: 0.0, width: 1.0, height: 0.50).dictionaryRepresentation]
-        case .gif:
-            return [UNNotificationAttachmentOptionsThumbnailTimeKey: 0]
-        case .video:
-            return [UNNotificationAttachmentOptionsThumbnailTimeKey: 0]
-        case .audio:
-            return [UNNotificationAttachmentOptionsThumbnailHiddenKey: 1]
-        }
-    }
-    
-    var fileIdentifier: String {
-        return self.type.rawValue
-    }
-    
-    var fileExt: String {
-        if self.ext.characters.count > 0 {
-            return self.ext
-        } else {
-            switch(self.type) {
-            case .image:
-                return "jpg"
-            case .gif:
-                return "gif"
-            case .video:
-                return "mp4"
-            case .audio:
-                return "mp3"
-            }
-        }
-    }
-    
-    var mediaData: Data? {
-        return self.data
-    }
-}
-
 class NotificationService: UNNotificationServiceExtension {
     
     var contentHandler: ((UNNotificationContent) -> Void)?
@@ -81,6 +24,7 @@ class NotificationService: UNNotificationServiceExtension {
             var urlResource: String?
             var mediaType: MediaType?
             
+            // Check if it is a leanplum notification
             if let leanplumURL = request.content.userInfo["LP_URL"] as? String {
                 urlResource = leanplumURL
                 mediaType = .image
@@ -122,7 +66,7 @@ fileprivate extension UNNotificationAttachment {
             guard let data = media.mediaData else {
                 return nil
             }
-            
+        
             try data.write(to: fileURL)
             return self.create(fileIdentifier: fileIdentifier, fileUrl: fileURL, options: media.attachmentOptions)
         } catch {
@@ -147,7 +91,6 @@ fileprivate func loadAttachment(forMediaType mediaType: MediaType?, withUrlStrin
         completionHandler(nil)
         return
     }
-    
     do {
         let data = try Data(contentsOf: url)
         let media = Media(forMediaType: mediaType, withData: data, fileExtension: url.pathExtension)
