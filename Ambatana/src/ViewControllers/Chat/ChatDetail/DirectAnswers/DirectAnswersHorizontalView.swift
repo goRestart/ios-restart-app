@@ -9,8 +9,8 @@
 import Foundation
 
 protocol DirectAnswersHorizontalViewDelegate: class {
-    func directAnswersBigViewDidSelect(answer: QuickAnswer)
-    func directAnswersBigViewDidSelectClose()
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer)
+    func directAnswersHorizontalViewDidSelectClose()
 }
 
 class DirectAnswersHorizontalView: UIView {
@@ -149,9 +149,9 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         }
         guard answersEnabled else { return }
         if closeButtonEnabled && indexPath.row == answers.count {
-            delegate?.directAnswersBigViewDidSelectClose()
+            delegate?.directAnswersHorizontalViewDidSelectClose()
         } else {
-            delegate?.directAnswersBigViewDidSelect(answer: answers[indexPath.row])
+            delegate?.directAnswersHorizontalViewDidSelect(answer: answers[indexPath.row])
         }
     }
 

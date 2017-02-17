@@ -60,7 +60,6 @@ class PostProductViewModel: BaseViewModel {
     fileprivate let fileRepository: FileRepository
     fileprivate let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
-    let galleryMultiSelectionEnabled: Bool
     private var imagesSelected: [UIImage]?
     fileprivate var pendingToUploadImages: [UIImage]?
     fileprivate var uploadedImages: [File]?
@@ -74,16 +73,13 @@ class PostProductViewModel: BaseViewModel {
         let fileRepository = Core.fileRepository
         let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
-        let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
         self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
-                  commercializerRepository: commercializerRepository, tracker: tracker, sessionManager: sessionManager,
-                  galleryMultiSelectionEnabled: featureFlags.postingMultiPictureEnabled)
+                  commercializerRepository: commercializerRepository, tracker: tracker, sessionManager: sessionManager)
     }
 
     init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         commercializerRepository: CommercializerRepository, tracker: Tracker, sessionManager: SessionManager,
-         galleryMultiSelectionEnabled: Bool) {
+         commercializerRepository: CommercializerRepository, tracker: Tracker, sessionManager: SessionManager) {
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
@@ -92,7 +88,6 @@ class PostProductViewModel: BaseViewModel {
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         self.tracker = tracker
         self.sessionManager = sessionManager
-        self.galleryMultiSelectionEnabled = galleryMultiSelectionEnabled
         super.init()
         self.postDetailViewModel.delegate = self
     }

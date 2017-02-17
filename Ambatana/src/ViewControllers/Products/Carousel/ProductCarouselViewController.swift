@@ -1041,7 +1041,6 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 // MARK: > Direct messages and stickers
 
 extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
-
     func setupDirectMessages() {
         ChatCellDrawerFactory.registerCells(directChatTable)
         directChatTable.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
@@ -1088,11 +1087,11 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         return cell
     }
 
-    func directAnswersBigViewDidSelect(answer: QuickAnswer) {
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
         viewModel.currentProductViewModel?.sendQuickAnswer(quickAnswer: answer)
     }
 
-    func directAnswersBigViewDidSelectClose() {}
+    func directAnswersHorizontalViewDidSelectClose() {}
 }
 
 

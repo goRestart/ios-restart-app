@@ -22,13 +22,10 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
-    var postingMultiPictureEnabled: Bool = true
-    var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
-    var filterIconWithLetters: Bool = false
     var editDeleteItemUxImprovement: Bool = false
     var onboardingReview: OnboardingReview = .testA
     var freeBumpUpEnabled: Bool = false

@@ -29,7 +29,7 @@ def shared_pods
 
     # Tracking
     pod "Amplitude-iOS",        "3.8.5"  # Obj-c
-    pod "AppsFlyerFramework",   "4.6.4"  # Obj-c
+    pod "AppsFlyerFramework",   "4.6.5"  # Obj-c
     pod "Leanplum-iOS-SDK",     "1.4.3"  # Obj-c
     pod "NewRelicAgent",        "5.10.1"
 
@@ -55,7 +55,7 @@ def shared_pods
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera
-    pod "FastttCamera",         "0.3.4"     # Obj-c
+    pod "CameraManager",        "3.1.0"
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -
