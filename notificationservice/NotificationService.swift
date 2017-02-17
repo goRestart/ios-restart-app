@@ -1,16 +1,14 @@
 //
 //  NotificationService.swift
-//  LGPushNotification
+//  notificationservice
 //
-//  Created by Juan Iglesias on 16/02/17.
+//  Created by Juan Iglesias on 17/02/17.
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
 
-
 import UIKit
 import UserNotifications
-import MobileCoreServices
 
 class NotificationService: UNNotificationServiceExtension {
     
@@ -59,14 +57,14 @@ fileprivate extension UNNotificationAttachment {
         let fileManager = FileManager.default
         let tmpSubFolderName = ProcessInfo.processInfo.globallyUniqueString
         let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tmpSubFolderName, isDirectory: true)
-
+        
         try? fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
         let fileIdentifier = "\(media.fileIdentifier).\(fileExtension)"
         let fileURL = tmpSubFolderURL.appendingPathComponent(fileIdentifier)
         
         try? data.write(to: fileURL)
         return self.create(fileIdentifier: fileIdentifier, fileUrl: fileURL, options: media.attachmentOptions)
-
+        
     }
     
     static func create(fileIdentifier: String, fileUrl: URL, options: [String : Any]? = nil) -> UNNotificationAttachment? {

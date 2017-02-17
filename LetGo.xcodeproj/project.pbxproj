@@ -578,8 +578,6 @@
 		6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */; };
 		6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
 		6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
-		7206BD491E55BA5B00461CBE /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7206BD481E55BA5B00461CBE /* NotificationService.swift */; };
-		7206BD4D1E55BA5B00461CBE /* LGPushNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7206BD461E55BA5B00461CBE /* LGPushNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		721537AA1E51CBC5008DE006 /* NotificationsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721537A91E51CBC5008DE006 /* NotificationsViewModelSpec.swift */; };
 		721537AC1E51CDEF008DE006 /* MockUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721537AB1E51CDEF008DE006 /* MockUserRepository.swift */; };
 		7215B9BD1DDF2378008AC77B /* MainProductsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */; };
@@ -610,7 +608,9 @@
 		72BABFE91E30E1360035747B /* WSChatStatus+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */; };
 		72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
-		72D57CB81E56E3B00009FA06 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D57CB71E56E3B00009FA06 /* Media.swift */; };
+		72D57CD11E5767FC0009FA06 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D57CD01E5767FC0009FA06 /* NotificationService.swift */; };
+		72D57CD51E5767FC0009FA06 /* notificationservice.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 72D57CCE1E5767FC0009FA06 /* notificationservice.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		72D57CDB1E5768780009FA06 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D57CDA1E5768780009FA06 /* Media.swift */; };
 		72FCD3021E40F3AC00DC6AB7 /* LocalUserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FCD3011E40F3AC00DC6AB7 /* LocalUserSpec.swift */; };
 		72FCD3041E4104B900DC6AB7 /* MockChatInterlocutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FCD3031E4104B900DC6AB7 /* MockChatInterlocutor.swift */; };
 		72FCD3061E410C0B00DC6AB7 /* LocalProductSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FCD3051E410C0B00DC6AB7 /* LocalProductSpec.swift */; };
@@ -1312,12 +1312,12 @@
 			remoteGlobalIDString = 6608E0351A820FBD005895ED;
 			remoteInfo = LetGo;
 		};
-		7206BD4B1E55BA5B00461CBE /* PBXContainerItemProxy */ = {
+		72D57CD31E5767FC0009FA06 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6608E02E1A820FBD005895ED /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7206BD451E55BA5B00461CBE;
-			remoteInfo = LGPushNotifications;
+			remoteGlobalIDString = 72D57CCD1E5767FC0009FA06;
+			remoteInfo = notificationservice;
 		};
 		D4B546351AEFDD920062D183 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1345,7 +1345,17 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				7206BD4D1E55BA5B00461CBE /* LGPushNotifications.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72D57CC91E57638B0009FA06 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				72D57CD51E5767FC0009FA06 /* notificationservice.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1725,9 +1735,6 @@
 		6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessageAdapter.swift; sourceTree = "<group>"; };
 		6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatStickerCell.xib; sourceTree = "<group>"; };
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7206BD461E55BA5B00461CBE /* LGPushNotifications.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LGPushNotifications.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		7206BD481E55BA5B00461CBE /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		7206BD4A1E55BA5B00461CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		721537A91E51CBC5008DE006 /* NotificationsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModelSpec.swift; sourceTree = "<group>"; };
 		721537AB1E51CDEF008DE006 /* MockUserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserRepository.swift; sourceTree = "<group>"; };
 		7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewModelSpec.swift; sourceTree = "<group>"; };
@@ -1747,7 +1754,10 @@
 		72B935F81E3F9C1C00F93F73 /* MockUserProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserProduct.swift; sourceTree = "<group>"; };
 		72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WSChatStatus+LG.swift"; sourceTree = "<group>"; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
-		72D57CB71E56E3B00009FA06 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		72D57CCE1E5767FC0009FA06 /* notificationservice.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notificationservice.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		72D57CD01E5767FC0009FA06 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		72D57CD21E5767FC0009FA06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		72D57CDA1E5768780009FA06 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		72FCD3011E40F3AC00DC6AB7 /* LocalUserSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalUserSpec.swift; path = Model/LocalUserSpec.swift; sourceTree = "<group>"; };
 		72FCD3031E4104B900DC6AB7 /* MockChatInterlocutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatInterlocutor.swift; sourceTree = "<group>"; };
 		72FCD3051E410C0B00DC6AB7 /* LocalProductSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalProductSpec.swift; path = Model/LocalProductSpec.swift; sourceTree = "<group>"; };
@@ -2163,7 +2173,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7206BD431E55BA5B00461CBE /* Frameworks */ = {
+		72D57CCB1E5767FC0009FA06 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3094,7 +3104,7 @@
 				D4B546301AEFDD920062D183 /* letgoTests */,
 				5067BAAC1C08C3B0007DA73B /* letgoUITests */,
 				508FF3FC1C0DFCEC0085D070 /* letgoUITestsFreshInstall */,
-				7206BD471E55BA5B00461CBE /* LGPushNotifications */,
+				72D57CCF1E5767FC0009FA06 /* notificationservice */,
 				6608E0371A820FBD005895ED /* Products */,
 				64C1081049FDC4ED543B1297 /* Pods */,
 				ABA47C14BB52140048297810 /* Frameworks */,
@@ -3109,7 +3119,7 @@
 				5067BAAB1C08C3B0007DA73B /* letgoUITests.xctest */,
 				508FF3FA1C0DFC850085D070 /* letgoUITestsFreshInstall.xctest */,
 				C7DB42941C5138B500400945 /* LetGoGodMode.app */,
-				7206BD461E55BA5B00461CBE /* LGPushNotifications.appex */,
+				72D57CCE1E5767FC0009FA06 /* notificationservice.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3290,14 +3300,14 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		7206BD471E55BA5B00461CBE /* LGPushNotifications */ = {
+		72D57CCF1E5767FC0009FA06 /* notificationservice */ = {
 			isa = PBXGroup;
 			children = (
-				7206BD481E55BA5B00461CBE /* NotificationService.swift */,
-				72D57CB71E56E3B00009FA06 /* Media.swift */,
-				7206BD4A1E55BA5B00461CBE /* Info.plist */,
+				72D57CD01E5767FC0009FA06 /* NotificationService.swift */,
+				72D57CDA1E5768780009FA06 /* Media.swift */,
+				72D57CD21E5767FC0009FA06 /* Info.plist */,
 			);
-			path = LGPushNotifications;
+			path = notificationservice;
 			sourceTree = "<group>";
 		};
 		ABA47C14BB52140048297810 /* Frameworks */ = {
@@ -4106,31 +4116,33 @@
 				BBFA7F7BD5812BEA4BE1060E /* [CP] Copy Pods Resources */,
 				5026B0A61B05E2F3006858BB /* Fabric Script */,
 				C7E1DE4E1E4C8BA7003818F6 /* New Relic */,
+				72D57CC91E57638B0009FA06 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				72D57CD41E5767FC0009FA06 /* PBXTargetDependency */,
 			);
 			name = LetGo;
 			productName = Ambatana;
 			productReference = 6608E0361A820FBD005895ED /* LetGo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7206BD451E55BA5B00461CBE /* LGPushNotifications */ = {
+		72D57CCD1E5767FC0009FA06 /* notificationservice */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7206BD511E55BA5B00461CBE /* Build configuration list for PBXNativeTarget "LGPushNotifications" */;
+			buildConfigurationList = 72D57CD61E5767FC0009FA06 /* Build configuration list for PBXNativeTarget "notificationservice" */;
 			buildPhases = (
-				7206BD421E55BA5B00461CBE /* Sources */,
-				7206BD431E55BA5B00461CBE /* Frameworks */,
-				7206BD441E55BA5B00461CBE /* Resources */,
+				72D57CCA1E5767FC0009FA06 /* Sources */,
+				72D57CCB1E5767FC0009FA06 /* Frameworks */,
+				72D57CCC1E5767FC0009FA06 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = LGPushNotifications;
-			productName = LGPushNotifications;
-			productReference = 7206BD461E55BA5B00461CBE /* LGPushNotifications.appex */;
+			name = notificationservice;
+			productName = notificationservice;
+			productReference = 72D57CCE1E5767FC0009FA06 /* notificationservice.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		C7DB41831C5138B500400945 /* LetGoGodMode */ = {
@@ -4154,7 +4166,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				7206BD4C1E55BA5B00461CBE /* PBXTargetDependency */,
 			);
 			name = LetGoGodMode;
 			productName = Ambatana;
@@ -4219,7 +4230,7 @@
 							};
 						};
 					};
-					7206BD451E55BA5B00461CBE = {
+					72D57CCD1E5767FC0009FA06 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3MAE68NKQE;
 						ProvisioningStyle = Manual;
@@ -4277,7 +4288,7 @@
 				D4B5462E1AEFDD920062D183 /* letgoTests */,
 				5067BAAA1C08C3B0007DA73B /* letgoUITests */,
 				508FF3EE1C0DFC850085D070 /* letgoUITestsFreshInstall */,
-				7206BD451E55BA5B00461CBE /* LGPushNotifications */,
+				72D57CCD1E5767FC0009FA06 /* notificationservice */,
 			);
 		};
 /* End PBXProject section */
@@ -4431,7 +4442,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7206BD441E55BA5B00461CBE /* Resources */ = {
+		72D57CCC1E5767FC0009FA06 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5351,12 +5362,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7206BD421E55BA5B00461CBE /* Sources */ = {
+		72D57CCA1E5767FC0009FA06 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72D57CB81E56E3B00009FA06 /* Media.swift in Sources */,
-				7206BD491E55BA5B00461CBE /* NotificationService.swift in Sources */,
+				72D57CDB1E5768780009FA06 /* Media.swift in Sources */,
+				72D57CD11E5767FC0009FA06 /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5926,10 +5937,10 @@
 			target = 6608E0351A820FBD005895ED /* LetGo */;
 			targetProxy = 508FF3F01C0DFC850085D070 /* PBXContainerItemProxy */;
 		};
-		7206BD4C1E55BA5B00461CBE /* PBXTargetDependency */ = {
+		72D57CD41E5767FC0009FA06 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7206BD451E55BA5B00461CBE /* LGPushNotifications */;
-			targetProxy = 7206BD4B1E55BA5B00461CBE /* PBXContainerItemProxy */;
+			target = 72D57CCD1E5767FC0009FA06 /* notificationservice */;
+			targetProxy = 72D57CD31E5767FC0009FA06 /* PBXContainerItemProxy */;
 		};
 		D4B546361AEFDD920062D183 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6202,6 +6213,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6231,6 +6243,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6255,7 +6268,7 @@
 			};
 			name = Release;
 		};
-		7206BD4E1E55BA5B00461CBE /* Debug */ = {
+		72D57CD71E5767FC0009FA06 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6263,7 +6276,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
-				INFOPLIST_FILE = LGPushNotifications/Info.plist;
+				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -6275,11 +6288,10 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		7206BD4F1E55BA5B00461CBE /* Release */ = {
+		72D57CD81E5767FC0009FA06 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6289,7 +6301,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
-				INFOPLIST_FILE = LGPushNotifications/Info.plist;
+				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -6299,11 +6311,10 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		7206BD501E55BA5B00461CBE /* Adhoc */ = {
+		72D57CD91E5767FC0009FA06 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6313,17 +6324,16 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
-				INFOPLIST_FILE = LGPushNotifications/Info.plist;
+				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c5fc6056-6864-48c6-92b2-7c3d66c60a1f";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Adhoc";
+				PROVISIONING_PROFILE = "71a6c79c-ffc8-47b7-8127-d519992db069";
+				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Adhoc;
 		};
@@ -6460,6 +6470,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6618,15 +6629,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7206BD511E55BA5B00461CBE /* Build configuration list for PBXNativeTarget "LGPushNotifications" */ = {
+		72D57CD61E5767FC0009FA06 /* Build configuration list for PBXNativeTarget "notificationservice" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7206BD4E1E55BA5B00461CBE /* Debug */,
-				7206BD4F1E55BA5B00461CBE /* Release */,
-				7206BD501E55BA5B00461CBE /* Adhoc */,
+				72D57CD71E5767FC0009FA06 /* Debug */,
+				72D57CD81E5767FC0009FA06 /* Release */,
+				72D57CD91E5767FC0009FA06 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 		C7DB42901C5138B500400945 /* Build configuration list for PBXNativeTarget "LetGoGodMode" */ = {
 			isa = XCConfigurationList;
