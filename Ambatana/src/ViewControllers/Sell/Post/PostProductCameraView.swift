@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FastttCamera
 import RxSwift
 import RxCocoa
 
@@ -22,7 +21,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     @IBOutlet var contentView: UIView!
 
-    @IBOutlet weak var cameraContainerView: UIView!
+    @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var cornersContainer: UIView!
 
@@ -66,7 +65,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     }
     fileprivate var viewModel: PostProductCameraViewModel
 
-    fileprivate var fastCamera: FastttCamera?
+    fileprivate let cameraWrapper = CameraWrapper()
     private var headerShown = true
 
     fileprivate let disposeBag = DisposeBag()
@@ -94,13 +93,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        
-        super.layoutSubviews()
-
-        adaptLayoutsToScreenSize()
-    }
-
 
     // MARK: - Public methods
 
@@ -125,10 +117,15 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     func takePhoto() {
         hideFirstTimeAlert()
-        guard let fastCamera = fastCamera else { return }
-
+        guard cameraWrapper.isReady else { return }
         viewModel.takePhotoButtonPressed()
-        fastCamera.takePicture()
+        cameraWrapper.capturePhoto { [weak self] result in
+            if let image = result.value {
+                self?.viewModel.photoTaken(image)
+            } else {
+                self?.viewModel.retryPhotoButtonPressed()
+            }
+        }
     }
     
     // MARK: - Actions
@@ -148,10 +145,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     }
 
     @IBAction func onTakePhotoButton(_ sender: AnyObject) {
-        hideFirstTimeAlert()
-        guard let fastCamera = fastCamera else { return }
-
-        fastCamera.takePicture()
+        takePhoto()
     }
 
     @IBAction func onRetryPhotoButton(_ sender: AnyObject) {
@@ -193,12 +187,8 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
-    }
 
-    private func adaptLayoutsToScreenSize() {
-        if let fastCamera = fastCamera {
-            fastCamera.view.frame = cameraContainerView.frame
-        }
+        cameraWrapper.addPreviewLayerTo(view: cameraView)
     }
 
     private func setupRX() {
@@ -215,15 +205,15 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         
         viewModel.imageSelected.asObservable().bindTo(imagePreview.rx.image).addDisposableTo(disposeBag)
 
-        let flashMode = viewModel.cameraFlashMode.asObservable()
-        flashMode.map{ $0.fastttCameraFlash }.subscribeNext{ [weak self] flashMode in
-            guard let fastCamera = self?.fastCamera, fastCamera.isFlashAvailableForCurrentDevice() else { return }
-            fastCamera.cameraFlashMode = flashMode
+        let flashMode = viewModel.cameraFlashState.asObservable()
+        flashMode.subscribeNext{ [weak self] flashMode in
+            guard let cameraWrapper = self?.cameraWrapper, cameraWrapper.hasFlash else { return }
+            cameraWrapper.flashMode = flashMode
         }.addDisposableTo(disposeBag)
         flashMode.map{ $0.imageIcon }.bindTo(flashButton.rx.image).addDisposableTo(disposeBag)
 
-        viewModel.cameraSourceMode.asObservable().map{ $0.fastttCameraDevice }.subscribeNext{ [weak self] deviceMode in
-            self?.fastCamera?.cameraDevice = deviceMode
+        viewModel.cameraSource.asObservable().subscribeNext{ [weak self] cameraSource in
+            self?.cameraWrapper.cameraSource = cameraSource
         }.addDisposableTo(disposeBag)
 
         viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bindTo(firstTimeAlertContainer.rx.isHidden).addDisposableTo(disposeBag)
@@ -241,39 +231,16 @@ extension PostProductCameraView {
     
     fileprivate func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
-            setupCamera()
+            if cameraWrapper.cameraContainer == cameraView {
+                cameraWrapper.resume()
+            } else {
+                cameraWrapper.addPreviewLayerTo(view: cameraView)
+            }
+            cameraView.isHidden = false
         } else {
-            removeCamera()
+            cameraWrapper.pause()
+            cameraView.isHidden = true
         }
-    }
-
-    fileprivate func setupCamera() {
-        guard fastCamera == nil else { return }
-
-        fastCamera = FastttCamera()
-        guard let fastCamera = fastCamera else { return }
-
-        fastCamera.scalesImage = false
-        fastCamera.normalizesImageOrientations = true
-        fastCamera.interfaceRotatesWithOrientation = false
-        fastCamera.delegate = self
-        fastCamera.cameraFlashMode = viewModel.cameraFlashMode.value.fastttCameraFlash
-        fastCamera.cameraDevice = viewModel.cameraSourceMode.value.fastttCameraDevice
-
-        fastCamera.beginAppearanceTransition(true, animated: false)
-        cameraContainerView.insertSubview(fastCamera.view, at: 0)
-        fastCamera.endAppearanceTransition()
-        fastCamera.view.frame = cameraContainerView.frame
-    }
-
-    fileprivate func removeCamera() {
-        guard let fastCamera = fastCamera else { return }
-        fastCamera.willMove(toParentViewController: nil)
-        fastCamera.beginAppearanceTransition(false, animated: false)
-        fastCamera.view.removeFromSuperview()
-        fastCamera.removeFromParentViewController()
-        fastCamera.endAppearanceTransition()
-        self.fastCamera = nil
     }
 }
 
@@ -308,27 +275,9 @@ extension PostProductCameraView{
 }
 
 
-// MARK: - FastttCameraDelegate
+// MARK: - Flash state extension
 
-extension PostProductCameraView: FastttCameraDelegate {
-    func cameraController(_ cameraController: FastttCameraInterface!,
-                          didFinishNormalizing capturedImage: FastttCapturedImage!) {
-        viewModel.photoTaken(capturedImage.fullImage)
-    }
-}
-
-extension CameraFlashMode {
-    var fastttCameraFlash: FastttCameraFlashMode {
-        switch self {
-        case .auto:
-            return .auto
-        case .on:
-            return .on
-        case .off:
-            return .off
-        }
-    }
-
+extension CameraFlashState {
     var imageIcon: UIImage? {
         switch self {
         case .auto:
@@ -337,17 +286,6 @@ extension CameraFlashMode {
             return UIImage(named: "ic_post_flash")
         case .off:
             return UIImage(named: "ic_post_flash_innactive")
-        }
-    }
-}
-
-extension CameraSourceMode {
-    var fastttCameraDevice: FastttCameraDevice {
-        switch self {
-        case .front:
-            return .front
-        case .rear:
-            return .rear
         }
     }
 }
