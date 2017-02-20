@@ -111,7 +111,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     }
     
     func helpButtonPressed() {
-        viewModel.openHelp()
+        viewModel.helpButtonPressed()
     }
      
     @IBAction func connectFBButtonPressed(_ sender: AnyObject) {
@@ -134,7 +134,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     // MARK: UITextViewDelegate
     
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
-        viewModel.open(url: url)
+        viewModel.urlPressed(url: url)
         return false
     }
 

@@ -137,11 +137,11 @@ class SignUpViewModel: BaseViewModel {
         navigator?.openLogInEmailFromMainSignUp(collapsedEmailParam: collapsedEmailTrackingParam)
     }
 
-    func openHelp() {
+    func helpButtonPressed() {
         navigator?.openHelpFromMainSignUp()
     }
 
-    func open(url: URL) {
+    func urlPressed(url: URL) {
         navigator?.open(url: url)
     }
 
