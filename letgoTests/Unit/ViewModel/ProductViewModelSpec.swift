@@ -270,7 +270,7 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowOnboarding() {}
-    func vmShowProductDelegateActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {}
 
     func vmShareDidFailedWith(_ error: String) {}
     func vmViewControllerToShowShareOptions() -> UIViewController { return UIViewController() }
