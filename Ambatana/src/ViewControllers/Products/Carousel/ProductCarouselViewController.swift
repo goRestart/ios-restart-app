@@ -98,6 +98,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     fileprivate let chatTextView = ChatTextView()
     fileprivate let directAnswersView: DirectAnswersHorizontalView
+    fileprivate var directAnswersBottom = NSLayoutConstraint()
 
     fileprivate var bumpUpBanner = BumpUpBanner()
     fileprivate var bumpUpBannerIsVisible: Bool = false
@@ -1063,7 +1064,9 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
         chatContainer.addSubview(chatTextView)
         chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
-        chatTextView.layout(with: directAnswersView).top(to: .bottom)
+        let directAnswersBottom: CGFloat = viewModel.quickAnswersCollapsed.value ? 0 : CarouselUI.itemsMargin
+        chatTextView.layout(with: directAnswersView).top(to: .bottom, by: directAnswersBottom,
+                                                         constraintBlock: { [weak self] in self?.directAnswersBottom = $0 })
 
         keyboardChanges.bindNext { [weak self] change in
             guard let strongSelf = self else { return }
@@ -1079,6 +1082,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
                 self?.directAnswersView.resetPosition()
             }
             self?.directAnswersView.set(collapsed: collapsed)
+            self?.directAnswersBottom.constant = collapsed ? 0 : CarouselUI.itemsMargin
             UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) {
                 self?.chatContainer.superview?.layoutIfNeeded()
             }
