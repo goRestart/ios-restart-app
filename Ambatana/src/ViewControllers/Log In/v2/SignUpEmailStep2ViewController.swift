@@ -273,13 +273,13 @@ fileprivate extension SignUpEmailStep2ViewController {
 
         contentView.layout(with: scrollView).top().leading().proportionalWidth()
 
-        headerLabel.layout(with: contentView).top(by: 30).leading(by: 15).trailing(by: -15)
+        headerLabel.layout(with: contentView).top(by: 30).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
 
         fullNameButton.layout(with: headerLabel).vertically(by: 20)
-        fullNameButton.layout(with: contentView).leading(by: 15).trailing(by: -15)
-        fullNameButton.layout().height(50)
+        fullNameButton.layout(with: contentView).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
+        fullNameButton.layout().height(Metrics.textFieldHeight)
         fullNameImageView.layout().width(20)
-        fullNameImageView.layout(with: fullNameButton).top().bottom().leading(by: 15)
+        fullNameImageView.layout(with: fullNameButton).top().bottom().leading(by: Metrics.margin)
         fullNameTextField.layout(with: fullNameButton).top().bottom().leading(by: 30).trailing(by: -8)
 
         var topView: UIView = fullNameTextField
@@ -297,7 +297,7 @@ fileprivate extension SignUpEmailStep2ViewController {
         }
 
         if viewModel.newsLetterAcceptRequired {
-            newsletterLabel.layout(with: contentView).leading(by: 15)
+            newsletterLabel.layout(with: contentView).leading(by: Metrics.margin)
             newsletterLabel.layout(with: topView).vertically(by: 10)
             newsletterLabel.layout(with: newsletterSwitch).horizontally(by: -10)
             newsletterLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
@@ -310,8 +310,11 @@ fileprivate extension SignUpEmailStep2ViewController {
         }
 
         signUpButton.layout(with: topView).vertically(by: 20)
-        signUpButton.layout(with: contentView).leading(by: 15).trailing(by: -15).bottom(by: 15)
-        signUpButton.layout().height(50)
+        signUpButton.layout(with: contentView)
+            .leading(by: Metrics.margin)
+            .trailing(by: -Metrics.margin)
+            .bottom(by: Metrics.margin)
+        signUpButton.layout().height(Metrics.buttonHeight)
     }
 
     func updateUI() {

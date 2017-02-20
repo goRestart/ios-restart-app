@@ -309,15 +309,18 @@ fileprivate extension SignUpEmailStep1ViewController {
 
         contentView.layout(with: scrollView).top().leading().proportionalWidth()
 
-        emailButton.layout(with: contentView).top(by: 30).leading(by: 15).trailing(by: -15)
-        emailButton.layout().height(50)
+        emailButton.layout(with: contentView)
+            .top(by: Metrics.loginContentTop)
+            .leading(by: Metrics.margin)
+            .trailing(by: -Metrics.margin)
+        emailButton.layout().height(Metrics.textFieldHeight)
         emailImageView.layout().width(20)
         emailImageView.layout(with: emailButton).top().bottom().leading(by: 15)
         emailTextField.layout(with: emailButton).top().bottom().leading(by: 30).trailing(by: -8)
 
         passwordButton.layout(with: contentView).leading(by: 15).trailing(by: -15)
         passwordButton.layout(with: emailButton).vertically()
-        passwordButton.layout().height(50)
+        passwordButton.layout().height(Metrics.textFieldHeight)
         passwordImageView.layout().width(20)
         passwordImageView.layout(with: passwordButton).top().bottom().leading(by: 15)
         passwordTextField.layout(with: passwordButton).top().bottom().leading(by: 30)
@@ -327,16 +330,19 @@ fileprivate extension SignUpEmailStep1ViewController {
         showPasswordButton.layout(with: passwordButton).trailing(by: -10).centerY()
 
         nextStepButton.layout(with: passwordTextField).vertically(by: 20)
-        nextStepButton.layout(with: contentView).leading(by: 15).trailing(by: -15).bottom(by: 15)
-        nextStepButton.layout().height(50)
+        nextStepButton.layout(with: contentView)
+            .leading(by: Metrics.margin)
+            .trailing(by: -Metrics.margin)
+            .bottom(by: Metrics.margin)
+        nextStepButton.layout().height(Metrics.buttonHeight)
 
         if deviceFamily.isWiderOrEqualThan(.iPhone6) {
             footerButton.layout(with: keyboardView).bottom(to: .top)
         } else {
             footerButton.layout(with: view).bottom()
         }
-        footerButton.layout(with: view).leading(by: 15).trailing(by: -15)
-        footerButton.layout().height(55, relatedBy: .greaterThanOrEqual)
+        footerButton.layout(with: view).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
+        footerButton.layout().height(Metrics.loginFooterHeight, relatedBy: .greaterThanOrEqual)
     }
 
     func setupAccessibilityIds() {
