@@ -276,6 +276,7 @@ extension LoginCoordinator: SignUpEmailStep1Navigator {
                                      source: source, collapsedEmail: collapsedEmail)
         vm.navigator = self
         let vc = LogInEmailViewController(viewModel: vm, appearance: .light, backgroundImage: nil)
+        // In popup mode we want to replace the first VC and it's not possible with pop + push
         let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
         navCtl.setViewControllers(navCtlVCs, animated: false)
     }
