@@ -215,26 +215,42 @@ extension LGLayout {
     // MARK: Horizantal / Vertical arrangement
 
     @discardableResult
-    func horizontally(by constant: CGFloat = 0, multiplier: CGFloat = 1,
-                      relatedBy: NSLayoutRelation = .equal, invert: Bool = false,
+    func alignedRight(by constant: CGFloat = 0, multiplier: CGFloat = 1,
+                      relatedBy: NSLayoutRelation = .equal,
                       priority: UILayoutPriority = UILayoutPriorityRequired,
                       constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        let attr1: NSLayoutAttribute = invert ? .leading : .trailing
-        let attr2: NSLayoutAttribute = invert ? .trailing : .leading
-        constraint(item1: item1, attribute1: attr1, relatedBy: relatedBy, item2: item2, attribute2: attr2,
+        constraint(item1: item1, attribute1: .trailing, relatedBy: relatedBy, item2: item2, attribute2: .leading,
                    constant: constant, multiplier: multiplier, priority: priority, constraintBlock: constraintBlock)
         return self
     }
 
     @discardableResult
-    func vertically(by constant: CGFloat = 0, multiplier: CGFloat = 1,
-                    relatedBy: NSLayoutRelation = .equal, invert: Bool = false,
-                    priority: UILayoutPriority = UILayoutPriorityRequired,
-                    constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        let attr1: NSLayoutAttribute = invert ? .bottom : .top
-        let attr2: NSLayoutAttribute = invert ? .top : .bottom
-        constraint(item1: item1, attribute1: attr1, relatedBy: relatedBy, item2: item2, attribute2: attr2,
+    func alignedLeft(by constant: CGFloat = 0, multiplier: CGFloat = 1,
+                     relatedBy: NSLayoutRelation = .equal,
+                     priority: UILayoutPriority = UILayoutPriorityRequired,
+                     constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
+        constraint(item1: item1, attribute1: .trailing, relatedBy: relatedBy, item2: item2, attribute2: .leading,
                    constant: constant, multiplier: multiplier, priority: priority, constraintBlock: constraintBlock)
+        return self
+    }
+
+    @discardableResult
+    func above(by constant: CGFloat = 0, multiplier: CGFloat = 1,
+               relatedBy: NSLayoutRelation = .equal,
+               priority: UILayoutPriority = UILayoutPriorityRequired,
+               constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
+        constraint(item1: item1, attribute1: .bottom, relatedBy: relatedBy, item2: item2, attribute2: .top,
+                   constant: constant, multiplier: multiplier, priority: priority, constraintBlock: constraintBlock)
+        return self
+    }
+
+    @discardableResult
+    func below(by constant: CGFloat = 0, multiplier: CGFloat = 1,
+               relatedBy: NSLayoutRelation = .equal,
+               priority: UILayoutPriority = UILayoutPriorityRequired,
+               constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
+            constraint(item1: item1, attribute1: .top, relatedBy: relatedBy, item2: item2, attribute2: .bottom,
+                       constant: constant, multiplier: multiplier, priority: priority, constraintBlock: constraintBlock)
         return self
     }
 

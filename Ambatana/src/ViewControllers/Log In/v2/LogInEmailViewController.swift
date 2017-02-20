@@ -340,11 +340,11 @@ fileprivate extension LogInEmailViewController {
             backgroundEffectView.layout(with: view).fill()
         }
 
-        scrollView.layout(with: topLayoutGuide).vertically()
-        scrollView.layout(with: bottomLayoutGuide).vertically(invert: true)
+        scrollView.layout(with: topLayoutGuide).below()
+        scrollView.layout(with: bottomLayoutGuide).above()
         scrollView.layout(with: view).leading().trailing()
 
-        headerGradientView.layout(with: topLayoutGuide).vertically()
+        headerGradientView.layout(with: topLayoutGuide).below()
         headerGradientView.layout(with: view).leading().trailing()
         headerGradientView.layout().height(20)
 
@@ -360,21 +360,21 @@ fileprivate extension LogInEmailViewController {
         emailTextField.layout(with: emailButton).top().bottom().leading(by: 30).trailing(by: -8)
 
         passwordButton.layout(with: contentView).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
-        passwordButton.layout(with: emailButton).vertically()
+        passwordButton.layout(with: emailButton).below()
         passwordButton.layout().height(Metrics.textFieldHeight)
         passwordImageView.layout().width(20)
         passwordImageView.layout(with: passwordButton).top().bottom().leading(by: 15)
         passwordTextField.layout(with: passwordButton).top().bottom().leading(by: 30)
-        passwordTextField.layout(with: showPasswordButton).horizontally(by: -5)
+        passwordTextField.layout(with: showPasswordButton).alignedRight(by: -5)
         passwordTextField.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
         showPasswordButton.layout().width(30).widthProportionalToHeight()
         showPasswordButton.layout(with: passwordButton).trailing(by: -10).centerY()
 
-        rememberPasswordButton.layout(with: passwordButton).vertically(by: 5)
+        rememberPasswordButton.layout(with: passwordButton).below(by: 5)
         rememberPasswordButton.layout(with: contentView).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
         rememberPasswordButton.layout().height(45, relatedBy: .greaterThanOrEqual)
 
-        loginButton.layout(with: rememberPasswordButton).vertically(by: 5)
+        loginButton.layout(with: rememberPasswordButton).below(by: 5)
         loginButton.layout(with: contentView)
             .leading(by: Metrics.margin)
             .trailing(by: -Metrics.margin)

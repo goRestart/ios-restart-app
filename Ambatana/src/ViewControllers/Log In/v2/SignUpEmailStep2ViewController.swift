@@ -263,11 +263,11 @@ fileprivate extension SignUpEmailStep2ViewController {
             backgroundEffectView.layout(with: view).fill()
         }
 
-        scrollView.layout(with: topLayoutGuide).vertically()
-        scrollView.layout(with: bottomLayoutGuide).vertically(invert: true)
+        scrollView.layout(with: topLayoutGuide).below()
+        scrollView.layout(with: bottomLayoutGuide).above()
         scrollView.layout(with: view).leading().trailing()
 
-        headerGradientView.layout(with: topLayoutGuide).vertically()
+        headerGradientView.layout(with: topLayoutGuide).below()
         headerGradientView.layout(with: view).leading().trailing()
         headerGradientView.layout().height(20)
 
@@ -275,7 +275,7 @@ fileprivate extension SignUpEmailStep2ViewController {
 
         headerLabel.layout(with: contentView).top(by: 30).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
 
-        fullNameButton.layout(with: headerLabel).vertically(by: 20)
+        fullNameButton.layout(with: headerLabel).below(by: 20)
         fullNameButton.layout(with: contentView).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
         fullNameButton.layout().height(Metrics.textFieldHeight)
         fullNameImageView.layout().width(20)
@@ -285,31 +285,31 @@ fileprivate extension SignUpEmailStep2ViewController {
         var topView: UIView = fullNameTextField
         if viewModel.termsAndConditionsAcceptRequired {
             termsTextView.layout(with: contentView).leading(by: 10)
-            termsTextView.layout(with: topView).vertically(by: 10)
-            termsTextView.layout(with: termsSwitch).horizontally(by: -5)
+            termsTextView.layout(with: topView).below(by: 10)
+            termsTextView.layout(with: termsSwitch).alignedRight(by: -5)
             termsTextView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
             termsSwitch.layout(with: contentView).trailing(by: -17)
             termsSwitch.layout(with: termsTextView).centerY(priority: UILayoutPriorityDefaultLow)
-            termsSwitch.layout(with: topView).vertically(by: 15, relatedBy: .greaterThanOrEqual)
+            termsSwitch.layout(with: topView).below(by: 15, relatedBy: .greaterThanOrEqual)
 
             topView = termsTextView
         }
 
         if viewModel.newsLetterAcceptRequired {
             newsletterLabel.layout(with: contentView).leading(by: Metrics.margin)
-            newsletterLabel.layout(with: topView).vertically(by: 10)
-            newsletterLabel.layout(with: newsletterSwitch).horizontally(by: -10)
+            newsletterLabel.layout(with: topView).below(by: 10)
+            newsletterLabel.layout(with: newsletterSwitch).alignedRight(by: -10)
             newsletterLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
             newsletterSwitch.layout(with: contentView).trailing(by: -17)
             newsletterSwitch.layout(with: newsletterLabel).centerY(priority: UILayoutPriorityDefaultLow)
-            newsletterSwitch.layout(with: topView).vertically(by: 15, relatedBy: .greaterThanOrEqual)
+            newsletterSwitch.layout(with: topView).below(by: 15, relatedBy: .greaterThanOrEqual)
 
             topView = newsletterLabel
         }
 
-        signUpButton.layout(with: topView).vertically(by: 20)
+        signUpButton.layout(with: topView).below(by: 20)
         signUpButton.layout(with: contentView)
             .leading(by: Metrics.margin)
             .trailing(by: -Metrics.margin)
