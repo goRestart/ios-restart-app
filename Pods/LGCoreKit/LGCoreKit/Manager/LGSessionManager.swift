@@ -81,7 +81,7 @@ class LGSessionManager: InternalSessionManager {
     let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
 
     private var disconnectChatTimer = Timer()
-    private let websocketChatDisconnectTimeout: TimeInterval
+    private let websocketBackgroundDisconnectTimeout: TimeInterval
     private var shouldReconnectChat: Bool = false
     private let events = PublishSubject<SessionEvent>()
     private let disposeBag = DisposeBag()
@@ -92,12 +92,12 @@ class LGSessionManager: InternalSessionManager {
 
     // MARK: - Lifecycle
 
-    init(apiClient: ApiClient, websocketClient: WebSocketClient, websocketChatDisconnectTimeout: TimeInterval, myUserRepository: InternalMyUserRepository,
+    init(apiClient: ApiClient, websocketClient: WebSocketClient, websocketBackgroundDisconnectTimeout: TimeInterval, myUserRepository: InternalMyUserRepository,
          installationRepository: InternalInstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
          favoritesDAO: FavoritesDAO, reachability: LGReachabilityProtocol?) {
         self.apiClient = apiClient
         self.websocketClient = websocketClient
-        self.websocketChatDisconnectTimeout = websocketChatDisconnectTimeout
+        self.websocketBackgroundDisconnectTimeout = websocketBackgroundDisconnectTimeout
         self.myUserRepository = myUserRepository
         self.tokenDAO = tokenDAO
         self.deviceLocationDAO = deviceLocationDAO
@@ -261,7 +261,7 @@ class LGSessionManager: InternalSessionManager {
     func applicationDidEnterBackground() {
         guard LGCoreKit.activateWebsocket else { return }
         guard loggedIn else { return }
-        disconnectChatTimer = Timer.scheduledTimer(timeInterval: websocketChatDisconnectTimeout,
+        disconnectChatTimer = Timer.scheduledTimer(timeInterval: websocketBackgroundDisconnectTimeout,
                                                    target: self, selector: #selector(disconnectChat),
                                                    userInfo: nil, repeats: false)
         shouldReconnectChat = true
@@ -281,7 +281,7 @@ class LGSessionManager: InternalSessionManager {
     func connectChat() {
         guard LGCoreKit.activateWebsocket else { return }
         guard loggedIn else { return }
-        websocketClient.openWebSocket(EnvironmentProxy.sharedInstance.webSocketURL)
+        websocketClient.openWebSocket()
     }
 
     /**
@@ -290,23 +290,6 @@ class LGSessionManager: InternalSessionManager {
     dynamic func disconnectChat() {
         guard LGCoreKit.activateWebsocket else { return }
         websocketClient.closeWebSocket()
-    }
-    
-    /**
-     Connects the chat and resumes requestQueue
-     */
-    private func resumeChat() {
-        guard LGCoreKit.activateWebsocket else { return }
-        guard loggedIn else { return }
-        websocketClient.resumeOperations()
-    }
-
-    /**
-     Disconnects the chat saving requestQueue and finishing activeRequests
-     */
-    private func suspendChat() {
-        guard LGCoreKit.activateWebsocket else { return }
-        websocketClient.suspendOperations()
     }
 
 
@@ -355,6 +338,7 @@ class LGSessionManager: InternalSessionManager {
             events.onNext(.logout(kickedOut: kicked))
         }
         if LGCoreKit.activateWebsocket {
+            websocketClient.cancelOperations()
             disconnectChat()
         }
     }
@@ -388,9 +372,6 @@ class LGSessionManager: InternalSessionManager {
         guard let reachability = reachability else { return }
         reachability.reachableBlock = { [weak self] in
             self?.connectChat()
-        }
-        reachability.unreachableBlock = { [weak self] in
-            self?.disconnectChat()
         }
     }
 

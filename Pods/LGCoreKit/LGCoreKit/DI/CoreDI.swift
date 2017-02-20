@@ -22,8 +22,8 @@ final class CoreDI: InternalDI {
         self.networkManager = Alamofire.SessionManager.lgManager(backgroundEnabled)
         let tokenDAO = CoreDI.tokenDAO
         let apiClient = AFApiClient(alamofireManager: self.networkManager, tokenDAO: tokenDAO)
-        let webSocketClient = LGWebSocketClient()
-        let websocketChatDisconnectTimeout = LGCoreKitConstants.websocketChatDisconnectTimeout
+        let webSocketClient = LGWebSocketClient(withEndpoint: EnvironmentProxy.sharedInstance.webSocketURL)
+        let websocketBackgroundDisconnectTimeout = LGCoreKitConstants.websocketBackgroundDisconnectTimeout
         
         let userDefaults = UserDefaults.standard
 
@@ -68,7 +68,7 @@ final class CoreDI: InternalDI {
 
         let sessionManager = LGSessionManager(apiClient: apiClient,
                                               websocketClient: webSocketClient,
-                                              websocketChatDisconnectTimeout: websocketChatDisconnectTimeout,
+                                              websocketBackgroundDisconnectTimeout: websocketBackgroundDisconnectTimeout,
                                               myUserRepository: myUserRepository,
                                               installationRepository: installationRepository,
                                               tokenDAO: tokenDAO,
