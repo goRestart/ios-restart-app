@@ -170,6 +170,9 @@ class BubbleNotification: UIView {
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
         swipeGesture.direction = .up
         self.addGestureRecognizer(swipeGesture)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(buttonTapped))
+        self.addGestureRecognizer(tapGesture)
     }
 
     private func setupConstraints() {
