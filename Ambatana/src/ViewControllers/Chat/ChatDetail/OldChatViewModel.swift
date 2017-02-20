@@ -513,7 +513,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
 
         //Direct answers
-        if chat.isSaved && !featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
+        if chat.isSaved && directAnswersState.value != .notAvailable {
             let visible = directAnswersState.value == .visible
             texts.append(visible ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
@@ -542,12 +542,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         delegate?.vmShowOptionsList(texts, actions: actions)
     }
 
-    func scrollViewDidTap() {
-        if featureFlags.newQuickAnswers && userDirectAnswersEnabled.value {
-            showDirectAnswers(false)
-        }
-    }
-    
     func messageAtIndex(_ index: Int) -> ChatViewMessage {
         return loadedMessages[index]
     }
@@ -591,11 +585,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         toggleDirectAnswers()
     }
 
-    func keyboardShown() {
-        if featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
-            showDirectAnswers(false)
-        }
-    }
     
     // MARK: - private methods
     
@@ -656,10 +645,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             }
         }.addDisposableTo(disposeBag)
 
-        if !featureFlags.newQuickAnswers {
-            // New quick answers doesn't depend on saved state
-            userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-        }
+        userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(
             relatedProductsState.asObservable(),
             userDirectAnswersEnabled.asObservable(),
@@ -982,7 +968,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                         }
                                         let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
                                         self?.delegate?.vmShowMessage(message) { [weak self] in
-                                            self?.delegate?.vmClose()
+                                            self?.navigator?.closeChatDetail()
                                         }
                                     }
             },
@@ -1116,9 +1102,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.checkSellerDidntAnswer(chat.messages, page: page)
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                    if strongSelf.featureFlags.newQuickAnswers {
-                        strongSelf.checkShouldShowDirectAnswers(messages: chat.messages)
-                    }
                 }
             } else if let error = result.error {
                 switch (error) {
@@ -1130,9 +1113,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                    if strongSelf.featureFlags.newQuickAnswers {
-                        strongSelf.checkShouldShowDirectAnswers(messages: [])
-                    }
                 case .network, .unauthorized, .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
@@ -1211,13 +1191,10 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [QuickAnswer] {
         let isFree = featureFlags.freePostingModeAllowed && product.price.free
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, newQuickAnswers: featureFlags.newQuickAnswers)
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
     }
     
     func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
-        if featureFlags.newQuickAnswers {
-            delegate?.vmShowKeyboard()
-        }
         switch answer {
         case .productSold:
             onProductSoldDirectAnswer()
@@ -1236,9 +1213,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     }
 
     fileprivate func showDirectAnswers(_ show: Bool) {
-        if !featureFlags.newQuickAnswers {
-            keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        }
+        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         userDirectAnswersEnabled.value = show
     }
 }

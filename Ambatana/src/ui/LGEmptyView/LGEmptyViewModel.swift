@@ -14,7 +14,7 @@ struct LGEmptyViewModel {
     let action: (() -> ())?
     var secondaryButtonTitle: String?
     var secondaryAction: (() -> ())?
-    var emptyReason: EventParameterEmptyReason
+    var emptyReason: EventParameterEmptyReason?
 
     static func networkErrorWithRetry(_ action: (() -> ())?) -> LGEmptyViewModel {
         let icon = UIImage(named: "err_network")

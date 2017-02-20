@@ -84,11 +84,6 @@ class NotificationsViewModel: BaseViewModel {
         data.primaryAction?()
     }
     
-    
-    func emptyStateBecomeVisible(errorReason: EventParameterEmptyReason) {
-        trackErrorStateShown(reason: errorReason)
-    }
-
 
     // MARK: - Private methods
 
@@ -113,7 +108,9 @@ class NotificationsViewModel: BaseViewModel {
                         secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
 
                     strongSelf.viewState.value = .empty(emptyViewModel)
-                    strongSelf.trackErrorStateShown(reason: emptyViewModel.emptyReason)
+                    if let errorReason = emptyViewModel.emptyReason {
+                        strongSelf.trackErrorStateShown(reason: errorReason)
+                    }
                 } else {
                     strongSelf.viewState.value = .data
                     strongSelf.afterReloadOk()
@@ -128,7 +125,9 @@ class NotificationsViewModel: BaseViewModel {
                                 self?.reloadNotifications()
                             }) {
                             strongSelf.viewState.value = .error(emptyViewModel)
-                            strongSelf.trackErrorStateShown(reason: emptyViewModel.emptyReason)
+                            if let errorReason = emptyViewModel.emptyReason {
+                                strongSelf.trackErrorStateShown(reason: errorReason)
+                            }
                     }
                     case .network(errorCode: _, onBackground: true):
                         break

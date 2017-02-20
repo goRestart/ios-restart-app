@@ -25,14 +25,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var directPostInOnboarding: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
     var freePostingModeAllowed: Bool = true
-    var postingMultiPictureEnabled: Bool = true
-    var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
     var favoriteWithBubbleToChat: Bool = false
     var locationMatchesCountry: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
-    var filterIconWithLetters: Bool = false
     var editDeleteItemUxImprovement: Bool = false
     var onboardingReview: OnboardingReview = .testA
     var freeBumpUpEnabled: Bool = false

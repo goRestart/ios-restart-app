@@ -270,6 +270,7 @@ enum EventParameterName: String {
     case chatEnabled          = "chat-enabled"
     case errorReason          = "reason"
     case quickAnswerType      = "quick-answer-type"
+    case listSuccess          = "list-success"
 }
 
 enum EventParameterBoolean: String {

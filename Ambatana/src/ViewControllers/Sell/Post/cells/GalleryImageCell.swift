@@ -13,11 +13,9 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     static var reusableID = "GalleryImageCell"
 
     @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var simpleSelectionCheckView: UIImageView!
     @IBOutlet weak var multipleSelectionCountLabel: UILabel!
     @IBOutlet weak var disabledView: UIView!
 
-    var multipleSelectionEnabled: Bool = false
 
     var disabled: Bool = false {
         didSet {
@@ -40,8 +38,7 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     override var isSelected: Bool {
         didSet {
-            simpleSelectionCheckView.isHidden = !isSelected || multipleSelectionEnabled
-            multipleSelectionCountLabel.isHidden = !isSelected || !multipleSelectionEnabled
+            multipleSelectionCountLabel.isHidden = !isSelected
             if multipleSelectionCountLabel.isHidden {
                 multipleSelectionCountLabel.text = nil
             }
@@ -54,9 +51,6 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     private func setupUI() {
         multipleSelectionCountLabel.text = nil
 
-        simpleSelectionCheckView.layer.borderWidth = 2
-        simpleSelectionCheckView.layer.borderColor = UIColor.white.cgColor
-
         multipleSelectionCountLabel.layer.borderWidth = 2
         multipleSelectionCountLabel.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
         multipleSelectionCountLabel.layer.borderColor = UIColor.white.cgColor
@@ -65,13 +59,12 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     // Resets the UI to the initial state
     private func resetUI() {
         image.image = nil
-        simpleSelectionCheckView.isHidden = true
 
         multipleSelectionCountLabel.text = nil
         multipleSelectionCountLabel.isHidden = true
         disabled = false
 
         contentView.clipsToBounds = true
-        contentView.layer.cornerRadius = multipleSelectionEnabled ? LGUIKitConstants.productCellCornerRadius : 0
+        contentView.layer.cornerRadius = LGUIKitConstants.galleryCellCornerRadius
     }
 }
