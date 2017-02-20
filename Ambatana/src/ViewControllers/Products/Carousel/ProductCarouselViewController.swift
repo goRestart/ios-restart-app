@@ -97,7 +97,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     fileprivate let chatTextView = ChatTextView()
-    fileprivate let directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
+    fileprivate let directAnswersView: DirectAnswersHorizontalView
 
     fileprivate var bumpUpBanner = BumpUpBanner()
     fileprivate var bumpUpBannerIsVisible: Bool = false
@@ -112,11 +112,14 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     // MARK: - Lifecycle
 
     convenience init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(viewModel:viewModel, pushAnimator: pushAnimator, featureFlags: featureFlags)
+        self.init(viewModel:viewModel,
+                  pushAnimator: pushAnimator,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
-    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?, featureFlags: FeatureFlaggeable) {
+    init(viewModel: ProductCarouselViewModel,
+         pushAnimator: ProductCarouselPushAnimator?,
+         featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.withProductInfo)
         let blurEffect = UIBlurEffect(style: .dark)
@@ -125,6 +128,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.featureFlags = featureFlags
+        self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
+                                                             collapsed: viewModel.quickAnswersCollapsed.value)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark), swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
@@ -668,8 +673,8 @@ extension ProductCarouselViewController {
 
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
-            self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerHeight : 0
-            }.addDisposableTo(activeDisposeBag)
+            self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
+        }.addDisposableTo(activeDisposeBag)
 
         directAnswersView.update(answers: viewModel.quickAnswers)
 
@@ -1068,6 +1073,13 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
                 strongSelf.view.layoutIfNeeded()
             }
         }.addDisposableTo(disposeBag)
+
+        viewModel.quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
+            self?.directAnswersView.set(collapsed: collapsed)
+            UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) {
+                self?.chatContainer.superview?.layoutIfNeeded()
+            }
+        }.addDisposableTo(disposeBag)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -1091,7 +1103,9 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         viewModel.currentProductViewModel?.sendQuickAnswer(quickAnswer: answer)
     }
 
-    func directAnswersHorizontalViewDidSelectClose() {}
+    func directAnswersHorizontalViewDidSelectClose() {
+        viewModel.quickAnswersCloseButtonPressed()
+    }
 }
 
 
@@ -1163,8 +1177,19 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         refreshProductOnboarding(productVM)
     }
     
-    func vmShowProductDelegateActionSheet(_ cancelLabel: String, actions: [UIAction]) {
-        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
+        var finalActions: [UIAction] = actions
+        //Adding show/hide quick answers option
+        if viewModel.quickAnswersCollapsed.value {
+            finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
+                [weak self] in self?.viewModel.quickAnswersShowButtonPressed()
+            }))
+        } else {
+            finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
+                [weak self] in self?.viewModel.quickAnswersCloseButtonPressed()
+            }))
+        }
+        showActionSheet(cancelLabel, actions: finalActions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 
     func vmShareDidFailedWith(_ error: String) {

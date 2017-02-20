@@ -23,7 +23,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
     func vmShowOnboarding()
-    func vmShowProductDelegateActionSheet(_ cancelLabel: String, actions: [UIAction])
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 
     func vmShareDidFailedWith(_ error: String)
     func vmViewControllerToShowShareOptions() -> UIViewController
@@ -634,7 +634,7 @@ extension ProductViewModel {
             actions.append(buildPromoteAction())
         }
 
-        delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
+        delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
     }
 
     private func buildEditAction() -> UIAction {
