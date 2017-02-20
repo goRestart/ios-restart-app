@@ -248,7 +248,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     product.status = .approved
                     self.shownFavoriteBubble = false
                 }
-                context("Contact the seller AB test disabled"){
+                context("Contact the seller AB test enabled"){
                     beforeEach {
                         featureFlags.shouldContactSellerOnFavorite = true
                         buildProductViewModel()
@@ -258,7 +258,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         expect(self.shownFavoriteBubble).toEventually(equal(true))
                     }
                 }
-                context("Contact the seller AB test enabled"){
+                context("Contact the seller AB test disabled"){
                     beforeEach {
                         featureFlags.shouldContactSellerOnFavorite = false
                         buildProductViewModel()
