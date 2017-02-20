@@ -809,7 +809,7 @@ fileprivate extension ProductViewModel {
                 }
                 strongSelf.favoriteButtonState.value = .enabled
             }
-            if featureFlags.favoriteWithBubbleToChat {
+            if featureFlags.shouldContactSellerOnFavorite {
                 navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
             }
         }
@@ -817,8 +817,7 @@ fileprivate extension ProductViewModel {
   
     func favoriteBubbleNotificationData() -> BubbleNotificationData {
         let action = UIAction(interface: .text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
-            guard let product = self?.product.value else { return }
-            self?.navigator?.openProductChat(product)
+            self?.sendMessage(type: .favoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
         }, accessibilityId: .bubbleButton)
         let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
                                           text: LGLocalizedString.productBubbleFavoriteButton,

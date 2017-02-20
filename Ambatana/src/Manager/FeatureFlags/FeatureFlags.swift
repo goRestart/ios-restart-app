@@ -21,7 +21,7 @@ protocol FeatureFlaggeable {
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var freePostingModeAllowed: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
-    var favoriteWithBubbleToChat: Bool { get }
+    var shouldContactSellerOnFavorite: Bool { get }
     var locationMatchesCountry: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
@@ -98,8 +98,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.favoriteWithBadgeOnProfile.value
     }
     
-    var favoriteWithBubbleToChat: Bool {
-        return false
+    var shouldContactSellerOnFavorite: Bool {
+        if Bumper.enabled {
+            return Bumper.contactSellerOnFavorite
+        }
+        return ABTests.contactSellerOnFavorite.value
     }
 
     var captchaTransparent: Bool {

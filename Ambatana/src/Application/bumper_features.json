@@ -63,5 +63,11 @@
         "name": "UserRatingMarkAsSold",
         "values": ["no", "yes"],
         "description": "Select buyer before mark sold"
+    },
+    {
+        "name": "ContactSellerOnFavorite",
+        "values": ["no", "yes"],
+        "description": "Send a message when user clicks on contact the seller after favorite"
     }
+ 
 ]
