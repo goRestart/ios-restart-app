@@ -339,11 +339,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         if textField === usernameTextField && !removing && newLength > Constants.maxUserNameLength { return false }
 
         let updatedText = (text as NSString).replacingCharacters(in: range, with: string)
-
-        // Delay needed, otherwise when deleting autosuggest does not update as textfield still has the old text
-        delay(0.01) { [weak self] in
-            self?.updateViewModelText(updatedText, fromTextFieldTag: textField.tag)
-        }
+        updateViewModelText(updatedText, fromTextFieldTag: textField.tag)
         return true
     }
     

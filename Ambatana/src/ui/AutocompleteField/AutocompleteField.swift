@@ -10,6 +10,7 @@
 // Modified to delete useless functionality & inherit from LGTextField :D
 
 import Foundation
+import RxSwift
 import UIKit
 
 
@@ -17,13 +18,14 @@ import UIKit
     @IBInspectable var completionColor : UIColor = UIColor(white: 0, alpha: 0.22)
     var suggestion : String? {
         didSet {
-            setLabel(text: suggestion)
+            updateLabel()
         }
     }
     // Move the suggestion label up or down. Sometimes there's a small difference, and this can be used to fix it.
     var pixelCorrection : CGFloat = 0
 
     fileprivate var label = UILabel()
+    fileprivate let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -31,11 +33,13 @@ import UIKit
     override public init(frame: CGRect) {
         super.init(frame: frame)
         setupLabel()
+        setupRx()
     }
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupLabel()
+        setupRx()
     }
 
     // ovverride to set frame of the suggestion label whenever the textfield frame changes.
@@ -45,14 +49,16 @@ import UIKit
                              height: frame.height - 2 * insetY)
         super.layoutSubviews()
     }
+}
 
 
-    // MARK: - Private methods
+// MARK: - Private methods
 
+fileprivate extension AutocompleteField {
     /**
      Sets up the suggestion label with the same font styling and alignment as the textfield.
      */
-    fileprivate func setupLabel() {
+    func setupLabel() {
         setLabel(text: nil)
         label.lineBreakMode = .byClipping
         if #available(iOS 9.0, *) {
@@ -61,12 +67,27 @@ import UIKit
         addSubview(label)
     }
 
+    /**
+     Sets up the reactive bindings.
+    */
+    func setupRx() {
+        rx.text.bindNext { [weak self] text in
+            self?.updateLabel()
+        }.addDisposableTo(disposeBag)
+    }
+
+    /**
+     Updates the content of the suggestion label.
+     */
+    func updateLabel() {
+        setLabel(text: suggestion)
+    }
 
     /**
      Set content of the suggestion label.
      - parameter text: Suggestion text
      */
-    private func setLabel(text: String?) {
+    func setLabel(text: String?) {
         guard let text = text, !text.isEmpty else {
             label.attributedText = nil
             return
