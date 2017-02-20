@@ -238,13 +238,13 @@ fileprivate extension AppDelegate {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // Debug
-        Debug.loggingOptions = [AppLoggingOptions.navigation]
+        Debug.loggingOptions = [.navigation]
 
         #if GOD_MODE
-            Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]
+            Debug.loggingOptions = []//[.navigation, .tracking, .deepLink, .monetization]
         #endif
         
-        LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
+        LGCoreKit.loggingOptions = [.webSockets]//[.networking, .persistence, .token, .session, .webSockets]
         if let featureFlags = featureFlags {
             LGCoreKit.activateWebsocket = featureFlags.websocketChat
         }

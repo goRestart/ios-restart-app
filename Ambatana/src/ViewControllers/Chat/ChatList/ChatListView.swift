@@ -90,7 +90,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     }
 
     func chatListViewModelDidFailArchivingChats(_ viewModel: ChatListViewModel) {
-        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
+        viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf,
                 didFinishArchivingWithMessage: LGLocalizedString.chatListArchiveErrorMultiple)
@@ -98,21 +98,21 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     }
 
     func chatListViewModelDidSucceedArchivingChats(_ viewModel: ChatListViewModel) {
-        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
+        viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishArchivingWithMessage: nil)
         }
     }
 
     func chatListViewModelDidFailUnarchivingChats(_ viewModel: ChatListViewModel) {
-        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
+        viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: LGLocalizedString.chatListUnarchiveErrorMultiple)
         }
     }
 
     func chatListViewModelDidSucceedUnarchivingChats(_ viewModel: ChatListViewModel) {
-        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
+        viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: nil)
         }

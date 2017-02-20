@@ -15,7 +15,7 @@ Defines the type shared across 'Chats' section lists.
 */
 protocol ChatGroupedListViewModelType: RxPaginable {
     var editing: Variable<Bool> { get }
-    func reloadCurrentPagesWithCompletion(_ completion: (() -> ())?)
+    func refresh(completion: (() -> Void)?)
 }
 
 protocol ChatGroupedListViewModelDelegate: class {
@@ -87,13 +87,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
 
     override func didBecomeActive(_ firstTime: Bool) {
-        if canRetrieve {
-            if objectCount == 0 {
-                retrieveFirstPage()
-            } else {
-                reloadCurrentPagesWithCompletion(nil)
-            }
-        }
+        refresh(completion: nil)
     }
 
 
@@ -164,7 +158,16 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - ChatGroupedListViewModelType
 
-    func reloadCurrentPagesWithCompletion(_ completion: (() -> ())?) {
+    func refresh(completion: (() -> Void)?) {
+        guard canRetrieve else { return }
+        if objectCount == 0 {
+            retrievePage(firstPage, completion: completion)
+        } else {
+            reloadCurrentPagesWith(completion: completion)
+        }
+    }
+
+    func reloadCurrentPagesWith(completion: (() -> ())?) {
         guard firstPage < nextPage else {
             completion?()
             return
@@ -234,6 +237,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     // MARK: - Paginable
 
     func retrievePage(_ page: Int) {
+        retrievePage(page, completion: nil)
+    }
+
+    func retrievePage(_ page: Int, completion: (() -> Void)?) {
         let firstPage = (page == 1)
         isLoading = true
         var hasToRetrieveFirstPage: Bool = false
@@ -274,10 +281,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(page)
             }
             strongSelf.isLoading = false
-            //TODO: Check if we could move strongSelf.isLoading to top.
             if hasToRetrieveFirstPage {
                 strongSelf.retrieveFirstPage()
             }
+            completion?()
         }
         didFinishLoading()
     }

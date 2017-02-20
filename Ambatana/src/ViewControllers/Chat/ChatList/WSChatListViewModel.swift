@@ -139,7 +139,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                 return false
             }
         }.bindNext { [weak self] event in
-            self?.reloadCurrentPagesWithCompletion(nil)
+            self?.refresh(completion: nil)
         }.addDisposableTo(disposeBag)
     }
 }
