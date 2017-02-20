@@ -77,7 +77,6 @@ final class LoginCoordinator: Coordinator {
         case .fullScreen:
             let mainSignUpVC = MainSignUpViewController(viewModel: viewModel)
             let navCtl = UINavigationController(rootViewController: mainSignUpVC)
-            navCtl.view.backgroundColor = UIColor.white
             self.viewController = navCtl
         case .popup(let message):
             let popUpSignUpVC = PopupSignUpViewController(viewModel: viewModel, topMessage: message)
