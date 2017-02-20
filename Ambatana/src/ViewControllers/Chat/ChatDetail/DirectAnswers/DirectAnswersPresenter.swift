@@ -28,7 +28,7 @@ class DirectAnswersPresenter {
 
     var hidden: Bool = true {
         didSet {
-            horizontalView?.resetPosition()
+            horizontalView?.resetScrollPosition()
             horizontalView?.isHidden = hidden
         }
     }

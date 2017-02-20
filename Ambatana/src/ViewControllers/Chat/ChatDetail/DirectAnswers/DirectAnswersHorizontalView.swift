@@ -20,7 +20,7 @@ enum DirectAnswersStyle {
 class DirectAnswersHorizontalView: UIView {
 
     static let defaultWidth: CGFloat = UIScreen.main.bounds.width
-    static var defaultHeight: CGFloat = DirectAnswerCell.cellHeight
+    static let defaultHeight: CGFloat = DirectAnswerCell.cellHeight
     static let defaultSideMargin: CGFloat = 8
 
     weak var delegate: DirectAnswersHorizontalViewDelegate?
@@ -42,7 +42,6 @@ class DirectAnswersHorizontalView: UIView {
     fileprivate var heightConstraint = NSLayoutConstraint()
     fileprivate let collectionView: UICollectionView
     fileprivate var answers: [QuickAnswer]
-    private let sideMargin: CGFloat
 
     // MARK: - Lifecycle
 
@@ -55,7 +54,6 @@ class DirectAnswersHorizontalView: UIView {
         self.answers = answers
         let collectionFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         self.collectionView = UICollectionView(frame: collectionFrame, collectionViewLayout: UICollectionViewFlowLayout())
-        self.sideMargin = sideMargin
         super.init(frame: frame)
         setupUI(sideMargin: sideMargin, collapsed: collapsed)
     }
@@ -79,7 +77,7 @@ class DirectAnswersHorizontalView: UIView {
         collectionView.reloadData()
     }
 
-    func resetPosition() {
+    func resetScrollPosition() {
         let rectToScroll = CGRect(x: 0, y: 0, width: 1, height: 1)
         collectionView.scrollRectToVisible(rectToScroll, animated: false)
     }

@@ -1079,7 +1079,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
         viewModel.quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             if !collapsed {
-                self?.directAnswersView.resetPosition()
+                self?.directAnswersView.resetScrollPosition()
             }
             self?.directAnswersView.set(collapsed: collapsed)
             self?.directAnswersBottom.constant = collapsed ? 0 : CarouselUI.itemsMargin
