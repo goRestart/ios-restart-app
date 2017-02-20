@@ -19,7 +19,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
     var lastBuyersToRate: [UserProduct]?
     var buyerToRateResult: String?
     var shownAlertText: String?
-    var showedFavoriteBubble: Bool = false
+    var shownFavoriteBubble: Bool?
 
     override func spec() {
         var sut: ProductViewModel!
@@ -241,11 +241,12 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-            fdescribe("Mark as favorite") {
+            describe("Mark as favorite") {
                 beforeEach {
                     sessionManager.loggedIn = true
                     product = MockProduct()
                     product.status = .approved
+                    self.shownFavoriteBubble = false
                 }
                 context("Contact the seller AB test disabled"){
                     beforeEach {
@@ -254,7 +255,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         sut.switchFavorite()
                     }
                     it("shows bubble up") {
-                        expect(self.showedFavoriteBubble).toEventually(equal(true))
+                        expect(self.shownFavoriteBubble).toEventually(equal(true))
                     }
                 }
                 context("Contact the seller AB test enabled"){
@@ -264,7 +265,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         sut.switchFavorite()
                     }
                     it("shows bubble up") {
-                        expect(self.showedFavoriteBubble).toEventually(equal(false))
+                        expect(self.shownFavoriteBubble).toEventually(equal(false))
                     }
                 }
             }
@@ -287,7 +288,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
     }
     
     override func showBubble(with bubbleData: BubbleNotificationData, duration: TimeInterval) {
-        showedFavoriteBubble = true
+        shownFavoriteBubble = true
     }
 }
 
