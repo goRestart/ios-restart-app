@@ -162,7 +162,8 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func productList(_ user: User?, categories: [ProductCategory]?, searchQuery: String?, feedSource: EventParameterFeedSource) -> TrackerEvent {
+    static func productList(_ user: User?, categories: [ProductCategory]?, searchQuery: String?,
+                            feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         // Categories
@@ -179,7 +180,7 @@ struct TrackerEvent {
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
         }
-
+        params[.listSuccess] = success
         return TrackerEvent(name: .productList, params: params)
     }
 
