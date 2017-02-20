@@ -203,7 +203,6 @@ class LogInEmailViewModelSpec: QuickSpec {
 
                     it("does not suggest anything") {
                         expect(suggestedEmail).to(beNil())
-                        sut.acceptSuggestedEmail()
                     }
                     it("does not update the email when accepting") {
                         expect(email) == "albert@"
