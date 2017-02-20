@@ -1075,6 +1075,9 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         }.addDisposableTo(disposeBag)
 
         viewModel.quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
+            if !collapsed {
+                self?.directAnswersView.resetPosition()
+            }
             self?.directAnswersView.set(collapsed: collapsed)
             UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) {
                 self?.chatContainer.superview?.layoutIfNeeded()
@@ -1179,15 +1182,17 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
         var finalActions: [UIAction] = actions
-        //Adding show/hide quick answers option
-        if viewModel.quickAnswersCollapsed.value {
-            finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
-                [weak self] in self?.viewModel.quickAnswersShowButtonPressed()
-            }))
-        } else {
-            finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
-                [weak self] in self?.viewModel.quickAnswersCloseButtonPressed()
-            }))
+        if viewModel.quickAnswersAvailable {
+            //Adding show/hide quick answers option
+            if viewModel.quickAnswersCollapsed.value {
+                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
+                    [weak self] in self?.viewModel.quickAnswersShowButtonPressed()
+                }))
+            } else {
+                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
+                    [weak self] in self?.viewModel.quickAnswersCloseButtonPressed()
+                }))
+            }
         }
         showActionSheet(cancelLabel, actions: finalActions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }

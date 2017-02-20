@@ -75,6 +75,9 @@ class ProductCarouselViewModel: BaseViewModel {
         return source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
     }
 
+    var quickAnswersAvailable: Bool {
+        return currentProductViewModel?.directChatEnabled.value ?? false
+    }
     let quickAnswersCollapsed: Variable<Bool>
 
     fileprivate let source: EventParameterProductVisitSource

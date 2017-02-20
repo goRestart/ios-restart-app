@@ -77,6 +77,11 @@ class DirectAnswersHorizontalView: UIView {
         collectionView.reloadData()
     }
 
+    func resetPosition() {
+        let rectToScroll = CGRect(x: 0, y: 0, width: 1, height: 1)
+        collectionView.scrollRectToVisible(rectToScroll, animated: false)
+    }
+
     private func setupUI(sideMargin: CGFloat, collapsed: Bool) {
         backgroundColor = UIColor.clear
         clipsToBounds = true
