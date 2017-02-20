@@ -63,5 +63,10 @@
         "name": "UserRatingMarkAsSold",
         "values": ["no", "yes"],
         "description": "Select buyer before mark sold"
+    },
+    {
+        "name": "ProductDetailNextRelated",
+        "values": ["no", "yes"],
+        "description": "Item page next item related"
     }
 ]

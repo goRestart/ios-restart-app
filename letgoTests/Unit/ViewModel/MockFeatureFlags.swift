@@ -22,7 +22,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
     var filtersReorder: Bool = false
-    var directPostInOnboarding: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
     var freePostingModeAllowed: Bool = true
     var favoriteWithBadgeOnProfile: Bool = false
@@ -36,4 +35,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
     var userRatingMarkAsSold: Bool = false
+    var productDetailNextRelated: Bool = false
 }
