@@ -264,7 +264,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.switchFavorite()
                     }
-                    it("shows bubble up") {
+                    it("does not show bubble up") {
                         expect(self.shownFavoriteBubble).toEventually(equal(false))
                     }
                 }
