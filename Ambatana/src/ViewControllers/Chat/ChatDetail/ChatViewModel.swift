@@ -124,7 +124,6 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var isDeleted = false
     fileprivate var shouldAskProductSold: Bool = false
-    fileprivate var isSendingQuickAnswer = false
     fileprivate var productId: String? // Only used when accessing a chat from a product
     fileprivate var preSendMessageCompletion: ((_ type: ChatWrapperMessageType) -> Void)?
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
@@ -623,10 +622,6 @@ extension ChatViewModel {
             return
         }
 
-        if type.isQuickAnswer {
-            if isSendingQuickAnswer { return }
-            isSendingQuickAnswer = true
-        }
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
@@ -656,9 +651,6 @@ extension ChatViewModel {
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
                     self?.delegate?.vmDidFailSendingMessage()
                 }
-            }
-            if type.isQuickAnswer {
-                self?.isSendingQuickAnswer = false
             }
         }
     }
