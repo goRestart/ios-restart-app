@@ -13,6 +13,10 @@ protocol DirectAnswersHorizontalViewDelegate: class {
     func directAnswersHorizontalViewDidSelectClose()
 }
 
+enum DirectAnswersStyle {
+    case dark, light
+}
+
 class DirectAnswersHorizontalView: UIView {
 
     static let defaultWidth: CGFloat = UIScreen.main.bounds.width
@@ -29,9 +33,9 @@ class DirectAnswersHorizontalView: UIView {
         }
     }
     var deselectOnItemTap: Bool = true
-    var closeButtonEnabled: Bool = true {
+    var style: DirectAnswersStyle = .dark {
         didSet {
-            collectionView.reloadData()
+            reloadCloseCell()
         }
     }
 
@@ -75,10 +79,16 @@ class DirectAnswersHorizontalView: UIView {
 
         setupCollection(sideMargin: sideMargin)
     }
+
+    private func reloadCloseCell() {
+        guard collectionView.indexPathsForVisibleItems.count > 0 else { return }
+        let closeIndexPath = IndexPath(item: answers.count, section: 0)
+        collectionView.reloadItems(at: [closeIndexPath])
+    }
 }
 
 
-// MARK: - UICollectionView method
+// MARK: - UICollectionView methods
 
 extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionViewDataSource {
 
@@ -108,7 +118,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        if closeButtonEnabled && indexPath.row == answers.count {
+        if indexPath.row == answers.count {
             return DirectAnswersCloseCell.size()
         } else {
             return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row])
@@ -116,15 +126,16 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return closeButtonEnabled ? answers.count + 1 : answers.count
+        return answers.count + 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        if closeButtonEnabled && indexPath.row == answers.count {
-            //Close btn
-            return collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswersCloseCell.reusableID,
-                                                      for: indexPath)
+        if indexPath.row == answers.count {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswersCloseCell.reusableID,
+                                                      for: indexPath) as? DirectAnswersCloseCell else { return UICollectionViewCell() }
+            cell.setupWith(style: style)
+            return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
                                                                 for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
@@ -148,7 +159,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
             collectionView.deselectItem(at: indexPath, animated: true)
         }
         guard answersEnabled else { return }
-        if closeButtonEnabled && indexPath.row == answers.count {
+        if indexPath.row == answers.count {
             delegate?.directAnswersHorizontalViewDidSelectClose()
         } else {
             delegate?.directAnswersHorizontalViewDidSelect(answer: answers[indexPath.row])

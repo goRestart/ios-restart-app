@@ -1050,7 +1050,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.openChatWithSeller() }
 
         directAnswersView.delegate = self
-        directAnswersView.closeButtonEnabled = false
+        directAnswersView.style = .light
         directAnswersView.translatesAutoresizingMaskIntoConstraints = false
         chatContainer.addSubview(directAnswersView)
         directAnswersView.layout(with: chatContainer).leading().trailing().top()
