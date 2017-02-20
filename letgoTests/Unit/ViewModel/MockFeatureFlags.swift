@@ -26,7 +26,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var postAfterDeleteMode: PostAfterDeleteMode = .original
     var freePostingModeAllowed: Bool = true
     var favoriteWithBadgeOnProfile: Bool = false
-    var favoriteWithBubbleToChat: Bool = false
+    var shouldContactSellerOnFavorite: Bool = false
     var locationMatchesCountry: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false

@@ -19,6 +19,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
     var lastBuyersToRate: [UserProduct]?
     var buyerToRateResult: String?
     var shownAlertText: String?
+    var showedFavoriteBubble: Bool = false
 
     override func spec() {
         var sut: ProductViewModel!
@@ -240,6 +241,33 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
+            fdescribe("Mark as favorite") {
+                beforeEach {
+                    sessionManager.loggedIn = true
+                    product = MockProduct()
+                    product.status = .approved
+                }
+                context("Contact the seller AB test disabled"){
+                    beforeEach {
+                        featureFlags.shouldContactSellerOnFavorite = true
+                        buildProductViewModel()
+                        sut.switchFavorite()
+                    }
+                    it("shows bubble up") {
+                        expect(self.showedFavoriteBubble).toEventually(equal(true))
+                    }
+                }
+                context("Contact the seller AB test enabled"){
+                    beforeEach {
+                        featureFlags.shouldContactSellerOnFavorite = false
+                        buildProductViewModel()
+                        sut.switchFavorite()
+                    }
+                    it("shows bubble up") {
+                        expect(self.showedFavoriteBubble).toEventually(equal(false))
+                    }
+                }
+            }
         }
     }
 
@@ -248,6 +276,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         lastBuyersToRate = nil
         buyerToRateResult = nil
         shownAlertText = nil
+        
     }
 
     override func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
@@ -255,6 +284,10 @@ class ProductViewModelSpec: BaseViewModelSpec {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
             actions.last?.action()
         }
+    }
+    
+    override func showBubble(with bubbleData: BubbleNotificationData, duration: TimeInterval) {
+        showedFavoriteBubble = true
     }
 }
 
@@ -308,3 +341,5 @@ extension ProductViewModelSpec: ProductDetailNavigator {
         }
     }
 }
+
+
