@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self])
     } 
 
     static var websocketChat: Bool {
@@ -83,6 +83,11 @@ extension Bumper  {
     static var productDetailNextRelated: Bool {
         guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
         return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
+    }
+
+    static var contactSellerOnFavorite: Bool {
+        guard let value = Bumper.value(for: ContactSellerOnFavorite.key) else { return false }
+        return ContactSellerOnFavorite(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -233,6 +238,15 @@ enum ProductDetailNextRelated: String, BumperFeature  {
     static var enumValues: [ProductDetailNextRelated] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Item page next item related" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum ContactSellerOnFavorite: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ContactSellerOnFavorite.no.rawValue }
+    static var enumValues: [ContactSellerOnFavorite] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Send a message when user clicks on contact the seller after favorite" } 
     var asBool: Bool { return self == .yes }
 }
 

@@ -68,5 +68,11 @@
         "name": "ProductDetailNextRelated",
         "values": ["no", "yes"],
         "description": "Item page next item related"
+    },
+    {
+        "name": "ContactSellerOnFavorite",
+        "values": ["no", "yes"],
+        "description": "Send a message when user clicks on contact the seller after favorite"
     }
+ 
 ]
