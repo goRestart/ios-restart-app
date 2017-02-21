@@ -245,7 +245,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                         expect(self.navigatorReceivedCloseAfterSignUp) == false
                     }
                     it("calls open scammer alert in navigator") {
-                        expect(self.navigatorReceivedOpenScammerAlert) == true
+                        expect(self.navigatorReceivedOpenScammerAlert).toEventually(beTrue())
                     }
                 }
 
@@ -265,7 +265,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                         expect(self.navigatorReceivedCloseAfterSignUp) == false
                     }
                     it("calls open recaptcha in navigator") {
-                        expect(self.navigatorReceivedOpenRecaptcha) == true
+                        expect(self.navigatorReceivedOpenRecaptcha).toEventually(beTrue())
                     }
                 }
 
@@ -308,7 +308,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                             expect(trackedEventNames) == [EventName.loginEmail]
                         }
                         it("calls close after signup in navigator when signup succeeds") {
-                            expect(self.navigatorReceivedCloseAfterSignUp) == true
+                            expect(self.navigatorReceivedCloseAfterSignUp).toEventually(beTrue())
                         }
                         it("saves letgo as previous user account provider") {
                             let provider = keyValueStorage[.previousUserAccountProvider]
