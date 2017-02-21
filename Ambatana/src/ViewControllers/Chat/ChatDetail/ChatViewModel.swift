@@ -108,7 +108,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let firstInteractionDone = Variable<Bool>(false)
     fileprivate let expressBannerTimerFinished = Variable<Bool>(false)
     fileprivate let hasRelatedProducts = Variable<Bool>(false)
-    private let expressMessagesAlreadySent = Variable<Bool>(false)
+    fileprivate let expressMessagesAlreadySent = Variable<Bool>(false)
     fileprivate let interlocutorIsMuted = Variable<Bool>(false)
     private let interlocutorHasMutedYou = Variable<Bool>(false)
     private let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
@@ -247,13 +247,13 @@ class ChatViewModel: BaseViewModel {
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        
-        refreshChatInfo()
+
         if firstTime {
             retrieveRelatedProducts()
-            launchExpressChatTimer()
-            expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
+            setupExpressChat()
         }
+
+        refreshChatInfo()
         trackVisit()
     }
 
@@ -461,10 +461,14 @@ class ChatViewModel: BaseViewModel {
     func setupChatEventsRx() {
         chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
             switch wsChatStatus {
-            case .closed, .closing, .opening, .openAuthenticated, .openNotAuthenticated:
+            case .openAuthenticated:
+                //Reload messages
                 break
+
             case .openNotVerified:
                 self?.showUserNotVerifiedAlert()
+            case .closed, .closing, .opening, .openNotAuthenticated:
+                break
             }
         }.addDisposableTo(disposeBag)
 
@@ -1286,27 +1290,6 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
 }
 
 
-// MARK: - ChatMessageType tracking
-
-extension ChatMessageType {
-    var trackingMessageType: EventParameterMessageType {
-        switch self {
-        case .text:
-            return .text
-        case .offer:
-            return .offer
-        case .sticker:
-            return .sticker
-        case .favoritedProduct:
-            return .favorite
-        case .expressChat:
-            return .expressChat
-        case .quickAnswer:
-            return .quickAnswer
-        }
-    }
-}
-
 // MARK: - Related products for express chat
 
 extension ChatViewModel {
@@ -1321,7 +1304,7 @@ extension ChatViewModel {
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
-                strongSelf.updateExpressChatBanner()
+                strongSelf.hasRelatedProducts.value = !strongSelf.relatedProducts.isEmpty
             }
         }
     }
@@ -1339,17 +1322,14 @@ extension ChatViewModel {
 
     // Express Chat Banner methods
 
-    private func updateExpressChatBanner() {
-        hasRelatedProducts.value = !relatedProducts.isEmpty
-    }
-
-    fileprivate func launchExpressChatTimer() {
+    fileprivate func setupExpressChat() {
+        expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) { [weak self] in
             self?.expressBannerTimerFinished.value = true
         }
     }
 
-    fileprivate func expressChatMessageSentForCurrentProduct() -> Bool {
+    private func expressChatMessageSentForCurrentProduct() -> Bool {
         guard let productId = conversation.value.product?.objectId else { return false }
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
             if productSentId == productId { return true }
