@@ -117,13 +117,13 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("sign up with invalid form") {
+            describe("sign up button press with invalid form") {
                 var errors: SignUpEmailStep2FormErrors!
 
                 context("username empty") {
                     beforeEach {
                         sut.username.value = ""
-                        errors = sut.signUp()
+                        errors = sut.signUpButtonPressed()
                     }
 
                     it("has the sign up disabled") {
@@ -144,7 +144,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 context("username containing letgo keyword") {
                     beforeEach {
                         sut.username.value = "albert letgo"
-                        errors = sut.signUp()
+                        errors = sut.signUpButtonPressed()
                     }
 
                     it("has the sign up enabled") {
@@ -165,7 +165,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 context("short username") {
                     beforeEach {
                         sut.username.value = "a"
-                        errors = sut.signUp()
+                        errors = sut.signUpButtonPressed()
                     }
 
                     it("has the sign up enabled") {
@@ -189,7 +189,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                         featureFlags.signUpEmailTermsAndConditionsAcceptRequired = true
 
                         sut.username.value = "Albert"
-                        errors = sut.signUp()
+                        errors = sut.signUpButtonPressed()
                     }
 
                     it("has the sign up enabled") {
@@ -213,7 +213,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
 
                 beforeEach {
                     sut.username.value = "Albert"
-                    errors = sut.signUp()
+                    errors = sut.signUpButtonPressed()
                 }
 
                 it("has the sign up enabled") {
@@ -236,7 +236,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 describe("sign up fails with scammer error") {
                     beforeEach {
                         sessionManager.signUpResult = SessionMyUserResult(error: .scammer)
-                        _ = sut.signUp()
+                        _ = sut.signUpButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -256,7 +256,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 describe("sign up fails with user not verified error") {
                     beforeEach {
                         sessionManager.signUpResult = SessionMyUserResult(error: .userNotVerified)
-                        _ = sut.signUp()
+                        _ = sut.signUpButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -281,7 +281,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                     describe("auto log in fails") {
                         beforeEach {
                             sessionManager.logInResult = SessionMyUserResult(error: .network)
-                            _ = sut.signUp()
+                            _ = sut.signUpButtonPressed()
 
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
@@ -302,7 +302,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                             let myUser = MockMyUser()
                             myUser.email = email
                             sessionManager.logInResult = SessionMyUserResult(value: myUser)
-                            _ = sut.signUp()
+                            _ = sut.signUpButtonPressed()
 
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
@@ -328,7 +328,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 describe("sign up fails with other reason") {
                     beforeEach {
                         sessionManager.signUpResult = SessionMyUserResult(error: .network)
-                        _ = sut.signUp()
+                        _ = sut.signUpButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -349,7 +349,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                         let myUser = MockMyUser()
                         myUser.email = email
                         sessionManager.signUpResult = SessionMyUserResult(value: myUser)
-                        _ = sut.signUp()
+                        _ = sut.signUpButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -372,9 +372,9 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("open help") {
+            describe("help button press") {
                 beforeEach {
-                    sut.openHelp()
+                    sut.helpButtonPressed()
                 }
 
                 it("calls open help in navigator") {

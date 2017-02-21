@@ -191,14 +191,14 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("open next step with email & password") {
+            describe("next step button press with email & password") {
                 var errors: SignUpEmailStep1FormErrors!
 
                 describe("empty") {
                     beforeEach {
                         sut.email.value = ""
                         sut.password.value = ""
-                        errors = sut.openNextStep()
+                        errors = sut.nextStepButtonPressed()
                     }
 
                     it("has the next step disabled") {
@@ -220,7 +220,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.email.value = "a"
                         sut.password.value = "a"
-                        errors = sut.openNextStep()
+                        errors = sut.nextStepButtonPressed()
                     }
 
                     it("has the next step enabled") {
@@ -242,7 +242,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-                        errors = sut.openNextStep()
+                        errors = sut.nextStepButtonPressed()
                     }
 
                     it("has the next step enabled") {
@@ -264,7 +264,7 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
-                        errors = sut.openNextStep()
+                        errors = sut.nextStepButtonPressed()
                     }
 
                     it("has the next step enabled") {
@@ -283,9 +283,9 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("open login") {
+            describe("footer button press") {
                 beforeEach {
-                    sut.openLogIn()
+                    sut.footerButtonPressed()
                 }
 
                 it("calls open login in navigator") {
@@ -293,9 +293,9 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("open help") {
+            describe("help button press") {
                 beforeEach {
-                    sut.openHelp()
+                    sut.helpButtonPressed()
                 }
 
                 it("calls open help in navigator") {
@@ -303,9 +303,9 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("cancel") {
+            describe("close button press") {
                 beforeEach {
-                    sut.cancel()
+                    sut.closeButtonPressed()
                 }
 
                 it("calls cancel in navigator") {

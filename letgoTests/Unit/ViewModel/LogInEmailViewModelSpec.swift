@@ -166,13 +166,18 @@ class LogInEmailViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("autosuggest email") {
+            describe("accept autosuggested email") {
+                var result: Bool!
+
                 describe("empty") {
                     beforeEach {
                         sut.email.value = ""
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
 
+                    it("returns false") {
+                        expect(result) == false
+                    }
                     it("does not suggest anything") {
                         expect(suggestedEmail).to(beNil())
                     }
@@ -184,9 +189,12 @@ class LogInEmailViewModelSpec: QuickSpec {
                 describe("user letters") {
                     beforeEach {
                         sut.email.value = "albert"
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
 
+                    it("returns false") {
+                        expect(result) == false
+                    }
                     it("does not suggest anything") {
                         expect(suggestedEmail).to(beNil())
                     }
@@ -198,9 +206,12 @@ class LogInEmailViewModelSpec: QuickSpec {
                 describe("user letters and @ sign") {
                     beforeEach {
                         sut.email.value = "albert@"
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
 
+                    it("returns false") {
+                        expect(result) == false
+                    }
                     it("does not suggest anything") {
                         expect(suggestedEmail).to(beNil())
                     }
@@ -212,9 +223,12 @@ class LogInEmailViewModelSpec: QuickSpec {
                 describe("user letters, @ sign & first domain letters") {
                     beforeEach {
                         sut.email.value = "albert@g"
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
 
+                    it("returns true") {
+                        expect(result) == true
+                    }
                     it("suggests first domain ocurrence") {
                         expect(suggestedEmail) == "albert@gmail.com"
                     }
@@ -224,14 +238,14 @@ class LogInEmailViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("log in with invalid form") {
+            describe("log in button press with invalid form") {
                 var errors: LogInEmailFormErrors!
 
                 describe("empty") {
                     beforeEach {
                         sut.email.value = ""
                         sut.password.value = ""
-                        errors = sut.logIn()
+                        errors = sut.logInButtonPressed()
                     }
 
                     it("has log in disabled") {
@@ -253,7 +267,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.email.value = "a"
                         sut.password.value = "a"
-                        errors = sut.logIn()
+                        errors = sut.logInButtonPressed()
                     }
 
                     it("has log in enabled") {
@@ -275,7 +289,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-                        errors = sut.logIn()
+                        errors = sut.logInButtonPressed()
                     }
 
                     it("has log in enabled") {
@@ -297,7 +311,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
-                        errors = sut.logIn()
+                        errors = sut.logInButtonPressed()
                     }
 
                     it("has log in enabled") {
@@ -313,13 +327,13 @@ class LogInEmailViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("log in with valid form") {
+            describe("log in button press with valid form") {
                 var errors: LogInEmailFormErrors!
 
                 beforeEach {
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
-                    errors = sut.logIn()
+                    errors = sut.logInButtonPressed()
                 }
 
                 it("has log in enabled") {
@@ -347,7 +361,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                 describe("log in fails once with unauthorized error") {
                     beforeEach {
                         sessionManager.logInResult = SessionMyUserResult(error: .unauthorized)
-                        _ = sut.logIn()
+                        _ = sut.logInButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -367,11 +381,11 @@ class LogInEmailViewModelSpec: QuickSpec {
                 describe("log in fails twice with unauthorized error") {
                     beforeEach {
                         sessionManager.logInResult = SessionMyUserResult(error: .unauthorized)
-                        _ = sut.logIn()
+                        _ = sut.logInButtonPressed()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
 
-                        _ = sut.logIn()
+                        _ = sut.logInButtonPressed()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
 
@@ -390,11 +404,11 @@ class LogInEmailViewModelSpec: QuickSpec {
                 describe("log in fails twice with another error") {
                     beforeEach {
                         sessionManager.logInResult = SessionMyUserResult(error: .network)
-                        _ = sut.logIn()
+                        _ = sut.logInButtonPressed()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
 
-                        _ = sut.logIn()
+                        _ = sut.logInButtonPressed()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
 
@@ -413,7 +427,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                 describe("log in fails with scammer error") {
                     beforeEach {
                         sessionManager.logInResult = SessionMyUserResult(error: .scammer)
-                        _ = sut.logIn()
+                        _ = sut.logInButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -437,7 +451,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                         let myUser = MockMyUser()
                         myUser.email = email
                         sessionManager.logInResult = SessionMyUserResult(value: myUser)
-                        _ = sut.logIn()
+                        _ = sut.logInButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -466,7 +480,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.email.value = "admin"
                         sut.password.value = "wat"
-                        _ = sut.logIn()
+                        _ = sut.logInButtonPressed()
                     }
 
                     it("calls show god mode alert in delegate") {
@@ -477,7 +491,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                 describe("enable god mode") {
                     context("wrong password") {
                         beforeEach {
-                            sut.enableGodMode(godPassword: "whatever")
+                            sut.godModePasswordTyped(godPassword: "whatever")
                         }
 
                         it("does not enable god mode") {
@@ -487,7 +501,7 @@ class LogInEmailViewModelSpec: QuickSpec {
 
                     context("correct password") {
                         beforeEach {
-                            sut.enableGodMode(godPassword: "mellongod")
+                            sut.godModePasswordTyped(godPassword: "mellongod")
                         }
 
                         it("enables god mode") {
@@ -496,9 +510,9 @@ class LogInEmailViewModelSpec: QuickSpec {
                     }
                 }
 
-                describe("open remember password") {
+                describe("remember password press") {
                     beforeEach {
-                        sut.openRememberPassword()
+                        sut.rememberPasswordButtonPressed()
                     }
 
                     it("calls open remember password in navigator") {
@@ -507,9 +521,9 @@ class LogInEmailViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("open sign up") {
+            describe("footer button press") {
                 beforeEach {
-                    sut.openSignUp()
+                    sut.footerButtonPressed()
                 }
 
                 it("calls open sign up navigator") {
@@ -517,9 +531,9 @@ class LogInEmailViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("open help") {
+            describe("help button press") {
                 beforeEach {
-                    sut.openHelp()
+                    sut.helpButtonPressed()
                 }
                 
                 it("calls open help in navigator") {
@@ -527,9 +541,9 @@ class LogInEmailViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("cancel") {
+            describe("close button press") {
                 beforeEach {
-                    sut.cancel()
+                    sut.closeButtonPressed()
                 }
 
                 it("calls cancel in navigator") {
