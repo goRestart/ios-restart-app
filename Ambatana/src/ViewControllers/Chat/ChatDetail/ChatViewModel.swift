@@ -252,7 +252,7 @@ class ChatViewModel: BaseViewModel {
             setupExpressChat()
         }
 
-        refreshChatInfo()
+        refreshChat()
         trackVisit()
     }
 
@@ -262,12 +262,12 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    private func refreshChatInfo() {
+    private func refreshChat() {
         // only load messages if the interlocutor is not blocked
         // Note: In some corner cases (staging only atm) the interlocutor may come as nil
         if let interlocutor = conversation.value.interlocutor, interlocutor.isBanned { return }
-        retrieveMoreMessages()
         loadStickersTooltip()
+        refreshMessages()
     }
 
     func wentBack() {
@@ -291,7 +291,7 @@ class ChatViewModel: BaseViewModel {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
-                self?.retrieveMoreMessages()
+                self?.refreshMessages()
                 self?.setupChatEventsRx()
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
@@ -462,8 +462,7 @@ class ChatViewModel: BaseViewModel {
             switch wsChatStatus {
             case .openAuthenticated:
                 //Reload messages
-                break
-
+                self?.refreshMessages()
             case .openNotVerified:
                 self?.showUserNotVerifiedAlert()
             case .closed, .closing, .opening, .openNotAuthenticated:
@@ -927,11 +926,20 @@ extension ChatViewModel {
             retrieveMoreMessages()
         }
     }
-    
-    func retrieveMoreMessages() {
+
+    func refreshMessages() {
+        guard let convId = conversation.value.objectId else { return }
+        guard !isLoading else { return }
+        if messages.value.count == 0 {
+            downloadFirstPage(convId)
+        } else {
+            refreshLastMessages(convId)
+        }
+    }
+
+    private func retrieveMoreMessages() {
         guard let convId = conversation.value.objectId else { return }
         guard !isLoading && !isLastPage else { return }
-        isLoading = true
         if messages.value.count == 0 {
             downloadFirstPage(convId)
         } else if let lastId = messages.value.last?.objectId {
@@ -957,6 +965,7 @@ extension ChatViewModel {
     }
 
     private func downloadFirstPage(_ conversationId: String) {
+        isLoading = true
         chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) { [weak self] result in
             guard let strongSelf = self else { return }
 
@@ -974,6 +983,7 @@ extension ChatViewModel {
     }
     
     private func downloadMoreMessages(_ convId: String, fromMessageId: String) {
+        isLoading = true
         chatRepository.indexMessagesOlderThan(fromMessageId, conversationId: convId, numResults: resultsPerPage) {
             [weak self] result in
             guard let strongSelf = self else { return }
@@ -987,6 +997,15 @@ extension ChatViewModel {
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
+        }
+    }
+
+    private func refreshLastMessages(_ convId: String) {
+        isLoading = true
+        chatRepository.indexMessages(convId, numResults: resultsPerPage, offset: 0) { [weak self] result in
+            self?.isLoading = false
+            guard let newMessages = result.value else { return }
+            self?.mergeMessages(newMessages: newMessages)
         }
     }
 
@@ -1017,6 +1036,41 @@ extension ChatViewModel {
         if let bottomDisclaimerMessage = bottomDisclaimerMessage, isFirstPage {
             chatMessages.insert(bottomDisclaimerMessage, at: 0)
         }
+        messages.appendContentsOf(chatMessages)
+    }
+
+    private func mergeMessages(newMessages: [ChatMessage]) {
+        markAsReadMessages(newMessages)
+
+        let newViewMessages = newMessages.map(chatViewMessageAdapter.adapt)
+        guard !newViewMessages.isEmpty else { return }
+
+        //We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
+        var filteredViewMessages = messages.value.filter { $0.objectId != nil }
+        var currentIndex = filteredViewMessages.index { $0.objectId == newViewMessages.first?.objectId } ?? 0
+
+        newViewMessages.forEach { newMessage in
+            if filteredViewMessages.count <= currentIndex || filteredViewMessages[currentIndex].objectId != newMessage.objectId {
+                filteredViewMessages.insert(newMessage, at: currentIndex)
+            } else {
+                filteredViewMessages[currentIndex] = newMessage
+            }
+            currentIndex = currentIndex + 1
+        }
+
+        var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
+                                                                 disclaimerMessage: defaultDisclaimerMessage)
+
+        // Add user info as 1st message
+        if let userInfoMessage = userInfoMessage, isLastPage {
+            chatMessages.append(userInfoMessage)
+        }
+        // Add disclaimer at the bottom of the first page
+        if let bottomDisclaimerMessage = bottomDisclaimerMessage {
+            chatMessages.insert(bottomDisclaimerMessage, at: 0)
+        }
+
+        messages.removeAll()
         messages.appendContentsOf(chatMessages)
     }
 
@@ -1223,7 +1277,7 @@ fileprivate extension ChatInfoViewStatus {
     }
 }
 
-//// MARK: - DirectAnswers
+// MARK: - DirectAnswers
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
