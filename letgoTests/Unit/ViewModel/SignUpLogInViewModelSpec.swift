@@ -426,7 +426,7 @@ extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
     func cancelSignUpLogIn() {
         finishedSuccessfully = false
     }
-    func closeSignUpLogIn(myUser: MyUser) {
+    func closeSignUpLogInSuccessful(with myUser: MyUser) {
         finishedSuccessfully = true
     }
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {

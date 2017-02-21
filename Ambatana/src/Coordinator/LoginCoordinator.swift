@@ -120,7 +120,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         closeRoot(didLogIn: false)
     }
 
-    func closeMainSignUp(myUser: MyUser) {
+    func closeMainSignUpSuccessful(with myUser: MyUser) {
         closeRoot(didLogIn: true)
     }
 
@@ -207,7 +207,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
         close(animated: true, completion: nil)
     }
 
-    func closeSignUpLogIn(myUser: MyUser) {
+    func closeSignUpLogInSuccessful(with myUser: MyUser) {
         dismissAllPresentedIfNeededAndExecute { [weak self] in
             self?.closeRoot(didLogIn: true)
         }

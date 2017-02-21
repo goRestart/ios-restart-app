@@ -264,7 +264,7 @@ extension SignUpViewModelSpec: MainSignUpNavigator {
     func cancelMainSignUp() {
         finishedSuccessfully = false
     }
-    func closeMainSignUp(myUser: MyUser) {
+    func closeMainSignUpSuccessful(with myUser: MyUser) {
         finishedSuccessfully = true
     }
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {

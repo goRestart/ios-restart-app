@@ -10,7 +10,7 @@ import LGCoreKit
 
 protocol MainSignUpNavigator: class {
     func cancelMainSignUp()
-    func closeMainSignUp(myUser: MyUser)
+    func closeMainSignUpSuccessful(with myUser: MyUser)
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?)
     func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?)
@@ -21,7 +21,7 @@ protocol MainSignUpNavigator: class {
 
 protocol SignUpLogInNavigator: class {
     func cancelSignUpLogIn()
-    func closeSignUpLogIn(myUser: MyUser)
+    func closeSignUpLogInSuccessful(with myUser: MyUser)
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)
     func openRecaptcha(transparentMode: Bool)
 

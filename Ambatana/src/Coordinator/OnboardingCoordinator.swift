@@ -191,7 +191,7 @@ extension OnboardingCoordinator: MainSignUpNavigator {
         tourLoginFinish()
     }
 
-    func closeMainSignUp(myUser: MyUser) {
+    func closeMainSignUpSuccessful(with myUser: MyUser) {
         tourLoginFinish()
     }
 
@@ -246,7 +246,7 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
         dismissCurrentNavigationController()
     }
 
-    func closeSignUpLogIn(myUser: MyUser) {
+    func closeSignUpLogInSuccessful(with myUser: MyUser) {
         dismissCurrentNavigationController { [weak self] in
             self?.tourLoginFinish()
         }

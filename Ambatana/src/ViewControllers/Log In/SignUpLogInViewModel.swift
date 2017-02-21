@@ -249,7 +249,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                  collapsedEmail: strongSelf.collapsedEmailParam))
 
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                        self?.navigator?.closeSignUpLogIn(myUser: user)
+                        self?.navigator?.closeSignUpLogInSuccessful(with: user)
                     }
                 } else if let sessionManagerError = signUpResult.error {
                     switch sessionManagerError {
@@ -265,7 +265,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                                collapsedEmail: strongSelf.collapsedEmailParam)
                                     self?.tracker.trackEvent(trackerEvent)
                                     self?.delegate?.vmHideLoading(nil) { [weak self] in
-                                        self?.navigator?.closeSignUpLogIn(myUser: myUser)
+                                        self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
                                     }
                                 } else if let _ = loginResult.error {
                                     strongSelf.processSignUpSessionError(sessionManagerError)
@@ -318,7 +318,7 @@ class SignUpLogInViewModel: BaseViewModel {
                     self?.tracker.trackEvent(trackerEvent)
 
                     self?.delegate?.vmHideLoading(nil) { [weak self] in
-                        self?.navigator?.closeSignUpLogIn(myUser: user)
+                        self?.navigator?.closeSignUpLogInSuccessful(with: user)
                     }
                 } else if let sessionManagerError = loginResult.error {
                     strongSelf.processLoginSessionError(sessionManagerError)
@@ -500,7 +500,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.closeSignUpLogIn(myUser: myUser)
+                self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
             }
         case .cancelled:
             delegate?.vmHideLoading(nil, afterMessageCompletion: nil)

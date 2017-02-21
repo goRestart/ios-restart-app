@@ -192,7 +192,7 @@ class SignUpViewModel: BaseViewModel {
         case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, username: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.closeMainSignUp(myUser: myUser)
+                self?.navigator?.closeMainSignUpSuccessful(with: myUser)
             }
         case .cancelled:
             delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
