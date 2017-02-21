@@ -20,7 +20,7 @@ struct Media {
         self.ext = ext
     }
     
-    var attachmentOptions: [String: Any?] {
+    var attachmentOptions: [String: Any] {
         return [UNNotificationAttachmentOptionsThumbnailTimeKey: 0]
     }
     
