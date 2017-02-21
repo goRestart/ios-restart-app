@@ -169,6 +169,10 @@ class LogInEmailViewModelSpec: QuickSpec {
             describe("accept autosuggested email") {
                 var result: Bool!
 
+                beforeEach {
+                    result = nil
+                }
+
                 describe("empty") {
                     beforeEach {
                         sut.email.value = ""

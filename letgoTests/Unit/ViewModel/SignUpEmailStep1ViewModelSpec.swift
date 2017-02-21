@@ -133,12 +133,21 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
             }
 
             describe("autosuggest email") {
+                var result: Bool!
+
+                beforeEach {
+                    result = nil
+                }
+
                 describe("empty") {
                     beforeEach {
                         sut.email.value = ""
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
 
+                    it("returns false") {
+                        expect(result) == false
+                    }
                     it("does not suggest anything") {
                         expect(suggestedEmail).to(beNil())
                     }
@@ -150,9 +159,12 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 describe("user letters") {
                     beforeEach {
                         sut.email.value = "albert"
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
 
+                    it("returns false") {
+                        expect(result) == false
+                    }
                     it("does not suggest anything") {
                         expect(suggestedEmail).to(beNil())
                     }
@@ -164,12 +176,15 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 describe("user letters and @ sign") {
                     beforeEach {
                         sut.email.value = "albert@"
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
 
+                    it("returns false") {
+                        expect(result) == false
+                    }
                     it("does not suggest anything") {
                         expect(suggestedEmail).to(beNil())
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
                     it("does not update the email when accepting") {
                         expect(email) == "albert@"
@@ -179,9 +194,12 @@ class SignUpEmailStep1ViewModelSpec: QuickSpec {
                 describe("user letters, @ sign & first domain letters") {
                     beforeEach {
                         sut.email.value = "albert@g"
-                        sut.acceptSuggestedEmail()
+                        result = sut.acceptSuggestedEmail()
                     }
 
+                    it("returns true") {
+                        expect(result) == true
+                    }
                     it("suggests first domain ocurrence") {
                         expect(suggestedEmail) == "albert@gmail.com"
                     }
