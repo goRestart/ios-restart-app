@@ -639,12 +639,12 @@ extension ChatViewModel {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
-                guard let id = newMessage.objectId else { return }
-                strongSelf.markMessageAsSent(id)
+                strongSelf.markMessageAsSent(messageId)
                 strongSelf.afterSendMessageEvents()
                 strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
-                // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
+                // Removing message until we implement the retry-message state behavior
+                strongSelf.removeMessage(messageId: messageId)
                 switch error {
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
@@ -712,7 +712,12 @@ extension ChatViewModel {
         let range = index..<(index+1)
         messages.replace(range, with: [newMessage])
     }
-    
+
+    private func removeMessage(messageId: String) {
+        guard let index = messages.value.index(where: {$0.objectId == messageId}) else { return }
+        messages.removeAtIndex(index)
+    }
+
     fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
