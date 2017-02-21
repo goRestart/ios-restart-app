@@ -13,14 +13,13 @@ import Nimble
 import Result
 import RxSwift
 
-class SignUpEmailStep1ViewModelSpec: QuickSpec {
+class SignUpEmailStep1ViewModelSpec: BaseViewModelSpec {
     var navigatorReceivedCancel: Bool = false
     var navigatorReceivedOpenHelp: Bool = false
     var navigatorReceivedOpenNextStep: Bool = false
     var navigatorReceivedOpenLogIn: Bool = false
 
     override func spec() {
-
         describe("SignUpEmailStep1ViewModel") {
             var keyValueStorage: MockKeyValueStorage!
             var email: String!

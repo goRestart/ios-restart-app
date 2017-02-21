@@ -13,10 +13,7 @@ import Nimble
 import Result
 import RxSwift
 
-class SignUpEmailStep2ViewModelSpec: QuickSpec {
-    var delegateReceivedShowLoading: Bool = false
-    var delegateReceivedHideLoading: Bool = false
-
+class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
     var navigatorReceivedOpenHelp: Bool = false
     var navigatorReceivedOpenRecaptcha: Bool = false
     var navigatorReceivedOpenScammerAlert: Bool = false
@@ -35,8 +32,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
             var sut: SignUpEmailStep2ViewModel!
 
             beforeEach {
-                self.delegateReceivedShowLoading = false
-                self.delegateReceivedHideLoading = false
+                self.resetViewModelSpec()
                 self.navigatorReceivedOpenRecaptcha = false
                 self.navigatorReceivedOpenScammerAlert = false
                 self.navigatorReceivedOpenHelp = false
@@ -385,38 +381,7 @@ class SignUpEmailStep2ViewModelSpec: QuickSpec {
     }
 }
 
-
-extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2ViewModelDelegate {
-    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
-        completion?()
-    }
-
-    func vmShowLoading(_ loadingMessage: String?) {
-        self.delegateReceivedShowLoading = true
-    }
-
-    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
-        self.delegateReceivedHideLoading = true
-        afterMessageCompletion?()
-    }
-
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
-    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
-    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
-    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
-    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
-
-    func vmPop() {}
-    func vmDismiss(_ completion: (() -> Void)?) {}
-
-    func vmOpenInternalURL(_ url: URL) {}
-}
-
+extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2ViewModelDelegate {}
 
 extension SignUpEmailStep2ViewModelSpec: SignUpEmailStep2Navigator {
     func openHelpFromSignUpEmailStep2() {

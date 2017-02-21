@@ -11,15 +11,16 @@ import Quick
 import Nimble
 
 class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
-
-    var loading: Bool = false
-    var loadingMessage: String?
-    var finishedSuccessfully: Bool = false
+    var delegateReceivedShowLoading = false
+    var delegateReceivedHideLoading = false
+    var delegateReceivedShowAlert = false
+    var delegateReceivedShowActionSheet = false
 
     func resetViewModelSpec() {
-        loading = false
-        loadingMessage = nil
-        finishedSuccessfully = false
+        delegateReceivedShowLoading = false
+        delegateReceivedHideLoading = false
+        delegateReceivedShowAlert = false
+        delegateReceivedShowActionSheet = false
     }
 
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
@@ -29,24 +30,40 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     }
 
     func vmShowLoading(_ loadingMessage: String?) {
-        loading = true
-        self.loadingMessage = loadingMessage
+        delegateReceivedShowLoading = true
     }
 
     func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
-        loading = false
-        loadingMessage = finishedMessage
+        delegateReceivedHideLoading = true
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
             afterMessageCompletion?()
         }
     }
 
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
-    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
-    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
-    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
-    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+        delegateReceivedShowAlert = true
+    }
+
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {
+        delegateReceivedShowAlert = true
+    }
+
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
+        delegateReceivedShowAlert = true
+    }
+
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+        delegateReceivedShowAlert = true
+    }
+
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
+        delegateReceivedShowActionSheet = true
+    }
+
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
+        delegateReceivedShowActionSheet = true
+    }
+
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,

@@ -13,10 +13,7 @@ import Nimble
 import Result
 import RxSwift
 
-class LogInEmailViewModelSpec: QuickSpec {
-    var delegateReceivedShowLoading = false
-    var delegateReceivedHideLoading = false
-    var delegateReceivedShowAlert = false
+class LogInEmailViewModelSpec: BaseViewModelSpec {
     var delegateReceivedShowGodModeAlert = false
 
     var navigatorReceivedCancel = false
@@ -27,7 +24,6 @@ class LogInEmailViewModelSpec: QuickSpec {
     var navigatorReceivedCloseAfterLogIn = false
 
     override func spec() {
-
         describe("LogInEmailViewModel") {
             var sessionManager: MockSessionManager!
             var installationRepository: MockInstallationRepository!
@@ -42,10 +38,7 @@ class LogInEmailViewModelSpec: QuickSpec {
             var sut: LogInEmailViewModel!
 
             beforeEach {
-                self.navigatorReceivedCancel = false
-                self.delegateReceivedShowLoading = false
-                self.delegateReceivedHideLoading = false
-                self.delegateReceivedShowAlert = false
+                self.resetViewModelSpec()
                 self.delegateReceivedShowGodModeAlert = false
 
                 self.navigatorReceivedOpenHelp = false
@@ -401,7 +394,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                         expect(self.navigatorReceivedCloseAfterLogIn) == false
                     }
                     it("calls show alert in the delegate to suggest reset pwd") {
-                        expect(self.delegateReceivedShowAlert) == true
+                        expect(self.delegateReceivedShowAlert).toEventually(beTrue())
                     }
                 }
 
@@ -444,7 +437,7 @@ class LogInEmailViewModelSpec: QuickSpec {
                         expect(self.navigatorReceivedCloseAfterLogIn) == false
                     }
                     it("calls open scammer alert in the navigator") {
-                        expect(self.navigatorReceiverOpenScammerAlert) == true
+                        expect(self.navigatorReceiverOpenScammerAlert).toEventually(beTrue())
                     }
                 }
 
@@ -562,47 +555,6 @@ extension LogInEmailViewModelSpec: LogInEmailViewModelDelegate {
     func vmGodModePasswordAlert() {
         delegateReceivedShowGodModeAlert = true
     }
-
-    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
-        completion?()
-    }
-
-    func vmShowLoading(_ loadingMessage: String?) {
-        self.delegateReceivedShowLoading = true
-    }
-
-    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
-        self.delegateReceivedHideLoading = true
-        afterMessageCompletion?()
-    }
-
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
-        self.delegateReceivedShowAlert = true
-    }
-
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {
-        self.delegateReceivedShowAlert = true
-    }
-
-    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
-        self.delegateReceivedShowAlert = true
-    }
-
-    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
-        self.delegateReceivedShowAlert = true
-    }
-
-    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
-    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
-
-    func vmPop() {}
-    func vmDismiss(_ completion: (() -> Void)?) {}
-
-    func vmOpenInternalURL(_ url: URL) {}
 }
 
 extension LogInEmailViewModelSpec: LogInEmailNavigator {
