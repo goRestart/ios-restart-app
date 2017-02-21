@@ -215,20 +215,20 @@ extension LGLayout {
     // MARK: Horizantal / Vertical arrangement
 
     @discardableResult
-    func alignedRight(by constant: CGFloat = 0, multiplier: CGFloat = 1,
-                      relatedBy: NSLayoutRelation = .equal,
-                      priority: UILayoutPriority = UILayoutPriorityRequired,
-                      constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
+    func toRight(by constant: CGFloat = 0, multiplier: CGFloat = 1,
+                 relatedBy: NSLayoutRelation = .equal,
+                 priority: UILayoutPriority = UILayoutPriorityRequired,
+                 constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
         constraint(item1: item1, attribute1: .trailing, relatedBy: relatedBy, item2: item2, attribute2: .leading,
                    constant: constant, multiplier: multiplier, priority: priority, constraintBlock: constraintBlock)
         return self
     }
 
     @discardableResult
-    func alignedLeft(by constant: CGFloat = 0, multiplier: CGFloat = 1,
-                     relatedBy: NSLayoutRelation = .equal,
-                     priority: UILayoutPriority = UILayoutPriorityRequired,
-                     constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
+    func toLeft(by constant: CGFloat = 0, multiplier: CGFloat = 1,
+                relatedBy: NSLayoutRelation = .equal,
+                priority: UILayoutPriority = UILayoutPriorityRequired,
+                constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
         constraint(item1: item1, attribute1: .trailing, relatedBy: relatedBy, item2: item2, attribute2: .leading,
                    constant: constant, multiplier: multiplier, priority: priority, constraintBlock: constraintBlock)
         return self

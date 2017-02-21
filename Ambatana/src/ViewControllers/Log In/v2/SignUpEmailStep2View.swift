@@ -200,7 +200,7 @@ fileprivate extension SignUpEmailStep2View {
         if termsAndConditionsAcceptRequired {
             termsTextView.layout(with: contentView).leading(by: 10)
             termsTextView.layout(with: topView).below(by: 10)
-            termsTextView.layout(with: termsSwitch).alignedRight(by: -5)
+            termsTextView.layout(with: termsSwitch).toRight(by: -5)
             termsTextView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
             termsSwitch.layout(with: contentView).trailing(by: -17)
@@ -213,7 +213,7 @@ fileprivate extension SignUpEmailStep2View {
         if newsLetterAcceptRequired {
             newsletterLabel.layout(with: contentView).leading(by: Metrics.margin)
             newsletterLabel.layout(with: topView).below(by: 10)
-            newsletterLabel.layout(with: newsletterSwitch).alignedRight(by: -10)
+            newsletterLabel.layout(with: newsletterSwitch).toRight(by: -10)
             newsletterLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
             newsletterSwitch.layout(with: contentView).trailing(by: -17)

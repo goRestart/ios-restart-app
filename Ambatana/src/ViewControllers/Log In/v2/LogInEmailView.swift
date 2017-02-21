@@ -236,7 +236,7 @@ fileprivate extension LogInEmailView {
         passwordImageView.layout().width(20)
         passwordImageView.layout(with: passwordButton).top().bottom().leading(by: 15)
         passwordTextField.layout(with: passwordButton).top().bottom().leading(by: 30)
-        passwordTextField.layout(with: showPasswordButton).alignedRight(by: -5)
+        passwordTextField.layout(with: showPasswordButton).toRight(by: -5)
         passwordTextField.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
         showPasswordButton.layout().width(30).widthProportionalToHeight()
         showPasswordButton.layout(with: passwordButton).trailing(by: -10).centerY()
