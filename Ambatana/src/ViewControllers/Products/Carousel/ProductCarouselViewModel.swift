@@ -75,75 +75,97 @@ class ProductCarouselViewModel: BaseViewModel {
         return source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
     }
 
+    var quickAnswersAvailable: Bool {
+        return currentProductViewModel?.directChatEnabled.value ?? false
+    }
+    let quickAnswersCollapsed: Variable<Bool>
+
     fileprivate let source: EventParameterProductVisitSource
     fileprivate let productListRequester: ProductListRequester?
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let productRepository: ProductRepository
+    fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
 
+    fileprivate let disposeBag = DisposeBag()
 
     // MARK: - Init
 
-    convenience init(product: LocalProduct, productListRequester: ProductListRequester?,
-                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, trackingIndex: Int?) {
-        let myUserRepository = Core.myUserRepository
-        let productRepository = Core.productRepository
-        let locationManager = Core.locationManager
-        let locale = Locale.current
-        let socialSharer = SocialSharer()
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  productListModels: nil, initialProduct: product, thumbnailImage: nil,
-                  productListRequester: productListRequester, navigator: navigator, source: source,
-                  locale: locale, locationManager: locationManager,
-                  socialSharer: socialSharer, featureFlags: featureFlags,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: trackingIndex)
+    convenience init(product: LocalProduct,
+                     productListRequester: ProductListRequester?,
+                     navigator: ProductDetailNavigator?,
+                     source: EventParameterProductVisitSource,
+                     showKeyboardOnFirstAppearIfNeeded: Bool,
+                     trackingIndex: Int?) {
+        self.init(productListModels: nil,
+                  initialProduct: product,
+                  thumbnailImage: nil,
+                  productListRequester: productListRequester,
+                  navigator: navigator,
+                  source: source,
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  trackingIndex: trackingIndex)
         syncFirstProduct()
     }
 
-    convenience init(product: Product, thumbnailImage: UIImage?, productListRequester: ProductListRequester?,
-                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, trackingIndex: Int?) {
-        let myUserRepository = Core.myUserRepository
-        let productRepository = Core.productRepository
-        let locationManager = Core.locationManager
-        let locale = NSLocale.current
-        let socialSharer = SocialSharer()
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, navigator: navigator, source: source,
-                  locale: locale, locationManager: locationManager,
-                  socialSharer: socialSharer, featureFlags: featureFlags,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: trackingIndex)
-    }
-
-    convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
+    convenience init(product: Product,
+                     thumbnailImage: UIImage?,
+                     productListRequester: ProductListRequester?,
+                     navigator: ProductDetailNavigator?,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, trackingIndex: Int?) {
-        let myUserRepository = Core.myUserRepository
-        let productRepository = Core.productRepository
-        let locationManager = Core.locationManager
-        let locale = NSLocale.current
-        let socialSharer = SocialSharer()
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  productListModels: productListModels, initialProduct: initialProduct,
-                  thumbnailImage: thumbnailImage, productListRequester: productListRequester, navigator: navigator,
-                  source: source, locale: locale, locationManager: locationManager,
-                  socialSharer: socialSharer, featureFlags: featureFlags,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,trackingIndex: trackingIndex)
+                     showKeyboardOnFirstAppearIfNeeded: Bool,
+                     trackingIndex: Int?) {
+        self.init(productListModels: nil,
+                  initialProduct: product,
+                  thumbnailImage: thumbnailImage,
+                  productListRequester: productListRequester,
+                  navigator: navigator,
+                  source: source,
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  trackingIndex: trackingIndex)
     }
 
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-         productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
-         source: EventParameterProductVisitSource, locale: Locale, locationManager: LocationManager,
-         socialSharer: SocialSharer, featureFlags: FeatureFlaggeable,
-         showKeyboardOnFirstAppearIfNeeded: Bool, trackingIndex: Int?) {
+    convenience init(productListModels: [ProductCellModel]?,
+         initialProduct: Product?,
+         thumbnailImage: UIImage?,
+         productListRequester: ProductListRequester?,
+         navigator: ProductDetailNavigator?,
+         source: EventParameterProductVisitSource,
+         showKeyboardOnFirstAppearIfNeeded: Bool,
+         trackingIndex: Int?) {
+        self.init(myUserRepository: Core.myUserRepository,
+                  productRepository: Core.productRepository,
+                  productListModels: productListModels,
+                  initialProduct: initialProduct,
+                  thumbnailImage: thumbnailImage,
+                  productListRequester: productListRequester,
+                  navigator: navigator,
+                  source: source,
+                  locale: NSLocale.current,
+                  locationManager: Core.locationManager,
+                  socialSharer: SocialSharer(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  trackingIndex: trackingIndex)
+    }
+
+    init(myUserRepository: MyUserRepository,
+         productRepository: ProductRepository,
+         productListModels: [ProductCellModel]?,
+         initialProduct: Product?,
+         thumbnailImage: UIImage?,
+         productListRequester: ProductListRequester?,
+         navigator: ProductDetailNavigator?,
+         source: EventParameterProductVisitSource,
+         locale: Locale,
+         locationManager: LocationManager,
+         socialSharer: SocialSharer,
+         featureFlags: FeatureFlaggeable,
+         keyValueStorage: KeyValueStorage,
+         showKeyboardOnFirstAppearIfNeeded: Bool,
+         trackingIndex: Int?) {
         let countryCode = locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
@@ -160,13 +182,16 @@ class ProductCarouselViewModel: BaseViewModel {
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .normal)
         self.socialSharer = socialSharer
         self.featureFlags = featureFlags
+        self.keyValueStorage = keyValueStorage
         self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded
+        self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         super.init()
         self.socialSharer.delegate = self
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
         self.trackingIndex = trackingIndex
         setCurrentIndex(startIndex)
+        setupRxBindings()
     }
     
     
@@ -282,6 +307,15 @@ class ProductCarouselViewModel: BaseViewModel {
     func refreshBannerInfo() {
         currentProductViewModel?.refreshBumpeableBanner()
     }
+
+    func quickAnswersShowButtonPressed() {
+        quickAnswersCollapsed.value = false
+    }
+
+    func quickAnswersCloseButtonPressed() {
+        quickAnswersCollapsed.value = true
+    }
+    
     // MARK: - Private Methods
     
     private func getOrCreateViewModel(_ product: Product) -> ProductViewModel? {
@@ -292,6 +326,12 @@ class ProductCarouselViewModel: BaseViewModel {
         let vm = viewModelForProduct(product)
         productsViewModels[productId] = vm
         return vm
+    }
+
+    private func setupRxBindings() {
+        quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
+            self?.keyValueStorage[.productDetailQuickAnswersHidden] = collapsed
+        }.addDisposableTo(disposeBag)
     }
 }
 

@@ -65,6 +65,16 @@
         "description": "Select buyer before mark sold"
     },
     {
+        "name": "ProductDetailNextRelated",
+        "values": ["no", "yes"],
+        "description": "Item page next item related"
+    },
+    {
+        "name": "ContactSellerOnFavorite",
+        "values": ["no", "yes"],
+        "description": "Send a message when user clicks on contact the seller after favorite"
+    },
+    {
         "name": "SignUpLoginImprovement",
         "values": ["V1", "V1WImprovements", "V2"],
         "description": "SignUp LogIn A/B/C"

@@ -23,7 +23,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showNPSSurvey: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
     var favoriteWithBadgeOnProfile: Bool = false
-    var favoriteWithBubbleToChat: Bool = false
+    var shouldContactSellerOnFavorite: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
     var editDeleteItemUxImprovement: Bool = false
@@ -32,6 +32,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
     var userRatingMarkAsSold: Bool = false
+    var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
 
     // Country dependant features

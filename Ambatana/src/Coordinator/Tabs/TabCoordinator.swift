@@ -220,8 +220,9 @@ fileprivate extension TabCoordinator {
         let showKeyboardOnFirstAppearIfNeeded = false
         if showRelated {
             //Same as single product opening
+            let discover = !featureFlags.productDetailNextRelated
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, requester: requester, index: index, discover: true,
+                        source: source, requester: requester, index: index, discover: discover,
                         showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,

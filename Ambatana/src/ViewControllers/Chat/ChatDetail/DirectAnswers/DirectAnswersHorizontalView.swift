@@ -13,11 +13,15 @@ protocol DirectAnswersHorizontalViewDelegate: class {
     func directAnswersHorizontalViewDidSelectClose()
 }
 
+enum DirectAnswersStyle {
+    case dark, light
+}
+
 class DirectAnswersHorizontalView: UIView {
 
     static let defaultWidth: CGFloat = UIScreen.main.bounds.width
-    static let defaultHeight: CGFloat = 48
-    static let sideMargin: CGFloat = 8
+    static let defaultHeight: CGFloat = DirectAnswerCell.cellHeight
+    static let defaultSideMargin: CGFloat = 8
 
     weak var delegate: DirectAnswersHorizontalViewDelegate?
 
@@ -29,28 +33,29 @@ class DirectAnswersHorizontalView: UIView {
         }
     }
     var deselectOnItemTap: Bool = true
-    var closeButtonEnabled: Bool = true {
+    var style: DirectAnswersStyle = .dark {
         didSet {
-            collectionView.reloadData()
+            reloadCloseCell()
         }
     }
 
+    fileprivate var heightConstraint = NSLayoutConstraint()
     fileprivate let collectionView: UICollectionView
     fileprivate var answers: [QuickAnswer]
 
     // MARK: - Lifecycle
 
-    convenience init(answers: [QuickAnswer], sideMargin: CGFloat = DirectAnswersHorizontalView.sideMargin) {
-        let frame = CGRect(x: 0, y: 0, width: DirectAnswersHorizontalView.defaultWidth, height: DirectAnswersHorizontalView.defaultHeight)
-        self.init(frame: frame, answers: answers, sideMargin: sideMargin)
+    convenience init(answers: [QuickAnswer], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin, collapsed: Bool = false) {
+        let frame = CGRect(x: 0, y: 0, width: DirectAnswersHorizontalView.defaultWidth, height: DirectAnswerCell.cellHeight)
+        self.init(frame: frame, answers: answers, sideMargin: sideMargin, collapsed: collapsed)
     }
 
-    required init(frame: CGRect, answers: [QuickAnswer], sideMargin: CGFloat = DirectAnswersHorizontalView.sideMargin) {
+    required init(frame: CGRect, answers: [QuickAnswer], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin, collapsed: Bool = false) {
         self.answers = answers
         let collectionFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         self.collectionView = UICollectionView(frame: collectionFrame, collectionViewLayout: UICollectionViewFlowLayout())
         super.init(frame: frame)
-        setupUI(sideMargin: sideMargin)
+        setupUI(sideMargin: sideMargin, collapsed: collapsed)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -61,24 +66,44 @@ class DirectAnswersHorizontalView: UIView {
         return CGSize(width: DirectAnswersHorizontalView.defaultWidth, height: DirectAnswersHorizontalView.defaultHeight)
     }
 
+    func set(collapsed: Bool) {
+        let currentCollapsed = heightConstraint.constant == 0
+        guard currentCollapsed != collapsed else { return }
+        heightConstraint.constant = collapsed ? 0 : DirectAnswersHorizontalView.defaultHeight
+    }
+
     func update(answers: [QuickAnswer]) {
         self.answers = answers
         collectionView.reloadData()
     }
 
-    private func setupUI(sideMargin: CGFloat) {
+    func resetScrollPosition() {
+        let rectToScroll = CGRect(x: 0, y: 0, width: 1, height: 1)
+        collectionView.scrollRectToVisible(rectToScroll, animated: false)
+    }
+
+    private func setupUI(sideMargin: CGFloat, collapsed: Bool) {
         backgroundColor = UIColor.clear
+        clipsToBounds = true
+        let height = collapsed ? 0 : DirectAnswersHorizontalView.defaultHeight
+        layout().height(height, constraintBlock: { [weak self] in self?.heightConstraint = $0 })
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView)
-        collectionView.layout(with: self).fill()
-        collectionView.layout().height(DirectAnswersHorizontalView.defaultHeight)
+        collectionView.layout(with: self).leading().trailing().top()
+        collectionView.layout().height(DirectAnswerCell.cellHeight)
 
         setupCollection(sideMargin: sideMargin)
+    }
+
+    private func reloadCloseCell() {
+        guard collectionView.indexPathsForVisibleItems.count > 0 else { return }
+        let closeIndexPath = IndexPath(item: answers.count, section: 0)
+        collectionView.reloadItems(at: [closeIndexPath])
     }
 }
 
 
-// MARK: - UICollectionView method
+// MARK: - UICollectionView methods
 
 extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionViewDataSource {
 
@@ -108,7 +133,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        if closeButtonEnabled && indexPath.row == answers.count {
+        if indexPath.row == answers.count {
             return DirectAnswersCloseCell.size()
         } else {
             return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row])
@@ -116,15 +141,16 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return closeButtonEnabled ? answers.count + 1 : answers.count
+        return answers.count + 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        if closeButtonEnabled && indexPath.row == answers.count {
-            //Close btn
-            return collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswersCloseCell.reusableID,
-                                                      for: indexPath)
+        if indexPath.row == answers.count {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswersCloseCell.reusableID,
+                                                      for: indexPath) as? DirectAnswersCloseCell else { return UICollectionViewCell() }
+            cell.setupWith(style: style)
+            return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
                                                                 for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
@@ -148,7 +174,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
             collectionView.deselectItem(at: indexPath, animated: true)
         }
         guard answersEnabled else { return }
-        if closeButtonEnabled && indexPath.row == answers.count {
+        if indexPath.row == answers.count {
             delegate?.directAnswersHorizontalViewDidSelectClose()
         } else {
             delegate?.directAnswersHorizontalViewDidSelect(answer: answers[indexPath.row])

@@ -20,7 +20,7 @@ protocol FeatureFlaggeable {
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var favoriteWithBadgeOnProfile: Bool { get }
-    var favoriteWithBubbleToChat: Bool { get }
+    var shouldContactSellerOnFavorite: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
@@ -29,6 +29,7 @@ protocol FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool { get }
     var bumpUpFreeTimeLimit: Int { get }
     var userRatingMarkAsSold: Bool { get }
+    var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
 
     // Country dependant features
@@ -37,6 +38,7 @@ protocol FeatureFlaggeable {
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
 }
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -102,8 +104,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.favoriteWithBadgeOnProfile.value
     }
     
-    var favoriteWithBubbleToChat: Bool {
-        return false
+    var shouldContactSellerOnFavorite: Bool {
+        if Bumper.enabled {
+            return Bumper.contactSellerOnFavorite
+        }
+        return ABTests.contactSellerOnFavorite.value
     }
 
     var captchaTransparent: Bool {
@@ -171,6 +176,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.userRatingMarkAsSold
         }
         return ABTests.userRatingMarkAsSold.value
+    }
+
+    var productDetailNextRelated: Bool {
+        if Bumper.enabled {
+            return Bumper.productDetailNextRelated
+        }
+        return ABTests.productDetailNextRelated.value
     }
 
     var signUpLoginImprovement: SignUpLoginImprovement {

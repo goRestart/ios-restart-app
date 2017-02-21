@@ -14,7 +14,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var cellText: UILabel!
     
-    private static let cellHeight: CGFloat = 32
+    static let cellHeight: CGFloat = 32
 
     static func sizeForDirectAnswer(_ answer: QuickAnswer) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)

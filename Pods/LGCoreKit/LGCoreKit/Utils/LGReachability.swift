@@ -10,6 +10,10 @@ import Foundation
 import ReachabilitySwift
 
 protocol LGReachabilityProtocol: class {
+    
+    /** Called on rachability changes with a final value of reachable 
+     - note: also called when cahnging from 3G to Wi-Fi
+     */
     var reachableBlock: (() -> Void)? { get set }
     var unreachableBlock: (() -> Void)? { get set }
     var isReachable: Bool? { get }
@@ -35,7 +39,7 @@ class LGReachability: LGReachabilityProtocol {
     
     var unreachableBlock: (() -> Void)? {
         didSet {
-            if let block = reachableBlock {
+            if let block = unreachableBlock {
                 reachability?.whenUnreachable = { _ in
                     block()
                 }

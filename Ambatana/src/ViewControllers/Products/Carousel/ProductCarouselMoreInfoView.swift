@@ -74,15 +74,21 @@ class ProductCarouselMoreInfoView: UIView {
     fileprivate let statsContainerViewTop: CGFloat = 26
     fileprivate var initialDragYposition: CGFloat = 0
     fileprivate var scrollBottomInset: CGFloat {
-        guard let status = viewModel?.status.value else { return 0 }
+        guard let viewModel = viewModel else { return 0 }
         // Needed to avoid drawing content below the chat button
-        switch status {
+        switch viewModel.status.value {
         case .pending, .otherSold, .notAvailable, .otherSoldFree:
             // No buttons in the bottom
             return 0
-        case .pendingAndCommercializable, .available, .sold, .otherAvailable, .availableAndCommercializable, .availableFree, .otherAvailableFree, .soldFree:
-            // Has a button in the bottom
-            return 80
+        case .pendingAndCommercializable, .available, .sold, .otherAvailable, .availableAndCommercializable,
+             .availableFree, .otherAvailableFree, .soldFree:
+            if viewModel.directChatEnabled.value {
+                // Has the chatfield at bottom
+                return CarouselUI.chatContainerMaxHeight + CarouselUI.itemsMargin
+            } else {
+                // Has a button in the bottom
+                return CarouselUI.buttonHeight + CarouselUI.itemsMargin
+            }
         }
     }
 

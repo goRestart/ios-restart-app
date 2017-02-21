@@ -18,14 +18,17 @@ class DirectAnswersPresenter {
     weak var delegate: DirectAnswersPresenterDelegate?
 
     var height: CGFloat {
+        if hidden { return 0 }
         if let horizontalView = horizontalView {
-            return hidden ? 0 : horizontalView.intrinsicContentSize.height
+            let margins: CGFloat = DirectAnswersHorizontalView.defaultSideMargin * 2
+            return horizontalView.intrinsicContentSize.height + margins
         }
         return 0
     }
 
     var hidden: Bool = true {
         didSet {
+            horizontalView?.resetScrollPosition()
             horizontalView?.isHidden = hidden
         }
     }
@@ -60,7 +63,7 @@ class DirectAnswersPresenter {
         directAnswers.translatesAutoresizingMaskIntoConstraints = false
         parentView.insertSubview(directAnswers, belowSubview: sibling)
         directAnswers.layout(with: parentView).leading().trailing()
-        directAnswers.layout(with: sibling).bottom(to: .top)
+        directAnswers.layout(with: sibling).bottom(to: .top, by: -DirectAnswersHorizontalView.defaultSideMargin)
         horizontalView = directAnswers
     }
 

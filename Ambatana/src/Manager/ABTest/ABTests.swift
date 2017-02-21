@@ -19,6 +19,7 @@ struct ABTests {
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
+    static var contactSellerOnFavorite = BoolABDynamicVar(key: "contactSellerOnFavorite", defaultValue: false)
     static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     static var editDeleteItemUxImprovement = BoolABDynamicVar(key: "editDeleteItemUxImprovement", defaultValue: false)
@@ -27,6 +28,7 @@ struct ABTests {
     static var freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     static var pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     static var userRatingMarkAsSold = BoolABDynamicVar(key: "userRatingMarkAsSold", defaultValue: false)
+    static var productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
     static var signUpLoginImprovement = IntABDynamicVar(key: "signUpLoginImprovement", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
@@ -37,6 +39,7 @@ struct ABTests {
         result.append(postAfterDeleteMode)
         result.append(userReviews)
         result.append(favoriteWithBadgeOnProfile)
+        result.append(contactSellerOnFavorite)
         result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
         result.append(editDeleteItemUxImprovement)
@@ -45,6 +48,7 @@ struct ABTests {
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
         result.append(userRatingMarkAsSold)
+        result.append(productDetailNextRelated)
         result.append(signUpLoginImprovement)
 
         return result
