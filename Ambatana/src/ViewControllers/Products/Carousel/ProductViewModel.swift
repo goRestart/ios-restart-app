@@ -124,7 +124,6 @@ class ProductViewModel: BaseViewModel {
     fileprivate let countryHelper: CountryHelper
     fileprivate let locationManager: LocationManager
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
-    fileprivate let bubbleManager: BubbleNotificationManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let purchasesShopper: PurchasesShopper
     fileprivate var notificationsManager: NotificationsManager
@@ -166,7 +165,7 @@ class ProductViewModel: BaseViewModel {
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
-                  bubbleManager: LGBubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
+                  featureFlags: featureFlags,
                   purchasesShopper: LGPurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
                   monetizationRepository: monetizationRepository, tracker: tracker)
     }
@@ -175,7 +174,7 @@ class ProductViewModel: BaseViewModel {
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
-         bubbleManager: BubbleNotificationManager, featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
+         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
          notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository, tracker: Tracker) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
@@ -192,7 +191,6 @@ class ProductViewModel: BaseViewModel {
         self.locationManager = locationManager
         self.navigator = navigator
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
-        self.bubbleManager = bubbleManager
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
         self.notificationsManager = notificationsManager

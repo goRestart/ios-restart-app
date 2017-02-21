@@ -52,7 +52,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                        commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                                        stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                                        product: product, thumbnailImage: nil, socialSharer: socialSharer, navigator: self,
-                                       bubbleManager: bubbleNotificationManager, featureFlags: featureFlags, purchasesShopper: purchasesShopper,
+                                       featureFlags: featureFlags, purchasesShopper: purchasesShopper,
                                        notificationsManager: notificationsManager, monetizationRepository: monetizationRepository, tracker: tracker)
                 sut.delegate = self
                 sut.navigator = self
@@ -286,10 +286,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
             actions.last?.action()
         }
     }
-    
-    override func showBubble(with bubbleData: BubbleNotificationData, duration: TimeInterval) {
-        shownFavoriteBubble = true
-    }
 }
 
 extension ProductViewModelSpec: ProductViewModelDelegate {
@@ -342,6 +338,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
         }
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
+        shownFavoriteBubble = true
     }
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void)) {

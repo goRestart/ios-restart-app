@@ -83,7 +83,4 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openAppInvite() {}
     func canOpenAppInvite() -> Bool { return false }
     func openRatingList(_ userId: String) {}
-
-    // Base navigator
-    func showBubble(with bubbleData: BubbleNotificationData, duration: TimeInterval) {}
 }
