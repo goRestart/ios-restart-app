@@ -100,11 +100,11 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension SignUpEmailStep1ViewModel {
-    func cancel() {
+    func closeButtonPressed() {
         navigator?.cancelSignUpEmailStep1()
     }
 
-    func openHelp() {
+    func helpButtonPressed() {
         navigator?.openHelpFromSignUpEmailStep1()
     }
 
@@ -114,11 +114,11 @@ extension SignUpEmailStep1ViewModel {
         return true
     }
 
-    func openLogIn() {
+    func footerButtonPressed() {
         openLogIn(email: email.value)
     }
 
-    func openNextStep() -> SignUpEmailStep1FormErrors {
+    func nextStepButtonPressed() -> SignUpEmailStep1FormErrors {
         var errors: SignUpEmailStep1FormErrors = []
         guard nextStepEnabledVar.value else { return errors }
 

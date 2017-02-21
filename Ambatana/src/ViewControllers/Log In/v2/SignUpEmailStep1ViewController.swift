@@ -169,11 +169,11 @@ fileprivate extension SignUpEmailStep1ViewController {
     }
 
     dynamic func closeButtonPressed() {
-        viewModel.cancel()
+        viewModel.closeButtonPressed()
     }
 
     dynamic func openHelp() {
-        viewModel.openHelp()
+        viewModel.helpButtonPressed()
     }
 
     dynamic func makeEmailTextFieldFirstResponder() {
@@ -198,7 +198,7 @@ fileprivate extension SignUpEmailStep1ViewController {
     }
 
     func nextStepButtonPressed() {
-        let errors = viewModel.openNextStep()
+        let errors = viewModel.nextStepButtonPressed()
         openAlertWithFormErrors(errors: errors)
     }
 
@@ -247,7 +247,7 @@ fileprivate extension SignUpEmailStep1ViewController {
         }.addDisposableTo(disposeBag)
 
         signUpEmailStep1View.footerButton.rx.tap.subscribeNext { [weak self] _ in
-            self?.viewModel.openLogIn()
+            self?.viewModel.footerButtonPressed()
         }.addDisposableTo(disposeBag)
 
         // Next button is visible depending on current content offset & keyboard visibility

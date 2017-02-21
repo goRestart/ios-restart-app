@@ -116,6 +116,9 @@ fileprivate extension SignUpEmailStep2ViewController {
     func setupUI() {
         view.backgroundColor = UIColor.white
 
+        signUpEmailStep2View.translatesAutoresizingMaskIntoConstraints = false
+        signUpEmailStep2View.addToViewController(self, inView: view)
+
         signUpEmailStep2View.headerLabel.text = LGLocalizedString.signUpEmailStep2Header(viewModel.email)
         signUpEmailStep2View.fullNameTextField.text = viewModel.username.value
         signUpEmailStep2View.fullNameTextField.delegate = self

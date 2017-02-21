@@ -121,11 +121,11 @@ final class LogInEmailViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension LogInEmailViewModel {
-    func cancel() {
+    func closeButtonPressed() {
         navigator?.cancelLogInEmail()
     }
     
-    func openHelp() {
+    func helpButtonPressed() {
         navigator?.openHelpFromLogInEmail()
     }
     
@@ -135,7 +135,7 @@ extension LogInEmailViewModel {
         return true
     }
 
-    func logIn() -> LogInEmailFormErrors {
+    func logInButtonPressed() -> LogInEmailFormErrors {
         var errors: LogInEmailFormErrors = []
         guard logInEnabledVar.value else { return errors }
 
@@ -171,7 +171,7 @@ extension LogInEmailViewModel {
         return errors
     }
 
-    func enableGodMode(godPassword: String) {
+    func godModePasswordTyped(godPassword: String) {
         if godPassword == "mellongod" {
             keyValueStorage[.isGod] = true
         } else {
@@ -179,11 +179,11 @@ extension LogInEmailViewModel {
         }
     }
 
-    func openRememberPassword() {
+    func rememberPasswordButtonPressed() {
         openRememberPassword(email: email.value)
     }
 
-    func openSignUp() {
+    func footerButtonPressed() {
         openSignUp(email: email.value, password: password.value)
     }
 }

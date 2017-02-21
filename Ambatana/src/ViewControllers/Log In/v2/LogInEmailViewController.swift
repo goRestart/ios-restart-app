@@ -73,7 +73,7 @@ extension LogInEmailViewController: LogInEmailViewModelDelegate {
         let loginAction = UIAlertAction(title: "Login", style: .default) { [weak self] _ in
             guard let textField = alertController.textFields?.first else { return }
             let godPassword = textField.text ?? ""
-            self?.viewModel.enableGodMode(godPassword: godPassword)
+            self?.viewModel.godModePasswordTyped(godPassword: godPassword)
         }
         alertController.addAction(loginAction)
         present(alertController, animated: true, completion: nil)
@@ -159,7 +159,7 @@ fileprivate extension LogInEmailViewController {
             navigationItem.leftBarButtonItem = closeButton
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: LGLocalizedString.logInEmailHelpButton, style: .plain,
-                                                            target: self, action: #selector(openHelp))
+                                                            target: self, action: #selector(helpButtonPressed))
     }
 
     func setupUI() {
@@ -191,11 +191,11 @@ fileprivate extension LogInEmailViewController {
     }
 
     dynamic func closeButtonPressed() {
-        viewModel.cancel()
+        viewModel.closeButtonPressed()
     }
 
-    dynamic func openHelp() {
-        viewModel.openHelp()
+    dynamic func helpButtonPressed() {
+        viewModel.helpButtonPressed()
     }
 
     dynamic func makeEmailTextFieldFirstResponder() {
@@ -220,7 +220,7 @@ fileprivate extension LogInEmailViewController {
     }
 
     func loginButtonPressed() {
-        let errors = viewModel.logIn()
+        let errors = viewModel.logInButtonPressed()
         openAlertWithFormErrors(errors: errors)
     }
 
@@ -263,8 +263,8 @@ fileprivate extension LogInEmailViewController {
 
         viewModel.logInEnabled.bindTo(logInEmailView.loginButton.rx.isEnabled).addDisposableTo(disposeBag)
 
-        logInEmailView.rememberPasswordButton.rx.tap.subscribeNext {
-            [weak self] _ in self?.viewModel.openRememberPassword()
+        logInEmailView.rememberPasswordButton.rx.tap.subscribeNext { [weak self] _ in
+            self?.viewModel.rememberPasswordButtonPressed()
         }.addDisposableTo(disposeBag)
 
         logInEmailView.showPasswordButton.rx.tap.subscribeNext { [weak self] _ in
@@ -276,7 +276,7 @@ fileprivate extension LogInEmailViewController {
         }.addDisposableTo(disposeBag)
 
         logInEmailView.footerButton.rx.tap.subscribeNext { [weak self] _ in
-            self?.viewModel.openSignUp()
+            self?.viewModel.footerButtonPressed()
         }.addDisposableTo(disposeBag)
 
         // Login button is visible depending on current content offset & keyboard visibility
