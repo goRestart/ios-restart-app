@@ -15,10 +15,11 @@ protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
 
 final class UserRatingCoordinator: Coordinator {
     var child: Coordinator?
+    let viewController: UIViewController
+    weak var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
 
     private var parentViewController: UIViewController?
-    var viewController: UIViewController
-    var presentedAlertController: UIAlertController?
 
     fileprivate let navigationController: UINavigationController
     fileprivate var ratedUserId: String?
@@ -29,21 +30,26 @@ final class UserRatingCoordinator: Coordinator {
 
     // MARK: - Lifecycle
 
-    convenience init(source: RateUserSource, data: RateUserData) {
-        self.init(source: source)
+    convenience init(source: RateUserSource,
+                     data: RateUserData) {
+        self.init(source: source,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
         let vc = buildRateUser(data: data, showSkipButton: false)
         self.ratedUserId = data.userId
         navigationController.viewControllers = [vc]
     }
 
-    convenience init(source: RateUserSource, buyers: [UserProduct]) {
-        self.init(source: source)
+    convenience init(source: RateUserSource,
+                     buyers: [UserProduct]) {
+        self.init(source: source,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
         let vc = buildRateBuyers(buyers: buyers)
         navigationController.viewControllers = [vc]
     }
 
-    init(source: RateUserSource) {
+    init(source: RateUserSource, bubbleNotificationManager: BubbleNotificationManager) {
         self.source = source
+        self.bubbleNotificationManager = bubbleNotificationManager
         navigationController = UINavigationController()
         self.viewController = navigationController
     }

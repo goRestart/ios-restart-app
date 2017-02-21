@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -88,6 +88,11 @@ extension Bumper  {
     static var contactSellerOnFavorite: Bool {
         guard let value = Bumper.value(for: ContactSellerOnFavorite.key) else { return false }
         return ContactSellerOnFavorite(rawValue: value)?.asBool ?? false
+    }
+
+    static var signUpLoginImprovement: SignUpLoginImprovement {
+        guard let value = Bumper.value(for: SignUpLoginImprovement.key) else { return .v1 }
+        return SignUpLoginImprovement(rawValue: value) ?? .v1 
     } 
 }
 
@@ -248,5 +253,21 @@ enum ContactSellerOnFavorite: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Send a message when user clicks on contact the seller after favorite" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum SignUpLoginImprovement: String, BumperFeature  {
+    case v1, v1WImprovements, v2
+    static var defaultValue: String { return SignUpLoginImprovement.v1.rawValue }
+    static var enumValues: [SignUpLoginImprovement] { return [.v1, .v1WImprovements, .v2]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "SignUp LogIn A/B/C" } 
+    static func fromPosition(_ position: Int) -> SignUpLoginImprovement {
+        switch position { 
+            case 0: return .v1
+            case 1: return .v1WImprovements
+            case 2: return .v2
+            default: return .v1
+        }
+    }
 }
 

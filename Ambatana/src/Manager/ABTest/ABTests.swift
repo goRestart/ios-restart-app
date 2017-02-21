@@ -29,6 +29,7 @@ struct ABTests {
     static var pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     static var userRatingMarkAsSold = BoolABDynamicVar(key: "userRatingMarkAsSold", defaultValue: false)
     static var productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
+    static var signUpLoginImprovement = IntABDynamicVar(key: "signUpLoginImprovement", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -48,6 +49,7 @@ struct ABTests {
         result.append(pricedBumpUpEnabled)
         result.append(userRatingMarkAsSold)
         result.append(productDetailNextRelated)
+        result.append(signUpLoginImprovement)
 
         return result
     }

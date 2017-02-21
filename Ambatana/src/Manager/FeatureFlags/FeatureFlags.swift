@@ -19,10 +19,8 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
-    var freePostingModeAllowed: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var shouldContactSellerOnFavorite: Bool { get }
-    var locationMatchesCountry: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
@@ -32,7 +30,15 @@ protocol FeatureFlaggeable {
     var bumpUpFreeTimeLimit: Int { get }
     var userRatingMarkAsSold: Bool { get }
     var productDetailNextRelated: Bool { get }
+    var signUpLoginImprovement: SignUpLoginImprovement { get }
+
+    // Country dependant features
+    var freePostingModeAllowed: Bool { get }
+    var locationMatchesCountry: Bool { get }
+    var signUpEmailNewsletterAcceptRequired: Bool { get }
+    var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
 }
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -57,7 +63,6 @@ class FeatureFlags: FeatureFlaggeable {
         self.carrierCountryInfo = countryInfo
     }
 
-    
     convenience init() {
         self.init(locale: Locale.current, locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
     }
@@ -180,14 +185,22 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.productDetailNextRelated.value
     }
 
+    var signUpLoginImprovement: SignUpLoginImprovement {
+        if Bumper.enabled {
+            return Bumper.signUpLoginImprovement
+        }
+        return SignUpLoginImprovement.fromPosition(ABTests.signUpLoginImprovement.value)
+    }
+
     
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        guard let countryCode = countryCode else { return true }
-        switch countryCode {
-        case .turkey:
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
             return false
+        default:
+            return true
         }
     }
     
@@ -199,13 +212,33 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
+    var signUpEmailNewsletterAcceptRequired: Bool {
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return true
+        default:
+            return false
+        }
+    }
+
+    var signUpEmailTermsAndConditionsAcceptRequired: Bool {
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return true
+        default:
+            return false
+        }
+    }
+
     
     // MARK: - Private
     
-    /// Return CountryCode from location or phone Region
-    private var countryCode: CountryCode? {
-        let systemCountryCode = locale.lg_countryCode
-        let countryCode = (locationManager.currentLocation?.countryCode ?? systemCountryCode).lowercase
+    private var locationCountryCode: CountryCode? {
+        guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
         return CountryCode(rawValue: countryCode)
+    }
+
+    private var localeCountryCode: CountryCode? {
+        return CountryCode(rawValue: locale.lg_countryCode)
     }
 }

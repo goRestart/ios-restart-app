@@ -35,11 +35,12 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     // > Helper
     private let appearance: LoginAppearance
+
     
     // MARK: - Lifecycle
-    
-    init(source: EventParameterLoginSourceValue, email: String, appearance: LoginAppearance = .light) {
-        self.viewModel = RememberPasswordViewModel(source: source, email: email)
+
+    init(viewModel: RememberPasswordViewModel, appearance: LoginAppearance = .light) {
+        self.viewModel = viewModel
         self.appearance = appearance
 
         let statusBarStyle: UIStatusBarStyle
@@ -56,7 +57,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
                    statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
         self.viewModel.delegate = self
     }
-        
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -99,24 +100,6 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         resetPasswordButton.isEnabled = enabled
     }
     
-    func viewModelDidStartResettingPassword(_ viewModel: RememberPasswordViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModelDidFinishResetPassword(_ viewModel: RememberPasswordViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.resetPasswordSendOk(viewModel.email)) { [weak self] in
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
-
-    func viewModel(_ viewModel: RememberPasswordViewModel, didFailResetPassword error: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(error)
-        }
-    }
-
 
     // MARK: - UITextFieldDelegate
     

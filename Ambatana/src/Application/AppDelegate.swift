@@ -20,7 +20,6 @@ import UIKit
 #if DEBUG
     import AdSupport
 #endif
-import Leanplum
 import Firebase
 
 

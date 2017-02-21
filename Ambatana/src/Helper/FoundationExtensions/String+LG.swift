@@ -74,6 +74,44 @@ extension String {
         return regex?.firstMatch(in: self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
     }
 
+    func suggestEmail(domains: [String]) -> String? {
+        guard let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@",
+                                                   options: .caseInsensitive) else { return nil }
+        let mutableString = NSMutableString(string: self)
+        let range = NSMakeRange(0, mutableString.length)
+        let regexMatches = regex.replaceMatches(in: mutableString, options: [], range: range, withTemplate: "")
+        let string = mutableString as String
+
+        // isEmpty is checked to prevent the first domain suggestion when typing "user@"
+        guard regexMatches == 1, !string.isEmpty else { return nil }
+
+        for domain in domains {
+            if domain.hasPrefix(string as String) {
+                let concat = domain.stringByReplacingFirstOccurrence(of: string, with: "")
+                return self + concat
+            }
+        }
+        return nil
+    }
+
+    func stringByReplacingFirstOccurrence(of findString: String, with: String, options: String.CompareOptions = []) -> String {
+        guard let rangeOfFoundString = range(of: findString, options: options, range: nil, locale: nil) else { return self }
+        return replacingOccurrences(of: findString, with: with, options: options, range: rangeOfFoundString)
+    }
+
+    func makeUsernameFromEmail() -> String? {
+        guard let atSignRange = range(of: "@"), isEmail() else { return nil }
+        let emailUsername = substring(to: atSignRange.lowerBound)
+        var username = emailUsername
+        username = username.replacingOccurrences(of: ".", with: " ")
+        username = username.replacingOccurrences(of: "_", with: " ")
+        username = username.replacingOccurrences(of: "-", with: " ")
+        if let plusSignRange = username.range(of: "+") {
+            username = username.substring(to: plusSignRange.lowerBound)
+        }
+        return username.capitalized
+    }
+
     func isValidLengthPrice(_ acceptsSeparator: Bool, locale: Locale = Locale.autoupdatingCurrent) -> Bool {
         let separator = components(separatedBy: CharacterSet.decimalDigits)
             .joined(separator: "")
@@ -166,5 +204,17 @@ extension String {
             result.append(substring)
         }
         return result
+    }
+
+    func containsLetgo() -> Bool {
+        let lowercaseString = lowercased()
+        return lowercaseString.range(of: "letgo") != nil ||
+            lowercaseString.range(of: "ietgo") != nil ||
+            lowercaseString.range(of: "letg0") != nil ||
+            lowercaseString.range(of: "ietg0") != nil ||
+            lowercaseString.range(of: "let go") != nil ||
+            lowercaseString.range(of: "iet go") != nil ||
+            lowercaseString.range(of: "let g0") != nil ||
+            lowercaseString.range(of: "iet g0") != nil
     }
 }

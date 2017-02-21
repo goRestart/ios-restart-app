@@ -96,6 +96,64 @@ class StringLGSpec: QuickSpec {
                     }
                 }
             }
+            context("suggest email") {
+                let domains = ["gmail.com", "yahoo.com", "hotmail.com", "aol.com", "icloud.com", "outlook.com",
+                               "live.com", "comcast.com", "msn.com", "windowslive.com", "mynet.com", "yandex.com"]
+
+                it("does not suggest when no @ sign is typed") {
+                    expect("alb".suggestEmail(domains: domains)).to(beNil())
+                }
+                it("does not suggest if no domain letter is typed after @ sign") {
+                    expect("albert@".suggestEmail(domains: domains)).to(beNil())
+                }
+                it("does not suggest if domain prefix doesnt not match any of the given domains") {
+                    expect("albert@x".suggestEmail(domains: domains)).to(beNil())
+                }
+                it("does not suggest if domain doesnt not match any of the given domains") {
+                    expect("albert@gmail.coma".suggestEmail(domains: domains)).to(beNil())
+                }
+                it("suggests based on domains parameter order") {
+                    expect("albert@m".suggestEmail(domains: domains)) == "albert@msn.com"
+                }
+                it("suggests based on domains parameter order") {
+                    expect("albert@my".suggestEmail(domains: domains)) == "albert@mynet.com"
+                }
+            }
+            context("stringByReplacingFirstOccurrence") {
+                it("does nothing if doesn't find any occurrence") {
+                    expect("a vocal is a letter".stringByReplacingFirstOccurrence(of: "the", with: "")) == "a vocal is a letter"
+                }
+                it("replaces the only occurence when having just one") {
+                    expect("vocals are letters".stringByReplacingFirstOccurrence(of: "are", with: "and")) == "vocals and letters"
+                }
+                it("replaces only the first occurence when having two instances") {
+                    expect("a vocal is a letter".stringByReplacingFirstOccurrence(of: "a", with: "this")) == "this vocal is a letter"
+                }
+                it("takes in account options when used") {
+                    expect("A vocal is A letter".stringByReplacingFirstOccurrence(of: "a", with: "this",
+                                                                                  options: .caseInsensitive)) == "this vocal is A letter"
+                }
+            }
+            context("makeUsernameFromEmail") {
+                it("returns nil if the string is not an email") {
+                    expect("albert".makeUsernameFromEmail()).to(beNil())
+                }
+                it("returns the capitalized name if the email username is just the name") {
+                    expect("albert@letgo.com".makeUsernameFromEmail()) == "Albert"
+                }
+                it("returns the capitalized name & surname if the email username has them splitted with a dot") {
+                    expect("albert.hernandez@letgo.com".makeUsernameFromEmail()) == "Albert Hernandez"
+                }
+                it("returns the capitalized name & surname if the email username has them splitted with a dash") {
+                    expect("albert-hernandez@letgo.com".makeUsernameFromEmail()) == "Albert Hernandez"
+                }
+                it("returns the capitalized name & surname if the email username has them splitted with an underscore") {
+                    expect("albert_hernandez@letgo.com".makeUsernameFromEmail()) == "Albert Hernandez"
+                }
+                it("ignores what's behind of a plus sign") {
+                    expect("albert.hernandez+scam.i.love@letgo.com".makeUsernameFromEmail()) == "Albert Hernandez"
+                }
+            }
             context("isValidLengthPrice") {
                 describe("correct number") {
                     beforeEach {
@@ -168,6 +226,38 @@ class StringLGSpec: QuickSpec {
                     it("Reduces second surname to first word") {
                         expect(sut) == "Eli Kohen G."
                     }
+                }
+            }
+            context("contains letgo") {
+                it("returns false if does not contain letgo") {
+                    expect("doesnotcontainit".containsLetgo()) == false
+                }
+                it("returns true if contains letgo") {
+                    expect("letgo".containsLetgo()) == true
+                }
+                it("returns true if contains letgo uppercase") {
+                    expect("LETGO".containsLetgo()) == true
+                }
+                it("returns true if contains ietgo") {
+                    expect("ietgo sound like russian".containsLetgo()) == true
+                }
+                it("returns true if contains ietgo") {
+                    expect("should not write ietgo".containsLetgo()) == true
+                }
+                it("returns true if contains ietg0") {
+                    expect("ietg0 sounds super hackish".containsLetgo()) == true
+                }
+                it("returns true if contains let go") {
+                    expect("let go is cool".containsLetgo()) == true
+                }
+                it("returns true if contains iet go") {
+                    expect("iet go is cool".containsLetgo()) == true
+                }
+                it("returns true if contains let g0") {
+                    expect("i work at let g0".containsLetgo()) == true
+                }
+                it("returns true if contains iet g0") {
+                    expect("perhaps iet g0 is worth to publish".containsLetgo()) == true
                 }
             }
         }

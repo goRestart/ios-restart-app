@@ -21,12 +21,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var websocketChat: Bool = false
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
-    var filtersReorder: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
-    var freePostingModeAllowed: Bool = true
     var favoriteWithBadgeOnProfile: Bool = false
     var shouldContactSellerOnFavorite: Bool = false
-    var locationMatchesCountry: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
     var editDeleteItemUxImprovement: Bool = false
@@ -36,4 +33,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
     var userRatingMarkAsSold: Bool = false
     var productDetailNextRelated: Bool = false
+    var signUpLoginImprovement: SignUpLoginImprovement = .v1
+
+    // Country dependant features
+    var freePostingModeAllowed = false
+    var locationMatchesCountry = false
+    var signUpEmailNewsletterAcceptRequired = false
+    var signUpEmailTermsAndConditionsAcceptRequired = false
 }

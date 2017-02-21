@@ -294,7 +294,7 @@ extension TextViewController: UITextViewDelegate {
             button.rx.tap.subscribeNext(onNext: action.action).addDisposableTo(leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
-            button.layout().widthEqualsHeight(size: buttonDiameter)
+            button.layout().width(buttonDiameter).widthProportionalToHeight()
             button.layout(with: leftButtonsContainer).fillVertical()
             if let prevButton = prevButton {
                 button.layout(with: prevButton).left(to: .right)

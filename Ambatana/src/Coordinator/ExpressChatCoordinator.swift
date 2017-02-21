@@ -13,26 +13,36 @@ protocol ExpressChatCoordinatorDelegate: CoordinatorDelegate {
     func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int)
 }
 
-class ExpressChatCoordinator: Coordinator {
-    
+final class ExpressChatCoordinator: Coordinator {
     var child: Coordinator?
+    let viewController: UIViewController
+    weak var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
 
-    var viewController: UIViewController
-    var presentedAlertController: UIAlertController?
     weak var delegate: ExpressChatCoordinatorDelegate?
 
-    var keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorage
 
+    
     // MARK: - Lifecycle
 
     convenience init?(products: [Product], sourceProductId: String, manualOpen: Bool) {
-        self.init(products: products, sourceProductId: sourceProductId, keyValueStorage: KeyValueStorage.sharedInstance, manualOpen: manualOpen)
+        self.init(products: products,
+                  sourceProductId: sourceProductId,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  manualOpen: manualOpen)
     }
 
-    init?(products: [Product], sourceProductId: String, keyValueStorage: KeyValueStorage, manualOpen: Bool) {
+    init?(products: [Product],
+          sourceProductId: String,
+          keyValueStorage: KeyValueStorage,
+          bubbleNotificationManager: BubbleNotificationManager,
+          manualOpen: Bool) {
         let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId, manualOpen: manualOpen)
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
 
         vm.navigator = self

@@ -74,7 +74,7 @@ class RateBuyersView: UIView {
         header.addSubviews([iconImage, titleLabel, messageLabel])
 
         iconImage.layout(with: header).top(by: imageMargin).centerX()
-        iconImage.layout().widthEqualsHeight(size: imageDiameter)
+        iconImage.layout().width(imageDiameter).widthProportionalToHeight()
         titleLabel.layout(with: header).leading(by: textsHMargin).trailing(by: -textsHMargin)
         titleLabel.layout(with: iconImage).top(to: .bottom, by: textsVMargin)
         messageLabel.layout(with: header).leading(by: textsHMargin).trailing(by: -textsHMargin).bottom(by: -textsVMargin)
