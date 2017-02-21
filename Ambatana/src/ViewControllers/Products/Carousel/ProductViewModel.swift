@@ -17,8 +17,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmShowShareFromMain(_ socialMessage: SocialMessage)
     func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage)
 
-    func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ())
-
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
@@ -126,7 +124,6 @@ class ProductViewModel: BaseViewModel {
     fileprivate let countryHelper: CountryHelper
     fileprivate let locationManager: LocationManager
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
-    fileprivate let bubbleManager: BubbleNotificationManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let purchasesShopper: PurchasesShopper
     fileprivate var notificationsManager: NotificationsManager
@@ -168,7 +165,7 @@ class ProductViewModel: BaseViewModel {
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
-                  bubbleManager: LGBubbleNotificationManager.sharedInstance, featureFlags: featureFlags,
+                  featureFlags: featureFlags,
                   purchasesShopper: LGPurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
                   monetizationRepository: monetizationRepository, tracker: tracker)
     }
@@ -177,7 +174,7 @@ class ProductViewModel: BaseViewModel {
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
-         bubbleManager: BubbleNotificationManager, featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
+         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
          notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository, tracker: Tracker) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
@@ -194,7 +191,6 @@ class ProductViewModel: BaseViewModel {
         self.locationManager = locationManager
         self.navigator = navigator
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
-        self.bubbleManager = bubbleManager
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
         self.notificationsManager = notificationsManager
@@ -809,8 +805,9 @@ fileprivate extension ProductViewModel {
                 }
                 strongSelf.favoriteButtonState.value = .enabled
             }
+
             if featureFlags.shouldContactSellerOnFavorite {
-                navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
+                navigator?.showProductFavoriteBubble(with: favoriteBubbleNotificationData())
             }
         }
     }
@@ -1022,14 +1019,12 @@ extension ProductViewModel {
         if sessionManager.loggedIn {
             action()
         } else {
-            let signUpVM = SignUpViewModel(appearance: .light, source: source)
-            delegate?.vmOpenMainSignUp(signUpVM, afterLoginAction: { action() })
+            navigator?.openLoginIfNeededFromProductDetail(from: source, loggedInAction: action)
         }
     }
 
     fileprivate func ifLoggedInRunActionElseOpenChatSignup(_ action: @escaping () -> ()) {
-        delegate?.ifLoggedInThen(.directSticker, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
-                                 loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
+        navigator?.openLoginIfNeededFromProductDetail(from: .directSticker, loggedInAction: action)
     }
 }
 

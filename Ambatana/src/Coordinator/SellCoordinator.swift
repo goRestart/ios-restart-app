@@ -16,10 +16,11 @@ protocol SellCoordinatorDelegate: CoordinatorDelegate {
 
 final class SellCoordinator: Coordinator {
     var child: Coordinator?
+    var viewController: UIViewController
+    weak var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
 
     fileprivate var parentViewController: UIViewController?
-    var viewController: UIViewController
-    var presentedAlertController: UIAlertController?
 
     fileprivate let productRepository: ProductRepository
     fileprivate let keyValueStorage: KeyValueStorage
@@ -34,17 +35,22 @@ final class SellCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource) {
-        let productRepository = Core.productRepository
-        let keyValueStorage = KeyValueStorage.sharedInstance
-        let tracker = TrackerProxy.sharedInstance
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(source: source, productRepository: productRepository,
-                  keyValueStorage: keyValueStorage, tracker: tracker, featureFlags: featureFlags)
+        self.init(source: source,
+                  productRepository: Core.productRepository,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(source: PostingSource, productRepository: ProductRepository,
-         keyValueStorage: KeyValueStorage, tracker: Tracker, featureFlags: FeatureFlags) {
+    init(source: PostingSource,
+         productRepository: ProductRepository,
+         bubbleNotificationManager: BubbleNotificationManager,
+         keyValueStorage: KeyValueStorage,
+         tracker: Tracker,
+         featureFlags: FeatureFlags) {
         self.productRepository = productRepository
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.postingSource = source
@@ -153,7 +159,17 @@ extension SellCoordinator: PostProductNavigator {
             parentVC.present(productPostedVC, animated: true, completion: nil)
         }
     }
+
+    func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
+        openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage),
+                          loggedInAction: loggedInAction, delegate: self)
+    }
 }
+
+
+// MARK: - LoginCoordinatorDelegate
+
+extension SellCoordinator: LoginCoordinatorDelegate {}
 
 
 // MARK: - ProductPostedNavigator

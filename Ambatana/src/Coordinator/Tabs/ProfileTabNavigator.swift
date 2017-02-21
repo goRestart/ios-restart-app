@@ -41,5 +41,5 @@ protocol EditLocationNavigator: class {
 
 protocol HelpNavigator: class {
     func closeHelp()
-    func openURL(_ url: URL)
+    func open(url: URL)
 }

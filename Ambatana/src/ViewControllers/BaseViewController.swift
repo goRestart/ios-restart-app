@@ -365,7 +365,7 @@ extension UIViewController {
     func setNavBarBackButton(_ icon: UIImage?) {
         guard !isRootViewController() else { return }
         let backIconImage = icon ?? UIImage(named: "navbar_back")
-        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
+        let backButton = UIBarButtonItem(image: backIconImage, style: .plain,
                                          target: self, action: #selector(UIViewController.popBackViewController))
         self.navigationItem.leftBarButtonItem = backButton
     }

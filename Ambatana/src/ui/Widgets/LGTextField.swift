@@ -25,7 +25,7 @@ class LGTextField: UITextField {
         }
     }
 
-    private let clearButtonSide : CGFloat = 19
+    let clearButtonSide : CGFloat = 19
     
     override init(frame: CGRect) {
         super.init(frame: frame)

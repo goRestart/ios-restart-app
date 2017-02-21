@@ -9,9 +9,7 @@
 import UIKit
 import RxSwift
 
-class PostProductViewController: BaseViewController {
-
-    
+class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
@@ -67,7 +65,7 @@ class PostProductViewController: BaseViewController {
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
-        self.viewModel.delegate = self
+        viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -292,20 +290,6 @@ extension PostProductViewController {
                 }
             }
         )
-    }
-}
-
-
-// MARK: - PostProductViewModelDelegate
-
-extension PostProductViewController: PostProductViewModelDelegate {
-    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: @escaping () -> Void) {
-        ifLoggedInThen(.sell, loginStyle: .popup(LGLocalizedString.productPostLoginMessage),
-                       preDismissAction: { [weak self] in
-                        self?.view.isHidden = true
-            },
-                       loggedInAction: completion,
-                       elsePresentSignUpWithSuccessAction: completion)
     }
 }
 

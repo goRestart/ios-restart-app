@@ -15,20 +15,28 @@ protocol PassiveBuyersCoordinatorDelegate: CoordinatorDelegate {
 
 final class PassiveBuyersCoordinator: Coordinator {
     var child: Coordinator?
-
-    private var parentViewController: UIViewController?
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
+
+    private var parentViewController: UIViewController?
 
     weak var delegate: PassiveBuyersCoordinatorDelegate?
 
 
     // MARK: - Lifecycle
 
-    init(passiveBuyersInfo: PassiveBuyersInfo) {
+    convenience init(passiveBuyersInfo: PassiveBuyersInfo) {
+        self.init(passiveBuyersInfo: passiveBuyersInfo,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+    }
+
+    init(passiveBuyersInfo: PassiveBuyersInfo,
+         bubbleNotificationManager: BubbleNotificationManager) {
         let passiveBuyersVM = PassiveBuyersViewModel(passiveBuyers: passiveBuyersInfo)
         let passiveBuyersVC = PassiveBuyersViewController(viewModel: passiveBuyersVM)
         self.viewController = passiveBuyersVC
+        self.bubbleNotificationManager = bubbleNotificationManager
 
         passiveBuyersVM.navigator = self
     }
@@ -67,7 +75,7 @@ final class PassiveBuyersCoordinator: Coordinator {
 }
 
 
-// MARK: - UserRatingNavigator
+// MARK: - PassiveBuyersNavigator
 
 extension PassiveBuyersCoordinator: PassiveBuyersNavigator {
     func passiveBuyersCancel() {

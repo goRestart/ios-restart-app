@@ -84,7 +84,7 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
 
         productImage.translatesAutoresizingMaskIntoConstraints = false
         header.addSubview(productImage)
-        productImage.layout().widthEqualsHeight(size: 110)
+        productImage.layout().width(110).widthProportionalToHeight()
         productImage.layout(with: header).top().centerX()
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
