@@ -114,11 +114,11 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension SignUpEmailStep2ViewModel {
-    func openHelp() {
+    func helpButtonPressed() {
         navigator?.openHelpFromSignUpEmailStep2()
     }
 
-    func signUp() -> SignUpEmailStep2FormErrors {
+    func signUpButtonPressed() -> SignUpEmailStep2FormErrors {
         var errors: SignUpEmailStep2FormErrors = []
         guard signUpEnabledVar.value else { return errors }
 
