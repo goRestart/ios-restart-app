@@ -420,10 +420,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
 
-    func applicationWillEnterForeground() {
-        refreshChatInfo()
-    }
-
     private func refreshChatInfo() {
         guard chatStatus != .forbidden else {
             showScammerDisclaimerMessage()
@@ -1362,12 +1358,9 @@ extension OldChatViewModel {
     }
 
     fileprivate func launchExpressChatTimer() {
-        let _ = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(updateBannerTimerStatus),
-                                                       userInfo: nil, repeats: false)
-    }
-
-    private dynamic func updateBannerTimerStatus() {
-        expressBannerTimerFinished.value = true
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) { [weak self] in
+            self?.expressBannerTimerFinished.value = true
+        }
     }
 
     fileprivate func expressChatMessageSentForCurrentProduct() -> Bool {
