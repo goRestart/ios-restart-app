@@ -15,6 +15,7 @@ enum WebSocketErrorType: Int {
     case sellerDoesNotExists = 3010
     case sellerDoesNotOwnProduct = 3011
     case retrievingProductInfoError = 3012
+    case userBlocked = 3014
     
     case userNotFound = 6404
     case unauthorized = 6401
