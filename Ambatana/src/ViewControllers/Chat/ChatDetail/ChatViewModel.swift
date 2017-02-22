@@ -630,7 +630,7 @@ extension ChatViewModel {
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
-        let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
+        let viewMessage = chatViewMessageAdapter.adapt(newMessage)//.markAsSent()
         guard let messageId = newMessage.objectId else { return }
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: message) {
@@ -720,7 +720,7 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
-        let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
+        let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
         guard isBuyer else { return }
@@ -972,8 +972,7 @@ extension ChatViewModel {
             strongSelf.isLoading = false
             if let value = result.value {
                 self?.isLastPage = value.count == 0
-                strongSelf.messages.removeAll()
-                strongSelf.updateMessages(newMessages: value, isFirstPage: true)
+                strongSelf.mergeMessages(newMessages: value)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
             } else if let _ = result.error {
@@ -1047,18 +1046,32 @@ extension ChatViewModel {
 
         //We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
         var filteredViewMessages = messages.value.filter { $0.objectId != nil }
-        var currentIndex = filteredViewMessages.index { $0.objectId == newViewMessages.first?.objectId } ?? 0
 
-        newViewMessages.forEach { newMessage in
-            if filteredViewMessages.count <= currentIndex || filteredViewMessages[currentIndex].objectId != newMessage.objectId {
-                filteredViewMessages.insert(newMessage, at: currentIndex)
-            } else {
-                filteredViewMessages[currentIndex] = newMessage
+        var mergedMessages = [ChatViewMessage]()
+        if !filteredViewMessages.isEmpty {
+            var itemsToAdd = [ChatViewMessage]()
+            newViewMessages.forEach { newMessage in
+                let foundIndex = filteredViewMessages.index { $0.objectId == newMessage.objectId }
+                if let foundIndex = foundIndex {
+                    filteredViewMessages[foundIndex] = newMessage
+                } else {
+                    itemsToAdd.append(newMessage)
+                }
             }
-            currentIndex = currentIndex + 1
+
+            filteredViewMessages.append(contentsOf: itemsToAdd)
+            filteredViewMessages.sort { (message1, message2) -> Bool in
+                if message1.sentAt == nil && message2.sentAt != nil { return true }
+                guard let sentAt1 = message1.sentAt, let sentAt2 = message2.sentAt else { return false }
+                return sentAt1 > sentAt2
+            }
+            mergedMessages = filteredViewMessages
+
+        } else {
+            mergedMessages = newViewMessages
         }
 
-        var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
+        var chatMessages = chatViewMessageAdapter.addDisclaimers(mergedMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
 
         // Add user info as 1st message
