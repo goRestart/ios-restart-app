@@ -240,10 +240,10 @@ fileprivate extension AppDelegate {
         Debug.loggingOptions = [.navigation]
 
         #if GOD_MODE
-            Debug.loggingOptions = []//[.navigation, .tracking, .deepLink, .monetization]
+            Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]
         #endif
         
-        LGCoreKit.loggingOptions = [.webSockets]//[.networking, .persistence, .token, .session, .webSockets]
+        LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
         if let featureFlags = featureFlags {
             LGCoreKit.activateWebsocket = featureFlags.websocketChat
         }
