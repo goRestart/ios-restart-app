@@ -50,8 +50,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         self.viewModel = viewModel
         self.featureFlags = featureFlags
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
-        self.directAnswersPresenter = DirectAnswersPresenter(newDirectAnswers: featureFlags.newQuickAnswers,
-                                                             websocketChatActive: featureFlags.websocketChat)
+        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.relatedProductsView = ChatRelatedProductsView()
         self.stickersView = ChatStickersView()
         self.expressChatBanner = ChatBanner()
@@ -119,13 +118,9 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     // MARK: > Slack methods
 
     override func sendButtonPressed() {
-        viewModel.sendText(textView.text, isQuickAnswer: false)
+        viewModel.send(text: textView.text)
     }
 
-    override func scrollViewDidTap() {
-        viewModel.scrollViewDidTap()
-    }
-    
 
     /**
      Slack Caches the text in the textView if you close the view before sending
@@ -225,9 +220,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         expressChatBanner.setupChatBannerWith(LGLocalizedString.chatExpressBannerTitle, action: action)
 
         keyboardChanges.bindNext { [weak self] change in
-            if change.visible {
-                self?.viewModel.keyboardShown()
-            } else {
+            if !change.visible {
                 self?.hideStickers()
             }
         }.addDisposableTo(disposeBag)
@@ -296,12 +289,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
             let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
             strongSelf.configureBottomMargin(animated: true)
-            if strongSelf.featureFlags.newQuickAnswers {
-                strongSelf.reloadLeftActions()
-                if visible {
-                    strongSelf.dismissKeyboard(true)
-                }
-            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -782,22 +769,13 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
             }, accessibilityId: .chatViewStickersButton)
         actions.append(kbAction)
 
-        if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .notAvailable {
-            let image = UIImage(named: "ic_quick_answers")
-            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? UIColor.primaryColor : nil
-            let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
-                self?.viewModel.directAnswersButtonPressed()
-                }, accessibilityId: .chatViewQuickAnswersButton)
-            actions.append(quickAnswersAction)
-        }
-
         leftActions = actions
     }
 }
 
 extension OldChatViewController: ChatStickersViewDelegate {
     func stickersViewDidSelectSticker(_ sticker: Sticker) {
-        viewModel.sendSticker(sticker)
+        viewModel.send(sticker: sticker)
     }
 }
 

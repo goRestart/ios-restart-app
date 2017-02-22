@@ -29,11 +29,12 @@ def shared_pods
 
     # Tracking
     pod "Amplitude-iOS",        "3.8.5"  # Obj-c
-    pod "AppsFlyerFramework",   "4.6.3"  # Obj-c
+    pod "AppsFlyerFramework",   "4.6.5"  # Obj-c
     pod "Leanplum-iOS-SDK",     "1.4.3"  # Obj-c
+    pod "NewRelicAgent",        "5.10.1"
 
     # letgo Core
-    pod "LGCoreKit",            "2.5.1"     #:path => "../lgcorekit" #:git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0a0a05c56d0885d902025307d412ede170e9bfb1'
+    pod "LGCoreKit",            "2.8.1"     #:path => "../lgcorekit" #:git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0a5395b478aea4abf1100321134296a60e044199'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.0.0"     # :path => "../collapsiblelabel"
@@ -54,7 +55,7 @@ def shared_pods
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera
-    pod "FastttCamera",         "0.3.4"     # Obj-c
+    pod "CameraManager",        "3.1.0"
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -
@@ -73,6 +74,9 @@ def shared_pods
 
     # TextView with placeholder
     pod "KMPlaceholderTextView", "1.3.0"
+
+    # TODO: This is an override to check our fork, remove after original repo merges our pr.
+    pod "KeychainSwift",        :git => 'git@github.com:letgoapp/keychain-swift.git', :commit => 'f6230869f4d26d720f36eb227bd269c3d712986b'
 
 end
 

@@ -623,7 +623,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         } else { return }
         
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
-                                              action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil)
+                                              action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
         
         viewModel.setEmptyState(emptyViewModel)
     }
@@ -720,7 +720,7 @@ extension UserViewModel {
     }
     
     func trackPushPermissionStart() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .profile, alertType: .custom,
                                                              permissionGoToSettings: goToSettings)
@@ -728,7 +728,7 @@ extension UserViewModel {
     }
     
     func trackPushPermissionComplete() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .profile, alertType: .custom,
                                                                 permissionGoToSettings: goToSettings)
@@ -736,7 +736,7 @@ extension UserViewModel {
     }
     
     func trackPushPermissionCancel() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .profile, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)

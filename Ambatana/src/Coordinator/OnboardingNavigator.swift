@@ -8,7 +8,6 @@
 
 protocol TourLoginNavigator: class {
     func tourLoginFinish()
-    func tourLoginOpenLoginSignup(signupLoginVM: SignUpLogInViewModel, afterLoginCompletion: (() -> Void)?)
 }
 
 protocol TourNotificationsNavigator: class {

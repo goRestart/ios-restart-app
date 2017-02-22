@@ -59,8 +59,13 @@ code_sign_if_enabled() {
   if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" -a "${CODE_SIGNING_REQUIRED}" != "NO" -a "${CODE_SIGNING_ALLOWED}" != "NO" ]; then
     # Use the current code_sign_identitiy
     echo "Code Signing $1 with Identity ${EXPANDED_CODE_SIGN_IDENTITY_NAME}"
-    echo "/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS} --preserve-metadata=identifier,entitlements \"$1\""
-    /usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS} --preserve-metadata=identifier,entitlements "$1"
+    local code_sign_cmd="/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS} --preserve-metadata=identifier,entitlements '$1'"
+
+    if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
+      code_sign_cmd="$code_sign_cmd &"
+    fi
+    echo "$code_sign_cmd"
+    eval "$code_sign_cmd"
   fi
 }
 
@@ -91,6 +96,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Bolts/Bolts.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Branch/Branch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CameraManager/CameraManager.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Curry/Curry.framework"
@@ -99,7 +105,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKLoginKit/FBSDKLoginKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FLEX/FLEX.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/FastttCamera/FastttCamera.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMOAuth2/GTMOAuth2.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMSessionFetcher/GTMSessionFetcher.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework"
@@ -130,6 +135,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Bolts/Bolts.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Branch/Branch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CameraManager/CameraManager.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Curry/Curry.framework"
@@ -138,7 +144,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKLoginKit/FBSDKLoginKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FLEX/FLEX.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/FastttCamera/FastttCamera.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMOAuth2/GTMOAuth2.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMSessionFetcher/GTMSessionFetcher.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework"
@@ -169,6 +174,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Bolts/Bolts.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Branch/Branch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CameraManager/CameraManager.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Curry/Curry.framework"
@@ -177,7 +183,6 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKLoginKit/FBSDKLoginKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FLEX/FLEX.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/FastttCamera/FastttCamera.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMOAuth2/GTMOAuth2.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMSessionFetcher/GTMSessionFetcher.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework"
@@ -199,4 +204,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SwiftyUserDefaults/SwiftyUserDefaults.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TMReachability/TMReachability.framework"
   install_framework "$BUILT_PRODUCTS_DIR/bumper/bumper.framework"
+fi
+if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
+  wait
 fi

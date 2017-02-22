@@ -27,7 +27,6 @@ class MockLocationManager: LocationManager {
 
     var currentLocation: LGLocation?
     var currentAutoLocation: LGLocation?
-    var currentPostalAddress: PostalAddress?
 
     func setManualLocation(_ location: CLLocation, postalAddress: PostalAddress, completion: MyUserCompletion?) {
         performAfterDelayWithCompletion(completion, result: myUserResult!)

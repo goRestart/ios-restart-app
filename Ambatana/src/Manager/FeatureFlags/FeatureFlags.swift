@@ -19,21 +19,26 @@ protocol FeatureFlaggeable {
     var userReviews: Bool { get }
     var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
-    var freePostingModeAllowed: Bool { get }
-    var postingMultiPictureEnabled: Bool { get }
-    var newQuickAnswers: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
-    var favoriteWithBubbleToChat: Bool { get }
-    var locationMatchesCountry: Bool { get }
+    var shouldContactSellerOnFavorite: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
-    var filterIconWithLetters: Bool { get }
     var editDeleteItemUxImprovement: Bool { get }
     var onboardingReview: OnboardingReview { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var bumpUpFreeTimeLimit: Int { get }
+    var userRatingMarkAsSold: Bool { get }
+    var productDetailNextRelated: Bool { get }
+    var signUpLoginImprovement: SignUpLoginImprovement { get }
+
+    // Country dependant features
+    var freePostingModeAllowed: Bool { get }
+    var locationMatchesCountry: Bool { get }
+    var signUpEmailNewsletterAcceptRequired: Bool { get }
+    var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
 }
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -58,7 +63,6 @@ class FeatureFlags: FeatureFlaggeable {
         self.carrierCountryInfo = countryInfo
     }
 
-    
     convenience init() {
         self.init(locale: Locale.current, locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
     }
@@ -93,13 +97,6 @@ class FeatureFlags: FeatureFlaggeable {
         return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
     }
     
-    var postingMultiPictureEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.postingMultiPictureEnabled
-        }
-        return ABTests.postingMultiPictureEnabled.value
-    }
-    
     var favoriteWithBadgeOnProfile: Bool {
         if Bumper.enabled {
             return Bumper.favoriteWithBadgeOnProfile
@@ -107,18 +104,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.favoriteWithBadgeOnProfile.value
     }
     
-    var favoriteWithBubbleToChat: Bool {
+    var shouldContactSellerOnFavorite: Bool {
         if Bumper.enabled {
-            return Bumper.favoriteWithBubbleToChat
+            return Bumper.contactSellerOnFavorite
         }
-        return ABTests.favoriteWithBubbleToChat.value
-    }
-
-    var newQuickAnswers: Bool {
-        if Bumper.enabled {
-            return Bumper.newQuickAnswers
-        }
-        return ABTests.newQuickAnswers.value
+        return ABTests.contactSellerOnFavorite.value
     }
 
     var captchaTransparent: Bool {
@@ -135,13 +125,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.passiveBuyersShowKeyboard.value
     }
     
-    var filterIconWithLetters: Bool {
-        if Bumper.enabled {
-            return Bumper.filterIconWithLetters
-        }
-        return ABTests.filterIconWithLetters.value
-    }
-
     var editDeleteItemUxImprovement: Bool {
         if Bumper.enabled {
             return Bumper.editDeleteItemUxImprovement
@@ -188,14 +171,36 @@ class FeatureFlags: FeatureFlaggeable {
         return Int(timeLimit)
     }
 
+    var userRatingMarkAsSold: Bool {
+        if Bumper.enabled {
+            return Bumper.userRatingMarkAsSold
+        }
+        return ABTests.userRatingMarkAsSold.value
+    }
+
+    var productDetailNextRelated: Bool {
+        if Bumper.enabled {
+            return Bumper.productDetailNextRelated
+        }
+        return ABTests.productDetailNextRelated.value
+    }
+
+    var signUpLoginImprovement: SignUpLoginImprovement {
+        if Bumper.enabled {
+            return Bumper.signUpLoginImprovement
+        }
+        return SignUpLoginImprovement.fromPosition(ABTests.signUpLoginImprovement.value)
+    }
+
     
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        guard let countryCode = countryCode else { return true }
-        switch countryCode {
-        case .turkey:
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
             return false
+        default:
+            return true
         }
     }
     
@@ -207,13 +212,33 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
+    var signUpEmailNewsletterAcceptRequired: Bool {
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return true
+        default:
+            return false
+        }
+    }
+
+    var signUpEmailTermsAndConditionsAcceptRequired: Bool {
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return true
+        default:
+            return false
+        }
+    }
+
     
     // MARK: - Private
     
-    /// Return CountryCode from location or phone Region
-    private var countryCode: CountryCode? {
-        let systemCountryCode = locale.lg_countryCode
-        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercase
+    private var locationCountryCode: CountryCode? {
+        guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
         return CountryCode(rawValue: countryCode)
+    }
+
+    private var localeCountryCode: CountryCode? {
+        return CountryCode(rawValue: locale.lg_countryCode)
     }
 }

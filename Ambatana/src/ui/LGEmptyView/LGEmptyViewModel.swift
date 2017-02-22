@@ -14,6 +14,7 @@ struct LGEmptyViewModel {
     let action: (() -> ())?
     var secondaryButtonTitle: String?
     var secondaryAction: (() -> ())?
+    var emptyReason: EventParameterEmptyReason?
 
     static func networkErrorWithRetry(_ action: (() -> ())?) -> LGEmptyViewModel {
         let icon = UIImage(named: "err_network")
@@ -21,7 +22,7 @@ struct LGEmptyViewModel {
         let body = LGLocalizedString.commonErrorNetworkBody
         let buttonTitle = LGLocalizedString.commonErrorRetryButton
         return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action,
-            secondaryButtonTitle: nil, secondaryAction: nil)
+                                secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .noInternetConection)
     }
 
     static func genericErrorWithRetry(_ action: (() -> ())?) -> LGEmptyViewModel {
@@ -30,6 +31,6 @@ struct LGEmptyViewModel {
         let body = LGLocalizedString.commonErrorGenericBody
         let buttonTitle = LGLocalizedString.commonErrorRetryButton
         return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action,
-            secondaryButtonTitle: nil, secondaryAction: nil)
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .unknown)
     }
 }

@@ -24,19 +24,17 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var chatContainer: UIView!
     @IBOutlet weak var chatContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var chatContainerBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var chatContainerTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var editButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
     
     @IBOutlet weak var directChatTable: CustomTouchesTableView!
-    @IBOutlet weak var stickersButton: UIButton!
-    @IBOutlet weak var stickersButtonBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var bannerContainer: UIView!
     @IBOutlet weak var bannerContainerBottomConstraint: NSLayoutConstraint!
@@ -62,15 +60,12 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
         didSet {
             buttonBottomTrailingConstraint?.constant = buttonsRightMargin
-            if !chatTextView.isFirstResponder {
-                chatContainerTrailingConstraint?.constant = buttonsRightMargin
-            }
         }
     }
     fileprivate var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             chatContainerBottomConstraint?.constant = bottomItemsMargin
-            stickersButtonBottomConstraint?.constant = bottomItemsMargin
+            editButtonBottomConstraint?.constant = bottomItemsMargin
         }
     }
     fileprivate var bannerBottom: CGFloat = -CarouselUI.bannerHeight {
@@ -102,6 +97,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     fileprivate let chatTextView = ChatTextView()
+    fileprivate let directAnswersView: DirectAnswersHorizontalView
+    fileprivate var directAnswersBottom = NSLayoutConstraint()
 
     fileprivate var bumpUpBanner = BumpUpBanner()
     fileprivate var bumpUpBannerIsVisible: Bool = false
@@ -116,11 +113,14 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     // MARK: - Lifecycle
 
     convenience init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(viewModel:viewModel, pushAnimator: pushAnimator, featureFlags: featureFlags)
+        self.init(viewModel:viewModel,
+                  pushAnimator: pushAnimator,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
-    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?, featureFlags: FeatureFlaggeable) {
+    init(viewModel: ProductCarouselViewModel,
+         pushAnimator: ProductCarouselPushAnimator?,
+         featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.withProductInfo)
         let blurEffect = UIBlurEffect(style: .dark)
@@ -129,6 +129,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.featureFlags = featureFlags
+        self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
+                                                             collapsed: viewModel.quickAnswersCollapsed.value)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark), swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
@@ -202,9 +204,24 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
      */
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard let animator = animator, animator.toViewValidatedFrame && !didSetupAfterLayout else { return }
+        guard !didSetupAfterLayout else { return } // Already setup, just do nothing
+
+        if let animator = animator {
+            if animator.toViewValidatedFrame || !animator.active {
+                setupAfterLayout(backgroundImage: animator.fromViewSnapshot, activeAnimator: animator.active)
+            }
+        } else {
+            setupAfterLayout(backgroundImage: nil, activeAnimator: false)
+        }
+    }
+
+    private func setupAfterLayout(backgroundImage: UIImage?, activeAnimator: Bool) {
         didSetupAfterLayout = true
-        imageBackground.image = animator.fromViewSnapshot
+        if !activeAnimator {
+            //Usually animator takes care of it, but if animator couldn't work, we should hide it manually
+            tabBarController?.setTabBarHidden(true, animated: false)
+        }
+        imageBackground.image = backgroundImage
         flowLayout.itemSize = view.bounds.size
         setupAlphaRxBindings()
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
@@ -294,7 +311,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         CarouselUIHelper.setupShareButton(shareButton, text: LGLocalizedString.productShareNavbarButton, icon: UIImage(named:"ic_share"))
 
         mainResponder = chatTextView
-        setupDirectMessagesAndStickers()
+        setupDirectMessages()
         setupBumpUpBanner()
     }
 
@@ -359,7 +376,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(stickersButton.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(editButton.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
@@ -469,7 +485,6 @@ extension ProductCarouselViewController {
             }
 
             view.bringSubview(toFront: buttonBottom)
-            view.bringSubview(toFront: stickersButton)
             view.bringSubview(toFront: editButton)
             view.bringSubview(toFront: chatContainer)
             view.bringSubview(toFront: bannerContainer)
@@ -602,15 +617,13 @@ extension ProductCarouselViewController {
             viewModel?.editProduct()
         }.addDisposableTo(activeDisposeBag)
 
-        // When there's the edit/stickers button, the bottom button must adapt right margin to give space for it
-        let bottomRightButtonPresent = Observable.combineLatest(
-            viewModel.stickersButtonEnabled.asObservable(), viewModel.editButtonState.asObservable(),
-            resultSelector: { (stickers, edit) in return stickers || (edit != .hidden) })
+        // When there's the edit button, the bottom button must adapt right margin to give space for it
+        let bottomRightButtonPresent = viewModel.editButtonState.asObservable().map { $0 != .hidden }
         bottomRightButtonPresent.bindNext { [weak self] present in
             self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
         }.addDisposableTo(activeDisposeBag)
 
-        // When there's the edit/stickers button and there are no actionButtons, header is at bottom and must not overlap edit button
+        // When there's the edit button and there are no actionButtons, header is at bottom and must not overlap edit button
         let userViewCollapsed = Observable.combineLatest(
             bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
             resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
@@ -656,14 +669,15 @@ extension ProductCarouselViewController {
     
 
     private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
-        viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx.isHidden).addDisposableTo(disposeBag)
         chatTextView.placeholder = viewModel.directChatPlaceholder
         chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
 
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
-            self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
-            }.addDisposableTo(activeDisposeBag)
+            self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
+        }.addDisposableTo(activeDisposeBag)
+
+        directAnswersView.update(answers: viewModel.quickAnswers)
 
         chatTextView.rx.send.bindNext { [weak self, weak viewModel] textToSend in
             guard let strongSelf = self else { return }
@@ -1032,9 +1046,8 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 // MARK: > Direct messages and stickers
 
-extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate, StickersSelectorDelegate {
-
-    func setupDirectMessagesAndStickers() {
+extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
+    func setupDirectMessages() {
         ChatCellDrawerFactory.registerCells(directChatTable)
         directChatTable.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
         directChatTable.rowHeight = UITableViewAutomaticDimension
@@ -1042,26 +1055,36 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
         directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.openChatWithSeller() }
 
+        directAnswersView.delegate = self
+        directAnswersView.style = .light
+        directAnswersView.translatesAutoresizingMaskIntoConstraints = false
+        chatContainer.addSubview(directAnswersView)
+        directAnswersView.layout(with: chatContainer).leading().trailing().top()
+
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
         chatContainer.addSubview(chatTextView)
-        let views = ["chatText": chatTextView]
-        chatContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[chatText]-0-|",
-            options: [], metrics: nil, views: views))
-        chatContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[chatText]-0-|",
-            options: [], metrics: nil, views: views))
-
-        stickersButton.rx.tap.bindNext { [weak self] in
-            self?.viewModel.currentProductViewModel?.stickersButton()
-        }.addDisposableTo(disposeBag)
+        chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
+        let directAnswersBottom: CGFloat = viewModel.quickAnswersCollapsed.value ? 0 : CarouselUI.itemsMargin
+        chatTextView.layout(with: directAnswersView).top(to: .bottom, by: directAnswersBottom,
+                                                         constraintBlock: { [weak self] in self?.directAnswersBottom = $0 })
 
         keyboardChanges.bindNext { [weak self] change in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
             self?.contentBottomMargin = viewHeight - change.origin
-            strongSelf.chatContainerTrailingConstraint.constant = change.visible ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
             UIView.animate(withDuration: Double(change.animationTime)) {
-                strongSelf.stickersButton.alpha = change.visible ? 0 : 1
                 strongSelf.view.layoutIfNeeded()
+            }
+        }.addDisposableTo(disposeBag)
+
+        viewModel.quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
+            if !collapsed {
+                self?.directAnswersView.resetScrollPosition()
+            }
+            self?.directAnswersView.set(collapsed: collapsed)
+            self?.directAnswersBottom.constant = collapsed ? 0 : CarouselUI.itemsMargin
+            UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) {
+                self?.chatContainer.superview?.layoutIfNeeded()
             }
         }.addDisposableTo(disposeBag)
     }
@@ -1083,14 +1106,13 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         return cell
     }
 
-
-    // MARK: StickersSelectorDelegate
-
-    func stickersSelectorDidSelectSticker(_ sticker: Sticker) {
-        viewModel.currentProductViewModel?.sendSticker(sticker)
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
+        viewModel.currentProductViewModel?.sendQuickAnswer(quickAnswer: answer)
     }
 
-    func stickersSelectorDidCancel() {}
+    func directAnswersHorizontalViewDidSelectClose() {
+        viewModel.quickAnswersCloseButtonPressed()
+    }
 }
 
 
@@ -1133,15 +1155,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         viewModel.openShare(.native(restricted: false), fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
     
-    func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ()) {
-        let mainSignUpVC = MainSignUpViewController(viewModel: signUpVM)
-        mainSignUpVC.afterLoginAction = afterLoginAction
-        
-        let navCtl = UINavigationController(rootViewController: mainSignUpVC)
-        navCtl.view.backgroundColor = UIColor.white
-        present(navCtl, animated: true, completion: nil)
-    }
-    
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {
         let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
         navigationController?.present(promoteProductVC, animated: true, completion: nil)
@@ -1162,15 +1175,21 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         refreshProductOnboarding(productVM)
     }
     
-    func vmShowProductDelegateActionSheet(_ cancelLabel: String, actions: [UIAction]) {
-        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
-    }
-
-    func vmOpenStickersSelector(_ stickers: [Sticker]) {
-        let interlocutorName = viewModel.currentProductViewModel?.ownerName
-        let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
-        vc.delegate = self
-        navigationController?.present(vc, animated: false, completion: nil)
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
+        var finalActions: [UIAction] = actions
+        if viewModel.quickAnswersAvailable {
+            //Adding show/hide quick answers option
+            if viewModel.quickAnswersCollapsed.value {
+                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
+                    [weak self] in self?.viewModel.quickAnswersShowButtonPressed()
+                }))
+            } else {
+                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
+                    [weak self] in self?.viewModel.quickAnswersCloseButtonPressed()
+                }))
+            }
+        }
+        showActionSheet(cancelLabel, actions: finalActions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 
     func vmShareDidFailedWith(_ error: String) {
@@ -1237,7 +1256,6 @@ fileprivate extension ProductCarouselViewController {
         moreInfoView?.accessibilityId = .productCarouselMoreInfoView
         productStatusLabel.accessibilityId = .productCarouselProductStatusLabel
         directChatTable.accessibilityId = .productCarouselDirectChatTable
-        stickersButton.accessibilityId = .productCarouselStickersButton
         editButton.accessibilityId = .productCarouselEditButton
         fullScreenAvatarView.accessibilityId = .productCarouselFullScreenAvatarView
         pageControl.accessibilityId = .productCarouselPageControl

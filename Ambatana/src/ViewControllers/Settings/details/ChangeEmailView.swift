@@ -55,7 +55,7 @@ class ChangeEmailView: UIView {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [self, emailTitleLabel, emailLabel, emailTextField, saveButton])
         emailTitleLabel.layout(with: self).leading(by: sideLabelMargin).top(by: topMargin)
         emailLabel.layout(with: emailTitleLabel).leading(to: .trailing, by: 4).centerY()
-        emailLabel.layout(with: self).trailing(relatedBy: .lessThanOrEqual, by: -sideLabelMargin)
+        emailLabel.layout(with: self).trailing(by: -sideLabelMargin, relatedBy: .lessThanOrEqual)
         emailTextField.layout().height(textFieldHeight)
         emailTextField.layout(with: self).leading().trailing()
         emailTextField.layout(with: emailTitleLabel).top(to: .bottom, by: 5)

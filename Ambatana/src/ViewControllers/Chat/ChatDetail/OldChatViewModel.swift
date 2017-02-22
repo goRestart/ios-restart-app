@@ -513,7 +513,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
 
         //Direct answers
-        if chat.isSaved && !featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
+        if chat.isSaved && directAnswersState.value != .notAvailable {
             let visible = directAnswersState.value == .visible
             texts.append(visible ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
@@ -542,12 +542,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         delegate?.vmShowOptionsList(texts, actions: actions)
     }
 
-    func scrollViewDidTap() {
-        if featureFlags.newQuickAnswers && userDirectAnswersEnabled.value {
-            showDirectAnswers(false)
-        }
-    }
-    
     func messageAtIndex(_ index: Int) -> ChatViewMessage {
         return loadedMessages[index]
     }
@@ -556,12 +550,16 @@ class OldChatViewModel: BaseViewModel, Paginable {
         return loadedMessages[index].value
     }
     
-    func sendSticker(_ sticker: Sticker) {
-        sendMessage(sticker.name, isQuickAnswer: false, type: .sticker)
+    func send(sticker: Sticker) {
+        sendMessage(type: .chatSticker(sticker))
     }
     
-    func sendText(_ text: String, isQuickAnswer: Bool) {
-        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .text)
+    func send(text: String) {
+        sendMessage(type: .text(text))
+    }
+
+    func send(quickAnswer: QuickAnswer) {
+        sendMessage(type: .quickAnswer(quickAnswer))
     }
     
     func isMatchingConversationData(_ data: ConversationData) -> Bool {
@@ -587,11 +585,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         toggleDirectAnswers()
     }
 
-    func keyboardShown() {
-        if featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
-            showDirectAnswers(false)
-        }
-    }
     
     // MARK: - private methods
     
@@ -652,10 +645,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             }
         }.addDisposableTo(disposeBag)
 
-        if !featureFlags.newQuickAnswers {
-            // New quick answers doesn't depend on saved state
-            userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-        }
+        userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(
             relatedProductsState.asObservable(),
             userDirectAnswersEnabled.asObservable(),
@@ -688,26 +678,27 @@ class OldChatViewModel: BaseViewModel, Paginable {
             }.addDisposableTo(disposeBag)
     }
 
-    fileprivate func sendMessage(_ text: String, isQuickAnswer: Bool, type: MessageType) {
+    fileprivate func sendMessage(type: ChatWrapperMessageType) {
         guard myUserRepository.myUser != nil else {
-            loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
+            loginAndResend(type: type)
             return
         }
 
         if isSendingMessage.value { return }
-        let message = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let toUser = otherUser else { return }
-        if !isQuickAnswer && type != .sticker {
+        if type.isUserText {
             delegate?.vmClearText()
         }
         isSendingMessage.value = true
 
-        chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
+        let chatType = type.oldChatType
+        chatRepository.sendMessage(chatType, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
                 //This is required to be called BEFORE any message insertion
-                strongSelf.trackMessageSent(isQuickAnswer, type: type)
+                strongSelf.trackMessageSent(type: type)
 
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, at: 0)
@@ -977,7 +968,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                         }
                                         let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
                                         self?.delegate?.vmShowMessage(message) { [weak self] in
-                                            self?.delegate?.vmClose()
+                                            self?.navigator?.closeChatDetail()
                                         }
                                     }
             },
@@ -1002,22 +993,27 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func markProductAsSold() {
+        guard featureFlags.userRatingMarkAsSold else {
+            markProductAsSold(buyerId: nil, userSoldTo: nil)
+            return
+        }
         guard let productId = self.product.objectId else { return }
         delegate?.vmShowLoading(nil)
         productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
-                        self?.markProductAsSold(buyerId: buyerId)
+                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
+                        self?.markProductAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
                     }
                 }
             } else {
-                self?.markProductAsSold(buyerId: nil)
+                self?.markProductAsSold(buyerId: nil, userSoldTo: .noConversations)
             }
         }
     }
     
-    private func markProductAsSold(buyerId: String?) {
+    private func markProductAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(product, buyerId: buyerId) { [weak self] result in
             self?.delegate?.vmHideLoading(nil) { [weak self] in
@@ -1026,6 +1022,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.product = value
                     strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
                     strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
+                    strongSelf.trackMarkAsSold(userSoldTo: userSoldTo)
                 } else {
                     strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)
                 }
@@ -1036,25 +1033,26 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackFirstMessage(_ type: MessageType) {
+    private func trackFirstMessage(type: ChatWrapperMessageType) {
         // only track ask question if I didn't send any previous message
         guard !didSendMessage else { return }
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
+        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.chatTrackerType, quickAnswerType: type.quickAnswerType,
                                                           typePage: .chat, sellerRating: sellerRating,
-                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                          isBumpedUp: .falseParameter)
         tracker.trackEvent(firstMessageEvent)
     }
     
-    private func trackMessageSent(_ isQuickAnswer: Bool, type: MessageType) {
+    private func trackMessageSent(type: ChatWrapperMessageType) {
         if shouldSendFirstMessageEvent {
             shouldSendFirstMessageEvent = false
-            trackFirstMessage(type)
+            trackFirstMessage(type: type)
         }
         
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
-                                                            messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .trueParameter : .falseParameter, typePage: .chat,
+                                                            messageType: type.chatTrackerType,
+                                                            quickAnswerType: type.quickAnswerType, typePage: .chat,
                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(messageSentEvent)
     }
@@ -1070,8 +1068,15 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func trackVisit() {
-        let chatWindowOpen = TrackerEvent.chatWindowVisit(source)
+        let chatWindowOpen = TrackerEvent.chatWindowVisit(source, chatEnabled: chatEnabled)
         tracker.trackEvent(chatWindowOpen)
+    }
+
+    private func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
+        let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat, soldTo: userSoldTo,
+                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                        isBumpedUp: .notAvailable)
+        tracker.trackEvent(markAsSold)
     }
     
     // MARK: - Paginable
@@ -1097,9 +1102,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.checkSellerDidntAnswer(chat.messages, page: page)
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                    if strongSelf.featureFlags.newQuickAnswers {
-                        strongSelf.checkShouldShowDirectAnswers(messages: chat.messages)
-                    }
                 }
             } else if let error = result.error {
                 switch (error) {
@@ -1111,9 +1113,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                    if strongSelf.featureFlags.newQuickAnswers {
-                        strongSelf.checkShouldShowDirectAnswers(messages: [])
-                    }
                 case .network, .unauthorized, .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
@@ -1190,70 +1189,19 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
 extension OldChatViewModel: DirectAnswersPresenterDelegate {
     
-    var directAnswers: [DirectAnswer] {
-        let emptyAction: () -> Void = { [weak self] in
-            self?.clearProductSoldDirectAnswer()
-        }
-        if featureFlags.freePostingModeAllowed && product.price.free {
-            if isBuyer {
-                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
-                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
-                if !featureFlags.newQuickAnswers {
-                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction))
-                }
-                return directAnswers
-            } else {
-                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
-                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
-                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
-                if !featureFlags.newQuickAnswers {
-                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction))
-                }
-                return directAnswers
-            }
-        } else {
-            if isBuyer {
-                if featureFlags.newQuickAnswers {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillAvailable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerCondition, action: emptyAction)]
-                } else {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
-                }
-            } else {
-                if featureFlags.newQuickAnswers {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                                self?.onProductSoldDirectAnswer()
-                                }),
-                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction)]
-                } else {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                                self?.onProductSoldDirectAnswer()
-                                })]
-                }
-            }
-        }
+    var directAnswers: [QuickAnswer] {
+        let isFree = featureFlags.freePostingModeAllowed && product.price.free
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
     }
     
-    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: DirectAnswer) {
-        if featureFlags.newQuickAnswers {
-            delegate?.vmShowKeyboard()
+    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
+        switch answer {
+        case .productSold:
+            onProductSoldDirectAnswer()
+        default:
+            clearProductSoldDirectAnswer()
         }
-        if let actionBlock = answer.action {
-            actionBlock()
-        }
-        sendText(answer.text, isQuickAnswer: true)
+        send(quickAnswer: answer)
     }
     
     func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {
@@ -1265,9 +1213,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     }
 
     fileprivate func showDirectAnswers(_ show: Bool) {
-        if !featureFlags.newQuickAnswers {
-            keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        }
+        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         userDirectAnswersEnabled.value = show
     }
 }
@@ -1306,7 +1252,7 @@ fileprivate extension OldChatViewModel {
 // MARK: - User verification & Second step login
 
 fileprivate extension OldChatViewModel {
-    func loginAndResend(_ text: String, isQuickAnswer: Bool, type: MessageType) {
+    func loginAndResend(type: ChatWrapperMessageType) {
         let completion = { [weak self] in
             guard let strongSelf = self else { return }
             guard !strongSelf.isMyProduct else {
@@ -1330,13 +1276,16 @@ fileprivate extension OldChatViewModel {
                     strongSelf.isSendingMessage.value = false
                     return
                 }
-                self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+                self?.sendMessage(type: type)
             }
             strongSelf.retrieveFirstPage()
             strongSelf.retrieveUsersRelation()
         }
-        delegate?.ifLoggedInThen(.askQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
-                                 loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
+        /* Needed to avoid showing the keyboard while login in (as the login is overCurrentContext) so chat will become
+         'visible' while login screen is there */
+        autoKeyboardEnabled = false
+        delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
+        navigator?.openLoginIfNeededFromChatDetail(from: .askQuestion, loggedInAction: completion)
     }
 }
 

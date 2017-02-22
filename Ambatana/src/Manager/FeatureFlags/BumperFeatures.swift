@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, NewQuickAnswers.self, PostingMultiPictureEnabled.self, FavoriteWithBubbleToChat.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, FilterIconWithLetters.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self])
     } 
 
     static var websocketChat: Bool {
@@ -50,21 +50,6 @@ extension Bumper  {
         return FavoriteWithBadgeOnProfile(rawValue: value)?.asBool ?? false
     }
 
-    static var newQuickAnswers: Bool {
-        guard let value = Bumper.value(for: NewQuickAnswers.key) else { return false }
-        return NewQuickAnswers(rawValue: value)?.asBool ?? false
-    }
-
-    static var postingMultiPictureEnabled: Bool {
-        guard let value = Bumper.value(for: PostingMultiPictureEnabled.key) else { return false }
-        return PostingMultiPictureEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var favoriteWithBubbleToChat: Bool {
-        guard let value = Bumper.value(for: FavoriteWithBubbleToChat.key) else { return false }
-        return FavoriteWithBubbleToChat(rawValue: value)?.asBool ?? false
-    }
-
     static var captchaTransparent: Bool {
         guard let value = Bumper.value(for: CaptchaTransparent.key) else { return false }
         return CaptchaTransparent(rawValue: value)?.asBool ?? false
@@ -73,11 +58,6 @@ extension Bumper  {
     static var passiveBuyersShowKeyboard: Bool {
         guard let value = Bumper.value(for: PassiveBuyersShowKeyboard.key) else { return false }
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
-    }
-
-    static var filterIconWithLetters: Bool {
-        guard let value = Bumper.value(for: FilterIconWithLetters.key) else { return false }
-        return FilterIconWithLetters(rawValue: value)?.asBool ?? false
     }
 
     static var editDeleteItemUxImprovement: Bool {
@@ -93,6 +73,26 @@ extension Bumper  {
     static var bumpUpFreeTimeLimit: BumpUpFreeTimeLimit {
         guard let value = Bumper.value(for: BumpUpFreeTimeLimit.key) else { return .oneMin }
         return BumpUpFreeTimeLimit(rawValue: value) ?? .oneMin 
+    }
+
+    static var userRatingMarkAsSold: Bool {
+        guard let value = Bumper.value(for: UserRatingMarkAsSold.key) else { return false }
+        return UserRatingMarkAsSold(rawValue: value)?.asBool ?? false
+    }
+
+    static var productDetailNextRelated: Bool {
+        guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
+        return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
+    }
+
+    static var contactSellerOnFavorite: Bool {
+        guard let value = Bumper.value(for: ContactSellerOnFavorite.key) else { return false }
+        return ContactSellerOnFavorite(rawValue: value)?.asBool ?? false
+    }
+
+    static var signUpLoginImprovement: SignUpLoginImprovement {
+        guard let value = Bumper.value(for: SignUpLoginImprovement.key) else { return .v1 }
+        return SignUpLoginImprovement(rawValue: value) ?? .v1 
     } 
 }
 
@@ -167,33 +167,6 @@ enum FavoriteWithBadgeOnProfile: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum NewQuickAnswers: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return NewQuickAnswers.no.rawValue }
-    static var enumValues: [NewQuickAnswers] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Use quick answers v2" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum PostingMultiPictureEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return PostingMultiPictureEnabled.no.rawValue }
-    static var enumValues: [PostingMultiPictureEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Posting multi picture enabled" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum FavoriteWithBubbleToChat: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return FavoriteWithBubbleToChat.no.rawValue }
-    static var enumValues: [FavoriteWithBubbleToChat] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Bubble to chat when favorite" } 
-    var asBool: Bool { return self == .yes }
-}
-
 enum CaptchaTransparent: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return CaptchaTransparent.no.rawValue }
@@ -209,15 +182,6 @@ enum PassiveBuyersShowKeyboard: String, BumperFeature  {
     static var enumValues: [PassiveBuyersShowKeyboard] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Passive buyers products suggested notification opens product with keyboard opened" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum FilterIconWithLetters: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return FilterIconWithLetters.no.rawValue }
-    static var enumValues: [FilterIconWithLetters] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show filter icon as 'FILTERS'" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -260,6 +224,49 @@ enum BumpUpFreeTimeLimit: String, BumperFeature  {
             case 2: return .twelveHours
             case 3: return .twentyFourHours
             default: return .oneMin
+        }
+    }
+}
+
+enum UserRatingMarkAsSold: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return UserRatingMarkAsSold.no.rawValue }
+    static var enumValues: [UserRatingMarkAsSold] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Select buyer before mark sold" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum ProductDetailNextRelated: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ProductDetailNextRelated.no.rawValue }
+    static var enumValues: [ProductDetailNextRelated] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Item page next item related" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum ContactSellerOnFavorite: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ContactSellerOnFavorite.no.rawValue }
+    static var enumValues: [ContactSellerOnFavorite] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Send a message when user clicks on contact the seller after favorite" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum SignUpLoginImprovement: String, BumperFeature  {
+    case v1, v1WImprovements, v2
+    static var defaultValue: String { return SignUpLoginImprovement.v1.rawValue }
+    static var enumValues: [SignUpLoginImprovement] { return [.v1, .v1WImprovements, .v2]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "SignUp LogIn A/B/C" } 
+    static func fromPosition(_ position: Int) -> SignUpLoginImprovement {
+        switch position { 
+            case 0: return .v1
+            case 1: return .v1WImprovements
+            case 2: return .v2
+            default: return .v1
         }
     }
 }

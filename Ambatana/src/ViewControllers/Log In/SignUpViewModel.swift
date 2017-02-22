@@ -26,12 +26,7 @@ enum LoginAppearance {
     case dark, light
 }
 
-// This should become a navigator
-protocol SignUpViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenSignup(_ viewModel: SignUpLogInViewModel)
-    func vmFinish(completedLogin completed: Bool)
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker)
-}
+protocol SignUpViewModelDelegate: BaseViewModelDelegate {}
 
 class SignUpViewModel: BaseViewModel {
 
@@ -67,7 +62,7 @@ class SignUpViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     let appearance: LoginAppearance
     fileprivate let loginSource: EventParameterLoginSourceValue
-    var collapsedEmailTrackingParam: EventParameterCollapsedEmailField? = nil
+    var collapsedEmailTrackingParam: EventParameterBoolean? = nil
 
     private let googleLoginHelper: ExternalAuthHelper
     private let fbLoginHelper: ExternalAuthHelper
@@ -76,6 +71,7 @@ class SignUpViewModel: BaseViewModel {
     let previousGoogleUsername: Variable<String?>
 
     weak var delegate: SignUpViewModelDelegate?
+    weak var navigator: MainSignUpNavigator?
 
 
     // MARK: - Lifecycle
@@ -122,7 +118,7 @@ class SignUpViewModel: BaseViewModel {
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
         tracker.trackEvent(trackerEvent)
 
-        delegate?.vmFinish(completedLogin: false)
+        navigator?.cancelMainSignUp()
     }
 
     func connectFBButtonPressed() {
@@ -134,13 +130,19 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func signUpButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailTrackingParam, action: .signup)
-        delegate?.vmOpenSignup(vm)
+        navigator?.openSignUpEmailFromMainSignUp(collapsedEmailParam: collapsedEmailTrackingParam)
     }
 
     func logInButtonPressed() {
-        let vm = SignUpLogInViewModel(source: loginSource, collapsedEmailParam: collapsedEmailTrackingParam, action: .login)
-        delegate?.vmOpenSignup(vm)
+        navigator?.openLogInEmailFromMainSignUp(collapsedEmailParam: collapsedEmailTrackingParam)
+    }
+
+    func helpButtonPressed() {
+        navigator?.openHelpFromMainSignUp()
+    }
+
+    func urlPressed(url: URL) {
+        navigator?.open(url: url)
     }
 
 
@@ -190,7 +192,7 @@ class SignUpViewModel: BaseViewModel {
         case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, username: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.delegate?.vmFinish(completedLogin: true)
+                self?.navigator?.closeMainSignUpSuccessful(with: myUser)
             }
         case .cancelled:
             delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
@@ -228,13 +230,14 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func showScammerAlert(_ network: EventParameterAccountNetwork) {
-        guard let url = LetgoURLHelper.buildContactUsURL(userEmail: nil,
-            installation: installationRepository.installation, moderation: true) else {
-                delegate?.vmFinish(completedLogin: false)
+        guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+                                                                installation: installationRepository.installation,
+                                                                moderation: true) else {
+                navigator?.cancelMainSignUp()
                 return
             }
 
-        delegate?.vmFinishAndShowScammerAlert(url, network: network, tracker: tracker)
+        navigator?.closeMainSignUpAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
     private func trackLoginFBOK() {

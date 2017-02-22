@@ -7,12 +7,9 @@
 //
 
 import UIKit
-import FastttCamera
 import RxSwift
 
-class PostProductViewController: BaseViewController {
-
-    
+class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
@@ -60,7 +57,7 @@ class PostProductViewController: BaseViewController {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .hidden, tabLayout: .fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView(multiSelectionEnabled: viewModel.galleryMultiSelectionEnabled)
+        self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
@@ -68,7 +65,7 @@ class PostProductViewController: BaseViewController {
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
-        self.viewModel.delegate = self
+        viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -293,20 +290,6 @@ extension PostProductViewController {
                 }
             }
         )
-    }
-}
-
-
-// MARK: - PostProductViewModelDelegate
-
-extension PostProductViewController: PostProductViewModelDelegate {
-    func postProductviewModel(_ viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: @escaping () -> Void) {
-        ifLoggedInThen(.sell, loginStyle: .popup(LGLocalizedString.productPostLoginMessage),
-                       preDismissAction: { [weak self] in
-                        self?.view.isHidden = true
-            },
-                       loggedInAction: completion,
-                       elsePresentSignUpWithSuccessAction: completion)
     }
 }
 

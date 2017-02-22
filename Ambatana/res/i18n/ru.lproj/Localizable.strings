@@ -168,11 +168,11 @@
 "chat_verify_alert_title" = "Подтвердите ваш е-мейл для общения";
 "chat_with_yourself_alert_msg" = "Вы не можете начать чат о своем товаре.";
 "collection_apple_title" = "По яблоку в день";
-"collection_explore_button" = "Искать";
+"collection_explore_button" = "Смотреть";
 "collection_furniture_title" = "Милый дом";
 "collection_gaming_title" = "Игра началась";
 "collection_transport_title" = "Стильные путешествия";
-"collection_you_title" = "Отобранные для Вас";
+"collection_you_title" = "Для вас";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -627,7 +627,7 @@
 "rate_buyers_message" = "Поздравляем!";
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
 "rate_buyers_sub_message" = "Кому вы продали товар?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_title" = "Кто купил товар?";
 "rating_list_action_report_review" = "Пожаловаться на отзыв";
 "rating_list_action_report_review_error_message" = "При отправке произошла ошибка.";
 "rating_list_action_report_review_success_message" = "Ваша жалоба была отправлена!";
@@ -780,7 +780,7 @@
 "user_rating_message_wo_name" = "Ваша сделка с этим пользователем прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_review_button" = "Опубликовать отзыв";
 "user_rating_review_info" = "Вы можете обновить этот отзыв в любое время.";
-"user_rating_review_placeholder" = "Опишите свой опыт (обязательно)";
+"user_rating_review_placeholder" = "Опишите свой опыт";
 "user_rating_review_placeholder_mandatory" = "Опишите ваш опыт (обязательно)";
 "user_rating_review_placeholder_optional" = "Опишите свой опыт (опционально)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";

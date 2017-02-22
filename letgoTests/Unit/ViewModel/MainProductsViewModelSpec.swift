@@ -85,7 +85,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 }
             }
             
-            context("Product list VM sucessed retrieving products") {
+            context("Product list VM succeeded retrieving products") {
                 var mockTracker: MockTracker!
                 var productListViewModel: ProductListViewModel!
                 
@@ -103,7 +103,7 @@ class MainProductsViewModelSpec: QuickSpec {
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("fires product list event & searchComplete") {
+                    it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
                         expect(eventNames) == [.productList]
                     }
@@ -122,7 +122,7 @@ class MainProductsViewModelSpec: QuickSpec {
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("fires product list event and ") {
+                    it("fires product list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
                         expect(eventNames) == [.productList, .searchComplete]
                     }
@@ -150,7 +150,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                 }
                 
-                context("with filter &  search") {
+                context("with filter & search") {
                     beforeEach {
                         var userFilters = ProductFilters()
                         userFilters.selectedCategories = [.carsAndMotors]
@@ -158,9 +158,9 @@ class MainProductsViewModelSpec: QuickSpec {
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("fires product list event") {
+                    it("fires product list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
-                        expect(eventNames) == [.productList]
+                        expect(eventNames) == [.productList, .searchComplete]
                     }
                     it("fires product list event and feed source parameter is .search&filter") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
@@ -173,7 +173,12 @@ class MainProductsViewModelSpec: QuickSpec {
                         var userFilters = ProductFilters()
                         userFilters.selectedCategories = []
                         let searchType: SearchType = .collection(type: .You, query: "iphone")
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, productRepository: Core.productRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
+                                                    trendingSearchesRepository: Core.trendingSearchesRepository,
+                                                    productRepository: Core.productRepository, locationManager: Core.locationManager,
+                                                    currencyHelper: Core.currencyHelper, tracker: mockTracker,
+                                                    searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage,
+                                                    featureFlags: mockFeatureFlags)
                         sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
                     it("fires product list event") {
@@ -186,7 +191,48 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                 }
             }
-            
+            context("Product list VM failed retrieving products") {
+                var mockTracker: MockTracker!
+                var productListViewModel: ProductListViewModel!
+                
+                beforeEach {
+                    mockTracker = MockTracker()
+                    productListViewModel = ProductListViewModel(requester: MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20))
+                    sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
+                                                trendingSearchesRepository: Core.trendingSearchesRepository,
+                                                productRepository: Core.productRepository, locationManager: Core.locationManager,
+                                                currencyHelper: Core.currencyHelper, tracker: mockTracker,
+                                                searchType: nil, filters: ProductFilters(), keyValueStorage: keyValueStorage,
+                                                featureFlags: mockFeatureFlags)
+                }
+                
+                context("with too many requests") {
+                    beforeEach {
+                       sut.productListMV(productListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.tooManyRequests)
+                    }
+                    it("fires empty-state-error") {
+                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        expect(eventNames) == [.emptyStateError]
+                    }
+                    it("fires empty-state-error with .unknown") {
+                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        expect(eventParams?.stringKeyParams["reason"] as? String) == "unknown"
+                    }
+                }
+                context("with internet connection error") {
+                    beforeEach {
+                        sut.productListMV(productListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.network(errorCode: -1, onBackground: false))
+                    }
+                    it("fires empty-state-error") {
+                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        expect(eventNames) == [.emptyStateError]
+                    }
+                    it("fires empty-state-error with .no-internet-connection") {
+                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        expect(eventParams?.stringKeyParams["reason"] as? String) == "no-internet-connection"
+                    }
+                }
+            }
         }
     }
 }

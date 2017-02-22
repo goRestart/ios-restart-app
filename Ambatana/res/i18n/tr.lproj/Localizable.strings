@@ -678,7 +678,7 @@
 "sell_picture_image_source_camera_roll_button" = "Fotoğraf galerisi";
 "sell_picture_image_source_cancel_button" = "İptal et";
 "sell_picture_image_source_title" = "Fotoğraf kaynağını seç";
-"sell_picture_label" = "Fotoğraf";
+"sell_picture_label" = "Resim";
 "sell_picture_save_into_camera_roll_error_generic" = "Görsel, fotoğraf galerisine kaydedilirken bir hata oluştu. Lütfen telefonunun ayarlarından, letgo'nun fotoğraflarına erişebilmesine izin verdiğinden emin ol.";
 "sell_picture_save_into_camera_roll_loading" = "Fotoğraf galeriye kaydediliyor...";
 "sell_picture_save_into_camera_roll_ok" = "Fotoğraf galeriye kaydedildi.";

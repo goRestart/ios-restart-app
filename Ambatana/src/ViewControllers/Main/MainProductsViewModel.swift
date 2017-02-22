@@ -70,7 +70,7 @@ class MainProductsViewModel: BaseViewModel {
         case let .priceRange(min, max):
             if min != nil || max != nil {
                 var currency: Currency? = nil
-                if let countryCode = locationManager.currentPostalAddress?.countryCode {
+                if let countryCode = locationManager.currentLocation?.countryCode {
                     currency = currencyHelper.currencyWithCountryCode(countryCode)
                 }
                 resultTags.append(.priceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
@@ -86,10 +86,6 @@ class MainProductsViewModel: BaseViewModel {
 
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
-    }
-    
-    var shouldUseNavigationBarFilterIconWithLetters: Bool {
-        return featureFlags.filterIconWithLetters
     }
 
     let mainProductsHeader = Variable<MainProductsHeader>([])
@@ -173,7 +169,7 @@ class MainProductsViewModel: BaseViewModel {
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
         self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
-                                                  numberOfColumns: columns)
+                                                  numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, !search.isCollection && !search.query.isEmpty {
@@ -421,7 +417,6 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                 updateLastSearchStoraged(queryString)
             }
         }
-    
         if shouldRetryLoad {
             shouldRetryLoad = false
             listViewModel.retrieveProducts()
@@ -446,7 +441,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             }
 
             let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil)
+                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
             listViewModel.setEmptyState(emptyViewModel)
         }
 
@@ -492,7 +487,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         
         guard let product = viewModel.productAtIndex(index) else { return }
         let cellModels = viewModel.objects
-        let showRelated = searchType == nil
+        let showRelated = searchType == nil && filters.isDefault()
         let data = ProductDetailData.productList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
@@ -552,7 +547,8 @@ extension MainProductsViewModel {
             let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
             tracker.trackEvent(trackerEvent)
         }
-
+        
+        
         // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
         retrieveProductsIfNeededWithNewLocation(newLocation)
         retrieveLastUserSearch()
@@ -563,25 +559,31 @@ extension MainProductsViewModel {
 
         var shouldUpdate = false
         if listViewModel.canRetrieveProducts {
-            // If there are no products, then refresh
             if listViewModel.numberOfProducts == 0 {
+                // 👆🏾 If there are no products, then refresh
                 shouldUpdate = true
-            }
-            // If new location is manual OR last location was manual, and location has changed then refresh
-            else if newLocation.type == .manual || lastReceivedLocation?.type == .manual {
+            } else if newLocation.type == .manual || lastReceivedLocation?.type == .manual {
+                //👆🏾 If new location is manual OR last location was manual, and location has changed then refresh"
                 if let lastReceivedLocation = lastReceivedLocation, newLocation != lastReceivedLocation {
                     shouldUpdate = true
                 }
-            }
-            // If new location is not manual and we improved the location type to sensors
-            else if lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
+            } else if lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
+                // 👆🏾 If new location is not manual and we improved the location type to sensors
+                shouldUpdate = true
+            } else if let newCountryCode = newLocation.countryCode, lastReceivedLocation?.countryCode != newCountryCode {
+                // in case list loaded with older country code and new location is retrieved with new country code"
                 shouldUpdate = true
             }
-        } else if listViewModel.numberOfProducts == 0 && lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
-            // in case the user allows sensors while loading the product list with the iplookup parameters
-            shouldRetryLoad = true
+        } else if listViewModel.numberOfProducts == 0 {
+            if lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
+                // in case the user allows sensors while loading the product list with the iplookup parameters"
+                shouldRetryLoad = true
+            } else if let newCountryCode = newLocation.countryCode, lastReceivedLocation?.countryCode != newCountryCode {
+                // in case the list is loading with older country code and new location is received with new country code
+                shouldRetryLoad = true
+            }
         }
-
+        
         if shouldUpdate {
             listViewModel.retrieveProducts()
         }
@@ -636,7 +638,7 @@ extension MainProductsViewModel {
     }
 
     fileprivate func retrieveTrendingSearches() {
-        guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
+        guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
             self?.trendingSearches.value = result.value ?? []
@@ -791,12 +793,13 @@ fileprivate extension MainProductsViewModel {
 
     func trackRequestSuccess(page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
+        let successParameter: EventParameterBoolean = hasProducts ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
                                                     categories: productListRequester.filters?.selectedCategories,
-                                                    searchQuery: productListRequester.queryString, feedSource: feedSource)
+                                                    searchQuery: productListRequester.queryString, feedSource: feedSource, success: successParameter)
         tracker.trackEvent(trackerEvent)
 
-        if let searchType = searchType, shouldTrackSearch && filters.isDefault() {
+        if let searchType = searchType, shouldTrackSearch {
             shouldTrackSearch = false
             let successValue = hasProducts ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
@@ -806,7 +809,7 @@ fileprivate extension MainProductsViewModel {
     }
 
     func trackPushPermissionStart() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .productListBanner, alertType: .custom,
                                                              permissionGoToSettings: goToSettings)
@@ -814,7 +817,7 @@ fileprivate extension MainProductsViewModel {
     }
 
     func trackPushPermissionComplete() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .productListBanner, alertType: .custom,
                                                                 permissionGoToSettings: goToSettings)
@@ -822,7 +825,7 @@ fileprivate extension MainProductsViewModel {
     }
 
     func trackPushPermissionCancel() {
-        let goToSettings: EventParameterPermissionGoToSettings =
+        let goToSettings: EventParameterBoolean =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)

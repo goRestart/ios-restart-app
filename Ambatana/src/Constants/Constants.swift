@@ -14,6 +14,9 @@ struct Constants {
     static let productDescriptionMaxLength = 1500
     static let userRatingDescriptionMaxLength = 255
     static let userRatingMinStarsToOptionalDescr = 3
+    static let emailSuggestedDomains = ["gmail.com", "yahoo.com", "hotmail.com", "aol.com", "icloud.com", "outlook.com",
+                                        "live.com", "comcast.com", "msn.com", "windowslive.com", "mynet.com",
+                                        "yandex.com"]
 
     // Map
     static let accurateRegionRadius = 1000.0    // meters
@@ -22,9 +25,6 @@ struct Constants {
     // URLs
     static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"
     static let playStoreURL = "https://play.google.com/store/apps/details?id=com.abtnprojects.ambatana"
-    static let appShareFbMessengerURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=facebook-messenger-sold"
-    static let appShareWhatsappURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=whatsapp-sold"
-    static let appShareEmailURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=email-sold"
 
     // Branch
     static let branchWebsiteURL = "https://app.letgo.com"
@@ -115,4 +115,13 @@ struct Constants {
 
     // FBSDK
     static let fbSdkRequiredDelay: TimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
+
+
+    // Bubbles
+    static let bubbleChatDuration: TimeInterval = 3         // seconds
+    static let bubbleFavoriteDuration: TimeInterval = 5
+
+    // NewRelic
+    static let newRelicGodModeToken = "AAfcb13d44209d7454436d2efa9974174d063a8d1d"
+    static let newRelicProductionToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
 }

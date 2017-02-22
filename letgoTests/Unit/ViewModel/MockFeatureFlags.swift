@@ -21,21 +21,23 @@ class MockFeatureFlags: FeatureFlaggeable {
     var websocketChat: Bool = false
     var userReviews: Bool = false
     var showNPSSurvey: Bool = false
-    var filtersReorder: Bool = false
-    var directPostInOnboarding: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
-    var freePostingModeAllowed: Bool = true
-    var postingMultiPictureEnabled: Bool = true
-    var newQuickAnswers: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
-    var favoriteWithBubbleToChat: Bool = false
-    var locationMatchesCountry: Bool = false
+    var shouldContactSellerOnFavorite: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
-    var filterIconWithLetters: Bool = false
     var editDeleteItemUxImprovement: Bool = false
     var onboardingReview: OnboardingReview = .testA
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
     var bumpUpFreeTimeLimit: Int = 5000 // 5 secs
+    var userRatingMarkAsSold: Bool = false
+    var productDetailNextRelated: Bool = false
+    var signUpLoginImprovement: SignUpLoginImprovement = .v1
+
+    // Country dependant features
+    var freePostingModeAllowed = false
+    var locationMatchesCountry = false
+    var signUpEmailNewsletterAcceptRequired = false
+    var signUpEmailTermsAndConditionsAcceptRequired = false
 }

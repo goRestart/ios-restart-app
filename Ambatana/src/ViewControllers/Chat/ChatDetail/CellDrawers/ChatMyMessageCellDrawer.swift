@@ -55,7 +55,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     
     private func drawDisclosureForMessage(_ cell: ChatMyMessageCell, disclosure: Bool) {
         if disclosure {
-            cell.disclosureImageView.image = UIImage(named: "ic_disclosure")
+            cell.disclosureImageView.image = UIImage(named: "ic_disclosure_chat")
             cell.marginRightConstraints.forEach { $0.constant = rightMarginWithDisclosure }
         } else {
             cell.disclosureImageView.image = nil

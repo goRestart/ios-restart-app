@@ -52,8 +52,7 @@ class ChatViewController: TextViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
         self.relatedProductsView = ChatRelatedProductsView()
-        self.directAnswersPresenter = DirectAnswersPresenter(newDirectAnswers: featureFlags.newQuickAnswers,
-                                                             websocketChatActive: featureFlags.websocketChat)
+        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
         self.featureFlags = featureFlags
         self.expressChatBanner = ChatBanner()
@@ -116,13 +115,9 @@ class ChatViewController: TextViewController {
     
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
-        viewModel.sendText(message, isQuickAnswer: false)
+        viewModel.send(text: message)
     }
 
-    override func scrollViewDidTap() {
-        viewModel.scrollViewDidTap()
-    }
-    
     /**
      TextViewController Caches the text in the textView if you close the view before sending
      Need to override this method to set the cache key to the product id
@@ -378,22 +373,13 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         }, accessibilityId: .chatViewStickersButton)
         actions.append(kbAction)
 
-        if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .notAvailable {
-            let image = UIImage(named: "ic_quick_answers")
-            let tint: UIColor? = viewModel.directAnswersState.value == .visible ? UIColor.primaryColor : nil
-            let quickAnswersAction = UIAction(interface: .image(image, tint), action: { [weak self] in
-                self?.viewModel.directAnswersButtonPressed()
-                }, accessibilityId: .chatViewQuickAnswersButton)
-            actions.append(quickAnswersAction)
-        }
-
         leftActions = actions
     }
 }
 
 extension ChatViewController: ChatStickersViewDelegate {
     func stickersViewDidSelectSticker(_ sticker: Sticker) {
-        viewModel.sendSticker(sticker)
+        viewModel.send(sticker: sticker)
     }
 }
 
@@ -501,19 +487,11 @@ fileprivate extension ChatViewController {
             guard let strongSelf = self else { return }
             let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
-            strongSelf.configureBottomMargin(animated: true)
-            if strongSelf.featureFlags.newQuickAnswers {
-                strongSelf.reloadLeftActions()
-                if visible {
-                    strongSelf.dismissKeyboard(true)
-                }
-            }
+            strongSelf.configureBottomMargin(animated: true)            
         }.addDisposableTo(disposeBag)
 
         keyboardChanges.bindNext { [weak self] change in
-            if change.visible {
-                self?.viewModel.keyboardShown()
-            } else {
+            if !change.visible {
                 self?.hideStickers()
             }
         }.addDisposableTo(disposeBag)
@@ -633,12 +611,6 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmShowMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
-    }
-
-    func vmRequestLogin(_ loggedInAction: @escaping () -> Void) {
-        dismissKeyboard(false)
-        ifLoggedInThen(.askQuestion, loginStyle: .popup(LGLocalizedString.chatLoginPopupText),
-                       loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
     }
 
     func vmLoadStickersTooltipWithText(_ text: NSAttributedString) {

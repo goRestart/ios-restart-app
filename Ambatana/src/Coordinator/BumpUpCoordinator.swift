@@ -11,32 +11,59 @@ import LGCoreKit
 
 
 class BumpUpCoordinator: Coordinator {
-
     var child: Coordinator?
-
     private var parentViewController: UIViewController?
     var viewController: UIViewController
-    var presentedAlertController: UIAlertController?
+    weak var presentedAlertController: UIAlertController?
+    let bubbleNotificationManager: BubbleNotificationManager
 
     weak var delegate: CoordinatorDelegate?
 
-    init(product: Product, socialMessage: SocialMessage, paymentItemId: String?) {
+
+    convenience init(product: Product,
+                     socialMessage: SocialMessage,
+                     paymentItemId: String?) {
+        self.init(product: product,
+                  socialMessage: socialMessage,
+                  paymentItemId: paymentItemId,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+    }
+
+    convenience init(product: Product,
+                     purchaseableProduct: PurchaseableProduct,
+                     paymentItemId: String?) {
+        self.init(product: product,
+                  purchaseableProduct: purchaseableProduct,
+                  paymentItemId: paymentItemId,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+    }
+
+    init(product: Product,
+         socialMessage: SocialMessage,
+         paymentItemId: String?,
+         bubbleNotificationManager: BubbleNotificationManager) {
 
         let bumpUpVM = BumpUpFreeViewModel(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
         let bumpUpVC = BumpUpFreeViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
+        self.bubbleNotificationManager = bubbleNotificationManager
 
         bumpUpVM.navigator = self
     }
 
-    init(product: Product, purchaseableProduct: PurchaseableProduct, paymentItemId: String?) {
+
+    init(product: Product,
+         purchaseableProduct: PurchaseableProduct,
+         paymentItemId: String?,
+         bubbleNotificationManager: BubbleNotificationManager) {
 
         let bumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct,
                                           paymentItemId: paymentItemId)
         let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
+        self.bubbleNotificationManager = bubbleNotificationManager
 
         bumpUpVM.navigator = self
     }

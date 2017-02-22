@@ -10,8 +10,16 @@ import LGCoreKit
 import RxSwift
 
 final class TrackerProxy: Tracker {
-    private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
-                                                     CrashlyticsTracker(), LeanplumTracker()]
+    private static let defaultTrackers: [Tracker] = {
+        var trackers = [Tracker]()
+        trackers.append(AmplitudeTracker())
+        trackers.append(AppsflyerTracker())
+        trackers.append(FacebookTracker())
+        trackers.append(CrashlyticsTracker())
+        trackers.append(LeanplumTracker())
+        trackers.append(NewRelicTracker())
+        return trackers
+    }()
 
     static let sharedInstance = TrackerProxy()
 
@@ -140,7 +148,7 @@ final class TrackerProxy: Tracker {
             case .changedPermissions:
                 self?.locationManagerDidChangePermissions()
             case .locationUpdate:
-                self?.setLocation(self?.locationManager.currentLocation, postalAddress: self?.locationManager.currentPostalAddress)
+                self?.setLocation(self?.locationManager.currentLocation, postalAddress: self?.locationManager.currentLocation?.postalAddress)
             case .movedFarFromSavedManualLocation:
                 break
             }

@@ -77,7 +77,7 @@ final class TourLoginViewModel: BaseViewModel {
 
     private func setCurrentState(timeout: Bool) {
         state.value = timeout ? .active(closeEnabled: true, emailAsField: true) : featureFlags.onboardingReview.tourLoginState
-        signUpViewModel.collapsedEmailTrackingParam = timeout ? .unset : featureFlags.onboardingReview.collapsedEmailParam
+        signUpViewModel.collapsedEmailTrackingParam = timeout ? .notAvailable : featureFlags.onboardingReview.collapsedEmailParam
     }
 
     fileprivate func nextStep() {
@@ -85,6 +85,8 @@ final class TourLoginViewModel: BaseViewModel {
     }
 }
 
+
+// MARK: - Helper
 
 extension OnboardingReview {
     var tourLoginState: TourLoginState {
@@ -100,7 +102,7 @@ extension OnboardingReview {
         }
     }
 
-    var collapsedEmailParam: EventParameterCollapsedEmailField {
+    var collapsedEmailParam: EventParameterBoolean {
         switch self {
         case .testA, .testB:
             return .falseParameter
@@ -111,24 +113,9 @@ extension OnboardingReview {
 }
 
 
+// MARK: - SignUpViewModelDelegate
+
 extension TourLoginViewModel: SignUpViewModelDelegate {
-
-    func vmOpenSignup(_ viewModel: SignUpLogInViewModel) {
-        navigator?.tourLoginOpenLoginSignup(signupLoginVM: viewModel) { [weak self] in
-            self?.nextStep()
-        }
-    }
-
-    func vmFinish(completedLogin completed: Bool) {
-        nextStep()
-    }
-
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
-        /*Scammer alert project didn't have any definition for the onboarding. Anyway, if this case happens, scammer
-        will continue onboarding and then he/she will have to login again and then she scammer alert will appear */
-        nextStep()
-    }
-
     func vmPop() {
         nextStep()
     }
@@ -165,14 +152,6 @@ extension TourLoginViewModel: SignUpViewModelDelegate {
     }
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
-    }
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {
-        delegate?.ifLoggedInThen(source, loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: afterLogInAction)
-    }
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {
-        delegate?.ifLoggedInThen(source, loginStyle: loginStyle, loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: afterLogInAction)
     }
     func vmOpenInternalURL(_ url: URL) {
         delegate?.vmOpenInternalURL(url)

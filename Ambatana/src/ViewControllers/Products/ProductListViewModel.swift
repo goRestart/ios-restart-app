@@ -98,6 +98,9 @@ class ProductListViewModel: BaseViewModel {
         return !isLastPage && canRetrieveProducts
     }
     
+    // Tracking
+    
+    fileprivate let tracker: Tracker
 
     // MARK: - Computed iVars
     
@@ -110,7 +113,8 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2) {
+    init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.objects = (products ?? []).map(ProductCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -118,6 +122,7 @@ class ProductListViewModel: BaseViewModel {
         self.numberOfColumns = numberOfColumns
         self.productListRequester = requester
         self.defaultCellSize = CGSize.zero
+        self.tracker = tracker
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
@@ -144,6 +149,9 @@ class ProductListViewModel: BaseViewModel {
 
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
+        if let errorReason = viewModel.emptyReason {
+             trackErrorStateShown(reason: errorReason)
+        }
     }
 
     func setEmptyState(_ viewModel: LGEmptyViewModel) {
@@ -214,6 +222,7 @@ class ProductListViewModel: BaseViewModel {
         let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
+            self?.isLoading = false
             if let newProducts = result.value {
                 let productCellModels = newProducts.map(ProductCellModel.init)
                 let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
@@ -238,7 +247,6 @@ class ProductListViewModel: BaseViewModel {
             } else if let error = result.error {
                 strongSelf.processError(error, nextPageNumber: nextPageNumber)
             }
-            self?.isLoading = false
         }
 
         if firstPage {
@@ -351,3 +359,14 @@ class ProductListViewModel: BaseViewModel {
         }
     }
 }
+
+
+// MARK: - Tracking
+
+extension ProductListViewModel {
+    func trackErrorStateShown(reason: EventParameterEmptyReason) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .productList , reason: reason)
+        tracker.trackEvent(event)
+    }
+}
+

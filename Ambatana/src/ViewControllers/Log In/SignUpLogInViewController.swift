@@ -33,7 +33,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var usernameButton: UIButton!
     
     @IBOutlet weak var emailIconImageView: UIImageView!
-    @IBOutlet weak var emailTextField: LGTextField!
+    @IBOutlet weak var emailTextField: AutocompleteField!
     @IBOutlet weak var emailButton: UIButton!
     
     @IBOutlet weak var passwordIconImageView: UIImageView!
@@ -239,7 +239,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         let imgButton = passwordTextField.isSecureTextEntry ?
             UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
         showPasswordButton.setImage(imgButton, for: .normal)
-        
+
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
         passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
@@ -252,21 +252,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     }
     
     @IBAction func forgotPasswordButtonPressed(_ sender: AnyObject) {
-        let vc = RememberPasswordViewController(source: viewModel.loginSource, email: viewModel.email,
-                                                appearance: appearance)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func helpButtonPressed() {
-        let vc = HelpViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.openRememberPassword()
     }
 
     func closeButtonPressed() {
-        if isRootViewController() {
-            willCloseAction?()
-            dismiss(animated: true, completion: nil)
-        }
+        viewModel.cancel()
+    }
+
+    func helpButtonPressed() {
+        viewModel.openHelp()
     }
 
 
@@ -300,6 +294,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             iconImageView = usernameIconImageView
         case .email:
             iconImageView = emailIconImageView
+            emailTextField.suggestion = nil
         case .password:
             iconImageView = passwordIconImageView
         }
@@ -317,6 +312,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         
         if textField.returnKeyType == .next {
             guard let actualNextView = nextView else { return true }
+            if tag == TextFieldTag.email.rawValue && viewModel.acceptSuggestedEmail() {
+                emailTextField.text = viewModel.email
+            }
             actualNextView.becomeFirstResponder()
             return false
         }
@@ -347,8 +345,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     
     
     // MARK: - UITextViewDelegate
+
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
-        openInternalUrl(url)
+        viewModel.open(url: url)
         return false
     }
 
@@ -372,6 +371,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, for: .normal)
 
         emailTextField.clearButtonOffset = 0
+        emailTextField.pixelCorrection = -1
         emailTextField.text = viewModel.email
         passwordTextField.clearButtonOffset = 0
         usernameTextField.clearButtonOffset = 0
@@ -414,6 +414,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         case .dark:
             setupDarkAppearance()
         }
+        emailTextField.completionColor = appearance.textFieldPlaceholderColor
 
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
@@ -452,6 +453,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 }
             }.bindTo(connectGoogleButton.rx.title)
             .addDisposableTo(disposeBag)
+
+        // Autosuggest
+        viewModel.suggestedEmail.subscribeNext { [weak self] suggestion in
+            self?.emailTextField.suggestion = suggestion
+        }.addDisposableTo(disposeBag)
     }
 
     private func updateUI() {
@@ -596,7 +602,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     private func updateViewModelText(_ text: String, fromTextFieldTag tag: Int) {
         
         guard let tag = TextFieldTag(rawValue: tag) else { return }
-        
+
         switch (tag) {
         case .username:
             viewModel.username = text
@@ -612,53 +618,12 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 // MARK: - SignUpLogInViewModelDelegate
 
 extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
-
     func vmUpdateSendButtonEnabledState(_ enabled: Bool) {
         sendButton.isEnabled = enabled
     }
 
     func vmUpdateShowPasswordVisible(_ visible: Bool) {
         showPasswordButton.isHidden = !visible
-    }
-
-    func vmFinish(completedAccess completed: Bool) {
-        if completed {
-            preDismissAction?()
-        }
-        dismiss(animated: true, completion: completed ? afterLoginAction : nil)
-    }
-
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
-        let parentController = presentingViewController
-        let contact = UIAction(
-            interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
-            action: {
-                tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
-                parentController?.openInternalUrl(contactUrl)
-        })
-        let keepBrowsing = UIAction(
-            interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium, withBorder: false)),
-            action: {
-                tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
-        })
-        dismiss(animated: false) {
-            tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
-            parentController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
-                                                 text: LGLocalizedString.loginScammerAlertMessage,
-                                                 alertType: .iconAlert(icon: UIImage(named: "ic_moderation_alert")),
-                                                 buttonsLayout: .vertical, actions:  [contact, keepBrowsing])
-        }
-    }
-
-    func vmShowRecaptcha(_ viewModel: RecaptchaViewModel) {
-        viewModel.navigator = self
-
-        let snapshot: UIImage? = viewModel.transparentMode ? presentingViewController?.view.takeSnapshot() : nil
-        let vc = RecaptchaViewController(viewModel: viewModel, backgroundImage: snapshot)
-        if viewModel.transparentMode {
-            vc.modalTransitionStyle = .crossDissolve
-        }
-        present(vc, animated: true, completion: nil)
     }
 
     func vmShowHiddenPasswordAlert() {
@@ -673,21 +638,6 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
         }
         alertController.addAction(loginAction)
         present(alertController, animated: true, completion: nil)
-    }
-}
-
-
-// MARK: - Recaptcha navigator
-
-extension SignUpLogInViewController: RecaptchaNavigator {
-    func recaptchaClose() {
-        presentedViewController?.dismiss(animated: true, completion: nil)
-    }
-
-    func recaptchaFinishedWithToken(_ token: String) {
-        presentedViewController?.dismiss(animated: true) { [weak self] in
-            self?.viewModel.recaptchaTokenObtained(token)
-        }
     }
 }
 

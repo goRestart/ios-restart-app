@@ -19,6 +19,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
     var lastBuyersToRate: [UserProduct]?
     var buyerToRateResult: String?
     var shownAlertText: String?
+    var shownFavoriteBubble: Bool?
 
     override func spec() {
         var sut: ProductViewModel!
@@ -51,7 +52,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                        commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                                        stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                                        product: product, thumbnailImage: nil, socialSharer: socialSharer, navigator: self,
-                                       bubbleManager: bubbleNotificationManager, featureFlags: featureFlags, purchasesShopper: purchasesShopper,
+                                       featureFlags: featureFlags, purchasesShopper: purchasesShopper,
                                        notificationsManager: notificationsManager, monetizationRepository: monetizationRepository, tracker: tracker)
                 sut.delegate = self
                 sut.navigator = self
@@ -97,18 +98,81 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     soldProduct.status = .sold
                     productRepository.productResult = ProductResult(soldProduct)
                 }
-                context("there are possible buyers") {
-                    var possibleBuyers: [UserProduct]!
+                context("buyer selection a/b enabled"){
                     beforeEach {
-                        possibleBuyers = [UserProduct]()
-                        for _ in 0..<5 {
-                            possibleBuyers.append(MockUserProduct())
-                        }
-                        productRepository.buyersResult = ProductBuyersResult(possibleBuyers)
+                        featureFlags.userRatingMarkAsSold = true
                     }
-                    context("one is selected") {
+                    context("there are possible buyers") {
+                        var possibleBuyers: [UserProduct]!
                         beforeEach {
-                            self.buyerToRateResult = possibleBuyers.last?.objectId
+                            possibleBuyers = [UserProduct]()
+                            for _ in 0..<5 {
+                                possibleBuyers.append(MockUserProduct())
+                            }
+                            productRepository.buyersResult = ProductBuyersResult(possibleBuyers)
+                        }
+                        context("one is selected") {
+                            beforeEach {
+                                self.buyerToRateResult = possibleBuyers.last?.objectId
+
+                                buildProductViewModel()
+                                sut.active = true
+
+                                // There should appear one button
+                                expect(sut.actionButtons.value.count).toEventually(equal(1))
+                                sut.actionButtons.value.first?.action()
+
+                                expect(tracker.trackedEvents.count).toEventually(equal(1))
+                            }
+                            it("has mark as sold and then sell it again button") {
+                                let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                                expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
+                            }
+                            it("has requested buyer selection with buyers array") {
+                                expect(self.lastBuyersToRate?.count) == possibleBuyers.count
+                            }
+                            it("has called to mark as sold with correct buyerId") {
+                                expect(productRepository.markAsSoldBuyerId) == self.buyerToRateResult
+                            }
+                            it("has a mark as sold tracked event with correct user-sold-to") {
+                                let event = tracker.trackedEvents.last
+                                expect(event?.name.rawValue) == "product-detail-sold"
+                                expect(event?.params?[.userSoldTo] as? String) == "true"
+                            }
+                        }
+                        context("outside letgo is selected") {
+                            beforeEach {
+                                self.buyerToRateResult = nil
+
+                                buildProductViewModel()
+                                sut.active = true
+
+                                // There should appear one button
+                                expect(sut.actionButtons.value.count).toEventually(equal(1))
+                                sut.actionButtons.value.first?.action()
+
+                                expect(tracker.trackedEvents.count).toEventually(equal(1))
+                            }
+                            it("has mark as sold and then sell it again button") {
+                                let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                                expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
+                            }
+                            it("has requested buyer selection with buyers array") {
+                                expect(self.lastBuyersToRate?.count) == possibleBuyers.count
+                            }
+                            it("has called to mark as sold with correct buyerId") {
+                                expect(productRepository.markAsSoldBuyerId).to(beNil())
+                            }
+                            it("has a mark as sold tracked event with correct user-sold-to") {
+                                let event = tracker.trackedEvents.last
+                                expect(event?.name.rawValue) == "product-detail-sold"
+                                expect(event?.params?[.userSoldTo] as? String) == "false"
+                            }
+                        }
+                    }
+                    context("there are no possible buyers") {
+                        beforeEach {
+                            productRepository.buyersResult = ProductBuyersResult([])
 
                             buildProductViewModel()
                             sut.active = true
@@ -123,51 +187,30 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
                             expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
                         }
-                        it("has requested buyer selection with buyers array") {
-                            expect(self.lastBuyersToRate?.count) == possibleBuyers.count
+                        it("hasn't requested buyer selection") {
+                            expect(self.lastBuyersToRate).to(beNil())
                         }
-                        it("has called to mark as sold with correct buyerId") {
-                            expect(productRepository.markAsSoldBuyerId) == self.buyerToRateResult
-                        }
-                        it("has a mark as sold tracked event with correct user-sold-to") {
-                            let event = tracker.trackedEvents.last
-                            expect(event?.name.rawValue) == "product-detail-sold"
-                            expect(event?.params?[.userSoldTo] as? String) == "true"
-                        }
-                    }
-                    context("outside letgo is selected") {
-                        beforeEach {
-                            self.buyerToRateResult = nil
-
-                            buildProductViewModel()
-                            sut.active = true
-
-                            // There should appear one button
-                            expect(sut.actionButtons.value.count).toEventually(equal(1))
-                            sut.actionButtons.value.first?.action()
-
-                            expect(tracker.trackedEvents.count).toEventually(equal(1))
-                        }
-                        it("has mark as sold and then sell it again button") {
-                            let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                            expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
-                        }
-                        it("has requested buyer selection with buyers array") {
-                            expect(self.lastBuyersToRate?.count) == possibleBuyers.count
+                        it("has shown mark as sold alert") {
+                            expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
                         }
                         it("has called to mark as sold with correct buyerId") {
                             expect(productRepository.markAsSoldBuyerId).to(beNil())
                         }
                         it("has a mark as sold tracked event with correct user-sold-to") {
-                            let event = tracker.trackedEvents.last
-                            expect(event?.name.rawValue) == "product-detail-sold"
-                            expect(event?.params?[.userSoldTo] as? String) == "false"
+                            let event = tracker.trackedEvents.last!
+                            expect(event.name.rawValue) == "product-detail-sold"
+                            expect(event.params![.userSoldTo] as? String) == "no-conversations"
                         }
                     }
                 }
-                context("there are no possible buyers") {
+                context("buyer selection a/b disabled"){
                     beforeEach {
-                        productRepository.buyersResult = ProductBuyersResult([])
+                        featureFlags.userRatingMarkAsSold = false
+                        var possibleBuyers = [UserProduct]()
+                        for _ in 0..<5 {
+                            possibleBuyers.append(MockUserProduct())
+                        }
+                        productRepository.buyersResult = ProductBuyersResult(possibleBuyers)
 
                         buildProductViewModel()
                         sut.active = true
@@ -191,10 +234,38 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     it("has called to mark as sold with correct buyerId") {
                         expect(productRepository.markAsSoldBuyerId).to(beNil())
                     }
-                    it("has a mark as sold tracked event with correct user-sold-to") {
+                    it("has a mark as sold tracked event with no user-sold-to") {
                         let event = tracker.trackedEvents.last!
                         expect(event.name.rawValue) == "product-detail-sold"
-                        expect(event.params![.userSoldTo] as? String) == "no-conversations"
+                        expect(event.params![.userSoldTo]).to(beNil())
+                    }
+                }
+            }
+            describe("Mark as favorite") {
+                beforeEach {
+                    sessionManager.loggedIn = true
+                    product = MockProduct()
+                    product.status = .approved
+                    self.shownFavoriteBubble = false
+                }
+                context("Contact the seller AB test enabled"){
+                    beforeEach {
+                        featureFlags.shouldContactSellerOnFavorite = true
+                        buildProductViewModel()
+                        sut.switchFavorite()
+                    }
+                    it("shows bubble up") {
+                        expect(self.shownFavoriteBubble).toEventually(equal(true))
+                    }
+                }
+                context("Contact the seller AB test disabled"){
+                    beforeEach {
+                        featureFlags.shouldContactSellerOnFavorite = false
+                        buildProductViewModel()
+                        sut.switchFavorite()
+                    }
+                    it("does not show bubble up") {
+                        expect(self.shownFavoriteBubble).toEventually(equal(false))
                     }
                 }
             }
@@ -206,6 +277,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         lastBuyersToRate = nil
         buyerToRateResult = nil
         shownAlertText = nil
+        
     }
 
     override func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
@@ -228,7 +300,7 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowOnboarding() {}
-    func vmShowProductDelegateActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {}
 
     func vmShareDidFailedWith(_ error: String) {}
     func vmViewControllerToShowShareOptions() -> UIViewController { return UIViewController() }
@@ -265,4 +337,12 @@ extension ProductViewModelSpec: ProductDetailNavigator {
             self.lastBuyersToRate = buyers
         }
     }
+    func showProductFavoriteBubble(with data: BubbleNotificationData) {
+        shownFavoriteBubble = true
+    }
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
+                                            loggedInAction: @escaping (() -> Void)) {
+    }
 }
+
+

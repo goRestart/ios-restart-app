@@ -34,6 +34,7 @@ extension DefaultsKeys {
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
     static let didShowProductDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
     static let didShowProductDetailOnboardingOthersProduct = DefaultsKey<Bool>("didShowProductDetailOnboardingOthersProduct")
+    static let productDetailQuickAnswersHidden = DefaultsKey<Bool>("productDetailQuickAnswers")
     static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
 
     static let pushPermissionsDailyDate = DefaultsKey<Date?>("dailyPermissionDate")

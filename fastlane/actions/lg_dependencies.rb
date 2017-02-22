@@ -6,17 +6,12 @@ module Fastlane
     class LgDependenciesAction < Action
       def self.run(params)
 
-        githubChangesInstalled = system("github-changes --help > /dev/null")
         badgeInstalled = system("badge --help > /dev/null")
         imageMagickInstalled = system("convert --version > /dev/null")
 
-        if !githubChangesInstalled || !badgeInstalled || !imageMagickInstalled
+        if !badgeInstalled || !imageMagickInstalled
           Helper.log.info ("👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻")
           Helper.log.info ("Seems like you don't have all the needed dependencies:")
-          if !githubChangesInstalled
-            Helper.log.info ("- Download npm from https://nodejs.org/dist/v5.5.0/node-v5.5.0.pkg")
-            Helper.log.info ("- Install github-changes with `npm install -g github-changes`")
-          end
           if !badgeInstalled
             Helper.log.info ("- Install badge gem: `sudo gem install badge`")
           end

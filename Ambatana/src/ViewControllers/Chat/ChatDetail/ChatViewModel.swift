@@ -27,7 +27,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowMessage(_ message: String, completion: (() -> ())?)
-    func vmRequestLogin(_ loggedInAction: @escaping () -> Void)
     func vmLoadStickersTooltipWithText(_ text: NSAttributedString)
 }
 
@@ -126,7 +125,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate var shouldAskProductSold: Bool = false
     fileprivate var isSendingQuickAnswer = false
     fileprivate var productId: String? // Only used when accessing a chat from a product
-    fileprivate var preSendMessageCompletion: ((_ text: String, _ type: ChatMessageType) -> Void)?
+    fileprivate var preSendMessageCompletion: ((_ type: ChatWrapperMessageType) -> Void)?
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
 
     fileprivate let disposeBag = DisposeBag()
@@ -158,7 +157,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     fileprivate var shouldShowSafetyTips: Bool {
-        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
+        return !keyValueStorage.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
 
     fileprivate var didReceiveMessageFromOtherUser: Bool {
@@ -259,8 +258,6 @@ class ChatViewModel: BaseViewModel {
     }
 
     func didAppear() {
-        // On new quick answers, if visible we shouldn't show keyboard
-        if featureFlags.newQuickAnswers && directAnswersState.value == .visible { return }
         if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
         }
@@ -409,10 +406,8 @@ class ChatViewModel: BaseViewModel {
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
-        if !featureFlags.newQuickAnswers {
-            // New quick answers doesn't depend on saved state
-            userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-        }
+        userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedProductsState.asObservable(),
                                         userDirectAnswersEnabled.asObservable(),
@@ -534,12 +529,6 @@ class ChatViewModel: BaseViewModel {
         keyValueStorage.userChatSafetyTipsShown = true
     }
 
-    func scrollViewDidTap() {
-        if featureFlags.newQuickAnswers && userDirectAnswersEnabled.value {
-            showDirectAnswers(false)
-        }
-    }
-
     func messageAtIndex(_ index: Int) -> ChatViewMessage? {
         guard 0..<messages.value.count ~= index else { return nil }
         return messages.value[index]
@@ -584,12 +573,6 @@ class ChatViewModel: BaseViewModel {
     func directAnswersButtonPressed() {
         toggleDirectAnswers()
     }
-
-    func keyboardShown() {
-        if featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
-            showDirectAnswers(false)
-        }
-    }
 }
 
 
@@ -621,38 +604,42 @@ extension ChatViewModel {
 
 extension ChatViewModel {
     
-    func sendSticker(_ sticker: Sticker) {
-        sendMessage(sticker.name, type: .sticker)
+    func send(sticker: Sticker) {
+        sendMessage(type: .chatSticker(sticker))
     }
     
-    func sendText(_ text: String, isQuickAnswer: Bool) {
-        sendMessage(text, type: isQuickAnswer ? .quickAnswer : .text)
+    func send(text: String) {
+        sendMessage(type: .text(text))
+    }
+
+    func send(quickAnswer: QuickAnswer) {
+        sendMessage(type: .quickAnswer(quickAnswer))
     }
     
-    fileprivate func sendMessage(_ text: String, type: ChatMessageType) {
+    fileprivate func sendMessage(type: ChatWrapperMessageType) {
         if let preSendMessageCompletion = preSendMessageCompletion {
-            preSendMessageCompletion(text, type)
+            preSendMessageCompletion(type)
             return
         }
 
-        if type == .quickAnswer {
+        if type.isQuickAnswer {
             if isSendingQuickAnswer { return }
             isSendingQuickAnswer = true
         }
-        let message = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
-        if type == .text {
+        if type.isUserText {
             delegate?.vmClearText()
         }
 
-        let newMessage = chatRepository.createNewMessage(userId, text: text, type: type)
+        let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
         let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
         guard let messageId = newMessage.objectId else { return }
         messages.insert(viewMessage, atIndex: 0)
-        chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: text) {
+        chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: message) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
@@ -669,7 +656,7 @@ extension ChatViewModel {
                     self?.delegate?.vmDidFailSendingMessage()
                 }
             }
-            if type == .quickAnswer {
+            if type.isQuickAnswer {
                 self?.isSendingQuickAnswer = false
             }
         }
@@ -752,23 +739,31 @@ extension ChatViewModel {
     fileprivate func markProductAsSold() {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
+        guard featureFlags.userRatingMarkAsSold else {
+            markProductAsSold(productId: productId, buyerId: nil, userSoldTo: nil)
+            return
+        }
         delegate?.vmShowLoading(nil)
         productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
-                        self?.markProductAsSold(productId: productId, buyerId: buyerId)
+                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
+                        self?.markProductAsSold(productId: productId, buyerId: buyerId, userSoldTo: userSoldTo)
                     }
                 }
             } else {
-                self?.markProductAsSold(productId: productId, buyerId: nil)
+                self?.markProductAsSold(productId: productId, buyerId: nil, userSoldTo: .noConversations)
             }
         }
     }
 
-    private func markProductAsSold(productId: String, buyerId: String?) {
+    private func markProductAsSold(productId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(productId, buyerId: nil) { [weak self] result in
+            if let _ = result.value {
+                self?.trackMarkAsSold(userSoldTo: userSoldTo)
+            }
             let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
             self?.delegate?.vmHideLoading(errorMessage) {
                 guard let _ = result.value else { return }
@@ -792,7 +787,7 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if !featureFlags.newQuickAnswers && directAnswersState.value != .notAvailable {
+            if directAnswersState.value != .notAvailable {
                 let visible = directAnswersState.value == .visible
                 let directAnswersText = visible ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow
                 let directAnswersAction = UIAction(interface: UIActionInterface.text(directAnswersText),
@@ -975,9 +970,6 @@ extension ChatViewModel {
                 strongSelf.updateMessages(newMessages: value, isFirstPage: true)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
-                if strongSelf.featureFlags.newQuickAnswers {
-                    strongSelf.checkShouldShowDirectAnswers(value)
-                }
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -1091,8 +1083,9 @@ fileprivate extension ChatViewModel {
         interlocutorId.value = sellerId
 
         // Configure login + send actions
-        preSendMessageCompletion = { [weak self] (text: String, type: ChatMessageType) in
-            self?.delegate?.vmRequestLogin() { [weak self] in
+        preSendMessageCompletion = { [weak self] (type: ChatWrapperMessageType) in
+            self?.delegate?.vmHideKeyboard(false)
+            self?.navigator?.openLoginIfNeededFromChatDetail(from: .askQuestion, loggedInAction: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.preSendMessageCompletion = nil
                 guard sellerId != strongSelf.myUserRepository.myUser?.objectId else {
@@ -1106,10 +1099,10 @@ fileprivate extension ChatViewModel {
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
                     self?.afterRetrieveMessagesCompletion = nil
                     guard let messages = self?.messages.value, messages.isEmpty else { return }
-                    self?.sendMessage(text, type: type)
+                    self?.sendMessage(type: type)
                 }
                 self?.syncConversation(productId, sellerId: sellerId)
-            }
+            })
         }
     }
 }
@@ -1119,30 +1112,30 @@ fileprivate extension ChatViewModel {
 
 fileprivate extension ChatViewModel {
     
-    func trackFirstMessage(_ type: ChatMessageType) {
+    func trackFirstMessage(type: ChatWrapperMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
         let sellerRating = conversation.value.amISelling ?
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
-        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
+        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.chatTrackerType, quickAnswerType: type.quickAnswerType,
                                                                interlocutorId: userId, typePage: .chat,
                                                                sellerRating: sellerRating,
-                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                               isBumpedUp: EventParameterBoolean.falseParameter)
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
-    func trackMessageSent(type: ChatMessageType) {
+    func trackMessageSent(type: ChatWrapperMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
-            trackFirstMessage(type)
+            trackFirstMessage(type:type)
         }
-        let isQuickAnswer: EventParameterQuickAnswerValue = type == .quickAnswer ? .trueParameter : .falseParameter
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer, typePage: .chat,
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.chatTrackerType,
+                                                            quickAnswerType: type.quickAnswerType, typePage: .chat,
                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
@@ -1158,8 +1151,16 @@ fileprivate extension ChatViewModel {
     }
     
     func trackVisit() {
-        let chatWindowOpen = TrackerEvent.chatWindowVisit(source)
+        let chatWindowOpen = TrackerEvent.chatWindowVisit(source, chatEnabled: interlocutorEnabled)
         tracker.trackEvent(chatWindowOpen)
+    }
+
+    func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
+        guard let product = conversation.value.product else { return }
+        let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat, soldTo: userSoldTo,
+                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                        isBumpedUp: .notAvailable)
+        tracker.trackEvent(markAsSold)
     }
 }
 
@@ -1229,70 +1230,20 @@ fileprivate extension ChatInfoViewStatus {
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
-    var directAnswers: [DirectAnswer] {
-        let emptyAction: () -> Void = { [weak self] in
-            self?.clearProductSoldDirectAnswer()
-        }
-        if featureFlags.freePostingModeAllowed && productIsFree.value {
-            if !conversation.value.amISelling {
-                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
-                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
-                if !featureFlags.newQuickAnswers {
-                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction))
-                }
-                return directAnswers
-            } else {
-                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
-                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
-                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
-                if !featureFlags.newQuickAnswers {
-                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction))
-                }
-                return directAnswers
-            }
-        } else {
-            if !conversation.value.amISelling {
-                if featureFlags.newQuickAnswers {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillAvailable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerCondition, action: emptyAction)]
-                } else {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
-                }
-            } else {
-                if featureFlags.newQuickAnswers {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                                self?.onProductSoldDirectAnswer()
-                                }),
-                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction)]
-                } else {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                                self?.onProductSoldDirectAnswer()
-                                })]
-                }
-            }
-        }
+    var directAnswers: [QuickAnswer] {
+        let isFree = featureFlags.freePostingModeAllowed && productIsFree.value
+        let isBuyer = !conversation.value.amISelling
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
     }
     
-    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: DirectAnswer) {
-        if featureFlags.newQuickAnswers {
-            delegate?.vmShowKeyboard()
+    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
+        switch answer {
+        case .productSold:
+            onProductSoldDirectAnswer()
+        default:
+            clearProductSoldDirectAnswer()
         }
-        if let actionBlock = answer.action {
-            actionBlock()
-        }
-        sendText(answer.text, isQuickAnswer: true)
+        send(quickAnswer: answer)
     }
     
     func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {
@@ -1304,9 +1255,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
 
     fileprivate func showDirectAnswers(_ show: Bool) {
-        if !featureFlags.newQuickAnswers {
-            KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        }
+        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         userDirectAnswersEnabled.value = show
     }
     

@@ -22,7 +22,8 @@ final class CoreDI: InternalDI {
         self.networkManager = Alamofire.SessionManager.lgManager(backgroundEnabled)
         let tokenDAO = CoreDI.tokenDAO
         let apiClient = AFApiClient(alamofireManager: self.networkManager, tokenDAO: tokenDAO)
-        let webSocketClient = LGWebSocketClient()
+        let webSocketClient = LGWebSocketClient(withEndpoint: EnvironmentProxy.sharedInstance.webSocketURL)
+        let websocketBackgroundDisconnectTimeout = LGCoreKitConstants.websocketBackgroundDisconnectTimeout
         
         let userDefaults = UserDefaults.standard
 
@@ -63,11 +64,17 @@ final class CoreDI: InternalDI {
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         let stickersDAO = StickersUDDAO(userDefaults: userDefaults)
         let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
-        let reachability = Reachability()
+        let reachability = LGReachability()
 
-        let sessionManager = LGSessionManager(apiClient: apiClient, websocketClient: webSocketClient,
-            myUserRepository: myUserRepository, installationRepository: installationRepository, tokenDAO: tokenDAO,
-            deviceLocationDAO: deviceLocationDAO, favoritesDAO: favoritesDAO, reachability: reachability)
+        let sessionManager = LGSessionManager(apiClient: apiClient,
+                                              websocketClient: webSocketClient,
+                                              websocketBackgroundDisconnectTimeout: websocketBackgroundDisconnectTimeout,
+                                              myUserRepository: myUserRepository,
+                                              installationRepository: installationRepository,
+                                              tokenDAO: tokenDAO,
+                                              deviceLocationDAO: deviceLocationDAO,
+                                              favoritesDAO: favoritesDAO,
+                                              reachability: reachability)
 
         locationManager.observeSessionManager(sessionManager)
 
@@ -110,6 +117,8 @@ final class CoreDI: InternalDI {
         self.favoritesDAO = favoritesDAO
         self.stickersDAO = stickersDAO
         self.productsLimboDAO = productsLimboDAO
+        
+        self.reachability = reachability
         
         self.currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDAO, defaultLocale: locale)
         self.countryHelper = countryHelper
@@ -212,7 +221,10 @@ final class CoreDI: InternalDI {
     let favoritesDAO: FavoritesDAO
     let stickersDAO: StickersDAO
     let productsLimboDAO: ProductsLimboDAO
-
+    
+    // MARK: > Reachability
+    
+    let reachability: LGReachabilityProtocol?
     
     // MARK: > Helper
     

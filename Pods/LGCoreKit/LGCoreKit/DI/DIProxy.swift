@@ -138,6 +138,9 @@ final class DIProxy: InternalDI {
     var productsLimboDAO: ProductsLimboDAO {
         return di.productsLimboDAO
     }
+    var reachability: LGReachabilityProtocol? {
+        return di.reachability
+    }
     var currencyHelper: CurrencyHelper {
         return di.currencyHelper
     }

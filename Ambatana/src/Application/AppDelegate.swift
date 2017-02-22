@@ -20,7 +20,6 @@ import UIKit
 #if DEBUG
     import AdSupport
 #endif
-import Leanplum
 import Firebase
 
 
@@ -264,6 +263,13 @@ fileprivate extension AppDelegate {
             DDLog.add(DDTTYLogger.sharedInstance())       // TTY = Xcode console
             DDTTYLogger.sharedInstance().colorsEnabled =  true
             DDLog.add(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
+        #endif
+
+        // New Relic
+        #if GOD_MODE
+            NewRelicAgent.start(withApplicationToken: Constants.newRelicGodModeToken)
+        #else
+            NewRelicAgent.start(withApplicationToken: Constants.newRelicProductionToken)
         #endif
         
         // Fabric

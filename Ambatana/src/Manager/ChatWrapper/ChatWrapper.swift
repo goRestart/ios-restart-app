@@ -17,7 +17,7 @@ enum ChatWrapperMessageType {
     case text(String)
     case periscopeDirect(String)
     case chatSticker(Sticker)
-    case quickAnswer(String)
+    case quickAnswer(QuickAnswer)
     case expressChat(String)
     case favoritedProduct(String)
 }
@@ -116,8 +116,8 @@ extension ChatWrapperMessageType {
             return text
         case let .chatSticker(sticker):
             return sticker.name
-        case let .quickAnswer(text):
-            return text
+        case let .quickAnswer(quickAnswer):
+            return quickAnswer.text
         case let .expressChat(text):
             return text
         case let .favoritedProduct(text):
@@ -169,6 +169,33 @@ extension ChatWrapperMessageType {
             return .favorite
         case .periscopeDirect:
             return .periscopeDirect
+        }
+    }
+
+    var quickAnswerType: EventParameterQuickAnswerType? {
+        switch self {
+        case let .quickAnswer(quickAnswer):
+            return quickAnswer.quickAnswerType
+        case .text, .chatSticker, .expressChat, .favoritedProduct, .periscopeDirect:
+            return nil
+        }
+    }
+
+    var isUserText: Bool {
+        switch self {
+        case .text:
+            return true
+        case .quickAnswer, .chatSticker, .expressChat, .favoritedProduct, .periscopeDirect:
+            return false
+        }
+    }
+
+    var isQuickAnswer: Bool {
+        switch self {
+        case .quickAnswer:
+            return true
+        case .text, .chatSticker, .expressChat, .favoritedProduct, .periscopeDirect:
+            return false
         }
     }
 }

@@ -20,14 +20,14 @@ struct WebSocketEventRouter {
     func typingStarted(_ conversationId: String) -> WebSocketEventRequest {
         let uuid = uuidGenerator.UUIDString
         let data: [String:Any]? = ["conversation_id": conversationId]
-        let message = WebSocketRouter.requestWith(uuid, type: .TypingStarted, data: data)
-        return WebSocketEventRequest(message: message, uuid: uuid, type: .TypingStarted)
+        let message = WebSocketRouter.request(with: uuid, type: .typingStarted, data: data)
+        return WebSocketEventRequest(message: message, uuid: uuid, type: .typingStarted)
     }
     
     func typingStopped(_ conversationId: String) -> WebSocketEventRequest {
         let uuid = uuidGenerator.UUIDString
         let data = ["conversation_id": conversationId]
-        let message = WebSocketRouter.requestWith(uuid, type: .TypingStopped, data: data)
-        return WebSocketEventRequest(message: message, uuid: uuid, type: .TypingStopped)
+        let message = WebSocketRouter.request(with: uuid, type: .typingStopped, data: data)
+        return WebSocketEventRequest(message: message, uuid: uuid, type: .typingStopped)
     }
 }

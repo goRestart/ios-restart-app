@@ -28,21 +28,21 @@ struct WebSocketConversationRouter {
         -> WebSocketConversationRequest {
             let uuid = uuidGenerator.UUIDString
             let data: [String: Any] = ["limit": limit, "offset": offset, "filter": filter.rawValue]
-            let message = WebSocketRouter.requestWith(uuid, type: .FetchConversations, data: data)
-            return WebSocketConversationRequest(message: message, uuid: uuid, type: .FetchConversations)
+            let message = WebSocketRouter.request(with: uuid, type: .fetchConversations, data: data)
+            return WebSocketConversationRequest(message: message, uuid: uuid, type: .fetchConversations)
     }
     
     func show(_ conversationId: String) -> WebSocketConversationRequest {
         let uuid = uuidGenerator.UUIDString
         let data = ["conversation_id": conversationId]
-        let message = WebSocketRouter.requestWith(uuid, type: .ConversationDetails, data: data)
-        return WebSocketConversationRequest(message: message, uuid: uuid, type: .ConversationDetails)
+        let message = WebSocketRouter.request(with: uuid, type: .fetchConversationDetails, data: data)
+        return WebSocketConversationRequest(message: message, uuid: uuid, type: .fetchConversationDetails)
     }
     
     func show(_ sellerId: String, productId: String) -> WebSocketConversationRequest {
         let uuid = uuidGenerator.UUIDString
         let data = ["seller_id": sellerId, "product_id": productId]
-        let message = WebSocketRouter.requestWith(uuid, type: .FetchConversationID, data: data)
-        return WebSocketConversationRequest(message: message, uuid: uuid, type: .FetchConversationID)
+        let message = WebSocketRouter.request(with: uuid, type: .fetchConversationID, data: data)
+        return WebSocketConversationRequest(message: message, uuid: uuid, type: .fetchConversationID)
     }
 }

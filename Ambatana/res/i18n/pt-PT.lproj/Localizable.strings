@@ -627,7 +627,7 @@
 "rate_buyers_message" = "Parabéns!";
 "rate_buyers_not_on_letgo_button" = "Não o vendi no letgo";
 "rate_buyers_sub_message" = "A quem vendeu o artigo?";
-"rate_buyers_title" = "Who bought this?";
+"rate_buyers_title" = "Quem comprou isto?";
 "rating_list_action_report_review" = "Denunciar comentário";
 "rating_list_action_report_review_error_message" = "Ocorreu um erro no envio da sua denúncia.";
 "rating_list_action_report_review_success_message" = "A sua denuncia foi enviada!";

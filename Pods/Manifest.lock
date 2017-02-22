@@ -3,7 +3,7 @@ PODS:
   - AlamofireImage (3.2.0):
     - Alamofire (~> 4.1)
   - Amplitude-iOS (3.8.5)
-  - AppsFlyerFramework (4.6.3)
+  - AppsFlyerFramework (4.6.5)
   - Argo (4.1.2):
     - Runes (>= 4.0.0)
   - Bolts (1.8.4):
@@ -18,6 +18,7 @@ PODS:
   - Branch/Core (0.12.27)
   - Branch/without-IDFA (0.12.27)
   - bumper (1.0.3)
+  - CameraManager (3.1.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
@@ -34,9 +35,6 @@ PODS:
   - Curry (3.0.0)
   - DeviceUtil (1.3.8)
   - Fabric (1.6.11)
-  - FastttCamera (0.3.4):
-    - FastttCamera/Default (= 0.3.4)
-  - FastttCamera/Default (0.3.4)
   - FBSDKCoreKit (4.15.1):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.15.1):
@@ -100,7 +98,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (1.4.3)
   - LGCollapsibleLabel (1.0.0)
-  - LGCoreKit (2.5.1):
+  - LGCoreKit (2.8.1):
     - Alamofire (~> 4.2.0)
     - Argo (~> 4.1.1)
     - CocoaLumberjack/Swift (~> 3.0.0)
@@ -112,6 +110,7 @@ PODS:
     - RxSwift (~> 3.1.0)
     - RxSwiftExt (~> 2.1.0)
     - SocketRocket (= 0.5.1)
+  - NewRelicAgent (5.10.1)
   - Nimble (5.1.1)
   - OHHTTPStubs (5.2.3):
     - OHHTTPStubs/Default (= 5.2.3)
@@ -152,16 +151,16 @@ PODS:
 DEPENDENCIES:
   - AlamofireImage (= 3.2.0)
   - Amplitude-iOS (= 3.8.5)
-  - AppsFlyerFramework (= 4.6.3)
+  - AppsFlyerFramework (= 4.6.5)
   - Argo (= 4.1.2)
   - Branch (= 0.12.27)
   - bumper (= 1.0.3)
+  - CameraManager (= 3.1.0)
   - CHTCollectionViewWaterfallLayout (= 0.9.5)
   - CocoaLumberjack/Swift (= 3.0.0)
   - Crashlytics (= 3.8.3)
   - DeviceUtil (= 1.3.8)
   - Fabric (= 1.6.11)
-  - FastttCamera (= 0.3.4)
   - FBSDKCoreKit (= 4.15.1)
   - FBSDKLoginKit (= 4.15.1)
   - FBSDKShareKit (= 4.15.1)
@@ -170,10 +169,12 @@ DEPENDENCIES:
   - Google/SignIn (= 3.0.3)
   - GoogleIDFASupport (= 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
+  - KeychainSwift (from `git@github.com:letgoapp/keychain-swift.git`, commit `f6230869f4d26d720f36eb227bd269c3d712986b`)
   - KMPlaceholderTextView (= 1.3.0)
   - Leanplum-iOS-SDK (= 1.4.3)
   - LGCollapsibleLabel (= 1.0.0)
-  - LGCoreKit (= 2.5.1)
+  - LGCoreKit (= 2.8.1)
+  - NewRelicAgent (= 5.10.1)
   - Nimble (= 5.1.1)
   - OHHTTPStubs (= 5.2.3)
   - OHHTTPStubs/Swift
@@ -191,6 +192,9 @@ EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  KeychainSwift:
+    :commit: f6230869f4d26d720f36eb227bd269c3d712986b
+    :git: git@github.com:letgoapp/keychain-swift.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -199,6 +203,9 @@ CHECKOUT OPTIONS:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  KeychainSwift:
+    :commit: f6230869f4d26d720f36eb227bd269c3d712986b
+    :git: git@github.com:letgoapp/keychain-swift.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -207,11 +214,12 @@ SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
-  AppsFlyerFramework: 6a30709676082f2e453ed3d9c13a8706fbd4b158
+  AppsFlyerFramework: e35bfb296fa7fed068ea50361ed03f6afdc7d405
   Argo: 5db06502fc1222d83011f574243089dab25202ff
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: 41404cc6de82e84368a26961f66d657b0662ca02
   bumper: abbdce79db20a57b706195a593853d045cf6af27
+  CameraManager: 8ef2dfb1bb11c38ef3cc0a236076096dfa8a5d8e
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
@@ -219,7 +227,6 @@ SPEC CHECKSUMS:
   Curry: eb3d2c75aec678b3cc7fb2729d2ad6dd121531d1
   DeviceUtil: 9e91dd78b14cd51715d6fada8871c71b00283023
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
   FBSDKCoreKit: fc7fa53d16b095ee3fd53f0cd59f1df8bcbb634d
   FBSDKLoginKit: 073f79b3b2e762fc6f54a283fe15f45372d59f5f
   FBSDKShareKit: 11cbb5a4d7b5fda8143cc95b76188147e6725736
@@ -245,7 +252,8 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 4b12eb749ec0a0915892548a9703474f5c18ae07
   LGCollapsibleLabel: e33f066be104911c7fb83f29f1f9b5bae218422e
-  LGCoreKit: c3a9ac14b934657841b7ede312660b234cffb9ba
+  LGCoreKit: 6fd573c2669af699eaee6444741c08c6f77e273f
+  NewRelicAgent: d16c572a3355d3ff9a359a6677e946c7a75a8f76
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
@@ -263,6 +271,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: dab2728416b002126e9df0e13cd387c96b5d0113
+PODFILE CHECKSUM: b5cea07849ce6cbedb424780b31af941eb2bf34c
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0

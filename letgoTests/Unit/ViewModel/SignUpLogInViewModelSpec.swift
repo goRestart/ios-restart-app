@@ -48,6 +48,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                     locale: locale, source: .install, collapsedEmailParam: nil, action: .signup)
                 sut.delegate = self
+                sut.navigator = self
 
                 self.loading = false
                 self.finishedSuccessfully = false
@@ -161,7 +162,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("current postal address's country code is Turkey") {
                     beforeEach {
                         let locale = Locale(identifier: "es_ES")
-                        locationManager.currentPostalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: "")
+                        locationManager.currentLocation = LGLocation(latitude: 12.00, longitude: 34.03, type: .sensor, postalAddress: PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: ""))
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
@@ -176,8 +177,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 context("phone locale and location are not in Turkey") {
                     beforeEach {
                         let locale = Locale(identifier: "es_ES")
-                        locationManager.currentPostalAddress = PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "es", country: "")
-
+                        locationManager.currentLocation = LGLocation(latitude: 12.00, longitude: 34.03, type: .sensor, postalAddress: PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "es", country: ""))
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
@@ -200,7 +200,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                         myUser = MockMyUser()
                         myUser.email = email
-                        sessionManager.myUserResult = SessionMyUserResult(value: myUser)
+                        sessionManager.logInResult = SessionMyUserResult(value: myUser)
 
                         sut.email = email
                         sut.password = "123456"
@@ -226,7 +226,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("standard") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .network)
+                            sessionManager.logInResult = SessionMyUserResult(error: .network)
 
                             sut.email = email
                             sut.password = "123456"
@@ -249,7 +249,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("scammer") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.myUserResult = SessionMyUserResult(error: .scammer)
+                            sessionManager.logInResult = SessionMyUserResult(error: .scammer)
 
                             sut.email = email
                             sut.password = "123456"
@@ -422,18 +422,27 @@ class SignUpLogInViewModelSpec: QuickSpec {
     }
 }
 
-extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
-
-    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {}
-    func vmUpdateShowPasswordVisible(_ visible: Bool) {}
-    func vmFinish(completedAccess completed: Bool) {
-        finishedSuccessfully = completed
+extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
+    func cancelSignUpLogIn() {
+        finishedSuccessfully = false
     }
-    func vmFinishAndShowScammerAlert(_ contactUrl: URL, network: EventParameterAccountNetwork, tracker: Tracker) {
+    func closeSignUpLogInSuccessful(with myUser: MyUser) {
+        finishedSuccessfully = true
+    }
+    func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         finishedSuccessfully = false
         finishedScammer = true
     }
-    func vmShowRecaptcha(_ viewModel: RecaptchaViewModel) {}
+    func openRecaptcha(transparentMode: Bool) {}
+
+    func openRememberPasswordFromSignUpLogIn(email: String?) {}
+    func openHelpFromSignUpLogin() {}
+    func open(url: URL) {}
+}
+
+extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
+    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {}
+    func vmUpdateShowPasswordVisible(_ visible: Bool) {}
     func vmShowHiddenPasswordAlert() {}
 
     // BaseViewModelDelegate

@@ -136,7 +136,8 @@ class KeyboardViewController: BaseViewController {
     }
 
     dynamic private func keyboardWillChange(_ notification: Notification) {
-        applyChange(notification.keyboardChange, animated: true)
+        let animated = controllerVisible
+        applyChange(notification.keyboardChange, animated: animated)
     }
 
     dynamic private func keyboardDidChange(_ notification: Notification) {
