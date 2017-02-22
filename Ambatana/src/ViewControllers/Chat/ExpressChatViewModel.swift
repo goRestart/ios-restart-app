@@ -90,15 +90,20 @@ class ExpressChatViewModel: BaseViewModel {
     func sendMessage() {
         let wrapper = ChatWrapper()
         let tracker = trackerProxy
-        for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { [weak self] result in
-                if let value = result.value {
-                    self?.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product)
+
+        let completion: (()->Void)? = { [weak self] in
+            guard let strongSelf = self else { return }
+            for product in strongSelf.selectedProducts.value {
+                wrapper.sendMessageForProduct(product, type:.expressChat(strongSelf.messageText.value)) {  result in
+                    if let value = result.value {
+                        strongSelf.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product)
+                    }
                 }
             }
         }
+
         trackExpressChatComplete(selectedItemsCount.value)
-        navigator?.sentMessage(sourceProductId, count: selectedItemsCount.value)
+        navigator?.sentMessage(sourceProductId, count: selectedItemsCount.value, completion: completion)
     }
 
     func closeExpressChat(_ showAgain: Bool) {
