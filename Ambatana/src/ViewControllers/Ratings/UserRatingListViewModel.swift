@@ -167,7 +167,6 @@ extension UserRatingListViewModel {
     func trackReviewReported(userFromId: String?, ratingStars: Int) {
         let trackerEvent = TrackerEvent.userRatingReport(userFromId: userFromId, ratingStars: ratingStars)
         tracker.trackEvent(trackerEvent)
-
     }
 }
 
