@@ -2999,6 +2999,22 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "unknown"
                 }
             }
+            describe("user rating report") {
+                beforeEach {
+                    sut = TrackerEvent.userRatingReport(userFromId: "abcde1234", ratingStars: 4)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("user-rating-report"))
+                }
+                it("contains userFromId parameter") {
+                    let param = sut.params!.stringKeyParams["user-from-id"] as? String
+                    expect(param) == "abcde1234"
+                }
+                it("contains rating-stars parameter") {
+                    let param = sut.params!.stringKeyParams["rating-stars"] as? Int
+                    expect(param).to(equal(4))
+                }
+            }
         }
     }
 }
