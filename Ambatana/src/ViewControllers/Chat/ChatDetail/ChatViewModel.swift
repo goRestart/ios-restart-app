@@ -630,14 +630,13 @@ extension ChatViewModel {
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
-        let viewMessage = chatViewMessageAdapter.adapt(newMessage)//.markAsSent()
+        let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
         guard let messageId = newMessage.objectId else { return }
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: message) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
-                strongSelf.markMessageAsSent(messageId)
                 strongSelf.afterSendMessageEvents()
                 strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
@@ -1047,31 +1046,17 @@ extension ChatViewModel {
         //We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
         var filteredViewMessages = messages.value.filter { $0.objectId != nil }
 
-        var mergedMessages = [ChatViewMessage]()
-        if !filteredViewMessages.isEmpty {
-            var itemsToAdd = [ChatViewMessage]()
-            newViewMessages.forEach { newMessage in
-                let foundIndex = filteredViewMessages.index { $0.objectId == newMessage.objectId }
-                if let foundIndex = foundIndex {
-                    filteredViewMessages[foundIndex] = newMessage
-                } else {
-                    itemsToAdd.append(newMessage)
-                }
-            }
-
-            filteredViewMessages.append(contentsOf: itemsToAdd)
-            filteredViewMessages.sort { (message1, message2) -> Bool in
+        filteredViewMessages.merge(
+            another: newViewMessages,
+            matcher: { $0.objectId == $1.objectId },
+            sortBy: { (message1, message2) -> Bool in
                 if message1.sentAt == nil && message2.sentAt != nil { return true }
                 guard let sentAt1 = message1.sentAt, let sentAt2 = message2.sentAt else { return false }
                 return sentAt1 > sentAt2
             }
-            mergedMessages = filteredViewMessages
+        )
 
-        } else {
-            mergedMessages = newViewMessages
-        }
-
-        var chatMessages = chatViewMessageAdapter.addDisclaimers(mergedMessages,
+        var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
 
         // Add user info as 1st message
