@@ -180,7 +180,7 @@ struct TrackerEvent {
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
         }
-        params[.listSuccess] = success
+        params[.listSuccess] = success.rawValue
         return TrackerEvent(name: .productList, params: params)
     }
 

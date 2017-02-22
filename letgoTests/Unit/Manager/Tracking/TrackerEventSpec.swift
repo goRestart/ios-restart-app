@@ -733,6 +733,13 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["feed-source"] as? String).to(equal("home"))
                 }
+                it("contains list-success  parameter") {
+                    let categories: [ProductCategory] = [.homeAndGarden]
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, feedSource: .home, success: .trueParameter)
+                    
+                    let listSuccess = sut.params!.stringKeyParams["list-success"] as? String
+                    expect(listSuccess).to(equal("true"))
+                }
             }
 
             describe("searchStart") {
