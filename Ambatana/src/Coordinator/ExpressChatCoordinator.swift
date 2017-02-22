@@ -18,6 +18,7 @@ final class ExpressChatCoordinator: Coordinator {
     let viewController: UIViewController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
+    let sessionManager: SessionManager
 
     weak var delegate: ExpressChatCoordinatorDelegate?
 
@@ -31,20 +32,22 @@ final class ExpressChatCoordinator: Coordinator {
                   sourceProductId: sourceProductId,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  manualOpen: manualOpen)
+                  manualOpen: manualOpen,
+                  sessionManager: Core.sessionManager)
     }
 
     init?(products: [Product],
           sourceProductId: String,
           keyValueStorage: KeyValueStorage,
           bubbleNotificationManager: BubbleNotificationManager,
-          manualOpen: Bool) {
+          manualOpen: Bool,
+          sessionManager: SessionManager) {
         let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId, manualOpen: manualOpen)
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc
         self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
-
+        self.sessionManager = sessionManager
         vm.navigator = self
 
         if !manualOpen {

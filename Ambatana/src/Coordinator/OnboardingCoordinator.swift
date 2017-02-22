@@ -18,6 +18,7 @@ final class OnboardingCoordinator: Coordinator {
     let viewController: UIViewController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
+    let sessionManager: SessionManager
 
     weak var delegate: OnboardingCoordinatorDelegate?
 
@@ -35,16 +36,18 @@ final class OnboardingCoordinator: Coordinator {
     convenience init() {
         self.init(locationManager: Core.locationManager,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(locationManager: LocationManager,
          bubbleNotificationManager: BubbleNotificationManager,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         sessionManager: SessionManager) {
         self.locationManager = locationManager
         self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
-
+        self.sessionManager = sessionManager
         viewController = TourBlurBackgroundViewController()
     }
 

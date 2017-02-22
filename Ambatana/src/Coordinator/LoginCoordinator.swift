@@ -26,6 +26,7 @@ final class LoginCoordinator: Coordinator {
     var viewController: UIViewController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
+    let sessionManager: SessionManager
 
     fileprivate var parentViewController: UIViewController?
     fileprivate weak var recaptchaTokenDelegate: RecaptchaTokenDelegate?
@@ -53,7 +54,8 @@ final class LoginCoordinator: Coordinator {
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(source: EventParameterLoginSourceValue,
@@ -62,7 +64,8 @@ final class LoginCoordinator: Coordinator {
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
          tracker: Tracker,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlags,
+         sessionManager: SessionManager) {
         self.bubbleNotificationManager = bubbleNotificationManager
         self.source = source
         self.style = style
@@ -71,7 +74,7 @@ final class LoginCoordinator: Coordinator {
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.featureFlags = featureFlags
-
+        self.sessionManager = sessionManager
         let viewModel = SignUpViewModel(appearance: .light, source: source)
         switch style {
         case .fullScreen:
