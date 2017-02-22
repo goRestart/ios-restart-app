@@ -527,8 +527,9 @@ extension ProductViewModel {
 
     func bumpUpProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
-        guard let productId = product.value.objectId, let purchase = bumpUpPurchaseableProduct else { return }
-        purchasesShopper.requestPaymentForProduct(productId, appstoreProduct: purchase)
+        guard let productId = product.value.objectId, let purchase = bumpUpPurchaseableProduct,
+            let paymentItemId = paymentItemId else { return }
+        purchasesShopper.requestPaymentForProduct(productId, appstoreProduct: purchase, paymentItemId: paymentItemId)
     }
 }
 
@@ -1120,7 +1121,7 @@ extension ProductViewModel: PurchasesShopperDelegate {
     }
 
 
-    // Payment
+    // Free Bump Up
     func freeBumpDidStart() {
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
@@ -1130,10 +1131,22 @@ extension ProductViewModel: PurchasesShopperDelegate {
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
         })
-
     }
 
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
+    }
+
+    // Priced Bump Up
+    func pricedBumpDidStart() {
+        delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
+    }
+
+    func pricedBumpDidSucceed() {
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: nil)
+    }
+
+    func pricedBumpDidFail() {
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
     }
 }

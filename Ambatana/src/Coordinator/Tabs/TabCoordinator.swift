@@ -410,8 +410,10 @@ extension TabCoordinator: ProductDetailNavigator {
         openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
-    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
-        let bumpCoordinator = BumpUpCoordinator(product: product, purchaseableProduct: purchaseableProduct)
+    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct,
+                                 withPaymentItemId paymentItemId: String) {
+        let bumpCoordinator = BumpUpCoordinator(product: product, purchaseableProduct: purchaseableProduct,
+                                                paymentItemId: paymentItemId)
         bumpCoordinator.delegate = self
         openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }

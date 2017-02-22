@@ -275,9 +275,11 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func openPaymentBumpUpView() {
         guard let product = currentProductViewModel?.product.value else { return }
-        guard let purchaseableProduct = currentProductViewModel?.bumpUpPurchaseableProduct else { return }
+        guard let purchaseableProduct = currentProductViewModel?.bumpUpPurchaseableProduct,
+            let paymentItemId = currentProductViewModel?.paymentItemId else { return }
         currentProductViewModel?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
-        navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
+        navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct,
+                                           withPaymentItemId: paymentItemId)
     }
 
     func refreshBannerInfo() {

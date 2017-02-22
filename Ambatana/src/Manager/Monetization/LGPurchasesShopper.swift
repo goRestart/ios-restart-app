@@ -17,13 +17,17 @@ protocol PurchasesShopperDelegate: class {
     func freeBumpDidStart()
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork)
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
+
+    func pricedBumpDidStart()
+    func pricedBumpDidSucceed()
+    func pricedBumpDidFail()
 }
 
 class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     static let sharedInstance: PurchasesShopper = LGPurchasesShopper()
 
-    private(set) var currentProductId: String?
+    fileprivate(set) var currentProductId: String?
     private var productsRequest: PurchaseableProductsRequest
 
     private var requestFactory: PurchaseableProductsRequestFactory
@@ -31,8 +35,12 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private var myUserRepository: MyUserRepository
 
     weak var delegate: PurchasesShopperDelegate?
+    private var isObservingPaymentsQueue: Bool = false
 
     fileprivate var productsDict: [String : [SKProduct]] = [:]
+
+    fileprivate(set) var paymentProcessingProductId: String?
+    fileprivate(set)var paymentProcessingPaymentId: String?
 
     override convenience init() {
         let factory = AppstoreProductsRequestFactory()
@@ -57,14 +65,19 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      Sets itself as the payment transactions observer
      */
     func startObservingTransactions() {
+        // guard to avoid adding the observer several times
+        guard !isObservingPaymentsQueue else { return }
         SKPaymentQueue.default().add(self)
+        isObservingPaymentsQueue = true
     }
 
     /**
      Removes itself as the payment transactions observer
      */
     func stopObservingTransactions() {
+        guard isObservingPaymentsQueue else { return }
         SKPaymentQueue.default().remove(self)
+        isObservingPaymentsQueue = false
     }
 
     /**
@@ -88,11 +101,16 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
      - parameter product: info of the product to purchase on the appstore
      */
-    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct) {
+    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
         guard let appstoreProducts = productsDict[productId],
               let appstoreChosenProduct = appstoreProduct as? SKProduct else { return }
         guard appstoreProducts.contains(appstoreChosenProduct) else { return }
 
+        delegate?.pricedBumpDidStart()
+
+        paymentProcessingProductId = productId
+        paymentProcessingPaymentId = paymentItemId
+        
         // request payment to appstore with "appstoreChosenProduct"
         let payment = SKMutablePayment(product: appstoreChosenProduct)
         if let myUserId = myUserRepository.myUser?.objectId {
@@ -114,6 +132,26 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             }
         }
     }
+
+    /**
+     Notify letgo API of the purchase
+
+     - parameter productId: letgo product Id
+     - parameter paymentItemId: letgo id for the purchased item
+     - parameter receiptData: post payment apple's receipt data
+     */
+    func requestPricedBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, receiptData: String,
+                                       transaction: SKPaymentTransaction) {
+
+        monetizationRepository.pricedBump(forProduct: productId, receiptData: receiptData, itemId: paymentItemId) { [weak self] result in
+            if let _ = result.value {
+                self?.delegate?.pricedBumpDidSucceed()
+                SKPaymentQueue.default().finishTransaction(transaction)
+            } else if let _ = result.error {
+                self?.delegate?.pricedBumpDidFail()
+            }
+        }
+    }
 }
 
 
@@ -132,12 +170,9 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             report(AppReport.monetization(error: .invalidAppstoreProductIdentifiers), message: message)
         }
 
-
-//        productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }
-//        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
-
-        let mockPurchaseableProduct = MockPurchaseableProduct()
-        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: [mockPurchaseableProduct])
+        productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }
+        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
+        self.currentProductId = nil
     }
 
     func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
@@ -150,30 +185,75 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
 
 extension LGPurchasesShopper: SKPaymentTransactionObserver {
 
-    // Sent when the transaction array has changed (additions or state changes).
     // Client should check state of transactions and finish as appropriate.
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         // https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW4
-    }
-}
 
-class MockPurchaseableProduct: PurchaseableProduct {
-    var localizedDescription: String {
-        return "Mock bump up descr."
+        for transaction in transactions {
+
+            print("🚧🚧🚧🚧🚧🚧🚧🚧🚧")
+            print(transaction.transactionIdentifier)
+            print(transaction.transactionState)
+            print(transaction.transactionDate)
+            print(transaction.payment.productIdentifier)
+            print("-------------------")
+            print(transaction.original?.transactionIdentifier)
+            print(transaction.original?.transactionState)
+            print(transaction.original?.transactionDate)
+            print(transaction.original?.payment.productIdentifier)
+
+            switch transaction.transactionState {
+            case .purchasing, .deferred:
+                print("purchasing or deferred")
+                // save transaction id with paymentProcessingProductId & paymentProcessingPaymentId ?
+            case .purchased:
+                print("purchased")
+                guard let receiptUrl = Bundle.main.appStoreReceiptURL,
+                    let receiptData = try? Data(contentsOf: receiptUrl) else { return }
+                let receiptString = receiptData.base64EncodedString()
+
+                guard let paymentProcessingProductId = paymentProcessingProductId,
+                    let paymentProcessingPaymentId = paymentProcessingPaymentId else { return }
+
+                requestPricedBumpUpForProduct(productId: paymentProcessingProductId, withPaymentItemId: paymentProcessingPaymentId,
+                                              receiptData: receiptString, transaction: transaction)
+            case .restored:
+                print("restored")
+                guard let receiptUrl = Bundle.main.appStoreReceiptURL,
+                    let receiptData = try? Data(contentsOf: receiptUrl) else { return }
+                let receiptString = receiptData.base64EncodedString()
+
+                // if we're trying to restore at app launch this gaurd will always fail
+                // we should recover product & payment info.  Should be saved previously (at processing?)
+                guard let paymentProcessingProductId = paymentProcessingProductId,
+                    let paymentProcessingPaymentId = paymentProcessingPaymentId else { return }
+
+
+                requestPricedBumpUpForProduct(productId: paymentProcessingProductId, withPaymentItemId: paymentProcessingPaymentId,
+                                              receiptData: receiptString, transaction: transaction)
+            case .failed:
+                print("failed")
+                print(transaction.error)
+                delegate?.pricedBumpDidFail()
+                queue.finishTransaction(transaction)
+            default:
+                logMessage(.debug, type: .monetization, message: "Unexpected transaction state")
+            }
+        }
     }
-    var localizedTitle: String {
-        return "MOCK BUMP!"
+
+    // Sent when transactions are removed from the queue (via finishTransaction:).
+    public func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
+        print("🌎🌎🌎🌎🌎🌎🌎  removedTransactions")
     }
-    var price: NSDecimalNumber {
-        return NSDecimalNumber(value: 1.99)
+
+    // Sent when an error is encountered while adding transactions from the user's purchase history back to the queue.
+    public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
+        print("🌎🌎🌎🌎🌎🌎🌎  restoreCompletedTransactionsFailedWithError")
     }
-    var priceLocale: Locale {
-        return Locale.current
+
+    // Sent when all transactions from the user's purchase history have successfully been added back to the queue.
+    public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        print("🌎🌎🌎🌎🌎🌎🌎  paymentQueueRestoreCompletedTransactionsFinished")
     }
-    var productIdentifier: String {
-        return "com.letgo.ios.dcbump1"
-    }
-    var downloadable: Bool { return true }
-    var downloadContentLengths: [NSNumber] { return [NSNumber(value: 200)] }
-    var downloadContentVersion: String { return "1.2.3"}
 }

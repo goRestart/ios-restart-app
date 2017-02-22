@@ -30,9 +30,10 @@ class BumpUpCoordinator: Coordinator {
         bumpUpVM.navigator = self
     }
 
-    init(product: Product, purchaseableProduct: PurchaseableProduct) {
+    init(product: Product, purchaseableProduct: PurchaseableProduct, paymentItemId: String?) {
 
-        let bumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct)
+        let bumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct,
+                                          paymentItemId: paymentItemId)
         let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC

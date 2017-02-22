@@ -16,6 +16,8 @@ protocol BumpUpPayViewModelDelegate: BaseViewModelDelegate { }
 class BumpUpPayViewModel: BaseViewModel {
 
     var product: Product
+    let paymentItemId: String?
+
     var price: String {
         return purchaseableProduct.formattedCurrencyPrice
     }
@@ -28,28 +30,31 @@ class BumpUpPayViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: Product, purchaseableProduct: PurchaseableProduct) {
+    convenience init(product: Product, purchaseableProduct: PurchaseableProduct, paymentItemId: String?) {
         let purchasesShopper = LGPurchasesShopper.sharedInstance
         self.init(product: product, purchaseableProduct: purchaseableProduct,
-                  purchasesShopper: purchasesShopper)
+                  purchasesShopper: purchasesShopper, paymentItemId: paymentItemId)
     }
 
-    init(product: Product, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper) {
+    init(product: Product, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper,
+         paymentItemId: String?) {
         self.product = product
         self.purchaseableProduct = purchaseableProduct
         self.purchasesShopper = purchasesShopper
+        self.paymentItemId = paymentItemId
     }
 
 
     // MARK: - Public methods
 
     func bumpUpPressed() {
-        bumpUpProduct()
-        delegate?.vmDismiss(nil)
+        navigator?.bumpUpDidFinish(completion: { [weak self] in
+            self?.bumpUpProduct()
+        })
     }
 
     func closeActionPressed() {
-        delegate?.vmDismiss(nil)
+        navigator?.bumpUpDidCancel()
     }
 
 
@@ -57,7 +62,7 @@ class BumpUpPayViewModel: BaseViewModel {
 
     func bumpUpProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(purchaseableProduct)")
-        guard let productId = product.objectId else { return }
-        purchasesShopper.requestPaymentForProduct(productId, appstoreProduct: purchaseableProduct)
+        guard let productId = product.objectId, let paymentItemId = paymentItemId else { return }
+        purchasesShopper.requestPaymentForProduct(productId, appstoreProduct: purchaseableProduct, paymentItemId: paymentItemId)
     }
 }

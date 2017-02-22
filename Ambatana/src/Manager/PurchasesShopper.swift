@@ -32,7 +32,7 @@ protocol PurchasesShopper: class {
 
      - parameter product: info of the product to purchase on the appstore
      */
-    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct)
+    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String)
 
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork)
 }
