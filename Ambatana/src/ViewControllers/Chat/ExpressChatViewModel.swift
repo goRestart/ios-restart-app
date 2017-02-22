@@ -91,7 +91,7 @@ class ExpressChatViewModel: BaseViewModel {
         let wrapper = ChatWrapper()
         let tracker = trackerProxy
 
-        let completion: (()->Void)? = { [weak self] in
+        let completion: (() -> Void)? = { [weak self] in
             guard let strongSelf = self else { return }
             for product in strongSelf.selectedProducts.value {
                 wrapper.sendMessageForProduct(product, type:.expressChat(strongSelf.messageText.value)) {  result in
