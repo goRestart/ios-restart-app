@@ -34,6 +34,7 @@ class UserRatingListViewModel: BaseViewModel {
 
     var userRatingListRequester: UserRatingListRequester
     var myUserRepository: MyUserRepository
+    let tracker: Tracker
 
     weak var delegate: UserRatingListViewModelDelegate?
     weak var tabNavigator: TabNavigator?
@@ -44,17 +45,19 @@ class UserRatingListViewModel: BaseViewModel {
     convenience init(userId: String, tabNavigator: TabNavigator?) {
         let requester = UserRatingListRequester(userId: userId)
         let myUserRepository = Core.myUserRepository
+        let tracker = TrackerProxy.sharedInstance
         self.init(userIdRated: userId, userRatingListRequester: requester, myUserRepository: myUserRepository,
-                  tabNavigator: tabNavigator)
+                  tabNavigator: tabNavigator, tracker: tracker)
     }
 
     required init(userIdRated: String, userRatingListRequester: UserRatingListRequester,
-                  myUserRepository: MyUserRepository, tabNavigator: TabNavigator?) {
+                  myUserRepository: MyUserRepository, tabNavigator: TabNavigator?, tracker: Tracker) {
         self.userRatingListRequester = userRatingListRequester
         self.myUserRepository = myUserRepository
         self.tabNavigator = tabNavigator
         self.userIdRated = userIdRated
         self.ratings = []
+        self.tracker = tracker
         super.init()
     }
     
@@ -132,6 +135,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
                     self?.delegate?.vmRefresh()
                     self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
                         afterMessageCompletion: nil)
+                    self?.trackReviewReported(userFromId: rating.userFrom.objectId , ratingStars: rating.value)
                 } else if let _ = result.error {
                     self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewErrorMessage,
                         afterMessageCompletion: nil)
@@ -153,6 +157,17 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         case let .buyer(productId):
             return .seller(productId: productId)
         }
+    }
+}
+
+
+// MARK - Tracking
+
+extension UserRatingListViewModel {
+    func trackReviewReported(userFromId: String?, ratingStars: Int) {
+        let trackerEvent = TrackerEvent.userRatingReport(userFromId: userFromId, ratingStars: ratingStars)
+        tracker.trackEvent(trackerEvent)
+
     }
 }
 

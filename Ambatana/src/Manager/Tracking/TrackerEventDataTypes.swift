@@ -157,6 +157,7 @@ enum EventName: String {
     
     case emptyStateError                    = "empty-state-error"
     
+    case userRatingReport                   = "user-rating-report"
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -271,6 +272,7 @@ enum EventParameterName: String {
     case errorReason          = "reason"
     case quickAnswerType      = "quick-answer-type"
     case listSuccess          = "list-success"
+    case userFromId           = "user-from-id"
 }
 
 enum EventParameterBoolean: String {
