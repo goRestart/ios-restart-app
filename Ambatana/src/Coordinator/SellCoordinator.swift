@@ -19,7 +19,8 @@ final class SellCoordinator: Coordinator {
     var viewController: UIViewController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
-
+    let sessionManager: SessionManager
+    
     fileprivate var parentViewController: UIViewController?
 
     fileprivate let productRepository: ProductRepository
@@ -40,7 +41,8 @@ final class SellCoordinator: Coordinator {
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(source: PostingSource,
@@ -48,13 +50,15 @@ final class SellCoordinator: Coordinator {
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
          tracker: Tracker,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlags,
+         sessionManager: SessionManager) {
         self.productRepository = productRepository
         self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.postingSource = source
         self.featureFlags = featureFlags
+        self.sessionManager = sessionManager
         let postProductVM = PostProductViewModel(source: source)
         let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: false)
         self.viewController = postProductVC

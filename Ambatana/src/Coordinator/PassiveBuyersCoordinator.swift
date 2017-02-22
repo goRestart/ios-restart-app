@@ -18,6 +18,7 @@ final class PassiveBuyersCoordinator: Coordinator {
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
+    let sessionManager: SessionManager
 
     private var parentViewController: UIViewController?
 
@@ -28,16 +29,18 @@ final class PassiveBuyersCoordinator: Coordinator {
 
     convenience init(passiveBuyersInfo: PassiveBuyersInfo) {
         self.init(passiveBuyersInfo: passiveBuyersInfo,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(passiveBuyersInfo: PassiveBuyersInfo,
-         bubbleNotificationManager: BubbleNotificationManager) {
+         bubbleNotificationManager: BubbleNotificationManager,
+         sessionManager: SessionManager) {
         let passiveBuyersVM = PassiveBuyersViewModel(passiveBuyers: passiveBuyersInfo)
         let passiveBuyersVC = PassiveBuyersViewController(viewModel: passiveBuyersVM)
         self.viewController = passiveBuyersVC
         self.bubbleNotificationManager = bubbleNotificationManager
-
+        self.sessionManager = sessionManager
         passiveBuyersVM.navigator = self
     }
 

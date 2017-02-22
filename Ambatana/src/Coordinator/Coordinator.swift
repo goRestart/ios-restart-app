@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGCoreKit
 
 protocol CoordinatorDelegate: class {
     func coordinatorDidClose(_ coordinator: Coordinator)
@@ -17,7 +18,8 @@ protocol Coordinator: CoordinatorDelegate {
     var viewController: UIViewController { get }
     weak var presentedAlertController: UIAlertController? { get set }
     var bubbleNotificationManager: BubbleNotificationManager { get }
-
+    var sessionManager: SessionManager { get }
+    
     func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?)
     func close(animated: Bool, completion: (() -> Void)?)
 }
@@ -61,6 +63,10 @@ extension Coordinator {
 extension Coordinator {
     func openLoginIfNeeded(from source: EventParameterLoginSourceValue, style: LoginStyle,
                            loggedInAction: @escaping (() -> Void), delegate: LoginCoordinatorDelegate?) {
+        guard !sessionManager.loggedIn else {
+            loggedInAction()
+            return
+        }
         let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: loggedInAction)
         coordinator.delegate = delegate
         openCoordinator(coordinator: coordinator, parent: viewController, animated: true, completion: nil)

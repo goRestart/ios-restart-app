@@ -22,12 +22,14 @@ final class ChatsTabCoordinator: TabCoordinator {
         let featureFlags = FeatureFlags.sharedInstance
         let chatGroupedVM = ChatGroupedViewModel()
         let rootViewController = ChatGroupedViewController(viewModel: chatGroupedVM)
+        let sessionManager = Core.sessionManager
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository,
                   bubbleNotificationManager: bubbleNotificationManager,
                   keyValueStorage: keyValueStorage, tracker: tracker,
-                  rootViewController: rootViewController, featureFlags: featureFlags)
+                  rootViewController: rootViewController, featureFlags: featureFlags,
+                  sessionManager: sessionManager)
 
         chatGroupedVM.tabNavigator = self
     }
