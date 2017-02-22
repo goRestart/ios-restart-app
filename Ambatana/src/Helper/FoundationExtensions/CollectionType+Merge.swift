@@ -19,6 +19,7 @@ extension Collection where Index == Int {
 extension Array {
     mutating func merge<C : Collection>(another collection: C, matcher: (Element, Element) -> Bool,
                         sortBy comparator: (Element, Element) -> Bool) where C.Iterator.Element == Element {
+        guard !collection.isEmpty else { return }
         guard !isEmpty else {
             self.append(contentsOf: collection)
             return
