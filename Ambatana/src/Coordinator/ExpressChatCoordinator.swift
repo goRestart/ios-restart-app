@@ -68,10 +68,10 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
         close(0, animated: true, completion: nil)
     }
 
-    func sentMessage(_ forProduct: String, count: Int, completion: (() -> Void)?) {
+    func sentMessage(_ forProduct: String, count: Int) {
         saveProductAsExpressChatMessageSent(forProduct)
         saveProductAsExpressChatShown(forProduct)
-        close(count, animated: true, completion: completion)
+        close(count, animated: true, completion: nil)
     }
 
     // save products which already have shown the express chat

@@ -90,20 +90,19 @@ class ExpressChatViewModel: BaseViewModel {
     func sendMessage() {
         let wrapper = ChatWrapper()
         let tracker = trackerProxy
+        let freePostingModeAllowed = featureFlags.freePostingModeAllowed
 
-        let completion: (() -> Void)? = { [weak self] in
-            guard let strongSelf = self else { return }
-            for product in strongSelf.selectedProducts.value {
-                wrapper.sendMessageForProduct(product, type:.expressChat(strongSelf.messageText.value)) {  result in
-                    if let value = result.value {
-                        strongSelf.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product)
-                    }
+        for product in selectedProducts.value {
+            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { [weak self] result in
+                if let value = result.value {
+                    ExpressChatViewModel.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product,
+                                                                     freePostingModeAllowed: freePostingModeAllowed)
                 }
             }
         }
 
         trackExpressChatComplete(selectedItemsCount.value)
-        navigator?.sentMessage(sourceProductId, count: selectedItemsCount.value, completion: completion)
+        navigator?.sentMessage(sourceProductId, count: selectedItemsCount.value)
     }
 
     func closeExpressChat(_ showAgain: Bool) {
@@ -163,23 +162,24 @@ class ExpressChatViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ExpressChatViewModel {
+    static func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product,
+                                            freePostingModeAllowed: Bool) {
+        if shouldSendAskQuestion {
+            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil, typePage: .expressChat,
+                                                             freePostingModeAllowed: freePostingModeAllowed,
+                                                             isBumpedUp: .falseParameter)
+            tracker.trackEvent(askQuestionEvent)
+        }
+
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text, quickAnswerType: nil,
+                                                            typePage: .expressChat, freePostingModeAllowed: freePostingModeAllowed)
+        tracker.trackEvent(messageSentEvent)
+    }
+
     func trackExpressChatStart() {
         let trigger: EventParameterExpressChatTrigger = manualOpen ? .manual : .automatic
         let event = TrackerEvent.expressChatStart(trigger)
         trackerProxy.trackEvent(event)
-    }
-
-    func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product) {
-        if shouldSendAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil, typePage: .expressChat,
-                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                             isBumpedUp: .falseParameter)
-            tracker.trackEvent(askQuestionEvent)
-        }
-        
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text, quickAnswerType: nil,
-                                                            typePage: .expressChat, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
     }
 
     func trackExpressChatComplete(_ numChats: Int) {

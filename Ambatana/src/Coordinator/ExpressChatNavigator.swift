@@ -11,5 +11,5 @@ import Foundation
 
 protocol ExpressChatNavigator: class {
     func closeExpressChat(_ showAgain: Bool, forProduct: String)
-    func sentMessage(_ forProduct: String, count: Int, completion: (() -> Void)?)
+    func sentMessage(_ forProduct: String, count: Int)
 }
