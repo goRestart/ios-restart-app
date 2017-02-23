@@ -6357,6 +6357,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -6380,6 +6381,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -6403,6 +6405,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Adhoc";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Adhoc;
 		};
@@ -6426,6 +6429,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -6449,6 +6453,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -6472,6 +6477,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Adhoc";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Adhoc;
 		};
@@ -6785,6 +6791,7 @@
 				72F4FC5B1E5EFE18001E9F86 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C7DB42901C5138B500400945 /* Build configuration list for PBXNativeTarget "LetGoGodMode" */ = {
 			isa = XCConfigurationList;
