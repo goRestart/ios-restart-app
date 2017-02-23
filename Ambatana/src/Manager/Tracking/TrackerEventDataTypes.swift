@@ -124,6 +124,7 @@ enum EventName: String {
 
     case userRatingStart                    = "user-rating-start"
     case userRatingComplete                 = "user-rating-complete"
+    case userRatingReport                   = "user-rating-report"
 
     case openApp                            = "open-app-external"
 
@@ -157,6 +158,7 @@ enum EventName: String {
     
     case emptyStateError                    = "empty-state-error"
     
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -271,6 +273,7 @@ enum EventParameterName: String {
     case errorReason          = "reason"
     case quickAnswerType      = "quick-answer-type"
     case listSuccess          = "list-success"
+    case userFromId           = "user-from-id"
 }
 
 enum EventParameterBoolean: String {

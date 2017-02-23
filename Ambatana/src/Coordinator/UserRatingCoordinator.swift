@@ -18,6 +18,7 @@ final class UserRatingCoordinator: Coordinator {
     let viewController: UIViewController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
+    let sessionManager: SessionManager
 
     private var parentViewController: UIViewController?
 
@@ -33,7 +34,8 @@ final class UserRatingCoordinator: Coordinator {
     convenience init(source: RateUserSource,
                      data: RateUserData) {
         self.init(source: source,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  sessionManager: Core.sessionManager)
         let vc = buildRateUser(data: data, showSkipButton: false)
         self.ratedUserId = data.userId
         navigationController.viewControllers = [vc]
@@ -42,14 +44,16 @@ final class UserRatingCoordinator: Coordinator {
     convenience init(source: RateUserSource,
                      buyers: [UserProduct]) {
         self.init(source: source,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  sessionManager: Core.sessionManager)
         let vc = buildRateBuyers(buyers: buyers)
         navigationController.viewControllers = [vc]
     }
 
-    init(source: RateUserSource, bubbleNotificationManager: BubbleNotificationManager) {
+    init(source: RateUserSource, bubbleNotificationManager: BubbleNotificationManager, sessionManager: SessionManager) {
         self.source = source
         self.bubbleNotificationManager = bubbleNotificationManager
+        self.sessionManager = sessionManager
         navigationController = UINavigationController()
         self.viewController = navigationController
     }

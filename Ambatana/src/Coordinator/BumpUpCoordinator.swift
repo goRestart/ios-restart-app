@@ -16,7 +16,7 @@ class BumpUpCoordinator: Coordinator {
     var viewController: UIViewController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
-
+    let sessionManager: SessionManager
     weak var delegate: CoordinatorDelegate?
 
 
@@ -26,40 +26,44 @@ class BumpUpCoordinator: Coordinator {
         self.init(product: product,
                   socialMessage: socialMessage,
                   paymentItemId: paymentItemId,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     convenience init(product: Product,
                      purchaseableProduct: PurchaseableProduct) {
         self.init(product: product,
                   purchaseableProduct: purchaseableProduct,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(product: Product,
          socialMessage: SocialMessage,
          paymentItemId: String?,
-         bubbleNotificationManager: BubbleNotificationManager) {
+         bubbleNotificationManager: BubbleNotificationManager,
+         sessionManager: SessionManager) {
 
         let bumpUpVM = BumpUpFreeViewModel(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
         let bumpUpVC = BumpUpFreeViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
         self.bubbleNotificationManager = bubbleNotificationManager
-
+        self.sessionManager = sessionManager
         bumpUpVM.navigator = self
     }
 
     init(product: Product,
          purchaseableProduct: PurchaseableProduct,
-         bubbleNotificationManager: BubbleNotificationManager) {
+         bubbleNotificationManager: BubbleNotificationManager,
+         sessionManager: SessionManager) {
 
         let bumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct)
         let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
         self.bubbleNotificationManager = bubbleNotificationManager
-
+        self.sessionManager = sessionManager
         bumpUpVM.navigator = self
     }
 

@@ -18,7 +18,8 @@ final class AppCoordinator: NSObject, Coordinator {
     }
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
-
+    let sessionManager: SessionManager
+    
     let tabBarCtl: TabBarController
     fileprivate let selectedTab: Variable<Tab>
 
@@ -29,7 +30,6 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
-    fileprivate let sessionManager: SessionManager
     fileprivate let keyValueStorage: KeyValueStorage
 
     fileprivate let pushPermissionsManager: PushPermissionsManager

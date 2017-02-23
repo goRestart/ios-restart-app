@@ -1027,6 +1027,14 @@ struct TrackerEvent {
         params[.errorReason] = reason.rawValue
         return TrackerEvent(name: .emptyStateError, params: params)
     }
+    
+    static func userRatingReport(userFromId: String?,
+                              ratingStars: Int) -> TrackerEvent{
+        var params = EventParameters()
+        params[.ratingStars] = ratingStars
+        params[.userFromId] = userFromId
+        return TrackerEvent(name: .userRatingReport, params: params)
+    }
 
 
     // MARK: - Private methods

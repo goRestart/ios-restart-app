@@ -20,6 +20,7 @@ class TabCoordinator: NSObject, Coordinator {
     }
     weak var presentedAlertController: UIAlertController?
     var bubbleNotificationManager: BubbleNotificationManager
+    let sessionManager: SessionManager
 
     let rootViewController: UIViewController
     let navigationController: UINavigationController
@@ -46,7 +47,7 @@ class TabCoordinator: NSObject, Coordinator {
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -57,6 +58,7 @@ class TabCoordinator: NSObject, Coordinator {
         self.tracker = tracker
         self.rootViewController = rootViewController
         self.featureFlags = featureFlags
+        self.sessionManager = sessionManager
         self.navigationController = UINavigationController(rootViewController: rootViewController)
         super.init()
         
