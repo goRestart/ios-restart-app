@@ -459,10 +459,13 @@ class ChatViewModel: BaseViewModel {
 
     func setupChatEventsRx() {
         chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
+            guard let strongSelf = self else { return }
             switch wsChatStatus {
             case .openAuthenticated:
-                //Reload messages
-                self?.refreshMessages()
+                //Reload messages if active, otherwise it will reload when active
+                if strongSelf.active {
+                    self?.refreshMessages()
+                }
             case .openNotVerified:
                 self?.showUserNotVerifiedAlert()
             case .closed, .closing, .opening, .openNotAuthenticated:
