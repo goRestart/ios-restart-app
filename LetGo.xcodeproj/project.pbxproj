@@ -612,7 +612,6 @@
 		721537AA1E51CBC5008DE006 /* NotificationsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721537A91E51CBC5008DE006 /* NotificationsViewModelSpec.swift */; };
 		721537AC1E51CDEF008DE006 /* MockUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721537AB1E51CDEF008DE006 /* MockUserRepository.swift */; };
 		7215B9BD1DDF2378008AC77B /* MainProductsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */; };
-		7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */; };
 		723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
@@ -835,6 +834,7 @@
 		C74BC2451E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */; };
 		C74BDB411D7F121600B59482 /* StickersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BDB401D7F121600B59482 /* StickersManager.swift */; };
 		C74BDB421D7F121600B59482 /* StickersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BDB401D7F121600B59482 /* StickersManager.swift */; };
+		C74C66BE1E5F36FC00A98FBB /* MockFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74C66BD1E5F36FC00A98FBB /* MockFeatureFlags.swift */; };
 		C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */; };
 		C75018481D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */; };
 		C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */; };
@@ -1795,7 +1795,6 @@
 		721537A91E51CBC5008DE006 /* NotificationsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModelSpec.swift; sourceTree = "<group>"; };
 		721537AB1E51CDEF008DE006 /* MockUserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserRepository.swift; sourceTree = "<group>"; };
 		7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewModelSpec.swift; sourceTree = "<group>"; };
-		7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFeatureFlags.swift; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
@@ -1935,6 +1934,7 @@
 		C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyerCell.swift; sourceTree = "<group>"; };
 		C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PassiveBuyerCell.xib; sourceTree = "<group>"; };
 		C74BDB401D7F121600B59482 /* StickersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersManager.swift; sourceTree = "<group>"; };
+		C74C66BD1E5F36FC00A98FBB /* MockFeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFeatureFlags.swift; sourceTree = "<group>"; };
 		C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LGSpec.swift"; sourceTree = "<group>"; };
 		C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoCell.swift; sourceTree = "<group>"; };
 		C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatOtherInfoCell.xib; sourceTree = "<group>"; };
@@ -2434,7 +2434,6 @@
 				2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */,
 				50E96E6C1DE3486A009DB88A /* SignUpViewModelSpec.swift */,
 				50C7428C1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift */,
-				7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */,
 				7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */,
 				50FE1CB81E35F6B4000E940D /* LogInEmailViewModelSpec.swift */,
 				50C43DAD1E2681CC00F10E53 /* SignUpEmailStep1ViewModelSpec.swift */,
@@ -3102,6 +3101,7 @@
 				50C742901DE4683700D629B0 /* MockLocationManager.swift */,
 				C7BB25D31E361C9100649396 /* MockKeychainChecker.swift */,
 				C7BAC9B51E49B87D005BD0AF /* MockCountryHelper.swift */,
+				C74C66BD1E5F36FC00A98FBB /* MockFeatureFlags.swift */,
 				C7BAC9C01E49BE51005BD0AF /* MockBubbleNotificationManager.swift */,
 				C7BAC9C51E49D178005BD0AF /* MockNotificationsManager.swift */,
 				C7BAC9CA1E49D433005BD0AF /* MockPurchasesShopper.swift */,
@@ -6006,7 +6006,6 @@
 			files = (
 				721537AA1E51CBC5008DE006 /* NotificationsViewModelSpec.swift in Sources */,
 				5061ACBB1DE35E6D002E5423 /* MockMyUser.swift in Sources */,
-				7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */,
 				C7BAC9C61E49D178005BD0AF /* MockNotificationsManager.swift in Sources */,
 				2EBC920D1E0AB94D007F0F82 /* MockPurchaseableProduct.swift in Sources */,
 				50F344F21D3CDEA2000A8774 /* MockChatProduct.swift in Sources */,
@@ -6088,6 +6087,7 @@
 				C75BC6B51E2E683C00483F79 /* Bool+Randomizable.swift in Sources */,
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
 				2EA60E771E4CCFAF0021B975 /* ShowFeaturedStripeHelperSpec.swift in Sources */,
+				C74C66BE1E5F36FC00A98FBB /* MockFeatureFlags.swift in Sources */,
 				C75BC6B61E2E683C00483F79 /* Double+Randomizable.swift in Sources */,
 				72B935F91E3F9C1C00F93F73 /* MockUserProduct.swift in Sources */,
 				5061ACB91DE35519002E5423 /* MockSessionManager.swift in Sources */,
