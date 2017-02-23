@@ -1279,6 +1279,7 @@
 		C7E590301E5DD8F4002921B2 /* Collection+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E5902F1E5DD8F4002921B2 /* Collection+LGSpec.swift */; };
 		C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */; };
 		C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */; };
+		C7E590351E5EE66D002921B2 /* MultiPageRequesterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E590341E5EE66D002921B2 /* MultiPageRequesterSpec.swift */; };
 		C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E891CD1F77E000F2591 /* NotificationData.swift */; };
 		C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E891CD1F77E000F2591 /* NotificationData.swift */; };
 		C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E8C1CD20A49000F2591 /* ViewState.swift */; };
@@ -2119,6 +2120,7 @@
 		C7E5902C1E5D973C002921B2 /* CollectionType+Merge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionType+Merge.swift"; sourceTree = "<group>"; };
 		C7E5902F1E5DD8F4002921B2 /* Collection+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+LGSpec.swift"; sourceTree = "<group>"; };
 		C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPageRequester.swift; sourceTree = "<group>"; };
+		C7E590341E5EE66D002921B2 /* MultiPageRequesterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPageRequesterSpec.swift; sourceTree = "<group>"; };
 		C7E73E891CD1F77E000F2591 /* NotificationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		C7E73E8C1CD20A49000F2591 /* ViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		C7F18A931C89CB3300D23319 /* PostProductGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryView.swift; sourceTree = "<group>"; };
@@ -3619,6 +3621,7 @@
 				C7BAC9CF1E4A0EA6005BD0AF /* TestableObserver+LGSpec.swift */,
 				2EA60E761E4CCFAF0021B975 /* ShowFeaturedStripeHelperSpec.swift */,
 				C7E5902F1E5DD8F4002921B2 /* Collection+LGSpec.swift */,
+				C7E590341E5EE66D002921B2 /* MultiPageRequesterSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -6002,6 +6005,7 @@
 				C7BAC9CB1E49D433005BD0AF /* MockPurchasesShopper.swift in Sources */,
 				2EBC920F1E0AB98C007F0F82 /* MockPurchaseableProductsResponse.swift in Sources */,
 				C7BB25D61E36385500649396 /* KeychainCheckerSpec.swift in Sources */,
+				C7E590351E5EE66D002921B2 /* MultiPageRequesterSpec.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
 				C7BAC9AD1E49B1A4005BD0AF /* MockProductRepository.swift in Sources */,
 				2EF4E3BD1D3688C400A09DFD /* MockConfigRetrieveService.swift in Sources */,
