@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7281CBCF1E5EF14700C6ADF4"
+               BlueprintIdentifier = "72F4FC4F1E5EFE18001E9F86"
                BuildableName = "notificationserviceGodMode.appex"
                BlueprintName = "notificationserviceGodMode"
                ReferencedContainer = "container:LetGo.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7281CBCF1E5EF14700C6ADF4"
+            BlueprintIdentifier = "72F4FC4F1E5EFE18001E9F86"
             BuildableName = "notificationserviceGodMode.appex"
             BlueprintName = "notificationserviceGodMode"
             ReferencedContainer = "container:LetGo.xcodeproj">
