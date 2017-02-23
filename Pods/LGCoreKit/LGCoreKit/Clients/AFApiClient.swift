@@ -55,7 +55,7 @@ public enum BadRequestCause {
 public enum ForbiddenCause {
     
     case emailTaken
-    
+    case userBlocked
     case notSpecified
     case other(code: Int)
     
