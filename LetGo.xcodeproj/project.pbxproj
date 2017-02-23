@@ -1274,6 +1274,12 @@
 		C7E1DE521E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */; };
 		C7E1DE541E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE531E51F644003818F6 /* DirectAnswersHorizontalView.swift */; };
 		C7E1DE551E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E1DE531E51F644003818F6 /* DirectAnswersHorizontalView.swift */; };
+		C7E5902D1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E5902C1E5D973C002921B2 /* CollectionType+Merge.swift */; };
+		C7E5902E1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E5902C1E5D973C002921B2 /* CollectionType+Merge.swift */; };
+		C7E590301E5DD8F4002921B2 /* Collection+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E5902F1E5DD8F4002921B2 /* Collection+LGSpec.swift */; };
+		C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */; };
+		C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */; };
+		C7E590351E5EE66D002921B2 /* MultiPageRequesterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E590341E5EE66D002921B2 /* MultiPageRequesterSpec.swift */; };
 		C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E891CD1F77E000F2591 /* NotificationData.swift */; };
 		C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E891CD1F77E000F2591 /* NotificationData.swift */; };
 		C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E73E8C1CD20A49000F2591 /* ViewState.swift */; };
@@ -2111,6 +2117,10 @@
 		C7DFB0B61DDA256E005C9B9D /* UIView+Corners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Corners.swift"; sourceTree = "<group>"; };
 		C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRelicTracker.swift; sourceTree = "<group>"; };
 		C7E1DE531E51F644003818F6 /* DirectAnswersHorizontalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersHorizontalView.swift; sourceTree = "<group>"; };
+		C7E5902C1E5D973C002921B2 /* CollectionType+Merge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionType+Merge.swift"; sourceTree = "<group>"; };
+		C7E5902F1E5DD8F4002921B2 /* Collection+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+LGSpec.swift"; sourceTree = "<group>"; };
+		C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPageRequester.swift; sourceTree = "<group>"; };
+		C7E590341E5EE66D002921B2 /* MultiPageRequesterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPageRequesterSpec.swift; sourceTree = "<group>"; };
 		C7E73E891CD1F77E000F2591 /* NotificationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		C7E73E8C1CD20A49000F2591 /* ViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		C7F18A931C89CB3300D23319 /* PostProductGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryView.swift; sourceTree = "<group>"; };
@@ -3246,6 +3256,7 @@
 				6A5E19C21D548F5400F92692 /* String+LG.swift */,
 				6A5E19C31D548F5400F92692 /* UnicodeScalar+LG.swift */,
 				C7C61E061D63505500F9505D /* CollectionType+Shuffle.swift */,
+				C7E5902C1E5D973C002921B2 /* CollectionType+Merge.swift */,
 			);
 			path = FoundationExtensions;
 			sourceTree = "<group>";
@@ -3609,6 +3620,8 @@
 				C7BB25CB1E32315300649396 /* TourLoginState+LGSpec.swift */,
 				C7BAC9CF1E4A0EA6005BD0AF /* TestableObserver+LGSpec.swift */,
 				2EA60E761E4CCFAF0021B975 /* ShowFeaturedStripeHelperSpec.swift */,
+				C7E5902F1E5DD8F4002921B2 /* Collection+LGSpec.swift */,
+				C7E590341E5EE66D002921B2 /* MultiPageRequesterSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -4012,6 +4025,7 @@
 				6A5E19CF1D548F5400F92692 /* RxExtensions */,
 				50C63B6E1DC3A76D00836D85 /* SocialSharer */,
 				6A5E19D41D548F5400F92692 /* UIkitExtensions */,
+				C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -5280,6 +5294,7 @@
 				72BABFE81E30E1360035747B /* WSChatStatus+LG.swift in Sources */,
 				5009F8411E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
+				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */,
@@ -5396,6 +5411,7 @@
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				C7841AF41E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				C70BC6881E16B3C100EC74E9 /* UISwitch+Rx.swift in Sources */,
+				C7E5902D1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				C7415EDB1DE898580003D6C1 /* SimpleProductsViewModel.swift in Sources */,
 				50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */,
@@ -5756,6 +5772,7 @@
 				72BABFE91E30E1360035747B /* WSChatStatus+LG.swift in Sources */,
 				5009F8421E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
+				C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				C7F3F1E21DE5A95F00652447 /* ChatRelatedProductsView.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				C7740DF51DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift in Sources */,
@@ -5872,6 +5889,7 @@
 				C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */,
 				6A5E19F11D548F5400F92692 /* String+LG.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
+				C7E5902E1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				C70BC6891E16B47700EC74E9 /* UISwitch+Rx.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
@@ -5987,6 +6005,7 @@
 				C7BAC9CB1E49D433005BD0AF /* MockPurchasesShopper.swift in Sources */,
 				2EBC920F1E0AB98C007F0F82 /* MockPurchaseableProductsResponse.swift in Sources */,
 				C7BB25D61E36385500649396 /* KeychainCheckerSpec.swift in Sources */,
+				C7E590351E5EE66D002921B2 /* MultiPageRequesterSpec.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
 				C7BAC9AD1E49B1A4005BD0AF /* MockProductRepository.swift in Sources */,
 				2EF4E3BD1D3688C400A09DFD /* MockConfigRetrieveService.swift in Sources */,
@@ -5997,6 +6016,7 @@
 				72FCD3041E4104B900DC6AB7 /* MockChatInterlocutor.swift in Sources */,
 				C70971C61E2F8A8B00680995 /* MockUnreadNotificationsCounts.swift in Sources */,
 				C75BC6BF1E2E693C00483F79 /* MockOldChatRepository.swift in Sources */,
+				C7E590301E5DD8F4002921B2 /* Collection+LGSpec.swift in Sources */,
 				C7BB25D41E361C9100649396 /* MockKeychainChecker.swift in Sources */,
 				50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				C743FEC31E48DFCF00B4E912 /* BaseViewModelSpec.swift in Sources */,

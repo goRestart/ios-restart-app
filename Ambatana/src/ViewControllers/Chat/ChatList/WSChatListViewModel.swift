@@ -139,7 +139,15 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                 return false
             }
         }.bindNext { [weak self] event in
-            self?.reloadCurrentPagesWithCompletion(nil)
+            self?.refresh(completion: nil)
+        }.addDisposableTo(disposeBag)
+
+        chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
+            guard let strongSelf = self else { return }
+            //Reload messages if active, otherwise it will reload when active
+            if wsChatStatus.available && strongSelf.active {
+                strongSelf.refresh(completion: nil)
+            }
         }.addDisposableTo(disposeBag)
     }
 }

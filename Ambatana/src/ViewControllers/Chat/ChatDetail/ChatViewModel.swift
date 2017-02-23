@@ -107,7 +107,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let firstInteractionDone = Variable<Bool>(false)
     fileprivate let expressBannerTimerFinished = Variable<Bool>(false)
     fileprivate let hasRelatedProducts = Variable<Bool>(false)
-    private let expressMessagesAlreadySent = Variable<Bool>(false)
+    fileprivate let expressMessagesAlreadySent = Variable<Bool>(false)
     fileprivate let interlocutorIsMuted = Variable<Bool>(false)
     private let interlocutorHasMutedYou = Variable<Bool>(false)
     private let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
@@ -123,7 +123,6 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var isDeleted = false
     fileprivate var shouldAskProductSold: Bool = false
-    fileprivate var isSendingQuickAnswer = false
     fileprivate var productId: String? // Only used when accessing a chat from a product
     fileprivate var preSendMessageCompletion: ((_ type: ChatWrapperMessageType) -> Void)?
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
@@ -247,13 +246,13 @@ class ChatViewModel: BaseViewModel {
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        
-        refreshChatInfo()
+
         if firstTime {
             retrieveRelatedProducts()
-            launchExpressChatTimer()
-            expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
+            setupExpressChat()
         }
+
+        refreshChat()
         trackVisit()
     }
 
@@ -263,16 +262,12 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    func applicationWillEnterForeground() {
-        refreshChatInfo()
-    }
-
-    private func refreshChatInfo() {
+    private func refreshChat() {
         // only load messages if the interlocutor is not blocked
         // Note: In some corner cases (staging only atm) the interlocutor may come as nil
         if let interlocutor = conversation.value.interlocutor, interlocutor.isBanned { return }
-        retrieveMoreMessages()
         loadStickersTooltip()
+        refreshMessages()
     }
 
     func wentBack() {
@@ -296,7 +291,7 @@ class ChatViewModel: BaseViewModel {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
-                self?.retrieveMoreMessages()
+                self?.refreshMessages()
                 self?.setupChatEventsRx()
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
@@ -464,11 +459,17 @@ class ChatViewModel: BaseViewModel {
 
     func setupChatEventsRx() {
         chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
+            guard let strongSelf = self else { return }
             switch wsChatStatus {
-            case .closed, .closing, .opening, .openAuthenticated, .openNotAuthenticated:
-                break
+            case .openAuthenticated:
+                //Reload messages if active, otherwise it will reload when active
+                if strongSelf.active {
+                    self?.refreshMessages()
+                }
             case .openNotVerified:
                 self?.showUserNotVerifiedAlert()
+            case .closed, .closing, .opening, .openNotAuthenticated:
+                break
             }
         }.addDisposableTo(disposeBag)
 
@@ -622,10 +623,6 @@ extension ChatViewModel {
             return
         }
 
-        if type.isQuickAnswer {
-            if isSendingQuickAnswer { return }
-            isSendingQuickAnswer = true
-        }
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
@@ -643,21 +640,17 @@ extension ChatViewModel {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
-                guard let id = newMessage.objectId else { return }
-                strongSelf.markMessageAsSent(id)
                 strongSelf.afterSendMessageEvents()
                 strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
-                // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
+                // Removing message until we implement the retry-message state behavior
+                strongSelf.removeMessage(messageId: messageId)
                 switch error {
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
                     self?.delegate?.vmDidFailSendingMessage()
                 }
-            }
-            if type.isQuickAnswer {
-                self?.isSendingQuickAnswer = false
             }
         }
     }
@@ -719,12 +712,17 @@ extension ChatViewModel {
         let range = index..<(index+1)
         messages.replace(range, with: [newMessage])
     }
-    
+
+    private func removeMessage(messageId: String) {
+        guard let index = messages.value.index(where: {$0.objectId == messageId}) else { return }
+        messages.removeAtIndex(index)
+    }
+
     fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
-        let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
+        let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
         guard isBuyer else { return }
@@ -930,11 +928,20 @@ extension ChatViewModel {
             retrieveMoreMessages()
         }
     }
-    
-    func retrieveMoreMessages() {
+
+    func refreshMessages() {
+        guard let convId = conversation.value.objectId else { return }
+        guard !isLoading else { return }
+        if messages.value.count == 0 {
+            downloadFirstPage(convId)
+        } else {
+            refreshLastMessages(convId)
+        }
+    }
+
+    private func retrieveMoreMessages() {
         guard let convId = conversation.value.objectId else { return }
         guard !isLoading && !isLastPage else { return }
-        isLoading = true
         if messages.value.count == 0 {
             downloadFirstPage(convId)
         } else if let lastId = messages.value.last?.objectId {
@@ -960,14 +967,14 @@ extension ChatViewModel {
     }
 
     private func downloadFirstPage(_ conversationId: String) {
+        isLoading = true
         chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) { [weak self] result in
             guard let strongSelf = self else { return }
 
             strongSelf.isLoading = false
             if let value = result.value {
                 self?.isLastPage = value.count == 0
-                strongSelf.messages.removeAll()
-                strongSelf.updateMessages(newMessages: value, isFirstPage: true)
+                strongSelf.mergeMessages(newMessages: value)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
             } else if let _ = result.error {
@@ -977,6 +984,7 @@ extension ChatViewModel {
     }
     
     private func downloadMoreMessages(_ convId: String, fromMessageId: String) {
+        isLoading = true
         chatRepository.indexMessagesOlderThan(fromMessageId, conversationId: convId, numResults: resultsPerPage) {
             [weak self] result in
             guard let strongSelf = self else { return }
@@ -990,6 +998,15 @@ extension ChatViewModel {
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
+        }
+    }
+
+    private func refreshLastMessages(_ convId: String) {
+        isLoading = true
+        chatRepository.indexMessages(convId, numResults: resultsPerPage, offset: 0) { [weak self] result in
+            self?.isLoading = false
+            guard let newMessages = result.value else { return }
+            self?.mergeMessages(newMessages: newMessages)
         }
     }
 
@@ -1020,6 +1037,41 @@ extension ChatViewModel {
         if let bottomDisclaimerMessage = bottomDisclaimerMessage, isFirstPage {
             chatMessages.insert(bottomDisclaimerMessage, at: 0)
         }
+        messages.appendContentsOf(chatMessages)
+    }
+
+    private func mergeMessages(newMessages: [ChatMessage]) {
+        markAsReadMessages(newMessages)
+
+        let newViewMessages = newMessages.map(chatViewMessageAdapter.adapt)
+        guard !newViewMessages.isEmpty else { return }
+
+        //We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
+        var filteredViewMessages = messages.value.filter { $0.objectId != nil }
+
+        filteredViewMessages.merge(
+            another: newViewMessages,
+            matcher: { $0.objectId == $1.objectId },
+            sortBy: { (message1, message2) -> Bool in
+                if message1.sentAt == nil && message2.sentAt != nil { return true }
+                guard let sentAt1 = message1.sentAt, let sentAt2 = message2.sentAt else { return false }
+                return sentAt1 > sentAt2
+            }
+        )
+
+        var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
+                                                                 disclaimerMessage: defaultDisclaimerMessage)
+
+        // Add user info as 1st message
+        if let userInfoMessage = userInfoMessage, isLastPage {
+            chatMessages.append(userInfoMessage)
+        }
+        // Add disclaimer at the bottom of the first page
+        if let bottomDisclaimerMessage = bottomDisclaimerMessage {
+            chatMessages.insert(bottomDisclaimerMessage, at: 0)
+        }
+
+        messages.removeAll()
         messages.appendContentsOf(chatMessages)
     }
 
@@ -1226,7 +1278,7 @@ fileprivate extension ChatInfoViewStatus {
     }
 }
 
-//// MARK: - DirectAnswers
+// MARK: - DirectAnswers
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
@@ -1293,27 +1345,6 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
 }
 
 
-// MARK: - ChatMessageType tracking
-
-extension ChatMessageType {
-    var trackingMessageType: EventParameterMessageType {
-        switch self {
-        case .text:
-            return .text
-        case .offer:
-            return .offer
-        case .sticker:
-            return .sticker
-        case .favoritedProduct:
-            return .favorite
-        case .expressChat:
-            return .expressChat
-        case .quickAnswer:
-            return .quickAnswer
-        }
-    }
-}
-
 // MARK: - Related products for express chat
 
 extension ChatViewModel {
@@ -1328,7 +1359,7 @@ extension ChatViewModel {
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
-                strongSelf.updateExpressChatBanner()
+                strongSelf.hasRelatedProducts.value = !strongSelf.relatedProducts.isEmpty
             }
         }
     }
@@ -1346,20 +1377,14 @@ extension ChatViewModel {
 
     // Express Chat Banner methods
 
-    private func updateExpressChatBanner() {
-        hasRelatedProducts.value = !relatedProducts.isEmpty
+    fileprivate func setupExpressChat() {
+        expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) { [weak self] in
+            self?.expressBannerTimerFinished.value = true
+        }
     }
 
-    fileprivate func launchExpressChatTimer() {
-        let _ = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(updateBannerTimerStatus),
-                                                       userInfo: nil, repeats: false)
-    }
-
-    private dynamic func updateBannerTimerStatus() {
-        expressBannerTimerFinished.value = true
-    }
-
-    fileprivate func expressChatMessageSentForCurrentProduct() -> Bool {
+    private func expressChatMessageSentForCurrentProduct() -> Bool {
         guard let productId = conversation.value.product?.objectId else { return false }
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
             if productSentId == productId { return true }
