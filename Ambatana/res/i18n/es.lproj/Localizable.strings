@@ -731,7 +731,7 @@
 "sign_up_email_step1_continue_button" = "Continuar";
 "sign_up_email_step1_email_field_hint" = "Email";
 "sign_up_email_step1_footer" = "¿Ya tienes cuenta? Inicia sesión";
-"sign_up_email_step1_footer_log_in_kw" = "Inicia Sesión";
+"sign_up_email_step1_footer_log_in_kw" = "Inicia sesión";
 "sign_up_email_step1_help_button" = "Ayuda";
 "sign_up_email_step1_password_field_hint" = "Contraseña";
 "sign_up_email_step1_title" = "Crear cuenta";

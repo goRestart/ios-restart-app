@@ -271,7 +271,7 @@
 "direct_answers_show" = "Visa Snabba Svar";
 "edit_product_location_alert_text" = "För att ändra var din produkt har lagts in, tillåt tillgång till din plats";
 "edit_product_location_alert_title" = "ÄNDRA PLATS";
-"edit_product_send_button" = "Uppdatera";
+"edit_product_send_button" = "Spara ändringar";
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
 "edit_product_suggesting_title" = "Föreslår titel...";

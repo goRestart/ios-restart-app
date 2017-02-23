@@ -332,8 +332,8 @@
 "log_in_title" = "Mit E-Mail-Adresse anmelden";
 "login_scammer_alert_contact_button" = "Schreib uns";
 "login_scammer_alert_keep_browsing_button" = "Überspringen";
-"login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί από λάθος, επικοινωνήστε μαζί μας.";
-"login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
+"login_scammer_alert_message" = "Dein Benutzerkonto wird vom letgo-Team überprüft. Wenn du der Meinung bist, dass es fälschlicherweise gemeldet wurde, kontaktiere uns.";
+"login_scammer_alert_title" = "BENUTZERKONTO WIRD ÜBERPRÜFT";
 "main_products_filter_navigation_bar_button" = "Filtern";
 "main_products_invite_navigation_bar_button" = "Einladen";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
@@ -741,7 +741,7 @@
 "sign_up_email_step2_newsletter" = "Ich möchte den letgo-Newsletter erhalten";
 "sign_up_email_step2_sign_up_button" = "Registrieren";
 "sign_up_email_step2_terms_conditions" = "Durch eine Registrierung oder Anmeldung stimmst du unseren Nutzungsbedingungen und Datenschutz-Richtlinien zu";
-"sign_up_email_step2_terms_conditions_privacy_kw" = "Datenschutz";
+"sign_up_email_step2_terms_conditions_privacy_kw" = "Datenschutz-Richtlinien";
 "sign_up_email_step2_terms_conditions_terms_kw" = "Nutzungsbedingungen";
 "sign_up_email_step2_title" = "Vor- und Nachname";
 "sign_up_newsleter" = "I want to receive the letgo newsletter";

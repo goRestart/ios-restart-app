@@ -311,7 +311,7 @@
 "location_permissons_subtitle" = "회원님과 가까운 상품을 확인하시길 원하시나요?";
 "log_in_email_email_field_hint" = "이메일";
 "log_in_email_footer" = "계정이 없으신가요? 가입해보세요";
-"log_in_email_footer_sign_up_kw" = "회원가입";
+"log_in_email_footer_sign_up_kw" = "가입해보세요";
 "log_in_email_forgot_password_alert_cancel_action" = "새로 고침";
 "log_in_email_forgot_password_alert_message" = "사용자의 계정을 찾는데 도움이 될 수 있도록 %@으로 이메일을 발송하여 드릴 수 있습니다.";
 "log_in_email_forgot_password_alert_remember_action" = "이메일 발송";
@@ -731,7 +731,7 @@
 "sign_up_email_step1_continue_button" = "Continue";
 "sign_up_email_step1_email_field_hint" = "이메일";
 "sign_up_email_step1_footer" = "이미 계정이 있으신가요? 로그인 하기";
-"sign_up_email_step1_footer_log_in_kw" = "로그인";
+"sign_up_email_step1_footer_log_in_kw" = "로그인 하기";
 "sign_up_email_step1_help_button" = "도움";
 "sign_up_email_step1_password_field_hint" = "비밀번호";
 "sign_up_email_step1_title" = "새로운 계정 만들기";
@@ -741,8 +741,8 @@
 "sign_up_email_step2_newsletter" = "저는 letgo 소식을 받아보고자 합니다";
 "sign_up_email_step2_sign_up_button" = "회원가입";
 "sign_up_email_step2_terms_conditions" = "로그인함하여 회원님은 저희 사용 약관 및 개인보호 정책에 동의하시게 됩니다";
-"sign_up_email_step2_terms_conditions_privacy_kw" = "개인정보 정책";
-"sign_up_email_step2_terms_conditions_terms_kw" = "사용약관";
+"sign_up_email_step2_terms_conditions_privacy_kw" = "개인보호 정책에";
+"sign_up_email_step2_terms_conditions_terms_kw" = "사용 약관";
 "sign_up_email_step2_title" = "이름";
 "sign_up_newsleter" = "저는 letgo 소식을 받아보고자 합니다";
 "sign_up_password_field_hint" = "비밀번호";
