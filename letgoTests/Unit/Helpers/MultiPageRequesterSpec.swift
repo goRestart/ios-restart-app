@@ -19,29 +19,34 @@ class MultipageRequesterSpec: QuickSpec {
     override func spec() {
         var sut: MultiPageRequester<String>!
 
-        var results: [Int: StringResult]!
-        var firstErrorSent: RepositoryError!
-        let requestPageBlock: (_ page: Int,_ completion: StringCompletion?) -> Void = { (page, completion) in
-            let msRandom = Int.random(10, 100)
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(msRandom)) {
-                guard let result = results[page] else { return }
-                if firstErrorSent == nil, let error = result.error {
-                    firstErrorSent = error
-                }
-                completion?(result)
-            }
-        }
-
         var finalResult: StringResult!
         let completion: StringCompletion = { r in
             finalResult = r
         }
+
+        var results: [Int: StringResult]!
+        var firstErrorSent: RepositoryError!
+
+        var currentExecution: Int!
 
         describe("MultipageRequester Spec") {
             beforeEach {
                 finalResult = nil
                 results = nil
                 firstErrorSent = nil
+                currentExecution = Int.random()
+                let executionCheck = currentExecution
+                let requestPageBlock: (_ page: Int,_ completion: StringCompletion?) -> Void = { (page, completion) in
+                    let msRandom = Int.random(10, 100)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(msRandom)) {
+                        guard currentExecution == executionCheck else { return }
+                        guard let result = results[page] else { return }
+                        if firstErrorSent == nil, let error = result.error {
+                            firstErrorSent = error
+                        }
+                        completion?(result)
+                    }
+                }
                 sut = MultiPageRequester<String>(pageRequestBlock: requestPageBlock)
             }
             context("just one success page") {
