@@ -37,7 +37,7 @@ class MultiPageRequester<T> {
                 guard let strongSelf = self, !strongSelf.errored else { return }
                 if let value = result.value {
                     strongSelf.pagesResults[page] = value
-                    strongSelf.groupResultAndfinishIfNeeded(pages: pages)
+                    strongSelf.groupResultAndFinishIfNeeded(pages: pages)
                 } else {
                     strongSelf.errored = true
                     strongSelf.requesting = false
@@ -48,7 +48,7 @@ class MultiPageRequester<T> {
         return true
     }
 
-    private func groupResultAndfinishIfNeeded(pages: [Int]) {
+    private func groupResultAndFinishIfNeeded(pages: [Int]) {
         guard pagesResults.count == pages.count else { return }
         var groupedResults = [T]()
         for page in pages {
