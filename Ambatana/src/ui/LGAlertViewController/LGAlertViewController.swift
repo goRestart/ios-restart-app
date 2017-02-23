@@ -149,8 +149,8 @@ class LGAlertViewController: UIViewController {
             let button = UIButton(type: .custom)
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
-            button.layout(with: buttonsContainer).fillVertical()
-            button.layout().height(LGUIKitConstants.mediumButtonHeight).width(widthConstant, multiplier: widthMultiplier)
+            button.layout(with: buttonsContainer).fillVertical().width(widthConstant, multiplier: widthMultiplier)
+            button.layout().height(LGUIKitConstants.mediumButtonHeight)
             if let previous = previous {
                 button.layout(with: previous).left(to: .right, by: LGAlertViewController.buttonsMargin)
             } else {
