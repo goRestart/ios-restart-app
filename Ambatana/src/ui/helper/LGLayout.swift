@@ -218,16 +218,26 @@ extension LGLayout {
     @discardableResult
     func width(_ width: CGFloat, multiplier: CGFloat = 1, relatedBy: NSLayoutRelation = .equal, priority: UILayoutPriority = UILayoutPriorityRequired,
                constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .width, relatedBy: relatedBy, multiplier: multiplier, constant: width,
-                   priority: priority, constraintBlock: constraintBlock)
+        if let item2 = item2 {
+            constraint(item1: item1, attribute1: .width, relatedBy: relatedBy, item2: item2, attribute2: .width, multiplier: multiplier, constant: width,
+                       priority: priority, constraintBlock: constraintBlock)
+        } else {
+            constraint(item1: item1, attribute1: .width, relatedBy: relatedBy, multiplier: multiplier, constant: width,
+                       priority: priority, constraintBlock: constraintBlock)
+        }
         return self
     }
 
     @discardableResult
     func height(_ height: CGFloat, multiplier: CGFloat = 1, relatedBy: NSLayoutRelation = .equal, priority: UILayoutPriority = UILayoutPriorityRequired,
                 constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .height, relatedBy: relatedBy, multiplier: multiplier, constant: height,
-                   priority: priority, constraintBlock: constraintBlock)
+        if let item2 = item2 {
+            constraint(item1: item1, attribute1: .height, relatedBy: relatedBy, item2: item2, attribute2: .height, multiplier: multiplier, constant: height,
+                       priority: priority, constraintBlock: constraintBlock)
+        } else {
+            constraint(item1: item1, attribute1: .height, relatedBy: relatedBy, multiplier: multiplier, constant: height,
+                       priority: priority, constraintBlock: constraintBlock)
+        }
         return self
     }
 
