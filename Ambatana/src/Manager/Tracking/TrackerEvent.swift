@@ -264,10 +264,11 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDetailVisit, params: params)
     }
     
-    static func productNotFound(_ source: EventParameterProductVisitSource) -> TrackerEvent {
+    static func productNotAvailable(_ source: EventParameterProductVisitSource, reason: EventParameterNotAvailableReason) -> TrackerEvent {
         var params = EventParameters()
         params[.productVisitSource] = source.rawValue
-        return TrackerEvent(name: .productNotFound, params: params)
+        params[.notAvailableReason] = reason.rawValue
+        return TrackerEvent(name: .productNotAvailable, params: params)
     }
 
     static func productDetailVisitMoreInfo(_ product: Product) -> TrackerEvent {

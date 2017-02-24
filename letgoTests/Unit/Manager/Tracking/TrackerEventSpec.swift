@@ -1001,16 +1001,20 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            fdescribe("productNotFound") {
+            describe("productNotAvailable") {
                 beforeEach {
-                    sut = TrackerEvent.productNotFound(.notifications)
+                    sut = TrackerEvent.productNotAvailable(.notifications, reason: .notFound)
                 }
                 it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("product-not-found"))
+                    expect(sut.name.rawValue).to(equal("product-not-available"))
                 }
                 it("contains visit-source") {
                     let productId = sut.params!.stringKeyParams["visit-source"] as? String
                     expect(productId).to(equal("notifications"))
+                }
+                it("contains reason") {
+                    let productId = sut.params!.stringKeyParams["not-available-reason"] as? String
+                    expect(productId).to(equal("not-found"))
                 }
             }
 
