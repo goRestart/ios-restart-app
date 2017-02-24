@@ -27,7 +27,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmViewControllerToShowShareOptions() -> UIViewController
 
     // Bump Up
-    func vmShowPaymentBumpUpView()
     func vmResetBumpUpBannerCountdown()
 }
 
@@ -428,7 +427,10 @@ class ProductViewModel: BaseViewModel {
         }
 
         let showPaymentViewBlock = { [weak self] in
-            self?.delegate?.vmShowPaymentBumpUpView()
+            guard let product = self?.product.value else { return }
+            guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
+            self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
+            self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
         }
         let payBumpBlock = { [weak self] in
             self?.bumpUpProduct()

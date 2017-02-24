@@ -1202,10 +1202,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
 
     // Bump Up
 
-    func vmShowPaymentBumpUpView() {
-        viewModel.openPaymentBumpUpView()
-    }
-
     func vmResetBumpUpBannerCountdown() {
         bumpUpBanner.resetCountdown()
     }
