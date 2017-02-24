@@ -194,7 +194,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         // Force tabBar to hide when view appears from background.
         self.tabBarController?.setTabBarHidden(true, animated: false)
         addIgnoreTouchesForMoreInfo()
-        refreshBannerInfo()
     }
 
     /*
@@ -734,10 +733,6 @@ extension ProductCarouselViewController {
         viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
             self?.showBumpUpBanner(bumpInfo: info)
             }.addDisposableTo(activeDisposeBag)
-    }
-
-    fileprivate func refreshBannerInfo() {
-        viewModel.refreshBannerInfo()
     }
 }
 

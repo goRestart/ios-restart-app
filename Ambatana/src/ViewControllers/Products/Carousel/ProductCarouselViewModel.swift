@@ -80,6 +80,12 @@ class ProductCarouselViewModel: BaseViewModel {
 
     fileprivate let disposeBag = DisposeBag()
 
+    override var active: Bool {
+        didSet {
+            currentProductViewModel?.active = active
+        }
+    }
+
     // MARK: - Init
 
     convenience init(product: LocalProduct,
@@ -280,10 +286,6 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController, barButtonItem: barButtonItem)
-    }
-
-    func refreshBannerInfo() {
-        currentProductViewModel?.refreshBumpeableBanner()
     }
 
     func quickAnswersShowButtonPressed() {
