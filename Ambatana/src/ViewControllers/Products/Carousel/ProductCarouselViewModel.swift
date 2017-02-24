@@ -38,7 +38,6 @@ class ProductCarouselViewModel: BaseViewModel {
     weak var navigator: ProductDetailNavigator?
 
     var shareTypes: [ShareType]
-    var socialSharer: SocialSharer
     private let featureFlags: FeatureFlaggeable
     private let showKeyboardOnFirstAppearIfNeeded: Bool
 
@@ -140,7 +139,6 @@ class ProductCarouselViewModel: BaseViewModel {
                   source: source,
                   locale: NSLocale.current,
                   locationManager: Core.locationManager,
-                  socialSharer: SocialSharer(),
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
@@ -158,7 +156,6 @@ class ProductCarouselViewModel: BaseViewModel {
          source: EventParameterProductVisitSource,
          locale: Locale,
          locationManager: LocationManager,
-         socialSharer: SocialSharer,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
          imageDownloader: ImageDownloaderType,
@@ -178,14 +175,12 @@ class ProductCarouselViewModel: BaseViewModel {
         self.source = source
         self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .normal)
-        self.socialSharer = socialSharer
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         super.init()
-        self.socialSharer.delegate = self
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
         self.trackingIndex = trackingIndex
@@ -365,43 +360,6 @@ extension ProductCarouselViewModel {
             }
         }
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
-    }
-}
-
-
-// MARK: - SocialSharerDelegate
-
-extension ProductCarouselViewModel: SocialSharerDelegate {
-    func shareStartedIn(_ shareType: ShareType) {
-    }
-
-    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
-        if let message = messageForShareIn(shareType, finishedWithState: state) {
-            delegate?.vmShowAutoFadingMessage(message, completion: nil)
-        }
-        currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .top, state: state)
-    }
-
-    private func messageForShareIn(_ shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
-        switch (shareType, state) {
-        case (.email, .failed):
-            return LGLocalizedString.productShareEmailError
-        case (.facebook, .failed):
-            return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.fbMessenger, .failed):
-            return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.sms, .completed):
-            return LGLocalizedString.productShareSmsOk
-        case (.sms, .failed):
-            return LGLocalizedString.productShareSmsError
-        case (.copyLink, .completed):
-            return LGLocalizedString.productShareCopylinkOk
-        case (_, .completed):
-            return LGLocalizedString.productShareGenericOk
-        default:
-            break
-        }
-        return nil
     }
 }
 
