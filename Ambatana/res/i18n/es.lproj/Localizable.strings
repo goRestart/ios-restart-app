@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "para destacar de nuevo";
 "bump_up_error_bump_generic" = "Se ha producido un error al destacar tu producto. Por favor, inténtalo de nuevo.";
 "bump_up_error_bump_token" = "Tu pago ha sido procesado pero tu producto no ha sido destacado. Por favor, inténtalo de nuevo.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "¡Destacado! Sigue destacando tu anuncio y tendrá aún más visibilidad.";
 "bump_up_pay_success" = "¡Destacado! Ahora tu producto tiene más visibilidad.";
 "bump_up_processing_free_text" = "Procesando destacado...";
@@ -731,7 +732,7 @@
 "sign_up_email_step1_continue_button" = "Continuar";
 "sign_up_email_step1_email_field_hint" = "Email";
 "sign_up_email_step1_footer" = "¿Ya tienes cuenta? Inicia sesión";
-"sign_up_email_step1_footer_log_in_kw" = "Inicia Sesión";
+"sign_up_email_step1_footer_log_in_kw" = "Inicia sesión";
 "sign_up_email_step1_help_button" = "Ayuda";
 "sign_up_email_step1_password_field_hint" = "Contraseña";
 "sign_up_email_step1_title" = "Crear cuenta";

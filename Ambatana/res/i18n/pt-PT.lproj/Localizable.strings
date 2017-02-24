@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "para priorizar de novo";
 "bump_up_error_bump_generic" = "Surgiu um erro ao dar prioridade ao seu item. Tente de novo.";
 "bump_up_error_bump_token" = "O seu pagamento está a ser processado mas o item ainda não foi destacado. Tente de novo.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Priorizado! Continue a dar prioridade à sua publicação e terá ainda mais visibilidade.";
 "bump_up_pay_success" = "Priorizado! Agora o seu item tem uma visibilidade acrescida.";
 "bump_up_processing_free_text" = "A processar o bump...";
@@ -731,7 +732,7 @@
 "sign_up_email_step1_continue_button" = "Continue";
 "sign_up_email_step1_email_field_hint" = "Email";
 "sign_up_email_step1_footer" = "Já tem uma conta? Efetue o login";
-"sign_up_email_step1_footer_log_in_kw" = "Login";
+"sign_up_email_step1_footer_log_in_kw" = "Efetue o login";
 "sign_up_email_step1_help_button" = "Ajuda";
 "sign_up_email_step1_password_field_hint" = "Senha";
 "sign_up_email_step1_title" = "Criar um conta nova";

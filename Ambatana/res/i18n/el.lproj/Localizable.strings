@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση του αντικειμένου σας. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά το αντικείμενό σας δεν έχει προταθεί ακόμη. Παρακαλώ δοκιμάστε ξανά.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Επιτυχής προώθηση! Συνεχίστε την προώθηση και οι καταχωρήσεις σας θα είναι ακόμη πιο ορατές.";
 "bump_up_pay_success" = "Επιτυχής προώθηση! Τώρα το αντικείμενό σας έχει επιπλέον προβολή.";
 "bump_up_processing_free_text" = "Επεξεργασία προώθησης...";

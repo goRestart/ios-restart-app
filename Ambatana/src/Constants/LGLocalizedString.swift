@@ -115,6 +115,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_error_bump_token", comment: "")
 	}
 
+	static var bumpUpErrorPaymentFailed: String {
+		return NSLocalizedString("bump_up_error_payment_failed", comment: "")
+	}
+
 	static var bumpUpProcessingFreeText: String {
 		return NSLocalizedString("bump_up_processing_free_text", comment: "")
 	}

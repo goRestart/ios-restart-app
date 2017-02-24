@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "till nästa puff";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din produkt skulle puffas uppåt. Vänligen försök igen.";
 "bump_up_error_bump_token" = "Din betalning har processats men din produkt har inte lagts upp ännu. Vänligen försök igen.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
 "bump_up_pay_success" = "Puffad! Nu har din produkt fått extra synlighet.";
 "bump_up_processing_free_text" = "Bearbetar puff...";
@@ -271,7 +272,7 @@
 "direct_answers_show" = "Visa Snabba Svar";
 "edit_product_location_alert_text" = "För att ändra var din produkt har lagts in, tillåt tillgång till din plats";
 "edit_product_location_alert_title" = "ÄNDRA PLATS";
-"edit_product_send_button" = "Uppdatera";
+"edit_product_send_button" = "Spara ändringar";
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
 "edit_product_suggesting_title" = "Föreslår titel...";

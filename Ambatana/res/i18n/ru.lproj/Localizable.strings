@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "до нового продвижения";
 "bump_up_error_bump_generic" = "При продвижении товара произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "bump_up_error_bump_token" = "Ваш платеж обработан, но товар еще не поднят. Пожалуйста, попробуйте еще раз.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Поднято! Продолжайте поднимать ваше объявление, и его будет видно еще лучше.";
 "bump_up_pay_success" = "Поднято! Теперь ваш товар лучше виден.";
 "bump_up_processing_free_text" = "Обрабатываем продвижение объявления...";
@@ -741,7 +742,7 @@
 "sign_up_email_step2_newsletter" = "Я хочу получать новости letgo";
 "sign_up_email_step2_sign_up_button" = "Регистрация";
 "sign_up_email_step2_terms_conditions" = "Регистрируясь или входя в аккаунт, вы принимаете наши Правила Пользования и Политику Конфиденциальности";
-"sign_up_email_step2_terms_conditions_privacy_kw" = "Политика Конфиденциальности";
+"sign_up_email_step2_terms_conditions_privacy_kw" = "Политику Конфиденциальности";
 "sign_up_email_step2_terms_conditions_terms_kw" = "Правила Пользования";
 "sign_up_email_step2_title" = "Полное имя";
 "sign_up_newsleter" = "I want to receive the letgo newsletter";

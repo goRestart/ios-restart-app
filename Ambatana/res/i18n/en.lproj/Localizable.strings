@@ -79,6 +79,9 @@
 // Token error when bumping
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
 
+// Error shown when payment fails
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
+
 // Text for loading view whiel processing free bump
 "bump_up_processing_free_text" = "Processing bump up...";
 
