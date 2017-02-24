@@ -37,7 +37,6 @@ class ProductCarouselViewModel: BaseViewModel {
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator?
 
-    var shareTypes: [ShareType]
     private let featureFlags: FeatureFlaggeable
     private let showKeyboardOnFirstAppearIfNeeded: Bool
 
@@ -137,8 +136,6 @@ class ProductCarouselViewModel: BaseViewModel {
                   productListRequester: productListRequester,
                   navigator: navigator,
                   source: source,
-                  locale: NSLocale.current,
-                  locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
@@ -154,14 +151,11 @@ class ProductCarouselViewModel: BaseViewModel {
          productListRequester: ProductListRequester?,
          navigator: ProductDetailNavigator?,
          source: EventParameterProductVisitSource,
-         locale: Locale,
-         locationManager: LocationManager,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
          imageDownloader: ImageDownloaderType,
          showKeyboardOnFirstAppearIfNeeded: Bool,
          trackingIndex: Int?) {
-        let countryCode = locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         if let productListModels = productListModels {
@@ -174,7 +168,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.navigator = navigator
         self.source = source
         self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
-        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .normal)
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
