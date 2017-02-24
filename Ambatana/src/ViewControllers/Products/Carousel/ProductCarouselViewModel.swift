@@ -21,26 +21,15 @@ enum CarouselMovement {
 class ProductCarouselViewModel: BaseViewModel {
 
     // Paginable
-    fileprivate var prefetchingIndexes: [Int] = []
     let firstPage: Int = 0
     var nextPage: Int = 1
     var isLastPage: Bool
     var isLoading: Bool = false
 
-    fileprivate let previousImagesToPrefetch = 1
-    fileprivate let nextImagesToPrefetch = 3
-
     var currentProductViewModel: ProductViewModel?
     var startIndex: Int = 0
-    var trackingIndex: Int?
-    var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator?
-
-    private let featureFlags: FeatureFlaggeable
-    private let showKeyboardOnFirstAppearIfNeeded: Bool
-
-    private var activeDisposeBag = DisposeBag()
 
     var objectChanges: Observable<CollectionChange<ProductCarouselCellModel>> {
         return objects.changesObservable
@@ -58,20 +47,26 @@ class ProductCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
 
-    var showKeyboardOnFirstAppearance: Bool {
-        return source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
-    }
+    let showKeyboardOnFirstAppearance: Bool
 
     var quickAnswersAvailable: Bool {
         return currentProductViewModel?.directChatEnabled.value ?? false
     }
     let quickAnswersCollapsed: Variable<Bool>
 
+    // Image prefetching
+    fileprivate let previousImagesToPrefetch = 1
+    fileprivate let nextImagesToPrefetch = 3
+    fileprivate var prefetchingIndexes: [Int] = []
+
+    fileprivate var trackingIndex: Int?
+    fileprivate var initialThumbnail: UIImage?
+
+    private var activeDisposeBag = DisposeBag()
+
     fileprivate let source: EventParameterProductVisitSource
-    fileprivate let productListRequester: ProductListRequester?
+    fileprivate let productListRequester: ProductListRequester
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
-    fileprivate let myUserRepository: MyUserRepository
-    fileprivate let productRepository: ProductRepository
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
@@ -87,8 +82,7 @@ class ProductCarouselViewModel: BaseViewModel {
     // MARK: - Init
 
     convenience init(product: LocalProduct,
-                     productListRequester: ProductListRequester?,
-                     navigator: ProductDetailNavigator?,
+                     productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool,
                      trackingIndex: Int?) {
@@ -96,7 +90,6 @@ class ProductCarouselViewModel: BaseViewModel {
                   initialProduct: product,
                   thumbnailImage: nil,
                   productListRequester: productListRequester,
-                  navigator: navigator,
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex)
@@ -105,8 +98,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     convenience init(product: Product,
                      thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?,
-                     navigator: ProductDetailNavigator?,
+                     productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool,
                      trackingIndex: Int?) {
@@ -114,7 +106,6 @@ class ProductCarouselViewModel: BaseViewModel {
                   initialProduct: product,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
-                  navigator: navigator,
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex)
@@ -123,18 +114,14 @@ class ProductCarouselViewModel: BaseViewModel {
     convenience init(productListModels: [ProductCellModel]?,
          initialProduct: Product?,
          thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?,
-         navigator: ProductDetailNavigator?,
+         productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
          showKeyboardOnFirstAppearIfNeeded: Bool,
          trackingIndex: Int?) {
-        self.init(myUserRepository: Core.myUserRepository,
-                  productRepository: Core.productRepository,
-                  productListModels: productListModels,
+        self.init(productListModels: productListModels,
                   initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
-                  navigator: navigator,
                   source: source,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -143,21 +130,16 @@ class ProductCarouselViewModel: BaseViewModel {
                   trackingIndex: trackingIndex)
     }
 
-    init(myUserRepository: MyUserRepository,
-         productRepository: ProductRepository,
-         productListModels: [ProductCellModel]?,
+    init(productListModels: [ProductCellModel]?,
          initialProduct: Product?,
          thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?,
-         navigator: ProductDetailNavigator?,
+         productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
          imageDownloader: ImageDownloaderType,
          showKeyboardOnFirstAppearIfNeeded: Bool,
          trackingIndex: Int?) {
-        self.myUserRepository = myUserRepository
-        self.productRepository = productRepository
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
         } else {
@@ -165,13 +147,11 @@ class ProductCarouselViewModel: BaseViewModel {
         }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
-        self.navigator = navigator
         self.source = source
-        self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
-        self.featureFlags = featureFlags
+        self.isLastPage = productListRequester.isLastPage(productListModels?.count ?? 0)
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
-        self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded
+        self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
@@ -315,7 +295,7 @@ extension ProductCarouselViewModel: Paginable {
                 strongSelf.nextPage = strongSelf.nextPage + 1
                 strongSelf.objects.appendContentsOf(newProducts.map(ProductCarouselCellModel.init))
                 
-                strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
+                strongSelf.isLastPage = strongSelf.productListRequester.isLastPage(newProducts.count)
                 if newProducts.isEmpty && !strongSelf.isLastPage {
                     strongSelf.retrieveNextPage()
                 }
@@ -323,9 +303,9 @@ extension ProductCarouselViewModel: Paginable {
         }
         
         if isFirstPage {
-            productListRequester?.retrieveFirstPage(completion)
+            productListRequester.retrieveFirstPage(completion)
         } else {
-            productListRequester?.retrieveNextPage(completion)
+            productListRequester.retrieveNextPage(completion)
         }
     }
 }
