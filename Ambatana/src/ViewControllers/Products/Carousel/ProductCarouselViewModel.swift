@@ -53,22 +53,11 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var shouldShowOnboarding: Bool {
-        return !KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding]
+        return !keyValueStorage[.didShowProductDetailOnboarding]
     }
 
     var shouldShowMoreInfoTooltip: Bool {
-        return !KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed]
-    }
-
-    var onboardingShouldShowChatsStep: Bool {
-        guard let status = currentProductViewModel?.status.value else { return false }
-        switch status {
-        case .otherAvailable, .otherAvailableFree:
-            return true
-        case .pending, .pendingAndCommercializable, .available, .availableFree, .availableAndCommercializable, .notAvailable,
-             .otherSold, .sold, .soldFree, .otherSoldFree:
-            return false
-        }
+        return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
 
     var showKeyboardOnFirstAppearance: Bool {
@@ -86,6 +75,7 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let productRepository: ProductRepository
     fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
 
     fileprivate let disposeBag = DisposeBag()
@@ -147,6 +137,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   socialSharer: SocialSharer(),
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex)
     }
@@ -164,6 +155,7 @@ class ProductCarouselViewModel: BaseViewModel {
          socialSharer: SocialSharer,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
+         imageDownloader: ImageDownloaderType,
          showKeyboardOnFirstAppearIfNeeded: Bool,
          trackingIndex: Int?) {
         let countryCode = locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
@@ -183,6 +175,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.socialSharer = socialSharer
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
+        self.imageDownloader = imageDownloader
         self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         super.init()
@@ -281,7 +274,7 @@ class ProductCarouselViewModel: BaseViewModel {
     
     func didOpenMoreInfo() {
         currentProductViewModel?.trackVisitMoreInfo()
-        KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true
+        keyValueStorage[.productMoreInfoTooltipDismissed] = true
         delegate?.vmRemoveMoreInfoTooltip()
     }
 
@@ -289,15 +282,8 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController, barButtonItem: barButtonItem)
     }
 
-    func openFreeBumpUpView() {
-        guard let product = currentProductViewModel?.product.value,
-            let socialMessage = currentProductViewModel?.freeBumpUpShareMessage.value,
-        let paymentItemId = currentProductViewModel?.paymentItemId else { return }
-        currentProductViewModel?.trackBumpUpStarted(.free)
-        navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage, withPaymentItemId: paymentItemId)
-    }
-
     func openPaymentBumpUpView() {
+        //TODO: Refactor inside currentproductvm
         guard let product = currentProductViewModel?.product.value else { return }
         guard let purchaseableProduct = currentProductViewModel?.bumpUpPurchaseableProduct else { return }
         currentProductViewModel?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
@@ -384,7 +370,7 @@ extension ProductCarouselViewModel {
                 imagesToPrefetch.append(imageUrl)
             }
         }
-        ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
+        imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
     }
 }
 
