@@ -181,6 +181,7 @@ fileprivate extension TabCoordinator {
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.navigationController.showAutoFadingOutMessageAlert(message)
+                    self?.trackProductNotAvailable(source: source, repositoryError: error)
                 }
             }
         }
@@ -542,5 +543,34 @@ extension TabCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
         selectBuyerToRateCompletion?(ratedUserId)
         selectBuyerToRateCompletion = nil
+    }
+}
+
+
+// MARK: - Tracking
+
+extension TabCoordinator {
+    func trackProductNotAvailable(source: EventParameterProductVisitSource, repositoryError: RepositoryError) {
+        var reason: EventParameterNotAvailableReason
+        switch repositoryError {
+        case .internalError:
+            reason = .internalError
+        case .notFound:
+            reason = .notFound
+        case .unauthorized:
+            reason = .unauthorized
+        case .forbidden:
+            reason = .forbidden
+        case .tooManyRequests:
+            reason = .tooManyRequests
+        case .userNotVerified:
+            reason = .userNotVerified
+        case .serverError:
+            reason = .serverError
+        case .network:
+            reason = .network
+        }
+        let productNotAvailableEvent = TrackerEvent.productNotAvailable( source, reason: reason)
+        tracker.trackEvent(productNotAvailableEvent)
     }
 }

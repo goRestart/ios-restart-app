@@ -40,6 +40,7 @@ enum EventName: String {
     
     case productDetailVisit                 = "product-detail-visit"
     case productDetailVisitMoreInfo         = "product-detail-visit-more-info"
+    case productNotAvailable                = "product-not-available"
     
     case productFavorite                    = "product-detail-favorite"
     case productShare                       = "product-detail-share"
@@ -274,6 +275,7 @@ enum EventParameterName: String {
     case quickAnswerType      = "quick-answer-type"
     case listSuccess          = "list-success"
     case userFromId           = "user-from-id"
+    case notAvailableReason   = "not-available-reason"
 }
 
 enum EventParameterBoolean: String {
@@ -704,6 +706,19 @@ enum EventParameterQuickAnswerType: String {
     case freeYours = "free-yours"
     case freeAvailable = "free-available"
     case freeNotAvailable = "free-not-available"
+}
+
+enum EventParameterNotAvailableReason: String {
+    
+    case internalError       = "internal-error"
+    case notFound            = "not-found"
+    case unauthorized        = "unauthorized"
+    case forbidden           = "forbidden"
+    case tooManyRequests     = "too-many-requests"
+    case userNotVerified     = "user-not-verified"
+    case serverError         = "server-error"
+    case network             = "network"
+    
 }
 
 struct EventParameters {
