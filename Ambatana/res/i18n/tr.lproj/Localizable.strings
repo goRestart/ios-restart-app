@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "tekrar öne çıkarmak için";
 "bump_up_error_bump_generic" = "Ürünün öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ürünün henüz yayınlanmadı. Lütfen tekrar dene.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Öne çıkarıldı! İlanını öne çıkarmaya devam et ki daha da çok kişi görsün.";
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
 "bump_up_processing_free_text" = "Öne çıkarma işlemi gerçekleştiriliyor...";

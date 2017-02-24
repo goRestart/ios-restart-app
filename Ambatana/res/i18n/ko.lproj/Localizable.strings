@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "다시 강조하기";
 "bump_up_error_bump_generic" = "상품을 강조하는 동안에 오류가 발생했습니다. 다시 시도해주세요.";
 "bump_up_error_bump_token" = "결제를 진행하고자 하였지만, 상품을 선택하시지 않으셨습니다. 다시 시도해주세요.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
 "bump_up_processing_free_text" = "강조 진행중...";
