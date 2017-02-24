@@ -282,14 +282,6 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController, barButtonItem: barButtonItem)
     }
 
-    func openPaymentBumpUpView() {
-        //TODO: Refactor inside currentproductvm
-        guard let product = currentProductViewModel?.product.value else { return }
-        guard let purchaseableProduct = currentProductViewModel?.bumpUpPurchaseableProduct else { return }
-        currentProductViewModel?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
-        navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
-    }
-
     func refreshBannerInfo() {
         currentProductViewModel?.refreshBumpeableBanner()
     }
