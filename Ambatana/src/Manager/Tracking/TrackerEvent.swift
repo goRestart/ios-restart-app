@@ -263,6 +263,12 @@ struct TrackerEvent {
         params[.isBumpedUp] = isBumpedUp.rawValue
         return TrackerEvent(name: .productDetailVisit, params: params)
     }
+    
+    static func productNotFound(_ source: EventParameterProductVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.productVisitSource] = source.rawValue
+        return TrackerEvent(name: .productNotFound, params: params)
+    }
 
     static func productDetailVisitMoreInfo(_ product: Product) -> TrackerEvent {
         var params = EventParameters()

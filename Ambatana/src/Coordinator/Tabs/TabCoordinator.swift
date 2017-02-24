@@ -173,14 +173,17 @@ fileprivate extension TabCoordinator {
                 }
             } else if let error = result.error {
                 let message: String
+                var shouldTrackProductNotFound: Bool = false
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonProductNotAvailable
+                    shouldTrackProductNotFound = true
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.navigationController.showAutoFadingOutMessageAlert(message)
+                    if shouldTrackProductNotFound { self?.trackProductNotFound(source: source) }
                 }
             }
         }
@@ -542,5 +545,15 @@ extension TabCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
         selectBuyerToRateCompletion?(ratedUserId)
         selectBuyerToRateCompletion = nil
+    }
+}
+
+
+// MARK: - Tracking
+
+extension TabCoordinator {
+    func trackProductNotFound(source: EventParameterProductVisitSource) {
+        let productNotFoundEvent = TrackerEvent.productNotFound( source)
+        tracker.trackEvent(productNotFoundEvent)
     }
 }

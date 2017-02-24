@@ -40,6 +40,7 @@ enum EventName: String {
     
     case productDetailVisit                 = "product-detail-visit"
     case productDetailVisitMoreInfo         = "product-detail-visit-more-info"
+    case productNotFound                    = "product-not-found"
     
     case productFavorite                    = "product-detail-favorite"
     case productShare                       = "product-detail-share"
