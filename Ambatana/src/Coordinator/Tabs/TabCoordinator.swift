@@ -212,8 +212,9 @@ fileprivate extension TabCoordinator {
         let requester = ProductListMultiRequester(requesters: requestersArray)
 
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
-                                          productListRequester: requester, navigator: self, source: source,
+                                          productListRequester: requester, source: source,
                                           showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
+        vm.navigator = self
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
@@ -229,12 +230,11 @@ fileprivate extension TabCoordinator {
                         showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
-                                              thumbnailImage: thumbnailImage, productListRequester: requester,
-                                              navigator: self, source: source,
+                                              thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
                                               showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
+            vm.navigator = self
             openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
         }
-
     }
 
     func openProduct(chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
@@ -243,8 +243,9 @@ fileprivate extension TabCoordinator {
         let relatedRequester = RelatedProductListRequester(productId: productId,  itemsPerPage: Constants.numProductsPerPageDefault)
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
-        let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,  navigator: self,
+        let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,
                                           source: source, showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: nil)
+        vm.navigator = self
         openProduct(vm, thumbnailImage: nil, originFrame: nil, productId: productId)
     }
 

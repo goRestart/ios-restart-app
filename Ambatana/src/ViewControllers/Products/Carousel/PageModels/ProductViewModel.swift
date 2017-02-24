@@ -27,8 +27,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmViewControllerToShowShareOptions() -> UIViewController
 
     // Bump Up
-    func vmShowFreeBumpUpView()
-    func vmShowPaymentBumpUpView()
     func vmResetBumpUpBannerCountdown()
 }
 
@@ -49,8 +47,8 @@ class ProductViewModel: BaseViewModel {
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
     let socialMessage = Variable<SocialMessage?>(nil)
-    let freeBumpUpShareMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
+    fileprivate var freeBumpUpShareMessage: SocialMessage?
 
     // UI - Output
     let thumbnailImage: UIImage?
@@ -103,8 +101,8 @@ class ProductViewModel: BaseViewModel {
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     var timeSinceLastBump: Int = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
-    var paymentItemId: String?
     var isUpdatingBumpUpBanner: Bool = false
+    fileprivate var paymentItemId: String?
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -336,7 +334,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
-            strongSelf.freeBumpUpShareMessage.value = ProductSocialMessage(product: product, fallbackToStore: true)
+            strongSelf.freeBumpUpShareMessage = ProductSocialMessage(product: product, fallbackToStore: true)
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
 
             strongSelf.productTitle.value = product.title
@@ -420,14 +418,19 @@ class ProductViewModel: BaseViewModel {
     }
 
     fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, freeBumpUp: Bool) {
-        guard let _ = paymentItemId else { return }
-
+        guard let paymentItemId = self.paymentItemId else { return }
+        
         let freeBlock = { [weak self] in
-            self?.delegate?.vmShowFreeBumpUpView()
+            guard let product = self?.product.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
+            self?.trackBumpUpStarted(.free)
+            self?.navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage, withPaymentItemId: paymentItemId)
         }
 
         let showPaymentViewBlock = { [weak self] in
-            self?.delegate?.vmShowPaymentBumpUpView()
+            guard let product = self?.product.value else { return }
+            guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
+            self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
+            self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
         }
         let payBumpBlock = { [weak self] in
             self?.bumpUpProduct()

@@ -21,28 +21,15 @@ enum CarouselMovement {
 class ProductCarouselViewModel: BaseViewModel {
 
     // Paginable
-    fileprivate var prefetchingIndexes: [Int] = []
     let firstPage: Int = 0
     var nextPage: Int = 1
     var isLastPage: Bool
     var isLoading: Bool = false
 
-    fileprivate let previousImagesToPrefetch = 1
-    fileprivate let nextImagesToPrefetch = 3
-
     var currentProductViewModel: ProductViewModel?
     var startIndex: Int = 0
-    var trackingIndex: Int?
-    var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator?
-
-    var shareTypes: [ShareType]
-    var socialSharer: SocialSharer
-    private let featureFlags: FeatureFlaggeable
-    private let showKeyboardOnFirstAppearIfNeeded: Bool
-
-    private var activeDisposeBag = DisposeBag()
 
     var objectChanges: Observable<CollectionChange<ProductCarouselCellModel>> {
         return objects.changesObservable
@@ -53,48 +40,49 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var shouldShowOnboarding: Bool {
-        return !KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding]
+        return !keyValueStorage[.didShowProductDetailOnboarding]
     }
 
     var shouldShowMoreInfoTooltip: Bool {
-        return !KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed]
+        return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
 
-    var onboardingShouldShowChatsStep: Bool {
-        guard let status = currentProductViewModel?.status.value else { return false }
-        switch status {
-        case .otherAvailable, .otherAvailableFree:
-            return true
-        case .pending, .pendingAndCommercializable, .available, .availableFree, .availableAndCommercializable, .notAvailable,
-             .otherSold, .sold, .soldFree, .otherSoldFree:
-            return false
-        }
-    }
-
-    var showKeyboardOnFirstAppearance: Bool {
-        return source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
-    }
+    let showKeyboardOnFirstAppearance: Bool
 
     var quickAnswersAvailable: Bool {
         return currentProductViewModel?.directChatEnabled.value ?? false
     }
     let quickAnswersCollapsed: Variable<Bool>
 
+    // Image prefetching
+    fileprivate let previousImagesToPrefetch = 1
+    fileprivate let nextImagesToPrefetch = 3
+    fileprivate var prefetchingIndexes: [Int] = []
+
+    fileprivate var trackingIndex: Int?
+    fileprivate var initialThumbnail: UIImage?
+
+    private var activeDisposeBag = DisposeBag()
+
     fileprivate let source: EventParameterProductVisitSource
-    fileprivate let productListRequester: ProductListRequester?
+    fileprivate let productListRequester: ProductListRequester
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
-    fileprivate let myUserRepository: MyUserRepository
-    fileprivate let productRepository: ProductRepository
     fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
 
     fileprivate let disposeBag = DisposeBag()
 
+    override var active: Bool {
+        didSet {
+            currentProductViewModel?.active = active
+        }
+    }
+
     // MARK: - Init
 
     convenience init(product: LocalProduct,
-                     productListRequester: ProductListRequester?,
-                     navigator: ProductDetailNavigator?,
+                     productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool,
                      trackingIndex: Int?) {
@@ -102,7 +90,6 @@ class ProductCarouselViewModel: BaseViewModel {
                   initialProduct: product,
                   thumbnailImage: nil,
                   productListRequester: productListRequester,
-                  navigator: navigator,
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex)
@@ -111,8 +98,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     convenience init(product: Product,
                      thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?,
-                     navigator: ProductDetailNavigator?,
+                     productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool,
                      trackingIndex: Int?) {
@@ -120,7 +106,6 @@ class ProductCarouselViewModel: BaseViewModel {
                   initialProduct: product,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
-                  navigator: navigator,
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex)
@@ -129,46 +114,32 @@ class ProductCarouselViewModel: BaseViewModel {
     convenience init(productListModels: [ProductCellModel]?,
          initialProduct: Product?,
          thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?,
-         navigator: ProductDetailNavigator?,
+         productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
          showKeyboardOnFirstAppearIfNeeded: Bool,
          trackingIndex: Int?) {
-        self.init(myUserRepository: Core.myUserRepository,
-                  productRepository: Core.productRepository,
-                  productListModels: productListModels,
+        self.init(productListModels: productListModels,
                   initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
-                  navigator: navigator,
                   source: source,
-                  locale: NSLocale.current,
-                  locationManager: Core.locationManager,
-                  socialSharer: SocialSharer(),
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex)
     }
 
-    init(myUserRepository: MyUserRepository,
-         productRepository: ProductRepository,
-         productListModels: [ProductCellModel]?,
+    init(productListModels: [ProductCellModel]?,
          initialProduct: Product?,
          thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?,
-         navigator: ProductDetailNavigator?,
+         productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         locale: Locale,
-         locationManager: LocationManager,
-         socialSharer: SocialSharer,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
+         imageDownloader: ImageDownloaderType,
          showKeyboardOnFirstAppearIfNeeded: Bool,
          trackingIndex: Int?) {
-        let countryCode = locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
-        self.myUserRepository = myUserRepository
-        self.productRepository = productRepository
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
         } else {
@@ -176,17 +147,13 @@ class ProductCarouselViewModel: BaseViewModel {
         }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
-        self.navigator = navigator
         self.source = source
-        self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
-        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .normal)
-        self.socialSharer = socialSharer
-        self.featureFlags = featureFlags
+        self.isLastPage = productListRequester.isLastPage(productListModels?.count ?? 0)
         self.keyValueStorage = keyValueStorage
-        self.showKeyboardOnFirstAppearIfNeeded = showKeyboardOnFirstAppearIfNeeded
+        self.imageDownloader = imageDownloader
+        self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         super.init()
-        self.socialSharer.delegate = self
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
         self.trackingIndex = trackingIndex
@@ -281,31 +248,12 @@ class ProductCarouselViewModel: BaseViewModel {
     
     func didOpenMoreInfo() {
         currentProductViewModel?.trackVisitMoreInfo()
-        KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true
+        keyValueStorage[.productMoreInfoTooltipDismissed] = true
         delegate?.vmRemoveMoreInfoTooltip()
     }
 
     func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController, barButtonItem: barButtonItem)
-    }
-
-    func openFreeBumpUpView() {
-        guard let product = currentProductViewModel?.product.value,
-            let socialMessage = currentProductViewModel?.freeBumpUpShareMessage.value,
-        let paymentItemId = currentProductViewModel?.paymentItemId else { return }
-        currentProductViewModel?.trackBumpUpStarted(.free)
-        navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage, withPaymentItemId: paymentItemId)
-    }
-
-    func openPaymentBumpUpView() {
-        guard let product = currentProductViewModel?.product.value else { return }
-        guard let purchaseableProduct = currentProductViewModel?.bumpUpPurchaseableProduct else { return }
-        currentProductViewModel?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
-        navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
-    }
-
-    func refreshBannerInfo() {
-        currentProductViewModel?.refreshBumpeableBanner()
     }
 
     func quickAnswersShowButtonPressed() {
@@ -347,7 +295,7 @@ extension ProductCarouselViewModel: Paginable {
                 strongSelf.nextPage = strongSelf.nextPage + 1
                 strongSelf.objects.appendContentsOf(newProducts.map(ProductCarouselCellModel.init))
                 
-                strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
+                strongSelf.isLastPage = strongSelf.productListRequester.isLastPage(newProducts.count)
                 if newProducts.isEmpty && !strongSelf.isLastPage {
                     strongSelf.retrieveNextPage()
                 }
@@ -355,9 +303,9 @@ extension ProductCarouselViewModel: Paginable {
         }
         
         if isFirstPage {
-            productListRequester?.retrieveFirstPage(completion)
+            productListRequester.retrieveFirstPage(completion)
         } else {
-            productListRequester?.retrieveNextPage(completion)
+            productListRequester.retrieveNextPage(completion)
         }
     }
 }
@@ -384,44 +332,7 @@ extension ProductCarouselViewModel {
                 imagesToPrefetch.append(imageUrl)
             }
         }
-        ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
-    }
-}
-
-
-// MARK: - SocialSharerDelegate
-
-extension ProductCarouselViewModel: SocialSharerDelegate {
-    func shareStartedIn(_ shareType: ShareType) {
-    }
-
-    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
-        if let message = messageForShareIn(shareType, finishedWithState: state) {
-            delegate?.vmShowAutoFadingMessage(message, completion: nil)
-        }
-        currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .top, state: state)
-    }
-
-    private func messageForShareIn(_ shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
-        switch (shareType, state) {
-        case (.email, .failed):
-            return LGLocalizedString.productShareEmailError
-        case (.facebook, .failed):
-            return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.fbMessenger, .failed):
-            return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.sms, .completed):
-            return LGLocalizedString.productShareSmsOk
-        case (.sms, .failed):
-            return LGLocalizedString.productShareSmsError
-        case (.copyLink, .completed):
-            return LGLocalizedString.productShareCopylinkOk
-        case (_, .completed):
-            return LGLocalizedString.productShareGenericOk
-        default:
-            break
-        }
-        return nil
+        imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
     }
 }
 
