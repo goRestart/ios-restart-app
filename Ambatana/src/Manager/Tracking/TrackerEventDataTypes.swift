@@ -717,7 +717,7 @@ enum EventParameterNotAvailableReason: String {
     case tooManyRequests     = "too-many-requests"
     case userNotVerified     = "user-not-verified"
     case serverError         = "server-error"
-    case network         = "network"
+    case network             = "network"
     
 }
 
