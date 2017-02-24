@@ -9,15 +9,21 @@
 import Foundation
 import RxSwift
 
+enum BumpUpType {
+    case free
+    case priced
+    case restore
+}
+
 struct BumpUpInfo {
-    var free: Bool
+    var type: BumpUpType
     var timeSinceLastBump: Int
     var price: String?
-    var primaryBlock: (()->()?)
-    var buttonBlock: (()->()?)
+    var primaryBlock: (() -> ()?)
+    var buttonBlock: (() -> ()?)
 
-    init(free: Bool, timeSinceLastBump: Int, price: String?, primaryBlock: @escaping (()->()?), buttonBlock: @escaping (()->()?)) {
-        self.free = free
+    init(type: BumpUpType, timeSinceLastBump: Int, price: String?, primaryBlock: @escaping (()->()?), buttonBlock: @escaping (()->()?)) {
+        self.type = type
         self.timeSinceLastBump = timeSinceLastBump
         self.price = price
         self.primaryBlock = primaryBlock
@@ -38,7 +44,7 @@ class BumpUpBanner: UIView {
 
     private var timer: Timer = Timer()
 
-    private var isFree: Bool = true
+    private var type: BumpUpType = .free
 
     private var primaryBlock: (()->()?) = { return nil }
     private var buttonBlock: (()->()?) = { return nil }
@@ -70,17 +76,25 @@ class BumpUpBanner: UIView {
     // MARK: - Public Methods
 
     func updateInfo(info: BumpUpInfo) {
-        isFree = info.free
+        type = info.type
 
         // bumpUpFreeTimeLimit is the time limit in milliseconds
         timeLeft.value = info.timeSinceLastBump == 0 ? 0 : featureFlags.bumpUpFreeTimeLimit - info.timeSinceLastBump
         startCountdown()
         bumpButton.isEnabled = timeLeft.value < 1
 
-        if let price = info.price, !isFree {
-            bumpButton.setTitle(price, for: .normal)
-        } else {
+
+        switch type {
+        case .free:
             bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
+        case .priced:
+            if let price = info.price {
+                bumpButton.setTitle(price, for: .normal)
+            } else {
+                bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
+            }
+        case .restore:
+            bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
         }
 
         buttonBlock = info.buttonBlock
@@ -130,8 +144,17 @@ class BumpUpBanner: UIView {
             let localizedText: String
             if secondsLeft <= 0 {
                 strongSelf.timer.invalidate()
-                localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
-                strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
+                switch strongSelf.type {
+                case .free:
+                    localizedText = LGLocalizedString.bumpUpBannerFreeText
+                    strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
+                case .priced:
+                    localizedText = LGLocalizedString.bumpUpBannerPayText
+                    strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
+                case .restore:
+                    localizedText = LGLocalizedString.bumpUpErrorBumpToken
+                    strongSelf.iconImageView.image = nil
+                }
                 strongSelf.bumpButton.isEnabled = true
             } else {
                 strongSelf.iconImageView.image = UIImage(named: "clock")

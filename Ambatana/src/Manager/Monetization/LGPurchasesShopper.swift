@@ -9,6 +9,20 @@
 import LGCoreKit
 import StoreKit
 
+struct TransactionWithProductId {
+    let transaction: SKPaymentTransaction
+    let productId: String
+
+    init(transaction: SKPaymentTransaction, productId: String) {
+        self.transaction = transaction
+        self.productId = productId
+    }
+}
+
+enum ShopperState {
+    case restoring
+    case purchasing
+}
 
 protocol PurchasesShopperDelegate: class {
     func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct])
@@ -21,11 +35,19 @@ protocol PurchasesShopperDelegate: class {
     func pricedBumpDidStart()
     func pricedBumpDidSucceed()
     func pricedBumpDidFail()
+    func pricedBumpPaymentDidFail()
 }
 
 class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     static let sharedInstance: PurchasesShopper = LGPurchasesShopper()
+
+    var receiptString: String? {
+        guard let receiptUrl = Bundle.main.appStoreReceiptURL, let receiptData = try? Data(contentsOf: receiptUrl) else { return nil }
+        return receiptData.base64EncodedString()
+    }
+
+    var shopperState: ShopperState = .restoring
 
     fileprivate(set) var currentProductId: String?
     private var productsRequest: PurchaseableProductsRequest
@@ -33,6 +55,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private var requestFactory: PurchaseableProductsRequestFactory
     private var monetizationRepository: MonetizationRepository
     private var myUserRepository: MyUserRepository
+    fileprivate var keyValueStorage: KeyValueStorage
 
     weak var delegate: PurchasesShopperDelegate?
     private var isObservingPaymentsQueue: Bool = false
@@ -46,15 +69,18 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let factory = AppstoreProductsRequestFactory()
         let monetizationRepository = Core.monetizationRepository
         let myUserRepository = Core.myUserRepository
-        self.init(requestFactory: factory, monetizationRepository: monetizationRepository, myUserRepository: myUserRepository)
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        self.init(requestFactory: factory, monetizationRepository: monetizationRepository, myUserRepository: myUserRepository,
+                  keyValueStorage: keyValueStorage)
     }
 
     init(requestFactory: PurchaseableProductsRequestFactory, monetizationRepository: MonetizationRepository,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository, keyValueStorage: KeyValueStorage) {
         self.monetizationRepository = monetizationRepository
         self.requestFactory = requestFactory
         self.productsRequest = requestFactory.generatePurchaseableProductsRequest([])
         self.myUserRepository = myUserRepository
+        self.keyValueStorage = keyValueStorage
         super.init()
         productsRequest.delegate = self
     }
@@ -97,11 +123,28 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     }
 
     /**
+     Checks if the product has a bump up pending
+
+     - parameter productId: ID of the listing to check
+     */
+    func productIsPayedButNotBumped(_ productId: String) -> Bool {
+        let transactionsDict = keyValueStorage.userTransactionsProductsInfo
+
+        let matchingProductIds = transactionsDict.filter {
+            guard let transactionWithProductId = NSKeyedUnarchiver.unarchiveObject(with: $0.value) as?
+                TransactionWithProductId else { return false }
+            return transactionWithProductId.productId == productId
+        }
+        return matchingProductIds.count > 0
+    }
+
+    /**
      Request a payment to the appstore
 
      - parameter product: info of the product to purchase on the appstore
      */
     func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
+        shopperState = .purchasing
         guard let appstoreProducts = productsDict[productId],
               let appstoreChosenProduct = appstoreProduct as? SKProduct else { return }
         guard appstoreProducts.contains(appstoreChosenProduct) else { return }
@@ -133,22 +176,43 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         }
     }
 
+    func requestPricedBumpUpForProduct(_ productId: String) {
+        let transactionsDict = keyValueStorage.userTransactionsProductsInfo
+
+        let productIdsTransactions : [SKPaymentTransaction] = transactionsDict.flatMap {
+            guard let transactionWithProductId = NSKeyedUnarchiver.unarchiveObject(with: $0.value) as?
+                TransactionWithProductId else { return nil }
+            if transactionWithProductId.productId == productId {
+                return transactionWithProductId.transaction
+            }
+            return nil
+        }
+
+        guard productIdsTransactions.count > 0 else { return }
+        guard let transaction = productIdsTransactions.first else { return }
+        guard let receiptString = receiptString else { return }
+
+        requestPricedBumpUpForProduct(productId: productId, receiptData: receiptString, transaction: transaction)
+    }
+
     /**
      Notify letgo API of the purchase
 
      - parameter productId: letgo product Id
-     - parameter paymentItemId: letgo id for the purchased item
      - parameter receiptData: post payment apple's receipt data
+     - transaction: the app store transaction info
      */
-    func requestPricedBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, receiptData: String,
-                                       transaction: SKPaymentTransaction) {
+    fileprivate func requestPricedBumpUpForProduct(productId: String, receiptData: String, transaction: SKPaymentTransaction) {
 
-        monetizationRepository.pricedBump(forProduct: productId, receiptData: receiptData, itemId: paymentItemId) { [weak self] result in
+        monetizationRepository.pricedBump(forProduct: productId, receiptData: receiptData,
+                                          itemId: transaction.payment.productIdentifier) { [weak self] result in
             if let _ = result.value {
                 self?.delegate?.pricedBumpDidSucceed()
+                self?.remove(transaction: transaction.transactionIdentifier)
                 SKPaymentQueue.default().finishTransaction(transaction)
             } else if let _ = result.error {
-                self?.delegate?.pricedBumpDidFail()
+
+                self?.delegate?.pricedBumpDidFail() // !!!!! ux for restored purchase!!!?!??!
             }
         }
     }
@@ -189,52 +253,34 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         // https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW4
 
+        switch shopperState {
+        case .restoring:
+            restoringPaymentQueue(queue, updatedTransactions: transactions)
+        case .purchasing:
+            purchasingPaymentQueue(queue, updatedTransactions: transactions)
+        }
+    }
+
+    private func purchasingPaymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
-
-            print("🚧🚧🚧🚧🚧🚧🚧🚧🚧")
-            print(transaction.transactionIdentifier)
-            print(transaction.transactionState)
-            print(transaction.transactionDate)
-            print(transaction.payment.productIdentifier)
-            print("-------------------")
-            print(transaction.original?.transactionIdentifier)
-            print(transaction.original?.transactionState)
-            print(transaction.original?.transactionDate)
-            print(transaction.original?.payment.productIdentifier)
-
             switch transaction.transactionState {
-            case .purchasing, .deferred:
-                print("purchasing or deferred")
-                // save transaction id with paymentProcessingProductId & paymentProcessingPaymentId ?
+            case .purchasing:
+                remove(transaction: transaction.transactionIdentifier)
+            case .deferred, .restored:
+                continue
             case .purchased:
-                print("purchased")
-                guard let receiptUrl = Bundle.main.appStoreReceiptURL,
-                    let receiptData = try? Data(contentsOf: receiptUrl) else { return }
-                let receiptString = receiptData.base64EncodedString()
 
-                guard let paymentProcessingProductId = paymentProcessingProductId,
-                    let paymentProcessingPaymentId = paymentProcessingPaymentId else { return }
+                save(transaction: transaction, forProduct: paymentProcessingProductId)
 
-                requestPricedBumpUpForProduct(productId: paymentProcessingProductId, withPaymentItemId: paymentProcessingPaymentId,
-                                              receiptData: receiptString, transaction: transaction)
-            case .restored:
-                print("restored")
-                guard let receiptUrl = Bundle.main.appStoreReceiptURL,
-                    let receiptData = try? Data(contentsOf: receiptUrl) else { return }
-                let receiptString = receiptData.base64EncodedString()
+                guard let receiptString = receiptString else { continue }
+                guard let paymentProcessingProductId = paymentProcessingProductId else { continue }
 
-                // if we're trying to restore at app launch this gaurd will always fail
-                // we should recover product & payment info.  Should be saved previously (at processing?)
-                guard let paymentProcessingProductId = paymentProcessingProductId,
-                    let paymentProcessingPaymentId = paymentProcessingPaymentId else { return }
-
-
-                requestPricedBumpUpForProduct(productId: paymentProcessingProductId, withPaymentItemId: paymentProcessingPaymentId,
-                                              receiptData: receiptString, transaction: transaction)
+                requestPricedBumpUpForProduct(productId: paymentProcessingProductId, receiptData: receiptString,
+                                              transaction: transaction)
+                shopperState = .restoring
             case .failed:
-                print("failed")
                 print(transaction.error)
-                delegate?.pricedBumpDidFail()
+                delegate?.pricedBumpPaymentDidFail()
                 queue.finishTransaction(transaction)
             default:
                 logMessage(.debug, type: .monetization, message: "Unexpected transaction state")
@@ -242,18 +288,61 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         }
     }
 
-    // Sent when transactions are removed from the queue (via finishTransaction:).
-    public func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
-        print("🌎🌎🌎🌎🌎🌎🌎  removedTransactions")
+    private func restoringPaymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction in transactions {
+            switch transaction.transactionState {
+            case .purchasing, .deferred, .restored:
+                continue
+            case .purchased:
+                let transactionProductId = productIdFor(transaction: transaction)
+
+                guard let productId = transactionProductId else {
+                    remove(transaction: transaction.transactionIdentifier)
+                    queue.finishTransaction(transaction)
+                    continue
+                }
+                guard let receiptString = receiptString else { continue }
+
+                requestPricedBumpUpForProduct(productId: productId, receiptData: receiptString,
+                                              transaction: transaction)
+            case .failed:
+                print(transaction.error)
+                delegate?.pricedBumpPaymentDidFail()
+                queue.finishTransaction(transaction)
+            default:
+                logMessage(.debug, type: .monetization, message: "Unexpected transaction state")
+            }
+        }
     }
 
-    // Sent when an error is encountered while adding transactions from the user's purchase history back to the queue.
-    public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        print("🌎🌎🌎🌎🌎🌎🌎  restoreCompletedTransactionsFailedWithError")
+    fileprivate func save(transaction: SKPaymentTransaction, forProduct productId: String?) {
+        guard let transactionId = transaction.transactionIdentifier, let productId = productId else { return }
+
+        let transactionWithProductId = TransactionWithProductId(transaction: transaction, productId: productId)
+
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: transactionWithProductId)
+
+        var transactionsDict = keyValueStorage.userTransactionsProductsInfo
+        let alreadySaved = transactionsDict.filter { $0.key == transactionId }.count == 0
+
+        if !alreadySaved {
+            transactionsDict[transactionId] = encodedData
+            keyValueStorage.userTransactionsProductsInfo = transactionsDict
+        }
     }
 
-    // Sent when all transactions from the user's purchase history have successfully been added back to the queue.
-    public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        print("🌎🌎🌎🌎🌎🌎🌎  paymentQueueRestoreCompletedTransactionsFinished")
+    fileprivate func productIdFor(transaction: SKPaymentTransaction) -> String? {
+        guard let transactionId = transaction.transactionIdentifier else { return nil }
+        guard let transactionData = keyValueStorage.userTransactionsProductsInfo[transactionId] else { return nil }
+        guard let transactionWithProductId = NSKeyedUnarchiver.unarchiveObject(with: transactionData) as?
+            TransactionWithProductId else { return nil }
+        return transactionWithProductId.productId
+    }
+
+    fileprivate func remove(transaction transactionId: String?) {
+        guard let transactionId = transactionId else { return }
+        var transactionsDict = keyValueStorage.userTransactionsProductsInfo
+        transactionsDict.removeValue(forKey: transactionId)
+        keyValueStorage.userTransactionsProductsInfo = transactionsDict
     }
 }

@@ -26,7 +26,6 @@ protocol PurchasesShopper: class {
      - parameter ids: array of ids of the appstore products
      */
     func productsRequestStartForProduct(_ productId: String, withIds ids: [String])
-
     /**
      Request a payment to the appstore
 
@@ -34,5 +33,7 @@ protocol PurchasesShopper: class {
      */
     func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String)
 
+    func productIsPayedButNotBumped(_ productId: String) -> Bool
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork)
+    func requestPricedBumpUpForProduct(_ productId: String)
 }
