@@ -20,7 +20,6 @@ public enum RepositoryError: Error {
     case forbidden(cause: ForbiddenCause)
     case tooManyRequests
     case userNotVerified
-
     case serverError(code: Int?)
 
     public init(apiError: ApiError) {
@@ -56,6 +55,8 @@ public enum RepositoryError: Error {
             self = .internalError(message: "")
         case .userNotVerified:
             self = .userNotVerified
+        case .userBlocked:
+            self = .forbidden(cause: .userBlocked)
         case .suspended(let code):
             self = .network(errorCode: code, onBackground: false)
         }

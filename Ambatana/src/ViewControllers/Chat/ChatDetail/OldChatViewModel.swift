@@ -407,8 +407,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         if firstTime {
             retrieveRelatedProducts()
             chatStatusEnablesRelatedProducts.value = statusEnableRelatedProducts()
-            launchExpressChatTimer()
-            expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
+            setupExpressChat()
             trackVisit()
         }
 
@@ -418,10 +417,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             retrieveInterlocutorInfo()
             loadStickersTooltip()
         }
-    }
-
-    func applicationWillEnterForeground() {
-        refreshChatInfo()
     }
 
     private func refreshChatInfo() {
@@ -1312,22 +1307,6 @@ extension OldChatViewModel: ChatRelatedProductsViewDelegate {
 }
 
 
-// MARK: - MessageType tracking
-
-extension MessageType {
-    var trackingMessageType: EventParameterMessageType {
-        switch self {
-        case .text:
-            return .text
-        case .offer:
-            return .offer
-        case .sticker:
-            return .sticker
-        }
-    }
-}
-
-
 // MARK: - Related products for express chat
 
 extension OldChatViewModel {
@@ -1342,7 +1321,7 @@ extension OldChatViewModel {
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
-                strongSelf.updateExpressChatBanner()
+                strongSelf.hasRelatedProducts.value = !strongSelf.relatedProducts.isEmpty
             }
         }
     }
@@ -1360,20 +1339,14 @@ extension OldChatViewModel {
 
     // Express Chat Banner methods
 
-    private func updateExpressChatBanner() {
-        hasRelatedProducts.value = !relatedProducts.isEmpty
+    fileprivate func setupExpressChat() {
+        expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) { [weak self] in
+            self?.expressBannerTimerFinished.value = true
+        }
     }
 
-    fileprivate func launchExpressChatTimer() {
-        let _ = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(updateBannerTimerStatus),
-                                                       userInfo: nil, repeats: false)
-    }
-
-    private dynamic func updateBannerTimerStatus() {
-        expressBannerTimerFinished.value = true
-    }
-
-    fileprivate func expressChatMessageSentForCurrentProduct() -> Bool {
+    private func expressChatMessageSentForCurrentProduct() -> Bool {
         guard let productId = product.objectId else { return false }
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
             if productSentId == productId { return true }

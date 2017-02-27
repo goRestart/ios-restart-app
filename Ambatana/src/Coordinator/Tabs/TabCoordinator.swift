@@ -20,6 +20,7 @@ class TabCoordinator: NSObject, Coordinator {
     }
     weak var presentedAlertController: UIAlertController?
     var bubbleNotificationManager: BubbleNotificationManager
+    let sessionManager: SessionManager
 
     let rootViewController: UIViewController
     let navigationController: UINavigationController
@@ -46,7 +47,7 @@ class TabCoordinator: NSObject, Coordinator {
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -57,6 +58,7 @@ class TabCoordinator: NSObject, Coordinator {
         self.tracker = tracker
         self.rootViewController = rootViewController
         self.featureFlags = featureFlags
+        self.sessionManager = sessionManager
         self.navigationController = UINavigationController(rootViewController: rootViewController)
         super.init()
         
@@ -179,6 +181,7 @@ fileprivate extension TabCoordinator {
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.navigationController.showAutoFadingOutMessageAlert(message)
+                    self?.trackProductNotAvailable(source: source, repositoryError: error)
                 }
             }
         }
@@ -209,8 +212,9 @@ fileprivate extension TabCoordinator {
         let requester = ProductListMultiRequester(requesters: requestersArray)
 
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
-                                          productListRequester: requester, navigator: self, source: source,
+                                          productListRequester: requester, source: source,
                                           showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
+        vm.navigator = self
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
@@ -226,12 +230,11 @@ fileprivate extension TabCoordinator {
                         showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
-                                              thumbnailImage: thumbnailImage, productListRequester: requester,
-                                              navigator: self, source: source,
+                                              thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
                                               showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
+            vm.navigator = self
             openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
         }
-
     }
 
     func openProduct(chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
@@ -240,8 +243,9 @@ fileprivate extension TabCoordinator {
         let relatedRequester = RelatedProductListRequester(productId: productId,  itemsPerPage: Constants.numProductsPerPageDefault)
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
-        let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,  navigator: self,
+        let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,
                                           source: source, showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: nil)
+        vm.navigator = self
         openProduct(vm, thumbnailImage: nil, originFrame: nil, productId: productId)
     }
 
@@ -540,5 +544,34 @@ extension TabCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
         selectBuyerToRateCompletion?(ratedUserId)
         selectBuyerToRateCompletion = nil
+    }
+}
+
+
+// MARK: - Tracking
+
+extension TabCoordinator {
+    func trackProductNotAvailable(source: EventParameterProductVisitSource, repositoryError: RepositoryError) {
+        var reason: EventParameterNotAvailableReason
+        switch repositoryError {
+        case .internalError:
+            reason = .internalError
+        case .notFound:
+            reason = .notFound
+        case .unauthorized:
+            reason = .unauthorized
+        case .forbidden:
+            reason = .forbidden
+        case .tooManyRequests:
+            reason = .tooManyRequests
+        case .userNotVerified:
+            reason = .userNotVerified
+        case .serverError:
+            reason = .serverError
+        case .network:
+            reason = .network
+        }
+        let productNotAvailableEvent = TrackerEvent.productNotAvailable( source, reason: reason)
+        tracker.trackEvent(productNotAvailableEvent)
     }
 }

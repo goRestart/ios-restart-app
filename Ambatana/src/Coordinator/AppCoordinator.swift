@@ -18,7 +18,8 @@ final class AppCoordinator: NSObject, Coordinator {
     }
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
-
+    let sessionManager: SessionManager
+    
     let tabBarCtl: TabBarController
     fileprivate let selectedTab: Variable<Tab>
 
@@ -29,7 +30,6 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
-    fileprivate let sessionManager: SessionManager
     fileprivate let keyValueStorage: KeyValueStorage
 
     fileprivate let pushPermissionsManager: PushPermissionsManager
@@ -333,35 +333,28 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
         guard let tab = tabAtController(viewController) else { return false }
         let shouldOpenLogin = tab.logInRequired && !sessionManager.loggedIn
-        let result: Bool
         let afterLogInSuccessful: () -> ()
 
         switch tab {
         case .home, .notifications, .chats, .profile:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
-            result = !shouldOpenLogin
         case .sell:
-            afterLogInSuccessful = { [weak self] in
-                self?.openSell(.tabBar)
-            }
-            result = false
-            if sessionManager.loggedIn {
-                openSell(.tabBar)
-            }
+            afterLogInSuccessful = { [weak self] in self?.openSell(.tabBar) }
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
             openLogin(.fullScreen, source: source, afterLogInSuccessful: afterLogInSuccessful)
+            return false
         } else {
             switch tab {
             case .home, .notifications, .chats, .profile:
                 // tab is changed after returning from this method
-                break
+                return !shouldOpenLogin
             case .sell:
                 openSell(.tabBar)
+                return false
             }
         }
-        return result
     }
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {

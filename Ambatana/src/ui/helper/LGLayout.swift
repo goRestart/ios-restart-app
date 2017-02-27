@@ -261,9 +261,13 @@ extension LGLayout {
     func width(_ width: CGFloat, multiplier: CGFloat = 1,
                relatedBy: NSLayoutRelation = .equal, priority: UILayoutPriority = UILayoutPriorityRequired,
                constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .width, relatedBy: relatedBy,
-                   constant: width, multiplier: multiplier,
-                   priority: priority, constraintBlock: constraintBlock)
+        if let item2 = item2 {
+            constraint(item1: item1, attribute1: .width, relatedBy: relatedBy, item2: item2, attribute2: .width, constant: width, multiplier: multiplier,
+                       priority: priority, constraintBlock: constraintBlock)
+        } else {
+            constraint(item1: item1, attribute1: .width, relatedBy: relatedBy, constant: width, multiplier: multiplier,
+                       priority: priority, constraintBlock: constraintBlock)
+        }
         return self
     }
 
@@ -271,9 +275,13 @@ extension LGLayout {
     func height(_ height: CGFloat, multiplier: CGFloat = 1,
                 relatedBy: NSLayoutRelation = .equal, priority: UILayoutPriority = UILayoutPriorityRequired,
                 constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .height, relatedBy: relatedBy,
-                   constant: height, multiplier: multiplier,
-                   priority: priority, constraintBlock: constraintBlock)
+        if let item2 = item2 {
+            constraint(item1: item1, attribute1: .height, relatedBy: relatedBy, item2: item2, attribute2: .height, constant: height, multiplier: multiplier,
+                       priority: priority, constraintBlock: constraintBlock)
+        } else {
+            constraint(item1: item1, attribute1: .height, relatedBy: relatedBy, constant: height, multiplier: multiplier,
+                       priority: priority, constraintBlock: constraintBlock)
+        }
         return self
     }
 

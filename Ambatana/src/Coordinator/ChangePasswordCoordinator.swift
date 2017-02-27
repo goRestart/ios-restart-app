@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import LGCoreKit
 
 final class ChangePasswordCoordinator: Coordinator {
     var child: Coordinator?
     let viewController: UIViewController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
+    let sessionManager: SessionManager
 
     private var parentViewController: UIViewController?
 
@@ -23,18 +25,20 @@ final class ChangePasswordCoordinator: Coordinator {
 
     convenience init(token: String) {
         self.init(token: token,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance)
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(token: String,
-         bubbleNotificationManager: BubbleNotificationManager) {
+         bubbleNotificationManager: BubbleNotificationManager,
+         sessionManager: SessionManager) {
         let changePasswordVM = ChangePasswordViewModel(token: token)
         let changePasswordVC = ChangePasswordViewController(viewModel: changePasswordVM)
         let navC = UINavigationController(rootViewController: changePasswordVC)
         navC.modalPresentationStyle = .overCurrentContext
         self.viewController = navC
         self.bubbleNotificationManager = bubbleNotificationManager
-
+        self.sessionManager = sessionManager
         changePasswordVM.navigator = self
     }
 

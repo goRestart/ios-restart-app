@@ -308,8 +308,6 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
     func vmViewControllerToShowShareOptions() -> UIViewController { return UIViewController() }
 
     // Bump Up
-    func vmShowFreeBumpUpView() {}
-    func vmShowPaymentBumpUpView() {}
     func vmResetBumpUpBannerCountdown() {}
 }
 

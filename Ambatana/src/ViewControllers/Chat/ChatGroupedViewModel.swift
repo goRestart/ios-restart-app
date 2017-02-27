@@ -205,7 +205,7 @@ class ChatGroupedViewModel: BaseViewModel {
     // MARK: > Current page
 
     func refreshCurrentPage() {
-        currentPageViewModel.value?.reloadCurrentPagesWithCompletion(nil)
+        currentPageViewModel.value?.refresh(completion: nil)
     }
 
     func setCurrentPageEditing(_ editing: Bool) {

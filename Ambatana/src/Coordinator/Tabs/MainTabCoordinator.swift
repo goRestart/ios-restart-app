@@ -20,6 +20,7 @@ class MainTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let sessionManager = Core.sessionManager
         let viewModel = MainProductsViewModel(searchType: nil, tabNavigator: nil)
         let rootViewController = MainProductsViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
@@ -27,7 +28,7 @@ class MainTabCoordinator: TabCoordinator {
                   myUserRepository: myUserRepository,
                   bubbleNotificationManager: bubbleNotificationManager,
                   keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController,
-                  featureFlags: featureFlags)
+                  featureFlags: featureFlags, sessionManager: sessionManager)
 
         viewModel.navigator = self
     }

@@ -106,7 +106,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     // MARK: - Public Methods
 
     dynamic func refresh() {
-        viewModel.reloadCurrentPagesWithCompletion(nil)
+        viewModel.refresh(completion: nil)
     }
 
     dynamic func clear() {

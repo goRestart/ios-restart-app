@@ -74,20 +74,20 @@ struct ChatViewMessage: BaseModel {
 }
 
 extension ChatViewMessage {
-    func markAsSent() -> ChatViewMessage {
-        return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt ?? Date(),
+    func markAsSent(date: Date = Date()) -> ChatViewMessage {
+        return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt ?? date,
                                receivedAt: receivedAt, readAt: readAt, type: type, status: .sent,
                                warningStatus: warningStatus)
     }
     
-    func markAsReceived() -> ChatViewMessage {
+    func markAsReceived(date: Date = Date()) -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
-                               receivedAt: receivedAt ?? Date(), readAt: readAt, type: type, status: .received,
+                               receivedAt: receivedAt ?? date, readAt: readAt, type: type, status: .received,
                                warningStatus: warningStatus)
     }
     
-    func markAsRead() -> ChatViewMessage {
+    func markAsRead(date: Date = Date()) -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt, receivedAt: receivedAt,
-                               readAt: readAt ?? Date(), type: type, status: .read, warningStatus: warningStatus)
+                               readAt: readAt ?? date, type: type, status: .read, warningStatus: warningStatus)
     }
 }

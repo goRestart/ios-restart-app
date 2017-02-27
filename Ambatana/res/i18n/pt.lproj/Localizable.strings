@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "to bump up again";
 "bump_up_error_bump_generic" = "An error occurred while bumping up your item. Please try again.";
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
 "bump_up_pay_success" = "Bumped up! Now your item has extra visibility.";
 "bump_up_processing_free_text" = "Processing bump up...";

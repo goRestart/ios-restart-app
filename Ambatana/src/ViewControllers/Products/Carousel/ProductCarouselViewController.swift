@@ -194,7 +194,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         // Force tabBar to hide when view appears from background.
         self.tabBarController?.setTabBarHidden(true, animated: false)
         addIgnoreTouchesForMoreInfo()
-        refreshBannerInfo()
     }
 
     /*
@@ -735,10 +734,6 @@ extension ProductCarouselViewController {
             self?.showBumpUpBanner(bumpInfo: info)
             }.addDisposableTo(activeDisposeBag)
     }
-
-    fileprivate func refreshBannerInfo() {
-        viewModel.refreshBannerInfo()
-    }
 }
 
 
@@ -1201,14 +1196,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
 
     // Bump Up
-
-    func vmShowFreeBumpUpView() {
-        viewModel.openFreeBumpUpView()
-    }
-
-    func vmShowPaymentBumpUpView() {
-        viewModel.openPaymentBumpUpView()
-    }
 
     func vmResetBumpUpBannerCountdown() {
         bumpUpBanner.resetCountdown()
