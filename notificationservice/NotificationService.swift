@@ -60,12 +60,12 @@ class NotificationService: UNNotificationServiceExtension {
                 completionHandler(nil)
                 return
             }
-            guard var temporaryDirectoryURL = temporaryLocation else {
+            guard let temporaryDirectoryURL = temporaryLocation else {
                 completionHandler(nil)
                 return
             }
             let pathExtensionFromURL = url.pathExtension
-            let pathExtensionFromResponse = self.determineType(response?.mimeType)
+            let pathExtensionFromResponse = response?.mimeType?.fileExtension ?? ""
             var pathExtension: String = ""
             
             if pathExtensionFromURL.isEmpty {
@@ -78,30 +78,25 @@ class NotificationService: UNNotificationServiceExtension {
                 pathExtension = ".\(pathExtensionFromURL)"
             }
             
-            let fileName: String = temporaryDirectoryURL.lastPathComponent + pathExtension
+            let fileName: String = String(Date().timeIntervalSince1970) + pathExtension
             do {
                 let fileManager = FileManager.default
-                temporaryDirectoryURL.deleteLastPathComponent()
-                let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(temporaryDirectoryURL.lastPathComponent, isDirectory: true)
-                
-                try fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
-                let fileURL = tmpSubFolderURL.appendingPathComponent(fileName)
-                
-                if let data = try? Data(contentsOf: url) {
-                    try? data.write(to: fileURL)
-                }
-                let attachment = try UNNotificationAttachment(identifier: fileName, url: fileURL, options: nil)
+                let tempDirURL = URL(fileURLWithPath: NSTemporaryDirectory())
+                try? fileManager.createDirectory(at: tempDirURL, withIntermediateDirectories: true, attributes: nil)
+                let finalURL = tempDirURL.appendingPathComponent(fileName)
+                try fileManager.moveItem(at: temporaryDirectoryURL, to: finalURL)
+                let attachment = try UNNotificationAttachment(identifier: fileName, url: finalURL, options: nil)
                 completionHandler(attachment)
             } catch {
                 completionHandler(nil)
             }
         }).resume()
     }
+}
 
-    func determineType(_ fileType: String?) -> String {
-        // Determines the file type of the attachment to append to NSURL.
-        guard let type = fileType else { return "" }
-        switch type {
+extension String {
+    var fileExtension: String {
+        switch self {
         case "image/jpeg":
             return ".jpg"
         case "image/gif":
