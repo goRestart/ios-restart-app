@@ -29,7 +29,11 @@ class ProductCarouselViewModel: BaseViewModel {
     var currentProductViewModel: ProductViewModel?
     var startIndex: Int = 0
     weak var delegate: ProductCarouselViewModelDelegate?
-    weak var navigator: ProductDetailNavigator?
+    weak var navigator: ProductDetailNavigator? {
+        didSet {
+            currentProductViewModel?.navigator = navigator
+        }
+    }
 
     var objectChanges: Observable<CollectionChange<ProductCarouselCellModel>> {
         return objects.changesObservable
