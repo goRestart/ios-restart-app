@@ -97,7 +97,6 @@ target "letgoTests" do
     pod "RxTest",           "3.1.0"
 
     # Mocking
-    pod "LGCoreKit/mocchacino"#,         :path => "../lgcorekit"
     pod "OHHTTPStubs",      "5.2.3"
     pod "OHHTTPStubs/Swift"
 end

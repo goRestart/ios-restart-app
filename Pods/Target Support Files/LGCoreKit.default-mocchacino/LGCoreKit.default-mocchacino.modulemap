@@ -1,6 +1,0 @@
-framework module LGCoreKit {
-  umbrella header "LGCoreKit.default-mocchacino-umbrella.h"
-
-  export *
-  module * { export * }
-}
