@@ -94,7 +94,7 @@ class NotificationService: UNNotificationServiceExtension {
     }
 }
 
-extension String {
+fileprivate extension String {
     var fileExtension: String {
         switch self {
         case "image/jpeg":
