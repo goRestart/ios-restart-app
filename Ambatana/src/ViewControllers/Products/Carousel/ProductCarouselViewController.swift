@@ -233,6 +233,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupMoreInfo()
         setupMoreInfoDragging()
         setupMoreInfoTooltip()
+        setupOverlayRxBindings()
     }
 
 
@@ -469,6 +470,93 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
 extension ProductCarouselViewController {
 
+    fileprivate func setupOverlayRxBindings() {
+        setupDirectChatElementsRx()
+        setupFavoriteButtonRx()
+        setupShareButtonRx()
+        setupBumpUpBannerRx()
+    }
+
+    private func setupDirectChatElementsRx() {
+        viewModel.directChatPlaceholder.asObservable().bindTo(chatTextView.rx.placeholder).addDisposableTo(disposeBag)
+        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
+
+        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
+            self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
+            }.addDisposableTo(disposeBag)
+
+        viewModel.quickAnswers.asObservable().bindNext { [weak self] quickAnswers in
+            self?.directAnswersView.update(answers: quickAnswers)
+        }.addDisposableTo(disposeBag)
+
+        viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
+            self?.directChatTable.handleCollectionChange(change, animation: .top)
+        }.addDisposableTo(disposeBag)
+
+        chatTextView.rx.send.bindNext { [weak self] textToSend in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
+            strongSelf.chatTextView.clear()
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupFavoriteButtonRx() {
+        viewModel.favoriteButtonState.asObservable()
+            .bindNext { [weak self] (buttonState) in
+                guard let strongButton = self?.favoriteButton else { return }
+                switch buttonState {
+                case .hidden:
+                    strongButton.isHidden = true
+                case .enabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 1
+                case .disabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 0.6
+                }
+            }
+            .addDisposableTo(disposeBag)
+
+        viewModel.isFavorite.asObservable()
+            .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
+            .bindTo(favoriteButton.rx.image).addDisposableTo(disposeBag)
+
+        favoriteButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.favoriteButtonPressed()
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func setupShareButtonRx() {
+        viewModel.shareButtonState.asObservable().bindTo(shareButton.rx.state).addDisposableTo(disposeBag)
+
+        shareButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.shareButtonPressed()
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupBumpUpBannerRx() {
+        bumpUpBanner.layoutIfNeeded()
+        closeBumpUpBanner()
+        viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
+            if let info = info {
+                self?.showBumpUpBanner(bumpInfo: info)
+            } else {
+                self?.closeBumpUpBanner()
+            }
+            }.addDisposableTo(disposeBag)
+    }
+
+
+    /*
+ 
+ 
+     =====================
+ 
+     */
+
+
+
     fileprivate func refreshOverlayElements() {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         activeDisposeBag = DisposeBag()
@@ -480,11 +568,11 @@ extension ProductCarouselViewController {
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
         refreshProductStatusLabel(viewModel)
-        refreshDirectChatElements(viewModel)
-        refreshFavoriteButton(viewModel)
-        refreshShareButton(viewModel)
+//        refreshDirectChatElements(viewModel)
+//        refreshFavoriteButton(viewModel)
+//        refreshShareButton(viewModel)
         refreshMoreInfo()
-        refreshBumpUpBanner(viewModel)
+//        refreshBumpUpBanner(viewModel)
     }
 
     fileprivate func finishedTransition() {
@@ -666,73 +754,73 @@ extension ProductCarouselViewController {
     }
     
 
-    private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
-        chatTextView.placeholder = viewModel.directChatPlaceholder
-        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
+//    private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
+//        chatTextView.placeholder = viewModel.directChatPlaceholder
+//        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
+//
+//        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
+//            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
+//            self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
+//        }.addDisposableTo(activeDisposeBag)
+//
+//        directAnswersView.update(answers: viewModel.quickAnswers)
+//
+//        chatTextView.rx.send.bindNext { [weak self] textToSend in
+//            guard let strongSelf = self else { return }
+//            strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
+//            strongSelf.chatTextView.clear()
+//            }.addDisposableTo(activeDisposeBag)
+//
+//        viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
+//            self?.directChatTable.handleCollectionChange(change, animation: .top)
+//            }.addDisposableTo(activeDisposeBag)
+//        directChatTable.reloadData()
+//    }
 
-        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
-            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
-            self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
-        }.addDisposableTo(activeDisposeBag)
+//    private func refreshFavoriteButton(_ viewModel: ProductViewModel) {
+//        viewModel.favoriteButtonState.asObservable()
+//            .bindNext { [weak self] (buttonState) in
+//                guard let strongButton = self?.favoriteButton else { return }
+//                switch buttonState {
+//                case .hidden:
+//                    strongButton.isHidden = true
+//                case .enabled:
+//                    strongButton.isHidden = false
+//                    strongButton.alpha = 1
+//                case .disabled:
+//                    strongButton.isHidden = false
+//                    strongButton.alpha = 0.6
+//                }
+//            }
+//            .addDisposableTo(activeDisposeBag)
+//
+//        viewModel.isFavorite.asObservable()
+//            .bindNext { [weak self] favorite in
+//                self?.favoriteButton.setImage(UIImage(named: favorite ? "ic_favorite_big_on" : "ic_favorite_big_off"), for: .normal)
+//            }.addDisposableTo(activeDisposeBag)
+//
+//        favoriteButton.rx.tap.bindNext { [weak self] in
+//            self?.viewModel.favoriteButtonPressed()
+//        }.addDisposableTo(activeDisposeBag)
+//    }
 
-        directAnswersView.update(answers: viewModel.quickAnswers)
+//    private func refreshShareButton(_ viewModel: ProductViewModel) {
+//        viewModel.shareButtonState.asObservable()
+//            .bindTo(shareButton.rx.state)
+//            .addDisposableTo(activeDisposeBag)
+//
+//        shareButton.rx.tap.bindNext { [weak self] in
+//            self?.viewModel.shareButtonPressed()
+//        }.addDisposableTo(activeDisposeBag)
+//    }
 
-        chatTextView.rx.send.bindNext { [weak self] textToSend in
-            guard let strongSelf = self else { return }
-            strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
-            strongSelf.chatTextView.clear()
-            }.addDisposableTo(activeDisposeBag)
-
-        viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
-            self?.directChatTable.handleCollectionChange(change, animation: .top)
-            }.addDisposableTo(activeDisposeBag)
-        directChatTable.reloadData()
-    }
-
-    private func refreshFavoriteButton(_ viewModel: ProductViewModel) {
-        viewModel.favoriteButtonState.asObservable()
-            .bindNext { [weak self] (buttonState) in
-                guard let strongButton = self?.favoriteButton else { return }
-                switch buttonState {
-                case .hidden:
-                    strongButton.isHidden = true
-                case .enabled:
-                    strongButton.isHidden = false
-                    strongButton.alpha = 1
-                case .disabled:
-                    strongButton.isHidden = false
-                    strongButton.alpha = 0.6
-                }
-            }
-            .addDisposableTo(activeDisposeBag)
-
-        viewModel.isFavorite.asObservable()
-            .bindNext { [weak self] favorite in
-                self?.favoriteButton.setImage(UIImage(named: favorite ? "ic_favorite_big_on" : "ic_favorite_big_off"), for: .normal)
-            }.addDisposableTo(activeDisposeBag)
-
-        favoriteButton.rx.tap.bindNext { [weak self] in
-            self?.viewModel.favoriteButtonPressed()
-        }.addDisposableTo(activeDisposeBag)
-    }
-
-    private func refreshShareButton(_ viewModel: ProductViewModel) {
-        viewModel.shareButtonState.asObservable()
-            .bindTo(shareButton.rx.state)
-            .addDisposableTo(activeDisposeBag)
-
-        shareButton.rx.tap.bindNext { [weak self] in
-            self?.viewModel.shareButtonPressed()
-        }.addDisposableTo(activeDisposeBag)
-    }
-
-    private func refreshBumpUpBanner(_ viewModel: ProductViewModel) {
-        bumpUpBanner.layoutIfNeeded()
-        closeBumpUpBanner()
-        viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
-            self?.showBumpUpBanner(bumpInfo: info)
-            }.addDisposableTo(activeDisposeBag)
-    }
+//    private func refreshBumpUpBanner(_ viewModel: ProductViewModel) {
+//        bumpUpBanner.layoutIfNeeded()
+//        closeBumpUpBanner()
+//        viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
+//            self?.showBumpUpBanner(bumpInfo: info)
+//            }.addDisposableTo(activeDisposeBag)
+//    }
 }
 
 
@@ -1082,11 +1170,11 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.currentProductViewModel?.directChatMessages.value.count ?? 0
+        return viewModel.directChatMessages.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let messages = viewModel.currentProductViewModel?.directChatMessages.value else { return UITableViewCell() }
+        let messages = viewModel.directChatMessages.value
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
@@ -1111,13 +1199,12 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 // MARK: > Bump Up bubble
 
 extension ProductCarouselViewController {
-    func showBumpUpBanner(bumpInfo: BumpUpInfo?){
-        guard let actualBumpInfo = bumpInfo else { return }
+    func showBumpUpBanner(bumpInfo: BumpUpInfo){
         guard !bumpUpBannerIsVisible else { return }
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
         bannerContainer.isHidden = false
-        bumpUpBanner.updateInfo(info: actualBumpInfo)
+        bumpUpBanner.updateInfo(info: bumpInfo)
         delay(0.1) { [weak self] in
             self?.bannerBottom = 0
             UIView.animate(withDuration: 0.3, animations: {
@@ -1161,7 +1248,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
         var finalActions: [UIAction] = actions
-        if viewModel.quickAnswersAvailable {
+        if viewModel.quickAnswersAvailable.value {
             //Adding show/hide quick answers option
             if viewModel.quickAnswersCollapsed.value {
                 finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {

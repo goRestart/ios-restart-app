@@ -53,11 +53,18 @@ class ProductCarouselViewModel: BaseViewModel {
 
     let showKeyboardOnFirstAppearance: Bool
 
-    var quickAnswersAvailable: Bool {
-        return currentProductViewModel?.directChatEnabled.value ?? false
-    }
+    let quickAnswers = Variable<[QuickAnswer]>([])
+    let quickAnswersAvailable = Variable<Bool>(false)
     let quickAnswersCollapsed: Variable<Bool>
 
+    let directChatEnabled = Variable<Bool>(false)
+    var directChatPlaceholder = Variable<String>("")
+    let directChatMessages = CollectionVariable<ChatViewMessage>([])
+
+    let isFavorite = Variable<Bool>(false)
+    let favoriteButtonState = Variable<ButtonState>(.enabled)
+    let shareButtonState = Variable<ButtonState>(.hidden)
+    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
 
 
     /* Static required data on viewController:
@@ -237,13 +244,7 @@ class ProductCarouselViewModel: BaseViewModel {
         let feedPosition = movement.feedPosition(for: trackingIndex)
         currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
 
-        activeDisposeBag = DisposeBag()
-        currentProductViewModel?.product.asObservable().skip(1).bindNext { [weak self] updatedProduct in
-            guard let strongSelf = self else { return }
-            guard 0..<strongSelf.objectCount ~= index else { return }
-            strongSelf.objects.replace(index..<(index+1), with: [ProductCarouselCellModel(product: updatedProduct)])
-            strongSelf.delegate?.vmRefreshCurrent()
-        }.addDisposableTo(activeDisposeBag)
+        setupCurrentProductVMRxBindings(forIndex: index)
 
         prefetchNeighborsImages(index, movement: movement)
     }
@@ -330,6 +331,29 @@ class ProductCarouselViewModel: BaseViewModel {
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.productDetailQuickAnswersHidden] = collapsed
         }.addDisposableTo(disposeBag)
+    }
+
+    private func setupCurrentProductVMRxBindings(forIndex index: Int) {
+        activeDisposeBag = DisposeBag()
+        guard let currentVM = currentProductViewModel else { return }
+        currentVM.product.asObservable().skip(1).bindNext { [weak self] updatedProduct in
+            guard let strongSelf = self else { return }
+            guard 0..<strongSelf.objectCount ~= index else { return }
+            strongSelf.objects.replace(index..<(index+1), with: [ProductCarouselCellModel(product: updatedProduct)])
+            strongSelf.delegate?.vmRefreshCurrent()
+        }.addDisposableTo(activeDisposeBag)
+
+        quickAnswers.value = currentVM.quickAnswers
+        currentVM.directChatEnabled.asObservable().bindTo(quickAnswersAvailable).addDisposableTo(activeDisposeBag)
+
+        currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
+        currentVM.directChatMessages.bindTo(directChatMessages).addDisposableTo(activeDisposeBag)
+        directChatPlaceholder.value = currentVM.directChatPlaceholder
+
+        currentVM.isFavorite.asObservable().bindTo(isFavorite).addDisposableTo(activeDisposeBag)
+        currentVM.favoriteButtonState.asObservable().bindTo(favoriteButtonState).addDisposableTo(activeDisposeBag)
+        currentVM.shareButtonState.asObservable().bindTo(shareButtonState).addDisposableTo(activeDisposeBag)
+        currentVM.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfo).addDisposableTo(activeDisposeBag)
     }
 }
 

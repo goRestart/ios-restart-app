@@ -73,6 +73,28 @@ final class CollectionVariable<T> {
     
     
     // MARK: - Public
+
+    func bindTo(_ another: CollectionVariable<T>) -> Disposable {
+        another.removeAll()
+        another.appendContentsOf(self.value)
+        return changesObservable.bindNext { [weak another] change in
+            another?.handleChange(change: change)
+        }
+    }
+
+    private func handleChange(change: CollectionChange<T>) {
+        switch change {
+        case let .insert(index, value):
+            insert(value, atIndex: index)
+        case let .remove(index, _):
+            removeAtIndex(index)
+        case let .composite(changes):
+            for change in changes {
+                handleChange(change: change)
+            }
+        }
+    }
+
     
     func removeFirst() {
         if (_value.count == 0) { return }
