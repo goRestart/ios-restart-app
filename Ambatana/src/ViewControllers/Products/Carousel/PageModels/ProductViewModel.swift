@@ -115,7 +115,6 @@ class ProductViewModel: BaseViewModel {
     fileprivate let productRepository: ProductRepository
     fileprivate let commercializerRepository: CommercializerRepository
     fileprivate let chatWrapper: ChatWrapper
-    fileprivate let stickersRepository: StickersRepository
     fileprivate let countryHelper: CountryHelper
     fileprivate let locationManager: LocationManager
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
@@ -142,35 +141,43 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
-        let socialSharer = SocialSharer()
-        let sessionManager = Core.sessionManager
-        let myUserRepository = Core.myUserRepository
-        let productRepository = Core.productRepository
-        let commercializerRepository = Core.commercializerRepository
-        let countryHelper = Core.countryHelper
-        let chatWrapper = ChatWrapper()
-        let stickersRepository = Core.stickersRepository
-        let locationManager = Core.locationManager
-        let featureFlags = FeatureFlags.sharedInstance
-        let notificationsManager = LGNotificationsManager.sharedInstance
-        let monetizationRepository = Core.monetizationRepository
-        let tracker = TrackerProxy.sharedInstance
-        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
-                  stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
-                  featureFlags: featureFlags,
-                  purchasesShopper: LGPurchasesShopper.sharedInstance, notificationsManager: notificationsManager,
-                  monetizationRepository: monetizationRepository, tracker: tracker)
+    convenience init(product: Product,
+                     thumbnailImage: UIImage?,
+                     navigator: ProductDetailNavigator?) {
+        self.init(sessionManager: Core.sessionManager,
+                  myUserRepository: Core.myUserRepository,
+                  productRepository: Core.productRepository,
+                  commercializerRepository: Core.commercializerRepository,
+                  chatWrapper: ChatWrapper(),
+                  locationManager: Core.locationManager,
+                  countryHelper: Core.countryHelper,
+                  product: product,
+                  thumbnailImage: thumbnailImage,
+                  socialSharer: SocialSharer(),
+                  navigator: navigator,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance,
+                  notificationsManager: LGNotificationsManager.sharedInstance,
+                  monetizationRepository: Core.monetizationRepository,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, productRepository: ProductRepository,
-         commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
-         stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
-         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper,
-         notificationsManager: NotificationsManager, monetizationRepository: MonetizationRepository, tracker: Tracker) {
+    init(sessionManager: SessionManager,
+         myUserRepository: MyUserRepository,
+         productRepository: ProductRepository,
+         commercializerRepository: CommercializerRepository,
+         chatWrapper: ChatWrapper,
+         locationManager: LocationManager,
+         countryHelper: CountryHelper,
+         product: Product,
+         thumbnailImage: UIImage?,
+         socialSharer: SocialSharer,
+         navigator: ProductDetailNavigator?,
+         featureFlags: FeatureFlaggeable,
+         purchasesShopper: PurchasesShopper,
+         notificationsManager: NotificationsManager,
+         monetizationRepository: MonetizationRepository,
+         tracker: Tracker) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -182,7 +189,6 @@ class ProductViewModel: BaseViewModel {
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatWrapper = chatWrapper
-        self.stickersRepository = stickersRepository
         self.locationManager = locationManager
         self.navigator = navigator
         self.chatViewMessageAdapter = ChatViewMessageAdapter()

@@ -92,7 +92,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var productOnboardingView: ProductDetailOnboardingView?
     fileprivate var didSetupAfterLayout = false
     
-    fileprivate var moreInfoView: ProductCarouselMoreInfoView?
+    fileprivate let moreInfoView: ProductCarouselMoreInfoView
     fileprivate let moreInfoAlpha = Variable<CGFloat>(1)
     fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
 
@@ -131,6 +131,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.imageDownloader = imageDownloader
         self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
                                                              collapsed: viewModel.quickAnswersCollapsed.value)
+        self.moreInfoView = ProductCarouselMoreInfoView.moreInfoView()
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark), swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
@@ -163,7 +164,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         super.viewWillAppear(animated)
         
         if moreInfoState.value == .shown {
-            moreInfoView?.viewWillShow()
+            moreInfoView.viewWillShow()
         }
     }
 
@@ -229,6 +230,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         collectionView.reloadData()
         collectionView.scrollToItem(at: startIndexPath, at: .right, animated: false)
 
+        setupMoreInfo()
         setupMoreInfoDragging()
         setupMoreInfoTooltip()
     }
@@ -321,6 +323,23 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         bannerContainer.isHidden = true
     }
 
+    private func setupMoreInfo() {
+        view.addSubview(moreInfoView)
+        moreInfoAlpha.asObservable().bindTo(moreInfoView.rx.alpha).addDisposableTo(disposeBag)
+        moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
+
+        view.bringSubview(toFront: buttonBottom)
+        view.bringSubview(toFront: editButton)
+        view.bringSubview(toFront: chatContainer)
+        view.bringSubview(toFront: bannerContainer)
+        view.bringSubview(toFront: fullScreenAvatarEffectView)
+        view.bringSubview(toFront: fullScreenAvatarView)
+        view.bringSubview(toFront: directChatTable)
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMoreInfo))
+        moreInfoView.addGestureRecognizer(tapGesture)
+    }
+
     private func setupNavigationBar() {
         let backIconImage = UIImage(named: "ic_close_carousel")
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
@@ -333,7 +352,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func close() {
-        guard let moreInfoView = moreInfoView else { return }
         if moreInfoView.frame.origin.y < 0 {
             closeBumpUpBanner()
             viewModel.close()
@@ -465,7 +483,7 @@ extension ProductCarouselViewController {
         refreshDirectChatElements(viewModel)
         refreshFavoriteButton(viewModel)
         refreshShareButton(viewModel)
-        setupMoreInfo()
+        refreshMoreInfo()
         refreshBumpUpBanner(viewModel)
     }
 
@@ -473,35 +491,16 @@ extension ProductCarouselViewController {
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
         updateMoreInfo()
     }
-    
-    private func setupMoreInfo() {
-        if moreInfoView == nil {
-            moreInfoView = ProductCarouselMoreInfoView.moreInfoView()
-            if let moreInfoView = moreInfoView {
-                view.addSubview(moreInfoView)
-                moreInfoAlpha.asObservable().bindTo(moreInfoView.rx.alpha).addDisposableTo(disposeBag)
-                moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
-            }
 
-            view.bringSubview(toFront: buttonBottom)
-            view.bringSubview(toFront: editButton)
-            view.bringSubview(toFront: chatContainer)
-            view.bringSubview(toFront: bannerContainer)
-            view.bringSubview(toFront: fullScreenAvatarEffectView)
-            view.bringSubview(toFront: fullScreenAvatarView)
-            view.bringSubview(toFront: directChatTable)
-            
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMoreInfo))
-            moreInfoView?.addGestureRecognizer(tapGesture)
-        }
-        moreInfoView?.frame = view.bounds
-        moreInfoView?.height = view.height + CarouselUI.moreInfoExtraHeight
-        moreInfoView?.frame.origin.y = -view.bounds.height
+    private func refreshMoreInfo() {
+        moreInfoView.frame = view.bounds
+        moreInfoView.height = view.height + CarouselUI.moreInfoExtraHeight
+        moreInfoView.frame.origin.y = -view.bounds.height
     }
 
     fileprivate func updateMoreInfo() {
         guard let currentPVM = viewModel.currentProductViewModel else { return }
-        moreInfoView?.setViewModel(currentPVM)
+        moreInfoView.setViewModel(currentPVM)
         moreInfoState.asObservable().bindTo(currentPVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
@@ -824,7 +823,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
     
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
-        guard let moreInfoView = moreInfoView, moreInfoState.value != .shown && !cellZooming.value else { return }
+        guard moreInfoState.value != .shown && !cellZooming.value else { return }
         if moreInfoView.frame.origin.y-offset > -view.frame.height {
             moreInfoState.value = .moving
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
@@ -838,7 +837,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
     
     func didEndDraggingCell() {
-        guard let moreInfoView = moreInfoView else { return }
         if moreInfoView.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
             showMoreInfo()
         } else {
@@ -861,7 +859,7 @@ extension ProductCarouselViewController {
     }
     
     func setupMoreInfoDragging() {
-        guard let button = moreInfoView?.dragView else { return }
+        guard let button = moreInfoView.dragView else { return }
         self.navigationController?.navigationBar.ignoreTouchesFor(button)
         
         let pan = UIPanGestureRecognizer(target: self, action: #selector(dragMoreInfoButton))
@@ -869,14 +867,14 @@ extension ProductCarouselViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dragViewTapped))
         button.addGestureRecognizer(tap)
-        moreInfoView?.delegate = self
+        moreInfoView.delegate = self
     }
     
     func dragMoreInfoButton(_ pan: UIPanGestureRecognizer) {
         let point = pan.location(in: view)
         
         if point.y >= CarouselUI.moreInfoExtraHeight { // start dragging when point is below the navbar
-            moreInfoView?.frame.bottom = point.y
+            moreInfoView.frame.bottom = point.y
         }
         
         switch pan.state {
@@ -898,14 +896,14 @@ extension ProductCarouselViewController {
     @IBAction func showMoreInfo() {
         guard moreInfoState.value == .hidden || moreInfoState.value == .moving else { return }
 
-        moreInfoView?.viewWillShow()
+        moreInfoView.viewWillShow()
         chatTextView.resignFirstResponder()
         moreInfoState.value = .shown
         viewModel.didOpenMoreInfo()
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
                                    animations: { [weak self] in
-                                    self?.moreInfoView?.frame.origin.y = 0
+                                    self?.moreInfoView.frame.origin.y = 0
                                     }, completion: nil)
     }
 
@@ -916,24 +914,24 @@ extension ProductCarouselViewController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
                                    animations: { [weak self] in
             guard let `self` = self else { return }
-            self.moreInfoView?.frame.origin.y = -self.view.bounds.height
+            self.moreInfoView.frame.origin.y = -self.view.bounds.height
         }, completion: { [weak self] _ in
-            self?.moreInfoView?.dismissed()
+            self?.moreInfoView.dismissed()
         })
     }
 
     func compressMap() {
-        guard let moreInfoView = moreInfoView, moreInfoView.mapExpanded else { return }
+        guard moreInfoView.mapExpanded else { return }
         moreInfoView.compressMap()
     }
 
     func addIgnoreTouchesForMoreInfo() {
-        guard let button = moreInfoView?.dragView else { return }
+        guard let button = moreInfoView.dragView else { return }
         self.navigationController?.navigationBar.ignoreTouchesFor(button)
     }
 
     func removeIgnoreTouchesForMoreInfo() {
-        guard let button = moreInfoView?.dragView else { return }
+        guard let button = moreInfoView.dragView else { return }
         self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
     }
 }
@@ -975,7 +973,6 @@ extension ProductCarouselViewController {
     
     fileprivate func setupMoreInfoTooltip() {
         guard viewModel.shouldShowMoreInfoTooltip else { return }
-        guard let moreInfoView = moreInfoView else { return }
         let tooltipText = CarouselUIHelper.buildMoreInfoTooltipText()
         let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: tooltipText,
                                       style: .blue(closeEnabled: false), peakOnTop: true,
@@ -1228,7 +1225,7 @@ fileprivate extension ProductCarouselViewController {
         buttonBottom.accessibilityId = .productCarouselButtonBottom
         buttonTop.accessibilityId = .productCarouselButtonTop
         favoriteButton.accessibilityId = .productCarouselFavoriteButton
-        moreInfoView?.accessibilityId = .productCarouselMoreInfoView
+        moreInfoView.accessibilityId = .productCarouselMoreInfoView
         productStatusLabel.accessibilityId = .productCarouselProductStatusLabel
         directChatTable.accessibilityId = .productCarouselDirectChatTable
         editButton.accessibilityId = .productCarouselEditButton
