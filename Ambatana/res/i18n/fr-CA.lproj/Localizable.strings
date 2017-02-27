@@ -23,6 +23,7 @@
 "bump_up_banner_wait_text" = "à attendre";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors du renvoi vers le haut de votre produit. Veuillez réessayer.";
 "bump_up_error_bump_token" = "Votre paiement a été effectué, mais votre produit n'a pas encore été affiché. Veuillez réessayer.";
+"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
 "bump_up_pay_success" = "Renvoyé vers le haut ! Votre produit bénéficie maintenant d'une meilleure visibilité.";
 "bump_up_processing_free_text" = "Renvoi vers le haut en cours...";
@@ -311,7 +312,7 @@
 "location_permissons_subtitle" = "Souhaitez-vous voir des produits près de chez vous ?";
 "log_in_email_email_field_hint" = "Email";
 "log_in_email_footer" = "Vous n'avez pas de compte ? Inscrivez-vous";
-"log_in_email_footer_sign_up_kw" = "S'inscrire";
+"log_in_email_footer_sign_up_kw" = "Inscrivez-vous";
 "log_in_email_forgot_password_alert_cancel_action" = "Réessayer";
 "log_in_email_forgot_password_alert_message" = "Nous pouvons envoyer un courriel à %@ pour vous aider à entrer de nouveau dans votre compte.";
 "log_in_email_forgot_password_alert_remember_action" = "Envoyer Courriel";
@@ -731,7 +732,7 @@
 "sign_up_email_step1_continue_button" = "Continuer";
 "sign_up_email_step1_email_field_hint" = "Email";
 "sign_up_email_step1_footer" = "Vous avez déjà un compte ? Connectez-vous";
-"sign_up_email_step1_footer_log_in_kw" = "Se Connecter";
+"sign_up_email_step1_footer_log_in_kw" = "Connectez-vous";
 "sign_up_email_step1_help_button" = "Aide";
 "sign_up_email_step1_password_field_hint" = "Mot de passe";
 "sign_up_email_step1_title" = "Créer un nouveau compte";
