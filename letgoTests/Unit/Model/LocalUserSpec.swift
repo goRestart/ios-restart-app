@@ -28,6 +28,8 @@ class LocalUserSpec: QuickSpec {
             context("init with userProduct") {
                 beforeEach {
                     mockUserProduct = MockUserProduct.makeMock()
+                    mockUserProduct.objectId = String.makeRandom()
+                    mockUserProduct.name = String.makeRandom()
                     sut = LocalUser(userProduct: mockUserProduct)
                 }
                 it("object not nil") {
@@ -56,6 +58,8 @@ class LocalUserSpec: QuickSpec {
             context("init with user") {
                 beforeEach {
                     mockUser = MockUser.makeMock()
+                    mockUser.objectId = String.makeRandom()
+                    mockUser.name = String.makeRandom()
                     sut = LocalUser(user: mockUser)
                 }
                 it("object not nil") {
