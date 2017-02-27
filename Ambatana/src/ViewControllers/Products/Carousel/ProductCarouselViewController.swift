@@ -107,20 +107,20 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     var pendingMovement: CarouselMovement?
 
     fileprivate let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
-    
-    fileprivate let featureFlags: FeatureFlaggeable
+
+    fileprivate let imageDownloader: ImageDownloaderType
 
     // MARK: - Lifecycle
 
     convenience init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.init(viewModel:viewModel,
                   pushAnimator: pushAnimator,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  imageDownloader: ImageDownloader.sharedInstance)
     }
     
     init(viewModel: ProductCarouselViewModel,
          pushAnimator: ProductCarouselPushAnimator?,
-         featureFlags: FeatureFlaggeable) {
+         imageDownloader: ImageDownloaderType) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.withProductInfo)
         let blurEffect = UIBlurEffect(style: .dark)
@@ -128,7 +128,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
-        self.featureFlags = featureFlags
+        self.imageDownloader = imageDownloader
         self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
                                                              collapsed: viewModel.quickAnswersCollapsed.value)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .lightContent,
@@ -517,7 +517,7 @@ extension ProductCarouselViewController {
         fullScreenAvatarView.alpha = 0
         fullScreenAvatarView.image = viewModel.ownerAvatarPlaceholder
         if let avatar = viewModel.ownerAvatar {
-            ImageDownloader.sharedInstance.downloadImageWithURL(avatar) { [weak self] result, url in
+            imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
                 guard let imageWithSource = result.value, url == self?.viewModel.currentProductViewModel?.ownerAvatar else { return }
                 self?.fullScreenAvatarView.image = imageWithSource.image
             }
