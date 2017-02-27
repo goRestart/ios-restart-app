@@ -45,6 +45,10 @@ class CameraWrapper {
         return cameraManager.hasFrontCamera
     }
 
+    var isAttached: Bool {
+        return cameraContainer != nil
+    }
+
     private(set) var cameraContainer: UIView?
     private let cameraManager: CameraManager
     private let motionDeviceOrientation: MotionDeviceOrientation
