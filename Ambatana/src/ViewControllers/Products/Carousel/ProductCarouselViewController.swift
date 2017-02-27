@@ -611,9 +611,9 @@ extension ProductCarouselViewController {
         }.addDisposableTo(activeDisposeBag)
 
         viewModel.editButtonState.asObservable().bindTo(editButton.rx.state).addDisposableTo(disposeBag)
-        editButton.rx.tap.bindNext { [weak self, weak viewModel] in
+        editButton.rx.tap.bindNext { [weak self] in
             self?.hideMoreInfo()
-            viewModel?.editProduct()
+            self?.viewModel.editButtonPressed()
         }.addDisposableTo(activeDisposeBag)
 
         // When there's the edit button, the bottom button must adapt right margin to give space for it
@@ -678,9 +678,9 @@ extension ProductCarouselViewController {
 
         directAnswersView.update(answers: viewModel.quickAnswers)
 
-        chatTextView.rx.send.bindNext { [weak self, weak viewModel] textToSend in
+        chatTextView.rx.send.bindNext { [weak self] textToSend in
             guard let strongSelf = self else { return }
-            viewModel?.sendDirectMessage(textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
+            strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
             strongSelf.chatTextView.clear()
             }.addDisposableTo(activeDisposeBag)
 
@@ -712,8 +712,8 @@ extension ProductCarouselViewController {
                 self?.favoriteButton.setImage(UIImage(named: favorite ? "ic_favorite_big_on" : "ic_favorite_big_off"), for: .normal)
             }.addDisposableTo(activeDisposeBag)
 
-        favoriteButton.rx.tap.bindNext { [weak viewModel] in
-            viewModel?.switchFavorite()
+        favoriteButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.favoriteButtonPressed()
         }.addDisposableTo(activeDisposeBag)
     }
 
@@ -722,8 +722,8 @@ extension ProductCarouselViewController {
             .bindTo(shareButton.rx.state)
             .addDisposableTo(activeDisposeBag)
 
-        shareButton.rx.tap.bindNext { [weak viewModel] in
-            viewModel?.shareProduct()
+        shareButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.shareButtonPressed()
         }.addDisposableTo(activeDisposeBag)
     }
 
@@ -1102,7 +1102,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
-        viewModel.currentProductViewModel?.sendQuickAnswer(quickAnswer: answer)
+        viewModel.send(quickAnswer: answer)
     }
 
     func directAnswersHorizontalViewDidSelectClose() {

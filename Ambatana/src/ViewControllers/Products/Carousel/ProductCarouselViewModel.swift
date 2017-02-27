@@ -86,17 +86,6 @@ class ProductCarouselViewModel: BaseViewModel {
      - socialSharer
 
 
-
-     
-     // methods
-     
-     - sendQuickAnswer(quickAnswer: QuickAnswer)
-     - editProduct()
-     - sendDirectMessage...
-     - switchFavorite
-     - shareProduct
-
-
     */
 
     // Image prefetching
@@ -303,6 +292,26 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func quickAnswersCloseButtonPressed() {
         quickAnswersCollapsed.value = true
+    }
+
+    func send(quickAnswer: QuickAnswer) {
+        currentProductViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
+    }
+
+    func send(directMessage: String, isDefaultText: Bool) {
+        currentProductViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
+    }
+
+    func editButtonPressed() {
+        currentProductViewModel?.editProduct()
+    }
+
+    func favoriteButtonPressed() {
+        currentProductViewModel?.switchFavorite()
+    }
+
+    func shareButtonPressed() {
+        currentProductViewModel?.shareProduct()
     }
     
     // MARK: - Private Methods
