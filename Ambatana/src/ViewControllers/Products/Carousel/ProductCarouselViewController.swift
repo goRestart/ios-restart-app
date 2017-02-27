@@ -739,7 +739,7 @@ extension ProductCarouselViewController {
 
 extension ProductCarouselViewController: UserViewDelegate {
     func userViewAvatarPressed(_ userView: UserView) {
-        viewModel.openProductOwnerProfile()
+        viewModel.userAvatarPressed()
     }
     
     func userViewTextInfoContainerPressed(_ userView: UserView) {
@@ -1048,7 +1048,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
-        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.openChatWithSeller() }
+        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
 
         directAnswersView.delegate = self
         directAnswersView.style = .light
@@ -1142,14 +1142,6 @@ extension ProductCarouselViewController {
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
     
-    func vmShowShareFromMain(_ socialMessage: SocialMessage) {
-        viewModel.openShare(.native(restricted: false), fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
-    }
-
-    func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage) {
-        viewModel.openShare(.native(restricted: false), fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
-    }
-    
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {
         let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
         navigationController?.present(promoteProductVC, animated: true, completion: nil)
@@ -1187,12 +1179,8 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         showActionSheet(cancelLabel, actions: finalActions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 
-    func vmShareDidFailedWith(_ error: String) {
-        showAutoFadingOutMessageAlert(error)
-    }
-
-    func vmViewControllerToShowShareOptions() -> UIViewController {
-        return self
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
+        return (self, navigationItem.rightBarButtonItems?.first)
     }
 
     // Bump Up

@@ -289,8 +289,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
 }
 
 extension ProductViewModelSpec: ProductViewModelDelegate {
-    func vmShowShareFromMain(_ socialMessage: SocialMessage) {}
-    func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage) {}
 
     func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ()) {}
 
@@ -303,7 +301,9 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {}
 
     func vmShareDidFailedWith(_ error: String) {}
-    func vmViewControllerToShowShareOptions() -> UIViewController { return UIViewController() }
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
+        return (UIViewController(), nil)
+    }
 
     // Bump Up
     func vmResetBumpUpBannerCountdown() {}

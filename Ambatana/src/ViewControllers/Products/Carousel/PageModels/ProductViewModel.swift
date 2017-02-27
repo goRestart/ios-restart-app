@@ -14,8 +14,6 @@ import RxSwift
 
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
-    func vmShowShareFromMain(_ socialMessage: SocialMessage)
-    func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage)
 
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
@@ -23,8 +21,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmShowOnboarding()
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 
-    func vmShareDidFailedWith(_ error: String)
-    func vmViewControllerToShowShareOptions() -> UIViewController
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
 
     // Bump Up
     func vmResetBumpUpBannerCountdown()
@@ -458,11 +455,10 @@ extension ProductViewModel {
 
     func shareProduct() {
         guard let socialMessage = socialMessage.value else { return }
-        if moreInfoState.value == .shown {
-            delegate?.vmShowShareFromMoreInfo(socialMessage)
-        } else {
-            delegate?.vmShowShareFromMain(socialMessage)
-        }
+        guard let viewController = delegate?.vmShareViewControllerAndItem().0 else { return }
+        let barButtonItem = delegate?.vmShareViewControllerAndItem().1
+        socialSharer.share(socialMessage, shareType: .native(restricted: false),
+                           viewController: viewController, barButtonItem: barButtonItem)
     }
 
     func chatWithSeller() {
@@ -503,11 +499,6 @@ extension ProductViewModel {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             self?.switchFavoriteAction()
         }, source: .favourite)
-    }
-
-    func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
-        guard let socialMessage = socialMessage.value else { return }
-        socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
     }
 
     func bumpUpProduct() {
