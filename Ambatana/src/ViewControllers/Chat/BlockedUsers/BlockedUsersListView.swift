@@ -96,7 +96,7 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
 
     func didSucceedUnblockingUsers(_ viewModel: BlockedUsersListViewModel) {
         blockedUsersListViewDelegate?.didFinishUnblockingWithMessage(nil)
-        viewModel.reloadCurrentPagesWithCompletion(nil)
+        viewModel.refresh(completion: nil)
         setEditing(false)
     }
 

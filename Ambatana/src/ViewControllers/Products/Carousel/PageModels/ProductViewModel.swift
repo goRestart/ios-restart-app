@@ -27,8 +27,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmViewControllerToShowShareOptions() -> UIViewController
 
     // Bump Up
-    func vmShowFreeBumpUpView()
-    func vmShowPaymentBumpUpView()
     func vmResetBumpUpBannerCountdown()
 }
 
@@ -49,8 +47,8 @@ class ProductViewModel: BaseViewModel {
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
     let socialMessage = Variable<SocialMessage?>(nil)
-    let freeBumpUpShareMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
+    fileprivate var freeBumpUpShareMessage: SocialMessage?
 
     // UI - Output
     let thumbnailImage: UIImage?
@@ -103,8 +101,8 @@ class ProductViewModel: BaseViewModel {
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     var timeSinceLastBump: Int = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
-    var paymentItemId: String?
     var isUpdatingBumpUpBanner: Bool = false
+    fileprivate var paymentItemId: String?
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -336,7 +334,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
-            strongSelf.freeBumpUpShareMessage.value = ProductSocialMessage(product: product, fallbackToStore: true)
+            strongSelf.freeBumpUpShareMessage = ProductSocialMessage(product: product, fallbackToStore: true)
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
 
             strongSelf.productTitle.value = product.title
@@ -404,7 +402,7 @@ class ProductViewModel: BaseViewModel {
         let alreadyPayed = purchasesShopper.productIsPayedButNotBumped(productId)
 
         if alreadyPayed {
-            createBumpeableBannerFor(productId: productId, withPrice: nil, bumpUpType: .restore)
+            createBumpeableBannerFor(productId: productId, withPrice: nil, paymentItemId: nil, bumpUpType: .restore)
         } else {
             isUpdatingBumpUpBanner = true
             monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
@@ -422,41 +420,48 @@ class ProductViewModel: BaseViewModel {
                         }
                     } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
                         strongSelf.paymentItemId = freeItems.first?.itemId
-                        if let _ = strongSelf.paymentItemId {
-                            strongSelf.createBumpeableBannerFor(productId: productId, withPrice: nil, bumpUpType: .free)
-                        }
+                        strongSelf.createBumpeableBannerFor(productId: productId, withPrice: nil,
+                                                            paymentItemId: strongSelf.paymentItemId, bumpUpType: .free)
                     }
                 }
             })
         }
     }
 
-    fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, bumpUpType: BumpUpType) {
-
-        let freeBlock = { [weak self] in
-            self?.delegate?.vmShowFreeBumpUpView()
-        }
-        let showPaymentViewBlock = { [weak self] in
-            self?.delegate?.vmShowPaymentBumpUpView()
-        }
-        let payBumpBlock = { [weak self] in
-            self?.bumpUpProduct(productId: productId)
-        }
-        let restoreBlock = { [weak self] in
-            logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for product: \(productId)")
-            self?.purchasesShopper.requestPricedBumpUpForProduct(productId)
-        }
+    fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, paymentItemId: String?, bumpUpType: BumpUpType) {
 
         var primaryBlock: (() -> ()?)
         var buttonBlock: (() -> ()?)
         switch bumpUpType {
         case .free:
+            guard let paymentItemId = paymentItemId else { return }
+            let freeBlock = { [weak self] in
+                guard let product = self?.product.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
+                self?.trackBumpUpStarted(.free)
+                self?.navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage,
+                                                          withPaymentItemId: paymentItemId)
+            }
             primaryBlock = freeBlock
             buttonBlock = freeBlock
         case .priced:
-            primaryBlock = showPaymentViewBlock
-            buttonBlock = payBumpBlock
+            guard let paymentItemId = paymentItemId else { return }
+            let showPayViewBlock = { [weak self] in
+                guard let product = self?.product.value else { return }
+                guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
+                self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
+                self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct,
+                                                         withPaymentItemId: paymentItemId)
+            }
+            let payBumpUpBlock = { [weak self] in
+                self?.bumpUpProduct(productId: productId)
+            }
+            primaryBlock = showPayViewBlock
+            buttonBlock = payBumpUpBlock
         case .restore:
+            let restoreBlock = { [weak self] in
+                logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for product: \(productId)")
+                self?.purchasesShopper.requestPricedBumpUpForProduct(productId)
+            }
             primaryBlock = restoreBlock
             buttonBlock = restoreBlock
         }
@@ -1124,7 +1129,7 @@ extension ProductViewModel: PurchasesShopperDelegate {
 
         bumpUpPurchaseableProduct = purchase
         createBumpeableBannerFor(productId: requestProdId, withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
-                                 bumpUpType: .priced)
+                                 paymentItemId: paymentItemId, bumpUpType: .priced)
     }
 
     func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error) {

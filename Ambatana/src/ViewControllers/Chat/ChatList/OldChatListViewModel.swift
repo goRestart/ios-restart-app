@@ -136,7 +136,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     private func setupRxBindings() {
         DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext{ [weak self] _ in
-            self?.reloadCurrentPagesWithCompletion(nil)
+            self?.refresh(completion: nil)
         }.addDisposableTo(disposeBag)
     }
 }

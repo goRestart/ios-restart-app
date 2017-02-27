@@ -246,7 +246,7 @@ fileprivate extension AppDelegate {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // Debug
-        Debug.loggingOptions = [AppLoggingOptions.navigation]
+        Debug.loggingOptions = [.navigation]
 
         #if GOD_MODE
             Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]

@@ -180,7 +180,7 @@ struct TrackerEvent {
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
         }
-        params[.listSuccess] = success
+        params[.listSuccess] = success.rawValue
         return TrackerEvent(name: .productList, params: params)
     }
 
@@ -262,6 +262,13 @@ struct TrackerEvent {
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
         return TrackerEvent(name: .productDetailVisit, params: params)
+    }
+    
+    static func productNotAvailable(_ source: EventParameterProductVisitSource, reason: EventParameterNotAvailableReason) -> TrackerEvent {
+        var params = EventParameters()
+        params[.productVisitSource] = source.rawValue
+        params[.notAvailableReason] = reason.rawValue
+        return TrackerEvent(name: .productNotAvailable, params: params)
     }
 
     static func productDetailVisitMoreInfo(_ product: Product) -> TrackerEvent {
@@ -1026,6 +1033,14 @@ struct TrackerEvent {
         params[.typePage] = typePage.rawValue
         params[.errorReason] = reason.rawValue
         return TrackerEvent(name: .emptyStateError, params: params)
+    }
+    
+    static func userRatingReport(userFromId: String?,
+                              ratingStars: Int) -> TrackerEvent{
+        var params = EventParameters()
+        params[.ratingStars] = ratingStars
+        params[.userFromId] = userFromId
+        return TrackerEvent(name: .userRatingReport, params: params)
     }
 
 

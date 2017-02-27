@@ -28,12 +28,15 @@ enum WebSocketError: Error {
     case notAuthenticated
     case internalError
     case userNotVerified
+    case userBlocked
     case suspended(withCode: Int)
 
     init(wsErrorType: WebSocketErrorType) {
         switch wsErrorType {
         case .userNotVerified:
             self = .userNotVerified
+        case .userBlocked:
+            self = .userBlocked
         default:
             self = .internalError
         }
