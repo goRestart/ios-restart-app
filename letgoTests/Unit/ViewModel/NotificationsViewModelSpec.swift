@@ -30,7 +30,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                     context("with zero items") {
                         beforeEach {
                             let notificationsRepository = MockNotificationsRepository()
-                            notificationsRepository.notificationsResult = Result<[NotificationModel], RepositoryError>(value: [])
+                            notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(value: [])
                             sut = NotificationsViewModel(notificationsRepository: notificationsRepository , productRepository: MockProductRepository(),
                                                          userRepository: MockUserRepository(), myUserRepository: MockMyUserRepository(),
                                                          notificationsManager: MockNotificationsManager(),
@@ -50,10 +50,8 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                     context("with items") {
                         beforeEach {
                             let notificationsRepository = MockNotificationsRepository()
-                            let notification: NotificationModel = MockNotificationModel(objectId: "231", createdAt: Date(),
-                                                                                        updatedAt: nil, isRead: true,
-                                                                                        type: .rating(user: MockNotificationUser(id: "432", name: nil, avatar: nil), value: 3, comments: ""))
-                            notificationsRepository.notificationsResult = Result<[NotificationModel], RepositoryError>(value: [notification])
+                            let notification = MockNotificationModel.makeMock()
+                            notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(value: [notification])
                             sut = NotificationsViewModel(notificationsRepository: notificationsRepository ,
                                                          productRepository: MockProductRepository(), userRepository: MockUserRepository(),
                                                          myUserRepository: MockMyUserRepository(), notificationsManager: MockNotificationsManager(),
@@ -71,8 +69,8 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                 context("fails with an internet connection error") {
                     beforeEach {
                         let notificationsRepository = MockNotificationsRepository()
-                        notificationsRepository.notificationsResult = Result<[NotificationModel],
-                            RepositoryError>(error: .network(errorCode: -1, onBackground: false))
+                        notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(error: .network(errorCode: -1,
+                                                                                                                           onBackground: false))
                         sut = NotificationsViewModel(notificationsRepository: notificationsRepository,
                                                      productRepository: MockProductRepository(), userRepository: MockUserRepository(),
                                                      myUserRepository: MockMyUserRepository(), notificationsManager: MockNotificationsManager(),
@@ -93,8 +91,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                 context("fails with too many requests errpr") {
                     beforeEach {
                         let notificationsRepository = MockNotificationsRepository()
-                        notificationsRepository.notificationsResult = Result<[NotificationModel],
-                            RepositoryError>(error: .tooManyRequests)
+                        notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(error: .tooManyRequests)
                         sut = NotificationsViewModel(notificationsRepository: notificationsRepository,
                                                      productRepository: MockProductRepository(), userRepository: MockUserRepository(),
                                                      myUserRepository: MockMyUserRepository(), notificationsManager: MockNotificationsManager(),

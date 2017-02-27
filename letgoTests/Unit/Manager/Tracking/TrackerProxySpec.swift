@@ -70,7 +70,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.setInstallationBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.setInstallationBlock = { (tracker: Tracker) in flags[2] = true }
 
-                sut.setInstallation(MockInstallation())
+                sut.setInstallation(MockInstallation.makeMock())
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }
@@ -81,7 +81,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.setUserBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.setUserBlock = { (tracker: Tracker) in flags[2] = true }
                 
-                sut.setUser(MockUser())
+                sut.setUser(MockMyUser.makeMock())
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }

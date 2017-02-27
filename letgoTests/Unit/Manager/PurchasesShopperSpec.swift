@@ -26,13 +26,13 @@ class PurchasesShopperSpec: QuickSpec {
     override func spec() {
 
         var sut: LGPurchasesShopper!
-        var requestFactory: MockProductsRequestFactory!
+        var requestFactory: MockPurchaseableProductsRequestFactory!
         var monetizationRepository: MockMonetizationRepository!
 
         describe("PurchasesShopperSpec") {
             beforeEach {
                 self.requestsFinished = []
-                requestFactory = MockProductsRequestFactory()
+                requestFactory = MockPurchaseableProductsRequestFactory()
                 monetizationRepository = MockMonetizationRepository()
                     sut = LGPurchasesShopper(requestFactory: requestFactory, monetizationRepository: monetizationRepository)
                 sut.delegate = self

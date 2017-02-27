@@ -879,17 +879,17 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailVisit") {
                 beforeEach {
-                    let myUser = MockUser()
+                    var myUser = MockUser.makeMock()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
 
-                    let productUser = MockUserProduct()
+                    var productUser = MockUserProduct.makeMock()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
 
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.2)
@@ -957,17 +957,14 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailVisitMoreInfo") {
                 beforeEach {
-                    let myUser = MockUser()
+                    var myUser = MockUser.makeMock()
                     myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
-                        countryCode: "ES", country: nil)
 
-                    let productUser = MockUserProduct()
+
+                    var productUser = MockUserProduct.makeMock()
                     productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
-                        countryCode: "NL", country: nil)
 
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.2)
@@ -1018,17 +1015,17 @@ class TrackerEventSpec: QuickSpec {
             describe("productFavorite") {
 
                 beforeEach {
-                    let myUser = MockUser()
+                    var myUser = MockUser.makeMock()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
                     
-                    let productUser = MockUserProduct()
+                    var productUser = MockUserProduct.makeMock()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
                     
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.983)
@@ -1087,12 +1084,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productShare") {
                 beforeEach {
-                    let productUser = MockUserProduct()
+                    var productUser = MockUserProduct.makeMock()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
                     
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.983)
@@ -1162,8 +1159,8 @@ class TrackerEventSpec: QuickSpec {
                 var product: MockProduct!
                 var event: TrackerEvent!
                 beforeEach {
-                    product = MockProduct()
-                    let user = MockUserProduct()
+                    product = MockProduct.makeMock()
+                    var user = MockUserProduct.makeMock()
                     user.objectId = "ABCDE"
                     product.user = user
                     product.objectId = "123ABC"
@@ -1197,8 +1194,8 @@ class TrackerEventSpec: QuickSpec {
                 var product: MockProduct!
                 var event: TrackerEvent!
                 beforeEach {
-                    product = MockProduct()
-                    let user = MockUserProduct()
+                    product = MockProduct.makeMock()
+                    var user = MockUserProduct.makeMock()
                     user.objectId = "ABCDE"
                     product.user = user
                     product.objectId = "123ABC"
@@ -1231,13 +1228,13 @@ class TrackerEventSpec: QuickSpec {
             describe("product ask question") {
                 var product: Product!
                 beforeEach {
-                    let mockProduct = MockProduct()
+                    var mockProduct = MockProduct.makeMock()
                     mockProduct.objectId = "12345"
                     mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
                     mockProduct.category = .homeAndGarden
 
-                    let productOwner = MockUserProduct()
+                    var productOwner = MockUserProduct.makeMock()
                     productOwner.objectId = "67890"
                     mockProduct.user = productOwner
                     mockProduct.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
@@ -1349,7 +1346,7 @@ class TrackerEventSpec: QuickSpec {
             describe("product ask question (ChatProduct)") {
                 var product: ChatProduct!
                 beforeEach {
-                    var mockProduct = MockChatProduct()
+                    var mockProduct = MockChatProduct.makeMock()
                     mockProduct.objectId = "12345"
                     mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
@@ -1445,7 +1442,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("Product Detail Open Chat") {
                 beforeEach {
-                    let mockProduct = MockProduct()
+                    var mockProduct = MockProduct.makeMock()
                     mockProduct.objectId = "12345"
                     mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
@@ -1467,17 +1464,17 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productMarkAsSold") {
                 beforeEach {
-                    let myUser = MockUser()
+                    var myUser = MockUser.makeMock()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "",
                                                          countryCode: "ES", country: nil)
 
-                    let productUser = MockUserProduct()
+                    var productUser = MockUserProduct.makeMock()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                                                               countryCode: "NL", country: nil)
 
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .free
@@ -1533,17 +1530,17 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productMarkAsUnsold") {
                 it("has its event name") {
-                    let product = MockProduct()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productMarkAsUnsold(product)
                     expect(sut.name.rawValue).to(equal("product-detail-unsold"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    let myUser = MockUserProduct()
+                    var myUser = MockUserProduct.makeMock()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
                     
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.983)
@@ -1580,22 +1577,22 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productReport") {
                 it("has its event name") {
-                    let product = MockProduct()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productReport(product)
                     expect(sut.name.rawValue).to(equal("product-detail-report"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    let myUser = MockUser()
+                    var myUser = MockUser.makeMock()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
                     
-                    let productUser = MockUserProduct()
+                    var productUser = MockUserProduct.makeMock()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
                     
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.983)
@@ -1670,12 +1667,12 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellSharedFB") {
                 it("has its event name") {
-                    let product = MockProduct()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productSellSharedFB(product)
                     expect(sut.name.rawValue).to(equal("product-sell-shared-fb"))
                 }
                 it("contains the product related params when passing by a product") {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     
                     sut = TrackerEvent.productSellSharedFB(product)
@@ -1689,7 +1686,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellComplete") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     product.category = .homeAndGarden
                     product.price = .negotiable(20)
@@ -1743,7 +1740,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellConfirmation") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     sut = TrackerEvent.productSellConfirmation(product)
                 }
@@ -1758,7 +1755,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellConfirmationPost") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     sut = TrackerEvent.productSellConfirmationPost(product, buttonType: .button)
                 }
@@ -1777,7 +1774,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellConfirmationEdit") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     sut = TrackerEvent.productSellConfirmationEdit(product)
                 }
@@ -1792,7 +1789,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellConfirmationClose") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     sut = TrackerEvent.productSellConfirmationClose(product)
                 }
@@ -1807,7 +1804,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellConfirmationShare") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     sut = TrackerEvent.productSellConfirmationShare(product, network: .facebook)
                 }
@@ -1826,7 +1823,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellConfirmationShareCancel") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     sut = TrackerEvent.productSellConfirmationShareCancel(product, network: .facebook)
                 }
@@ -1845,7 +1842,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellConfirmationShareComplete") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     sut = TrackerEvent.productSellConfirmationShareComplete(product, network: .facebook)
                 }
@@ -1864,13 +1861,13 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productEditStart") {
                 it("has its event name") {
-                    let user = MockUser()
-                    let product = MockProduct()
+                    let user = MockUser.makeMock()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productEditStart(user, product: product)
                     expect(sut.name.rawValue).to(equal("product-edit-start"))
                 }
                 it("contains the product id") {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
                     sut = TrackerEvent.productEditStart(nil, product: product)
                     
@@ -1883,13 +1880,13 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productEditFormValidationFailed") {
                 it("has its event name") {
-                    _ = MockUser()
-                    let product = MockProduct()
+                    _ = MockUser.makeMock()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
                     expect(sut.name.rawValue).to(equal("product-edit-form-validation-failed"))
                 }
                 it("contains the description related params") {
-                    let product = MockProduct()
+                    let product = MockProduct.makeMock()
                     
                     sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
                     expect(sut.params).notTo(beNil())
@@ -1899,7 +1896,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(description).to(equal("whatever"))
                 }
                 it("contains the product id") {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
                     sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
                     
@@ -1912,12 +1909,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productEditSharedFB") {
                 it("has its event name") {
-                    let product = MockProduct()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productEditSharedFB(nil, product: product)
                     expect(sut.name.rawValue).to(equal("product-edit-shared-fb"))
                 }
                 it("contains the product id") {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
                     sut = TrackerEvent.productEditSharedFB(nil, product: product)
                     
@@ -1930,12 +1927,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productEditComplete") {
                 it("has its event name") {
-                    let product = MockProduct()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productEditComplete(nil, product: product, category: nil, editedFields: [])
                     expect(sut.name.rawValue).to(equal("product-edit-complete"))
                 }
                 it("contains the product related params when passing by a product, name & category") {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     let newCategory = ProductCategory.carsAndMotors
                     product.objectId = "q1w2e3"
 
@@ -1959,12 +1956,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDeleteStart") {
                 it("has its event name") {
-                    let product = MockProduct()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productDeleteStart(product)
                     expect(sut.name.rawValue).to(equal("product-delete-start"))
                 }
                 it("contains the product id") {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
                     sut = TrackerEvent.productDeleteStart(product)
                     
@@ -1977,12 +1974,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDeleteComplete") {
                 it("has its event name") {
-                    let product = MockProduct()
+                    let product = MockProduct.makeMock()
                     sut = TrackerEvent.productDeleteComplete(product)
                     expect(sut.name.rawValue).to(equal("product-delete-complete"))
                 }
                 it("contains the product id") {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
                     sut = TrackerEvent.productDeleteComplete(product)
                     
@@ -1997,12 +1994,12 @@ class TrackerEventSpec: QuickSpec {
                 var productUser: MockUserProduct!
                 var product: MockProduct!
                 beforeEach {
-                    productUser = MockUserProduct()
+                    productUser = MockUserProduct.makeMock()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                                                               countryCode: "NL", country: nil)
 
-                    product = MockProduct()
+                    product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.983)
@@ -2142,7 +2139,7 @@ class TrackerEventSpec: QuickSpec {
             describe("profileVisit") {
                 context("profileVisit") {
                     beforeEach {
-                        let user = MockUser()
+                        var user = MockUser.makeMock()
                         user.objectId = "12345"
                         sut = TrackerEvent.profileVisit(user, profileType: .publicParameter , typePage: .productDetail, tab: .selling)
                     }
@@ -2462,7 +2459,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("userReport") {
                 beforeEach {
-                    user = MockUser()
+                    user = MockUser.makeMock()
                     user.objectId = "test-id"
                     sut = TrackerEvent.profileReport(.profile, reportedUserId: user.objectId!, reason: .scammer)
                 }
@@ -2857,7 +2854,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("bump up start") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "12345"
                     sut = TrackerEvent.productBumpUpStart(product, price: .free)
                 }
@@ -2873,7 +2870,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("bump up complete") {
                 beforeEach {
-                    let product = MockProduct()
+                    var product = MockProduct.makeMock()
                     product.objectId = "12345"
                     sut = TrackerEvent.productBumpUpComplete(product, price: .free, network: .facebook)
                 }

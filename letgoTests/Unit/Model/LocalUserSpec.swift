@@ -27,8 +27,7 @@ class LocalUserSpec: QuickSpec {
            
             context("init with userProduct") {
                 beforeEach {
-                    let postalAddress = PostalAddress(address: "Manuel Murguia", city: "Ourense", zipCode: "32005", state: "Ourense", countryCode: "GAL", country: "Galicia")
-                    mockUserProduct = MockUserProduct(objectId: "1234", name: "userProduct", avatar: nil, postalAddress: postalAddress , email: "juan.iglesias@letgo.com", location: nil, banned: true)
+                    mockUserProduct = MockUserProduct.makeMock()
                     sut = LocalUser(userProduct: mockUserProduct)
                 }
                 it("object not nil") {
@@ -56,9 +55,7 @@ class LocalUserSpec: QuickSpec {
             }
             context("init with user") {
                 beforeEach {
-                    let accountMail = MockAccount(provider: .email, verified: true)
-                    let postalAddress = PostalAddress(address: "Manuel Murguia", city: "Ourense", zipCode: "32005", state: "Ourense", countryCode: "GAL", country: "Galicia")
-                    mockUser = MockUser(objectId: "1234", name: "Juan", avatar: nil, postalAddress: postalAddress, email: "juan.iglesias@letgo.com", location: nil, accounts: [accountMail], ratingAccount: 5)
+                    mockUser = MockUser.makeMock()
                     sut = LocalUser(user: mockUser)
                 }
                 it("object not nil") {
@@ -82,7 +79,7 @@ class LocalUserSpec: QuickSpec {
             }
             context("init with chatInterlocutor") {
                 beforeEach {
-                    chatInterlocutor = MockChatInterlocutor(name: "Juan", avatar: nil, isBanned: false, isMuted: false, hasMutedYou: false, status: .active)
+                    chatInterlocutor = MockChatInterlocutor.makeMock()
                     sut = LocalUser(chatInterlocutor: chatInterlocutor)
                 }
                 it("object not nil") {
