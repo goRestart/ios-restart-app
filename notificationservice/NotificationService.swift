@@ -49,47 +49,77 @@ class NotificationService: UNNotificationServiceExtension {
     }
 }
 
-fileprivate extension UNNotificationAttachment {
-    static func create(fromMedia media: Media) -> UNNotificationAttachment? {
-        guard let fileExtension = media.fileExt else { return nil }
-        guard let data = media.mediaData else { return nil }
-        
-        let fileManager = FileManager.default
-        let tmpSubFolderName = ProcessInfo.processInfo.globallyUniqueString
-        let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tmpSubFolderName, isDirectory: true)
-        
-        try? fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
-        let fileIdentifier = "\(media.fileIdentifier).\(fileExtension)"
-        let fileURL = tmpSubFolderURL.appendingPathComponent(fileIdentifier)
-        
-        try? data.write(to: fileURL)
-        return self.create(fileIdentifier: fileIdentifier, fileUrl: fileURL, options: media.attachmentOptions)
-        
-    }
-    
-    static func create(fileIdentifier: String, fileUrl: URL, options: [String : Any]? = nil) -> UNNotificationAttachment? {
-        let attachment = try? UNNotificationAttachment(identifier: fileIdentifier, url: fileUrl, options: options)
-        return attachment
-    }
-}
 
-private func resourceURL(forUrlString urlString: String) -> URL? {
-    return URL(string: urlString)
-}
-
-fileprivate func loadAttachment(withUrlString urlString: String?, completionHandler: ((UNNotificationAttachment?) -> Void)) {
-    guard let urlString = urlString, let url = resourceURL(forUrlString: urlString) else {
-        completionHandler(nil)
+fileprivate func loadAttachment(withUrlString urlString: String?, completionHandler: @escaping ((UNNotificationAttachment?) -> Void)) {
+    guard let urlString = urlString,
+        let url = URL(string: urlString) else {
+            completionHandler(nil)
         return
     }
     
-    if let data = try? Data(contentsOf: url) {
-        let media = Media(withData: data, fileExtension: url.pathExtension)
-        if let attachment = UNNotificationAttachment.create(fromMedia: media) {
-            completionHandler(attachment)
+    let session = URLSession(configuration: URLSessionConfiguration.default)
+    
+    
+    session.downloadTask(with: url, completionHandler: { (temporaryLocation: URL?, _ response: URLResponse?, _ error: Error?) -> Void in
+        if error != nil {
+            print("Error with downloading rich push: \(error?.localizedDescription)")
+            completionHandler(nil)
             return
         }
-    }
-    completionHandler(nil)
+        guard var temporalyDirectoryURL = temporaryLocation else {
+            completionHandler(nil)
+            return
+        }
+        let pathExtensionFromURL = url.pathExtension
+        let pathExtensionFromResponse = determineType(response?.mimeType)
+        var pathExtension: String = ""
+        
+        if pathExtensionFromURL.isEmpty {
+            if pathExtensionFromResponse.isEmpty {
+                completionHandler(nil)
+            } else {
+                pathExtension = pathExtensionFromResponse
+            }
+        } else {
+            pathExtension = ".\(pathExtensionFromURL)"
+        }
+        
+        let fileName: String = temporalyDirectoryURL.lastPathComponent + pathExtension
+        do {
+            let fileManager = FileManager.default
+            temporalyDirectoryURL.deleteLastPathComponent()
+            let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(temporalyDirectoryURL.lastPathComponent, isDirectory: true)
+            
+            
+            try fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
+            let fileURL = tmpSubFolderURL.appendingPathComponent(fileName)
+            
+            if let data = try? Data(contentsOf: url) {
+                try? data.write(to: fileURL)
+            }
+            let attachment = try UNNotificationAttachment(identifier: "", url: fileURL, options: nil)
+            completionHandler(attachment)
+        }
+        catch let error {
+            completionHandler(nil)
+            print(error)
+        }
+    }).resume()
 }
 
+
+func determineType(_ fileType: String?) -> String {
+    // Determines the file type of the attachment to append to NSURL.
+    if (fileType == "image/jpeg") {
+        return ".jpg"
+    }
+    if (fileType == "image/gif") {
+        return ".gif"
+    }
+    if (fileType == "image/png") {
+        return ".png"
+    }
+    else {
+        return ""
+    }
+}
