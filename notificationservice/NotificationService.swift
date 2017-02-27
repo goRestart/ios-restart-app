@@ -39,7 +39,6 @@ class NotificationService: UNNotificationServiceExtension {
         }
     }
     
-    
     override func serviceExtensionTimeWillExpire() {
         // Called just before the extension will be terminated by the system.
         // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
@@ -47,79 +46,70 @@ class NotificationService: UNNotificationServiceExtension {
             contentHandler(bestAttemptContent)
         }
     }
-}
 
-
-fileprivate func loadAttachment(withUrlString urlString: String?, completionHandler: @escaping ((UNNotificationAttachment?) -> Void)) {
-    guard let urlString = urlString,
-        let url = URL(string: urlString) else {
-            completionHandler(nil)
-        return
-    }
-    
-    let session = URLSession(configuration: URLSessionConfiguration.default)
-    
-    
-    session.downloadTask(with: url, completionHandler: { (temporaryLocation: URL?, _ response: URLResponse?, _ error: Error?) -> Void in
-        if error != nil {
-            print("Error with downloading rich push: \(error?.localizedDescription)")
-            completionHandler(nil)
-            return
-        }
-        guard var temporalyDirectoryURL = temporaryLocation else {
-            completionHandler(nil)
-            return
-        }
-        let pathExtensionFromURL = url.pathExtension
-        let pathExtensionFromResponse = determineType(response?.mimeType)
-        var pathExtension: String = ""
-        
-        if pathExtensionFromURL.isEmpty {
-            if pathExtensionFromResponse.isEmpty {
+    fileprivate func loadAttachment(withUrlString urlString: String?, completionHandler: @escaping ((UNNotificationAttachment?) -> Void)) {
+        guard let urlString = urlString,
+            let url = URL(string: urlString) else {
                 completionHandler(nil)
-            } else {
-                pathExtension = pathExtensionFromResponse
-            }
-        } else {
-            pathExtension = ".\(pathExtensionFromURL)"
+                return
         }
         
-        let fileName: String = temporalyDirectoryURL.lastPathComponent + pathExtension
-        do {
-            let fileManager = FileManager.default
-            temporalyDirectoryURL.deleteLastPathComponent()
-            let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(temporalyDirectoryURL.lastPathComponent, isDirectory: true)
-            
-            
-            try fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
-            let fileURL = tmpSubFolderURL.appendingPathComponent(fileName)
-            
-            if let data = try? Data(contentsOf: url) {
-                try? data.write(to: fileURL)
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        session.downloadTask(with: url, completionHandler: { (temporaryLocation: URL?, _ response: URLResponse?, _ error: Error?) -> Void in
+            guard error == nil else {
+                completionHandler(nil)
+                return
             }
-            let attachment = try UNNotificationAttachment(identifier: "", url: fileURL, options: nil)
-            completionHandler(attachment)
-        }
-        catch let error {
-            completionHandler(nil)
-            print(error)
-        }
-    }).resume()
-}
+            guard var temporaryDirectoryURL = temporaryLocation else {
+                completionHandler(nil)
+                return
+            }
+            let pathExtensionFromURL = url.pathExtension
+            let pathExtensionFromResponse = self.determineType(response?.mimeType)
+            var pathExtension: String = ""
+            
+            if pathExtensionFromURL.isEmpty {
+                if pathExtensionFromResponse.isEmpty {
+                    completionHandler(nil)
+                } else {
+                    pathExtension = pathExtensionFromResponse
+                }
+            } else {
+                pathExtension = ".\(pathExtensionFromURL)"
+            }
+            
+            let fileName: String = temporaryDirectoryURL.lastPathComponent + pathExtension
+            do {
+                let fileManager = FileManager.default
+                temporaryDirectoryURL.deleteLastPathComponent()
+                let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(temporaryDirectoryURL.lastPathComponent, isDirectory: true)
+                
+                try fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
+                let fileURL = tmpSubFolderURL.appendingPathComponent(fileName)
+                
+                if let data = try? Data(contentsOf: url) {
+                    try? data.write(to: fileURL)
+                }
+                let attachment = try UNNotificationAttachment(identifier: fileName, url: fileURL, options: nil)
+                completionHandler(attachment)
+            } catch {
+                completionHandler(nil)
+            }
+        }).resume()
+    }
 
-
-func determineType(_ fileType: String?) -> String {
-    // Determines the file type of the attachment to append to NSURL.
-    if (fileType == "image/jpeg") {
-        return ".jpg"
-    }
-    if (fileType == "image/gif") {
-        return ".gif"
-    }
-    if (fileType == "image/png") {
-        return ".png"
-    }
-    else {
-        return ""
+    func determineType(_ fileType: String?) -> String {
+        // Determines the file type of the attachment to append to NSURL.
+        guard let type = fileType else { return "" }
+        switch type {
+        case "image/jpeg":
+            return ".jpg"
+        case "image/gif":
+            return ".gif"
+        case "image/png":
+            return ".png"
+        default:
+            return ""
+        }
     }
 }
