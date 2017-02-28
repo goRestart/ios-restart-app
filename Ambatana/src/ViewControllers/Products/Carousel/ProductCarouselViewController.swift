@@ -471,6 +471,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 extension ProductCarouselViewController {
 
     fileprivate func setupOverlayRxBindings() {
+        setupUserInfoRx()
+        setupNavbarButtonsRx()
         setupBottomButtonsRx()
         setupProductStatusLabelRx()
         setupDirectChatElementsRx()
@@ -479,9 +481,72 @@ extension ProductCarouselViewController {
         setupBumpUpBannerRx()
     }
 
+    fileprivate func setupUserInfoRx() {
+        let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(), viewModel.userInfo.asObservable()) { $0 }
+        productAndUserInfos.bindNext { [weak self] (productInfo, userInfo) in
+            self?.userView.setupWith(userAvatar: userInfo?.avatar,
+                                     userName: userInfo?.name,
+                                     productTitle: productInfo?.title,
+                                     productPrice: productInfo?.price,
+                                     userId: userInfo?.userId)
+        }.addDisposableTo(disposeBag)
+
+        viewModel.userInfo.asObservable().bindNext { [weak self] userInfo in
+            self?.fullScreenAvatarView.alpha = 0
+            self?.fullScreenAvatarView.image = userInfo?.avatarPlaceholder
+            if let avatar = userInfo?.avatar {
+                self?.imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
+                    guard let imageWithSource = result.value, url == self?.viewModel.userInfo.value?.avatar else { return }
+                    self?.fullScreenAvatarView.image = imageWithSource.image
+                }
+            }
+        }.addDisposableTo(disposeBag)
+    }
+
+
+    fileprivate func setupNavbarButtonsRx() {
+        setNavigationBarRightButtons([])
+        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
+            guard let strongSelf = self else { return }
+            let takeUntilAction = strongSelf.viewModel.navBarButtons.asObservable().skip(1)
+            if navBarButtons.count == 1 {
+                let action = navBarButtons[0]
+                switch action.interface {
+                case .textImage:
+                    let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
+                    let rightItem = UIBarButtonItem(customView: shareButton)
+                    rightItem.style = .plain
+                    shareButton.rx.tap.takeUntil(takeUntilAction).bindNext{
+                        action.action()
+                    }.addDisposableTo(strongSelf.disposeBag)
+                    strongSelf.navigationItem.rightBarButtonItems = nil
+                    strongSelf.navigationItem.rightBarButtonItem = rightItem
+                default:
+                    strongSelf.setLetGoRightButtonWith(action, buttonTintColor: UIColor.white,
+                                                       tapBlock: { tapEvent in
+                                                                tapEvent.takeUntil(takeUntilAction).bindNext{
+                                                                    action.action()
+                                                                }.addDisposableTo(strongSelf.disposeBag)
+                                                        })
+                }
+            } else if navBarButtons.count > 1 {
+                var buttons = [UIButton]()
+                navBarButtons.forEach { navBarButton in
+                    let button = UIButton(type: .system)
+                    button.setImage(navBarButton.image, for: .normal)
+                    button.rx.tap.takeUntil(takeUntilAction).bindNext { _ in
+                        navBarButton.action()
+                        }.addDisposableTo(strongSelf.disposeBag)
+                    buttons.append(button)
+                }
+                strongSelf.setNavigationBarRightButtons(buttons)
+            }
+            }.addDisposableTo(disposeBag)
+    }
+
     private func setupBottomButtonsRx() {
-        viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
-            guard let strongSelf = self, let viewModel = viewModel else { return }
+        viewModel.actionButtons.asObservable().bindNext { [weak self] actionButtons in
+            guard let strongSelf = self else { return }
 
             strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
             strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
@@ -490,7 +555,7 @@ extension ProductCarouselViewController {
 
             guard !actionButtons.isEmpty else { return }
 
-            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
+            let takeUntilAction = strongSelf.viewModel.actionButtons.asObservable().skip(1)
             guard let bottomAction = actionButtons.first else { return }
             strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
             strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
@@ -626,9 +691,9 @@ extension ProductCarouselViewController {
     fileprivate func refreshOverlayElements() {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         activeDisposeBag = DisposeBag()
-        setupUserView(viewModel)
-        setupFullScreenAvatarView(viewModel)
-        setupRxNavbarBindings(viewModel)
+//        setupUserView(viewModel)
+//        setupFullScreenAvatarView(viewModel)
+//        setupRxNavbarBindings(viewModel)
         setupRxProductUpdate(viewModel)
         refreshPageControl(viewModel)
 //        refreshProductOnboarding(viewModel)
@@ -658,64 +723,64 @@ extension ProductCarouselViewController {
         moreInfoState.asObservable().bindTo(currentPVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
-    fileprivate func setupUserView(_ viewModel: ProductViewModel) {
-        userView.setupWith(userAvatar: viewModel.ownerAvatar,
-                           userName: viewModel.ownerName,
-                           productTitle: viewModel.productTitle.value,
-                           productPrice: viewModel.productPrice.value,
-                           userId: viewModel.ownerId)
-    }
+//    fileprivate func setupUserView(_ viewModel: ProductViewModel) {
+//        userView.setupWith(userAvatar: viewModel.ownerAvatar,
+//                           userName: viewModel.ownerName,
+//                           productTitle: viewModel.productTitle.value,
+//                           productPrice: viewModel.productPrice.value,
+//                           userId: viewModel.ownerId)
+//    }
+//
+//    fileprivate func setupFullScreenAvatarView(_ viewModel: ProductViewModel) {
+//        fullScreenAvatarView.alpha = 0
+//        fullScreenAvatarView.image = viewModel.ownerAvatarPlaceholder
+//        if let avatar = viewModel.ownerAvatar {
+//            imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
+//                guard let imageWithSource = result.value, url == self?.viewModel.currentProductViewModel?.ownerAvatar else { return }
+//                self?.fullScreenAvatarView.image = imageWithSource.image
+//            }
+//        }
+//    }
 
-    fileprivate func setupFullScreenAvatarView(_ viewModel: ProductViewModel) {
-        fullScreenAvatarView.alpha = 0
-        fullScreenAvatarView.image = viewModel.ownerAvatarPlaceholder
-        if let avatar = viewModel.ownerAvatar {
-            imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
-                guard let imageWithSource = result.value, url == self?.viewModel.currentProductViewModel?.ownerAvatar else { return }
-                self?.fullScreenAvatarView.image = imageWithSource.image
-            }
-        }
-    }
+//    fileprivate func setupRxNavbarBindings(_ viewModel: ProductViewModel) {
+//        setNavigationBarRightButtons([])
+//        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
+//            guard let strongSelf = self else { return }
+//
+//            if navBarButtons.count == 1 {
+//                switch navBarButtons[0].interface {
+//                case .textImage:
+//                    strongSelf.setNavigationBarRightButtonSharing(navBarButtons[0])
+//                default:
+//                    strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.activeDisposeBag,
+//                        buttonTintColor: UIColor.white)
+//                }
+//            } else if navBarButtons.count > 1 {
+//                var buttons = [UIButton]()
+//                navBarButtons.forEach { navBarButton in
+//                    let button = UIButton(type: .system)
+//                    button.setImage(navBarButton.image, for: .normal)
+//                    button.rx.tap.bindNext { _ in
+//                        navBarButton.action()
+//                        }.addDisposableTo(strongSelf.activeDisposeBag)
+//                    buttons.append(button)
+//                }
+//                strongSelf.setNavigationBarRightButtons(buttons)
+//            }
+//        }.addDisposableTo(activeDisposeBag)
+//    }
+//    
+//    private func setNavigationBarRightButtonSharing(_ action: UIAction) {
+//        let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
+//        let rightItem = UIBarButtonItem(customView: shareButton)
+//        rightItem.style = .plain
+//        shareButton.rx.tap.bindNext{
+//            action.action()
+//        }.addDisposableTo(activeDisposeBag)
+//        navigationItem.rightBarButtonItems = nil
+//        navigationItem.rightBarButtonItem = rightItem
+//    }
 
-    fileprivate func setupRxNavbarBindings(_ viewModel: ProductViewModel) {
-        setNavigationBarRightButtons([])
-        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
-            guard let strongSelf = self else { return }
-
-            if navBarButtons.count == 1 {
-                switch navBarButtons[0].interface {
-                case .textImage:
-                    strongSelf.setNavigationBarRightButtonSharing(navBarButtons[0])
-                default:
-                    strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.activeDisposeBag,
-                        buttonTintColor: UIColor.white)
-                }
-            } else if navBarButtons.count > 1 {
-                var buttons = [UIButton]()
-                navBarButtons.forEach { navBarButton in
-                    let button = UIButton(type: .system)
-                    button.setImage(navBarButton.image, for: .normal)
-                    button.rx.tap.bindNext { _ in
-                        navBarButton.action()
-                        }.addDisposableTo(strongSelf.activeDisposeBag)
-                    buttons.append(button)
-                }
-                strongSelf.setNavigationBarRightButtons(buttons)
-            }
-        }.addDisposableTo(activeDisposeBag)
-    }
-    
-    private func setNavigationBarRightButtonSharing(_ action: UIAction) {
-        let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
-        let rightItem = UIBarButtonItem(customView: shareButton)
-        rightItem.style = .plain
-        shareButton.rx.tap.bindNext{
-            action.action()
-        }.addDisposableTo(activeDisposeBag)
-        navigationItem.rightBarButtonItems = nil
-        navigationItem.rightBarButtonItem = rightItem
-    }
-    
     private func setupRxProductUpdate(_ viewModel: ProductViewModel) {
         viewModel.product.asObservable().bindNext { [weak self] _ in
             guard let strongSelf = self else { return }

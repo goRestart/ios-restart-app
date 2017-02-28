@@ -50,6 +50,10 @@ class ProductCarouselViewModel: BaseViewModel {
 
     let showKeyboardOnFirstAppearance: Bool
 
+    let productInfo = Variable<ProductVMProductInfo?>(nil)
+    let productImageURLs = Variable<[URL]>([])
+    let userInfo = Variable<ProductVMUserInfo?>(nil)
+
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
 
@@ -361,6 +365,10 @@ class ProductCarouselViewModel: BaseViewModel {
 
         currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)
         isFeatured.value = currentVM.isShowingFeaturedStripe
+
+        currentVM.productInfo.asObservable().bindTo(productInfo).addDisposableTo(activeDisposeBag)
+        currentVM.productImageURLs.asObservable().bindTo(productImageURLs).addDisposableTo(activeDisposeBag)
+        currentVM.userInfo.asObservable().bindTo(userInfo).addDisposableTo(activeDisposeBag)
 
         currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)
         currentVM.navBarButtons.asObservable().bindTo(navBarButtons).addDisposableTo(activeDisposeBag)
