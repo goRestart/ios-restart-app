@@ -198,14 +198,6 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         mapView.isScrollEnabled = enabled
         mapView.isPitchEnabled = enabled
     }
-
-    func configureMapView(with viewModel: ProductViewModel?) {
-        guard let coordinate = viewModel?.productLocation.value else { return }
-        addRegion(with: coordinate, zoomBlocker: true)
-        setupMapExpanded(false)
-        locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
-                                radius: Constants.accurateRegionRadius)
-    }
     
     func addRegion(with coordinate: LGLocationCoordinates2D, zoomBlocker: Bool) {
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
