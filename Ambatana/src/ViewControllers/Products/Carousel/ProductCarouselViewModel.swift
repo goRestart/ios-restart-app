@@ -74,6 +74,9 @@ class ProductCarouselViewModel: BaseViewModel {
     let shareButtonState = Variable<ButtonState>(.hidden)
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
 
+    // UI - Input
+    let moreInfoState = Variable<MoreInfoState>(.hidden)
+
 
     /* Static required data on viewController:
 
@@ -385,6 +388,8 @@ class ProductCarouselViewModel: BaseViewModel {
         currentVM.favoriteButtonState.asObservable().bindTo(favoriteButtonState).addDisposableTo(activeDisposeBag)
         currentVM.shareButtonState.asObservable().bindTo(shareButtonState).addDisposableTo(activeDisposeBag)
         currentVM.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfo).addDisposableTo(activeDisposeBag)
+
+        moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 }
 

@@ -373,7 +373,10 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupCollectionRx() {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
-            self?.collectionView.handleCollectionChange(change)
+            self?.imageBackground.isHidden = true
+            self?.collectionView.handleCollectionChange(change) { _ in
+                self?.imageBackground.isHidden = false
+            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -471,6 +474,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 extension ProductCarouselViewController {
 
     fileprivate func setupOverlayRxBindings() {
+        setupMoreInfoStateRx()
+        setupPageControlRx()
         setupUserInfoRx()
         setupNavbarButtonsRx()
         setupBottomButtonsRx()
@@ -479,6 +484,20 @@ extension ProductCarouselViewController {
         setupFavoriteButtonRx()
         setupShareButtonRx()
         setupBumpUpBannerRx()
+    }
+
+    private func setupMoreInfoStateRx() {
+        moreInfoState.asObservable().bindTo(viewModel.moreInfoState).addDisposableTo(disposeBag)
+    }
+
+    private func setupPageControlRx() {
+        viewModel.productImageURLs.asObservable().bindNext { [weak self] images in
+            guard let pageControl = self?.pageControl else { return }
+            pageControl.currentPage = 0
+            pageControl.numberOfPages = images.count
+            pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
+                pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
+        }.addDisposableTo(disposeBag)
     }
 
     fileprivate func setupUserInfoRx() {
@@ -495,7 +514,7 @@ extension ProductCarouselViewController {
             self?.fullScreenAvatarView.alpha = 0
             self?.fullScreenAvatarView.image = userInfo?.avatarPlaceholder
             if let avatar = userInfo?.avatar {
-                self?.imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
+                let _ = self?.imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
                     guard let imageWithSource = result.value, url == self?.viewModel.userInfo.value?.avatar else { return }
                     self?.fullScreenAvatarView.image = imageWithSource.image
                 }
@@ -675,7 +694,7 @@ extension ProductCarouselViewController {
             } else {
                 self?.closeBumpUpBanner()
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
 
@@ -694,8 +713,8 @@ extension ProductCarouselViewController {
 //        setupUserView(viewModel)
 //        setupFullScreenAvatarView(viewModel)
 //        setupRxNavbarBindings(viewModel)
-        setupRxProductUpdate(viewModel)
-        refreshPageControl(viewModel)
+//        setupRxProductUpdate(viewModel)
+//        refreshPageControl(viewModel)
 //        refreshProductOnboarding(viewModel)
 //        refreshBottomButtons(viewModel)
 //        refreshProductStatusLabel(viewModel)
@@ -781,27 +800,27 @@ extension ProductCarouselViewController {
 //        navigationItem.rightBarButtonItem = rightItem
 //    }
 
-    private func setupRxProductUpdate(_ viewModel: ProductViewModel) {
-        viewModel.product.asObservable().bindNext { [weak self] _ in
-            guard let strongSelf = self else { return }
-            let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems
-            //hiding fake list background to avoid showing it while the cell reloads
-            self?.imageBackground.isHidden = true
-            strongSelf.collectionView.performBatchUpdates({ [weak self] in
-                 self?.collectionView.reloadItems(at: visibleIndexPaths)
-            }, completion: { [weak self] _ in
-                self?.imageBackground.isHidden = false
-            })
-        }.addDisposableTo(activeDisposeBag)
-    }
+//    private func setupRxProductUpdate(_ viewModel: ProductViewModel) {
+//        viewModel.product.asObservable().bindNext { [weak self] _ in
+//            guard let strongSelf = self else { return }
+//            let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems
+//            //hiding fake list background to avoid showing it while the cell reloads
+//            self?.imageBackground.isHidden = true
+//            strongSelf.collectionView.performBatchUpdates({ [weak self] in
+//                 self?.collectionView.reloadItems(at: visibleIndexPaths)
+//            }, completion: { [weak self] _ in
+//                self?.imageBackground.isHidden = false
+//            })
+//        }.addDisposableTo(activeDisposeBag)
+//    }
 
-    private func refreshPageControl(_ viewModel: ProductViewModel) {
-        pageControl.currentPage = 0
-        pageControl.numberOfPages = viewModel.product.value.images.count
-        pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
-        pageControl.size(forNumberOfPages: pageControl.numberOfPages).width + CarouselUI.pageControlWidth)
-    }
-    
+//    private func refreshPageControl(_ viewModel: ProductViewModel) {
+//        pageControl.currentPage = 0
+//        pageControl.numberOfPages = viewModel.product.value.images.count
+//        pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
+//        pageControl.size(forNumberOfPages: pageControl.numberOfPages).width + CarouselUI.pageControlWidth)
+//    }
+
 //    private func refreshBottomButtons(_ viewModel: ProductViewModel) {
 //        viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
 //            guard let strongSelf = self, let viewModel = viewModel else { return }
