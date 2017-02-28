@@ -471,10 +471,59 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 extension ProductCarouselViewController {
 
     fileprivate func setupOverlayRxBindings() {
+        setupBottomButtonsRx()
+        setupProductStatusLabelRx()
         setupDirectChatElementsRx()
         setupFavoriteButtonRx()
         setupShareButtonRx()
         setupBumpUpBannerRx()
+    }
+
+    private func setupBottomButtonsRx() {
+        viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
+            guard let strongSelf = self, let viewModel = viewModel else { return }
+
+            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
+            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
+            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
+            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
+
+            guard !actionButtons.isEmpty else { return }
+
+            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
+            guard let bottomAction = actionButtons.first else { return }
+            strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
+            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
+                bottomAction.action()
+                }.addDisposableTo(strongSelf.disposeBag)
+
+            guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
+            strongSelf.buttonTop.configureWith(uiAction: topAction)
+            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
+                topAction.action()
+                }.addDisposableTo(strongSelf.disposeBag)
+
+            }.addDisposableTo(disposeBag)
+
+        viewModel.editButtonState.asObservable().bindTo(editButton.rx.state).addDisposableTo(disposeBag)
+        editButton.rx.tap.bindNext { [weak self] in
+            self?.hideMoreInfo()
+            self?.viewModel.editButtonPressed()
+        }.addDisposableTo(disposeBag)
+
+        // When there's the edit button, the bottom button must adapt right margin to give space for it
+        let bottomRightButtonPresent = viewModel.editButtonState.asObservable().map { $0 != .hidden }
+        bottomRightButtonPresent.bindNext { [weak self] present in
+            self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
+            }.addDisposableTo(disposeBag)
+
+        // When there's the edit button and there are no actionButtons, header is at bottom and must not overlap edit button
+        let userViewCollapsed = Observable.combineLatest(
+            bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
+            resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
+        userViewCollapsed.bindNext { [weak self] collapsed in
+            self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupDirectChatElementsRx() {
@@ -498,6 +547,23 @@ extension ProductCarouselViewController {
             guard let strongSelf = self else { return }
             strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
             strongSelf.chatTextView.clear()
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupProductStatusLabelRx() {
+
+        let statusAndFeatured = Observable.combineLatest(viewModel.status.asObservable(), viewModel.isFeatured.asObservable()) { $0 }
+        statusAndFeatured.bindNext { [weak self] (status, isFeatured) in
+            if isFeatured {
+                self?.productStatusView.backgroundColor = UIColor.white
+                self?.productStatusLabel.text = LGLocalizedString.bumpUpProductDetailFeaturedLabel
+                self?.productStatusLabel.textColor = UIColor.redText
+            } else {
+                self?.productStatusView.backgroundColor = status.bgColor
+                self?.productStatusLabel.text = status.string
+                self?.productStatusLabel.textColor = status.labelColor
+            }
+            self?.productStatusView.isHidden = self?.productStatusLabel.text?.isEmpty ?? true
         }.addDisposableTo(disposeBag)
     }
 
@@ -565,9 +631,9 @@ extension ProductCarouselViewController {
         setupRxNavbarBindings(viewModel)
         setupRxProductUpdate(viewModel)
         refreshPageControl(viewModel)
-        refreshProductOnboarding(viewModel)
-        refreshBottomButtons(viewModel)
-        refreshProductStatusLabel(viewModel)
+//        refreshProductOnboarding(viewModel)
+//        refreshBottomButtons(viewModel)
+//        refreshProductStatusLabel(viewModel)
 //        refreshDirectChatElements(viewModel)
 //        refreshFavoriteButton(viewModel)
 //        refreshShareButton(viewModel)
@@ -671,88 +737,88 @@ extension ProductCarouselViewController {
         pageControl.size(forNumberOfPages: pageControl.numberOfPages).width + CarouselUI.pageControlWidth)
     }
     
-    private func refreshBottomButtons(_ viewModel: ProductViewModel) {
-        viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
-            guard let strongSelf = self, let viewModel = viewModel else { return }
+//    private func refreshBottomButtons(_ viewModel: ProductViewModel) {
+//        viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
+//            guard let strongSelf = self, let viewModel = viewModel else { return }
+//
+//            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
+//            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
+//            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
+//            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
+//
+//            guard !actionButtons.isEmpty else { return }
+//
+//            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
+//            guard let bottomAction = actionButtons.first else { return }
+//            strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
+//            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
+//                bottomAction.action()
+//            }.addDisposableTo(strongSelf.activeDisposeBag)
+//
+//            guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
+//            strongSelf.buttonTop.configureWith(uiAction: topAction)
+//            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
+//                topAction.action()
+//            }.addDisposableTo(strongSelf.activeDisposeBag)
+//
+//        }.addDisposableTo(activeDisposeBag)
+//
+//        viewModel.editButtonState.asObservable().bindTo(editButton.rx.state).addDisposableTo(disposeBag)
+//        editButton.rx.tap.bindNext { [weak self] in
+//            self?.hideMoreInfo()
+//            self?.viewModel.editButtonPressed()
+//        }.addDisposableTo(activeDisposeBag)
+//
+//        // When there's the edit button, the bottom button must adapt right margin to give space for it
+//        let bottomRightButtonPresent = viewModel.editButtonState.asObservable().map { $0 != .hidden }
+//        bottomRightButtonPresent.bindNext { [weak self] present in
+//            self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
+//        }.addDisposableTo(activeDisposeBag)
+//
+//        // When there's the edit button and there are no actionButtons, header is at bottom and must not overlap edit button
+//        let userViewCollapsed = Observable.combineLatest(
+//            bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
+//            resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
+//        userViewCollapsed.bindNext { [weak self] collapsed in
+//            self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
+//        }.addDisposableTo(activeDisposeBag)
+//    }
 
-            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
-            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
-            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
-            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
+//    fileprivate func refreshProductOnboarding(_ viewModel: ProductViewModel) {
+//        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
+//        guard self.viewModel.shouldShowOnboarding else { return }
+//        // if state is nil, means there's no need to show the onboarding
+//        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
+//
+//        guard let onboarding = productOnboardingView else { return }
+//        onboarding.delegate = self
+//        navigationCtrlView.addSubview(onboarding)
+//        onboarding.setupUI()
+//        onboarding.frame = navigationCtrlView.frame
+//        onboarding.layoutIfNeeded()
+//    }
 
-            guard !actionButtons.isEmpty else { return }
+//    private func refreshProductStatusLabel(_ viewModel: ProductViewModel) {
+//        viewModel.productStatusLabelText
+//            .asObservable()
+//            .map{ $0?.isEmpty ?? true}
+//            .bindTo(productStatusView.rx.isHidden)
+//            .addDisposableTo(activeDisposeBag)
+//        viewModel.productStatusLabelText
+//            .asObservable()
+//            .map{$0 ?? ""}
+//            .bindTo(productStatusLabel.rx.text)
+//            .addDisposableTo(activeDisposeBag)
+//        viewModel.productStatusLabelColor
+//            .asObservable()
+//            .bindTo(productStatusLabel.rx.textColor)
+//            .addDisposableTo(activeDisposeBag)
+//        viewModel.productStatusBackgroundColor
+//            .asObservable()
+//            .bindTo(productStatusView.rx.backgroundColor)
+//            .addDisposableTo(activeDisposeBag)
+//    }
 
-            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
-            guard let bottomAction = actionButtons.first else { return }
-            strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
-            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
-                bottomAction.action()
-            }.addDisposableTo(strongSelf.activeDisposeBag)
-
-            guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
-            strongSelf.buttonTop.configureWith(uiAction: topAction)
-            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
-                topAction.action()
-            }.addDisposableTo(strongSelf.activeDisposeBag)
-
-        }.addDisposableTo(activeDisposeBag)
-
-        viewModel.editButtonState.asObservable().bindTo(editButton.rx.state).addDisposableTo(disposeBag)
-        editButton.rx.tap.bindNext { [weak self] in
-            self?.hideMoreInfo()
-            self?.viewModel.editButtonPressed()
-        }.addDisposableTo(activeDisposeBag)
-
-        // When there's the edit button, the bottom button must adapt right margin to give space for it
-        let bottomRightButtonPresent = viewModel.editButtonState.asObservable().map { $0 != .hidden }
-        bottomRightButtonPresent.bindNext { [weak self] present in
-            self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
-        }.addDisposableTo(activeDisposeBag)
-
-        // When there's the edit button and there are no actionButtons, header is at bottom and must not overlap edit button
-        let userViewCollapsed = Observable.combineLatest(
-            bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
-            resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
-        userViewCollapsed.bindNext { [weak self] collapsed in
-            self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
-        }.addDisposableTo(activeDisposeBag)
-    }
-
-    fileprivate func refreshProductOnboarding(_ viewModel: ProductViewModel) {
-        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
-        guard self.viewModel.shouldShowOnboarding else { return }
-        // if state is nil, means there's no need to show the onboarding
-        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
-
-        guard let onboarding = productOnboardingView else { return }
-        onboarding.delegate = self
-        navigationCtrlView.addSubview(onboarding)
-        onboarding.setupUI()
-        onboarding.frame = navigationCtrlView.frame
-        onboarding.layoutIfNeeded()
-    }
-    
-    private func refreshProductStatusLabel(_ viewModel: ProductViewModel) {
-        viewModel.productStatusLabelText
-            .asObservable()
-            .map{ $0?.isEmpty ?? true}
-            .bindTo(productStatusView.rx.isHidden)
-            .addDisposableTo(activeDisposeBag)
-        viewModel.productStatusLabelText
-            .asObservable()
-            .map{$0 ?? ""}
-            .bindTo(productStatusLabel.rx.text)
-            .addDisposableTo(activeDisposeBag)
-        viewModel.productStatusLabelColor
-            .asObservable()
-            .bindTo(productStatusLabel.rx.textColor)
-            .addDisposableTo(activeDisposeBag)
-        viewModel.productStatusBackgroundColor
-            .asObservable()
-            .bindTo(productStatusView.rx.backgroundColor)
-            .addDisposableTo(activeDisposeBag)
-    }
-    
 
 //    private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
 //        chatTextView.placeholder = viewModel.directChatPlaceholder
@@ -879,6 +945,17 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()
+    }
+
+    func vmShowOnboarding() {
+        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
+        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
+        guard let onboarding = productOnboardingView else { return }
+        onboarding.delegate = self
+        navigationCtrlView.addSubview(onboarding)
+        onboarding.setupUI()
+        onboarding.frame = navigationCtrlView.frame
+        onboarding.layoutIfNeeded()
     }
 }
 
@@ -1241,13 +1318,15 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         tabBarCtrl.showAppRatingViewIfNeeded(.markedSold)
     }
     
-    func vmShowOnboarding() {
-        guard let productVM = viewModel.currentProductViewModel else { return }
-        refreshProductOnboarding(productVM)
-    }
-    
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
         var finalActions: [UIAction] = actions
+
+        //Adding show onboarding action
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
+            self?.viewModel.showOnboardingButtonPressed()
+        }))
+
         if viewModel.quickAnswersAvailable.value {
             //Adding show/hide quick answers option
             if viewModel.quickAnswersCollapsed.value {

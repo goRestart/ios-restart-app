@@ -12,6 +12,7 @@ import RxSwift
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
+    func vmShowOnboarding()
 }
 
 enum CarouselMovement {
@@ -43,15 +44,17 @@ class ProductCarouselViewModel: BaseViewModel {
         return objects.value.count
     }
 
-    var shouldShowOnboarding: Bool {
-        return !keyValueStorage[.didShowProductDetailOnboarding]
-    }
-
     var shouldShowMoreInfoTooltip: Bool {
         return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
 
     let showKeyboardOnFirstAppearance: Bool
+
+    let navBarButtons = Variable<[UIAction]>([])
+    let actionButtons = Variable<[UIAction]>([])
+
+    let status = Variable<ProductViewModelStatus>(.pending)
+    let isFeatured = Variable<Bool>(false)
 
     let quickAnswers = Variable<[QuickAnswer]>([])
     let quickAnswersAvailable = Variable<Bool>(false)
@@ -61,6 +64,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var directChatPlaceholder = Variable<String>("")
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
 
+    let editButtonState = Variable<ButtonState>(.hidden)
     let isFavorite = Variable<Bool>(false)
     let favoriteButtonState = Variable<ButtonState>(.enabled)
     let shareButtonState = Variable<ButtonState>(.hidden)
@@ -99,6 +103,10 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let previousImagesToPrefetch = 1
     fileprivate let nextImagesToPrefetch = 3
     fileprivate var prefetchingIndexes: [Int] = []
+
+    fileprivate var shouldShowOnboarding: Bool {
+        return !keyValueStorage[.didShowProductDetailOnboarding]
+    }
 
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
@@ -247,6 +255,10 @@ class ProductCarouselViewModel: BaseViewModel {
         setupCurrentProductVMRxBindings(forIndex: index)
 
         prefetchNeighborsImages(index, movement: movement)
+
+        if shouldShowOnboarding {
+            self.delegate?.vmShowOnboarding()
+        }
     }
 
     func productAtIndex(_ index: Int) -> Product? {
@@ -285,6 +297,10 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.trackVisitMoreInfo()
         keyValueStorage[.productMoreInfoTooltipDismissed] = true
         delegate?.vmRemoveMoreInfoTooltip()
+    }
+
+    func showOnboardingButtonPressed() {
+        delegate?.vmShowOnboarding()
     }
 
     func quickAnswersShowButtonPressed() {
@@ -343,6 +359,12 @@ class ProductCarouselViewModel: BaseViewModel {
             strongSelf.delegate?.vmRefreshCurrent()
         }.addDisposableTo(activeDisposeBag)
 
+        currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)
+        isFeatured.value = currentVM.isShowingFeaturedStripe
+
+        currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)
+        currentVM.navBarButtons.asObservable().bindTo(navBarButtons).addDisposableTo(activeDisposeBag)
+
         quickAnswers.value = currentVM.quickAnswers
         currentVM.directChatEnabled.asObservable().bindTo(quickAnswersAvailable).addDisposableTo(activeDisposeBag)
 
@@ -350,6 +372,7 @@ class ProductCarouselViewModel: BaseViewModel {
         currentVM.directChatMessages.bindTo(directChatMessages).addDisposableTo(activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
+        currentVM.editButtonState.asObservable().bindTo(editButtonState).addDisposableTo(activeDisposeBag)
         currentVM.isFavorite.asObservable().bindTo(isFavorite).addDisposableTo(activeDisposeBag)
         currentVM.favoriteButtonState.asObservable().bindTo(favoriteButtonState).addDisposableTo(activeDisposeBag)
         currentVM.shareButtonState.asObservable().bindTo(shareButtonState).addDisposableTo(activeDisposeBag)

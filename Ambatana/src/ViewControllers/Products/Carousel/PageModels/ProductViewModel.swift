@@ -18,7 +18,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
-    func vmShowOnboarding()
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
@@ -68,6 +67,8 @@ class ProductViewModel: BaseViewModel {
     let favoriteButtonState = Variable<ButtonState>(.enabled)
     let editButtonState = Variable<ButtonState>(.hidden)
     let shareButtonState = Variable<ButtonState>(.hidden)
+
+    // next 3 elements not used
     let productStatusBackgroundColor = Variable<UIColor>(UIColor.black)
     let productStatusLabelText = Variable<String?>(nil)
     let productStatusLabelColor = Variable<UIColor>(UIColor.white)
@@ -618,7 +619,6 @@ extension ProductViewModel {
         if productHasReadyCommercials.value {
             actions.append(buildCommercialAction())
         }
-        actions.append(buildOnboardingAction())
         if !isMine {
             actions.append(buildReportAction())
         }
@@ -710,14 +710,7 @@ extension ProductViewModel {
                 actions: alertActions)
             })
     }
-    
-    private func buildOnboardingAction() -> UIAction {
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
-        return UIAction(interface: .text(title), action: { [weak self] in
-            KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = false
-            self?.delegate?.vmShowOnboarding()
-        })
-    }
+
 
     private func buildPromoteAction() -> UIAction {
         return UIAction(interface: .text(LGLocalizedString.productCreateCommercialButton), action: { [weak self] in
