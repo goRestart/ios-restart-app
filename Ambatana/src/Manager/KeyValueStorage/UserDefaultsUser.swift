@@ -26,7 +26,7 @@ struct UserDefaultsUser {
     static let productsWithExpressChatMessageSentDefaultValue: [String] = []
     static let marketingNotificationsDefaultValue = true
     static let productsMarkAsFavoriteDafaultValue: Int? = nil
-    static let transactionsProductInfoDefaultValue = [String:Data]()
+    static let transactionsProductIdsDefaultValue = [String:String]()
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -44,7 +44,7 @@ struct UserDefaultsUser {
     var productsWithExpressChatMessageSent: [String]
     var marketingNotifications: Bool
     var productsMarkAsFavorite: Int?
-    var transactionsProductInfo: [String:Data] // [<transactionId> : <transaction+productId>]
+    var transactionsProductIds: [String:String] // [<transactionId> : <productId>]
 
     init() {
         let appShared = UserDefaultsUser.appSharedDefaultValue
@@ -63,7 +63,7 @@ struct UserDefaultsUser {
         let productsWithExpressChatMessageSent = UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue
         let marketingNotifications = UserDefaultsUser.marketingNotificationsDefaultValue
         let productsMarkAsFavorite = UserDefaultsUser.productsMarkAsFavoriteDafaultValue
-        let transactionsProductInfo = UserDefaultsUser.transactionsProductInfoDefaultValue
+        let transactionsProductIds = UserDefaultsUser.transactionsProductIdsDefaultValue
 
         self.init(appShared: appShared, userLocationApproximate: userLocationApproximate,
                   chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
@@ -76,7 +76,7 @@ struct UserDefaultsUser {
                   productsWithExpressChatAlreadyShown: productsWithExpressChatAlreadyShown,
                   productsWithExpressChatMessageSent: productsWithExpressChatMessageSent,
                   marketingNotifications: marketingNotifications, productsMarkAsFavorite: productsMarkAsFavorite,
-                  transactionsProductInfo: transactionsProductInfo)
+                  transactionsProductIds: transactionsProductIds)
     }
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
@@ -85,7 +85,7 @@ struct UserDefaultsUser {
          commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool,
          shouldShowExpressChat: Bool, productsWithExpressChatAlreadyShown: [String],
          productsWithExpressChatMessageSent: [String], marketingNotifications: Bool, productsMarkAsFavorite: Int?,
-         transactionsProductInfo: [String:Data]) {
+         transactionsProductIds: [String:String]) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -102,7 +102,7 @@ struct UserDefaultsUser {
         self.productsWithExpressChatMessageSent = productsWithExpressChatMessageSent
         self.marketingNotifications = marketingNotifications
         self.productsMarkAsFavorite = productsMarkAsFavorite
-        self.transactionsProductInfo = transactionsProductInfo
+        self.transactionsProductIds = transactionsProductIds
     }
 }
 
@@ -139,7 +139,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         let productsWithExpressChatMessageSent = dictionary.decode(UserDefaultsUserKey.productsWithExpressChatMessageSent.rawValue, defaultValue: UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue)
         let marketingNotifications = dictionary.decode(UserDefaultsUserKey.marketingNotifications.rawValue, defaultValue: UserDefaultsUser.marketingNotificationsDefaultValue)
         let productsMarkAsFavorite = dictionary.decode(UserDefaultsUserKey.productsMarkAsFavorite.rawValue, defaultValue: UserDefaultsUser.productsMarkAsFavoriteDafaultValue)
-        let transactionsProductInfo = dictionary.decode(UserDefaultsUserKey.transactionsProductInfo.rawValue, defaultValue: UserDefaultsUser.transactionsProductInfoDefaultValue)
+        let transactionsProductIds = dictionary.decode(UserDefaultsUserKey.transactionsProductIds.rawValue, defaultValue: UserDefaultsUser.transactionsProductIdsDefaultValue)
 
         return UserDefaultsUser(appShared: appShared, userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
@@ -154,7 +154,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 productsWithExpressChatAlreadyShown: productsWithExpressChatAlreadyShown,
                                 productsWithExpressChatMessageSent: productsWithExpressChatMessageSent,
                                 marketingNotifications: marketingNotifications, productsMarkAsFavorite: productsMarkAsFavorite,
-                                transactionsProductInfo: transactionsProductInfo)
+                                transactionsProductIds: transactionsProductIds)
     }
 
     func encode() -> [String: Any] {
@@ -179,7 +179,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.productsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown)
         dict.encode(UserDefaultsUserKey.productsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent)
         dict.encode(UserDefaultsUserKey.marketingNotifications.rawValue, value: marketingNotifications)
-        dict.encode(UserDefaultsUserKey.transactionsProductInfo.rawValue, value: transactionsProductInfo)
+        dict.encode(UserDefaultsUserKey.transactionsProductIds.rawValue, value: transactionsProductIds)
         if let productsMarkAsFavorite = productsMarkAsFavorite {
             dict.encode(UserDefaultsUserKey.productsMarkAsFavorite.rawValue, value: productsMarkAsFavorite)
         }
@@ -216,7 +216,7 @@ private enum UserDefaultsUserKey: String {
     case marketingNotifications = "marketingNotifications"
     case productsMarkAsFavorite = "productsMarkAsFavorite"
 
-    case transactionsProductInfo = "transactionsProductInfo"
+    case transactionsProductIds = "transactionsProductIds"
 }
 
 

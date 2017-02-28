@@ -23,10 +23,19 @@ class MockPurchasesShopper: PurchasesShopper {
 
     }
 
-    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct) {
+    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
+
+    }
+
+    func productIsPayedButNotBumped(_ productId: String) -> Bool {
+        return Bool.random()
     }
 
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
+
+    }
+
+    func requestPricedBumpUpForProduct(_ productId: String) {
 
     }
 }
