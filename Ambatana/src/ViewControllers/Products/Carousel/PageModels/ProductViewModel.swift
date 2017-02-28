@@ -40,8 +40,11 @@ class ProductViewModel: BaseViewModel {
     fileprivate let commercializers: Variable<[Commercializer]?>
     fileprivate let isReported = Variable<Bool>(false)
     let isFavorite = Variable<Bool>(false)
+    let productStats = Variable<ProductStats?>(nil)
+    //TODO: NEXT 2 ELEMENTS NOT REQUIRED
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
+
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
     fileprivate var freeBumpUpShareMessage: SocialMessage?
@@ -68,7 +71,7 @@ class ProductViewModel: BaseViewModel {
     let editButtonState = Variable<ButtonState>(.hidden)
     let shareButtonState = Variable<ButtonState>(.hidden)
 
-    // next 3 elements not used
+    // TODO: next 3 elements not used
     let productStatusBackgroundColor = Variable<UIColor>(UIColor.black)
     let productStatusLabelText = Variable<String?>(nil)
     let productStatusLabelColor = Variable<UIColor>(UIColor.white)
@@ -98,6 +101,7 @@ class ProductViewModel: BaseViewModel {
     fileprivate let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
 
+    //TODO: ELEMENT NOT REQUIRED
     let statsViewVisible = Variable<Bool>(false)
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
@@ -135,7 +139,6 @@ class ProductViewModel: BaseViewModel {
 
     // Retrieval status
     private var relationRetrieved = false
-    private var statsRetrieved = false
     private var commercialsRetrieved: Bool {
         return commercializers.value != nil
     }
@@ -249,12 +252,12 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        if !statsRetrieved {
+        if productStats.value == nil {
             productRepository.retrieveStats(product.value) { [weak self] result in
-                guard let strongSelf = self, let stats = result.value else { return }
-                strongSelf.statsRetrieved = true
-                strongSelf.viewsCount.value = stats.viewsCount
-                strongSelf.favouritesCount.value = stats.favouritesCount
+                guard let stats = result.value else { return }
+                self?.productStats.value = stats
+                self?.viewsCount.value = stats.viewsCount
+                self?.favouritesCount.value = stats.favouritesCount
             }
         }
 

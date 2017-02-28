@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
-    func vmRefreshCurrent()
+//    func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
     func vmShowOnboarding()
 }
@@ -53,6 +53,7 @@ class ProductCarouselViewModel: BaseViewModel {
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
     let userInfo = Variable<ProductVMUserInfo?>(nil)
+    let productStats = Variable<ProductStats?>(nil)
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
@@ -73,6 +74,9 @@ class ProductCarouselViewModel: BaseViewModel {
     let favoriteButtonState = Variable<ButtonState>(.enabled)
     let shareButtonState = Variable<ButtonState>(.hidden)
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+
+    let socialMessage = Variable<SocialMessage?>(nil)
+    let socialSharer = Variable<SocialSharer>(SocialSharer())
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -223,9 +227,8 @@ class ProductCarouselViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             guard let product = strongSelf.currentProductViewModel?.product.value else { return }
             let newModel = ProductCarouselCellModel(product: product)
-            strongSelf.objects.removeAtIndex(strongSelf.startIndex)
-            strongSelf.objects.insert(newModel, atIndex: strongSelf.startIndex)
-            strongSelf.delegate?.vmRefreshCurrent()
+            strongSelf.objects.replace(strongSelf.startIndex, with: newModel)
+//            strongSelf.delegate?.vmRefreshCurrent()
         }
     }
     
@@ -361,9 +364,8 @@ class ProductCarouselViewModel: BaseViewModel {
         guard let currentVM = currentProductViewModel else { return }
         currentVM.product.asObservable().skip(1).bindNext { [weak self] updatedProduct in
             guard let strongSelf = self else { return }
-            guard 0..<strongSelf.objectCount ~= index else { return }
-            strongSelf.objects.replace(index..<(index+1), with: [ProductCarouselCellModel(product: updatedProduct)])
-            strongSelf.delegate?.vmRefreshCurrent()
+            strongSelf.objects.replace(index, with: ProductCarouselCellModel(product:updatedProduct))
+//            strongSelf.delegate?.vmRefreshCurrent()
         }.addDisposableTo(activeDisposeBag)
 
         currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)
@@ -372,6 +374,7 @@ class ProductCarouselViewModel: BaseViewModel {
         currentVM.productInfo.asObservable().bindTo(productInfo).addDisposableTo(activeDisposeBag)
         currentVM.productImageURLs.asObservable().bindTo(productImageURLs).addDisposableTo(activeDisposeBag)
         currentVM.userInfo.asObservable().bindTo(userInfo).addDisposableTo(activeDisposeBag)
+        currentVM.productStats.asObservable().bindTo(productStats).addDisposableTo(activeDisposeBag)
 
         currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)
         currentVM.navBarButtons.asObservable().bindTo(navBarButtons).addDisposableTo(activeDisposeBag)
@@ -388,6 +391,9 @@ class ProductCarouselViewModel: BaseViewModel {
         currentVM.favoriteButtonState.asObservable().bindTo(favoriteButtonState).addDisposableTo(activeDisposeBag)
         currentVM.shareButtonState.asObservable().bindTo(shareButtonState).addDisposableTo(activeDisposeBag)
         currentVM.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfo).addDisposableTo(activeDisposeBag)
+
+        currentVM.socialMessage.asObservable().bindTo(socialMessage).addDisposableTo(activeDisposeBag)
+        socialSharer.value = currentVM.socialSharer
 
         moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }

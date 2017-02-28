@@ -61,8 +61,6 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var socialShareView: SocialShareView!
 
     fileprivate let disposeBag = DisposeBag()
-    fileprivate var currentVmDisposeBag = DisposeBag()
-    fileprivate var viewModel: ProductViewModel?
     fileprivate var locationZone: MKOverlay?
     fileprivate let bigMapMargin: CGFloat = 65
     fileprivate let bigMapBottomMargin: CGFloat = 85
@@ -73,35 +71,13 @@ class ProductCarouselMoreInfoView: UIView {
     fileprivate let statsContainerViewHeight: CGFloat = 24
     fileprivate let statsContainerViewTop: CGFloat = 26
     fileprivate var initialDragYposition: CGFloat = 0
-    fileprivate var scrollBottomInset: CGFloat {
-        guard let viewModel = viewModel else { return 0 }
-        // Needed to avoid drawing content below the chat button
-        switch viewModel.status.value {
-        case .pending, .otherSold, .notAvailable, .otherSoldFree:
-            // No buttons in the bottom
-            return 0
-        case .pendingAndCommercializable, .available, .sold, .otherAvailable, .availableAndCommercializable,
-             .availableFree, .otherAvailableFree, .soldFree:
-            if viewModel.directChatEnabled.value {
-                // Has the chatfield at bottom
-                return CarouselUI.chatContainerMaxHeight + CarouselUI.itemsMargin
-            } else {
-                // Has a button in the bottom
-                return CarouselUI.buttonHeight + CarouselUI.itemsMargin
-            }
-        }
-    }
 
     weak var delegate: ProductCarouselMoreInfoDelegate?
 
     static func moreInfoView() -> ProductCarouselMoreInfoView {
-        return moreInfoView(FeatureFlags.sharedInstance)
-    }
-
-    static func moreInfoView(_ featureFlags: FeatureFlaggeable) -> ProductCarouselMoreInfoView {
         guard let view = Bundle.main.loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)?.first
             as? ProductCarouselMoreInfoView else { return ProductCarouselMoreInfoView() }
-        view.setupUI(featureFlags)
+        view.setupUI()
         view.setupStatsView()
         view.setAccessibilityIds()
         view.addGestures()
@@ -116,13 +92,11 @@ class ProductCarouselMoreInfoView: UIView {
         super.init(coder: aDecoder)
     }
 
-    func setViewModel(_ viewModel: ProductViewModel) {
-        self.viewModel = viewModel
-        currentVmDisposeBag = DisposeBag()
-        configureContent(currentVmDisposeBag)
-        configureMapView(with: viewModel)
-        configureStatsRx(currentVmDisposeBag)
-        configureBottomPanel()
+    func setupWith(viewModel: ProductCarouselViewModel) {
+        setupContentRx(viewModel: viewModel)
+        setupMapRx(viewModel: viewModel)
+        setupStatsRx(viewModel: viewModel)
+        setupBottomPanelRx(viewModel: viewModel)
     }
 
     func viewWillShow() {
@@ -159,15 +133,23 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         let container = mapExpanded ? mapViewContainerExpandable : mapViewContainer
         guard let theContainer = container, mapView.superview != theContainer else { return }
         setupMapView(inside: theContainer)
-        guard let coordinate = viewModel?.productLocation.value else { return }
-        addRegion(with: coordinate, zoomBlocker: true)
     }
     
     func setupMapView(inside container: UIView) {
         layoutMapView(inside: container)
         addMapGestures()
     }
-    
+
+    fileprivate func setupMapRx(viewModel: ProductCarouselViewModel) {
+        let productLocation = viewModel.productInfo.asObservable().map { $0?.location }.unwrap()
+        productLocation.bindNext { [weak self] coordinate in
+            self?.addRegion(with: coordinate, zoomBlocker: true)
+            self?.setupMapExpanded(false)
+            self?.locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
+                                    radius: Constants.accurateRegionRadius)
+        }.addDisposableTo(disposeBag)
+    }
+
     private func layoutMapView(inside container: UIView) {
         if mapView.superview != nil {
             mapView.removeFromSuperview()
@@ -323,14 +305,12 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 // MARK: - Private
 
 fileprivate extension ProductCarouselMoreInfoView {
-    func setupUI(_ featureFlags: FeatureFlaggeable) {
+    func setupUI() {
         
         setupMapView(inside: mapViewContainer)
         mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
         mapView.clipsToBounds = true
-        
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
-        
+
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.productTitleFont
         
@@ -419,44 +399,51 @@ fileprivate extension ProductCarouselMoreInfoView {
 
     // MARK: > Configuration (each view model)
 
-    func configureContent(_ disposeBag: DisposeBag) {
-        guard let viewModel = viewModel else { return }
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
+    func setupContentRx(viewModel: ProductCarouselViewModel) {
 
-        titleLabel.text = viewModel.productTitle.value
-        priceLabel.text = viewModel.productPrice.value
-        autoTitleLabel.text = viewModel.productTitleAutogenerated.value ?
-            LGLocalizedString.productAutoGeneratedTitleLabel : nil
-        transTitleLabel.text = viewModel.productTitleAutoTranslated.value ?
-            LGLocalizedString.productAutoGeneratedTranslatedTitleLabel : nil
+        let statusAndChat = Observable.combineLatest(viewModel.status.asObservable(), viewModel.directChatEnabled.asObservable()) { $0 }
+        statusAndChat.bindNext { [weak self] (status, chatEnabled) in
+            self?.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0,
+                                                         bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
+        }.addDisposableTo(disposeBag)
 
-        addressLabel.text = viewModel.productAddress.value
-        distanceLabel.text = viewModel.productDistance.value
-
-        viewModel.productDescription.asObservable().bindTo(descriptionLabel.rx.optionalMainText)
-            .addDisposableTo(disposeBag)
+        viewModel.productInfo.asObservable().unwrap().bindNext { [weak self] info in
+            self?.titleLabel.text = info.title
+            self?.priceLabel.text = info.price
+            self?.autoTitleLabel.text = info.titleAutoGenerated ? LGLocalizedString.productAutoGeneratedTitleLabel : nil
+            self?.transTitleLabel.text = info.titleAutoTranslated ? LGLocalizedString.productAutoGeneratedTranslatedTitleLabel : nil
+            self?.addressLabel.text = info.address
+            self?.distanceLabel.text = info.distance
+            self?.descriptionLabel.mainText = info.description ?? ""
+            self?.descriptionLabel.setNeedsLayout()
+        }.addDisposableTo(disposeBag)
     }
 
-    func configureStatsRx(_ disposeBag: DisposeBag) {
-        guard let viewModel = viewModel else { return }
-        viewModel.statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
+    func setupStatsRx(viewModel: ProductCarouselViewModel) {
+        let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
+        let statsAndCreation = Observable.combineLatest(viewModel.productStats.asObservable().unwrap(), productCreation) { $0 }
+        let statsViewVisible = statsAndCreation.map { (stats, creation) in
+            return stats.viewsCount >= Constants.minimumStatsCountToShow || stats.favouritesCount >= Constants.minimumStatsCountToShow || creation != nil
+        }
+        statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
             self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
             self?.statsContainerViewTopConstraint.constant = visible ? self?.statsContainerViewTop ?? 0 : 0
         }.addDisposableTo(disposeBag)
 
-        let infos = Observable.combineLatest(viewModel.viewsCount.asObservable(), viewModel.favouritesCount.asObservable(),
-                                             viewModel.productCreationDate.asObservable()) { $0 }
-        infos.subscribeNext { [weak self] (views, favorites, date) in
-                guard let statsView = self?.statsView else { return }
-                statsView.updateStatsWithInfo(views, favouritesCount: favorites, postedDate: date)
+        statsAndCreation.bindNext { [weak self] (stats, creation) in
+            guard let statsView = self?.statsView else { return }
+            statsView.updateStatsWithInfo(stats.viewsCount, favouritesCount: stats.favouritesCount, postedDate: creation)
         }.addDisposableTo(disposeBag)
     }
 
-    func configureBottomPanel() {
-        guard let viewModel = viewModel else { return }
-
-        socialShareView.socialMessage = viewModel.socialMessage.value
-        socialShareView.socialSharer = viewModel.socialSharer
+    func setupBottomPanelRx(viewModel: ProductCarouselViewModel) {
+        viewModel.socialSharer.asObservable().bindNext { [weak self] socialSharer in
+            self?.socialShareView.socialSharer = socialSharer
+        }.addDisposableTo(disposeBag)
+        viewModel.socialMessage.asObservable().bindNext { [weak self] socialMessage in
+            self?.socialShareView.socialMessage = socialMessage
+            self?.socialShareView.isHidden = socialMessage == nil
+        }.addDisposableTo(disposeBag)
     }
 }
 
@@ -495,5 +482,28 @@ extension ProductCarouselMoreInfoView {
         socialShareTitleLabel.accessibilityId = .productCarouselMoreInfoSocialShareTitleLabel
         socialShareView.accessibilityId = .productCarouselMoreInfoSocialShareView
         descriptionLabel.accessibilityId = .productCarouselMoreInfoDescriptionLabel
+    }
+}
+
+
+// MARK: - ProductViewModelStatus
+
+fileprivate extension ProductViewModelStatus {
+    func scrollBottomInset(chatEnabled: Bool) -> CGFloat {
+        // Needed to avoid drawing content below the chat button
+        switch self {
+        case .pending, .otherSold, .notAvailable, .otherSoldFree:
+            // No buttons in the bottom
+            return 0
+        case .pendingAndCommercializable, .available, .sold, .otherAvailable, .availableAndCommercializable,
+             .availableFree, .otherAvailableFree, .soldFree:
+            if chatEnabled {
+                // Has the chatfield at bottom
+                return CarouselUI.chatContainerMaxHeight + CarouselUI.itemsMargin
+            } else {
+                // Has a button in the bottom
+                return CarouselUI.buttonHeight + CarouselUI.itemsMargin
+            }
+        }
     }
 }

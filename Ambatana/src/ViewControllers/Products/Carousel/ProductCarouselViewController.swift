@@ -234,6 +234,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupMoreInfoDragging()
         setupMoreInfoTooltip()
         setupOverlayRxBindings()
+
+        resetMoreInfoState()
     }
 
 
@@ -451,7 +453,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if movement != .initial {
                     self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
                 }
-                self?.refreshOverlayElements()
                 if movement == .tap {
                     self?.finishedTransition()
                 }
@@ -469,12 +470,12 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 }
 
 
-// MARK: > Configure Carousel With ProductViewModel
+// MARK: > Configure Carousel With ProductCarouselViewModel
 
 extension ProductCarouselViewController {
 
     fileprivate func setupOverlayRxBindings() {
-        setupMoreInfoStateRx()
+        setupMoreInfoRx()
         setupPageControlRx()
         setupUserInfoRx()
         setupNavbarButtonsRx()
@@ -486,7 +487,8 @@ extension ProductCarouselViewController {
         setupBumpUpBannerRx()
     }
 
-    private func setupMoreInfoStateRx() {
+    private func setupMoreInfoRx() {
+        moreInfoView.setupWith(viewModel: viewModel)
         moreInfoState.asObservable().bindTo(viewModel.moreInfoState).addDisposableTo(disposeBag)
     }
 
@@ -697,280 +699,16 @@ extension ProductCarouselViewController {
         }.addDisposableTo(disposeBag)
     }
 
-
-    /*
- 
- 
-     =====================
- 
-     */
-
-
-
-    fileprivate func refreshOverlayElements() {
-        guard let viewModel = viewModel.currentProductViewModel else { return }
-        activeDisposeBag = DisposeBag()
-//        setupUserView(viewModel)
-//        setupFullScreenAvatarView(viewModel)
-//        setupRxNavbarBindings(viewModel)
-//        setupRxProductUpdate(viewModel)
-//        refreshPageControl(viewModel)
-//        refreshProductOnboarding(viewModel)
-//        refreshBottomButtons(viewModel)
-//        refreshProductStatusLabel(viewModel)
-//        refreshDirectChatElements(viewModel)
-//        refreshFavoriteButton(viewModel)
-//        refreshShareButton(viewModel)
-        refreshMoreInfo()
-//        refreshBumpUpBanner(viewModel)
+    fileprivate func resetMoreInfoState() {
+        moreInfoView.frame = view.bounds
+        moreInfoView.height = view.height + CarouselUI.moreInfoExtraHeight
+        moreInfoView.frame.origin.y = -view.bounds.height
+        moreInfoState.value = .hidden
     }
 
     fileprivate func finishedTransition() {
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
-        updateMoreInfo()
     }
-
-    private func refreshMoreInfo() {
-        moreInfoView.frame = view.bounds
-        moreInfoView.height = view.height + CarouselUI.moreInfoExtraHeight
-        moreInfoView.frame.origin.y = -view.bounds.height
-    }
-
-    fileprivate func updateMoreInfo() {
-        guard let currentPVM = viewModel.currentProductViewModel else { return }
-        moreInfoView.setViewModel(currentPVM)
-        moreInfoState.asObservable().bindTo(currentPVM.moreInfoState).addDisposableTo(activeDisposeBag)
-    }
-
-//    fileprivate func setupUserView(_ viewModel: ProductViewModel) {
-//        userView.setupWith(userAvatar: viewModel.ownerAvatar,
-//                           userName: viewModel.ownerName,
-//                           productTitle: viewModel.productTitle.value,
-//                           productPrice: viewModel.productPrice.value,
-//                           userId: viewModel.ownerId)
-//    }
-//
-//    fileprivate func setupFullScreenAvatarView(_ viewModel: ProductViewModel) {
-//        fullScreenAvatarView.alpha = 0
-//        fullScreenAvatarView.image = viewModel.ownerAvatarPlaceholder
-//        if let avatar = viewModel.ownerAvatar {
-//            imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
-//                guard let imageWithSource = result.value, url == self?.viewModel.currentProductViewModel?.ownerAvatar else { return }
-//                self?.fullScreenAvatarView.image = imageWithSource.image
-//            }
-//        }
-//    }
-
-//    fileprivate func setupRxNavbarBindings(_ viewModel: ProductViewModel) {
-//        setNavigationBarRightButtons([])
-//        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
-//            guard let strongSelf = self else { return }
-//
-//            if navBarButtons.count == 1 {
-//                switch navBarButtons[0].interface {
-//                case .textImage:
-//                    strongSelf.setNavigationBarRightButtonSharing(navBarButtons[0])
-//                default:
-//                    strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.activeDisposeBag,
-//                        buttonTintColor: UIColor.white)
-//                }
-//            } else if navBarButtons.count > 1 {
-//                var buttons = [UIButton]()
-//                navBarButtons.forEach { navBarButton in
-//                    let button = UIButton(type: .system)
-//                    button.setImage(navBarButton.image, for: .normal)
-//                    button.rx.tap.bindNext { _ in
-//                        navBarButton.action()
-//                        }.addDisposableTo(strongSelf.activeDisposeBag)
-//                    buttons.append(button)
-//                }
-//                strongSelf.setNavigationBarRightButtons(buttons)
-//            }
-//        }.addDisposableTo(activeDisposeBag)
-//    }
-//    
-//    private func setNavigationBarRightButtonSharing(_ action: UIAction) {
-//        let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
-//        let rightItem = UIBarButtonItem(customView: shareButton)
-//        rightItem.style = .plain
-//        shareButton.rx.tap.bindNext{
-//            action.action()
-//        }.addDisposableTo(activeDisposeBag)
-//        navigationItem.rightBarButtonItems = nil
-//        navigationItem.rightBarButtonItem = rightItem
-//    }
-
-//    private func setupRxProductUpdate(_ viewModel: ProductViewModel) {
-//        viewModel.product.asObservable().bindNext { [weak self] _ in
-//            guard let strongSelf = self else { return }
-//            let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems
-//            //hiding fake list background to avoid showing it while the cell reloads
-//            self?.imageBackground.isHidden = true
-//            strongSelf.collectionView.performBatchUpdates({ [weak self] in
-//                 self?.collectionView.reloadItems(at: visibleIndexPaths)
-//            }, completion: { [weak self] _ in
-//                self?.imageBackground.isHidden = false
-//            })
-//        }.addDisposableTo(activeDisposeBag)
-//    }
-
-//    private func refreshPageControl(_ viewModel: ProductViewModel) {
-//        pageControl.currentPage = 0
-//        pageControl.numberOfPages = viewModel.product.value.images.count
-//        pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
-//        pageControl.size(forNumberOfPages: pageControl.numberOfPages).width + CarouselUI.pageControlWidth)
-//    }
-
-//    private func refreshBottomButtons(_ viewModel: ProductViewModel) {
-//        viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
-//            guard let strongSelf = self, let viewModel = viewModel else { return }
-//
-//            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
-//            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
-//            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
-//            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
-//
-//            guard !actionButtons.isEmpty else { return }
-//
-//            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
-//            guard let bottomAction = actionButtons.first else { return }
-//            strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
-//            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
-//                bottomAction.action()
-//            }.addDisposableTo(strongSelf.activeDisposeBag)
-//
-//            guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
-//            strongSelf.buttonTop.configureWith(uiAction: topAction)
-//            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
-//                topAction.action()
-//            }.addDisposableTo(strongSelf.activeDisposeBag)
-//
-//        }.addDisposableTo(activeDisposeBag)
-//
-//        viewModel.editButtonState.asObservable().bindTo(editButton.rx.state).addDisposableTo(disposeBag)
-//        editButton.rx.tap.bindNext { [weak self] in
-//            self?.hideMoreInfo()
-//            self?.viewModel.editButtonPressed()
-//        }.addDisposableTo(activeDisposeBag)
-//
-//        // When there's the edit button, the bottom button must adapt right margin to give space for it
-//        let bottomRightButtonPresent = viewModel.editButtonState.asObservable().map { $0 != .hidden }
-//        bottomRightButtonPresent.bindNext { [weak self] present in
-//            self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
-//        }.addDisposableTo(activeDisposeBag)
-//
-//        // When there's the edit button and there are no actionButtons, header is at bottom and must not overlap edit button
-//        let userViewCollapsed = Observable.combineLatest(
-//            bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
-//            resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
-//        userViewCollapsed.bindNext { [weak self] collapsed in
-//            self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
-//        }.addDisposableTo(activeDisposeBag)
-//    }
-
-//    fileprivate func refreshProductOnboarding(_ viewModel: ProductViewModel) {
-//        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
-//        guard self.viewModel.shouldShowOnboarding else { return }
-//        // if state is nil, means there's no need to show the onboarding
-//        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
-//
-//        guard let onboarding = productOnboardingView else { return }
-//        onboarding.delegate = self
-//        navigationCtrlView.addSubview(onboarding)
-//        onboarding.setupUI()
-//        onboarding.frame = navigationCtrlView.frame
-//        onboarding.layoutIfNeeded()
-//    }
-
-//    private func refreshProductStatusLabel(_ viewModel: ProductViewModel) {
-//        viewModel.productStatusLabelText
-//            .asObservable()
-//            .map{ $0?.isEmpty ?? true}
-//            .bindTo(productStatusView.rx.isHidden)
-//            .addDisposableTo(activeDisposeBag)
-//        viewModel.productStatusLabelText
-//            .asObservable()
-//            .map{$0 ?? ""}
-//            .bindTo(productStatusLabel.rx.text)
-//            .addDisposableTo(activeDisposeBag)
-//        viewModel.productStatusLabelColor
-//            .asObservable()
-//            .bindTo(productStatusLabel.rx.textColor)
-//            .addDisposableTo(activeDisposeBag)
-//        viewModel.productStatusBackgroundColor
-//            .asObservable()
-//            .bindTo(productStatusView.rx.backgroundColor)
-//            .addDisposableTo(activeDisposeBag)
-//    }
-
-
-//    private func refreshDirectChatElements(_ viewModel: ProductViewModel) {
-//        chatTextView.placeholder = viewModel.directChatPlaceholder
-//        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
-//
-//        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
-//            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
-//            self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
-//        }.addDisposableTo(activeDisposeBag)
-//
-//        directAnswersView.update(answers: viewModel.quickAnswers)
-//
-//        chatTextView.rx.send.bindNext { [weak self] textToSend in
-//            guard let strongSelf = self else { return }
-//            strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
-//            strongSelf.chatTextView.clear()
-//            }.addDisposableTo(activeDisposeBag)
-//
-//        viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
-//            self?.directChatTable.handleCollectionChange(change, animation: .top)
-//            }.addDisposableTo(activeDisposeBag)
-//        directChatTable.reloadData()
-//    }
-
-//    private func refreshFavoriteButton(_ viewModel: ProductViewModel) {
-//        viewModel.favoriteButtonState.asObservable()
-//            .bindNext { [weak self] (buttonState) in
-//                guard let strongButton = self?.favoriteButton else { return }
-//                switch buttonState {
-//                case .hidden:
-//                    strongButton.isHidden = true
-//                case .enabled:
-//                    strongButton.isHidden = false
-//                    strongButton.alpha = 1
-//                case .disabled:
-//                    strongButton.isHidden = false
-//                    strongButton.alpha = 0.6
-//                }
-//            }
-//            .addDisposableTo(activeDisposeBag)
-//
-//        viewModel.isFavorite.asObservable()
-//            .bindNext { [weak self] favorite in
-//                self?.favoriteButton.setImage(UIImage(named: favorite ? "ic_favorite_big_on" : "ic_favorite_big_off"), for: .normal)
-//            }.addDisposableTo(activeDisposeBag)
-//
-//        favoriteButton.rx.tap.bindNext { [weak self] in
-//            self?.viewModel.favoriteButtonPressed()
-//        }.addDisposableTo(activeDisposeBag)
-//    }
-
-//    private func refreshShareButton(_ viewModel: ProductViewModel) {
-//        viewModel.shareButtonState.asObservable()
-//            .bindTo(shareButton.rx.state)
-//            .addDisposableTo(activeDisposeBag)
-//
-//        shareButton.rx.tap.bindNext { [weak self] in
-//            self?.viewModel.shareButtonPressed()
-//        }.addDisposableTo(activeDisposeBag)
-//    }
-
-//    private func refreshBumpUpBanner(_ viewModel: ProductViewModel) {
-//        bumpUpBanner.layoutIfNeeded()
-//        closeBumpUpBanner()
-//        viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
-//            self?.showBumpUpBanner(bumpInfo: info)
-//            }.addDisposableTo(activeDisposeBag)
-//    }
 }
 
 
@@ -1022,10 +760,6 @@ extension ProductCarouselViewController: UserViewDelegate {
 // MARK: > ProductCarouselViewModelDelegate
 
 extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
-    func vmRefreshCurrent() {
-        refreshOverlayElements()
-        updateMoreInfo()
-    }
 
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()

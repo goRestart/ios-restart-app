@@ -156,7 +156,12 @@ final class CollectionVariable<T> {
         _subject.onNext(_value)
         _lock.unlock()
     }
-    
+
+    func replace(_ index: Int, with element: T) {
+        guard 0..<value.count ~= index else { return }
+        replace(index..<(index+1), with: [element])
+    }
+
     func replace(_ subRange: CountableRange<Int>, with elements: [T]) {
         _lock.lock()
         precondition(subRange.lowerBound + subRange.count <= _value.count, "Range out of bounds")
