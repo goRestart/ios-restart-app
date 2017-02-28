@@ -989,7 +989,7 @@ class TrackerEventSpec: QuickSpec {
                     let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
                     expect(productUserId).to(equal("56897"))
                 }
-                fit("contains item type") {
+                it("contains item type") {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("1"))
                 }
