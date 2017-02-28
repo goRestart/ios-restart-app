@@ -77,7 +77,14 @@ class NotificationsManagerSpec: QuickSpec {
                 oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(10)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 7)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                let notifications = MockUnreadNotificationsCounts.makeMock()
+                let notifications = MockUnreadNotificationsCounts(productSold: 2,
+                                                                  productLike: 2,
+                                                                  review: 2,
+                                                                  reviewUpdated: 2,
+                                                                  buyersInterested: 2,
+                                                                  productSuggested: 2,
+                                                                  facebookFriendshipCreated: 2,
+                                                                  total: 14)
                 notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
             }
 
