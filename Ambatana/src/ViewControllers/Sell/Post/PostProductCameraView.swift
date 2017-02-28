@@ -93,6 +93,12 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if !cameraWrapper.isAttached {
+            cameraWrapper.addPreviewLayerTo(view: cameraView)
+        }
+    }
 
     // MARK: - Public methods
 
@@ -187,8 +193,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
-
-        cameraWrapper.addPreviewLayerTo(view: cameraView)
     }
 
     private func setupRX() {
@@ -231,7 +235,7 @@ extension PostProductCameraView {
     
     fileprivate func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
-            if cameraWrapper.cameraContainer == cameraView {
+            if cameraWrapper.isAttached {
                 cameraWrapper.resume()
             } else {
                 cameraWrapper.addPreviewLayerTo(view: cameraView)

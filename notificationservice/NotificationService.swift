@@ -39,7 +39,6 @@ class NotificationService: UNNotificationServiceExtension {
         }
     }
     
-    
     override func serviceExtensionTimeWillExpire() {
         // Called just before the extension will be terminated by the system.
         // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
@@ -47,49 +46,65 @@ class NotificationService: UNNotificationServiceExtension {
             contentHandler(bestAttemptContent)
         }
     }
+
+    fileprivate func loadAttachment(withUrlString urlString: String?, completionHandler: @escaping ((UNNotificationAttachment?) -> Void)) {
+        guard let urlString = urlString,
+            let url = URL(string: urlString) else {
+                completionHandler(nil)
+                return
+        }
+        
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        session.downloadTask(with: url, completionHandler: { (temporaryLocation: URL?, _ response: URLResponse?, _ error: Error?) -> Void in
+            guard error == nil else {
+                completionHandler(nil)
+                return
+            }
+            guard let temporaryDirectoryURL = temporaryLocation else {
+                completionHandler(nil)
+                return
+            }
+            let pathExtensionFromURL = url.pathExtension
+            let pathExtensionFromResponse = response?.mimeType?.fileExtension ?? ""
+            var pathExtension: String = ""
+            
+            if pathExtensionFromURL.isEmpty {
+                if pathExtensionFromResponse.isEmpty {
+                    completionHandler(nil)
+                } else {
+                    pathExtension = pathExtensionFromResponse
+                }
+            } else {
+                pathExtension = ".\(pathExtensionFromURL)"
+            }
+            
+            let fileName: String = String(Date().timeIntervalSince1970) + pathExtension
+            do {
+                let fileManager = FileManager.default
+                let tempDirURL = URL(fileURLWithPath: NSTemporaryDirectory())
+                try? fileManager.createDirectory(at: tempDirURL, withIntermediateDirectories: true, attributes: nil)
+                let finalURL = tempDirURL.appendingPathComponent(fileName)
+                try fileManager.moveItem(at: temporaryDirectoryURL, to: finalURL)
+                let attachment = try UNNotificationAttachment(identifier: fileName, url: finalURL, options: nil)
+                completionHandler(attachment)
+            } catch {
+                completionHandler(nil)
+            }
+        }).resume()
+    }
 }
 
-fileprivate extension UNNotificationAttachment {
-    static func create(fromMedia media: Media) -> UNNotificationAttachment? {
-        guard let fileExtension = media.fileExt else { return nil }
-        guard let data = media.mediaData else { return nil }
-        
-        let fileManager = FileManager.default
-        let tmpSubFolderName = ProcessInfo.processInfo.globallyUniqueString
-        let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tmpSubFolderName, isDirectory: true)
-        
-        try? fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
-        let fileIdentifier = "\(media.fileIdentifier).\(fileExtension)"
-        let fileURL = tmpSubFolderURL.appendingPathComponent(fileIdentifier)
-        
-        try? data.write(to: fileURL)
-        return self.create(fileIdentifier: fileIdentifier, fileUrl: fileURL, options: media.attachmentOptions)
-        
-    }
-    
-    static func create(fileIdentifier: String, fileUrl: URL, options: [String : Any]? = nil) -> UNNotificationAttachment? {
-        let attachment = try? UNNotificationAttachment(identifier: fileIdentifier, url: fileUrl, options: options)
-        return attachment
-    }
-}
-
-private func resourceURL(forUrlString urlString: String) -> URL? {
-    return URL(string: urlString)
-}
-
-fileprivate func loadAttachment(withUrlString urlString: String?, completionHandler: ((UNNotificationAttachment?) -> Void)) {
-    guard let urlString = urlString, let url = resourceURL(forUrlString: urlString) else {
-        completionHandler(nil)
-        return
-    }
-    
-    if let data = try? Data(contentsOf: url) {
-        let media = Media(withData: data, fileExtension: url.pathExtension)
-        if let attachment = UNNotificationAttachment.create(fromMedia: media) {
-            completionHandler(attachment)
-            return
+fileprivate extension String {
+    var fileExtension: String {
+        switch self {
+        case "image/jpeg":
+            return ".jpg"
+        case "image/gif":
+            return ".gif"
+        case "image/png":
+            return ".png"
+        default:
+            return ""
         }
     }
-    completionHandler(nil)
 }
-
