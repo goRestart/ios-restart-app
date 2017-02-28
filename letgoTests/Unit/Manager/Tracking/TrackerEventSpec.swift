@@ -943,12 +943,9 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailVisitMoreInfo") {
                 beforeEach {
-                    var myUser = MockUser.makeMock()
-                    myUser.objectId = "12345"
-
-
                     var productUser = MockUserProduct.makeMock()
                     productUser.objectId = "56897"
+                    productUser.isDummy = false
 
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -992,7 +989,7 @@ class TrackerEventSpec: QuickSpec {
                     let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
                     expect(productUserId).to(equal("56897"))
                 }
-                it("contains item type") {
+                fit("contains item type") {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("1"))
                 }
