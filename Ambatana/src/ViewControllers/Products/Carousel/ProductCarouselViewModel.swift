@@ -10,9 +10,16 @@ import LGCoreKit
 import RxSwift
 
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
-//    func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
     func vmShowOnboarding()
+
+    // Forward from ProductViewModelDelegate
+    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
+    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
+    func vmAskForRating()
+    func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
+    func vmResetBumpUpBannerCountdown()
 }
 
 enum CarouselMovement {
@@ -223,12 +230,12 @@ class ProductCarouselViewModel: BaseViewModel {
         navigator?.closeProductDetail()
     }
 
-    func moveToProductAtIndex(_ index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
+    func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
         currentProductViewModel?.active = false
         currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
-        currentProductViewModel?.delegate = delegate
+        currentProductViewModel?.delegate = self
         currentProductViewModel?.active = true
         let feedPosition = movement.feedPosition(for: trackingIndex)
         currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
@@ -265,10 +272,6 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.trackVisitMoreInfo()
         keyValueStorage[.productMoreInfoTooltipDismissed] = true
         delegate?.vmRemoveMoreInfoTooltip()
-    }
-
-    func showOnboardingButtonPressed() {
-        delegate?.vmShowOnboarding()
     }
 
     func quickAnswersShowButtonPressed() {
@@ -417,6 +420,93 @@ extension ProductCarouselViewModel {
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
     }
 }
+
+extension ProductCarouselViewModel: ProductViewModelDelegate {
+
+    // ProductViewModelDelegate forwarding methods
+
+    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {
+        delegate?.vmOpenPromoteProduct(promoteVM)
+    }
+    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
+        delegate?.vmOpenCommercialDisplay(displayVM)
+    }
+    func vmAskForRating() {
+        delegate?.vmAskForRating()
+    }
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
+        var finalActions: [UIAction] = actions
+
+        //Adding show onboarding action
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
+            self?.delegate?.vmShowOnboarding()
+        }))
+
+        if quickAnswersAvailable.value {
+            //Adding show/hide quick answers option
+            if quickAnswersCollapsed.value {
+                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
+                    [weak self] in self?.quickAnswersShowButtonPressed()
+                }))
+            } else {
+                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
+                    [weak self] in self?.quickAnswersCloseButtonPressed()
+                }))
+            }
+        }
+        delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
+    }
+
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
+        guard let delegate = delegate else { return (UIViewController(), nil) }
+        return delegate.vmShareViewControllerAndItem()
+    }
+
+    func vmResetBumpUpBannerCountdown() {
+        delegate?.vmResetBumpUpBannerCountdown()
+    }
+
+    // BaseViewModelDelegate forwarding methods
+
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(message, completion: completion)
+    }
+    func vmShowLoading(_ loadingMessage: String?) {
+        delegate?.vmShowLoading(loadingMessage)
+    }
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+        delegate?.vmHideLoading(finishedMessage, afterMessageCompletion: afterMessageCompletion)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
+    }
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
+        delegate?.vmShowAlert(title, message: message, actions: actions)
+    }
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+        delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
+        delegate?.vmShowActionSheet(cancelLabel, actions: actions)
+    }
+    func vmOpenInternalURL(_ url: URL) {
+        delegate?.vmOpenInternalURL(url)
+    }
+    func vmPop() {
+        delegate?.vmPop()
+    }
+    func vmDismiss(_ completion: (() -> Void)?) {
+        delegate?.vmDismiss(completion)
+    }
+}
+
 
 
 // MARK: - Tracking

@@ -225,7 +225,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         flowLayout.itemSize = view.bounds.size
         setupAlphaRxBindings()
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
-        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, movement: .initial)
+        viewModel.moveToProductAtIndex(viewModel.startIndex, movement: .initial)
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItem(at: startIndexPath, at: .right, animated: false)
@@ -451,7 +451,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                     movement = .initial
                 }
                 if movement != .initial {
-                    self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
+                    self?.viewModel.moveToProductAtIndex(index, movement: movement)
                 }
                 if movement == .tap {
                     self?.finishedTransition()
@@ -753,27 +753,6 @@ extension ProductCarouselViewController: UserViewDelegate {
             self?.fullScreenAvatarView.alpha = 0
             self?.view.layoutIfNeeded()
         }) 
-    }
-}
-
-
-// MARK: > ProductCarouselViewModelDelegate
-
-extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
-
-    func vmRemoveMoreInfoTooltip() {
-        removeMoreInfoTooltip()
-    }
-
-    func vmShowOnboarding() {
-        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
-        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
-        guard let onboarding = productOnboardingView else { return }
-        onboarding.delegate = self
-        navigationCtrlView.addSubview(onboarding)
-        onboarding.setupUI()
-        onboarding.frame = navigationCtrlView.frame
-        onboarding.layoutIfNeeded()
     }
 }
 
@@ -1117,15 +1096,31 @@ extension ProductCarouselViewController {
     }
 }
 
-// MARK: > Product View Model Delegate
 
-extension ProductCarouselViewController: ProductViewModelDelegate {
-    
+// MARK: > ProductCarouselViewModelDelegate
+
+extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
+
+    func vmRemoveMoreInfoTooltip() {
+        removeMoreInfoTooltip()
+    }
+
+    func vmShowOnboarding() {
+        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
+        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
+        guard let onboarding = productOnboardingView else { return }
+        onboarding.delegate = self
+        navigationCtrlView.addSubview(onboarding)
+        onboarding.setupUI()
+        onboarding.frame = navigationCtrlView.frame
+        onboarding.layoutIfNeeded()
+    }
+
     func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {
         let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
         navigationController?.present(promoteProductVC, animated: true, completion: nil)
     }
-    
+
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
         let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
         navigationController?.present(commercialDisplayVC, animated: true, completion: nil)
@@ -1135,41 +1130,18 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
         tabBarCtrl.showAppRatingViewIfNeeded(.markedSold)
     }
-    
-    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
-        var finalActions: [UIAction] = actions
 
-        //Adding show onboarding action
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
-        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
-            self?.viewModel.showOnboardingButtonPressed()
-        }))
-
-        if viewModel.quickAnswersAvailable.value {
-            //Adding show/hide quick answers option
-            if viewModel.quickAnswersCollapsed.value {
-                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
-                    [weak self] in self?.viewModel.quickAnswersShowButtonPressed()
-                }))
-            } else {
-                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
-                    [weak self] in self?.viewModel.quickAnswersCloseButtonPressed()
-                }))
-            }
-        }
-        showActionSheet(cancelLabel, actions: finalActions, barButtonItem: navigationItem.rightBarButtonItems?.first)
+    func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction]) {
+        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         return (self, navigationItem.rightBarButtonItems?.first)
     }
 
-    // Bump Up
-
     func vmResetBumpUpBannerCountdown() {
         bumpUpBanner.resetCountdown()
     }
-
 
     // Loadings and alerts overrides to remove keyboard before showing
 
