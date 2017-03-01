@@ -54,8 +54,8 @@ extension ChatEventType: Decodable {
              "conversation_id": [uuid],
              }
              */
-            return Decoded<ChatEventType>.success(.interlocutorTypingStarted)
-            
+            result = Decoded<ChatEventType>.success(.interlocutorTypingStarted)
+
         case "interlocutor_typing_stopped":
             /**
              ...
@@ -63,7 +63,7 @@ extension ChatEventType: Decodable {
              "conversation_id": [uuid],
              }
              */
-            return Decoded<ChatEventType>.success(.interlocutorTypingStopped)
+            result = Decoded<ChatEventType>.success(.interlocutorTypingStopped)
             
         case "interlocutor_message_sent":
             /**
@@ -80,8 +80,7 @@ extension ChatEventType: Decodable {
                 <*> j <| ["data", "sent_at"]
                 <*> j <| ["data", "text"]
                 <*> LGArgo.parseChatMessageType(j, key: ["data", "message_type"])
-            return result
-            
+
         case "interlocutor_reception_confirmed":
             /**
              ...
@@ -92,8 +91,7 @@ extension ChatEventType: Decodable {
              */
             result = curry(ChatEventType.interlocutorReceptionConfirmed)
                 <^> j <|| ["data", "message_ids"]
-            return result
-            
+
         case "interlocutor_read_confirmed":
             /**
              ...
@@ -104,14 +102,18 @@ extension ChatEventType: Decodable {
              */
             result = curry(ChatEventType.interlocutorReadConfirmed)
                 <^> j <|| ["data", "message_ids"]
-            return result
-        
+
         case "authentication_token_expired":
-            return Decoded<ChatEventType>.success(.authenticationTokenExpired)
+            result = Decoded<ChatEventType>.success(.authenticationTokenExpired)
             
             
         default:
-            return Decoded<NotificationType>.fromOptional(nil)
+            result = Decoded<NotificationType>.fromOptional(nil)
         }
+
+        if let error = result.error {
+            logMessage(.error, type: .parsing, message: "ChatEventType parse error: \(error)")
+        }
+        return result
     }
 }
