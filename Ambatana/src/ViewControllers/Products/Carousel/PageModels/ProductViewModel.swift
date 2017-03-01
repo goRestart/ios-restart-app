@@ -27,14 +27,13 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 }
 
 protocol ProductViewModelMaker {
-    func make(product: Product, thumbnailImage: UIImage?) -> ProductViewModel
+    func make(product: Product) -> ProductViewModel
 }
 
 class ProductViewModel: BaseViewModel {
     class ConvenienceMaker: ProductViewModelMaker {
-        func make(product: Product, thumbnailImage: UIImage?) -> ProductViewModel {
+        func make(product: Product) -> ProductViewModel {
             return ProductViewModel(product: product,
-                                     thumbnailImage: thumbnailImage,
                                      myUserRepository: Core.myUserRepository,
                                      productRepository: Core.productRepository,
                                      commercializerRepository: Core.commercializerRepository,
@@ -66,9 +65,6 @@ class ProductViewModel: BaseViewModel {
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
     fileprivate var freeBumpUpShareMessage: SocialMessage?
-
-    // UI - Output
-    let thumbnailImage: UIImage?
 
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
     var quickAnswers: [QuickAnswer] {
@@ -145,7 +141,6 @@ class ProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     init(product: Product,
-         thumbnailImage: UIImage?,
          myUserRepository: MyUserRepository,
          productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository,
@@ -160,7 +155,6 @@ class ProductViewModel: BaseViewModel {
          monetizationRepository: MonetizationRepository,
          tracker: Tracker) {
         self.product = Variable<Product>(product)
-        self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository

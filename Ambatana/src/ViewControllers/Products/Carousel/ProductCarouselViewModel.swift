@@ -259,9 +259,8 @@ class ProductCarouselViewModel: BaseViewModel {
     }
     
     func thumbnailAtIndex(_ index: Int) -> UIImage? {
-        if index == startIndex && initialThumbnail != nil { return initialThumbnail }
-        guard 0..<objectCount ~= index else { return nil }
-        return viewModelAt(index: index)?.thumbnailImage
+        if index == startIndex { return initialThumbnail }
+        return nil
     }
 
     func userAvatarPressed() {
@@ -322,7 +321,7 @@ class ProductCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[productId] {
             return vm
         }
-        let vm = productViewModelMaker.make(product: product, thumbnailImage: nil)
+        let vm = productViewModelMaker.make(product: product)
         vm.navigator = navigator
         productsViewModels[productId] = vm
         return vm
