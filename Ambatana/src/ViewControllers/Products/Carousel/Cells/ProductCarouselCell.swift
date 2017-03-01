@@ -22,13 +22,14 @@ class ProductCarouselCell: UICollectionViewCell {
 
     static let identifier = "ProductCarouselCell"
     var collectionView: UICollectionView
-    
-    var product: Product?
+
+    fileprivate var productImages = [URL]()
+    fileprivate var productBackgroundColor: UIColor?
     weak var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
     fileprivate var currentPage = 0
 
-    var imageDownloader: ImageDownloader =  ImageDownloader.sharedInstance
+    var imageDownloader: ImageDownloaderType =  ImageDownloader.sharedInstance
 
     var disposeBag = DisposeBag()
     
@@ -74,27 +75,27 @@ class ProductCarouselCell: UICollectionViewCell {
         delegate?.didTapOnCarouselCell(self)
     }
 
-    func configureCellWithProduct(_ product: Product, placeholderImage: UIImage?, indexPath: IndexPath,
+    func configureCellWith(cellModel: ProductCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
                                   imageDownloader: ImageDownloader) {
         self.tag = (indexPath as NSIndexPath).hash
-        self.product = product
+        self.productImages = cellModel.images
+        self.productBackgroundColor = cellModel.backgroundColor
         self.imageDownloader = imageDownloader
         self.placeholderImage = placeholderImage
-        if let firstImageUrl = product.images.first?.fileURL, placeholderImage == nil {
-            self.placeholderImage = ImageDownloader.sharedInstance.cachedImageForUrl(firstImageUrl)
+        if let firstImageUrl = productImages.first, placeholderImage == nil {
+            self.placeholderImage = imageDownloader.cachedImageForUrl(firstImageUrl)
         }
         collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
     }
     
     fileprivate func numberOfImages() -> Int {
-        return product?.images.count ?? 0
+        return productImages.count
     }
     
     fileprivate func imageAtIndex(_ index: Int) -> URL? {
-        guard numberOfImages() > 0 else { return nil }
-        guard let url = product?.images[index].fileURL else { return nil }
-        return url
+        guard 0..<productImages.count ~= index else { return nil }
+        return productImages[index]
     }
 }
 
@@ -117,7 +118,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             let productCarouselTag = self.tag
             imageCell.tag = imageCellTag
             imageCell.position = indexPath.row
-            imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
+            imageCell.backgroundColor = productBackgroundColor
             imageCell.delegate = self
 
             if imageCell.imageURL != imageURL { //Avoid reloading same image in the cell

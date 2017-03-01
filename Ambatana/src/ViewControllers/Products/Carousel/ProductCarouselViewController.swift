@@ -999,8 +999,8 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifierForIndex(indexPath.row),
                                                                              for: indexPath)
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
-            guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
-            carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
+            guard let productCellModel = viewModel.productCellModelAt(index: indexPath.row) else { return carouselCell }
+            carouselCell.configureCellWith(cellModel: productCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                                   indexPath: indexPath, imageDownloader: carouselImageDownloader)
             carouselCell.delegate = self
             return carouselCell

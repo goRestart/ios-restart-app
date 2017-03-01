@@ -186,7 +186,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
-        self.currentProductViewModel = viewModelAtIndex(startIndex)
+        self.currentProductViewModel = viewModelAt(index: startIndex)
         self.trackingIndex = trackingIndex
         setCurrentIndex(startIndex)
         setupRxBindings()
@@ -224,8 +224,9 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func moveToProductAtIndex(_ index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
-        guard let viewModel = viewModelAtIndex(index) else { return }
+        guard let viewModel = viewModelAt(index: index) else { return }
         currentProductViewModel?.active = false
+        currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
         currentProductViewModel?.delegate = delegate
         currentProductViewModel?.active = true
@@ -241,28 +242,15 @@ class ProductCarouselViewModel: BaseViewModel {
         }
     }
 
-    func productAtIndex(_ index: Int) -> Product? {
+    func productCellModelAt(index: Int) -> ProductCarouselCellModel? {
         guard 0..<objectCount ~= index else { return nil }
-        let item = objects.value[index]
-        switch item {
-        case .productCell(let product):
-            return product
-        }
+        return objects.value[index]
     }
     
     func thumbnailAtIndex(_ index: Int) -> UIImage? {
-        if index == startIndex { return initialThumbnail }
+        if index == startIndex && initialThumbnail != nil { return initialThumbnail }
         guard 0..<objectCount ~= index else { return nil }
-        return viewModelAtIndex(index)?.thumbnailImage
-    }
-    
-    func viewModelAtIndex(_ index: Int) -> ProductViewModel? {
-        guard let product = productAtIndex(index) else { return nil }
-        return getOrCreateViewModel(product)
-    }
-
-    func viewModelForProduct(_ product: Product) -> ProductViewModel {
-        return ProductViewModel(product: product, thumbnailImage: nil, navigator: navigator)
+        return viewModelAt(index: index)?.thumbnailImage
     }
 
     func userAvatarPressed() {
@@ -312,13 +300,22 @@ class ProductCarouselViewModel: BaseViewModel {
     }
     
     // MARK: - Private Methods
+
+    fileprivate func productAt(index: Int) -> Product? {
+        return productCellModelAt(index: index)?.product
+    }
+
+    private func viewModelAt(index: Int) -> ProductViewModel? {
+        guard let product = productAt(index: index) else { return nil }
+        return viewModelFor(product: product)
+    }
     
-    private func getOrCreateViewModel(_ product: Product) -> ProductViewModel? {
+    private func viewModelFor(product: Product) -> ProductViewModel? {
         guard let productId = product.objectId else { return nil }
         if let vm = productsViewModels[productId] {
             return vm
         }
-        let vm = viewModelForProduct(product)
+        let vm = ProductViewModel(product: product, thumbnailImage: nil, navigator: navigator)
         productsViewModels[productId] = vm
         return vm
     }
@@ -413,7 +410,7 @@ extension ProductCarouselViewModel {
         for index in range {
             guard !prefetchingIndexes.contains(index) else { continue }
             prefetchingIndexes.append(index)
-            if let prevProduct = productAtIndex(index), let imageUrl = prevProduct.images.first?.fileURL {
+            if let imageUrl = productAt(index: index)?.images.first?.fileURL {
                 imagesToPrefetch.append(imageUrl)
             }
         }
