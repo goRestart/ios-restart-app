@@ -1231,11 +1231,11 @@ class TrackerEventSpec: QuickSpec {
 
                     var productOwner = MockUserProduct.makeMock()
                     productOwner.objectId = "67890"
+                    productOwner.isDummy = false
                     mockProduct.user = productOwner
                     mockProduct.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    productOwner.isDummy = false
-
                     product = mockProduct
+                    
                     sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
                                                     typePage: .productDetail, sellerRating: 4,
                                                     freePostingModeAllowed: true, isBumpedUp: .trueParameter)
