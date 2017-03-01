@@ -105,9 +105,10 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let source: EventParameterProductVisitSource
     fileprivate let productListRequester: ProductListRequester
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
+    fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let imageDownloader: ImageDownloaderType
-    fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
+    fileprivate let productViewModelMaker: ProductViewModelMaker
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -165,7 +166,8 @@ class ProductCarouselViewModel: BaseViewModel {
                   trackingIndex: trackingIndex,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  imageDownloader: ImageDownloader.sharedInstance)
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  productViewModelMaker: ProductViewModel.ConvenienceMaker())
     }
 
     init(productListModels: [ProductCellModel]?,
@@ -177,7 +179,8 @@ class ProductCarouselViewModel: BaseViewModel {
          trackingIndex: Int?,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
-         imageDownloader: ImageDownloaderType) {
+         imageDownloader: ImageDownloaderType,
+         productViewModelMaker: ProductViewModelMaker) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
         } else {
@@ -187,10 +190,11 @@ class ProductCarouselViewModel: BaseViewModel {
         self.productListRequester = productListRequester
         self.source = source
         self.isLastPage = productListRequester.isLastPage(productListModels?.count ?? 0)
-        self.keyValueStorage = keyValueStorage
-        self.imageDownloader = imageDownloader
         self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
+        self.keyValueStorage = keyValueStorage
+        self.imageDownloader = imageDownloader
+        self.productViewModelMaker = productViewModelMaker
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAt(index: startIndex)
@@ -318,7 +322,7 @@ class ProductCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[productId] {
             return vm
         }
-        let vm = ProductViewModel(product: product, thumbnailImage: nil)
+        let vm = productViewModelMaker.make(product: product, thumbnailImage: nil)
         vm.navigator = navigator
         productsViewModels[productId] = vm
         return vm

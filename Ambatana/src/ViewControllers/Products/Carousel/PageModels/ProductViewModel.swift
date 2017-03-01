@@ -26,7 +26,30 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmResetBumpUpBannerCountdown()
 }
 
+protocol ProductViewModelMaker {
+    func make(product: Product, thumbnailImage: UIImage?) -> ProductViewModel
+}
+
 class ProductViewModel: BaseViewModel {
+    class ConvenienceMaker: ProductViewModelMaker {
+        func make(product: Product, thumbnailImage: UIImage?) -> ProductViewModel {
+            return ProductViewModel(product: product,
+                                     thumbnailImage: thumbnailImage,
+                                     myUserRepository: Core.myUserRepository,
+                                     productRepository: Core.productRepository,
+                                     commercializerRepository: Core.commercializerRepository,
+                                     chatWrapper: ChatWrapper(),
+                                     chatViewMessageAdapter: ChatViewMessageAdapter(),
+                                     locationManager: Core.locationManager,
+                                     countryHelper: Core.countryHelper,
+                                     socialSharer: SocialSharer(),
+                                     featureFlags: FeatureFlags.sharedInstance,
+                                     purchasesShopper: LGPurchasesShopper.sharedInstance,
+                                     notificationsManager: LGNotificationsManager.sharedInstance,
+                                     monetizationRepository: Core.monetizationRepository,
+                                     tracker: TrackerProxy.sharedInstance)
+        }
+    }
 
     // Delegate
     weak var delegate: ProductViewModelDelegate?
@@ -120,25 +143,6 @@ class ProductViewModel: BaseViewModel {
 
 
     // MARK: - Lifecycle
-
-    convenience init(product: Product,
-                     thumbnailImage: UIImage?) {
-        self.init(product: product,
-                  thumbnailImage: thumbnailImage,
-                  myUserRepository: Core.myUserRepository,
-                  productRepository: Core.productRepository,
-                  commercializerRepository: Core.commercializerRepository,
-                  chatWrapper: ChatWrapper(),
-                  chatViewMessageAdapter: ChatViewMessageAdapter(),
-                  locationManager: Core.locationManager,
-                  countryHelper: Core.countryHelper,
-                  socialSharer: SocialSharer(),
-                  featureFlags: FeatureFlags.sharedInstance,
-                  purchasesShopper: LGPurchasesShopper.sharedInstance,
-                  notificationsManager: LGNotificationsManager.sharedInstance,
-                  monetizationRepository: Core.monetizationRepository,
-                  tracker: TrackerProxy.sharedInstance)
-    }
 
     init(product: Product,
          thumbnailImage: UIImage?,
