@@ -92,7 +92,6 @@ class ProductViewModel: BaseViewModel {
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
 
-    fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let productRepository: ProductRepository
     fileprivate let commercializerRepository: CommercializerRepository
@@ -123,19 +122,17 @@ class ProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(product: Product,
-                     thumbnailImage: UIImage?,
-                     navigator: ProductDetailNavigator?) {
-        self.init(sessionManager: Core.sessionManager,
+                     thumbnailImage: UIImage?) {
+        self.init(product: product,
+                  thumbnailImage: thumbnailImage,
                   myUserRepository: Core.myUserRepository,
                   productRepository: Core.productRepository,
                   commercializerRepository: Core.commercializerRepository,
                   chatWrapper: ChatWrapper(),
+                  chatViewMessageAdapter: ChatViewMessageAdapter(),
                   locationManager: Core.locationManager,
                   countryHelper: Core.countryHelper,
-                  product: product,
-                  thumbnailImage: thumbnailImage,
                   socialSharer: SocialSharer(),
-                  navigator: navigator,
                   featureFlags: FeatureFlags.sharedInstance,
                   purchasesShopper: LGPurchasesShopper.sharedInstance,
                   notificationsManager: LGNotificationsManager.sharedInstance,
@@ -143,17 +140,16 @@ class ProductViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance)
     }
 
-    init(sessionManager: SessionManager,
+    init(product: Product,
+         thumbnailImage: UIImage?,
          myUserRepository: MyUserRepository,
          productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository,
          chatWrapper: ChatWrapper,
+         chatViewMessageAdapter: ChatViewMessageAdapter,
          locationManager: LocationManager,
          countryHelper: CountryHelper,
-         product: Product,
-         thumbnailImage: UIImage?,
          socialSharer: SocialSharer,
-         navigator: ProductDetailNavigator?,
          featureFlags: FeatureFlaggeable,
          purchasesShopper: PurchasesShopper,
          notificationsManager: NotificationsManager,
@@ -162,7 +158,6 @@ class ProductViewModel: BaseViewModel {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
-        self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
@@ -171,8 +166,7 @@ class ProductViewModel: BaseViewModel {
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
-        self.navigator = navigator
-        self.chatViewMessageAdapter = ChatViewMessageAdapter()
+        self.chatViewMessageAdapter = chatViewMessageAdapter
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
         self.notificationsManager = notificationsManager
@@ -183,8 +177,6 @@ class ProductViewModel: BaseViewModel {
         self.disposeBag = DisposeBag()
 
         super.init()
-
-
 
         socialSharer.delegate = self
         setupRxBindings()
@@ -411,7 +403,7 @@ extension ProductViewModel {
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
-        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
+        ifLoggedInRunActionElseOpenSignUp(from: .directChat) { [weak self] in
             if isDefaultText {
                 self?.sendMessage(type: .periscopeDirect(text))
             } else {
@@ -421,7 +413,7 @@ extension ProductViewModel {
     }
 
     func sendQuickAnswer(quickAnswer: QuickAnswer) {
-        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
+        ifLoggedInRunActionElseOpenSignUp(from: .directQuickAnswer) { [weak self] in
             self?.sendMessage(type: .quickAnswer(quickAnswer))
         }
     }
@@ -439,9 +431,9 @@ extension ProductViewModel {
     }
 
     func switchFavorite() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+        ifLoggedInRunActionElseOpenSignUp(from: .favourite) { [weak self] in
             self?.switchFavoriteAction()
-        }, source: .favourite)
+        }
     }
 
     func bumpUpProduct() {
@@ -512,10 +504,9 @@ extension ProductViewModel {
         let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
             .withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
-            self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-                self?.switchFavoriteAction()
-                }, source: .favourite)
-            }, accessibilityId: .productCarouselNavBarFavoriteButton)
+            self?.ifLoggedInRunActionElseOpenSignUp(from: .favourite) { [weak self] in
+                self?.switchFavoriteAction() }
+        }, accessibilityId: .productCarouselNavBarFavoriteButton)
     }
 
     private func buildEditNavBarAction() -> UIAction {
@@ -593,21 +584,18 @@ extension ProductViewModel {
     }
     
     fileprivate func confirmToReportProduct() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
+        ifLoggedInRunActionElseOpenSignUp(from: .reportFraud) { [weak self] () -> () in
             guard let strongSelf = self, !strongSelf.isMine else { return }
             
             let alertOKAction = UIAction(interface: .text(LGLocalizedString.commonYes),
                 action: { [weak self] in
-                    self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-                        self?.report()
-                        }, source: .reportFraud)
-                    
+                    self?.report()
                 })
             strongSelf.delegate?.vmShowAlert(LGLocalizedString.productReportConfirmTitle,
                 message: LGLocalizedString.productReportConfirmMessage,
                 cancelLabel: LGLocalizedString.commonNo,
                 actions: [alertOKAction])
-            }, source: .reportFraud)
+        }
     }
     
     private func buildDeleteAction() -> UIAction {
@@ -755,7 +743,7 @@ fileprivate extension ProductViewModel {
     }
 
     func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
-        ifLoggedInRunActionElseOpenMainSignUp( { [weak self]  in
+        ifLoggedInRunActionElseOpenSignUp(from: .markAsSold) { [weak self]  in
             guard let featureFlags = self?.featureFlags, featureFlags.userRatingMarkAsSold else {
                 self?.confirmToMarkAsSold()
                 return
@@ -779,7 +767,7 @@ fileprivate extension ProductViewModel {
                     self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
                 }
             }
-            }, source: .markAsSold)
+        }
     }
 
     private func confirmToMarkAsSold() {
@@ -805,7 +793,7 @@ fileprivate extension ProductViewModel {
         let message = free ? LGLocalizedString.productSellAgainFreeConfirmMessage : LGLocalizedString.productSellAgainConfirmMessage
         let cancel = free ? LGLocalizedString.productSellAgainFreeConfirmCancelButton : LGLocalizedString.productSellAgainConfirmCancelButton
 
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+        ifLoggedInRunActionElseOpenSignUp(from: .markAsUnsold) { [weak self] in
             var alertActions: [UIAction] = []
             let sellAgainAction = UIAction(interface: .text(okButton),
                                            action: { [weak self] in
@@ -813,7 +801,7 @@ fileprivate extension ProductViewModel {
             })
             alertActions.append(sellAgainAction)
             self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
-            }, source: .markAsUnsold)
+        }
     }
 
     func report() {
@@ -944,16 +932,8 @@ fileprivate extension ProductViewModel {
 // MARK: - Logged in checks
 
 extension ProductViewModel {
-    fileprivate func ifLoggedInRunActionElseOpenMainSignUp(_ action: @escaping () -> (), source: EventParameterLoginSourceValue) {
-        if sessionManager.loggedIn {
-            action()
-        } else {
-            navigator?.openLoginIfNeededFromProductDetail(from: source, loggedInAction: action)
-        }
-    }
-
-    fileprivate func ifLoggedInRunActionElseOpenChatSignup(_ action: @escaping () -> ()) {
-        navigator?.openLoginIfNeededFromProductDetail(from: .directSticker, loggedInAction: action)
+    fileprivate func ifLoggedInRunActionElseOpenSignUp(from: EventParameterLoginSourceValue, action: @escaping () -> ()) {
+        navigator?.openLoginIfNeededFromProductDetail(from: from, loggedInAction: action)
     }
 }
 

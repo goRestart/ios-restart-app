@@ -161,11 +161,11 @@ class ProductCarouselViewModel: BaseViewModel {
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  trackingIndex: trackingIndex,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  imageDownloader: ImageDownloader.sharedInstance,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
-                  trackingIndex: trackingIndex)
+                  imageDownloader: ImageDownloader.sharedInstance)
     }
 
     init(productListModels: [ProductCellModel]?,
@@ -173,11 +173,11 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
+         showKeyboardOnFirstAppearIfNeeded: Bool,
+         trackingIndex: Int?,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
-         imageDownloader: ImageDownloaderType,
-         showKeyboardOnFirstAppearIfNeeded: Bool,
-         trackingIndex: Int?) {
+         imageDownloader: ImageDownloaderType) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
         } else {
@@ -318,7 +318,8 @@ class ProductCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[productId] {
             return vm
         }
-        let vm = ProductViewModel(product: product, thumbnailImage: nil, navigator: navigator)
+        let vm = ProductViewModel(product: product, thumbnailImage: nil)
+        vm.navigator = navigator
         productsViewModels[productId] = vm
         return vm
     }
@@ -420,6 +421,9 @@ extension ProductCarouselViewModel {
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
     }
 }
+
+
+// MARK: - ProductViewModelDelegate
 
 extension ProductCarouselViewModel: ProductViewModelDelegate {
 
