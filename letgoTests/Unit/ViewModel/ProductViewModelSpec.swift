@@ -48,12 +48,20 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
             func buildProductViewModel() {
                 let socialSharer = SocialSharer()
-                sut = ProductViewModel(sessionManager: sessionManager, myUserRepository: myUserRepository, productRepository: productRepository,
-                                       commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
-                                       stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                                       product: product, thumbnailImage: nil, socialSharer: socialSharer, navigator: self,
-                                       featureFlags: featureFlags, purchasesShopper: purchasesShopper,
-                                       notificationsManager: notificationsManager, monetizationRepository: monetizationRepository, tracker: tracker)
+                sut = ProductViewModel(product: product,
+                                        myUserRepository: myUserRepository,
+                                        productRepository: productRepository,
+                                        commercializerRepository: commercializerRepository,
+                                        chatWrapper: chatWrapper,
+                                        chatViewMessageAdapter: ChatViewMessageAdapter(),
+                                        locationManager: locationManager,
+                                        countryHelper: countryHelper,
+                                        socialSharer: socialSharer,
+                                        featureFlags: featureFlags,
+                                        purchasesShopper: purchasesShopper,
+                                        notificationsManager: notificationsManager,
+                                        monetizationRepository: monetizationRepository,
+                                        tracker: tracker)
                 sut.delegate = self
                 sut.navigator = self
 
@@ -340,6 +348,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     }
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void)) {
+        loggedInAction()
     }
 }
 
