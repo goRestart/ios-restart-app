@@ -243,11 +243,13 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-            describe("Mark as favorite") {
+
+            describe("add to favorites") {
                 beforeEach {
                     sessionManager.loggedIn = true
                     product = MockProduct.makeMock()
                     product.status = .approved
+                    product.favorite = false
                     self.shownFavoriteBubble = false
                 }
                 context("Contact the seller AB test enabled"){
@@ -256,6 +258,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.switchFavorite()
                     }
+
                     it("shows bubble up") {
                         expect(self.shownFavoriteBubble).toEventually(equal(true))
                     }
@@ -266,6 +269,29 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.switchFavorite()
                     }
+
+                    it("does not show bubble up") {
+                        expect(self.shownFavoriteBubble).toEventually(equal(false))
+                    }
+                }
+            }
+
+            describe("remove from favorites") {
+                beforeEach {
+                    sessionManager.loggedIn = true
+                    product = MockProduct.makeMock()
+                    product.status = .approved
+                    product.favorite = true
+                    self.shownFavoriteBubble = false
+                }
+
+                context("Contact the seller AB test enabled"){
+                    beforeEach {
+                        featureFlags.shouldContactSellerOnFavorite = true
+                        buildProductViewModel()
+                        sut.switchFavorite()
+                    }
+                    
                     it("does not show bubble up") {
                         expect(self.shownFavoriteBubble).toEventually(equal(false))
                     }
