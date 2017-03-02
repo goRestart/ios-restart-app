@@ -146,13 +146,16 @@ class UserView: UIView {
     }
 
     func setupWith(userAvatar avatar: URL?, placeholder: UIImage?, userName: String?, subtitle: String?) {
-        avatarURL = avatar
-        userAvatarImageView.image = placeholder
-        if let avatar = avatar {
+        if let avatar = avatar, avatar != avatarURL {
+            avatarURL = avatar
+            userAvatarImageView.image = placeholder
             ImageDownloader.sharedInstance.downloadImageWithURL(avatar) { [weak self] result, url in
                 guard let imageWithSource = result.value, url == self?.avatarURL else { return }
                 self?.userAvatarImageView.image = imageWithSource.image
             }
+        } else if avatar == nil {
+            userAvatarImageView.image = placeholder
+            avatarURL = nil
         }
         titleLabel.text = userName
         subtitleLabel.text = subtitle

@@ -101,7 +101,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         let repositoryError = RepositoryError(apiError: .notFound)
-                        myUserRepository.myUserResult = MyUserResult(error: repositoryError)
+                        myUserRepository.result = MyUserResult(error: repositoryError)
                         sut.updateEmail()
                     }
                     it("Eventually hides indicator") {
@@ -115,7 +115,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         let error = RepositoryError(apiError: .forbidden(cause: .emailTaken))
-                        myUserRepository.myUserResult = MyUserResult(error: error)
+                        myUserRepository.result = MyUserResult(error: error)
                         sut.updateEmail()
                     }
                     it("Shows the emailTaken message") {
@@ -126,7 +126,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         let error = RepositoryError(apiError: .network(errorCode: 0, onBackground: false))
-                        myUserRepository.myUserResult = MyUserResult(error: error)
+                        myUserRepository.result = MyUserResult(error: error)
                         sut.updateEmail()
                     }
                     it("Shows the error connection message") {
@@ -137,7 +137,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         let error = RepositoryError(apiError: .notFound)
-                        myUserRepository.myUserResult = MyUserResult(error: error)
+                        myUserRepository.result = MyUserResult(error: error)
                         sut.updateEmail()
                     }
                     it("Shows the generic error message") {
@@ -162,10 +162,10 @@ class ChangeEmailViewModelSpec: QuickSpec {
                     var event: TrackerEvent!
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
-                        myUser = MockMyUser()
+                        myUser = MockMyUser.makeMock()
                         myUser.objectId = "123"
                         event = TrackerEvent.profileEditEmailComplete(withUserId: myUser.objectId!)
-                        myUserRepository.myUserResult = MyUserResult(myUser)
+                        myUserRepository.result = MyUserResult(myUser)
                         sut.updateEmail()
                     }
                     it("tracks a edit email complete") {

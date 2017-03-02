@@ -48,12 +48,20 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
             func buildProductViewModel() {
                 let socialSharer = SocialSharer()
-                sut = ProductViewModel(sessionManager: sessionManager, myUserRepository: myUserRepository, productRepository: productRepository,
-                                       commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
-                                       stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                                       product: product, thumbnailImage: nil, socialSharer: socialSharer, navigator: self,
-                                       featureFlags: featureFlags, purchasesShopper: purchasesShopper,
-                                       notificationsManager: notificationsManager, monetizationRepository: monetizationRepository, tracker: tracker)
+                sut = ProductViewModel(product: product,
+                                        myUserRepository: myUserRepository,
+                                        productRepository: productRepository,
+                                        commercializerRepository: commercializerRepository,
+                                        chatWrapper: chatWrapper,
+                                        chatViewMessageAdapter: ChatViewMessageAdapter(),
+                                        locationManager: locationManager,
+                                        countryHelper: countryHelper,
+                                        socialSharer: socialSharer,
+                                        featureFlags: featureFlags,
+                                        purchasesShopper: purchasesShopper,
+                                        notificationsManager: notificationsManager,
+                                        monetizationRepository: monetizationRepository,
+                                        tracker: tracker)
                 sut.delegate = self
                 sut.navigator = self
 
@@ -70,7 +78,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
-                product = MockProduct()
+                product = MockProduct.makeMock()
                 bubbleNotificationManager = MockBubbleNotificationManager()
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
@@ -87,14 +95,16 @@ class ProductViewModelSpec: BaseViewModelSpec {
             describe("mark as sold") {
                 beforeEach {
                     sessionManager.loggedIn = true
-                    let myUser = MockMyUser()
+                    let myUser = MockMyUser.makeMock()
                     myUserRepository.myUserVar.value = myUser
-                    product = MockProduct()
-                    product.user = MockUserProduct(myUser: myUser)
+                    product = MockProduct.makeMock()
+                    var userProduct = MockUserProduct.makeMock()
+                    userProduct.objectId = myUser.objectId
+                    product.user = userProduct
                     product.status = .approved
 
-                    productRepository.voidResult = ProductVoidResult(Void())
-                    let soldProduct = MockProduct.productFromProduct(product)
+                    productRepository.markAsSoldVoidResult = ProductVoidResult(Void())
+                    var soldProduct = MockProduct(product: product)
                     soldProduct.status = .sold
                     productRepository.productResult = ProductResult(soldProduct)
                 }
@@ -107,9 +117,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             possibleBuyers = [UserProduct]()
                             for _ in 0..<5 {
-                                possibleBuyers.append(MockUserProduct())
+                                possibleBuyers.append(MockUserProduct.makeMock())
                             }
-                            productRepository.buyersResult = ProductBuyersResult(possibleBuyers)
+                            productRepository.productBuyersResult = ProductBuyersResult(possibleBuyers)
                         }
                         context("one is selected") {
                             beforeEach {
@@ -172,7 +182,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                     context("there are no possible buyers") {
                         beforeEach {
-                            productRepository.buyersResult = ProductBuyersResult([])
+                            productRepository.productBuyersResult = ProductBuyersResult([])
 
                             buildProductViewModel()
                             sut.active = true
@@ -208,9 +218,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         featureFlags.userRatingMarkAsSold = false
                         var possibleBuyers = [UserProduct]()
                         for _ in 0..<5 {
-                            possibleBuyers.append(MockUserProduct())
+                            possibleBuyers.append(MockUserProduct.makeMock())
                         }
-                        productRepository.buyersResult = ProductBuyersResult(possibleBuyers)
+                        productRepository.productBuyersResult = ProductBuyersResult(possibleBuyers)
 
                         buildProductViewModel()
                         sut.active = true
@@ -241,11 +251,13 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-            describe("Mark as favorite") {
+
+            describe("add to favorites") {
                 beforeEach {
                     sessionManager.loggedIn = true
-                    product = MockProduct()
+                    product = MockProduct.makeMock()
                     product.status = .approved
+                    product.favorite = false
                     self.shownFavoriteBubble = false
                 }
                 context("Contact the seller AB test enabled"){
@@ -254,6 +266,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.switchFavorite()
                     }
+
                     it("shows bubble up") {
                         expect(self.shownFavoriteBubble).toEventually(equal(true))
                     }
@@ -264,6 +277,29 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.switchFavorite()
                     }
+
+                    it("does not show bubble up") {
+                        expect(self.shownFavoriteBubble).toEventually(equal(false))
+                    }
+                }
+            }
+
+            describe("remove from favorites") {
+                beforeEach {
+                    sessionManager.loggedIn = true
+                    product = MockProduct.makeMock()
+                    product.status = .approved
+                    product.favorite = true
+                    self.shownFavoriteBubble = false
+                }
+
+                context("Contact the seller AB test enabled"){
+                    beforeEach {
+                        featureFlags.shouldContactSellerOnFavorite = true
+                        buildProductViewModel()
+                        sut.switchFavorite()
+                    }
+                    
                     it("does not show bubble up") {
                         expect(self.shownFavoriteBubble).toEventually(equal(false))
                     }
@@ -289,8 +325,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
 }
 
 extension ProductViewModelSpec: ProductViewModelDelegate {
-    func vmShowShareFromMain(_ socialMessage: SocialMessage) {}
-    func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage) {}
 
     func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ()) {}
 
@@ -303,7 +337,9 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {}
 
     func vmShareDidFailedWith(_ error: String) {}
-    func vmViewControllerToShowShareOptions() -> UIViewController { return UIViewController() }
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
+        return (UIViewController(), nil)
+    }
 
     // Bump Up
     func vmResetBumpUpBannerCountdown() {}
@@ -340,6 +376,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     }
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void)) {
+        loggedInAction()
     }
 }
 

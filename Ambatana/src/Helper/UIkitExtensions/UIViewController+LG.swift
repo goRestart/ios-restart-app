@@ -7,6 +7,7 @@
 import UIKit
 import SafariServices
 import RxSwift
+import RxCocoa
 
 // MARK: - UINavigationBar helpers
 
@@ -28,7 +29,7 @@ extension UIViewController {
     }
 
     @discardableResult 
-    func setLetGoRightButtonWith(_ action: UIAction, disposeBag: DisposeBag, buttonTintColor: UIColor? = nil) -> UIBarButtonItem? {
+    func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor? = nil, tapBlock: (ControlEvent<Void>) -> Void ) -> UIBarButtonItem? {
         let rightItem = UIBarButtonItem()
         rightItem.tintColor = buttonTintColor
         rightItem.style = .plain
@@ -43,9 +44,7 @@ extension UIViewController {
         } else {
             return nil
         }
-        rightItem.rx.tap.bindNext{
-            action.action()
-        }.addDisposableTo(disposeBag)
+        tapBlock(rightItem.rx.tap)
         navigationItem.rightBarButtonItems = nil
         navigationItem.rightBarButtonItem = rightItem
         return rightItem
