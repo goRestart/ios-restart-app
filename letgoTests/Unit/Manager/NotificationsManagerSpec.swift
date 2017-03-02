@@ -54,8 +54,8 @@ class NotificationsManagerSpec: QuickSpec {
             }
 
             func setMyUser() {
-                let myUser = MockMyUser()
-                myUser.objectId = String.random(20)
+                var myUser = MockMyUser.makeMock()
+                myUser.objectId = String.makeRandom(length: 20)
                 myUserRepository.myUserVar.value = myUser
             }
 
@@ -64,21 +64,28 @@ class NotificationsManagerSpec: QuickSpec {
                     setMyUser()
                 }
                 sessionManager.loggedIn = true
-                sessionManager.sessionEventsPublish.onNext(.login)
+                sessionManager.sessionEventsPublishSubject.onNext(.login)
             }
 
             func doLogout() {
                 myUserRepository.myUserVar.value = nil
                 sessionManager.loggedIn = false
-                sessionManager.sessionEventsPublish.onNext(.logout(kickedOut: false))
+                sessionManager.sessionEventsPublishSubject.onNext(.logout(kickedOut: false))
             }
 
             func populateCountersResults() {
-                oldChatRepository.unreadMessagesResult = Result<Int, RepositoryError>(10)
-                let chatUnread = MockChatUnreadMessages(total: 7)
-                chatRepository.chatUnreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                let notifications = MockUnreadNotificationsCounts(sold: 2, like: 2, review: 2, reviewUpdate: 2, buyers: 2, suggested: 2, facebook: 2, total: 14)
-                notificationsRepository.notificationsUnreadCountResult = NotificationsUnreadCountResult(notifications)
+                oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(10)
+                let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 7)
+                chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
+                let notifications = MockUnreadNotificationsCounts(productSold: 2,
+                                                                  productLike: 2,
+                                                                  review: 2,
+                                                                  reviewUpdated: 2,
+                                                                  buyersInterested: 2,
+                                                                  productSuggested: 2,
+                                                                  facebookFriendshipCreated: 2,
+                                                                  total: 14)
+                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
             }
 
             beforeEach {

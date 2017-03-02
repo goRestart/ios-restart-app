@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
 "bump_up_error_bump_generic" = "Tuotettasi nostettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole vielä nostettu esiin. Ole hyvä ja yritä uudelleen.";
-"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "Tuotettasi nostettaessa tapahtui virhe. Maksuasi ei ole käsitelty. Ole hyvä ja yritä uudelleen.";
 "bump_up_free_success" = "Nostettu! Nosta tuotettasi useamminkin listalla ylöspäin, jolloin se saa vielä enemmän näkyvyyttä.";
 "bump_up_pay_success" = "Nostettu! Nyt tuotteesi saa lisänäkyvyyttä.";
 "bump_up_processing_free_text" = "Käsitellään nostoa...";

@@ -24,7 +24,7 @@ class RatingManagerSpec: QuickSpec {
             beforeEach {
                 let mockStorage = MockKeyValueStorage()
                 mockUserProvider = MockMyUserRepository()
-                let myUser = MockMyUser()
+                var myUser = MockMyUser.makeMock()
                 myUser.objectId = "12345"
                 mockUserProvider.myUserVar.value = myUser
                 keyValueStorage = KeyValueStorage(storage: mockStorage, myUserRepository: mockUserProvider)

@@ -45,12 +45,12 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                 tracker = MockTracker()
 
                 let email = "albert.hernandez@gmail.com"
-                let myUser = MockMyUser()
+                var myUser = MockMyUser.makeMock()
                 myUser.email = email
                 sessionManager.signUpResult = SessionMyUserResult(value: myUser)
                 sessionManager.logInResult = SessionMyUserResult(value: myUser)
                 installationRepository = MockInstallationRepository()
-                installationRepository.installationVar.value = MockInstallation()
+                installationRepository.installationVar.value = MockInstallation.makeMock()
                 sut = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: false, password: "654321",
                                                 source: .sell, collapsedEmail: nil,
                                                 sessionManager: sessionManager,
@@ -295,7 +295,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                         let email = "albert.hernandez@gmail.com"
 
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.email = email
                             sessionManager.logInResult = SessionMyUserResult(value: myUser)
                             _ = sut.signUpButtonPressed()
@@ -342,7 +342,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                     let email = "albert.hernandez@gmail.com"
 
                     beforeEach {
-                        let myUser = MockMyUser()
+                        var myUser = MockMyUser.makeMock()
                         myUser.email = email
                         sessionManager.signUpResult = SessionMyUserResult(value: myUser)
                         _ = sut.signUpButtonPressed()

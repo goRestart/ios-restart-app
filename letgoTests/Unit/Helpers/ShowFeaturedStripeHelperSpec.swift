@@ -7,6 +7,7 @@
 //
 
 @testable import LetGo
+import LGCoreKit
 import Quick
 import Nimble
 
@@ -22,7 +23,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
             beforeEach {
                 myUserRepository = MockMyUserRepository()
                 featureFlags = MockFeatureFlags()
-                product = MockProduct()
+                product = MockProduct.makeMock()
                 sut = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
             }
             describe("Product is not featured") {
@@ -35,9 +36,9 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                     }
                     context("product is mine") {
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            let user = MockUserProduct()
+                            var user = MockUserProduct.makeMock()
                             user.objectId = "Mario"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -48,9 +49,9 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                     }
                     context("product is NOT mine") {
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            let user = MockUserProduct()
+                            var user = MockUserProduct.makeMock()
                             user.objectId = "Luigi"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -66,9 +67,9 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                     }
                     context("product is mine") {
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            let user = MockUserProduct()
+                            var user = MockUserProduct.makeMock()
                             user.objectId = "Mario"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -79,9 +80,9 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                     }
                     context("product is NOT mine") {
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            let user = MockUserProduct()
+                            var user = MockUserProduct.makeMock()
                             user.objectId = "Luigi"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -102,9 +103,9 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                     }
                     context("product is mine") {
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            let user = MockUserProduct()
+                            var user = MockUserProduct.makeMock()
                             user.objectId = "Mario"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -115,9 +116,9 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                     }
                     context("product is NOT mine") {
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            let user = MockUserProduct()
+                            var user = MockUserProduct.makeMock()
                             user.objectId = "Luigi"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -133,9 +134,9 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                     }
                     context("product is mine") {
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            let user = MockUserProduct()
+                            var user = MockUserProduct.makeMock()
                             user.objectId = "Mario"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -146,9 +147,9 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                     }
                     context("product is NOT mine") {
                         beforeEach {
-                            let myUser = MockMyUser()
+                            var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            let user = MockUserProduct()
+                            var user = MockUserProduct.makeMock()
                             user.objectId = "Luigi"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser

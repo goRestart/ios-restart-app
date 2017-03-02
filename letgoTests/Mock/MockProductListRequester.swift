@@ -27,7 +27,7 @@ class MockProductListRequester: ProductListRequester {
 
     func generateItems(_ numItems: Int) {
         for _ in 0..<numItems {
-            items.append(MockProduct())
+            items.append(MockProduct.makeMock())
         }
     }
 
