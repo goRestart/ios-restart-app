@@ -9,7 +9,7 @@
 import Foundation
 import LGCoreKit
 
-enum ProductCarouselCellModel {
+enum ProductCarouselCellModel: ProductAble {
     case productCell(product: Product)
     
     init(product: Product) {
@@ -38,5 +38,21 @@ enum ProductCarouselCellModel {
         default:
             return nil
         }
+    }
+}
+
+protocol ProductAble {
+    var product: Product { get }
+}
+
+extension Array where Element: ProductAble {
+    func indexFor(product: Product?) -> Int? {
+        guard let product = product else { return nil }
+        for i in 0..<self.count {
+            if self[i].product.objectId == product.objectId {
+                return i
+            }
+        }
+        return nil
     }
 }

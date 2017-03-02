@@ -74,7 +74,8 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                           initialProduct: Product?,
                           source: EventParameterProductVisitSource,
                           showKeyboardOnFirstAppearIfNeeded: Bool,
-                          trackingIndex: Int?) {
+                          trackingIndex: Int?,
+                          firstProductSyncRequired: Bool) {
 
                 sut = ProductCarouselViewModel(productListModels: productListModels,
                                                initialProduct: initialProduct,
@@ -83,6 +84,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                                source: source,
                                                showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
                                                trackingIndex: trackingIndex,
+                                               firstProductSyncRequired: firstProductSyncRequired,
                                                featureFlags: featureFlags,
                                                keyValueStorage: keyValueStorage,
                                                imageDownloader: imageDownloader,
@@ -167,6 +169,19 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 socialSharerObserver = scheduler.createObserver(SocialSharer.self)
 
                 self.resetViewModelSpec()
+            }
+            describe("initialisation") {
+                context("single product no sync required") {
+                    beforeEach {
+                        let product = MockProduct.makeMock()
+                        buildSut(productListModels: nil,
+                                 initialProduct: product,
+                                 source: .productList,
+                                 showKeyboardOnFirstAppearIfNeeded: false,
+                                 trackingIndex: nil,
+                                 firstProductSyncRequired: false)
+                    }
+                }
             }
         }
     }

@@ -48,7 +48,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var fullScreenAvatarLeft: NSLayoutConstraint?
     fileprivate let viewModel: ProductCarouselViewModel
     fileprivate let disposeBag: DisposeBag = DisposeBag()
-    fileprivate var currentIndex = 0
     fileprivate var userViewBottomConstraint: NSLayoutConstraint?
     fileprivate var userViewRightConstraint: NSLayoutConstraint?
 
@@ -224,10 +223,9 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         imageBackground.image = backgroundImage
         flowLayout.itemSize = view.bounds.size
         setupAlphaRxBindings()
-        let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
-        viewModel.moveToProductAtIndex(viewModel.startIndex, movement: .initial)
-        currentIndex = viewModel.startIndex
+
         collectionView.reloadData()
+        let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         collectionView.scrollToItem(at: startIndexPath, at: .right, animated: false)
 
         setupMoreInfo()
@@ -443,9 +441,9 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if let pendingMovement = strongSelf.pendingMovement {
                     movement = pendingMovement
                     strongSelf.pendingMovement = nil
-                } else if index > strongSelf.currentIndex {
+                } else if index > strongSelf.viewModel.currentIndex {
                     movement = .swipeRight
-                } else if index < strongSelf.currentIndex {
+                } else if index < strongSelf.viewModel.currentIndex {
                     movement = .swipeLeft
                 } else {
                     movement = .initial
@@ -456,7 +454,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if movement == .tap {
                     self?.finishedTransition()
                 }
-                strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
 
