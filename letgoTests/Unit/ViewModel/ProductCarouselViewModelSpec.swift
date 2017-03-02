@@ -30,16 +30,13 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var keyValueStorage: MockKeyValueStorage!
         var imageDownloader: MockImageDownloader!
 
-        var sessionManager: MockSessionManager!
         var myUserRepository: MockMyUserRepository!
         var productRepository: MockProductRepository!
         var commercializerRepository: MockCommercializerRepository!
-        var stickersRepository: MockStickersRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
         var product: MockProduct!
-        var bubbleNotificationManager: MockBubbleNotificationManager!
         var featureFlags: MockFeatureFlags!
         var purchasesShopper: MockPurchasesShopper!
         var notificationsManager: MockNotificationsManager!
@@ -47,6 +44,29 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var tracker: MockTracker!
 
         var disposeBag: DisposeBag!
+
+        var cellModelsObserver: TestableObserver<[ProductCarouselCellModel]>!
+        var productInfoObserver: TestableObserver<ProductVMProductInfo?>!
+        var productImageUrlsObserver: TestableObserver<[URL]>!
+        var userInfoObserver: TestableObserver<ProductVMUserInfo?>!
+        var productStatsObserver: TestableObserver<ProductStats?>!
+        var navBarButtonsObserver: TestableObserver<[UIAction]>!
+        var actionButtonsObserver: TestableObserver<[UIAction]>!
+        var statusObserver: TestableObserver<ProductViewModelStatus>!
+        var isFeaturedObserver: TestableObserver<Bool>!
+        var quickAnswersObserver: TestableObserver<[QuickAnswer]>!
+        var quickAnswersAvailableObserver: TestableObserver<Bool>!
+        var quickAnswersCollapsedObserver: TestableObserver<Bool>!
+        var directChatEnabledObserver: TestableObserver<Bool>!
+        var directChatPlaceholderObserver: TestableObserver<String>!
+        var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
+        var editButtonStateObserver: TestableObserver<ButtonState>!
+        var isFavoriteObserver: TestableObserver<Bool>!
+        var favoriteButtonStateObserver: TestableObserver<ButtonState>!
+        var shareButtonStateObserver: TestableObserver<ButtonState>!
+        var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
+        var socialMessageObserver: TestableObserver<SocialMessage?>!
+        var socialSharerObserver: TestableObserver<SocialSharer>!
 
         describe("ProductCarouselViewModelSpec") {
 
@@ -71,19 +91,38 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 sut.navigator = self
 
                 disposeBag = DisposeBag()
+                sut.objects.observable.bindTo(cellModelsObserver).addDisposableTo(disposeBag)
+                sut.productInfo.asObservable().bindTo(productInfoObserver).addDisposableTo(disposeBag)
+                sut.productImageURLs.asObservable().bindTo(productImageUrlsObserver).addDisposableTo(disposeBag)
+                sut.userInfo.asObservable().bindTo(userInfoObserver).addDisposableTo(disposeBag)
+                sut.productStats.asObservable().bindTo(productStatsObserver).addDisposableTo(disposeBag)
+                sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
+                sut.actionButtons.asObservable().bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
+                sut.status.asObservable().bindTo(statusObserver).addDisposableTo(disposeBag)
+                sut.isFeatured.asObservable().bindTo(isFeaturedObserver).addDisposableTo(disposeBag)
+                sut.quickAnswers.asObservable().bindTo(quickAnswersObserver).addDisposableTo(disposeBag)
+                sut.quickAnswersAvailable.asObservable().bindTo(quickAnswersAvailableObserver).addDisposableTo(disposeBag)
+                sut.quickAnswersCollapsed.asObservable().bindTo(quickAnswersCollapsedObserver).addDisposableTo(disposeBag)
+                sut.directChatEnabled.asObservable().bindTo(directChatEnabledObserver).addDisposableTo(disposeBag)
+                sut.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
+                sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
+                sut.editButtonState.asObservable().bindTo(editButtonStateObserver).addDisposableTo(disposeBag)
+                sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
+                sut.favoriteButtonState.asObservable().bindTo(favoriteButtonStateObserver).addDisposableTo(disposeBag)
+                sut.shareButtonState.asObservable().bindTo(shareButtonStateObserver).addDisposableTo(disposeBag)
+                sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
+                sut.socialMessage.asObservable().bindTo(socialMessageObserver).addDisposableTo(disposeBag)
+                sut.socialSharer.asObservable().bindTo(socialSharerObserver).addDisposableTo(disposeBag)
             }
 
             beforeEach {
-                sessionManager = MockSessionManager()
                 myUserRepository = MockMyUserRepository()
                 productRepository = MockProductRepository()
                 commercializerRepository = MockCommercializerRepository()
-                stickersRepository = MockStickersRepository()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
                 product = MockProduct.makeMock()
-                bubbleNotificationManager = MockBubbleNotificationManager()
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
                 notificationsManager = MockNotificationsManager()
@@ -104,6 +143,28 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
                 let scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
+                cellModelsObserver = scheduler.createObserver(Array<ProductCarouselCellModel>.self)
+                productInfoObserver = scheduler.createObserver(Optional<ProductVMProductInfo>.self)
+                productImageUrlsObserver = scheduler.createObserver(Array<URL>.self)
+                userInfoObserver = scheduler.createObserver(Optional<ProductVMUserInfo>.self)
+                productStatsObserver = scheduler.createObserver(Optional<ProductStats>.self)
+                navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
+                actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
+                statusObserver = scheduler.createObserver(ProductViewModelStatus.self)
+                isFeaturedObserver = scheduler.createObserver(Bool.self)
+                quickAnswersObserver = scheduler.createObserver(Array<QuickAnswer>.self)
+                quickAnswersAvailableObserver = scheduler.createObserver(Bool.self)
+                quickAnswersCollapsedObserver = scheduler.createObserver(Bool.self)
+                directChatEnabledObserver = scheduler.createObserver(Bool.self)
+                directChatPlaceholderObserver = scheduler.createObserver(String.self)
+                directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
+                editButtonStateObserver = scheduler.createObserver(ButtonState.self)
+                isFavoriteObserver = scheduler.createObserver(Bool.self)
+                favoriteButtonStateObserver = scheduler.createObserver(ButtonState.self)
+                shareButtonStateObserver = scheduler.createObserver(ButtonState.self)
+                bumpUpBannerInfoObserver = scheduler.createObserver(Optional<BumpUpInfo>.self)
+                socialMessageObserver = scheduler.createObserver(Optional<SocialMessage>.self)
+                socialSharerObserver = scheduler.createObserver(SocialSharer.self)
 
                 self.resetViewModelSpec()
             }

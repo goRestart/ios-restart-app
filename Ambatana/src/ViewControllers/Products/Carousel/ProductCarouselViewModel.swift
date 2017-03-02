@@ -43,6 +43,7 @@ class ProductCarouselViewModel: BaseViewModel {
         }
     }
 
+    let objects = CollectionVariable<ProductCarouselCellModel>([])
     var objectChanges: Observable<CollectionChange<ProductCarouselCellModel>> {
         return objects.changesObservable
     }
@@ -105,7 +106,6 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let source: EventParameterProductVisitSource
     fileprivate let productListRequester: ProductListRequester
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
-    fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let productViewModelMaker: ProductViewModelMaker
