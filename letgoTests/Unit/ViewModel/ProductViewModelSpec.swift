@@ -28,12 +28,10 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var myUserRepository: MockMyUserRepository!
         var productRepository: MockProductRepository!
         var commercializerRepository: MockCommercializerRepository!
-        var stickersRepository: MockStickersRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
         var product: MockProduct!
-        var bubbleNotificationManager: MockBubbleNotificationManager!
         var featureFlags: MockFeatureFlags!
         var purchasesShopper: MockPurchasesShopper!
         var notificationsManager: MockNotificationsManager!
@@ -74,12 +72,10 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 myUserRepository = MockMyUserRepository()
                 productRepository = MockProductRepository()
                 commercializerRepository = MockCommercializerRepository()
-                stickersRepository = MockStickersRepository()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
                 product = MockProduct.makeMock()
-                bubbleNotificationManager = MockBubbleNotificationManager()
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
                 notificationsManager = MockNotificationsManager()

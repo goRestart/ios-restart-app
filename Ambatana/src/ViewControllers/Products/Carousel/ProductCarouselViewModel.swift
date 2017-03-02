@@ -106,7 +106,7 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let productListRequester: ProductListRequester
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
     fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
-    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let productViewModelMaker: ProductViewModelMaker
 
@@ -178,7 +178,7 @@ class ProductCarouselViewModel: BaseViewModel {
          showKeyboardOnFirstAppearIfNeeded: Bool,
          trackingIndex: Int?,
          featureFlags: FeatureFlaggeable,
-         keyValueStorage: KeyValueStorage,
+         keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
          productViewModelMaker: ProductViewModelMaker) {
         if let productListModels = productListModels {

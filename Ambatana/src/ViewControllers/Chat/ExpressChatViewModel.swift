@@ -93,7 +93,7 @@ class ExpressChatViewModel: BaseViewModel {
         let freePostingModeAllowed = featureFlags.freePostingModeAllowed
 
         for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { [weak self] result in
+            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { result in
                 if let value = result.value {
                     ExpressChatViewModel.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product,
                                                                      freePostingModeAllowed: freePostingModeAllowed)

@@ -695,6 +695,8 @@
 		C7126BDF1E6596A300038CC4 /* ProductVMUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BDD1E6596A300038CC4 /* ProductVMUserInfo.swift */; };
 		C7126BE11E6596B200038CC4 /* ProductVMProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BE01E6596B200038CC4 /* ProductVMProductInfo.swift */; };
 		C7126BE21E6596B200038CC4 /* ProductVMProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BE01E6596B200038CC4 /* ProductVMProductInfo.swift */; };
+		C7126BE41E6857F600038CC4 /* MockProductViewModelMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BE31E6857F600038CC4 /* MockProductViewModelMaker.swift */; };
+		C7126BE61E685C8A00038CC4 /* MockImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BE51E685C8A00038CC4 /* MockImageDownloader.swift */; };
 		C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132A3E1BF246D40000747A /* ProductFilters.swift */; };
 		C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */; };
 		C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
@@ -1822,6 +1824,8 @@
 		C7126BD61E6053AA00038CC4 /* ProductVMTrackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMTrackHelper.swift; sourceTree = "<group>"; };
 		C7126BDD1E6596A300038CC4 /* ProductVMUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMUserInfo.swift; sourceTree = "<group>"; };
 		C7126BE01E6596B200038CC4 /* ProductVMProductInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMProductInfo.swift; sourceTree = "<group>"; };
+		C7126BE31E6857F600038CC4 /* MockProductViewModelMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockProductViewModelMaker.swift; sourceTree = "<group>"; };
+		C7126BE51E685C8A00038CC4 /* MockImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockImageDownloader.swift; sourceTree = "<group>"; };
 		C7132A3E1BF246D40000747A /* ProductFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFilters.swift; sourceTree = "<group>"; };
 		C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSignUpViewController.swift; sourceTree = "<group>"; };
 		C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupSignUpViewController.xib; sourceTree = "<group>"; };
@@ -3059,6 +3063,7 @@
 				50D08C261E646AF7009CC260 /* MockNotificationsManager.swift */,
 				50D08C271E646AF7009CC260 /* MockPurchasesShopper.swift */,
 				50D08C281E646AF7009CC260 /* Tracking */,
+				C7126BE51E685C8A00038CC4 /* MockImageDownloader.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -3081,6 +3086,7 @@
 				50D08C301E646AF7009CC260 /* MockPurchaseableProductsRequestFactory.swift */,
 				50D08C311E646AF7009CC260 /* MockPurchaseableProductsResponse+MockFactory.swift */,
 				50D08C321E646AF7009CC260 /* MockPurchaseableProductsResponse.swift */,
+				C7126BE31E6857F600038CC4 /* MockProductViewModelMaker.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5911,6 +5917,7 @@
 				C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */,
 				50D08C361E646AF7009CC260 /* MockConfigFileDAO.swift in Sources */,
 				72FCD30A1E41D39C00DC6AB7 /* LocalChatSpec.swift in Sources */,
+				C7126BE61E685C8A00038CC4 /* MockImageDownloader.swift in Sources */,
 				C7841AF71E091E5C004A8242 /* CGFloat+LGSpec.swift in Sources */,
 				72B8B16C1E4DFBBA003BEED2 /* BaseChatGroupedListViewModelSpec.swift in Sources */,
 				C75BC6A31E2E53FB00483F79 /* VersionCheckerSpec.swift in Sources */,
@@ -5928,6 +5935,7 @@
 				50D08C421E646AF7009CC260 /* MockPurchasesShopper.swift in Sources */,
 				50D08C471E646AF7009CC260 /* MockPurchaseableProductsRequest+MockFactory.swift in Sources */,
 				C75BC6A01E2E53FB00483F79 /* PurchasesShopperSpec.swift in Sources */,
+				C7126BE41E6857F600038CC4 /* MockProductViewModelMaker.swift in Sources */,
 				C74B9D8A1E60376E00773B7E /* ProductCarouselViewModelSpec.swift in Sources */,
 				50D08C491E646AF7009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
 				2E3081D21D86A25300930E98 /* ProductListMultiRequesterSpec.swift in Sources */,
