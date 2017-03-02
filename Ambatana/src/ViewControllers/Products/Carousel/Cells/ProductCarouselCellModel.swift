@@ -15,6 +15,21 @@ enum ProductCarouselCellModel {
     init(product: Product) {
         self = .productCell(product: product)
     }
+
+    var product: Product {
+        switch self {
+        case let .productCell(product):
+            return product
+        }
+    }
+
+    var images: [URL] {
+        return product.images.flatMap { $0.fileURL }
+    }
+
+    var backgroundColor: UIColor {
+        return UIColor.placeholderBackgroundColor(product.objectId)
+    }
     
     static func adapter(_ model: ProductCellModel) -> ProductCarouselCellModel? {
         switch model {

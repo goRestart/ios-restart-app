@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "opnieuw omhoog plaatsen";
 "bump_up_error_bump_generic" = "Er is een fout opgetreden tijdens het omhoog plaatsen van jouw item. Probeer het opnieuw.";
 "bump_up_error_bump_token" = "Je betaling is verwerkt, maar je item is nog niet geplaatst. Probeer het opnieuw.";
-"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "Er is een fout opgetreden tijdens het upgraden van je item. Je betaling werd niet verwerkt. Probeer het opnieuw.";
 "bump_up_free_success" = "Omhoog geplaatst! Blijf je item omhoog plaatsen en het zal nog zichtbaarder zijn.";
 "bump_up_pay_success" = "Omhoog geplaatst! Je item is nu extra zichtbaar.";
 "bump_up_processing_free_text" = "Bezig met het omhoog plaatsen...";
