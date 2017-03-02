@@ -73,6 +73,14 @@ final class CollectionVariable<T> {
     
     
     // MARK: - Public
+
+    func bindTo(_ another: CollectionVariable<T>) -> Disposable {
+        another.removeAll()
+        another.appendContentsOf(self.value)
+        return changesObservable.bindNext { [weak another] change in
+            another?.handleChange(change: change)
+        }
+    }
     
     func removeFirst() {
         if (_value.count == 0) { return }
@@ -134,7 +142,12 @@ final class CollectionVariable<T> {
         _subject.onNext(_value)
         _lock.unlock()
     }
-    
+
+    func replace(_ index: Int, with element: T) {
+        guard 0..<value.count ~= index else { return }
+        replace(index..<(index+1), with: [element])
+    }
+
     func replace(_ subRange: CountableRange<Int>, with elements: [T]) {
         _lock.lock()
         precondition(subRange.lowerBound + subRange.count <= _value.count, "Range out of bounds")
@@ -157,7 +170,22 @@ final class CollectionVariable<T> {
         _subject.onCompleted()
         _changesSubject.onCompleted()
     }
-    
+
+
+    // MARK: - Private
+
+    private func handleChange(change: CollectionChange<T>) {
+        switch change {
+        case let .insert(index, value):
+            insert(value, atIndex: index)
+        case let .remove(index, _):
+            removeAtIndex(index)
+        case let .composite(changes):
+            for change in changes {
+                handleChange(change: change)
+            }
+        }
+    }
 }
 
 extension Array {

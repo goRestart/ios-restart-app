@@ -698,6 +698,10 @@
 		C7126BDA1E6053AA00038CC4 /* ProductViewModelStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BD51E6053AA00038CC4 /* ProductViewModelStatus.swift */; };
 		C7126BDB1E6053AA00038CC4 /* ProductVMTrackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BD61E6053AA00038CC4 /* ProductVMTrackHelper.swift */; };
 		C7126BDC1E6053AA00038CC4 /* ProductVMTrackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BD61E6053AA00038CC4 /* ProductVMTrackHelper.swift */; };
+		C7126BDE1E6596A300038CC4 /* ProductVMUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BDD1E6596A300038CC4 /* ProductVMUserInfo.swift */; };
+		C7126BDF1E6596A300038CC4 /* ProductVMUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BDD1E6596A300038CC4 /* ProductVMUserInfo.swift */; };
+		C7126BE11E6596B200038CC4 /* ProductVMProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BE01E6596B200038CC4 /* ProductVMProductInfo.swift */; };
+		C7126BE21E6596B200038CC4 /* ProductVMProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BE01E6596B200038CC4 /* ProductVMProductInfo.swift */; };
 		C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132A3E1BF246D40000747A /* ProductFilters.swift */; };
 		C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */; };
 		C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
@@ -1855,6 +1859,8 @@
 		C7126BD41E6053AA00038CC4 /* ProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
 		C7126BD51E6053AA00038CC4 /* ProductViewModelStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewModelStatus.swift; sourceTree = "<group>"; };
 		C7126BD61E6053AA00038CC4 /* ProductVMTrackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMTrackHelper.swift; sourceTree = "<group>"; };
+		C7126BDD1E6596A300038CC4 /* ProductVMUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMUserInfo.swift; sourceTree = "<group>"; };
+		C7126BE01E6596B200038CC4 /* ProductVMProductInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMProductInfo.swift; sourceTree = "<group>"; };
 		C7132A3E1BF246D40000747A /* ProductFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFilters.swift; sourceTree = "<group>"; };
 		C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSignUpViewController.swift; sourceTree = "<group>"; };
 		C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupSignUpViewController.xib; sourceTree = "<group>"; };
@@ -3482,6 +3488,8 @@
 				C7126BD41E6053AA00038CC4 /* ProductViewModel.swift */,
 				C7126BD51E6053AA00038CC4 /* ProductViewModelStatus.swift */,
 				C7126BD61E6053AA00038CC4 /* ProductVMTrackHelper.swift */,
+				C7126BDD1E6596A300038CC4 /* ProductVMUserInfo.swift */,
+				C7126BE01E6596B200038CC4 /* ProductVMProductInfo.swift */,
 			);
 			path = PageModels;
 			sourceTree = "<group>";
@@ -5173,6 +5181,7 @@
 				6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2E9716A61D5A08AB009B3A32 /* ExpressChatViewModel.swift in Sources */,
 				2E3047F51CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
+				C7126BDE1E6596A300038CC4 /* ProductVMUserInfo.swift in Sources */,
 				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
@@ -5504,6 +5513,7 @@
 				72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */,
+				C7126BE11E6596B200038CC4 /* ProductVMProductInfo.swift in Sources */,
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
 				C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */,
 				50C43DA81E26472600F10E53 /* SignUpEmailStep2ViewController.swift in Sources */,
@@ -5658,6 +5668,7 @@
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
 				2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
 				501340461E0D447400AD27CA /* BuyersInterestedNotificationCell.swift in Sources */,
+				C7126BDF1E6596A300038CC4 /* ProductVMUserInfo.swift in Sources */,
 				C72794471D549342009C25AB /* HelpViewModel.swift in Sources */,
 				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
@@ -5989,6 +6000,7 @@
 				72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */,
 				C7AB4EC71CD39C67007B573D /* LGNotificationsManager.swift in Sources */,
 				C7BB25D21E3618C700649396 /* VersionChecker.swift in Sources */,
+				C7126BE21E6596B200038CC4 /* ProductVMProductInfo.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */,
 				50C43DA91E26472600F10E53 /* SignUpEmailStep2ViewController.swift in Sources */,

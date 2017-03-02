@@ -48,12 +48,20 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
             func buildProductViewModel() {
                 let socialSharer = SocialSharer()
-                sut = ProductViewModel(sessionManager: sessionManager, myUserRepository: myUserRepository, productRepository: productRepository,
-                                       commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
-                                       stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                                       product: product, thumbnailImage: nil, socialSharer: socialSharer, navigator: self,
-                                       featureFlags: featureFlags, purchasesShopper: purchasesShopper,
-                                       notificationsManager: notificationsManager, monetizationRepository: monetizationRepository, tracker: tracker)
+                sut = ProductViewModel(product: product,
+                                        myUserRepository: myUserRepository,
+                                        productRepository: productRepository,
+                                        commercializerRepository: commercializerRepository,
+                                        chatWrapper: chatWrapper,
+                                        chatViewMessageAdapter: ChatViewMessageAdapter(),
+                                        locationManager: locationManager,
+                                        countryHelper: countryHelper,
+                                        socialSharer: socialSharer,
+                                        featureFlags: featureFlags,
+                                        purchasesShopper: purchasesShopper,
+                                        notificationsManager: notificationsManager,
+                                        monetizationRepository: monetizationRepository,
+                                        tracker: tracker)
                 sut.delegate = self
                 sut.navigator = self
 
@@ -289,8 +297,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
 }
 
 extension ProductViewModelSpec: ProductViewModelDelegate {
-    func vmShowShareFromMain(_ socialMessage: SocialMessage) {}
-    func vmShowShareFromMoreInfo(_ socialMessage: SocialMessage) {}
 
     func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ()) {}
 
@@ -303,7 +309,9 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {}
 
     func vmShareDidFailedWith(_ error: String) {}
-    func vmViewControllerToShowShareOptions() -> UIViewController { return UIViewController() }
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
+        return (UIViewController(), nil)
+    }
 
     // Bump Up
     func vmResetBumpUpBannerCountdown() {}
@@ -340,6 +348,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     }
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void)) {
+        loggedInAction()
     }
 }
 

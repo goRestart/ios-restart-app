@@ -10,8 +10,16 @@ import LGCoreKit
 import RxSwift
 
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
-    func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
+    func vmShowOnboarding()
+
+    // Forward from ProductViewModelDelegate
+    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
+    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
+    func vmAskForRating()
+    func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
+    func vmResetBumpUpBannerCountdown()
 }
 
 enum CarouselMovement {
@@ -43,25 +51,51 @@ class ProductCarouselViewModel: BaseViewModel {
         return objects.value.count
     }
 
-    var shouldShowOnboarding: Bool {
-        return !keyValueStorage[.didShowProductDetailOnboarding]
-    }
-
     var shouldShowMoreInfoTooltip: Bool {
         return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
 
     let showKeyboardOnFirstAppearance: Bool
 
-    var quickAnswersAvailable: Bool {
-        return currentProductViewModel?.directChatEnabled.value ?? false
-    }
+    let productInfo = Variable<ProductVMProductInfo?>(nil)
+    let productImageURLs = Variable<[URL]>([])
+    let userInfo = Variable<ProductVMUserInfo?>(nil)
+    let productStats = Variable<ProductStats?>(nil)
+
+    let navBarButtons = Variable<[UIAction]>([])
+    let actionButtons = Variable<[UIAction]>([])
+
+    let status = Variable<ProductViewModelStatus>(.pending)
+    let isFeatured = Variable<Bool>(false)
+
+    let quickAnswers = Variable<[QuickAnswer]>([])
+    let quickAnswersAvailable = Variable<Bool>(false)
     let quickAnswersCollapsed: Variable<Bool>
+
+    let directChatEnabled = Variable<Bool>(false)
+    var directChatPlaceholder = Variable<String>("")
+    let directChatMessages = CollectionVariable<ChatViewMessage>([])
+
+    let editButtonState = Variable<ButtonState>(.hidden)
+    let isFavorite = Variable<Bool>(false)
+    let favoriteButtonState = Variable<ButtonState>(.enabled)
+    let shareButtonState = Variable<ButtonState>(.hidden)
+    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+
+    let socialMessage = Variable<SocialMessage?>(nil)
+    let socialSharer = Variable<SocialSharer>(SocialSharer())
+
+    // UI - Input
+    let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     // Image prefetching
     fileprivate let previousImagesToPrefetch = 1
     fileprivate let nextImagesToPrefetch = 3
     fileprivate var prefetchingIndexes: [Int] = []
+
+    fileprivate var shouldShowOnboarding: Bool {
+        return !keyValueStorage[.didShowProductDetailOnboarding]
+    }
 
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
@@ -71,9 +105,10 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let source: EventParameterProductVisitSource
     fileprivate let productListRequester: ProductListRequester
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
+    fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let imageDownloader: ImageDownloaderType
-    fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
+    fileprivate let productViewModelMaker: ProductViewModelMaker
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -127,11 +162,12 @@ class ProductCarouselViewModel: BaseViewModel {
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
+                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  trackingIndex: trackingIndex,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
-                  trackingIndex: trackingIndex)
+                  productViewModelMaker: ProductViewModel.ConvenienceMaker())
     }
 
     init(productListModels: [ProductCellModel]?,
@@ -139,11 +175,12 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
+         showKeyboardOnFirstAppearIfNeeded: Bool,
+         trackingIndex: Int?,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
          imageDownloader: ImageDownloaderType,
-         showKeyboardOnFirstAppearIfNeeded: Bool,
-         trackingIndex: Int?) {
+         productViewModelMaker: ProductViewModelMaker) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
         } else {
@@ -153,13 +190,14 @@ class ProductCarouselViewModel: BaseViewModel {
         self.productListRequester = productListRequester
         self.source = source
         self.isLastPage = productListRequester.isLastPage(productListModels?.count ?? 0)
-        self.keyValueStorage = keyValueStorage
-        self.imageDownloader = imageDownloader
         self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
+        self.keyValueStorage = keyValueStorage
+        self.imageDownloader = imageDownloader
+        self.productViewModelMaker = productViewModelMaker
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
-        self.currentProductViewModel = viewModelAtIndex(startIndex)
+        self.currentProductViewModel = viewModelAt(index: startIndex)
         self.trackingIndex = trackingIndex
         setCurrentIndex(startIndex)
         setupRxBindings()
@@ -171,9 +209,7 @@ class ProductCarouselViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             guard let product = strongSelf.currentProductViewModel?.product.value else { return }
             let newModel = ProductCarouselCellModel(product: product)
-            strongSelf.objects.removeAtIndex(strongSelf.startIndex)
-            strongSelf.objects.insert(newModel, atIndex: strongSelf.startIndex)
-            strongSelf.delegate?.vmRefreshCurrent()
+            strongSelf.objects.replace(strongSelf.startIndex, with: newModel)
         }
     }
     
@@ -198,55 +234,40 @@ class ProductCarouselViewModel: BaseViewModel {
         navigator?.closeProductDetail()
     }
 
-    func moveToProductAtIndex(_ index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
-        guard let viewModel = viewModelAtIndex(index) else { return }
+    func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
+        guard let viewModel = viewModelAt(index: index) else { return }
         currentProductViewModel?.active = false
+        currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
-        currentProductViewModel?.delegate = delegate
+        currentProductViewModel?.delegate = self
         currentProductViewModel?.active = true
         let feedPosition = movement.feedPosition(for: trackingIndex)
         currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
 
-        activeDisposeBag = DisposeBag()
-        currentProductViewModel?.product.asObservable().skip(1).bindNext { [weak self] updatedProduct in
-            guard let strongSelf = self else { return }
-            guard 0..<strongSelf.objectCount ~= index else { return }
-            strongSelf.objects.replace(index..<(index+1), with: [ProductCarouselCellModel(product: updatedProduct)])
-            strongSelf.delegate?.vmRefreshCurrent()
-        }.addDisposableTo(activeDisposeBag)
+        setupCurrentProductVMRxBindings(forIndex: index)
 
         prefetchNeighborsImages(index, movement: movement)
+
+        if shouldShowOnboarding {
+            self.delegate?.vmShowOnboarding()
+        }
     }
 
-    func productAtIndex(_ index: Int) -> Product? {
+    func productCellModelAt(index: Int) -> ProductCarouselCellModel? {
         guard 0..<objectCount ~= index else { return nil }
-        let item = objects.value[index]
-        switch item {
-        case .productCell(let product):
-            return product
-        }
+        return objects.value[index]
     }
     
     func thumbnailAtIndex(_ index: Int) -> UIImage? {
         if index == startIndex { return initialThumbnail }
-        guard 0..<objectCount ~= index else { return nil }
-        return viewModelAtIndex(index)?.thumbnailImage
-    }
-    
-    func viewModelAtIndex(_ index: Int) -> ProductViewModel? {
-        guard let product = productAtIndex(index) else { return nil }
-        return getOrCreateViewModel(product)
+        return nil
     }
 
-    func viewModelForProduct(_ product: Product) -> ProductViewModel {
-        return ProductViewModel(product: product, thumbnailImage: nil, navigator: navigator)
-    }
-
-    func openProductOwnerProfile() {
+    func userAvatarPressed() {
         currentProductViewModel?.openProductOwnerProfile()
     }
 
-    func openChatWithSeller() {
+    func directMessagesItemPressed() {
         currentProductViewModel?.chatWithSeller()
     }
     
@@ -256,10 +277,6 @@ class ProductCarouselViewModel: BaseViewModel {
         delegate?.vmRemoveMoreInfoTooltip()
     }
 
-    func openShare(_ shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
-        currentProductViewModel?.openShare(shareType, fromViewController: fromViewController, barButtonItem: barButtonItem)
-    }
-
     func quickAnswersShowButtonPressed() {
         quickAnswersCollapsed.value = false
     }
@@ -267,15 +284,45 @@ class ProductCarouselViewModel: BaseViewModel {
     func quickAnswersCloseButtonPressed() {
         quickAnswersCollapsed.value = true
     }
+
+    func send(quickAnswer: QuickAnswer) {
+        currentProductViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
+    }
+
+    func send(directMessage: String, isDefaultText: Bool) {
+        currentProductViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
+    }
+
+    func editButtonPressed() {
+        currentProductViewModel?.editProduct()
+    }
+
+    func favoriteButtonPressed() {
+        currentProductViewModel?.switchFavorite()
+    }
+
+    func shareButtonPressed() {
+        currentProductViewModel?.shareProduct()
+    }
     
     // MARK: - Private Methods
+
+    fileprivate func productAt(index: Int) -> Product? {
+        return productCellModelAt(index: index)?.product
+    }
+
+    private func viewModelAt(index: Int) -> ProductViewModel? {
+        guard let product = productAt(index: index) else { return nil }
+        return viewModelFor(product: product)
+    }
     
-    private func getOrCreateViewModel(_ product: Product) -> ProductViewModel? {
+    private func viewModelFor(product: Product) -> ProductViewModel? {
         guard let productId = product.objectId else { return nil }
         if let vm = productsViewModels[productId] {
             return vm
         }
-        let vm = viewModelForProduct(product)
+        let vm = productViewModelMaker.make(product: product)
+        vm.navigator = navigator
         productsViewModels[productId] = vm
         return vm
     }
@@ -284,6 +331,44 @@ class ProductCarouselViewModel: BaseViewModel {
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.productDetailQuickAnswersHidden] = collapsed
         }.addDisposableTo(disposeBag)
+    }
+
+    private func setupCurrentProductVMRxBindings(forIndex index: Int) {
+        activeDisposeBag = DisposeBag()
+        guard let currentVM = currentProductViewModel else { return }
+        currentVM.product.asObservable().skip(1).bindNext { [weak self] updatedProduct in
+            guard let strongSelf = self else { return }
+            strongSelf.objects.replace(index, with: ProductCarouselCellModel(product:updatedProduct))
+        }.addDisposableTo(activeDisposeBag)
+
+        currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)
+        isFeatured.value = currentVM.isShowingFeaturedStripe
+
+        currentVM.productInfo.asObservable().bindTo(productInfo).addDisposableTo(activeDisposeBag)
+        currentVM.productImageURLs.asObservable().bindTo(productImageURLs).addDisposableTo(activeDisposeBag)
+        currentVM.userInfo.asObservable().bindTo(userInfo).addDisposableTo(activeDisposeBag)
+        currentVM.productStats.asObservable().bindTo(productStats).addDisposableTo(activeDisposeBag)
+
+        currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)
+        currentVM.navBarButtons.asObservable().bindTo(navBarButtons).addDisposableTo(activeDisposeBag)
+
+        quickAnswers.value = currentVM.quickAnswers
+        currentVM.directChatEnabled.asObservable().bindTo(quickAnswersAvailable).addDisposableTo(activeDisposeBag)
+
+        currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
+        currentVM.directChatMessages.bindTo(directChatMessages).addDisposableTo(activeDisposeBag)
+        directChatPlaceholder.value = currentVM.directChatPlaceholder
+
+        currentVM.editButtonState.asObservable().bindTo(editButtonState).addDisposableTo(activeDisposeBag)
+        currentVM.isFavorite.asObservable().bindTo(isFavorite).addDisposableTo(activeDisposeBag)
+        currentVM.favoriteButtonState.asObservable().bindTo(favoriteButtonState).addDisposableTo(activeDisposeBag)
+        currentVM.shareButtonState.asObservable().bindTo(shareButtonState).addDisposableTo(activeDisposeBag)
+        currentVM.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfo).addDisposableTo(activeDisposeBag)
+
+        currentVM.socialMessage.asObservable().bindTo(socialMessage).addDisposableTo(activeDisposeBag)
+        socialSharer.value = currentVM.socialSharer
+
+        moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 }
 
@@ -332,13 +417,103 @@ extension ProductCarouselViewModel {
         for index in range {
             guard !prefetchingIndexes.contains(index) else { continue }
             prefetchingIndexes.append(index)
-            if let prevProduct = productAtIndex(index), let imageUrl = prevProduct.images.first?.fileURL {
+            if let imageUrl = productAt(index: index)?.images.first?.fileURL {
                 imagesToPrefetch.append(imageUrl)
             }
         }
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
     }
 }
+
+
+// MARK: - ProductViewModelDelegate
+
+extension ProductCarouselViewModel: ProductViewModelDelegate {
+
+    // ProductViewModelDelegate forwarding methods
+
+    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {
+        delegate?.vmOpenPromoteProduct(promoteVM)
+    }
+    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
+        delegate?.vmOpenCommercialDisplay(displayVM)
+    }
+    func vmAskForRating() {
+        delegate?.vmAskForRating()
+    }
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
+        var finalActions: [UIAction] = actions
+
+        //Adding show onboarding action
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
+            self?.delegate?.vmShowOnboarding()
+        }))
+
+        if quickAnswersAvailable.value {
+            //Adding show/hide quick answers option
+            if quickAnswersCollapsed.value {
+                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
+                    [weak self] in self?.quickAnswersShowButtonPressed()
+                }))
+            } else {
+                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
+                    [weak self] in self?.quickAnswersCloseButtonPressed()
+                }))
+            }
+        }
+        delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
+    }
+
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
+        guard let delegate = delegate else { return (UIViewController(), nil) }
+        return delegate.vmShareViewControllerAndItem()
+    }
+
+    func vmResetBumpUpBannerCountdown() {
+        delegate?.vmResetBumpUpBannerCountdown()
+    }
+
+    // BaseViewModelDelegate forwarding methods
+
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(message, completion: completion)
+    }
+    func vmShowLoading(_ loadingMessage: String?) {
+        delegate?.vmShowLoading(loadingMessage)
+    }
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+        delegate?.vmHideLoading(finishedMessage, afterMessageCompletion: afterMessageCompletion)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
+    }
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
+        delegate?.vmShowAlert(title, message: message, actions: actions)
+    }
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+        delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
+        delegate?.vmShowActionSheet(cancelLabel, actions: actions)
+    }
+    func vmOpenInternalURL(_ url: URL) {
+        delegate?.vmOpenInternalURL(url)
+    }
+    func vmPop() {
+        delegate?.vmPop()
+    }
+    func vmDismiss(_ completion: (() -> Void)?) {
+        delegate?.vmDismiss(completion)
+    }
+}
+
 
 
 // MARK: - Tracking
