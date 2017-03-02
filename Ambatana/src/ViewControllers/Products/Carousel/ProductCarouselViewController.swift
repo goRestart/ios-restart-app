@@ -982,13 +982,6 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             return carouselCell
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        DispatchQueue.main.async { [weak self] in
-            self?.viewModel.setCurrentIndex(indexPath.row)
-        }
-    }
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
     }

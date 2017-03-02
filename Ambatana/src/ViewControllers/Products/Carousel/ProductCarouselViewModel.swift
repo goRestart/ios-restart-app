@@ -244,6 +244,7 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.delegate = self
         currentProductViewModel?.active = active
         currentIndex = index
+        setCurrentIndex(index) // Just for pagination
         let feedPosition = movement.feedPosition(for: trackingIndex)
         currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
 
