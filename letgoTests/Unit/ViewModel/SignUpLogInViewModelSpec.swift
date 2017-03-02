@@ -38,7 +38,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
                 featureFlags = MockFeatureFlags()
-                let myUser = MockMyUser()
+                let myUser = MockMyUser.makeMock()
                 googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 let locale = Locale(identifier: "es_ES")
@@ -198,7 +198,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     beforeEach {
                         let email = "albert@letgo.com"
 
-                        myUser = MockMyUser()
+                        myUser = MockMyUser.makeMock()
                         myUser.email = email
                         sessionManager.logInResult = SessionMyUserResult(value: myUser)
 
@@ -280,7 +280,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     var myUser: MockMyUser!
 
                     beforeEach {
-                        myUser = MockMyUser()
+                        myUser = MockMyUser.makeMock()
                         myUser.name = "Albert"
 
                         googleLoginHelper.loginResult = .success(myUser: myUser)
@@ -352,7 +352,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     var myUser: MockMyUser!
 
                     beforeEach {
-                        myUser = MockMyUser()
+                        myUser = MockMyUser.makeMock()
                         myUser.name = "Albert"
 
                         fbLoginHelper.loginResult = .success(myUser: myUser)

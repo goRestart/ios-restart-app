@@ -53,12 +53,12 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
 
                 sessionManager = MockSessionManager()
                 installationRepository = MockInstallationRepository()
-                installationRepository.installationVar.value = MockInstallation()
+                installationRepository.installationVar.value = MockInstallation.makeMock()
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
                 disposeBag = DisposeBag()
 
-                let myUser = MockMyUser()
+                var myUser = MockMyUser.makeMock()
                 myUser.email = "albert@letgo.com"
                 sessionManager.logInResult = SessionMyUserResult(value: myUser)
 
@@ -445,7 +445,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                     let email = "albert.hernandez@gmail.com"
 
                     beforeEach {
-                        let myUser = MockMyUser()
+                        var myUser = MockMyUser.makeMock()
                         myUser.email = email
                         sessionManager.logInResult = SessionMyUserResult(value: myUser)
                         _ = sut.logInButtonPressed()

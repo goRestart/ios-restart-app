@@ -38,6 +38,10 @@ extension LGChatConversation: Decodable {
             <*> j <| JSONKeys.amISelling
             <*> (j <|? JSONKeys.product >>- LGChatProduct.decodeOptional)
             <*> (j <|? JSONKeys.interlocutor >>- LGChatInterlocutor.decodeOptional)
+
+        if let error = init1.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChatConversation parse error: \(error)")
+        }
         return init1
     }
 }

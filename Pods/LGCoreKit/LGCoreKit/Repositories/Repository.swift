@@ -20,6 +20,7 @@ public enum RepositoryError: Error {
     case forbidden(cause: ForbiddenCause)
     case tooManyRequests
     case userNotVerified
+
     case serverError(code: Int?)
 
     public init(apiError: ApiError) {

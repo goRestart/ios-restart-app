@@ -50,7 +50,10 @@ extension LGChatProduct: Decodable {
             <*> j <|? JSONKeys.price
             <*> j <|? JSONKeys.priceFlag
             <*> LGArgo.jsonToCurrency(j, currencyKey: JSONKeys.currency)
-        
+
+        if let error = init1.error {
+            logMessage(.error, type: .parsing, message: "LGChatProduct parse error: \(error)")
+        }
         return init1
     }
     

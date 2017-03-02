@@ -70,7 +70,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
-                product = MockProduct()
+                product = MockProduct.makeMock()
                 bubbleNotificationManager = MockBubbleNotificationManager()
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
@@ -87,14 +87,16 @@ class ProductViewModelSpec: BaseViewModelSpec {
             describe("mark as sold") {
                 beforeEach {
                     sessionManager.loggedIn = true
-                    let myUser = MockMyUser()
+                    let myUser = MockMyUser.makeMock()
                     myUserRepository.myUserVar.value = myUser
-                    product = MockProduct()
-                    product.user = MockUserProduct(myUser: myUser)
+                    product = MockProduct.makeMock()
+                    var userProduct = MockUserProduct.makeMock()
+                    userProduct.objectId = myUser.objectId
+                    product.user = userProduct
                     product.status = .approved
 
-                    productRepository.voidResult = ProductVoidResult(Void())
-                    let soldProduct = MockProduct.productFromProduct(product)
+                    productRepository.markAsSoldVoidResult = ProductVoidResult(Void())
+                    var soldProduct = MockProduct(product: product)
                     soldProduct.status = .sold
                     productRepository.productResult = ProductResult(soldProduct)
                 }
@@ -107,9 +109,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             possibleBuyers = [UserProduct]()
                             for _ in 0..<5 {
-                                possibleBuyers.append(MockUserProduct())
+                                possibleBuyers.append(MockUserProduct.makeMock())
                             }
-                            productRepository.buyersResult = ProductBuyersResult(possibleBuyers)
+                            productRepository.productBuyersResult = ProductBuyersResult(possibleBuyers)
                         }
                         context("one is selected") {
                             beforeEach {
@@ -172,7 +174,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                     context("there are no possible buyers") {
                         beforeEach {
-                            productRepository.buyersResult = ProductBuyersResult([])
+                            productRepository.productBuyersResult = ProductBuyersResult([])
 
                             buildProductViewModel()
                             sut.active = true
@@ -208,9 +210,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         featureFlags.userRatingMarkAsSold = false
                         var possibleBuyers = [UserProduct]()
                         for _ in 0..<5 {
-                            possibleBuyers.append(MockUserProduct())
+                            possibleBuyers.append(MockUserProduct.makeMock())
                         }
-                        productRepository.buyersResult = ProductBuyersResult(possibleBuyers)
+                        productRepository.productBuyersResult = ProductBuyersResult(possibleBuyers)
 
                         buildProductViewModel()
                         sut.active = true
@@ -241,11 +243,13 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-            describe("Mark as favorite") {
+
+            describe("add to favorites") {
                 beforeEach {
                     sessionManager.loggedIn = true
-                    product = MockProduct()
+                    product = MockProduct.makeMock()
                     product.status = .approved
+                    product.favorite = false
                     self.shownFavoriteBubble = false
                 }
                 context("Contact the seller AB test enabled"){
@@ -254,6 +258,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.switchFavorite()
                     }
+
                     it("shows bubble up") {
                         expect(self.shownFavoriteBubble).toEventually(equal(true))
                     }
@@ -264,6 +269,29 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.switchFavorite()
                     }
+
+                    it("does not show bubble up") {
+                        expect(self.shownFavoriteBubble).toEventually(equal(false))
+                    }
+                }
+            }
+
+            describe("remove from favorites") {
+                beforeEach {
+                    sessionManager.loggedIn = true
+                    product = MockProduct.makeMock()
+                    product.status = .approved
+                    product.favorite = true
+                    self.shownFavoriteBubble = false
+                }
+
+                context("Contact the seller AB test enabled"){
+                    beforeEach {
+                        featureFlags.shouldContactSellerOnFavorite = true
+                        buildProductViewModel()
+                        sut.switchFavorite()
+                    }
+                    
                     it("does not show bubble up") {
                         expect(self.shownFavoriteBubble).toEventually(equal(false))
                     }
