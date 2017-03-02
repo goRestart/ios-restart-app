@@ -27,7 +27,7 @@ class MockPurchasesShopper: PurchasesShopper {
 
     }
 
-    func productIsPayedButNotBumped(_ productId: String) -> Bool {
+    func productIsPaidButNotBumped(_ productId: String) -> Bool {
         return Bool.random()
     }
 

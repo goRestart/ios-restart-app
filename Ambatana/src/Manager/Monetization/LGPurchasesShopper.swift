@@ -101,6 +101,12 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard !isObservingPaymentsQueue else { return }
         paymentQueue.add(self)
         isObservingPaymentsQueue = true
+
+        // TODO: ⚠️⚠️⚠️ test Cleaning code - Delete before merging ⚠️⚠️⚠️
+//        let transactions = paymentQueue.transactions
+//        for transaction in transactions {
+//            paymentQueue.finishTransaction(transaction)
+//        }
     }
 
     /**
@@ -133,11 +139,11 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
      - parameter productId: ID of the listing to check
      */
-    func productIsPayedButNotBumped(_ productId: String) -> Bool {
+    func productIsPaidButNotBumped(_ productId: String) -> Bool {
         let transactionsDict = keyValueStorage.userTransactionsProductIds
 
         let matchingProductIds = transactionsDict.filter { $0.value == productId }
-        return matchingProductIds.count > 0
+        return matchingProductIds.count > 0 && numPendingTransactions > 0
     }
 
     /**
@@ -145,6 +151,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
      - parameter productId: letgo product ID
      - parameter appstoreProduct: info of the product to purchase on the appstore
+     -
      */
     func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
         shopperState = .purchasing
@@ -180,7 +187,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     }
 
     /**
-     Method to request bumps already payed.  Transaction info is saved at keyValueStorage and in the payments queue
+     Method to request bumps already paid.  Transaction info is saved at keyValueStorage and in the payments queue
 
      - parameter productId: letgo product Id
      */
@@ -207,6 +214,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard let receiptString = receiptString else { return }
 
         // try to restore the product pending bumps
+
+        delegate?.freeBumpDidStart()
+
         for transaction in pendingTransactionsForProductId {
             requestPricedBumpUpForProduct(productId: productId, receiptData: receiptString, transaction: transaction)
         }
@@ -228,7 +238,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                 self?.remove(transaction: transaction.transactionIdentifier)
                 self?.paymentQueue.finishTransaction(transaction)
             } else if let _ = result.error {
-
                 self?.delegate?.pricedBumpDidFail() // !!!!! ux for restored purchase!!!?!??!
             }
         }

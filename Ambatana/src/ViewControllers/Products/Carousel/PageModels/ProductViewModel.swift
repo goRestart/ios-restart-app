@@ -399,9 +399,9 @@ class ProductViewModel: BaseViewModel {
         guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
-        let alreadyPayed = purchasesShopper.productIsPayedButNotBumped(productId)
+        let alreadyPaid = purchasesShopper.productIsPaidButNotBumped(productId)
 
-        if alreadyPayed {
+        if alreadyPaid {
             createBumpeableBannerFor(productId: productId, withPrice: nil, paymentItemId: nil, bumpUpType: .restore)
         } else {
             isUpdatingBumpUpBanner = true
@@ -1161,7 +1161,9 @@ extension ProductViewModel: PurchasesShopperDelegate {
     }
 
     func pricedBumpDidSucceed() {
-        delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: nil)
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
+            self?.delegate?.vmResetBumpUpBannerCountdown()
+        })
     }
 
     func pricedBumpDidFail() {

@@ -103,7 +103,11 @@ class BumpUpBanner: UIView {
 
     func resetCountdown() {
         // Update countdown with full waiting time
-        timeLeft.value = featureFlags.bumpUpFreeTimeLimit
+        if featureFlags.pricedBumpUpEnabled {
+            timeLeft.value = Constants.bumpUpPaidTimeLimit
+        } else {
+            timeLeft.value = featureFlags.bumpUpFreeTimeLimit
+        }
         startCountdown()
     }
 

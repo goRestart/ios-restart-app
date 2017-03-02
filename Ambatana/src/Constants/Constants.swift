@@ -124,4 +124,7 @@ struct Constants {
     // NewRelic
     static let newRelicGodModeToken = "AAfcb13d44209d7454436d2efa9974174d063a8d1d"
     static let newRelicProductionToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
+
+    // Bump Up
+    static let bumpUpPaidTimeLimit: Int = 900000  // 15 mins = 15 * 60 * 1000 milliseconds
 }

@@ -33,7 +33,7 @@ protocol PurchasesShopper: class {
      */
     func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String)
 
-    func productIsPayedButNotBumped(_ productId: String) -> Bool
+    func productIsPaidButNotBumped(_ productId: String) -> Bool
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork)
     func requestPricedBumpUpForProduct(_ productId: String)
 }
