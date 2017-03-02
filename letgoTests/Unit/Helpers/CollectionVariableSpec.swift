@@ -371,47 +371,92 @@ class CollectionVariableTests: QuickSpec {
 
             context("replacing elements", { () -> Void in
 
-                it("should notify about the change to the main observable", closure: { () -> () in
-                    let array: [String] = ["test1", "test2"]
-                    let variable: CollectionVariable<String> = CollectionVariable(array)
-                    waitUntil(action: { (done) -> Void in
-                        _ = variable.observable.subscribe({ (event) -> Void in
-                            switch event {
-                            case .next(let next):
-                                expect(next) == ["test3", "test4"]
-                                done()
-                            default: break
-                            }
-                        })
-                        let range = CountableRange<Int>(0...1)
-                        variable.replace(range, with: ["test3", "test4"])
-                    })
-                })
-
-                it("should notify the changes producer about the adition", closure: { () -> () in
-                    let array: [String] = ["test1", "test2"]
-                    let variable: CollectionVariable<String> = CollectionVariable(array)
-                    waitUntil(action: { (done) -> Void in
-                        _ = variable.changesObservable.subscribe({ (event) -> Void in
-                            switch event {
-                            case .next(let change):
-                                switch change {
-                                case .composite(let changes):
-                                    let indexes = changes.map({$0.index()!})
-                                    let elements = changes.map({$0.element()!})
-                                    expect(indexes) == [0, 0, 1, 1]
-                                    expect(elements) == ["test1", "test3", "test2", "test4"]
+                context("single replace") {
+                    it("should notify about the change to the main observable", closure: { () -> () in
+                        let array: [String] = ["test1", "test2"]
+                        let variable: CollectionVariable<String> = CollectionVariable(array)
+                        waitUntil(action: { (done) -> Void in
+                            _ = variable.observable.subscribe({ (event) -> Void in
+                                switch event {
+                                case .next(let next):
+                                    expect(next) == ["test1", "test3"]
                                     done()
                                 default: break
                                 }
-                            default: break
-                            }
+                            })
+                            variable.replace(1, with: "test3")
                         })
-                        let range = CountableRange<Int>(0...1)
-                        variable.replace(range, with: ["test3", "test4"])
                     })
 
-                })
+                    it("should notify the changes producer about the adition", closure: { () -> () in
+                        let array: [String] = ["test1", "test2"]
+                        let variable: CollectionVariable<String> = CollectionVariable(array)
+                        waitUntil(action: { (done) -> Void in
+                            _ = variable.changesObservable.subscribe({ (event) -> Void in
+                                switch event {
+                                case .next(let change):
+                                    switch change {
+                                    case .composite(let changes):
+                                        let indexes = changes.map({$0.index()!})
+                                        let elements = changes.map({$0.element()!})
+                                        expect(indexes) == [1, 1]
+                                        expect(elements) == ["test2", "test3"]
+                                        done()
+                                    default: break
+                                    }
+                                default: break
+                                }
+                            })
+                            variable.replace(1, with: "test3")
+                        })
+
+                    })
+                }
+
+                context("multiple replace") {
+
+                    it("should notify about the change to the main observable", closure: { () -> () in
+                        let array: [String] = ["test1", "test2"]
+                        let variable: CollectionVariable<String> = CollectionVariable(array)
+                        waitUntil(action: { (done) -> Void in
+                            _ = variable.observable.subscribe({ (event) -> Void in
+                                switch event {
+                                case .next(let next):
+                                    expect(next) == ["test3", "test4"]
+                                    done()
+                                default: break
+                                }
+                            })
+                            let range = CountableRange<Int>(0...1)
+                            variable.replace(range, with: ["test3", "test4"])
+                        })
+                    })
+
+                    it("should notify the changes producer about the adition", closure: { () -> () in
+                        let array: [String] = ["test1", "test2"]
+                        let variable: CollectionVariable<String> = CollectionVariable(array)
+                        waitUntil(action: { (done) -> Void in
+                            _ = variable.changesObservable.subscribe({ (event) -> Void in
+                                switch event {
+                                case .next(let change):
+                                    switch change {
+                                    case .composite(let changes):
+                                        let indexes = changes.map({$0.index()!})
+                                        let elements = changes.map({$0.element()!})
+                                        expect(indexes) == [0, 0, 1, 1]
+                                        expect(elements) == ["test1", "test3", "test2", "test4"]
+                                        done()
+                                    default: break
+                                    }
+                                default: break
+                                }
+                            })
+                            let range = CountableRange<Int>(0...1)
+                            variable.replace(range, with: ["test3", "test4"])
+                        })
+
+                    })
+                }
                 
             })
             

@@ -81,20 +81,6 @@ final class CollectionVariable<T> {
             another?.handleChange(change: change)
         }
     }
-
-    private func handleChange(change: CollectionChange<T>) {
-        switch change {
-        case let .insert(index, value):
-            insert(value, atIndex: index)
-        case let .remove(index, _):
-            removeAtIndex(index)
-        case let .composite(changes):
-            for change in changes {
-                handleChange(change: change)
-            }
-        }
-    }
-
     
     func removeFirst() {
         if (_value.count == 0) { return }
@@ -184,7 +170,22 @@ final class CollectionVariable<T> {
         _subject.onCompleted()
         _changesSubject.onCompleted()
     }
-    
+
+
+    // MARK: - Private
+
+    private func handleChange(change: CollectionChange<T>) {
+        switch change {
+        case let .insert(index, value):
+            insert(value, atIndex: index)
+        case let .remove(index, _):
+            removeAtIndex(index)
+        case let .composite(changes):
+            for change in changes {
+                handleChange(change: change)
+            }
+        }
+    }
 }
 
 extension Array {
