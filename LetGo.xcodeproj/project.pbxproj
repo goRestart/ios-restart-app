@@ -3038,8 +3038,40 @@
 			children = (
 				50D08C611E683B4B009CC260 /* letgoUITests.swift */,
 				50D08C631E683B4B009CC260 /* Info.plist */,
+				50D08C6A1E685FF9009CC260 /* Acceptance */,
+				50D08C6B1E685FF9009CC260 /* Helper */,
+				50D08C6C1E685FF9009CC260 /* Regression */,
+				50D08C6D1E685FF9009CC260 /* Smoke */,
 			);
 			path = letgoUITests;
+			sourceTree = "<group>";
+		};
+		50D08C6A1E685FF9009CC260 /* Acceptance */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Acceptance;
+			sourceTree = "<group>";
+		};
+		50D08C6B1E685FF9009CC260 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		50D08C6C1E685FF9009CC260 /* Regression */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Regression;
+			sourceTree = "<group>";
+		};
+		50D08C6D1E685FF9009CC260 /* Smoke */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Smoke;
 			sourceTree = "<group>";
 		};
 		50D2CACA1BB412D800EC5C30 /* Settings */ = {
@@ -6587,6 +6619,7 @@
 				50D08C681E683B4B009CC260 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6608E0311A820FBD005895ED /* Build configuration list for PBXProject "LetGo" */ = {
 			isa = XCConfigurationList;
