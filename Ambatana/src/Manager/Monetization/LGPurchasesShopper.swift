@@ -231,6 +231,15 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      */
     fileprivate func requestPricedBumpUpForProduct(productId: String, receiptData: String, transaction: SKPaymentTransaction) {
 
+        var price: String = ""
+        var currency: String = ""
+        if let appstoreProducts = productsDict[productId], appstoreProducts.count > 0 {
+            if let boughtProduct = appstoreProducts.first {
+                price = String(describing: boughtProduct.price)
+                currency = boughtProduct.priceLocale.currencyCode ?? ""
+            }
+        }
+
         monetizationRepository.pricedBump(forProduct: productId, receiptData: receiptData,
                                           itemId: transaction.payment.productIdentifier) { [weak self] result in
             if let _ = result.value {
