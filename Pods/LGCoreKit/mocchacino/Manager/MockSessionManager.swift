@@ -69,6 +69,6 @@ open class MockSessionManager: SessionManager {
     public func logout() {
     }
 
-    public func connectChat() {
+    public func startChat() {
     }
 }

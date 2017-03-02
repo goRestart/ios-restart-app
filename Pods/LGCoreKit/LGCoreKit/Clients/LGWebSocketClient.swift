@@ -26,6 +26,13 @@ enum WebSocketStatus: Equatable {
         return self == .open(authenticated: .authenticated)
     }
     
+    var isOpen: Bool {
+        switch self {
+        case .open: return true
+        case .opening, .closed, .closing: return false
+        }
+    }
+    
     var description: String {
         switch self {
         case .closed: return "closed"
@@ -51,18 +58,40 @@ func ==(a: WebSocketStatus, b: WebSocketStatus) -> Bool {
     }
 }
 
+/** Letgo WebSocket Client
+ ## Features
+ - Opens on demand with the first request sent.
+ - Asks for a new token if needed.
+ - Asks for websocket authentication if needed.
+ - Closes on background after a timeout.
+ - Opens with delay to prevent back-end saturation (after second try). */
 class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
+    
+    var websocketPingTimeInterval: TimeInterval = LGCoreKitConstants.websocketPingTimeInterval
+    var websocketBackgroundDisconnectTimeout: TimeInterval = LGCoreKitConstants.websocketBackgroundDisconnectTimeout
+    var openWebsocketInitialMinTimeInterval: TimeInterval = LGCoreKitConstants.openWebsocketInitialMinTimeInterval
+    var openWebsocketInitialMaxTimeInterval: TimeInterval = LGCoreKitConstants.openWebsocketInitialMaxTimeInterval
+    var openWebsocketMaximumTimeInterval: TimeInterval = LGCoreKitConstants.openWebsocketMaximumTimeInterval
+    var openWebsocketTimeIntervalMultiplier: Double = LGCoreKitConstants.openWebsocketTimeIntervalMultiplier
+    var openWebsocketMaximumRetryAttempts: Int = LGCoreKitConstants.openWebsocketMaximumRetryAttempts
     
     var ws: SRWebSocket?
     
-    private var activeCommands: [AnyHashable: ((Result<Void, WebSocketError>) -> Void)] = [:]
-    private var activeQueries: [AnyHashable: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)] = [:]
-    private var activeRequests: [AnyHashable: WebSocketRequestConvertible] = [:]
-    private var activeAuthRequests: [AnyHashable: ((Result<Void, WebSocketError>) -> Void)] = [:]
-
-    var openCompletion: (() -> ())?
-    var closeCompletion: (() -> ())?
+    private var openWebSocketRetryAttempts: Int = 0
+    private var openWebSocketDelay: TimeInterval = 0
+    private var openWebSocketTimer: Timer?
     private var pingTimer: Timer?
+    private var backgroundTimeoutTimer: Timer?
+    
+    /** Completions are stored to be executed once the WS delegate inform us of the ack/error */
+    private var pendingCommandCompletions: [String: ((Result<Void, WebSocketError>) -> Void)] = [:]
+    private var pendingQueryCompletions: [String: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)] = [:]
+    private var pendingAuthCompletions: [String: ((Result<Void, WebSocketError>) -> Void)] = [:]
+    
+    /** Sent requests to WS are stored here (auth requests are excluded) */
+    private var activeRequests: [String: WebSocketRequestConvertible] = [:]
+    
+    private let reachability: LGReachabilityProtocol
 
     weak var sessionManager: InternalSessionManager?
     
@@ -71,58 +100,193 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     let operationQueue = OperationQueue()
     let eventBus = PublishSubject<ChatEvent>()
     var socketStatus = Variable<WebSocketStatus>(.closed)
-    private var endpointURL: URL?
     
-    var endpoint: String {
+    private let enqueueOperationLock = NSLock()
+    
+    var endpointURL: URL?
+    private var endpoint: String {
         return endpointURL?.absoluteString ?? ""
     }
     
-    // MARK: - WebSocket LifeCycle
+    /** WebSocket client must be enabled to perform any operation (open, send, etc).
+     Once enabled, it will open the websocket on demand and authenticate it if needed. */
+    private var isEnabled: Bool = false
     
-    required init(withEndpoint endpoint: String) {
+    // MARK: - LifeCycle
+    
+    required init(reachability: LGReachabilityProtocol) {
+        self.reachability = reachability
         super.init()
-        endpointURL = URL(string: endpoint)
         operationQueue.maxConcurrentOperationCount = 1
         operationQueue.isSuspended = true
-    }
-    
-    deinit {
-        invalidatePingTimer()
-        operationQueue.cancelAllOperations()
-        ws?.close()
-        ws = nil
-    }
-    
-    
-    // MARK: - Ping
-    
-    dynamic private func ping() {
-        switch socketStatus.value {
-        case .open:
-            let ping = WebSocketMessageRouter(uuidGenerator: LGUUID()).pingMessage()
-            sendQuery(ping, completion: nil)
-        default:
-            break
+        self.reachability.reachableBlock = { [weak self] in
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Reachability] Online. \(self?.operationQueue.operationCount ?? 0) operations in queue")
+            // Open web socket if we have peding operations, otherwise it will open on demand
+            self?.openWebSocketIfPendingOperations()
+        }
+        self.reachability.unreachableBlock = { [weak self] in
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Reachability] Offline. \(self?.operationQueue.operationCount ?? 0) operations in queue")
+            self?.invalidateOpenWebSocketTimer()
         }
     }
     
+    deinit {
+        stop()
+        ws?.delegate = nil
+        ws = nil
+    }
+
+    func applicationDidEnterBackground() {
+        guard isEnabled else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Application] applicationDidEnterBackground")
+        invalidateOpenWebSocketTimer()
+        
+        guard socketStatus.value.isOpen else { return }
+        
+        let aplication = UIApplication.shared
+        let identifier = aplication.beginBackgroundTask(withName: "WebSocketTimeout") { [weak self] in
+            // code to handle the task running out of time before it is complete
+            self?.fireBackgroundTimeout()
+        }
+        // code to run in background
+        scheduleBackgroundTimeoutTimer()
+        aplication.endBackgroundTask(identifier)
+   }
+
+    func applicationWillEnterForeground() {
+        guard isEnabled else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Application] applicationWillEnterForeground")
+        invalidateBackgroundTimeoutTimer()
+    }
+    
+    // MARK: - Timers
+    
+    private func scheduleOpenWebSocketTimer(withTimeInterval timeInterval: TimeInterval) {
+        setSocketStatus(.opening)
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] OpenWebSocket scheduled (\(timeInterval)s)")
+        openWebSocketTimer = Timer.scheduledTimer(timeInterval: timeInterval,
+                                                  target: self,
+                                                  selector: #selector(fireOpenWebSocketTimer),
+                                                  userInfo: nil,
+                                                  repeats: false)
+    }
+    
+    private func invalidateOpenWebSocketTimer() {
+        guard let openWebSocketTimer = openWebSocketTimer, openWebSocketTimer.isValid else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] OpenWebSocket invalidated")
+        openWebSocketTimer.invalidate()
+        setSocketStatus(.closed)
+    }
+    
+    dynamic private func fireOpenWebSocketTimer() {
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] OpenWebSocket fired")
+        openWebSocket()
+    }
+    
     private func schedulePingTimer() {
-        logMessage(LogLevel.debug, type: .webSockets, message: "[Ping Timer] scheduled (\(LGCoreKitConstants.websocketPingTimeInterval))s")
-        pingTimer = Timer.scheduledTimer(timeInterval: LGCoreKitConstants.websocketPingTimeInterval,
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] Ping scheduled (\(websocketPingTimeInterval)s)")
+        pingTimer = Timer.scheduledTimer(timeInterval: websocketPingTimeInterval,
                                          target: self,
-                                         selector: #selector(ping),
+                                         selector: #selector(firePingTimer),
                                          userInfo: nil,
                                          repeats: true)
     }
     
     private func invalidatePingTimer() {
-        logMessage(LogLevel.debug, type: .webSockets, message: "[Ping Timer] invalidated")
-        pingTimer?.invalidate()
+        guard let pingTimer = pingTimer, pingTimer.isValid else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] Ping invalidated")
+        pingTimer.invalidate()
+    }
+    
+    dynamic private func firePingTimer() {
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] Ping fired")
+        guard socketStatus.value.isOpen else { return }
+        let ping = WebSocketMessageRouter(uuidGenerator: LGUUID()).pingMessage()
+        sendQuery(ping, completion: nil)
+    }
+    
+    private func scheduleBackgroundTimeoutTimer() {
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] Background timeout scheduled (\(websocketBackgroundDisconnectTimeout)s)")
+        backgroundTimeoutTimer = Timer.scheduledTimer(timeInterval: websocketBackgroundDisconnectTimeout,
+                                         target: self,
+                                         selector: #selector(fireBackgroundTimeout),
+                                         userInfo: nil,
+                                         repeats: false)
+    }
+    
+    private func invalidateBackgroundTimeoutTimer() {
+        guard let backgroundTimeoutTimer = backgroundTimeoutTimer, backgroundTimeoutTimer.isValid else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] Background timeout invalidated")
+        backgroundTimeoutTimer.invalidate()
+    }
+    
+    dynamic private func fireBackgroundTimeout() {
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Timer] Background timeout fired")
+        closeWebSocketIfNeeded()
     }
     
     // MARK: - WebSocket
     
-    private func reconnectWebSocket() {
+    func start(withEndpoint endpoint: String) {
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "WebSocket enabled with endPoint: \(endpoint)")
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Operation Queue] isSuspended: \(operationQueue.isSuspended)")
+        endpointURL = URL(string: endpoint)
+        reachability.start()
+        isEnabled = true
+    }
+    
+    func stop() {
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "WebSocket disabled")
+        reachability.stop()
+        invalidateOpenWebSocketTimer()
+        invalidatePingTimer()
+        invalidateBackgroundTimeoutTimer()
+        closeWebSocket()
+        
+        // in case websocket was already closed
+        suspendOperations() // need to suspend before disabling websocket
+        cancelOperations()
+        cancelAllPendingCompletionsAndActiveRequests(withCode: SRStatusCodeNormal.rawValue)
+        
+        isEnabled = false
+    }
+    
+    private func resetOpenSocketDelayAndAttempts() {
+        openWebSocketDelay = 0
+        openWebSocketRetryAttempts = 0
+    }
+    
+    private func increaseOpenWebSocketDelayAndRetryAttempts() {
+        if openWebSocketDelay == 0 {
+            openWebSocketDelay = Double.makeRandom(min: openWebsocketInitialMinTimeInterval,
+                                                   max: openWebsocketInitialMaxTimeInterval)
+        }
+        else if openWebSocketDelay < openWebsocketMaximumTimeInterval {
+            openWebSocketDelay = min(openWebSocketDelay * openWebsocketTimeIntervalMultiplier,
+                                     openWebsocketMaximumTimeInterval)
+        }
+        openWebSocketRetryAttempts += 1
+    }
+
+    private func openWebSocket() {
+        setSocketStatus(.opening)
+        increaseOpenWebSocketDelayAndRetryAttempts()
         ws?.delegate = nil
         ws?.close()
         ws = SRWebSocket(url: endpointURL)
@@ -130,126 +294,359 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         ws?.open()
     }
     
-    func openWebSocket() {
+    private func tryToOpenWebSocket() {
+        guard isEnabled else {
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Open] WebSocket client is NOT enabled")
+            return
+        }
+        guard let isReachable = reachability.isReachable, isReachable else {
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Open] WebSocket is not reachable")
+            resetOpenSocketDelayAndAttempts()
+            return
+        }
+        guard openWebSocketRetryAttempts < openWebsocketMaximumRetryAttempts else {
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Open] Maximum retry attempts reached: \(openWebsocketMaximumRetryAttempts))")
+            resetOpenSocketDelayAndAttempts()
+            return
+        }
         switch socketStatus.value {
         case .open:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[Opening WebSocket] Chat already connected to: \(endpoint)")
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Open] WS already connected to: \(endpoint)")
         case .opening:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[Opening WebSocket] Chat already connecting to: \(endpoint)")
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Open] WS already connecting to: \(endpoint)")
         case .closed, .closing:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[Opening WebSocket] Trying to connect to: \(endpoint)")
-            socketStatus.value = .opening
-            reconnectWebSocket()
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Open] Trying to connect to: \(endpoint), Retry attempts: \(openWebSocketRetryAttempts)")
+            if openWebSocketDelay > 0 {
+                scheduleOpenWebSocketTimer(withTimeInterval: openWebSocketDelay)
+            } else {
+                openWebSocket()
+            }
         }
     }
     
-    func closeWebSocket() {
+    private func openWebSocketIfClosed() {
+        switch socketStatus.value {
+        case .closed, .closing: // TODO: better handle of closing
+            tryToOpenWebSocket()
+        default:
+            break
+        }
+    }
+    
+    private func openWebSocketIfPendingOperations() {
+        if (operationQueue.operationCount > 0) {
+            openWebSocketIfClosed()
+        }
+    }
+    
+    private func closeWebSocket() {
         switch socketStatus.value {
         case .closed:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[Closing WebSocket] Chat already closed")
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Close] WS already closed")
         case .closing:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[Closing WebSocket] Chat already closing")
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Close] WS already closing")
         case .open, .opening:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[Closing WebSocket] Closing chat WebSocket")
-            socketStatus.value = .closing
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Close] Closing...")
+            setSocketStatus(.closing)
             ws?.close(withCode: SRStatusCodeNormal.rawValue, reason: "Manual close")
         }
     }
     
-    private func webSocketDidClose(withCode code: Int) {
-        closeCompletion?()
-        logMessage(LogLevel.debug, type: .webSockets, message: "WebSocket closed with code: \(code)")
-        invalidatePingTimer()
-        switch code {
-            // closed by us manually
-        case SRStatusCodeNormal.rawValue, SRStatusCodeGoingAway.rawValue:
-            socketStatus.value = .closed
-            cancelOperations(withCode: code)
-            // closed by the ws library
-        case SRStatusCodeAbnormal.rawValue:
-            socketStatus.value = .closed
-            suspendOperations(withCode: code)
-            // for any other reason, we perform a temporarily suspend operations and try to reconnect
+    private func closeWebSocketIfNeeded() {
+        switch socketStatus.value {
+        case .open, .opening: // TODO: better handle of opening
+            closeWebSocket()
         default:
-            socketStatus.value = .opening
-            suspendOperations(withCode: code)
-            reconnectWebSocket()
+            break
+        }
+    }
+    
+    private func webSocketDidClose(withCode code: Int) {
+        invalidatePingTimer()
+        invalidateBackgroundTimeoutTimer()
+        setSocketStatus(.closed)
+        // cancel all ongoing operations and pending completions.
+        suspendOperations()
+        cancelAllPendingCompletionsAndActiveRequests(withCode: code)
+        
+        switch code {
+        case SRStatusCodeNormal.rawValue, SRStatusCodeGoingAway.rawValue:
+            // closed by us manually ->  WS remains closed
+            cancelOperations()
+        case SRStatusCodeAbnormal.rawValue: // internet goes off, websocket is down
+            // closed by WS library -> open WS if there are pending operations
+            openWebSocketIfPendingOperations()
+        default:
+            cancelOperations()
+            tryToOpenWebSocket()
+        }
+    }
+    
+    private func setSocketStatus(_ status: WebSocketStatus) {
+        if socketStatus.value != status {
+            socketStatus.value = status
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Socket Status] \(socketStatus.value.description)")
         }
     }
     
     // MARK: - Operations
     
-    private func enqueueOperation(withRequestType requestType: WebSocketRequestType, operationBlock: @escaping () -> Void) {
+    private func enqueueOperation(withRequestType requestType: WebSocketRequestType,
+                                  operationBlock: @escaping () -> Void) {
+        // ensure this method is not executed from different threads at the same time
+        enqueueOperationLock.lock()
+        defer {
+            enqueueOperationLock.unlock()
+        }
+        
         operationQueue.addOperation(operationBlock)
-        logMessage(LogLevel.debug, type: .webSockets, message: "[Operation Queue] Added: \(requestType), \(operationQueue.operationCount) operations")
-    }
-    
-    /** Finish active requests and pause operationQueue until socket becomes open(.authenticated) */
-    private func suspendOperations(withCode code: Int) {
-        logMessage(LogLevel.debug, type: .webSockets, message: "[Operation Queue] Suspending \(operationQueue.operationCount) operations, with code: (\(code))")
-        operationQueue.isSuspended = true
-        cancelActiveRequests(withCode: code)
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Operation Queue] Added: \(requestType), " +
+                            "count: \(operationQueue.operationCount) operations")
+        openWebSocketIfClosed()
     }
     
     func suspendOperations() {
-        suspendOperations(withCode: SRStatusCodeNormal.rawValue)
+        guard isEnabled, !operationQueue.isSuspended else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Operation Queue] Suspending \(operationQueue.operationCount) operations")
+        operationQueue.isSuspended = true
     }
     
-    func resumeOperations() {
-        logMessage(LogLevel.debug, type: .webSockets, message: "[Operation Queue] Resuming \(operationQueue.operationCount) operations")
+    private func resumeOperations() {
+        guard operationQueue.isSuspended else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Operation Queue] Resuming \(operationQueue.operationCount) operations")
         operationQueue.isSuspended = false
     }
     
-    func cancelOperations() {
-        cancelOperations(withCode: SRStatusCodeNormal.rawValue)
-    }
-    
-    /** Cancel active requests and cancel all operations in operationQueue */
-    func cancelOperations(withCode code: Int) {
-        logMessage(LogLevel.debug, type: .webSockets, message: "[Operation Queue] Cancelling \(operationQueue.operationCount) operations")
+    private func cancelOperations() {
+        guard isEnabled, operationQueue.operationCount > 0 else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Operation Queue] Cancelling \(operationQueue.operationCount) operations")
         operationQueue.cancelAllOperations()
-        operationQueue.isSuspended = true
-        cancelActiveRequests(withCode: code)
+        // if the queue is suspended the cancel() method will not go through
+        if operationQueue.isSuspended {
+            operationQueue.isSuspended = false
+            operationQueue.waitUntilAllOperationsAreFinished()
+            operationQueue.isSuspended = true
+        } else {
+            operationQueue.waitUntilAllOperationsAreFinished()
+        }
     }
     
+    func cancelAllOperations() {
+        cancelOperations()
+        cancelAllPendingCompletionsAndActiveRequests(withCode: SRStatusCodeNormal.rawValue)
+    }
     
     // MARK: - Requests
     
-    private func cancelActiveRequests(withCode code: Int) {
-        logMessage(LogLevel.debug, type: .webSockets, message: "[Active Requests] Cancelling \(activeRequests.count) requests")
-        activeRequests.forEach { (request) in
-            let requestId = request.value.uuid.lowercased()
-            if let completion = activeCommands[requestId] {
-                completion(Result<Void, WebSocketError>(error: .suspended(withCode: code)))
-            }
-            else if let completion = activeQueries[requestId] {
-                completion(Result<[AnyHashable: Any], WebSocketError>(error: .suspended(withCode: code)))
-            } else if let completion = activeAuthRequests[requestId] {
-                completion(Result<Void, WebSocketError>(error: .suspended(withCode: code)))
-            }
-        }
-        activeRequests.removeAll()
-        activeCommands.removeAll()
-        activeQueries.removeAll()
-        activeAuthRequests.removeAll()
+    private func addPendingCommandCompletion(forRequest request: WebSocketCommandRequestConvertible,
+                                             completion: ((Result<Void, WebSocketError>) -> Void)?) {
+        guard completion != nil else { return }
+        let key = request.uuid.lowercased()
+        pendingCommandCompletions[key] = completion
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Command Completion] Added: \(request.type), " +
+                            "id: \(key), count: \(pendingCommandCompletions.count)")
     }
-
+    
+    private func removePendingCommandCompletion(forKey key: String) {
+        guard pendingCommandCompletions[key] != nil else { return }
+        pendingCommandCompletions.removeValue(forKey: key)
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Command Completion] Removed: \(key), count: \(pendingCommandCompletions.count)")
+    }
+    
+    private func executePendingCommandCompletion(forKey key: String) {
+        let keyValue = key.lowercased()
+        guard let completion = pendingCommandCompletions[keyValue] else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Command Completion] Executing: \(keyValue)")
+        removePendingCommandCompletion(forKey: keyValue)
+        completion(Result<Void, WebSocketError>(value: ()))
+    }
+    
+    private func cancelPendingCommandCompletion(forKey key: String, errorCode: Int) {
+        guard let completion = pendingCommandCompletions[key] else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Command Completion] Cancelling: \(key), error: \(errorCode)")
+        removePendingCommandCompletion(forKey: key)
+        completion(Result<Void, WebSocketError>(error: .suspended(withCode: errorCode)))
+    }
+    
+    private func cancelPendingCommandCompletions(withCode code: Int) {
+        guard pendingCommandCompletions.count > 0 else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Command Completion] Cancelling \(pendingCommandCompletions.count) " +
+                            "commands, with code: \(code)")
+        pendingCommandCompletions.keys.forEach { (key) in
+            cancelPendingCommandCompletion(forKey: key, errorCode: code)
+        }
+    }
+    
+    private func addPendingQueryCompletion(forRequest request: WebSocketQueryRequestConvertible,
+                                            completion: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)?) {
+        guard completion != nil else { return }
+        let key = request.uuid.lowercased()
+        pendingQueryCompletions[key] = completion
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Query Completion] Added: \(request.type), " +
+                            "id: \(key), count: \(pendingQueryCompletions.count)")
+    }
+    
+    private func removePendingQueryCompletion(forKey key: String) {
+        guard pendingQueryCompletions[key] != nil else { return }
+        pendingQueryCompletions.removeValue(forKey: key)
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Query Completion] Removed: \(key), count: \(pendingQueryCompletions.count)")
+    }
+    
+    private func executePendingQueryCompletionCompletion(forKey key: String, responseData: [AnyHashable: Any]) {
+        let keyValue = key.lowercased()
+        guard let completion = pendingQueryCompletions[keyValue] else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Query Completion] Executing: \(keyValue)")
+        removePendingQueryCompletion(forKey: keyValue)
+        completion(Result<[AnyHashable: Any], WebSocketError>(value: responseData))
+    }
+    
+    private func cancelPendingQueryCompletion(forKey key: String, errorCode: Int) {
+        guard let completion = pendingQueryCompletions[key] else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Query Completion] Cancelling: \(key), error: \(errorCode)")
+        removePendingQueryCompletion(forKey: key)
+        completion(Result<[AnyHashable: Any], WebSocketError>(error: .suspended(withCode: errorCode)))
+    }
+    
+    private func cancelPendingQueryCompletions(withCode code: Int) {
+        guard pendingQueryCompletions.count > 0 else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Query Completion] Cancelling \(pendingQueryCompletions.count) queries, " +
+                            "with code: \(code)")
+        pendingQueryCompletions.keys.forEach { (key) in
+            cancelPendingQueryCompletion(forKey: key, errorCode: code)
+        }
+    }
+    
+    private func addPendingAuthCompletion(forRequest request: WebSocketCommandRequestConvertible,
+                                          completion: ((Result<Void, WebSocketError>) -> Void)?) {
+        guard completion != nil else { return }
+        let key = request.uuid.lowercased()
+        pendingAuthCompletions[key] = completion
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Auth Completion] Added: \(request.type), " +
+                            "id: \(key), count: \(pendingAuthCompletions.count)")
+    }
+    
+    private func removePendingAuthCompletion(forKey key: String) {
+        guard pendingAuthCompletions[key] != nil else { return }
+        pendingAuthCompletions.removeValue(forKey: key)
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Auth Completion] Removed: \(key), count: \(pendingAuthCompletions.count)")
+    }
+    
+    private func executePendingAuthCompletion(forKey key: String) {
+        let keyValue = key.lowercased()
+        guard let completion = pendingAuthCompletions[keyValue] else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Auth Completion] Executing: \(keyValue)")
+        removePendingAuthCompletion(forKey: keyValue)
+        completion(Result<Void, WebSocketError>(value: ()))
+    }
+    
+    private func executePendingAuthCompletions() {
+        pendingAuthCompletions.keys.forEach { (key) in
+            executePendingAuthCompletion(forKey: key)
+        }
+    }
+    
+    private func cancelPendingAuthCompletionRequest(forKey key: String, errorCode: Int) {
+        guard let completion = pendingAuthCompletions[key] else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Auth Completion] Cancelling: \(key), error: \(errorCode)")
+        removePendingAuthCompletion(forKey: key)
+        completion(Result<Void, WebSocketError>(error: .suspended(withCode: errorCode)))
+    }
+    
+    private func cancelPendingAuthCompletions(withCode code: Int) {
+        guard pendingAuthCompletions.count > 0 else { return }
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Pending Auth Completion] Cancelling \(pendingAuthCompletions.count) auths, " +
+                            "with code: \(code)")
+        pendingAuthCompletions.keys.forEach { (key) in
+            cancelPendingAuthCompletionRequest(forKey: key, errorCode: code)
+        }
+    }
+    
+    private func addActiveRequest(_ request: WebSocketRequestConvertible) {
+        let key = request.uuid.lowercased()
+        activeRequests[key] = request
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Active Request] Added: \(request.type), id: \(key), count: \(activeRequests.count)")
+    }
+    
+    private func removeActiveRequest(forKey key: String) {
+        let keyValue = key.lowercased()
+        guard activeRequests[keyValue] != nil else { return }
+        activeRequests.removeValue(forKey: keyValue)
+        logMessage(LogLevel.debug, type: .webSockets,
+                   message: "[Active Request] Removed: \(keyValue), count: \(activeRequests.count)")
+    }
+    
+    private func cancelPendingCompletionsAndActiveRequests(forKey key: String, withCode code: Int) {
+        cancelPendingCommandCompletion(forKey: key, errorCode: code)
+        cancelPendingQueryCompletion(forKey: key, errorCode: code)
+        cancelPendingAuthCompletionRequest(forKey: key, errorCode: code)
+        removeActiveRequest(forKey: key)
+    }
+    
+    private func cancelAllPendingCompletionsAndActiveRequests(withCode code: Int) {
+        cancelPendingCommandCompletions(withCode: code)
+        cancelPendingQueryCompletions(withCode: code)
+        cancelPendingAuthCompletions(withCode: code)
+        activeRequests.forEach { (request) in
+            removeActiveRequest(forKey: request.key)
+        }
+    }
+    
+    private func removePendingCompletionsAndActiveRequests(forKey key: String) {
+        removePendingCommandCompletion(forKey: key)
+        removePendingQueryCompletion(forKey: key)
+        removePendingAuthCompletion(forKey: key)
+        removeActiveRequest(forKey: key)
+    }
     
     // MARK: - Send
     
-    func sendQuery(_ request: WebSocketQueryRequestConvertible, completion: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)?) {
-        activeQueries[request.uuid.lowercased()] = completion
+    func sendQuery(_ request: WebSocketQueryRequestConvertible,
+                   completion: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)?) {
+        guard isEnabled else { return }
+        addPendingQueryCompletion(forRequest: request, completion: completion)
         enqueueOperation(withRequestType: request.type) {
             self.privateSend(request)
         }
     }
     
-    func sendCommand(_ request: WebSocketCommandRequestConvertible, completion: ((Result<Void, WebSocketError>) -> Void)?) {
+    func sendCommand(_ request: WebSocketCommandRequestConvertible,
+                     completion: ((Result<Void, WebSocketError>) -> Void)?) {
+        guard isEnabled else { return }
         if request.type == .authenticate {
-            activeAuthRequests[request.uuid.lowercased()] = completion
-            privateAuth(request, completion: completion)
+            addPendingAuthCompletion(forRequest: request, completion: completion)
+            privateSendAuth(request, completion: completion)
         } else {
-            activeCommands[request.uuid.lowercased()] = completion
+            addPendingCommandCompletion(forRequest: request, completion: completion)
             enqueueOperation(withRequestType: request.type) {
                 self.privateSend(request)
             }
@@ -257,42 +654,42 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     }
     
     func sendEvent(_ request: WebSocketEventRequestConvertible) {
+        guard isEnabled else { return }
         enqueueOperation(withRequestType: request.type) {
             self.privateSend(request)
         }
     }
     
-    func privateAuth(_ request: WebSocketCommandRequestConvertible, completion: ((Result<Void, WebSocketError>) -> Void)?) {
-        switch socketStatus.value {
-        case .open(let status):
-            if status == .authenticated {
-                logMessage(LogLevel.debug, type: .webSockets, message: "[Send] AUTH Error: socket is \(socketStatus.value.description)")
-            } else {
-                logMessage(LogLevel.debug, type: .webSockets, message: "[Send] AUTH: \(request.message)")
-                ws?.send(request.message)
-            }
-        default:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[Send] AUTH Error: socket is \(socketStatus.value.description)")
+    private func privateSendAuth(_ request: WebSocketCommandRequestConvertible,
+                                 completion: ((Result<Void, WebSocketError>) -> Void)?) {
+        if socketStatus.value.isOpen {
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[AUTH] Sending auth mesage: \(request.message)")
+            send(request)
+        } else {
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[AUTH] Could not send auth: socket is \(socketStatus.value.description)")
         }
-        
     }
     
-    func privateSend(_ request: WebSocketRequestConvertible) {
+    private func privateSend(_ request: WebSocketRequestConvertible) {
         switch socketStatus.value {
-        case .open(let status):
-            if status == .authenticated {
-                logMessage(LogLevel.debug, type: .webSockets, message: "[Send] Message: \(request.message)")
-                activeRequests[request.uuid.lowercased()] = request
-                ws?.send(request.message)
-            } else {
-                logMessage(LogLevel.debug, type: .webSockets, message: "[Send] Error: socket is \(socketStatus.value.description)")
-                // enqueue de request again
-                enqueueOperation(withRequestType: request.type) {
-                    self.privateSend(request)
-                }
+        case .open(authenticated: .authenticated):
+            addActiveRequest(request)
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Send] Message: \(request.message)")
+            send(request)
+        case .open(authenticated: .notAuthenticated), .open(authenticated: .notVerified):
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Send] Could not send: socket is \(socketStatus.value.description)")
+            // enqueue de request again
+            enqueueOperation(withRequestType: request.type) {
+                self.privateSend(request)
             }
+            authenticateWebSocket()
         default:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[Send] Error: socket is \(socketStatus.value.description)")
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Send] Could not send: socket is \(socketStatus.value.description)")
             // enqueue de request again
             enqueueOperation(withRequestType: request.type) {
                 self.privateSend(request)
@@ -300,6 +697,25 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         }
     }
     
+    func send(_ request: WebSocketRequestConvertible) {
+        ws?.send(request.message)
+    }
+    
+    // MARK: - Session manager
+    
+    private func renewUserToken() {
+        logMessage(LogLevel.debug, type: .webSockets, message: "[AUTH] Trying to renew user token")
+        suspendOperations()
+        setSocketStatus(.open(authenticated: .notAuthenticated))
+        sessionManager?.renewUserToken(nil)
+    }
+    
+    private func authenticateWebSocket() {
+        logMessage(LogLevel.debug, type: .webSockets, message: "[AUTH] Trying to authenticate websocket")
+        suspendOperations()
+        setSocketStatus(.open(authenticated: .notAuthenticated))
+        sessionManager?.authenticateWebSocket()
+    }
     
     // MARK: - Response handlers
     
@@ -311,119 +727,124 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     }
     
     private func handleACK(_ dict: [AnyHashable: Any]) {
-        guard let ack = WebSocketResponseACK(dict: dict) else { return }
+        guard let ack = WebSocketResponseACK(dict: dict) else {
+            logMessage(.debug, type: .webSockets, message: "[Parse] handleACK could not parse dict: \(dict)")
+            return
+        }
         if ack.ackedType == .authenticate {
-            socketStatus.value = .open(authenticated: .authenticated)
-            activeAuthRequests.values.forEach{ $0(Result<Void, WebSocketError>(value: ()))}
-            activeAuthRequests.removeAll()
+            setSocketStatus(.open(authenticated: .authenticated))
+            executePendingAuthCompletions()
             resumeOperations()
         } else {
-            let completion = activeCommands[ack.ackedId.lowercased()]
-            activeCommands.removeValue(forKey: ack.ackedId.lowercased())
-            activeRequests.removeValue(forKey: ack.ackedId.lowercased())
-            completion?(Result<Void, WebSocketError>(value: ()))
+            executePendingCommandCompletion(forKey: ack.ackedId)
         }
+        removeActiveRequest(forKey: ack.ackedId)
     }
     
     private func handleQueryResponse(_ dict: [AnyHashable: Any]) {
-        guard let response = WebSocketResponseQuery(dict: dict) else { return }
-        let completion = activeQueries[response.responseToId.lowercased()]
-        activeQueries.removeValue(forKey: response.responseToId.lowercased())
-        activeRequests.removeValue(forKey: response.responseToId.lowercased())
-        completion?(Result<[AnyHashable: Any], WebSocketError>(value: response.data))
+        guard let response = WebSocketResponseQuery(dict: dict) else {
+            logMessage(.debug, type: .webSockets, message: "[Parse] handleQueryResponse could not parse dict: \(dict)")
+            return
+        }
+        executePendingQueryCompletionCompletion(forKey: response.responseToId, responseData: response.data)
+        removeActiveRequest(forKey: response.responseToId)
     }
     
     private func handleEvent(_ dict: [AnyHashable: Any]) {
-        guard let response = WebSocketResponseEvent(dict: dict) else { return }
-        guard let event = ChatModelsMapper.eventFromDict(dict, type: response.type) else { return }
+        guard let response = WebSocketResponseEvent(dict: dict),
+            let event = ChatModelsMapper.eventFromDict(dict, type: response.type) else {
+                logMessage(.debug, type: .webSockets, message: "[Parse] handleEvent could not parse dict: \(dict)")
+                return
+        }
         switch event.type {
         case .authenticationTokenExpired: // -> Don't forward this event to the App
-            reauthenticate()
+            renewUserToken()
         case .interlocutorMessageSent, .interlocutorReadConfirmed, .interlocutorReceptionConfirmed,
              .interlocutorTypingStarted, .interlocutorTypingStopped:
             eventBus.onNext(event)
         }
     }
-
-    private func reauthenticate() {
-        suspendOperations()
-        if socketStatus.value != .open(authenticated: .notAuthenticated) {
-            socketStatus.value = .open(authenticated: .notAuthenticated)
-        }
-        sessionManager?.renewUserToken(nil)
-    }
     
     private func handleError(_ dict: [AnyHashable: Any]) {
-        guard let error = WebSocketResponseError(dict: dict) else { return }
-
+        guard let error = WebSocketResponseError(dict: dict) else {
+            logMessage(.debug, type: .webSockets, message: "[Parse] handleError could not parse dict: \(dict)")
+            return
+        }
+        let key = error.erroredId.lowercased()
         switch error.errorType {
-        case .tokenExpired, .notAuthenticated:
-            reauthenticate()
-            if let request = activeRequests[error.erroredId.lowercased()] {
-                privateSend(request)
+        case .notAuthenticated:
+            authenticateWebSocket()
+            if let request = activeRequests[key] {
+                removeActiveRequest(forKey: key)
+                enqueueOperation(withRequestType: request.type) {
+                    self.privateSend(request)
+                }
+            }
+            return
+        case .tokenExpired:
+            renewUserToken()
+            if let request = activeRequests[key] {
+                removeActiveRequest(forKey: key)
+                enqueueOperation(withRequestType: request.type) {
+                    self.privateSend(request)
+                }
             }
             return
         case .isScammer:
             sessionManager?.tearDownSession(kicked: true)
         case .userNotVerified:
-            socketStatus.value = .open(authenticated: .notVerified)
+            setSocketStatus(.open(authenticated: .notVerified))
         default:
             break
         }
-        
-        let errorID = error.erroredId.lowercased()
-        activeRequests.removeValue(forKey: errorID)
-        
-        if let completion = activeCommands[errorID] {
-            activeCommands.removeValue(forKey: errorID)
-            completion(Result<Void, WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
-        } else if let completion = activeQueries[errorID] {
-            activeQueries.removeValue(forKey: errorID)
-            completion(Result<[AnyHashable: Any], WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
-        } else if let completion = activeAuthRequests[errorID] {
-            activeAuthRequests.removeValue(forKey: errorID)
-            completion(Result<Void, WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
-        }
+
+        cancelPendingCompletionsAndActiveRequests(forKey: key, withCode: error.errorType.rawValue)
     }
     
     
     // MARK: - SRWebSocketDelegate
     
     @objc func webSocketDidOpen(_ webSocket: SRWebSocket!) {
-        logMessage(.debug, type: .webSockets, message: "[WS] Opened")
-        socketStatus.value = .open(authenticated: .notAuthenticated)
-        openCompletion?()
+        logMessage(.debug, type: .webSockets, message: "[WS] didOpen")
         schedulePingTimer()
+        authenticateWebSocket()
+        resetOpenSocketDelayAndAttempts()
     }
     
     @objc func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        logMessage(.debug, type: .webSockets, message: "[WS] Closed (code:\(code), reason:\(reason), wasClean:\(wasClean))")
+        logMessage(.debug, type: .webSockets,
+                   message: "[WS] didCloseWithCode: \(code), reason:\(reason), wasClean:\(wasClean))")
         webSocketDidClose(withCode: code)
     }
     
     func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
-        guard let text = message as? String, let dict = stringToJSON(text) else { return }
-        guard let typeString = dict["type"] as? String else { return }
-        guard let type = WebSocketResponseType(rawValue: typeString) else { return }
+        guard let text = message as? String,
+            let dict = stringToJSON(text),
+            let typeString = dict["type"] as? String,
+            let type = WebSocketResponseType(rawValue: typeString) else {
+                logMessage(.debug, type: .webSockets,
+                           message: "[Parse] didReceiveMessage could not parse response: \(message)")
+                return
+        }
         
         switch type.superType {
         case .ack:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] Received ACK: \(dict)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] didReceiveMessage ACK: \(dict)")
             handleACK(dict)
         case .query:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] Received QueryResponse: \(text)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] didReceiveMessage QueryResponse: \(text)")
             handleQueryResponse(dict)
         case .event:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] Received Event: \(dict)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] didReceiveMessage Event: \(dict)")
             handleEvent(dict)
         case .error:
-            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] Received Error: \(dict)")
+            logMessage(LogLevel.debug, type: .webSockets, message: "[WS] didReceiveMessage Error: \(dict)")
             handleError(dict)
         }
     }
     
     func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
-        logMessage(LogLevel.debug, type: .webSockets, message: "[WS] Failed with error: \(error)")
+        logMessage(LogLevel.debug, type: .webSockets, message: "[WS] didFailWithError: \(error)")
         webSocketDidClose(withCode: SRStatusCodeAbnormal.rawValue)
     }
 }

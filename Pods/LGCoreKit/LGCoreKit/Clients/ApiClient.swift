@@ -332,14 +332,7 @@ private extension ApiClient {
     func renewUserTokenOrEnqueueRequest<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
                                         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         if !renewingUser.value {
-            renewingUser.value = true
-            userQueue.isSuspended = true
-
             sessionManager?.renewUserToken { [weak self] result in
-
-                self?.renewingUser.value = false
-                self?.userQueue.isSuspended = false
-
                 if let error = result.error {
                     completion?(ResultResult<T, ApiError>.t(error: error))
                 } else {
