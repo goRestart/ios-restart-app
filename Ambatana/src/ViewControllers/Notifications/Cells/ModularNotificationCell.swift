@@ -19,6 +19,12 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     var iconView: UIImageView
     var thumbnails: [UIImageView]
     
+    var heroImageDeeplink: String? = nil
+    var textTitleDeepLink: String? = nil
+    var callsToActionDeeplinks: [String] = []
+    var basicImageDeeplink: String? = nil
+    var thumbnailsDeeplinks: [String] = []
+    
     fileprivate var lastViewAdded: UIView? = nil
     fileprivate var basicImageIncluded: Bool = false
     
@@ -106,7 +112,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         addTextInfo(with: modules.text.title, body: modules.text.body, deepLink: modules.text.deeplink)
         
         if let thumbnails = modules.thumbnails {
-            thumbnails.forEach { addThumbnail(with: $0.shape ?? .square, imageURL: $0.imageURL, deeplink: $0.deeplink) }
+            thumbnails.forEach {
+                guard let deeplink = $0.deeplink else { return } //only add thumbnail if there is deeplink
+                addThumbnail(with: $0.shape ?? .square, imageURL: $0.imageURL, deeplink: deeplink)
+        }
         }
         modules.callToActions.forEach { addCTA(with: $0.title, deeplink: $0.deeplink) }
         finishDrawer()
@@ -121,6 +130,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         guard let url = URL(string: imageURL) else { return }
         heroImageView.lg_setImageWithURL(url)
         heroImageView.layout().height(Metrics.modularNotificationHeroImageHeight)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(elementTapped))
+        heroImageView.addGestureRecognizer(tap)
+        heroImageView.isUserInteractionEnabled = true
         lastViewAdded = heroImageView
         
     }
@@ -138,8 +151,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             case .circle:
                 basicImage.rounded = true
         }
+        let tap = UITapGestureRecognizer(target: self, action: #selector(elementTapped))
+        basicImage.addGestureRecognizer(tap)
+        basicImage.isUserInteractionEnabled = true
     }
-    
     
     fileprivate func addTextInfo(with title: String?, body: String, deepLink: String?) {
         textTitleLabel.layout(with: heroImageView).below(by: Metrics.modularNotificationLongMargin)
@@ -157,6 +172,11 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         }
         textBodyLabel.layout(with: textTitleLabel).fillHorizontal().below(by: marginToTop)
         textBodyLabel.text = body
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(elementTapped))
+        textBodyLabel.addGestureRecognizer(tap)
+        textBodyLabel.isUserInteractionEnabled = true
+        
         lastViewAdded = textBodyLabel
     }
     
@@ -170,7 +190,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         iconView.layout(with: basicImage).bottom(by: Metrics.modularNotificationIconImageOffset).right(by: Metrics.modularNotificationIconImageOffset)
     }
     
-    fileprivate func addThumbnail(with shape: ImageShape, imageURL: String, deeplink: String?) {
+    fileprivate func addThumbnail(with shape: ImageShape, imageURL: String, deeplink: String) {
         guard let url = URL(string: imageURL) else { return }
         let thumbnailImage = UIImageView()
         thumbnailImage.lg_setImageWithURL(url)
@@ -186,6 +206,12 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             thumbnailImage.layout(with: thumbnails.last).left(to: .right, by: Metrics.modularNotificationShortMargin)
         }
         thumbnails.append(thumbnailImage)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(thumbnailTapped))
+        thumbnailImage.addGestureRecognizer(tap)
+        thumbnailImage.isUserInteractionEnabled = true
+        thumbnailsDeeplinks.append(deeplink)
+        
         lastViewAdded = thumbnailImage
     }
     
@@ -199,19 +225,32 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         button.setTitle(title, for: .normal)
         button.layout(with: contentView).fillHorizontal()
         
-        
         let marginToTop: CGFloat = callsToAction.isEmpty ? Metrics.modularNotificationLongMargin : 0
         if let lastViewAdded = lastViewAdded, basicImage.bottom < lastViewAdded.bottom {
             button.layout(with: lastViewAdded).below(by: marginToTop)
         } else {
             button.layout(with: basicImage).below(by: marginToTop)
         }
-        
         button.layout().height(Metrics.modularNotificationCTAHeight)
         
         callsToAction.append(button)
-        lastViewAdded = button
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(CTATapped))
+        button.addGestureRecognizer(tap)
+        button.isUserInteractionEnabled = true
+        
+        callsToActionDeeplinks.append(deeplink)
+        
+        lastViewAdded = button
+        addButtonSeparator()
+    }
+    
+    fileprivate func finishDrawer() {
+        // Needed to link the last view added to the bottom of the content view.
+        lastViewAdded?.layout(with: contentView).bottom(by: -Metrics.modularNotificationShortMargin)
+    }
+    
+    fileprivate func addButtonSeparator() {
         let separator: UIView = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(separator)
@@ -219,10 +258,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         separator.layout(with: lastViewAdded).above(by: 0)
         separator.backgroundColor = UIColor.grayLight
         separator.layout().height(Metrics.modularNotificationCTASeparatorHeight)
-    }
-    
-    fileprivate func finishDrawer() {
-        lastViewAdded?.layout(with: contentView).bottom(by: -Metrics.modularNotificationShortMargin)
     }
     
     private func resetUI() {
@@ -236,6 +271,42 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     }
     
     private func refreshState() {
-     
+        let highlighedState = self.isHighlighted || self.isSelected
+        contentView.alpha = highlighedState ? LGUIKitConstants.highlightedStateAlpha : 1.0
     }
+    
+    // MARK: - Deeplinks and actions on cell. 
+    
+    func elementTapped(sender: UITapGestureRecognizer) {
+        if let view = sender.view {
+            switch view {
+            case heroImageView:
+                print("tap on hero image")
+            case basicImage:
+                print("basic image")
+            case textBodyLabel:
+                print("text body tap")
+            default:
+                break
+            }
+          // TODO: open deeplink with string...
+        }
+    }
+    
+    func thumbnailTapped(sender: UITapGestureRecognizer) {
+        guard let view = sender.view as? UIImageView else { return }
+        guard let thumbnailTappedIndex = thumbnails.index(of: view) else { return }
+        print("thumbnail pressed: \(thumbnailTappedIndex)")
+        print("deeplink is: \(thumbnailsDeeplinks[thumbnailTappedIndex])")
+    }
+    
+    func CTATapped(sender: UITapGestureRecognizer) {
+        guard let view = sender.view as? UIButton else { return }
+        guard let buttonTappedIndex = callsToAction.index(of: view) else { return }
+        print("call to action pressed: \(buttonTappedIndex)")
+        print("deeplink is: \(callsToActionDeeplinks[buttonTappedIndex])")
+    }
+    
+    
+    
 }
