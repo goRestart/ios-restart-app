@@ -208,6 +208,8 @@
 		2EF4E3C31D36891200A09DFD /* ConfigSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3C21D36891200A09DFD /* ConfigSpec.swift */; };
 		2EF4E3C61D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3C41D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift */; };
 		2EF4E3C71D36891C00A09DFD /* LGConfigDAOSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3C51D36891C00A09DFD /* LGConfigDAOSpec.swift */; };
+		2EFF0D9C1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFF0D9B1E69732E00FBF3D5 /* Dictionary+Filter.swift */; };
+		2EFF0D9D1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFF0D9B1E69732E00FBF3D5 /* Dictionary+Filter.swift */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
 		500210B61CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
 		500210B71CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
@@ -1538,6 +1540,7 @@
 		2EF4E3C21D36891200A09DFD /* ConfigSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigSpec.swift; path = Model/ConfigSpec.swift; sourceTree = "<group>"; };
 		2EF4E3C41D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGConfigRetrieveServiceSpec.swift; path = Services/LGConfigRetrieveServiceSpec.swift; sourceTree = "<group>"; };
 		2EF4E3C51D36891C00A09DFD /* LGConfigDAOSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGConfigDAOSpec.swift; path = Services/LGConfigDAOSpec.swift; sourceTree = "<group>"; };
+		2EFF0D9B1E69732E00FBF3D5 /* Dictionary+Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Filter.swift"; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatDisclaimerCell.swift; path = ../ChatDisclaimerCell.swift; sourceTree = "<group>"; };
@@ -3277,16 +3280,17 @@
 				6A5E19BC1D548F5400F92692 /* CGAffineTransform+LG.swift */,
 				2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */,
 				509CFF341DCCE8DF0068E518 /* CGPoint+LG.swift */,
+				C7C61E061D63505500F9505D /* CollectionType+Shuffle.swift */,
+				C7E5902C1E5D973C002921B2 /* CollectionType+Merge.swift */,
+				6A5E19BF1D548F5400F92692 /* Date+LG.swift */,
+				2EFF0D9B1E69732E00FBF3D5 /* Dictionary+Filter.swift */,
 				2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */,
 				6A5E19BD1D548F5400F92692 /* Float+Rounding.swift */,
 				6A5E19BE1D548F5400F92692 /* Int+LG.swift */,
-				6A5E19BF1D548F5400F92692 /* Date+LG.swift */,
 				6A5E19C01D548F5400F92692 /* NSError+LG.swift */,
-				6A5E19C11D548F5400F92692 /* URL+LG.swift */,
 				6A5E19C21D548F5400F92692 /* String+LG.swift */,
 				6A5E19C31D548F5400F92692 /* UnicodeScalar+LG.swift */,
-				C7C61E061D63505500F9505D /* CollectionType+Shuffle.swift */,
-				C7E5902C1E5D973C002921B2 /* CollectionType+Merge.swift */,
+				6A5E19C11D548F5400F92692 /* URL+LG.swift */,
 			);
 			path = FoundationExtensions;
 			sourceTree = "<group>";
@@ -5263,6 +5267,7 @@
 				50C63B731DC3A79100836D85 /* SocialSharer.swift in Sources */,
 				C7B5887F1CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
 				2E9716A31D5A0535009B3A32 /* ExpressChatCell.swift in Sources */,
+				2EFF0D9C1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */,
 				C74931761D3526EF00E117F1 /* UserRatingCoordinator.swift in Sources */,
 				50582C291D6C7F4F00787E91 /* AccessibilityId.swift in Sources */,
 				C7B588851CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
@@ -5751,6 +5756,7 @@
 				50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
 				C7B588541CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
 				C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
+				2EFF0D9D1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */,
 				50D67B9E1D182F07003AC0A5 /* SellNavigator.swift in Sources */,
 				50C63B741DC3A79100836D85 /* SocialSharer.swift in Sources */,
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,

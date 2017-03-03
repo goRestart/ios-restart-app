@@ -102,6 +102,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         paymentQueue.add(self)
         isObservingPaymentsQueue = true
 
+        corruptedDataCleanup()
+        
         // TODO: ⚠️⚠️⚠️ test Cleaning code - Delete before merging ⚠️⚠️⚠️
 //        let transactions = paymentQueue.transactions
 //        for transaction in transactions {
@@ -231,7 +233,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      */
     fileprivate func requestPricedBumpUpForProduct(productId: String, receiptData: String, transaction: SKPaymentTransaction) {
 
-        var price: String = ""
+        var price: String = "0"
         var currency: String = ""
         if let appstoreProducts = productsDict[productId], appstoreProducts.count > 0 {
             if let boughtProduct = appstoreProducts.first {
@@ -247,9 +249,29 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                 self?.remove(transaction: transaction.transactionIdentifier)
                 self?.paymentQueue.finishTransaction(transaction)
             } else if let _ = result.error {
-                self?.delegate?.pricedBumpDidFail() // !!!!! ux for restored purchase!!!?!??!
+                self?.delegate?.pricedBumpDidFail()
             }
         }
+    }
+
+    private func corruptedDataCleanup() {
+        // Payments queue cleaning
+        let savedTransactions = paymentQueue.transactions
+        let savedTransactionIds = savedTransactions.flatMap { $0.transactionIdentifier }
+        let savedTransactionsDict = keyValueStorage.userTransactionsProductIds.filter(keys: savedTransactionIds)
+
+        for transaction in savedTransactions {
+            guard let transactionId = transaction.transactionIdentifier, let _ = savedTransactionsDict[transactionId] else {
+                paymentQueue.finishTransaction(transaction)
+                continue
+            }
+        }
+
+        // with clean payments queue, we do "keyValueStorage.userTransactionsProductIds" cleaning
+        let cleanTransactions = paymentQueue.transactions
+        let cleanTransactionIds = cleanTransactions.flatMap { $0.transactionIdentifier }
+        let cleanTransactionsDict = savedTransactionsDict.filter(keys: cleanTransactionIds)
+        keyValueStorage.userTransactionsProductIds = cleanTransactionsDict
     }
 }
 

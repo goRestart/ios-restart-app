@@ -1116,7 +1116,13 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 extension ProductCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo?){
         guard let actualBumpInfo = bumpInfo else { return }
-        guard !bumpUpBannerIsVisible else { return }
+        guard !bumpUpBannerIsVisible else {
+            // banner is already visible, but info changes
+            if bumpUpBanner.type != actualBumpInfo.type {
+                bumpUpBanner.updateInfo(info: actualBumpInfo)
+            }
+            return
+        }
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
         bannerContainer.isHidden = false
@@ -1200,7 +1206,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {
         bumpUpBanner.resetCountdown()
     }
-
 
     // Loadings and alerts overrides to remove keyboard before showing
 

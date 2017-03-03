@@ -396,6 +396,9 @@ class ProductViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
+        print("❌❌❌❌❌❌❌❌")
+        print(status.value)
+        print(status.value.isBumpeable)
         guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
