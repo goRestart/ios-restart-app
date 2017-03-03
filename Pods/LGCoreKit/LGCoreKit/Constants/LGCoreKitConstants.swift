@@ -34,6 +34,11 @@ public struct LGCoreKitConstants {
                                             // at least 5 of them or when app goes to background
     static let websocketPingTimeInterval: TimeInterval = 180
     static let websocketBackgroundDisconnectTimeout: TimeInterval = 15
+    static let openWebsocketInitialMinTimeInterval: TimeInterval = 1
+    static let openWebsocketInitialMaxTimeInterval: TimeInterval = 3
+    static let openWebsocketMaximumTimeInterval: TimeInterval = 7
+    static let openWebsocketTimeIntervalMultiplier: Double = 1.4
+    static let openWebsocketMaximumRetryAttempts: Int = 5
 
     static let networkBackgroundIdentifier = "com.letgo.ios.background"
 }

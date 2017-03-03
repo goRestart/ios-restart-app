@@ -21,7 +21,8 @@ enum ImageDownloadError: Error {
 protocol ImageDownloaderType {
     func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?)
-    @discardableResult func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion?) -> RequestReceipt?
+    @discardableResult
+    func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion?) -> RequestReceipt?
     func downloadImagesWithURLs(_ urls: [URL])
     func cachedImageForUrl(_ url: URL) -> UIImage?
     func cancelImageDownloading(_ receipt: RequestReceipt)

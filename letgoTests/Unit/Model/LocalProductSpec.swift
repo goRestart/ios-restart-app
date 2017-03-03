@@ -19,21 +19,22 @@ class LocalProductSpec: QuickSpec {
     override func spec() {
         
         var sut : LocalProduct!
-        var mockMyUser: MockMyUser!
         var mockChatConversation: MockChatConversation!
+        var mockMyUser: MockMyUser!
+
         
         describe("init") {
+            beforeEach {
+                mockChatConversation = MockChatConversation.makeMock()
+                mockMyUser = MockMyUser.makeMock()
+            }
             context("init being me a seller") {
                 beforeEach {
-                    let postalAddress = PostalAddress(address: "Manuel Murguia", city: "Ourense", zipCode: "32005", state: "Ourense", countryCode: "GAL", country: "Galicia")
-                    let mockAccount = MockAccount(provider: .facebook, verified: true)
-                    
-                    mockMyUser = MockMyUser(objectId: "1234", name: "Juan", avatar: nil, postalAddress: postalAddress, accounts: [mockAccount], ratingAverage: 5, ratingCount: 1, status: .active, isDummy: false, email: nil, location: nil, localeIdentifier: nil)
-                    
-                    mockChatConversation = MockChatConversation(unreadMessage: 5, lastMessageSentAt: Date(), product: MockChatProduct(), interlocutor: nil, amISelling: true)
-                    
-                    sut = LocalProduct(chatConversation: mockChatConversation, myUser: mockMyUser)
+                    mockChatConversation.amISelling = true
+                    sut = LocalProduct(chatConversation: mockChatConversation,
+                                       myUser: mockMyUser)
                 }
+
                 it("postal address is myUser postal address") {
                    expect(sut.user.postalAddress).to(equal(mockMyUser.postalAddress))
                 }
@@ -47,19 +48,12 @@ class LocalProductSpec: QuickSpec {
             
             context("init being me the buyer") {
                 beforeEach {
-                    let postalAddress = PostalAddress(address: "Manuel Murguia", city: "Ourense", zipCode: "32005", state: "Ourense", countryCode: "GAL", country: "Galicia")
-                    let mockAccount = MockAccount(provider: .facebook, verified: true)
-                    
-                    mockMyUser = MockMyUser(objectId: "1234", name: "Juan", avatar: nil, postalAddress: postalAddress, accounts: [mockAccount], ratingAverage: 5, ratingCount: 1, status: .active, isDummy: false, email: nil, location: nil, localeIdentifier: nil)
-                    
-                    let chatInterlocutor = MockChatInterlocutor(name: "Other User", avatar: nil, isBanned: false, isMuted: false, hasMutedYou: false, status: .active)
-                    
-                    mockChatConversation = MockChatConversation(unreadMessage: 5, lastMessageSentAt: Date(), product: MockChatProduct(), interlocutor: chatInterlocutor, amISelling: false)
-                    
-                    sut = LocalProduct(chatConversation: mockChatConversation, myUser: mockMyUser)
+                    mockChatConversation.amISelling = false
+                    sut = LocalProduct(chatConversation: mockChatConversation,
+                                       myUser: mockMyUser)
                 }
-                
-                it("name  is chat interlocutorname") {
+
+                it("name is chat interlocutorname") {
                     expect(sut.user.name).to(equal(mockChatConversation.interlocutor!.name))
                 }
                 it("isBanned attribute is the same than chatInterlocutor") {

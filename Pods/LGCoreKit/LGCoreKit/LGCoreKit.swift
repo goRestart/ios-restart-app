@@ -16,7 +16,7 @@ public let Core: DI = {
 public class LGCoreKit {
 
     public static var loggingOptions = CoreLoggingOptions.none
-    public static var activateWebsocket = false
+    public static var shouldUseChatWithWebSocket = false
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
 
     public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
@@ -38,19 +38,16 @@ public class LGCoreKit {
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
     }
     
+    public static func applicationDidEnterBackground() {
+        InternalCore.webSocketClient.applicationDidEnterBackground()
+    }
+    
     public static func applicationWillEnterForeground() {
         // Ask for the commercializer templates
         InternalCore.internalCommercializerRepository.indexTemplates(nil)
         // Refresh my user
         InternalCore.myUserRepository.refresh(nil)
-    }
-
-    public static func applicationDidBecomeActive() {
-        InternalCore.internalSessionManager.applicationDidBecomeActive()
-    }
-
-    public static func applicationDidEnterBackground() {
-        InternalCore.internalSessionManager.applicationDidEnterBackground()
+        InternalCore.webSocketClient.applicationWillEnterForeground()
     }
 
     static func setupAfterLoggedIn(_ completion: (() -> ())?) {

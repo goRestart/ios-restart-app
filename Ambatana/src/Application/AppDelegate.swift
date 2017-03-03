@@ -156,7 +156,6 @@ extension AppDelegate: UIApplicationDelegate {
 
         keyValueStorage?[.didEnterBackground] = false
         appIsActive.value = true
-        LGCoreKit.applicationDidBecomeActive()
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openNPSSurvey()
@@ -254,7 +253,7 @@ fileprivate extension AppDelegate {
         
         LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
         if let featureFlags = featureFlags {
-            LGCoreKit.activateWebsocket = featureFlags.websocketChat
+            LGCoreKit.shouldUseChatWithWebSocket = featureFlags.websocketChat
         }
         
 

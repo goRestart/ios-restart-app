@@ -45,7 +45,7 @@ class TourLoginViewModelSpec: QuickSpec {
                     let installationRepository = MockInstallationRepository()
                     let keyValueStorage = MockKeyValueStorage()
                     let tracker = MockTracker()
-                    let myUser = MockMyUser()
+                    let myUser = MockMyUser.makeMock()
                     let googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                     let fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                     signupViewModel = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,

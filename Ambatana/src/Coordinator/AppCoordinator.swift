@@ -217,8 +217,17 @@ extension AppCoordinator: AppNavigator {
     
     func openResetPassword(_ token: String) {
         let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
-        changePasswordCoordinator.delegate = self
-        openCoordinator(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        if let onboardingCoordinator = child as? OnboardingCoordinator {
+            onboardingCoordinator.openResetPassword(coordinator: changePasswordCoordinator)
+            return
+        }
+        forceCloseCurrentChild() { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.tabBarCtl.clearAllPresented()
+            changePasswordCoordinator.delegate = strongSelf
+            strongSelf.openCoordinator(coordinator: changePasswordCoordinator, parent: strongSelf.tabBarCtl,
+                                       animated: true, completion: nil)
+        }
     }
     
     func openNPSSurvey() {
@@ -529,6 +538,17 @@ fileprivate extension AppCoordinator {
         coordinator.open(parent: parent, animated: animated, completion: completion)
     }
 
+    func forceCloseCurrentChild(completion: (() -> Void)?) {
+        if let child = child {
+            child.close(animated: false) { [weak self] in
+                self?.child = nil
+                completion?()
+            }
+        } else {
+            completion?()
+        }
+    }
+
     func openTab(_ tab: Tab, force: Bool, completion: (() -> ())?) {
         let shouldOpen = force || shouldOpenTab(tab)
         if shouldOpen {
@@ -598,9 +618,7 @@ fileprivate extension AppCoordinator {
             }
         case .resetPassword(let token):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.home, force: false) { [weak self] in
-                    self?.openResetPassword(token)
-                }
+                self?.openResetPassword(token)
             }
         case .commercializer:
             break // Handled on CommercializerManager

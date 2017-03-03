@@ -44,20 +44,19 @@ enum WebSocketError: Error {
 }
 
 protocol WebSocketClient {
-    init(withEndpoint endpoint: String)
-    
     var eventBus: PublishSubject<ChatEvent> { get }
     var socketStatus: Variable<WebSocketStatus> { get }
-
-    var openCompletion: (() -> ())? { get set }
-    var closeCompletion: (() -> ())? { get set }
-
-    func resumeOperations()
+    
+    init(reachability: LGReachabilityProtocol)
+    
+    func start(withEndpoint endpoint: String)
+    func stop()
     func suspendOperations()
-    func cancelOperations()
-
-    func openWebSocket()
-    func closeWebSocket()
+    func cancelAllOperations()
+    
+    func applicationDidEnterBackground()
+    func applicationWillEnterForeground()
+    
     func sendQuery(_ request: WebSocketQueryRequestConvertible, completion: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)?)
     func sendCommand(_ request: WebSocketCommandRequestConvertible, completion: ((Result<Void, WebSocketError>) -> Void)?)
     func sendEvent(_ request: WebSocketEventRequestConvertible)

@@ -28,7 +28,8 @@ final class ImageDownloader: ImageDownloaderType {
                                      completion: completion)
     }
 
-    @discardableResult func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
+    @discardableResult
+    func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
         let receipt = imageDownloader.downloadImageWithURL(url, completion: completion)
         addReceiptToPool(receipt)
         return receipt

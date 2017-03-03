@@ -36,7 +36,7 @@ class SignUpViewModelSpec: QuickSpec {
                 keyValueStorage = MockKeyValueStorage()
                 featureFlags = MockFeatureFlags()
                 tracker = MockTracker()
-                let myUser = MockMyUser()
+                let myUser = MockMyUser.makeMock()
                 googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
@@ -120,7 +120,7 @@ class SignUpViewModelSpec: QuickSpec {
                     var myUser: MockMyUser!
 
                     beforeEach {
-                        myUser = MockMyUser()
+                        myUser = MockMyUser.makeMock()
                         myUser.name = "Albert"
                         googleLoginHelper.loginResult = .success(myUser: myUser)
 
@@ -191,7 +191,7 @@ class SignUpViewModelSpec: QuickSpec {
                     var myUser: MockMyUser!
 
                     beforeEach {
-                        myUser = MockMyUser()
+                        myUser = MockMyUser.makeMock()
                         myUser.name = "Albert"
                         fbLoginHelper.loginResult = .success(myUser: myUser)
 

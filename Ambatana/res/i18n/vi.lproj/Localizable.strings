@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "để đẩy lên lại";
 "bump_up_error_bump_generic" = "Có lỗi trong khi đẩy sản phẩm của bạn lên. Xin vui lòng thử lại.";
 "bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng sản phẩm chưa được nổi bật. Xin vui lòng thử lại.";
-"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "Có lỗi xảy ra trong khi đẩy sản phẩm của bạn lên. Thanh toán của bạn chưa được tiến hành. Xin vui lòng thử lại.";
 "bump_up_free_success" = "Đẩy lên! Hãy liên tục đẩy sản phẩm lên để dễ thấy hơn nữa.";
 "bump_up_pay_success" = "Đẩy lên! Sản phẩm của bạn hiện đã dễ thấy hơn.";
 "bump_up_processing_free_text" = "Đang tiến hành đẩy lên...";
