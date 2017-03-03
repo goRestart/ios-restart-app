@@ -256,6 +256,27 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
+            describe("show more info") {
+                var product: Product!
+                beforeEach {
+                    product = MockProduct.makeMock()
+                    buildSut(productListModels: nil,
+                             initialProduct: product,
+                             source: .productList,
+                             showKeyboardOnFirstAppearIfNeeded: false,
+                             trackingIndex: nil,
+                             firstProductSyncRequired: false)
+                    sut.active = true
+                    sut.moreInfoState.value = .shown
+                }
+                it("tracks more info visit") {
+                    expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"
+                }
+                it("tracks more info visit with product Id same as provided") {
+                    let firstEvent = tracker.trackedEvents.last
+                    expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == product.objectId
+                }
+            }
         }
     }
 
