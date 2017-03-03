@@ -1680,6 +1680,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .homeAndGarden
                     product.price = .negotiable(20)
                     product.images = MockFile.makeMocks(count: 2)
+                    product.descr = String.makeRandom()
                     sut = TrackerEvent.productSellComplete(product, buttonName: .done, sellButtonPosition: .floatingButton, negotiable: .yes,
                         pictureSource: .gallery, freePostingModeAllowed: true)
                 }
@@ -1704,7 +1705,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains product-description") {
                     let data = sut.params!.stringKeyParams["product-description"] as? Bool
-                    expect(data).to(equal(false))
+                    expect(data).to(equal(true))
                 }
                 it("contains number-photos-posting") {
                     let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int

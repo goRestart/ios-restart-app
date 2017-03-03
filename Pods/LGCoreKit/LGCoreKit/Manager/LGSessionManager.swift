@@ -64,8 +64,6 @@ class LGSessionManager: InternalSessionManager {
         return events
     }
 
-    private let reachability: LGReachabilityProtocol?
-
     // Manager & repositories
     private let apiClient: ApiClient
     private let websocketClient: WebSocketClient
@@ -80,9 +78,6 @@ class LGSessionManager: InternalSessionManager {
     // Router
     let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
 
-    private var disconnectChatTimer = Timer()
-    private let websocketBackgroundDisconnectTimeout: TimeInterval
-    private var shouldReconnectChat: Bool = false
     private let events = PublishSubject<SessionEvent>()
     private let disposeBag = DisposeBag()
 
@@ -92,26 +87,18 @@ class LGSessionManager: InternalSessionManager {
 
     // MARK: - Lifecycle
 
-    init(apiClient: ApiClient, websocketClient: WebSocketClient, websocketBackgroundDisconnectTimeout: TimeInterval, myUserRepository: InternalMyUserRepository,
+    init(apiClient: ApiClient, websocketClient: WebSocketClient, myUserRepository: InternalMyUserRepository,
          installationRepository: InternalInstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
-         favoritesDAO: FavoritesDAO, reachability: LGReachabilityProtocol?) {
+         favoritesDAO: FavoritesDAO) {
         self.apiClient = apiClient
         self.websocketClient = websocketClient
-        self.websocketBackgroundDisconnectTimeout = websocketBackgroundDisconnectTimeout
         self.myUserRepository = myUserRepository
         self.tokenDAO = tokenDAO
         self.deviceLocationDAO = deviceLocationDAO
         self.installationRepository = installationRepository
         self.favoritesDAO = favoritesDAO
-        self.reachability = reachability
-
-        configureWebSocketReachability()
-        setupWebSocketRx()
         
-        self.websocketClient.openCompletion = { [weak self] in
-            self?.authenticateWebSocket()
-        }
-        self.websocketClient.closeCompletion = nil
+        setupWebSocketRx()
     }
 
 
@@ -134,9 +121,7 @@ class LGSessionManager: InternalSessionManager {
         installationRepository.updateIfChanged()
         myUserRepository.updateIfLocaleChanged()
         
-        if LGCoreKit.activateWebsocket {
-            reachability?.start()
-        }
+        startChat()
     }
 
     /**
@@ -258,38 +243,21 @@ class LGSessionManager: InternalSessionManager {
         tearDownSession(kicked: false)
     }
 
-    func applicationDidEnterBackground() {
-        guard LGCoreKit.activateWebsocket else { return }
+    /**
+     Starts the chat, will open websocket and authenticate on demand
+     */
+    func startChat() {
+        guard LGCoreKit.shouldUseChatWithWebSocket else { return }
         guard loggedIn else { return }
-        disconnectChatTimer = Timer.scheduledTimer(timeInterval: websocketBackgroundDisconnectTimeout,
-                                                   target: self, selector: #selector(disconnectChat),
-                                                   userInfo: nil, repeats: false)
-        shouldReconnectChat = true
-    }
-
-    func applicationDidBecomeActive() {
-        guard LGCoreKit.activateWebsocket else { return }
-        guard shouldReconnectChat else { return }
-        disconnectChatTimer.invalidate()
-        shouldReconnectChat = false
-        connectChat()
+        websocketClient.start(withEndpoint: EnvironmentProxy.sharedInstance.webSocketURL)
     }
 
     /**
-     Connects the chat (will be done automatically too after login, startup)
+     Stops the chat removing any pending completion / operation
      */
-    func connectChat() {
-        guard LGCoreKit.activateWebsocket else { return }
-        guard loggedIn else { return }
-        websocketClient.openWebSocket()
-    }
-
-    /**
-     Disconnects the chat removing requestQueue and finishing activeRequests
-     */
-    dynamic func disconnectChat() {
-        guard LGCoreKit.activateWebsocket else { return }
-        websocketClient.closeWebSocket()
+    dynamic func stopChat() {
+        guard LGCoreKit.shouldUseChatWithWebSocket else { return }
+        websocketClient.stop()
     }
 
 
@@ -337,26 +305,23 @@ class LGSessionManager: InternalSessionManager {
         if previouslyLogged {
             events.onNext(.logout(kickedOut: kicked))
         }
-        if LGCoreKit.activateWebsocket {
-            websocketClient.cancelOperations()
-            disconnectChat()
-        }
+        stopChat()
     }
 
     func authenticateWebSocket() {
-        guard LGCoreKit.activateWebsocket else { return }
+        guard LGCoreKit.shouldUseChatWithWebSocket else { return }
         let tokenString = tokenDAO.token.actualValue
-        guard let token = tokenString, tokenDAO.level >= .user else { return }
-        guard let userId = myUserRepository.myUser?.objectId else { return }
+        guard let token = tokenString, tokenDAO.level >= .user,
+            let userId = myUserRepository.myUser?.objectId else {
+                // Session manager can not authenticate, suspend and cancel all operations
+                websocketClient.suspendOperations()
+                websocketClient.cancelAllOperations()
+                return
+        }
 
         let request = webSocketCommandRouter.authenticate(userId, authToken: token)
-        websocketClient.sendCommand(request) { (result) in
-            // empty result, LGWebSocketClient uses completion to store requets
-        }
+        websocketClient.sendCommand(request, completion: nil)
     }
-
-
-    // MARK: - Private websocket methods
 
     private func setupWebSocketRx() {
         apiClient.renewingUser.asObservable().distinctUntilChanged().skip(1).subscribeNext { [weak self] renewing in
@@ -366,13 +331,6 @@ class LGSessionManager: InternalSessionManager {
                 self?.websocketClient.suspendOperations()
             }
             }.addDisposableTo(disposeBag)
-    }
-
-    private func configureWebSocketReachability() {
-        guard let reachability = reachability else { return }
-        reachability.reachableBlock = { [weak self] in
-            self?.connectChat()
-        }
     }
 
     // MARK: > Installation authentication
@@ -497,7 +455,7 @@ class LGSessionManager: InternalSessionManager {
         LGCoreKit.setupAfterLoggedIn { [weak self] in
             self?.events.onNext(.login)
         }
-        connectChat()
+        startChat()
     }
 
     /**

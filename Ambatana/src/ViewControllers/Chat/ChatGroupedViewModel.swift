@@ -52,7 +52,6 @@ class ChatGroupedViewModel: BaseViewModel {
     fileprivate(set) var blockedUsersListViewModel: BlockedUsersListViewModel
     fileprivate let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
-    fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let chatRepository: ChatRepository
     fileprivate let featureFlags: FeatureFlaggeable
@@ -78,12 +77,10 @@ class ChatGroupedViewModel: BaseViewModel {
 
     override convenience init() {
         self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository,
-                  sessionManager: Core.sessionManager, featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, sessionManager: SessionManager,
-         featureFlags: FeatureFlaggeable) {
-        self.sessionManager = sessionManager
+    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.featureFlags = featureFlags
@@ -121,7 +118,7 @@ class ChatGroupedViewModel: BaseViewModel {
                                           title: LGLocalizedString.chatNotVerifiedStateTitle,
                                           body: LGLocalizedString.chatNotVerifiedStateMessage,
                                           buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
-                                          action: { [weak self] in self?.tryToReconnectChat() },
+                                          action: { [weak self] in self?.refreshCurrentPage() },
                                           secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .verification)
     }
 
@@ -331,9 +328,5 @@ extension ChatGroupedViewModel {
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
         }.addDisposableTo(disposeBag)
-    }
-
-    func tryToReconnectChat() {
-        sessionManager.connectChat()
     }
 }

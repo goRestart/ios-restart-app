@@ -68,7 +68,16 @@ final class OnboardingCoordinator: Coordinator {
     }
 
     func close(animated: Bool, completion: (() -> Void)?) {
-        recursiveClose(animated: animated, completion: completion)
+        recursiveClose(animated: animated) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.coordinatorDidClose(strongSelf)
+            completion?()
+        }
+    }
+
+    func openResetPassword(coordinator: ChangePasswordCoordinator) {
+        coordinator.delegate = self
+        openCoordinator(coordinator: coordinator, parent: topPresentedController(), animated: true, completion: nil)
     }
 
     private func recursiveClose(animated: Bool, completion: (() -> Void)?) {
@@ -82,10 +91,9 @@ final class OnboardingCoordinator: Coordinator {
         }
     }
 
-    func finish(withPosting posting: Bool, source: PostingSource?) {
+    fileprivate func finish(withPosting posting: Bool, source: PostingSource?) {
         close(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.delegate?.coordinatorDidClose(strongSelf)
             strongSelf.delegate?.onboardingCoordinator(strongSelf, didFinishPosting: posting, source: source)
         }
     }
@@ -496,5 +504,13 @@ fileprivate extension OnboardingCoordinator {
     func currentNavigationController() -> UINavigationController? {
         let topVC = topViewController()
         return topVC.presentedViewController as? UINavigationController
+    }
+
+    func topPresentedController() -> UIViewController {
+        var current = topViewController()
+        while let presented = current.presentedViewController {
+            current = presented
+        }
+        return current
     }
 }
