@@ -9,7 +9,7 @@
 import Quick
 import Nimble
 @testable import LGCoreKit
-@testable import LetGo
+@testable import LetGoGodMode
 import Result
 
 class ConfigFileManagerSpec: QuickSpec {

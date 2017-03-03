@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "0820"
-   wasCreatedForAppExtension = "YES"
-   version = "2.0">
+   version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -15,23 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "721579FE1E5F34F7006AF997"
-               BuildableName = "notificationserviceGodMode.appex"
-               BlueprintName = "notificationserviceGodMode"
+               BlueprintIdentifier = "C7DB41831C5138B500400945"
+               BuildableName = "LetGoGodMode.app"
+               BlueprintName = "LetGoGodMode"
                ReferencedContainer = "container:LetGo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C7DB41831C5138B500400945"
-               BuildableName = "LetGoGodMode.app"
-               BlueprintName = "LetGoGodMode"
+               BlueprintIdentifier = "50D08C841E69835D009CC260"
+               BuildableName = "letgoUITests.xctest"
+               BlueprintName = "letgoUITests"
                ReferencedContainer = "container:LetGo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,19 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50D08C5E1E683B4B009CC260"
+               BlueprintIdentifier = "50D08C841E69835D009CC260"
                BuildableName = "letgoUITests.xctest"
                BlueprintName = "letgoUITests"
-               ReferencedContainer = "container:LetGo.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50D08C751E6980A8009CC260"
-               BuildableName = "letgoTests.xctest"
-               BlueprintName = "letgoTests"
                ReferencedContainer = "container:LetGo.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -78,15 +67,14 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      launchAutomaticallySubstyle = "2">
+      allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
@@ -97,6 +85,18 @@
             ReferencedContainer = "container:LetGo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "-environment-prod"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -105,8 +105,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES"
-      launchAutomaticallySubstyle = "2">
+      debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
@@ -122,7 +121,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Adhoc"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

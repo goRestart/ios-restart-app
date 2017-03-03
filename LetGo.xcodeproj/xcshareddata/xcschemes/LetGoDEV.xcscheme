@@ -26,15 +26,16 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50D08C5E1E683B4B009CC260"
-               BuildableName = "letgoUITests.xctest"
-               BlueprintName = "letgoUITests"
+               BlueprintIdentifier = "50D08D461E699455009CC260"
+               BuildableName = "letgoTests.xctest"
+               BlueprintName = "letgoTests"
                ReferencedContainer = "container:LetGo.xcodeproj">
             </BuildableReference>
          </TestableReference>
