@@ -396,9 +396,6 @@ class ProductViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        print("❌❌❌❌❌❌❌❌")
-        print(status.value)
-        print(status.value.isBumpeable)
         guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
@@ -964,7 +961,6 @@ fileprivate extension ProductViewModel {
                 afterMessageAction = { [weak self] in
                     self?.navigator?.closeAfterDelete()
                 }
-                strongSelf.product.value = value
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
