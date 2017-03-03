@@ -161,7 +161,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     }
     
     
-    
     fileprivate func addIconImage(with imageURL: String) {
         guard basicImageIncluded else { return }
         guard let url = URL(string: imageURL) else { return }
@@ -175,7 +174,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         guard let url = URL(string: imageURL) else { return }
         let thumbnailImage = UIImageView()
         thumbnailImage.lg_setImageWithURL(url)
-        thumbnailImage.backgroundColor = UIColor.green
+        thumbnailImage.rounded = true
         thumbnailImage.translatesAutoresizingMaskIntoConstraints = false
         thumbnailImage.contentMode = .scaleAspectFit
         contentView.addSubview(thumbnailImage)
@@ -191,7 +190,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     }
     
     fileprivate func addCTA(with title: String, deeplink: String) {
-        
+        layoutIfNeeded()
 
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -199,10 +198,15 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         button.setStyle(.secondary(fontSize: .small, withBorder: false))
         button.setTitle(title, for: .normal)
         button.layout(with: contentView).fillHorizontal()
-
+        
         
         let marginToTop: CGFloat = callsToAction.isEmpty ? Metrics.modularNotificationLongMargin : 0
-        button.layout(with: lastViewAdded).below(by: marginToTop)
+        if let lastViewAdded = lastViewAdded, basicImage.bottom < lastViewAdded.bottom {
+            button.layout(with: lastViewAdded).below(by: marginToTop)
+        } else {
+            button.layout(with: basicImage).below(by: marginToTop)
+        }
+        
         button.layout().height(Metrics.modularNotificationCTAHeight)
         
         callsToAction.append(button)
