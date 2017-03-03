@@ -843,7 +843,6 @@ fileprivate extension ProductViewModel {
                 afterMessageAction = { [weak self] in
                     self?.navigator?.closeAfterDelete()
                 }
-                strongSelf.product.value = value
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
