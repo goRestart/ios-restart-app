@@ -115,11 +115,13 @@ class ChatGroupedViewModel: BaseViewModel {
 
     func setupVerificationPendingEmptyVM() {
         verificationPendingEmptyVM = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"),
-                                          title: LGLocalizedString.chatNotVerifiedStateTitle,
-                                          body: LGLocalizedString.chatNotVerifiedStateMessage,
-                                          buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
-                                          action: { [weak self] in self?.refreshCurrentPage() },
-                                          secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .verification)
+                                                      title: LGLocalizedString.chatNotVerifiedStateTitle,
+                                                      body: LGLocalizedString.chatNotVerifiedStateMessage,
+                                                      buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
+                                                      action: { [weak self] in
+                                                        self?.refreshCurrentPage()
+                                                        },
+                                                      secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .verification)
     }
 
     // MARK: - Public methods
@@ -321,7 +323,7 @@ extension ChatGroupedViewModel {
         chatRepository.chatStatus.map { $0.verifiedPending }.bindTo(verificationPending).addDisposableTo(disposeBag)
         chatRepository.chatStatus.map { $0.available }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
 
-        verificationPending.asObservable().filter { $0 }.subscribeNext { [weak self] _ in
+        verificationPending.asObservable().distinctUntilChanged().filter { $0 }.subscribeNext { [weak self] _ in
             self?.tabNavigator?.openVerifyAccounts([.facebook, .google, .email(self?.myUserRepository.myUser?.email)],
                 source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
