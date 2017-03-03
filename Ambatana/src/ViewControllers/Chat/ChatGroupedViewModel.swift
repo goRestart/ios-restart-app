@@ -321,8 +321,7 @@ extension ChatGroupedViewModel {
         chatRepository.chatStatus.map { $0.verifiedPending }.bindTo(verificationPending).addDisposableTo(disposeBag)
         chatRepository.chatStatus.map { $0.available }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
 
-        // When verification pending changes from false to true then display verify accounts
-        verificationPending.asObservable().filter { $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
+        verificationPending.asObservable().filter { $0 }.subscribeNext { [weak self] _ in
             self?.tabNavigator?.openVerifyAccounts([.facebook, .google, .email(self?.myUserRepository.myUser?.email)],
                 source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
