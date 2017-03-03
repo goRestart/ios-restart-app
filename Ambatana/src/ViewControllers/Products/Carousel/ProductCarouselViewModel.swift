@@ -270,12 +270,6 @@ class ProductCarouselViewModel: BaseViewModel {
     func directMessagesItemPressed() {
         currentProductViewModel?.chatWithSeller()
     }
-    
-    func didOpenMoreInfo() {
-        currentProductViewModel?.trackVisitMoreInfo()
-        keyValueStorage[.productMoreInfoTooltipDismissed] = true
-        delegate?.vmRemoveMoreInfoTooltip()
-    }
 
     func quickAnswersShowButtonPressed() {
         quickAnswersCollapsed.value = false
@@ -330,6 +324,12 @@ class ProductCarouselViewModel: BaseViewModel {
     private func setupRxBindings() {
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.productDetailQuickAnswersHidden] = collapsed
+        }.addDisposableTo(disposeBag)
+
+        moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
+            self?.currentProductViewModel?.trackVisitMoreInfo()
+            self?.keyValueStorage[.productMoreInfoTooltipDismissed] = true
+            self?.delegate?.vmRemoveMoreInfoTooltip()
         }.addDisposableTo(disposeBag)
     }
 

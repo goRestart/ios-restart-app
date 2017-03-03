@@ -858,7 +858,6 @@ extension ProductCarouselViewController {
         moreInfoView.viewWillShow()
         chatTextView.resignFirstResponder()
         moreInfoState.value = .shown
-        viewModel.didOpenMoreInfo()
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
                                    animations: { [weak self] in

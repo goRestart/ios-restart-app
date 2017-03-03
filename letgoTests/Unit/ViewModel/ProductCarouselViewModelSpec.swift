@@ -17,6 +17,9 @@ import Nimble
 
 class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
+    var showOnboardingCalled: Bool?
+    var removeMoreInfoTooltipCalled: Bool?
+
     var lastBuyersToRate: [UserProduct]?
     var buyerToRateResult: String?
     var shownAlertText: String?
@@ -68,7 +71,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var socialMessageObserver: TestableObserver<SocialMessage?>!
         var socialSharerObserver: TestableObserver<SocialSharer>!
 
-        describe("ProductCarouselViewModelSpec") {
+        fdescribe("ProductCarouselViewModelSpec") {
 
             func buildSut(productListModels: [ProductCellModel]?,
                           initialProduct: Product?,
@@ -131,6 +134,10 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 monetizationRepository = MockMonetizationRepository()
                 tracker = MockTracker()
 
+                productListRequester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
+                keyValueStorage = MockKeyValueStorage()
+                imageDownloader = MockImageDownloader()
+
                 productViewModelMaker = MockProductViewModelMaker(myUserRepository: myUserRepository,
                                                                   productRepository: productRepository,
                                                                   commercializerRepository: commercializerRepository,
@@ -170,16 +177,82 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
                 self.resetViewModelSpec()
             }
-            describe("initialisation") {
-                context("single product no sync required") {
+            describe("onboarding") {
+                context("didn't show onboarding previously") {
                     beforeEach {
                         let product = MockProduct.makeMock()
+                        keyValueStorage[.didShowProductDetailOnboarding] = false
                         buildSut(productListModels: nil,
                                  initialProduct: product,
                                  source: .productList,
                                  showKeyboardOnFirstAppearIfNeeded: false,
                                  trackingIndex: nil,
                                  firstProductSyncRequired: false)
+                        sut.active = true
+                    }
+                    it("calls show onboarding") {
+                        expect(self.showOnboardingCalled).to(beTrue())
+                    }
+                }
+                context("didn't show onboarding previously") {
+                    beforeEach {
+                        let product = MockProduct.makeMock()
+                        keyValueStorage[.didShowProductDetailOnboarding] = true
+                        buildSut(productListModels: nil,
+                                 initialProduct: product,
+                                 source: .productList,
+                                 showKeyboardOnFirstAppearIfNeeded: false,
+                                 trackingIndex: nil,
+                                 firstProductSyncRequired: false)
+                        sut.active = true
+                    }
+                    it("doesn't call show onboarding") {
+                        expect(self.showOnboardingCalled).to(beNil())
+                    }
+                }
+            }
+            describe("more info tooltip") {
+                context("was never closed before") {
+                    beforeEach {
+                        let product = MockProduct.makeMock()
+                        keyValueStorage[.productMoreInfoTooltipDismissed] = false
+                        buildSut(productListModels: nil,
+                                 initialProduct: product,
+                                 source: .productList,
+                                 showKeyboardOnFirstAppearIfNeeded: false,
+                                 trackingIndex: nil,
+                                 firstProductSyncRequired: false)
+                        sut.active = true
+                    }
+                    it("shouldShowMoreInfoTooltip is true") {
+                        expect(sut.shouldShowMoreInfoTooltip) == true
+                    }
+                    describe("more info opens") {
+                        beforeEach {
+                            sut.moreInfoState.value = .shown
+                        }
+                        it("shouldShowMoreInfoTooltip is false") {
+                            expect(sut.shouldShowMoreInfoTooltip) == false
+                        }
+                        it("calls to hide more info tooltip") {
+                            expect(self.removeMoreInfoTooltipCalled) == true
+                        }
+                    }
+                }
+                context("was closed before") {
+                    beforeEach {
+                        let product = MockProduct.makeMock()
+                        keyValueStorage[.productMoreInfoTooltipDismissed] = true
+                        buildSut(productListModels: nil,
+                                 initialProduct: product,
+                                 source: .productList,
+                                 showKeyboardOnFirstAppearIfNeeded: false,
+                                 trackingIndex: nil,
+                                 firstProductSyncRequired: false)
+                        sut.active = true
+                    }
+                    it("shouldShowMoreInfoTooltip is false") {
+                        expect(sut.shouldShowMoreInfoTooltip) == false
                     }
                 }
             }
@@ -191,6 +264,9 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         lastBuyersToRate = nil
         buyerToRateResult = nil
         shownAlertText = nil
+
+        showOnboardingCalled = nil
+        removeMoreInfoTooltipCalled = nil
     }
 
     override func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
@@ -204,10 +280,10 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
 extension ProductCarouselViewModelSpec: ProductCarouselViewModelDelegate {
     func vmRemoveMoreInfoTooltip() {
-
+        removeMoreInfoTooltipCalled = true
     }
     func vmShowOnboarding() {
-
+        showOnboardingCalled = true
     }
 
     // Forward from ProductViewModelDelegate
