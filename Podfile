@@ -56,7 +56,7 @@ def shared_pods
 
     # Custom camera
 #    pod "CameraManager",        "3.1.0"
-    pod "CameraManager",        :git => 'git@github.com:letgoapp/CameraManager.git', :commit => 'f1a507daabd75f947072330ba065553792aa6ccc'
+    pod "CameraManager",        :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '32011eac1be83e77c2e822979d0e6083e2638a73'
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -

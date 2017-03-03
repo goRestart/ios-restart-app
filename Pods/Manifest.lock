@@ -155,7 +155,7 @@ DEPENDENCIES:
   - Argo (= 4.1.2)
   - Branch (= 0.12.27)
   - bumper (= 1.0.3)
-  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `f1a507daabd75f947072330ba065553792aa6ccc`)
+  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `32011eac1be83e77c2e822979d0e6083e2638a73`)
   - CHTCollectionViewWaterfallLayout (= 0.9.5)
   - CocoaLumberjack/Swift (= 3.0.0)
   - Crashlytics (= 3.8.3)
@@ -190,7 +190,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   CameraManager:
-    :commit: f1a507daabd75f947072330ba065553792aa6ccc
+    :commit: 32011eac1be83e77c2e822979d0e6083e2638a73
     :git: git@github.com:letgoapp/CameraManager.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
@@ -204,7 +204,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   CameraManager:
-    :commit: f1a507daabd75f947072330ba065553792aa6ccc
+    :commit: 32011eac1be83e77c2e822979d0e6083e2638a73
     :git: git@github.com:letgoapp/CameraManager.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
@@ -277,6 +277,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: e1aeb6447f7cafcebd8a93e1678fda83d2749924
+PODFILE CHECKSUM: 8ab63ddbb4e86c19f849dd518239d6afdd8f0920
 
 COCOAPODS: 1.2.0
