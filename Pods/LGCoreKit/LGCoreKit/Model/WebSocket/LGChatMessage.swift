@@ -49,6 +49,10 @@ extension LGChatMessage: Decodable {
             <*> j <|? JSONKeys.readAt
             <*> LGArgo.parseChatMessageType(j, key: [JSONKeys.type])
             <*> j <|| JSONKeys.warnings
+
+        if let error = init1.error {
+            logMessage(.error, type: .parsing, message: "LGChatProduct parse error: \(error)")
+        }
         return init1
     }
 }

@@ -110,7 +110,7 @@ struct WebSocketResponseQuery: WebSocketResponse {
         guard let typeString = dict["type"] as? String else { return nil }
         guard let type = WebSocketResponseType(rawValue: typeString) else { return nil }
         guard let responseToId = dict["response_to_id"] as? String else { return nil }
-        guard let data = dict["data"] as? [String: Any] else { return nil }
+        let data = dict["data"] as? [AnyHashable: Any] ?? [:]
         self.id = id
         self.type = type
         self.responseToId = responseToId

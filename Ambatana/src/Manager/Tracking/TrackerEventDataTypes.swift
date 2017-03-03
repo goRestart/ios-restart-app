@@ -296,7 +296,8 @@ enum EventParameterLoginSourceValue: String {
     case reportFraud = "report-fraud"
     case delete = "delete"
     case install = "install"
-    case directSticker = "direct-sticker"
+    case directChat = "direct-chat"
+    case directQuickAnswer = "direct-quick-answer"
 }
 
 enum EventParameterUserSoldTo: String {

@@ -41,6 +41,10 @@ extension LGChatInterlocutor: Decodable {
             <*> j <| JSONKeys.isMuted
             <*> j <| JSONKeys.hasMutedYou
             <*> j <| JSONKeys.status
+
+        if let error = init1.error {
+            logMessage(.error, type: .parsing, message: "LGChatInterlocutor parse error: \(error)")
+        }
         return init1
     }
     

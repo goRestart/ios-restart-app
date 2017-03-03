@@ -1,23 +1,7 @@
-//
-//  MockPurchaseableProductsRequest.swift
-//  LetGo
-//
-//  Created by Dídac on 21/12/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
-@testable import LetGo
 import Foundation
+@testable import LetGo
 
-class MockProductsRequestFactory: PurchaseableProductsRequestFactory {
-    var responseDelay: TimeInterval = 0.03
-
-    func generatePurchaseableProductsRequest(_ ids: [String]) -> PurchaseableProductsRequest {
-        return MockPurchaseableProductsRequest(responseDelay: responseDelay)
-    }
-}
-class MockPurchaseableProductsRequest: PurchaseableProductsRequest {
-
+final class MockPurchaseableProductsRequest: PurchaseableProductsRequest {
     weak var delegate: PurchaseableProductsRequestDelegate?
 
     fileprivate var timer: Timer = Timer()
@@ -28,8 +12,11 @@ class MockPurchaseableProductsRequest: PurchaseableProductsRequest {
     }
 
     func start() {
-        timer = Timer.scheduledTimer(timeInterval: responseDelay, target: self, selector: #selector(launchResponse), userInfo: nil,
-                                                       repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: responseDelay,
+                                     target: self,
+                                     selector: #selector(launchResponse),
+                                     userInfo: nil,
+                                     repeats: false)
     }
 
     func cancel() {
@@ -37,7 +24,8 @@ class MockPurchaseableProductsRequest: PurchaseableProductsRequest {
     }
 
     dynamic func launchResponse() {
-        let response = MockPurchaseableProductsResponse(purchaseableProducts: [MockPurchaseableProduct()], invalidProductIdentifiers: [])
+        let response = MockPurchaseableProductsResponse(purchaseableProducts: MockPurchaseableProduct.makeMocks(),
+                                                        invalidProductIdentifiers: [])
         delegate?.productsRequest(self, didReceiveResponse: response)
     }
 }

@@ -22,8 +22,8 @@ final class CoreDI: InternalDI {
         self.networkManager = Alamofire.SessionManager.lgManager(backgroundEnabled)
         let tokenDAO = CoreDI.tokenDAO
         let apiClient = AFApiClient(alamofireManager: self.networkManager, tokenDAO: tokenDAO)
-        let webSocketClient = LGWebSocketClient(withEndpoint: EnvironmentProxy.sharedInstance.webSocketURL)
-        let websocketBackgroundDisconnectTimeout = LGCoreKitConstants.websocketBackgroundDisconnectTimeout
+        let reachability = LGReachability()
+        let webSocketClient = LGWebSocketClient(reachability: reachability)
         
         let userDefaults = UserDefaults.standard
 
@@ -64,17 +64,14 @@ final class CoreDI: InternalDI {
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         let stickersDAO = StickersUDDAO(userDefaults: userDefaults)
         let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
-        let reachability = LGReachability()
 
         let sessionManager = LGSessionManager(apiClient: apiClient,
                                               websocketClient: webSocketClient,
-                                              websocketBackgroundDisconnectTimeout: websocketBackgroundDisconnectTimeout,
                                               myUserRepository: myUserRepository,
                                               installationRepository: installationRepository,
                                               tokenDAO: tokenDAO,
                                               deviceLocationDAO: deviceLocationDAO,
-                                              favoritesDAO: favoritesDAO,
-                                              reachability: reachability)
+                                              favoritesDAO: favoritesDAO)
 
         locationManager.observeSessionManager(sessionManager)
 
