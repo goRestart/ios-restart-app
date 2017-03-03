@@ -220,6 +220,11 @@ fileprivate extension NotificationsViewModel {
                                         let data = UserDetailData.id(userId: user.id, source: .notifications)
                                         self?.navigator?.openUser(data)
             })
+        case let .modular(modules):
+            return NotificationData(id: notification.objectId,
+                                    type: .modular(modules: modules),
+                                    date: notification.createdAt, isRead: notification.isRead,
+                                    primaryAction: nil)
         }
     }
 
@@ -270,6 +275,8 @@ fileprivate extension NotificationDataType {
             return .productSuggested
         case .facebookFriendshipCreated:
             return .facebookFriendshipCreated
+        case .modular:
+            return .modular
         }
     }
 }

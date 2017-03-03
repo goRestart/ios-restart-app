@@ -163,6 +163,10 @@ extension NotificationType: Decodable {
             result = curry(NotificationType.facebookFriendshipCreated)
                 <^> LGNotificationUser.decode(data)
                 <*> data <| "facebook_username"
+            
+        case "modular": 
+            result = curry(NotificationType.modular)
+                <^> LGNotificationModular.decode(data)
         default:
             return Decoded<NotificationType>.fromOptional(nil)
         }

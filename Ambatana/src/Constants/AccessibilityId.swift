@@ -173,6 +173,11 @@ enum AccessibilityId: String {
     case notificationsEmptyView
     case notificationsCellPrimaryImage
     case notificationsCellSecondaryImage
+    case notificationsModularTextTitleLabel
+    case notificationsModularTextBodyLabel
+    case notificationsModularBasicImageView
+    case notificationsModularHeroImageView
+    case notificationsModularThumbnailView
 
     // Posting
     case postingCameraImagePreview

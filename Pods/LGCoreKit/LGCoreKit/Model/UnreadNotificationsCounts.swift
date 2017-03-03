@@ -16,5 +16,6 @@ public protocol UnreadNotificationsCounts {
     var buyersInterested: Int { get }
     var productSuggested: Int { get }
     var facebookFriendshipCreated: Int { get }
+    var modular: Int { get }
     var total: Int { get }
 }

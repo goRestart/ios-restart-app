@@ -18,10 +18,11 @@ struct LGUnreadNotificationsCounts: UnreadNotificationsCounts {
     let buyersInterested: Int
     let productSuggested: Int
     let facebookFriendshipCreated: Int
+    let modular: Int
     let total: Int
 
     init(total: Int?, sold: Int?, like: Int?, review: Int?, reviewUpdated: Int?, buyersInterested: Int?,
-         productSuggested: Int?, facebookFriendshipCreated: Int?) {
+         productSuggested: Int?, facebookFriendshipCreated: Int?, modular: Int?) {
         self.total = total ?? 0
         self.productSold = sold ?? 0
         self.productLike = like ?? 0
@@ -30,6 +31,7 @@ struct LGUnreadNotificationsCounts: UnreadNotificationsCounts {
         self.buyersInterested = buyersInterested ?? 0
         self.productSuggested = productSuggested ?? 0
         self.facebookFriendshipCreated = facebookFriendshipCreated ?? 0
+        self.modular = modular ?? 0
     }
 }
 
@@ -43,7 +45,8 @@ extension LGUnreadNotificationsCounts: Decodable {
          "buyers_interested": 0,
          "product_suggested": 0,
          "facebook_friendship_created": 10,
-         "total": 50
+         "modular": 10,
+         "total": 70
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGUnreadNotificationsCounts> {
@@ -56,6 +59,7 @@ extension LGUnreadNotificationsCounts: Decodable {
             <*> j <|? "buyers_interested"
             <*> j <|? "product_suggested"
             <*> j <|? "facebook_friendship_created"
+            <*> j <|? "modular"
 
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUnreadNotificationsCounts parse error: \(error)")
