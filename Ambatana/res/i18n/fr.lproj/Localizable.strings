@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "à attendre";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors du renvoi vers le haut de votre bien. Veuillez réessayer.";
 "bump_up_error_bump_token" = "Votre paiement a été effectué mais votre bien n'a pas encore été mis en avant. Veuillez réessayer.";
-"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "Une erreur est survenue lors du renvoi vers le haut de votre bien. Votre paiement n'a pas été traité. Veuillez réessayer.";
 "bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
 "bump_up_pay_success" = "Renvoyé vers le haut ! Votre bien bénéficie maintenant d'une meilleure visibilité.";
 "bump_up_processing_free_text" = "Renvoi vers le haut en cours...";

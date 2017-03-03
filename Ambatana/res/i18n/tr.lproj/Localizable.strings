@@ -161,7 +161,7 @@
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";
-"chat_user_rating_button_title" = "Değerlendirme";
+"chat_user_rating_button_title" = "Değerlendir";
 "chat_user_rating_button_tooltip" = "Bu kullanıcıyı değerlendir";
 "chat_verify_alert_message" = "%@ adresine doğrulama e-postası gönderdik";
 "chat_verify_alert_ok_button" = "OK";
