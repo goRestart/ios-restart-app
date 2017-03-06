@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-@testable import LetGo
+@testable import LetGoGodMode
 import Foundation
 import RxSwift
 

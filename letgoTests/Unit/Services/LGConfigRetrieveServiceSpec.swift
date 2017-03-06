@@ -7,7 +7,7 @@
 //
 
 import Quick
-@testable import LetGo
+@testable import LetGoGodMode
 import Nimble
 import Argo
 import OHHTTPStubs

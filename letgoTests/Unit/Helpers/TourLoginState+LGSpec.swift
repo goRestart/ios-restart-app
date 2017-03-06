@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import LetGo
+@testable import LetGoGodMode
 
 extension TourLoginState: Equatable {
     public static func ==(lhs: TourLoginState, rhs: TourLoginState) -> Bool {

@@ -1,5 +1,5 @@
 import Foundation
-@testable import LetGo
+@testable import LetGoGodMode
 
 class MockPurchaseableProductsRequestFactory: PurchaseableProductsRequestFactory {
     var responseDelay: TimeInterval = 0.03
