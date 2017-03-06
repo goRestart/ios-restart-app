@@ -68,7 +68,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     func setupUI() {
         backgroundColor = UIColor.clear
         contentView.backgroundColor = UIColor.clear
-        //contentView.clipsToBounds = true
         contentView.preservesSuperviewLayoutMargins = false
         contentView.layoutMargins = UIEdgeInsets(top: Metrics.modularNotificationShortMargin,
                                                  left: Metrics.modularNotificationShortMargin,

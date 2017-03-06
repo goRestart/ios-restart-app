@@ -79,7 +79,7 @@ public protocol ProductRepository {
     func update(_ product: Product, images: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?)
     func update(_ product: Product, oldImages: [File], newImages: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?)
     func update(_ product: Product, images: [File], completion: ProductCompletion?)
-    func delete(_ product: Product, completion: ProductCompletion?)
+    func delete(_ product: Product, completion: ProductVoidCompletion?)
     
     
     // MARK: - Mark product as (un)sold

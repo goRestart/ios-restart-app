@@ -221,19 +221,20 @@ final class LGProductRepository: ProductRepository {
         }
     }
 
-    func delete(_ product: Product, completion: ProductCompletion?) {
+    func delete(_ product: Product, completion: ProductVoidCompletion?) {
 
         guard let productId = product.objectId else {
-            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
+            completion?(ProductVoidResult(error: .internalError(message: "Missing objectId in Product")))
             return
         }
 
         dataSource.delete(productId) { [weak self] result in
             if let error = result.error {
-                completion?(ProductResult(error: RepositoryError(apiError: error)))
+                completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
+                self?.productsLimboDAO.remove(productId)
                 self?.eventBus.onNext(.delete(productId))
-                completion?(ProductResult(value: product))
+                completion?(ProductVoidResult(value: ()))
             }
         }
     }
