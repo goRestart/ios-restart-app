@@ -71,14 +71,14 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var socialMessageObserver: TestableObserver<SocialMessage?>!
         var socialSharerObserver: TestableObserver<SocialSharer>!
 
-        fdescribe("ProductCarouselViewModelSpec") {
+        describe("ProductCarouselViewModelSpec") {
 
-            func buildSut(productListModels: [ProductCellModel]?,
-                          initialProduct: Product?,
-                          source: EventParameterProductVisitSource,
-                          showKeyboardOnFirstAppearIfNeeded: Bool,
-                          trackingIndex: Int?,
-                          firstProductSyncRequired: Bool) {
+            func buildSut(productListModels: [ProductCellModel]? = nil,
+                          initialProduct: Product? = nil,
+                          source: EventParameterProductVisitSource = .productList,
+                          showKeyboardOnFirstAppearIfNeeded: Bool = false,
+                          trackingIndex: Int? = nil,
+                          firstProductSyncRequired: Bool = false) {
 
                 sut = ProductCarouselViewModel(productListModels: productListModels,
                                                initialProduct: initialProduct,
@@ -182,12 +182,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         let product = MockProduct.makeMock()
                         keyValueStorage[.didShowProductDetailOnboarding] = false
-                        buildSut(productListModels: nil,
-                                 initialProduct: product,
-                                 source: .productList,
-                                 showKeyboardOnFirstAppearIfNeeded: false,
-                                 trackingIndex: nil,
-                                 firstProductSyncRequired: false)
+                        buildSut(initialProduct: product)
                         sut.active = true
                     }
                     it("calls show onboarding") {
@@ -198,12 +193,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         let product = MockProduct.makeMock()
                         keyValueStorage[.didShowProductDetailOnboarding] = true
-                        buildSut(productListModels: nil,
-                                 initialProduct: product,
-                                 source: .productList,
-                                 showKeyboardOnFirstAppearIfNeeded: false,
-                                 trackingIndex: nil,
-                                 firstProductSyncRequired: false)
+                        buildSut(initialProduct: product)
                         sut.active = true
                     }
                     it("doesn't call show onboarding") {
@@ -216,12 +206,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         let product = MockProduct.makeMock()
                         keyValueStorage[.productMoreInfoTooltipDismissed] = false
-                        buildSut(productListModels: nil,
-                                 initialProduct: product,
-                                 source: .productList,
-                                 showKeyboardOnFirstAppearIfNeeded: false,
-                                 trackingIndex: nil,
-                                 firstProductSyncRequired: false)
+                        buildSut(initialProduct: product)
                         sut.active = true
                     }
                     it("shouldShowMoreInfoTooltip is true") {
@@ -243,12 +228,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         let product = MockProduct.makeMock()
                         keyValueStorage[.productMoreInfoTooltipDismissed] = true
-                        buildSut(productListModels: nil,
-                                 initialProduct: product,
-                                 source: .productList,
-                                 showKeyboardOnFirstAppearIfNeeded: false,
-                                 trackingIndex: nil,
-                                 firstProductSyncRequired: false)
+                        buildSut(initialProduct: product)
                         sut.active = true
                     }
                     it("shouldShowMoreInfoTooltip is false") {
@@ -260,12 +240,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 var product: Product!
                 beforeEach {
                     product = MockProduct.makeMock()
-                    buildSut(productListModels: nil,
-                             initialProduct: product,
-                             source: .productList,
-                             showKeyboardOnFirstAppearIfNeeded: false,
-                             trackingIndex: nil,
-                             firstProductSyncRequired: false)
+                    buildSut(initialProduct: product)
                     sut.active = true
                     sut.moreInfoState.value = .shown
                 }
@@ -275,6 +250,117 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 it("tracks more info visit with product Id same as provided") {
                     let firstEvent = tracker.trackedEvents.last
                     expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == product.objectId
+                }
+            }
+            describe("quick answers") {
+                var product: MockProduct!
+                describe("availability and quickAnswers list") {
+                    context("product is mine and available") {
+                        beforeEach {
+                            let myUser = MockMyUser.makeMock()
+                            myUserRepository.myUserVar.value = myUser
+                            product = MockProduct.makeMock()
+                            var productUser = MockUserProduct.makeMock()
+                            productUser.objectId = myUser.objectId
+                            product.user = productUser
+                            product.status = .approved
+                            buildSut(initialProduct: product)
+                            sut.active = true
+                        }
+                        it("quick answers are not available") {
+                            expect(quickAnswersAvailableObserver.eventValues) == [false] //first product
+                        }
+                        it("quickAnswers are empty") {
+                            expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
+                        }
+                    }
+                    context("product is not mine and available") {
+                        context("non free product") {
+                            beforeEach {
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product = MockProduct.makeMock()
+                                product.status = .approved
+                                product.price = .normal(25)
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                            }
+                            it("quick answers are available") {
+                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
+                            }
+                            it("correct quick answers are present") {
+                                let expectedAnswers: [QuickAnswer] = [.interested, .likeToBuy, .isNegotiable, .meetUp]
+                                expect(quickAnswersObserver.eventValues.last?.map { $0.text }) == expectedAnswers.map { $0.text }
+                            }
+                        }
+                        context("free product") {
+                            beforeEach {
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product = MockProduct.makeMock()
+                                product.status = .approved
+                                product.price = .free
+                                featureFlags.freePostingModeAllowed = true
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                            }
+                            it("quick answers are available") {
+                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
+                            }
+                            it("correct quick answers are present") {
+                                let expectedAnswers: [QuickAnswer] = [.interested, .meetUp, .productCondition]
+                                expect(quickAnswersObserver.eventValues.last?.map { $0.text }) == expectedAnswers.map { $0.text }
+                            }
+                        }
+                    }
+                }
+                describe("collapsed state") {
+                    context("initial value non collapsed") {
+                        beforeEach {
+                            keyValueStorage[.productDetailQuickAnswersHidden] = false
+                            product = MockProduct.makeMock()
+                            product.status = .approved
+                            buildSut(initialProduct: product)
+                            sut.active = true
+                        }
+                        it("quickAnswersCollapsed is false") {
+                            expect(quickAnswersCollapsedObserver.eventValues) == [false]
+                        }
+                        describe("close button/option is pressed") {
+                            beforeEach {
+                                sut.quickAnswersCloseButtonPressed()
+                            }
+                            it("quickAnswersCollapsed is now true") {
+                                expect(quickAnswersCollapsedObserver.eventValues) == [false, true]
+                            }
+                            it("storage is now also true") {
+                                expect(keyValueStorage[.productDetailQuickAnswersHidden]) == true
+                            }
+                        }
+                    }
+                    context("initial value collapsed") {
+                        beforeEach {
+                            keyValueStorage[.productDetailQuickAnswersHidden] = true
+                            product = MockProduct.makeMock()
+                            product.status = .approved
+                            buildSut(initialProduct: product)
+                            sut.active = true
+                        }
+                        it("quickAnswersCollapsed is true") {
+                            expect(quickAnswersCollapsedObserver.eventValues) == [true]
+                        }
+                        describe("show option is pressed") {
+                            beforeEach {
+                                sut.quickAnswersShowButtonPressed()
+                            }
+                            it("quickAnswersCollapsed is now true") {
+                                expect(quickAnswersCollapsedObserver.eventValues) == [true, false]
+                            }
+                            it("storage is now also true") {
+                                expect(keyValueStorage[.productDetailQuickAnswersHidden]) == false
+                            }
+                        }
+                    }
                 }
             }
         }
