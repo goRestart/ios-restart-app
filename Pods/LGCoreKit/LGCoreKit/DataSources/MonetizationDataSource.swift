@@ -18,6 +18,6 @@ protocol MonetizationDataSource {
     func retrieveBumpeableProductInfo(productId: String, completion: MonetizationDataSourceBumpeableProductCompletion?)
     func freeBump(forProduct productId: String, itemId: String, paymentId: String,
                   completion: MonetizationDataSourceBumpCompletion?)
-    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, paymentId: String,
-                  completion: MonetizationDataSourceBumpCompletion?)
+    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
+                    paymentId: String, completion: MonetizationDataSourceBumpCompletion?)
 }

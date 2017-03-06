@@ -32,15 +32,9 @@ public struct LGLocationCoordinates2D: Equatable {
     }
 
     public init?(coordinates: CLLocationCoordinate2D) {
-        if !CLLocationCoordinate2DIsValid(coordinates) {
-            self.latitude = 0
-            self.longitude = 0
-            return nil
-        }
-        else {
-            self.latitude = coordinates.latitude
-            self.longitude = coordinates.longitude
-        }
+        guard CLLocationCoordinate2DIsValid(coordinates) else { return nil }
+        self.latitude = coordinates.latitude
+        self.longitude = coordinates.longitude
     }
 
     public init(location: LGLocation) {
