@@ -180,7 +180,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             describe("onboarding") {
                 context("didn't show onboarding previously") {
                     beforeEach {
-                        let product = MockProduct.makeMock()
                         keyValueStorage[.didShowProductDetailOnboarding] = false
                         buildSut(initialProduct: product)
                         sut.active = true
@@ -191,7 +190,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 }
                 context("didn't show onboarding previously") {
                     beforeEach {
-                        let product = MockProduct.makeMock()
                         keyValueStorage[.didShowProductDetailOnboarding] = true
                         buildSut(initialProduct: product)
                         sut.active = true
@@ -204,7 +202,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             describe("more info tooltip") {
                 context("was never closed before") {
                     beforeEach {
-                        let product = MockProduct.makeMock()
                         keyValueStorage[.productMoreInfoTooltipDismissed] = false
                         buildSut(initialProduct: product)
                         sut.active = true
@@ -226,7 +223,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 }
                 context("was closed before") {
                     beforeEach {
-                        let product = MockProduct.makeMock()
                         keyValueStorage[.productMoreInfoTooltipDismissed] = true
                         buildSut(initialProduct: product)
                         sut.active = true
@@ -237,9 +233,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("show more info") {
-                var product: Product!
                 beforeEach {
-                    product = MockProduct.makeMock()
                     buildSut(initialProduct: product)
                     sut.active = true
                     sut.moreInfoState.value = .shown
@@ -253,13 +247,11 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("quick answers") {
-                var product: MockProduct!
                 describe("availability and quickAnswers list") {
                     context("product is mine and available") {
                         beforeEach {
                             let myUser = MockMyUser.makeMock()
                             myUserRepository.myUserVar.value = myUser
-                            product = MockProduct.makeMock()
                             var productUser = MockUserProduct.makeMock()
                             productUser.objectId = myUser.objectId
                             product.user = productUser
@@ -279,7 +271,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             beforeEach {
                                 let myUser = MockMyUser.makeMock()
                                 myUserRepository.myUserVar.value = myUser
-                                product = MockProduct.makeMock()
                                 product.status = .approved
                                 product.price = .normal(25)
                                 buildSut(initialProduct: product)
@@ -297,7 +288,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             beforeEach {
                                 let myUser = MockMyUser.makeMock()
                                 myUserRepository.myUserVar.value = myUser
-                                product = MockProduct.makeMock()
                                 product.status = .approved
                                 product.price = .free
                                 featureFlags.freePostingModeAllowed = true
@@ -318,7 +308,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("initial value non collapsed") {
                         beforeEach {
                             keyValueStorage[.productDetailQuickAnswersHidden] = false
-                            product = MockProduct.makeMock()
                             product.status = .approved
                             buildSut(initialProduct: product)
                             sut.active = true
@@ -341,7 +330,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("initial value collapsed") {
                         beforeEach {
                             keyValueStorage[.productDetailQuickAnswersHidden] = true
-                            product = MockProduct.makeMock()
                             product.status = .approved
                             buildSut(initialProduct: product)
                             sut.active = true
@@ -359,6 +347,116 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             it("storage is now also true") {
                                 expect(keyValueStorage[.productDetailQuickAnswersHidden]) == false
                             }
+                        }
+                    }
+                }
+            }
+            describe("first product needs update") {
+                var newProduct: MockProduct!
+                beforeEach {
+                    product.name = String.makeRandom()
+                    newProduct = MockProduct.makeMock()
+                    newProduct.name = String.makeRandom()
+                    newProduct.objectId = product.objectId
+                    newProduct.user = product.user
+                    productRepository.productResult = ProductResult(newProduct)
+                    buildSut(initialProduct: product, firstProductSyncRequired: true)
+                }
+                it("product info title passes trough both items title") {
+                    expect(productInfoObserver.eventValues.flatMap { $0?.title }).toEventually(equal([product.title, newProduct.title].flatMap { $0 }))
+                }
+            }
+            describe("pagination") {
+                context("single item") {
+                    beforeEach {
+                        productListRequester.generateItems(30)
+                        buildSut(initialProduct: product)
+                    }
+                    it("items count automatically becomes 21") {
+                        expect(sut.objectCount).toEventually(equal(21))
+                    }
+                }
+                context("multiple items") {
+                    context("item before the threshold") {
+                        beforeEach {
+                            var products = MockProduct.makeMocks(count: 20)
+                            products[0] = product
+                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            productListRequester.generateItems(30)
+                            buildSut(productListModels: productListModels, initialProduct: product)
+                            self.waitFor(timeout: 0.2)
+                        }
+                        it("doesn't paginate initially") {
+                            expect(sut.objectCount).toNot(beGreaterThan(20))
+                        }
+                        describe("switch to item after threshold") {
+                            beforeEach {
+                                sut.moveToProductAtIndex(18, movement: .swipeRight)
+                            }
+                            it("gets one extra page") {
+                                expect(sut.objectCount).toEventually(equal(40))
+                            }
+                        }
+                    }
+                    context("item after the threshold") {
+                        beforeEach {
+                            var products = MockProduct.makeMocks(count: 20)
+                            products[18] = product
+                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            productListRequester.generateItems(30)
+                            buildSut(productListModels: productListModels, initialProduct: product)
+                        }
+                        it("paginates initially") {
+                            expect(sut.objectCount).toEventually(equal(40))
+                        }
+                    }
+                }
+                context("long pagination") {
+                    beforeEach {
+                        //Simulating that we're on page 8-10
+                        var products = MockProduct.makeMocks(count: 180)
+                        products[160] = product
+                        productListRequester.generateItems(200)
+                        productListRequester.offset = 180
+                        let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                        buildSut(productListModels: productListModels, initialProduct: product)
+                    }
+                    describe("move to item before threshold") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(172, movement: .swipeRight)
+                            self.waitFor(timeout: 0.2)
+                        }
+                        it("doesn't paginate") {
+                            expect(sut.objectCount).toNot(beGreaterThan(180))
+                        }
+                    }
+                    describe("move to item after threshold") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(178, movement: .swipeRight)
+                        }
+                        it("paginates") {
+                            expect(sut.objectCount).toEventually(equal(200))
+                        }
+                    }
+                }
+            }
+            fdescribe("products navigation") {
+                describe("image pre-caching") {
+                    context("initial movement") {
+                        var products: [MockProduct]!
+                        beforeEach {
+                            products = MockProduct.makeMocks(count: 20)
+                            for i in 0..<products.count {
+                                var product = products[i]
+                                product.images = [LGFile(id: nil, url: URL.makeRandom())]
+                                products[i] = product
+                            }
+                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            buildSut(productListModels: productListModels, initialProduct: product)
+                        }
+                        it("requests images for items 0-3") {
+                            let images = products.prefix(through: 3).flatMap { $0.images.first?.fileURL }
+                            expect(imageDownloader.downloadImagesRequested) == images
                         }
                     }
                 }

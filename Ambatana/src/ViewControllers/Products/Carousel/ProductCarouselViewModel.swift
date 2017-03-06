@@ -188,13 +188,14 @@ class ProductCarouselViewModel: BaseViewModel {
          productViewModelMaker: ProductViewModelMaker) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
+            self.isLastPage = productListRequester.isLastPage(productListModels.count)
         } else {
             self.objects.appendContentsOf([initialProduct].flatMap{$0}.map(ProductCarouselCellModel.init))
+            self.isLastPage = false
         }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.source = source
-        self.isLastPage = productListRequester.isLastPage(productListModels?.count ?? 0)
         self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
@@ -204,7 +205,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.currentIndex = startIndex
         super.init()
         self.trackingIndex = trackingIndex
-        setCurrentIndex(startIndex)
         setupRxBindings()
         moveToProductAtIndex(startIndex, movement: .initial)
 
