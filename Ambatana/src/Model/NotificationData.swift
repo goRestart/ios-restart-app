@@ -17,7 +17,7 @@ enum NotificationDataType {
     case buyersInterested(product: NotificationProduct, buyers: [NotificationUser])
     case productSuggested(product: NotificationProduct, seller: NotificationUser)
     case facebookFriendshipCreated(user: NotificationUser, facebookUsername: String)
-    case modular(modules: NotificationModular)
+    case modular(modules: NotificationModular, delegate: ModularNotificationCellDelegate?)
 }
 
 struct NotificationData {

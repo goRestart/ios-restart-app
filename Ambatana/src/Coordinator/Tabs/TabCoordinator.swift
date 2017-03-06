@@ -155,6 +155,10 @@ extension TabCoordinator: TabNavigator {
         let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func openDeepLink(_ deeplink: DeepLink) {
+        appNavigator?.openDeepLink(deepLink: deeplink)
+    }
 
     var hidesBottomBarWhenPushed: Bool {
         return navigationController.viewControllers.count == 1

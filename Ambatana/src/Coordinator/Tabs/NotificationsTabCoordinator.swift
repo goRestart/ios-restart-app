@@ -80,6 +80,10 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
             }
         }
     }
+    
+    func openNotificationDeepLink(deepLink: DeepLink) {
+        openDeepLink(deepLink)
+    }
 
     private func openPassiveBuyers(_ passiveBuyersInfo: PassiveBuyersInfo, actionCompletedBlock: (() -> Void)?) {
         passiveBuyersCompletion = actionCompletedBlock

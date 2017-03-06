@@ -8,9 +8,14 @@
 
 import LGCoreKit
 
+protocol ModularNotificationCellDelegate: class {
+    func triggerModularNotificaionDeeplink(deeplink: String)
+}
+
 
 class ModularNotificationCell: UITableViewCell, ReusableCell {
     
+    var background: UIView
     var heroImageView: UIImageView
     var textTitleLabel: UILabel
     var textBodyLabel: UILabel
@@ -30,7 +35,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     
     var primaryImageAction: (() -> Void)?
     
+    weak var delegate: ModularNotificationCellDelegate?
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        self.background = UIView()
         self.heroImageView = UIImageView()
         self.textTitleLabel = UILabel()
         self.textBodyLabel = UILabel()
@@ -51,19 +59,38 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         resetUI()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        heroImageView.setRoundedCorners([.topLeft, .topRight], cornerRadius: LGUIKitConstants.notificationCellCornerRadius)
+        
+    }
+    
     func setupUI() {
         
         backgroundColor = UIColor.clear
-        contentView.backgroundColor = UIColor.white
+        
+        contentView.backgroundColor = UIColor.clear
         contentView.clipsToBounds = true
-        contentView.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
+
         
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [heroImageView, basicImage, iconImageView, textTitleLabel, textBodyLabel])
+        contentView.layoutMargins = UIEdgeInsets(top: Metrics.modularNotificationLongMargin,
+                                                 left: Metrics.modularNotificationLongMargin,
+                                                 bottom: Metrics.modularNotificationLongMargin,
+                                                 right: Metrics.modularNotificationLongMargin)
         
-        contentView.layout(with: self).top().left().right().bottom()
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [background, heroImageView, basicImage, iconImageView, textTitleLabel, textBodyLabel])
+        
+        background.backgroundColor = UIColor.white
+        addSubview(background)
+        sendSubview(toBack: background)
+        background.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
+        background.layout(with: self).top(by: Metrics.modularNotificationLongMargin/2)
+            .bottom(by: -Metrics.modularNotificationLongMargin/2)
+            .left(by: Metrics.modularNotificationLongMargin/2)
+            .right(by: -Metrics.modularNotificationLongMargin/2)
+        
         contentView.addSubview(heroImageView)
-        heroImageView.layout(with: contentView).top().left().right()
-        basicImage.contentMode = .scaleAspectFill
+        heroImageView.layout(with: contentView).topMargin().leftMargin().rightMargin()
         
         contentView.addSubview(basicImage)
         basicImage.contentMode = .scaleAspectFill
@@ -86,8 +113,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         refreshState()
     }
     
-    // MARK: > LayoutViews. 
-
     
     // MARK: > Actions
     
@@ -111,7 +136,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         if let iconImage = modules.iconImage {
             addIconImage(with: iconImage.imageURL)
         }
-        addTextInfo(with: modules.text.title, body: modules.text.body, deepLink: modules.text.deeplink)
+        addTextInfo(with: modules.text.title, body: modules.text.body, deeplink: modules.text.deeplink)
         
         if let thumbnailsModule = modules.thumbnails {
             thumbnailsModule.forEach {
@@ -122,28 +147,29 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         modules.callToActions.forEach { addCTA(with: $0.title, deeplink: $0.deeplink) }
         finishDrawer()
     }
-    
 
     
     // MARK: - Private methods
-   
     
     fileprivate func addHeroImage(with imageURL: String, deeplink: String?) {
         guard let url = URL(string: imageURL) else { return }
         heroImageView.lg_setImageWithURL(url)
+        heroImageView.layout().height(Metrics.modularNotificationHeroImageHeight)
         let tap = UITapGestureRecognizer(target: self, action: #selector(elementTapped))
         heroImageView.addGestureRecognizer(tap)
         heroImageView.isUserInteractionEnabled = true
+        
+        heroImageDeeplink = deeplink
+        
         lastViewAdded = heroImageView
     }
     
     fileprivate func addBasicImage(with shape: ImageShape, imageURL: String, deeplink: String?) {
         guard let url = URL(string: imageURL) else { return }
         basicImage.layout(with: heroImageView).below(by: Metrics.modularNotificationLongMargin)
-        basicImage.layout(with: contentView).left(by: Metrics.modularNotificationLongMargin)
+        basicImage.layout(with: contentView).leftMargin(by: Metrics.modularNotificationLongMargin)
         basicImage.layout().width(Metrics.modularNotificationBasicImageSize).height(Metrics.modularNotificationBasicImageSize)
         basicImage.lg_setImageWithURL(url)
-        basicImage.backgroundColor = UIColor.black
         switch shape {
             case .square:
                 basicImage.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
@@ -153,16 +179,18 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         let tap = UITapGestureRecognizer(target: self, action: #selector(elementTapped))
         basicImage.addGestureRecognizer(tap)
         basicImage.isUserInteractionEnabled = true
+        
+        basicImageDeeplink = deeplink
     }
     
-    fileprivate func addTextInfo(with title: String?, body: String, deepLink: String?) {
+    fileprivate func addTextInfo(with title: String?, body: String, deeplink: String?) {
         textTitleLabel.layout(with: heroImageView).below(by: Metrics.modularNotificationLongMargin)
         if basicImageIncluded {
             textTitleLabel.layout(with: basicImage).left(to: .right, by: Metrics.modularNotificationShortMargin)
         } else {
-            textTitleLabel.layout(with: contentView).left(by: Metrics.modularNotificationShortMargin)
+            textTitleLabel.layout(with: contentView).leftMargin(by: Metrics.modularNotificationLongMargin)
         }
-        textTitleLabel.layout(with: contentView).right(by: -Metrics.modularNotificationLongMargin)
+        textTitleLabel.layout(with: contentView).rightMargin(by: -Metrics.modularNotificationLongMargin)
         
         var marginToTop: CGFloat = 0
         if let title = title {
@@ -176,6 +204,8 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         textBodyLabel.addGestureRecognizer(tap)
         textBodyLabel.isUserInteractionEnabled = true
         
+        textTitleDeepLink = deeplink
+        
         lastViewAdded = textBodyLabel
     }
     
@@ -183,7 +213,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     fileprivate func addIconImage(with imageURL: String) {
         guard basicImageIncluded else { return }
         guard let url = URL(string: imageURL) else { return }
-        iconImageView.backgroundColor = UIColor.blue
         iconImageView.lg_setImageWithURL(url)
         iconImageView.layout().width(Metrics.modularNotificationIconImageSize).height(Metrics.modularNotificationIconImageSize)
         iconImageView.layout(with: basicImage).bottom(by: Metrics.modularNotificationIconImageOffset).right(by: Metrics.modularNotificationIconImageOffset)
@@ -222,7 +251,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         contentView.addSubview(button)
         button.setStyle(.secondary(fontSize: .small, withBorder: false))
         button.setTitle(title, for: .normal)
-        button.layout(with: contentView).fillHorizontal()
+        button.layout(with: contentView).fillHorizontal(by: Metrics.modularNotificationLongMargin/2)
         
         let marginToTop: CGFloat = callsToAction.isEmpty ? Metrics.modularNotificationLongMargin : 0
         if let lastViewAdded = lastViewAdded, basicImage.bottom < lastViewAdded.bottom {
@@ -241,26 +270,28 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         callsToActionDeeplinks.append(deeplink)
         
         lastViewAdded = button
-        addButtonSeparator()
+        addButtonSeparator(to: button)
     }
     
     fileprivate func finishDrawer() {
         // Needed to link the last view added to the bottom of the content view.
-        lastViewAdded?.layout(with: contentView).bottom(by: -Metrics.modularNotificationShortMargin)
+        lastViewAdded?.layout(with: contentView).bottomMargin(by: -Metrics.modularNotificationShortMargin)
     }
     
-    fileprivate func addButtonSeparator() {
+    fileprivate func addButtonSeparator(to button: UIButton) {
         let separator: UIView = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(separator)
-        separator.layout(with: contentView).fillHorizontal()
-        separator.layout(with: lastViewAdded).above(by: 0)
+        button.addSubview(separator)
+        separator.layout(with: button).fillHorizontal()
+        separator.layout(with: button).top().left().right()
         separator.backgroundColor = UIColor.grayLight
+        button.bringSubview(toFront: separator)
         separator.layout().height(Metrics.modularNotificationCTASeparatorHeight)
     }
     
     private func resetUI() {
         heroImageView.image = nil
+        heroImageView.layer.mask = nil
         basicImage.image = nil
         iconImageView.image = nil
         textTitleLabel.text = ""
@@ -281,39 +312,37 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     // MARK: - Deeplinks and actions on cell. 
     
     func elementTapped(sender: UITapGestureRecognizer) {
-        if let view = sender.view {
-            switch view {
-            case heroImageView:
-                print("tap on hero image")
-            case basicImage:
-                print("basic image")
-            case textBodyLabel:
-                print("text body tap")
-            default:
-                break
-            }
-          // TODO: open deeplink with string...
+        guard let view = sender.view else { return }
+        var deeplinkString: String? = nil
+        switch view {
+        case heroImageView:
+            deeplinkString = heroImageDeeplink
+        case basicImage:
+            deeplinkString = basicImageDeeplink
+        case textBodyLabel:
+            deeplinkString = textTitleDeepLink
+        default:
+            break
         }
+        notifacionModuleTapped(with: deeplinkString)
     }
     
     func thumbnailTapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view as? UIImageView else { return }
         guard let thumbnailTappedIndex = thumbnails.index(of: view) else { return }
-        
-        print("thumbnail pressed: \(thumbnailTappedIndex)")
-        print("deeplink is: \(thumbnailsDeeplinks[thumbnailTappedIndex])")
+        notifacionModuleTapped(with: thumbnailsDeeplinks[thumbnailTappedIndex])
     }
     
     func CTATapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view as? UIButton else { return }
         guard let buttonTappedIndex = callsToAction.index(of: view) else { return }
-        print("call to action pressed: \(buttonTappedIndex)")
-        print("deeplink is: \(callsToActionDeeplinks[buttonTappedIndex])")
+        notifacionModuleTapped(with: callsToActionDeeplinks[buttonTappedIndex])
     }
     
-    func notifacionModuleTapped(with deeplink: String) {
-        
+    func notifacionModuleTapped(with deeplink: String?) {
+        guard let deeplink = deeplink else { return }
         print(deeplink)
+        delegate?.triggerModularNotificaionDeeplink(deeplink: deeplink)
     }
     
 }

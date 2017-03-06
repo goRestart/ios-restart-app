@@ -222,7 +222,7 @@ fileprivate extension NotificationsViewModel {
             })
         case let .modular(modules):
             return NotificationData(id: notification.objectId,
-                                    type: .modular(modules: modules),
+                                    type: .modular(modules: modules, delegate: self),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: nil)
         }
@@ -233,6 +233,17 @@ fileprivate extension NotificationsViewModel {
                                 date: Date(), isRead: true, primaryAction: { [weak self] in
                                     self?.navigator?.openSell(.notifications)
                                 })
+    }
+}
+
+
+// MARK: - modularNotificationCellDelegate
+
+extension NotificationsViewModel: ModularNotificationCellDelegate {
+    func triggerModularNotificaionDeeplink(deeplink: String) {
+        guard let deepLinkURL = URL(string: deeplink) else { return }
+        guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
+        navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
 }
 
