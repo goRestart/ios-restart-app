@@ -6,6 +6,7 @@ open class MockProductRepository: ProductRepository {
     
     public var indexResult: ProductsResult
     public var productResult: ProductResult
+    public var deleteProductResult: ProductVoidResult
     public var markAsSoldVoidResult: ProductVoidResult
     public var userProductRelationResult: ProductUserRelationResult
     public var statsResult: ProductStatsResult
@@ -22,6 +23,7 @@ open class MockProductRepository: ProductRepository {
         self.eventsPublishSubject = PublishSubject<ProductEvent>()
         self.indexResult = ProductsResult(value: MockProduct.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
         self.productResult = ProductResult(value: MockProduct.makeMock())
+        self.deleteProductResult = ProductVoidResult(value: Void())
         self.markAsSoldVoidResult = ProductVoidResult(value: Void())
         self.userProductRelationResult = ProductUserRelationResult(value: MockUserProductRelation.makeMock())
         self.statsResult = ProductStatsResult(value: MockProductStats.makeMock())
@@ -148,8 +150,8 @@ open class MockProductRepository: ProductRepository {
     }
 
     public func delete(_ product: Product,
-                       completion: ProductCompletion?) {
-        delay(result: productResult, completion: completion)
+                       completion: ProductVoidCompletion?) {
+        delay(result: deleteProductResult, completion: completion)
     }
 
     public func markProductAsSold(_ productId: String,
