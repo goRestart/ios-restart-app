@@ -78,24 +78,27 @@ class BumpUpBanner: UIView {
     func updateInfo(info: BumpUpInfo) {
         type = info.type
 
-        // bumpUpFreeTimeLimit is the time limit in milliseconds
-        timeLeft.value = info.timeSinceLastBump == 0 ? 0 : featureFlags.bumpUpFreeTimeLimit - info.timeSinceLastBump
-        startCountdown()
-        bumpButton.isEnabled = timeLeft.value < 1
-
-
+        // the time limit in milliseconds
+        var waitingTime: Int = 0
         switch type {
         case .free:
+            waitingTime = featureFlags.bumpUpFreeTimeLimit
             bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
         case .priced:
+            waitingTime = Constants.bumpUpPaidTimeLimit
             if let price = info.price {
                 bumpButton.setTitle(price, for: .normal)
             } else {
                 bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
             }
         case .restore:
+            waitingTime = Constants.bumpUpPaidTimeLimit
             bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
         }
+
+        timeLeft.value = info.timeSinceLastBump == 0 ? 0 : waitingTime - info.timeSinceLastBump
+        startCountdown()
+        bumpButton.isEnabled = timeLeft.value < 1
 
         buttonBlock = info.buttonBlock
         primaryBlock = info.primaryBlock
