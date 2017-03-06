@@ -14,10 +14,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     var heroImageView: UIImageView
     var textTitleLabel: UILabel
     var textBodyLabel: UILabel
-    var callsToAction: [UIButton]
+    var callsToAction: [UIButton] = []
     var basicImage: UIImageView
-    var iconView: UIImageView
-    var thumbnails: [UIImageView]
+    var iconImageView: UIImageView
+    var thumbnails: [UIImageView] = []
     
     var heroImageDeeplink: String? = nil
     var textTitleDeepLink: String? = nil
@@ -36,7 +36,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         self.textBodyLabel = UILabel()
         self.callsToAction = []
         self.basicImage = UIImageView()
-        self.iconView = UIImageView()
+        self.iconImageView = UIImageView()
         self.thumbnails = []
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -58,11 +58,12 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         contentView.clipsToBounds = true
         contentView.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
         
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [heroImageView, basicImage, iconView, textTitleLabel, textBodyLabel])
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [heroImageView, basicImage, iconImageView, textTitleLabel, textBodyLabel])
         
         contentView.layout(with: self).top().left().right().bottom()
         contentView.addSubview(heroImageView)
         heroImageView.layout(with: contentView).top().left().right()
+        basicImage.contentMode = .scaleAspectFill
         
         contentView.addSubview(basicImage)
         basicImage.contentMode = .scaleAspectFill
@@ -74,9 +75,9 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         textBodyLabel.numberOfLines = 0
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: false)
         
-        contentView.addSubview(iconView)
-        iconView.rounded = true
-        iconView.contentMode = .scaleAspectFit
+        contentView.addSubview(iconImageView)
+        iconImageView.rounded = true
+        iconImageView.contentMode = .scaleAspectFit
         
     }
     
@@ -98,6 +99,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     //MARK: - Public Methods: 
     
     func addModularData(with modules: NotificationModular) {
+        
         if let heroImage = modules.heroImage {
             addHeroImage(with: heroImage.imageURL, deeplink: heroImage.deeplink)
         }
@@ -111,11 +113,11 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         }
         addTextInfo(with: modules.text.title, body: modules.text.body, deepLink: modules.text.deeplink)
         
-        if let thumbnails = modules.thumbnails {
-            thumbnails.forEach {
+        if let thumbnailsModule = modules.thumbnails {
+            thumbnailsModule.forEach {
                 guard let deeplink = $0.deeplink else { return } //only add thumbnail if there is deeplink
                 addThumbnail(with: $0.shape ?? .square, imageURL: $0.imageURL, deeplink: deeplink)
-        }
+            }
         }
         modules.callToActions.forEach { addCTA(with: $0.title, deeplink: $0.deeplink) }
         finishDrawer()
@@ -129,13 +131,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     fileprivate func addHeroImage(with imageURL: String, deeplink: String?) {
         guard let url = URL(string: imageURL) else { return }
         heroImageView.lg_setImageWithURL(url)
-        heroImageView.layout().height(Metrics.modularNotificationHeroImageHeight)
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(elementTapped))
         heroImageView.addGestureRecognizer(tap)
         heroImageView.isUserInteractionEnabled = true
         lastViewAdded = heroImageView
-        
     }
     
     fileprivate func addBasicImage(with shape: ImageShape, imageURL: String, deeplink: String?) {
@@ -184,10 +183,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     fileprivate func addIconImage(with imageURL: String) {
         guard basicImageIncluded else { return }
         guard let url = URL(string: imageURL) else { return }
-        iconView.backgroundColor = UIColor.blue
-        iconView.lg_setImageWithURL(url)
-        iconView.layout().width(Metrics.modularNotificationIconImageSize).height(Metrics.modularNotificationIconImageSize)
-        iconView.layout(with: basicImage).bottom(by: Metrics.modularNotificationIconImageOffset).right(by: Metrics.modularNotificationIconImageOffset)
+        iconImageView.backgroundColor = UIColor.blue
+        iconImageView.lg_setImageWithURL(url)
+        iconImageView.layout().width(Metrics.modularNotificationIconImageSize).height(Metrics.modularNotificationIconImageSize)
+        iconImageView.layout(with: basicImage).bottom(by: Metrics.modularNotificationIconImageOffset).right(by: Metrics.modularNotificationIconImageOffset)
     }
     
     fileprivate func addThumbnail(with shape: ImageShape, imageURL: String, deeplink: String) {
@@ -263,11 +262,15 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     private func resetUI() {
         heroImageView.image = nil
         basicImage.image = nil
-        iconView.image = nil
+        iconImageView.image = nil
         textTitleLabel.text = ""
         textBodyLabel.text = ""
+        thumbnails.forEach { $0.removeFromSuperview()}
         thumbnails = []
+        callsToAction.forEach { $0.removeFromSuperview()}
         callsToAction = []
+        thumbnailsDeeplinks = []
+        callsToActionDeeplinks = []
     }
     
     private func refreshState() {
@@ -296,6 +299,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     func thumbnailTapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view as? UIImageView else { return }
         guard let thumbnailTappedIndex = thumbnails.index(of: view) else { return }
+        
         print("thumbnail pressed: \(thumbnailTappedIndex)")
         print("deeplink is: \(thumbnailsDeeplinks[thumbnailTappedIndex])")
     }
@@ -307,6 +311,9 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         print("deeplink is: \(callsToActionDeeplinks[buttonTappedIndex])")
     }
     
-    
+    func notifacionModuleTapped(with deeplink: String) {
+        
+        print(deeplink)
+    }
     
 }
