@@ -212,7 +212,8 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
                    message: "[Timer] Ping fired")
         guard socketStatus.value.isOpen else { return }
         let ping = WebSocketMessageRouter(uuidGenerator: LGUUID()).pingMessage()
-        sendQuery(ping, completion: nil)
+        // ping is not added to the queue, they are being sent as they come
+        privateSend(ping)
     }
     
     private func scheduleBackgroundTimeoutTimer() {
@@ -797,8 +798,8 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         default:
             break
         }
-
-        cancelPendingCompletionsAndActiveRequests(forKey: key, withCode: error.errorType.rawValue)
+        cancelOperations()
+        cancelAllPendingCompletionsAndActiveRequests(withCode: error.errorType.rawValue)
     }
     
     
