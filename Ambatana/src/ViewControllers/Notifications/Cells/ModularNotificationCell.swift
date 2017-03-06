@@ -62,35 +62,31 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         heroImageView.setRoundedCorners([.topLeft, .topRight], cornerRadius: LGUIKitConstants.notificationCellCornerRadius)
-        
+        lastViewAdded?.setRoundedCorners([.bottomLeft, .bottomRight], cornerRadius: LGUIKitConstants.notificationCellCornerRadius)
     }
     
     func setupUI() {
-        
         backgroundColor = UIColor.clear
-        
         contentView.backgroundColor = UIColor.clear
-        contentView.clipsToBounds = true
-
-        
-        contentView.layoutMargins = UIEdgeInsets(top: Metrics.modularNotificationLongMargin,
-                                                 left: Metrics.modularNotificationLongMargin,
-                                                 bottom: Metrics.modularNotificationLongMargin,
-                                                 right: Metrics.modularNotificationLongMargin)
+        //contentView.clipsToBounds = true
+        contentView.preservesSuperviewLayoutMargins = false
+        contentView.layoutMargins = UIEdgeInsets(top: Metrics.modularNotificationShortMargin,
+                                                 left: Metrics.modularNotificationShortMargin,
+                                                 bottom: Metrics.modularNotificationShortMargin,
+                                                 right: Metrics.modularNotificationShortMargin)
         
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [background, heroImageView, basicImage, iconImageView, textTitleLabel, textBodyLabel])
         
         background.backgroundColor = UIColor.white
-        addSubview(background)
-        sendSubview(toBack: background)
+        contentView.addSubview(background)
+        contentView.sendSubview(toBack: background)
         background.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
-        background.layout(with: self).top(by: Metrics.modularNotificationLongMargin/2)
-            .bottom(by: -Metrics.modularNotificationLongMargin/2)
-            .left(by: Metrics.modularNotificationLongMargin/2)
-            .right(by: -Metrics.modularNotificationLongMargin/2)
+        
+        background.layout(with: contentView).top(to: .topMargin).left(to: .leftMargin).right(to: .rightMargin).bottom(to: .bottomMargin)
+ 
         
         contentView.addSubview(heroImageView)
-        heroImageView.layout(with: contentView).topMargin().leftMargin().rightMargin()
+        heroImageView.layout(with: contentView).top(to: .topMargin).left(to: .leftMargin).right(to: .rightMargin)
         
         contentView.addSubview(basicImage)
         basicImage.contentMode = .scaleAspectFill
@@ -124,7 +120,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     //MARK: - Public Methods: 
     
     func addModularData(with modules: NotificationModular) {
-        
         if let heroImage = modules.heroImage {
             addHeroImage(with: heroImage.imageURL, deeplink: heroImage.deeplink)
         }
@@ -251,7 +246,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         contentView.addSubview(button)
         button.setStyle(.secondary(fontSize: .small, withBorder: false))
         button.setTitle(title, for: .normal)
-        button.layout(with: contentView).fillHorizontal(by: Metrics.modularNotificationLongMargin/2)
+        button.layout(with: contentView).fillHorizontal(by: Metrics.modularNotificationShortMargin)
         
         let marginToTop: CGFloat = callsToAction.isEmpty ? Metrics.modularNotificationLongMargin : 0
         if let lastViewAdded = lastViewAdded, basicImage.bottom < lastViewAdded.bottom {
@@ -275,7 +270,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     
     fileprivate func finishDrawer() {
         // Needed to link the last view added to the bottom of the content view.
-        lastViewAdded?.layout(with: contentView).bottomMargin(by: -Metrics.modularNotificationShortMargin)
+        lastViewAdded?.layout(with: contentView).bottomMargin()
     }
     
     fileprivate func addButtonSeparator(to button: UIButton) {
