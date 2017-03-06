@@ -55,7 +55,8 @@ def shared_pods
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera
-    pod "CameraManager",        "3.1.0"
+#    pod "CameraManager",        "3.1.0"
+    pod "CameraManager",        :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '32011eac1be83e77c2e822979d0e6083e2638a73'
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -
