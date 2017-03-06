@@ -1,5 +1,5 @@
 import Foundation
-@testable import LetGo
+@testable import LetGoGodMode
 
 final class MockPurchaseableProductsRequest: PurchaseableProductsRequest {
     weak var delegate: PurchaseableProductsRequestDelegate?

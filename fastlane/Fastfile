@@ -280,10 +280,10 @@ platform :ios do
     )
   end
 
-  desc "Will test"
+  desc "Will unit test"
   lane :test do
     scan(
-      scheme: "LetGo",
+      scheme: "LetGoPROD",
       device: "iPhone 6 (9.3)",
       output_style: "rspec",
       output_directory: "./scanresults",
@@ -293,7 +293,20 @@ platform :ios do
       )
   end
 
-  desc "Will run CI"
+  desc "Will UI test"
+  lane :ui_test do
+    scan(
+      scheme: "UITests",
+      device: "iPhone 6 (9.3)",
+      output_style: "rspec",
+      output_directory: "./scanresults",
+      output_types: "junit,html",
+      skip_slack: true,
+      code_coverage: true
+      )
+  end
+
+  desc "Will run CI unit tests job"
   lane :ci do
     #danger(github_api_token: '7d076b068979573b076de8866f9e46ab9845113a', verbose: true)
 
@@ -328,6 +341,48 @@ platform :ios do
     end
   end
 
+  desc "Will run CI UI tests job"
+  lane :ci_ui_tests do
+    testException = nil
+    begin
+      ui_test
+    rescue => ex
+      testException = ex
+    end
+
+    junitResult = "../scanresults/report.junit"
+
+    message = "UI Tests - "
+    success = false
+
+    if junitResult.nil?
+      message += "No results file provided!"
+    elsif !File.file?(junitResult)
+      message += "No results file found!"
+    end
+
+    hashResult = Crack::XML.parse(File.read(junitResult))
+    tests = hashResult['testsuites']['tests']
+    failures = hashResult['testsuites']['failures']
+
+    if failures.to_i == 0
+      message += "All #{tests} UI tests passed! :tada:"
+      success = true
+    else
+      message += "Failed #{failures} UI tests from a total of #{tests} :warning:"
+    end
+
+    slack(
+      message: message,
+      success: success,
+      channel: "#ios-develop",  # Optional, by default will post to the default channel configured for the POST URL.
+    )
+
+    if testException
+      raise testException
+    end
+  end
+
   after_all do |lane|
     notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
   end
@@ -336,7 +391,3 @@ platform :ios do
     puts "exception: #{exception.message}"
   end
 end
-
-
-# More information about multiple platforms in fastlane: https://github.com/KrauseFx/fastlane/blob/master/docs/Platforms.md
-# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md

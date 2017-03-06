@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-@testable import LetGo
+@testable import LetGoGodMode
 
 class MockBubbleNotificationManager: BubbleNotificationManager {
     var lastShownData: BubbleNotificationData?

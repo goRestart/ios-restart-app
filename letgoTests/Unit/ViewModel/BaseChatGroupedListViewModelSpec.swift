@@ -7,7 +7,7 @@
 //
 
 
-@testable import LetGo
+@testable import LetGoGodMode
 import LGCoreKit
 import Quick
 import Nimble

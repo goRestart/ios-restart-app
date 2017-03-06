@@ -43,13 +43,33 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "50D08C5E1E683B4B009CC260"
+               BuildableName = "letgoUITests.xctest"
+               BlueprintName = "letgoUITests"
+               ReferencedContainer = "container:LetGo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "50D08C751E6980A8009CC260"
+               BuildableName = "letgoTests.xctest"
+               BlueprintName = "letgoTests"
+               ReferencedContainer = "container:LetGo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "721579FE1E5F34F7006AF997"
-            BuildableName = "notificationserviceGodMode.appex"
-            BlueprintName = "notificationserviceGodMode"
+            BlueprintIdentifier = "C7DB41831C5138B500400945"
+            BuildableName = "LetGoGodMode.app"
+            BlueprintName = "LetGoGodMode"
             ReferencedContainer = "container:LetGo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

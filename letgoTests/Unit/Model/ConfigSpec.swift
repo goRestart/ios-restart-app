@@ -9,7 +9,7 @@
 import Quick
 import Nimble
 import Argo
-@testable import LetGo
+@testable import LetGoGodMode
 
 
 class ConfigSpec: QuickSpec {

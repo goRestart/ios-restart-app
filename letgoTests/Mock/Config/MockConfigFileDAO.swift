@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@testable import LetGo
+@testable import LetGoGodMode
 
 
 class MockConfigDAO : ConfigDAO {
