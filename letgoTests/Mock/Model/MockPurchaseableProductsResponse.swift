@@ -1,5 +1,5 @@
 import Foundation
-@testable import LetGo
+@testable import LetGoGodMode
 
 struct MockPurchaseableProductsResponse: PurchaseableProductsResponse {
     var purchaseableProducts: [PurchaseableProduct]

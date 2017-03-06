@@ -12,7 +12,7 @@ import RxSwift
 import RxTest
 import Result
 @testable import LGCoreKit
-@testable import LetGo
+@testable import LetGoGodMode
 
 
 class NotificationsManagerSpec: QuickSpec {

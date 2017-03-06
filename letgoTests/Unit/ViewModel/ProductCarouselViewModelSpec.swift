@@ -7,7 +7,7 @@
 //
 
 
-@testable import LetGo
+@testable import LetGoGodMode
 import RxTest
 import RxSwift
 import LGCoreKit
