@@ -1,5 +1,5 @@
 import Foundation
-@testable import LetGo
+@testable import LetGoGodMode
 import LGCoreKit
 
 extension MockPurchaseableProduct: MockFactory {

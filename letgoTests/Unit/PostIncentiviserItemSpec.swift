@@ -7,9 +7,7 @@
 //
 
 import Foundation
-
-
-@testable import LetGo
+@testable import LetGoGodMode
 import Quick
 import Nimble
 

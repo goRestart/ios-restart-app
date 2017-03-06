@@ -8,7 +8,7 @@
 
 import Quick
 import Nimble
-@testable import LetGo
+@testable import LetGoGodMode
 
 class LGConfigDAOSpec: QuickSpec {
     

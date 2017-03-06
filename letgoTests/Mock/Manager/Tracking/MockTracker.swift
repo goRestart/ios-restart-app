@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-@testable import LetGo
+@testable import LetGoGodMode
 import LGCoreKit
 
 class MockTracker: Tracker {
