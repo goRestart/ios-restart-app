@@ -63,12 +63,22 @@ Will generate BumperFlags.switf based on the sources json
 ```
 fastlane ios test
 ```
-Will test
+Will unit test
+### ios ui_test
+```
+fastlane ios ui_test
+```
+Will UI test
 ### ios ci
 ```
 fastlane ios ci
 ```
-Will run CI
+Will run CI unit tests job
+### ios ci_ui_tests
+```
+fastlane ios ci_ui_tests
+```
+Will run CI UI tests job
 
 ----
 
