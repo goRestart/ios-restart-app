@@ -863,7 +863,7 @@ fileprivate extension ProductViewModel {
 
             var afterMessageAction: (() -> ())? = nil
             var message: String? = nil
-            if let value = result.value {
+            if let _ = result.value {
                 switch strongSelf.featureFlags.postAfterDeleteMode {
                 case .original:
                     message = LGLocalizedString.productDeleteSuccessMessage

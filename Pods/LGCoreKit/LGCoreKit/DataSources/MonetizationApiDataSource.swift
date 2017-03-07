@@ -19,6 +19,8 @@ class MonetizationApiDataSource : MonetizationDataSource {
     static let itemIdKey = "item_id"
     static let productIdKey = "product_id"
     static let receiptDataKey = "receipt_data"
+    static let priceAmountKey = "price_amount"
+    static let priceCurrencyKey = "price_currency"
 
     let apiClient: ApiClient
 
@@ -48,12 +50,14 @@ class MonetizationApiDataSource : MonetizationDataSource {
         apiClient.request(request, completion: completion)
     }
 
-    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, paymentId: String,
-                    completion: MonetizationDataSourceBumpCompletion?) {
+    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
+                    paymentId: String, completion: MonetizationDataSourceBumpCompletion?) {
         let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
                                       MonetizationApiDataSource.receiptDataKey: receiptData,
                                       MonetizationApiDataSource.itemIdKey: itemId,
-                                      MonetizationApiDataSource.productIdKey: productId]
+                                      MonetizationApiDataSource.productIdKey: productId,
+                                      MonetizationApiDataSource.priceAmountKey: itemPrice,
+                                      MonetizationApiDataSource.priceCurrencyKey: itemCurrency]
         let request = MonetizationRouter.pricedBump(params: params)
 
         apiClient.request(request, completion: completion)
