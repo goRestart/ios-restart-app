@@ -249,7 +249,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         }
 
         monetizationRepository.pricedBump(forProduct: productId, receiptData: receiptData,
-                                          itemId: transaction.payment.productIdentifier) { [weak self] result in
+                                          itemId: transaction.payment.productIdentifier, itemPrice: price,
+                                          itemCurrency: currency) { [weak self] result in
             if let _ = result.value {
                 self?.delegate?.pricedBumpDidSucceed()
                 self?.remove(transaction: transaction.transactionIdentifier)
