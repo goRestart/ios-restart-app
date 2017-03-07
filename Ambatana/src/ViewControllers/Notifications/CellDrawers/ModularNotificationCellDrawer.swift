@@ -14,7 +14,7 @@ class ModularNotificationCellDrawer: BaseNotificationCellDrawer<ModularNotificat
     override func draw(_ cell: ModularNotificationCell, data: NotificationData) {
         switch data.type {
         case let .modular(modules, delegate):
-            cell.addModularData(with: modules)
+            cell.addModularData(with: modules, isRead: data.isRead)
             cell.delegate = delegate
         default:
             return

@@ -224,7 +224,10 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .modular(modules: modules, delegate: self),
                                     date: notification.createdAt, isRead: notification.isRead,
-                                    primaryAction: nil)
+                                    primaryAction: { [weak self] in
+                                        guard modules.callToActions.count > 0 else { return }
+                                        self?.triggerModularNotificaionDeeplink(deeplink:  modules.callToActions[0].deeplink)
+                                    })
         }
     }
 
