@@ -11,16 +11,11 @@ import LGCoreKit
 
 class MockChatWrapper: ChatWrapper {
 
-    let chatRepo: MockChatRepository
-    let oldChatRepo: MockOldChatRepository
-    let myUserRepo: MockMyUserRepository
-    let featureFlags: MockFeatureFlags
+    var results = [ChatWrapperResult]()
+    var currentResultIndex = 0
 
-    init() {
-        chatRepo = MockChatRepository()
-        oldChatRepo = MockOldChatRepository()
-        myUserRepo = MockMyUserRepository()
-        featureFlags = MockFeatureFlags()
-        super.init(chatRepository: chatRepo, oldChatRepository: oldChatRepo, myUserRepository: myUserRepo, featureFlags: featureFlags)
+    func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
+        performAfterDelayWithCompletion(completion, result: results[currentResultIndex])
+        currentResultIndex = currentResultIndex + 1
     }
 }

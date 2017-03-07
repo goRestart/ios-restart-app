@@ -40,6 +40,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var disposeBag: DisposeBag!
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
         var isFavoriteObserver: TestableObserver<Bool>!
+        var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
 
 
         describe("ProductViewModelSpec") {
@@ -66,6 +67,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 disposeBag = DisposeBag()
                 sut.actionButtons.asObservable().bindTo(bottomButtonsObserver).addDisposableTo(disposeBag)
                 sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
+                sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
             }
 
             beforeEach {
@@ -86,6 +88,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 scheduler.start()
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
+                directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
 
                 self.resetViewModelSpec()
             }
@@ -330,6 +333,11 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(isFavoriteObserver.value) == false
                         }
                     }
+                }
+            }
+            describe("direct messages") {
+                beforeEach {
+
                 }
             }
         }

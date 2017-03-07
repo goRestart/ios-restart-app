@@ -37,7 +37,7 @@ class ProductViewModel: BaseViewModel {
                                      myUserRepository: Core.myUserRepository,
                                      productRepository: Core.productRepository,
                                      commercializerRepository: Core.commercializerRepository,
-                                     chatWrapper: ChatWrapper(),
+                                     chatWrapper: LGChatWrapper(),
                                      chatViewMessageAdapter: ChatViewMessageAdapter(),
                                      locationManager: Core.locationManager,
                                      countryHelper: Core.countryHelper,
