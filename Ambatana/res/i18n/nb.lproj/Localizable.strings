@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "for å promotere ditt produkt igjen";
 "bump_up_error_bump_generic" = "En feil oppstod ved promotering av produktet ditt. Vennligst prøv igjen.";
 "bump_up_error_bump_token" = "Din betaling er prosessert, men ditt produkt er ikke promotert enda.";
-"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "En feil oppstod ved fremming av ditt produkt. Din betaling har ikke blitt prosessert. Vennligst prøv igjen.";
 "bump_up_free_success" = "Produktet er promotert! Fortsett å fremme din annonse, og den vil bli enda mer synlig.";
 "bump_up_pay_success" = "Produktet er promotert! Ditt produkt har nå ekstra synlighet.";
 "bump_up_processing_free_text" = "Prosesserer promotering...";
@@ -274,7 +274,7 @@
 "edit_product_location_alert_title" = "ENDRE PLASSERING";
 "edit_product_send_button" = "Lagre endringer";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
-"edit_product_send_ok" = "Gratulerer! Produtet ble oppdatert. Det vil snart vises blant våre annonser.";
+"edit_product_send_ok" = "Gratulerer! Produktet ble oppdatert. Det vil snart vises blant våre annonser.";
 "edit_product_suggesting_title" = "Foreslår tittel...";
 "edit_product_title" = "Endre produkt";
 "edit_product_unsaved_changes_alert" = "Er du sikker på at du vil forkaste endringene?";
