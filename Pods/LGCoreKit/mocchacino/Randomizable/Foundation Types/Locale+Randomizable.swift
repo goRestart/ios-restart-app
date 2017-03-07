@@ -3,6 +3,7 @@ import Foundation
 extension Locale: Randomizable {
     public static func makeRandom() -> Locale {
         let identifier = Locale.availableIdentifiers.random()!
-        return self.init(identifier: identifier)
+        let validIdentifier = Locale(identifier: identifier).identifier
+        return self.init(identifier: validIdentifier)
     }
 }

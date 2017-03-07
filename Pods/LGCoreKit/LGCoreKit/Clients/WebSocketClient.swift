@@ -30,7 +30,7 @@ enum WebSocketError: Error {
     case userNotVerified
     case userBlocked
     case suspended(withCode: Int)
-
+    
     init(wsErrorType: WebSocketErrorType) {
         switch wsErrorType {
         case .userNotVerified:
@@ -52,7 +52,7 @@ protocol WebSocketClient {
     func start(withEndpoint endpoint: String)
     func stop()
     func suspendOperations()
-    func cancelAllOperations()
+    func cancelAllOperations(withError: WebSocketError)
     
     func applicationDidEnterBackground()
     func applicationWillEnterForeground()

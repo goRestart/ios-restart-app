@@ -232,6 +232,7 @@ final class LGProductRepository: ProductRepository {
             if let error = result.error {
                 completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
+                self?.productsLimboDAO.remove(productId)
                 self?.eventBus.onNext(.delete(productId))
                 completion?(ProductVoidResult(value: ()))
             }
