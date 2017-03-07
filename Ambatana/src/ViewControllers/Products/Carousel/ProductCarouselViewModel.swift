@@ -36,7 +36,12 @@ class ProductCarouselViewModel: BaseViewModel {
 
     var currentProductViewModel: ProductViewModel?
     let startIndex: Int
-    fileprivate(set) var currentIndex: Int
+    fileprivate(set) var currentIndex: Int = 0 {
+        didSet {
+            // Just for pagination
+            setCurrentIndex(currentIndex)
+        }
+    }
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator? {
         didSet {
@@ -217,6 +222,13 @@ class ProductCarouselViewModel: BaseViewModel {
         if firstTime && shouldShowOnboarding {
             delegate?.vmShowOnboarding()
         }
+
+        // Tracking
+        if let trackingIndex = trackingIndex, currentIndex == startIndex {
+            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .position(index: trackingIndex))
+        } else {
+            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .none)
+        }
     }
     
     
@@ -244,13 +256,15 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.delegate = self
         currentProductViewModel?.active = active
         currentIndex = index
-        setCurrentIndex(index) // Just for pagination
-        let feedPosition = movement.feedPosition(for: trackingIndex)
-        currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
-
+        
         setupCurrentProductVMRxBindings(forIndex: index)
-
         prefetchNeighborsImages(index, movement: movement)
+
+        // Tracking
+        if active {
+            let feedPosition = movement.feedPosition(for: trackingIndex)
+            currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
+        }
     }
 
     func productCellModelAt(index: Int) -> ProductCarouselCellModel? {

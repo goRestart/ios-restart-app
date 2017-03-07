@@ -440,23 +440,185 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-            fdescribe("products navigation") {
+            describe("products navigation") {
                 describe("image pre-caching") {
-                    context("initial movement") {
-                        var products: [MockProduct]!
+                    var products: [MockProduct]!
+                    beforeEach {
+                        products = MockProduct.makeMocks(count: 20)
+                        for i in 0..<products.count {
+                            var product = products[i]
+                            var image = MockFile.makeMock()
+                            image.fileURL = URL.makeRandom()
+                            product.images = [image]
+                            products[i] = product
+                        }
+                    }
+                    context("first item is 0") {
                         beforeEach {
-                            products = MockProduct.makeMocks(count: 20)
-                            for i in 0..<products.count {
-                                var product = products[i]
-                                product.images = [LGFile(id: nil, url: URL.makeRandom())]
-                                products[i] = product
-                            }
+                            product = products[0]
                             let productListModels = products.map { ProductCellModel.productCell(product: $0) }
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("requests images for items 0-3") {
                             let images = products.prefix(through: 3).flatMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
+                        }
+                        describe("swipe right") {
+                            beforeEach {
+                                sut.moveToProductAtIndex(1, movement: .swipeRight)
+                            }
+                            it("just requests one more image on the right") {
+                                let images = [products[4].images.first?.fileURL].flatMap { $0 }
+                                expect(imageDownloader.downloadImagesRequested) == images
+                            }
+                        }
+                    }
+                    context("first item is in the middle of list") {
+                        beforeEach {
+                            product = products[10]
+                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            buildSut(productListModels: productListModels, initialProduct: product)
+                        }
+                        it("requests images for items 9-13") {
+                            let images = products[9...13].flatMap { $0.images.first?.fileURL }
+                            expect(imageDownloader.downloadImagesRequested) == images
+                        }
+                        describe("swipe right") {
+                            beforeEach {
+                                sut.moveToProductAtIndex(11, movement: .swipeRight)
+                            }
+                            it("just requests one more image on the right") {
+                                let images = [products[14].images.first?.fileURL].flatMap { $0 }
+                                expect(imageDownloader.downloadImagesRequested) == images
+                            }
+                        }
+                        describe("swipe left") {
+                            beforeEach {
+                                sut.moveToProductAtIndex(9, movement: .swipeLeft)
+                            }
+                            it("just requests one more image on the left") {
+                                let images = [products[8].images.first?.fileURL].flatMap { $0 }
+                                expect(imageDownloader.downloadImagesRequested) == images
+                            }
+                        }
+                    }
+                }
+                describe("elements update and visit trackings") {
+                    var products: [MockProduct]!
+                    beforeEach {
+                        products = MockProduct.makeMocks(count: 20)
+                        let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                        buildSut(productListModels: productListModels)
+                    }
+                    context("viewmodel inactive") {
+                        beforeEach {
+                            sut.active = false
+                            sut.moveToProductAtIndex(1, movement: .tap)
+                            sut.moveToProductAtIndex(2, movement: .tap)
+                        }
+                        it("doesn't track any product visit") {
+                            expect(tracker.trackedEvents.count) == 0
+                        }
+                        it("product info changed twice") {
+                            expect(productInfoObserver.eventValues.count) == 3
+                        }
+                        it("product images changed twice") {
+                            expect(productImageUrlsObserver.eventValues.count) == 3
+                        }
+                        it("user info changed twice") {
+                            expect(userInfoObserver.eventValues.count) == 3
+                        }
+                        it("navbarButtons changed twice") {
+                            expect(navBarButtonsObserver.eventValues.count) == 3
+                        }
+                        it("actionButtons changed twice") {
+                            expect(actionButtonsObserver.eventValues.count) == 3
+                        }
+                        it("status changed twice") {
+                            expect(statusObserver.eventValues.count) == 3
+                        }
+                        it("quickanswersavailable changed twice") {
+                            expect(quickAnswersAvailableObserver.eventValues.count) == 3
+                        }
+                        it("directChagEnabled changed twice") {
+                            expect(directChatEnabledObserver.eventValues.count) == 3
+                        }
+                        it("editButton changed twice") {
+                            expect(editButtonStateObserver.eventValues.count) == 3
+                        }
+                        it("favoriteButton changed twice") {
+                            expect(favoriteButtonStateObserver.eventValues.count) == 3
+                        }
+                        it("sharebutton changed twice") {
+                            expect(shareButtonStateObserver.eventValues.count) == 3
+                        }
+                        it("socialMessage changed twice") {
+                            expect(socialMessageObserver.eventValues.count) == 3
+                        }
+                        describe("view model gets active") {
+                            beforeEach {
+                                sut.active = true
+                            }
+                            it("has just one tracking") {
+                                expect(tracker.trackedEvents.count) == 1
+                            }
+                            it("tracks product visit") {
+                                expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit"
+                            }
+                            it("tracks with product Id of product index 2") {
+                                let firstEvent = tracker.trackedEvents.last
+                                expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == products[2].objectId
+                            }
+                        }
+                    }
+                    context("viewmodel active") {
+                        beforeEach {
+                            sut.active = true
+                            sut.moveToProductAtIndex(1, movement: .tap)
+                            sut.moveToProductAtIndex(2, movement: .tap)
+                        }
+                        it("tracks 3 product visits") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-visit","product-detail-visit","product-detail-visit"]
+                        }
+                        it("tracks with product ids of first 3 products") {
+                            expect(tracker.trackedEvents.flatMap { $0.params?.stringKeyParams["product-id"] as? String })
+                                == products.prefix(through: 2).flatMap { $0.objectId }
+                        }
+                        it("product info changed twice") {
+                            expect(productInfoObserver.eventValues.count) == 3
+                        }
+                        it("product images changed twice") {
+                            expect(productImageUrlsObserver.eventValues.count) == 3
+                        }
+                        it("user info changed twice") {
+                            expect(userInfoObserver.eventValues.count) == 3
+                        }
+                        it("navbarButtons changed twice") {
+                            expect(navBarButtonsObserver.eventValues.count) == 3
+                        }
+                        it("actionButtons changed twice") {
+                            expect(actionButtonsObserver.eventValues.count) == 3
+                        }
+                        it("status changed twice") {
+                            expect(statusObserver.eventValues.count) == 3
+                        }
+                        it("quickanswersavailable changed twice") {
+                            expect(quickAnswersAvailableObserver.eventValues.count) == 3
+                        }
+                        it("directChagEnabled changed twice") {
+                            expect(directChatEnabledObserver.eventValues.count) == 3
+                        }
+                        it("editButton changed twice") {
+                            expect(editButtonStateObserver.eventValues.count) == 3
+                        }
+                        it("favoriteButton changed twice") {
+                            expect(favoriteButtonStateObserver.eventValues.count) == 3
+                        }
+                        it("sharebutton changed twice") {
+                            expect(shareButtonStateObserver.eventValues.count) == 3
+                        }
+                        it("socialMessage changed twice") {
+                            expect(socialMessageObserver.eventValues.count) == 3
                         }
                     }
                 }
