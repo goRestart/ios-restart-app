@@ -7,7 +7,7 @@ extension MockInstallation: MockFactory {
                                 appVersion: String.makeRandom(),
                                 deviceType: String.makeRandom(),
                                 timeZone: TimeZone.knownTimeZoneIdentifiers.random(),
-                                localeIdentifier: Locale.availableIdentifiers.random(),
+                                localeIdentifier: Locale.makeRandom().identifier,
                                 deviceToken: String.makeRandom())
     }
 
