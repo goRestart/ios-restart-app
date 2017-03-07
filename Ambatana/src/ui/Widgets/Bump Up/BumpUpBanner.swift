@@ -96,7 +96,7 @@ class BumpUpBanner: UIView {
             bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
         }
 
-        timeLeft.value = info.timeSinceLastBump == 0 ? 0 : waitingTime - info.timeSinceLastBump
+        timeLeft.value = info.timeSinceLastBump == 0 || (waitingTime - info.timeSinceLastBump < 0) ? 0 : waitingTime - info.timeSinceLastBump
         startCountdown()
         bumpButton.isEnabled = timeLeft.value < 1
 
@@ -106,10 +106,11 @@ class BumpUpBanner: UIView {
 
     func resetCountdown() {
         // Update countdown with full waiting time
-        if featureFlags.pricedBumpUpEnabled {
-            timeLeft.value = Constants.bumpUpPaidTimeLimit
-        } else {
+        switch type {
+        case .free:
             timeLeft.value = featureFlags.bumpUpFreeTimeLimit
+        case .priced, .restore:
+            timeLeft.value = Constants.bumpUpPaidTimeLimit
         }
         startCountdown()
     }
@@ -177,7 +178,7 @@ class BumpUpBanner: UIView {
     private func setupUI() {
         backgroundColor = UIColor.white
         textLabel.numberOfLines = 0
-        textLabel.minimumScaleFactor = 0.5
+        textLabel.minimumScaleFactor = 0.3
         iconImageView.image = UIImage(named: "red_chevron_up")
         iconImageView.contentMode = .scaleAspectFit
         bumpButton.frame = CGRect(x: 0, y: 0, width: 100, height: 44)

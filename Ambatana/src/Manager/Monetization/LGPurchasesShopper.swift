@@ -103,12 +103,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         isObservingPaymentsQueue = true
 
         corruptedDataCleanup()
-        
-        // TODO: ⚠️⚠️⚠️ test Cleaning code - Delete before merging ⚠️⚠️⚠️
-//        let transactions = paymentQueue.transactions
-//        for transaction in transactions {
-//            paymentQueue.finishTransaction(transaction)
-//        }
     }
 
     /**
@@ -305,11 +299,10 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
 // MARK: SKPaymentTransactionObserver
 
 extension LGPurchasesShopper: SKPaymentTransactionObserver {
-
+    // https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW4
+    
     // Client should check state of transactions and finish as appropriate.
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        // https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW4
-
         switch shopperState {
         case .restoring:
             restoringPaymentQueue(queue, updatedTransactions: transactions)
