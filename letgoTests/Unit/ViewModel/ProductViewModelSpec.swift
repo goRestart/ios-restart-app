@@ -24,7 +24,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
     override func spec() {
         var sut: ProductViewModel!
 
-        var sessionManager: MockSessionManager!
         var myUserRepository: MockMyUserRepository!
         var productRepository: MockProductRepository!
         var commercializerRepository: MockCommercializerRepository!
@@ -40,6 +39,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
         var disposeBag: DisposeBag!
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
+        var isFavoriteObserver: TestableObserver<Bool>!
 
 
         describe("ProductViewModelSpec") {
@@ -65,10 +65,10 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                 disposeBag = DisposeBag()
                 sut.actionButtons.asObservable().bindTo(bottomButtonsObserver).addDisposableTo(disposeBag)
+                sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
             }
 
             beforeEach {
-                sessionManager = MockSessionManager()
                 myUserRepository = MockMyUserRepository()
                 productRepository = MockProductRepository()
                 commercializerRepository = MockCommercializerRepository()
@@ -85,12 +85,12 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 let scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
+                isFavoriteObserver = scheduler.createObserver(Bool.self)
 
                 self.resetViewModelSpec()
             }
             describe("mark as sold") {
                 beforeEach {
-                    sessionManager.loggedIn = true
                     let myUser = MockMyUser.makeMock()
                     myUserRepository.myUserVar.value = myUser
                     product = MockProduct.makeMock()
@@ -247,57 +247,88 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-
-            describe("add to favorites") {
+            describe("favorite") {
+                var savedProduct: MockProduct!
                 beforeEach {
-                    sessionManager.loggedIn = true
+                    let myUser = MockMyUser.makeMock()
+                    myUserRepository.myUserVar.value = myUser
                     product = MockProduct.makeMock()
                     product.status = .approved
-                    product.favorite = false
+                    savedProduct = MockProduct(product: product)
                     self.shownFavoriteBubble = false
                 }
-                context("Contact the seller AB test enabled"){
+                describe("add to favorites") {
                     beforeEach {
-                        featureFlags.shouldContactSellerOnFavorite = true
+                        product.favorite = false
+                        savedProduct.favorite = true
+                        productRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
-                        sut.switchFavorite()
                     }
+                    context("Contact the seller AB test enabled"){
+                        beforeEach {
+                            featureFlags.shouldContactSellerOnFavorite = true
+                            sut.switchFavorite()
+                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        }
+                        it("shows bubble up") {
+                            expect(self.shownFavoriteBubble) == true
+                        }
+                        it("favorite value is true") {
+                            expect(isFavoriteObserver.value) == true
+                        }
+                    }
+                    context("Contact the seller AB test disabled"){
+                        beforeEach {
+                            featureFlags.shouldContactSellerOnFavorite = false
+                            sut.switchFavorite()
+                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        }
 
-                    it("shows bubble up") {
-                        expect(self.shownFavoriteBubble).toEventually(equal(true))
+                        it("does not show bubble up") {
+                            expect(self.shownFavoriteBubble) == false
+                        }
+                        it("favorite value is true") {
+                            expect(isFavoriteObserver.value) == true
+                        }
                     }
                 }
-                context("Contact the seller AB test disabled"){
+
+                describe("remove from favorites") {
                     beforeEach {
-                        featureFlags.shouldContactSellerOnFavorite = false
+                        product.favorite = true
+                        savedProduct.favorite = false
+                        productRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
-                        sut.switchFavorite()
                     }
 
-                    it("does not show bubble up") {
-                        expect(self.shownFavoriteBubble).toEventually(equal(false))
+                    context("Contact the seller AB test enabled"){
+                        beforeEach {
+                            featureFlags.shouldContactSellerOnFavorite = true
+                            sut.switchFavorite()
+                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        }
+                        
+                        it("does not show bubble up") {
+                            expect(self.shownFavoriteBubble) == false
+                        }
+                        it("favorite value is true") {
+                            expect(isFavoriteObserver.value) == false
+                        }
                     }
-                }
-            }
 
-            describe("remove from favorites") {
-                beforeEach {
-                    sessionManager.loggedIn = true
-                    product = MockProduct.makeMock()
-                    product.status = .approved
-                    product.favorite = true
-                    self.shownFavoriteBubble = false
-                }
+                    context("Contact the seller AB test disabled"){
+                        beforeEach {
+                            featureFlags.shouldContactSellerOnFavorite = false
+                            sut.switchFavorite()
+                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        }
 
-                context("Contact the seller AB test enabled"){
-                    beforeEach {
-                        featureFlags.shouldContactSellerOnFavorite = true
-                        buildProductViewModel()
-                        sut.switchFavorite()
-                    }
-                    
-                    it("does not show bubble up") {
-                        expect(self.shownFavoriteBubble).toEventually(equal(false))
+                        it("does not show bubble up") {
+                            expect(self.shownFavoriteBubble) == false
+                        }
+                        it("favorite value is true") {
+                            expect(isFavoriteObserver.value) == false
+                        }
                     }
                 }
             }
