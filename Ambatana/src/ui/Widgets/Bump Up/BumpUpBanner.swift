@@ -96,7 +96,8 @@ class BumpUpBanner: UIView {
             bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
         }
 
-        timeLeft.value = info.timeSinceLastBump == 0 || (waitingTime - info.timeSinceLastBump < 0) ? 0 : waitingTime - info.timeSinceLastBump
+        let timeShouldBeZero = info.timeSinceLastBump == 0 || (waitingTime - info.timeSinceLastBump < 0) || info.timeSinceLastBump < 0
+        timeLeft.value = timeShouldBeZero ? 0 : waitingTime - info.timeSinceLastBump
         startCountdown()
         bumpButton.isEnabled = timeLeft.value < 1
 
