@@ -315,7 +315,7 @@ class LGSessionManager: InternalSessionManager {
             let userId = myUserRepository.myUser?.objectId else {
                 // Session manager can not authenticate, suspend and cancel all operations
                 websocketClient.suspendOperations()
-                websocketClient.cancelAllOperations()
+                websocketClient.cancelAllOperations(withError: .notAuthenticated)
                 return
         }
 

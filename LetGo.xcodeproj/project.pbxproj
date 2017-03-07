@@ -655,8 +655,6 @@
 		72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
-		72BABFE81E30E1360035747B /* WSChatStatus+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */; };
-		72BABFE91E30E1360035747B /* WSChatStatus+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */; };
 		72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		72D57CD51E5767FC0009FA06 /* notificationservice.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 72D57CCE1E5767FC0009FA06 /* notificationservice.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1793,7 +1791,6 @@
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
-		72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WSChatStatus+LG.swift"; sourceTree = "<group>"; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
 		72D57CCE1E5767FC0009FA06 /* notificationservice.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notificationservice.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D57CD01E5767FC0009FA06 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -2719,7 +2716,6 @@
 				72B935F51E3F917500F93F73 /* UserProduct+LG.swift */,
 				C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */,
 				C738327F1E029CC2007D0C03 /* AccountProvider+LG.swift */,
-				72BABFE71E30E1360035747B /* WSChatStatus+LG.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5256,7 +5252,6 @@
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedProductsView.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				C7740DF41DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift in Sources */,
-				72BABFE81E30E1360035747B /* WSChatStatus+LG.swift in Sources */,
 				5009F8411E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
@@ -5743,7 +5738,6 @@
 				C7DB42051C5138B500400945 /* PushPermissionsManager.swift in Sources */,
 				C74016E01D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
-				72BABFE91E30E1360035747B /* WSChatStatus+LG.swift in Sources */,
 				5009F8421E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,

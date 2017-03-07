@@ -145,7 +145,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
             //Reload messages if active, otherwise it will reload when active
-            if wsChatStatus.available && strongSelf.active {
+            if wsChatStatus == .openAuthenticated && strongSelf.active {
                 strongSelf.refresh(completion: nil)
             }
         }.addDisposableTo(disposeBag)
