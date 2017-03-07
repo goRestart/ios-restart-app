@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import Argo
 import LGCoreKit
-@testable import LetGo
+@testable import LetGoGodMode
 
 
 class LocalUserSpec: QuickSpec {

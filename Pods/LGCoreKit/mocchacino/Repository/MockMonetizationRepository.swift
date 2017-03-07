@@ -23,7 +23,8 @@ open class MockMonetizationRepository: MonetizationRepository {
         delay(result: bumpResult, completion: completion)
     }
 
-    public func pricedBump(forProduct productId: String, receiptData: String, itemId: String, completion: BumpCompletion?) {
+    public func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String,
+                           itemCurrency: String, completion: BumpCompletion?) {
         delay(result: bumpResult, completion: completion)
     }
 }

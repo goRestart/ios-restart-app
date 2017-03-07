@@ -13,7 +13,7 @@ import Quick
 import Nimble
 import RxSwift
 
-@testable import LetGo
+@testable import LetGoGodMode
 
 class CollectionVariableTests: QuickSpec {
 
