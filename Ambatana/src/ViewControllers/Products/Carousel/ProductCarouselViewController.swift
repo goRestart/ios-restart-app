@@ -640,7 +640,7 @@ extension ProductCarouselViewController {
 
         let statusAndFeatured = Observable.combineLatest(viewModel.status.asObservable(), viewModel.isFeatured.asObservable()) { $0 }
         statusAndFeatured.bindNext { [weak self] (status, isFeatured) in
-            if isFeatured {
+            if isFeatured && !status.shouldShowStatus {
                 self?.productStatusView.backgroundColor = UIColor.white
                 self?.productStatusLabel.text = LGLocalizedString.bumpUpProductDetailFeaturedLabel
                 self?.productStatusLabel.textColor = UIColor.redText
