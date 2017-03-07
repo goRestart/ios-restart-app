@@ -320,10 +320,17 @@ extension ChatGroupedViewModel {
 
         }.addDisposableTo(disposeBag)
 
-        chatRepository.chatStatus.map { $0.verifiedPending }.bindTo(verificationPending).addDisposableTo(disposeBag)
-        chatRepository.chatStatus.map { $0.available }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
+        chatRepository.chatStatus.map { $0 == .openAuthenticated }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
 
-        verificationPending.asObservable().distinctUntilChanged().filter { $0 }.subscribeNext { [weak self] _ in
+        chatRepository.chatStatus.bindNext { [weak self] (status) in
+            if status == .openNotVerified {
+                self?.verificationPending.value = true
+            } else if status == .openAuthenticated || status == .closed {
+                self?.verificationPending.value = false
+            }
+        }.addDisposableTo(disposeBag)
+        
+        chatRepository.chatStatus.map { $0 == .openNotVerified }.distinctUntilChanged().filter { $0 }.subscribeNext { [weak self] _ in
             self?.tabNavigator?.openVerifyAccounts([.facebook, .google, .email(self?.myUserRepository.myUser?.email)],
                 source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
