@@ -162,7 +162,7 @@ class BumpUpBanner: UIView {
                     strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
                 case .restore:
                     localizedText = LGLocalizedString.bumpUpErrorBumpToken
-                    strongSelf.iconImageView.image = nil
+                    strongSelf.iconImageView.image = UIImage(named: "ic_error")
                 }
                 strongSelf.bumpButton.isEnabled = true
             } else {
@@ -179,7 +179,8 @@ class BumpUpBanner: UIView {
     private func setupUI() {
         backgroundColor = UIColor.white
         textLabel.numberOfLines = 0
-        textLabel.minimumScaleFactor = 0.3
+        textLabel.adjustsFontSizeToFitWidth = true
+        textLabel.minimumScaleFactor = 0.5
         iconImageView.image = UIImage(named: "red_chevron_up")
         iconImageView.contentMode = .scaleAspectFit
         bumpButton.frame = CGRect(x: 0, y: 0, width: 100, height: 44)

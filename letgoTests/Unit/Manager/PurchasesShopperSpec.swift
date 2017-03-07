@@ -17,12 +17,11 @@ enum MockBumpResult {
     case success
     case fail
     case paymentFail
-    case notDefined
 }
 
 class PurchasesShopperSpec: QuickSpec {
     var requestsFinished: [String]!
-    var mockBumpResult: MockBumpResult!
+    var mockBumpResult: MockBumpResult?
     var network: EventParameterShareNetwork!
 
     override func spec() {
@@ -32,7 +31,7 @@ class PurchasesShopperSpec: QuickSpec {
         var monetizationRepository: MockMonetizationRepository!
         var myUserRepository: MockMyUserRepository!
 
-        fdescribe("PurchasesShopperSpec") {
+        describe("PurchasesShopperSpec") {
             beforeEach {
                 self.requestsFinished = []
                 requestFactory = MockPurchaseableProductsRequestFactory()
@@ -88,13 +87,12 @@ class PurchasesShopperSpec: QuickSpec {
             context("free bump") {
                 context("bump finishes successfully") {
                     beforeEach {
-                        self.mockBumpResult = .notDefined
+                        self.mockBumpResult = nil
                         self.network = .notAvailable
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
                         sut.requestFreeBumpUpForProduct(productId: "a_product_id", withPaymentItemId: "payment_id_1",
                                                         shareNetwork: .email)
-                        let _ = self.expectation(description: "Wait for network calls")
-                        self.waitForExpectations(timeout: 0.2, handler: nil)
+                        expect(self.mockBumpResult).toEventuallyNot(beNil())
                     }
                     it ("bump request succeeds") {
                         expect(self.mockBumpResult) == .success
@@ -105,13 +103,12 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("free bump fails") {
                     beforeEach {
-                        self.mockBumpResult = .notDefined
+                        self.mockBumpResult = nil
                         self.network = .notAvailable
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
                         sut.requestFreeBumpUpForProduct(productId: "a_product_id", withPaymentItemId: "payment_id_1",
                                                         shareNetwork: .email)
-                        let _ = self.expectation(description: "Wait for network calls")
-                        self.waitForExpectations(timeout: 0.2, handler: nil)
+                        expect(self.mockBumpResult).toEventuallyNot(beNil())
                     }
                     it ("bump request fails") {
                         expect(self.mockBumpResult) == .fail
@@ -127,7 +124,7 @@ class PurchasesShopperSpec: QuickSpec {
                     beforeEach {
                         initialPendingPayments = sut.numPendingTransactions
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
-                        sut.productsDict["product_id"] = [myAppstoreProduct]
+                        sut.letgoProductsDict["product_id"] = [myAppstoreProduct]
                         sut.requestPaymentForProduct("product_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
                     }
                     it ("adds a new payment to the queue") {
@@ -138,7 +135,7 @@ class PurchasesShopperSpec: QuickSpec {
                     beforeEach {
                         initialPendingPayments = sut.numPendingTransactions
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
-                        sut.productsDict["product_id"] = [myAppstoreProduct]
+                        sut.letgoProductsDict["product_id"] = [myAppstoreProduct]
                         let unavailableAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "unavailable_appstore_product_id")
                         sut.requestPaymentForProduct("product_id", appstoreProduct: unavailableAppstoreProduct, paymentItemId: "payment_id")
                     }
@@ -149,9 +146,10 @@ class PurchasesShopperSpec: QuickSpec {
             }
             context("product payment failed") {
                 beforeEach {
-                    self.mockBumpResult = .notDefined
+                    self.mockBumpResult = nil
                     let transaction = MyPaymentTransaction(myTransactionIdentifier: "123123", myTransactionState: .failed)
                     sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
+                    expect(self.mockBumpResult).toEventuallyNot(beNil())
                 }
                 it ("bump result payment fails") {
                     expect(self.mockBumpResult) == .paymentFail
@@ -162,7 +160,7 @@ class PurchasesShopperSpec: QuickSpec {
                 let transaction = MyPaymentTransaction(myTransactionIdentifier: "123123", myTransactionState: .purchased)
 
                 beforeEach {
-                    self.mockBumpResult = .notDefined
+                    self.mockBumpResult = nil
                 }
                 context("new purchase") {
                     context("bump succeeds") {
@@ -173,8 +171,7 @@ class PurchasesShopperSpec: QuickSpec {
                             sut.shopperState = .purchasing
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
                             sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
+                            expect(self.mockBumpResult).toEventuallyNot(beNil())
                         }
                         it ("bump request succeeds") {
                             expect(self.mockBumpResult) == .success
@@ -188,8 +185,7 @@ class PurchasesShopperSpec: QuickSpec {
                             sut.shopperState = .purchasing
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
                             sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
+                            expect(self.mockBumpResult).toEventuallyNot(beNil())
                         }
                         it ("bump request fails") {
                             expect(self.mockBumpResult) == .fail
@@ -198,7 +194,7 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("restoring purchase") {
                     beforeEach {
-                        self.mockBumpResult = .notDefined
+                        self.mockBumpResult = nil
                         sut.paymentProcessingProductId = "product_id_restore"
                         sut.paymentProcessingPaymentId = "payment_id_restore"
                         transaction.myTransactionIdentifier = "restore_bump"
@@ -206,15 +202,19 @@ class PurchasesShopperSpec: QuickSpec {
                         sut.shopperState = .purchasing
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
                         sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
-                        let _ = self.expectation(description: "Wait for network calls")
-                        self.waitForExpectations(timeout: 0.4, handler: nil)
+
+                        expect(self.mockBumpResult).toEventuallyNot(beNil())
+                    }
+                    it("failure") {
+                        expect(self.mockBumpResult) == .fail
                     }
                     context("bump succeeds") {
                         beforeEach {
+                            self.mockBumpResult = nil
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
                             sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.6, handler: nil)
+
+                            expect(self.mockBumpResult).toEventuallyNot(beNil())
                         }
                         it ("bump request succeeds") {
                             expect(self.mockBumpResult) == .success
@@ -222,10 +222,11 @@ class PurchasesShopperSpec: QuickSpec {
                     }
                     context("bump fails") {
                         beforeEach {
+                            self.mockBumpResult = nil
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
                             sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.6, handler: nil)
+
+                            expect(self.mockBumpResult).toEventuallyNot(beNil())
                         }
                         it ("bump request fails") {
                             expect(self.mockBumpResult) == .fail

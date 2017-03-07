@@ -21,7 +21,6 @@
 		2E131C6B1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E131C6A1DEDE998004D26DC /* LGPurchasesShopper.swift */; };
 		2E131C6C1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E131C6A1DEDE998004D26DC /* LGPurchasesShopper.swift */; };
 		2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
-		2E1BC3FF1E648CEE0063D1A7 /* MockReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FE1E648CEE0063D1A7 /* MockReceiptURLProvider.swift */; };
 		2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
 		2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
@@ -175,6 +174,7 @@
 		2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92141E0ABC73007F0F82 /* PurchaseableProductsResponse.swift */; };
 		2EBC92181E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92171E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift */; };
 		2EBC92191E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92171E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift */; };
+		2EC842A61E6EEB7000EED53A /* MockReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC842A51E6EEB7000EED53A /* MockReceiptURLProvider.swift */; };
 		2EDC68671E018C4900AEC763 /* Monetization.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */; };
 		2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */; };
 		2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; };
@@ -1480,6 +1480,7 @@
 		2EBC92101E0ABC26007F0F82 /* PurchaseableProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProduct.swift; path = Monetization/PurchaseableProduct.swift; sourceTree = "<group>"; };
 		2EBC92141E0ABC73007F0F82 /* PurchaseableProductsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsResponse.swift; path = Monetization/PurchaseableProductsResponse.swift; sourceTree = "<group>"; };
 		2EBC92171E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsRequest.swift; path = Monetization/PurchaseableProductsRequest.swift; sourceTree = "<group>"; };
+		2EC842A51E6EEB7000EED53A /* MockReceiptURLProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockReceiptURLProvider.swift; sourceTree = "<group>"; };
 		2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewController.swift; sourceTree = "<group>"; };
 		2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpLogInViewController.xib; sourceTree = "<group>"; };
 		2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModel.swift; sourceTree = "<group>"; };
@@ -3050,6 +3051,7 @@
 		50D08C1C1E646AF7009CC260 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				2EC842A51E6EEB7000EED53A /* MockReceiptURLProvider.swift */,
 				50D08C1D1E646AF7009CC260 /* HOF.swift */,
 				50D08C1E1E646AF7009CC260 /* MockExternalAuthHelper.swift */,
 			);
@@ -3722,41 +3724,6 @@
 				C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */,
 			);
 			path = RelatedProducts;
-			sourceTree = "<group>";
-		};
-		C79895BD1DE2F5F700DD58BF /* Repositories */ = {
-			isa = PBXGroup;
-			children = (
-				C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */,
-				721537AB1E51CDEF008DE006 /* MockUserRepository.swift */,
-				C73832821E02A2A2007D0C03 /* MockInstallationRepository.swift */,
-				C75BC6A61E2E5C9500483F79 /* MockChatRepository.swift */,
-				C75BC6BE1E2E693C00483F79 /* MockOldChatRepository.swift */,
-				C75BC6C01E2E6A8D00483F79 /* MockNotificationsRepository.swift */,
-				2E0093701E3642E000F97F87 /* MockMonetizationRepository.swift */,
-				C7BAC9AC1E49B1A4005BD0AF /* MockProductRepository.swift */,
-				C7BAC9AE1E49B54B005BD0AF /* MockCommercializerRepository.swift */,
-				C7BAC9B31E49B782005BD0AF /* MockStickersRepository.swift */,
-			);
-			path = Repositories;
-			sourceTree = "<group>";
-		};
-		C79895C01DE2FE3600DD58BF /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				C75BC6AA1E2E683C00483F79 /* Array+Randomizable.swift */,
-				C75BC6AB1E2E683C00483F79 /* Bool+Randomizable.swift */,
-				C75BC6AC1E2E683C00483F79 /* Double+Randomizable.swift */,
-				C75BC6AD1E2E683C00483F79 /* Float+Randomizable.swift */,
-				C75BC6AE1E2E683C00483F79 /* Int+Randomizable.swift */,
-				C75BC6B01E2E683C00483F79 /* NSData+Randomizable.swift */,
-				C75BC6B11E2E683C00483F79 /* NSURL+Randomizable.swift */,
-				C75BC6B31E2E683C00483F79 /* String+Randomizable.swift */,
-				C79895C11DE2FE4000DD58BF /* HOF.swift */,
-				50C7428E1DE4682000D629B0 /* MockExternalAuthHelper.swift */,
-				2E1BC3FE1E648CEE0063D1A7 /* MockReceiptURLProvider.swift */,
-			);
-			path = Helper;
 			sourceTree = "<group>";
 		};
 		C7B587FA1CE1DE1C009B3975 /* BlockedUsers */ = {
@@ -5971,6 +5938,7 @@
 				2EF4E3C61D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift in Sources */,
 				50FE1CB91E35F6B4000E940D /* LogInEmailViewModelSpec.swift in Sources */,
 				C7BB25CC1E32315300649396 /* TourLoginState+LGSpec.swift in Sources */,
+				2EC842A61E6EEB7000EED53A /* MockReceiptURLProvider.swift in Sources */,
 				50D08C401E646AF7009CC260 /* MockKeyValueStorage.swift in Sources */,
 				2EF4E3C31D36891200A09DFD /* ConfigSpec.swift in Sources */,
 				50D08C4A1E646AF7009CC260 /* MockPurchaseableProductsResponse+MockFactory.swift in Sources */,
@@ -6004,10 +5972,6 @@
 				50D08C431E646AF7009CC260 /* MockTracker.swift in Sources */,
 				50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				C743FEC31E48DFCF00B4E912 /* BaseViewModelSpec.swift in Sources */,
-				2E1BC3FF1E648CEE0063D1A7 /* MockReceiptURLProvider.swift in Sources */,
-				50C59BE11CE1F06800377124 /* MockKeyValueStorage.swift in Sources */,
-				C75BC6B51E2E683C00483F79 /* Bool+Randomizable.swift in Sources */,
-				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
 				2EA60E771E4CCFAF0021B975 /* ShowFeaturedStripeHelperSpec.swift in Sources */,
 				50D08C3E1E646AF7009CC260 /* MockFeatureFlags.swift in Sources */,
 				C7BAC9D01E4A0EA6005BD0AF /* TestableObserver+LGSpec.swift in Sources */,

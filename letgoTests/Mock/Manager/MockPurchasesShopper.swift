@@ -28,7 +28,7 @@ class MockPurchasesShopper: PurchasesShopper {
     }
 
     func productIsPaidButNotBumped(_ productId: String) -> Bool {
-        return Bool.random()
+        return Bool.makeRandom()
     }
 
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork) {

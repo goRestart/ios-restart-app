@@ -41,7 +41,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     var shopperState: ShopperState = .restoring
 
-    fileprivate(set) var currentProductId: String?
+    fileprivate(set) var currentRequestProductId: String?
     private var productsRequest: PurchaseableProductsRequest
 
     private var requestFactory: PurchaseableProductsRequestFactory
@@ -50,6 +50,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     fileprivate let keyValueStorage: KeyValueStorage
     private var receiptURLProvider: ReceiptURLProvider
     fileprivate var paymentQueue: SKPaymentQueue
+    fileprivate var appstoreProductsCache: [String : SKProduct] = [:]
 
     weak var delegate: PurchasesShopperDelegate?
     private var isObservingPaymentsQueue: Bool = false
@@ -57,7 +58,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     var numPendingTransactions: Int {
         return paymentQueue.transactions.count
     }
-    var productsDict: [String : [SKProduct]] = [:]
+
+    var letgoProductsDict: [String : [SKProduct]] = [:]
     var paymentProcessingProductId: String?
     var paymentProcessingPaymentId: String?
 
@@ -121,10 +123,20 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter ids: array of ids of the appstore products
      */
     func productsRequestStartForProduct(_ productId: String, withIds ids: [String]) {
-        guard productId != currentProductId else { return }
-        productsRequest.cancel()
-        currentProductId = productId
+        guard productId != currentRequestProductId else { return }
 
+        // check cached products
+        for id in ids {
+            // if product has been previously requested, we don't repeat the request, so the banner loads faster
+            if let alreadyChosenProduct = appstoreProductsCache[id] {
+                letgoProductsDict[productId] = [alreadyChosenProduct]
+                delegate?.shopperFinishedProductsRequestForProductId(productId, withProducts: [alreadyChosenProduct])
+                return
+            }
+        }
+
+        productsRequest.cancel()
+        currentRequestProductId = productId
         productsRequest = requestFactory.generatePurchaseableProductsRequest(ids)
         productsRequest.delegate = self
         productsRequest.start()
@@ -151,7 +163,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      */
     func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
         shopperState = .purchasing
-        guard let appstoreProducts = productsDict[productId],
+        guard let appstoreProducts = letgoProductsDict[productId],
               let appstoreChosenProduct = appstoreProduct as? SKProduct else { return }
         guard appstoreProducts.contains(appstoreChosenProduct) else { return }
 
@@ -229,7 +241,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         var price: String = "0"
         var currency: String = ""
-        if let appstoreProducts = productsDict[productId], appstoreProducts.count > 0 {
+        if let appstoreProducts = letgoProductsDict[productId], appstoreProducts.count > 0 {
             if let boughtProduct = appstoreProducts.first {
                 price = String(describing: boughtProduct.price)
                 currency = boughtProduct.priceLocale.currencyCode ?? ""
@@ -275,7 +287,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
     func productsRequest(_ request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse) {
 
-        guard let currentProductId = currentProductId else { return }
+        guard let currentRequestProductId = currentRequestProductId else { return }
 
         let invalidIds = response.invalidProductIdentifiers
         if !invalidIds.isEmpty {
@@ -285,13 +297,19 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             report(AppReport.monetization(error: .invalidAppstoreProductIdentifiers), message: message)
         }
 
-        productsDict[currentProductId] = response.purchaseableProducts.flatMap { $0 as? SKProduct }
-        delegate?.shopperFinishedProductsRequestForProductId(currentProductId, withProducts: response.purchaseableProducts)
-        self.currentProductId = nil
+        let appstoreProducts = response.purchaseableProducts.flatMap { $0 as? SKProduct }
+
+        // save valid products into appstore products cache
+        appstoreProducts.forEach { product in
+            appstoreProductsCache[product.productIdentifier] = product
+        }
+        letgoProductsDict[currentRequestProductId] = appstoreProducts
+        delegate?.shopperFinishedProductsRequestForProductId(currentRequestProductId, withProducts: response.purchaseableProducts)
+        self.currentRequestProductId = nil
     }
 
     func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
-        delegate?.shopperFailedProductsRequestForProductId(currentProductId, withError: error)
+        delegate?.shopperFailedProductsRequestForProductId(currentRequestProductId, withError: error)
     }
 }
 
@@ -342,7 +360,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             case .purchasing, .deferred, .restored:
                 continue
             case .purchased:
-                let transactionProductId = productIdFor(transaction: transaction)
+                let transactionProductId = productIdFor(transaction: transaction) ?? paymentProcessingProductId
 
                 guard let productId = transactionProductId else {
                     remove(transaction: transaction.transactionIdentifier)
