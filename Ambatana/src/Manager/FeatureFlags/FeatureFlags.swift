@@ -31,6 +31,7 @@ protocol FeatureFlaggeable {
     var userRatingMarkAsSold: Bool { get }
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
+    var periscopeRemovePredefinedText: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -190,6 +191,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.signUpLoginImprovement
         }
         return SignUpLoginImprovement.fromPosition(ABTests.signUpLoginImprovement.value)
+    }
+    
+    var periscopeRemovePredefinedText: Bool {
+        if Bumper.enabled {
+            return Bumper.periscopeRemovePredefinedText
+        }
+        return ABTests.periscopeRemovePredefinedText.value
     }
 
     

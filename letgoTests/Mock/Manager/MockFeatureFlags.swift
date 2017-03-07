@@ -34,6 +34,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userRatingMarkAsSold: Bool = false
     var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
+    var periscopeRemovePredefinedText: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false
