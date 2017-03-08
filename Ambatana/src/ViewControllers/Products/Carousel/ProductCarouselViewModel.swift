@@ -208,7 +208,11 @@ class ProductCarouselViewModel: BaseViewModel {
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.productViewModelMaker = productViewModelMaker
-        self.startIndex = objects.value.indexFor(product: initialProduct) ?? 0
+        if let initialProduct = initialProduct {
+            self.startIndex = objects.value.index(where: { $0.product.objectId == initialProduct.objectId}) ?? 0
+        } else {
+            self.startIndex = 0
+        }
         self.currentIndex = startIndex
         super.init()
         self.trackingIndex = trackingIndex
