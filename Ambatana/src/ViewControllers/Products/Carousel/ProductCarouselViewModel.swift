@@ -56,6 +56,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     let showKeyboardOnFirstAppearance: Bool
+    let shouldClearTextWhenBeginEditing: Bool
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
@@ -191,6 +192,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.source = source
         self.isLastPage = productListRequester.isLastPage(productListModels?.count ?? 0)
         self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
+        self.shouldClearTextWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
