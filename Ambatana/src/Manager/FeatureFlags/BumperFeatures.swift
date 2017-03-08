@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self, PostingGallery.self])
     } 
 
     static var websocketChat: Bool {
@@ -98,6 +98,11 @@ extension Bumper  {
     static var periscopeRemovePredefinedText: Bool {
         guard let value = Bumper.value(for: PeriscopeRemovePredefinedText.key) else { return false }
         return PeriscopeRemovePredefinedText(rawValue: value)?.asBool ?? false
+    }
+
+    static var postingGallery: PostingGallery {
+        guard let value = Bumper.value(for: PostingGallery.key) else { return .singleSelection }
+        return PostingGallery(rawValue: value) ?? .singleSelection 
     } 
 }
 
@@ -283,5 +288,23 @@ enum PeriscopeRemovePredefinedText: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Product detail remove chat text on tap" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum PostingGallery: String, BumperFeature  {
+    case singleSelection, multiSelection, multiSelectionWhiteButton, multiSelectionTabs, multiSelectionPostBottom
+    static var defaultValue: String { return PostingGallery.singleSelection.rawValue }
+    static var enumValues: [PostingGallery] { return [.singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionTabs, .multiSelectionPostBottom]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Posting Gallery A/B/C/D/E" } 
+    static func fromPosition(_ position: Int) -> PostingGallery {
+        switch position { 
+            case 0: return .singleSelection
+            case 1: return .multiSelection
+            case 2: return .multiSelectionWhiteButton
+            case 3: return .multiSelectionTabs
+            case 4: return .multiSelectionPostBottom
+            default: return .singleSelection
+        }
+    }
 }
 
