@@ -56,7 +56,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         self.thumbnails = [UIImageView() , UIImageView(), UIImageView(), UIImageView()] // max 4 thumbnails
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
-      //  resetUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -139,7 +138,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         background.addSubview(iconImageView)
         iconImageView.layout().width(Metrics.modularNotificationIconImageSize).height(Metrics.modularNotificationIconImageSize)
         iconImageView.layout(with: basicImage).bottom(by: Metrics.modularNotificationIconImageOffset).right(by: Metrics.modularNotificationIconImageOffset)
-        iconImageView.rounded = true
         iconImageView.contentMode = .scaleAspectFill
         iconImageView.clipsToBounds = true
         
@@ -240,7 +238,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             thumbnailsTopMarginConstraint.constant = 0
         }
         
-        
         // Call to action
         for (index, item) in modules.callToActions.enumerated() {
             CTAheightConstraints[index].constant = Metrics.modularNotificationCTAHeight
@@ -274,11 +271,15 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         basicImageHeightConstraint.constant = Metrics.modularNotificationBasicImageSize
         basicImageWidthConstraint.constant = Metrics.modularNotificationBasicImageSize
         var placeholderImage: UIImage?
+        delay(0.1) { [weak self] in
         switch shape {
-        case .square:
+            case .square:
             placeholderImage = UIImage(named: "notificationBasicImageSquarePlaceholder")
-        case .circle:
+            self?.basicImage.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
+            case .circle:
             placeholderImage = UIImage(named: "notificationBasicImageRoundPlaceholder")
+            self?.basicImage.rounded = true
+            }
         }
         
         basicImage.lg_setImageWithURL(url, placeholderImage: placeholderImage) {
@@ -288,13 +289,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             }
         }
         
-        switch shape {
-        case .square:
-            basicImage.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
-        case .circle:
-            basicImage.rounded = true
-        }
-
         basicImageDeeplink = deeplink
     }
     
@@ -307,7 +301,12 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         }
         textTitleLeftMargin.constant = basicImageIncluded ? Metrics.modularNotificationLongMargin : 0
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: isRead)
-        textBodyLabel.setHTMLFromString(htmlText: body)
+        if isRead {
+            textBodyLabel.setHTMLFromString(htmlText: body)
+        } else {
+            textBodyLabel.text = body.ignoreHTMLTags
+        }
+        
         textTitleDeepLink = deeplink
         
         lastViewAdded = textBodyLabel
@@ -328,11 +327,15 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         guard let url = URL(string: imageURL) else { return }
         thumbnailImageView.isHidden = false
         var placeholderImage: UIImage?
-        switch shape {
-        case .square:
-            placeholderImage = UIImage(named: "notificationThumbnailSquarePlaceholder")
-        case .circle:
-            placeholderImage = UIImage(named: "notificationThumbnailCirclePlaceholder")
+        delay(0.1) { _ in
+            switch shape {
+            case .square:
+                thumbnailImageView.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
+                placeholderImage = UIImage(named: "notificationThumbnailSquarePlaceholder")
+            case .circle:
+                thumbnailImageView.rounded = true
+                placeholderImage = UIImage(named: "notificationThumbnailCirclePlaceholder")
+            }
         }
         thumbnailImageView.lg_setImageWithURL(url, placeholderImage: placeholderImage)  {
             (result, urlResult) in
@@ -340,14 +343,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
                 thumbnailImageView.image = image
             }
         }
-       
-        switch shape {
-        case .square:
-            thumbnailImageView.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
-        case .circle:
-            thumbnailImageView.rounded = true
-        }
-        
         thumbnailsDeeplinks.append(deeplink)
         lastViewAdded = thumbnailImageView
     }
