@@ -12,15 +12,15 @@ import Runes
 
 public struct LGBumpeableProduct : BumpeableProduct {
     public let isBumpeable: Bool
-    public let countdown: TimeInterval
-    public let maxCountdown: TimeInterval
+    public let countdown: Int
+    public let maxCountdown: Int
     public let totalBumps: Int
     public let bumpsLeft: Int
-    public let timeSinceLastBump: TimeInterval
+    public let timeSinceLastBump: Int
     public let paymentItems: [PaymentItem]
 
-    init(isBumpeable: Bool, countdown: TimeInterval, maxCountdown: TimeInterval, totalBumps: Int, bumpsLeft: Int,
-         timeSinceLastBump: TimeInterval, paymentItems: [LGPaymentItem]) {
+    init(isBumpeable: Bool, countdown: Int, maxCountdown: Int, totalBumps: Int, bumpsLeft: Int, timeSinceLastBump: Int,
+         paymentItems: [LGPaymentItem]) {
         self.isBumpeable = isBumpeable
         self.countdown = countdown
         self.maxCountdown = maxCountdown
