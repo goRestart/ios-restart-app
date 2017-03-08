@@ -97,7 +97,7 @@ class ProductViewModel: BaseViewModel {
     fileprivate var commercializerAvailableTemplatesCount: Int? = nil
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
-    fileprivate var timeSinceLastBump: Int = 0
+    fileprivate var timeSinceLastBump: TimeInterval = 0
     fileprivate var bumpUpPurchaseableProduct: PurchaseableProduct?
     fileprivate var isUpdatingBumpUpBanner: Bool = false
     fileprivate var paymentItemId: String?

@@ -200,6 +200,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter productId: letgo product Id
      */
     func requestPricedBumpUpForProduct(_ productId: String) {
+        guard let receiptString = receiptString else { return }
+
         let transactionsDict = keyValueStorage.userTransactionsProductIds
 
         // get the product pending transaction ids saved in keyValueStorage
@@ -218,8 +220,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             guard let transactionId = transaction.transactionIdentifier else { return false }
             return productPendingTransactionIds.contains(transactionId)
         }
-
-        guard let receiptString = receiptString else { return }
 
         // try to restore the product pending bumps
 
