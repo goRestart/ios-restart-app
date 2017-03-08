@@ -9,6 +9,8 @@
 import UIKit
 
 final class PostProductTabsFooter: UIView {
+    let galleryButton = UIButton()
+    let cameraButton = UIButton()
     
     
     // MARK: - Lifecycle
