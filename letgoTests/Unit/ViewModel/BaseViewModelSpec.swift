@@ -11,12 +11,14 @@ import Quick
 import Nimble
 
 class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
+    var delegateReceivedShowAutoFadingMessage = false
     var delegateReceivedShowLoading = false
     var delegateReceivedHideLoading = false
     var delegateReceivedShowAlert = false
     var delegateReceivedShowActionSheet = false
 
     func resetViewModelSpec() {
+        delegateReceivedShowAutoFadingMessage = false
         delegateReceivedShowLoading = false
         delegateReceivedHideLoading = false
         delegateReceivedShowAlert = false
@@ -24,6 +26,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     }
 
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
+        delegateReceivedShowAutoFadingMessage = true
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
             completion?()
         }

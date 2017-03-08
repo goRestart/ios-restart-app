@@ -87,7 +87,7 @@ class CategoriesViewModel: BaseViewModel {
     }
     
     func didSelectItemAtIndex(_ index: Int) {
-        guard let productFilters = filtersForCategoryAtIndex(index) else { return }
+//        guard let productFilters = filtersForCategoryAtIndex(index) else { return }
         //Use a navigator to apply filters (related with: https://ambatana.atlassian.net/browse/ABIOS-2271)
     }
 }

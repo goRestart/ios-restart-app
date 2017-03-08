@@ -221,17 +221,17 @@ fileprivate extension TabCoordinator {
     func openProduct(_ product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterProductVisitSource, index: Int) {
-        let showKeyboardOnFirstAppearIfNeeded = false
         if showRelated {
             //Same as single product opening
             let discover = !featureFlags.productDetailNextRelated
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: discover,
-                        showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
+                        showKeyboardOnFirstAppearIfNeeded: false)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
                                               thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
-                                              showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
+                                              showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: index,
+                                              firstProductSyncRequired: false)
             vm.navigator = self
             openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
         }

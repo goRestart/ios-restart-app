@@ -16,7 +16,6 @@ protocol ExpressChatViewModelDelegate: class {
 
 class ExpressChatViewModel: BaseViewModel {
 
-    private var chatRepository: ChatRepository
     private var keyValueStorage: KeyValueStorage
     fileprivate var featureFlags: FeatureFlaggeable
     fileprivate var trackerProxy: TrackerProxy
@@ -35,6 +34,8 @@ class ExpressChatViewModel: BaseViewModel {
 
     weak var delegate: ExpressChatViewModelDelegate?
 
+    private let chatWrapper: ChatWrapper
+
 
     // Rx Vars
     let selectedItemsCount = Variable<Int>(4)
@@ -46,20 +47,20 @@ class ExpressChatViewModel: BaseViewModel {
 
     convenience init(productList: [Product], sourceProductId: String, manualOpen: Bool) {
         self.init(productList: productList, sourceProductId: sourceProductId, manualOpen: manualOpen,
-                  chatRepository: Core.chatRepository, keyValueStorage: KeyValueStorage.sharedInstance,
-                  trackerProxy: TrackerProxy.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance, trackerProxy: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance, chatWrapper: LGChatWrapper())
     }
 
-    init(productList: [Product], sourceProductId: String, manualOpen: Bool, chatRepository: ChatRepository,
-         keyValueStorage: KeyValueStorage, trackerProxy: TrackerProxy, featureFlags: FeatureFlags) {
+    init(productList: [Product], sourceProductId: String, manualOpen: Bool, keyValueStorage: KeyValueStorage,
+         trackerProxy: TrackerProxy, featureFlags: FeatureFlags, chatWrapper: ChatWrapper) {
         self.productList = productList
         self.sourceProductId = sourceProductId
         self.manualOpen = manualOpen
         self.selectedProducts.value = productList
-        self.chatRepository = chatRepository
         self.keyValueStorage = keyValueStorage
         self.trackerProxy = trackerProxy
         self.featureFlags = featureFlags
+        self.chatWrapper = chatWrapper
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -88,12 +89,11 @@ class ExpressChatViewModel: BaseViewModel {
     }
 
     func sendMessage() {
-        let wrapper = ChatWrapper()
         let tracker = trackerProxy
         let freePostingModeAllowed = featureFlags.freePostingModeAllowed
 
         for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { result in
+            chatWrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { result in
                 if let value = result.value {
                     ExpressChatViewModel.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product,
                                                                      freePostingModeAllowed: freePostingModeAllowed)
