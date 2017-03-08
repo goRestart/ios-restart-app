@@ -13,7 +13,7 @@ class WebSurveyViewController: BaseViewController, WebSurveyViewModelDelegate {
 
     private let buttonDiameter: CGFloat = 50
 
-    private let viewModel: WebSurveyViewModel
+    fileprivate let viewModel: WebSurveyViewModel
 
     fileprivate let webView = UIWebView()
     fileprivate let closeButton = UIButton()
@@ -39,12 +39,12 @@ class WebSurveyViewController: BaseViewController, WebSurveyViewModelDelegate {
 
         activityIndicator.layout(with: container).center()
         closeButton.layout(with: container).left()
-//        closeButton.layout(with: topLayoutGuide).below()
         closeButton.layout().width(54).height(44)
         webView.layout(with: container).left().right().bottom()
         webView.layout(with: closeButton).below()
 
         activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = .gray
         closeButton.setImage(UIImage(named: "ic_close_red"), for: .normal)
         container.backgroundColor = UIColor.white
         webView.backgroundColor = UIColor.white
@@ -69,8 +69,7 @@ class WebSurveyViewController: BaseViewController, WebSurveyViewModelDelegate {
 
 extension WebSurveyViewController: UIWebViewDelegate {
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        print("👀 started loading: \(request.url)")
-        return true
+        return viewModel.shouldLoad(url: request.url)
     }
 
     func webViewDidStartLoad(_ webView: UIWebView) {
@@ -82,6 +81,6 @@ extension WebSurveyViewController: UIWebViewDelegate {
     }
 
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-
+        viewModel.failedLoad()
     }
 }
