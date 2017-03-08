@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,9 +17,6 @@
                 <outlet property="customLoadingView" destination="wW5-ZX-UqE" id="web-O5-ekj"/>
                 <outlet property="detailsContainer" destination="xup-cr-6f7" id="Nbc-zh-N87"/>
                 <outlet property="detailsScroll" destination="5Qq-I7-zHx" id="5fw-2v-7G1"/>
-                <outlet property="galleryButton" destination="dcg-ot-rV0" id="npw-Hc-T2R"/>
-                <outlet property="photoButton" destination="yr8-Uu-gWs" id="BvO-hZ-jnk"/>
-                <outlet property="photoButtonCenterX" destination="CAS-nZ-bzx" id="imR-RB-EED"/>
                 <outlet property="postErrorLabel" destination="ceY-sz-ePA" id="She-qR-gcK"/>
                 <outlet property="postedInfoLabel" destination="bb0-id-OIx" id="ibe-jQ-ayN"/>
                 <outlet property="retryButton" destination="hZ2-Pa-uBQ" id="uKM-Hn-SwA"/>
@@ -30,44 +30,23 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZCG-gR-EN6" userLabel="cameraGalleryContainer">
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcg-ot-rV0" userLabel="GalleryButton">
-                            <constraints>
-                                <constraint firstAttribute="width" constant="70" id="B04-Bh-mfk"/>
-                                <constraint firstAttribute="height" constant="70" id="LDm-je-dCo"/>
-                            </constraints>
-                            <state key="normal" image="ic_post_gallery"/>
-                            <connections>
-                                <action selector="galleryButtonPressed:" destination="-1" eventType="touchUpInside" id="vNb-iP-z2x"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yr8-Uu-gWs" userLabel="PhotoBtn">
-                            <state key="normal" image="ic_post_take_photo_icon" backgroundImage="ic_post_take_photo">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="photoButtonPressed:" destination="-1" eventType="touchUpInside" id="Z4i-EF-veS"/>
-                            </connections>
-                        </button>
-                    </subviews>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="yr8-Uu-gWs" secondAttribute="bottom" constant="15" id="C41-gG-dsU"/>
-                        <constraint firstItem="yr8-Uu-gWs" firstAttribute="centerX" secondItem="ZCG-gR-EN6" secondAttribute="centerX" id="CAS-nZ-bzx"/>
-                        <constraint firstItem="dcg-ot-rV0" firstAttribute="leading" secondItem="ZCG-gR-EN6" secondAttribute="leading" id="Hvu-Tk-7of"/>
-                        <constraint firstAttribute="bottom" secondItem="dcg-ot-rV0" secondAttribute="bottom" id="L2s-kw-uq0"/>
-                    </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7t-oA-DP2" userLabel="SelectPriceContainer">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BGS-Qn-e7g" userLabel="BluredView">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="hB7-6T-u18">
-                                <frame key="frameInset"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c23-Uc-PaC" userLabel="TopControlsContainer">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cop-L9-SsK" userLabel="CloseBtn">
+                                                <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="cop-L9-SsK" secondAttribute="height" multiplier="1:1" id="W3f-es-Q3p"/>
                                                 </constraints>
@@ -88,10 +67,13 @@
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="5Qq-I7-zHx" userLabel="contentScroll">
+                                        <rect key="frame" x="0.0" y="52" width="375" height="615"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
+                                                <rect key="frame" x="15" y="2" width="345" height="194.5"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="48" placeholderIntrinsicHeight="48" translatesAutoresizingMaskIntoConstraints="NO" id="wW5-ZX-UqE" userLabel="customLoadingView" customClass="LoadingIndicator" customModule="LetGo" customModuleProvider="target">
+                                                        <rect key="frame" x="148.5" y="0.0" width="48" height="48"/>
                                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="48" id="R11-n3-0ch"/>
@@ -99,16 +81,19 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Product posted. Congrats!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bb0-id-OIx" userLabel="postedInfoLabel">
+                                                        <rect key="frame" x="0.0" y="58" width="345" height="21.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Your product hasn't been posted. Please check your network settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceY-sz-ePA" userLabel="errorLabel">
+                                                        <rect key="frame" x="0.0" y="89.5" width="345" height="36"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ2-Pa-uBQ" userLabel="retryButton">
+                                                        <rect key="frame" x="122" y="135.5" width="101" height="44"/>
                                                         <color key="backgroundColor" red="0.98660099506378174" green="0.14062686264514923" blue="0.26615336537361145" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="wQj-Eu-ak5"/>
@@ -187,8 +172,5 @@
     </objects>
     <resources>
         <image name="ic_post_close" width="36" height="36"/>
-        <image name="ic_post_gallery" width="32" height="32"/>
-        <image name="ic_post_take_photo" width="84" height="84"/>
-        <image name="ic_post_take_photo_icon" width="31" height="30"/>
     </resources>
 </document>

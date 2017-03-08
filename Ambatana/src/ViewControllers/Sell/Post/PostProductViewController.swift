@@ -12,10 +12,6 @@ import RxSwift
 class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var cameraGalleryContainer: UIView!
-    @IBOutlet weak var galleryButton: UIButton!
-    @IBOutlet weak var photoButton: UIButton!
-    @IBOutlet weak var photoButtonCenterX: NSLayoutConstraint!
-
     @IBOutlet weak var selectPriceContainer: UIView!
     @IBOutlet weak var customLoadingView: LoadingIndicator!
     @IBOutlet weak var postedInfoLabel: UILabel!
@@ -28,11 +24,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate var viewPager: LGViewPager
     fileprivate var cameraView: PostProductCameraView
     fileprivate var galleryView: PostProductGalleryView
+    fileprivate var footer: PostProductFooter
+    fileprivate var footerView: UIView
     fileprivate let keyboardHelper: KeyboardHelper
     private var viewDidAppear: Bool = false
 
     fileprivate static let detailTopMarginPrice: CGFloat = 100
-    fileprivate let rightMarginCameraIcon:CGFloat = 15.0
 
     private let forceCamera: Bool
     private var initialTab: Int {
@@ -49,15 +46,40 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: PostProductViewModel, forceCamera: Bool) {
-        self.init(viewModel: viewModel, forceCamera: forceCamera, keyboardHelper: KeyboardHelper.sharedInstance)
+    convenience init(viewModel: PostProductViewModel,
+                     forceCamera: Bool) {
+        self.init(viewModel: viewModel,
+                  forceCamera: forceCamera,
+                  keyboardHelper: KeyboardHelper.sharedInstance,
+                  postingGallery: FeatureFlags.sharedInstance.postingGallery)
     }
 
-    required init(viewModel: PostProductViewModel, forceCamera: Bool, keyboardHelper: KeyboardHelper) {
+    required init(viewModel: PostProductViewModel,
+                  forceCamera: Bool,
+                  keyboardHelper: KeyboardHelper,
+                  postingGallery: PostingGallery) {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .hidden, tabLayout: .fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
         self.galleryView = PostProductGalleryView()
+        switch postingGallery {
+        case .singleSelection, .multiSelection:
+            let postFooter = PostProductRedCamButtonFooter()
+            self.footer = postFooter
+            self.footerView = postFooter
+        case .multiSelectionWhiteButton:
+            let postFooter = PostProductWhiteCamButtonFooter()
+            self.footer = postFooter
+            self.footerView = postFooter
+        case .multiSelectionTabs:
+            let postFooter = PostProductTabsFooter()
+            self.footer = postFooter
+            self.footerView = postFooter
+        case .multiSelectionPostBottom:
+            let postFooter = PostProductPostFooter()
+            self.footer = postFooter
+            self.footerView = postFooter
+        }
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
@@ -85,7 +107,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         if !viewDidAppear {
             viewPager.delegate = self
             viewPager.selectTabAtIndex(initialTab)
-            updateButtonsForPagerScroll(CGFloat(initialTab))
+            footer.update(scroll: CGFloat(initialTab))
         }
     }
 
@@ -116,12 +138,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         viewModel.closeButtonPressed()
     }
 
-    @IBAction func galleryButtonPressed(_ sender: AnyObject) {
+    dynamic func galleryButtonPressed() {
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(0, animated: true)
     }
 
-    @IBAction func photoButtonPressed(_ sender: AnyObject) {
+    dynamic func cameraButtonPressed() {
         if viewPager.currentPage == 1 {
             cameraView.takePhoto()
         } else {
@@ -145,8 +167,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
 
         setupViewPager()
-
         setupDetailView()
+        setupFooter()
 
         setSelectImageState()
     }
@@ -168,6 +190,18 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         let bottom = NSLayoutConstraint(item: productDetailView, attribute: .bottom, relatedBy: .equal,
                                         toItem: detailsContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
         detailsContainer.addConstraints([top, left, right, bottom])
+    }
+    
+    private func setupFooter() {
+        footerView.translatesAutoresizingMaskIntoConstraints = false
+        footer.galleryButton.addTarget(self, action: #selector(galleryButtonPressed), for: .touchUpInside)
+        footer.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
+        cameraGalleryContainer.addSubview(footerView)
+        
+        footerView.layout(with: cameraGalleryContainer)
+            .leading()
+            .trailing()
+            .bottom()
     }
 
     private func setupRx() {
@@ -194,13 +228,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             scrollView.scrollRectToVisible(detailsRect, animated: false)
             
         }.addDisposableTo(disposeBag)
-    }
-
-    fileprivate func updateButtonsForPagerScroll(_ scroll: CGFloat) {
-        galleryButton.alpha = scroll
-        let rightOffset = photoButton.frame.width/2 + rightMarginCameraIcon
-        let movement = view.width/2 - rightOffset
-        photoButtonCenterX.constant = movement * (1.0 - scroll)
     }
     
     private func loadingViewHidden(hide: Bool) {
@@ -237,7 +264,6 @@ extension PostProductViewController {
     }
 
     fileprivate func setSelectPriceItems(_ loading: Bool, error: String?) {
-
         postedInfoLabel.alpha = 0
         postedInfoLabel.text = error != nil ?
             LGLocalizedString.commonErrorTitle.capitalized : viewModel.confirmationOkText
@@ -306,8 +332,7 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     }
 
     func productCameraRequestHideTabs(_ hide: Bool) {
-        galleryButton.isHidden = hide
-        photoButton.isHidden = hide
+        footer.isHidden = hide
     }
 
     func productCameraRequestsScrollLock(_ lock: Bool) {
@@ -341,7 +366,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGallerySelectionFull(_ selectionFull: Bool) {
-        photoButton.isHidden = selectionFull
+        footer.updateCameraButton(isHidden: selectionFull)
     }
 }
 
@@ -381,7 +406,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         cameraView.showHeader(pagePosition == 1.0)
         galleryView.showHeader(pagePosition == 0.0)
 
-        updateButtonsForPagerScroll(pagePosition)
+        footer.update(scroll: pagePosition)
     }
 
     func viewPagerNumberOfTabs(_ viewPager: LGViewPager) -> Int {
@@ -433,8 +458,6 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 extension PostProductViewController {
     func setAccesibilityIds() {
         closeButton.accessibilityId = .postingCloseButton
-        galleryButton.accessibilityId = .postingGalleryButton
-        photoButton.accessibilityId = .postingPhotoButton
         customLoadingView.accessibilityId = .postingLoading
         retryButton.accessibilityId = .postingRetryButton
     }

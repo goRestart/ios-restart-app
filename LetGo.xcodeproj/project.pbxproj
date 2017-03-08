@@ -357,6 +357,8 @@
 		50C2E1A21E6FFAF2006639BB /* PostProductTabsFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A01E6FFAF2006639BB /* PostProductTabsFooter.swift */; };
 		50C2E1A41E6FFB09006639BB /* PostProductPostFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A31E6FFB09006639BB /* PostProductPostFooter.swift */; };
 		50C2E1A51E6FFB09006639BB /* PostProductPostFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A31E6FFB09006639BB /* PostProductPostFooter.swift */; };
+		50C2E1A71E701BE8006639BB /* PostProductFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A61E701BE8006639BB /* PostProductFooter.swift */; };
+		50C2E1A81E701BE8006639BB /* PostProductFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A61E701BE8006639BB /* PostProductFooter.swift */; };
 		50C43D9C1E26463100F10E53 /* LogInEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9B1E26463100F10E53 /* LogInEmailViewModel.swift */; };
 		50C43D9D1E26463100F10E53 /* LogInEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9B1E26463100F10E53 /* LogInEmailViewModel.swift */; };
 		50C43D9F1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9E1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift */; };
@@ -1610,6 +1612,7 @@
 		50C2E19D1E6FFADD006639BB /* PostProductWhiteCamButtonFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductWhiteCamButtonFooter.swift; sourceTree = "<group>"; };
 		50C2E1A01E6FFAF2006639BB /* PostProductTabsFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductTabsFooter.swift; sourceTree = "<group>"; };
 		50C2E1A31E6FFB09006639BB /* PostProductPostFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductPostFooter.swift; sourceTree = "<group>"; };
+		50C2E1A61E701BE8006639BB /* PostProductFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductFooter.swift; sourceTree = "<group>"; };
 		50C43D9B1E26463100F10E53 /* LogInEmailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInEmailViewModel.swift; sourceTree = "<group>"; };
 		50C43D9E1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep1ViewModel.swift; sourceTree = "<group>"; };
 		50C43DA11E26466E00F10E53 /* LogInEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInEmailViewController.swift; sourceTree = "<group>"; };
@@ -2900,6 +2903,7 @@
 		50C2E1991E6FFA7A006639BB /* PostProductFooter */ = {
 			isa = PBXGroup;
 			children = (
+				50C2E1A61E701BE8006639BB /* PostProductFooter.swift */,
 				50C2E19A1E6FFACE006639BB /* PostProductRedCamButtonFooter.swift */,
 				50C2E19D1E6FFADD006639BB /* PostProductWhiteCamButtonFooter.swift */,
 				50C2E1A01E6FFAF2006639BB /* PostProductTabsFooter.swift */,
@@ -5148,6 +5152,7 @@
 				509598891C8733B70026AE2D /* Logger.swift in Sources */,
 				50146BCD1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				C7111F051CA438C2000C5C5A /* UriScheme.swift in Sources */,
+				50C2E1A71E701BE8006639BB /* PostProductFooter.swift in Sources */,
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
 				C7415EEB1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
@@ -5637,6 +5642,7 @@
 				C7DB41D51C5138B500400945 /* ProductListViewModel.swift in Sources */,
 				C7DB41D61C5138B500400945 /* CrashlyticsTracker.swift in Sources */,
 				C7DB41D71C5138B500400945 /* BaseView.swift in Sources */,
+				50C2E1A81E701BE8006639BB /* PostProductFooter.swift in Sources */,
 				C7DB41D81C5138B500400945 /* TrackerEvent.swift in Sources */,
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				C7DB41DA1C5138B500400945 /* Constants.swift in Sources */,

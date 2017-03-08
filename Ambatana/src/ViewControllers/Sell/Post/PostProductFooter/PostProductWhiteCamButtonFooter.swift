@@ -24,10 +24,16 @@ final class PostProductWhiteCamButtonFooter: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+// MARK: - PostProductFooter
+
+extension PostProductWhiteCamButtonFooter: PostProductFooter {
+    func updateCameraButton(isHidden: Bool) {
+    }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updateUI()
+    func update(scroll: CGFloat) {
     }
 }
 
@@ -42,8 +48,5 @@ fileprivate extension PostProductWhiteCamButtonFooter {
     }
     
     func setupLayout() {
-    }
-    
-    func updateUI() {
     }
 }
