@@ -37,20 +37,25 @@ class WebSurveyViewController: BaseViewController, WebSurveyViewModelDelegate {
         container.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: views)
         container.addSubviews(views)
 
-        webView.layout(with: container).fill()
         activityIndicator.layout(with: container).center()
         closeButton.layout(with: container).left()
-        closeButton.layout(with: topLayoutGuide).below()
+//        closeButton.layout(with: topLayoutGuide).below()
         closeButton.layout().width(54).height(44)
+        webView.layout(with: container).left().right().bottom()
+        webView.layout(with: closeButton).below()
 
         activityIndicator.hidesWhenStopped = true
         closeButton.setImage(UIImage(named: "ic_close_red"), for: .normal)
+        container.backgroundColor = UIColor.white
+        webView.backgroundColor = UIColor.white
 
         self.view = container
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        closeButton.layout(with: topLayoutGuide).below()
 
         webView.delegate = self
         closeButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
