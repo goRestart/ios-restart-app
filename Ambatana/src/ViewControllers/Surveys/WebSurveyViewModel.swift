@@ -20,8 +20,20 @@ class WebSurveyViewModel: BaseViewModel {
 
     let url: URL?
 
-    init(featureFlags: FeatureFlaggeable) {
+    convenience override init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
+    }
+
+    init(featureFlags: FeatureFlaggeable,
+         tracker: Tracker) {
         self.url = URL(string: "https://letgo1.typeform.com/to/e9Ndb4")
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        if firstTime {
+            trackVisit()
+        }
     }
 
     func closeButtonPressed() {
@@ -35,9 +47,18 @@ class WebSurveyViewModel: BaseViewModel {
     func shouldLoad(url: URL?) -> Bool {
         guard let url = url else { return false }
         if url.absoluteString.contains(WebSurveyViewModel.submitRedirect) {
+            trackComplete()
             delegate?.vmDismiss(nil)
             return false
         }
         return true
+    }
+
+    private func trackVisit() {
+        //TODO implement
+    }
+
+    private func trackComplete() {
+        //TODO implement
     }
 }
