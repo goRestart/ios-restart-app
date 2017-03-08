@@ -83,5 +83,10 @@
         "name": "PeriscopeRemovePredefinedText",
         "values": ["no", "yes"],
         "description": "Product detail remove chat text on tap"
+    },
+    {
+        "name": "PostingGallery",
+        "values": ["SingleSelection", "MultiSelection", "MultiSelectionWhiteButton", "MultiSelectionTabs", "MultiSelectionPostBottom"],
+        "description": "Posting Gallery A/B/C/D/E"
     }
 ]
