@@ -69,7 +69,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter product: info of the product to purchase on the appstore
      */
     func requestPaymentForProduct(_ appstoreProductId: String) {
-        guard let appstoreProduct = productsDict[appstoreProductId] else { return }
+//        guard let appstoreProduct = productsDict[appstoreProductId] else { return }
         // request payment to appstore with "appstoreProduct"
 
     }

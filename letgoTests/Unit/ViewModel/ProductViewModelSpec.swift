@@ -20,20 +20,18 @@ class ProductViewModelSpec: BaseViewModelSpec {
     var buyerToRateResult: String?
     var shownAlertText: String?
     var shownFavoriteBubble: Bool?
+    var calledLogin: Bool?
 
     override func spec() {
         var sut: ProductViewModel!
 
-        var sessionManager: MockSessionManager!
         var myUserRepository: MockMyUserRepository!
         var productRepository: MockProductRepository!
         var commercializerRepository: MockCommercializerRepository!
-        var stickersRepository: MockStickersRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
         var product: MockProduct!
-        var bubbleNotificationManager: MockBubbleNotificationManager!
         var featureFlags: MockFeatureFlags!
         var purchasesShopper: MockPurchasesShopper!
         var notificationsManager: MockNotificationsManager!
@@ -41,7 +39,10 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var tracker: MockTracker!
 
         var disposeBag: DisposeBag!
+        var scheduler: TestScheduler!
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
+        var isFavoriteObserver: TestableObserver<Bool>!
+        var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
 
 
         describe("ProductViewModelSpec") {
@@ -67,34 +68,39 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                 disposeBag = DisposeBag()
                 sut.actionButtons.asObservable().bindTo(bottomButtonsObserver).addDisposableTo(disposeBag)
+                sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
+                sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
             }
 
             beforeEach {
-                sessionManager = MockSessionManager()
+                sut = nil
                 myUserRepository = MockMyUserRepository()
                 productRepository = MockProductRepository()
                 commercializerRepository = MockCommercializerRepository()
-                stickersRepository = MockStickersRepository()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
                 product = MockProduct.makeMock()
-                bubbleNotificationManager = MockBubbleNotificationManager()
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
                 notificationsManager = MockNotificationsManager()
                 monetizationRepository = MockMonetizationRepository()
                 tracker = MockTracker()
 
-                let scheduler = TestScheduler(initialClock: 0)
+                scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
+                isFavoriteObserver = scheduler.createObserver(Bool.self)
+                directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
 
                 self.resetViewModelSpec()
             }
+            afterEach {
+                scheduler.stop()
+                disposeBag = nil
+            }
             describe("mark as sold") {
                 beforeEach {
-                    sessionManager.loggedIn = true
                     let myUser = MockMyUser.makeMock()
                     myUserRepository.myUserVar.value = myUser
                     product = MockProduct.makeMock()
@@ -251,57 +257,214 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-
-            describe("add to favorites") {
+            describe("favorite") {
+                var savedProduct: MockProduct!
                 beforeEach {
-                    sessionManager.loggedIn = true
+                    let myUser = MockMyUser.makeMock()
+                    myUserRepository.myUserVar.value = myUser
                     product = MockProduct.makeMock()
                     product.status = .approved
-                    product.favorite = false
+                    savedProduct = MockProduct(product: product)
                     self.shownFavoriteBubble = false
                 }
-                context("Contact the seller AB test enabled"){
+                describe("add to favorites") {
                     beforeEach {
-                        featureFlags.shouldContactSellerOnFavorite = true
+                        product.favorite = false
+                        savedProduct.favorite = true
+                        productRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
-                        sut.switchFavorite()
                     }
+                    context("Contact the seller AB test enabled"){
+                        beforeEach {
+                            featureFlags.shouldContactSellerOnFavorite = true
+                            sut.switchFavorite()
+                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        }
+                        it("shows bubble up") {
+                            expect(self.shownFavoriteBubble) == true
+                        }
+                        it("favorite value is true") {
+                            expect(isFavoriteObserver.lastValue) == true
+                        }
+                    }
+                    context("Contact the seller AB test disabled"){
+                        beforeEach {
+                            featureFlags.shouldContactSellerOnFavorite = false
+                            sut.switchFavorite()
+                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        }
 
-                    it("shows bubble up") {
-                        expect(self.shownFavoriteBubble).toEventually(equal(true))
+                        it("does not show bubble up") {
+                            expect(self.shownFavoriteBubble) == false
+                        }
+                        it("favorite value is true") {
+                            expect(isFavoriteObserver.lastValue) == true
+                        }
                     }
                 }
-                context("Contact the seller AB test disabled"){
+
+                describe("remove from favorites") {
                     beforeEach {
-                        featureFlags.shouldContactSellerOnFavorite = false
+                        product.favorite = true
+                        savedProduct.favorite = false
+                        productRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
-                        sut.switchFavorite()
                     }
 
-                    it("does not show bubble up") {
-                        expect(self.shownFavoriteBubble).toEventually(equal(false))
+                    context("Contact the seller AB test enabled"){
+                        beforeEach {
+                            featureFlags.shouldContactSellerOnFavorite = true
+                            sut.switchFavorite()
+                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        }
+                        
+                        it("does not show bubble up") {
+                            expect(self.shownFavoriteBubble) == false
+                        }
+                        it("favorite value is true") {
+                            expect(isFavoriteObserver.lastValue) == false
+                        }
+                    }
+
+                    context("Contact the seller AB test disabled"){
+                        beforeEach {
+                            featureFlags.shouldContactSellerOnFavorite = false
+                            sut.switchFavorite()
+                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        }
+
+                        it("does not show bubble up") {
+                            expect(self.shownFavoriteBubble) == false
+                        }
+                        it("favorite value is true") {
+                            expect(isFavoriteObserver.lastValue) == false
+                        }
                     }
                 }
             }
+            describe("direct messages") {
+                describe("quick answer") {
+                    context("success first message") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildProductViewModel()
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
 
-            describe("remove from favorites") {
-                beforeEach {
-                    sessionManager.loggedIn = true
-                    product = MockProduct.makeMock()
-                    product.status = .approved
-                    product.favorite = true
-                    self.shownFavoriteBubble = false
-                }
-
-                context("Contact the seller AB test enabled"){
-                    beforeEach {
-                        featureFlags.shouldContactSellerOnFavorite = true
-                        buildProductViewModel()
-                        sut.switchFavorite()
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
                     }
-                    
-                    it("does not show bubble up") {
-                        expect(self.shownFavoriteBubble).toEventually(equal(false))
+                    context("success non first message") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(false)]
+                            buildProductViewModel()
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
+                        }
+                    }
+                    context("failure") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(error: .notFound)]
+                            buildProductViewModel()
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        describe("failure arrives") {
+                            beforeEach {
+                                expect(self.delegateReceivedShowAutoFadingMessage).toEventually(equal(true))
+                            }
+                            it("element is removed from directMessages") {
+                                expect(directChatMessagesObserver.lastValue?.count) == 0
+                            }
+                            it("didn't track any message sent event") {
+                                expect(tracker.trackedEvents.count) == 0
+                            }
+                        }
+                    }
+                }
+                describe("text message") {
+                    context("success first message") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildProductViewModel()
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: false)
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                    }
+                    context("success non first message") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(false)]
+                            buildProductViewModel()
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: true)
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
+                        }
+                    }
+                    context("failure") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(error: .notFound)]
+                            buildProductViewModel()
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: true)
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
+                        }
+                        describe("failure arrives") {
+                            beforeEach {
+                                expect(self.delegateReceivedShowAutoFadingMessage).toEventually(equal(true))
+                            }
+                            it("element is removed from directMessages") {
+                                expect(directChatMessagesObserver.lastValue?.count) == 0
+                            }
+                            it("didn't track any message sent event") {
+                                expect(tracker.trackedEvents.count) == 0
+                            }
+                        }
                     }
                 }
             }
@@ -313,7 +476,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         lastBuyersToRate = nil
         buyerToRateResult = nil
         shownAlertText = nil
-        
+        calledLogin = nil
     }
 
     override func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
@@ -376,6 +539,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     }
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void)) {
+        calledLogin = true
         loggedInAction()
     }
 }
