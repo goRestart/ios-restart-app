@@ -25,16 +25,16 @@ class MockProductViewModelMaker: ProductViewModelMaker {
     let tracker: MockTracker
 
     init(myUserRepository: MockMyUserRepository,
-            productRepository: MockProductRepository,
-            commercializerRepository: MockCommercializerRepository,
-            chatWrapper: MockChatWrapper,
-            locationManager: MockLocationManager,
-            countryHelper: CountryHelper,
-            featureFlags: MockFeatureFlags,
-            purchasesShopper: MockPurchasesShopper,
-            notificationsManager: MockNotificationsManager,
-            monetizationRepository: MockMonetizationRepository,
-            tracker: MockTracker) {
+         productRepository: MockProductRepository,
+         commercializerRepository: MockCommercializerRepository,
+         chatWrapper: MockChatWrapper,
+         locationManager: MockLocationManager,
+         countryHelper: CountryHelper,
+         featureFlags: MockFeatureFlags,
+         purchasesShopper: MockPurchasesShopper,
+         notificationsManager: MockNotificationsManager,
+         monetizationRepository: MockMonetizationRepository,
+         tracker: MockTracker) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.commercializerRepository = commercializerRepository

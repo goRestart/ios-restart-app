@@ -39,6 +39,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var tracker: MockTracker!
 
         var disposeBag: DisposeBag!
+        var scheduler: TestScheduler!
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
         var isFavoriteObserver: TestableObserver<Bool>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
@@ -86,13 +87,17 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 monetizationRepository = MockMonetizationRepository()
                 tracker = MockTracker()
 
-                let scheduler = TestScheduler(initialClock: 0)
+                scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
 
                 self.resetViewModelSpec()
+            }
+            afterEach {
+                scheduler.stop()
+                disposeBag = nil
             }
             describe("mark as sold") {
                 beforeEach {
@@ -279,7 +284,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.shownFavoriteBubble) == true
                         }
                         it("favorite value is true") {
-                            expect(isFavoriteObserver.value) == true
+                            expect(isFavoriteObserver.lastValue) == true
                         }
                     }
                     context("Contact the seller AB test disabled"){
@@ -293,7 +298,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.shownFavoriteBubble) == false
                         }
                         it("favorite value is true") {
-                            expect(isFavoriteObserver.value) == true
+                            expect(isFavoriteObserver.lastValue) == true
                         }
                     }
                 }
@@ -317,7 +322,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.shownFavoriteBubble) == false
                         }
                         it("favorite value is true") {
-                            expect(isFavoriteObserver.value) == false
+                            expect(isFavoriteObserver.lastValue) == false
                         }
                     }
 
@@ -332,7 +337,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.shownFavoriteBubble) == false
                         }
                         it("favorite value is true") {
-                            expect(isFavoriteObserver.value) == false
+                            expect(isFavoriteObserver.lastValue) == false
                         }
                     }
                 }
@@ -351,7 +356,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.value?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
@@ -369,7 +374,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.value?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
@@ -385,14 +390,14 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.value?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
                         }
                         describe("failure arrives") {
                             beforeEach {
                                 expect(self.delegateReceivedShowAutoFadingMessage).toEventually(equal(true))
                             }
                             it("element is removed from directMessages") {
-                                expect(directChatMessagesObserver.value?.count) == 0
+                                expect(directChatMessagesObserver.lastValue?.count) == 0
                             }
                             it("didn't track any message sent event") {
                                 expect(tracker.trackedEvents.count) == 0
@@ -413,7 +418,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.value?.map{ $0.value }) == ["Hola que tal"]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
@@ -431,7 +436,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.value?.map{ $0.value }) == ["Hola que tal"]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
@@ -447,14 +452,14 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.value?.map{ $0.value }) == ["Hola que tal"]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
                         }
                         describe("failure arrives") {
                             beforeEach {
                                 expect(self.delegateReceivedShowAutoFadingMessage).toEventually(equal(true))
                             }
                             it("element is removed from directMessages") {
-                                expect(directChatMessagesObserver.value?.count) == 0
+                                expect(directChatMessagesObserver.lastValue?.count) == 0
                             }
                             it("didn't track any message sent event") {
                                 expect(tracker.trackedEvents.count) == 0

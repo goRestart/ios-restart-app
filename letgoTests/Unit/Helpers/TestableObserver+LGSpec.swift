@@ -10,7 +10,7 @@ import RxTest
 
 extension TestableObserver {
 
-    var value: Element? {
+    var lastValue: Element? {
         return eventValues.last
     }
 

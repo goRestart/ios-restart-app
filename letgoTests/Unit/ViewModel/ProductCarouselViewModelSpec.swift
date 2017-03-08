@@ -47,6 +47,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var tracker: MockTracker!
 
         var disposeBag: DisposeBag!
+        var scheduler: TestScheduler!
 
         var cellModelsObserver: TestableObserver<[ProductCarouselCellModel]>!
         var productInfoObserver: TestableObserver<ProductVMProductInfo?>!
@@ -150,7 +151,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                                                   monetizationRepository: monetizationRepository,
                                                                   tracker: tracker)
 
-                let scheduler = TestScheduler(initialClock: 0)
+                scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 cellModelsObserver = scheduler.createObserver(Array<ProductCarouselCellModel>.self)
                 productInfoObserver = scheduler.createObserver(Optional<ProductVMProductInfo>.self)
@@ -176,6 +177,10 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 socialSharerObserver = scheduler.createObserver(SocialSharer.self)
 
                 self.resetViewModelSpec()
+            }
+            afterEach {
+                scheduler.stop()
+                disposeBag = nil
             }
             describe("onboarding") {
                 context("didn't show onboarding previously") {
@@ -281,7 +286,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             }
                             it("correct quick answers are present") {
                                 let expectedAnswers: [QuickAnswer] = [.interested, .likeToBuy, .isNegotiable, .meetUp]
-                                expect(quickAnswersObserver.value?.map { $0.text }) == expectedAnswers.map { $0.text }
+                                expect(quickAnswersObserver.lastValue?.map { $0.text }) == expectedAnswers.map { $0.text }
                             }
                         }
                         context("free product") {
@@ -299,7 +304,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             }
                             it("correct quick answers are present") {
                                 let expectedAnswers: [QuickAnswer] = [.interested, .meetUp, .productCondition]
-                                expect(quickAnswersObserver.value?.map { $0.text }) == expectedAnswers.map { $0.text }
+                                expect(quickAnswersObserver.lastValue?.map { $0.text }) == expectedAnswers.map { $0.text }
                             }
                         }
                     }
@@ -662,7 +667,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     }
                     it("there's a share navbar button") {
                         let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarShareButton]
-                        expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                        expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                     }
                     it("directchatenabled is true") {
                         expect(directChatEnabledObserver.eventValues) == [true]
@@ -692,7 +697,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("share navbar button remains share") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                     }
                     describe("user logs in, product is mine") {
@@ -717,11 +722,11 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             expect(actionButtonsObserver.eventValues.map { $0.count }) == [0, 1]
                         }
                         it("action buttons item is to mark as sold") {
-                            expect(actionButtonsObserver.value?.first?.text) == LGLocalizedString.productMarkAsSoldButton
+                            expect(actionButtonsObserver.lastValue?.first?.text) == LGLocalizedString.productMarkAsSoldButton
                         }
                         it("navbar buttons now have share and edit") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarEditButton, .productCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                     }
                 }
@@ -752,41 +757,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == myUser.shortName
+                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
                         }
                         it("navbar buttons have edit and options") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarEditButton, .productCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there are no action buttons") {
-                            expect(actionButtonsObserver.value?.count) == 0
+                            expect(actionButtonsObserver.lastValue?.count) == 0
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .pending
+                            expect(statusObserver.lastValue) == .pending
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == product.featured ?? false
+                            expect(isFeaturedObserver.lastValue) == product.featured ?? false
                         }
                         it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.value) == false
+                            expect(quickAnswersAvailableObserver.lastValue) == false
                         }
                         it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.value) == false
+                            expect(directChatEnabledObserver.lastValue) == false
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.value) == .enabled
+                            expect(shareButtonStateObserver.lastValue) == .enabled
                         }
                         it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.value) == .hidden
+                            expect(favoriteButtonStateObserver.lastValue) == .hidden
                         }
                     }
                     context("approved - normal") {
@@ -797,41 +802,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == myUser.shortName
+                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
                         }
                         it("navbar buttons have edit and options") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarEditButton, .productCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.value?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldButton]
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .available
+                            expect(statusObserver.lastValue) == .available
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == product.featured ?? false
+                            expect(isFeaturedObserver.lastValue) == product.featured ?? false
                         }
                         it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.value) == false
+                            expect(quickAnswersAvailableObserver.lastValue) == false
                         }
                         it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.value) == false
+                            expect(directChatEnabledObserver.lastValue) == false
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.value) == .enabled
+                            expect(shareButtonStateObserver.lastValue) == .enabled
                         }
                         it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.value) == .hidden
+                            expect(favoriteButtonStateObserver.lastValue) == .hidden
                         }
                     }
                     context("approved - free") {
@@ -842,41 +847,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == myUser.shortName
+                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
                         }
                         it("navbar buttons have edit and options") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarEditButton, .productCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.value?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldFreeButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldFreeButton]
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .availableFree
+                            expect(statusObserver.lastValue) == .availableFree
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == product.featured ?? false
+                            expect(isFeaturedObserver.lastValue) == product.featured ?? false
                         }
                         it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.value) == false
+                            expect(quickAnswersAvailableObserver.lastValue) == false
                         }
                         it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.value) == false
+                            expect(directChatEnabledObserver.lastValue) == false
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.value) == .enabled
+                            expect(shareButtonStateObserver.lastValue) == .enabled
                         }
                         it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.value) == .hidden
+                            expect(favoriteButtonStateObserver.lastValue) == .hidden
                         }
                     }
                     context("sold - normal") {
@@ -887,41 +892,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == myUser.shortName
+                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
                         }
                         it("navbar buttons have just options") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.value?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainButton]
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .sold
+                            expect(statusObserver.lastValue) == .sold
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == false
+                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.value) == false
+                            expect(quickAnswersAvailableObserver.lastValue) == false
                         }
                         it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.value) == false
+                            expect(directChatEnabledObserver.lastValue) == false
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.value) == .enabled
+                            expect(shareButtonStateObserver.lastValue) == .enabled
                         }
                         it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.value) == .hidden
+                            expect(favoriteButtonStateObserver.lastValue) == .hidden
                         }
                     }
                     context("sold - free") {
@@ -932,41 +937,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == myUser.shortName
+                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
                         }
                         it("navbar buttons have just options") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.value?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainFreeButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainFreeButton]
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .soldFree
+                            expect(statusObserver.lastValue) == .soldFree
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == false
+                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.value) == false
+                            expect(quickAnswersAvailableObserver.lastValue) == false
                         }
                         it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.value) == false
+                            expect(directChatEnabledObserver.lastValue) == false
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.value) == .enabled
+                            expect(shareButtonStateObserver.lastValue) == .enabled
                         }
                         it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.value) == .hidden
+                            expect(favoriteButtonStateObserver.lastValue) == .hidden
                         }
                     }
                 }
@@ -978,41 +983,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == product.user.shortName
+                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there are no action buttons") {
-                            expect(actionButtonsObserver.value?.count) == 0
+                            expect(actionButtonsObserver.lastValue?.count) == 0
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .notAvailable
+                            expect(statusObserver.lastValue) == .notAvailable
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == false
+                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.value) == false
+                            expect(quickAnswersAvailableObserver.lastValue) == false
                         }
                         it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.value) == false
+                            expect(directChatEnabledObserver.lastValue) == false
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.value) == .hidden
+                            expect(shareButtonStateObserver.lastValue) == .hidden
                         }
                         it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.value) == .enabled
+                            expect(favoriteButtonStateObserver.lastValue) == .enabled
                         }
                     }
                     context("approved - normal") {
@@ -1023,41 +1028,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == product.user.shortName
+                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there are no action buttons") {
-                            expect(actionButtonsObserver.value?.count) == 0
+                            expect(actionButtonsObserver.lastValue?.count) == 0
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .otherAvailable
+                            expect(statusObserver.lastValue) == .otherAvailable
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == false
+                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are enabled") {
-                            expect(quickAnswersAvailableObserver.value) == true
+                            expect(quickAnswersAvailableObserver.lastValue) == true
                         }
                         it("direct chat is enabled") {
-                            expect(directChatEnabledObserver.value) == true
+                            expect(directChatEnabledObserver.lastValue) == true
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.value) == .hidden
+                            expect(shareButtonStateObserver.lastValue) == .hidden
                         }
                         it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.value) == .enabled
+                            expect(favoriteButtonStateObserver.lastValue) == .enabled
                         }
                     }
                     context("approved - free") {
@@ -1068,41 +1073,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == product.user.shortName
+                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there are no action buttons") {
-                            expect(actionButtonsObserver.value?.count) == 0
+                            expect(actionButtonsObserver.lastValue?.count) == 0
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .otherAvailableFree
+                            expect(statusObserver.lastValue) == .otherAvailableFree
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == false
+                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are enabled") {
-                            expect(quickAnswersAvailableObserver.value) == true
+                            expect(quickAnswersAvailableObserver.lastValue) == true
                         }
                         it("direct chat is enabled") {
-                            expect(directChatEnabledObserver.value) == true
+                            expect(directChatEnabledObserver.lastValue) == true
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.value) == .hidden
+                            expect(shareButtonStateObserver.lastValue) == .hidden
                         }
                         it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.value) == .enabled
+                            expect(favoriteButtonStateObserver.lastValue) == .enabled
                         }
                     }
                     context("sold - normal") {
@@ -1113,41 +1118,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == product.user.shortName
+                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there are no action buttons") {
-                            expect(actionButtonsObserver.value?.count) == 0
+                            expect(actionButtonsObserver.lastValue?.count) == 0
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .otherSold
+                            expect(statusObserver.lastValue) == .otherSold
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == false
+                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.value) == false
+                            expect(quickAnswersAvailableObserver.lastValue) == false
                         }
                         it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.value) == false
+                            expect(directChatEnabledObserver.lastValue) == false
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.value) == .hidden
+                            expect(shareButtonStateObserver.lastValue) == .hidden
                         }
                         it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.value) == .enabled
+                            expect(favoriteButtonStateObserver.lastValue) == .enabled
                         }
                     }
                     context("sold - free") {
@@ -1158,41 +1163,41 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                         }
                         it("product title matches") {
-                            expect(productInfoObserver.value??.title) == product.title
+                            expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.value) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
                         }
                         it("user name matches") {
-                            expect(userInfoObserver.value??.name) == product.user.shortName
+                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.productCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.value?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there are no action buttons") {
-                            expect(actionButtonsObserver.value?.count) == 0
+                            expect(actionButtonsObserver.lastValue?.count) == 0
                         }
                         it("product vm status is pending") {
-                            expect(statusObserver.value) == .otherSoldFree
+                            expect(statusObserver.lastValue) == .otherSoldFree
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.value) == false
+                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.value) == false
+                            expect(quickAnswersAvailableObserver.lastValue) == false
                         }
                         it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.value) == false
+                            expect(directChatEnabledObserver.lastValue) == false
                         }
                         it("editButton is hidden") {
-                            expect(editButtonStateObserver.value) == .hidden
+                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.value) == .hidden
+                            expect(shareButtonStateObserver.lastValue) == .hidden
                         }
                         it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.value) == .enabled
+                            expect(favoriteButtonStateObserver.lastValue) == .enabled
                         }
                     }
                 }
