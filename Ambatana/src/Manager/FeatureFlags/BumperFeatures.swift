@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, SurveyEnabled.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self])
     } 
 
     static var websocketChat: Bool {
@@ -28,6 +28,11 @@ extension Bumper  {
     static var showNPSSurvey: Bool {
         guard let value = Bumper.value(for: ShowNPSSurvey.key) else { return false }
         return ShowNPSSurvey(rawValue: value)?.asBool ?? false
+    }
+
+    static var surveyEnabled: Bool {
+        guard let value = Bumper.value(for: SurveyEnabled.key) else { return false }
+        return SurveyEnabled(rawValue: value)?.asBool ?? false
     }
 
     static var postAfterDeleteMode: PostAfterDeleteMode {
@@ -126,6 +131,15 @@ enum ShowNPSSurvey: String, BumperFeature  {
     static var enumValues: [ShowNPSSurvey] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show nps survey" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum SurveyEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return SurveyEnabled.no.rawValue }
+    static var enumValues: [SurveyEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show qualitative survey" } 
     var asBool: Bool { return self == .yes }
 }
 

@@ -18,9 +18,12 @@ class MockFeatureFlags: FeatureFlaggeable {
 
     let syncedDataVar = Variable<Bool>(false)
 
+    var showNPSSurvey: Bool = false
+    var surveyUrl: String = ""
+    var surveyEnabled: Bool = false
+
     var websocketChat: Bool = false
     var userReviews: Bool = false
-    var showNPSSurvey: Bool = false
     var postAfterDeleteMode: PostAfterDeleteMode = .original
     var favoriteWithBadgeOnProfile: Bool = false
     var shouldContactSellerOnFavorite: Bool = false
