@@ -22,7 +22,11 @@ enum ChatWrapperMessageType {
     case favoritedProduct(String)
 }
 
-class ChatWrapper {
+protocol ChatWrapper {
+    func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?)
+}
+
+class LGChatWrapper: ChatWrapper {
 
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository

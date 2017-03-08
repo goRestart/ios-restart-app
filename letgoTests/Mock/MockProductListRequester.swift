@@ -17,7 +17,7 @@ class MockProductListRequester: ProductListRequester {
     var offset: Int
     var canRetrieveItems: Bool
     var requesterResult: ProductsResult?
-    fileprivate var items: [Product] = []
+    var items: [Product] = []
 
     init(canRetrieve: Bool, offset: Int, pageSize: Int) {
         self.canRetrieveItems = canRetrieve

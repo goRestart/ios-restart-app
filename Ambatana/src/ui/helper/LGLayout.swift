@@ -344,15 +344,13 @@ extension LGLayout {
 }
 
 extension UIView {
-    func layout(with item: Any? = nil) -> LGLayout {
-        if item == nil {
-            return LGLayout(owner: self, item1: self, item2: nil) // self
-        } else if let superview = self.superview {
-            if let item = item {
-                return LGLayout(owner: superview, item1: self, item2: item) // owner - brothers
-            } else {
-                return LGLayout(owner: superview, item1: self, item2: superview) // child - owner
-            }
+    func layout() -> LGLayout {
+        return LGLayout(owner: self, item1: self, item2: nil) // self
+    }
+    
+    func layout(with item: Any) -> LGLayout {
+        if let superview = self.superview {
+            return LGLayout(owner: superview, item1: self, item2: item) // owner - brothers
         } else {
             assertionFailure("\(self) must have a superview")
             return LGLayout(owner: UIView(), item1: UIView(), item2: UIView())

@@ -9,6 +9,11 @@
 import RxTest
 
 extension TestableObserver {
+
+    var lastValue: Element? {
+        return eventValues.last
+    }
+
     var eventValues: [Element] {
         return events.flatMap{ $0.value.element }
     }

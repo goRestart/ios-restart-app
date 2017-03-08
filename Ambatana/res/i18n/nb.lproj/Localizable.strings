@@ -274,7 +274,7 @@
 "edit_product_location_alert_title" = "ENDRE PLASSERING";
 "edit_product_send_button" = "Lagre endringer";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
-"edit_product_send_ok" = "Gratulerer! Produtet ble oppdatert. Det vil snart vises blant våre annonser.";
+"edit_product_send_ok" = "Gratulerer! Produktet ble oppdatert. Det vil snart vises blant våre annonser.";
 "edit_product_suggesting_title" = "Foreslår tittel...";
 "edit_product_title" = "Endre produkt";
 "edit_product_unsaved_changes_alert" = "Er du sikker på at du vil forkaste endringene?";

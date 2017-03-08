@@ -48,7 +48,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var fullScreenAvatarLeft: NSLayoutConstraint?
     fileprivate let viewModel: ProductCarouselViewModel
     fileprivate let disposeBag: DisposeBag = DisposeBag()
-    fileprivate var currentIndex = 0
     fileprivate var userViewBottomConstraint: NSLayoutConstraint?
     fileprivate var userViewRightConstraint: NSLayoutConstraint?
 
@@ -224,10 +223,9 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         imageBackground.image = backgroundImage
         flowLayout.itemSize = view.bounds.size
         setupAlphaRxBindings()
-        let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
-        viewModel.moveToProductAtIndex(viewModel.startIndex, movement: .initial)
-        currentIndex = viewModel.startIndex
+
         collectionView.reloadData()
+        let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         collectionView.scrollToItem(at: startIndexPath, at: .right, animated: false)
 
         setupMoreInfo()
@@ -443,9 +441,9 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if let pendingMovement = strongSelf.pendingMovement {
                     movement = pendingMovement
                     strongSelf.pendingMovement = nil
-                } else if index > strongSelf.currentIndex {
+                } else if index > strongSelf.viewModel.currentIndex {
                     movement = .swipeRight
-                } else if index < strongSelf.currentIndex {
+                } else if index < strongSelf.viewModel.currentIndex {
                     movement = .swipeLeft
                 } else {
                     movement = .initial
@@ -456,7 +454,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if movement == .tap {
                     self?.finishedTransition()
                 }
-                strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
 
@@ -861,7 +858,6 @@ extension ProductCarouselViewController {
         moreInfoView.viewWillShow()
         chatTextView.resignFirstResponder()
         moreInfoState.value = .shown
-        viewModel.didOpenMoreInfo()
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
                                    animations: { [weak self] in
@@ -985,13 +981,6 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             return carouselCell
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        DispatchQueue.main.async { [weak self] in
-            self?.viewModel.setCurrentIndex(indexPath.row)
-        }
-    }
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
     }
@@ -1016,6 +1005,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directAnswersView.layout(with: chatContainer).leading().trailing().top()
 
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
+        chatTextView.shouldClearWhenBeginEditing = viewModel.shouldClearTextWhenBeginEditing
         chatContainer.addSubview(chatTextView)
         chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
         let directAnswersBottom: CGFloat = viewModel.quickAnswersCollapsed.value ? 0 : CarouselUI.itemsMargin

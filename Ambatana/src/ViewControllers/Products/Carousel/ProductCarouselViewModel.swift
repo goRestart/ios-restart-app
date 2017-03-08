@@ -35,7 +35,13 @@ class ProductCarouselViewModel: BaseViewModel {
     var isLoading: Bool = false
 
     var currentProductViewModel: ProductViewModel?
-    var startIndex: Int = 0
+    let startIndex: Int
+    fileprivate(set) var currentIndex: Int = 0 {
+        didSet {
+            // Just for pagination
+            setCurrentIndex(currentIndex)
+        }
+    }
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator? {
         didSet {
@@ -43,6 +49,7 @@ class ProductCarouselViewModel: BaseViewModel {
         }
     }
 
+    let objects = CollectionVariable<ProductCarouselCellModel>([])
     var objectChanges: Observable<CollectionChange<ProductCarouselCellModel>> {
         return objects.changesObservable
     }
@@ -56,6 +63,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     let showKeyboardOnFirstAppearance: Bool
+    let shouldClearTextWhenBeginEditing: Bool
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
@@ -105,8 +113,7 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let source: EventParameterProductVisitSource
     fileprivate let productListRequester: ProductListRequester
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
-    fileprivate let objects = CollectionVariable<ProductCarouselCellModel>([])
-    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let productViewModelMaker: ProductViewModelMaker
 
@@ -131,8 +138,8 @@ class ProductCarouselViewModel: BaseViewModel {
                   productListRequester: productListRequester,
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
-                  trackingIndex: trackingIndex)
-        syncFirstProduct()
+                  trackingIndex: trackingIndex,
+                  firstProductSyncRequired: true)
     }
 
     convenience init(product: Product,
@@ -147,7 +154,8 @@ class ProductCarouselViewModel: BaseViewModel {
                   productListRequester: productListRequester,
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
-                  trackingIndex: trackingIndex)
+                  trackingIndex: trackingIndex,
+                  firstProductSyncRequired: false)
     }
 
     convenience init(productListModels: [ProductCellModel]?,
@@ -156,7 +164,8 @@ class ProductCarouselViewModel: BaseViewModel {
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
          showKeyboardOnFirstAppearIfNeeded: Bool,
-         trackingIndex: Int?) {
+         trackingIndex: Int?,
+         firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
                   initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage,
@@ -164,6 +173,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex,
+                  firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
@@ -177,30 +187,54 @@ class ProductCarouselViewModel: BaseViewModel {
          source: EventParameterProductVisitSource,
          showKeyboardOnFirstAppearIfNeeded: Bool,
          trackingIndex: Int?,
+         firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
-         keyValueStorage: KeyValueStorage,
+         keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
          productViewModelMaker: ProductViewModelMaker) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
+            self.isLastPage = productListRequester.isLastPage(productListModels.count)
         } else {
             self.objects.appendContentsOf([initialProduct].flatMap{$0}.map(ProductCarouselCellModel.init))
+            self.isLastPage = false
         }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.source = source
-        self.isLastPage = productListRequester.isLastPage(productListModels?.count ?? 0)
         self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
+        self.shouldClearTextWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.productViewModelMaker = productViewModelMaker
+        if let initialProduct = initialProduct {
+            self.startIndex = objects.value.index(where: { $0.product.objectId == initialProduct.objectId}) ?? 0
+        } else {
+            self.startIndex = 0
+        }
+        self.currentIndex = startIndex
         super.init()
-        self.startIndex = indexForProduct(initialProduct) ?? 0
-        self.currentProductViewModel = viewModelAt(index: startIndex)
         self.trackingIndex = trackingIndex
-        setCurrentIndex(startIndex)
         setupRxBindings()
+        moveToProductAtIndex(startIndex, movement: .initial)
+
+        if firstProductSyncRequired {
+            syncFirstProduct()
+        }
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        if firstTime && shouldShowOnboarding {
+            delegate?.vmShowOnboarding()
+        }
+
+        // Tracking
+        if let trackingIndex = trackingIndex, currentIndex == startIndex {
+            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .position(index: trackingIndex))
+        } else {
+            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .none)
+        }
     }
     
     
@@ -211,20 +245,6 @@ class ProductCarouselViewModel: BaseViewModel {
             let newModel = ProductCarouselCellModel(product: product)
             strongSelf.objects.replace(strongSelf.startIndex, with: newModel)
         }
-    }
-    
-    
-    func indexForProduct(_ product: Product?) -> Int? {
-        guard let product = product else { return nil }
-        for i in 0..<objects.value.count {
-            switch objects.value[i] {
-            case .productCell(let data):
-                if data.objectId == product.objectId {
-                    return i
-                }
-            }
-        }
-        return nil
     }
 
 
@@ -240,16 +260,16 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
         currentProductViewModel?.delegate = self
-        currentProductViewModel?.active = true
-        let feedPosition = movement.feedPosition(for: trackingIndex)
-        currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
-
+        currentProductViewModel?.active = active
+        currentIndex = index
+        
         setupCurrentProductVMRxBindings(forIndex: index)
-
         prefetchNeighborsImages(index, movement: movement)
 
-        if shouldShowOnboarding {
-            self.delegate?.vmShowOnboarding()
+        // Tracking
+        if active {
+            let feedPosition = movement.feedPosition(for: trackingIndex)
+            currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
         }
     }
 
@@ -269,12 +289,6 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func directMessagesItemPressed() {
         currentProductViewModel?.chatWithSeller()
-    }
-    
-    func didOpenMoreInfo() {
-        currentProductViewModel?.trackVisitMoreInfo()
-        keyValueStorage[.productMoreInfoTooltipDismissed] = true
-        delegate?.vmRemoveMoreInfoTooltip()
     }
 
     func quickAnswersShowButtonPressed() {
@@ -330,6 +344,12 @@ class ProductCarouselViewModel: BaseViewModel {
     private func setupRxBindings() {
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.productDetailQuickAnswersHidden] = collapsed
+        }.addDisposableTo(disposeBag)
+
+        moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
+            self?.currentProductViewModel?.trackVisitMoreInfo()
+            self?.keyValueStorage[.productMoreInfoTooltipDismissed] = true
+            self?.delegate?.vmRemoveMoreInfoTooltip()
         }.addDisposableTo(disposeBag)
     }
 

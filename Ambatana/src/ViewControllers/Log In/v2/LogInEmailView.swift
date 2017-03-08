@@ -12,7 +12,6 @@ import RxSwift
 final class LogInEmailView: UIView {
     fileprivate let appearance: LoginAppearance
     fileprivate let backgroundImage: UIImage?
-    fileprivate let deviceFamily: DeviceFamily
 
     let backgroundImageView = UIImageView()
     let backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -31,7 +30,6 @@ final class LogInEmailView: UIView {
     let rememberPasswordButton = UIButton()
     let loginButton = UIButton()
     let footerButton = UIButton()
-    weak var keyboardView: UIView?
 
     fileprivate var lines: [CALayer] = []
 
@@ -41,11 +39,9 @@ final class LogInEmailView: UIView {
     // MARK: - Lifecycle
 
     init(appearance: LoginAppearance,
-         backgroundImage: UIImage?,
-         deviceFamily: DeviceFamily) {
+         backgroundImage: UIImage?) {
         self.appearance = appearance
         self.backgroundImage = backgroundImage
-        self.deviceFamily = deviceFamily
         super.init(frame: CGRect.zero)
 
         setupUI()
@@ -252,12 +248,7 @@ fileprivate extension LogInEmailView {
             .bottom(by: Metrics.margin)
         loginButton.layout().height(Metrics.buttonHeight)
 
-        if let keyboardView = keyboardView, deviceFamily.isWiderOrEqualThan(.iPhone6) {
-            footerButton.layout(with: keyboardView).bottom(to: .top)
-        } else {
-            footerButton.layout(with: self).bottom()
-        }
-        footerButton.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
+        footerButton.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin).bottom()
         footerButton.layout().height(Metrics.loginFooterHeight, relatedBy: .greaterThanOrEqual)
     }
 

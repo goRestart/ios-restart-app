@@ -1677,6 +1677,7 @@ class TrackerEventSpec: QuickSpec {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
                     product.name = "name"
+                    product.descr = nil
                     product.category = .homeAndGarden
                     product.price = .negotiable(20)
                     product.images = MockFile.makeMocks(count: 2)

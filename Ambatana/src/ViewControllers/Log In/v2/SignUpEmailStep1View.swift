@@ -12,7 +12,6 @@ import UIKit
 final class SignUpEmailStep1View: UIView {
     fileprivate let appearance: LoginAppearance
     fileprivate let backgroundImage: UIImage?
-    fileprivate let deviceFamily: DeviceFamily
 
     let backgroundImageView = UIImageView()
     let backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -31,8 +30,7 @@ final class SignUpEmailStep1View: UIView {
     let showPasswordButton = UIButton()
     let nextStepButton = UIButton()
     let footerButton = UIButton()
-    weak var keyboardView: UIView?
-
+    
     fileprivate var lines: [CALayer] = []
 
     let nextStepButtonVisible = Variable<Bool>(true)
@@ -41,11 +39,9 @@ final class SignUpEmailStep1View: UIView {
     // MARK: - Lifecycle
 
     init(appearance: LoginAppearance,
-         backgroundImage: UIImage?,
-         deviceFamily: DeviceFamily) {
+         backgroundImage: UIImage?) {
         self.appearance = appearance
         self.backgroundImage = backgroundImage
-        self.deviceFamily = deviceFamily
         super.init(frame: CGRect.zero)
 
         setupUI()
@@ -242,12 +238,7 @@ fileprivate extension SignUpEmailStep1View {
             .bottom(by: Metrics.margin)
         nextStepButton.layout().height(Metrics.buttonHeight)
 
-        if deviceFamily.isWiderOrEqualThan(.iPhone6) {
-            footerButton.layout(with: keyboardView).bottom(to: .top)
-        } else {
-            footerButton.layout(with: self).bottom()
-        }
-        footerButton.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
+        footerButton.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin).bottom()
         footerButton.layout().height(Metrics.loginFooterHeight, relatedBy: .greaterThanOrEqual)
     }
 

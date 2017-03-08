@@ -52,7 +52,7 @@ extension Paginable {
     }
     
     func setCurrentIndex(_ index: Int) {
-        let threshold = Int(Float(objectCount) * thresholdPercentage)
+        let threshold = objectCount - Int(Float(resultsPerPage) * (1-thresholdPercentage))
         let shouldRetrieveNextPage = index >= threshold
         if shouldRetrieveNextPage {
             retrieveNextPage()

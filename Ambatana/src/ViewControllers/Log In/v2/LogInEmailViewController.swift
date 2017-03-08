@@ -18,7 +18,7 @@ final class LogInEmailViewController: KeyboardViewController {
 
     fileprivate let viewModel: LogInEmailViewModel
     fileprivate var logInEmailView: LogInEmailView
-
+    fileprivate let deviceFamily: DeviceFamily
     fileprivate let disposeBag = DisposeBag()
 
 
@@ -39,13 +39,12 @@ final class LogInEmailViewController: KeyboardViewController {
          deviceFamily: DeviceFamily) {
         self.viewModel = viewModel
         self.logInEmailView = LogInEmailView(appearance: appearance,
-                                             backgroundImage: backgroundImage,
-                                             deviceFamily: deviceFamily)
+                                             backgroundImage: backgroundImage)
+        self.deviceFamily = deviceFamily
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
                    navBarBackgroundStyle: appearance.navBarBackgroundStyle)
         viewModel.delegate = self
-        logInEmailView.keyboardView = keyboardView
     }
 
     override func viewDidLoad() {
@@ -166,7 +165,14 @@ fileprivate extension LogInEmailViewController {
         view.backgroundColor = UIColor.white
 
         logInEmailView.translatesAutoresizingMaskIntoConstraints = false
-        logInEmailView.addToViewController(self, inView: view)
+        view.addSubview(logInEmailView)
+        logInEmailView.layout(with: view).left().right()
+        logInEmailView.layout(with: topLayoutGuide).top(to: .bottom)
+        if deviceFamily.isWiderOrEqualThan(.iPhone6) {
+            logInEmailView.layout(with: keyboardView).bottom(to: .top)
+        } else {
+            logInEmailView.layout(with: bottomLayoutGuide).bottom(to: .top)
+        }
         
         logInEmailView.emailTextField.text = viewModel.email.value
         logInEmailView.emailTextField.tag = TextFieldTag.email.rawValue
