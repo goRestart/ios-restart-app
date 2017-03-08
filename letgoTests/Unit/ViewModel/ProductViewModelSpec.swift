@@ -20,6 +20,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
     var buyerToRateResult: String?
     var shownAlertText: String?
     var shownFavoriteBubble: Bool?
+    var calledLogin: Bool?
 
     override func spec() {
         var sut: ProductViewModel!
@@ -71,6 +72,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
             }
 
             beforeEach {
+                sut = nil
                 myUserRepository = MockMyUserRepository()
                 productRepository = MockProductRepository()
                 commercializerRepository = MockCommercializerRepository()
@@ -336,8 +338,129 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("direct messages") {
-                beforeEach {
+                describe("quick answer") {
+                    context("success first message") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildProductViewModel()
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
 
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.value?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                    }
+                    context("success non first message") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(false)]
+                            buildProductViewModel()
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.value?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
+                        }
+                    }
+                    context("failure") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(error: .notFound)]
+                            buildProductViewModel()
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.value?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        describe("failure arrives") {
+                            beforeEach {
+                                expect(self.delegateReceivedShowAutoFadingMessage).toEventually(equal(true))
+                            }
+                            it("element is removed from directMessages") {
+                                expect(directChatMessagesObserver.value?.count) == 0
+                            }
+                            it("didn't track any message sent event") {
+                                expect(tracker.trackedEvents.count) == 0
+                            }
+                        }
+                    }
+                }
+                describe("text message") {
+                    context("success first message") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildProductViewModel()
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: false)
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.value?.map{ $0.value }) == ["Hola que tal"]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                    }
+                    context("success non first message") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(false)]
+                            buildProductViewModel()
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: true)
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.value?.map{ $0.value }) == ["Hola que tal"]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
+                        }
+                    }
+                    context("failure") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(error: .notFound)]
+                            buildProductViewModel()
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: true)
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.value?.map{ $0.value }) == ["Hola que tal"]
+                        }
+                        describe("failure arrives") {
+                            beforeEach {
+                                expect(self.delegateReceivedShowAutoFadingMessage).toEventually(equal(true))
+                            }
+                            it("element is removed from directMessages") {
+                                expect(directChatMessagesObserver.value?.count) == 0
+                            }
+                            it("didn't track any message sent event") {
+                                expect(tracker.trackedEvents.count) == 0
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -348,7 +471,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         lastBuyersToRate = nil
         buyerToRateResult = nil
         shownAlertText = nil
-        
+        calledLogin = nil
     }
 
     override func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
@@ -411,6 +534,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     }
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void)) {
+        calledLogin = true
         loggedInAction()
     }
 }

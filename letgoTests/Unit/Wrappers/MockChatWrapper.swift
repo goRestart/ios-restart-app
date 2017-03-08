@@ -16,6 +16,6 @@ class MockChatWrapper: ChatWrapper {
 
     func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
         performAfterDelayWithCompletion(completion, result: results[currentResultIndex])
-        currentResultIndex = currentResultIndex + 1
+        currentResultIndex = (currentResultIndex + 1) % results.count
     }
 }
