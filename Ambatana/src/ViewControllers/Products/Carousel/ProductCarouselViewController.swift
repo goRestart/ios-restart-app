@@ -1005,6 +1005,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directAnswersView.layout(with: chatContainer).leading().trailing().top()
 
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
+        chatTextView.shouldClearWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
         chatContainer.addSubview(chatTextView)
         chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
         let directAnswersBottom: CGFloat = viewModel.quickAnswersCollapsed.value ? 0 : CarouselUI.itemsMargin

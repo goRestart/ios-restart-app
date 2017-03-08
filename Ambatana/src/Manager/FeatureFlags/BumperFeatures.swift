@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self])
     } 
 
     static var websocketChat: Bool {
@@ -93,6 +93,11 @@ extension Bumper  {
     static var signUpLoginImprovement: SignUpLoginImprovement {
         guard let value = Bumper.value(for: SignUpLoginImprovement.key) else { return .v1 }
         return SignUpLoginImprovement(rawValue: value) ?? .v1 
+    }
+
+    static var periscopeRemovePredefinedText: Bool {
+        guard let value = Bumper.value(for: PeriscopeRemovePredefinedText.key) else { return false }
+        return PeriscopeRemovePredefinedText(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -269,5 +274,14 @@ enum SignUpLoginImprovement: String, BumperFeature  {
             default: return .v1
         }
     }
+}
+
+enum PeriscopeRemovePredefinedText: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return PeriscopeRemovePredefinedText.no.rawValue }
+    static var enumValues: [PeriscopeRemovePredefinedText] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Product detail remove chat text on tap" } 
+    var asBool: Bool { return self == .yes }
 }
 
