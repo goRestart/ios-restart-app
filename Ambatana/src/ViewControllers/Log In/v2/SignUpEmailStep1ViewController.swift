@@ -17,6 +17,7 @@ final class SignUpEmailStep1ViewController: KeyboardViewController {
 
     fileprivate let viewModel: SignUpEmailStep1ViewModel
     fileprivate let signUpEmailStep1View: SignUpEmailStep1View
+    fileprivate let deviceFamily: DeviceFamily
     fileprivate let disposeBag = DisposeBag()
 
 
@@ -37,12 +38,11 @@ final class SignUpEmailStep1ViewController: KeyboardViewController {
          deviceFamily: DeviceFamily) {
         self.viewModel = viewModel
         self.signUpEmailStep1View = SignUpEmailStep1View(appearance: appearance,
-                                                         backgroundImage: backgroundImage,
-                                                         deviceFamily: deviceFamily)
+                                                         backgroundImage: backgroundImage)
+        self.deviceFamily = deviceFamily
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
                    navBarBackgroundStyle: appearance.navBarBackgroundStyle)
-        signUpEmailStep1View.keyboardView = keyboardView
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -143,7 +143,14 @@ fileprivate extension SignUpEmailStep1ViewController {
         view.backgroundColor = UIColor.white
 
         signUpEmailStep1View.translatesAutoresizingMaskIntoConstraints = false
-        signUpEmailStep1View.addToViewController(self, inView: view)
+        view.addSubview(signUpEmailStep1View)
+        signUpEmailStep1View.layout(with: view).left().right()
+        signUpEmailStep1View.layout(with: topLayoutGuide).top(to: .bottom)
+        if deviceFamily.isWiderOrEqualThan(.iPhone6) {
+            signUpEmailStep1View.layout(with: keyboardView).bottom(to: .top)
+        } else {
+            signUpEmailStep1View.layout(with: bottomLayoutGuide).bottom(to: .top)
+        }
 
         signUpEmailStep1View.emailTextField.text = viewModel.email.value
         signUpEmailStep1View.emailTextField.tag = TextFieldTag.email.rawValue
