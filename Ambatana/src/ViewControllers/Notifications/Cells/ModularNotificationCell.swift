@@ -30,6 +30,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     var firstThumbnailHeightConstraint = NSLayoutConstraint()
     var titleLabelTopMargin = NSLayoutConstraint()
     var textTitleLeftMargin = NSLayoutConstraint()
+    var thumbnailsTopMarginConstraint = NSLayoutConstraint()
     var CTAheightConstraints: [NSLayoutConstraint] = []
     
     fileprivate var basicImageIncluded: Bool = false
@@ -71,9 +72,9 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         backgroundColor = UIColor.clear
         contentView.backgroundColor = UIColor.clear
         contentView.preservesSuperviewLayoutMargins = false
-        contentView.layoutMargins = UIEdgeInsets(top: Metrics.modularNotificationShortMargin,
+        contentView.layoutMargins = UIEdgeInsets(top: Metrics.modularNotificationShortMargin/2,
                                                  left: Metrics.modularNotificationShortMargin,
-                                                 bottom: Metrics.modularNotificationShortMargin,
+                                                 bottom: Metrics.modularNotificationShortMargin/2,
                                                  right: Metrics.modularNotificationShortMargin)
         
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [background, heroImageView, basicImage, iconImageView, textTitleLabel, textBodyLabel])
@@ -103,7 +104,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         basicImage.contentMode = .scaleAspectFill
         basicImage.clipsToBounds = true
         basicImage.layout(with: heroImageView).below(by: Metrics.modularNotificationLongMargin)
-        basicImage.layout(with: background).left(to: .leftMargin, by: Metrics.modularNotificationShortMargin)
+        basicImage.layout(with: background).left(by: Metrics.modularNotificationLongMargin)
         basicImage.layout().height(0, constraintBlock: { [weak self] in self?.basicImageHeightConstraint = $0 })
         basicImage.layout().width(0, constraintBlock: { [weak self] in self?.basicImageWidthConstraint = $0 })
         
@@ -145,14 +146,14 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         // Config thumbnails
         background.addSubviews(thumbnails)
         let firstThumbnail = thumbnails[0]
-        firstThumbnail.layout(with: textBodyLabel).below(by: Metrics.modularNotificationLongMargin)
+        firstThumbnail.layout(with: textBodyLabel).below(by: Metrics.modularNotificationLongMargin, constraintBlock: { [weak self] in self?.thumbnailsTopMarginConstraint = $0 })
         firstThumbnail.layout(with: textBodyLabel).left()
-        firstThumbnail.layout().height(0, constraintBlock: { [weak self] in self?.firstThumbnailHeightConstraint = $0 })
+        firstThumbnail.layout().height(Metrics.modularNotificationThumbnailSize, constraintBlock: { [weak self] in self?.firstThumbnailHeightConstraint = $0 })
         firstThumbnail.layout().widthProportionalToHeight()
         for (index, thumbnail) in thumbnails.enumerated() {
             thumbnail.contentMode = .scaleAspectFill
             thumbnail.clipsToBounds = true
-            
+            thumbnail.backgroundColor = UIColor.gray
             let tap = UITapGestureRecognizer(target: self, action: #selector(thumbnailTapped))
             thumbnail.addGestureRecognizer(tap)
             thumbnail.isUserInteractionEnabled = true
@@ -174,8 +175,8 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         firstCTA.layout(with: background).left().right()
         
         for (index, button) in callsToAction.enumerated() {
-          //  button.setStyle(.secondary(fontSize: .medium, withBorder: false))
             button.setTitleColor(UIColor.primaryColor , for: .normal)
+            button.setBackgroundImage(UIColor.secondaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)), for: .highlighted)
             button.titleLabel?.font = UIFont.mediumButtonFont
             addButtonSeparator(to: button)
             button.clipsToBounds = true
@@ -202,11 +203,15 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     //MARK: - Public Methods: 
     
     func addModularData(with modules: NotificationModular, isRead: Bool) {
+        
+        //HeroImage if needed
         if let heroImage = modules.heroImage {
             addHeroImage(with: heroImage.imageURL, deeplink: heroImage.deeplink)
         } else {
             heroImageHeightConstraint.constant = 0
         }
+        
+        //BasicImage if needed
         if let basicImage = modules.basicImage {
             let shapeImage = basicImage.shape ?? .square
             addBasicImage(with: shapeImage, imageURL: basicImage.imageURL, deeplink: basicImage.deeplink)
@@ -218,18 +223,25 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             basicImageWidthConstraint.constant = 0
             basicImageHeightConstraint.constant = 0
         }
+        
+        // Add text
         addTextInfo(with: modules.text.title, body: modules.text.body, deeplink: modules.text.deeplink, isRead: isRead)
         
+        // thumbnails if needed
         if let thumbnailsModule = modules.thumbnails {
             firstThumbnailHeightConstraint.constant = Metrics.modularNotificationThumbnailSize
+            thumbnailsTopMarginConstraint.constant = Metrics.modularNotificationShortMargin
             for (index, item) in thumbnailsModule.enumerated() {
                 guard let deeplink = item.deeplink else { return } //only add thumbnail if there is deeplink
                 addThumbnail(to: thumbnails[index], shape:item.shape ?? .square, imageURL: item.imageURL, deeplink: deeplink)
             }
         } else {
             firstThumbnailHeightConstraint.constant = 0
+            thumbnailsTopMarginConstraint.constant = 0
         }
         
+        
+        // Call to action
         for (index, item) in modules.callToActions.enumerated() {
             CTAheightConstraints[index].constant = Metrics.modularNotificationCTAHeight
             addCTA(to: callsToAction[index], title: item.title, deeplink: item.deeplink)
@@ -295,8 +307,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         }
         textTitleLeftMargin.constant = basicImageIncluded ? Metrics.modularNotificationLongMargin : 0
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: isRead)
-        textBodyLabel.text = body
-        
+        textBodyLabel.setHTMLFromString(htmlText: body)
         textTitleDeepLink = deeplink
         
         lastViewAdded = textBodyLabel
@@ -315,6 +326,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     
     fileprivate func addThumbnail(to thumbnailImageView: UIImageView, shape: NotificationImageShape, imageURL: String, deeplink: String) {
         guard let url = URL(string: imageURL) else { return }
+        thumbnailImageView.isHidden = false
         var placeholderImage: UIImage?
         switch shape {
         case .square:
@@ -322,7 +334,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         case .circle:
             placeholderImage = UIImage(named: "notificationThumbnailCirclePlaceholder")
         }
-        
         thumbnailImageView.lg_setImageWithURL(url, placeholderImage: placeholderImage)  {
             (result, urlResult) in
             if let image = result.value?.image, url == urlResult {
@@ -337,7 +348,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             thumbnailImageView.rounded = true
         }
         
-        thumbnailImageView.isHidden = false
         thumbnailsDeeplinks.append(deeplink)
         lastViewAdded = thumbnailImageView
     }
