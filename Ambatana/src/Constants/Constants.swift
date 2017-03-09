@@ -58,7 +58,7 @@ struct Constants {
     static let productListMaxMonthsLabel = 3.0
     static let productListFooterHeight: CGFloat = 70
     static let productListFixedInsets: CGFloat = 6
-    static let productListNewLabelThreshold: TimeInterval = 60 * 60 * 24 // 1 day
+    static let productListNewLabelThreshold = TimeInterval.makeDay()
     static let numProductsPerPageDefault = 20
     static let numProductsPerPageBig = 40
     static let productsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
@@ -75,10 +75,10 @@ struct Constants {
     static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
 
     // Pre Permissions
-    static let pushPermissionRepeatTime: TimeInterval = (60 * 60 * 24) // 1 day
+    static let pushPermissionRepeatTime = TimeInterval.makeDay()
 
     // Surveys minimum gap
-    static let surveysMinGapTime: TimeInterval = (60 * 60 * 24) // 1 day
+    static let surveysMinGapTime = TimeInterval.makeDay()
 
     // Product posting
     static let maxImageCount = 5
@@ -94,7 +94,7 @@ struct Constants {
     }
 
     // Rating
-    static let ratingRepeatTime: TimeInterval = (60 * 60 * 24 * 3) // 3 days
+    static let ratingRepeatTime = TimeInterval.makeDays(3)
 
     // Product Detail
     static let minimumStatsCountToShow = 5
@@ -105,7 +105,7 @@ struct Constants {
     static let maxUserNameLength = 18
 
     // Edit Product
-    static let cloudsightTimeThreshold: TimeInterval = 900        // just ask for automatic generated name the first 15 mins
+    static let cloudsightTimeThreshold = TimeInterval.makeMinutes(15) // just ask for automatic generated name the first 15 mins
     static let cloudsightRequestRepeatInterval: TimeInterval = 2  // repeat the request every 2 seconds
 
     // Config
