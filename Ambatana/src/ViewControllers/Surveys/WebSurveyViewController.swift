@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import WebKit
 
 class WebSurveyViewController: BaseViewController {
 
@@ -15,7 +16,7 @@ class WebSurveyViewController: BaseViewController {
 
     fileprivate let viewModel: WebSurveyViewModel
 
-    fileprivate let webView = UIWebView()
+    fileprivate let webView = WKWebView()
     fileprivate let closeButton = UIButton()
     fileprivate let activityIndicator = UIActivityIndicatorView()
 
@@ -56,28 +57,36 @@ class WebSurveyViewController: BaseViewController {
 
         closeButton.layout(with: topLayoutGuide).below()
 
-        webView.delegate = self
+        webView.navigationDelegate = self
         closeButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
 
         let request = URLRequest(url: viewModel.url)
-        webView.loadRequest(request)
+        webView.load(request)
     }
 }
 
-extension WebSurveyViewController: UIWebViewDelegate {
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        return viewModel.shouldLoad(url: request.url)
+extension WebSurveyViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        switch navigationAction.navigationType {
+        case .linkActivated, .other:
+            if !viewModel.shouldLoad(url: navigationAction.request.url) {
+                decisionHandler(.cancel)
+            }
+        default:
+            break
+        }
+        decisionHandler(.allow)
     }
 
-    func webViewDidStartLoad(_ webView: UIWebView) {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         activityIndicator.startAnimating()
     }
 
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         activityIndicator.stopAnimating()
     }
 
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         viewModel.failedLoad()
     }
 }
