@@ -11,12 +11,12 @@ import RxSwift
 
 struct BumpUpInfo {
     var free: Bool
-    var timeSinceLastBump: Int
+    var timeSinceLastBump: TimeInterval
     var price: String?
     var primaryBlock: (()->()?)
     var buttonBlock: (()->()?)
 
-    init(free: Bool, timeSinceLastBump: Int, price: String?, primaryBlock: @escaping (()->()?), buttonBlock: @escaping (()->()?)) {
+    init(free: Bool, timeSinceLastBump: TimeInterval, price: String?, primaryBlock: @escaping (()->()?), buttonBlock: @escaping (()->()?)) {
         self.free = free
         self.timeSinceLastBump = timeSinceLastBump
         self.price = price
@@ -29,7 +29,7 @@ class BumpUpBanner: UIView {
 
     static let iconSize: CGFloat = 20
     static let timerUpdateInterval: TimeInterval = 1
-    static let secsToMillisecsRatio = 1000
+    static let secsToMillisecsRatio: TimeInterval = 1000
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
@@ -46,7 +46,7 @@ class BumpUpBanner: UIView {
     private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
     // - Rx
-    let timeLeft = Variable<Int>(0)
+    let timeLeft = Variable<TimeInterval>(0)
     let text = Variable<NSAttributedString?>(NSAttributedString())
     let readyToBump = Variable<Bool>(false)
     let disposeBag = DisposeBag()
@@ -138,7 +138,7 @@ class BumpUpBanner: UIView {
                 localizedText = LGLocalizedString.bumpUpBannerWaitText
                 strongSelf.bumpButton.isEnabled = false
             }
-            strongSelf.text.value = strongSelf.bubbleText(secondsLeft: secondsLeft, text: localizedText)
+            strongSelf.text.value = strongSelf.bubbleText(secondsLeft: Int(secondsLeft), text: localizedText)
         }.addDisposableTo(disposeBag)
 
         text.asObservable().bindTo(textLabel.rx.attributedText).addDisposableTo(disposeBag)
@@ -215,7 +215,7 @@ class BumpUpBanner: UIView {
     }
 
     private dynamic func updateTimer() {
-        timeLeft.value = timeLeft.value-(Int(BumpUpBanner.timerUpdateInterval)*BumpUpBanner.secsToMillisecsRatio)
+        timeLeft.value = timeLeft.value-(BumpUpBanner.timerUpdateInterval*BumpUpBanner.secsToMillisecsRatio)
     }
 
     private func setAccessibilityIds() {

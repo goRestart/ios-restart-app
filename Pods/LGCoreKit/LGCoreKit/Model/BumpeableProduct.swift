@@ -8,10 +8,10 @@
 
 public protocol BumpeableProduct {
     var isBumpeable: Bool { get }
-    var countdown: Int { get }          // milliseconds
-    var maxCountdown: Int { get }       // milliseconds
+    var countdown: TimeInterval { get }          // milliseconds
+    var maxCountdown: TimeInterval { get }       // milliseconds
     var totalBumps: Int { get }
     var bumpsLeft: Int { get }
-    var timeSinceLastBump: Int { get }  // milliseconds
+    var timeSinceLastBump: TimeInterval { get }  // milliseconds
     var paymentItems: [PaymentItem] { get }
 }
