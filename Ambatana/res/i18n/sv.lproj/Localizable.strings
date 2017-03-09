@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Du måste tillåta åtkomst till Kameran för att ta en bild";
 "product_post_camera_permissions_title" = "Tillåt åtkomst till Kamera";
 "product_post_camera_tab" = "FOTO";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Släng bort";
 "product_post_close_alert_description" = "Vill du fortfarande lägga ut den till försäljning?";
 "product_post_close_alert_ok_button" = "Lägg upp produkten";

@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Om een foto te maken, moet je de toegang tot de Camera toestaan";
 "product_post_camera_permissions_title" = "Geef toegang tot Camera";
 "product_post_camera_tab" = "FOTO";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Verwijder";
 "product_post_close_alert_description" = "Wil je het nog steeds als te koop plaatsen?";
 "product_post_close_alert_ok_button" = "Plaats product";

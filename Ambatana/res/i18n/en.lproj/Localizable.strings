@@ -1569,6 +1569,9 @@
 // Camera tab on posting
 "product_post_camera_tab" = "PHOTO";
 
+// Camera tab on posting
+"product_post_camera_tab_v2" = "CAMERA";
+
 // When closing without posting alert close button
 "product_post_close_alert_close_button" = "Discard";
 

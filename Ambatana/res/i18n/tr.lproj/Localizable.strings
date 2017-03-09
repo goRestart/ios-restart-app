@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Fotoğraf çekebilmek için, kameraya erişime izin vermelisin";
 "product_post_camera_permissions_title" = "Kameraya erişime izin ver";
 "product_post_camera_tab" = "FOTOĞRAF";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Sil";
 "product_post_close_alert_description" = "Onu hala satmak için listelemek istiyor musun?";
 "product_post_close_alert_ok_button" = "Ürün Yükle";

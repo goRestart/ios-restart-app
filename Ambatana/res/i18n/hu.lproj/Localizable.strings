@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Fotókészítéshez hozzáférést kell adnod a Kamerához";
 "product_post_camera_permissions_title" = "Hozzáférés engedélyezése a Kamerához";
 "product_post_camera_tab" = "FOTÓ";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Elvetés";
 "product_post_close_alert_description" = "Mégis kilistázod eladóként?";
 "product_post_close_alert_ok_button" = "Portéka meghirdetése";

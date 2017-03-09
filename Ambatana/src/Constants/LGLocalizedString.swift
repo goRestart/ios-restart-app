@@ -2111,6 +2111,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_camera_tab", comment: "")
 	}
 
+	static var productPostCameraTabV2: String {
+		return NSLocalizedString("product_post_camera_tab_v2", comment: "")
+	}
+
 	static var productPostCloseAlertCloseButton: String {
 		return NSLocalizedString("product_post_close_alert_close_button", comment: "")
 	}

@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "사진을 촬영하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_camera_permissions_title" = "카메라 접근 허가하기";
 "product_post_camera_tab" = "사진";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "삭제하기";
 "product_post_close_alert_description" = "여전히 판매를 원하시나요?";
 "product_post_close_alert_ok_button" = "상품 게시하기";
