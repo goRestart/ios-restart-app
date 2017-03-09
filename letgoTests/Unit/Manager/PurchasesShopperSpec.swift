@@ -119,13 +119,16 @@ class PurchasesShopperSpec: QuickSpec {
                 }
             }
             context ("request payment") {
-                var initialPendingPayments = 0
+                var initialPendingPayments: Int
+                beforeEach {
+                    initialPendingPayments = 0
+                }
                 context("the purchaseable product is available") {
                     beforeEach {
                         initialPendingPayments = sut.numPendingTransactions
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
                         sut.letgoProductsDict["product_id"] = [myAppstoreProduct]
-                        sut.requestPaymentForProduct("product_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
+                        sut.requestPaymentForProduct(productId: "product_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
                     }
                     it ("adds a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments + 1
@@ -137,7 +140,7 @@ class PurchasesShopperSpec: QuickSpec {
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
                         sut.letgoProductsDict["product_id"] = [myAppstoreProduct]
                         let unavailableAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "unavailable_appstore_product_id")
-                        sut.requestPaymentForProduct("product_id", appstoreProduct: unavailableAppstoreProduct, paymentItemId: "payment_id")
+                        sut.requestPaymentForProduct(productId: "product_id", appstoreProduct: unavailableAppstoreProduct, paymentItemId: "payment_id")
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments
@@ -168,7 +171,7 @@ class PurchasesShopperSpec: QuickSpec {
                             sut.paymentProcessingProductId = "product_id_success"
                             sut.paymentProcessingPaymentId = "payment_id_success"
                             transaction.myTransactionIdentifier = "purchase_bump_ok"
-                            sut.shopperState = .purchasing
+                            sut.purchasesShopperState = .purchasing
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
                             sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
                             expect(self.mockBumpResult).toEventuallyNot(beNil())
@@ -182,7 +185,7 @@ class PurchasesShopperSpec: QuickSpec {
                             sut.paymentProcessingProductId = "product_id_fail"
                             sut.paymentProcessingPaymentId = "payment_id_fail"
                             transaction.myTransactionIdentifier = "purchase_bump_fail"
-                            sut.shopperState = .purchasing
+                            sut.purchasesShopperState = .purchasing
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
                             sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
                             expect(self.mockBumpResult).toEventuallyNot(beNil())
@@ -199,7 +202,7 @@ class PurchasesShopperSpec: QuickSpec {
                         sut.paymentProcessingPaymentId = "payment_id_restore"
                         transaction.myTransactionIdentifier = "restore_bump"
                         // purchase works, bump fails, so it's stored
-                        sut.shopperState = .purchasing
+                        sut.purchasesShopperState = .purchasing
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
                         sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
 

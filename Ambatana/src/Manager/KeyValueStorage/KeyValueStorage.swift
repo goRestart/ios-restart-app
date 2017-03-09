@@ -242,14 +242,14 @@ extension KeyValueStorage {
         }
     }
 
-    var userTransactionsProductIds: [String:String] {
+    var userPendingTransactionsProductIds: [String:String] {
         get {
-            return currentUserProperties?.transactionsProductIds ??
+            return currentUserProperties?.pendingTransactionsProductIds ??
                 UserDefaultsUser.transactionsProductIdsDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
-            userProperties.transactionsProductIds = newValue
+            userProperties.pendingTransactionsProductIds = newValue
             currentUserProperties = userProperties
         }
     }

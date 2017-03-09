@@ -13,6 +13,28 @@ enum BumpUpType {
     case free
     case priced
     case restore
+
+    var bannerText: String {
+        switch self {
+        case .free:
+            return LGLocalizedString.bumpUpBannerFreeText
+        case .priced:
+            return LGLocalizedString.bumpUpBannerPayText
+        case .restore:
+            return LGLocalizedString.bumpUpErrorBumpToken
+        }
+    }
+
+    var bannerIcon: UIImage? {
+        switch self {
+        case .free:
+            return UIImage(named: "red_chevron_up")
+        case .priced:
+            return UIImage(named: "red_chevron_up")
+        case .restore:
+            return UIImage(named: "ic_error")
+        }
+    }
 }
 
 struct BumpUpInfo {
@@ -80,6 +102,7 @@ class BumpUpBanner: UIView {
 
         // the time limit in milliseconds
         var waitingTime: TimeInterval = 0
+
         switch type {
         case .free:
             waitingTime = featureFlags.bumpUpFreeTimeLimit
@@ -96,7 +119,7 @@ class BumpUpBanner: UIView {
             bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
         }
 
-        let timeShouldBeZero = info.timeSinceLastBump == 0 || (waitingTime - info.timeSinceLastBump < 0) || info.timeSinceLastBump < 0
+        let timeShouldBeZero = info.timeSinceLastBump <= 0 || (waitingTime - info.timeSinceLastBump < 0)
         timeLeft.value = timeShouldBeZero ? 0 : waitingTime - info.timeSinceLastBump
         startCountdown()
         bumpButton.isEnabled = timeLeft.value < 1
@@ -153,17 +176,8 @@ class BumpUpBanner: UIView {
             let localizedText: String
             if secondsLeft <= 0 {
                 strongSelf.timer.invalidate()
-                switch strongSelf.type {
-                case .free:
-                    localizedText = LGLocalizedString.bumpUpBannerFreeText
-                    strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
-                case .priced:
-                    localizedText = LGLocalizedString.bumpUpBannerPayText
-                    strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
-                case .restore:
-                    localizedText = LGLocalizedString.bumpUpErrorBumpToken
-                    strongSelf.iconImageView.image = UIImage(named: "ic_error")
-                }
+                localizedText = strongSelf.type.bannerText
+                strongSelf.iconImageView.image = strongSelf.type.bannerIcon
                 strongSelf.bumpButton.isEnabled = true
             } else {
                 strongSelf.iconImageView.image = UIImage(named: "clock")

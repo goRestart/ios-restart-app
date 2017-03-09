@@ -329,9 +329,9 @@ class ProductViewModel: BaseViewModel {
         guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
-        let alreadyPaid = purchasesShopper.productIsPaidButNotBumped(productId)
+        let isBumpUpPending = purchasesShopper.isBumpUpPending(productId: productId)
 
-        if alreadyPaid {
+        if isBumpUpPending {
             createBumpeableBannerFor(productId: productId, withPrice: nil, paymentItemId: nil, bumpUpType: .restore)
         } else {
             isUpdatingBumpUpBanner = true
@@ -345,6 +345,8 @@ class ProductViewModel: BaseViewModel {
                     if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
                         // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                         strongSelf.paymentItemId = paymentItems.first?.itemId
+                        // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                        // a useless request to apple
                         if let _ = strongSelf.paymentItemId {
                             strongSelf.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems.map { $0.providerItemId })
                         }
@@ -390,7 +392,7 @@ class ProductViewModel: BaseViewModel {
         case .restore:
             let restoreBlock = { [weak self] in
                 logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for product: \(productId)")
-                self?.purchasesShopper.requestPricedBumpUpForProduct(productId)
+                self?.purchasesShopper.requestPricedBumpUpForProduct(productId: productId)
             }
             primaryBlock = restoreBlock
             buttonBlock = restoreBlock
@@ -467,7 +469,7 @@ extension ProductViewModel {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
         guard let purchase = bumpUpPurchaseableProduct,
             let paymentItemId = paymentItemId else { return }
-        purchasesShopper.requestPaymentForProduct(productId, appstoreProduct: purchase, paymentItemId: paymentItemId)
+        purchasesShopper.requestPaymentForProduct(productId: productId, appstoreProduct: purchase, paymentItemId: paymentItemId)
     }
 }
 

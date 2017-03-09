@@ -23,11 +23,11 @@ class MockPurchasesShopper: PurchasesShopper {
 
     }
 
-    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
+    func requestPaymentForProduct(productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
 
     }
 
-    func productIsPaidButNotBumped(_ productId: String) -> Bool {
+    func isBumpUpPending(productId: String) -> Bool {
         return Bool.makeRandom()
     }
 
@@ -35,7 +35,7 @@ class MockPurchasesShopper: PurchasesShopper {
 
     }
 
-    func requestPricedBumpUpForProduct(_ productId: String) {
+    func requestPricedBumpUpForProduct(productId: String) {
 
     }
 }

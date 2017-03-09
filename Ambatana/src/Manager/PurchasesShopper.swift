@@ -31,9 +31,9 @@ protocol PurchasesShopper: class {
 
      - parameter product: info of the product to purchase on the appstore
      */
-    func requestPaymentForProduct(_ productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String)
+    func requestPaymentForProduct(productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String)
 
-    func productIsPaidButNotBumped(_ productId: String) -> Bool
+    func isBumpUpPending(productId: String) -> Bool
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork)
-    func requestPricedBumpUpForProduct(_ productId: String)
+    func requestPricedBumpUpForProduct(productId: String)
 }
