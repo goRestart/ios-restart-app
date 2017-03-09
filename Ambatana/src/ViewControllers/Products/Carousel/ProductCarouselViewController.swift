@@ -1106,11 +1106,6 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
         onboarding.layoutIfNeeded()
     }
 
-    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {
-        let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
-        navigationController?.present(promoteProductVC, animated: true, completion: nil)
-    }
-
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
         let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
         navigationController?.present(commercialDisplayVC, animated: true, completion: nil)

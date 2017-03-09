@@ -15,7 +15,6 @@ import RxSwift
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
-    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
@@ -94,7 +93,6 @@ class ProductViewModel: BaseViewModel {
     fileprivate let commercializers: Variable<[Commercializer]?>
     fileprivate let isReported = Variable<Bool>(false)
     fileprivate let productHasReadyCommercials = Variable<Bool>(false)
-    fileprivate var commercializerAvailableTemplatesCount: Int? = nil
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
@@ -201,17 +199,9 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        if commercializerIsAvailable && !commercialsRetrieved {
+        if !commercialsRetrieved {
             commercializerRepository.index(productId) { [weak self] result in
                 guard let value = result.value, let strongSelf = self else { return }
-
-                if let code = strongSelf.product.value.postalAddress.countryCode {
-                    let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value,
-                                                                                                       countryCode: code)
-                    strongSelf.commercializerAvailableTemplatesCount = availableTemplates.count
-                    strongSelf.refreshStatus()
-                }
-
                 let readyCommercials = value.filter {$0.status == .ready }
                 self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
                 self?.commercializers.value = value
@@ -271,7 +261,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.product = product
             let isMine = product.isMine(myUserRepository: strongSelf.myUserRepository)
-            strongSelf.setStatus(ProductViewModelStatus(product: product, isMine: isMine, featureFlags: strongSelf.featureFlags))
+            strongSelf.status.value = ProductViewModelStatus(product: product, isMine: isMine, featureFlags: strongSelf.featureFlags)
             strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
@@ -314,16 +304,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshStatus() {
-        let newStatus = ProductViewModelStatus(product: product.value, isMine: isMine, featureFlags: featureFlags)
-        setStatus(newStatus)
-    }
-
-    private func setStatus(_ productStatus: ProductViewModelStatus) {
-        if let templates = commercializerAvailableTemplatesCount {
-            status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
-        } else {
-            status.value = productStatus
-        }
+        status.value = ProductViewModelStatus(product: product.value, isMine: isMine, featureFlags: featureFlags)
     }
 
     func refreshBumpeableBanner() {
@@ -443,33 +424,6 @@ extension ProductViewModel {
 }
 
 
-// MARK: - Private
-// MARK: - Commercializer
-
-extension ProductViewModel {
-    private func numberOfCommercializerTemplates() -> Int {
-        guard let countryCode = product.value.postalAddress.countryCode else { return 0 }
-        return commercializerRepository.templatesForCountryCode(countryCode).count
-    }
-
-    fileprivate var commercializerIsAvailable: Bool {
-        return numberOfCommercializerTemplates() > 0
-    }
-
-    fileprivate func promoteProduct(_ source: PromotionSource) {
-        let theProduct = product.value
-        if let countryCode = theProduct.postalAddress.countryCode, let productId = theProduct.objectId {
-            let themes = commercializerRepository.templatesForCountryCode(countryCode)
-            let commercializersArr = commercializers.value ?? []
-            guard let promoteProductVM = PromoteProductViewModel(productId: productId,
-                                                                 themes: themes, commercializers: commercializersArr, promotionSource: .productDetail) else { return }
-            trackHelper.trackCommercializerStart()
-            delegate?.vmOpenPromoteProduct(promoteProductVM)
-        }
-    }
-}
-
-
 // MARK: - Helper Navbar
 
 extension ProductViewModel {
@@ -536,7 +490,6 @@ extension ProductViewModel {
 
     private func showOptionsMenu() {
         var actions = [UIAction]()
-        let isCommercializable = (status.value == .pendingAndCommercializable || status.value == .availableAndCommercializable)
 
         if featureFlags.editDeleteItemUxImprovement && status.value.isEditable {
             actions.append(buildEditAction())
@@ -550,10 +503,6 @@ extension ProductViewModel {
         }
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
-        }
-
-        if isCommercializable {
-            actions.append(buildPromoteAction())
         }
 
         delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
@@ -634,13 +583,6 @@ extension ProductViewModel {
             })
     }
 
-
-    private func buildPromoteAction() -> UIAction {
-        return UIAction(interface: .text(LGLocalizedString.productCreateCommercialButton), action: { [weak self] in
-            self?.promoteProduct(.productDetail)
-        })
-    }
-
     private var socialShareMessage: SocialMessage {
         return ProductSocialMessage(product: product.value, fallbackToStore: false)
     }
@@ -667,9 +609,9 @@ extension ProductViewModel {
     private func buildActionButtons(_ status: ProductViewModelStatus) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
-        case .pending, .pendingAndCommercializable, .notAvailable, .otherSold, .otherSoldFree:
+        case .pending, .notAvailable, .otherSold, .otherSoldFree:
             break
-        case .available, .availableAndCommercializable:
+        case .available:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
                 action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true) }))
         case .sold:

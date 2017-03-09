@@ -18,12 +18,7 @@ public typealias CommercializerProductsResult = Result<[CommercializerProduct], 
 public typealias CommercializerProductsCompletion = (CommercializerProductsResult) -> Void
 
 public protocol CommercializerRepository {
-    
     func index(_ productId: String, completion: CommercializersCompletion?)
-    func create(_ productId: String, templateId: String, completion: CommercializerCompletion?)
-    func indexAvailableProducts(_ completion: CommercializerProductsCompletion?)
-    func templatesForCountryCode(_ countryCode: String) -> [CommercializerTemplate]
-    func availableTemplatesFor(_ commercializers: [Commercializer], countryCode: String) -> [CommercializerTemplate]
 }
 
 
@@ -33,5 +28,9 @@ typealias CommercializerTemplateCompletion = (CommercializerTemplateResult) -> V
 
 
 protocol InternalCommercializerRepository: CommercializerRepository {
-     func indexTemplates(_ completion: CommercializerTemplateCompletion?)
+    func create(_ productId: String, templateId: String, completion: CommercializerCompletion?)
+    func indexAvailableProducts(_ completion: CommercializerProductsCompletion?)
+    func templatesForCountryCode(_ countryCode: String) -> [CommercializerTemplate]
+    func availableTemplatesFor(_ commercializers: [Commercializer], countryCode: String) -> [CommercializerTemplate]
+    func indexTemplates(_ completion: CommercializerTemplateCompletion?)
 }

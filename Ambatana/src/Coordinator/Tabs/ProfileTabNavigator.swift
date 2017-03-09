@@ -17,7 +17,6 @@ protocol SettingsNavigator: class {
     func openEditUserName()
     func openEditEmail()
     func openEditLocation()
-    func openCreateCommercials()
     func openChangePassword()
     func openHelp()
     func closeSettings()

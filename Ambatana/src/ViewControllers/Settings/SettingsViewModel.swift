@@ -18,7 +18,6 @@ enum LetGoSetting {
     case changeUsername(name: String)
     case changeLocation(location: String)
     case marketingNotifications(switchValue: Variable<Bool>, changeClosure: ((Bool) -> Void))
-    case createCommercializer
     case changePassword
     case help
     case logOut
@@ -44,9 +43,7 @@ class SettingsViewModel: BaseViewModel {
     let switchMarketingNotificationValue = Variable<Bool>(true)
 
     private let myUserRepository: MyUserRepository
-    private let commercializerRepository: CommercializerRepository
     private let notificationsManager: NotificationsManager
-    private let locationManager: LocationManager
     private let tracker: Tracker
     private let pushPermissionManager: PushPermissionsManager
 
@@ -54,24 +51,19 @@ class SettingsViewModel: BaseViewModel {
 
     private let disposeBag = DisposeBag()
 
-    private var commercializerEnabled: Bool {
-        guard let countryCode = locationManager.currentLocation?.countryCode else { return false }
-        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
-    }
-
 
     convenience override init() {
-        self.init(myUserRepository: Core.myUserRepository, commercializerRepository: Core.commercializerRepository,
-                  locationManager: Core.locationManager, notificationsManager: LGNotificationsManager.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance, pushPermissionManager: PushPermissionsManager.sharedInstance)
+        self.init(myUserRepository: Core.myUserRepository,
+                  notificationsManager: LGNotificationsManager.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance,
+                  pushPermissionManager: PushPermissionsManager.sharedInstance)
     }
 
-    init(myUserRepository: MyUserRepository, commercializerRepository: CommercializerRepository,
-         locationManager: LocationManager, notificationsManager: NotificationsManager, tracker: Tracker,
+    init(myUserRepository: MyUserRepository,
+         notificationsManager: NotificationsManager,
+         tracker: Tracker,
          pushPermissionManager: PushPermissionsManager) {
         self.myUserRepository = myUserRepository
-        self.commercializerRepository = commercializerRepository
-        self.locationManager = locationManager
         self.notificationsManager = notificationsManager
         self.tracker = tracker
         self.pushPermissionManager = pushPermissionManager
@@ -171,9 +163,6 @@ class SettingsViewModel: BaseViewModel {
 
         var promoteSettings = [LetGoSetting]()
         promoteSettings.append(.inviteFbFriends)
-        if commercializerEnabled {
-            promoteSettings.append(.createCommercializer)
-        }
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionPromote, settings: promoteSettings))
 
         var profileSettings = [LetGoSetting]()
@@ -228,8 +217,6 @@ class SettingsViewModel: BaseViewModel {
             navigator?.openEditEmail()
         case .changeLocation:
             navigator?.openEditLocation()
-        case .createCommercializer:
-            navigator?.openCreateCommercials()
         case .changePassword:
             navigator?.openChangePassword()
         case .help:
