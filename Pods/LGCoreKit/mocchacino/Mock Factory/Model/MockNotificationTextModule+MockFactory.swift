@@ -4,7 +4,3 @@ extension MockNotificationTextModule: MockFactory {
         return MockNotificationTextModule(title: String.makeRandom(), body: String.makeRandom(), deeplink: String.makeRandom())
     }
 }
-
-
-
-
