@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "İzin Ver";
 "product_post_gallery_permissions_subtitle" = "Mevcut bir fotoğrafı seçmek için, Resimlerine erişime izin vermelisin";
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "5 görsele kadar seçip yükle";
 "product_post_gallery_select_pictures_title" = "Fotoğrafları seç";
 "product_post_gallery_tab" = "KÜTÜPHANE";

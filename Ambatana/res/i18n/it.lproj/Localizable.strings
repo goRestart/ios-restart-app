@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Consenti";
 "product_post_gallery_permissions_subtitle" = "Per selezionare una foto esistente, devi consentire l'accesso alle foto";
 "product_post_gallery_permissions_title" = "Consenti accesso alle foto";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Seleziona fino a 5 immagini da caricare";
 "product_post_gallery_select_pictures_title" = "Scegli foto";
 "product_post_gallery_tab" = "LIBRERIA";

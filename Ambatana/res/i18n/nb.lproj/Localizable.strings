@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Tillat";
 "product_post_gallery_permissions_subtitle" = "Du må tillate tilgang til bilder for å kunne velge et eksisterende bilde";
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Velg opp til fem bilder å laste opp";
 "product_post_gallery_select_pictures_title" = "Velg bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";

@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Allow";
 "product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
 "product_post_gallery_permissions_title" = "Allow access to Photos";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
 "product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "GALLERY";

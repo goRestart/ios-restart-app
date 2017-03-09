@@ -1641,6 +1641,9 @@
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
 
+// Gallery button to post the selected pictures
+"product_post_gallery_post" = "Post";
+
 // When posting failed but it's our fault
 "product_post_generic_error" = "An error occurred while posting your product.";
 

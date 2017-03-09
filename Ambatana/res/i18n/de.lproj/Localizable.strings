@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Erlauben";
 "product_post_gallery_permissions_subtitle" = "Um ein existierendes Foto nutzen zu können, musst du den Zugriff auf deine Fotos erlauben";
 "product_post_gallery_permissions_title" = "Zugriff auf Fotos erlauben";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Wähle bis zu 5 Bilder zum Hochladen";
 "product_post_gallery_select_pictures_title" = "Wähle deine Fotos";
 "product_post_gallery_tab" = "BIBLIOTHEK";

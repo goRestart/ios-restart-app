@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Autoriser";
 "product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez allouer l'accès aux Photos";
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à uploader";
 "product_post_gallery_select_pictures_title" = "Choisir une photo";
 "product_post_gallery_tab" = "BIBLIOTHÈQUE";

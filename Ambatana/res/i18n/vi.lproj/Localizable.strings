@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Cho phép";
 "product_post_gallery_permissions_subtitle" = "Để chọn ảnh hiện có, bạn cần cho phép truy cập Ảnh";
 "product_post_gallery_permissions_title" = "Cho phép truy cập Ảnh";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Chọn tối đa 5 ảnh để tải lên";
 "product_post_gallery_select_pictures_title" = "Chọn ảnh";
 "product_post_gallery_tab" = "THƯ VIỆN HÌNH ẢNH";

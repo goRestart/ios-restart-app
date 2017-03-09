@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Tillåt";
 "product_post_gallery_permissions_subtitle" = "Du måste tillåta åtkomst till Bilder för att välja en sparad bild";
 "product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Välj upp till 5 bilder för uppladdning";
 "product_post_gallery_select_pictures_title" = "Välj bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";

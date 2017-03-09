@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Salli";
 "product_post_gallery_permissions_subtitle" = "Valitaksesi olemassa olevan kuvan, sinun on annettava lupa käyttää Kuvia";
 "product_post_gallery_permissions_title" = "Anna lupa Kuvien käyttöön";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Valitse enintään 5 kuvaa ladattavaksi";
 "product_post_gallery_select_pictures_title" = "Valitse kuvat";
 "product_post_gallery_tab" = "KIRJASTO";

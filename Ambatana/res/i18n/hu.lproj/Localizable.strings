@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Engedélyezés";
 "product_post_gallery_permissions_subtitle" = "Meglévő fotó kiválasztásához hozzáférést kell adnod a Fotókhoz";
 "product_post_gallery_permissions_title" = "Hozzáférés engedélyezése a Fotókhoz";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Válassz legfeljebb 5 feltöltendő fotót";
 "product_post_gallery_select_pictures_title" = "Válassz fotókat";
 "product_post_gallery_tab" = "GALÉRIA";

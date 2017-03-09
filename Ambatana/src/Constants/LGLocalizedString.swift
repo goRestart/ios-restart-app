@@ -2207,6 +2207,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_tab", comment: "")
 	}
 
+	static var productPostGalleryPost: String {
+		return NSLocalizedString("product_post_gallery_post", comment: "")
+	}
+
 	static var productPostGenericError: String {
 		return NSLocalizedString("product_post_generic_error", comment: "")
 	}

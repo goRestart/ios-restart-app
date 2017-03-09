@@ -522,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Разрешить";
 "product_post_gallery_permissions_subtitle" = "Для выбора имеющихся фотографий, разрешите доступ к Фотографиям";
 "product_post_gallery_permissions_title" = "Разрешите доступ к Фотографиям";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Выберите до 5 фотографий для загрузки";
 "product_post_gallery_select_pictures_title" = "Выберите фотографии";
 "product_post_gallery_tab" = "ГАЛЕРЕЯ";
