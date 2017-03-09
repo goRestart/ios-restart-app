@@ -979,6 +979,7 @@
 		C7AFFB0B1E715F840052A9CA /* SurveysNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */; };
 		C7AFFB0D1E7172B20052A9CA /* MyUser+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */; };
 		C7AFFB0E1E7172B20052A9CA /* MyUser+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */; };
+		C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */; };
 		C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B543281D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */; };
@@ -1991,6 +1992,7 @@
 		C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveysCoordinator.swift; sourceTree = "<group>"; };
 		C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveysNavigator.swift; sourceTree = "<group>"; };
 		C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyUser+LG.swift"; sourceTree = "<group>"; };
+		C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewModelSpec.swift; sourceTree = "<group>"; };
 		C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Screenshot.swift"; sourceTree = "<group>"; };
 		C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountsViewController.swift; sourceTree = "<group>"; };
 		C7B543271D758BA7005FBA30 /* VerifyAccountsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifyAccountsViewController.xib; sourceTree = "<group>"; };
@@ -3145,6 +3147,7 @@
 				50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */,
 				50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */,
 				50D08DA31E69AF14009CC260 /* TourLoginViewModelSpec.swift */,
+				C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -4947,6 +4950,7 @@
 				50D08DE11E69AF14009CC260 /* ProductCarouselViewModelSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
 				50D08DE71E69AF14009CC260 /* TourLoginViewModelSpec.swift in Sources */,
+				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
 				50D08DBD1E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
 				50D08DC41E69AF14009CC260 /* MultiPageRequesterSpec.swift in Sources */,
 				50D08DCF1E69AF14009CC260 /* TrackerEventSpec.swift in Sources */,
