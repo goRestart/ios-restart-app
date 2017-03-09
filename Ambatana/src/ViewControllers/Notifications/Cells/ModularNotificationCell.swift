@@ -15,13 +15,13 @@ protocol ModularNotificationCellDelegate: class {
 
 class ModularNotificationCell: UITableViewCell, ReusableCell {
     
-    var background: UIView
-    var heroImageView: UIImageView
-    var textTitleLabel: UILabel
-    var textBodyLabel: UILabel
+    let background: UIView
+    let heroImageView: UIImageView
+    let textTitleLabel: UILabel
+    let textBodyLabel: UILabel
     let callsToAction: [UIButton]
-    var basicImage: UIImageView
-    var iconImageView: UIImageView
+    let basicImage: UIImageView
+    let iconImageView: UIImageView
     let thumbnails: [UIImageView]
     
     var heroImageHeightConstraint = NSLayoutConstraint()
@@ -408,18 +408,23 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     func setAccesibilityIds() {
         heroImageView.accessibilityId = .notificationsModularHeroImageView
         textBodyLabel.accessibilityId = .notificationsModularTextBodyLabel
-        if callsToAction.count == 3 {
-            callsToAction[0].accessibilityId = .notificationsModularCTA1
+        callsToAction.first?.accessibilityId = .notificationsModularCTA1
+        if callsToAction.count > 1 {
             callsToAction[1].accessibilityId = .notificationsModularCTA2
+        }
+        if callsToAction.count > 2 {
             callsToAction[2].accessibilityId = .notificationsModularCTA3
         }
         basicImage.accessibilityId = .notificationsModularHeroImageView
-        if thumbnails.count == 4 {
-            thumbnails[0].accessibilityId = .notificationsModularThumbnailView1
+        callsToAction.first?.accessibilityId = .notificationsModularThumbnailView1
+        if callsToAction.count > 1 {
             thumbnails[1].accessibilityId = .notificationsModularThumbnailView2
+        }
+        if callsToAction.count > 2 {
             thumbnails[2].accessibilityId = .notificationsModularThumbnailView3
+        }
+        if callsToAction.count > 3 {
             thumbnails[3].accessibilityId = .notificationsModularThumbnailView4
         }
-        
     }
 }
