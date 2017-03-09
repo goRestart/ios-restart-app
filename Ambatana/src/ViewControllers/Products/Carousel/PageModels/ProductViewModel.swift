@@ -37,7 +37,7 @@ class ProductViewModel: BaseViewModel {
                                      myUserRepository: Core.myUserRepository,
                                      productRepository: Core.productRepository,
                                      commercializerRepository: Core.commercializerRepository,
-                                     chatWrapper: ChatWrapper(),
+                                     chatWrapper: LGChatWrapper(),
                                      chatViewMessageAdapter: ChatViewMessageAdapter(),
                                      locationManager: Core.locationManager,
                                      countryHelper: Core.countryHelper,
@@ -185,7 +185,7 @@ class ProductViewModel: BaseViewModel {
 
         productRepository.incrementViews(product.value, completion: nil)
 
-        if !relationRetrieved {
+        if !relationRetrieved && myUserRepository.myUser != nil {
             productRepository.retrieveUserProductRelation(productId) { [weak self] result in
                 guard let value = result.value  else { return }
                 self?.relationRetrieved = true
@@ -250,6 +250,7 @@ class ProductViewModel: BaseViewModel {
         status.asObservable().bindNext { [weak self] status in
             guard let strongSelf = self else { return }
             strongSelf.refreshActionButtons(status)
+            strongSelf.refreshNavBarButtons()
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 

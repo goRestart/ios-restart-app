@@ -37,6 +37,7 @@ enum EventName: String {
     
     case filterStart                        = "filter-start"
     case filterComplete                     = "filter-complete"
+    case filterLocationStart                = "filter-location-start"
     
     case productDetailVisit                 = "product-detail-visit"
     case productDetailVisitMoreInfo         = "product-detail-visit-more-info"
@@ -86,6 +87,7 @@ enum EventName: String {
     case profileEditStart                   = "profile-edit-start"
     case profileEditEditName                = "profile-edit-edit-name"
     case profileEditEditLocation            = "profile-edit-edit-location"
+    case profileEditEditLocationStart       = "profile-edit-edit-location-start"
     case profileEditEditPicture             = "profile-edit-edit-picture"
     case profileReport                      = "profile-report"
     case profileBlock                       = "profile-block"
