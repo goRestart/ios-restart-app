@@ -77,8 +77,9 @@ struct Constants {
     // Pre Permissions
     static let pushPermissionRepeatTime = TimeInterval.makeDay()
 
-    // Surveys minimum gap
+    // Surveys
     static let surveysMinGapTime = TimeInterval.makeDay()
+    static let surveyDefaultTestUrl = "https://letgo1.typeform.com/to/e9Ndb4"
 
     // Product posting
     static let maxImageCount = 5
