@@ -40,7 +40,7 @@ final class SurveysCoordinator: Coordinator {
             lastShownDate.timeIntervalSinceNow < Constants.surveysMinGapTime {
             return nil
         }
-        
+
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage

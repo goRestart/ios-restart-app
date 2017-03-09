@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Amplitude_iOS
 
 class WebSurveyViewModel: BaseViewModel {
 
@@ -14,7 +15,17 @@ class WebSurveyViewModel: BaseViewModel {
 
     weak var navigator: WebSurveyNavigator?
 
-    let url: URL
+    var url: URL {
+        var params = "?os=ios"
+        if let userId = Amplitude.instance().userId {
+            params.append("&user="+userId)
+        }
+        guard let fullUrl = URL(string: surveyUrl.absoluteString+params) else { return surveyUrl }
+        return fullUrl
+    }
+    private let surveyUrl: URL
+
+    private let tracker: Tracker
 
     convenience init(surveyUrl: URL) {
         self.init(surveyUrl: surveyUrl,
@@ -22,7 +33,8 @@ class WebSurveyViewModel: BaseViewModel {
     }
 
     init(surveyUrl: URL, tracker: Tracker) {
-        self.url = surveyUrl
+        self.tracker = tracker
+        self.surveyUrl = surveyUrl
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -50,10 +62,14 @@ class WebSurveyViewModel: BaseViewModel {
     }
 
     private func trackVisit() {
-        //TODO implement
+        let event = TrackerEvent.surveyStart(userId: Amplitude.instance().userId,
+                                             surveyUrl: surveyUrl.absoluteString)
+        tracker.trackEvent(event)
     }
 
     private func trackComplete() {
-        //TODO implement
+        let event = TrackerEvent.surveyCompleted(userId: Amplitude.instance().userId,
+                                             surveyUrl: surveyUrl.absoluteString)
+        tracker.trackEvent(event)
     }
 }

@@ -194,12 +194,9 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSell(_ source: PostingSource) {
-
-        openSurveyIfNeeded()
-
-//        let sellCoordinator = SellCoordinator(source: source)
-//        sellCoordinator.delegate = self
-//        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        let sellCoordinator = SellCoordinator(source: source)
+        sellCoordinator.delegate = self
+        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
