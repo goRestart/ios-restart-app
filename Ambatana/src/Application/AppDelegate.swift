@@ -137,7 +137,7 @@ extension AppDelegate: UIApplicationDelegate {
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
 
         // stop observing payment transactions
-        if let actualFeatureflags = featureFlags, actualFeatureflags.pricedBumpUpEnabled {
+        if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
             LGPurchasesShopper.sharedInstance.stopObservingTransactions()
         }
     }
@@ -160,7 +160,7 @@ extension AppDelegate: UIApplicationDelegate {
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openNPSSurvey()
         // observe payment transactions
-        if let actualfeatureflags = featureFlags, actualfeatureflags.pricedBumpUpEnabled {
+        if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
             LGPurchasesShopper.sharedInstance.startObservingTransactions()
         }
     }
