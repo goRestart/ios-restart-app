@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class WebSurveyViewController: BaseViewController, WebSurveyViewModelDelegate {
+class WebSurveyViewController: BaseViewController {
 
     private let buttonDiameter: CGFloat = 50
 
@@ -24,7 +24,6 @@ class WebSurveyViewController: BaseViewController, WebSurveyViewModelDelegate {
     init(viewModel: WebSurveyViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
-        self.viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -60,10 +59,8 @@ class WebSurveyViewController: BaseViewController, WebSurveyViewModelDelegate {
         webView.delegate = self
         closeButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
 
-        if let url = viewModel.url {
-            let request = URLRequest(url: url)
-            webView.loadRequest(request)
-        }
+        let request = URLRequest(url: viewModel.url)
+        webView.loadRequest(request)
     }
 }
 

@@ -95,6 +95,9 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     var surveyUrl: String {
+        if Bumper.enabled {
+            return "https://letgo1.typeform.com/to/e9Ndb4"
+        }
         return ABTests.surveyURL.value
     }
 

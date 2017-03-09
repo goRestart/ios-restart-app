@@ -53,6 +53,8 @@ extension DefaultsKeys {
     static let previousUserEmailOrName = DefaultsKey<String?>("previousUserEmailOrName")
     static let sessionNumber = DefaultsKey<Int>("sessionNumber")
     static let postProductLastGalleryAlbumSelected = DefaultsKey<String?>("postProductLastGalleryAlbumSelected")
+
+    static let lastShownSurveyDate = DefaultsKey<Date?>("lastShownSurveyDate")
 }
 
 

@@ -78,12 +78,11 @@ class NPSViewController: BaseViewController {
     
     @IBAction func selectScore(_ sender: AnyObject) {
         guard let score = sender.tag else { return }
-        viewModel.vmDidFinishSurvey(score)
-        close(sender)
+        viewModel.scoreSelected(score)
     }
     
     @IBAction func close(_ sender: AnyObject) {
-        dismiss(animated: true, completion: nil)
+        viewModel.closeButtonPressed()
     }
 }
 

@@ -973,6 +973,10 @@
 		C7AFFB021E7054590052A9CA /* WebSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */; };
 		C7AFFB041E7054780052A9CA /* WebSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */; };
 		C7AFFB051E7054780052A9CA /* WebSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */; };
+		C7AFFB071E714D5D0052A9CA /* SurveysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */; };
+		C7AFFB081E714D5D0052A9CA /* SurveysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */; };
+		C7AFFB0A1E715F840052A9CA /* SurveysNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */; };
+		C7AFFB0B1E715F840052A9CA /* SurveysNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */; };
 		C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B543281D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */; };
@@ -1982,6 +1986,8 @@
 		C7AFFAF91E7053EF0052A9CA /* NPSViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPSViewModel.swift; sourceTree = "<group>"; };
 		C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewController.swift; sourceTree = "<group>"; };
 		C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewModel.swift; sourceTree = "<group>"; };
+		C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveysCoordinator.swift; sourceTree = "<group>"; };
+		C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveysNavigator.swift; sourceTree = "<group>"; };
 		C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Screenshot.swift"; sourceTree = "<group>"; };
 		C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountsViewController.swift; sourceTree = "<group>"; };
 		C7B543271D758BA7005FBA30 /* VerifyAccountsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifyAccountsViewController.xib; sourceTree = "<group>"; };
@@ -2657,6 +2663,8 @@
 				C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */,
 				50E557BA1E421CB900327B6A /* LoginCoordinator.swift */,
 				50E557BD1E421CF500327B6A /* LoginNavigator.swift */,
+				C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */,
+				C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -5393,6 +5401,7 @@
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				C7415EDB1DE898580003D6C1 /* SimpleProductsViewModel.swift in Sources */,
 				50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */,
+				C7AFFB071E714D5D0052A9CA /* SurveysCoordinator.swift in Sources */,
 				50E557BB1E421CB900327B6A /* LoginCoordinator.swift in Sources */,
 				2E4952E31E26810D00188880 /* BumpUpFreeViewController.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
@@ -5417,6 +5426,7 @@
 				501340411E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */,
 				2E4952E71E26810D00188880 /* BumpUpPayViewModel.swift in Sources */,
 				2EF4E3B31D3688AB00A09DFD /* LGConfigRetrieveService.swift in Sources */,
+				C7AFFB0A1E715F840052A9CA /* SurveysNavigator.swift in Sources */,
 				2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */,
 				2E4B359C1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
@@ -5881,6 +5891,7 @@
 				C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				C70BC6891E16B47700EC74E9 /* UISwitch+Rx.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
+				C7AFFB081E714D5D0052A9CA /* SurveysCoordinator.swift in Sources */,
 				50E557BC1E421CB900327B6A /* LoginCoordinator.swift in Sources */,
 				C7415EDC1DE898580003D6C1 /* SimpleProductsViewModel.swift in Sources */,
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
@@ -5905,6 +5916,7 @@
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				501340421E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */,
 				2E28B12D1D991330001BF8E4 /* CGFloat+rounding.swift in Sources */,
+				C7AFFB0B1E715F840052A9CA /* SurveysNavigator.swift in Sources */,
 				2E2D53E31D369B0500348D12 /* LGConfigRetrieveService.swift in Sources */,
 				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
 				C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,

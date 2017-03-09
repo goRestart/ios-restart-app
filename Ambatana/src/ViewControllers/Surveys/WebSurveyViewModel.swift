@@ -8,26 +8,21 @@
 
 import Foundation
 
-protocol WebSurveyViewModelDelegate: BaseViewModelDelegate {
-
-}
-
 class WebSurveyViewModel: BaseViewModel {
 
     private static let submitRedirect = "letgo.com"
 
-    weak var delegate: WebSurveyViewModelDelegate?
+    weak var navigator: WebSurveyNavigator?
 
-    let url: URL?
+    let url: URL
 
-    convenience override init() {
-        self.init(featureFlags: FeatureFlags.sharedInstance,
+    convenience init(surveyUrl: URL) {
+        self.init(surveyUrl: surveyUrl,
                   tracker: TrackerProxy.sharedInstance)
     }
 
-    init(featureFlags: FeatureFlaggeable,
-         tracker: Tracker) {
-        self.url = URL(string: "https://letgo1.typeform.com/to/e9Ndb4")
+    init(surveyUrl: URL, tracker: Tracker) {
+        self.url = surveyUrl
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -37,18 +32,18 @@ class WebSurveyViewModel: BaseViewModel {
     }
 
     func closeButtonPressed() {
-        delegate?.vmDismiss(nil)
+        navigator?.closeWebSurvey()
     }
 
     func failedLoad() {
-        delegate?.vmDismiss(nil)
+        navigator?.closeWebSurvey()
     }
 
     func shouldLoad(url: URL?) -> Bool {
         guard let url = url else { return false }
         if url.absoluteString.contains(WebSurveyViewModel.submitRedirect) {
             trackComplete()
-            delegate?.vmDismiss(nil)
+            navigator?.webSurveyFinished()
             return false
         }
         return true

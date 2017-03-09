@@ -195,9 +195,7 @@ extension AppCoordinator: AppNavigator {
 
     func openSell(_ source: PostingSource) {
 
-        let vc = WebSurveyViewController(viewModel: WebSurveyViewModel(featureFlags: featureFlags))
-        tabBarCtl.present(vc, animated: true, completion: nil)
-
+        openSurveyIfNeeded()
 
 //        let sellCoordinator = SellCoordinator(source: source)
 //        sellCoordinator.delegate = self
@@ -234,12 +232,13 @@ extension AppCoordinator: AppNavigator {
                                        animated: true, completion: nil)
         }
     }
-    
-    func openNPSSurvey() {
-        guard featureFlags.showNPSSurvey else { return }
+
+    func openSurveyIfNeeded() {
         delay(3) { [weak self] in
-            let vc = NPSViewController(viewModel: NPSViewModel())
-            self?.tabBarCtl.present(vc, animated: true, completion: nil)
+            guard let surveysCoordinator = SurveysCoordinator() else { return }
+            guard let parent = self?.tabBarCtl else { return }
+            surveysCoordinator.delegate = self
+            self?.openCoordinator(coordinator: surveysCoordinator, parent: parent, animated: true, completion: nil)
         }
     }
 

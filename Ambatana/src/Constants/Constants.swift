@@ -77,6 +77,9 @@ struct Constants {
     // Pre Permissions
     static let pushPermissionRepeatTime: TimeInterval = (60 * 60 * 24) // 1 day
 
+    // Surveys minimum gap
+    static let surveysMinGapTime: TimeInterval = (60 * 60 * 24) // 1 day
+
     // Product posting
     static let maxImageCount = 5
     static let maxPriceIntegerCharacters = 9
