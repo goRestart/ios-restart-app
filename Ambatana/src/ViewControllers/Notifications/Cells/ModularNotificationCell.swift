@@ -84,7 +84,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         background.backgroundColor = UIColor.white
         contentView.addSubview(background)
         background.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
-        
         background.layout(with: contentView).top(to: .topMargin).left(to: .leftMargin).right(to: .rightMargin).bottom(to: .bottomMargin)
  
         // Config HeroImageView
@@ -107,7 +106,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         basicImage.layout().height(0, constraintBlock: { [weak self] in self?.basicImageHeightConstraint = $0 })
         basicImage.layout().width(0, constraintBlock: { [weak self] in self?.basicImageWidthConstraint = $0 })
         
-        
         let tapBasicImage = UITapGestureRecognizer(target: self, action: #selector(elementTapped))
         basicImage.addGestureRecognizer(tapBasicImage)
         basicImage.isUserInteractionEnabled = true
@@ -125,7 +123,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         
         // Config text view:
         background.addSubview(textBodyLabel)
-        textBodyLabel.layout(with: textTitleLabel).below(by: Metrics.modularNotificationShortMargin)
+        textBodyLabel.layout(with: textTitleLabel).below(by: Metrics.modularNotificationTextMargin)
         textBodyLabel.layout(with: textTitleLabel).fillHorizontal()
         textBodyLabel.numberOfLines = 0
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: false)
@@ -156,7 +154,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             thumbnail.addGestureRecognizer(tap)
             thumbnail.isUserInteractionEnabled = true
             thumbnail.isHidden = true
-            
             if index > 0 {
                 let previousThumbnail = thumbnails[index-1]
                 thumbnail.layout(with: previousThumbnail).left(to: .right, by: Metrics.modularNotificationShortMargin).top()
@@ -165,7 +162,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         }
         
         // Config buttons
-        
         background.addSubviews(callsToAction)
         let firstCTA = callsToAction[0]
         firstCTA.layout(with: firstThumbnail).below(by: Metrics.modularNotificationLongMargin, relatedBy: .greaterThanOrEqual)
@@ -181,9 +177,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             let tap = UITapGestureRecognizer(target: self, action: #selector(CTATapped))
             button.addGestureRecognizer(tap)
             button.isUserInteractionEnabled = true
-            
             button.layout().height(0, constraintBlock: { [weak self] in self?.CTAheightConstraints.append($0) })
-            
             if index > 0 {
                 let previousButton = callsToAction[index-1]
                 button.layout(with: previousButton).below().fillHorizontal()
@@ -201,14 +195,12 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     //MARK: - Public Methods: 
     
     func addModularData(with modules: NotificationModular, isRead: Bool) {
-        
         //HeroImage if needed
         if let heroImage = modules.heroImage {
             addHeroImage(with: heroImage.imageURL, deeplink: heroImage.deeplink)
         } else {
             heroImageHeightConstraint.constant = 0
         }
-        
         //BasicImage if needed
         if let basicImage = modules.basicImage {
             let shapeImage = basicImage.shape ?? .square
@@ -221,7 +213,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             basicImageWidthConstraint.constant = 0
             basicImageHeightConstraint.constant = 0
         }
-        
         // Add text
         addTextInfo(with: modules.text.title, body: modules.text.body, deeplink: modules.text.deeplink, isRead: isRead)
         
@@ -250,7 +241,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     
     fileprivate func addHeroImage(with imageURL: String, deeplink: String?) {
         guard let url = URL(string: imageURL) else { return }
-      
         heroImageHeightConstraint.constant = Metrics.modularNotificationHeroImageHeight
         heroImageView.image = UIImage(named: "notificationHeroImagePlaceholder")
         let placeholderImage = UIImage(named: "notificationHeroImagePlaceholder")
@@ -288,7 +278,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
                 self?.basicImage.image = image
             }
         }
-        
         basicImageDeeplink = deeplink
     }
     
@@ -306,12 +295,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         } else {
             textBodyLabel.text = body.ignoreHTMLTags
         }
-        
         textTitleDeepLink = deeplink
         
         lastViewAdded = textBodyLabel
     }
-    
     
     fileprivate func addIconImage(with imageURL: String) {
         guard let url = URL(string: imageURL) else { return }
@@ -352,7 +339,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         callsToActionDeeplinks.append(deeplink)
         lastViewAdded = button
     }
-
     
     fileprivate func addButtonSeparator(to button: UIButton) {
         let separator: UIView = UIView()
@@ -384,6 +370,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         let highlighedState = self.isHighlighted || self.isSelected
         contentView.alpha = highlighedState ? LGUIKitConstants.highlightedStateAlpha : 1.0
     }
+    
     
     // MARK: - Deeplinks and actions on cell. 
     
