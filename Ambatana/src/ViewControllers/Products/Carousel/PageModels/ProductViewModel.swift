@@ -201,7 +201,7 @@ class ProductViewModel: BaseViewModel {
 
         if !commercialsRetrieved {
             commercializerRepository.index(productId) { [weak self] result in
-                guard let value = result.value, let strongSelf = self else { return }
+                guard let value = result.value else { return }
                 let readyCommercials = value.filter {$0.status == .ready }
                 self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
                 self?.commercializers.value = value

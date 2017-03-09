@@ -42,7 +42,6 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let oldChatRepository: OldChatRepository
     fileprivate let chatRepository: ChatRepository
-    fileprivate let commercializerRepository: CommercializerRepository
     fileprivate let userRatingRepository: UserRatingRepository
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
@@ -70,7 +69,6 @@ final class AppCoordinator: NSObject, Coordinator {
                   myUserRepository: Core.myUserRepository,
                   oldChatRepository: Core.oldChatRepository,
                   chatRepository: Core.chatRepository,
-                  commercializerRepository: Core.commercializerRepository,
                   userRatingRepository: Core.userRatingRepository,
                   locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance)
@@ -91,7 +89,6 @@ final class AppCoordinator: NSObject, Coordinator {
          myUserRepository: MyUserRepository,
          oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository,
-         commercializerRepository: CommercializerRepository,
          userRatingRepository: UserRatingRepository,
          locationManager: LocationManager,
          featureFlags: FeatureFlaggeable) {
@@ -121,7 +118,6 @@ final class AppCoordinator: NSObject, Coordinator {
         self.myUserRepository = myUserRepository
         self.oldChatRepository = oldChatRepository
         self.chatRepository = chatRepository
-        self.commercializerRepository = commercializerRepository
         self.userRatingRepository = userRatingRepository
         
         self.featureFlags = featureFlags
@@ -620,13 +616,6 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openResetPassword(token)
             }
-        case .commercializer:
-            break // Handled on CommercializerManager
-        case .commercializerReady(let productId, let templateId):
-            if initialDeepLink {
-                CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
-                                                                                        templateId: templateId)
-            }
         case .userRatings:
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile) { [weak self] in
@@ -664,8 +653,8 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .product, .user, .conversations, .search, .resetPassword, .commercializer,
-             .commercializerReady, .userRatings, .userRating, .passiveBuyers:
+        case .home, .sell, .product, .user, .conversations, .search, .resetPassword, .userRatings, .userRating,
+             .passiveBuyers:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
