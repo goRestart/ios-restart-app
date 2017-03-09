@@ -37,7 +37,7 @@ final class SurveysCoordinator: Coordinator {
           sessionManager: SessionManager) {
 
         if let lastShownDate = keyValueStorage[.lastShownSurveyDate],
-            lastShownDate.timeIntervalSinceNow < Constants.surveysMinGapTime {
+            abs(lastShownDate.timeIntervalSinceNow) < Constants.surveysMinGapTime {
             return nil
         }
 
