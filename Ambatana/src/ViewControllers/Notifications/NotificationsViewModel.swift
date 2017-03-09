@@ -225,8 +225,8 @@ fileprivate extension NotificationsViewModel {
                                     type: .modular(modules: modules, delegate: self),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        guard modules.callToActions.count > 0 else { return }
-                                        self?.triggerModularNotificaionDeeplink(deeplink:  modules.callToActions[0].deeplink)
+                                        guard let deeplink = modules.callToActions.first?.deeplink else { return }
+                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink)
                                     })
         }
     }
@@ -243,7 +243,7 @@ fileprivate extension NotificationsViewModel {
 // MARK: - modularNotificationCellDelegate
 
 extension NotificationsViewModel: ModularNotificationCellDelegate {
-    func triggerModularNotificaionDeeplink(deeplink: String) {
+    func triggerModularNotificationDeeplink(deeplink: String) {
         guard let deepLinkURL = URL(string: deeplink) else { return }
         guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
         navigator?.openNotificationDeepLink(deepLink: deepLink)

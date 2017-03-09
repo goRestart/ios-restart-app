@@ -1,3 +1,4 @@
+
 //
 //  Metrics.swift
 //  LetGo
@@ -11,6 +12,7 @@ struct Metrics {
     static let margin: CGFloat              = 15
     static let textFieldHeight: CGFloat     = 50
     static let buttonHeight: CGFloat        = 50
+    static let shortMargin: CGFloat         = 10
 
     // Login
     static let loginContentTop: CGFloat     = 30
@@ -24,7 +26,5 @@ struct Metrics {
     static let modularNotificationIconImageOffset: CGFloat = 3
     static let modularNotificationCTAHeight: CGFloat = 44
     static let modularNotificationCTASeparatorHeight: CGFloat = 1
-    static let modularNotificationShortMargin: CGFloat = 10
-    static let modularNotificationLongMargin: CGFloat = 15
     static let modularNotificationTextMargin: CGFloat = 5
 }
