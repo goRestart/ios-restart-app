@@ -1277,7 +1277,7 @@ extension ProductCarouselViewModelSpec: ProductDetailNavigator {
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String) {
 
     }
-    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
+    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct, withPaymentItemId: String) {
 
     }
     func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void) {

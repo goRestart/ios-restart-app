@@ -107,7 +107,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      */
     func startObservingTransactions() {
         // guard to avoid adding the observer several times
-        guard !isObservingPaymentsQueue else { return }
+        guard !isObservingPaymentsQueue && SKPaymentQueue.canMakePayments() else { return }
         paymentQueue.add(self)
         isObservingPaymentsQueue = true
     }
@@ -128,8 +128,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter ids: array of ids of the appstore products
      */
     func productsRequestStartForProduct(_ productId: String, withIds ids: [String]) {
-        guard productId != currentRequestProductId else { return }
-
+        guard productId != currentRequestProductId, SKPaymentQueue.canMakePayments() else { return }
 
         // check cached products
         let alreadyChosenProducts = appstoreProductsCache.filter(keys: ids).map { $0.value }
@@ -167,6 +166,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      -
      */
     func requestPaymentForProduct(productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
+        guard SKPaymentQueue.canMakePayments() else { return }
         purchasesShopperState = .purchasing
         guard let appstoreProducts = letgoProductsDict[productId],
               let appstoreChosenProduct = appstoreProduct as? SKProduct else { return }
@@ -205,6 +205,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter productId: letgo product Id
      */
     func requestPricedBumpUpForProduct(productId: String) {
+        guard SKPaymentQueue.canMakePayments() else { return }
         guard let receiptString = receiptString else { return }
 
         let transactionsDict = keyValueStorage.userPendingTransactionsProductIds
@@ -274,7 +275,10 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         for transaction in savedTransactions {
             guard let transactionId = transaction.transactionIdentifier, let _ = savedTransactionsDict[transactionId] else {
-                paymentQueue.finishTransaction(transaction)
+                if transaction.transactionState != .purchasing {
+                    // "purchasing" transactions can't be finished
+                    paymentQueue.finishTransaction(transaction)
+                }
                 continue
             }
         }

@@ -184,6 +184,7 @@
 		2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
 		2EED4D251D23F03E0024328A /* ChatProduct+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatProduct+title.swift */; };
 		2EED4D261D23F03E0024328A /* ChatProduct+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatProduct+title.swift */; };
+		2EEDC5881E71B0D6008779D8 /* HOF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC653B41E71744B00E23DDF /* HOF.swift */; };
 		2EF4E3AE1D3688AB00A09DFD /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3A81D3688AB00A09DFD /* ConfigManager.swift */; };
 		2EF4E3AF1D3688AB00A09DFD /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3A91D3688AB00A09DFD /* Config.swift */; };
 		2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3AA1D3688AB00A09DFD /* ConfigDAO.swift */; };
@@ -4910,6 +4911,7 @@
 				50D08DB41E69AF14009CC260 /* MockKeyValueStorage.swift in Sources */,
 				50D08DDE1E69AF14009CC260 /* LogInEmailViewModelSpec.swift in Sources */,
 				50D08DD81E69AF14009CC260 /* LGConfigDAOSpec.swift in Sources */,
+				2EEDC5881E71B0D6008779D8 /* HOF.swift in Sources */,
 				50D08DE21E69AF14009CC260 /* ProductViewModelSpec.swift in Sources */,
 				50D08DAA1E69AF14009CC260 /* MockConfigFileDAO.swift in Sources */,
 				50D08DB71E69AF14009CC260 /* MockTracker.swift in Sources */,

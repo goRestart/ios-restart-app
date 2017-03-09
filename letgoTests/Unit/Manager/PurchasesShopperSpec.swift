@@ -42,6 +42,10 @@ class PurchasesShopperSpec: QuickSpec {
                                          myUserRepository: myUserRepository, paymentQueue: SKPaymentQueue.default(),
                                          receiptURLProvider: mockReceiptURLProvider)
                 sut.delegate = self
+                sut.startObservingTransactions()
+            }
+            afterEach {
+                sut.stopObservingTransactions()
             }
             context("productsRequestStartForProduct") {
                 context("on simple call") {
@@ -119,7 +123,7 @@ class PurchasesShopperSpec: QuickSpec {
                 }
             }
             context ("request payment") {
-                var initialPendingPayments: Int
+                var initialPendingPayments: Int = 0
                 beforeEach {
                     initialPendingPayments = 0
                 }
