@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Để chụp ảnh, bạn cần cho phép truy cập Camera";
 "product_post_camera_permissions_title" = "Cho phép truy cập Camera";
 "product_post_camera_tab" = "ẢNH";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Hủy";
 "product_post_close_alert_description" = "Bạn có còn muốn đăng sản phẩm này để bán?";
 "product_post_close_alert_ok_button" = "Đăng sản phẩm";
@@ -521,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Cho phép";
 "product_post_gallery_permissions_subtitle" = "Để chọn ảnh hiện có, bạn cần cho phép truy cập Ảnh";
 "product_post_gallery_permissions_title" = "Cho phép truy cập Ảnh";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Chọn tối đa 5 ảnh để tải lên";
 "product_post_gallery_select_pictures_title" = "Chọn ảnh";
 "product_post_gallery_tab" = "THƯ VIỆN HÌNH ẢNH";

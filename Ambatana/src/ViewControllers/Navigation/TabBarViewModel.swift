@@ -31,6 +31,10 @@ class TabBarViewModel: BaseViewModel {
     private var featureFlags: FeatureFlaggeable
 
     private let disposeBag = DisposeBag()
+    
+    var shouldSetupScrollBanner: Bool {
+        return featureFlags.hideTabBarOnFirstSession && keyValueStorage[.sessionNumber] == 1
+    }
 
     
     // MARK: - View lifecycle

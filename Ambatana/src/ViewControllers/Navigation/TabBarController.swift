@@ -28,6 +28,7 @@ final class TabBarController: UITabBarController {
     fileprivate let viewModel: TabBarViewModel
     fileprivate var tooltip: Tooltip?
     fileprivate var featureFlags: FeatureFlaggeable
+    fileprivate var incentiviseScrollBanner: IncentiviseScrollBanner = IncentiviseScrollBanner()
     
     // Rx
     fileprivate let disposeBag = DisposeBag()
@@ -58,6 +59,8 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButtons()
+        
+        setupIncentiviseScrollBanner()
 
         setupCommercializerRx()
     }
@@ -176,6 +179,14 @@ final class TabBarController: UITabBarController {
             vc.tabBarItem = tabBarItem
         }
         setupBadgesRx()
+    }
+    
+    private func setupIncentiviseScrollBanner() {
+        guard viewModel.shouldSetupScrollBanner else { return }
+        incentiviseScrollBanner.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(incentiviseScrollBanner)
+        incentiviseScrollBanner.layout(with: view).bottom().left().right()
+        incentiviseScrollBanner.layout().height(50)
     }
 
     private func setupSellButtons() {

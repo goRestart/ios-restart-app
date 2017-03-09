@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Du må tillate tilgang til kamera for å kunne ta et bilde";
 "product_post_camera_permissions_title" = "Tillat tilgang til kamera";
 "product_post_camera_tab" = "BILDE";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Forkaste";
 "product_post_close_alert_description" = "Ønsker du fortsatt å selge produktet?";
 "product_post_close_alert_ok_button" = "Publiser produktet";
@@ -521,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Tillat";
 "product_post_gallery_permissions_subtitle" = "Du må tillate tilgang til bilder for å kunne velge et eksisterende bilde";
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Velg opp til fem bilder å laste opp";
 "product_post_gallery_select_pictures_title" = "Velg bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";

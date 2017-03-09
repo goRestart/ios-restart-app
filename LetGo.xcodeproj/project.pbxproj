@@ -651,6 +651,8 @@
 		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72AAA5A21DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
 		72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
+		72AC69951E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */; };
+		72AC69961E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */; };
 		72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
@@ -1789,6 +1791,7 @@
 		727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGLocation+isAuto.swift"; sourceTree = "<group>"; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
+		72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncentiviseScrollBanner.swift; sourceTree = "<group>"; };
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
@@ -2607,6 +2610,7 @@
 				502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */,
 				50BCE92B1BF6356B00C130CD /* ToastView.swift */,
 				50BCE92D1BF6357600C130CD /* ToastView.xib */,
+				72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */,
 				C7B89CB81C20271E00536A6C /* SocialShareView.swift */,
 				C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */,
 				5015881A1C7396A8006AEFC8 /* UserView.swift */,
@@ -5207,6 +5211,7 @@
 				72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				C743FEB01E449F2E00B4E912 /* RateBuyersView.swift in Sources */,
 				2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
+				72AC69951E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */,
 				50C63B711DC3A79100836D85 /* SocialMessage.swift in Sources */,
 				C7B5884B1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				7EA1474D1E12769500C3F462 /* LGLayout.swift in Sources */,
@@ -5693,6 +5698,7 @@
 				50C63B771DC3B63700836D85 /* ShareType.swift in Sources */,
 				C743FEB11E449F2E00B4E912 /* RateBuyersView.swift in Sources */,
 				C79895C91DE43D5100DD58BF /* SessionEvent+LG.swift in Sources */,
+				72AC69961E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */,
 				C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				2EBC92061E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,

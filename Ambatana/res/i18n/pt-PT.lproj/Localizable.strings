@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Para tirar uma foto deve permitir o acesso à Câmara";
 "product_post_camera_permissions_title" = "Permitir acesso à Câmara";
 "product_post_camera_tab" = "FOTO";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Descartar";
 "product_post_close_alert_description" = "Ainda quer publicá-lo para venda?";
 "product_post_close_alert_ok_button" = "Publicar produto";
@@ -521,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Permitir";
 "product_post_gallery_permissions_subtitle" = "Para selecionar um foto existente deve permitir o acesso às Fotos";
 "product_post_gallery_permissions_title" = "Permitir o acesso às Fotos";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Selecione até 5 imagens para carregar";
 "product_post_gallery_select_pictures_title" = "Escolher fotos";
 "product_post_gallery_tab" = "BIBLIOTECA";

@@ -1569,6 +1569,9 @@
 // Camera tab on posting
 "product_post_camera_tab" = "PHOTO";
 
+// Camera tab on posting
+"product_post_camera_tab_v2" = "CAMERA";
+
 // When closing without posting alert close button
 "product_post_close_alert_close_button" = "Discard";
 
@@ -1637,6 +1640,9 @@
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
+
+// Gallery button to post the selected pictures
+"product_post_gallery_post" = "Post";
 
 // When posting failed but it's our fault
 "product_post_generic_error" = "An error occurred while posting your product.";
@@ -2304,6 +2310,9 @@
 
 // Tab bar tooltip explaining tooltip new feature.
 "tab_bar_give_away_tooltip" = "Now you can give items away";
+
+// Tab bar message to incentivise the user to scroll down.
+"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
 
 // Toast server internal.
 "toast_error_internal" = "Oops! Something went wrong.";

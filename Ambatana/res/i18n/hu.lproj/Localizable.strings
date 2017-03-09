@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Fotókészítéshez hozzáférést kell adnod a Kamerához";
 "product_post_camera_permissions_title" = "Hozzáférés engedélyezése a Kamerához";
 "product_post_camera_tab" = "FOTÓ";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Elvetés";
 "product_post_close_alert_description" = "Mégis kilistázod eladóként?";
 "product_post_close_alert_ok_button" = "Portéka meghirdetése";
@@ -521,6 +522,7 @@
 "product_post_gallery_permissions_button" = "Engedélyezés";
 "product_post_gallery_permissions_subtitle" = "Meglévő fotó kiválasztásához hozzáférést kell adnod a Fotókhoz";
 "product_post_gallery_permissions_title" = "Hozzáférés engedélyezése a Fotókhoz";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Válassz legfeljebb 5 feltöltendő fotót";
 "product_post_gallery_select_pictures_title" = "Válassz fotókat";
 "product_post_gallery_tab" = "GALÉRIA";
