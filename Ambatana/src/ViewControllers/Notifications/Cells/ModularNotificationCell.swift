@@ -69,6 +69,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     }
     
     func setupUI() {
+        selectionStyle = .none
         backgroundColor = UIColor.clear
         contentView.backgroundColor = UIColor.clear
         contentView.preservesSuperviewLayoutMargins = false
@@ -90,7 +91,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         // Config HeroImageView
         background.addSubview(heroImageView)
         heroImageView.layout(with: background).top().left().right()
-        heroImageView.layout().height(160, constraintBlock: { [weak self] in self?.heroImageHeightConstraint = $0 })
+        heroImageView.layout().height(0, constraintBlock: { [weak self] in self?.heroImageHeightConstraint = $0 })
         heroImageView.contentMode = .scaleAspectFill
         heroImageView.clipsToBounds = true
         
@@ -415,7 +416,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         if callsToAction.count > 2 {
             callsToAction[2].accessibilityId = .notificationsModularCTA3
         }
-        basicImage.accessibilityId = .notificationsModularHeroImageView
+        basicImage.accessibilityId = .notificationsModularBasicImageView
         callsToAction.first?.accessibilityId = .notificationsModularThumbnailView1
         if callsToAction.count > 1 {
             thumbnails[1].accessibilityId = .notificationsModularThumbnailView2
