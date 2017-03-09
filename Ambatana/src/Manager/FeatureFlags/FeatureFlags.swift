@@ -32,6 +32,7 @@ protocol FeatureFlaggeable {
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
     var periscopeRemovePredefinedText: Bool { get }
+    var hideTabBarOnFirstSession: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -200,6 +201,13 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.periscopeRemovePredefinedText.value
     }
 
+    var hideTabBarOnFirstSession: Bool {
+        if Bumper.enabled {
+            return Bumper.hideTabBarOnFirstSession
+        }
+        return ABTests.hideTabBarOnFirstSession.value
+    }
+    
     
     // MARK: - Country features
 
