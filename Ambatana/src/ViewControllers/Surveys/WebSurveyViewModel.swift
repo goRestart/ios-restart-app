@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Amplitude_iOS
+import LGCoreKit
 
 class WebSurveyViewModel: BaseViewModel {
 
@@ -17,7 +17,7 @@ class WebSurveyViewModel: BaseViewModel {
 
     var url: URL {
         var params = "?os=ios"
-        if let userId = Amplitude.instance().userId {
+        if let userId = myUserRepository.myUser?.emailOrId {
             params.append("&user="+userId)
         }
         guard let fullUrl = URL(string: surveyUrl.absoluteString+params) else { return surveyUrl }
@@ -26,15 +26,18 @@ class WebSurveyViewModel: BaseViewModel {
     private let surveyUrl: URL
 
     private let tracker: Tracker
+    private let myUserRepository: MyUserRepository
 
     convenience init(surveyUrl: URL) {
         self.init(surveyUrl: surveyUrl,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  myUserRepository: Core.myUserRepository)
     }
 
-    init(surveyUrl: URL, tracker: Tracker) {
+    init(surveyUrl: URL, tracker: Tracker, myUserRepository: MyUserRepository) {
         self.tracker = tracker
         self.surveyUrl = surveyUrl
+        self.myUserRepository = myUserRepository
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -62,13 +65,13 @@ class WebSurveyViewModel: BaseViewModel {
     }
 
     private func trackVisit() {
-        let event = TrackerEvent.surveyStart(userId: Amplitude.instance().userId,
+        let event = TrackerEvent.surveyStart(userId: myUserRepository.myUser?.emailOrId,
                                              surveyUrl: surveyUrl.absoluteString)
         tracker.trackEvent(event)
     }
 
     private func trackComplete() {
-        let event = TrackerEvent.surveyCompleted(userId: Amplitude.instance().userId,
+        let event = TrackerEvent.surveyCompleted(userId: myUserRepository.myUser?.emailOrId,
                                              surveyUrl: surveyUrl.absoluteString)
         tracker.trackEvent(event)
     }

@@ -977,6 +977,8 @@
 		C7AFFB081E714D5D0052A9CA /* SurveysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */; };
 		C7AFFB0A1E715F840052A9CA /* SurveysNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */; };
 		C7AFFB0B1E715F840052A9CA /* SurveysNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */; };
+		C7AFFB0D1E7172B20052A9CA /* MyUser+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */; };
+		C7AFFB0E1E7172B20052A9CA /* MyUser+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */; };
 		C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B543281D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */; };
@@ -1988,6 +1990,7 @@
 		C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewModel.swift; sourceTree = "<group>"; };
 		C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveysCoordinator.swift; sourceTree = "<group>"; };
 		C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveysNavigator.swift; sourceTree = "<group>"; };
+		C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyUser+LG.swift"; sourceTree = "<group>"; };
 		C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Screenshot.swift"; sourceTree = "<group>"; };
 		C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountsViewController.swift; sourceTree = "<group>"; };
 		C7B543271D758BA7005FBA30 /* VerifyAccountsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifyAccountsViewController.xib; sourceTree = "<group>"; };
@@ -2730,6 +2733,7 @@
 				72B935F51E3F917500F93F73 /* UserProduct+LG.swift */,
 				C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */,
 				C738327F1E029CC2007D0C03 /* AccountProvider+LG.swift */,
+				C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5126,6 +5130,7 @@
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */,
+				C7AFFB0D1E7172B20052A9CA /* MyUser+LG.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				2E2C7B331C859F4E00F46E8F /* PromoteProductViewModel.swift in Sources */,
 				6A5E1A1C1D548F5400F92692 /* UIViewController+LG.swift in Sources */,
@@ -5616,6 +5621,7 @@
 				6A5E19FB1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,
 				C7DB41C41C5138B500400945 /* EnvironmentProxy.swift in Sources */,
+				C7AFFB0E1E7172B20052A9CA /* MyUser+LG.swift in Sources */,
 				C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */,
 				C75B55FA1C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
