@@ -9,9 +9,8 @@
 import UIKit
 
 final class PostProductTabsFooter: UIView {
-    let galleryButton = UIButton()
+    let galleryButton: UIButton? = nil
     let cameraButton = UIButton()
-    
     
     // MARK: - Lifecycle
     
@@ -33,9 +32,11 @@ final class PostProductTabsFooter: UIView {
 
 extension PostProductTabsFooter: PostProductFooter {
     func updateCameraButton(isHidden: Bool) {
+        cameraButton.isHidden = isHidden
     }
     
     func update(scroll: CGFloat) {
+        cameraButton.alpha = scroll
     }
 }
 
@@ -44,11 +45,21 @@ extension PostProductTabsFooter: PostProductFooter {
 
 fileprivate extension PostProductTabsFooter {
     func setupUI() {
+        cameraButton.translatesAutoresizingMaskIntoConstraints = false
+        cameraButton.setBackgroundImage(#imageLiteral(resourceName: "ic_post_take_photo_tabs"), for: .normal)
+        cameraButton.setBackgroundImage(#imageLiteral(resourceName: "ic_post_take_photo_tabs_pressed"), for: .highlighted)
+        addSubview(cameraButton)
     }
     
     func setupAccessibilityIds() {
+        cameraButton.accessibilityId = .postingPhotoButton
     }
     
     func setupLayout() {
+        cameraButton.layout(with: self)
+            .centerX()
+            .top(relatedBy: .greaterThanOrEqual)
+            .bottom(by: -65)
+        cameraButton.layout().width(80).widthProportionalToHeight()
     }
 }

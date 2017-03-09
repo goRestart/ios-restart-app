@@ -58,28 +58,35 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                   forceCamera: Bool,
                   keyboardHelper: KeyboardHelper,
                   postingGallery: PostingGallery) {
-        let viewPagerConfig = LGViewPagerConfig(tabPosition: .hidden, tabLayout: .fixed, tabHeight: 54)
-        self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
-        self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView()
+        
+        let tabPosition: LGViewPagerTabPosition
         switch postingGallery {
         case .singleSelection, .multiSelection:
+            tabPosition = .hidden
             let postFooter = PostProductRedCamButtonFooter()
             self.footer = postFooter
             self.footerView = postFooter
         case .multiSelectionWhiteButton:
+            tabPosition = .hidden
             let postFooter = PostProductWhiteCamButtonFooter()
             self.footer = postFooter
             self.footerView = postFooter
         case .multiSelectionTabs:
+            tabPosition = .bottom(tabsOverPages: true)
             let postFooter = PostProductTabsFooter()
             self.footer = postFooter
             self.footerView = postFooter
         case .multiSelectionPostBottom:
+            tabPosition = .hidden
             let postFooter = PostProductPostFooter()
             self.footer = postFooter
             self.footerView = postFooter
         }
+        
+        let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
+        self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
+        self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
+        self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
@@ -194,7 +201,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     
     private func setupFooter() {
         footerView.translatesAutoresizingMaskIntoConstraints = false
-        footer.galleryButton.addTarget(self, action: #selector(galleryButtonPressed), for: .touchUpInside)
+        footer.galleryButton?.addTarget(self, action: #selector(galleryButtonPressed), for: .touchUpInside)
         footer.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
         cameraGalleryContainer.addSubview(footerView)
         
@@ -378,8 +385,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     func setupViewPager() {
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
-        viewPager.indicatorSelectedColor = UIColor.primaryColor
-        viewPager.tabsBackgroundColor = UIColor.black
+        viewPager.indicatorSelectedColor = UIColor.white
+        viewPager.tabsBackgroundColor = UIColor.clear
         viewPager.tabsSeparatorColor = UIColor.clear
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         cameraGalleryContainer.insertSubview(viewPager, at: 0)
@@ -427,27 +434,48 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     }
 
     func viewPager(_ viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
-        if index == 0 {
-            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: tabTextAttributes(false))
-        } else {
-            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: tabTextAttributes(false))
-        }
+        return titleForTabAt(index: index)
     }
 
     func viewPager(_ viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
-        if index == 0 {
-            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: tabTextAttributes(true))
-        } else {
-            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: tabTextAttributes(true))
-        }
+        return titleForTabAt(index: index)
     }
     
-    func viewPager(_ viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? { return nil }
+    func viewPager(_ viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? {
+        return nil
+    }
 
-    private func tabTextAttributes(_ selected: Bool)-> [String : Any] {
+    private func titleForTabAt(index: Int) -> NSAttributedString {
+        let text: String
+        let icon: UIImage?
+        let attributes = tabTitleTextAttributes()
+        if index == 0 {
+            icon = #imageLiteral(resourceName: "ic_post_tab_gallery")
+            text = LGLocalizedString.productPostGalleryTab
+        } else {
+            icon = #imageLiteral(resourceName: "ic_post_tab_camera")
+            text = LGLocalizedString.productPostCameraTabV2
+        }
+        let attachment = NSTextAttachment()
+        attachment.image = icon
+        
+        let title = NSMutableAttributedString()
+        title.append(NSAttributedString(attachment: attachment))
+        title.append(NSAttributedString(string: " "))
+        title.append(NSMutableAttributedString(string: text, attributes: attributes))
+        return title
+    }
+    
+    private func tabTitleTextAttributes()-> [String : Any] {
+        let shadow = NSShadow()
+        shadow.shadowColor = UIColor.black
+        shadow.shadowBlurRadius = 10
+        shadow.shadowOffset = CGSize(width: 0, height: 0)
+        
         var titleAttributes = [String : Any]()
-        titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
-        titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
+        titleAttributes[NSShadowAttributeName] = shadow
+        titleAttributes[NSForegroundColorAttributeName] = UIColor.white
+        titleAttributes[NSFontAttributeName] = UIFont.activeTabFont
         return titleAttributes
     }
 }

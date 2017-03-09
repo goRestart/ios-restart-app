@@ -11,7 +11,7 @@ import UIKit
 final class PostProductRedCamButtonFooter: UIView {
     fileprivate static let rightMarginCameraIcon: CGFloat = 15.0
     
-    let galleryButton = UIButton()
+    let galleryButton: UIButton? = UIButton()
     let cameraButton = UIButton()
     fileprivate var cameraButtonCenterXConstraint: NSLayoutConstraint?
     
@@ -40,7 +40,7 @@ extension PostProductRedCamButtonFooter: PostProductFooter {
     }
     
     func update(scroll: CGFloat) {
-        galleryButton.alpha = scroll
+        galleryButton?.alpha = scroll
         
         let rightOffset = cameraButton.frame.width/2 + PostProductRedCamButtonFooter.rightMarginCameraIcon
         let movement = width/2 - rightOffset
@@ -53,9 +53,11 @@ extension PostProductRedCamButtonFooter: PostProductFooter {
 
 fileprivate extension PostProductRedCamButtonFooter {
     func setupUI() {
-        galleryButton.translatesAutoresizingMaskIntoConstraints = false
-        galleryButton.setImage(#imageLiteral(resourceName: "ic_post_gallery"), for: .normal)
-        addSubview(galleryButton)
+        if let galleryButton = galleryButton {
+            galleryButton.translatesAutoresizingMaskIntoConstraints = false
+            galleryButton.setImage(#imageLiteral(resourceName: "ic_post_gallery"), for: .normal)
+            addSubview(galleryButton)
+        }
         
         cameraButton.translatesAutoresizingMaskIntoConstraints = false
         cameraButton.setImage(#imageLiteral(resourceName: "ic_post_take_photo_icon"), for: .normal)
@@ -64,16 +66,16 @@ fileprivate extension PostProductRedCamButtonFooter {
     }
     
     func setupAccessibilityIds() {
-        galleryButton.accessibilityId = .postingGalleryButton
+        galleryButton?.accessibilityId = .postingGalleryButton
         cameraButton.accessibilityId = .postingPhotoButton
     }
     
     func setupLayout() {
-        galleryButton.layout(with: self)
+        galleryButton?.layout(with: self)
             .leading()
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
-        galleryButton.layout().width(70).widthProportionalToHeight()
+        galleryButton?.layout().width(70).widthProportionalToHeight()
         
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
