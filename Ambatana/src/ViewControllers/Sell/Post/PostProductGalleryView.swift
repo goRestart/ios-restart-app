@@ -18,6 +18,7 @@ protocol PostProductGalleryViewDelegate: class {
     func productGalleryDidPressTakePhoto()
     func productGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
     func productGallerySelection(selection: ImageSelection)
+    func productGallerySwitchToCamera()
 }
 
 enum MessageInfoType {
@@ -147,7 +148,11 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     }
     
     @IBAction func topRightButtonPressed(_ sender: AnyObject) {
-        postButtonPressed()
+        if topRightButtonIsUsePhoto {
+            postButtonPressed()
+        } else {
+            delegate?.productGallerySwitchToCamera()
+        }
     }
 
 
@@ -160,7 +165,22 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         contentView.backgroundColor = UIColor.black
         addSubview(contentView)
 
-        topRightButton.setStyle(.primary(fontSize: .small))
+        if topRightButtonIsUsePhoto {
+            topRightButton.setStyle(.primary(fontSize: .small))
+        } else {
+            topRightButton.setImage(#imageLiteral(resourceName: "ic_post_gallery_back_to_cam"), for: .normal)
+            topRightButton.setTitle(LGLocalizedString.productPostGalleryTopRightButtonCamera, for: .normal)
+            topRightButton.titleLabel?.font = UIFont.mediumButtonFont
+            topRightButton.titleLabel?.textColor = UIColor.white
+            let iconMargin: CGFloat = 8
+            topRightButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -iconMargin)
+            topRightButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: iconMargin)
+            
+            // http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton
+            topRightButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+            topRightButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+            topRightButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        }
         
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)

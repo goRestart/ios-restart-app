@@ -399,6 +399,10 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
             footer.postButton?.isHidden = false
         }
     }
+    
+    func productGallerySwitchToCamera() {
+        viewPager.selectTabAtIndex(1, animated: true)
+    }
 }
 
 
