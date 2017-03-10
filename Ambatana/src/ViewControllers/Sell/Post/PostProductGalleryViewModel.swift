@@ -382,9 +382,11 @@ class PostProductGalleryViewModel: BaseViewModel {
             0..<imagesSelectedCount ~= selectedImageIndex else { return }
 
         imageSelectionEnabled.value = true
-        shouldUpdateDisabledCells = imagesSelected.value.count == maxImagesSelected
 
+        shouldUpdateDisabledCells = imagesSelected.value.count == maxImagesSelected
         imagesSelected.value.remove(at: selectedImageIndex)
+        imageSelectionEnabled.value = imagesSelectedCount < maxImagesSelected
+        galleryState.value = .normal
 
         if selectedImageIndex == imagesSelected.value.count {
             // just deselected last image selected, we should change the previewed one to the last selected, unless is the 1st one
