@@ -487,8 +487,7 @@ fileprivate extension ProductViewModelStatus {
         case .pending, .otherSold, .notAvailable, .otherSoldFree:
             // No buttons in the bottom
             return 0
-        case .pendingAndCommercializable, .available, .sold, .otherAvailable, .availableAndCommercializable,
-             .availableFree, .otherAvailableFree, .soldFree:
+        case .available, .sold, .otherAvailable, .availableFree, .otherAvailableFree, .soldFree:
             if chatEnabled {
                 // Has the chatfield at bottom
                 return CarouselUI.chatContainerMaxHeight + CarouselUI.itemsMargin

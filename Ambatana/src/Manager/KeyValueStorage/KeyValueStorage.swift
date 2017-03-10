@@ -45,7 +45,6 @@ extension DefaultsKeys {
     static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
     static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
 
-    static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
     static let lastSearches = DefaultsKey<[String]>("lastSearches")
 
@@ -158,17 +157,6 @@ extension KeyValueStorage {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.postProductPostedPreviously = newValue
-            currentUserProperties = userProperties
-        }
-    }
-    var userCommercializersPending: [String:[String]] {
-        get {
-            return currentUserProperties?.commercializersPending ??
-                UserDefaultsUser.commercializersPendingDefaultValue
-        }
-        set {
-            guard var userProperties = currentUserProperties else { return }
-            userProperties.commercializersPending = newValue
             currentUserProperties = userProperties
         }
     }

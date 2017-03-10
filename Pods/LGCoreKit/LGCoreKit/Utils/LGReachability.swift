@@ -9,7 +9,7 @@
 import Foundation
 import ReachabilitySwift
 
-protocol LGReachabilityProtocol: class {
+protocol ReachabilityProtocol: class {
     
     /** Called on rachability changes with a final value of reachable 
      - note: also called when cahnging from 3G to Wi-Fi
@@ -21,7 +21,7 @@ protocol LGReachabilityProtocol: class {
     func stop()
 }
 
-class LGReachability: LGReachabilityProtocol {
+class LGReachability: ReachabilityProtocol {
     
     private let reachability: Reachability?
     

@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommercialShareViewController" customModule="LetGo" customModuleProvider="target">
@@ -20,26 +24,30 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qid-zh-2b6" userLabel="backgroundBtn">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <action selector="backgroundButtonPressed:" destination="-1" eventType="touchUpInside" id="KxS-4J-bMH"/>
                     </connections>
                 </button>
-                <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FIY-Le-nV5" userLabel="contentContainer">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FIY-Le-nV5" userLabel="contentContainer">
                     <rect key="frame" x="89" y="276" width="198" height="115"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTS-Ov-c6a" userLabel="shareTitle">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTS-Ov-c6a" userLabel="shareTitle">
                             <rect key="frame" x="14" y="15" width="169" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DTD-4p-2b0" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DTD-4p-2b0" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
                             <rect key="frame" x="15" y="44" width="168" height="56"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" placeholder="YES" id="9Vh-cz-irC"/>
+                                <constraint firstAttribute="width" constant="168" id="QEN-W0-cxI"/>
+                            </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="DTD-4p-2b0" firstAttribute="top" secondItem="eTS-Ov-c6a" secondAttribute="bottom" constant="8" id="2Fk-ur-55f"/>
                         <constraint firstItem="DTD-4p-2b0" firstAttribute="centerX" secondItem="FIY-Le-nV5" secondAttribute="centerX" id="3PV-bq-YpI"/>
@@ -48,21 +56,21 @@
                         <constraint firstItem="eTS-Ov-c6a" firstAttribute="top" secondItem="FIY-Le-nV5" secondAttribute="top" constant="15" id="Kum-l3-OIT"/>
                         <constraint firstItem="DTD-4p-2b0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="FIY-Le-nV5" secondAttribute="leading" constant="15" id="OWv-P9-4Sz"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DTD-4p-2b0" secondAttribute="trailing" constant="15" id="hOL-41-pRX"/>
-                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="270" id="qAd-AO-EAB"/>
                         <constraint firstAttribute="trailing" secondItem="eTS-Ov-c6a" secondAttribute="trailing" constant="15" id="yhh-al-2E8"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="FIY-Le-nV5" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="40G-K0-03A"/>
                 <constraint firstItem="qid-zh-2b6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6E8-zx-Dje"/>
                 <constraint firstItem="qid-zh-2b6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="COn-Uq-sCJ"/>
                 <constraint firstAttribute="trailing" secondItem="qid-zh-2b6" secondAttribute="trailing" id="EJW-Om-b48"/>
+                <constraint firstItem="FIY-Le-nV5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="QD0-2N-DqS"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FIY-Le-nV5" secondAttribute="trailing" constant="30" id="QNS-Bv-12Y"/>
                 <constraint firstAttribute="bottom" secondItem="qid-zh-2b6" secondAttribute="bottom" id="hHy-8y-wPl"/>
                 <constraint firstItem="FIY-Le-nV5" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="w1P-0Q-Ix3"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="687.5" y="357.5"/>
         </view>
     </objects>

@@ -131,19 +131,7 @@ class ProductPostedViewModel: BaseViewModel {
             return ProductSocialMessage(product: product, fallbackToStore: false)
         }
     }
-
-    var promoteProductViewModel: PromoteProductViewModel? {
-        switch status {
-        case .posting, .error:
-            return nil
-        case let .success(product):
-            guard let countryCode = product.postalAddress.countryCode, let productId = product.objectId else { return nil }
-            let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
-            guard !themes.isEmpty else { return nil }
-            return PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
-                promotionSource: .productSell)
-        }
-    }
+    
 
     // MARK: > Actions
 
