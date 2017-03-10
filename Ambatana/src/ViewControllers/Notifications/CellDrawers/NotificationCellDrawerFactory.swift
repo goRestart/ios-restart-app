@@ -28,12 +28,15 @@ class NotificationCellDrawerFactory {
             return ProductSuggestedNotificationCellDrawer()
         case .facebookFriendshipCreated:
             return FacebookFriendshipNotificationCellDrawer()
+        case .modular:
+            return ModularNotificationCellDrawer()
         }
     }
 
     static func registerCells(_ tableView: UITableView) {
         BaseNotificationCellDrawer<NotificationCell>.registerCell(tableView)
         BaseNotificationCellDrawer<BuyersInterestedNotificationCell>.registerCell(tableView)
+        BaseNotificationCellDrawer<ModularNotificationCell>.registerClassCell(tableView)
         WelcomeNotificationCellDrawer.registerCell(tableView)
     }
 }

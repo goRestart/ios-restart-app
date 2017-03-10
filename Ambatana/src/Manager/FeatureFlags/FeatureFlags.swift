@@ -30,7 +30,7 @@ protocol FeatureFlaggeable {
     var onboardingReview: OnboardingReview { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var bumpUpFreeTimeLimit: Int { get }
+    var bumpUpFreeTimeLimit: TimeInterval { get }
     var userRatingMarkAsSold: Bool { get }
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
@@ -171,8 +171,8 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.pricedBumpUpEnabled.value
     }
 
-    var bumpUpFreeTimeLimit: Int {
-        let hoursToMilliseconds = 60 * 60 * 1000
+    var bumpUpFreeTimeLimit: TimeInterval {
+        let hoursToMilliseconds: TimeInterval = 60 * 60 * 1000
         if Bumper.enabled {
             switch Bumper.bumpUpFreeTimeLimit {
             case .oneMin:
@@ -186,7 +186,7 @@ class FeatureFlags: FeatureFlaggeable {
             }
         }
         let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToMilliseconds)
-        return Int(timeLimit)
+        return TimeInterval(timeLimit)
     }
 
     var userRatingMarkAsSold: Bool {

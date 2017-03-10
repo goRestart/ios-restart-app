@@ -84,7 +84,8 @@ class NotificationsManagerSpec: QuickSpec {
                                                                   buyersInterested: 2,
                                                                   productSuggested: 2,
                                                                   facebookFriendshipCreated: 2,
-                                                                  total: 14)
+                                                                  modular: 2,
+                                                                  total: 16)
                 notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
             }
 

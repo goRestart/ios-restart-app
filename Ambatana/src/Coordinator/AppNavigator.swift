@@ -22,4 +22,5 @@ protocol AppNavigator: class {
     func openSurveyIfNeeded()
     func openAppInvite()
     func canOpenAppInvite() -> Bool
+    func openDeepLink(deepLink: DeepLink)
 }

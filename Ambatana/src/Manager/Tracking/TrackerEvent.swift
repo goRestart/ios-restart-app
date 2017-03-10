@@ -210,6 +210,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterStart, params: nil)
     }
 
+    static func filterLocationStart() -> TrackerEvent {
+        return TrackerEvent(name: .filterLocationStart, params: nil)
+    }
+
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
                                postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool) -> TrackerEvent {
@@ -635,13 +639,11 @@ struct TrackerEvent {
     }
 
     static func profileEditStart() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .profileEditStart, params: params)
+        return TrackerEvent(name: .profileEditStart, params: nil)
     }
 
     static func profileEditEditName() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .profileEditEditName, params: params)
+        return TrackerEvent(name: .profileEditEditName, params: nil)
     }
 
     static func profileEditEditLocation(_ location: LGLocation) -> TrackerEvent {
@@ -650,9 +652,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileEditEditLocation, params: params)
     }
 
+    static func profileEditEditLocationStart() -> TrackerEvent {
+        return TrackerEvent(name: .profileEditEditLocationStart, params: nil)
+    }
+
     static func profileEditEditPicture() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .profileEditEditPicture, params: params)
+        return TrackerEvent(name: .profileEditEditPicture, params: nil)
     }
 
     static func profileShareStart(_ type: EventParameterProfileType)  -> TrackerEvent {

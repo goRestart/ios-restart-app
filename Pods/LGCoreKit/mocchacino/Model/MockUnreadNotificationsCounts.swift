@@ -6,5 +6,6 @@ public struct MockUnreadNotificationsCounts: UnreadNotificationsCounts {
     public var buyersInterested: Int
     public var productSuggested: Int
     public var facebookFriendshipCreated: Int
+    public var modular: Int
     public var total: Int
 }
