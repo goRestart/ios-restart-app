@@ -359,9 +359,17 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             $0.isHidden = true
         }
         CTAHeightConstraints.forEach { $0.constant = 0 }
+        heroImageHeightConstraint.constant = 0
+        basicImageWidthConstraint.constant = 0
+        basicImageHeightConstraint.constant = 0
+        firstThumbnailHeightConstraint.constant = 0
+        titleLabelTopMargin.constant = 0
+        textTitleLeftMargin.constant = 0
+        thumbnailsTopMarginConstraint.constant = 0
         thumbnailsDeeplinks = []
         callsToActionDeeplinks = []
     }
+    
     
     private func refreshState() {
         let highlighedState = self.isHighlighted || self.isSelected
