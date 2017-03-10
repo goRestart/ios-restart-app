@@ -220,6 +220,7 @@ fileprivate extension NotificationsViewModel {
                                         let data = UserDetailData.id(userId: user.id, source: .notifications)
                                         self?.navigator?.openUser(data)
             })
+        case .modular: return nil
         }
     }
 

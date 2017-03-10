@@ -84,9 +84,6 @@ final class DIProxy: InternalDI {
     var commercializerRepository: CommercializerRepository {
         return di.commercializerRepository
     }
-    var internalCommercializerRepository: InternalCommercializerRepository {
-        return di.internalCommercializerRepository
-    }
     var chatRepository: ChatRepository {
         return di.chatRepository
     }

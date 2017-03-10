@@ -55,7 +55,6 @@ protocol InternalDI: DI {
     // Repository
     var internalMyUserRepository: InternalMyUserRepository { get }
     var internalInstallationRepository: InternalInstallationRepository { get }
-    var internalCommercializerRepository: InternalCommercializerRepository { get }
 
 
     // Clients
