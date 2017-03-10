@@ -24,6 +24,11 @@ final class IncentiviseScrollBanner: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        layoutIfNeeded()
+        addGradient()
+    }
 }
 
 
@@ -35,13 +40,21 @@ fileprivate extension IncentiviseScrollBanner {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(containerView)
         containerView.addSubview(textLabel)
+        
         textLabel.numberOfLines = 0
         textLabel.textColor = UIColor.gray
-        containerView.backgroundColor = UIColor.grayLight
+        textLabel.textAlignment = .center
         textLabel.text = LGLocalizedString.tabBarIncentiviseScrollBanner
     }
     
     func setupLayout() {
-        textLabel.layout(with: containerView).top().left(by: Metrics.margin).right(by: -Metrics.margin).bottom()
+        containerView.layout(with: self).top().left().right().bottom()
+        textLabel.layout(with: containerView).left(by: Metrics.margin).right(by: -Metrics.margin).bottom(by: Metrics.scrollBannerBottomMargin)
+    }
+    
+    func addGradient() {
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.grayBackground, alphas:[0, 1], locations: [0, 0.5])
+        shadowLayer.frame = containerView.bounds
+        containerView.layer.insertSublayer(shadowLayer, at: 0)
     }
 }

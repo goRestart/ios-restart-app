@@ -23,6 +23,7 @@ class TabBarViewModel: BaseViewModel {
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
     var favoriteBadge = Variable<String?>(nil)
+    var hideScrollBanner = Variable<Bool>(false)
 
     private let keyValueStorage: KeyValueStorage
     private let notificationsManager: NotificationsManager
@@ -97,6 +98,11 @@ class TabBarViewModel: BaseViewModel {
 
     func externalSwitchToTab(_ tab: Tab, completion: (() -> ())?) {
         delegate?.vmSwitchToTab(tab, force: false, completion: completion)
+    }
+    
+    func tabBarBecomeHidden(hidden: Bool) {
+        guard hidden else { return }
+        hideScrollBanner.value = hidden
     }
 
 

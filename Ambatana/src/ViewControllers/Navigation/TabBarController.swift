@@ -61,6 +61,8 @@ final class TabBarController: UITabBarController {
         setupSellButtons()
         
         setupIncentiviseScrollBanner()
+        
+        setupScrollBannerRx()
 
         setupCommercializerRx()
     }
@@ -131,6 +133,7 @@ final class TabBarController: UITabBarController {
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset
+        viewModel.tabBarBecomeHidden(hidden: hidden)
         super.setTabBarHidden(hidden, animated: animated, completion: completion)
     }
 
@@ -182,12 +185,12 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupIncentiviseScrollBanner() {
-       // guard viewModel.shouldSetupScrollBanner else { return }
+        //guard viewModel.shouldSetupScrollBanner else { return }
         incentiviseScrollBanner.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(incentiviseScrollBanner)
         view.bringSubview(toFront: incentiviseScrollBanner)
         incentiviseScrollBanner.layout(with: tabBar).bottom().left().right()
-        incentiviseScrollBanner.layout().height(tabBar.frame.height)
+        incentiviseScrollBanner.layout().height(tabBar.frame.height*2)
     }
 
     private func setupSellButtons() {
@@ -223,6 +226,14 @@ final class TabBarController: UITabBarController {
         if let notificationsTab = vcs[Tab.notifications.index].tabBarItem {
             viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx.badgeValue).addDisposableTo(disposeBag)
         }
+    }
+    
+    private func setupScrollBannerRx() {
+        viewModel.hideScrollBanner.asObservable().bindNext({ [weak self] hidden in
+            delay(0.3) {
+                self?.incentiviseScrollBanner.isHidden = hidden
+            }
+        }).addDisposableTo(disposeBag)
     }
 
     
