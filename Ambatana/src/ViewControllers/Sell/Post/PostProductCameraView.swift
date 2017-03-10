@@ -125,12 +125,15 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         hideFirstTimeAlert()
         guard cameraWrapper.isReady else { return }
         viewModel.takePhotoButtonPressed()
+        
+        usePhotoButton.isEnabled = false
         cameraWrapper.capturePhoto { [weak self] result in
             if let image = result.value {
                 self?.viewModel.photoTaken(image)
             } else {
                 self?.viewModel.retryPhotoButtonPressed()
             }
+            self?.usePhotoButton.isEnabled = true
         }
     }
     
