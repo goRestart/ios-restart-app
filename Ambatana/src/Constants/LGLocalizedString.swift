@@ -1695,6 +1695,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("nps_survey_very_good", comment: "")
 	}
 
+	static var surveyConfirmation: String {
+		return NSLocalizedString("survey_confirmation", comment: "")
+	}
+
 	static var onboardingDirectCameraAlertTitle: String {
 		return NSLocalizedString("onboarding_direct_camera_alert_title", comment: "")
 	}
@@ -2111,6 +2115,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_camera_tab", comment: "")
 	}
 
+	static var productPostCameraTabV2: String {
+		return NSLocalizedString("product_post_camera_tab_v2", comment: "")
+	}
+
 	static var productPostCloseAlertCloseButton: String {
 		return NSLocalizedString("product_post_close_alert_close_button", comment: "")
 	}
@@ -2199,8 +2207,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
 	}
 
+	static var productPostGalleryTopRightButtonCamera: String {
+		return NSLocalizedString("product_post_gallery_top_right_button_camera", comment: "")
+	}
+
 	static var productPostGalleryTab: String {
 		return NSLocalizedString("product_post_gallery_tab", comment: "")
+	}
+
+	static var productPostGalleryPost: String {
+		return NSLocalizedString("product_post_gallery_post", comment: "")
 	}
 
 	static var productPostGenericError: String {
@@ -3093,6 +3109,10 @@ struct LGLocalizedString {
 
 	static var tabBarGiveAwayTooltip: String {
 		return NSLocalizedString("tab_bar_give_away_tooltip", comment: "")
+	}
+
+	static var tabBarIncentiviseScrollBanner: String {
+		return NSLocalizedString("tab_bar_incentivise_scroll_banner", comment: "")
 	}
 
 	static var toastErrorInternal: String {

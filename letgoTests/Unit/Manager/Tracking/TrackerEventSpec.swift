@@ -2703,6 +2703,42 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("Web Survey") {
+                context("Survey start") {
+                    beforeEach {
+                        sut = TrackerEvent.surveyStart(userId: "my-user-id", surveyUrl: "https://www.thesurvey.com")
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "survey-start"
+                    }
+                    it("contains userId param") {
+                        let param = sut.params!.stringKeyParams["user-id"] as? String
+                        expect(param) == "my-user-id"
+                    }
+                    it("contains surveyUrl param") {
+                        let param = sut.params!.stringKeyParams["survey-url"] as? String
+                        expect(param) == "https://www.thesurvey.com"
+                    }
+                }
+
+                context("Survey completed") {
+                    beforeEach {
+                        sut = TrackerEvent.surveyCompleted(userId: "my-user-id", surveyUrl: "https://www.thesurvey.com")
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "survey-completed"
+                    }
+                    it("contains userId param") {
+                        let param = sut.params!.stringKeyParams["user-id"] as? String
+                        expect(param) == "my-user-id"
+                    }
+                    it("contains surveyUrl param") {
+                        let param = sut.params!.stringKeyParams["survey-url"] as? String
+                        expect(param) == "https://www.thesurvey.com"
+                    }
+                }
+            }
+
             describe("Verify Account") {
                 context("Verify Account Start") {
                     beforeEach {

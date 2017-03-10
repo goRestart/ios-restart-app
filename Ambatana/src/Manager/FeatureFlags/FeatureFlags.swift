@@ -15,9 +15,12 @@ protocol FeatureFlaggeable {
 
     var syncedData: Observable<Bool> { get }
 
+    var showNPSSurvey: Bool { get }
+    var surveyUrl: String { get }
+    var surveyEnabled: Bool { get }
+
     var websocketChat: Bool { get }
     var userReviews: Bool { get }
-    var showNPSSurvey: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var favoriteWithBadgeOnProfile: Bool { get }
     var shouldContactSellerOnFavorite: Bool { get }
@@ -89,6 +92,20 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showNPSSurvey
         }
         return ABTests.showNPSSurvey.value
+    }
+
+    var surveyUrl: String {
+        if Bumper.enabled {
+            return Bumper.surveyEnabled ? Constants.surveyDefaultTestUrl : ""
+        }
+        return ABTests.surveyURL.value
+    }
+
+    var surveyEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.surveyEnabled
+        }
+        return ABTests.surveyEnabled.value
     }
 
     var postAfterDeleteMode: PostAfterDeleteMode {

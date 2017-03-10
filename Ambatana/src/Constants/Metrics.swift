@@ -10,9 +10,11 @@
 struct Metrics {
     // Common
     static let margin: CGFloat              = 15
+    static let shortMargin: CGFloat         = 10
     static let textFieldHeight: CGFloat     = 50
     static let buttonHeight: CGFloat        = 50
-    static let shortMargin: CGFloat         = 10
+    static let closeButtonWidth: CGFloat    = 54
+    static let closeButtonHeight: CGFloat   = 44
 
     // Login
     static let loginContentTop: CGFloat     = 30

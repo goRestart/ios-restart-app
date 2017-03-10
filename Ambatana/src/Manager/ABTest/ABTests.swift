@@ -15,7 +15,11 @@ struct ABTests {
     // Not used in code, Just a helper for marketing team
     static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
 
+    // Not an A/B just flags and variables for surveys
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
+    static var surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
+    static var surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
+
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
@@ -37,6 +41,9 @@ struct ABTests {
 
         result.append(marketingPush)
         result.append(showNPSSurvey)
+        result.append(surveyURL)
+        result.append(surveyEnabled)
+
         result.append(postAfterDeleteMode)
         result.append(userReviews)
         result.append(favoriteWithBadgeOnProfile)

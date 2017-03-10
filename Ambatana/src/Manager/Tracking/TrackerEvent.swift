@@ -945,6 +945,20 @@ struct TrackerEvent {
         return TrackerEvent(name: .npsComplete, params: params)
     }
 
+    static func surveyStart(userId: String?, surveyUrl: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.surveyUrl] = surveyUrl
+        return TrackerEvent(name: .surveyStart, params: params)
+    }
+
+    static func surveyCompleted(userId: String?, surveyUrl: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.surveyUrl] = surveyUrl
+        return TrackerEvent(name: .surveyCompleted, params: params)
+    }
+
     static func verifyAccountStart(_ typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue

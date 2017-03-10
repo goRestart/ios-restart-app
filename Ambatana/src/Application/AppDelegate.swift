@@ -153,7 +153,7 @@ extension AppDelegate: UIApplicationDelegate {
         appIsActive.value = true
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
-        navigator?.openNPSSurvey()
+        navigator?.openSurveyIfNeeded()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

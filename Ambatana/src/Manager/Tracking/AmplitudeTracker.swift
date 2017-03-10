@@ -76,13 +76,7 @@ final class AmplitudeTracker: Tracker {
     }
 
     func setUser(_ user: MyUser?) {
-        let userId: String
-        if let email = user?.email, !email.isEmpty {
-            userId = email
-        } else {
-            userId = user?.objectId ?? ""
-        }
-        Amplitude.instance().setUserId(userId)
+        Amplitude.instance().setUserId(user?.emailOrId)
 
         var isDummy = false
         let dummyRange = (user?.email ?? "").range(of: AmplitudeTracker.dummyEmailPrefix)
