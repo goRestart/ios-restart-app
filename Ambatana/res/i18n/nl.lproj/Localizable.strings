@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Om een foto te maken, moet je de toegang tot de Camera toestaan";
 "product_post_camera_permissions_title" = "Geef toegang tot Camera";
 "product_post_camera_tab" = "FOTO";
-"product_post_camera_tab_v2" = "CAMERA";
+"product_post_camera_tab_v2" = "Camera";
 "product_post_close_alert_close_button" = "Verwijder";
 "product_post_close_alert_description" = "Wil je het nog steeds als te koop plaatsen?";
 "product_post_close_alert_ok_button" = "Plaats product";
@@ -522,10 +522,11 @@
 "product_post_gallery_permissions_button" = "Toestaan";
 "product_post_gallery_permissions_subtitle" = "Om een bestaande foto te selecteren, moet je de toegang tot Foto's toestaan";
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
-"product_post_gallery_post" = "Post";
+"product_post_gallery_post" = "Plaats";
 "product_post_gallery_select_pictures_subtitle" = "Selecteer maximaal 5 afbeeldingen om te uploaden";
 "product_post_gallery_select_pictures_title" = "Kies foto's";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
+"product_post_gallery_top_right_button_camera" = "Camera";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
 "product_post_incentive_bike" = "Fietsen";
 "product_post_incentive_car" = "Auto's";
@@ -765,6 +766,7 @@
 "suggestions_last_searches_title" = "Recente Zoekopdrachten";
 "tab_bar_give_away_button" = "Weggeven";
 "tab_bar_give_away_tooltip" = "Nu kun je het weggeven";
+"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
 "tab_bar_sell_stuff_button" = "Spullen Verkopen";
 "tab_bar_tool_tip" = "Verkoop je spullen";
 "toast_error_internal" = "Oeps! Er ging iets mis.";

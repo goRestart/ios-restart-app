@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Για να τραβήξετε μια φωτογραφία, θα πρέπει να επιτρέψετε την πρόσβαση στην Κάμερα";
 "product_post_camera_permissions_title" = "Επιτρέψτε την πρόσβαση στην Κάμερα";
 "product_post_camera_tab" = "ΦΩΤΟΓΡΑΦΙΑ";
-"product_post_camera_tab_v2" = "CAMERA";
+"product_post_camera_tab_v2" = "ΚΑΜΕΡΑ";
 "product_post_close_alert_close_button" = "Απόρριψη";
 "product_post_close_alert_description" = "Θέλετε ακόμη να το καταχωρήσετε για πώληση;";
 "product_post_close_alert_ok_button" = "Δημοσίευση Προϊόντος";
@@ -522,10 +522,11 @@
 "product_post_gallery_permissions_button" = "Πρόσβαση";
 "product_post_gallery_permissions_subtitle" = "Για να επιλέξετε μια υπάρχουσα φωτογραφία, θα πρέπει να επιτρέψετε την πρόσβαση στις Φωτογραφίες";
 "product_post_gallery_permissions_title" = "Επιτρέψτε πρόσβαση στις Φωτογραφίες";
-"product_post_gallery_post" = "Post";
+"product_post_gallery_post" = "Δημοσίευση";
 "product_post_gallery_select_pictures_subtitle" = "Επιλέξτε έως 5 φωτογραφίες για μεταφόρτωση";
 "product_post_gallery_select_pictures_title" = "Επιλέξτε φωτογραφίες";
 "product_post_gallery_tab" = "ΓΚΑΛΕΡΙ";
+"product_post_gallery_top_right_button_camera" = "Camera";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση του προϊόντος σας.";
 "product_post_incentive_bike" = "Ποδήλατα";
 "product_post_incentive_car" = "Αυτοκίνητα";
@@ -765,6 +766,7 @@
 "suggestions_last_searches_title" = "Πρόσφατες Αναζητήσεις";
 "tab_bar_give_away_button" = "Χάρισέ Το";
 "tab_bar_give_away_tooltip" = "Τώρα μπορείτε να χαρίσετε αντικείμενα";
+"tab_bar_incentivise_scroll_banner" = "Σύρετε για να δείτε περισσότερα";
 "tab_bar_sell_stuff_button" = "Πουλά Πράγματα";
 "tab_bar_tool_tip" = "Πούλα τα Πράγματά σου";
 "toast_error_internal" = "Όπα! Κάτι πήγε στραβά.";

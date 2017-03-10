@@ -2203,6 +2203,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
 	}
 
+	static var productPostGalleryTopRightButtonCamera: String {
+		return NSLocalizedString("product_post_gallery_top_right_button_camera", comment: "")
+	}
+
 	static var productPostGalleryTab: String {
 		return NSLocalizedString("product_post_gallery_tab", comment: "")
 	}
@@ -3101,6 +3105,10 @@ struct LGLocalizedString {
 
 	static var tabBarGiveAwayTooltip: String {
 		return NSLocalizedString("tab_bar_give_away_tooltip", comment: "")
+	}
+
+	static var tabBarIncentiviseScrollBanner: String {
+		return NSLocalizedString("tab_bar_incentivise_scroll_banner", comment: "")
 	}
 
 	static var toastErrorInternal: String {

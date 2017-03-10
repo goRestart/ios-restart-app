@@ -1638,6 +1638,9 @@
 // Subtitle message to ask user to select a picture or more
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
 
+// Button in top right corner to switch to camera
+"product_post_gallery_top_right_button_camera" = "Camera";
+
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
 
@@ -2310,6 +2313,9 @@
 
 // Tab bar tooltip explaining tooltip new feature.
 "tab_bar_give_away_tooltip" = "Now you can give items away";
+
+// Tab bar message to incentivise the user to scroll down.
+"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
 
 // Toast server internal.
 "toast_error_internal" = "Oops! Something went wrong.";

@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Чтобы сделать фото, разрешите доступ к Камере";
 "product_post_camera_permissions_title" = "Разрешить доступ к Камере";
 "product_post_camera_tab" = "ФОТО";
-"product_post_camera_tab_v2" = "CAMERA";
+"product_post_camera_tab_v2" = "Камера";
 "product_post_close_alert_close_button" = "Отмена";
 "product_post_close_alert_description" = "Все еще хотите разместить товар на продажу?";
 "product_post_close_alert_ok_button" = "Опубликовать";
@@ -522,10 +522,11 @@
 "product_post_gallery_permissions_button" = "Разрешить";
 "product_post_gallery_permissions_subtitle" = "Для выбора имеющихся фотографий, разрешите доступ к Фотографиям";
 "product_post_gallery_permissions_title" = "Разрешите доступ к Фотографиям";
-"product_post_gallery_post" = "Post";
+"product_post_gallery_post" = "Разместить";
 "product_post_gallery_select_pictures_subtitle" = "Выберите до 5 фотографий для загрузки";
 "product_post_gallery_select_pictures_title" = "Выберите фотографии";
 "product_post_gallery_tab" = "ГАЛЕРЕЯ";
+"product_post_gallery_top_right_button_camera" = "Camera";
 "product_post_generic_error" = "При размещении товара произошла ошибка.";
 "product_post_incentive_bike" = "Велосипеды";
 "product_post_incentive_car" = "Автомобили";
@@ -765,6 +766,7 @@
 "suggestions_last_searches_title" = "Недавний Поиск";
 "tab_bar_give_away_button" = "Отдать";
 "tab_bar_give_away_tooltip" = "Теперь вы можете отдавать вещи";
+"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
 "tab_bar_sell_stuff_button" = "Продать вещи";
 "tab_bar_tool_tip" = "Продайте свои вещи";
 "toast_error_internal" = "Упс! Что-то пошло не так.";

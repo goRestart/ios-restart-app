@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Para hacer una foto, debes permitir el acceso a la Cámara";
 "product_post_camera_permissions_title" = "Permitir acceso a la Cámara";
 "product_post_camera_tab" = "FOTO";
-"product_post_camera_tab_v2" = "CAMERA";
+"product_post_camera_tab_v2" = "CÁMARA";
 "product_post_close_alert_close_button" = "Descartar";
 "product_post_close_alert_description" = "¿Todavía quieres ponerlo a la venta?";
 "product_post_close_alert_ok_button" = "Publicar Producto";
@@ -522,10 +522,11 @@
 "product_post_gallery_permissions_button" = "Permitir";
 "product_post_gallery_permissions_subtitle" = "Para elegir una foto existente, debes permitir el acceso a Fotos";
 "product_post_gallery_permissions_title" = "Permitir el acceso a Fotos";
-"product_post_gallery_post" = "Post";
+"product_post_gallery_post" = "Publicar";
 "product_post_gallery_select_pictures_subtitle" = "Selecciona hasta 5 imágenes para subir";
 "product_post_gallery_select_pictures_title" = "Elegir fotos";
 "product_post_gallery_tab" = "BIBLIOTECA";
+"product_post_gallery_top_right_button_camera" = "Camera";
 "product_post_generic_error" = "Se ha producido un error al publicar tu producto.";
 "product_post_incentive_bike" = "Bicis";
 "product_post_incentive_car" = "Coches";
@@ -765,6 +766,7 @@
 "suggestions_last_searches_title" = "Búsquedas recientes";
 "tab_bar_give_away_button" = "Regalar";
 "tab_bar_give_away_tooltip" = "Ahora puedes regalar artículos";
+"tab_bar_incentivise_scroll_banner" = "Baja para ver más";
 "tab_bar_sell_stuff_button" = "Vender";
 "tab_bar_tool_tip" = "Empieza a vender";
 "toast_error_internal" = "¡Ups! Se ha producido un error.";
