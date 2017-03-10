@@ -765,6 +765,7 @@
 "suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Give It Away";
 "tab_bar_give_away_tooltip" = "Now you can give items away";
+"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
 "tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Sell Your Stuff";
 "toast_error_internal" = "Oops! Something went wrong.";

@@ -182,11 +182,12 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupIncentiviseScrollBanner() {
-        guard viewModel.shouldSetupScrollBanner else { return }
+       // guard viewModel.shouldSetupScrollBanner else { return }
         incentiviseScrollBanner.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(incentiviseScrollBanner)
-        incentiviseScrollBanner.layout(with: view).bottom().left().right()
-        incentiviseScrollBanner.layout().height(50)
+        view.bringSubview(toFront: incentiviseScrollBanner)
+        incentiviseScrollBanner.layout(with: tabBar).bottom().left().right()
+        incentiviseScrollBanner.layout().height(tabBar.frame.height)
     }
 
     private func setupSellButtons() {

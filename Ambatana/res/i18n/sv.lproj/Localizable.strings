@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Du måste tillåta åtkomst till Kameran för att ta en bild";
 "product_post_camera_permissions_title" = "Tillåt åtkomst till Kamera";
 "product_post_camera_tab" = "FOTO";
-"product_post_camera_tab_v2" = "CAMERA";
+"product_post_camera_tab_v2" = "Kamera";
 "product_post_close_alert_close_button" = "Släng bort";
 "product_post_close_alert_description" = "Vill du fortfarande lägga ut den till försäljning?";
 "product_post_close_alert_ok_button" = "Lägg upp produkten";
@@ -522,7 +522,7 @@
 "product_post_gallery_permissions_button" = "Tillåt";
 "product_post_gallery_permissions_subtitle" = "Du måste tillåta åtkomst till Bilder för att välja en sparad bild";
 "product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";
-"product_post_gallery_post" = "Post";
+"product_post_gallery_post" = "Lägg upp";
 "product_post_gallery_select_pictures_subtitle" = "Välj upp till 5 bilder för uppladdning";
 "product_post_gallery_select_pictures_title" = "Välj bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";
@@ -765,6 +765,7 @@
 "suggestions_last_searches_title" = "Senaste sökningarna";
 "tab_bar_give_away_button" = "Ge bort den";
 "tab_bar_give_away_tooltip" = "Nu kan du skänka bort saker";
+"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
 "tab_bar_sell_stuff_button" = "Sälj prylar";
 "tab_bar_tool_tip" = "Sälj dina prylar";
 "toast_error_internal" = "Hoppsan! Något blev fel.";

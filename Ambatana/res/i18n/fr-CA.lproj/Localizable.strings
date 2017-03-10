@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Pour prendre une photo, vous devez autoriser l'accès à l'Appareil Photo";
 "product_post_camera_permissions_title" = "Autoriser l'accès à l'Appareil Photo";
 "product_post_camera_tab" = "PHOTO";
-"product_post_camera_tab_v2" = "CAMERA";
+"product_post_camera_tab_v2" = "Appareil Photo";
 "product_post_close_alert_close_button" = "Annuler";
 "product_post_close_alert_description" = "Souhaitez-vous toujours le laisser en vente ?";
 "product_post_close_alert_ok_button" = "Publier le Produit";
@@ -522,7 +522,7 @@
 "product_post_gallery_permissions_button" = "Autoriser";
 "product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez autoriser l'accès aux Photos";
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
-"product_post_gallery_post" = "Post";
+"product_post_gallery_post" = "Publier";
 "product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à télécharger";
 "product_post_gallery_select_pictures_title" = "Choisissez des photos";
 "product_post_gallery_tab" = "ALBUM";
@@ -765,6 +765,7 @@
 "suggestions_last_searches_title" = "Recherches Récentes";
 "tab_bar_give_away_button" = "Donnez des Objets";
 "tab_bar_give_away_tooltip" = "Vous pouvez maintenant donner des objets";
+"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
 "tab_bar_sell_stuff_button" = "Vendre";
 "tab_bar_tool_tip" = "Vendez Vos Objets";
 "toast_error_internal" = "Oups ! Ça n'a pas fonctionné.";
