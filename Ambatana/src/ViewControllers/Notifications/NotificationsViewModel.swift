@@ -220,7 +220,14 @@ fileprivate extension NotificationsViewModel {
                                         let data = UserDetailData.id(userId: user.id, source: .notifications)
                                         self?.navigator?.openUser(data)
             })
-        case .modular: return nil
+        case let .modular(modules):
+            return NotificationData(id: notification.objectId,
+                                    type: .modular(modules: modules, delegate: self),
+                                    date: notification.createdAt, isRead: notification.isRead,
+                                    primaryAction: { [weak self] in
+                                        guard let deeplink = modules.callToActions.first?.deeplink else { return }
+                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink)
+                                    })
         }
     }
 
@@ -229,6 +236,17 @@ fileprivate extension NotificationsViewModel {
                                 date: Date(), isRead: true, primaryAction: { [weak self] in
                                     self?.navigator?.openSell(.notifications)
                                 })
+    }
+}
+
+
+// MARK: - modularNotificationCellDelegate
+
+extension NotificationsViewModel: ModularNotificationCellDelegate {
+    func triggerModularNotificationDeeplink(deeplink: String) {
+        guard let deepLinkURL = URL(string: deeplink) else { return }
+        guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
+        navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
 }
 
@@ -271,6 +289,8 @@ fileprivate extension NotificationDataType {
             return .productSuggested
         case .facebookFriendshipCreated:
             return .facebookFriendshipCreated
+        case .modular:
+            return .modular
         }
     }
 }

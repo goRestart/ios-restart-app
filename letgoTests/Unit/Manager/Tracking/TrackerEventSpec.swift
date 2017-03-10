@@ -770,7 +770,16 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("filter-start"))
                 }
             }
-            
+
+            describe("filterLocationStart") {
+                beforeEach {
+                    sut = TrackerEvent.filterLocationStart()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("filter-location-start"))
+                }
+            }
+
             describe("filterComplete") {
                 context("receiving all params") {
                     beforeEach {
@@ -2168,6 +2177,15 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     sut = TrackerEvent.profileEditEditName()
                     expect(sut.name.rawValue).to(equal("profile-edit-edit-name"))
+                }
+            }
+
+            describe("profileEditEditLocationStart") {
+                beforeEach {
+                    sut = TrackerEvent.profileEditEditLocationStart()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-edit-edit-location-start"))
                 }
             }
             
