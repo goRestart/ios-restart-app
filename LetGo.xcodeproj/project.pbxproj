@@ -729,8 +729,6 @@
 		C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */; };
 		C72794421D549342009C25AB /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794331D549342009C25AB /* HelpViewController.swift */; };
 		C72794431D549342009C25AB /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794331D549342009C25AB /* HelpViewController.swift */; };
-		C72794441D549342009C25AB /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794341D549342009C25AB /* HelpViewController.xib */; };
-		C72794451D549342009C25AB /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794341D549342009C25AB /* HelpViewController.xib */; };
 		C72794461D549342009C25AB /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794351D549342009C25AB /* HelpViewModel.swift */; };
 		C72794471D549342009C25AB /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794351D549342009C25AB /* HelpViewModel.swift */; };
 		C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794481D54944E009C25AB /* SettingsViewModel.swift */; };
@@ -1854,7 +1852,6 @@
 		C72794311D549342009C25AB /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
 		C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
 		C72794331D549342009C25AB /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
-		C72794341D549342009C25AB /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
 		C72794351D549342009C25AB /* HelpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewModel.swift; sourceTree = "<group>"; };
 		C72794481D54944E009C25AB /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
@@ -3522,7 +3519,6 @@
 				8E26007B1E30E1C300242B3F /* ChangeEmailView.swift */,
 				8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */,
 				C72794331D549342009C25AB /* HelpViewController.swift */,
-				C72794341D549342009C25AB /* HelpViewController.xib */,
 				C72794351D549342009C25AB /* HelpViewModel.swift */,
 			);
 			path = details;
@@ -4373,7 +4369,6 @@
 				508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				C7C61DF71D63035400F9505D /* ProductCarouselMoreInfoView.xib in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
-				C72794441D549342009C25AB /* HelpViewController.xib in Resources */,
 				C783D97E1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
 				6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
@@ -4520,7 +4515,6 @@
 				2E5350451CF8A181003B06CC /* ProductStatsView.xib in Resources */,
 				508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,
-				C72794451D549342009C25AB /* HelpViewController.xib in Resources */,
 				C783D97F1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				C7DB42561C5138B500400945 /* Localizable.strings in Resources */,
 				6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,

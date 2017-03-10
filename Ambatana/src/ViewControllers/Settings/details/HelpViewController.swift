@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import SafariServices
+import WebKit
 
-class HelpViewController: BaseViewController, UIWebViewDelegate {
-    @IBOutlet weak var webView: UIWebView!
+class HelpViewController: BaseViewController {
+    private let webView = WKWebView()
     private var viewModel: HelpViewModel
 
 
@@ -17,7 +17,7 @@ class HelpViewController: BaseViewController, UIWebViewDelegate {
     
     required init(viewModel: HelpViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "HelpViewController")
+        super.init(viewModel: viewModel, nibName: nil)
         automaticallyAdjustsScrollViewInsets = false
     }
 
@@ -27,13 +27,17 @@ class HelpViewController: BaseViewController, UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.addToViewController(self, inView: self.view)
+
         // Navigation Bar
         setNavBarTitle(LGLocalizedString.helpTitle)
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
 
         if let url = viewModel.url {
             let request = URLRequest(url: url)
-            webView.loadRequest(request)
+            webView.load(request)
         }
 
         setupAccessibilityIds()
