@@ -56,7 +56,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private static let defaultInfoBadgeColor = UIColor.red
 
     // UI
-    private let tabsScrollView = UIScrollView()
+    let tabsScrollView = UIScrollView()
     private let indicatorContainer = UIView()
     private let indicator = UIView()
     private let pagesScrollView = UIScrollView()

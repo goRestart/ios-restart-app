@@ -26,6 +26,10 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate var galleryView: PostProductGalleryView
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
+    fileprivate let gradientView = UIView()
+    fileprivate let gradientLayer = CAGradientLayer.gradientWithColor(UIColor.black,
+                                                                      alphas: [0, 0.4],
+                                                                      locations: [0, 1])
     fileprivate let keyboardHelper: KeyboardHelper
     fileprivate let postingGallery: PostingGallery
     private var viewDidAppear: Bool = false
@@ -122,6 +126,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             viewPager.delegate = self
             viewPager.selectTabAtIndex(initialTab)
             footer.update(scroll: CGFloat(initialTab))
+        }
+        
+        switch postingGallery {
+        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionPostBottom:
+            break
+        case .multiSelectionTabs:
+            gradientLayer.frame = gradientView.bounds
         }
     }
 
@@ -409,7 +420,6 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
 // MARK: - LGViewPager
 
 extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate, LGViewPagerScrollDelegate {
-
     func setupViewPager() {
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
@@ -418,8 +428,24 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         viewPager.tabsSeparatorColor = UIColor.clear
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         cameraGalleryContainer.insertSubview(viewPager, at: 0)
+        
+        switch postingGallery {
+        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionPostBottom:
+            break
+        case .multiSelectionTabs:
+            gradientView.translatesAutoresizingMaskIntoConstraints = false
+            gradientView.layer.insertSublayer(gradientLayer, at: 0)
+            // This is a bit hackish... if this variant is the winner add it as option @ LGViewPager
+            viewPager.insertSubview(gradientView, belowSubview: viewPager.tabsScrollView)
+            
+            gradientView.layout(with: viewPager)
+                .leading()
+                .trailing()
+                .bottom()
+            gradientView.layout().height(150)
+        }
+        
         setupViewPagerConstraints()
-
         viewPager.reloadData()
     }
 
