@@ -33,13 +33,13 @@ class WebSurveyViewController: BaseViewController {
 
     override func loadView() {
         let container = UIView()
-        let views = [webView,closeButton,activityIndicator]
+        let views = [webView, closeButton, activityIndicator]
         container.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: views)
         container.addSubviews(views)
 
         activityIndicator.layout(with: container).center()
         closeButton.layout(with: container).left()
-        closeButton.layout().width(54).height(44)
+        closeButton.layout().width(Metrics.closeButtonWidth).height(Metrics.closeButtonHeight)
         webView.layout(with: container).left().right().bottom()
         webView.layout(with: closeButton).below()
 
