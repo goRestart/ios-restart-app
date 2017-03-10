@@ -7,6 +7,7 @@ extension MockUnreadNotificationsCounts: MockFactory {
                                              buyersInterested: Int.makeRandom(),
                                              productSuggested: Int.makeRandom(),
                                              facebookFriendshipCreated: Int.makeRandom(),
+                                             modular: Int.makeRandom(),
                                              total: Int.makeRandom())
     }
 }
