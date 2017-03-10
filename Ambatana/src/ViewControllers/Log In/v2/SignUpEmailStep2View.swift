@@ -10,13 +10,10 @@ import UIKit
 
 final class SignUpEmailStep2View: UIView {
     fileprivate let appearance: LoginAppearance
-    fileprivate let backgroundImage: UIImage?
     fileprivate let deviceFamily: DeviceFamily
     fileprivate let termsAndConditionsAcceptRequired: Bool
     fileprivate let newsLetterAcceptRequired: Bool
 
-    let backgroundImageView = UIImageView()
-    let backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     let scrollView = UIScrollView()
     let headerGradientView = UIView()
     let headerGradientLayer = CAGradientLayer.gradientWithColor(UIColor.white,
@@ -37,12 +34,10 @@ final class SignUpEmailStep2View: UIView {
     // MARK: - Lifecycle
 
     init(appearance: LoginAppearance,
-         backgroundImage: UIImage?,
          deviceFamily: DeviceFamily,
          termsAndConditionsAcceptRequired: Bool,
          newsLetterAcceptRequired: Bool) {
         self.appearance = appearance
-        self.backgroundImage = backgroundImage
         self.deviceFamily = deviceFamily
         self.termsAndConditionsAcceptRequired = termsAndConditionsAcceptRequired
         self.newsLetterAcceptRequired = newsLetterAcceptRequired
@@ -69,14 +64,6 @@ final class SignUpEmailStep2View: UIView {
 
 fileprivate extension SignUpEmailStep2View {
     func setupUI() {
-        if appearance.hasBackgroundImage {
-            backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-            backgroundImageView.image = backgroundImage
-            addSubview(backgroundImageView)
-
-            backgroundEffectView.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(backgroundEffectView)
-        }
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.bounces = false
@@ -175,11 +162,6 @@ fileprivate extension SignUpEmailStep2View {
     }
 
     func setupLayout() {
-        if appearance.hasBackgroundImage {
-            backgroundImageView.layout(with: self).fill()
-            backgroundEffectView.layout(with: self).fill()
-        }
-
         scrollView.layout(with: self).below().fill()
 
         headerGradientView.layout(with: self).leading().trailing().top()

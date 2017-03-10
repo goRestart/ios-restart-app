@@ -13,6 +13,10 @@ import UIKit
 final class SignUpEmailStep2ViewController: KeyboardViewController, SignUpEmailStep2ViewModelDelegate {
     fileprivate let viewModel: SignUpEmailStep2ViewModel
     fileprivate let signUpEmailStep2View: SignUpEmailStep2View
+    fileprivate let backgroundImageView = UIImageView()
+    fileprivate let backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    fileprivate let backgroundImage: UIImage?
+    fileprivate let appearance: LoginAppearance
     fileprivate let disposeBag = DisposeBag()
 
 
@@ -33,10 +37,11 @@ final class SignUpEmailStep2ViewController: KeyboardViewController, SignUpEmailS
          deviceFamily: DeviceFamily) {
         self.viewModel = viewModel
         self.signUpEmailStep2View = SignUpEmailStep2View(appearance: appearance,
-                                                         backgroundImage: backgroundImage,
                                                          deviceFamily: deviceFamily,
                                                          termsAndConditionsAcceptRequired: viewModel.termsAndConditionsAcceptRequired,
                                                          newsLetterAcceptRequired: viewModel.newsLetterAcceptRequired)
+        self.appearance = appearance
+        self.backgroundImage = backgroundImage
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
                    navBarBackgroundStyle: appearance.navBarBackgroundStyle)
@@ -115,6 +120,17 @@ fileprivate extension SignUpEmailStep2ViewController {
 
     func setupUI() {
         view.backgroundColor = UIColor.white
+
+        if appearance.hasBackgroundImage {
+            backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+            backgroundImageView.image = backgroundImage
+            view.addSubview(backgroundImageView)
+            backgroundImageView.layout(with: view).fill()
+
+            backgroundEffectView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(backgroundEffectView)
+            backgroundEffectView.layout(with: view).fill()
+        }
 
         signUpEmailStep2View.translatesAutoresizingMaskIntoConstraints = false
         signUpEmailStep2View.addToViewController(self, inView: view)
