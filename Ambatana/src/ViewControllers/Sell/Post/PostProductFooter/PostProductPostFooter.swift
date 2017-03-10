@@ -14,6 +14,7 @@ final class PostProductPostFooter: UIView {
     let postButton: UIButton? = UIButton()
     fileprivate var cameraButtonCenterXConstraint: NSLayoutConstraint?
     
+    
     // MARK: - Lifecycle
     
     init() {
@@ -32,6 +33,16 @@ final class PostProductPostFooter: UIView {
         super.layoutSubviews()
         layoutIfNeeded()
         updateUI()
+    }
+    
+    
+    // MARK: - Overrides
+
+    override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return [galleryButton, cameraButton, postButton].flatMap { $0 }.reduce(false) { (result, view) -> Bool in
+            let convertedPoint = view.convert(point, from: self)
+            return result || view.point(inside: convertedPoint, with: event)
+        }
     }
 }
 
