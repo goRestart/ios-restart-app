@@ -27,6 +27,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
     fileprivate let keyboardHelper: KeyboardHelper
+    fileprivate let postingGallery: PostingGallery
     private var viewDidAppear: Bool = false
 
     fileprivate static let detailTopMarginPrice: CGFloat = 100
@@ -60,37 +61,43 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                   postingGallery: PostingGallery) {
         
         let tabPosition: LGViewPagerTabPosition
+        let topRightButtonIsUsePhoto: Bool
         switch postingGallery {
         case .singleSelection, .multiSelection:
             tabPosition = .hidden
             let postFooter = PostProductRedCamButtonFooter()
             self.footer = postFooter
             self.footerView = postFooter
+            topRightButtonIsUsePhoto = true
         case .multiSelectionWhiteButton:
             tabPosition = .hidden
             let postFooter = PostProductWhiteCamButtonFooter()
             self.footer = postFooter
             self.footerView = postFooter
+            topRightButtonIsUsePhoto = true
         case .multiSelectionTabs:
             tabPosition = .bottom(tabsOverPages: true)
             let postFooter = PostProductTabsFooter()
             self.footer = postFooter
             self.footerView = postFooter
+            topRightButtonIsUsePhoto = true
         case .multiSelectionPostBottom:
             tabPosition = .hidden
             let postFooter = PostProductPostFooter()
             self.footer = postFooter
             self.footerView = postFooter
+            topRightButtonIsUsePhoto = false
         }
         
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView()
+        self.galleryView = PostProductGalleryView(topRightButtonIsUsePhoto: topRightButtonIsUsePhoto)
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
         self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
+        self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
@@ -149,6 +156,10 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(0, animated: true)
     }
+    
+    dynamic func galleryPostButtonPressed() {
+        galleryView.postButtonPressed()
+    }
 
     dynamic func cameraButtonPressed() {
         if viewPager.currentPage == 1 {
@@ -203,6 +214,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         footerView.translatesAutoresizingMaskIntoConstraints = false
         footer.galleryButton?.addTarget(self, action: #selector(galleryButtonPressed), for: .touchUpInside)
         footer.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
+        footer.postButton?.setTitle(viewModel.usePhotoButtonText, for: .normal)
+        footer.postButton?.addTarget(self, action: #selector(galleryPostButtonPressed), for: .touchUpInside)
         cameraGalleryContainer.addSubview(footerView)
         
         footerView.layout(with: cameraGalleryContainer)
@@ -372,8 +385,19 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
                         sourceRect: galleryView.albumButton.frame, completion: nil)
     }
 
-    func productGallerySelectionFull(_ selectionFull: Bool) {
-        footer.updateCameraButton(isHidden: selectionFull)
+    func productGallerySelection(selection: ImageSelection) {
+        switch (selection, postingGallery) {
+        case (.nothing, _),
+             (.any, .singleSelection), (.any, .multiSelection),
+             (.any, .multiSelectionWhiteButton), (.any, .multiSelectionTabs),
+             (.all, .singleSelection), (.all, .multiSelection),
+             (.all, .multiSelectionWhiteButton), (.all, .multiSelectionTabs):
+            footer.cameraButton.isHidden = false
+            footer.postButton?.isHidden = true
+        case (.any, .multiSelectionPostBottom), (.all, .multiSelectionPostBottom):
+            footer.cameraButton.isHidden = true
+            footer.postButton?.isHidden = false
+        }
     }
 }
 
@@ -458,18 +482,20 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         }
         let attachment = NSTextAttachment()
         attachment.image = icon
-        
+        attachment.bounds = CGRect(x: 0, y: UIFont.activeTabFont.descender + 1,
+                                   width: icon?.size.width ?? 0,
+                                   height: icon?.size.height ?? 0)
         let title = NSMutableAttributedString()
         title.append(NSAttributedString(attachment: attachment))
-        title.append(NSAttributedString(string: " "))
+        title.append(NSAttributedString(string: "  "))
         title.append(NSMutableAttributedString(string: text, attributes: attributes))
         return title
     }
     
     private func tabTitleTextAttributes()-> [String : Any] {
         let shadow = NSShadow()
-        shadow.shadowColor = UIColor.black
-        shadow.shadowBlurRadius = 10
+        shadow.shadowColor = UIColor.black.withAlphaComponent(0.5)
+        shadow.shadowBlurRadius = 2
         shadow.shadowOffset = CGSize(width: 0, height: 0)
         
         var titleAttributes = [String : Any]()

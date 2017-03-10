@@ -11,6 +11,7 @@ import UIKit
 final class PostProductTabsFooter: UIView {
     let galleryButton: UIButton? = nil
     let cameraButton = UIButton()
+    let postButton: UIButton? = nil
     
     // MARK: - Lifecycle
     
@@ -30,11 +31,7 @@ final class PostProductTabsFooter: UIView {
 
 // MARK: - PostProductFooter
 
-extension PostProductTabsFooter: PostProductFooter {
-    func updateCameraButton(isHidden: Bool) {
-        cameraButton.isHidden = isHidden
-    }
-    
+extension PostProductTabsFooter: PostProductFooter {   
     func update(scroll: CGFloat) {
         cameraButton.alpha = scroll
     }

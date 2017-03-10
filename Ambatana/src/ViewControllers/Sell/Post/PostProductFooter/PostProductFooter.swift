@@ -11,7 +11,7 @@ import UIKit
 protocol PostProductFooter {
     var galleryButton: UIButton? { get }
     var cameraButton: UIButton { get }
+    var postButton: UIButton? { get }
     var isHidden: Bool { get set }
-    func updateCameraButton(isHidden: Bool)
     func update(scroll: CGFloat)
 }
