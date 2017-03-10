@@ -51,6 +51,9 @@ final class DIProxy: InternalDI {
     var webSocketClient: WebSocketClient {
         return di.webSocketClient
     }
+    var webSocketLibrary: WebSocketLibraryProtocol {
+        return di.webSocketLibrary
+    }
     var keychain: KeychainSwift {
         return di.keychain
     }
@@ -135,7 +138,7 @@ final class DIProxy: InternalDI {
     var productsLimboDAO: ProductsLimboDAO {
         return di.productsLimboDAO
     }
-    var reachability: LGReachabilityProtocol? {
+    var reachability: ReachabilityProtocol? {
         return di.reachability
     }
     var currencyHelper: CurrencyHelper {

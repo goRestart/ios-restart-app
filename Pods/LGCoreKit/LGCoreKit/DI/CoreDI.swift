@@ -23,7 +23,9 @@ final class CoreDI: InternalDI {
         let tokenDAO = CoreDI.tokenDAO
         let apiClient = AFApiClient(alamofireManager: self.networkManager, tokenDAO: tokenDAO)
         let reachability = LGReachability()
-        let webSocketClient = LGWebSocketClient(reachability: reachability)
+        let webSocketLibrary = LGWebSocketLibrary()
+        self.webSocketLibrary = webSocketLibrary
+        let webSocketClient = LGWebSocketClient(webSocket: webSocketLibrary, reachability: reachability)
         
         let userDefaults = UserDefaults.standard
 
@@ -130,6 +132,7 @@ final class CoreDI: InternalDI {
     
     let apiClient: ApiClient
     let webSocketClient: WebSocketClient
+    let webSocketLibrary: WebSocketLibraryProtocol
     
     var keychain: KeychainSwift {
         return CoreDI.keychain
@@ -217,7 +220,7 @@ final class CoreDI: InternalDI {
     
     // MARK: > Reachability
     
-    let reachability: LGReachabilityProtocol?
+    let reachability: ReachabilityProtocol?
     
     // MARK: > Helper
     

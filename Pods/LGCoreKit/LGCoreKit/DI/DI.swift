@@ -56,11 +56,11 @@ protocol InternalDI: DI {
     var internalMyUserRepository: InternalMyUserRepository { get }
     var internalInstallationRepository: InternalInstallationRepository { get }
 
-
     // Clients
     var apiClient: ApiClient { get }
     var webSocketClient: WebSocketClient { get }
     var keychain: KeychainSwift { get }
+    var webSocketLibrary: WebSocketLibraryProtocol { get }
 
     // DAO
     static var tokenDAO: TokenDAO { get }
@@ -71,5 +71,5 @@ protocol InternalDI: DI {
     var productsLimboDAO: ProductsLimboDAO { get }
     
     // Reachability
-    var reachability: LGReachabilityProtocol? { get }
+    var reachability: ReachabilityProtocol? { get }
 }
