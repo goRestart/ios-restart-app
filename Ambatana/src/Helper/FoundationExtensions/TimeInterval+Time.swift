@@ -7,22 +7,13 @@
 //
 
 extension TimeInterval {
-    static func makeMinute() -> TimeInterval {
-        return 60
+    static func make(minutes: Int) -> TimeInterval {
+        return 60 * TimeInterval(minutes)
     }
-    static func makeMinutes(_ count: Int) -> TimeInterval {
-        return 60 * TimeInterval(count)
+    static func make(hours: Int) -> TimeInterval {
+        return 60 * 60 * TimeInterval(hours)
     }
-    static func makeHour() -> TimeInterval {
-        return 60 * 60
-    }
-    static func makeHours(_ count: Int) -> TimeInterval {
-        return 60 * 60 * TimeInterval(count)
-    }
-    static func makeDay() -> TimeInterval {
-        return 60 * 60 * 24
-    }
-    static func makeDays(_ count: Int) -> TimeInterval {
-        return 60 * 60 * 24 * TimeInterval(count)
+    static func make(days: Int) -> TimeInterval {
+        return 60 * 60 * 24 * TimeInterval(days)
     }
 }
