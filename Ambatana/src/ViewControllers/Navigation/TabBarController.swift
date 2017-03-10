@@ -60,7 +60,7 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupIncentiviseScrollBanner()
-        setupSellButtons()
+        setupSellButton()
         
         setupScrollBannerRx()
         setupCommercializerRx()
@@ -192,10 +192,7 @@ final class TabBarController: UITabBarController {
         incentiviseScrollBanner.layout().height(tabBar.frame.height*2)
     }
 
-    private func setupSellButtons() {
-        floatingSellButton.buttonTouchBlock = { [weak self] in self?.sellButtonPressed() }
-        floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(floatingSellButton)
+    private func setupSellButton() {
         
         floatingSellButton.buttonTouchBlock = { [weak self] in self?.sellButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
