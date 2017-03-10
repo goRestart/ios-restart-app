@@ -72,11 +72,7 @@ class EditLocationViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(mode: EditLocationMode) {
-        let locationManager = Core.locationManager
-        let myUserRepository = Core.myUserRepository
-        let tracker = TrackerProxy.sharedInstance
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository, mode: mode, initialPlace: nil,
-                  tracker: tracker)
+        self.init(mode: mode, initialPlace: nil)
     }
 
     convenience init(mode: EditLocationMode, initialPlace: Place?) {
@@ -110,6 +106,13 @@ class EditLocationViewModel: BaseViewModel {
     override func backButtonPressed() -> Bool {
         closeLocation()
         return true
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime {
+            trackVisitIfNeeded()
+        }
     }
     
     
@@ -334,6 +337,19 @@ class EditLocationViewModel: BaseViewModel {
         } else {
             delegate?.vmGoBack()
         }
+    }
+
+    private func trackVisitIfNeeded() {
+        let event: TrackerEvent
+        switch mode {
+        case .editUserLocation:
+            event = TrackerEvent.profileEditEditLocationStart()
+        case .selectLocation:
+            event = TrackerEvent.filterLocationStart()
+        case .editProductLocation:
+            return
+        }
+        tracker.trackEvent(event)
     }
 }
 

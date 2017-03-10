@@ -50,6 +50,10 @@ extension String {
         let charactersToRemove = CharacterSet.alphanumerics.inverted
         return components(separatedBy: charactersToRemove).joined(separator: "")
     }
+    
+    var ignoreHTMLTags: String {
+        return replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+    }
 
     func attributedHyperlinkedStringWithURLDict(_ urlDict: [String : URL], textColor: UIColor)
         -> NSMutableAttributedString {

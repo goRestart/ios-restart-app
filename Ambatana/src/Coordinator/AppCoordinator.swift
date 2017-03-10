@@ -245,6 +245,10 @@ extension AppCoordinator: AppNavigator {
     func canOpenAppInvite() -> Bool {
         return AppShareViewController.canBeShown()
     }
+    
+    func openDeepLink(deepLink: DeepLink) {
+        triggerDeepLink(deepLink, initialDeepLink: false)
+    }
 }
 
 
@@ -571,6 +575,10 @@ fileprivate extension AppCoordinator {
         let event = TrackerEvent.openAppExternal(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
         tracker.trackEvent(event)
 
+        triggerDeepLink(deepLink, initialDeepLink: initialDeepLink)
+    }
+    
+    func triggerDeepLink(_ deepLink: DeepLink, initialDeepLink: Bool) {
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
         case .home:
@@ -621,7 +629,7 @@ fileprivate extension AppCoordinator {
                 self?.openResetPassword(token)
             }
         case .commercializer:
-            break // Handled on CommercializerManager
+        break // Handled on CommercializerManager
         case .commercializerReady(let productId, let templateId):
             if initialDeepLink {
                 CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
@@ -646,13 +654,14 @@ fileprivate extension AppCoordinator {
                 })
             }
         }
-
+        
         if let afterDelayClosure = afterDelayClosure {
             delay(0.5) { _ in
                 afterDelayClosure()
             }
         }
     }
+    
 
     /**
      A deeplink has been received while the app is active. It means the user was already inside the app and the deeplink
