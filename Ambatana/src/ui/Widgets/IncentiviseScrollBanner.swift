@@ -42,14 +42,15 @@ fileprivate extension IncentiviseScrollBanner {
         containerView.addSubview(textLabel)
         
         textLabel.numberOfLines = 0
-        textLabel.textColor = UIColor.gray
+        textLabel.textColor = UIColor.grayDark
+        textLabel.font = UIFont.mediumBodyFontLight
         textLabel.textAlignment = .center
         textLabel.text = LGLocalizedString.tabBarIncentiviseScrollBanner
     }
     
     func setupLayout() {
         containerView.layout(with: self).top().left().right().bottom()
-        textLabel.layout(with: containerView).left(by: Metrics.margin).right(by: -Metrics.margin).bottom(by: Metrics.scrollBannerBottomMargin)
+        textLabel.layout(with: containerView).left(by: Metrics.margin).right(by: -Metrics.margin).bottom(by: -Metrics.margin)
     }
     
     func addGradient() {

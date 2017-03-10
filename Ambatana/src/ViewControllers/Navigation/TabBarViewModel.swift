@@ -100,7 +100,7 @@ class TabBarViewModel: BaseViewModel {
         delegate?.vmSwitchToTab(tab, force: false, completion: completion)
     }
     
-    func tabBarBecomeHidden(hidden: Bool) {
+    func tabBarChangeVisibility(hidden: Bool) {
         guard hidden else { return }
         hideScrollBanner.value = hidden
     }
