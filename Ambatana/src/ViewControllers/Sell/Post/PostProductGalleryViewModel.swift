@@ -44,6 +44,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     let maxImagesSelected: Int
     var keyValueStorage: KeyValueStorage
+    var featureFlags: FeatureFlags
 
     weak var delegate: PostProductGalleryViewModelDelegate?
     weak var galleryDelegate: PostProductGalleryViewDelegate?
@@ -89,18 +90,28 @@ class PostProductGalleryViewModel: BaseViewModel {
         return imagesSelected.value.count
     }
 
+    var multipleSelectionEnabled: Bool {
+        switch featureFlags.postingGallery {
+        case .singleSelection:
+            return false
+        case .multiSelection, .multiSelectionWhiteButton, .multiSelectionTabs, .multiSelectionPostBottom:
+            return true
+        }
+    }
+
     let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
 
     convenience override init() {
-        self.init(keyValueStorage: KeyValueStorage.sharedInstance)
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    required init(keyValueStorage: KeyValueStorage) {
+    required init(keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags) {
         self.maxImagesSelected = Constants.maxImageCount
         self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
         super.init()
         setupRX()
     }
@@ -135,7 +146,11 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     func imageSelectedAtIndex(_ index: Int) {
-        selectImageAtIndex(index, autoScroll: true)
+        if multipleSelectionEnabled {
+            selectImageAtIndex(index, autoScroll: true)
+        } else {
+            singleSelectImageAtIndex(index, autoScroll: true)
+        }
     }
 
     func imageDeselectedAtIndex(_ index: Int) {
@@ -188,7 +203,8 @@ class PostProductGalleryViewModel: BaseViewModel {
         }
         let hasImagesSelected = imagesSelected.asObservable().map { $0.count > 0 }
         Observable.combineLatest(galleryStateIsNormal, hasImagesSelected) { $0 && !$1 }.bindNext { [weak self] in
-            self?.albumIconState.value = $0 ? .down : .hidden
+            guard let strongSelf = self else { return }
+            strongSelf.albumIconState.value = !strongSelf.multipleSelectionEnabled || $0 ? .down : .hidden
         }.addDisposableTo(disposeBag)
 
         galleryState.asObservable().subscribeNext{ [weak self] state in
@@ -207,7 +223,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
             let numImgs = imgsSelected.count
             guard let strongSelf = self else { return }
-            if numImgs < 1 {
+            if !strongSelf.multipleSelectionEnabled || numImgs < 1 {
                 if let title = strongSelf.keyValueStorage[.postProductLastGalleryAlbumSelected] {
                     strongSelf.albumTitle.value = title
                     strongSelf.albumButtonEnabled.value = true
@@ -332,10 +348,14 @@ class PostProductGalleryViewModel: BaseViewModel {
         userAlbumsOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         photosAsset = PHAsset.fetchAssets(in: assetCollection, options: userAlbumsOptions)
 
-        if photosAsset?.count == 0 {
-            galleryState.value = .empty
+        if multipleSelectionEnabled {
+            if photosAsset?.count == 0 {
+                galleryState.value = .empty
+            } else {
+                galleryState.value = .normal
+            }
         } else {
-            galleryState.value = .normal
+            singleSelectImageAtIndex(0, autoScroll: true)
         }
     }
 
@@ -369,6 +389,23 @@ class PostProductGalleryViewModel: BaseViewModel {
                 }
                 strongSelf.galleryState.value = .loadImageError
             }
+        }
+        if let lastId = lastImageRequestId, imageRequestId != lastId {
+            PHImageManager.default().cancelImageRequest(lastId)
+        }
+        lastImageRequestId = imageRequestId
+    }
+
+    private func singleSelectImageAtIndex(_ index: Int, autoScroll: Bool) {
+        galleryState.value = .loading
+        lastImageSelected.value = nil
+        delegate?.vmDidSelectItemAtIndex(index, shouldScroll: autoScroll)
+
+        let imageRequestId = imageAtIndex(index, size: nil) { [weak self] image in
+            self?.imagesSelected.value = []
+            self?.imagesSelected.value.append(ImageSelected(image: image, index: index))
+            self?.lastImageSelected.value = image
+            self?.galleryState.value = image != nil ? .normal : .loadImageError
         }
         if let lastId = lastImageRequestId, imageRequestId != lastId {
             PHImageManager.default().cancelImageRequest(lastId)
