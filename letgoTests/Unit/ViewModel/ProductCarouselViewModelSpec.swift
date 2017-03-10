@@ -1251,7 +1251,6 @@ extension ProductCarouselViewModelSpec: ProductCarouselViewModelDelegate {
     }
 
     // Forward from ProductViewModelDelegate
-    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {}
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction]) {}
