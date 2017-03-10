@@ -40,8 +40,6 @@ enum DeepLinkAction {
     case message(messageType: DeepLinkMessageType, data: ConversationData)
     case search(query: String, categories: String?)
     case resetPassword(token: String)
-    case commercializer(productId: String, templateId: String)
-    case commercializerReady(productId: String, templateId: String)
     case userRatings
     case userRating(ratingId: String)
     case passiveBuyers(productId: String)

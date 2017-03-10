@@ -493,7 +493,6 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
 
     func vmOpenStickersSelector(_ stickers: [Sticker]) {}
 
-    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {}
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowOnboarding() {}

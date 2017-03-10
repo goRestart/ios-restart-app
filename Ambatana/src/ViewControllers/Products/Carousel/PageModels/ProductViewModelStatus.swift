@@ -12,9 +12,7 @@ enum ProductViewModelStatus {
 
     // When Mine:
     case pending
-    case pendingAndCommercializable
     case available
-    case availableAndCommercializable
     case availableFree
     case sold
     case soldFree
@@ -51,7 +49,7 @@ enum ProductViewModelStatus {
 
     var isEditable: Bool {
         switch self {
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .availableFree:
+        case .pending, .available, .availableFree:
             return true
         case .notAvailable, .sold, .otherSold, .otherAvailable, .otherSoldFree, .soldFree, .otherAvailableFree:
             return false
@@ -62,7 +60,7 @@ enum ProductViewModelStatus {
         switch self {
         case .availableFree, .otherAvailableFree, .otherSoldFree, .soldFree :
             return true
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .notAvailable, .sold,
+        case .pending, .available, .notAvailable, .sold,
              .otherSold, .otherAvailable:
             return false
         }
@@ -70,9 +68,9 @@ enum ProductViewModelStatus {
 
     var isAvailable: Bool {
         switch self {
-        case .availableFree, .otherAvailableFree, .available, .otherAvailable, .availableAndCommercializable:
+        case .availableFree, .otherAvailableFree, .available, .otherAvailable:
             return true
-        case .pending, .pendingAndCommercializable, .notAvailable, .sold, .otherSold,
+        case .pending, .notAvailable, .sold, .otherSold,
              .otherSoldFree, .soldFree:
             return false
         }
@@ -80,7 +78,7 @@ enum ProductViewModelStatus {
 
     var directChatsAvailable: Bool {
         switch self {
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .soldFree,
+        case .pending, .available, .soldFree,
              .otherSoldFree, .availableFree, .notAvailable, .sold, .otherSold:
             return false
         case  .otherAvailable,  .otherAvailableFree:
@@ -92,7 +90,7 @@ enum ProductViewModelStatus {
         switch self {
         case .sold, .otherSold, .soldFree, .otherSoldFree:
             return true
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable, .availableFree, .otherAvailableFree,
+        case .pending, .available, .otherAvailable, .availableFree, .otherAvailableFree,
              .notAvailable:
             return false
         }
@@ -104,7 +102,7 @@ enum ProductViewModelStatus {
             return LGLocalizedString.productListItemSoldStatusLabel
         case .soldFree, .otherSoldFree:
             return LGLocalizedString.productListItemGivenAwayStatusLabel
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable, .availableFree, .otherAvailableFree,
+        case .pending, .available, .otherAvailable, .availableFree, .otherAvailableFree,
              .notAvailable:
             return nil
         }
@@ -114,7 +112,7 @@ enum ProductViewModelStatus {
         switch self {
         case .sold, .otherSold, .soldFree, .otherSoldFree:
             return UIColor.white
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable,
+        case .pending, .available, .otherAvailable,
              .notAvailable, .availableFree, .otherAvailableFree:
             return UIColor.clear
         }
@@ -126,28 +124,17 @@ enum ProductViewModelStatus {
             return UIColor.soldColor
         case .soldFree, .otherSoldFree:
             return UIColor.soldFreeColor
-        case .pending, .pendingAndCommercializable, .available, .availableAndCommercializable, .otherAvailable,
+        case .pending, .available, .otherAvailable,
              .notAvailable, .availableFree, .otherAvailableFree:
             return UIColor.clear
         }
     }
 
-    func setCommercializable(_ active: Bool) -> ProductViewModelStatus {
-        switch self {
-        case .pending, .pendingAndCommercializable:
-            return active ? .pendingAndCommercializable : .pending
-        case .available, .availableAndCommercializable:
-            return active ? .availableAndCommercializable : .available
-        case .sold, .otherSold, .notAvailable, .otherAvailable, .otherSoldFree, .otherAvailableFree, .soldFree, .availableFree:
-            return self
-        }
-    }
-
     var isBumpeable: Bool {
         switch self {
-        case .available, .availableAndCommercializable, .availableFree, .otherAvailable, .otherAvailableFree:
+        case .available, .availableFree, .otherAvailable, .otherAvailableFree:
             return true
-        case .pending, .pendingAndCommercializable, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
+        case .pending, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
             return false
         }
     }

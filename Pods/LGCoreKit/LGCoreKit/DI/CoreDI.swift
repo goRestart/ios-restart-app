@@ -23,7 +23,9 @@ final class CoreDI: InternalDI {
         let tokenDAO = CoreDI.tokenDAO
         let apiClient = AFApiClient(alamofireManager: self.networkManager, tokenDAO: tokenDAO)
         let reachability = LGReachability()
-        let webSocketClient = LGWebSocketClient(reachability: reachability)
+        let webSocketLibrary = LGWebSocketLibrary()
+        self.webSocketLibrary = webSocketLibrary
+        let webSocketClient = LGWebSocketClient(webSocket: webSocketLibrary, reachability: reachability)
         
         let userDefaults = UserDefaults.standard
 
@@ -90,9 +92,8 @@ final class CoreDI: InternalDI {
         self.oldChatRepository = oldchatRepository
 
         let commercializerDataSource = CommercializerApiDataSource(apiClient: self.apiClient)
-        let commercializerRepository = LGCommercializerRepository(dataSource: commercializerDataSource,
-                                                                myUserRepository: myUserRepository)
-        self.internalCommercializerRepository = commercializerRepository
+        let commercializerRepository = LGCommercializerRepository(dataSource: commercializerDataSource)
+        self.commercializerRepository = commercializerRepository
 
         let notificationsDataSource = NotificationsApiDataSource(apiClient: self.apiClient)
         self.notificationsRepository = LGNotificationsRepository(dataSource: notificationsDataSource)
@@ -131,6 +132,7 @@ final class CoreDI: InternalDI {
     
     let apiClient: ApiClient
     let webSocketClient: WebSocketClient
+    let webSocketLibrary: WebSocketLibraryProtocol
     
     var keychain: KeychainSwift {
         return CoreDI.keychain
@@ -166,10 +168,7 @@ final class CoreDI: InternalDI {
     }
     let internalInstallationRepository: InternalInstallationRepository
     let oldChatRepository: OldChatRepository
-    var commercializerRepository: CommercializerRepository {
-        return internalCommercializerRepository
-    }
-    let internalCommercializerRepository: InternalCommercializerRepository
+    let commercializerRepository: CommercializerRepository
     let chatRepository: ChatRepository
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository
@@ -221,7 +220,7 @@ final class CoreDI: InternalDI {
     
     // MARK: > Reachability
     
-    let reachability: LGReachabilityProtocol?
+    let reachability: ReachabilityProtocol?
     
     // MARK: > Helper
     
