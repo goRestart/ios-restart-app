@@ -50,7 +50,7 @@ class WebSurveyViewModel: BaseViewModel {
         navigator?.closeWebSurvey()
     }
 
-    func failedLoad() {
+    func didFailNavigation() {
         navigator?.closeWebSurvey()
     }
 

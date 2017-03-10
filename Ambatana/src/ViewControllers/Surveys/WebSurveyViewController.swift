@@ -66,14 +66,14 @@ class WebSurveyViewController: BaseViewController {
 }
 
 extension WebSurveyViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .linkActivated, .other:
             if !viewModel.shouldLoad(url: navigationAction.request.url) {
                 decisionHandler(.cancel)
             }
-        default:
-            break
+        default: break
         }
         decisionHandler(.allow)
     }
@@ -82,11 +82,11 @@ extension WebSurveyViewController: WKNavigationDelegate {
         activityIndicator.startAnimating()
     }
 
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         activityIndicator.stopAnimating()
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        viewModel.failedLoad()
+        viewModel.didFailNavigation()
     }
 }
