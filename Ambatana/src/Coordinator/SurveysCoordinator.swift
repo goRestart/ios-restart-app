@@ -72,18 +72,25 @@ final class SurveysCoordinator: Coordinator {
     }
 
     func close(animated: Bool, completion: (() -> Void)?) {
-        closeSurvey(animated: animated, completion: completion)
+        closeSurvey(animated: animated, messageToShow: nil, completion: completion)
     }
 
 
     // MARK: - Private
 
-    private func closeSurvey(animated: Bool, completion: (() -> Void)?) {
+    fileprivate func closeSurvey(animated: Bool, messageToShow: String?, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
             self?.viewController.dismiss(animated: animated) { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.delegate?.coordinatorDidClose(strongSelf)
-                completion?()
+                let finalCompletion = {
+                    strongSelf.delegate?.coordinatorDidClose(strongSelf)
+                    completion?()
+                }
+                if let message = messageToShow {
+                    strongSelf.parentViewController?.vmShowAutoFadingMessage(message, completion: finalCompletion)
+                } else {
+                    finalCompletion()
+                }
             }
         }
 
@@ -100,11 +107,11 @@ final class SurveysCoordinator: Coordinator {
 
 extension SurveysCoordinator: WebSurveyNavigator {
     func closeWebSurvey() {
-        close(animated: true, completion: nil)
+        closeSurvey(animated: true, messageToShow: nil, completion: nil)
     }
 
     func webSurveyFinished() {
-        close(animated: true, completion: nil)
+        closeSurvey(animated: true, messageToShow: LGLocalizedString.surveyConfirmation, completion: nil)
     }
 }
 
@@ -113,10 +120,10 @@ extension SurveysCoordinator: WebSurveyNavigator {
 
 extension SurveysCoordinator: NpsSurveyNavigator {
     func closeNpsSurvey() {
-        close(animated: true, completion: nil)
+        closeSurvey(animated: true, messageToShow: nil, completion: nil)
     }
 
     func npsSurveyFinished() {
-        close(animated: true, completion: nil)
+        closeSurvey(animated: true, messageToShow: nil, completion: nil)
     }
 }

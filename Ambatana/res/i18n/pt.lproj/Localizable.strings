@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "To take a photo, you must allow access to Camera";
 "product_post_camera_permissions_title" = "Allow access to Camera";
 "product_post_camera_tab" = "PHOTO";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Discard";
 "product_post_close_alert_description" = "Do you still want to list it for sale?";
 "product_post_close_alert_ok_button" = "Post Product";
@@ -521,9 +522,11 @@
 "product_post_gallery_permissions_button" = "Allow";
 "product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
 "product_post_gallery_permissions_title" = "Allow access to Photos";
+"product_post_gallery_post" = "Post";
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
 "product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "GALLERY";
+"product_post_gallery_top_right_button_camera" = "Camera";
 "product_post_generic_error" = "An error occurred while posting your product.";
 "product_post_incentive_bike" = "Bikes";
 "product_post_incentive_car" = "Cars";
@@ -761,8 +764,10 @@
 "sign_up_username_field_hint" = "Full name";
 "suggestions_last_searches_clear_button" = "Clear";
 "suggestions_last_searches_title" = "Recent Searches";
+"survey_confirmation" = "Thank you! Your feedback help us improve";
 "tab_bar_give_away_button" = "Give It Away";
 "tab_bar_give_away_tooltip" = "Now you can give items away";
+"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
 "tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Sell Your Stuff";
 "toast_error_internal" = "Oops! Something went wrong.";
