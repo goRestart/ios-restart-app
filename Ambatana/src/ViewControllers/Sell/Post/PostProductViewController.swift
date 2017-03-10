@@ -364,6 +364,14 @@ extension PostProductViewController: PostProductCameraViewDelegate {
 
     func productCameraRequestHideTabs(_ hide: Bool) {
         footer.isHidden = hide
+        
+        switch postingGallery {
+        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionPostBottom:
+            break
+        case .multiSelectionTabs:
+            gradientView.isHidden = hide
+            viewPager.tabsHidden = hide
+        }
     }
 
     func productCameraRequestsScrollLock(_ lock: Bool) {

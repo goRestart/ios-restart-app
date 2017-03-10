@@ -89,10 +89,11 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
     var tabsHidden: Bool {
         set {
+            tabsScrollView.isHidden = newValue
             tabMenuItems.forEach{ item in item.isHidden = newValue }
         }
         get {
-            return tabMenuItems.reduce(false, { $0 || $1.isHidden })
+            return tabsScrollView.isHidden
         }
     }
     var tabsSeparatorColor: UIColor = UIColor.gray
