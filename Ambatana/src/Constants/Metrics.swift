@@ -15,4 +15,9 @@ struct Metrics {
     // Login
     static let loginContentTop: CGFloat     = 30
     static let loginFooterHeight: CGFloat   = 55
+    
+    // Sell
+    static let sellGalleryIconSide: CGFloat    = 70
+    static let sellCameraIconMaxSide: CGFloat  = 84
+    static let sellCameraIconMinSide: CGFloat  = 50
 }

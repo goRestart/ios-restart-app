@@ -9,9 +9,6 @@
 import UIKit
 
 final class PostProductWhiteCamButtonFooter: UIView {
-    fileprivate static let maxSideCameraIcon: CGFloat = 84
-    fileprivate static let minSideCameraIcon: CGFloat = 50
-    
     let galleryButton: UIButton? = UIButton()
     let cameraButton = UIButton()
     let postButton: UIButton? = nil
@@ -54,8 +51,8 @@ extension PostProductWhiteCamButtonFooter: PostProductFooter {
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin
         let movement = width/2 - rightOffset
         cameraButtonCenterXConstraint?.constant = movement * (1.0 - scroll)
-        cameraButtonWidthConstraint?.constant = PostProductWhiteCamButtonFooter.maxSideCameraIcon -
-            (PostProductWhiteCamButtonFooter.maxSideCameraIcon - PostProductWhiteCamButtonFooter.minSideCameraIcon) * (1.0 - scroll)
+        cameraButtonWidthConstraint?.constant = Metrics.sellCameraIconMaxSide -
+            (Metrics.sellCameraIconMaxSide - Metrics.sellCameraIconMinSide) * (1.0 - scroll)
     }
 }
 
@@ -86,14 +83,14 @@ fileprivate extension PostProductWhiteCamButtonFooter {
             .leading()
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
-        galleryButton?.layout().width(70).widthProportionalToHeight()
+        galleryButton?.layout().width(Metrics.sellGalleryIconSide).widthProportionalToHeight()
         
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
             .top(relatedBy: .greaterThanOrEqual)
             .bottom(by: -Metrics.margin)
         cameraButton.layout()
-            .width(PostProductWhiteCamButtonFooter.maxSideCameraIcon, constraintBlock: { [weak self] constraint in
+            .width(Metrics.sellCameraIconMaxSide, constraintBlock: { [weak self] constraint in
                 self?.cameraButtonWidthConstraint = constraint
             })
             .widthProportionalToHeight()

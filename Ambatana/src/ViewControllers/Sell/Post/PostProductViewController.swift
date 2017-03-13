@@ -194,7 +194,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
         galleryView.delegate = self
         galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
-
+        galleryView.collectionViewBottomInset = Metrics.margin + Metrics.sellCameraIconMaxSide
+        
         setupViewPager()
         setupDetailView()
         setupFooter()

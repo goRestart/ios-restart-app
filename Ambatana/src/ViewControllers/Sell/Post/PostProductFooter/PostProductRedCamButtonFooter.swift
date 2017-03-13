@@ -81,12 +81,12 @@ fileprivate extension PostProductRedCamButtonFooter {
             .leading()
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
-        galleryButton?.layout().width(70).widthProportionalToHeight()
+        galleryButton?.layout().width(Metrics.sellGalleryIconSide).widthProportionalToHeight()
         
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
             .top(relatedBy: .greaterThanOrEqual)
             .bottom(by: -Metrics.margin)
-        cameraButton.layout().width(84).widthProportionalToHeight()
+        cameraButton.layout().width(Metrics.sellCameraIconMaxSide).widthProportionalToHeight()
     }
 }

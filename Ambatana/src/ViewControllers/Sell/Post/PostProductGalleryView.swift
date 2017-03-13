@@ -62,22 +62,31 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     }
 
     var visible: Bool {
+        get {
+            return viewModel.visible.value
+        }
         set {
             viewModel.visible.value = newValue
         }
+    }
+    
+    var collectionViewBottomInset: CGFloat {
         get {
-            return viewModel.visible.value
+            return collectionView.contentInset.bottom
+        }
+        set {
+            collectionView.contentInset.bottom = newValue
         }
     }
     
     var usePhotoButtonText: String? {
-        set {
-            guard topRightButtonIsUsePhoto else { return }
-            topRightButton?.setTitle(newValue, for: .normal)
-        }
         get {
             guard topRightButtonIsUsePhoto else { return nil }
             return topRightButton?.title(for: .normal)
+        }
+        set {
+            guard topRightButtonIsUsePhoto else { return }
+            topRightButton?.setTitle(newValue, for: .normal)
         }
     }
     private var headerShown = true
