@@ -110,7 +110,7 @@ class LGAlertViewController: UIViewController {
         alertTitleTopSeparationConstraint.constant = alertType.titleTopSeparation
         alertContainerCenterYConstraint.constant = alertType.containerCenterYOffset
 
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeWithFadeOut))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         view.addGestureRecognizer(tapRecognizer)
 
         alertContentView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
@@ -202,7 +202,7 @@ class LGAlertViewController: UIViewController {
         }.addDisposableTo(disposeBag)
     }
 
-    dynamic private func closeWithFadeOut() {
+    dynamic private func tapOutside() {
         closeWithFadeOutWithCompletion { [weak self] in
             guard let dismissAction = self?.dismissAction else { return }
             dismissAction()
