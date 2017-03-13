@@ -45,7 +45,15 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var topRightButton: UIButton!
-    fileprivate let topRightButtonIsUsePhoto: Bool
+    fileprivate let postingGallery: PostingGallery
+    fileprivate var topRightButtonIsUsePhoto: Bool {
+        switch postingGallery {
+        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionTabs:
+            return true
+        case .multiSelectionPostBottom:
+            return false
+        }
+    }
 
     fileprivate var albumButtonTick = UIImageView()
 
@@ -102,22 +110,26 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Lifecycle
 
-    convenience init(topRightButtonIsUsePhoto: Bool) {
+    convenience init(postingGallery: PostingGallery) {
         let viewModel = PostProductGalleryViewModel()
-        self.init(viewModel: viewModel, frame: CGRect.zero, topRightButtonIsUsePhoto: topRightButtonIsUsePhoto)
+        self.init(viewModel: viewModel, frame: CGRect.zero, postingGallery: postingGallery)
     }
 
-    init(viewModel: PostProductGalleryViewModel, frame: CGRect, topRightButtonIsUsePhoto: Bool) {
+    init(viewModel: PostProductGalleryViewModel,
+         frame: CGRect,
+         postingGallery: PostingGallery) {
         self.viewModel = viewModel
-        self.topRightButtonIsUsePhoto = topRightButtonIsUsePhoto
+        self.postingGallery = postingGallery
         super.init(viewModel: viewModel, frame: frame)
         self.viewModel.delegate = self
         setupUI()
     }
 
-    init?(viewModel: PostProductGalleryViewModel, coder aDecoder: NSCoder, topRightButtonIsUsePhoto: Bool) {
+    init?(viewModel: PostProductGalleryViewModel,
+          postingGallery: PostingGallery,
+          coder aDecoder: NSCoder) {
         self.viewModel = viewModel
-        self.topRightButtonIsUsePhoto = topRightButtonIsUsePhoto
+        self.postingGallery = postingGallery
         super.init(viewModel: viewModel, coder: aDecoder)
         self.viewModel.delegate = self
         setupUI()
@@ -229,6 +241,35 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         }
         loadImageErrorTitleLabel.text = title
         loadImageErrorSubtitleLabel.text = subtitle
+    }
+    
+    fileprivate func updateTopRightButton(state: GalleryState) {
+        switch state {
+        case .empty, .pendingAskPermissions, .missingPermissions, .loading:
+            switch postingGallery {
+            case .singleSelection, .multiSelection:
+                topRightButton.isEnabled = false
+                topRightButton.isHidden = false
+            case .multiSelectionWhiteButton, .multiSelectionTabs:
+                topRightButton.isEnabled = false
+                topRightButton.isHidden = true
+            case .multiSelectionPostBottom:
+                topRightButton.isEnabled = true
+                topRightButton.isHidden = false
+            }
+        case .normal, .loadImageError:
+            switch postingGallery {
+            case .singleSelection, .multiSelection:
+                topRightButton.isEnabled = viewModel.imagesSelectedCount != 0
+                topRightButton.isHidden = false
+            case .multiSelectionWhiteButton, .multiSelectionTabs:
+                topRightButton.isEnabled = true
+                topRightButton.isHidden = viewModel.imagesSelectedCount == 0
+            case .multiSelectionPostBottom:
+                topRightButton.isEnabled = true
+                topRightButton.isHidden = false
+            }
+        }
     }
 }
 
@@ -356,19 +397,16 @@ extension PostProductGalleryView {
                 strongSelf.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
                 strongSelf.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
-                strongSelf.topRightButton.isEnabled = !strongSelf.topRightButtonIsUsePhoto
             case .pendingAskPermissions:
                 strongSelf.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
                 strongSelf.infoSubtitle.text = LGLocalizedString.productPostGalleryPermissionsSubtitle
                 strongSelf.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
-                strongSelf.topRightButton.isEnabled = !strongSelf.topRightButtonIsUsePhoto
             case .missingPermissions(let msg):
                 strongSelf.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
                 strongSelf.infoSubtitle.text = msg
                 strongSelf.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
-                strongSelf.topRightButton.isEnabled = !strongSelf.topRightButtonIsUsePhoto
             case .normal:
                 strongSelf.infoContainer.isHidden = true
                 // multi selection shows a "choose photos" text in loadImageErrorView at start instead of the 1st image
@@ -376,13 +414,12 @@ extension PostProductGalleryView {
                 strongSelf.loadImageErrorView.isHidden = strongSelf.viewModel.imagesSelectedCount != 0
             case .loadImageError:
                 strongSelf.infoContainer.isHidden = true
-                strongSelf.topRightButton.isEnabled = !strongSelf.topRightButtonIsUsePhoto || strongSelf.viewModel.imagesSelectedCount != 0
                 strongSelf.loadImageErrorView.isHidden = (strongSelf.viewModel.imagesSelectedCount != 0)
                 strongSelf.configMessageView(.wrongImage)
             case .loading:
                 strongSelf.imageLoadActivityIndicator.startAnimating()
-                strongSelf.topRightButton.isEnabled = !strongSelf.topRightButtonIsUsePhoto
             }
+            strongSelf.updateTopRightButton(state: state)
         }.addDisposableTo(disposeBag)
 
         viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bindNext { [weak self] imgsSelected in

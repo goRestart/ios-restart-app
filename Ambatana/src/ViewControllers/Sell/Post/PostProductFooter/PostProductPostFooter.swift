@@ -57,6 +57,7 @@ extension PostProductPostFooter: PostProductFooter {
         let movement = width/2 - rightOffset
         cameraButtonCenterXConstraint?.constant = movement * (1.0 - scroll)
         
+        cameraButton.alpha = scroll
         postButton?.alpha = 1 - scroll
     }
 }

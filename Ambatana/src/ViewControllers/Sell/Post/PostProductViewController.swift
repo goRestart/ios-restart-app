@@ -96,7 +96,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView(topRightButtonIsUsePhoto: topRightButtonIsUsePhoto)
+        self.galleryView = PostProductGalleryView(postingGallery: postingGallery)
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
@@ -407,15 +407,19 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
 
     func productGallerySelection(selection: ImageSelection) {
         switch (selection, postingGallery) {
-        case (.nothing, _),
+        case (.nothing, .singleSelection), (.nothing, .multiSelection),
+             (.nothing, .multiSelectionWhiteButton), (.nothing, .multiSelectionTabs),
              (.any, .singleSelection), (.any, .multiSelection),
              (.any, .multiSelectionWhiteButton), (.any, .multiSelectionTabs),
              (.all, .singleSelection), (.all, .multiSelection),
              (.all, .multiSelectionWhiteButton), (.all, .multiSelectionTabs):
             footer.cameraButton.isHidden = false
             footer.postButton?.isHidden = true
+        case (.nothing, .multiSelectionPostBottom):
+            footer.cameraButton.alpha = 0
+            footer.postButton?.isHidden = true
         case (.any, .multiSelectionPostBottom), (.all, .multiSelectionPostBottom):
-            footer.cameraButton.isHidden = true
+            footer.cameraButton.alpha = 0
             footer.postButton?.isHidden = false
         }
     }
