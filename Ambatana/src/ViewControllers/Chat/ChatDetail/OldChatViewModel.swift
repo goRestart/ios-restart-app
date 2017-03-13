@@ -39,8 +39,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
                               negativeActionStyle: UIAlertActionStyle?)
     func vmClose()
     
-    func vmLoadStickersTooltipWithText(_ text: NSAttributedString)
-
     func vmUpdateRelationInfoView(_ status: ChatInfoViewStatus)
     func vmUpdateChatInteraction(_ enabled: Bool)
     
@@ -771,23 +769,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private func loadStickersTooltip() {
         guard chatEnabled && !keyValueStorage[.stickersTooltipAlreadyShown] else { return }
 
-        var newTextAttributes = [String : Any]()
-        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
-        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let newText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipNew, attributes: newTextAttributes)
-
-        var titleTextAttributes = [String : Any]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
-
-        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.append(NSAttributedString(string: " "))
-        fullTitle.append(titleText)
-
-        delegate?.vmLoadStickersTooltipWithText(fullTitle)
+        //TODO: show stickers icon with a red dot.
     }
     
 

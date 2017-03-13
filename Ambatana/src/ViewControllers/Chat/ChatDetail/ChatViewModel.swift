@@ -27,7 +27,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowMessage(_ message: String, completion: (() -> ())?)
-    func vmLoadStickersTooltipWithText(_ text: NSAttributedString)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -541,24 +540,8 @@ class ChatViewModel: BaseViewModel {
 
     func loadStickersTooltip() {
         guard chatEnabled.value && stickersTooltipVisible.value else { return }
-
-        var newTextAttributes = [String : Any]()
-        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
-        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
-
-        var titleTextAttributes = [String : Any]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
-
-        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.append(NSAttributedString(string: " "))
-        fullTitle.append(titleText)
-
-        delegate?.vmLoadStickersTooltipWithText(fullTitle)
+        
+        // TODO: show icon with red dot on stickers.
     }
 
     func stickersShown() {

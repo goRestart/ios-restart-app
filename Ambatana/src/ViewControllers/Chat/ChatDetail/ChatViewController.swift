@@ -612,23 +612,6 @@ extension ChatViewController: ChatViewModelDelegate {
     func vmShowMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
-
-    func vmLoadStickersTooltipWithText(_ text: NSAttributedString) {
-        guard stickersTooltip == nil else { return }
-
-        stickersTooltip = Tooltip(targetView: leftButtonsContainer, superView: view, title: text, style: .black(closeEnabled: true),
-                                  peakOnTop: false, actionBlock: { [weak self] in
-                                    self?.showStickers()
-                        }, closeBlock: { [weak self] in
-                                    self?.viewModel.stickersShown()
-            })
-
-        guard let tooltip = stickersTooltip else { return }
-        view.addSubview(tooltip)
-        setupExternalConstraintsForTooltip(tooltip, targetView: leftButtonsContainer, containerView: view)
-
-        view.layoutIfNeeded()
-    }
 }
 
 
