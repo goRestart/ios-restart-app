@@ -130,8 +130,9 @@ final class TabBarController: UITabBarController {
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset
-        viewModel.tabBarChangeVisibility(hidden: hidden)
-        super.setTabBarHidden(hidden, animated: animated, completion: completion)
+        super.setTabBarHidden(hidden, animated: animated, completion: { [weak self] _ in
+            self?.viewModel.tabBarChangeVisibility(hidden: hidden)
+        })
     }
 
     /**
@@ -221,9 +222,7 @@ final class TabBarController: UITabBarController {
     
     private func setupScrollBannerRx() {
         viewModel.hideScrollBanner.asObservable().bindNext({ [weak self] hidden in
-            delay(0.3) {
-                self?.incentiviseScrollBanner.isHidden = hidden
-            }
+            self?.incentiviseScrollBanner.isHidden = hidden
         }).addDisposableTo(disposeBag)
     }
 
