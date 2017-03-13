@@ -290,6 +290,8 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
     }
     func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
     func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?, dismissAction: (() -> ())?) {}
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?, dismissAction: (() -> ())?) {}
     func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
     func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}

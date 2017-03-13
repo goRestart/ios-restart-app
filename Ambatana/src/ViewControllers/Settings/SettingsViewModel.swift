@@ -307,9 +307,8 @@ class SettingsViewModel: BaseViewModel {
             action: { [weak self] in
                 self?.setMarketingNotification(enabled: false)
         })
-        
         delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsMarketingNotificationsAlertMessage,
-                                       alertType: .plainAlert, actions: [cancelAction, deactivateAction])
+                                       alertType: .plainAlert, actions: [cancelAction, deactivateAction], dismissAction: cancelAction.action)
     }
     
     private func forceMarketingNotifications(enabled: Bool) {
