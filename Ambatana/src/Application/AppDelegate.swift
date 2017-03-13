@@ -153,7 +153,7 @@ extension AppDelegate: UIApplicationDelegate {
         appIsActive.value = true
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
-        navigator?.openNPSSurvey()
+        navigator?.openSurveyIfNeeded()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -296,7 +296,6 @@ fileprivate extension AppDelegate {
         // Google app indexing
         FIRAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
 
-        CommercializerManager.sharedInstance.setup()
         LGNotificationsManager.sharedInstance.setup()
         StickersManager.sharedInstance.setup()
     }

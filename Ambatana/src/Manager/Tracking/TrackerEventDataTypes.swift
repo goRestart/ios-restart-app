@@ -137,6 +137,8 @@ enum EventName: String {
 
     case npsStart                           = "nps-start"
     case npsComplete                        = "nps-complete"
+    case surveyStart                        = "survey-start"
+    case surveyCompleted                    = "survey-completed"
 
     case verifyAccountStart                 = "verify-account-start"
     case verifyAccountComplete              = "verify-account-complete"
@@ -278,6 +280,7 @@ enum EventParameterName: String {
     case listSuccess          = "list-success"
     case userFromId           = "user-from-id"
     case notAvailableReason   = "not-available-reason"
+    case surveyUrl            = "survey-url"
 }
 
 enum EventParameterBoolean: String {

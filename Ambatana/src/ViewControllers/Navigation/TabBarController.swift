@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import LGCoreKit
+
 
 protocol ScrollableToTop {
     func scrollToTop()
@@ -61,9 +61,7 @@ final class TabBarController: UITabBarController {
         setupAdminAccess()
         setupIncentiviseScrollBanner()
         setupSellButton()
-        
         setupScrollBannerRx()
-        setupCommercializerRx()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -294,38 +292,6 @@ extension TabBarController: TabBarViewModelDelegate {
             setupExternalConstraintsForTooltip(toolTipShowed, targetView: floatingSellButton, containerView: view)
         }
         view.layoutIfNeeded()
-    }
-}
-
-
-// MARK: - Commercializer (ALL THIS SHOULD BE HANDLED IN A COORDINATOR)
-
-extension TabBarController {
-
-    fileprivate func setupCommercializerRx() {
-        CommercializerManager.sharedInstance.commercializers.asObservable().subscribeNext { [weak self] data in
-            self?.openCommercializer(data)
-        }.addDisposableTo(disposeBag)
-    }
-
-    fileprivate func openCommercializer(_ data: CommercializerData) {
-        let vc: UIViewController
-        if data.shouldShowPreview {
-            let viewModel = CommercialPreviewViewModel(productId: data.productId, commercializer: data.commercializer)
-            vc = CommercialPreviewViewController(viewModel: viewModel)
-        } else {
-            guard let viewModel = CommercialDisplayViewModel(commercializers: [data.commercializer],
-                                                             productId: data.productId,
-                                                             source: .external,
-                                                             isMyVideo: data.isMyVideo) else { return }
-            vc = CommercialDisplayViewController(viewModel: viewModel)
-        }
-
-        if let presentedVC = presentedViewController {
-            presentedVC.dismiss(animated: false, completion: nil)
-        }
-
-        present(vc, animated: true, completion: nil)
     }
 }
 

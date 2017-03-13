@@ -526,6 +526,7 @@
 "product_post_gallery_select_pictures_subtitle" = "5 görsele kadar seçip yükle";
 "product_post_gallery_select_pictures_title" = "Fotoğrafları seç";
 "product_post_gallery_tab" = "KÜTÜPHANE";
+"product_post_gallery_top_right_button_camera" = "Kamera";
 "product_post_generic_error" = "Ürünün yüklenirken bir hata oluştu.";
 "product_post_incentive_bike" = "Bisikletler";
 "product_post_incentive_car" = "Arabalar";
@@ -763,9 +764,10 @@
 "sign_up_username_field_hint" = "İsim";
 "suggestions_last_searches_clear_button" = "Temizle";
 "suggestions_last_searches_title" = "Son aramalar";
+"survey_confirmation" = "Görüşlerini bizimle paylaşarak gelişmemize katkıda bulunduğun için teşekkürler.";
 "tab_bar_give_away_button" = "Ücretsiz Ver";
 "tab_bar_give_away_tooltip" = "Şimdi eşyalarını ücretsiz olarak verebilirsin";
-"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
+"tab_bar_incentivise_scroll_banner" = "Daha fazlasını görmek için ekranı kaydır";
 "tab_bar_sell_stuff_button" = "Eşyanı Sat";
 "tab_bar_tool_tip" = "Eşyalarını Sat";
 "toast_error_internal" = "Oops! Bir şeyler ters gitti.";

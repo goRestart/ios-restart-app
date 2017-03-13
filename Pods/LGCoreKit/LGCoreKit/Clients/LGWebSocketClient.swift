@@ -7,7 +7,6 @@
 //
 
 import Result
-import SocketRocket
 import RxSwift
 
 enum WSAuthenticationStatus: Equatable {
@@ -65,7 +64,9 @@ func ==(a: WebSocketStatus, b: WebSocketStatus) -> Bool {
  - Asks for websocket authentication if needed.
  - Closes on background after a timeout.
  - Opens with delay to prevent back-end saturation (after second try). */
-class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
+class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
+    
+    var webSocket: WebSocketLibraryProtocol
     
     var websocketPingTimeInterval: TimeInterval = LGCoreKitConstants.websocketPingTimeInterval
     var websocketBackgroundDisconnectTimeout: TimeInterval = LGCoreKitConstants.websocketBackgroundDisconnectTimeout
@@ -74,8 +75,6 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     var openWebsocketMaximumTimeInterval: TimeInterval = LGCoreKitConstants.openWebsocketMaximumTimeInterval
     var openWebsocketTimeIntervalMultiplier: Double = LGCoreKitConstants.openWebsocketTimeIntervalMultiplier
     var openWebsocketMaximumRetryAttempts: Int = LGCoreKitConstants.openWebsocketMaximumRetryAttempts
-    
-    var ws: SRWebSocket?
     
     private var openWebSocketRetryAttempts: Int = 0
     private var openWebSocketDelay: TimeInterval = 0
@@ -91,7 +90,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     /** Sent requests to WS are stored here (auth requests are excluded) */
     private var activeRequests: [String: WebSocketRequestConvertible] = [:]
     
-    private let reachability: LGReachabilityProtocol
+    private let reachability: ReachabilityProtocol
     
     weak var sessionManager: InternalSessionManager?
     
@@ -103,7 +102,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     
     private let enqueueOperationLock = NSLock()
     
-    var endpointURL: URL?
+    private var endpointURL: URL?
     private var endpoint: String {
         return endpointURL?.absoluteString ?? ""
     }
@@ -114,9 +113,9 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     
     // MARK: - LifeCycle
     
-    required init(reachability: LGReachabilityProtocol) {
+    required init(webSocket: WebSocketLibraryProtocol, reachability: ReachabilityProtocol) {
+        self.webSocket = webSocket
         self.reachability = reachability
-        super.init()
         operationQueue.maxConcurrentOperationCount = 1
         operationQueue.isSuspended = true
         self.reachability.reachableBlock = { [weak self] in
@@ -134,8 +133,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     
     deinit {
         stop()
-        ws?.delegate = nil
-        ws = nil
+        webSocket.delegate = nil
     }
     
     func applicationDidEnterBackground() {
@@ -242,13 +240,19 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     // MARK: - WebSocket
     
     func start(withEndpoint endpoint: String) {
+        guard let endpointURL = URL(string: endpoint) else {
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "WebSocket could not be enabled: invalid endpoint \(endpoint)")
+            return
+        }
+        self.endpointURL = endpointURL
+        webSocket.delegate = self
+        reachability.start()
+        isEnabled = true
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "WebSocket enabled with endPoint: \(endpoint)")
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Operation Queue] isSuspended: \(operationQueue.isSuspended)")
-        endpointURL = URL(string: endpoint)
-        reachability.start()
-        isEnabled = true
     }
     
     func stop() {
@@ -263,7 +267,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         // in case websocket was already closed
         suspendOperations() // need to suspend before disabling websocket
         cancelOperations()
-        cancelAllPendingCompletionsAndActiveRequests(withError: .suspended(withCode: SRStatusCodeNormal.rawValue))
+        cancelAllPendingCompletionsAndActiveRequests(withError: .suspended(withCode: WebSocketStatusCode.normal.rawValue))
         
         isEnabled = false
     }
@@ -286,13 +290,14 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     }
     
     private func openWebSocket() {
+        guard let endpointURL = endpointURL else {
+            logMessage(LogLevel.debug, type: .webSockets,
+                       message: "[Open] Could not open: invalid endpoint \(endpoint)")
+            return
+        }
         setSocketStatus(.opening)
         increaseOpenWebSocketDelayAndRetryAttempts()
-        ws?.delegate = nil
-        ws?.close()
-        ws = SRWebSocket(url: endpointURL)
-        ws?.delegate = self
-        ws?.open()
+        webSocket.open(withEndpointURL: endpointURL)
     }
     
     private func tryToOpenWebSocket() {
@@ -358,7 +363,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
             logMessage(LogLevel.debug, type: .webSockets,
                        message: "[Close] Closing...")
             setSocketStatus(.closing)
-            ws?.close(withCode: SRStatusCodeNormal.rawValue, reason: "Manual close")
+            webSocket.close(withCode: WebSocketStatusCode.normal.rawValue, reason: "Manual close")
         }
     }
     
@@ -380,10 +385,10 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         cancelAllPendingCompletionsAndActiveRequests(withError: .suspended(withCode: code))
         
         switch code {
-        case SRStatusCodeNormal.rawValue, SRStatusCodeGoingAway.rawValue:
+        case WebSocketStatusCode.normal.rawValue, WebSocketStatusCode.goingAway.rawValue:
             // closed by us manually ->  WS remains closed
             cancelOperations()
-        case SRStatusCodeAbnormal.rawValue: // internet goes off, websocket is down
+        case WebSocketStatusCode.abnormal.rawValue: // internet goes off, websocket is down
             // closed by WS library -> open WS if there are pending operations
             openWebSocketIfPendingOperations()
         default:
@@ -413,7 +418,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         operationQueue.addOperation(operationBlock)
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Operation Queue] Added: \(requestType), " +
-            "count: \(operationQueue.operationCount) operations")
+                            "count: \(operationQueue.operationCount) operations")
         openWebSocketIfClosed()
         resumeOperationsIfNeeded()
     }
@@ -468,7 +473,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         pendingCommandCompletions[key] = completion
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Pending Command Completion] Added: \(request.type), " +
-            "id: \(key), count: \(pendingCommandCompletions.count)")
+                            "id: \(key), count: \(pendingCommandCompletions.count)")
     }
     
     private func removePendingCommandCompletion(forKey key: String) {
@@ -499,7 +504,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         guard pendingCommandCompletions.count > 0 else { return }
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Pending Command Completion] Cancelling \(pendingCommandCompletions.count) " +
-            "commands, with error: \(error)")
+                            "commands, with error: \(error)")
         pendingCommandCompletions.keys.forEach { (key) in
             cancelPendingCommandCompletion(forKey: key, error: error)
         }
@@ -512,7 +517,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         pendingQueryCompletions[key] = completion
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Pending Query Completion] Added: \(request.type), " +
-            "id: \(key), count: \(pendingQueryCompletions.count)")
+                            "id: \(key), count: \(pendingQueryCompletions.count)")
     }
     
     private func removePendingQueryCompletion(forKey key: String) {
@@ -543,7 +548,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         guard pendingQueryCompletions.count > 0 else { return }
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Pending Query Completion] Cancelling \(pendingQueryCompletions.count) queries, " +
-            "with error: \(error)")
+                            "with error: \(error)")
         pendingQueryCompletions.keys.forEach { (key) in
             cancelPendingQueryCompletion(forKey: key, error: error)
         }
@@ -556,7 +561,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         pendingAuthCompletions[key] = completion
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Pending Auth Completion] Added: \(request.type), " +
-            "id: \(key), count: \(pendingAuthCompletions.count)")
+                            "id: \(key), count: \(pendingAuthCompletions.count)")
     }
     
     private func removePendingAuthCompletion(forKey key: String) {
@@ -593,7 +598,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         guard pendingAuthCompletions.count > 0 else { return }
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Pending Auth Completion] Cancelling \(pendingAuthCompletions.count) auths, " +
-            "with error: \(error)")
+                            "with error: \(error)")
         pendingAuthCompletions.keys.forEach { (key) in
             cancelPendingAuthCompletionRequest(forKey: key, error: error)
         }
@@ -707,7 +712,7 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     func send(_ request: WebSocketRequestConvertible) {
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Send] Message: \(request.message)")
-        ws?.send(request.message)
+        webSocket.send(data: request.message)
     }
     
     // MARK: - Session manager
@@ -814,22 +819,22 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
     }
     
     
-    // MARK: - SRWebSocketDelegate
+    // MARK: - WebSocketLibraryDelegate
     
-    @objc func webSocketDidOpen(_ webSocket: SRWebSocket!) {
+    func webSocketDidOpen() {
         logMessage(.debug, type: .webSockets, message: "[WS] didOpen")
         schedulePingTimer()
         authenticateWebSocket()
         resetOpenSocketDelayAndAttempts()
     }
     
-    @objc func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
+    func webSocketDidClose(withCode code: Int, reason: String, wasClean: Bool) {
         logMessage(.debug, type: .webSockets,
                    message: "[WS] didCloseWithCode: \(code), reason:\(reason), wasClean:\(wasClean))")
         webSocketDidClose(withCode: code)
     }
     
-    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
+    func webSocketDidReceive(message: Any) {
         guard let text = message as? String,
             let dict = stringToJSON(text),
             let typeString = dict["type"] as? String,
@@ -855,8 +860,8 @@ class LGWebSocketClient: NSObject, WebSocketClient, SRWebSocketDelegate {
         }
     }
     
-    func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
+    func webSocketDidFail(withError error: Error) {
         logMessage(LogLevel.debug, type: .webSockets, message: "[WS] didFailWithError: \(error)")
-        webSocketDidClose(withCode: SRStatusCodeAbnormal.rawValue)
+        webSocketDidClose(withCode: WebSocketStatusCode.abnormal.rawValue)
     }
 }

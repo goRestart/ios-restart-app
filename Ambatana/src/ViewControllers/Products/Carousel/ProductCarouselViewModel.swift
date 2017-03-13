@@ -14,7 +14,6 @@ protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmShowOnboarding()
 
     // Forward from ProductViewModelDelegate
-    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
@@ -451,10 +450,6 @@ extension ProductCarouselViewModel {
 extension ProductCarouselViewModel: ProductViewModelDelegate {
 
     // ProductViewModelDelegate forwarding methods
-
-    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {
-        delegate?.vmOpenPromoteProduct(promoteVM)
-    }
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
         delegate?.vmOpenCommercialDisplay(displayVM)
     }

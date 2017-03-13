@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Pour prendre une photo, vous devez autoriser l'accès à l'App. Photo";
 "product_post_camera_permissions_title" = "Autoriser l'accès à l'App. Photo";
 "product_post_camera_tab" = "PHOTO";
-"product_post_camera_tab_v2" = "Appareil Photo";
+"product_post_camera_tab_v2" = "APPAREIL PHOTO";
 "product_post_close_alert_close_button" = "Annuler";
 "product_post_close_alert_description" = "Souhaitez-vous toujours le laisser en vente ?";
 "product_post_close_alert_ok_button" = "Postez le Bien";
@@ -526,6 +526,7 @@
 "product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à uploader";
 "product_post_gallery_select_pictures_title" = "Choisir une photo";
 "product_post_gallery_tab" = "BIBLIOTHÈQUE";
+"product_post_gallery_top_right_button_camera" = "Appareil Photo";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre bien.";
 "product_post_incentive_bike" = "Vélos";
 "product_post_incentive_car" = "Voitures";
@@ -763,9 +764,10 @@
 "sign_up_username_field_hint" = "Nom complet";
 "suggestions_last_searches_clear_button" = "Effacer";
 "suggestions_last_searches_title" = "Recherches Récentes";
+"survey_confirmation" = "Merci ! Votre retour nous aide à nous améliorer.";
 "tab_bar_give_away_button" = "Donner";
 "tab_bar_give_away_tooltip" = "Maintenant, vous pouvez donner vos biens";
-"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
+"tab_bar_incentivise_scroll_banner" = "Faites défiler pour en voir plus";
 "tab_bar_sell_stuff_button" = "Vendre";
 "tab_bar_tool_tip" = "Vendez Vos Biens";
 "toast_error_internal" = "Oops ! Quelque chose s'est produit.";

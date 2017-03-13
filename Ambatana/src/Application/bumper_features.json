@@ -16,6 +16,11 @@
 		"description": "Show nps survey"
 	},
     {
+        "name": "SurveyEnabled",
+        "values": ["No", "Yes"],
+        "description": "Show qualitative survey"
+	},
+    {
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"

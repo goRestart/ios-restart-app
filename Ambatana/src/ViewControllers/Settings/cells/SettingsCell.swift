@@ -73,8 +73,6 @@ fileprivate extension LetGoSetting {
             return LGLocalizedString.settingsChangeEmailButton
         case .changeLocation:
             return LGLocalizedString.settingsChangeLocationButton
-        case .createCommercializer:
-            return LGLocalizedString.commercializerCreateFromSettings
         case .changePassword:
             return LGLocalizedString.settingsChangePasswordButton
         case .marketingNotifications:
@@ -98,8 +96,6 @@ fileprivate extension LetGoSetting {
             return UIImage(named: "ic_setting_email")
         case .changeLocation:
             return UIImage(named: "ic_setting_location")
-        case .createCommercializer:
-            return UIImage(named: "ic_setting_create_commercial")
         case .changePassword:
             return UIImage(named: "ic_setting_password")
         case .marketingNotifications:
@@ -135,8 +131,6 @@ fileprivate extension LetGoSetting {
         switch (self) {
         case .logOut:
             return UIColor.lightGray
-        case .createCommercializer:
-            return UIColor.primaryColor
         default:
             return UIColor.darkGray
         }

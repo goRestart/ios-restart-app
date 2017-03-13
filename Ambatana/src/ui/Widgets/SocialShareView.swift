@@ -110,7 +110,7 @@ class SocialShareView: UIView {
         case .line:
             setupButtonsInLine(buttons, container: containerView)
         case .grid:
-            buttons.count <= gridColumns + 1 ? setupButtonsInLine(buttons, container: containerView) :
+            buttons.count <= gridColumns ? setupButtonsInLine(buttons, container: containerView) :
             setupButtonsInGrid(buttons, container: containerView)
         }
     }

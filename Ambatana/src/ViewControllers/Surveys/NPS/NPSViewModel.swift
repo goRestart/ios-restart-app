@@ -9,6 +9,9 @@
 import Foundation
 
 class NPSViewModel: BaseViewModel {
+
+    weak var navigator: NpsSurveyNavigator?
+
     private let tracker: Tracker
     
     convenience override init() {
@@ -24,9 +27,14 @@ class NPSViewModel: BaseViewModel {
         let event = TrackerEvent.npsStart()
         tracker.trackEvent(event)
     }
-    
-    func vmDidFinishSurvey(_ score: Int) {
+
+    func scoreSelected(_ score: Int) {
         let event = TrackerEvent.npsComplete(score)
         tracker.trackEvent(event)
+        navigator?.npsSurveyFinished()
+    }
+
+    func closeButtonPressed() {
+        navigator?.closeNpsSurvey()
     }
 }

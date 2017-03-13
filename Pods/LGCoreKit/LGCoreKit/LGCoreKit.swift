@@ -32,7 +32,6 @@ public class LGCoreKit {
     }
 
     public static func start() {
-        InternalCore.internalCommercializerRepository.indexTemplates(nil)
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
@@ -43,8 +42,6 @@ public class LGCoreKit {
     }
     
     public static func applicationWillEnterForeground() {
-        // Ask for the commercializer templates
-        InternalCore.internalCommercializerRepository.indexTemplates(nil)
         // Refresh my user
         InternalCore.myUserRepository.refresh(nil)
         InternalCore.webSocketClient.applicationWillEnterForeground()

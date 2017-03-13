@@ -1695,6 +1695,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("nps_survey_very_good", comment: "")
 	}
 
+	static var surveyConfirmation: String {
+		return NSLocalizedString("survey_confirmation", comment: "")
+	}
+
 	static var onboardingDirectCameraAlertTitle: String {
 		return NSLocalizedString("onboarding_direct_camera_alert_title", comment: "")
 	}
@@ -2201,6 +2205,10 @@ struct LGLocalizedString {
 
 	static var productPostGallerySelectPicturesSubtitle: String {
 		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
+	}
+
+	static var productPostGalleryTopRightButtonCamera: String {
+		return NSLocalizedString("product_post_gallery_top_right_button_camera", comment: "")
 	}
 
 	static var productPostGalleryTab: String {

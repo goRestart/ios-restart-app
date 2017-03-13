@@ -1257,6 +1257,9 @@
 // NPS Survey best option possible
 "nps_survey_very_good" = "Extremely likely";
 
+// Survey confirmation message
+"survey_confirmation" = "Thank you! Your feedback help us improve";
+
 // Onboarding direct camera title
 "onboarding_direct_camera_alert_title" = "Start Making Cash!";
 
@@ -1637,6 +1640,9 @@
 
 // Subtitle message to ask user to select a picture or more
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+
+// Button in top right corner to switch to camera
+"product_post_gallery_top_right_button_camera" = "Camera";
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";

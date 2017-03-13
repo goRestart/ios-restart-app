@@ -148,7 +148,6 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     let productRepository: ProductRepository
     let categoryRepository: CategoryRepository
     let locationManager: LocationManager
-    let commercializerRepository: CommercializerRepository
     let tracker: Tracker
     let featureFlags: FeatureFlaggeable
 
@@ -167,23 +166,27 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let productRepository = Core.productRepository
         let categoryRepository = Core.categoryRepository
         let locationManager = Core.locationManager
-        let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  categoryRepository: categoryRepository, locationManager: locationManager,
-                  commercializerRepository: commercializerRepository, tracker: tracker, product: product,
+        self.init(myUserRepository: myUserRepository,
+                  productRepository: productRepository,
+                  categoryRepository: categoryRepository,
+                  locationManager: locationManager,
+                  tracker: tracker, product: product,
                   featureFlags: featureFlags)
     }
     
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, categoryRepository: CategoryRepository,
-         locationManager: LocationManager, commercializerRepository: CommercializerRepository, tracker: Tracker,
-         product: Product, featureFlags: FeatureFlaggeable) {
+    init(myUserRepository: MyUserRepository,
+         productRepository: ProductRepository,
+         categoryRepository: CategoryRepository,
+         locationManager: LocationManager,
+         tracker: Tracker,
+         product: Product,
+         featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.categoryRepository = categoryRepository
         self.locationManager = locationManager
-        self.commercializerRepository = commercializerRepository
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.initialProduct = product
