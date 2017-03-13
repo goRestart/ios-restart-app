@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Um ein Foto machen zu können, musst du den Zugriff auf deine Kamera erlauben";
 "product_post_camera_permissions_title" = "Zugriff auf Kamera zulassen";
 "product_post_camera_tab" = "FOTO";
-"product_post_camera_tab_v2" = "Kamera";
+"product_post_camera_tab_v2" = "KAMERA";
 "product_post_close_alert_close_button" = "Verwerfen";
 "product_post_close_alert_description" = "Möchtest du es weiterhin zum Verkauf anbieten?";
 "product_post_close_alert_ok_button" = "Produkt einstellen";
@@ -764,10 +764,10 @@
 "sign_up_username_field_hint" = "Vollständiger Name";
 "suggestions_last_searches_clear_button" = "Löschen";
 "suggestions_last_searches_title" = "Zuletzt gesucht";
-"survey_confirmation" = "Thank you! Your feedback help us improve";
+"survey_confirmation" = "Vielen Dank! Dein Feedback hilft uns, letgo zu verbessern";
 "tab_bar_give_away_button" = "Verschenken";
 "tab_bar_give_away_tooltip" = "Ab jetzt kannst du Sachen verschenken!";
-"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
+"tab_bar_incentivise_scroll_banner" = "Scrolle, um mehr zu sehen";
 "tab_bar_sell_stuff_button" = "Sachen verkaufen";
 "tab_bar_tool_tip" = "Verkaufe deine Dinge";
 "toast_error_internal" = "Hoppla! Irgendwas lief schief.";

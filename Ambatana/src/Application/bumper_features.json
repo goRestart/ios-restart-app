@@ -1,3 +1,4 @@
+
 [
 	{
 		"name": "WebsocketChat",
@@ -88,5 +89,10 @@
         "name": "PeriscopeRemovePredefinedText",
         "values": ["no", "yes"],
         "description": "Product detail remove chat text on tap"
+    },
+    {
+        "name": "HideTabBarOnFirstSession",
+        "values": ["no", "yes"],
+        "description": "hide tab bar with incentivise scroll banner"
     }
 ]

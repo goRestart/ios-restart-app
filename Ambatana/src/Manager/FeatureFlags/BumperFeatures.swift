@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, SurveyEnabled.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, SurveyEnabled.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self, HideTabBarOnFirstSession.self])
     } 
 
     static var websocketChat: Bool {
@@ -103,6 +103,11 @@ extension Bumper  {
     static var periscopeRemovePredefinedText: Bool {
         guard let value = Bumper.value(for: PeriscopeRemovePredefinedText.key) else { return false }
         return PeriscopeRemovePredefinedText(rawValue: value)?.asBool ?? false
+    }
+
+    static var hideTabBarOnFirstSession: Bool {
+        guard let value = Bumper.value(for: HideTabBarOnFirstSession.key) else { return false }
+        return HideTabBarOnFirstSession(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -296,6 +301,15 @@ enum PeriscopeRemovePredefinedText: String, BumperFeature  {
     static var enumValues: [PeriscopeRemovePredefinedText] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Product detail remove chat text on tap" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum HideTabBarOnFirstSession: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return HideTabBarOnFirstSession.no.rawValue }
+    static var enumValues: [HideTabBarOnFirstSession] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "hide tab bar with incentivise scroll banner" } 
     var asBool: Bool { return self == .yes }
 }
 

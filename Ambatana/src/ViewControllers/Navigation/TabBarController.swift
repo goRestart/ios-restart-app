@@ -28,6 +28,7 @@ final class TabBarController: UITabBarController {
     fileprivate let viewModel: TabBarViewModel
     fileprivate var tooltip: Tooltip?
     fileprivate var featureFlags: FeatureFlaggeable
+    fileprivate var incentiviseScrollBanner: IncentiviseScrollBanner
     
     // Rx
     fileprivate let disposeBag = DisposeBag()
@@ -41,6 +42,7 @@ final class TabBarController: UITabBarController {
     }
     
     init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
+        self.incentiviseScrollBanner = IncentiviseScrollBanner()
         self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
         self.viewModel = viewModel
         self.featureFlags = featureFlags
@@ -57,7 +59,9 @@ final class TabBarController: UITabBarController {
         self.viewModel.delegate = self
 
         setupAdminAccess()
-        setupSellButtons()
+        setupIncentiviseScrollBanner()
+        setupSellButton()
+        setupScrollBannerRx()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -126,7 +130,9 @@ final class TabBarController: UITabBarController {
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset
-        super.setTabBarHidden(hidden, animated: animated, completion: completion)
+        super.setTabBarHidden(hidden, animated: animated, completion: { [weak self] _ in
+            self?.viewModel.tabBarChangeVisibility(hidden: hidden)
+        })
     }
 
     /**
@@ -175,24 +181,24 @@ final class TabBarController: UITabBarController {
         }
         setupBadgesRx()
     }
+    
+    private func setupIncentiviseScrollBanner() {
+        guard viewModel.shouldSetupScrollBanner else { return }
+        incentiviseScrollBanner.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(incentiviseScrollBanner)
+        view.bringSubview(toFront: incentiviseScrollBanner)
+        incentiviseScrollBanner.layout(with: tabBar).bottom().left().right()
+        incentiviseScrollBanner.layout().height(tabBar.frame.height*2)
+    }
 
-    private func setupSellButtons() {
+    private func setupSellButton() {
+        
         floatingSellButton.buttonTouchBlock = { [weak self] in self?.sellButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
-
-        let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .centerX,
-                                    relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
-        floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .bottom,
-                                                relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1,
-                                                constant: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance))
-        view.addConstraints([sellCenterXConstraint, floatingSellButtonMarginConstraint])
-
-        let views: [String: Any] = ["fsb" : floatingSellButton]
-        let metrics: [String: Any] = ["margin" : LGUIKitConstants.tabBarSellFloatingButtonDistance]
-        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=margin)-[fsb]-(>=margin)-|",
-                                                                          options: [], metrics: metrics, views: views)
-        view.addConstraints(hConstraints)
+        floatingSellButton.layout(with: view).centerX()
+        floatingSellButton.layout(with: view).bottom(by: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance), constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
+        floatingSellButton.layout(with: view).leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual).trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .lessThanOrEqual)
     }
 
     private func setupBadgesRx() {
@@ -209,6 +215,12 @@ final class TabBarController: UITabBarController {
         if let notificationsTab = vcs[Tab.notifications.index].tabBarItem {
             viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx.badgeValue).addDisposableTo(disposeBag)
         }
+    }
+    
+    private func setupScrollBannerRx() {
+        viewModel.hideScrollBanner.asObservable().bindNext({ [weak self] hidden in
+            self?.incentiviseScrollBanner.isHidden = hidden
+        }).addDisposableTo(disposeBag)
     }
 
     
