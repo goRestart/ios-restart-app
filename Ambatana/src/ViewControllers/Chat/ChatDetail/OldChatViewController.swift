@@ -551,23 +551,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
         navigationController?.popBackViewController()
     }
 
-    func vmLoadStickersTooltipWithText(_ text: NSAttributedString) {
-        guard stickersTooltip == nil else { return }
-
-        stickersTooltip = Tooltip(targetView: leftButtonsContainer, superView: view, title: text, style: .black(closeEnabled: true),
-                                  peakOnTop: false, actionBlock: { [weak self] in
-                                    self?.showStickers()
-                            }, closeBlock: { [weak self] in
-                                    self?.viewModel.stickersShown()
-        })
-
-        guard let tooltip = stickersTooltip else { return }
-        view.addSubview(tooltip)
-        setupExternalConstraintsForTooltip(tooltip, targetView: leftButtonsContainer, containerView: view)
-
-        view.layoutIfNeeded()
-    }
-
     func vmUpdateUserIsReadyToReview() {
         showReviewButton()
     }
@@ -762,7 +745,7 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
     func reloadLeftActions() {
         var actions = [UIAction]()
 
-        let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
+        let image = showingStickers ? #imageLiteral(resourceName: "ic_keyboard"): viewModel.shouldShowStickerBadge ? #imageLiteral(resourceName: "icStickersWithBadge") : #imageLiteral(resourceName: "ic_stickers")
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()

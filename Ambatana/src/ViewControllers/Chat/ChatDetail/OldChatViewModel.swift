@@ -207,10 +207,10 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     var shouldShowUserReviewTooltip: Bool {
-        // we don't want both tooltips at the same time.  !st stickers, then rating
-        return !keyValueStorage[.userRatingTooltipAlreadyShown] &&
-            keyValueStorage[.stickersTooltipAlreadyShown]
+        return !keyValueStorage[.userRatingTooltipAlreadyShown]
     }
+    
+    var shouldShowStickerBadge: Bool
 
     // MARK: Paginable
     
@@ -393,6 +393,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         if let myUser = myUserRepository.myUser {
             self.isDeleted = chat.isArchived(myUser: myUser)
         }
+        self.shouldShowStickerBadge = !keyValueStorage[.stickersTooltipAlreadyShown]
         super.init()
         initUsers()
         loadStickers()
@@ -566,6 +567,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
     func stickersShown() {
         keyValueStorage[.stickersTooltipAlreadyShown] = true
+        shouldShowStickerBadge = false
         delegate?.vmDidUpdateProduct(messageToShow: nil)
     }
 
@@ -768,8 +770,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
     private func loadStickersTooltip() {
         guard chatEnabled && !keyValueStorage[.stickersTooltipAlreadyShown] else { return }
-
-        //TODO: show stickers icon with a red dot.
+        shouldShowStickerBadge = true
     }
     
 

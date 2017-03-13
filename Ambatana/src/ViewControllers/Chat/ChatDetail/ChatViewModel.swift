@@ -80,12 +80,13 @@ class ChatViewModel: BaseViewModel {
     let messages = CollectionVariable<ChatViewMessage>([])
     let shouldShowReviewButton = Variable<Bool>(false)
     let userReviewTooltipVisible = Variable<Bool>(false)
-
     var relatedProducts: [Product] = []
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
+    
+    let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
 
     
     // fileprivate
@@ -116,7 +117,6 @@ class ChatViewModel: BaseViewModel {
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
     fileprivate let isEmptyConversation = Variable<Bool>(true)
-    private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
     private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
 
@@ -265,7 +265,6 @@ class ChatViewModel: BaseViewModel {
         // only load messages if the interlocutor is not blocked
         // Note: In some corner cases (staging only atm) the interlocutor may come as nil
         if let interlocutor = conversation.value.interlocutor, interlocutor.isBanned { return }
-        loadStickersTooltip()
         refreshMessages()
     }
 
@@ -372,7 +371,7 @@ class ChatViewModel: BaseViewModel {
             self?.updateMessagesCounts(change)
         }.addDisposableTo(disposeBag)
 
-        Observable.combineLatest(stickersTooltipVisible.asObservable(), reviewTooltipVisible.asObservable()) { $0 }
+        Observable.combineLatest(showStickerBadge.asObservable(), reviewTooltipVisible.asObservable()) { $0 }
             .subscribeNext { [weak self] (stickersTooltipVisible, reviewTooltipVisible) in
             self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
         }.addDisposableTo(disposeBag)
@@ -538,15 +537,9 @@ class ChatViewModel: BaseViewModel {
         return messageAtIndex(index)?.value
     }
 
-    func loadStickersTooltip() {
-        guard chatEnabled.value && stickersTooltipVisible.value else { return }
-        
-        // TODO: show icon with red dot on stickers.
-    }
-
     func stickersShown() {
         keyValueStorage[.stickersTooltipAlreadyShown] = true
-        stickersTooltipVisible.value = false
+        showStickerBadge.value = false
     }
 
     func bannerActionButtonTapped() {
