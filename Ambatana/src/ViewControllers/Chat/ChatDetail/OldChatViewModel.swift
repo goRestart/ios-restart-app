@@ -393,7 +393,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         if let myUser = myUserRepository.myUser {
             self.isDeleted = chat.isArchived(myUser: myUser)
         }
-        self.shouldShowStickerBadge = !keyValueStorage[.stickersTooltipAlreadyShown]
+        self.shouldShowStickerBadge = !keyValueStorage[.stickersBadgeAlreadyShown]
         super.init()
         initUsers()
         loadStickers()
@@ -414,7 +414,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
         if firstTime {
             retrieveInterlocutorInfo()
-            loadStickersTooltip()
+            setStickerBadge()
         }
     }
 
@@ -566,7 +566,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func stickersShown() {
-        keyValueStorage[.stickersTooltipAlreadyShown] = true
+        keyValueStorage[.stickersBadgeAlreadyShown] = true
         shouldShowStickerBadge = false
         delegate?.vmDidUpdateProduct(messageToShow: nil)
     }
@@ -768,8 +768,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         delegate?.vmUpdateUserIsReadyToReview()
     }
 
-    private func loadStickersTooltip() {
-        guard chatEnabled && !keyValueStorage[.stickersTooltipAlreadyShown] else { return }
+    private func setStickerBadge() {
+        guard chatEnabled && !keyValueStorage[.stickersBadgeAlreadyShown] else { return }
         shouldShowStickerBadge = true
     }
     

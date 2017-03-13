@@ -30,7 +30,6 @@ class ChatViewController: TextViewController {
     let disposeBag = DisposeBag()
     let expressChatBanner: ChatBanner
     var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    var stickersTooltip: Tooltip?
     var featureFlags: FeatureFlaggeable
 
     var blockedToastOffset: CGFloat {
@@ -89,7 +88,6 @@ class ChatViewController: TextViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        removeStickersTooltip()
         removeIgnoreTouchesForTooltip()
     }
 
@@ -248,12 +246,6 @@ class ChatViewController: TextViewController {
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
     }
 
-    fileprivate func removeStickersTooltip() {
-        if let tooltip = stickersTooltip, view.subviews.contains(tooltip) {
-            tooltip.removeFromSuperview()
-        }
-    }
-
     fileprivate func configureBottomMargin(animated: Bool) {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
@@ -347,7 +339,6 @@ extension ChatViewController: UIGestureRecognizerDelegate {
     func showStickers() {
         guard !showingStickers else { return }
         viewModel.stickersShown()
-        removeStickersTooltip()
         showKeyboard(true, animated: false)
         stickersWindow?.isHidden = false
         stickersView.isHidden = false

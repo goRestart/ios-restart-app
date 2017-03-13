@@ -31,8 +31,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
-    var stickersTooltip: Tooltip?
-
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -93,7 +91,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        removeStickersTooltip()
         removeIgnoreTouchesForTooltip()
     }
 
@@ -334,9 +331,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     fileprivate func updateChatInteraction(_ enabled: Bool) {
         setTextViewBarHidden(!enabled, animated: true)
         textView.isUserInteractionEnabled = enabled
-        if !enabled {
-            removeStickersTooltip()
-        }
     }
     
     func showKeyboard(_ show: Bool, animated: Bool) {
@@ -346,12 +340,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
             presentKeyboard(animated)
         } else {
             dismissKeyboard(animated)
-        }
-    }
-
-    fileprivate func removeStickersTooltip() {
-        if let tooltip = stickersTooltip, view.subviews.contains(tooltip) {
-            tooltip.removeFromSuperview()
         }
     }
 
@@ -727,7 +715,6 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
 
     func showStickers() {
         viewModel.stickersShown()
-        removeStickersTooltip()
         showKeyboard(true, animated: false)
         stickersWindow?.isHidden = false
         stickersView.isHidden = false

@@ -86,7 +86,7 @@ class ChatViewModel: BaseViewModel {
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
-    let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
 
     
     // fileprivate
@@ -370,10 +370,9 @@ class ChatViewModel: BaseViewModel {
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
         }.addDisposableTo(disposeBag)
-
-        Observable.combineLatest(showStickerBadge.asObservable(), reviewTooltipVisible.asObservable()) { $0 }
-            .subscribeNext { [weak self] (stickersTooltipVisible, reviewTooltipVisible) in
-            self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
+        
+        reviewTooltipVisible.asObservable().bindNext { [weak self] reviewTooltipVisible in
+            self?.userReviewTooltipVisible.value = reviewTooltipVisible
         }.addDisposableTo(disposeBag)
         
         conversation.asObservable().map{ $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
@@ -538,7 +537,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func stickersShown() {
-        keyValueStorage[.stickersTooltipAlreadyShown] = true
+        keyValueStorage[.stickersBadgeAlreadyShown] = true
         showStickerBadge.value = false
     }
 
