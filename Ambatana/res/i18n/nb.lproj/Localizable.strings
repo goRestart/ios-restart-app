@@ -501,6 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Du må tillate tilgang til kamera for å kunne ta et bilde";
 "product_post_camera_permissions_title" = "Tillat tilgang til kamera";
 "product_post_camera_tab" = "BILDE";
+"product_post_camera_tab_v2" = "KAMERA";
 "product_post_close_alert_close_button" = "Forkaste";
 "product_post_close_alert_description" = "Ønsker du fortsatt å selge produktet?";
 "product_post_close_alert_ok_button" = "Publiser produktet";
@@ -521,9 +522,11 @@
 "product_post_gallery_permissions_button" = "Tillat";
 "product_post_gallery_permissions_subtitle" = "Du må tillate tilgang til bilder for å kunne velge et eksisterende bilde";
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";
+"product_post_gallery_post" = "Publiser";
 "product_post_gallery_select_pictures_subtitle" = "Velg opp til fem bilder å laste opp";
 "product_post_gallery_select_pictures_title" = "Velg bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";
+"product_post_gallery_top_right_button_camera" = "Kamera";
 "product_post_generic_error" = "En feil oppstod ved publisering av ditt produkt.";
 "product_post_incentive_bike" = "Sykler";
 "product_post_incentive_car" = "Biler";
@@ -761,8 +764,10 @@
 "sign_up_username_field_hint" = "Fullt navn";
 "suggestions_last_searches_clear_button" = "Tøm";
 "suggestions_last_searches_title" = "Siste søkeord";
+"survey_confirmation" = "Tusen takk! Din tilbakemelding hjelper oss med å forbedre oss";
 "tab_bar_give_away_button" = "Gi bort";
 "tab_bar_give_away_tooltip" = "Nå kan du gi bort produkter";
+"tab_bar_incentivise_scroll_banner" = "Scroll for å se mer";
 "tab_bar_sell_stuff_button" = "Selg ting";
 "tab_bar_tool_tip" = "Selg tingene dine";
 "toast_error_internal" = "Oops! En feil oppstod.";
