@@ -19,7 +19,8 @@ protocol AppNavigator: class {
     func openSell(_ source: PostingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
-    func openNPSSurvey()
+    func openSurveyIfNeeded()
     func openAppInvite()
     func canOpenAppInvite() -> Bool
+    func openDeepLink(deepLink: DeepLink)
 }

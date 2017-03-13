@@ -13,6 +13,12 @@ import LGCoreKit
 import Quick
 import Nimble
 
+enum BumpUpStatus {
+    case notAvailable
+    case paymentFailed
+    case bumpFailed
+    case bumpSucceeded
+}
 
 class ProductViewModelSpec: BaseViewModelSpec {
 
@@ -21,6 +27,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
     var shownAlertText: String?
     var shownFavoriteBubble: Bool?
     var calledLogin: Bool?
+    var bumpUpStatus: BumpUpStatus?
 
     override func spec() {
         var sut: ProductViewModel!
@@ -65,7 +72,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                         tracker: tracker)
                 sut.delegate = self
                 sut.navigator = self
-
                 disposeBag = DisposeBag()
                 sut.actionButtons.asObservable().bindTo(bottomButtonsObserver).addDisposableTo(disposeBag)
                 sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
@@ -87,6 +93,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 monetizationRepository = MockMonetizationRepository()
                 tracker = MockTracker()
 
+                purchasesShopper.delegate = self
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
@@ -468,6 +475,57 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
+            describe("priced bump up product") {
+                describe ("ABTest enabled") {
+                    context ("appstore payment fails") {
+                        beforeEach {
+                            self.bumpUpStatus = .notAvailable
+                            purchasesShopper.paymentSucceeds = false
+                            product = MockProduct.makeMock()
+                            product.objectId = "product_id"
+                            buildProductViewModel()
+                            sut.bumpUpPurchaseableProduct = MockPurchaseableProduct.makeMock()
+                            sut.paymentItemId = String.makeRandom()
+                            sut.bumpUpProduct(productId: product.objectId!)
+                        }
+                        it ("bumpUpStatus is payment failed") {
+                            expect(self.bumpUpStatus) == .paymentFailed
+                        }
+                    }
+                    context ("appstore payment succeeds but bump fails") {
+                        beforeEach {
+                            self.bumpUpStatus = .notAvailable
+                            purchasesShopper.paymentSucceeds = true
+                            purchasesShopper.pricedBumpSucceeds = false
+                            product = MockProduct.makeMock()
+                            product.objectId = "product_id"
+                            buildProductViewModel()
+                            sut.bumpUpPurchaseableProduct = MockPurchaseableProduct.makeMock()
+                            sut.paymentItemId = String.makeRandom()
+                            sut.bumpUpProduct(productId: product.objectId!)
+                        }
+                        it ("bumpUpStatus is bump failed") {
+                            expect(self.bumpUpStatus) == .bumpFailed
+                        }
+                    }
+                    context ("appstore payment and bump succeed") {
+                        beforeEach {
+                            self.bumpUpStatus = .notAvailable
+                            purchasesShopper.paymentSucceeds = true
+                            purchasesShopper.pricedBumpSucceeds = true
+                            product = MockProduct.makeMock()
+                            product.objectId = "product_id"
+                            buildProductViewModel()
+                            sut.bumpUpPurchaseableProduct = MockPurchaseableProduct.makeMock()
+                            sut.paymentItemId = String.makeRandom()
+                            sut.bumpUpProduct(productId: product.objectId!)
+                        }
+                        it ("bumpUpStatus is bump suceeded") {
+                            expect(self.bumpUpStatus) == .bumpSucceeded
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -493,7 +551,6 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
 
     func vmOpenStickersSelector(_ stickers: [Sticker]) {}
 
-    func vmOpenPromoteProduct(_ promoteVM: PromoteProductViewModel) {}
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowOnboarding() {}
@@ -545,3 +602,34 @@ extension ProductViewModelSpec: ProductDetailNavigator {
 }
 
 
+extension ProductViewModelSpec: PurchasesShopperDelegate {
+    func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct]) {
+    }
+
+    // Free Bump Up
+    func freeBumpDidStart() {
+    }
+
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
+    }
+
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
+    }
+
+    // Priced Bump Up
+    func pricedBumpDidStart() {
+
+    }
+
+    func pricedBumpDidSucceed() {
+        bumpUpStatus = .bumpSucceeded
+    }
+
+    func pricedBumpDidFail() {
+        bumpUpStatus = .bumpFailed
+    }
+
+    func pricedBumpPaymentDidFail() {
+        bumpUpStatus = .paymentFailed
+    }
+}

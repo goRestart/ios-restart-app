@@ -43,11 +43,13 @@ enum WebSocketError: Error {
     }
 }
 
+// MARK: > WebsocketClient
+
 protocol WebSocketClient {
     var eventBus: PublishSubject<ChatEvent> { get }
     var socketStatus: Variable<WebSocketStatus> { get }
     
-    init(reachability: LGReachabilityProtocol)
+    init(webSocket: WebSocketLibraryProtocol, reachability: ReachabilityProtocol)
     
     func start(withEndpoint endpoint: String)
     func stop()

@@ -35,8 +35,6 @@ struct UniversalLink {
      {country}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
      {country}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
      {country}.letgo.com/<language_code>/account-chat-list -> chats tab
-     {country}.letgo.com/<language_code>/v/<product_id>/<template_id> -> commercializer video link
-     {country}.letgo.com/<language_code>/vm/<product_id>/<template_id> -> commercializer ready
 
      Or same as uri schemes but startig with {whatever}.letgo.com, such as:
      {country}.letgo.com/products/{product_id} is the same as letgo://products/{product_id}
@@ -74,16 +72,6 @@ struct UniversalLink {
             case "reset-password-renew":
                 guard let token = queryParams["token"] else { return nil }
                 return UniversalLink(deepLink: DeepLink.link(.resetPassword(token: token), campaign: campaign, medium: medium, source: source))
-            case "v":
-                guard components.count > 3 else { return nil }
-                let productId = components[2]
-                let templateId = components[3]
-                return UniversalLink(deepLink: DeepLink.link(.commercializer(productId: productId, templateId: templateId), campaign: campaign, medium: medium, source: source))
-            case "vm":
-                guard components.count > 3 else { return nil }
-                let productId = components[2]
-                let templateId = components[3]
-                return UniversalLink(deepLink: DeepLink.link(.commercializerReady(productId: productId, templateId: templateId), campaign: campaign, medium: medium, source: source))
             default: break
             }
         }

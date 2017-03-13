@@ -10,6 +10,8 @@
 
 class MockPurchasesShopper: PurchasesShopper {
     weak var delegate: PurchasesShopperDelegate?
+    var paymentSucceeds: Bool = false
+    var pricedBumpSucceeds: Bool = false
 
     func startObservingTransactions() {
 
@@ -24,7 +26,17 @@ class MockPurchasesShopper: PurchasesShopper {
     }
 
     func requestPaymentForProduct(productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
-
+        delegate?.pricedBumpDidStart()
+        if !paymentSucceeds {
+            // payment fails
+            delegate?.pricedBumpPaymentDidFail()
+        } else if pricedBumpSucceeds {
+            // payment works and bump works
+            delegate?.pricedBumpDidSucceed()
+        } else {
+            // payment works but bump fails
+            delegate?.pricedBumpDidFail()
+        }
     }
 
     func isBumpUpPending(productId: String) -> Bool {

@@ -73,11 +73,6 @@ extension ProfileTabCoordinator: SettingsNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openCreateCommercials() {
-        let vc = CreateCommercialViewController(viewModel: CreateCommercialViewModel())
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func openChangePassword() {
         let vm = ChangePasswordViewModel()
         vm.navigator = self

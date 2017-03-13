@@ -17,7 +17,6 @@ enum PurchasesShopperState {
 
 protocol PurchasesShopperDelegate: class {
     func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct])
-    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error)
 
     func freeBumpDidStart()
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork)
@@ -228,7 +227,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         }
 
         // try to restore the product pending bumps
-
         delegate?.freeBumpDidStart()
 
         for transaction in pendingTransactionsForProductId {
@@ -319,7 +317,7 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
     }
 
     func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
-        delegate?.shopperFailedProductsRequestForProductId(currentRequestProductId, withError: error)
+        // noo need to update any UI, we just don't show the banner
         self.currentRequestProductId = nil
     }
 }

@@ -14,6 +14,7 @@ public enum NotificationType {
     case buyersInterested(product: NotificationProduct, buyers: [NotificationUser])
     case productSuggested(product: NotificationProduct, seller: NotificationUser)
     case facebookFriendshipCreated(user: NotificationUser, facebookUsername: String)
+    case modular(modules: NotificationModular)
 }
 
 public protocol NotificationModel: BaseModel {

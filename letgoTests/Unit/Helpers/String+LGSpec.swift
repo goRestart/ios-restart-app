@@ -260,6 +260,20 @@ class StringLGSpec: QuickSpec {
                     expect("perhaps iet g0 is worth to publish".containsLetgo()) == true
                 }
             }
+            context("removeHTMLTags") {
+                it("does nothing if doesn't find any html tag") {
+                    expect("a vocal is a letter".ignoreHTMLTags) == "a vocal is a letter"
+                }
+                it("removes tags and returns content") {
+                    expect("a vocal <b>is</b> a letter".ignoreHTMLTags) == "a vocal is a letter"
+                }
+                it("removes simple tag and returns content") {
+                    expect("a vocal <b>is a letter".ignoreHTMLTags) == "a vocal is a letter"
+                }
+                it("removes tags from begin and end of the string and returns content") {
+                    expect("<b>a vocal is a letter</html>".ignoreHTMLTags) == "a vocal is a letter"
+                }
+            }
         }
     }
 }
