@@ -1695,6 +1695,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("nps_survey_very_good", comment: "")
 	}
 
+	static var surveyConfirmation: String {
+		return NSLocalizedString("survey_confirmation", comment: "")
+	}
+
 	static var onboardingDirectCameraAlertTitle: String {
 		return NSLocalizedString("onboarding_direct_camera_alert_title", comment: "")
 	}

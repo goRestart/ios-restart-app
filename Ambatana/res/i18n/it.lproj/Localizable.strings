@@ -526,7 +526,7 @@
 "product_post_gallery_select_pictures_subtitle" = "Seleziona fino a 5 immagini da caricare";
 "product_post_gallery_select_pictures_title" = "Scegli foto";
 "product_post_gallery_tab" = "LIBRERIA";
-"product_post_gallery_top_right_button_camera" = "Camera";
+"product_post_gallery_top_right_button_camera" = "Fotocamera";
 "product_post_generic_error" = "Si è verificato un errore durante la pubblicazione del tuo prodotto.";
 "product_post_incentive_bike" = "Biciclette";
 "product_post_incentive_car" = "Auto";
@@ -764,6 +764,7 @@
 "sign_up_username_field_hint" = "Nome e Cognome";
 "suggestions_last_searches_clear_button" = "Cancella";
 "suggestions_last_searches_title" = "Ricerche recenti";
+"survey_confirmation" = "Grazie! Il tuo feedback ci permette di migliorare";
 "tab_bar_give_away_button" = "Regala";
 "tab_bar_give_away_tooltip" = "Da oggi puoi regalare gli oggetti";
 "tab_bar_incentivise_scroll_banner" = "Scorri per vedere altro";

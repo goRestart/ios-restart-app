@@ -526,7 +526,7 @@
 "product_post_gallery_select_pictures_subtitle" = "Επιλέξτε έως 5 φωτογραφίες για μεταφόρτωση";
 "product_post_gallery_select_pictures_title" = "Επιλέξτε φωτογραφίες";
 "product_post_gallery_tab" = "ΓΚΑΛΕΡΙ";
-"product_post_gallery_top_right_button_camera" = "Camera";
+"product_post_gallery_top_right_button_camera" = "Κάμερα";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση του προϊόντος σας.";
 "product_post_incentive_bike" = "Ποδήλατα";
 "product_post_incentive_car" = "Αυτοκίνητα";
@@ -764,6 +764,7 @@
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";
 "suggestions_last_searches_clear_button" = "Εκκαθάριση";
 "suggestions_last_searches_title" = "Πρόσφατες Αναζητήσεις";
+"survey_confirmation" = "Ευχαριστούμε πολύ! Τα σχόλιά σας μας βοηθούν να βελτιωνόμαστε";
 "tab_bar_give_away_button" = "Χάρισέ Το";
 "tab_bar_give_away_tooltip" = "Τώρα μπορείτε να χαρίσετε αντικείμενα";
 "tab_bar_incentivise_scroll_banner" = "Σύρετε για να δείτε περισσότερα";

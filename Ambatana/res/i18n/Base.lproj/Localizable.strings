@@ -1257,6 +1257,9 @@
 // NPS Survey best option possible
 "nps_survey_very_good" = "Extremely likely";
 
+// Survey confirmation message
+"survey_confirmation" = "Thank you! Your feedback helps us improve";
+
 // Onboarding direct camera title
 "onboarding_direct_camera_alert_title" = "Start Making Cash!";
 

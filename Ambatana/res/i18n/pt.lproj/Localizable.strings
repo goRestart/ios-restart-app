@@ -156,8 +156,6 @@
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
-"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
-"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
 "chat_user_info_name" = "Hi, I'm %@";
 "chat_user_info_verified_with" = "Verified with: ";
@@ -764,6 +762,7 @@
 "sign_up_username_field_hint" = "Full name";
 "suggestions_last_searches_clear_button" = "Clear";
 "suggestions_last_searches_title" = "Recent Searches";
+"survey_confirmation" = "Thank you! Your feedback helps us improve";
 "tab_bar_give_away_button" = "Give It Away";
 "tab_bar_give_away_tooltip" = "Now you can give items away";
 "tab_bar_incentivise_scroll_banner" = "Scroll to see more";

@@ -522,11 +522,11 @@
 "product_post_gallery_permissions_button" = "허가";
 "product_post_gallery_permissions_subtitle" = "가지고 계신 사진을 선택하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_gallery_permissions_title" = "사진 사용 허가";
-"product_post_gallery_post" = "게시하기";
+"product_post_gallery_post" = "게시";
 "product_post_gallery_select_pictures_subtitle" = "업로드를 위해 최대 5장의 사진을 선택해주세요";
 "product_post_gallery_select_pictures_title" = "사진 선택";
 "product_post_gallery_tab" = "사진첩";
-"product_post_gallery_top_right_button_camera" = "Camera";
+"product_post_gallery_top_right_button_camera" = "카메라";
 "product_post_generic_error" = "회원님의 상품을 게시하는데 오류가 발생했습니다.";
 "product_post_incentive_bike" = "자전거";
 "product_post_incentive_car" = "자동차";
@@ -764,9 +764,10 @@
 "sign_up_username_field_hint" = "이름";
 "suggestions_last_searches_clear_button" = "삭제";
 "suggestions_last_searches_title" = "최근 검색";
+"survey_confirmation" = "감사합니다! 남겨주신 피드백은 저희에게 많은 도움이 될 것입니다";
 "tab_bar_give_away_button" = "증정하기";
 "tab_bar_give_away_tooltip" = "이제 상품들을 증정하실 수 있습니다";
-"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
+"tab_bar_incentivise_scroll_banner" = "더 많은 것을 확인하기 위해 스크롤을 움직이세요";
 "tab_bar_sell_stuff_button" = "물건 판매하기";
 "tab_bar_tool_tip" = "고객님의 물건을 판매하세요";
 "toast_error_internal" = "이런! 무언가가 잘못되었네요.";

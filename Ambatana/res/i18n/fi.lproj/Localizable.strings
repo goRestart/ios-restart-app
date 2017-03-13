@@ -501,7 +501,7 @@
 "product_post_camera_permissions_subtitle" = "Ottaaksesi kuvan, sinun on annettava lupa käyttää kameraa";
 "product_post_camera_permissions_title" = "Salli kameran käyttö";
 "product_post_camera_tab" = "KUVA";
-"product_post_camera_tab_v2" = "Kamera";
+"product_post_camera_tab_v2" = "KAMERA";
 "product_post_close_alert_close_button" = "Hylkää";
 "product_post_close_alert_description" = "Haluatko silti laittaa tuotteen myyntiin?";
 "product_post_close_alert_ok_button" = "Julkaise tuote";
@@ -522,11 +522,11 @@
 "product_post_gallery_permissions_button" = "Salli";
 "product_post_gallery_permissions_subtitle" = "Valitaksesi olemassa olevan kuvan, sinun on annettava lupa käyttää Kuvia";
 "product_post_gallery_permissions_title" = "Anna lupa Kuvien käyttöön";
-"product_post_gallery_post" = "Käytä";
+"product_post_gallery_post" = "Julkaise";
 "product_post_gallery_select_pictures_subtitle" = "Valitse enintään 5 kuvaa ladattavaksi";
 "product_post_gallery_select_pictures_title" = "Valitse kuvat";
 "product_post_gallery_tab" = "KIRJASTO";
-"product_post_gallery_top_right_button_camera" = "Camera";
+"product_post_gallery_top_right_button_camera" = "Kamera";
 "product_post_generic_error" = "Tuotettasi julkaistessa tapahtui virhe.";
 "product_post_incentive_bike" = "Pyöriä";
 "product_post_incentive_car" = "Autoja";
@@ -764,9 +764,10 @@
 "sign_up_username_field_hint" = "Koko nimi";
 "suggestions_last_searches_clear_button" = "Tyhjennä";
 "suggestions_last_searches_title" = "Viimeisimmät haut";
+"survey_confirmation" = "Kiitos! Palautteesi auttaa meitä suoriutumaan paremmin";
 "tab_bar_give_away_button" = "Anna pois";
 "tab_bar_give_away_tooltip" = "Voit nyt antaa tavaroita pois";
-"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
+"tab_bar_incentivise_scroll_banner" = "Vieritä nähdäksesi lisää";
 "tab_bar_sell_stuff_button" = "Myy tavaroita";
 "tab_bar_tool_tip" = "Myy tavaroitasi";
 "toast_error_internal" = "Hups! Jokin meni vikaan.";

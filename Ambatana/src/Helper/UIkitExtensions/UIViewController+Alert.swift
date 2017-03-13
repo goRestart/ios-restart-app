@@ -124,9 +124,9 @@ extension UIViewController {
     }
 
     func showAlertWithTitle(_ title: String?, text: String, alertType: AlertType,
-                            buttonsLayout: AlertButtonsLayout = .horizontal, actions: [UIAction]?) {
+                            buttonsLayout: AlertButtonsLayout = .horizontal, actions: [UIAction]?, dismissAction: (() -> ())? = nil) {
         guard let alert = LGAlertViewController(title: title, text: text, alertType: alertType,
-                                                buttonsLayout: buttonsLayout, actions: actions) else { return }
+                                                buttonsLayout: buttonsLayout, actions: actions, dismissAction: dismissAction) else { return }
         let presenter: UIViewController = tabBarController ?? navigationController ?? self
         presenter.present(alert, animated: true, completion: nil)
     }
