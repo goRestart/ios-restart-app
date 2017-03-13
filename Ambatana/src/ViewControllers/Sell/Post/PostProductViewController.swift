@@ -28,7 +28,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate var footerView: UIView
     fileprivate let gradientView = UIView()
     fileprivate let gradientLayer = CAGradientLayer.gradientWithColor(UIColor.black,
-                                                                      alphas: [0, 0.4],
+                                                                      alphas: [0, 0.6],
                                                                       locations: [0, 1])
     fileprivate let keyboardHelper: KeyboardHelper
     fileprivate let postingGallery: PostingGallery
