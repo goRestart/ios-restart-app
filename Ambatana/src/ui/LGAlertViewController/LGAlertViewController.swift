@@ -204,8 +204,7 @@ class LGAlertViewController: UIViewController {
 
     dynamic private func tapOutside() {
         closeWithFadeOutWithCompletion { [weak self] in
-            guard let dismissAction = self?.dismissAction else { return }
-            dismissAction()
+            self?.dismissAction?()
         }
     }
 
