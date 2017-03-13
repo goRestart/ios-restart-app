@@ -30,11 +30,12 @@ class TabBarViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private var didAppearFirstTime: Bool
     private var featureFlags: FeatureFlaggeable
+    private let abTestSyncTimeout: TimeInterval
 
     private let disposeBag = DisposeBag()
     
     var shouldSetupScrollBanner: Bool {
-        return featureFlags.hideTabBarOnFirstSession && keyValueStorage[.sessionNumber] == 1
+        return keyValueStorage[.sessionNumber] == 1
     }
 
     
@@ -43,18 +44,20 @@ class TabBarViewModel: BaseViewModel {
     convenience override init() {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   notificationsManager: LGNotificationsManager.sharedInstance,
-                  myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance)
+                  myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance, syncTimeout: Constants.abTestSyncTimeout)
     }
 
     init(keyValueStorage: KeyValueStorage, notificationsManager: NotificationsManager, myUserRepository: MyUserRepository,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable, syncTimeout: TimeInterval) {
         self.keyValueStorage = keyValueStorage
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.featureFlags = featureFlags
+        self.abTestSyncTimeout = syncTimeout
         self.didAppearFirstTime = false
         super.init()
         setupRx()
+        syncFeatureFlagsRXIfNeeded()
     }
 
     func didAppear() {
@@ -123,5 +126,17 @@ class TabBarViewModel: BaseViewModel {
                 guard myUser != nil else { return String(1) }
                 return count.flatMap { $0 > 0 ? String($0) : nil }
             }).bindTo(notificationsBadge).addDisposableTo(disposeBag)
+    }
+    
+    private func syncFeatureFlagsRXIfNeeded() {
+        guard shouldSetupScrollBanner else { return }
+        featureFlags.syncedData.filter{ $0 }.take(1).timeout(abTestSyncTimeout, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self ] _ in self?.setScrollBannerVisibility(timeout: false) },
+                       onError: { [weak self] _ in self?.setScrollBannerVisibility(timeout: true) })
+            .addDisposableTo(disposeBag)
+    }
+
+    private func setScrollBannerVisibility(timeout: Bool) {
+        hideScrollBanner.value = timeout ? true : !featureFlags.hideTabBarOnFirstSession
     }
 }
