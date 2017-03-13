@@ -13,6 +13,7 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
 
     func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?) {
+        imageView.af_imageDownloader = self
         let requestURL = URLRequest(url: url)
         let cached = imageIsCachedFor(urlRequest: requestURL)
         imageView.af_setImage(withURL: url, placeholderImage: placeholderImage) { response in
@@ -54,7 +55,7 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
     func cancelImageDownloading(_ receipt: RequestReceipt) {
         cancelRequest(with: receipt)
     }
-    
+
     private func imageIsCachedFor(urlRequest: URLRequest) -> Bool {
         let cached = imageCache?.image(for: urlRequest, withIdentifier: nil) != nil
         return cached

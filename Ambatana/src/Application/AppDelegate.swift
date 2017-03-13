@@ -232,6 +232,7 @@ fileprivate extension AppDelegate {
     func setupLibraries(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
 
         KeychainChecker().checkKeychain()
+        LGCacheManager().cleanIfNeeded()
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 

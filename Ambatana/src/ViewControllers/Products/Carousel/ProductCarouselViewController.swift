@@ -105,8 +105,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
-    fileprivate let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
-
+    fileprivate let carouselImageDownloader: ImageDownloaderType
     fileprivate let imageDownloader: ImageDownloaderType
 
     // MARK: - Lifecycle
@@ -114,12 +113,14 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     convenience init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.init(viewModel:viewModel,
                   pushAnimator: pushAnimator,
-                  imageDownloader: ImageDownloader.sharedInstance)
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  carouselImageDownloader: ImageDownloader.makeImageDownloader(usingImagePool: true))
     }
     
     init(viewModel: ProductCarouselViewModel,
          pushAnimator: ProductCarouselPushAnimator?,
-         imageDownloader: ImageDownloaderType) {
+         imageDownloader: ImageDownloaderType,
+         carouselImageDownloader: ImageDownloaderType) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.withProductInfo)
         let blurEffect = UIBlurEffect(style: .dark)
@@ -128,6 +129,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.imageDownloader = imageDownloader
+        self.carouselImageDownloader = carouselImageDownloader
         self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
                                                              collapsed: viewModel.quickAnswersCollapsed.value)
         self.moreInfoView = ProductCarouselMoreInfoView.moreInfoView()

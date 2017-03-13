@@ -11,7 +11,7 @@ import Result
 
 final class ImageDownloader: ImageDownloaderType {
 
-    static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.buildImageDownloader(), useImagePool: false)
+    static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.makeImageDownloader(), useImagePool: false)
     private let imageDownloader: ImageDownloaderType
 
     private var currentImagesPool: [RequestReceipt] = []
@@ -53,12 +53,25 @@ final class ImageDownloader: ImageDownloaderType {
         }
     }
 
-    private static func buildImageDownloader() -> ImageDownloaderType {
-        return AlamofireImage.ImageDownloader.default
+    private static func makeImageDownloader() -> ImageDownloaderType {
+        return AlamofireImage.ImageDownloader(configuration: ImageDownloader.makeSessionConfiguration())
     }
 
-    static func externalBuildImageDownloader(_ useImagePool: Bool) -> ImageDownloader {
-        return ImageDownloader(imageDownloader: AlamofireImage.ImageDownloader(), useImagePool: useImagePool)
+    static func makeImageDownloader(usingImagePool: Bool) -> ImageDownloaderType {
+        return ImageDownloader(imageDownloader: ImageDownloader.makeImageDownloader(), useImagePool: usingImagePool)
+    }
+
+
+    private static func makeSessionConfiguration() -> URLSessionConfiguration {
+        let configuration = AlamofireImage.ImageDownloader.defaultURLSessionConfiguration()
+
+        configuration.urlCache = LGUrlCache(
+            memoryCapacity: 20 * 1024 * 1024, // 20 MB
+            diskCapacity: 150 * 1024 * 1024,  // 150 MB
+            diskPath: "imageCache"
+        )
+
+        return configuration
     }
 }
 
@@ -66,5 +79,16 @@ extension UIImageView {
     func lg_setImageWithURL(_ url: URL, placeholderImage: UIImage? = nil, completion: ImageDownloadCompletion? = nil) {
         ImageDownloader.sharedInstance.setImageView(self, url: url, placeholderImage: placeholderImage,
                                                     completion: completion)
+    }
+}
+
+
+class LGUrlCache: URLCache {
+    override func cachedResponse(for request: URLRequest) -> CachedURLResponse? {
+        return super.cachedResponse(for: request)
+    }
+
+    override func storeCachedResponse(_ cachedResponse: CachedURLResponse, for request: URLRequest) {
+        super.storeCachedResponse(cachedResponse, for: request)
     }
 }
