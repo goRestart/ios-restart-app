@@ -443,6 +443,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
             break
         case .multiSelectionTabs:
             gradientView.translatesAutoresizingMaskIntoConstraints = false
+            gradientView.isUserInteractionEnabled = false
             gradientView.layer.insertSublayer(gradientLayer, at: 0)
             // This is a bit hackish... if this variant is the winner add it as option @ LGViewPager
             viewPager.insertSubview(gradientView, belowSubview: viewPager.tabsScrollView)
