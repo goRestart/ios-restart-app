@@ -209,6 +209,7 @@ extension LoginCoordinator: MainSignUpNavigator {
 
 extension LoginCoordinator: SignUpLogInNavigator {
     func cancelSignUpLogIn() {
+        // called when closing from popup login so it's not closing root only presented controller
         dismissLastPresented(animated: true, completion: nil)
     }
 
@@ -253,6 +254,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
 
 extension LoginCoordinator: SignUpEmailStep1Navigator {
     func cancelSignUpEmailStep1() {
+        // called when closing from popup login so it's not closing root only presented controller
         dismissLastPresented(animated: true, completion: nil)
     }
 
@@ -327,6 +329,7 @@ extension LoginCoordinator: SignUpEmailStep2Navigator {
 
 extension LoginCoordinator: LogInEmailNavigator {
     func cancelLogInEmail() {
+        // called when closing from popup login so it's not closing root only presented controller
         dismissLastPresented(animated: true, completion: nil)
     }
 
