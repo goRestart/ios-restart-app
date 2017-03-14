@@ -14,46 +14,46 @@ class KeychainCheckerSpec: QuickSpec {
     override func spec() {
         describe("KeychainCheckerSpec") {
             var sut: KeychainChecker!
-            var booleanDao: MockBooleanDao!
+            var booleanDAO: MockBooleanDAO!
             var keychainCleaner: MockKeychainCleaner!
 
             beforeEach {
-                booleanDao = MockBooleanDao()
+                booleanDAO = MockBooleanDAO()
                 keychainCleaner = MockKeychainCleaner()
-                sut = KeychainChecker(booleanDao: booleanDao, keychainCleaner: keychainCleaner, enabled: true)
+                sut = KeychainChecker(booleanDAO: booleanDAO, keychainCleaner: keychainCleaner, enabled: true)
             }
             describe("check keychain") {
                 context("switch in settings to off") {
                     beforeEach {
-                        booleanDao.getValue = false
+                        booleanDAO.getValue = false
                         sut.checkKeychain()
                     }
                     it("uses the correct ud key") {
-                        expect(booleanDao.lastGetKey) == "god_mode_cleanup_keychain"
+                        expect(booleanDAO.lastGetKey) == "god_mode_cleanup_keychain"
                     }
                     it("doesn't call cleanup") {
                         expect(keychainCleaner.calledClean) == false
                     }
                     it("doesn't set any ud value") {
-                        expect(booleanDao.lastSetValue).to(beNil())
+                        expect(booleanDAO.lastSetValue).to(beNil())
                     }
                 }
                 context("switch in settings to on") {
                     beforeEach {
-                        booleanDao.getValue = true
+                        booleanDAO.getValue = true
                         sut.checkKeychain()
                     }
                     it("uses the correct ud key") {
-                        expect(booleanDao.lastGetKey) == "god_mode_cleanup_keychain"
+                        expect(booleanDAO.lastGetKey) == "god_mode_cleanup_keychain"
                     }
                     it("calls cleanup") {
                         expect(keychainCleaner.calledClean) == true
                     }
                     it("sets the correct ud value") {
-                        expect(booleanDao.lastSetKey) == "god_mode_cleanup_keychain"
+                        expect(booleanDAO.lastSetKey) == "god_mode_cleanup_keychain"
                     }
                     it("sets the ud value to false") {
-                        expect(booleanDao.lastSetValue) == false
+                        expect(booleanDAO.lastSetValue) == false
                     }
                 }
             }

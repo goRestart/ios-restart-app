@@ -76,7 +76,7 @@ class ProductCarouselCell: UICollectionViewCell {
     }
 
     func configureCellWith(cellModel: ProductCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
-                                  imageDownloader: ImageDownloader) {
+                                  imageDownloader: ImageDownloaderType) {
         self.tag = (indexPath as NSIndexPath).hash
         self.productImages = cellModel.images
         self.productBackgroundColor = cellModel.backgroundColor
