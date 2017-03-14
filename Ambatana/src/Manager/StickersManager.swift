@@ -14,14 +14,14 @@ class StickersManager {
     static let sharedInstance = StickersManager()
 
     private let stickersRepository: StickersRepository
-    private let imageDownloader: ImageDownloader
+    private let imageDownloader: ImageDownloaderType
     private let disposeBag = DisposeBag()
 
     convenience init() {
         self.init(stickersRepository: Core.stickersRepository, imageDownloader: ImageDownloader.sharedInstance)
     }
 
-    init(stickersRepository: StickersRepository, imageDownloader: ImageDownloader) {
+    init(stickersRepository: StickersRepository, imageDownloader: ImageDownloaderType) {
         self.stickersRepository = stickersRepository
         self.imageDownloader = imageDownloader
     }

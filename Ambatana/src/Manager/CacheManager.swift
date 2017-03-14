@@ -16,7 +16,7 @@ class LGCacheManager: CacheManager {
 
     private static let settingsKey = "cleanup_cache"
 
-    private let booleanDao: BooleanDao
+    private let booleanDao: BooleanDAO
     private let fileManager: FileManager
 
     convenience init() {
@@ -24,7 +24,7 @@ class LGCacheManager: CacheManager {
                   fileManager: FileManager.default)
     }
 
-    init(booleanDao: BooleanDao, fileManager: FileManager) {
+    init(booleanDao: BooleanDAO, fileManager: FileManager) {
         self.booleanDao = booleanDao
         self.fileManager = fileManager
     }

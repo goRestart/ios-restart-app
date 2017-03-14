@@ -114,7 +114,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.init(viewModel:viewModel,
                   pushAnimator: pushAnimator,
                   imageDownloader: ImageDownloader.sharedInstance,
-                  carouselImageDownloader: ImageDownloader.makeImageDownloader(usingImagePool: true))
+                  carouselImageDownloader: ImageDownloader.make(usingImagePool: true))
     }
     
     init(viewModel: ProductCarouselViewModel,

@@ -11,7 +11,8 @@ import Result
 
 final class ImageDownloader: ImageDownloaderType {
 
-    static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.makeImageDownloader(), useImagePool: false)
+    static let sharedInstance = ImageDownloader.make(usingImagePool: false)
+    
     private let imageDownloader: ImageDownloaderType
 
     private var currentImagesPool: [RequestReceipt] = []
@@ -53,21 +54,17 @@ final class ImageDownloader: ImageDownloaderType {
         }
     }
 
-    private static func makeImageDownloader() -> ImageDownloaderType {
-        return AlamofireImage.ImageDownloader(configuration: ImageDownloader.makeSessionConfiguration())
+    static func make(usingImagePool: Bool) -> ImageDownloaderType {
+        let afImageDownloader = AlamofireImage.ImageDownloader(configuration: makeSessionConfiguration())
+        return ImageDownloader(imageDownloader: afImageDownloader, useImagePool: usingImagePool)
     }
-
-    static func makeImageDownloader(usingImagePool: Bool) -> ImageDownloaderType {
-        return ImageDownloader(imageDownloader: ImageDownloader.makeImageDownloader(), useImagePool: usingImagePool)
-    }
-
 
     private static func makeSessionConfiguration() -> URLSessionConfiguration {
         let configuration = AlamofireImage.ImageDownloader.defaultURLSessionConfiguration()
 
         configuration.urlCache = LGUrlCache(
-            memoryCapacity: 20 * 1024 * 1024, // 20 MB
-            diskCapacity: 150 * 1024 * 1024,  // 150 MB
+            memoryCapacity: Constants.imagesUrlCacheMemoryCapacity,
+            diskCapacity: Constants.imagesUrlCacheDiskCapacity,
             diskPath: "imageCache"
         )
 

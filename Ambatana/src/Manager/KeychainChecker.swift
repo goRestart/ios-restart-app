@@ -9,18 +9,11 @@
 import Foundation
 import Security
 
-protocol BooleanDao {
-    func bool(forKey defaultName: String) -> Bool
-    func set(_ value: Bool, forKey defaultName: String)
-}
-
-extension UserDefaults: BooleanDao {}
-
 class KeychainChecker {
 
     private static let settingsKey = "god_mode_cleanup_keychain"
 
-    private let booleanDao: BooleanDao
+    private let booleanDao: BooleanDAO
     private let keychainCleaner: KeychainCleaner
     private let enabled: Bool
 
@@ -33,7 +26,7 @@ class KeychainChecker {
         self.init(booleanDao: UserDefaults.standard, keychainCleaner: LGKeychainCleaner(), enabled: enabled)
     }
 
-    init(booleanDao: BooleanDao, keychainCleaner: KeychainCleaner, enabled: Bool) {
+    init(booleanDao: BooleanDAO, keychainCleaner: KeychainCleaner, enabled: Bool) {
         self.booleanDao = booleanDao
         self.keychainCleaner = keychainCleaner
         self.enabled = enabled

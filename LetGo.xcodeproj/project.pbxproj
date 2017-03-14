@@ -737,6 +737,8 @@
 		C730750C1E13BBD300EF9A05 /* PassiveBuyersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */; };
 		C730FD0E1E76F93000175C27 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD0D1E76F93000175C27 /* CacheManager.swift */; };
 		C730FD0F1E76F93000175C27 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD0D1E76F93000175C27 /* CacheManager.swift */; };
+		C730FD111E77FC5A00175C27 /* BooleanDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD101E77FC5A00175C27 /* BooleanDAO.swift */; };
+		C730FD121E77FC5A00175C27 /* BooleanDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD101E77FC5A00175C27 /* BooleanDAO.swift */; };
 		C73189C21DB9248F005A93EE /* BaseNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */; };
 		C73189C31DB92493005A93EE /* BaseNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */; };
 		C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */; };
@@ -1844,6 +1846,7 @@
 		C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersCoordinator.swift; sourceTree = "<group>"; };
 		C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersNavigator.swift; sourceTree = "<group>"; };
 		C730FD0D1E76F93000175C27 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		C730FD101E77FC5A00175C27 /* BooleanDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanDAO.swift; sourceTree = "<group>"; };
 		C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderContainer.swift; sourceTree = "<group>"; };
 		C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListHeaderContainer.xib; sourceTree = "<group>"; };
@@ -3358,6 +3361,7 @@
 			children = (
 				6AEF66B21C5A155C0025D43C /* Paginable.swift */,
 				50F681F11C8F4586001F33A3 /* RxPaginable.swift */,
+				C730FD101E77FC5A00175C27 /* BooleanDAO.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -5250,7 +5254,6 @@
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedProductsView.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				C7740DF41DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift in Sources */,
-				72BABFE81E30E1360035747B /* WSChatStatus+LG.swift in Sources */,
 				50C2E1A11E6FFAF2006639BB /* PostProductTabsFooter.swift in Sources */,
 				5009F8411E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
@@ -5276,6 +5279,7 @@
 				C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				501495EE1D895B5800AC67CA /* DiscoverProductListRequester.swift in Sources */,
 				C711A1AD1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
+				C730FD111E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				6A5E19FE1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
 				C7B588811CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */,
@@ -5689,7 +5693,6 @@
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				50C2E19F1E6FFADD006639BB /* PostProductWhiteCamButtonFooter.swift in Sources */,
-				2E2C7B381C85F82C00F46E8F /* ThemeCollectionCell.swift in Sources */,
 				C7DB41F61C5138B500400945 /* UITabBarController+Animations.swift in Sources */,
 				6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				C711A1AC1CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift in Sources */,
@@ -5743,7 +5746,6 @@
 				C7DB42051C5138B500400945 /* PushPermissionsManager.swift in Sources */,
 				C74016E01D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
-				72BABFE91E30E1360035747B /* WSChatStatus+LG.swift in Sources */,
 				50C2E1A21E6FFAF2006639BB /* PostProductTabsFooter.swift in Sources */,
 				5009F8421E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
@@ -5769,6 +5771,7 @@
 				2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C754E0191CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
+				C730FD121E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */,
 				501495EF1D895B5800AC67CA /* DiscoverProductListRequester.swift in Sources */,
 				6A5E19FF1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
