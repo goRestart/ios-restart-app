@@ -9,7 +9,7 @@
 @testable import LetGoGodMode
 import Foundation
 
-class MockBooleanDao: BooleanDao {
+class MockBooleanDAO: BooleanDAO {
 
     var lastGetKey: String? = nil
     var getValue: Bool = false

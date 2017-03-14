@@ -13,7 +13,7 @@ class KeychainChecker {
 
     private static let settingsKey = "god_mode_cleanup_keychain"
 
-    private let booleanDao: BooleanDAO
+    private let booleanDAO: BooleanDAO
     private let keychainCleaner: KeychainCleaner
     private let enabled: Bool
 
@@ -23,21 +23,21 @@ class KeychainChecker {
         #else
         let enabled = false
         #endif
-        self.init(booleanDao: UserDefaults.standard, keychainCleaner: LGKeychainCleaner(), enabled: enabled)
+        self.init(booleanDAO: UserDefaults.standard, keychainCleaner: LGKeychainCleaner(), enabled: enabled)
     }
 
-    init(booleanDao: BooleanDAO, keychainCleaner: KeychainCleaner, enabled: Bool) {
-        self.booleanDao = booleanDao
+    init(booleanDAO: BooleanDAO, keychainCleaner: KeychainCleaner, enabled: Bool) {
+        self.booleanDAO = booleanDAO
         self.keychainCleaner = keychainCleaner
         self.enabled = enabled
     }
 
     func checkKeychain() {
         guard enabled else { return }
-        let shouldClean = booleanDao.bool(forKey: KeychainChecker.settingsKey)
+        let shouldClean = booleanDAO.bool(forKey: KeychainChecker.settingsKey)
         guard shouldClean else { return }
         keychainCleaner.cleanKeychain()
-        booleanDao.set(false, forKey: KeychainChecker.settingsKey)
+        booleanDAO.set(false, forKey: KeychainChecker.settingsKey)
     }
 }
 

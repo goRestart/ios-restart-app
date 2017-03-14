@@ -16,25 +16,25 @@ class LGCacheManager: CacheManager {
 
     private static let settingsKey = "cleanup_cache"
 
-    private let booleanDao: BooleanDAO
+    private let booleanDAO: BooleanDAO
     private let fileManager: FileManager
 
     convenience init() {
-        self.init(booleanDao: UserDefaults.standard,
+        self.init(booleanDAO: UserDefaults.standard,
                   fileManager: FileManager.default)
     }
 
-    init(booleanDao: BooleanDAO, fileManager: FileManager) {
-        self.booleanDao = booleanDao
+    init(booleanDAO: BooleanDAO, fileManager: FileManager) {
+        self.booleanDAO = booleanDAO
         self.fileManager = fileManager
     }
 
     func cleanIfNeeded() {
-        let shouldClean = booleanDao.bool(forKey: LGCacheManager.settingsKey)
+        let shouldClean = booleanDAO.bool(forKey: LGCacheManager.settingsKey)
         guard shouldClean else { return }
         clearCacheDir()
         clearTmpDir()
-        booleanDao.set(false, forKey: LGCacheManager.settingsKey)
+        booleanDAO.set(false, forKey: LGCacheManager.settingsKey)
     }
 
     private func clearCacheDir() {
