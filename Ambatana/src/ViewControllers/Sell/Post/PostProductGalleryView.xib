@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,17 +29,17 @@
                 <outlet property="loadImageErrorSubtitleLabel" destination="4zC-Mj-ui5" id="XlN-Xi-g9v"/>
                 <outlet property="loadImageErrorTitleLabel" destination="txx-c7-qrE" id="mA0-3v-rsG"/>
                 <outlet property="loadImageErrorView" destination="dvt-uU-xFx" id="64Z-jJ-Y25"/>
-                <outlet property="postButton" destination="vaZ-ts-IbL" id="bMy-0o-bsm"/>
                 <outlet property="selectedImage" destination="ABH-AD-uH5" id="GPc-NK-rFu"/>
+                <outlet property="topRightButton" destination="vaZ-ts-IbL" id="HfN-Bw-tt9"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="M9w-br-XHH">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="aAJ-8i-pht">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -52,13 +52,13 @@
                     </connections>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQZ-r9-np6" userLabel="ImageContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="420"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="378"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ABH-AD-uH5">
-                            <rect key="frame" x="0.0" y="52" width="375" height="368"/>
+                            <rect key="frame" x="0.0" y="52" width="600" height="326"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dvt-uU-xFx">
-                            <rect key="frame" x="52" y="166" width="270" height="89"/>
+                            <rect key="frame" x="165" y="145" width="270" height="89"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_The photo can't be loaded" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txx-c7-qrE" userLabel="load image error title">
                                     <rect key="frame" x="16" y="8" width="238" height="21"/>
@@ -86,7 +86,7 @@
                             </constraints>
                         </view>
                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-aN-UpZ">
-                            <rect key="frame" x="177" y="200" width="20" height="20"/>
+                            <rect key="frame" x="290" y="179" width="20" height="20"/>
                         </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -103,17 +103,17 @@
                     </constraints>
                 </view>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGK-ev-gOY">
-                    <rect key="frame" x="0.0" y="420" width="375" height="40"/>
+                    <rect key="frame" x="0.0" y="378" width="600" height="40"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="cbD-0X-qzF"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72j-Hf-rIC" userLabel="ErrorContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-Nr-205" userLabel="ErrorView">
-                            <rect key="frame" x="53" y="263" width="270" height="141"/>
+                            <rect key="frame" x="165" y="230" width="270" height="141"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_No photos found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lb0-FS-fgq" userLabel="title">
                                     <rect key="frame" x="16" y="8" width="238" height="21"/>
@@ -164,7 +164,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C1C-GN-TOi" userLabel="TopControlsContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFH-yn-92t" userLabel="CloseBtn">
                             <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
@@ -178,8 +178,8 @@
                                 <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="sEJ-DT-nMx"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaZ-ts-IbL">
-                            <rect key="frame" x="287" y="9" width="80" height="34"/>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaZ-ts-IbL" userLabel="Top Right Button">
+                            <rect key="frame" x="512" y="9" width="80" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="3BM-jj-sgA"/>
                                 <constraint firstAttribute="height" constant="34" id="eea-N3-f9F"/>
@@ -187,11 +187,11 @@
                             <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                             <state key="normal" title="Post"/>
                             <connections>
-                                <action selector="postButtonPressed:" destination="-1" eventType="touchUpInside" id="wyj-p2-Cwe"/>
+                                <action selector="topRightButtonPressed:" destination="-1" eventType="touchUpInside" id="LFk-D7-aLr"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igi-UE-hd4">
-                            <rect key="frame" x="68" y="10" width="195" height="33"/>
+                            <rect key="frame" x="68" y="10" width="420" height="33"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="_Gallery">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

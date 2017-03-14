@@ -156,8 +156,6 @@
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
-"chat_stickers_tooltip_add_stickers" = "Voeg leuke stickers toe";
-"chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
 "chat_user_info_name" = "Hoi, ik ben %@";
 "chat_user_info_verified_with" = "Geverifieerd met:";
@@ -501,7 +499,7 @@
 "product_post_camera_permissions_subtitle" = "Om een foto te maken, moet je de toegang tot de Camera toestaan";
 "product_post_camera_permissions_title" = "Geef toegang tot Camera";
 "product_post_camera_tab" = "FOTO";
-"product_post_camera_tab_v2" = "Camera";
+"product_post_camera_tab_v2" = "CAMERA";
 "product_post_close_alert_close_button" = "Verwijder";
 "product_post_close_alert_description" = "Wil je het nog steeds als te koop plaatsen?";
 "product_post_close_alert_ok_button" = "Plaats product";
@@ -522,7 +520,7 @@
 "product_post_gallery_permissions_button" = "Toestaan";
 "product_post_gallery_permissions_subtitle" = "Om een bestaande foto te selecteren, moet je de toegang tot Foto's toestaan";
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
-"product_post_gallery_post" = "Plaats";
+"product_post_gallery_post" = "Plaatsen";
 "product_post_gallery_select_pictures_subtitle" = "Selecteer maximaal 5 afbeeldingen om te uploaden";
 "product_post_gallery_select_pictures_title" = "Kies foto's";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
@@ -764,10 +762,10 @@
 "sign_up_username_field_hint" = "Volledige naam";
 "suggestions_last_searches_clear_button" = "Wissen";
 "suggestions_last_searches_title" = "Recente Zoekopdrachten";
-"survey_confirmation" = "Thank you! Your feedback help us improve";
+"survey_confirmation" = "Bedankt! Jouw feedback helpt om ons te verbeteren";
 "tab_bar_give_away_button" = "Weggeven";
 "tab_bar_give_away_tooltip" = "Nu kun je het weggeven";
-"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
+"tab_bar_incentivise_scroll_banner" = "Scroll om meer te zien";
 "tab_bar_sell_stuff_button" = "Spullen Verkopen";
 "tab_bar_tool_tip" = "Verkoop je spullen";
 "toast_error_internal" = "Oeps! Er ging iets mis.";

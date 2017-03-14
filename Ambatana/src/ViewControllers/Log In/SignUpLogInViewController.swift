@@ -138,11 +138,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         let dividerColor: UIColor
         switch appearance {
         case .dark:
-            textFieldLineColor = UIColor.black
+            textFieldLineColor = UIColor.lgBlack
             dividerColor = UIColor.white
         case .light:
             textFieldLineColor = UIColor.white
-            dividerColor = UIColor.black
+            dividerColor = UIColor.lgBlack
         }
 
         // Redraw the lines

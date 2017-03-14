@@ -156,8 +156,6 @@
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз.";
-"chat_stickers_tooltip_add_stickers" = "Добавить стикеры";
-"chat_stickers_tooltip_new" = "НОВОЕ!";
 "chat_unblock_user" = "Разблокировать пользователя";
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
@@ -501,7 +499,7 @@
 "product_post_camera_permissions_subtitle" = "Чтобы сделать фото, разрешите доступ к Камере";
 "product_post_camera_permissions_title" = "Разрешить доступ к Камере";
 "product_post_camera_tab" = "ФОТО";
-"product_post_camera_tab_v2" = "Камера";
+"product_post_camera_tab_v2" = "КАМЕРА";
 "product_post_close_alert_close_button" = "Отмена";
 "product_post_close_alert_description" = "Все еще хотите разместить товар на продажу?";
 "product_post_close_alert_ok_button" = "Опубликовать";
@@ -764,10 +762,10 @@
 "sign_up_username_field_hint" = "Полное имя";
 "suggestions_last_searches_clear_button" = "Стереть";
 "suggestions_last_searches_title" = "Недавний Поиск";
-"survey_confirmation" = "Thank you! Your feedback help us improve";
+"survey_confirmation" = "Спасибо! Ваши отзывы помогают нам быть лучше";
 "tab_bar_give_away_button" = "Отдать";
 "tab_bar_give_away_tooltip" = "Теперь вы можете отдавать вещи";
-"tab_bar_incentivise_scroll_banner" = "Scroll to see more";
+"tab_bar_incentivise_scroll_banner" = "Прокрутите для дальнейшей информации";
 "tab_bar_sell_stuff_button" = "Продать вещи";
 "tab_bar_tool_tip" = "Продайте свои вещи";
 "toast_error_internal" = "Упс! Что-то пошло не так.";

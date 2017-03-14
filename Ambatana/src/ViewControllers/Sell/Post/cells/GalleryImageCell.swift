@@ -15,11 +15,13 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var multipleSelectionCountLabel: UILabel!
     @IBOutlet weak var disabledView: UIView!
+    @IBOutlet weak var singleSelectionCheck: UIImageView!
 
+    var multipleSelectionEnabled: Bool = false
 
     var disabled: Bool = false {
         didSet {
-            disabledView.isHidden = !disabled
+            disabledView.isHidden = !disabled || !multipleSelectionEnabled
         }
     }
     
@@ -38,7 +40,8 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     override var isSelected: Bool {
         didSet {
-            multipleSelectionCountLabel.isHidden = !isSelected
+            singleSelectionCheck.isHidden = !isSelected || multipleSelectionEnabled
+            multipleSelectionCountLabel.isHidden = !isSelected || !multipleSelectionEnabled
             if multipleSelectionCountLabel.isHidden {
                 multipleSelectionCountLabel.text = nil
             }
@@ -49,6 +52,12 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     // Sets up the UI
     private func setupUI() {
+
+        singleSelectionCheck.image = UIImage(named: "ic_post_ok")
+        singleSelectionCheck.layer.borderWidth = 2
+        singleSelectionCheck.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
+        singleSelectionCheck.layer.borderColor = UIColor.white.cgColor
+
         multipleSelectionCountLabel.text = nil
 
         multipleSelectionCountLabel.layer.borderWidth = 2
@@ -59,6 +68,8 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     // Resets the UI to the initial state
     private func resetUI() {
         image.image = nil
+
+        singleSelectionCheck.isHidden = true
 
         multipleSelectionCountLabel.text = nil
         multipleSelectionCountLabel.isHidden = true

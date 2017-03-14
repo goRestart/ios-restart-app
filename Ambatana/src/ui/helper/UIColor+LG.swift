@@ -86,7 +86,7 @@ extension UIColor {
 extension UIColor {
 
     // Solid Grays
-    static var black: UIColor { return UIColor(rgb: 0x2c2c2c) }
+    static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) }
     static var grayDark: UIColor { return UIColor(rgb: 0x757575) }
     static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) }
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) }

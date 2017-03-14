@@ -6,7 +6,11 @@
 	<array>
 		<dict>
 			<key>DefaultValue</key>
+<<<<<<< HEAD
 			<string>1.17.3 (237)</string>
+=======
+			<string>1.17.3 (238)</string>
+>>>>>>> develop
 			<key>Key</key>
 			<string>version_preference</string>
 			<key>Title</key>

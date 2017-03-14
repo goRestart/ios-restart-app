@@ -16,7 +16,11 @@ final class SignUpEmailStep1ViewController: KeyboardViewController {
     }
 
     fileprivate let viewModel: SignUpEmailStep1ViewModel
+    fileprivate let backgroundImageView = UIImageView()
+    fileprivate let backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     fileprivate let signUpEmailStep1View: SignUpEmailStep1View
+    fileprivate let appearance: LoginAppearance
+    fileprivate let backgroundImage: UIImage?
     fileprivate let deviceFamily: DeviceFamily
     fileprivate let disposeBag = DisposeBag()
 
@@ -37,9 +41,10 @@ final class SignUpEmailStep1ViewController: KeyboardViewController {
          backgroundImage: UIImage?,
          deviceFamily: DeviceFamily) {
         self.viewModel = viewModel
-        self.signUpEmailStep1View = SignUpEmailStep1View(appearance: appearance,
-                                                         backgroundImage: backgroundImage)
+        self.signUpEmailStep1View = SignUpEmailStep1View(appearance: appearance)
         self.deviceFamily = deviceFamily
+        self.appearance = appearance
+        self.backgroundImage = backgroundImage
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
                    navBarBackgroundStyle: appearance.navBarBackgroundStyle)
@@ -141,6 +146,17 @@ fileprivate extension SignUpEmailStep1ViewController {
 
     func setupUI() {
         view.backgroundColor = UIColor.white
+
+        if appearance.hasBackgroundImage {
+            backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+            backgroundImageView.image = backgroundImage
+            view.addSubview(backgroundImageView)
+            backgroundImageView.layout(with: view).fill()
+
+            backgroundEffectView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(backgroundEffectView)
+            backgroundEffectView.layout(with: view).fill()
+        }
 
         signUpEmailStep1View.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(signUpEmailStep1View)

@@ -294,7 +294,7 @@ extension UserViewHeader {
         avatarRatingsEffectView.layer.addSublayer(gradient)
 
         ratingCountLabel.font = UIFont.systemLightFont(size: 24)
-        ratingCountLabel.textColor = UIColor.black
+        ratingCountLabel.textColor = UIColor.lgBlack
         ratingsLabel.font = UIFont.systemRegularFont(size: 13)
         ratingsLabel.textColor = UIColor.grayDark
     }
@@ -311,7 +311,7 @@ extension UserViewHeader {
 
     private func setupButtons() {
         var attributes = [String : Any]()
-        attributes[NSForegroundColorAttributeName] = UIColor.black
+        attributes[NSForegroundColorAttributeName] = UIColor.lgBlack
         attributes[NSFontAttributeName] = UIFont.inactiveTabFont
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,

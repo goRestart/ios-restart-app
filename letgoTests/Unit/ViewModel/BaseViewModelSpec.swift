@@ -71,6 +71,14 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
         delegateReceivedShowAlert = true
         lastAlertTextShown = message
     }
+    
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?, dismissAction: (() -> ())?) {
+        delegateReceivedShowAlert = true
+    }
+    
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?, dismissAction: (() -> ())?) {
+        delegateReceivedShowAlert = true
+    }
 
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         delegateReceivedShowActionSheet = true

@@ -35,6 +35,8 @@ protocol FeatureFlaggeable {
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
     var periscopeRemovePredefinedText: Bool { get }
+    var hideTabBarOnFirstSession: Bool { get }
+    var postingGallery: PostingGallery { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -216,7 +218,21 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.periscopeRemovePredefinedText.value
     }
+    
+    var postingGallery: PostingGallery {
+        if Bumper.enabled {
+            return Bumper.postingGallery
+        }
+        return PostingGallery.fromPosition(ABTests.postingGallery.value)
+    }
 
+    var hideTabBarOnFirstSession: Bool {
+        if Bumper.enabled {
+            return Bumper.hideTabBarOnFirstSession
+        }
+        return ABTests.hideTabBarOnFirstSession.value
+    }
+    
     
     // MARK: - Country features
 
