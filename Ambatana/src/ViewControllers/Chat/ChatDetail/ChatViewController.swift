@@ -551,10 +551,6 @@ extension ChatViewController: ChatViewModelDelegate {
             self?.popBackViewController()
         }
     }
-    
-    func vmDidFailSendingMessage() {
-        showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
-    }
 
     func vmShowRelatedProducts(_ productId: String?) {
         relatedProductsView.productId.value = productId

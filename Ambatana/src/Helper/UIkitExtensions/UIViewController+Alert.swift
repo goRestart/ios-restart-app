@@ -91,7 +91,7 @@ extension UIViewController {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         delay(time) {
-            alert.dismiss(animated: true) { _ in completion?() }
+            alert.dismiss(animated: true) { completion?() }
         }
     }
 }

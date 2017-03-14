@@ -433,7 +433,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
     
     func vmDidFailSendingMessage() {
-        showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
+        showAutoFadingOutMessageAlert(LGLocalizedString.chatSendErrorGeneric)
     }
     
     func vmDidSucceedSendingMessage(_ index: Int) {
