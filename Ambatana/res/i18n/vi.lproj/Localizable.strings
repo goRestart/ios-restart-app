@@ -455,6 +455,7 @@
 "product_distance_X_from_you" = "%@ từ bạn";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
 "product_favorite_direct_message" = "Tôi thích nó! Nó vẫn còn chứ?";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Miễn phí";
 "product_is_mine_share_body" = "Hãy xem tôi đang bán gì trên letgo!";
 "product_is_mine_share_body_free" = "Xem tôi đang tặng gì trên letgo!";
@@ -553,6 +554,7 @@
 "product_price_label" = "Giá";
 "product_report_confirm_message" = "Bạn có chắc chắn muốn báo cáo sản phẩm này không?";
 "product_report_confirm_title" = "Báo cáo Sản phẩm";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "Báo cáo Sản phẩm";
 "product_reported_error_generic" = "Có lỗi xảy ra trong khi báo cáo sản phẩm. Xin vui lòng thử lại.";
 "product_reported_success_message" = "Sản phẩm vừa được báo cáo. Xin cảm ơn!";

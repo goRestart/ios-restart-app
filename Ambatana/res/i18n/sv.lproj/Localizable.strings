@@ -455,6 +455,7 @@
 "product_distance_X_from_you" = "%@ från dig";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
 "product_favorite_direct_message" = "Jag gillar den! Är de fortfarande tillgänglig?";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Kolla vad jag säljer på letgo!";
 "product_is_mine_share_body_free" = "Kolla vad jag skänker bort på letgo!";
@@ -553,6 +554,7 @@
 "product_price_label" = "Pris";
 "product_report_confirm_message" = "Är du säker på att du vill rapportera denna produkt?";
 "product_report_confirm_title" = "Rapporterar produkt";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "Rapporterar produkt";
 "product_reported_error_generic" = "Vi kunde tyvärr inte rapportera produkten just nu. Var vänlig försök igen.";
 "product_reported_success_message" = "Denna produkt har rapporterats. Tack!";

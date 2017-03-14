@@ -455,6 +455,7 @@
 "product_distance_X_from_you" = "%@ από εσάς";
 "product_distance_more_than_from_you" = "Περισσότερο από %@ από εσάς";
 "product_favorite_direct_message" = "Μου αρέσει! Είναι ακόμη διαθέσιμο;";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Δωρεάν";
 "product_is_mine_share_body" = "Δείτε τι πουλάω στο letgo!";
 "product_is_mine_share_body_free" = "Δείτε τί χαρίζω στο letgo!";
@@ -553,6 +554,7 @@
 "product_price_label" = "Τιμή";
 "product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτό το προϊόν;";
 "product_report_confirm_title" = "Αναφορά Προϊόντος";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "Αναφορά Προϊόντος";
 "product_reported_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αναφορά του προϊόντος. Παρακαλώ, δοκιμάστε ξανά.";
 "product_reported_success_message" = "Έχει γίνει αναφορά του προϊόντος. Ευχαριστούμε!";

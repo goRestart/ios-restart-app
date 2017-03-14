@@ -455,6 +455,7 @@
 "product_distance_X_from_you" = "%@ fra deg";
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
 "product_favorite_direct_message" = "Jeg liker produktet! Er det fortsatt tilgjengelig?";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Gis bort";
 "product_is_mine_share_body" = "Se hva jeg selger på letgo!";
 "product_is_mine_share_body_free" = "Se hva jeg gir bort på letgo!";
@@ -553,6 +554,7 @@
 "product_price_label" = "Pris";
 "product_report_confirm_message" = "Er du sikker på at du ønsker å rapportere dette produktet?";
 "product_report_confirm_title" = "Rapporter produkt";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "Rapporter produkt";
 "product_reported_error_generic" = "En feil oppstod ved rapportering av produktet. Vennligst prøv igjen.";
 "product_reported_success_message" = "Produktet ble rapportert. Takk!";

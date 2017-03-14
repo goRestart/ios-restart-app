@@ -1843,10 +1843,10 @@
 "product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 
 // Login message when asking for login after clicking on favorite
-"product_favorite_login_popup_text" = "To save as favorite you have to log in";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 
 // Login message when asking for login after clicking on report
-"product_report_login_popup_text" = "To report a product you have to log in";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
