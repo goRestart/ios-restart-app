@@ -156,8 +156,6 @@
 "chat_safety_tips_title" = "LỜI KHUYÊN AN TOÀN";
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
-"chat_stickers_tooltip_add_stickers" = "Thêm nhãn dán vui nhộn";
-"chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";

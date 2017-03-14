@@ -36,6 +36,7 @@ struct ABTests {
     static var signUpLoginImprovement = IntABDynamicVar(key: "signUpLoginImprovement", defaultValue: 0)
     static var periscopeRemovePredefinedText = BoolABDynamicVar(key: "periscopeRemovePredefinedText", defaultValue: false)
     static var hideTabBarOnFirstSession = BoolABDynamicVar(key: "hideTabBarOnFirstSession", defaultValue: false)
+    static var postingGallery = IntABDynamicVar(key: "postingGallery", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -61,6 +62,7 @@ struct ABTests {
         result.append(signUpLoginImprovement)
         result.append(periscopeRemovePredefinedText)
         result.append(hideTabBarOnFirstSession)
+        result.append(postingGallery)
 
         return result
     }

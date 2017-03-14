@@ -18,6 +18,10 @@ final class LogInEmailViewController: KeyboardViewController {
 
     fileprivate let viewModel: LogInEmailViewModel
     fileprivate var logInEmailView: LogInEmailView
+    fileprivate let backgroundImageView = UIImageView()
+    fileprivate let backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    fileprivate let backgroundImage: UIImage?
+    fileprivate let appearance: LoginAppearance
     fileprivate let deviceFamily: DeviceFamily
     fileprivate let disposeBag = DisposeBag()
 
@@ -38,8 +42,9 @@ final class LogInEmailViewController: KeyboardViewController {
          backgroundImage: UIImage?,
          deviceFamily: DeviceFamily) {
         self.viewModel = viewModel
-        self.logInEmailView = LogInEmailView(appearance: appearance,
-                                             backgroundImage: backgroundImage)
+        self.logInEmailView = LogInEmailView(appearance: appearance)
+        self.backgroundImage = backgroundImage
+        self.appearance = appearance
         self.deviceFamily = deviceFamily
         super.init(viewModel: viewModel, nibName: nil,
                    statusBarStyle: appearance.statusBarStyle,
@@ -163,6 +168,17 @@ fileprivate extension LogInEmailViewController {
 
     func setupUI() {
         view.backgroundColor = UIColor.white
+
+        if appearance.hasBackgroundImage {
+            backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+            backgroundImageView.image = backgroundImage
+            view.addSubview(backgroundImageView)
+            backgroundImageView.layout(with: view).fill()
+
+            backgroundEffectView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(backgroundEffectView)
+            backgroundEffectView.layout(with: view).fill()
+        }
 
         logInEmailView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logInEmailView)

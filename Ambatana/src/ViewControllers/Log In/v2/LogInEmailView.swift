@@ -11,10 +11,6 @@ import RxSwift
 
 final class LogInEmailView: UIView {
     fileprivate let appearance: LoginAppearance
-    fileprivate let backgroundImage: UIImage?
-
-    let backgroundImageView = UIImageView()
-    let backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     let scrollView = UIScrollView()
     let headerGradientView = UIView()
     let headerGradientLayer = CAGradientLayer.gradientWithColor(UIColor.white,
@@ -38,10 +34,8 @@ final class LogInEmailView: UIView {
 
     // MARK: - Lifecycle
 
-    init(appearance: LoginAppearance,
-         backgroundImage: UIImage?) {
+    init(appearance: LoginAppearance) {
         self.appearance = appearance
-        self.backgroundImage = backgroundImage
         super.init(frame: CGRect.zero)
 
         setupUI()
@@ -65,15 +59,6 @@ final class LogInEmailView: UIView {
 
 fileprivate extension LogInEmailView {
     func setupUI() {
-        if appearance.hasBackgroundImage {
-            backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-            backgroundImageView.image = backgroundImage
-            addSubview(backgroundImageView)
-
-            backgroundEffectView.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(backgroundEffectView)
-        }
-
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.bounces = false
         scrollView.alwaysBounceVertical = true
@@ -205,11 +190,6 @@ fileprivate extension LogInEmailView {
     }
 
     func setupLayout() {
-        if appearance.hasBackgroundImage {
-            backgroundImageView.layout(with: self).fill()
-            backgroundEffectView.layout(with: self).fill()
-        }
-
         scrollView.layout(with: self).fill()
 
         headerGradientView.layout(with: self).leading().trailing().top()

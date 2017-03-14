@@ -39,6 +39,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
     var periscopeRemovePredefinedText: Bool = false
     var hideTabBarOnFirstSession: Bool = false
+    var postingGallery: PostingGallery = .singleSelection
 
     // Country dependant features
     var freePostingModeAllowed = false

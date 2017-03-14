@@ -94,5 +94,10 @@
         "name": "HideTabBarOnFirstSession",
         "values": ["no", "yes"],
         "description": "hide tab bar with incentivise scroll banner"
+    },
+    {
+        "name": "PostingGallery",
+        "values": ["SingleSelection", "MultiSelection", "MultiSelectionWhiteButton", "MultiSelectionTabs", "MultiSelectionPostBottom"],
+        "description": "Posting Gallery A/B/C/D/E"
     }
 ]

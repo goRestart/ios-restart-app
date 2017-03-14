@@ -448,7 +448,6 @@ extension ProductCarouselViewModel {
 // MARK: - ProductViewModelDelegate
 
 extension ProductCarouselViewModel: ProductViewModelDelegate {
-
     // ProductViewModelDelegate forwarding methods
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
         delegate?.vmOpenCommercialDisplay(displayVM)
@@ -490,7 +489,7 @@ extension ProductCarouselViewModel: ProductViewModelDelegate {
     }
 
     // BaseViewModelDelegate forwarding methods
-
+    
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(message, completion: completion)
     }
@@ -503,8 +502,14 @@ extension ProductCarouselViewModel: ProductViewModelDelegate {
     func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
         delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
     }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?, dismissAction: (() -> ())?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, actions: actions, dismissAction: dismissAction)
+    }
     func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {
         delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?, dismissAction: (() -> ())?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions, dismissAction: dismissAction)
     }
     func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
         delegate?.vmShowAlert(title, message: message, actions: actions)

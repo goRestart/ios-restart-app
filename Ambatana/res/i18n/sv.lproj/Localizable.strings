@@ -156,8 +156,6 @@
 "chat_safety_tips_title" = "SÄKERHETSTIPS";
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
-"chat_stickers_tooltip_add_stickers" = "Lägg till roliga stickers";
-"chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Bekräftad med: ";
@@ -764,7 +762,7 @@
 "sign_up_username_field_hint" = "Fullständigt namn";
 "suggestions_last_searches_clear_button" = "Rensa";
 "suggestions_last_searches_title" = "Senaste sökningarna";
-"survey_confirmation" = "Thank you! Your feedback help us improve";
+"survey_confirmation" = "Tack! Din feedback hjälper oss att förbättra letgo";
 "tab_bar_give_away_button" = "Ge bort den";
 "tab_bar_give_away_tooltip" = "Nu kan du skänka bort saker";
 "tab_bar_incentivise_scroll_banner" = "Skrolla ner för att se mer";

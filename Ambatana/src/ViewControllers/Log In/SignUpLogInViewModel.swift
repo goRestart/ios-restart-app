@@ -51,8 +51,8 @@ class SignUpLogInViewModel: BaseViewModel {
     }
     var email: String {
         didSet {
-            email = email.trim
             suggest(emailText: email)
+            email = email.trim
             delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
         }
     }

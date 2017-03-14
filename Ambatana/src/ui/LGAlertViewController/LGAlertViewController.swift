@@ -63,6 +63,7 @@ class LGAlertViewController: UIViewController {
     private let alertTitle: String?
     private let alertText: String?
     private let alertActions: [UIAction]?
+    private let dismissAction: (() -> ())?
 
     // Rx
     private let disposeBag = DisposeBag()
@@ -70,12 +71,14 @@ class LGAlertViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init?(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout = .horizontal, actions: [UIAction]?) {
+    init?(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout = .horizontal,
+          actions: [UIAction]?, dismissAction: (() -> ())? = nil) {
         self.alertTitle = title
         self.alertText = text
         self.alertActions = actions
         self.alertType = alertType
         self.buttonsLayout = buttonsLayout
+        self.dismissAction = dismissAction
         super.init(nibName: "LGAlertViewController", bundle: nil)
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
@@ -107,7 +110,7 @@ class LGAlertViewController: UIViewController {
         alertTitleTopSeparationConstraint.constant = alertType.titleTopSeparation
         alertContainerCenterYConstraint.constant = alertType.containerCenterYOffset
 
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeWithFadeOut))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         view.addGestureRecognizer(tapRecognizer)
 
         alertContentView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
@@ -199,8 +202,10 @@ class LGAlertViewController: UIViewController {
         }.addDisposableTo(disposeBag)
     }
 
-    dynamic private func closeWithFadeOut() {
-        closeWithFadeOutWithCompletion(nil)
+    dynamic private func tapOutside() {
+        closeWithFadeOutWithCompletion { [weak self] in
+            self?.dismissAction?()
+        }
     }
 
     private func closeWithFadeOutWithCompletion(_ completion: (() -> Void)?) {
