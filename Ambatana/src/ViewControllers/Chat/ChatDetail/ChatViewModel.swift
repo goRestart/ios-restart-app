@@ -12,7 +12,6 @@ import RxSwift
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowRelatedProducts(_ productId: String?)
 
-    func vmDidFailSendingMessage()
     func vmDidFailRetrievingChatMessages()
     
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
@@ -125,6 +124,9 @@ class ChatViewModel: BaseViewModel {
     fileprivate var productId: String? // Only used when accessing a chat from a product
     fileprivate var preSendMessageCompletion: ((_ type: ChatWrapperMessageType) -> Void)?
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
+
+    fileprivate var showingSendMessageError = false
+    fileprivate var showingVerifyAccounts = false
 
     fileprivate let disposeBag = DisposeBag()
     
@@ -566,11 +568,14 @@ extension ChatViewModel {
     }
 
     fileprivate func showUserNotVerifiedAlert() {
+        guard !showingVerifyAccounts else { return }
+        showingVerifyAccounts = true
         navigator?.openVerifyAccounts([.facebook, .google, .email(myUserRepository.myUser?.email)],
                                          source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                                          description: LGLocalizedString.chatNotVerifiedAlertMessage),
                                          completionBlock: { [weak self] in
                                             self?.navigator?.closeChatDetail()
+                                            self?.showingVerifyAccounts = false
         })
     }
 }
@@ -624,7 +629,7 @@ extension ChatViewModel {
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
-                    self?.delegate?.vmDidFailSendingMessage()
+                    self?.showSendMessageError()
                 }
             }
         }
@@ -644,6 +649,14 @@ extension ChatViewModel {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
+        }
+    }
+
+    private func showSendMessageError() {
+        guard !showingSendMessageError else { return }
+        showingSendMessageError = true
+        delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric) { [weak self] in
+            self?.showingSendMessageError = false
         }
     }
 
