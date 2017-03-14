@@ -156,8 +156,6 @@
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
-"chat_stickers_tooltip_add_stickers" = "Eğlenceli çıkartmalar ekle";
-"chat_stickers_tooltip_new" = "YENİ!";
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";

@@ -156,8 +156,6 @@
 "chat_safety_tips_title" = "SICHERHEITSTIPPS";
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
-"chat_stickers_tooltip_add_stickers" = "Sticker hinzufügen";
-"chat_stickers_tooltip_new" = "NEU!";
 "chat_unblock_user" = "Blockierung aufheben";
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert mit: ";
