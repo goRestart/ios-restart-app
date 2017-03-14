@@ -42,7 +42,7 @@
 			<key>Key</key>
 			<string>god_mode_cleanup_keychain</string>
 			<key>Title</key>
-			<string>Clean keychain on start</string>
+			<string>Clean keychain on next start</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
