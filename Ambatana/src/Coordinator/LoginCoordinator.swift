@@ -413,7 +413,6 @@ extension LoginCoordinator {
             let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             svc.view.tintColor = UIColor.primaryColor
             let vc = topViewController()
-            presentedViewControllers.append(vc)
             vc.present(svc, animated: true, completion: nil)
         } else {
             UIApplication.shared.openURL(url)

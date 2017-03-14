@@ -73,7 +73,7 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
     // MARK: UITextViewDelegate
 
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
-        openInternalUrl(url)
+        viewModel.urlPressed(url: url)
         return false
     }
 
