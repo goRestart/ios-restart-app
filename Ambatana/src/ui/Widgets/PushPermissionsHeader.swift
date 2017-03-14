@@ -42,7 +42,7 @@ class PushPermissionsHeader: UIView {
     // MARK: - Private methods
 
     private func setupUI() {
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.lgBlack
 
         let icon = UIImageView(image: UIImage(named: "ic_messages"))
         icon.contentMode = .center

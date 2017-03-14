@@ -58,7 +58,7 @@ enum ChatInfoViewStatus: Int {
     var bgColor: UIColor {
         switch self {
         case .forbidden, .userDeleted, .userPendingDelete, .blockedBy, .productDeleted:
-            return UIColor.black
+            return UIColor.lgBlack
         case .blocked:
             return UIColor.primaryColor
         case .productSold:

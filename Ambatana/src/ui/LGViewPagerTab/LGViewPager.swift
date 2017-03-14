@@ -39,7 +39,9 @@ struct LGViewPagerConfig {
 }
 
 enum LGViewPagerTabPosition {
-    case top, bottom, hidden
+    case top
+    case bottom(tabsOverPages: Bool)
+    case hidden
 }
 
 enum LGViewPagerTabLayout {
@@ -54,7 +56,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private static let defaultInfoBadgeColor = UIColor.red
 
     // UI
-    private let tabsScrollView = UIScrollView()
+    let tabsScrollView = UIScrollView()
     private let indicatorContainer = UIView()
     private let indicator = UIView()
     private let pagesScrollView = UIScrollView()
@@ -87,10 +89,11 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
     var tabsHidden: Bool {
         set {
+            tabsScrollView.isHidden = newValue
             tabMenuItems.forEach{ item in item.isHidden = newValue }
         }
         get {
-            return tabMenuItems.reduce(false, { $0 || $1.isHidden })
+            return tabsScrollView.isHidden
         }
     }
     var tabsSeparatorColor: UIColor = UIColor.gray
@@ -281,14 +284,6 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     // MARK: > UI
 
     private func setupUI() {
-        tabsScrollView.translatesAutoresizingMaskIntoConstraints = false
-        tabsScrollView.bounces = false
-        tabsScrollView.showsHorizontalScrollIndicator = false
-        tabsScrollView.showsVerticalScrollIndicator = false
-        tabsScrollView.backgroundColor = UIColor.white
-        tabsScrollView.delegate = self
-        addSubview(tabsScrollView)
-
         indicatorContainer.translatesAutoresizingMaskIntoConstraints = false
         addSubview(indicatorContainer)
 
@@ -304,6 +299,14 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         pagesScrollView.backgroundColor = UIColor.clear
         pagesScrollView.delegate = self
         addSubview(pagesScrollView)
+        
+        tabsScrollView.translatesAutoresizingMaskIntoConstraints = false
+        tabsScrollView.bounces = false
+        tabsScrollView.showsHorizontalScrollIndicator = false
+        tabsScrollView.showsVerticalScrollIndicator = false
+        tabsScrollView.backgroundColor = UIColor.white
+        tabsScrollView.delegate = self
+        addSubview(tabsScrollView)
     }
 
     private func setupConstraints() {
@@ -321,8 +324,16 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         case .top:
             vConstraintsFormat = "V:|-0-[tabs(tabsH)]-0-[pages]-0-|"
             vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-[pages]"
-        case .bottom:
-            vConstraintsFormat = "V:|-0-[pages]-0-[tabs(tabsH)]-0-|"
+        case let .bottom(tabsOverPages):
+            if tabsOverPages {
+                vConstraintsFormat = "V:|-0-[pages]-0-|"               
+                // tabs are anchored independently
+                addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[tabs(tabsH)]-0-|",
+                                                              options: NSLayoutFormatOptions(rawValue: 0),
+                                                              metrics: metrics, views: views))
+            } else {
+                vConstraintsFormat = "V:|-0-[pages]-0-[tabs(tabsH)]-0-|"
+            }
             vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-|"
         case .hidden:
             vConstraintsFormat = "V:|-0-[tabs(0)]-0-[pages]-0-|"

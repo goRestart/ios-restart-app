@@ -165,7 +165,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
         claimLabel.font = UIFont.smallBodyFont
-        claimLabel.textColor = UIColor.black
+        claimLabel.textColor = UIColor.lgBlack
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
         quicklyLabel.font = UIFont.smallBodyFont
         quicklyLabel.backgroundColor = view.backgroundColor

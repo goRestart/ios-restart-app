@@ -90,7 +90,7 @@ final class TourLocationViewController: BaseViewController {
 
         labelContainer.rounded = true
         distanceLabel.font = UIFont.tourLocationDistanceLabelFont
-        distanceLabel.textColor = UIColor.black
+        distanceLabel.textColor = UIColor.lgBlack
         alertOkLabel.text = LGLocalizedString.locationPermissionsAllowButton
         
         switch DeviceFamily.current {
