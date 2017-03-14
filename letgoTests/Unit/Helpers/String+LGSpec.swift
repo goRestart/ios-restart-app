@@ -118,6 +118,9 @@ class StringLGSpec: QuickSpec {
                 it("suggests based on domains parameter order") {
                     expect("albert@my".suggestEmail(domains: domains)) == "albert@mynet.com"
                 }
+                it("removes suggestion if space is pressed") {
+                    expect("albert@my ".suggestEmail(domains: domains)).to(beNil())
+                }
             }
             context("stringByReplacingFirstOccurrence") {
                 it("does nothing if doesn't find any occurrence") {

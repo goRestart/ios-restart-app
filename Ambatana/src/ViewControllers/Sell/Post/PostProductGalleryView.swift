@@ -156,7 +156,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
         collectionView.alwaysBounceVertical = true
-        collectionView.allowsMultipleSelection = true
+        collectionView.allowsMultipleSelection = viewModel.multipleSelectionEnabled
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 4.0
         }
@@ -243,20 +243,30 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 guard galleryCell.tag == indexPath.row else { return }
                 galleryCell.image.image = image
             }
+            galleryCell.multipleSelectionEnabled = viewModel.multipleSelectionEnabled
             let selectedIndexes: [Int] = viewModel.imagesSelected.value.map { $0.index }
-            if selectedIndexes.contains(indexPath.item) {
-                galleryCell.disabled = false
-                galleryCell.isSelected = true
-                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
-                if let position = selectedIndexes.index(of: indexPath.item) {
-                    galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
+            if viewModel.multipleSelectionEnabled {
+                if selectedIndexes.contains(indexPath.item) {
+                    galleryCell.disabled = false
+                    galleryCell.isSelected = true
+                    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+                    if let position = selectedIndexes.index(of: indexPath.item) {
+                        galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
+                    }
+                } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
+                    galleryCell.disabled = true
+                    galleryCell.isSelected = false
+                } else {
+                    galleryCell.isSelected = false
+                    galleryCell.disabled = false
                 }
-            } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
-                galleryCell.disabled = true
-                galleryCell.isSelected = false
             } else {
-                galleryCell.isSelected = false
-                galleryCell.disabled = false
+                if selectedIndexes.contains(indexPath.item) {
+                    galleryCell.isSelected = true
+                    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+                } else {
+                    galleryCell.isSelected = false
+                }
             }
             return galleryCell
     }

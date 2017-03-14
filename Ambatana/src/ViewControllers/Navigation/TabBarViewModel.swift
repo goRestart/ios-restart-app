@@ -23,14 +23,20 @@ class TabBarViewModel: BaseViewModel {
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
     var favoriteBadge = Variable<String?>(nil)
+    var hideScrollBanner = Variable<Bool>(false)
 
     private let keyValueStorage: KeyValueStorage
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
     private var didAppearFirstTime: Bool
     private var featureFlags: FeatureFlaggeable
+    private let abTestSyncTimeout: TimeInterval
 
     private let disposeBag = DisposeBag()
+    
+    var shouldSetupScrollBanner: Bool {
+        return keyValueStorage[.sessionNumber] == 1
+    }
 
     
     // MARK: - View lifecycle
@@ -38,18 +44,20 @@ class TabBarViewModel: BaseViewModel {
     convenience override init() {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   notificationsManager: LGNotificationsManager.sharedInstance,
-                  myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance)
+                  myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance, syncTimeout: Constants.abTestSyncTimeout)
     }
 
     init(keyValueStorage: KeyValueStorage, notificationsManager: NotificationsManager, myUserRepository: MyUserRepository,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable, syncTimeout: TimeInterval) {
         self.keyValueStorage = keyValueStorage
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.featureFlags = featureFlags
+        self.abTestSyncTimeout = syncTimeout
         self.didAppearFirstTime = false
         super.init()
         setupRx()
+        syncFeatureFlagsRXIfNeeded()
     }
 
     func didAppear() {
@@ -94,6 +102,11 @@ class TabBarViewModel: BaseViewModel {
     func externalSwitchToTab(_ tab: Tab, completion: (() -> ())?) {
         delegate?.vmSwitchToTab(tab, force: false, completion: completion)
     }
+    
+    func tabBarChangeVisibility(hidden: Bool) {
+        guard hidden else { return }
+        hideScrollBanner.value = hidden
+    }
 
 
     // MARK: - Private methods
@@ -113,5 +126,17 @@ class TabBarViewModel: BaseViewModel {
                 guard myUser != nil else { return String(1) }
                 return count.flatMap { $0 > 0 ? String($0) : nil }
             }).bindTo(notificationsBadge).addDisposableTo(disposeBag)
+    }
+    
+    private func syncFeatureFlagsRXIfNeeded() {
+        guard shouldSetupScrollBanner else { return }
+        featureFlags.syncedData.filter{ $0 }.take(1).timeout(abTestSyncTimeout, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self ] _ in self?.setScrollBannerVisibility(timeout: false) },
+                       onError: { [weak self] _ in self?.setScrollBannerVisibility(timeout: true) })
+            .addDisposableTo(disposeBag)
+    }
+
+    private func setScrollBannerVisibility(timeout: Bool) {
+        hideScrollBanner.value = timeout ? true : !featureFlags.hideTabBarOnFirstSession
     }
 }
