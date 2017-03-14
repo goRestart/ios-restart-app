@@ -356,7 +356,14 @@ extension ChatViewController: UIGestureRecognizerDelegate {
 
     func reloadLeftActions() {
         var actions = [UIAction]()
-        let image = showingStickers ? #imageLiteral(resourceName: "ic_keyboard"): viewModel.showStickerBadge.value ? #imageLiteral(resourceName: "icStickersWithBadge") : #imageLiteral(resourceName: "ic_stickers")
+        var image: UIImage
+        if showingStickers {
+            image = #imageLiteral(resourceName: "ic_keyboard")
+        } else if viewModel.showStickerBadge.value {
+            image = #imageLiteral(resourceName: "icStickersWithBadge")
+        } else {
+            image = #imageLiteral(resourceName: "ic_stickers")
+        }
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
