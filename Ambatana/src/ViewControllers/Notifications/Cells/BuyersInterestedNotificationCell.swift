@@ -54,8 +54,8 @@ class BuyersInterestedNotificationCell: UITableViewCell, ReusableCell {
         timeLabel.font = UIFont.notificationTimeFont
         actionLabel.font = UIFont.notificationSubtitleFont(read: false)
 
-        actionLabel.textColor = UIColor.black
-        timeLabel.textColor = UIColor.black
+        actionLabel.textColor = UIColor.lgBlack
+        timeLabel.textColor = UIColor.lgBlack
         primaryImage.backgroundColor = UIColor.placeholderBackgroundColor()
 
         primaryImage.accessibilityId = .notificationsCellPrimaryImage

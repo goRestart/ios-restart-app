@@ -44,7 +44,7 @@ enum UserViewStyle {
     var usernameLabelColor: UIColor {
         switch self {
         case .full:
-            return UIColor.black
+            return UIColor.lgBlack
         case .compactShadow, .compactBorder, .withProductInfo:
             return UIColor.white
         }
@@ -64,7 +64,7 @@ enum UserViewStyle {
     var subtitleLabelColor: UIColor {
         switch self {
         case .full:
-            return UIColor.black
+            return UIColor.lgBlack
         case .compactShadow, .compactBorder, .withProductInfo:
             return UIColor.white
         }

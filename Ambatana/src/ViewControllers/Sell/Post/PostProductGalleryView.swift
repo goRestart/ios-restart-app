@@ -17,7 +17,8 @@ protocol PostProductGalleryViewDelegate: class {
     func productGalleryRequestsScrollLock(_ lock: Bool)
     func productGalleryDidPressTakePhoto()
     func productGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
-    func productGallerySelectionFull(_ selectionFull: Bool)
+    func productGallerySelection(selection: ImageSelection)
+    func productGallerySwitchToCamera()
 }
 
 enum MessageInfoType {
@@ -43,7 +44,16 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var albumButton: UIButton!
-    @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var topRightButton: UIButton!
+    fileprivate let postingGallery: PostingGallery
+    fileprivate var topRightButtonIsUsePhoto: Bool {
+        switch postingGallery {
+        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionTabs:
+            return true
+        case .multiSelectionPostBottom:
+            return false
+        }
+    }
 
     fileprivate var albumButtonTick = UIImageView()
 
@@ -60,20 +70,31 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     }
 
     var visible: Bool {
-        set {
-            viewModel.visible.value = newValue
-        }
         get {
             return viewModel.visible.value
         }
-    }
-
-    var usePhotoButtonText: String? {
         set {
-            postButton?.setTitle(newValue, for: .normal)
+            viewModel.visible.value = newValue
         }
+    }
+    
+    var collectionViewBottomInset: CGFloat {
         get {
-            return postButton?.title(for: .normal)
+            return collectionView.contentInset.bottom
+        }
+        set {
+            collectionView.contentInset.bottom = newValue
+        }
+    }
+    
+    var usePhotoButtonText: String? {
+        get {
+            guard topRightButtonIsUsePhoto else { return nil }
+            return topRightButton?.title(for: .normal)
+        }
+        set {
+            guard topRightButtonIsUsePhoto else { return }
+            topRightButton?.setTitle(newValue, for: .normal)
         }
     }
     private var headerShown = true
@@ -89,20 +110,26 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Lifecycle
 
-    convenience init() {
+    convenience init(postingGallery: PostingGallery) {
         let viewModel = PostProductGalleryViewModel()
-        self.init(viewModel: viewModel, frame: CGRect.zero)
+        self.init(viewModel: viewModel, frame: CGRect.zero, postingGallery: postingGallery)
     }
 
-    init(viewModel: PostProductGalleryViewModel, frame: CGRect) {
+    init(viewModel: PostProductGalleryViewModel,
+         frame: CGRect,
+         postingGallery: PostingGallery) {
         self.viewModel = viewModel
+        self.postingGallery = postingGallery
         super.init(viewModel: viewModel, frame: frame)
         self.viewModel.delegate = self
         setupUI()
     }
 
-    init?(viewModel: PostProductGalleryViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: PostProductGalleryViewModel,
+          postingGallery: PostingGallery,
+          coder aDecoder: NSCoder) {
         self.viewModel = viewModel
+        self.postingGallery = postingGallery
         super.init(viewModel: viewModel, coder: aDecoder)
         self.viewModel.delegate = self
         setupUI()
@@ -136,9 +163,17 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     @IBAction func closeButtonPressed(_ sender: AnyObject) {
         delegate?.productGalleryCloseButton()
     }
-
-    @IBAction func postButtonPressed(_ sender: AnyObject) {
+   
+    dynamic func postButtonPressed() {
         viewModel.postButtonPressed()
+    }
+    
+    @IBAction func topRightButtonPressed(_ sender: AnyObject) {
+        if topRightButtonIsUsePhoto {
+            postButtonPressed()
+        } else {
+            delegate?.productGallerySwitchToCamera()
+        }
     }
 
 
@@ -151,7 +186,22 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         contentView.backgroundColor = UIColor.black
         addSubview(contentView)
 
-        postButton.setStyle(.primary(fontSize: .small))
+        if topRightButtonIsUsePhoto {
+            topRightButton.setStyle(.primary(fontSize: .small))
+        } else {
+            topRightButton.setImage(#imageLiteral(resourceName: "ic_post_gallery_back_to_cam"), for: .normal)
+            topRightButton.setTitle(LGLocalizedString.productPostGalleryTopRightButtonCamera, for: .normal)
+            topRightButton.titleLabel?.font = UIFont.mediumButtonFont
+            topRightButton.titleLabel?.textColor = UIColor.white
+            let iconMargin: CGFloat = 8
+            topRightButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -iconMargin)
+            topRightButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: iconMargin)
+            
+            // http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton
+            topRightButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+            topRightButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+            topRightButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        }
         
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
@@ -191,6 +241,35 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         }
         loadImageErrorTitleLabel.text = title
         loadImageErrorSubtitleLabel.text = subtitle
+    }
+    
+    fileprivate func updateTopRightButton(state: GalleryState) {
+        switch state {
+        case .empty, .pendingAskPermissions, .missingPermissions, .loading:
+            switch postingGallery {
+            case .singleSelection, .multiSelection:
+                topRightButton.isEnabled = false
+                topRightButton.isHidden = false
+            case .multiSelectionWhiteButton, .multiSelectionTabs:
+                topRightButton.isEnabled = false
+                topRightButton.isHidden = true
+            case .multiSelectionPostBottom:
+                topRightButton.isEnabled = true
+                topRightButton.isHidden = false
+            }
+        case .normal, .loadImageError:
+            switch postingGallery {
+            case .singleSelection, .multiSelection:
+                topRightButton.isEnabled = viewModel.imagesSelectedCount != 0
+                topRightButton.isHidden = false
+            case .multiSelectionWhiteButton, .multiSelectionTabs:
+                topRightButton.isEnabled = true
+                topRightButton.isHidden = viewModel.imagesSelectedCount == 0
+            case .multiSelectionPostBottom:
+                topRightButton.isEnabled = true
+                topRightButton.isHidden = false
+            }
+        }
     }
 }
 
@@ -318,35 +397,29 @@ extension PostProductGalleryView {
                 strongSelf.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
                 strongSelf.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
-                strongSelf.postButton.isEnabled = false
             case .pendingAskPermissions:
                 strongSelf.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
                 strongSelf.infoSubtitle.text = LGLocalizedString.productPostGalleryPermissionsSubtitle
                 strongSelf.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
-                strongSelf.postButton.isEnabled = false
-                strongSelf.postButton.isEnabled = false
             case .missingPermissions(let msg):
                 strongSelf.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
                 strongSelf.infoSubtitle.text = msg
                 strongSelf.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
-                strongSelf.postButton.isEnabled = false
-                strongSelf.postButton.isEnabled = false
             case .normal:
                 strongSelf.infoContainer.isHidden = true
                 // multi selection shows a "choose photos" text in loadImageErrorView at start instead of the 1st image
-                strongSelf.postButton.isEnabled = strongSelf.viewModel.imagesSelectedCount != 0
+                strongSelf.topRightButton.isEnabled = !strongSelf.topRightButtonIsUsePhoto || strongSelf.viewModel.imagesSelectedCount != 0
                 strongSelf.loadImageErrorView.isHidden = strongSelf.viewModel.imagesSelectedCount != 0
             case .loadImageError:
                 strongSelf.infoContainer.isHidden = true
-                strongSelf.postButton.isEnabled = (strongSelf.viewModel.imagesSelectedCount != 0)
                 strongSelf.loadImageErrorView.isHidden = (strongSelf.viewModel.imagesSelectedCount != 0)
                 strongSelf.configMessageView(.wrongImage)
             case .loading:
                 strongSelf.imageLoadActivityIndicator.startAnimating()
-                strongSelf.postButton.isEnabled = false
             }
+            strongSelf.updateTopRightButton(state: state)
         }.addDisposableTo(disposeBag)
 
         viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bindNext { [weak self] imgsSelected in
@@ -375,8 +448,8 @@ extension PostProductGalleryView {
             strongSelf.collectionView.isUserInteractionEnabled = true
         }.addDisposableTo(disposeBag)
 
-        viewModel.imageSelectionFull.distinctUntilChanged().bindNext { [weak self] imageSelectionFull in
-            self?.delegate?.productGallerySelectionFull(imageSelectionFull)
+        viewModel.imageSelection.distinctUntilChanged().bindNext { [weak self] selection in
+            self?.delegate?.productGallerySelection(selection: selection)
         }.addDisposableTo(disposeBag)
     }
 
@@ -549,7 +622,7 @@ extension PostProductGalleryView {
         imageLoadActivityIndicator.accessibilityId = .postingGalleryLoading
         collectionView.accessibilityId = .postingGalleryCollection
         albumButton.accessibilityId = .postingGalleryAlbumButton
-        postButton.accessibilityId = .postingGalleryUsePhotoButton
+        topRightButton.accessibilityId = .postingGalleryUsePhotoButton
         infoButton.accessibilityId = .postingGalleryInfoScreenButton
     }
 }

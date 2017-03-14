@@ -77,7 +77,7 @@ class ChangeEmailView: UIView {
         backgroundColor = UIColor.grayBackground
         emailTitleLabel.textColor = UIColor.grayDark
         emailTitleLabel.font = UIFont.mediumBodyFont
-        emailLabel.textColor = UIColor.black
+        emailLabel.textColor = UIColor.lgBlack
         emailLabel.font = UIFont.mediumBodyFont
         emailTextField.backgroundColor = UIColor.white
         emailTextField.autocapitalizationType = .none
