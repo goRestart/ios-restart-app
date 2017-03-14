@@ -179,8 +179,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     private func setupLightAppearance() {
         darkAppereanceBgView.isHidden = true
 
-        let textfieldTextColor = UIColor.black
-        let textfieldTextPlaceholderColor = UIColor.black.withAlphaComponent(0.5)
+        let textfieldTextColor = UIColor.lgBlack
+        let textfieldTextPlaceholderColor = UIColor.lgBlack.withAlphaComponent(0.5)
         var textfieldPlaceholderAttrs = [String: Any]()
         textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor

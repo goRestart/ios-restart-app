@@ -29,4 +29,9 @@ struct Metrics {
     static let modularNotificationCTAHeight: CGFloat = 44
     static let modularNotificationCTASeparatorHeight: CGFloat = 1
     static let modularNotificationTextMargin: CGFloat = 5
+
+    // Sell
+    static let sellGalleryIconSide: CGFloat    = 70
+    static let sellCameraIconMaxSide: CGFloat  = 84
+    static let sellCameraIconMinSide: CGFloat  = 50
 }

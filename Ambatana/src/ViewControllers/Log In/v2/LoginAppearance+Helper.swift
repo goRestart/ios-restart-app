@@ -91,7 +91,7 @@ extension LoginAppearance {
     var lineColor: UIColor {
         switch self {
         case .dark:
-            return UIColor.black
+            return UIColor.lgBlack
         case .light:
             return UIColor.white
         }

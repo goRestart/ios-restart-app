@@ -39,8 +39,8 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
         titleLabel.font = UIFont.notificationTitleFont
         subtitleLabel.font = UIFont.notificationSubtitleFont(read: false)
 
-        titleLabel.textColor = UIColor.black
-        subtitleLabel.textColor = UIColor.black
+        titleLabel.textColor = UIColor.lgBlack
+        subtitleLabel.textColor = UIColor.lgBlack
 
         actionButton.setStyle(.primary(fontSize: .small))
         actionButton.isUserInteractionEnabled = false

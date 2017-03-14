@@ -21,6 +21,10 @@ struct ImageSelected {
     }
 }
 
+enum ImageSelection {
+    case nothing, any, all
+}
+
 protocol PostProductGalleryViewModelDelegate: class {
     func vmDidUpdateGallery()
     func vmDidSelectItemAtIndex(_ index: Int, shouldScroll: Bool)
@@ -55,10 +59,17 @@ class PostProductGalleryViewModel: BaseViewModel {
     let imageSelectionEnabled = Variable<Bool>(true)
     let albumButtonEnabled = Variable<Bool>(true)
 
-    var imageSelectionFull: Observable<Bool> {
+    var imageSelection: Observable<ImageSelection> {
         return imagesSelected.asObservable().map { [weak self] imagesSelected in
-            guard let strongSelf = self else { return false }
-            return strongSelf.multipleSelectionEnabled && (imagesSelected.count >= strongSelf.maxImagesSelected)
+            guard let strongSelf = self else { return .nothing }
+            
+            if imagesSelected.count >= strongSelf.maxImagesSelected {
+                return .all
+            } else if imagesSelected.count == 0 {
+                return .nothing
+            } else {
+                return .any
+            }
         }
     }
 
@@ -408,9 +419,11 @@ class PostProductGalleryViewModel: BaseViewModel {
             0..<imagesSelectedCount ~= selectedImageIndex else { return }
 
         imageSelectionEnabled.value = true
-        shouldUpdateDisabledCells = imagesSelected.value.count == maxImagesSelected
 
+        shouldUpdateDisabledCells = imagesSelected.value.count == maxImagesSelected
         imagesSelected.value.remove(at: selectedImageIndex)
+        imageSelectionEnabled.value = imagesSelectedCount < maxImagesSelected
+        galleryState.value = .normal
 
         if selectedImageIndex == imagesSelected.value.count {
             // just deselected last image selected, we should change the previewed one to the last selected, unless is the 1st one
