@@ -27,7 +27,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowMessage(_ message: String, completion: (() -> ())?)
-    func vmLoadStickersTooltipWithText(_ text: NSAttributedString)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -81,12 +80,13 @@ class ChatViewModel: BaseViewModel {
     let messages = CollectionVariable<ChatViewMessage>([])
     let shouldShowReviewButton = Variable<Bool>(false)
     let userReviewTooltipVisible = Variable<Bool>(false)
-
     var relatedProducts: [Product] = []
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
+    
+    let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
 
     
     // fileprivate
@@ -117,7 +117,6 @@ class ChatViewModel: BaseViewModel {
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
     fileprivate let isEmptyConversation = Variable<Bool>(true)
-    private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
     private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
 
@@ -266,7 +265,6 @@ class ChatViewModel: BaseViewModel {
         // only load messages if the interlocutor is not blocked
         // Note: In some corner cases (staging only atm) the interlocutor may come as nil
         if let interlocutor = conversation.value.interlocutor, interlocutor.isBanned { return }
-        loadStickersTooltip()
         refreshMessages()
     }
 
@@ -372,10 +370,9 @@ class ChatViewModel: BaseViewModel {
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
         }.addDisposableTo(disposeBag)
-
-        Observable.combineLatest(stickersTooltipVisible.asObservable(), reviewTooltipVisible.asObservable()) { $0 }
-            .subscribeNext { [weak self] (stickersTooltipVisible, reviewTooltipVisible) in
-            self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
+        
+        reviewTooltipVisible.asObservable().bindNext { [weak self] reviewTooltipVisible in
+            self?.userReviewTooltipVisible.value = reviewTooltipVisible
         }.addDisposableTo(disposeBag)
         
         conversation.asObservable().map{ $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
@@ -539,31 +536,9 @@ class ChatViewModel: BaseViewModel {
         return messageAtIndex(index)?.value
     }
 
-    func loadStickersTooltip() {
-        guard chatEnabled.value && stickersTooltipVisible.value else { return }
-
-        var newTextAttributes = [String : Any]()
-        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
-        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
-
-        var titleTextAttributes = [String : Any]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
-
-        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.append(NSAttributedString(string: " "))
-        fullTitle.append(titleText)
-
-        delegate?.vmLoadStickersTooltipWithText(fullTitle)
-    }
-
     func stickersShown() {
-        keyValueStorage[.stickersTooltipAlreadyShown] = true
-        stickersTooltipVisible.value = false
+        keyValueStorage[.stickersBadgeAlreadyShown] = true
+        showStickerBadge.value = false
     }
 
     func bannerActionButtonTapped() {
