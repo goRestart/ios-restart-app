@@ -79,9 +79,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         topInset.value = topBarHeight
-        productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
@@ -108,6 +106,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setInviteNavBarButton()
         setupRxBindings()
         setAccessibilityIds()
+        productListView.collectionViewContentInset.top = topBarHeight + (tagsShowing ? 40 : 0)
     }
     
     override func viewDidAppear(_ animated: Bool) {
