@@ -10,6 +10,8 @@
 
 class MockPurchasesShopper: PurchasesShopper {
     weak var delegate: PurchasesShopperDelegate?
+
+    var isBumpUpPending: Bool = false
     var paymentSucceeds: Bool = false
     var pricedBumpSucceeds: Bool = false
 
@@ -23,6 +25,15 @@ class MockPurchasesShopper: PurchasesShopper {
 
     func productsRequestStartForProduct(_ productId: String, withIds ids: [String]) {
 
+        var purchaseableProducts: [PurchaseableProduct] = []
+
+        ids.forEach { purchaseProductId in
+            var purchaseableProduct = MockPurchaseableProduct.makeMock()
+            purchaseableProduct.productIdentifier = purchaseProductId
+            purchaseableProducts.append(purchaseableProduct)
+        }
+
+        delegate?.shopperFinishedProductsRequestForProductId(productId, withProducts: purchaseableProducts)
     }
 
     func requestPaymentForProduct(productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
@@ -40,7 +51,7 @@ class MockPurchasesShopper: PurchasesShopper {
     }
 
     func isBumpUpPending(productId: String) -> Bool {
-        return Bool.makeRandom()
+        return isBumpUpPending
     }
 
     func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
@@ -48,6 +59,13 @@ class MockPurchasesShopper: PurchasesShopper {
     }
 
     func requestPricedBumpUpForProduct(productId: String) {
-
+        delegate?.pricedBumpDidStart()
+        if pricedBumpSucceeds {
+            // payment works and bump works
+            delegate?.pricedBumpDidSucceed()
+        } else {
+            // payment works but bump fails
+            delegate?.pricedBumpDidFail()
+        }
     }
 }
