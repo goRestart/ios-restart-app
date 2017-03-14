@@ -74,7 +74,7 @@
 			<key>Key</key>
 			<string>cleanup_cache</string>
 			<key>Title</key>
-			<string>Clean cache on next start</string>
+			<string>Clear cache on next launch</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
