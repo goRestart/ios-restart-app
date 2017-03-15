@@ -30,16 +30,20 @@ class PurchasesShopperSpec: QuickSpec {
         var requestFactory: MockPurchaseableProductsRequestFactory!
         var monetizationRepository: MockMonetizationRepository!
         var myUserRepository: MockMyUserRepository!
+        var paymentQueue: MockPaymentQueue!
 
         describe("PurchasesShopperSpec") {
             beforeEach {
+                self.mockBumpResult = nil
+                self.network = .notAvailable
                 self.requestsFinished = []
                 requestFactory = MockPurchaseableProductsRequestFactory()
                 monetizationRepository = MockMonetizationRepository()
                 myUserRepository = MockMyUserRepository()
                 let mockReceiptURLProvider = MockReceiptURLProvider()
+                paymentQueue = MockPaymentQueue()
                 sut = LGPurchasesShopper(requestFactory: requestFactory, monetizationRepository: monetizationRepository,
-                                         myUserRepository: myUserRepository, paymentQueue: SKPaymentQueue.default(),
+                                         myUserRepository: myUserRepository, paymentQueue: paymentQueue,
                                          receiptURLProvider: mockReceiptURLProvider)
                 sut.delegate = self
                 sut.startObservingTransactions()
@@ -48,6 +52,15 @@ class PurchasesShopperSpec: QuickSpec {
                 sut.stopObservingTransactions()
             }
             context("productsRequestStartForProduct") {
+                context("the device can't make purchases") {
+                    beforeEach {
+                        paymentQueue.canMakePayments = false
+                        sut.productsRequestStartForProduct("a_product_id", withIds: ["appstoreId1"])
+                    }
+                    it ("the delegate is never called") {
+                        expect(self.requestsFinished).toEventually(equal([]))
+                    }
+                }
                 context("on simple call") {
                     beforeEach {
                         sut.productsRequestStartForProduct("a_product_id", withIds: ["appstoreId1"])
@@ -91,8 +104,6 @@ class PurchasesShopperSpec: QuickSpec {
             context("free bump") {
                 context("bump finishes successfully") {
                     beforeEach {
-                        self.mockBumpResult = nil
-                        self.network = .notAvailable
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
                         sut.requestFreeBumpUpForProduct(productId: "a_product_id", withPaymentItemId: "payment_id_1",
                                                         shareNetwork: .email)
@@ -107,8 +118,6 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("free bump fails") {
                     beforeEach {
-                        self.mockBumpResult = nil
-                        self.network = .notAvailable
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
                         sut.requestFreeBumpUpForProduct(productId: "a_product_id", withPaymentItemId: "payment_id_1",
                                                         shareNetwork: .email)
@@ -126,6 +135,18 @@ class PurchasesShopperSpec: QuickSpec {
                 var initialPendingPayments: Int = 0
                 beforeEach {
                     initialPendingPayments = 0
+                }
+                context("the device can't make purchases") {
+                    beforeEach {
+                        paymentQueue.canMakePayments = false
+                        initialPendingPayments = sut.numPendingTransactions
+                        let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
+                        sut.letgoProductsDict["product_id"] = [myAppstoreProduct]
+                        sut.requestPaymentForProduct(productId: "product_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
+                    }
+                    it ("doesn't add a new payment to the queue") {
+                        expect(sut.numPendingTransactions) == initialPendingPayments
+                    }
                 }
                 context("the purchaseable product is available") {
                     beforeEach {
@@ -153,7 +174,6 @@ class PurchasesShopperSpec: QuickSpec {
             }
             context("product payment failed") {
                 beforeEach {
-                    self.mockBumpResult = nil
                     let transaction = MyPaymentTransaction(myTransactionIdentifier: "123123", myTransactionState: .failed)
                     sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
                     expect(self.mockBumpResult).toEventuallyNot(beNil())
@@ -165,10 +185,6 @@ class PurchasesShopperSpec: QuickSpec {
             }
             context("product paid") {
                 let transaction = MyPaymentTransaction(myTransactionIdentifier: "123123", myTransactionState: .purchased)
-
-                beforeEach {
-                    self.mockBumpResult = nil
-                }
                 context("new purchase") {
                     context("bump succeeds") {
                         beforeEach {
@@ -201,7 +217,6 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("restoring purchase") {
                     beforeEach {
-                        self.mockBumpResult = nil
                         sut.paymentProcessingProductId = "product_id_restore"
                         sut.paymentProcessingPaymentId = "payment_id_restore"
                         transaction.myTransactionIdentifier = "restore_bump"
@@ -229,7 +244,6 @@ class PurchasesShopperSpec: QuickSpec {
                     }
                     context("bump fails") {
                         beforeEach {
-                            self.mockBumpResult = nil
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
                             sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
 

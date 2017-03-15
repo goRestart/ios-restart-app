@@ -38,6 +38,10 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         return receiptData.base64EncodedString()
     }
 
+    private var canMakePayments: Bool {
+        return paymentQueue.canMakePayments
+    }
+
     var purchasesShopperState: PurchasesShopperState = .restoring
 
     fileprivate(set) var currentRequestProductId: String?
@@ -48,7 +52,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private var myUserRepository: MyUserRepository
     fileprivate let keyValueStorage: KeyValueStorage
     private var receiptURLProvider: ReceiptURLProvider
-    fileprivate var paymentQueue: SKPaymentQueue
+    fileprivate var paymentQueue: PaymentEnqueuable
     fileprivate var appstoreProductsCache: [String : SKProduct] = [:]
 
     weak var delegate: PurchasesShopperDelegate?
@@ -74,18 +78,18 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     convenience init(requestFactory: PurchaseableProductsRequestFactory,
                      monetizationRepository: MonetizationRepository,
                      myUserRepository: MyUserRepository,
-                     paymentQueue: SKPaymentQueue,
+                     paymentQueue: PaymentEnqueuable,
                      receiptURLProvider: ReceiptURLProvider) {
         let keyValueStorage = KeyValueStorage.sharedInstance
         self.init(requestFactory: requestFactory, monetizationRepository: monetizationRepository, myUserRepository: myUserRepository,
-                  keyValueStorage: keyValueStorage, paymentQueue: SKPaymentQueue.default(), receiptURLProvider: receiptURLProvider)
+                  keyValueStorage: keyValueStorage, paymentQueue: paymentQueue, receiptURLProvider: receiptURLProvider)
     }
 
     init(requestFactory: PurchaseableProductsRequestFactory,
          monetizationRepository: MonetizationRepository,
          myUserRepository: MyUserRepository,
          keyValueStorage: KeyValueStorage,
-         paymentQueue: SKPaymentQueue,
+         paymentQueue: PaymentEnqueuable,
          receiptURLProvider: ReceiptURLProvider) {
         self.monetizationRepository = monetizationRepository
         self.requestFactory = requestFactory
@@ -106,7 +110,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      */
     func startObservingTransactions() {
         // guard to avoid adding the observer several times
-        guard !isObservingPaymentsQueue && SKPaymentQueue.canMakePayments() else { return }
+        guard !isObservingPaymentsQueue && canMakePayments else { return }
         paymentQueue.add(self)
         isObservingPaymentsQueue = true
     }
@@ -127,7 +131,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter ids: array of ids of the appstore products
      */
     func productsRequestStartForProduct(_ productId: String, withIds ids: [String]) {
-        guard productId != currentRequestProductId, SKPaymentQueue.canMakePayments() else { return }
+        guard productId != currentRequestProductId, canMakePayments else { return }
 
         // check cached products
         let alreadyChosenProducts = appstoreProductsCache.filter(keys: ids).map { $0.value }
@@ -165,7 +169,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      -
      */
     func requestPaymentForProduct(productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
-        guard SKPaymentQueue.canMakePayments() else { return }
+        guard canMakePayments else { return }
         purchasesShopperState = .purchasing
         guard let appstoreProducts = letgoProductsDict[productId],
               let appstoreChosenProduct = appstoreProduct as? SKProduct else { return }
@@ -204,7 +208,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter productId: letgo product Id
      */
     func requestPricedBumpUpForProduct(productId: String) {
-        guard SKPaymentQueue.canMakePayments() else { return }
+        guard canMakePayments else { return }
         guard let receiptString = receiptString else { return }
 
         let transactionsDict = keyValueStorage.userPendingTransactionsProductIds

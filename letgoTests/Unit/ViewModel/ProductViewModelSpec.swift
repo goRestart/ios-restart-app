@@ -47,7 +47,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
 
 
-        fdescribe("ProductViewModelSpec") {
+        describe("ProductViewModelSpec") {
 
             func buildProductViewModel() {
                 let socialSharer = SocialSharer()
@@ -470,7 +470,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 }
             }
 
-            fdescribe ("the right bump up banner appears") {
+            describe ("the right bump up banner appears") {
                 context ("AB test are not active") {
                     beforeEach {
                         featureFlags.freeBumpUpEnabled = false
