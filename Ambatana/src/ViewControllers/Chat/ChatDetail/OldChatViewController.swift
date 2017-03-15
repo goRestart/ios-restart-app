@@ -315,10 +315,10 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
             break
         }
 
-        showReviewButton()
+        updateReviewButton()
     }
-
-    fileprivate func showReviewButton() {
+    
+    fileprivate func updateReviewButton() {
         productView.showReviewButton(viewModel.userIsReviewable, withTooltip: viewModel.shouldShowUserReviewTooltip)
         guard let tooltip = productView.userRatingTooltip else { return }
         navigationController?.navigationBar.forceTouchesFor(tooltip)
@@ -539,8 +539,8 @@ extension OldChatViewController: OldChatViewModelDelegate {
         navigationController?.popBackViewController()
     }
 
-    func vmUpdateUserIsReadyToReview() {
-        showReviewButton()
+    func vmUpdateReviewButton() {
+        updateReviewButton()
     }
 }
 
