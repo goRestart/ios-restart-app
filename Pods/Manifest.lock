@@ -18,7 +18,7 @@ PODS:
   - Branch/Core (0.12.27)
   - Branch/without-IDFA (0.12.27)
   - bumper (1.0.3)
-  - CameraManager (3.1.0)
+  - CameraManager (3.1.1)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
@@ -155,7 +155,7 @@ DEPENDENCIES:
   - Argo (= 4.1.2)
   - Branch (= 0.12.27)
   - bumper (= 1.0.3)
-  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `32011eac1be83e77c2e822979d0e6083e2638a73`)
+  - CameraManager (= 3.1.1)
   - CHTCollectionViewWaterfallLayout (= 0.9.5)
   - CocoaLumberjack/Swift (= 3.0.0)
   - Crashlytics (= 3.8.3)
@@ -189,9 +189,6 @@ DEPENDENCIES:
   - TwitterKit (= 2.3.0)
 
 EXTERNAL SOURCES:
-  CameraManager:
-    :commit: 32011eac1be83e77c2e822979d0e6083e2638a73
-    :git: git@github.com:letgoapp/CameraManager.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
@@ -203,9 +200,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/albertbori/Reachability
 
 CHECKOUT OPTIONS:
-  CameraManager:
-    :commit: 32011eac1be83e77c2e822979d0e6083e2638a73
-    :git: git@github.com:letgoapp/CameraManager.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
@@ -225,7 +219,7 @@ SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: 41404cc6de82e84368a26961f66d657b0662ca02
   bumper: abbdce79db20a57b706195a593853d045cf6af27
-  CameraManager: 589a7f503519323cb4d904140928276147466746
+  CameraManager: e6236452ec87950dde1fd70a8bed938336bb8901
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
@@ -277,6 +271,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: c4341dd2e78409b3e4bcfb6be7570dc223634f62
+PODFILE CHECKSUM: e78958b2e1d1a8f7c40239235337475818608b39
 
 COCOAPODS: 1.2.0
