@@ -133,12 +133,16 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     func didSelectRowAtIndex(_ index: Int, editing: Bool) {
         if editing, let selectedRows = tableView.indexPathsForSelectedRows?.count {
             footerButton.isEnabled = selectedRows > 0
+        } else {
+            footerButton.isEnabled = false
         }
     }
 
     func didDeselectRowAtIndex(_ index: Int, editing: Bool) {
         if editing, let selectedRows = tableView.indexPathsForSelectedRows?.count{
             footerButton.isEnabled = selectedRows > 0
+        } else {
+            footerButton.isEnabled = false
         }
     }
 
