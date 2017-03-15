@@ -45,7 +45,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateStickers()
     func vmClearText()
 
-    func vmUpdateUserIsReadyToReview()
+    func vmUpdateReviewButton()
 }
 
 enum AskQuestionSource {
@@ -765,7 +765,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }
-        delegate?.vmUpdateUserIsReadyToReview()
+        delegate?.vmUpdateReviewButton()
     }
 
     private func setStickerBadge() {
@@ -905,8 +905,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
         
         trackBlockUsers([userId])
         
-        self.userRepository.blockUserWithId(userId) { result -> Void in
-            completion(result.value != nil)
+        self.userRepository.blockUserWithId(userId) { [weak self] result -> Void in
+            let success = result.value != nil
+            completion(success)
+            
+            if success {
+                self?.delegate?.vmUpdateReviewButton()
+            }
         }
     }
     
@@ -928,8 +933,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
         
         trackUnblockUsers([userId])
         
-        self.userRepository.unblockUserWithId(userId) { result -> Void in
-            completion(result.value != nil)
+        self.userRepository.unblockUserWithId(userId) { [weak self] result -> Void in
+            let success = result.value != nil
+            completion(success)
+            
+            if success {
+                self?.delegate?.vmUpdateReviewButton()
+            }
         }
     }
     
@@ -1124,7 +1134,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         if shouldShowSafetyTips {
             delegate?.vmShowSafetyTips()
         }
-        delegate?.vmUpdateUserIsReadyToReview()
+        delegate?.vmUpdateReviewButton()
     }
 
     private func checkSellerDidntAnswer(_ messages: [Message], page: Int) {
