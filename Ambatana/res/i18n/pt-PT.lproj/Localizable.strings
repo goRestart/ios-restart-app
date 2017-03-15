@@ -455,6 +455,7 @@
 "product_distance_X_from_you" = "%@ de si";
 "product_distance_more_than_from_you" = "Mais de %@ de si";
 "product_favorite_direct_message" = "Gosto! Ainda está disponível?";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Grátis";
 "product_is_mine_share_body" = "Dá uma olhada no que estou a vender no letgo!";
 "product_is_mine_share_body_free" = "Dá uma olhada no que tenho no letgo para dar!";
@@ -553,6 +554,7 @@
 "product_price_label" = "Preço";
 "product_report_confirm_message" = "Tem a certeza que deseja denunciar este artigo?";
 "product_report_confirm_title" = "Denunciar artigo";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "Denunciar artigo";
 "product_reported_error_generic" = "Surgiu um erro ao reportar o produto. Por favor tente novamente.";
 "product_reported_success_message" = "O produto foi denunciado. Obrigado!";

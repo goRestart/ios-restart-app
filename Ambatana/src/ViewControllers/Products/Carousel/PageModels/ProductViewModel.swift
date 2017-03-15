@@ -383,7 +383,7 @@ extension ProductViewModel {
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
-        ifLoggedInRunActionElseOpenSignUp(from: .directChat) { [weak self] in
+        ifLoggedInRunActionElseOpenSignUp(from: .directChat, infoMessage: LGLocalizedString.chatLoginPopupText) { [weak self] in
             if isDefaultText {
                 self?.sendMessage(type: .periscopeDirect(text))
             } else {
@@ -393,7 +393,7 @@ extension ProductViewModel {
     }
 
     func sendQuickAnswer(quickAnswer: QuickAnswer) {
-        ifLoggedInRunActionElseOpenSignUp(from: .directQuickAnswer) { [weak self] in
+        ifLoggedInRunActionElseOpenSignUp(from: .directQuickAnswer, infoMessage: LGLocalizedString.chatLoginPopupText) { [weak self] in
             self?.sendMessage(type: .quickAnswer(quickAnswer))
         }
     }
@@ -411,8 +411,8 @@ extension ProductViewModel {
     }
 
     func switchFavorite() {
-        ifLoggedInRunActionElseOpenSignUp(from: .favourite) { [weak self] in
-            self?.switchFavoriteAction()
+        ifLoggedInRunActionElseOpenSignUp(from: .favourite, infoMessage: LGLocalizedString.productFavoriteLoginPopupText) {
+            [weak self] in self?.switchFavoriteAction()
         }
     }
 
@@ -457,8 +457,7 @@ extension ProductViewModel {
         let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
             .withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
-            self?.ifLoggedInRunActionElseOpenSignUp(from: .favourite) { [weak self] in
-                self?.switchFavoriteAction() }
+            self?.switchFavorite()
         }, accessibilityId: .productCarouselNavBarFavoriteButton)
     }
 
@@ -532,7 +531,8 @@ extension ProductViewModel {
     }
     
     fileprivate func confirmToReportProduct() {
-        ifLoggedInRunActionElseOpenSignUp(from: .reportFraud) { [weak self] () -> () in
+        ifLoggedInRunActionElseOpenSignUp(from: .reportFraud, infoMessage: LGLocalizedString.productReportLoginPopupText) {
+            [weak self] () -> () in
             guard let strongSelf = self, !strongSelf.isMine else { return }
             
             let alertOKAction = UIAction(interface: .text(LGLocalizedString.commonYes),
@@ -684,29 +684,27 @@ fileprivate extension ProductViewModel {
     }
 
     func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
-        ifLoggedInRunActionElseOpenSignUp(from: .markAsSold) { [weak self]  in
-            guard let featureFlags = self?.featureFlags, featureFlags.userRatingMarkAsSold else {
-                self?.confirmToMarkAsSold()
-                return
-            }
+        guard featureFlags.userRatingMarkAsSold else {
+            confirmToMarkAsSold()
+            return
+        }
 
-            guard let productId = self?.product.value.objectId else { return }
-            self?.delegate?.vmShowLoading(nil)
-            self?.productRepository.possibleBuyersOf(productId: productId) { result in
-                if let buyers = result.value, !buyers.isEmpty {
-                    self?.delegate?.vmHideLoading(nil) {
-                        self?.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers) { [weak self] buyerId in
-                            let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
-                            self?.markAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
-                        }
+        guard let productId = product.value.objectId else { return }
+        delegate?.vmShowLoading(nil)
+        productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+            if let buyers = result.value, !buyers.isEmpty {
+                self?.delegate?.vmHideLoading(nil) {
+                    self?.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers) { [weak self] buyerId in
+                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
+                        self?.markAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
                     }
-                } else if showConfirmationFallback {
-                    self?.delegate?.vmHideLoading(nil) {
-                        self?.confirmToMarkAsSold()
-                    }
-                } else {
-                    self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
                 }
+            } else if showConfirmationFallback {
+                self?.delegate?.vmHideLoading(nil) {
+                    self?.confirmToMarkAsSold()
+                }
+            } else {
+                self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
             }
         }
     }
@@ -734,15 +732,13 @@ fileprivate extension ProductViewModel {
         let message = free ? LGLocalizedString.productSellAgainFreeConfirmMessage : LGLocalizedString.productSellAgainConfirmMessage
         let cancel = free ? LGLocalizedString.productSellAgainFreeConfirmCancelButton : LGLocalizedString.productSellAgainConfirmCancelButton
 
-        ifLoggedInRunActionElseOpenSignUp(from: .markAsUnsold) { [weak self] in
-            var alertActions: [UIAction] = []
-            let sellAgainAction = UIAction(interface: .text(okButton),
-                                           action: { [weak self] in
-                                            self?.markUnsold()
-            })
-            alertActions.append(sellAgainAction)
-            self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
-        }
+        var alertActions: [UIAction] = []
+        let sellAgainAction = UIAction(interface: .text(okButton),
+                                       action: { [weak self] in
+                                        self?.markUnsold()
+        })
+        alertActions.append(sellAgainAction)
+        delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
     }
 
     func report() {
@@ -872,8 +868,10 @@ fileprivate extension ProductViewModel {
 // MARK: - Logged in checks
 
 extension ProductViewModel {
-    fileprivate func ifLoggedInRunActionElseOpenSignUp(from: EventParameterLoginSourceValue, action: @escaping () -> ()) {
-        navigator?.openLoginIfNeededFromProductDetail(from: from, loggedInAction: action)
+    fileprivate func ifLoggedInRunActionElseOpenSignUp(from: EventParameterLoginSourceValue,
+                                                       infoMessage: String,
+                                                       action: @escaping () -> ()) {
+        navigator?.openLoginIfNeededFromProductDetail(from: from, infoMessage: infoMessage, loggedInAction: action)
     }
 }
 

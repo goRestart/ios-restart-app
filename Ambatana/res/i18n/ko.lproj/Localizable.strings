@@ -455,6 +455,7 @@
 "product_distance_X_from_you" = "당신으로부터 %@";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
 "product_favorite_direct_message" = "마음에 드네요! 아직 판매하시나요?";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "무료";
 "product_is_mine_share_body" = "letgo에서 무엇이 판매중인지 확인해보세요!";
 "product_is_mine_share_body_free" = "제가 letgo에서 무엇을 증정하고 있는지 확인해보세요!";
@@ -553,6 +554,7 @@
 "product_price_label" = "가격";
 "product_report_confirm_message" = "이 제품을 신고하시기를 원하시나요?";
 "product_report_confirm_title" = "제품 신고";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "제품 신고";
 "product_reported_error_generic" = "상품을 신고하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "product_reported_success_message" = "제품이 신고되었습니다. 감사합니다!";

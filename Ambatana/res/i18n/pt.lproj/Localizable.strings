@@ -455,6 +455,7 @@
 "product_distance_X_from_you" = "%@ from you";
 "product_distance_more_than_from_you" = "More than %@ from you";
 "product_favorite_direct_message" = "I like it! Is it still available?";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Free";
 "product_is_mine_share_body" = "Check out what I'm selling on letgo!";
 "product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
@@ -553,6 +554,7 @@
 "product_price_label" = "Price";
 "product_report_confirm_message" = "Are you sure you want to report this product?";
 "product_report_confirm_title" = "Report Product";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "Report Product";
 "product_reported_error_generic" = "An error occurred while reporting the product. Please try again.";
 "product_reported_success_message" = "The product has been reported. Thanks!";

@@ -54,7 +54,8 @@ protocol ProductDetailNavigator: TabNavigator {
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct)
     func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void)
     func showProductFavoriteBubble(with data: BubbleNotificationData)
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+                                            loggedInAction: @escaping (() -> Void))
 }
 
 protocol SimpleProductsNavigator: class {

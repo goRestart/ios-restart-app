@@ -2475,6 +2475,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_stickers_selection_wo_name", comment: "")
 	}
 
+	static var productFavoriteLoginPopupText: String {
+		return NSLocalizedString("product_favorite_login_popup_text", comment: "")
+	}
+
+	static var productReportLoginPopupText: String {
+		return NSLocalizedString("product_report_login_popup_text", comment: "")
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}
