@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "LỜI KHUYÊN AN TOÀN";
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@ từ bạn";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
 "product_favorite_direct_message" = "Tôi thích nó! Nó vẫn còn chứ?";
+"product_favorite_login_popup_text" = "Bạn cần đăng nhập để đánh dấu yêu thích sản phẩm này";
 "product_free_price" = "Miễn phí";
 "product_is_mine_share_body" = "Hãy xem tôi đang bán gì trên letgo!";
 "product_is_mine_share_body_free" = "Xem tôi đang tặng gì trên letgo!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Giá";
 "product_report_confirm_message" = "Bạn có chắc chắn muốn báo cáo sản phẩm này không?";
 "product_report_confirm_title" = "Báo cáo Sản phẩm";
+"product_report_login_popup_text" = "Bạn cần đăng nhập để báo cáo một sản phẩm";
 "product_report_product_button" = "Báo cáo Sản phẩm";
 "product_reported_error_generic" = "Có lỗi xảy ra trong khi báo cáo sản phẩm. Xin vui lòng thử lại.";
 "product_reported_success_message" = "Sản phẩm vừa được báo cáo. Xin cảm ơn!";

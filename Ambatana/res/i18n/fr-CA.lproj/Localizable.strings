@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "CONSEILS DE SÉCURITÉ";
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
 "chat_user_info_name" = "Bonjour, je m'appelle %@";
 "chat_user_info_verified_with" = "Vérifié avec :";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "à %@ de chez vous";
 "product_distance_more_than_from_you" = "À plus de %@ de chez vous";
 "product_favorite_direct_message" = "J'aime ça ! Est-ce que c'est toujours disponible ?";
+"product_favorite_login_popup_text" = "Pour mettre ce produit en favori, vous devez vous connecter";
 "product_free_price" = "Gratuit";
 "product_is_mine_share_body" = "Découvrez ce que je vends sur letgo !";
 "product_is_mine_share_body_free" = "Regardez ce que je donne sur letgo !";
@@ -553,6 +556,7 @@
 "product_price_label" = "Prix";
 "product_report_confirm_message" = "Êtes-vous certain de vouloir signaler ce produit ?";
 "product_report_confirm_title" = "Signaler Produit";
+"product_report_login_popup_text" = "Pour signaler un produit, vous devez vous connecter";
 "product_report_product_button" = "Signaler le Produit";
 "product_reported_error_generic" = "Une erreur est survenue lors du signalement du produit. Veuillez réessayer.";
 "product_reported_success_message" = "Le produit a été signalé. Merci !";

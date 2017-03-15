@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Разблокировать пользователя";
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@ от вас";
 "product_distance_more_than_from_you" = "Более %@ от вас";
 "product_favorite_direct_message" = "Мне нравится! Все еще доступно?";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Бесплатно";
 "product_is_mine_share_body" = "Смотрите, что я продаю на letgo!";
 "product_is_mine_share_body_free" = "Посмотрите, что я отдаю на letgo!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Цена";
 "product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на продукт?";
 "product_report_confirm_title" = "Пожаловаться на продукт";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "Пожаловаться на продукт";
 "product_reported_error_generic" = "Не получилось отправить жалобу. Пожалуйста, попробуйте еще раз.";
 "product_reported_success_message" = "Ваша жалоба была отправлена. Спасибо!";

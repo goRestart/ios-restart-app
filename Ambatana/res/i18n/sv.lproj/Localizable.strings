@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "SÄKERHETSTIPS";
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Avblockera användare";
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Bekräftad med: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@ från dig";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
 "product_favorite_direct_message" = "Jag gillar den! Är de fortfarande tillgänglig?";
+"product_favorite_login_popup_text" = "Du måste vara inloggad för att markera denna produkt som favorit";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Kolla vad jag säljer på letgo!";
 "product_is_mine_share_body_free" = "Kolla vad jag skänker bort på letgo!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Pris";
 "product_report_confirm_message" = "Är du säker på att du vill rapportera denna produkt?";
 "product_report_confirm_title" = "Rapporterar produkt";
+"product_report_login_popup_text" = "Du måste vara inloggad för att rapportera en produkt";
 "product_report_product_button" = "Rapporterar produkt";
 "product_reported_error_generic" = "Vi kunde tyvärr inte rapportera produkten just nu. Var vänlig försök igen.";
 "product_reported_success_message" = "Denna produkt har rapporterats. Tack!";
