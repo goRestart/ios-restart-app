@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"chat_stickers_tooltip_add_stickers" = "Добавить стикеры";
+"chat_stickers_tooltip_new" = "НОВОЕ!";
 "chat_unblock_user" = "Разблокировать пользователя";
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
