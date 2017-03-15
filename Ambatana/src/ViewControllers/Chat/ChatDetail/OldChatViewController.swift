@@ -31,8 +31,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
-    var stickersTooltip: Tooltip?
-
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -93,7 +91,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        removeStickersTooltip()
         removeIgnoreTouchesForTooltip()
     }
 
@@ -334,9 +331,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     fileprivate func updateChatInteraction(_ enabled: Bool) {
         setTextViewBarHidden(!enabled, animated: true)
         textView.isUserInteractionEnabled = enabled
-        if !enabled {
-            removeStickersTooltip()
-        }
     }
     
     func showKeyboard(_ show: Bool, animated: Bool) {
@@ -346,12 +340,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
             presentKeyboard(animated)
         } else {
             dismissKeyboard(animated)
-        }
-    }
-
-    fileprivate func removeStickersTooltip() {
-        if let tooltip = stickersTooltip, view.subviews.contains(tooltip) {
-            tooltip.removeFromSuperview()
         }
     }
 
@@ -445,7 +433,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
     
     func vmDidFailSendingMessage() {
-        showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
+        showAutoFadingOutMessageAlert(LGLocalizedString.chatSendErrorGeneric)
     }
     
     func vmDidSucceedSendingMessage(_ index: Int) {
@@ -549,23 +537,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmClose() {
         navigationController?.popBackViewController()
-    }
-
-    func vmLoadStickersTooltipWithText(_ text: NSAttributedString) {
-        guard stickersTooltip == nil else { return }
-
-        stickersTooltip = Tooltip(targetView: leftButtonsContainer, superView: view, title: text, style: .black(closeEnabled: true),
-                                  peakOnTop: false, actionBlock: { [weak self] in
-                                    self?.showStickers()
-                            }, closeBlock: { [weak self] in
-                                    self?.viewModel.stickersShown()
-        })
-
-        guard let tooltip = stickersTooltip else { return }
-        view.addSubview(tooltip)
-        setupExternalConstraintsForTooltip(tooltip, targetView: leftButtonsContainer, containerView: view)
-
-        view.layoutIfNeeded()
     }
 
     func vmUpdateUserIsReadyToReview() {
@@ -744,7 +715,6 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
 
     func showStickers() {
         viewModel.stickersShown()
-        removeStickersTooltip()
         showKeyboard(true, animated: false)
         stickersWindow?.isHidden = false
         stickersView.isHidden = false
@@ -761,8 +731,14 @@ extension OldChatViewController: UIGestureRecognizerDelegate {
 
     func reloadLeftActions() {
         var actions = [UIAction]()
-
-        let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
+        var image: UIImage
+        if showingStickers {
+            image = #imageLiteral(resourceName: "ic_keyboard")
+        } else if viewModel.shouldShowStickerBadge {
+            image = #imageLiteral(resourceName: "icStickersWithBadge")
+        } else {
+            image = #imageLiteral(resourceName: "ic_stickers")
+        }
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()

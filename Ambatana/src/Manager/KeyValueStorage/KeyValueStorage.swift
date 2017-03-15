@@ -42,7 +42,9 @@ extension DefaultsKeys {
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
     static let giveAwayTooltipAlreadyShown = DefaultsKey<Bool>("giveAwayTooltipAlreadyShown")
-    static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
+    
+    // changing naming as there is no tooltip any more but keeping the string to avoid showing the badge to old users.
+    static let stickersBadgeAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
     static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
 
     static let isGod = DefaultsKey<Bool>("isGod")

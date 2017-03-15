@@ -36,6 +36,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     fileprivate let sectionHeight: CGFloat = 54
     fileprivate let firstSectionMarginTop: CGFloat = -36
     fileprivate let numberOfSuggestionSections = 2
+    fileprivate let heightFiltersTagView: CGFloat = 40
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
@@ -79,9 +80,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         topInset.value = topBarHeight
-        productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
@@ -108,6 +107,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setInviteNavBarButton()
         setupRxBindings()
         setAccessibilityIds()
+        productListView.collectionViewContentInset.top = topBarHeight + (tagsShowing ? heightFiltersTagView : 0)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -238,7 +238,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setupTagsView() {
         tagsCollectionTopSpace = NSLayoutConstraint(item: tagsCollectionView, attribute: .top, relatedBy: .equal,
-            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: -40.0)
+            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: -heightFiltersTagView)
         if let tagsCollectionTopSpace = tagsCollectionTopSpace {
             view.addConstraint(tagsCollectionTopSpace)
         }

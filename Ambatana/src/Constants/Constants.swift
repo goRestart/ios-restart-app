@@ -120,6 +120,9 @@ struct Constants {
     // FBSDK
     static let fbSdkRequiredDelay: TimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
 
+    // Image Caching
+    static let imagesUrlCacheMemoryCapacity = 20 * 1024 * 1024 // 20 MB
+    static let imagesUrlCacheDiskCapacity = 150 * 1024 * 1024 // 150 MB
 
     // Bubbles
     static let bubbleChatDuration: TimeInterval = 3         // seconds

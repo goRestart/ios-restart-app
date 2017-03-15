@@ -6,11 +6,7 @@
 	<array>
 		<dict>
 			<key>DefaultValue</key>
-<<<<<<< HEAD
-			<string>1.17.3 (237)</string>
-=======
-			<string>1.17.3 (238)</string>
->>>>>>> develop
+			<string>1.17.3 (239)</string>
 			<key>Key</key>
 			<string>version_preference</string>
 			<key>Title</key>
@@ -33,6 +29,22 @@
 			<string>Media Acknowledgements</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Clears out cached images and temporary files</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>cleanup_cache</string>
+			<key>Title</key>
+			<string>Clear cache on next launch</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>
