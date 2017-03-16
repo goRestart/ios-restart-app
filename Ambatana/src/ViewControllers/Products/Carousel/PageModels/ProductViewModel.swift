@@ -69,7 +69,7 @@ class ProductViewModel: BaseViewModel {
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
         let isFree = product.value.price.free && featureFlags.freePostingModeAllowed
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, repitingPlaceholderText: featureFlags.quickAnswersRepeatedTextField)
     }
 
     let navBarButtons = Variable<[UIAction]>([])
