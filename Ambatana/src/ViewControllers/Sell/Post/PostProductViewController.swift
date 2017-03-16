@@ -224,10 +224,17 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     
     private func setupFooter() {
         footerView.translatesAutoresizingMaskIntoConstraints = false
-        footer.galleryButton?.addTarget(self, action: #selector(galleryButtonPressed), for: .touchUpInside)
-        footer.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
+        footer.galleryButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.galleryButtonPressed()
+        }.addDisposableTo(disposeBag)
+        cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
+        footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.cameraButtonPressed()
+        }.addDisposableTo(disposeBag)
         footer.postButton?.setTitle(viewModel.usePhotoButtonText, for: .normal)
-        footer.postButton?.addTarget(self, action: #selector(galleryPostButtonPressed), for: .touchUpInside)
+        footer.postButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.galleryPostButtonPressed()
+        }.addDisposableTo(disposeBag)
         cameraGalleryContainer.addSubview(footerView)
         
         footerView.layout(with: cameraGalleryContainer)

@@ -68,6 +68,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     fileprivate let cameraWrapper = CameraWrapper()
     private var headerShown = true
 
+    let takePhotoEnabled = Variable<Bool>(true)
     fileprivate let disposeBag = DisposeBag()
  
 
@@ -123,17 +124,17 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     func takePhoto() {
         hideFirstTimeAlert()
+        guard takePhotoEnabled.value else { return }
         guard cameraWrapper.isReady else { return }
-        viewModel.takePhotoButtonPressed()
-        
-        usePhotoButton.isEnabled = false
+
+        takePhotoEnabled.value = false
         cameraWrapper.capturePhoto { [weak self] result in
             if let image = result.value {
                 self?.viewModel.photoTaken(image)
             } else {
                 self?.viewModel.retryPhotoButtonPressed()
             }
-            self?.usePhotoButton.isEnabled = true
+            self?.takePhotoEnabled.value = true
         }
     }
     

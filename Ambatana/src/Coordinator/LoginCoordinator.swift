@@ -29,6 +29,7 @@ final class LoginCoordinator: Coordinator {
     let sessionManager: SessionManager
 
     fileprivate var parentViewController: UIViewController?
+    fileprivate var presentedViewControllers: [UIViewController] = []
     fileprivate weak var recaptchaTokenDelegate: RecaptchaTokenDelegate?
 
     fileprivate let source: EventParameterLoginSourceValue
@@ -159,6 +160,7 @@ extension LoginCoordinator: MainSignUpNavigator {
             guard viewController is PopupSignUpViewController else { return }
 
             let navCtl = UINavigationController(rootViewController: vc)
+            presentedViewControllers.append(navCtl)
             viewController.present(navCtl, animated: true, completion: nil)
         }
     }
@@ -192,6 +194,7 @@ extension LoginCoordinator: MainSignUpNavigator {
             guard viewController is PopupSignUpViewController else { return }
 
             let navCtl = UINavigationController(rootViewController: vc)
+            presentedViewControllers.append(navCtl)
             viewController.present(navCtl, animated: true, completion: nil)
         }
     }
@@ -207,7 +210,7 @@ extension LoginCoordinator: MainSignUpNavigator {
 extension LoginCoordinator: SignUpLogInNavigator {
     func cancelSignUpLogIn() {
         // called when closing from popup login so it's not closing root only presented controller
-        close(animated: true, completion: nil)
+        dismissLastPresented(animated: true, completion: nil)
     }
 
     func closeSignUpLogInSuccessful(with myUser: MyUser) {
@@ -223,7 +226,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
     }
 
     func openRecaptcha(transparentMode: Bool) {
-        guard let navCtl = currentNavigationController() else { return }
+        let topVC = topViewController()
 
         let vm = RecaptchaViewModel(transparentMode: transparentMode)
         vm.navigator = self
@@ -232,7 +235,8 @@ extension LoginCoordinator: SignUpLogInNavigator {
         if transparentMode {
             vc.modalTransitionStyle = .crossDissolve
         }
-        navCtl.present(vc, animated: true, completion: nil)
+        presentedViewControllers.append(vc)
+        topVC.present(vc, animated: true, completion: nil)
     }
 
     func openRememberPasswordFromSignUpLogIn(email: String?) {
@@ -250,8 +254,8 @@ extension LoginCoordinator: SignUpLogInNavigator {
 
 extension LoginCoordinator: SignUpEmailStep1Navigator {
     func cancelSignUpEmailStep1() {
-        // called when closing from popup so it's not closing root only presented controller
-        close(animated: true, completion: nil)
+        // called when closing from popup login so it's not closing root only presented controller
+        dismissLastPresented(animated: true, completion: nil)
     }
 
     func openHelpFromSignUpEmailStep1() {
@@ -294,7 +298,7 @@ extension LoginCoordinator: SignUpEmailStep2Navigator {
     }
 
     func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool) {
-        guard let navCtl = currentNavigationController() else { return }
+        let topVC = topViewController()
 
         let vm = RecaptchaViewModel(transparentMode: transparentMode)
         vm.navigator = self
@@ -303,7 +307,8 @@ extension LoginCoordinator: SignUpEmailStep2Navigator {
         if transparentMode {
             vc.modalTransitionStyle = .crossDissolve
         }
-        navCtl.present(vc, animated: true, completion: nil)
+        presentedViewControllers.append(vc)
+        topVC.present(vc, animated: true, completion: nil)
     }
 
     func openScammerAlertFromSignUpEmailStep2(contactURL: URL) {
@@ -324,8 +329,8 @@ extension LoginCoordinator: SignUpEmailStep2Navigator {
 
 extension LoginCoordinator: LogInEmailNavigator {
     func cancelLogInEmail() {
-        // called when closing from popup so it's not closing root only presented controller
-        close(animated: true, completion: nil)
+        // called when closing from popup login so it's not closing root only presented controller
+        dismissLastPresented(animated: true, completion: nil)
     }
 
     func openHelpFromLogInEmail() {
@@ -391,18 +396,13 @@ extension LoginCoordinator: HelpNavigator {
 
 extension LoginCoordinator: RecaptchaNavigator {
     func recaptchaClose() {
-        guard let recaptchaVC = currentNavigationController()?.presentedViewController as? RecaptchaViewController else {
-            return
-        }
-        recaptchaVC.dismiss(animated: true, completion: nil)
+        guard topViewController() is RecaptchaViewController else { return }
+        dismissLastPresented(animated: true, completion: nil)
     }
 
     func recaptchaFinishedWithToken(_ token: String) {
-        guard let recaptchaVC = currentNavigationController()?.presentedViewController as? RecaptchaViewController else {
-            return
-        }
-
-        recaptchaVC.dismiss(animated: true) { [weak self] in
+        guard topViewController() is RecaptchaViewController else { return }
+        dismissLastPresented(animated: true) { [weak self] in
             self?.recaptchaTokenDelegate?.recaptchaTokenObtained(token: token)
         }
     }
@@ -415,7 +415,7 @@ extension LoginCoordinator {
         if #available(iOS 9.0, *) {
             let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             svc.view.tintColor = UIColor.primaryColor
-            let vc = currentNavigationController() ?? viewController
+            let vc = topViewController()
             vc.present(svc, animated: true, completion: nil)
         } else {
             UIApplication.shared.openURL(url)
@@ -482,23 +482,33 @@ fileprivate extension LoginCoordinator {
         navCtl.pushViewController(vc, animated: true)
     }
 
-    func currentNavigationController() -> UINavigationController? {
-        switch style {
-        case .fullScreen:
-            return viewController as? UINavigationController
-        case .popup:
-            return viewController.presentedViewController as? UINavigationController
-        }
+    fileprivate func topViewController() -> UIViewController {
+        return presentedViewControllers.last ?? viewController
     }
 
-    func dismissAllPresentedIfNeededAndExecute(action: @escaping () -> ()) {
-        switch style {
-        case .fullScreen:
-            action()
-        case .popup:
-            viewController.dismissAllPresented {
-                action()
+    func currentNavigationController() -> UINavigationController? {
+        return topViewController() as? UINavigationController
+    }
+
+    func dismissLastPresented(animated: Bool, completion: (() -> Void)?) {
+        guard let lastPresented = presentedViewControllers.last else {
+            completion?()
+            return
+        }
+        presentedViewControllers.removeLast()
+        lastPresented.dismiss(animated: animated, completion: completion)
+    }
+
+    func dismissAllPresentedIfNeededAndExecute(completion: @escaping () -> Void) {
+        if let vc = presentedViewControllers.last {
+            presentedViewControllers.removeLast()
+            vc.dismissAllPresented {
+                vc.dismiss(animated: false) { [weak self] in
+                    self?.dismissAllPresentedIfNeededAndExecute(completion: completion)
+                }
             }
+        } else {
+            viewController.dismissAllPresented(completion)
         }
     }
 }

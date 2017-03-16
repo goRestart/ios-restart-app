@@ -450,9 +450,9 @@ extension TabCoordinator: ProductDetailNavigator {
         showBubble(with: data, duration: Constants.bubbleFavoriteDuration)
     }
 
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .fullScreen,
-                          loggedInAction: loggedInAction, delegate: self)
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+                                            loggedInAction: @escaping (() -> Void)) {
+        openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction, delegate: self)
     }
 }
 

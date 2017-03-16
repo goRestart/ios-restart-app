@@ -867,7 +867,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
         shownFavoriteBubble = true
     }
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {
         calledLogin = true
         loggedInAction()
