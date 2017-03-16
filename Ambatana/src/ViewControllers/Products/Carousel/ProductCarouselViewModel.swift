@@ -361,7 +361,7 @@ class ProductCarouselViewModel: BaseViewModel {
         }.addDisposableTo(activeDisposeBag)
 
         currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)
-        isFeatured.value = currentVM.isShowingFeaturedStripe
+        currentVM.isShowingFeaturedStripe.asObservable().bindTo(isFeatured).addDisposableTo(activeDisposeBag)
 
         currentVM.productInfo.asObservable().bindTo(productInfo).addDisposableTo(activeDisposeBag)
         currentVM.productImageURLs.asObservable().bindTo(productImageURLs).addDisposableTo(activeDisposeBag)

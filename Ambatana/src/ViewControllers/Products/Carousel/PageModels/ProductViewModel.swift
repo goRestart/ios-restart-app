@@ -122,9 +122,7 @@ class ProductViewModel: BaseViewModel {
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
 
-    var isShowingFeaturedStripe: Bool {
-        return showFeaturedStripeHelper.shouldShowFeaturedStripeFor(product.value) && !status.value.shouldShowStatus
-    }
+    let isShowingFeaturedStripe = Variable<Bool>(false)
 
     // Retrieval status
     private var relationRetrieved = false
@@ -231,6 +229,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+
         if let productId = product.value.objectId {
             productRepository.updateEventsFor(productId: productId).bindNext { [weak self] product in
                 self?.product.value = product
@@ -262,6 +261,9 @@ class ProductViewModel: BaseViewModel {
             strongSelf.trackHelper.product = product
             let isMine = product.isMine(myUserRepository: strongSelf.myUserRepository)
             strongSelf.status.value = ProductViewModelStatus(product: product, isMine: isMine, featureFlags: strongSelf.featureFlags)
+
+            strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(product) && !strongSelf.status.value.shouldShowStatus
+
             strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
@@ -685,7 +687,7 @@ fileprivate extension ProductViewModel {
             productRepository.saveFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
-                    self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe)
+                    self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
                     strongSelf.notificationsManager.increaseFavoriteCounter()
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -835,7 +837,7 @@ fileprivate extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
+                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -877,7 +879,7 @@ fileprivate extension ProductViewModel {
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
                 strongSelf.trackHelper.trackMessageSent(firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
-                                                   messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
+                                                   messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {

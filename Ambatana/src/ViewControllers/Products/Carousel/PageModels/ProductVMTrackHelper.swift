@@ -27,7 +27,7 @@ class ProductVMTrackHelper {
 extension ProductViewModel {
 
     func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition) {
-        let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
+        let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
         trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
     }
@@ -39,7 +39,7 @@ extension ProductViewModel {
     // MARK: Share
 
     func trackShareStarted(_ shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
-        let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
+        let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
             EventParameterBoolean.falseParameter
         trackHelper.trackShareStarted(shareType, buttonPosition: buttonPosition, isBumpedUp: isBumpedUp)
     }
