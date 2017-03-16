@@ -96,9 +96,9 @@ class ProductViewModel: BaseViewModel {
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
-    var bumpUpPurchaseableProduct: PurchaseableProduct?
+    private var bumpUpPurchaseableProduct: PurchaseableProduct?
     fileprivate var isUpdatingBumpUpBanner: Bool = false
-    var paymentItemId: String?
+    private var paymentItemId: String?
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
