@@ -12,11 +12,10 @@ import LGCoreKit
 final class ChangePasswordCoordinator: Coordinator {
     var child: Coordinator?
     let viewController: UIViewController
+    weak var coordinatorDelegate: CoordinatorDelegate?
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
-
-    private var parentViewController: UIViewController?
 
     weak var delegate: CoordinatorDelegate?
     
@@ -43,34 +42,13 @@ final class ChangePasswordCoordinator: Coordinator {
     }
 
     
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
-        
-        parentViewController = parent
         parent.present(viewController, animated: animated, completion: completion)
     }
-    
-    func close(animated: Bool, completion: (() -> Void)?) {
-        closeChangePassword(animated: animated, completion: completion)
-    }
-    
-    
-    // MARK: - Private
-    
-    private func closeChangePassword(animated: Bool, completion: (() -> Void)?) {
-        let dismiss: () -> Void = { [weak self] in
-            self?.viewController.dismiss(animated: animated) { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.coordinatorDidClose(strongSelf)
-                completion?()
-            }
-        }
-        
-        if let child = child {
-            child.close(animated: animated, completion: dismiss)
-        } else {
-            dismiss()
-        }
+
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 }
 
@@ -79,6 +57,6 @@ final class ChangePasswordCoordinator: Coordinator {
 
 extension ChangePasswordCoordinator: ChangePasswordNavigator {
     func closeChangePassword() {
-        close(animated: true, completion: nil)
+        closeCoordinator(animated: true, completion: nil)
     }
 }

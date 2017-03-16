@@ -24,6 +24,7 @@ protocol RecaptchaTokenDelegate: class {
 final class LoginCoordinator: Coordinator {
     var child: Coordinator?
     var viewController: UIViewController
+    weak var coordinatorDelegate: CoordinatorDelegate?
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -89,29 +90,23 @@ final class LoginCoordinator: Coordinator {
         viewModel.navigator = self
     }
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
 
         parentViewController = parent
         parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func close(animated: Bool, completion: (() -> Void)?) {
-        close(UIViewController.self, animated: animated, completion: completion)
-    }
-}
-
-fileprivate extension LoginCoordinator {
-    func close<T: UIViewController>(_ type: T.Type, animated: Bool, completion: (() -> Void)?) {
-        let dismiss: () -> Void = { [weak self] in
-            guard let viewController = self?.viewController as? T else { return }
-            viewController.dismiss(animated: animated, completion: completion)
-        }
-
-        if let child = child {
-            child.close(animated: animated, completion: dismiss)
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        if let vc = presentedViewControllers.last {
+            presentedViewControllers.removeLast()
+            vc.dismissAllPresented {
+                vc.dismiss(animated: false) { [weak self] in
+                    self?.dismissViewController(animated: animated, completion: completion)
+                }
+            }
         } else {
-            dismiss()
+            viewController.dismissWithPresented(animated: animated, completion: completion)
         }
     }
 }
@@ -214,15 +209,11 @@ extension LoginCoordinator: SignUpLogInNavigator {
     }
 
     func closeSignUpLogInSuccessful(with myUser: MyUser) {
-        dismissAllPresentedIfNeededAndExecute { [weak self] in
-            self?.closeRoot(didLogIn: true)
-        }
+        closeRoot(didLogIn: true)
     }
 
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
-        dismissAllPresentedIfNeededAndExecute { [weak self] in
-            self?.closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
-        }
+        closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
     func openRecaptcha(transparentMode: Bool) {
@@ -312,15 +303,11 @@ extension LoginCoordinator: SignUpEmailStep2Navigator {
     }
 
     func openScammerAlertFromSignUpEmailStep2(contactURL: URL) {
-        dismissAllPresentedIfNeededAndExecute { [weak self] in
-            self?.closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
-        }
+        closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
     }
 
     func closeAfterSignUpSuccessful() {
-        dismissAllPresentedIfNeededAndExecute { [weak self] in
-            self?.closeRoot(didLogIn: true)
-        }
+        closeRoot(didLogIn: true)
     }
 }
 
@@ -359,15 +346,11 @@ extension LoginCoordinator: LogInEmailNavigator {
     }
 
     func openScammerAlertFromLogInEmail(contactURL: URL) {
-        dismissAllPresentedIfNeededAndExecute { [weak self] in
-            self?.closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
-        }
+        closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
     }
 
     func closeAfterLogInSuccessful() {
-        dismissAllPresentedIfNeededAndExecute { [weak self] in
-            self?.closeRoot(didLogIn: true)
-        }
+        closeRoot(didLogIn: true)
     }
 }
 
@@ -428,9 +411,8 @@ extension LoginCoordinator {
 
 fileprivate extension LoginCoordinator {
     func closeRoot(didLogIn: Bool) {
-        close(animated: true) { [weak self] in
+        closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.delegate?.coordinatorDidClose(strongSelf)
             if didLogIn {
                 strongSelf.loggedInAction()
             }
@@ -438,24 +420,23 @@ fileprivate extension LoginCoordinator {
     }
 
     func closeRootAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
-        close(animated: true) { [weak self] in
+        dismissViewController(animated: true) { [weak self] in
             let contact = UIAction(
                 interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
                 action: {
-                    guard let strongSelf = self else { return }
-                    strongSelf.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
-                    strongSelf.parentViewController?.openInternalUrl(contactURL)
-                    strongSelf.delegate?.coordinatorDidClose(strongSelf)
+                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
+                    self?.closeCoordinator(animated: false) {
+                        self?.parentViewController?.openInternalUrl(contactURL)
+                    }
 
-                })
+            })
             let keepBrowsing = UIAction(
                 interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
                                                                                                      withBorder: false)),
                 action: {
-                    guard let strongSelf = self else { return }
-                    strongSelf.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
-                    strongSelf.delegate?.coordinatorDidClose(strongSelf)
-                })
+                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+                    self?.closeCoordinator(animated: false, completion: nil)
+            })
             let actions = [contact, keepBrowsing]
             self?.parentViewController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
                                                            text: LGLocalizedString.loginScammerAlertMessage,
@@ -497,18 +478,5 @@ fileprivate extension LoginCoordinator {
         }
         presentedViewControllers.removeLast()
         lastPresented.dismiss(animated: animated, completion: completion)
-    }
-
-    func dismissAllPresentedIfNeededAndExecute(completion: @escaping () -> Void) {
-        if let vc = presentedViewControllers.last {
-            presentedViewControllers.removeLast()
-            vc.dismissAllPresented {
-                vc.dismiss(animated: false) { [weak self] in
-                    self?.dismissAllPresentedIfNeededAndExecute(completion: completion)
-                }
-            }
-        } else {
-            viewController.dismissAllPresented(completion)
-        }
     }
 }

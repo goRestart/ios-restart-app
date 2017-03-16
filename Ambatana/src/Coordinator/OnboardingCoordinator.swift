@@ -16,6 +16,7 @@ protocol OnboardingCoordinatorDelegate: CoordinatorDelegate {
 final class OnboardingCoordinator: Coordinator {
     var child: Coordinator?
     let viewController: UIViewController
+    weak var coordinatorDelegate: CoordinatorDelegate?
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -51,7 +52,7 @@ final class OnboardingCoordinator: Coordinator {
         viewController = TourBlurBackgroundViewController()
     }
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
         parent.present(viewController, animated: false) { [weak self] in
             guard let strongSelf = self else { return }
@@ -67,32 +68,26 @@ final class OnboardingCoordinator: Coordinator {
         }
     }
 
-    func close(animated: Bool, completion: (() -> Void)?) {
-        recursiveClose(animated: animated) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.coordinatorDidClose(strongSelf)
-            completion?()
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        if let vc = presentedViewControllers.last {
+            presentedViewControllers.removeLast()
+            vc.dismissAllPresented {
+                vc.dismiss(animated: false) { [weak self] in
+                    self?.dismissViewController(animated: false, completion: completion)
+                }
+            }
+        } else {
+            viewController.dismissWithPresented(animated: animated, completion: completion)
         }
     }
 
     func openResetPassword(coordinator: ChangePasswordCoordinator) {
         coordinator.delegate = self
-        openCoordinator(coordinator: coordinator, parent: topPresentedController(), animated: true, completion: nil)
-    }
-
-    private func recursiveClose(animated: Bool, completion: (() -> Void)?) {
-        if let vc = presentedViewControllers.last {
-            presentedViewControllers.removeLast()
-            vc.dismiss(animated: false) { [weak self] in
-                self?.recursiveClose(animated: false, completion: completion)
-            }
-        } else {
-            viewController.dismiss(animated: animated, completion: completion)
-        }
+        openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, completion: nil)
     }
 
     fileprivate func finish(withPosting posting: Bool, source: PostingSource?) {
-        close(animated: true) { [weak self] in
+        closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.onboardingCoordinator(strongSelf, didFinishPosting: posting, source: source)
         }

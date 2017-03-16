@@ -15,13 +15,14 @@ protocol CoordinatorDelegate: class {
 
 protocol Coordinator: CoordinatorDelegate {
     var child: Coordinator? { get set }
+    weak var coordinatorDelegate: CoordinatorDelegate? { get set }
     var viewController: UIViewController { get }
     weak var presentedAlertController: UIAlertController? { get set }
     var bubbleNotificationManager: BubbleNotificationManager { get }
     var sessionManager: SessionManager { get }
     
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?)
-    func close(animated: Bool, completion: (() -> Void)?)
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?)
+    func dismissViewController(animated: Bool, completion: (() -> Void)?)
 }
 
 
@@ -49,11 +50,29 @@ extension Coordinator {
 // MARK: - Helpers
 
 extension Coordinator {
-    func openCoordinator(coordinator: Coordinator, parent: UIViewController, animated: Bool,
+    func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool,
                          completion: (() -> Void)?) {
         guard child == nil else { return }
         child = coordinator
-        coordinator.open(parent: parent, animated: animated, completion: completion)
+        coordinator.coordinatorDelegate = self
+        coordinator.presentViewController(parent: parent, animated: animated, completion: completion)
+    }
+
+    // Default close, can be overriden
+    func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
+        let dismiss: () -> Void = { [weak self] in
+            self?.dismissViewController(animated: animated) {
+                guard let strongSelf = self else { return }
+                strongSelf.coordinatorDelegate?.coordinatorDidClose(strongSelf)
+                completion?()
+            }
+        }
+
+        if let child = child {
+            child.closeCoordinator(animated: animated, completion: dismiss)
+        } else {
+            dismiss()
+        }
     }
 }
 
@@ -69,7 +88,7 @@ extension Coordinator {
         }
         let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: loggedInAction)
         coordinator.delegate = delegate
-        openCoordinator(coordinator: coordinator, parent: viewController, animated: true, completion: nil)
+        openChild(coordinator: coordinator, parent: viewController, animated: true, completion: nil)
     }
 }
 
