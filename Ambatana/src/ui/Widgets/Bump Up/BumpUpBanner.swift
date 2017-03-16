@@ -73,7 +73,7 @@ class BumpUpBanner: UIView {
         isFree = info.free
 
         // bumpUpFreeTimeLimit is the time limit in milliseconds
-        timeLeft.value = info.timeSinceLastBump == 0 ? 0 : featureFlags.bumpUpFreeTimeLimit - info.timeSinceLastBump
+        timeLeft.value = info.timeSinceLastBump == 0 ? 0 : Constants.bumpUpFreeTimeLimit - info.timeSinceLastBump
         startCountdown()
         bumpButton.isEnabled = timeLeft.value < 1
 
@@ -89,7 +89,7 @@ class BumpUpBanner: UIView {
 
     func resetCountdown() {
         // Update countdown with full waiting time
-        timeLeft.value = featureFlags.bumpUpFreeTimeLimit
+        timeLeft.value = Constants.bumpUpFreeTimeLimit
         startCountdown()
     }
 
