@@ -133,5 +133,5 @@ struct Constants {
     static let newRelicProductionToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
 
     // Bump Up
-    static let bumpUpPaidTimeLimit: TimeInterval = TimeInterval.make(minutes: 15) * 1000  // milliseconds
+    static let bumpUpPaidTimeLimit: TimeInterval = TimeInterval.make(minutes: 15)
 }

@@ -174,20 +174,20 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     var bumpUpFreeTimeLimit: TimeInterval {
-        let hoursToMilliseconds: TimeInterval = 60 * 60 * 1000
+        let hoursToSeconds: TimeInterval = 60 * 60
         if Bumper.enabled {
             switch Bumper.bumpUpFreeTimeLimit {
             case .oneMin:
-                return hoursToMilliseconds/60
+                return 60
             case .eightHours:
-                return 8 * hoursToMilliseconds
+                return 8 * hoursToSeconds
             case .twelveHours:
-                return 12 * hoursToMilliseconds
+                return 12 * hoursToSeconds
             case .twentyFourHours:
-                return 24 * hoursToMilliseconds
+                return 24 * hoursToSeconds
             }
         }
-        let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToMilliseconds)
+        let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToSeconds)
         return TimeInterval(timeLimit)
     }
 

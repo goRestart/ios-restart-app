@@ -488,6 +488,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                         buildProductViewModel()
                         sut.active = true
+
+                        self.waitFor(timeout: 0.5)
                         expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                     }
                     it ("banner info is nil") {
@@ -514,6 +516,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                             buildProductViewModel()
                             sut.active = true
+
+                            self.waitFor(timeout: 0.5)
                             expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                         }
                         it ("banner info is nil") {
@@ -535,6 +539,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                                 buildProductViewModel()
                                 sut.active = true
+
+                                self.waitFor(timeout: 0.5)
                                 expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                             }
                             it ("banner info is nil") {
@@ -565,6 +571,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
+                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                                 }
                                 it ("banner info is nil") {
@@ -592,6 +599,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
+                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                                 }
                                 it ("banner info is nil") {
@@ -621,6 +629,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
+                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is free") {
@@ -658,6 +667,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
+                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is priced") {
@@ -696,6 +706,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
+                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is restore") {
@@ -742,8 +753,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                         buildProductViewModel()
                         sut.active = true
-                        let _ = self.expectation(description: "Wait for network calls")
-                        self.waitForExpectations(timeout: 0.5, handler: nil)
+
+                        self.waitFor(timeout: 0.5)
 
                         sut.bumpUpProduct(productId: product.objectId!)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -760,8 +771,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.active = true
 
-                        let _ = self.expectation(description: "Wait for network calls")
-                        self.waitForExpectations(timeout: 0.5, handler: nil)
+                        self.waitFor(timeout: 0.5)
 
                         sut.bumpUpProduct(productId: product.objectId!)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -778,8 +788,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.active = true
 
-                        let _ = self.expectation(description: "Wait for network calls")
-                        self.waitForExpectations(timeout: 0.5, handler: nil)
+                        self.waitFor(timeout: 0.5)
 
                         sut.bumpUpProduct(productId: product.objectId!)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())

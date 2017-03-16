@@ -32,7 +32,7 @@ enum BumpUpType {
         case .priced:
             return UIImage(named: "red_chevron_up")
         case .restore:
-            return UIImage(named: "ic_error")
+            return nil
         }
     }
 }
@@ -56,13 +56,16 @@ struct BumpUpInfo {
 class BumpUpBanner: UIView {
 
     static let iconSize: CGFloat = 20
+    static let iconLeftMargin: CGFloat = 15
     static let timerUpdateInterval: TimeInterval = 1
-    static let secsToMillisecsRatio: TimeInterval = 1000
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
     private var textLabel: UILabel = UILabel()
     private var bumpButton: UIButton = UIButton(type: .custom)
+
+    private var iconWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var iconLeftMarginConstraint: NSLayoutConstraint = NSLayoutConstraint()
 
     private var timer: Timer = Timer()
 
@@ -100,7 +103,6 @@ class BumpUpBanner: UIView {
     func updateInfo(info: BumpUpInfo) {
         type = info.type
 
-        // the time limit in milliseconds
         var waitingTime: TimeInterval = 0
 
         switch type {
@@ -169,9 +171,7 @@ class BumpUpBanner: UIView {
     private func setupRx() {
         timeLeft.asObservable().map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
 
-        let secondsLeft = timeLeft.asObservable().map{ $0/BumpUpBanner.secsToMillisecsRatio }.skip(1)
-
-        secondsLeft.bindNext { [weak self] secondsLeft in
+        timeLeft.asObservable().skip(1).bindNext { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
             let localizedText: String
             if secondsLeft <= 0 {
@@ -184,6 +184,7 @@ class BumpUpBanner: UIView {
                 localizedText = LGLocalizedString.bumpUpBannerWaitText
                 strongSelf.bumpButton.isEnabled = false
             }
+            strongSelf.updateIconConstraints()
             strongSelf.text.value = strongSelf.bubbleText(secondsLeft: Int(secondsLeft), text: localizedText)
         }.addDisposableTo(disposeBag)
 
@@ -218,9 +219,14 @@ class BumpUpBanner: UIView {
         containerView.addSubview(bumpButton)
 
         // icon
-        iconImageView.layout().width(BumpUpBanner.iconSize).height(BumpUpBanner.iconSize)
 
-        iconImageView.layout(with: containerView).left(by: 15)
+        iconImageView.layout().width(BumpUpBanner.iconSize, constraintBlock: { [weak self] in
+            self?.iconWidthConstraint = $0
+        }).height(BumpUpBanner.iconSize)
+
+        iconImageView.layout(with: containerView).left(by: BumpUpBanner.iconLeftMargin, constraintBlock: { [weak self] in
+            self?.iconLeftMarginConstraint = $0
+        })
         iconImageView.layout(with: textLabel).right(to: .left, by: -10)
         iconImageView.layout(with: containerView).centerY()
 
@@ -232,6 +238,17 @@ class BumpUpBanner: UIView {
         // button
         bumpButton.layout(with: containerView).top(by: 10).bottom(by: -10).right(by: -15)
         bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+    }
+
+    private func updateIconConstraints() {
+
+        let iconWidth: CGFloat = iconImageView.image != nil ? BumpUpBanner.iconSize : 0
+        let iconLeftMargin: CGFloat = iconImageView.image != nil ? BumpUpBanner.iconLeftMargin : 0
+
+        iconWidthConstraint.constant = iconWidth
+        iconLeftMarginConstraint.constant = iconLeftMargin
+
+        layoutIfNeeded()
     }
 
     private func bubbleText(secondsLeft: Int, text: String) -> NSAttributedString {
@@ -262,7 +279,7 @@ class BumpUpBanner: UIView {
     }
 
     private dynamic func updateTimer() {
-        timeLeft.value = timeLeft.value-(BumpUpBanner.timerUpdateInterval*BumpUpBanner.secsToMillisecsRatio)
+        timeLeft.value = timeLeft.value-BumpUpBanner.timerUpdateInterval
     }
 
     private func setAccessibilityIds() {
