@@ -66,7 +66,7 @@ class BumpUpBanner: UIView {
 
     private var timer: Timer = Timer()
 
-    var type: BumpUpType = .free
+    private(set) var type: BumpUpType = .free
 
     private var primaryBlock: (()->()?) = { return nil }
     private var buttonBlock: (()->()?) = { return nil }

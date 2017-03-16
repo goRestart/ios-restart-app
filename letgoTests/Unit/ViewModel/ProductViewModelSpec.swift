@@ -488,7 +488,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                         buildProductViewModel()
                         sut.active = true
-                        sut.refreshBumpeableBanner()
+                        expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                     }
                     it ("banner info is nil") {
                         expect(sut.bumpUpBannerInfo.value).to(beNil())
@@ -514,7 +514,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                             buildProductViewModel()
                             sut.active = true
-                            sut.refreshBumpeableBanner()
+                            expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                         }
                         it ("banner info is nil") {
                             expect(sut.bumpUpBannerInfo.value).to(beNil())
@@ -535,7 +535,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                                 buildProductViewModel()
                                 sut.active = true
-                                sut.refreshBumpeableBanner()
+                                expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                             }
                             it ("banner info is nil") {
                                 expect(sut.bumpUpBannerInfo.value).to(beNil())
@@ -565,7 +565,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    sut.refreshBumpeableBanner()
                                     expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                                 }
                                 it ("banner info is nil") {
@@ -593,7 +592,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    sut.refreshBumpeableBanner()
                                     expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                                 }
                                 it ("banner info is nil") {
@@ -623,7 +621,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    sut.refreshBumpeableBanner()
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is free") {
@@ -661,7 +658,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    sut.refreshBumpeableBanner()
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is priced") {
@@ -700,7 +696,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    sut.refreshBumpeableBanner()
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is restore") {
@@ -723,15 +718,33 @@ class ProductViewModelSpec: BaseViewModelSpec {
             }
 
             describe("priced bump up product") {
+                beforeEach {
+                    featureFlags.pricedBumpUpEnabled = true
+                    let myUser = MockMyUser.makeMock()
+                    myUserRepository.myUserVar.value = myUser
+                    product = MockProduct.makeMock()
+                    product.objectId = "product_id"
+                    var userProduct = MockUserProduct.makeMock()
+                    userProduct.objectId = myUser.objectId
+                    product.user = userProduct
+                    product.status = .approved
+
+                    var paymentItem = MockPaymentItem.makeMock()
+                    paymentItem.provider = .apple
+                    paymentItem.itemId = "paymentItemId"
+                    var bumpeableProduct = MockBumpeableProduct.makeMock()
+                    bumpeableProduct.paymentItems = [paymentItem]
+                    monetizationRepository.retrieveResult = BumpeableProductResult(value: bumpeableProduct)
+                }
                 context ("appstore payment fails") {
                     beforeEach {
                         purchasesShopper.paymentSucceeds = false
-                        product = MockProduct.makeMock()
-                        product.objectId = "product_id"
+
                         buildProductViewModel()
                         sut.active = true
-                        sut.bumpUpPurchaseableProduct = MockPurchaseableProduct.makeMock()
-                        sut.paymentItemId = String.makeRandom()
+                        let _ = self.expectation(description: "Wait for network calls")
+                        self.waitForExpectations(timeout: 0.5, handler: nil)
+
                         sut.bumpUpProduct(productId: product.objectId!)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -743,12 +756,13 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         purchasesShopper.paymentSucceeds = true
                         purchasesShopper.pricedBumpSucceeds = false
-                        product = MockProduct.makeMock()
-                        product.objectId = "product_id"
+
                         buildProductViewModel()
                         sut.active = true
-                        sut.bumpUpPurchaseableProduct = MockPurchaseableProduct.makeMock()
-                        sut.paymentItemId = String.makeRandom()
+
+                        let _ = self.expectation(description: "Wait for network calls")
+                        self.waitForExpectations(timeout: 0.5, handler: nil)
+
                         sut.bumpUpProduct(productId: product.objectId!)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -760,12 +774,13 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         purchasesShopper.paymentSucceeds = true
                         purchasesShopper.pricedBumpSucceeds = true
-                        product = MockProduct.makeMock()
-                        product.objectId = "product_id"
+
                         buildProductViewModel()
                         sut.active = true
-                        sut.bumpUpPurchaseableProduct = MockPurchaseableProduct.makeMock()
-                        sut.paymentItemId = String.makeRandom()
+
+                        let _ = self.expectation(description: "Wait for network calls")
+                        self.waitForExpectations(timeout: 0.5, handler: nil)
+
                         sut.bumpUpProduct(productId: product.objectId!)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }

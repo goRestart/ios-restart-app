@@ -308,7 +308,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let productId = product.value.objectId, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
         let isBumpUpPending = purchasesShopper.isBumpUpPending(productId: productId)
@@ -320,23 +320,23 @@ class ProductViewModel: BaseViewModel {
             monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
                 guard let strongSelf = self else { return }
                 strongSelf.isUpdatingBumpUpBanner = false
-                if let bumpeableProduct = result.value {
-                    self?.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
-                    let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
-                    let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
-                    if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
-                        // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                        strongSelf.paymentItemId = paymentItems.first?.itemId
-                        // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
-                        // a useless request to apple
-                        if let _ = strongSelf.paymentItemId {
-                            strongSelf.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems.map { $0.providerItemId })
-                        }
-                    } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
-                        strongSelf.paymentItemId = freeItems.first?.itemId
-                        strongSelf.createBumpeableBannerFor(productId: productId, withPrice: nil,
-                                                            paymentItemId: strongSelf.paymentItemId, bumpUpType: .free)
+                guard let bumpeableProduct = result.value else { return }
+
+                strongSelf.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
+                let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
+                let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
+                if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                    strongSelf.paymentItemId = paymentItems.first?.itemId
+                    // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                    // a useless request to apple
+                    if let _ = strongSelf.paymentItemId {
+                        strongSelf.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems.map { $0.providerItemId })
                     }
+                } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
+                    strongSelf.paymentItemId = freeItems.first?.itemId
+                    strongSelf.createBumpeableBannerFor(productId: productId, withPrice: nil,
+                                                        paymentItemId: strongSelf.paymentItemId, bumpUpType: .free)
                 }
             })
         }

@@ -38,15 +38,19 @@ class MockPurchasesShopper: PurchasesShopper {
 
     func requestPaymentForProduct(productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
         delegate?.pricedBumpDidStart()
-        if !paymentSucceeds {
-            // payment fails
-            delegate?.pricedBumpPaymentDidFail()
-        } else if pricedBumpSucceeds {
-            // payment works and bump works
-            delegate?.pricedBumpDidSucceed()
-        } else {
-            // payment works but bump fails
-            delegate?.pricedBumpDidFail()
+
+        performAfterDelayWithCompletion { [weak self] in
+            guard let strongSelf = self else { return }
+            if !strongSelf.paymentSucceeds {
+                // payment fails
+                strongSelf.delegate?.pricedBumpPaymentDidFail()
+            } else if strongSelf.pricedBumpSucceeds {
+                // payment works and bump works
+                strongSelf.delegate?.pricedBumpDidSucceed()
+            } else {
+                // payment works but bump fails
+                strongSelf.delegate?.pricedBumpDidFail()
+            }
         }
     }
 
@@ -66,6 +70,12 @@ class MockPurchasesShopper: PurchasesShopper {
         } else {
             // payment works but bump fails
             delegate?.pricedBumpDidFail()
+        }
+    }
+
+    private func performAfterDelayWithCompletion(completion: (() -> Void)?) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            completion?()
         }
     }
 }

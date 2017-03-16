@@ -214,12 +214,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let transactionsDict = keyValueStorage.userPendingTransactionsProductIds
 
         // get the product pending transaction ids saved in keyValueStorage
-        let productPendingTransactionIds : [String] = transactionsDict.flatMap {
-            if $0.value == productId {
-                return $0.key
-            }
-            return nil
-        }
+        let productPendingTransactionIds : [String] = transactionsDict.filter { $0.value == productId }.map { $0.key }
 
         let pendingTransactions = paymentQueue.transactions
         guard productPendingTransactionIds.count > 0, pendingTransactions.count > 0 else { return }
@@ -276,12 +271,12 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let savedTransactionsDict = keyValueStorage.userPendingTransactionsProductIds.filter(keys: savedTransactionIds)
 
         for transaction in savedTransactions {
-            guard let transactionId = transaction.transactionIdentifier, let _ = savedTransactionsDict[transactionId] else {
-                if transaction.transactionState != .purchasing {
-                    // "purchasing" transactions can't be finished
-                    paymentQueue.finishTransaction(transaction)
-                }
+
+            if let transactionId = transaction.transactionIdentifier, let _ = savedTransactionsDict[transactionId] {
                 continue
+            } else if transaction.transactionState != .purchasing {
+                // "purchasing" transactions can't be finished
+                paymentQueue.finishTransaction(transaction)
             }
         }
 
