@@ -77,7 +77,7 @@
 "bump_up_error_bump_generic" = "An error occurred while bumping up your item. Please try again.";
 
 // Token error when bumping
-"bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
+"bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
 
 // Error shown when payment fails
 "bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
@@ -1841,6 +1841,12 @@
 
 // Message when you select sticker to send from a product detail
 "product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+
+// Login message when asking for login after clicking on favorite
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
+
+// Login message when asking for login after clicking on report
+"product_report_login_popup_text" = "To report an item, you have to log in";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";

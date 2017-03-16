@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "BIZTONSÁGI TANÁCSAINK";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet küldése során. Próbálkozz újra.";
+"chat_stickers_tooltip_add_stickers" = "Mókás matricák";
+"chat_stickers_tooltip_new" = "ÚJ!";
 "chat_unblock_user" = "Blokkolás feloldása";
 "chat_user_info_name" = "Szia, %@ vagyok";
 "chat_user_info_verified_with" = "Jóváhagyva ezzel: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@-re tőled";
 "product_distance_more_than_from_you" = "Több, mint %@-re tőled";
 "product_favorite_direct_message" = "Tetszik! Megvan még?";
+"product_favorite_login_popup_text" = "A kedvencként jelöléshez be kell jelentkezned";
 "product_free_price" = "Ingyenes";
 "product_is_mine_share_body" = "Nézzétek, mit árulok a letgo piacán!";
 "product_is_mine_share_body_free" = "Nézzétek, mit szeretnék elajándékozni a letgo piacán!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Ár";
 "product_report_confirm_message" = "Biztosan jelenteni szeretnéd ezt a portékát?";
 "product_report_confirm_title" = "Portéka jelentése";
+"product_report_login_popup_text" = "A jelentéshez be kell jelentkezned";
 "product_report_product_button" = "Portéka jelentése";
 "product_reported_error_generic" = "Hiba történt a portéka jelentése során. Próbálkozz újra.";
 "product_reported_success_message" = "Portéka jelentve. Köszönjük!";

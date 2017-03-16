@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
+"chat_stickers_tooltip_add_stickers" = "Voeg leuke stickers toe";
+"chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
 "chat_user_info_name" = "Hoi, ik ben %@";
 "chat_user_info_verified_with" = "Geverifieerd met:";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@ van bij jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
 "product_favorite_direct_message" = "Ik vind het leuk! Is het nog beschikbaar?";
+"product_favorite_login_popup_text" = "Om dit item te favoriseren, moet je eerst inloggen";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Bekijk wat ik op letgo verkoop!";
 "product_is_mine_share_body_free" = "Check wat ik weggeef op letgo!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Prijs";
 "product_report_confirm_message" = "Weet je zeker dat je dit product wil rapporteren?";
 "product_report_confirm_title" = "Rapporteer product";
+"product_report_login_popup_text" = "Om een item te rapporteren, moet je eerst inloggen";
 "product_report_product_button" = "Rapporteer product";
 "product_reported_error_generic" = "Er is een fout opgetreden tijdens het rapporteren van het product. Probeer het nog eens.";
 "product_reported_success_message" = "Het product werd gerapporteerd. Bedankt!";

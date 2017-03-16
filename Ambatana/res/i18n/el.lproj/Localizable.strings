@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "ΣΥΜΒΟΥΛΈΣ ΑΣΦΑΛΕΊΑΣ";
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος. Παρακαλώ προσπαθήστε ξανά.";
+"chat_stickers_tooltip_add_stickers" = "Προσθέστε αυτοκόλλητα";
+"chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@ από εσάς";
 "product_distance_more_than_from_you" = "Περισσότερο από %@ από εσάς";
 "product_favorite_direct_message" = "Μου αρέσει! Είναι ακόμη διαθέσιμο;";
+"product_favorite_login_popup_text" = "Για να προσθέσετε το αντικείμενο αυτό στα αγαπημένα σας, θα πρέπει να συνδεθείτε";
 "product_free_price" = "Δωρεάν";
 "product_is_mine_share_body" = "Δείτε τι πουλάω στο letgo!";
 "product_is_mine_share_body_free" = "Δείτε τί χαρίζω στο letgo!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Τιμή";
 "product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτό το προϊόν;";
 "product_report_confirm_title" = "Αναφορά Προϊόντος";
+"product_report_login_popup_text" = "Για να κάνετε αναφορά ενός αντικειμένου, θα πρέπει να συνδεθείτε";
 "product_report_product_button" = "Αναφορά Προϊόντος";
 "product_reported_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αναφορά του προϊόντος. Παρακαλώ, δοκιμάστε ξανά.";
 "product_reported_success_message" = "Έχει γίνει αναφορά του προϊόντος. Ευχαριστούμε!";

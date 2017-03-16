@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "CONSEJOS DE SEGURIDAD";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "Se ha producido un error al enviar tu mensaje. Por favor, inténtalo de nuevo.";
+"chat_stickers_tooltip_add_stickers" = "Añade stickers divertidos";
+"chat_stickers_tooltip_new" = "¡NUEVO!";
 "chat_unblock_user" = "Desbloquear usuario";
 "chat_user_info_name" = "Hola, soy %@";
 "chat_user_info_verified_with" = "Verificado con: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@ de ti";
 "product_distance_more_than_from_you" = "A más de %@ de ti";
 "product_favorite_direct_message" = "¡Me gusta! ¿Todavía está disponible?";
+"product_favorite_login_popup_text" = "Para marcar este artículo como favorito, tienes que iniciar sesión";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "¡Échale un vistazo a lo que vendo en letgo!";
 "product_is_mine_share_body_free" = "¡Échale un vistazo a lo que regalo en letgo!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Precio";
 "product_report_confirm_message" = "¿Estás seguro de que quieres denunciar este artículo?";
 "product_report_confirm_title" = "Denunciar artículo";
+"product_report_login_popup_text" = "Para denunciar un artículo, tienes que iniciar sesión";
 "product_report_product_button" = "Denunciar artículo";
 "product_reported_error_generic" = "Se ha producido un error al enviar la denuncia del artículo. Por favor, inténtalo de nuevo.";
 "product_reported_success_message" = "El artículo ha sido denunciado. ¡Gracias!";

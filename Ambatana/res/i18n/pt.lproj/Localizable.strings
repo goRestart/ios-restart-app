@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Bump up to sell faster";
 "bump_up_banner_wait_text" = "to bump up again";
 "bump_up_error_bump_generic" = "An error occurred while bumping up your item. Please try again.";
-"bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured yet. Please try again.";
+"bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
 "bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
 "bump_up_pay_success" = "Bumped up! Now your item has extra visibility.";
@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
 "chat_user_info_name" = "Hi, I'm %@";
 "chat_user_info_verified_with" = "Verified with: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@ from you";
 "product_distance_more_than_from_you" = "More than %@ from you";
 "product_favorite_direct_message" = "I like it! Is it still available?";
+"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Free";
 "product_is_mine_share_body" = "Check out what I'm selling on letgo!";
 "product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Price";
 "product_report_confirm_message" = "Are you sure you want to report this product?";
 "product_report_confirm_title" = "Report Product";
+"product_report_login_popup_text" = "To report an item, you have to log in";
 "product_report_product_button" = "Report Product";
 "product_reported_error_generic" = "An error occurred while reporting the product. Please try again.";
 "product_reported_success_message" = "The product has been reported. Thanks!";

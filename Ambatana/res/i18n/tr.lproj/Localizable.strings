@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
+"chat_stickers_tooltip_add_stickers" = "Eğlenceli çıkartmalar ekle";
+"chat_stickers_tooltip_new" = "YENİ!";
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
 "product_favorite_direct_message" = "Beğendim! Hala satılık mı?";
+"product_favorite_login_popup_text" = "Bu ürünü favorilerine eklemek için giriş yapmalısın";
 "product_free_price" = "Bedava";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_is_mine_share_body_free" = "letgo'da hangi eşyaları ücretsiz verdiğime bak!";
@@ -553,6 +556,7 @@
 "product_price_label" = "FİYAT";
 "product_report_confirm_message" = "Bu ürünü şikayet etmek istediğine emin misin?";
 "product_report_confirm_title" = "Ürünü şikayet et";
+"product_report_login_popup_text" = "Bir ürünü şikayet etmek için giriş yapmalısın";
 "product_report_product_button" = "Ürünü şikayet et";
 "product_reported_error_generic" = "Ürün rapor edilirken bir hata oluştu. Lütfen tekrar dene.";
 "product_reported_success_message" = "Bu ürün şikayet edildi. Teşekkürler!";

@@ -156,6 +156,8 @@
 "chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"chat_stickers_tooltip_add_stickers" = "Lisää hauskoja tarroja";
+"chat_stickers_tooltip_new" = "UUTTA!";
 "chat_unblock_user" = "Poista käyttäjän esto";
 "chat_user_info_name" = "Hei, olen %@";
 "chat_user_info_verified_with" = "Todennettu käyttäen: ";
@@ -455,6 +457,7 @@
 "product_distance_X_from_you" = "%@ sinusta";
 "product_distance_more_than_from_you" = "Yli %@ sinusta";
 "product_favorite_direct_message" = "Pidän siitä! Onko se vielä vapaana?";
+"product_favorite_login_popup_text" = "Voidaksesi merkitä tämän tuotteen suosikiksesi, sinun on kirjauduttava sisään";
 "product_free_price" = "Ilmainen";
 "product_is_mine_share_body" = "Katso, mitä minulla on myynnissä letgossa!";
 "product_is_mine_share_body_free" = "Käy katsomassa mitä annan pois letgossa!";
@@ -553,6 +556,7 @@
 "product_price_label" = "Hinta";
 "product_report_confirm_message" = "Oletko varma että haluat tehdä ilmoituksen tästä tuotteesta?";
 "product_report_confirm_title" = "Ilmianna tuote";
+"product_report_login_popup_text" = "Sinun on kirjauduttava sisään ilmiantaaksesi tuotteen";
 "product_report_product_button" = "Ilmianna tuote";
 "product_reported_error_generic" = "Tuotetta ilmiannettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "product_reported_success_message" = "Tuote on ilmiannettu. Kiitos!";
