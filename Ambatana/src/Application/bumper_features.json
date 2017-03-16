@@ -21,11 +21,6 @@
         "description": "Show qualitative survey"
 	},
     {
-        "name": "PostAfterDeleteMode",
-        "values": ["Original", "FullScreen", "Alert"],
-        "description": "Posting incentivation after delete"
-    },
-    {
         "name": "FreeBumpUpEnabled",
         "values": ["No", "Yes"],
         "description": "User can bump sharing"
@@ -34,11 +29,6 @@
         "name": "PricedBumpUpEnabled",
         "values": ["No", "Yes"],
         "description": "User can bump paying"
-    },
-    {
-        "name": "FavoriteWithBadgeOnProfile",
-        "values": ["No", "Yes"],
-        "description": "Badge on profile when favorite"
     },
     {
         "name": "CaptchaTransparent",
@@ -51,19 +41,9 @@
         "description": "Passive buyers products suggested notification opens product with keyboard opened"
     },
     {
-        "name": "EditDeleteItemUxImprovement",
-        "values": ["No", "Yes"],
-        "description": "Edit & Delete item UX improvements"
-    },
-    {
         "name": "OnboardingReview",
         "values": ["testA", "testB", "testC", "testD"],
         "description": "Onboarding Review A/B/C/D"
-    },
-    {
-        "name": "BumpUpFreeTimeLimit",
-        "values": ["oneMin", "eightHours", "twelveHours", "twentyFourHours"],
-        "description": "Time to next bump up"
     },
     {
         "name": "UserRatingMarkAsSold",
