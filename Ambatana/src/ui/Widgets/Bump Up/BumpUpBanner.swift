@@ -107,7 +107,7 @@ class BumpUpBanner: UIView {
 
         switch type {
         case .free:
-            waitingTime = featureFlags.bumpUpFreeTimeLimit
+            waitingTime = Constants.bumpUpFreeTimeLimit
             bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
         case .priced:
             waitingTime = Constants.bumpUpPaidTimeLimit
@@ -134,7 +134,7 @@ class BumpUpBanner: UIView {
         // Update countdown with full waiting time
         switch type {
         case .free:
-            timeLeft.value = featureFlags.bumpUpFreeTimeLimit
+            timeLeft.value = Constants.bumpUpFreeTimeLimit
         case .priced, .restore:
             timeLeft.value = Constants.bumpUpPaidTimeLimit
         }

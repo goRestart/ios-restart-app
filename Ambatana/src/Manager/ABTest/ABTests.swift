@@ -20,15 +20,11 @@ struct ABTests {
     static var surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
     static var surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
-    static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
-    static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
     static var contactSellerOnFavorite = BoolABDynamicVar(key: "contactSellerOnFavorite", defaultValue: false)
     static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
-    static var editDeleteItemUxImprovement = BoolABDynamicVar(key: "editDeleteItemUxImprovement", defaultValue: false)
     static var onboardingReview = IntABDynamicVar(key: "onboardingReview", defaultValue: 0)
-    static var bumpUpFreeTimeLimit = FloatABDynamicVar(key: "bumpUpFreeTimeLimit", defaultValue: 8)
     static var freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     static var pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     static var userRatingMarkAsSold = BoolABDynamicVar(key: "userRatingMarkAsSold", defaultValue: false)
@@ -37,6 +33,7 @@ struct ABTests {
     static var periscopeRemovePredefinedText = BoolABDynamicVar(key: "periscopeRemovePredefinedText", defaultValue: false)
     static var hideTabBarOnFirstSession = BoolABDynamicVar(key: "hideTabBarOnFirstSession", defaultValue: false)
     static var postingGallery = IntABDynamicVar(key: "postingGallery", defaultValue: 0)
+    static var quickAnswersRepeatedTextField = BoolABDynamicVar(key: "quickAnswersRepeatedTextField", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -46,15 +43,11 @@ struct ABTests {
         result.append(surveyURL)
         result.append(surveyEnabled)
 
-        result.append(postAfterDeleteMode)
         result.append(userReviews)
-        result.append(favoriteWithBadgeOnProfile)
         result.append(contactSellerOnFavorite)
         result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
-        result.append(editDeleteItemUxImprovement)
         result.append(onboardingReview)
-        result.append(bumpUpFreeTimeLimit)
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
         result.append(userRatingMarkAsSold)
@@ -63,6 +56,7 @@ struct ABTests {
         result.append(periscopeRemovePredefinedText)
         result.append(hideTabBarOnFirstSession)
         result.append(postingGallery)
+        result.append(quickAnswersRepeatedTextField)
 
         return result
     }

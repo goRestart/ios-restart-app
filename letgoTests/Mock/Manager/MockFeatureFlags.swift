@@ -24,22 +24,19 @@ class MockFeatureFlags: FeatureFlaggeable {
 
     var websocketChat: Bool = false
     var userReviews: Bool = false
-    var postAfterDeleteMode: PostAfterDeleteMode = .original
-    var favoriteWithBadgeOnProfile: Bool = false
     var shouldContactSellerOnFavorite: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
-    var editDeleteItemUxImprovement: Bool = false
     var onboardingReview: OnboardingReview = .testA
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
-    var bumpUpFreeTimeLimit: TimeInterval = 5000 // 5 secs
     var userRatingMarkAsSold: Bool = false
     var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
     var periscopeRemovePredefinedText: Bool = false
     var hideTabBarOnFirstSession: Bool = false
     var postingGallery: PostingGallery = .singleSelection
+    var quickAnswersRepeatedTextField: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false

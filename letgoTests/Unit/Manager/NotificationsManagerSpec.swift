@@ -31,7 +31,6 @@ class NotificationsManagerSpec: QuickSpec {
         var disposeBag: DisposeBag!
 
         var unreadMessagesObserver: TestableObserver<Int?>!
-        var favoriteObserver: TestableObserver<Int?>!
         var unreadNotificationsObserver: TestableObserver<Int?>!
         var globalCountObserver: TestableObserver<Int>!
         var marketingNotificationsObserver: TestableObserver<Bool>!
@@ -46,7 +45,6 @@ class NotificationsManagerSpec: QuickSpec {
                 disposeBag = nil
                 disposeBag = DisposeBag()
                 sut.unreadMessagesCount.asObservable().bindTo(unreadMessagesObserver).addDisposableTo(disposeBag)
-                sut.favoriteCount.asObservable().bindTo(favoriteObserver).addDisposableTo(disposeBag)
                 sut.unreadNotificationsCount.asObservable().bindTo(unreadNotificationsObserver).addDisposableTo(disposeBag)
                 sut.globalCount.bindTo(globalCountObserver).addDisposableTo(disposeBag)
                 sut.marketingNotifications.asObservable().bindTo(marketingNotificationsObserver).addDisposableTo(disposeBag)
@@ -102,7 +100,6 @@ class NotificationsManagerSpec: QuickSpec {
                 scheduler.start()
 
                 unreadMessagesObserver = scheduler.createObserver(Optional<Int>.self)
-                favoriteObserver = scheduler.createObserver(Optional<Int>.self)
                 unreadNotificationsObserver = scheduler.createObserver(Optional<Int>.self)
                 globalCountObserver = scheduler.createObserver(Int.self)
                 marketingNotificationsObserver = scheduler.createObserver(Bool.self)
@@ -170,51 +167,6 @@ class NotificationsManagerSpec: QuickSpec {
                             }
                             it("globalCount is 21") {
                                 expect(globalCountObserver.events.last?.value.element!) == 21
-                            }
-                        }
-                    }
-                }
-                describe("favorites count") {
-                    beforeEach {
-                        createNotificationsManager()
-                    }
-                    context("not logged in") {
-                        beforeEach {
-                            sut.setup()
-                        }
-                        it("favoriteCount has an initial nil, and then emits another after setup") {
-                            XCTAssertEqual(favoriteObserver.events, [next(0, nil), next(0, nil)])
-                        }
-                    }
-                    context("logged in") {
-                        beforeEach {
-                            doLogin()
-                        }
-                        context("nothing stored") {
-                            beforeEach {
-                                keyValueStorage.productsMarkAsFavorite = nil
-                                sut.setup()
-                            }
-                            it("favoriteCount has an initial nil, and then emits another after setup") {
-                                XCTAssertEqual(favoriteObserver.events, [next(0, nil), next(0, nil)])
-                            }
-                        }
-                        context("1 favorite stored") {
-                            beforeEach {
-                                keyValueStorage.productsMarkAsFavorite = 1
-                                sut.setup()
-                            }
-                            it("favoriteCount emits a nil and then the 1") {
-                                XCTAssertEqual(favoriteObserver.events, [next(0, nil), next(0, 1)])
-                            }
-                        }
-                        context("20 favorite stored") {
-                            beforeEach {
-                                keyValueStorage.productsMarkAsFavorite = 20
-                                sut.setup()
-                            }
-                            it("favoriteCount emits a nil and then the 1") {
-                                XCTAssertEqual(favoriteObserver.events, [next(0, nil), next(0, 1)])
                             }
                         }
                     }

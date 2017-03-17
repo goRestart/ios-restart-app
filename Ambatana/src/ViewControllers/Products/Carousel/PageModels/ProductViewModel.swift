@@ -43,7 +43,6 @@ class ProductViewModel: BaseViewModel {
                                      socialSharer: SocialSharer(),
                                      featureFlags: FeatureFlags.sharedInstance,
                                      purchasesShopper: LGPurchasesShopper.sharedInstance,
-                                     notificationsManager: LGNotificationsManager.sharedInstance,
                                      monetizationRepository: Core.monetizationRepository,
                                      tracker: TrackerProxy.sharedInstance)
         }
@@ -69,7 +68,7 @@ class ProductViewModel: BaseViewModel {
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
         let isFree = product.value.price.free && featureFlags.freePostingModeAllowed
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, repeatingPlaceholderText: featureFlags.quickAnswersRepeatedTextField)
     }
 
     let navBarButtons = Variable<[UIAction]>([])
@@ -81,7 +80,6 @@ class ProductViewModel: BaseViewModel {
     }
     fileprivate let productIsFavoriteable = Variable<Bool>(false)
     let favoriteButtonState = Variable<ButtonState>(.enabled)
-    let editButtonState = Variable<ButtonState>(.hidden)
     let shareButtonState = Variable<ButtonState>(.hidden)
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
@@ -118,7 +116,6 @@ class ProductViewModel: BaseViewModel {
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let purchasesShopper: PurchasesShopper
-    fileprivate var notificationsManager: NotificationsManager
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
 
@@ -147,7 +144,6 @@ class ProductViewModel: BaseViewModel {
          socialSharer: SocialSharer,
          featureFlags: FeatureFlaggeable,
          purchasesShopper: PurchasesShopper,
-         notificationsManager: NotificationsManager,
          monetizationRepository: MonetizationRepository,
          tracker: Tracker) {
         self.product = Variable<Product>(product)
@@ -163,7 +159,6 @@ class ProductViewModel: BaseViewModel {
         self.chatViewMessageAdapter = chatViewMessageAdapter
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
-        self.notificationsManager = notificationsManager
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
 
@@ -278,9 +273,8 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
-            guard let flags = self?.featureFlags, let isMine = self?.isMine else { return }
-            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && isMine ? .enabled : .hidden
-            self?.editButtonState.value = !flags.editDeleteItemUxImprovement && status.isEditable ? .enabled : .hidden
+            guard let isMine = self?.isMine else { return }
+            self?.shareButtonState.value = isMine ? .enabled : .hidden
         }.addDisposableTo(disposeBag)
 
         myUserRepository.rx_myUser.bindNext { [weak self] _ in
@@ -469,20 +463,18 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && isMine {
+        if isMine {
             if status.value.isEditable {
                 navBarButtons.append(buildEditNavBarAction())
             }
             navBarButtons.append(buildMoreNavBarAction())
-        } else {
-            if (moreInfoState.value == .shown) {
-                if productIsFavoriteable.value {
-                    navBarButtons.append(buildFavoriteNavBarAction())
-                }
-                navBarButtons.append(buildMoreNavBarAction())
-            } else {
-                navBarButtons.append(buildShareNavBarAction())
+        } else if moreInfoState.value == .shown {
+            if productIsFavoriteable.value {
+                navBarButtons.append(buildFavoriteNavBarAction())
             }
+            navBarButtons.append(buildMoreNavBarAction())
+        } else {
+            navBarButtons.append(buildShareNavBarAction())
         }
         return navBarButtons
     }
@@ -524,7 +516,7 @@ extension ProductViewModel {
     private func showOptionsMenu() {
         var actions = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && status.value.isEditable {
+        if status.value.isEditable {
             actions.append(buildEditAction())
         }
         actions.append(buildShareAction())
@@ -676,9 +668,7 @@ fileprivate extension ProductViewModel {
         if currentFavoriteValue {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
-                if let _ = result.value {
-                    strongSelf.notificationsManager.decreaseFavoriteCounter()
-                } else {
+                if let _ = result.error {
                     strongSelf.isFavorite.value = currentFavoriteValue
                 }
                 strongSelf.favoriteButtonState.value = .enabled
@@ -688,7 +678,6 @@ fileprivate extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
-                    strongSelf.notificationsManager.increaseFavoriteCounter()
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
@@ -802,17 +791,9 @@ fileprivate extension ProductViewModel {
         trackHelper.trackDeleteStarted()
 
         productRepository.delete(product.value) { [weak self] result in
-            guard let strongSelf = self else { return }
-
-            var afterMessageAction: (() -> ())? = nil
             var message: String? = nil
+            var afterMessageAction: (() -> ())? = nil
             if let _ = result.value {
-                switch strongSelf.featureFlags.postAfterDeleteMode {
-                case .original:
-                    message = LGLocalizedString.productDeleteSuccessMessage
-                case .fullScreen, .alert:
-                    break
-                }
                 afterMessageAction = { [weak self] in
                     self?.navigator?.closeAfterDelete()
                 }
@@ -821,7 +802,7 @@ fileprivate extension ProductViewModel {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
 
-            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
         }
     }
 

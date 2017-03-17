@@ -21,22 +21,19 @@ protocol FeatureFlaggeable {
 
     var websocketChat: Bool { get }
     var userReviews: Bool { get }
-    var postAfterDeleteMode: PostAfterDeleteMode { get }
-    var favoriteWithBadgeOnProfile: Bool { get }
     var shouldContactSellerOnFavorite: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
-    var editDeleteItemUxImprovement: Bool { get }
     var onboardingReview: OnboardingReview { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var bumpUpFreeTimeLimit: TimeInterval { get }
     var userRatingMarkAsSold: Bool { get }
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
     var periscopeRemovePredefinedText: Bool { get }
     var hideTabBarOnFirstSession: Bool { get }
     var postingGallery: PostingGallery { get }
+    var quickAnswersRepeatedTextField: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -109,20 +106,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.surveyEnabled.value
     }
-
-    var postAfterDeleteMode: PostAfterDeleteMode {
-        if Bumper.enabled {
-            return Bumper.postAfterDeleteMode
-        }
-        return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
-    }
-    
-    var favoriteWithBadgeOnProfile: Bool {
-        if Bumper.enabled {
-            return Bumper.favoriteWithBadgeOnProfile
-        }
-        return ABTests.favoriteWithBadgeOnProfile.value
-    }
     
     var shouldContactSellerOnFavorite: Bool {
         if Bumper.enabled {
@@ -144,13 +127,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.passiveBuyersShowKeyboard.value
     }
-    
-    var editDeleteItemUxImprovement: Bool {
-        if Bumper.enabled {
-            return Bumper.editDeleteItemUxImprovement
-        }
-        return ABTests.editDeleteItemUxImprovement.value
-    }
 
     var onboardingReview: OnboardingReview {
         if Bumper.enabled {
@@ -171,24 +147,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.pricedBumpUpEnabled
         }
         return ABTests.pricedBumpUpEnabled.value
-    }
-
-    var bumpUpFreeTimeLimit: TimeInterval {
-        let hoursToSeconds: TimeInterval = 60 * 60
-        if Bumper.enabled {
-            switch Bumper.bumpUpFreeTimeLimit {
-            case .oneMin:
-                return 60
-            case .eightHours:
-                return 8 * hoursToSeconds
-            case .twelveHours:
-                return 12 * hoursToSeconds
-            case .twentyFourHours:
-                return 24 * hoursToSeconds
-            }
-        }
-        let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToSeconds)
-        return TimeInterval(timeLimit)
     }
 
     var userRatingMarkAsSold: Bool {
@@ -231,6 +189,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.hideTabBarOnFirstSession
         }
         return ABTests.hideTabBarOnFirstSession.value
+    }
+    
+    var quickAnswersRepeatedTextField: Bool {
+        if Bumper.enabled {
+            return Bumper.quickAnswersRepeatedTextField
+        }
+        return ABTests.quickAnswersRepeatedTextField.value
     }
     
     

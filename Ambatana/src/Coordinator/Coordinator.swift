@@ -14,14 +14,43 @@ protocol CoordinatorDelegate: class {
 }
 
 protocol Coordinator: CoordinatorDelegate {
+
+    /// Possible child coordinator. Will be automatically set on `openChild` method
     var child: Coordinator? { get set }
+    /// Delegate for parent coordinators, to notify when this has finished. Will be automatically set on `openChild` method
+    weak var coordinatorDelegate: CoordinatorDelegate? { get set }
+    /// main view controller
     var viewController: UIViewController { get }
+    /// Possible presented alert controller
     weak var presentedAlertController: UIAlertController? { get set }
+
+    /// required to show bubble notification from any coordinator
     var bubbleNotificationManager: BubbleNotificationManager { get }
+    /// required to check session and open login if needed
     var sessionManager: SessionManager { get }
-    
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?)
-    func close(animated: Bool, completion: (() -> Void)?)
+
+
+    /**
+    Once a coordinator is created this method will be called to present/show the main viewController. Each
+    implementation is responsible to do so.
+
+    - Parameters:
+        - parent: parent view controller, can be used to present the new controller.
+        - animated: whether or not the action to present/show should be animated
+        - completion: completion closure
+    */
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?)
+
+
+    /** 
+    Method that will remove/dismiss the main view controller. It should ALWAYS call completion block, even if
+    viewController isn't presented or is already dismissed. When a coordinator is closed it will call this method
+    during the process.
+    - Parameters:
+       - animated: whether or not the action should be animated
+       - completion: completion closure
+    */
+    func dismissViewController(animated: Bool, completion: (() -> Void)?)
 }
 
 
@@ -49,11 +78,29 @@ extension Coordinator {
 // MARK: - Helpers
 
 extension Coordinator {
-    func openCoordinator(coordinator: Coordinator, parent: UIViewController, animated: Bool,
+    func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool,
                          completion: (() -> Void)?) {
         guard child == nil else { return }
         child = coordinator
-        coordinator.open(parent: parent, animated: animated, completion: completion)
+        coordinator.coordinatorDelegate = self
+        coordinator.presentViewController(parent: parent, animated: animated, completion: completion)
+    }
+
+    // Default close, can be overriden
+    func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
+        let dismiss: () -> Void = { [weak self] in
+            self?.dismissViewController(animated: animated) {
+                guard let strongSelf = self else { return }
+                strongSelf.coordinatorDelegate?.coordinatorDidClose(strongSelf)
+                completion?()
+            }
+        }
+
+        if let child = child {
+            child.closeCoordinator(animated: animated, completion: dismiss)
+        } else {
+            dismiss()
+        }
     }
 }
 
@@ -62,14 +109,13 @@ extension Coordinator {
 
 extension Coordinator {
     func openLoginIfNeeded(from source: EventParameterLoginSourceValue, style: LoginStyle,
-                           loggedInAction: @escaping (() -> Void), delegate: LoginCoordinatorDelegate?) {
+                           loggedInAction: @escaping (() -> Void)) {
         guard !sessionManager.loggedIn else {
             loggedInAction()
             return
         }
         let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: loggedInAction)
-        coordinator.delegate = delegate
-        openCoordinator(coordinator: coordinator, parent: viewController, animated: true, completion: nil)
+        openChild(coordinator: coordinator, parent: viewController, animated: true, completion: nil)
     }
 }
 
