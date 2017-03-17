@@ -147,7 +147,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                                                   countryHelper: countryHelper,
                                                                   featureFlags: featureFlags,
                                                                   purchasesShopper: purchasesShopper,
-                                                                  notificationsManager: notificationsManager,
                                                                   monetizationRepository: monetizationRepository,
                                                                   tracker: tracker)
 
