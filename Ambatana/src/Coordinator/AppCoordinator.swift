@@ -221,7 +221,7 @@ extension AppCoordinator: AppNavigator {
             guard let strongSelf = self else { return }
             strongSelf.tabBarCtl.clearAllPresented()
             strongSelf.openChild(coordinator: changePasswordCoordinator, parent: strongSelf.tabBarCtl,
-                                       animated: true, completion: nil)
+                                 animated: true, completion: nil)
         }
     }
 
