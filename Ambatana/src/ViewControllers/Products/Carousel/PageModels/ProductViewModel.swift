@@ -43,7 +43,6 @@ class ProductViewModel: BaseViewModel {
                                      socialSharer: SocialSharer(),
                                      featureFlags: FeatureFlags.sharedInstance,
                                      purchasesShopper: LGPurchasesShopper.sharedInstance,
-                                     notificationsManager: LGNotificationsManager.sharedInstance,
                                      monetizationRepository: Core.monetizationRepository,
                                      tracker: TrackerProxy.sharedInstance)
         }
@@ -118,7 +117,6 @@ class ProductViewModel: BaseViewModel {
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let purchasesShopper: PurchasesShopper
-    fileprivate var notificationsManager: NotificationsManager
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
 
@@ -149,7 +147,6 @@ class ProductViewModel: BaseViewModel {
          socialSharer: SocialSharer,
          featureFlags: FeatureFlaggeable,
          purchasesShopper: PurchasesShopper,
-         notificationsManager: NotificationsManager,
          monetizationRepository: MonetizationRepository,
          tracker: Tracker) {
         self.product = Variable<Product>(product)
@@ -165,7 +162,6 @@ class ProductViewModel: BaseViewModel {
         self.chatViewMessageAdapter = chatViewMessageAdapter
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
-        self.notificationsManager = notificationsManager
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
 

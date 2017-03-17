@@ -34,7 +34,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var product: MockProduct!
         var featureFlags: MockFeatureFlags!
         var purchasesShopper: MockPurchasesShopper!
-        var notificationsManager: MockNotificationsManager!
         var monetizationRepository: MockMonetizationRepository!
         var tracker: MockTracker!
 
@@ -60,7 +59,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                         socialSharer: socialSharer,
                                         featureFlags: featureFlags,
                                         purchasesShopper: purchasesShopper,
-                                        notificationsManager: notificationsManager,
                                         monetizationRepository: monetizationRepository,
                                         tracker: tracker)
                 sut.delegate = self
@@ -83,7 +81,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 product = MockProduct.makeMock()
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
-                notificationsManager = MockNotificationsManager()
                 monetizationRepository = MockMonetizationRepository()
                 tracker = MockTracker()
 
