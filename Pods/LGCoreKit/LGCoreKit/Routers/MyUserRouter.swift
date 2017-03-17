@@ -47,7 +47,7 @@ enum MyUserRouter: URLRequestAuthenticable {
             return try Router<BouncerBaseURL>.show(endpoint: endpoint, objectId: myUserId).asURLRequest()
         case let .create(params):
             var urlRequest = try Router<BouncerBaseURL>.create(endpoint: endpoint, params: params, encoding: nil).asURLRequest()
-            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
+            if let token = InternalCore.tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }

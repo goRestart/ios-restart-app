@@ -74,7 +74,7 @@ extension LGChat : Decodable {
                             <*> j <| "status"
         
         if let error = result.error {
-            print("LGChat parse error: \(error)")
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChat parse error: \(error)")
         }
 
         return result

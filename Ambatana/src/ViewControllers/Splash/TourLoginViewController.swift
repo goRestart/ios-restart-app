@@ -75,11 +75,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         setupKenBurns()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        GIDSignIn.sharedInstance().uiDelegate = self
-    }
-
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         setupLines()
@@ -97,6 +92,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     }
 
     @IBAction func googleButtonPressed(_ sender: AnyObject) {
+        GIDSignIn.sharedInstance().uiDelegate = self
         viewModel.googleButtonPressed()
     }
 

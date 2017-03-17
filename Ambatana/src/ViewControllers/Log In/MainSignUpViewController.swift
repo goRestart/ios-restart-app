@@ -85,11 +85,6 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
             break
         }
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        GIDSignIn.sharedInstance().uiDelegate = self
-    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -119,6 +114,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     }
     
     @IBAction func connectGoogleButtonPressed(_ sender: AnyObject) {
+        GIDSignIn.sharedInstance().uiDelegate = self
         viewModel.connectGoogleButtonPressed()
     }
     

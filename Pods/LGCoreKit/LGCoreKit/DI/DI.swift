@@ -10,7 +10,6 @@ import KeychainSwift
 import Alamofire
 
 public protocol DI: class {
-    init(backgroundEnabled: Bool)
 
     // Background
     var networkBackgroundCompletion: (() -> Void)? { get set }
@@ -48,7 +47,7 @@ public protocol DI: class {
 
 
 protocol InternalDI: DI {
-
+    
     // Manager
     var internalSessionManager: InternalSessionManager { get }
 
@@ -63,7 +62,7 @@ protocol InternalDI: DI {
     var webSocketLibrary: WebSocketLibraryProtocol { get }
 
     // DAO
-    static var tokenDAO: TokenDAO { get }
+    var tokenDAO: TokenDAO { get }
     var deviceIdDAO: DeviceIdDAO { get }
     var installationDAO: InstallationDAO { get }
     var myUserDAO: MyUserDAO { get }
