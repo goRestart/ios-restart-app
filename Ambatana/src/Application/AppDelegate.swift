@@ -35,6 +35,7 @@ final class AppDelegate: UIResponder {
     fileprivate var locationManager: LocationManager?
     fileprivate var sessionManager: SessionManager?
     fileprivate var featureFlags: FeatureFlaggeable?
+    fileprivate var purchasesShopper: PurchasesShopper?
 
     fileprivate var navigator: AppNavigator?
 
@@ -51,6 +52,7 @@ extension AppDelegate: UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         ABTests.registerVariables()
         self.featureFlags = FeatureFlags.sharedInstance
+        self.purchasesShopper = LGPurchasesShopper.sharedInstance
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
         self.productRepository = Core.productRepository
@@ -138,7 +140,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         // stop observing payment transactions
         if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
-            LGPurchasesShopper.sharedInstance.stopObservingTransactions()
+            purchasesShopper.stopObservingTransactions()
         }
     }
 
@@ -161,7 +163,7 @@ extension AppDelegate: UIApplicationDelegate {
         navigator?.openSurveyIfNeeded()
         // observe payment transactions
         if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
-            LGPurchasesShopper.sharedInstance.startObservingTransactions()
+            purchasesShopper.startObservingTransactions()
         }
     }
 

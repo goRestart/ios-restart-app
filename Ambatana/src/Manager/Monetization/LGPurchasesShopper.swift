@@ -255,9 +255,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                           itemId: transaction.payment.productIdentifier, itemPrice: price ?? "0",
                                           itemCurrency: currency ?? "") { [weak self] result in
             if let _ = result.value {
-                self?.delegate?.pricedBumpDidSucceed()
                 self?.remove(transaction: transaction.transactionIdentifier)
                 self?.paymentQueue.finishTransaction(transaction)
+                self?.delegate?.pricedBumpDidSucceed()
             } else if let _ = result.error {
                 self?.delegate?.pricedBumpDidFail()
             }
