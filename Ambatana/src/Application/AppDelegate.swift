@@ -140,7 +140,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         // stop observing payment transactions
         if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
-            purchasesShopper.stopObservingTransactions()
+            purchasesShopper?.stopObservingTransactions()
         }
     }
 
@@ -163,7 +163,7 @@ extension AppDelegate: UIApplicationDelegate {
         navigator?.openSurveyIfNeeded()
         // observe payment transactions
         if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
-            purchasesShopper.startObservingTransactions()
+            purchasesShopper?.startObservingTransactions()
         }
     }
 
