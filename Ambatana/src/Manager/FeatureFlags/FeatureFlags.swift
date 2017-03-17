@@ -57,6 +57,13 @@ class FeatureFlags: FeatureFlaggeable {
     init(locale: Locale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
         Bumper.initialize()
 
+        // Initialize all vars that shouldn't change over application lifetime
+        if Bumper.enabled {
+            self.websocketChat = Bumper.websocketChat
+        } else {
+            self.websocketChat = ABTests.websocketChat.value
+        }
+        
         self.locale = locale
         self.locationManager = locationManager
         self.carrierCountryInfo = countryInfo
@@ -73,12 +80,7 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.trackingData.asObservable().map { $0 != nil }
     }
 
-    var websocketChat: Bool {
-        if Bumper.enabled {
-            return Bumper.websocketChat
-        }
-        return ABTests.websocketChat.value
-    }
+    let websocketChat: Bool
 
     var userReviews: Bool {
         if Bumper.enabled {
