@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol PassiveBuyersCoordinatorDelegate: CoordinatorDelegate {
+protocol PassiveBuyersCoordinatorDelegate: class {
     func passiveBuyersCoordinatorDidCancel(_ coordinator: PassiveBuyersCoordinator)
     func passiveBuyersCoordinatorDidFinish(_ coordinator: PassiveBuyersCoordinator)
 }

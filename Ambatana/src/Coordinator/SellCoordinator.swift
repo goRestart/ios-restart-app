@@ -149,15 +149,9 @@ extension SellCoordinator: PostProductNavigator {
     }
 
     func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage),
-                          loggedInAction: loggedInAction, delegate: self)
+        openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage), loggedInAction: loggedInAction)
     }
 }
-
-
-// MARK: - LoginCoordinatorDelegate
-
-extension SellCoordinator: LoginCoordinatorDelegate {}
 
 
 // MARK: - ProductPostedNavigator

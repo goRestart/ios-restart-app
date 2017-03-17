@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
+protocol UserRatingCoordinatorDelegate: class {
     func userRatingCoordinatorDidCancel()
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?)
 }

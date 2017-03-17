@@ -83,11 +83,6 @@ class TabCoordinator: NSObject, Coordinator {
 }
 
 
-// MARK: - LoginCoordinatorDelegate
-
-extension TabCoordinator: LoginCoordinatorDelegate {}
-
-
 // MARK: - TabNavigator
 
 extension TabCoordinator: TabNavigator {
@@ -448,7 +443,7 @@ extension TabCoordinator: ProductDetailNavigator {
 
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction, delegate: self)
+        openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction)
     }
 }
 
@@ -477,7 +472,7 @@ extension TabCoordinator: ChatDetailNavigator {
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.chatLoginPopupText),
-                          loggedInAction: loggedInAction, delegate: self)
+                          loggedInAction: loggedInAction)
     }
 }
 

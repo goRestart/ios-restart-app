@@ -16,8 +16,6 @@ final class ChangePasswordCoordinator: Coordinator {
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
-
-    weak var delegate: CoordinatorDelegate?
     
     
     // MARK: - Lifecycle

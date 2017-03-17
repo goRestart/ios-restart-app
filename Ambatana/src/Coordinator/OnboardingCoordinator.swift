@@ -9,7 +9,7 @@
 import LGCoreKit
 import SafariServices
 
-protocol OnboardingCoordinatorDelegate: CoordinatorDelegate {
+protocol OnboardingCoordinatorDelegate: class {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
 }
 
@@ -80,7 +80,6 @@ final class OnboardingCoordinator: Coordinator {
     }
 
     func openResetPassword(coordinator: ChangePasswordCoordinator) {
-        coordinator.delegate = self
         openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, completion: nil)
     }
 

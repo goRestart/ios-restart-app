@@ -15,8 +15,6 @@ enum LoginStyle {
     case popup(String)
 }
 
-protocol LoginCoordinatorDelegate: CoordinatorDelegate {}
-
 protocol RecaptchaTokenDelegate: class {
     func recaptchaTokenObtained(token: String)
 }
@@ -40,7 +38,6 @@ final class LoginCoordinator: Coordinator {
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let tracker: Tracker
     fileprivate let featureFlags: FeatureFlaggeable
-    weak var delegate: LoginCoordinatorDelegate?
 
     fileprivate let disposeBag = DisposeBag()
 

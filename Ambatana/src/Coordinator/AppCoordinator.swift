@@ -220,7 +220,6 @@ extension AppCoordinator: AppNavigator {
         forceCloseCurrentChild() { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.tabBarCtl.clearAllPresented()
-            changePasswordCoordinator.delegate = strongSelf
             strongSelf.openChild(coordinator: changePasswordCoordinator, parent: strongSelf.tabBarCtl,
                                        animated: true, completion: nil)
         }
@@ -467,15 +466,9 @@ fileprivate extension AppCoordinator {
     }
 
     func openLoginIfNeeded(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .fullScreen,
-                          loggedInAction: loggedInAction, delegate: self)
+        openLoginIfNeeded(from: from, style: .fullScreen, loggedInAction: loggedInAction)
     }
 }
-
-
-// MARK: - LoginCoordinatorDelegate
-
-extension AppCoordinator: LoginCoordinatorDelegate {}
 
 
 // MARK: - CustomLeanplumPresenter
@@ -553,7 +546,6 @@ fileprivate extension AppCoordinator {
 
     func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> ()) {
         let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: afterLogInSuccessful)
-        coordinator.delegate = self
         openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
