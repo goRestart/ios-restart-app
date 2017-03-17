@@ -276,9 +276,9 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
-            guard let flags = self?.featureFlags, let isMine = self?.isMine else { return }
-            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && isMine ? .enabled : .hidden
-            self?.editButtonState.value = !flags.editDeleteItemUxImprovement && status.isEditable ? .enabled : .hidden
+            guard let isMine = self?.isMine else { return }
+            self?.shareButtonState.value = isMine ? .enabled : .hidden
+            self?.editButtonState.value = .hidden
         }.addDisposableTo(disposeBag)
 
         myUserRepository.rx_myUser.bindNext { [weak self] _ in
@@ -435,20 +435,18 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && isMine {
+        if isMine {
             if status.value.isEditable {
                 navBarButtons.append(buildEditNavBarAction())
             }
             navBarButtons.append(buildMoreNavBarAction())
-        } else {
-            if (moreInfoState.value == .shown) {
-                if productIsFavoriteable.value {
-                    navBarButtons.append(buildFavoriteNavBarAction())
-                }
-                navBarButtons.append(buildMoreNavBarAction())
-            } else {
-                navBarButtons.append(buildShareNavBarAction())
+        } else if moreInfoState.value == .shown {
+            if productIsFavoriteable.value {
+                navBarButtons.append(buildFavoriteNavBarAction())
             }
+            navBarButtons.append(buildMoreNavBarAction())
+        } else {
+            navBarButtons.append(buildShareNavBarAction())
         }
         return navBarButtons
     }
@@ -490,7 +488,7 @@ extension ProductViewModel {
     private func showOptionsMenu() {
         var actions = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && status.value.isEditable {
+        if status.value.isEditable {
             actions.append(buildEditAction())
         }
         actions.append(buildShareAction())
