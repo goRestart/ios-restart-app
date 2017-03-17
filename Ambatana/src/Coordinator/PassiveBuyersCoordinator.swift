@@ -59,7 +59,7 @@ final class PassiveBuyersCoordinator: Coordinator {
 
     // MARK: - Private
 
-    fileprivate func close(animated: Bool, completed: Bool, completion: (() -> Void)?) {
+    fileprivate func close(animated: Bool, completed: Bool) {
         closeCoordinator(animated: animated) { [weak self] in
             guard let strongSelf = self else { return }
             completed ? strongSelf.delegate?.passiveBuyersCoordinatorDidFinish(strongSelf) :
@@ -73,10 +73,10 @@ final class PassiveBuyersCoordinator: Coordinator {
 
 extension PassiveBuyersCoordinator: PassiveBuyersNavigator {
     func passiveBuyersCancel() {
-        close(animated: true, completed: false, completion: nil)
+        close(animated: true, completed: false)
     }
 
     func passiveBuyersCompleted() {
-        close(animated: true, completed: true, completion: nil)
+        close(animated: true, completed: true)
     }
 }

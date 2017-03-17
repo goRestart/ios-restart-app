@@ -100,10 +100,8 @@ final class LoginCoordinator: Coordinator {
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {
         if let vc = presentedViewControllers.last {
             presentedViewControllers.removeLast()
-            vc.dismissAllPresented {
-                vc.dismiss(animated: false) { [weak self] in
-                    self?.dismissViewController(animated: animated, completion: completion)
-                }
+            vc.dismissWithPresented(animated: false) { [weak self] in
+                self?.dismissViewController(animated: animated, completion: completion)
             }
         } else {
             viewController.dismissWithPresented(animated: animated, completion: completion)
