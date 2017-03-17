@@ -1069,6 +1069,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .approved
                             product.price = .free
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
