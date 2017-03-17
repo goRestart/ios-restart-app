@@ -132,14 +132,14 @@ enum QuickAnswer {
         return result
     }
 
-    static func quickAnswersForPeriscope(isFree: Bool, repitingPlaceholderText: Bool) -> [QuickAnswer] {
+    static func quickAnswersForPeriscope(isFree: Bool, repeatingPlaceholderText: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
         if isFree {
             result.append(.interested)
             result.append(.meetUp)
             result.append(.productCondition)
         } else {
-            if repitingPlaceholderText {
+            if repeatingPlaceholderText {
                 result.append(.stillAvailable)
                 result.append(.isNegotiable)
                 result.append(.productCondition)
