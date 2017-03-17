@@ -642,9 +642,7 @@ fileprivate extension ProductViewModel {
         if currentFavoriteValue {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
-                if let _ = result.value {
-                    strongSelf.notificationsManager.decreaseFavoriteCounter()
-                } else {
+                if let _ = result.error {
                     strongSelf.isFavorite.value = currentFavoriteValue
                 }
                 strongSelf.favoriteButtonState.value = .enabled
@@ -654,7 +652,7 @@ fileprivate extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe)
-                    strongSelf.notificationsManager.increaseFavoriteCounter()
+
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }

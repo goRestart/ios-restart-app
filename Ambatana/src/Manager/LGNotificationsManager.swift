@@ -16,7 +16,6 @@ class LGNotificationsManager: NotificationsManager {
 
     // Rx
     let unreadMessagesCount = Variable<Int?>(nil)
-    let favoriteCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
     var globalCount: Observable<Int> {
         return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
@@ -79,7 +78,6 @@ class LGNotificationsManager: NotificationsManager {
 
     func updateCounters() {
         requestChatCounters()
-        requestFavoriteCounter()
         requestNotificationCounters()
     }
 
@@ -91,36 +89,6 @@ class LGNotificationsManager: NotificationsManager {
         requestNotificationCounters()
     }
     
-    func requestFavoriteCounter() {
-        let value = keyValueStorage.productsMarkAsFavorite ?? 0
-        favoriteCount.value = value > 0 ? 1 : nil
-    }
-    
-    
-    func increaseFavoriteCounter() {
-        guard featureFlags.favoriteWithBadgeOnProfile else { return }
-        let actualValue = keyValueStorage.productsMarkAsFavorite ?? 0
-        let increasedFavoriteValue = actualValue + 1
-        keyValueStorage.productsMarkAsFavorite = increasedFavoriteValue
-        favoriteCount.value = 1
-    }
-    
-    func decreaseFavoriteCounter() {
-        guard featureFlags.favoriteWithBadgeOnProfile else { return }
-        let actualValue = keyValueStorage.productsMarkAsFavorite ?? 0
-        let decreasedFavoriteValue = actualValue - 1
-        if decreasedFavoriteValue > 0 {
-            keyValueStorage.productsMarkAsFavorite = decreasedFavoriteValue
-            favoriteCount.value = 1
-        } else {
-            clearFavoriteCounter()
-        }
-    }
-    
-    func clearFavoriteCounter() {
-        keyValueStorage.productsMarkAsFavorite = nil
-        favoriteCount.value = nil
-    }
 
     // MARK: - Private
 
@@ -165,7 +133,6 @@ class LGNotificationsManager: NotificationsManager {
     private func clearCounters() {
         unreadMessagesCount.value = nil
         unreadNotificationsCount.value = nil
-        favoriteCount.value = nil
     }
 
     private func requestChatCounters() {
