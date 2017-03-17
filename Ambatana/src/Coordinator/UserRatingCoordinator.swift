@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
+protocol UserRatingCoordinatorDelegate: class {
     func userRatingCoordinatorDidCancel()
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?)
 }
@@ -16,6 +16,7 @@ protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
 final class UserRatingCoordinator: Coordinator {
     var child: Coordinator?
     let viewController: UIViewController
+    weak var coordinatorDelegate: CoordinatorDelegate?
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -58,28 +59,15 @@ final class UserRatingCoordinator: Coordinator {
         self.viewController = navigationController
     }
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
 
         parentViewController = parent
         parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func close(animated: Bool, completion: (() -> Void)?) {
-        let dismiss: () -> Void = { [weak self] in
-            self?.viewController.dismiss(animated: animated) { [weak self] in
-                guard let strongSelf = self else { return }
-                completion?()
-                strongSelf.delegate?.coordinatorDidClose(strongSelf)
-
-            }
-        }
-
-        if let child = child {
-            child.close(animated: animated, completion: dismiss)
-        } else {
-            dismiss()
-        }
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 
 
@@ -104,7 +92,7 @@ final class UserRatingCoordinator: Coordinator {
 
 extension UserRatingCoordinator: RateBuyersNavigator {
     func rateBuyersCancel() {
-        close(animated: true) { [weak self] in
+        closeCoordinator(animated: true) { [weak self] in
             self?.delegate?.userRatingCoordinatorDidCancel()
         }
     }
@@ -120,7 +108,7 @@ extension UserRatingCoordinator: RateBuyersNavigator {
     }
 
     func rateBuyersFinishNotOnLetgo() {
-        close(animated: true) { [weak self] in
+        closeCoordinator(animated: true) { [weak self] in
             self?.delegate?.userRatingCoordinatorDidFinish(withRating: nil, ratedUserId: nil)
         }
     }
@@ -131,19 +119,19 @@ extension UserRatingCoordinator: RateBuyersNavigator {
 
 extension UserRatingCoordinator: RateUserNavigator {
     func rateUserCancel() {
-        close(animated: true) { [weak self] in
+        closeCoordinator(animated: true) { [weak self] in
             self?.delegate?.userRatingCoordinatorDidCancel()
         }
     }
 
     func rateUserSkip() {
-        close(animated: true) { [weak self] in
+        closeCoordinator(animated: true) { [weak self] in
             self?.delegate?.userRatingCoordinatorDidFinish(withRating: nil, ratedUserId: self?.ratedUserId)
         }
     }
 
     func rateUserFinish(withRating rating: Int) {
-        close(animated: true) { [weak self] in
+        closeCoordinator(animated: true) { [weak self] in
             self?.delegate?.userRatingCoordinatorDidFinish(withRating: rating, ratedUserId: self?.ratedUserId)
         }
     }

@@ -90,7 +90,7 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
 
         let passiveBuyersCoordinator = PassiveBuyersCoordinator(passiveBuyersInfo: passiveBuyersInfo)
         passiveBuyersCoordinator.delegate = self
-        openCoordinator(coordinator: passiveBuyersCoordinator, parent: rootViewController, animated: true, completion: nil)
+        openChild(coordinator: passiveBuyersCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 }
 

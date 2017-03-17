@@ -9,13 +9,14 @@
 import Foundation
 import LGCoreKit
 
-protocol ExpressChatCoordinatorDelegate: CoordinatorDelegate {
+protocol ExpressChatCoordinatorDelegate: class {
     func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int)
 }
 
 final class ExpressChatCoordinator: Coordinator {
     var child: Coordinator?
     let viewController: UIViewController
+    weak var coordinatorDelegate: CoordinatorDelegate?
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -58,19 +59,22 @@ final class ExpressChatCoordinator: Coordinator {
         }
     }
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
         parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func close(animated: Bool, completion: (() -> Void)?) {
-        close(0, animated: animated, completion: completion)
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 
-    func close(_ countMessagesSent: Int, animated: Bool, completion: (() -> Void)?) {
-        viewController.dismiss(animated: animated, completion: completion)
-        delegate?.coordinatorDidClose(self)
-        if countMessagesSent > 0 { delegate?.expressChatCoordinatorDidSentMessages(self, count: countMessagesSent) }
+    fileprivate func close(_ countMessagesSent: Int, animated: Bool, completion: (() -> Void)?) {
+        closeCoordinator(animated: animated) { [weak self] in
+            guard let strongSelf = self else { return }
+            if countMessagesSent > 0 {
+                strongSelf.delegate?.expressChatCoordinatorDidSentMessages(strongSelf, count: countMessagesSent)
+            }
+        }
     }
 }
 

@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol PassiveBuyersCoordinatorDelegate: CoordinatorDelegate {
+protocol PassiveBuyersCoordinatorDelegate: class {
     func passiveBuyersCoordinatorDidCancel(_ coordinator: PassiveBuyersCoordinator)
     func passiveBuyersCoordinatorDidFinish(_ coordinator: PassiveBuyersCoordinator)
 }
@@ -16,6 +16,7 @@ protocol PassiveBuyersCoordinatorDelegate: CoordinatorDelegate {
 final class PassiveBuyersCoordinator: Coordinator {
     var child: Coordinator?
     var viewController: UIViewController
+    weak var coordinatorDelegate: CoordinatorDelegate?
     var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -44,35 +45,25 @@ final class PassiveBuyersCoordinator: Coordinator {
         passiveBuyersVM.navigator = self
     }
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
 
         parentViewController = parent
         parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func close(animated: Bool, completion: (() -> Void)?) {
-        close(animated: animated, completed: false, completion: completion)
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 
 
     // MARK: - Private
 
-    fileprivate func close(animated: Bool, completed: Bool, completion: (() -> Void)?) {
-        let dismiss: () -> Void = { [weak self] in
-            self?.viewController.dismiss(animated: animated) { [weak self] in
-                guard let strongSelf = self else { return }
-                completed ? strongSelf.delegate?.passiveBuyersCoordinatorDidFinish(strongSelf) :
-                    strongSelf.delegate?.passiveBuyersCoordinatorDidCancel(strongSelf)
-                strongSelf.delegate?.coordinatorDidClose(strongSelf)
-                completion?()
-            }
-        }
-
-        if let child = child {
-            child.close(animated: animated, completion: dismiss)
-        } else {
-            dismiss()
+    fileprivate func close(animated: Bool, completed: Bool) {
+        closeCoordinator(animated: animated) { [weak self] in
+            guard let strongSelf = self else { return }
+            completed ? strongSelf.delegate?.passiveBuyersCoordinatorDidFinish(strongSelf) :
+                strongSelf.delegate?.passiveBuyersCoordinatorDidCancel(strongSelf)
         }
     }
 }
@@ -82,10 +73,10 @@ final class PassiveBuyersCoordinator: Coordinator {
 
 extension PassiveBuyersCoordinator: PassiveBuyersNavigator {
     func passiveBuyersCancel() {
-        close(animated: true, completed: false, completion: nil)
+        close(animated: true, completed: false)
     }
 
     func passiveBuyersCompleted() {
-        close(animated: true, completed: true, completion: nil)
+        close(animated: true, completed: true)
     }
 }
