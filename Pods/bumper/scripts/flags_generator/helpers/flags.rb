@@ -7,12 +7,11 @@ class Flags
 		return @flags 
 	end
 
-	def bumperInitParams
+	def bumperInitClasses
 		params = Array.new
 		@flags.each do |flag|
 			params << flag.classInstance
 		end
-		return "[]" if params.empty?
-		return "["+params.join(', ')+"]"
+		return params
 	end
 end

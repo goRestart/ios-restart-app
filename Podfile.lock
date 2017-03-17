@@ -154,7 +154,7 @@ DEPENDENCIES:
   - AppsFlyerFramework (= 4.6.5)
   - Argo (= 4.1.2)
   - Branch (= 0.12.27)
-  - bumper (= 1.0.3)
+  - bumper (from `git@github.com:letgoapp/bumper.git`, commit `90e8c96f7a6c46a06bc415ac22250b80dda36bdf`)
   - CameraManager (= 3.1.1)
   - CHTCollectionViewWaterfallLayout (= 0.9.5)
   - CocoaLumberjack/Swift (= 3.0.0)
@@ -189,6 +189,9 @@ DEPENDENCIES:
   - TwitterKit (= 2.3.0)
 
 EXTERNAL SOURCES:
+  bumper:
+    :commit: 90e8c96f7a6c46a06bc415ac22250b80dda36bdf
+    :git: git@github.com:letgoapp/bumper.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
@@ -200,6 +203,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/albertbori/Reachability
 
 CHECKOUT OPTIONS:
+  bumper:
+    :commit: 90e8c96f7a6c46a06bc415ac22250b80dda36bdf
+    :git: git@github.com:letgoapp/bumper.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
@@ -218,7 +224,7 @@ SPEC CHECKSUMS:
   Argo: 5db06502fc1222d83011f574243089dab25202ff
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: 41404cc6de82e84368a26961f66d657b0662ca02
-  bumper: abbdce79db20a57b706195a593853d045cf6af27
+  bumper: 989acc052c8fbe52857ee89f2eb3996d1f0d74ae
   CameraManager: e6236452ec87950dde1fd70a8bed938336bb8901
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
@@ -271,6 +277,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: e78958b2e1d1a8f7c40239235337475818608b39
+PODFILE CHECKSUM: bf34646afbed1c3a503922fce27ef29f27193a1e
 
 COCOAPODS: 1.2.0
