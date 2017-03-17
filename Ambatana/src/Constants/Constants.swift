@@ -131,4 +131,7 @@ struct Constants {
     // NewRelic
     static let newRelicGodModeToken = "AAfcb13d44209d7454436d2efa9974174d063a8d1d"
     static let newRelicProductionToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
+    
+    // Bump up
+    static let bumpUpFreeTimeLimit: TimeInterval = TimeInterval.make(hours: 8)
 }

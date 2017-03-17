@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, SurveyEnabled.self, PostAfterDeleteMode.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, FavoriteWithBadgeOnProfile.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, EditDeleteItemUxImprovement.self, OnboardingReview.self, BumpUpFreeTimeLimit.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self, HideTabBarOnFirstSession.self, PostingGallery.self, QuickAnswersRepeatedTextField.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, SurveyEnabled.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, OnboardingReview.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self, HideTabBarOnFirstSession.self, PostingGallery.self, QuickAnswersRepeatedTextField.self])
     } 
 
     static var websocketChat: Bool {
@@ -35,11 +35,6 @@ extension Bumper  {
         return SurveyEnabled(rawValue: value)?.asBool ?? false
     }
 
-    static var postAfterDeleteMode: PostAfterDeleteMode {
-        guard let value = Bumper.value(for: PostAfterDeleteMode.key) else { return .original }
-        return PostAfterDeleteMode(rawValue: value) ?? .original 
-    }
-
     static var freeBumpUpEnabled: Bool {
         guard let value = Bumper.value(for: FreeBumpUpEnabled.key) else { return false }
         return FreeBumpUpEnabled(rawValue: value)?.asBool ?? false
@@ -48,11 +43,6 @@ extension Bumper  {
     static var pricedBumpUpEnabled: Bool {
         guard let value = Bumper.value(for: PricedBumpUpEnabled.key) else { return false }
         return PricedBumpUpEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var favoriteWithBadgeOnProfile: Bool {
-        guard let value = Bumper.value(for: FavoriteWithBadgeOnProfile.key) else { return false }
-        return FavoriteWithBadgeOnProfile(rawValue: value)?.asBool ?? false
     }
 
     static var captchaTransparent: Bool {
@@ -65,19 +55,9 @@ extension Bumper  {
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
     }
 
-    static var editDeleteItemUxImprovement: Bool {
-        guard let value = Bumper.value(for: EditDeleteItemUxImprovement.key) else { return false }
-        return EditDeleteItemUxImprovement(rawValue: value)?.asBool ?? false
-    }
-
     static var onboardingReview: OnboardingReview {
         guard let value = Bumper.value(for: OnboardingReview.key) else { return .testA }
         return OnboardingReview(rawValue: value) ?? .testA 
-    }
-
-    static var bumpUpFreeTimeLimit: BumpUpFreeTimeLimit {
-        guard let value = Bumper.value(for: BumpUpFreeTimeLimit.key) else { return .oneMin }
-        return BumpUpFreeTimeLimit(rawValue: value) ?? .oneMin 
     }
 
     static var userRatingMarkAsSold: Bool {
@@ -158,22 +138,6 @@ enum SurveyEnabled: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum PostAfterDeleteMode: String, BumperFeature  {
-    case original, fullScreen, alert
-    static var defaultValue: String { return PostAfterDeleteMode.original.rawValue }
-    static var enumValues: [PostAfterDeleteMode] { return [.original, .fullScreen, .alert]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Posting incentivation after delete" } 
-    static func fromPosition(_ position: Int) -> PostAfterDeleteMode {
-        switch position { 
-            case 0: return .original
-            case 1: return .fullScreen
-            case 2: return .alert
-            default: return .original
-        }
-    }
-}
-
 enum FreeBumpUpEnabled: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return FreeBumpUpEnabled.no.rawValue }
@@ -189,15 +153,6 @@ enum PricedBumpUpEnabled: String, BumperFeature  {
     static var enumValues: [PricedBumpUpEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "User can bump paying" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum FavoriteWithBadgeOnProfile: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return FavoriteWithBadgeOnProfile.no.rawValue }
-    static var enumValues: [FavoriteWithBadgeOnProfile] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Badge on profile when favorite" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -219,15 +174,6 @@ enum PassiveBuyersShowKeyboard: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum EditDeleteItemUxImprovement: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return EditDeleteItemUxImprovement.no.rawValue }
-    static var enumValues: [EditDeleteItemUxImprovement] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Edit & Delete item UX improvements" } 
-    var asBool: Bool { return self == .yes }
-}
-
 enum OnboardingReview: String, BumperFeature  {
     case testA, testB, testC, testD
     static var defaultValue: String { return OnboardingReview.testA.rawValue }
@@ -241,23 +187,6 @@ enum OnboardingReview: String, BumperFeature  {
             case 2: return .testC
             case 3: return .testD
             default: return .testA
-        }
-    }
-}
-
-enum BumpUpFreeTimeLimit: String, BumperFeature  {
-    case oneMin, eightHours, twelveHours, twentyFourHours
-    static var defaultValue: String { return BumpUpFreeTimeLimit.oneMin.rawValue }
-    static var enumValues: [BumpUpFreeTimeLimit] { return [.oneMin, .eightHours, .twelveHours, .twentyFourHours]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Time to next bump up" } 
-    static func fromPosition(_ position: Int) -> BumpUpFreeTimeLimit {
-        switch position { 
-            case 0: return .oneMin
-            case 1: return .eightHours
-            case 2: return .twelveHours
-            case 3: return .twentyFourHours
-            default: return .oneMin
         }
     }
 }

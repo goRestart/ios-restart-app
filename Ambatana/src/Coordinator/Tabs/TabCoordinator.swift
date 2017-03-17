@@ -400,29 +400,13 @@ extension TabCoordinator: ProductDetailNavigator {
 
     func closeAfterDelete() {
         closeProductDetail()
-        switch featureFlags.postAfterDeleteMode {
-        case .original:
-            break
-        case .fullScreen:
-            openFullScreenPostAfterDelete()
-        case .alert:
-            let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
-                .primary(fontSize: .medium)), action: { [weak self] in
-                    self?.openSell(.deleteProduct)
-                }, accessibilityId: .postDeleteAlertButton)
-            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
-                                                    text: LGLocalizedString.productDeletePostSubtitle,
-                                                    alertType: .plainAlert, actions: [action])
-        }
-    }
-
-    private func openFullScreenPostAfterDelete() {
-        let openSellAction: (() -> Void) = { [weak self] in
-            self?.openSell(.deleteProduct)
-        }
-        let vm = PostAfterDeleteViewModel(action: openSellAction)
-        let vc = PostAfterDeleteViewController(viewModel: vm)
-        navigationController.present(vc, animated: true, completion: nil)
+        let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
+                                                 .primary(fontSize: .medium)), action: { [weak self] in
+                                                    self?.openSell(.deleteProduct)
+            }, accessibilityId: .postDeleteAlertButton)
+        navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                text: LGLocalizedString.productDeletePostSubtitle,
+                                                alertType: .plainAlert, actions: [action])
     }
 
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {

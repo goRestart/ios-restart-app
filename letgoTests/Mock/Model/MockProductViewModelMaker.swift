@@ -20,7 +20,6 @@ class MockProductViewModelMaker: ProductViewModelMaker {
     let countryHelper: CountryHelper
     let featureFlags: MockFeatureFlags
     let purchasesShopper: MockPurchasesShopper
-    let notificationsManager: MockNotificationsManager
     let monetizationRepository: MockMonetizationRepository
     let tracker: MockTracker
 
@@ -32,7 +31,6 @@ class MockProductViewModelMaker: ProductViewModelMaker {
          countryHelper: CountryHelper,
          featureFlags: MockFeatureFlags,
          purchasesShopper: MockPurchasesShopper,
-         notificationsManager: MockNotificationsManager,
          monetizationRepository: MockMonetizationRepository,
          tracker: MockTracker) {
         self.myUserRepository = myUserRepository
@@ -43,7 +41,6 @@ class MockProductViewModelMaker: ProductViewModelMaker {
         self.countryHelper = countryHelper
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
-        self.notificationsManager = notificationsManager
         self.monetizationRepository = monetizationRepository
         self.tracker = tracker
     }
@@ -60,7 +57,6 @@ class MockProductViewModelMaker: ProductViewModelMaker {
                                 socialSharer: SocialSharer(),
                                 featureFlags: featureFlags,
                                 purchasesShopper: purchasesShopper,
-                                notificationsManager: notificationsManager,
                                 monetizationRepository: monetizationRepository,
                                 tracker: tracker)
     }

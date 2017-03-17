@@ -62,12 +62,6 @@
 		2E36656A1DE4880A00000F68 /* PostIncentivatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3665681DE4880A00000F68 /* PostIncentivatorView.swift */; };
 		2E36656C1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E36656B1DE4882E00000F68 /* PostIncentivatorView.xib */; };
 		2E36656D1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E36656B1DE4882E00000F68 /* PostIncentivatorView.xib */; };
-		2E3665711DE4989800000F68 /* PostAfterDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36656F1DE4989800000F68 /* PostAfterDeleteViewController.swift */; };
-		2E3665721DE4989800000F68 /* PostAfterDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36656F1DE4989800000F68 /* PostAfterDeleteViewController.swift */; };
-		2E3665731DE4989800000F68 /* PostAfterDeleteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3665701DE4989800000F68 /* PostAfterDeleteViewController.xib */; };
-		2E3665741DE4989800000F68 /* PostAfterDeleteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3665701DE4989800000F68 /* PostAfterDeleteViewController.xib */; };
-		2E3665761DE5CF7300000F68 /* PostAfterDeleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3665751DE5CF7300000F68 /* PostAfterDeleteViewModel.swift */; };
-		2E3665771DE5CF7300000F68 /* PostAfterDeleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3665751DE5CF7300000F68 /* PostAfterDeleteViewModel.swift */; };
 		2E373FA11D3CDEF500AC811C /* UserRatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E373F9F1D3CDEF400AC811C /* UserRatingCell.swift */; };
 		2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E373FA01D3CDEF400AC811C /* UserRatingCell.xib */; };
 		2E373FA51D3D019600AC811C /* UserRatingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E373FA31D3D019600AC811C /* UserRatingListViewController.swift */; };
@@ -1404,9 +1398,6 @@
 		2E3047F71CA4528B0099C0BC /* CommercialDisplayPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommercialDisplayPageView.xib; path = Commercializer/CommercialDisplayPageView.xib; sourceTree = "<group>"; };
 		2E3665681DE4880A00000F68 /* PostIncentivatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostIncentivatorView.swift; path = PostIncentivatorView/PostIncentivatorView.swift; sourceTree = "<group>"; };
 		2E36656B1DE4882E00000F68 /* PostIncentivatorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostIncentivatorView.xib; path = PostIncentivatorView/PostIncentivatorView.xib; sourceTree = "<group>"; };
-		2E36656F1DE4989800000F68 /* PostAfterDeleteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostAfterDeleteViewController.swift; path = PostAfterDelete/PostAfterDeleteViewController.swift; sourceTree = "<group>"; };
-		2E3665701DE4989800000F68 /* PostAfterDeleteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostAfterDeleteViewController.xib; path = PostAfterDelete/PostAfterDeleteViewController.xib; sourceTree = "<group>"; };
-		2E3665751DE5CF7300000F68 /* PostAfterDeleteViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostAfterDeleteViewModel.swift; path = PostAfterDelete/PostAfterDeleteViewModel.swift; sourceTree = "<group>"; };
 		2E373F9F1D3CDEF400AC811C /* UserRatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRatingCell.swift; path = Cells/UserRatingCell.swift; sourceTree = "<group>"; };
 		2E373FA01D3CDEF400AC811C /* UserRatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserRatingCell.xib; path = Cells/UserRatingCell.xib; sourceTree = "<group>"; };
 		2E373FA31D3D019600AC811C /* UserRatingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListViewController.swift; sourceTree = "<group>"; };
@@ -2282,16 +2273,6 @@
 				2E36656B1DE4882E00000F68 /* PostIncentivatorView.xib */,
 			);
 			name = PostIncevatorView;
-			sourceTree = "<group>";
-		};
-		2E36656E1DE4983400000F68 /* PostAfterDelete */ = {
-			isa = PBXGroup;
-			children = (
-				2E36656F1DE4989800000F68 /* PostAfterDeleteViewController.swift */,
-				2E3665701DE4989800000F68 /* PostAfterDeleteViewController.xib */,
-				2E3665751DE5CF7300000F68 /* PostAfterDeleteViewModel.swift */,
-			);
-			name = PostAfterDelete;
 			sourceTree = "<group>";
 		};
 		2E373F9E1D3CDED900AC811C /* Cells */ = {
@@ -3345,7 +3326,6 @@
 		6AA8278F1D2D03720068C39B /* Carousel */ = {
 			isa = PBXGroup;
 			children = (
-				2E36656E1DE4983400000F68 /* PostAfterDelete */,
 				C7126BD31E6053AA00038CC4 /* PageModels */,
 				C75B5DCD1D59E0C500112368 /* Cells */,
 				C75B5DB31D59E09500112368 /* ProductDetailOnboarding */,
@@ -4382,7 +4362,6 @@
 				508011031D4749030073F362 /* LaunchScreen.xib in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
-				2E3665731DE4989800000F68 /* PostAfterDeleteViewController.xib in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
 				C7F6F7541CB5081F000147F9 /* CommercialShareViewController.xib in Resources */,
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
@@ -4525,7 +4504,6 @@
 				C7B588281CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				508011041D4749030073F362 /* LaunchScreen.xib in Resources */,
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
-				2E3665741DE4989800000F68 /* PostAfterDeleteViewController.xib in Resources */,
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7F6F7551CB5081F000147F9 /* CommercialShareViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
@@ -5096,7 +5074,6 @@
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				C7415EE21DEDDB460003D6C1 /* KeyboardViewController.swift in Sources */,
 				C7BAC9BF1E49BCC5005BD0AF /* BubbleNotificationManager.swift in Sources */,
-				2E3665711DE4989800000F68 /* PostAfterDeleteViewController.swift in Sources */,
 				6A5E19E01D548F5400F92692 /* FBSDKSharing+LG.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */,
 				C727943A1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
@@ -5171,7 +5148,6 @@
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				6A5E19F21D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
 				C7AFFB041E7054780052A9CA /* WebSurveyViewModel.swift in Sources */,
-				2E3665761DE5CF7300000F68 /* PostAfterDeleteViewModel.swift in Sources */,
 				72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
@@ -5592,7 +5568,6 @@
 				2E2D53DE1D369AF800348D12 /* ConfigManager.swift in Sources */,
 				6A5E19E11D548F5400F92692 /* FBSDKSharing+LG.swift in Sources */,
 				C7415EE31DEDDB460003D6C1 /* KeyboardViewController.swift in Sources */,
-				2E3665721DE4989800000F68 /* PostAfterDeleteViewController.swift in Sources */,
 				C7B5882A1CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */,
 				C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
@@ -5669,7 +5644,6 @@
 				C7F3F1E61DE5EF6A00652447 /* TourBlurBackgroundViewController.swift in Sources */,
 				C7B588861CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */,
-				2E3665771DE5CF7300000F68 /* PostAfterDeleteViewModel.swift in Sources */,
 				6A5E19F31D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsViewController.swift in Sources */,
 				C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */,

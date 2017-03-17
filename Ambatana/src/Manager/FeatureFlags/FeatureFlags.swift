@@ -21,16 +21,12 @@ protocol FeatureFlaggeable {
 
     var websocketChat: Bool { get }
     var userReviews: Bool { get }
-    var postAfterDeleteMode: PostAfterDeleteMode { get }
-    var favoriteWithBadgeOnProfile: Bool { get }
     var shouldContactSellerOnFavorite: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
-    var editDeleteItemUxImprovement: Bool { get }
     var onboardingReview: OnboardingReview { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var bumpUpFreeTimeLimit: TimeInterval { get }
     var userRatingMarkAsSold: Bool { get }
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
@@ -110,20 +106,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.surveyEnabled.value
     }
-
-    var postAfterDeleteMode: PostAfterDeleteMode {
-        if Bumper.enabled {
-            return Bumper.postAfterDeleteMode
-        }
-        return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
-    }
-    
-    var favoriteWithBadgeOnProfile: Bool {
-        if Bumper.enabled {
-            return Bumper.favoriteWithBadgeOnProfile
-        }
-        return ABTests.favoriteWithBadgeOnProfile.value
-    }
     
     var shouldContactSellerOnFavorite: Bool {
         if Bumper.enabled {
@@ -145,13 +127,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.passiveBuyersShowKeyboard.value
     }
-    
-    var editDeleteItemUxImprovement: Bool {
-        if Bumper.enabled {
-            return Bumper.editDeleteItemUxImprovement
-        }
-        return ABTests.editDeleteItemUxImprovement.value
-    }
 
     var onboardingReview: OnboardingReview {
         if Bumper.enabled {
@@ -172,24 +147,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.pricedBumpUpEnabled
         }
         return ABTests.pricedBumpUpEnabled.value
-    }
-
-    var bumpUpFreeTimeLimit: TimeInterval {
-        let hoursToMilliseconds: TimeInterval = 60 * 60 * 1000
-        if Bumper.enabled {
-            switch Bumper.bumpUpFreeTimeLimit {
-            case .oneMin:
-                return hoursToMilliseconds/60
-            case .eightHours:
-                return 8 * hoursToMilliseconds
-            case .twelveHours:
-                return 12 * hoursToMilliseconds
-            case .twentyFourHours:
-                return 24 * hoursToMilliseconds
-            }
-        }
-        let timeLimit = ABTests.bumpUpFreeTimeLimit.value * Float(hoursToMilliseconds)
-        return TimeInterval(timeLimit)
     }
 
     var userRatingMarkAsSold: Bool {

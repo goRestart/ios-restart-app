@@ -221,18 +221,6 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    
-    var productsMarkAsFavorite: Int? {
-        get {
-            return currentUserProperties?.productsMarkAsFavorite ??
-                UserDefaultsUser.productsMarkAsFavoriteDafaultValue
-        }
-        set {
-            guard var userProperties = currentUserProperties else { return }
-            userProperties.productsMarkAsFavorite = newValue
-            currentUserProperties = userProperties
-        }
-    }
 }
 
 
