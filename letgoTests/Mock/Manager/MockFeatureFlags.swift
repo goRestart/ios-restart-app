@@ -40,6 +40,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var periscopeRemovePredefinedText: Bool = false
     var hideTabBarOnFirstSession: Bool = false
     var postingGallery: PostingGallery = .singleSelection
+    var quickAnswersRepeatedTextField: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false
