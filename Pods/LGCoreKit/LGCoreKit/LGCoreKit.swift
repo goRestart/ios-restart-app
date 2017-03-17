@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+let InternalCore: InternalDI = CoreDI()
 
-let InternalCore: DIProxy = DIProxy.sharedInstance
 public let Core: DI = {
     return InternalCore
 }()

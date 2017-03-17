@@ -34,7 +34,7 @@ enum InstallationRouter: URLRequestAuthenticable {
         case let .patch(installationId, params):
             var urlRequest = try Router<BouncerBaseURL>.patch(endpoint: InstallationRouter.endpoint, objectId: installationId,
                                                               params: params, encoding: .json).asURLRequest()
-            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
+            if let token = InternalCore.tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }

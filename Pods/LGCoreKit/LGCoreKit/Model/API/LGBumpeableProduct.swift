@@ -11,6 +11,8 @@ import Curry
 import Runes
 
 public struct LGBumpeableProduct : BumpeableProduct {
+    private static let millisToSeconds: Int64 = 1000
+
     public let isBumpeable: Bool
     public let countdown: TimeInterval
     public let maxCountdown: TimeInterval
@@ -19,14 +21,14 @@ public struct LGBumpeableProduct : BumpeableProduct {
     public let timeSinceLastBump: TimeInterval
     public let paymentItems: [PaymentItem]
 
-    init(isBumpeable: Bool, countdown: TimeInterval, maxCountdown: TimeInterval, totalBumps: Int, bumpsLeft: Int,
-         timeSinceLastBump: TimeInterval, paymentItems: [LGPaymentItem]) {
+    init(isBumpeable: Bool, countdown: Int64, maxCountdown: Int64, totalBumps: Int, bumpsLeft: Int,
+         timeSinceLastBump: Int64, paymentItems: [LGPaymentItem]) {
         self.isBumpeable = isBumpeable
-        self.countdown = countdown
-        self.maxCountdown = maxCountdown
+        self.countdown = TimeInterval(countdown)/TimeInterval(LGBumpeableProduct.millisToSeconds)
+        self.maxCountdown = TimeInterval(maxCountdown)/TimeInterval(LGBumpeableProduct.millisToSeconds)
         self.totalBumps = totalBumps
         self.bumpsLeft = bumpsLeft
-        self.timeSinceLastBump = timeSinceLastBump
+        self.timeSinceLastBump = TimeInterval(timeSinceLastBump)/TimeInterval(LGBumpeableProduct.millisToSeconds)
         self.paymentItems = paymentItems.flatMap { $0 }
     }
 }
