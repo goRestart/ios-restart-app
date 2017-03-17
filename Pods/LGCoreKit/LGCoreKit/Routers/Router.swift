@@ -135,7 +135,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         var urlRequest = URLRequest(url: baseUrl)
         urlRequest.httpMethod = method.rawValue
         
-        if let token = type(of: InternalCore).tokenDAO.value {
+        if let token = InternalCore.tokenDAO.value {
             urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
         }
         

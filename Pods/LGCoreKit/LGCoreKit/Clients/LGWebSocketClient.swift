@@ -316,6 +316,8 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
             logMessage(LogLevel.debug, type: .webSockets,
                        message: "[Open] Maximum retry attempts reached: \(openWebsocketMaximumRetryAttempts))")
             resetOpenSocketDelayAndAttempts()
+            cancelAllPendingCompletionsAndActiveRequests(withError: .suspended(withCode: WebSocketStatusCode.abnormal.rawValue))
+            cancelOperations()
             return
         }
         switch socketStatus.value {
@@ -380,18 +382,19 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         invalidatePingTimer()
         invalidateBackgroundTimeoutTimer()
         setSocketStatus(.closed)
-        // cancel all ongoing operations and pending completions.
+        
         suspendOperations()
-        cancelAllPendingCompletionsAndActiveRequests(withError: .suspended(withCode: code))
         
         switch code {
         case WebSocketStatusCode.normal.rawValue, WebSocketStatusCode.goingAway.rawValue:
             // closed by us manually ->  WS remains closed
+            cancelAllPendingCompletionsAndActiveRequests(withError: .suspended(withCode: code))
             cancelOperations()
         case WebSocketStatusCode.abnormal.rawValue: // internet goes off, websocket is down
             // closed by WS library -> open WS if there are pending operations
             openWebSocketIfPendingOperations()
         default:
+            cancelAllPendingCompletionsAndActiveRequests(withError: .suspended(withCode: code))
             cancelOperations()
             tryToOpenWebSocket()
         }
