@@ -50,7 +50,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     
     init(viewModel: EditLocationViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: nil, nibName: "EditLocationViewController")
+        super.init(viewModel: viewModel, nibName: "EditLocationViewController")
         self.viewModel.delegate = self
     }
 
@@ -126,10 +126,6 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     func vmShowMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
-    }
-
-    func vmGoBack() {
-        popBackViewController()
     }
 
 
