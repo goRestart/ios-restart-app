@@ -247,10 +247,6 @@ fileprivate extension AppDelegate {
         if let featureFlags = featureFlags {
             LGCoreKit.shouldUseChatWithWebSocket = featureFlags.websocketChat
         }
-        ABTests.trackingData.asObservable().bindNext { [weak self] _ in
-            guard let featureFlags = self?.featureFlags else { return }
-            LGCoreKit.shouldUseChatWithWebSocket = featureFlags.websocketChat
-        }.addDisposableTo(disposeBag)
 
         // Logging
         #if GOD_MODE
