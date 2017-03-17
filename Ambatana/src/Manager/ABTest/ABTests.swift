@@ -20,6 +20,7 @@ struct ABTests {
     static var surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
     static var surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
+    static var websocketChat = BoolABDynamicVar(key: "websocketChat", defaultValue: false)
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
@@ -42,10 +43,12 @@ struct ABTests {
         var result = [ABVariable]()
 
         result.append(marketingPush)
+        
         result.append(showNPSSurvey)
         result.append(surveyURL)
         result.append(surveyEnabled)
 
+        result.append(websocketChat)
         result.append(postAfterDeleteMode)
         result.append(userReviews)
         result.append(favoriteWithBadgeOnProfile)
