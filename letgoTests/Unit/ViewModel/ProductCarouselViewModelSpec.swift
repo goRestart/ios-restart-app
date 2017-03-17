@@ -638,7 +638,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     stats = MockProductStats.makeMock()
                     productRepository.statsResult = ProductStatsResult(stats)
                     commercializerRepository.indexResult = CommercializersResult([])
-                    featureFlags.editDeleteItemUxImprovement = true // already set as winners
                     product.status = .approved
                 }
                 context("user not logged in") {
@@ -739,7 +738,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     product.user = productUser
 
                     // Already selected as winners but not removed
-                    featureFlags.editDeleteItemUxImprovement = true
                     featureFlags.freePostingModeAllowed = true
                 }
                 context("product is mine") {
