@@ -123,8 +123,12 @@ extension BumperViewController: UITableViewDelegate, UITableViewDataSource {
     fileprivate static let cellReuseIdentifier = "bumperCell"
 
     fileprivate func initTableView() {
+        tableView.register(BumperCell.self, forCellReuseIdentifier: BumperViewController.cellReuseIdentifier)
+
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 50
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -132,14 +136,9 @@ extension BumperViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
-        if let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: BumperViewController.cellReuseIdentifier) {
-            cell = dequeuedCell
-        } else {
-            cell = UITableViewCell(style: .value1, reuseIdentifier: BumperViewController.cellReuseIdentifier)
-        }
-        cell.textLabel?.text = viewModel.featureName(at: indexPath.row)
-        cell.detailTextLabel?.text = viewModel.featureValue(at: indexPath.row)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: BumperViewController.cellReuseIdentifier) as? BumperCell else { return UITableViewCell() }
+
+        cell.setupWith(title: viewModel.featureName(at: indexPath.row), value: viewModel.featureValue(at: indexPath.row))
         return cell
     }
 
