@@ -83,7 +83,6 @@ class ProductCarouselViewModel: BaseViewModel {
     var directChatPlaceholder = Variable<String>("")
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
 
-    let editButtonState = Variable<ButtonState>(.hidden)
     let isFavorite = Variable<Bool>(false)
     let favoriteButtonState = Variable<ButtonState>(.enabled)
     let shareButtonState = Variable<ButtonState>(.hidden)
@@ -378,7 +377,6 @@ class ProductCarouselViewModel: BaseViewModel {
         currentVM.directChatMessages.bindTo(directChatMessages).addDisposableTo(activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
-        currentVM.editButtonState.asObservable().bindTo(editButtonState).addDisposableTo(activeDisposeBag)
         currentVM.isFavorite.asObservable().bindTo(isFavorite).addDisposableTo(activeDisposeBag)
         currentVM.favoriteButtonState.asObservable().bindTo(favoriteButtonState).addDisposableTo(activeDisposeBag)
         currentVM.shareButtonState.asObservable().bindTo(shareButtonState).addDisposableTo(activeDisposeBag)

@@ -80,7 +80,6 @@ class ProductViewModel: BaseViewModel {
     }
     fileprivate let productIsFavoriteable = Variable<Bool>(false)
     let favoriteButtonState = Variable<ButtonState>(.enabled)
-    let editButtonState = Variable<ButtonState>(.hidden)
     let shareButtonState = Variable<ButtonState>(.hidden)
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
@@ -274,7 +273,6 @@ class ProductViewModel: BaseViewModel {
         status.asObservable().bindNext { [weak self] status in
             guard let isMine = self?.isMine else { return }
             self?.shareButtonState.value = isMine ? .enabled : .hidden
-            self?.editButtonState.value = .hidden
         }.addDisposableTo(disposeBag)
 
         myUserRepository.rx_myUser.bindNext { [weak self] _ in
