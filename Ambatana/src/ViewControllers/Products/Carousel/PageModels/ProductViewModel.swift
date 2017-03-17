@@ -761,16 +761,17 @@ fileprivate extension ProductViewModel {
 
         productRepository.delete(product.value) { [weak self] result in
             var message: String? = nil
+            var afterMessageAction: (() -> ())? = nil
             if let _ = result.value {
-                message = LGLocalizedString.productDeleteSuccessMessage
+                afterMessageAction = { [weak self] in
+                    self?.navigator?.closeAfterDelete()
+                }
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
 
-            self?.delegate?.vmHideLoading(message, afterMessageCompletion: { [weak self] in
-                self?.navigator?.closeAfterDelete()
-            })
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
         }
     }
 
