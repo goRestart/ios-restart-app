@@ -42,11 +42,6 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         setupUI()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        GIDSignIn.sharedInstance().uiDelegate = self
-    }
-
 
     // MARK: - Actions
 
@@ -58,6 +53,7 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         viewModel.connectFBButtonPressed()
     }
     @IBAction func connectGoogleButtonPressed(_ sender: AnyObject) {
+        GIDSignIn.sharedInstance().uiDelegate = self
         viewModel.connectGoogleButtonPressed()
     }
 

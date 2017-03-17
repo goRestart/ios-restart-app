@@ -71,11 +71,6 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         setupRx()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        GIDSignIn.sharedInstance().uiDelegate = self
-    }
-
 
     // MARK: - Private
 
@@ -132,7 +127,7 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
 
         backgroundButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
         fbButton.rx.tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
-        googleButton.rx.tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
+        googleButton.rx.tap.bindNext { [weak self] in self?.googleButtonPressed() }.addDisposableTo(disposeBag)
         emailButton.rx.tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
         emailTextFieldButton.rx.tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.addDisposableTo(disposeBag)
         emailTextField.rx.text.map { ($0 ?? "") }.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
@@ -141,6 +136,13 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
             self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)
             UIView.animate(withDuration: Double(animationTime), animations: {[weak self] in self?.view.layoutIfNeeded()})
         }.addDisposableTo(disposeBag)
+    }
+
+    // MARK: - Google login.
+    
+    private func googleButtonPressed() {
+        GIDSignIn.sharedInstance().uiDelegate = self
+        viewModel.googleButtonPressed()
     }
 }
 
