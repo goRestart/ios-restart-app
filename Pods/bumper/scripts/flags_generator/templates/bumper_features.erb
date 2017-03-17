@@ -12,7 +12,9 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize(<%= @flags.bumperInitParams %>)
+        var flags = [BumperFeature.Type]()
+        <% @flags.bumperInitClasses.each do |initClass| %>flags.append(<%= initClass %>)
+        <% end %>Bumper.initialize(flags)
     } <% @flags.flags.each do |flag| %>
 
     static var <%= flag.varName %>: <%= flag.varClassName %> {

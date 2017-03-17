@@ -12,7 +12,25 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, SurveyEnabled.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, OnboardingReview.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self, HideTabBarOnFirstSession.self, PostingGallery.self, QuickAnswersRepeatedTextField.self])
+        var flags = [BumperFeature.Type]()
+        flags.append(WebsocketChat.self)
+        flags.append(UserReviews.self)
+        flags.append(ShowNPSSurvey.self)
+        flags.append(SurveyEnabled.self)
+        flags.append(FreeBumpUpEnabled.self)
+        flags.append(PricedBumpUpEnabled.self)
+        flags.append(CaptchaTransparent.self)
+        flags.append(PassiveBuyersShowKeyboard.self)
+        flags.append(OnboardingReview.self)
+        flags.append(UserRatingMarkAsSold.self)
+        flags.append(ProductDetailNextRelated.self)
+        flags.append(ContactSellerOnFavorite.self)
+        flags.append(SignUpLoginImprovement.self)
+        flags.append(PeriscopeRemovePredefinedText.self)
+        flags.append(HideTabBarOnFirstSession.self)
+        flags.append(PostingGallery.self)
+        flags.append(QuickAnswersRepeatedTextField.self)
+        Bumper.initialize(flags)
     } 
 
     static var websocketChat: Bool {
