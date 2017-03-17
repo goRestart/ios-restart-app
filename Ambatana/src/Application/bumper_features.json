@@ -79,5 +79,10 @@
         "name": "PostingGallery",
         "values": ["SingleSelection", "MultiSelection", "MultiSelectionWhiteButton", "MultiSelectionTabs", "MultiSelectionPostBottom"],
         "description": "Posting Gallery A/B/C/D/E"
+    },
+    {
+        "name": "QuickAnswersRepeatedTextField",
+        "values": ["no", "yes"],
+        "description": "Quick anwers periscope include the one as textfield placeholder"
     }
 ]

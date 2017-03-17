@@ -33,6 +33,7 @@ protocol FeatureFlaggeable {
     var periscopeRemovePredefinedText: Bool { get }
     var hideTabBarOnFirstSession: Bool { get }
     var postingGallery: PostingGallery { get }
+    var quickAnswersRepeatedTextField: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -188,6 +189,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.hideTabBarOnFirstSession
         }
         return ABTests.hideTabBarOnFirstSession.value
+    }
+    
+    var quickAnswersRepeatedTextField: Bool {
+        if Bumper.enabled {
+            return Bumper.quickAnswersRepeatedTextField
+        }
+        return ABTests.quickAnswersRepeatedTextField.value
     }
     
     

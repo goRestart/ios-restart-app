@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, SurveyEnabled.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, OnboardingReview.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self, HideTabBarOnFirstSession.self, PostingGallery.self])
+        Bumper.initialize([WebsocketChat.self, UserReviews.self, ShowNPSSurvey.self, SurveyEnabled.self, FreeBumpUpEnabled.self, PricedBumpUpEnabled.self, CaptchaTransparent.self, PassiveBuyersShowKeyboard.self, OnboardingReview.self, UserRatingMarkAsSold.self, ProductDetailNextRelated.self, ContactSellerOnFavorite.self, SignUpLoginImprovement.self, PeriscopeRemovePredefinedText.self, HideTabBarOnFirstSession.self, PostingGallery.self, QuickAnswersRepeatedTextField.self])
     } 
 
     static var websocketChat: Bool {
@@ -93,6 +93,11 @@ extension Bumper  {
     static var postingGallery: PostingGallery {
         guard let value = Bumper.value(for: PostingGallery.key) else { return .singleSelection }
         return PostingGallery(rawValue: value) ?? .singleSelection 
+    }
+
+    static var quickAnswersRepeatedTextField: Bool {
+        guard let value = Bumper.value(for: QuickAnswersRepeatedTextField.key) else { return false }
+        return QuickAnswersRepeatedTextField(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -263,5 +268,14 @@ enum PostingGallery: String, BumperFeature  {
             default: return .singleSelection
         }
     }
+}
+
+enum QuickAnswersRepeatedTextField: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return QuickAnswersRepeatedTextField.no.rawValue }
+    static var enumValues: [QuickAnswersRepeatedTextField] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Quick anwers periscope include the one as textfield placeholder" } 
+    var asBool: Bool { return self == .yes }
 }
 
