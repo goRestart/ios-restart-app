@@ -1039,7 +1039,14 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
 extension ProductCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo){
-        guard !bumpUpBannerIsVisible else { return }
+        guard !bumpUpBannerIsVisible else {
+            // banner is already visible, but info changes
+            if bumpUpBanner.type != bumpInfo.type {
+                bumpUpBanner.updateInfo(info: bumpInfo)
+            }
+            return
+        }
+
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
         bannerContainer.isHidden = false

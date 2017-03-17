@@ -9,15 +9,43 @@
 import Foundation
 import RxSwift
 
+enum BumpUpType {
+    case free
+    case priced
+    case restore
+
+    var bannerText: String {
+        switch self {
+        case .free:
+            return LGLocalizedString.bumpUpBannerFreeText
+        case .priced:
+            return LGLocalizedString.bumpUpBannerPayText
+        case .restore:
+            return LGLocalizedString.bumpUpErrorBumpToken
+        }
+    }
+
+    var bannerIcon: UIImage? {
+        switch self {
+        case .free:
+            return UIImage(named: "red_chevron_up")
+        case .priced:
+            return UIImage(named: "red_chevron_up")
+        case .restore:
+            return nil
+        }
+    }
+}
+
 struct BumpUpInfo {
-    var free: Bool
+    var type: BumpUpType
     var timeSinceLastBump: TimeInterval
     var price: String?
-    var primaryBlock: (()->()?)
-    var buttonBlock: (()->()?)
+    var primaryBlock: (() -> ()?)
+    var buttonBlock: (() -> ()?)
 
-    init(free: Bool, timeSinceLastBump: TimeInterval, price: String?, primaryBlock: @escaping (()->()?), buttonBlock: @escaping (()->()?)) {
-        self.free = free
+    init(type: BumpUpType, timeSinceLastBump: TimeInterval, price: String?, primaryBlock: @escaping (()->()?), buttonBlock: @escaping (()->()?)) {
+        self.type = type
         self.timeSinceLastBump = timeSinceLastBump
         self.price = price
         self.primaryBlock = primaryBlock
@@ -28,17 +56,20 @@ struct BumpUpInfo {
 class BumpUpBanner: UIView {
 
     static let iconSize: CGFloat = 20
+    static let iconLeftMargin: CGFloat = 15
     static let timerUpdateInterval: TimeInterval = 1
-    static let secsToMillisecsRatio: TimeInterval = 1000
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
     private var textLabel: UILabel = UILabel()
     private var bumpButton: UIButton = UIButton(type: .custom)
 
+    private var iconWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var iconLeftMarginConstraint: NSLayoutConstraint = NSLayoutConstraint()
+
     private var timer: Timer = Timer()
 
-    private var isFree: Bool = true
+    private(set) var type: BumpUpType = .free
 
     private var primaryBlock: (()->()?) = { return nil }
     private var buttonBlock: (()->()?) = { return nil }
@@ -70,18 +101,30 @@ class BumpUpBanner: UIView {
     // MARK: - Public Methods
 
     func updateInfo(info: BumpUpInfo) {
-        isFree = info.free
+        type = info.type
 
-        // bumpUpFreeTimeLimit is the time limit in milliseconds
-        timeLeft.value = info.timeSinceLastBump == 0 ? 0 : Constants.bumpUpFreeTimeLimit - info.timeSinceLastBump
+        var waitingTime: TimeInterval = 0
+
+        switch type {
+        case .free:
+            waitingTime = Constants.bumpUpFreeTimeLimit
+            bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
+        case .priced:
+            waitingTime = Constants.bumpUpPaidTimeLimit
+            if let price = info.price {
+                bumpButton.setTitle(price, for: .normal)
+            } else {
+                bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
+            }
+        case .restore:
+            waitingTime = Constants.bumpUpPaidTimeLimit
+            bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
+        }
+
+        let timeShouldBeZero = info.timeSinceLastBump <= 0 || (waitingTime - info.timeSinceLastBump < 0)
+        timeLeft.value = timeShouldBeZero ? 0 : waitingTime - info.timeSinceLastBump
         startCountdown()
         bumpButton.isEnabled = timeLeft.value < 1
-
-        if let price = info.price, !isFree {
-            bumpButton.setTitle(price, for: .normal)
-        } else {
-            bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
-        }
 
         buttonBlock = info.buttonBlock
         primaryBlock = info.primaryBlock
@@ -89,7 +132,12 @@ class BumpUpBanner: UIView {
 
     func resetCountdown() {
         // Update countdown with full waiting time
-        timeLeft.value = Constants.bumpUpFreeTimeLimit
+        switch type {
+        case .free:
+            timeLeft.value = Constants.bumpUpFreeTimeLimit
+        case .priced, .restore:
+            timeLeft.value = Constants.bumpUpPaidTimeLimit
+        }
         startCountdown()
     }
 
@@ -123,21 +171,20 @@ class BumpUpBanner: UIView {
     private func setupRx() {
         timeLeft.asObservable().map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
 
-        let secondsLeft = timeLeft.asObservable().map{ $0/BumpUpBanner.secsToMillisecsRatio }.skip(1)
-
-        secondsLeft.bindNext { [weak self] secondsLeft in
+        timeLeft.asObservable().skip(1).bindNext { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
             let localizedText: String
             if secondsLeft <= 0 {
                 strongSelf.timer.invalidate()
-                localizedText = strongSelf.isFree ? LGLocalizedString.bumpUpBannerFreeText : LGLocalizedString.bumpUpBannerPayText
-                strongSelf.iconImageView.image = UIImage(named: "red_chevron_up")
+                localizedText = strongSelf.type.bannerText
+                strongSelf.iconImageView.image = strongSelf.type.bannerIcon
                 strongSelf.bumpButton.isEnabled = true
             } else {
                 strongSelf.iconImageView.image = UIImage(named: "clock")
                 localizedText = LGLocalizedString.bumpUpBannerWaitText
                 strongSelf.bumpButton.isEnabled = false
             }
+            strongSelf.updateIconConstraints()
             strongSelf.text.value = strongSelf.bubbleText(secondsLeft: Int(secondsLeft), text: localizedText)
         }.addDisposableTo(disposeBag)
 
@@ -147,6 +194,7 @@ class BumpUpBanner: UIView {
     private func setupUI() {
         backgroundColor = UIColor.white
         textLabel.numberOfLines = 0
+        textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.5
         iconImageView.image = UIImage(named: "red_chevron_up")
         iconImageView.contentMode = .scaleAspectFit
@@ -171,9 +219,14 @@ class BumpUpBanner: UIView {
         containerView.addSubview(bumpButton)
 
         // icon
-        iconImageView.layout().width(BumpUpBanner.iconSize).height(BumpUpBanner.iconSize)
 
-        iconImageView.layout(with: containerView).left(by: 15)
+        iconImageView.layout().width(BumpUpBanner.iconSize, constraintBlock: { [weak self] in
+            self?.iconWidthConstraint = $0
+        }).height(BumpUpBanner.iconSize)
+
+        iconImageView.layout(with: containerView).left(by: BumpUpBanner.iconLeftMargin, constraintBlock: { [weak self] in
+            self?.iconLeftMarginConstraint = $0
+        })
         iconImageView.layout(with: textLabel).right(to: .left, by: -10)
         iconImageView.layout(with: containerView).centerY()
 
@@ -185,6 +238,17 @@ class BumpUpBanner: UIView {
         // button
         bumpButton.layout(with: containerView).top(by: 10).bottom(by: -10).right(by: -15)
         bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+    }
+
+    private func updateIconConstraints() {
+
+        let iconWidth: CGFloat = iconImageView.image != nil ? BumpUpBanner.iconSize : 0
+        let iconLeftMargin: CGFloat = iconImageView.image != nil ? BumpUpBanner.iconLeftMargin : 0
+
+        iconWidthConstraint.constant = iconWidth
+        iconLeftMarginConstraint.constant = iconLeftMargin
+
+        layoutIfNeeded()
     }
 
     private func bubbleText(secondsLeft: Int, text: String) -> NSAttributedString {
@@ -215,7 +279,7 @@ class BumpUpBanner: UIView {
     }
 
     private dynamic func updateTimer() {
-        timeLeft.value = timeLeft.value-(BumpUpBanner.timerUpdateInterval*BumpUpBanner.secsToMillisecsRatio)
+        timeLeft.value = timeLeft.value-BumpUpBanner.timerUpdateInterval
     }
 
     private func setAccessibilityIds() {

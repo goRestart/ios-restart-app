@@ -20,11 +20,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
     var showOnboardingCalled: Bool?
     var removeMoreInfoTooltipCalled: Bool?
 
-    var lastBuyersToRate: [UserProduct]?
-    var buyerToRateResult: String?
-    var shownAlertText: String?
-    var shownFavoriteBubble: Bool?
-
     override func spec() {
         var sut: ProductCarouselViewModel!
 
@@ -93,7 +88,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                                imageDownloader: imageDownloader,
                                                productViewModelMaker: productViewModelMaker)
                 sut.delegate = self
-                sut.navigator = self
 
                 disposeBag = DisposeBag()
                 sut.objects.observable.bindTo(cellModelsObserver).addDisposableTo(disposeBag)
@@ -1175,19 +1169,9 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
     override func resetViewModelSpec() {
         super.resetViewModelSpec()
-        lastBuyersToRate = nil
-        buyerToRateResult = nil
-        shownAlertText = nil
 
         showOnboardingCalled = nil
         removeMoreInfoTooltipCalled = nil
-    }
-
-    override func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
-        shownAlertText = message
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
-            actions.last?.action()
-        }
     }
 }
 
@@ -1208,39 +1192,4 @@ extension ProductCarouselViewModelSpec: ProductCarouselViewModelDelegate {
         return (UIViewController(), nil)
     }
     func vmResetBumpUpBannerCountdown() {}
-}
-
-extension ProductCarouselViewModelSpec: ProductDetailNavigator {
-    func closeProductDetail() {
-
-    }
-    func editProduct(_ product: Product) {
-
-    }
-    func openProductChat(_ product: Product) {
-
-    }
-    func closeAfterDelete() {
-
-    }
-    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String) {
-
-    }
-    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
-
-    }
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void) {
-        let result = self.buyerToRateResult
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
-            completion(result)
-            self.lastBuyersToRate = buyers
-        }
-    }
-    func showProductFavoriteBubble(with data: BubbleNotificationData) {
-        shownFavoriteBubble = true
-    }
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
-                                            loggedInAction: @escaping (() -> Void)) {
-        loggedInAction()
-    }
 }

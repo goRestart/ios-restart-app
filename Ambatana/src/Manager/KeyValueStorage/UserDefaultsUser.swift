@@ -24,6 +24,7 @@ struct UserDefaultsUser {
     static let productsWithExpressChatAlreadyShownDefaultValue: [String] = []
     static let productsWithExpressChatMessageSentDefaultValue: [String] = []
     static let marketingNotificationsDefaultValue = true
+    static let transactionsProductIdsDefaultValue = [String:String]()
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -39,6 +40,7 @@ struct UserDefaultsUser {
     var productsWithExpressChatAlreadyShown: [String]
     var productsWithExpressChatMessageSent: [String]
     var marketingNotifications: Bool
+    var pendingTransactionsProductIds: [String:String] // [<transactionId> : <productId>]
 
     init() {
         self.init(appShared: UserDefaultsUser.appSharedDefaultValue,
@@ -54,7 +56,8 @@ struct UserDefaultsUser {
                   shouldShowExpressChat: UserDefaultsUser.shouldShowExpressChatDefaultValue,
                   productsWithExpressChatAlreadyShown: UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue,
                   productsWithExpressChatMessageSent: UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue,
-                  marketingNotifications: UserDefaultsUser.marketingNotificationsDefaultValue)
+                  marketingNotifications: UserDefaultsUser.marketingNotificationsDefaultValue,
+                  pendingTransactionsProductIds: UserDefaultsUser.transactionsProductIdsDefaultValue)
     }
 
     init(appShared: Bool,
@@ -70,7 +73,8 @@ struct UserDefaultsUser {
          shouldShowExpressChat: Bool,
          productsWithExpressChatAlreadyShown: [String],
          productsWithExpressChatMessageSent: [String],
-         marketingNotifications: Bool) {
+         marketingNotifications: Bool,
+         pendingTransactionsProductIds: [String:String]) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -85,6 +89,7 @@ struct UserDefaultsUser {
         self.productsWithExpressChatAlreadyShown = productsWithExpressChatAlreadyShown
         self.productsWithExpressChatMessageSent = productsWithExpressChatMessageSent
         self.marketingNotifications = marketingNotifications
+        self.pendingTransactionsProductIds = pendingTransactionsProductIds
     }
 }
 
@@ -93,35 +98,37 @@ struct UserDefaultsUser {
 
 extension UserDefaultsUser: UserDefaultsDecodable {
     static func decode(_ dictionary: [String: Any]) -> UserDefaultsUser? {
-        let appShared = dictionary.decode(UserDefaultsUserKey.AppShared.rawValue,
+        let appShared = dictionary.decode(UserDefaultsUserKey.appShared.rawValue,
                                           defaultValue: UserDefaultsUser.appSharedDefaultValue)
-        let userLocationApproximate = dictionary.decode(UserDefaultsUserKey.UserLocationApproximate.rawValue,
+        let userLocationApproximate = dictionary.decode(UserDefaultsUserKey.userLocationApproximate.rawValue,
                                                         defaultValue: UserDefaultsUser.userLocationApproximateDefaultValue)
-        let chatSafetyTipsShown = dictionary.decode(UserDefaultsUserKey.ChatSafetyTipsShown.rawValue,
+        let chatSafetyTipsShown = dictionary.decode(UserDefaultsUserKey.chatSafetyTipsShown.rawValue,
                                                     defaultValue: UserDefaultsUser.chatSafetyTipsShownDefaultValue)
-        let chatShowDirectAnswers = dictionary.decode(UserDefaultsUserKey.ChatDirectAnswersShow.rawValue,
+        let chatShowDirectAnswers = dictionary.decode(UserDefaultsUserKey.chatDirectAnswersShow.rawValue,
                                                       defaultValue: UserDefaultsUser.chatShowDirectAnswersDefaultValue)
-        let ratingAlreadyRated = dictionary.decode(UserDefaultsUserKey.RatingAlreadyRated.rawValue,
+        let ratingAlreadyRated = dictionary.decode(UserDefaultsUserKey.ratingAlreadyRated.rawValue,
                                                    defaultValue: UserDefaultsUser.ratingAlreadyRatedDefaultValue)
-        let ratingRemindMeLaterDate: Date? = dictionary.decode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue,
+        let ratingRemindMeLaterDate: Date? = dictionary.decode(UserDefaultsUserKey.ratingRemindMeLaterDate.rawValue,
                                                                  defaultValue: UserDefaultsUser.ratingRemindMeLaterDateDefaultValue)
-        let postProductLastGalleryAlbumSelected: String? = dictionary.decode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue,
+        let postProductLastGalleryAlbumSelected: String? = dictionary.decode(UserDefaultsUserKey.postProductLastGalleryAlbumSelected.rawValue,
                                                                              defaultValue: UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue)
-        let postProductLastTabSelected = dictionary.decode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue,
+        let postProductLastTabSelected = dictionary.decode(UserDefaultsUserKey.postProductLastTabSelected.rawValue,
                                                            defaultValue: UserDefaultsUser.postProductLastTabSelectedDefaultValue)
-        let postProductPostedPreviously = dictionary.decode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue,
+        let postProductPostedPreviously = dictionary.decode(UserDefaultsUserKey.postProductPostedPreviously.rawValue,
                                                            defaultValue: UserDefaultsUser.postProductPostedPreviouslyDefaultValue)
-        let trackingProductSellComplete24hTracked = dictionary.decode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue,
+
+        let trackingProductSellComplete24hTracked = dictionary.decode(UserDefaultsUserKey.trackingProductSellComplete24hTracked.rawValue,
                                                                       defaultValue: UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue)
-        let shouldShowExpressChat = dictionary.decode(UserDefaultsUserKey.ShouldShowExpressChat.rawValue,
+        let shouldShowExpressChat = dictionary.decode(UserDefaultsUserKey.shouldShowExpressChat.rawValue,
                                                       defaultValue: UserDefaultsUser.shouldShowExpressChatDefaultValue)
-        let productsWithExpressChatAlreadyShown = dictionary.decode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue,
+        let productsWithExpressChatAlreadyShown = dictionary.decode(UserDefaultsUserKey.productsWithExpressChatAlreadyShown.rawValue,
                                                                     defaultValue: UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue)
-        let productsWithExpressChatMessageSent = dictionary.decode(UserDefaultsUserKey.ProductsWithExpressChatMessageSent.rawValue,
+        let productsWithExpressChatMessageSent = dictionary.decode(UserDefaultsUserKey.productsWithExpressChatMessageSent.rawValue,
                                                                    defaultValue: UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue)
-        let marketingNotifications = dictionary.decode(UserDefaultsUserKey.MarketingNotifications.rawValue,
+        let marketingNotifications = dictionary.decode(UserDefaultsUserKey.marketingNotifications.rawValue,
                                                        defaultValue: UserDefaultsUser.marketingNotificationsDefaultValue)
-        
+        let pendingTransactionsProductIds = dictionary.decode(UserDefaultsUserKey.pendingTransactionsProductIds.rawValue, defaultValue: UserDefaultsUser.transactionsProductIdsDefaultValue)
+
         return UserDefaultsUser(appShared: appShared,
                                 userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown,
@@ -135,30 +142,32 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 shouldShowExpressChat: shouldShowExpressChat,
                                 productsWithExpressChatAlreadyShown: productsWithExpressChatAlreadyShown,
                                 productsWithExpressChatMessageSent: productsWithExpressChatMessageSent,
-                                marketingNotifications: marketingNotifications)
+                                marketingNotifications: marketingNotifications,
+                                pendingTransactionsProductIds: pendingTransactionsProductIds)
     }
 
     func encode() -> [String: Any] {
         var dict = [String: Any]()
-        dict.encode(UserDefaultsUserKey.AppShared.rawValue, value: appShared)
-        dict.encode(UserDefaultsUserKey.UserLocationApproximate.rawValue, value: userLocationApproximate)
-        dict.encode(UserDefaultsUserKey.ChatSafetyTipsShown.rawValue, value: chatSafetyTipsShown)
-        dict.encode(UserDefaultsUserKey.ChatDirectAnswersShow.rawValue, value: chatShowDirectAnswers)
-        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
+        dict.encode(UserDefaultsUserKey.appShared.rawValue, value: appShared)
+        dict.encode(UserDefaultsUserKey.userLocationApproximate.rawValue, value: userLocationApproximate)
+        dict.encode(UserDefaultsUserKey.chatSafetyTipsShown.rawValue, value: chatSafetyTipsShown)
+        dict.encode(UserDefaultsUserKey.chatDirectAnswersShow.rawValue, value: chatShowDirectAnswers)
+        dict.encode(UserDefaultsUserKey.ratingAlreadyRated.rawValue, value: ratingAlreadyRated)
         if let ratingRemindMeLaterDate = ratingRemindMeLaterDate {
-            dict.encode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate)
+            dict.encode(UserDefaultsUserKey.ratingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate)
         }
-        dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
+        dict.encode(UserDefaultsUserKey.ratingAlreadyRated.rawValue, value: ratingAlreadyRated)
         if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
-            dict.encode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected)
+            dict.encode(UserDefaultsUserKey.postProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected)
         }
-        dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastTabSelected)
-        dict.encode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue, value: postProductPostedPreviously)
-        dict.encode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
-        dict.encode(UserDefaultsUserKey.ShouldShowExpressChat.rawValue, value: shouldShowExpressChat)
-        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown)
-        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent)
-        dict.encode(UserDefaultsUserKey.MarketingNotifications.rawValue, value: marketingNotifications)
+        dict.encode(UserDefaultsUserKey.postProductLastTabSelected.rawValue, value: postProductLastTabSelected)
+        dict.encode(UserDefaultsUserKey.postProductPostedPreviously.rawValue, value: postProductPostedPreviously)
+        dict.encode(UserDefaultsUserKey.trackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
+        dict.encode(UserDefaultsUserKey.shouldShowExpressChat.rawValue, value: shouldShowExpressChat)
+        dict.encode(UserDefaultsUserKey.productsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown)
+        dict.encode(UserDefaultsUserKey.productsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent)
+        dict.encode(UserDefaultsUserKey.marketingNotifications.rawValue, value: marketingNotifications)
+        dict.encode(UserDefaultsUserKey.pendingTransactionsProductIds.rawValue, value: pendingTransactionsProductIds)
         return dict
     }
 }
@@ -168,26 +177,30 @@ extension UserDefaultsUser: UserDefaultsDecodable {
 // MARK: > UserDefaults user keys
 
 private enum UserDefaultsUserKey: String {
-    case AppShared = "alreadyShared"
+    case appShared = "alreadyShared"
 
-    case UserLocationApproximate = "isApproximateLocation"
+    case userLocationApproximate = "isApproximateLocation"
 
-    case ChatSafetyTipsShown = "chatSafetyTipsShown"
-    case ChatDirectAnswersShow = "showDirectAnswers"
+    case chatSafetyTipsShown = "chatSafetyTipsShown"
+    case chatDirectAnswersShow = "showDirectAnswers"
 
-    case RatingAlreadyRated = "alreadyRated"
-    case RatingRemindMeLaterDate = "remindMeLater"
+    case ratingAlreadyRated = "alreadyRated"
+    case ratingRemindMeLaterDate = "remindMeLater"
 
-    case PostProductLastGalleryAlbumSelected = "lastGalleryAlbumSelected"
-    case PostProductLastTabSelected = "lastPostProductTabSelected"
-    case PostProductPostedPreviously = "postProductPostedPreviously"
+    case postProductLastGalleryAlbumSelected = "lastGalleryAlbumSelected"
+    case postProductLastTabSelected = "lastPostProductTabSelected"
+    case postProductPostedPreviously = "postProductPostedPreviously"
 
-    case TrackingProductSellComplete24hTracked = "trackingProductSellComplete24hTracked"
+    case commercializersPending = "pendingCommercializers"
 
-    case ShouldShowExpressChat = "shouldShowExpressChat"
-    case ProductsWithExpressChatAlreadyShown = "productsWithExpressChatAlreadyShown"
-    case ProductsWithExpressChatMessageSent = "productsWithExpressChatMessageSent"
-    case MarketingNotifications = "marketingNotifications"
+    case trackingProductSellComplete24hTracked = "trackingProductSellComplete24hTracked"
+
+    case shouldShowExpressChat = "shouldShowExpressChat"
+    case productsWithExpressChatAlreadyShown = "productsWithExpressChatAlreadyShown"
+    case productsWithExpressChatMessageSent = "productsWithExpressChatMessageSent"
+    case marketingNotifications = "marketingNotifications"
+
+    case pendingTransactionsProductIds = "pendingTransactionsProductIds"
 }
 
 
