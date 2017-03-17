@@ -30,23 +30,26 @@ protocol Coordinator: CoordinatorDelegate {
     var sessionManager: SessionManager { get }
 
 
-    /// Once a coordinator is created this method will be called to present/show the main viewController. Each 
-    /// implementation is responsible to do so.
-    ///
-    /// - Parameters:
-    ///   - parent: parent view controller, can be used to present the new controller.
-    ///   - animated: whether or not the action to present/show should be animated
-    ///   - completion: completion closure
+    /**
+    Once a coordinator is created this method will be called to present/show the main viewController. Each
+    implementation is responsible to do so.
+
+    - Parameters:
+        - parent: parent view controller, can be used to present the new controller.
+        - animated: whether or not the action to present/show should be animated
+        - completion: completion closure
+    */
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?)
 
 
-    /// Method that will remove/dismiss the main view controller. It should ALWAYS call completion block, even if 
-    /// viewController isn't presented or is already dismissed. When a coordinator is closed it will call this method
-    /// during the process.
-    ///
-    /// - Parameters:
-    ///   - animated: whether or not the action should be animated
-    ///   - completion: completion closure
+    /** 
+    Method that will remove/dismiss the main view controller. It should ALWAYS call completion block, even if
+    viewController isn't presented or is already dismissed. When a coordinator is closed it will call this method
+    during the process.
+    - Parameters:
+       - animated: whether or not the action should be animated
+       - completion: completion closure
+    */
     func dismissViewController(animated: Bool, completion: (() -> Void)?)
 }
 
