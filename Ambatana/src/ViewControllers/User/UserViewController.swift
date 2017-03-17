@@ -69,6 +69,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
 
+    fileprivate let userBgTintViewAlpha = Variable<CGFloat>(0)
     fileprivate var bottomInset: CGFloat = 0
     fileprivate let cellDrawer: ProductCellDrawer
     fileprivate var viewModel: UserViewModel
@@ -132,7 +133,9 @@ class UserViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
-      
+        userBgTintView.alpha = userBgTintViewAlpha.value
+
+        userBgImageView.alpha = 1
         
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         let currentAlpha: CGFloat = navBarUserViewAlpha
@@ -142,15 +145,18 @@ class UserViewController: BaseViewController {
             self?.navBarUserView.isHidden = false
         }
     }
+
     
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
-
+        
         // Animating to clear background color as it glitches next screen translucent navBar
         // http://stackoverflow.com/questions/28245061/why-does-setting-hidesbottombarwhenpushed-to-yes-with-a-translucent-navigation
-        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+        UIView.animate(withDuration: 0.1, animations: { [weak self] in
             self?.view.backgroundColor = UIColor.white
-        }) 
+            self?.userBgTintView.alpha = 0
+            self?.userBgImageView.alpha = 0
+            })
     }
 }
 
@@ -483,7 +489,9 @@ extension UserViewController {
             let max = UserViewController.userBgTintViewHeaderCollapsedAlpha
             let min = UserViewController.userBgTintViewHeaderExpandedAlpha
             return min + 1 - (percentage * max)
-        }.bindTo(userBgTintView.rx.alpha).addDisposableTo(disposeBag)
+        }.bindTo(userBgTintViewAlpha).addDisposableTo(disposeBag)
+        
+        userBgTintViewAlpha.asObservable().bindTo(userBgTintView.rx.alpha).addDisposableTo(disposeBag)
 
         headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
             let collapsedAlpha = UserViewController.userEffectViewHeaderCollapsedAlpha
