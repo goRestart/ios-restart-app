@@ -435,7 +435,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let localImages = images.localImages
         let remoteImages = images.remoteImages
         
-        let commonCompletion: ProductCompletion = { [weak self] result in
+        let commonCompletion: ListingCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             strongSelf.loadingProgress.value = nil
             if let actualProduct = result.value {

@@ -30,17 +30,17 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
     func canRetrieve() -> Bool { return true }
     
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         //User favorites doesn't have pagination.
-        completion?(ProductsResult(value: []))
+        completion?(ListingsResult(value: []))
         return
     }
 
-    private func productsRetrieval(_ completion: ProductsCompletion?) {
+    private func productsRetrieval(_ completion: ListingsCompletion?) {
         guard let userId = userObjectId else { return }
         productRepository.indexFavorites(userId, completion: completion)
     }
@@ -84,16 +84,16 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func canRetrieve() -> Bool { return userObjectId != nil }
 
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         productsRetrieval(completion)
     }
     
-    private func productsRetrieval(_ completion: ProductsCompletion?) {
+    private func productsRetrieval(_ completion: ListingsCompletion?) {
         guard let userId = userObjectId else { return  }
         productRepository.index(userId: userId, params: retrieveProductsParams) { [weak self] result in
             if let products = result.value, !products.isEmpty {

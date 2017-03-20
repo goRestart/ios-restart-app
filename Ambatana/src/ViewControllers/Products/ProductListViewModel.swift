@@ -35,8 +35,8 @@ extension ProductListViewModelDataDelegate {
 protocol ProductListRequester: class {
     var itemsPerPage: Int { get }
     func canRetrieve() -> Bool
-    func retrieveFirstPage(_ completion: ProductsCompletion?)
-    func retrieveNextPage(_ completion: ProductsCompletion?)
+    func retrieveFirstPage(_ completion: ListingsCompletion?)
+    func retrieveNextPage(_ completion: ListingsCompletion?)
     func isLastPage(_ resultCount: Int) -> Bool
     func updateInitialOffset(_ newOffset: Int)
     func duplicate() -> ProductListRequester
@@ -219,7 +219,7 @@ class ProductListViewModel: BaseViewModel {
             state = .loading
         }
         
-        let completion: ProductsCompletion = { [weak self] result in
+        let completion: ListingsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
             self?.isLoading = false

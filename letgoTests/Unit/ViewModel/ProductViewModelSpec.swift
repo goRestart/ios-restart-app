@@ -107,10 +107,10 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     product.user = userProduct
                     product.status = .approved
 
-                    productRepository.markAsSoldVoidResult = ProductVoidResult(Void())
+                    productRepository.markAsSoldVoidResult = ListingVoidResult(Void())
                     var soldProduct = MockProduct(product: product)
                     soldProduct.status = .sold
-                    productRepository.productResult = ListingResult(soldProduct)
+                    productRepository.listingResult = ListingResult(soldProduct)
                 }
                 context("buyer selection a/b enabled"){
                     beforeEach {
@@ -123,7 +123,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             for _ in 0..<5 {
                                 possibleBuyers.append(MockUserProduct.makeMock())
                             }
-                            productRepository.productBuyersResult = ProductBuyersResult(possibleBuyers)
+                            productRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
                         }
                         context("one is selected") {
                             beforeEach {
@@ -186,7 +186,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                     context("there are no possible buyers") {
                         beforeEach {
-                            productRepository.productBuyersResult = ProductBuyersResult([])
+                            productRepository.listingBuyersResult = ListingBuyersResult([])
 
                             buildProductViewModel()
                             sut.active = true
@@ -224,7 +224,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         for _ in 0..<5 {
                             possibleBuyers.append(MockUserProduct.makeMock())
                         }
-                        productRepository.productBuyersResult = ProductBuyersResult(possibleBuyers)
+                        productRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
 
                         buildProductViewModel()
                         sut.active = true
@@ -269,7 +269,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         product.favorite = false
                         savedProduct.favorite = true
-                        productRepository.productResult = ListingResult(savedProduct)
+                        productRepository.listingResult = ListingResult(savedProduct)
                         buildProductViewModel()
                     }
                     context("Contact the seller AB test enabled"){
@@ -305,7 +305,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         product.favorite = true
                         savedProduct.favorite = false
-                        productRepository.productResult = ListingResult(savedProduct)
+                        productRepository.listingResult = ListingResult(savedProduct)
                         buildProductViewModel()
                     }
 

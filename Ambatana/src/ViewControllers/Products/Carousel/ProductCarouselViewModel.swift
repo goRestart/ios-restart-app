@@ -394,7 +394,7 @@ extension ProductCarouselViewModel: Paginable {
         let isFirstPage = (page == firstPage)
         isLoading = true
         
-        let completion: ProductsCompletion = { [weak self] result in
+        let completion: ListingsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             self?.isLoading = false
             if let newProducts = result.value {

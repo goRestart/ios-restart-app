@@ -40,7 +40,7 @@ class FilteredProductListRequester: ProductListRequester {
 
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         offset = initialOffset
         if let currentLocation = locationManager.currentLocation {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
@@ -57,12 +57,12 @@ class FilteredProductListRequester: ProductListRequester {
                 var finalProducts: [Product] = limboResult.value ?? []
                 finalProducts += indexProducts
                 self?.offset = indexProducts.count
-                completion?(ProductsResult(finalProducts))
+                completion?(ListingsResult(finalProducts))
             }
         }
     }
     
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         retrieve() { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
@@ -71,7 +71,7 @@ class FilteredProductListRequester: ProductListRequester {
         }
     }
     
-    private func retrieve(_ completion: ProductsCompletion?) {
+    private func retrieve(_ completion: ListingsCompletion?) {
         productRepository.index(retrieveProductsParams, completion: completion)
     }
 

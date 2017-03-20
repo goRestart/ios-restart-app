@@ -36,16 +36,16 @@ class RelatedProductListRequester: ProductListRequester {
         return true
     }
     
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         productsRetrieval(completion)
     }
 
-    func productsRetrieval(_ completion: ProductsCompletion?) {
+    func productsRetrieval(_ completion: ListingsCompletion?) {
         productRepository.indexRelated(productId: productObjectId, params: retrieveProductParams) {
             [weak self] result in
             if let value = result.value {

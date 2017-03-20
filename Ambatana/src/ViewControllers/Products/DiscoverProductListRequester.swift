@@ -34,12 +34,12 @@ extension DiscoverProductListRequester: ProductListRequester {
         return true
     }
 
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
 
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         productsRetrieval(completion)
     }
 
@@ -67,7 +67,7 @@ fileprivate extension DiscoverProductListRequester {
         return params
     }
 
-    func productsRetrieval(_ completion: ProductsCompletion?) {
+    func productsRetrieval(_ completion: ListingsCompletion?) {
         productRepository.indexDiscover(productId: productObjectId, params: retrieveProductsParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
