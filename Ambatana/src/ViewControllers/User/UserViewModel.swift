@@ -20,7 +20,6 @@ enum UserSource {
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenReportUser(_ reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
-    func vmOpenFavorites()
     func vmShowUserActionSheet(_ cancelLabel: String, actions: [UIAction])
     func vmShowNativeShare(_ socialMessage: SocialMessage)
 }
@@ -159,7 +158,6 @@ class UserViewModel: BaseViewModel {
         if itsMe {
             refreshMyUserData()
             resetLists()
-            cleanFavoriteBadgeIfNeeded()
             if firstTime {
                 navBarButtons.value = buildNavBarButtons()
             }
@@ -216,14 +214,6 @@ extension UserViewModel {
         guard let socialMessage = socialMessage else { return }
         delegate?.vmShowNativeShare(socialMessage)
         trackShareStart()
-    }
-    
-    func cleanFavoriteBadgeIfNeeded() {
-        guard let  favoriteCounter = notificationsManager.favoriteCount.value else {return }
-        guard favoriteCounter > 0 else { return }
-        notificationsManager.clearFavoriteCounter()
-        delegate?.vmOpenFavorites()
-        tab.value = .favorites
     }
 }
 

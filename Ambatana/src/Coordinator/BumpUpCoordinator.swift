@@ -12,12 +12,11 @@ import LGCoreKit
 
 class BumpUpCoordinator: Coordinator {
     var child: Coordinator?
-    private var parentViewController: UIViewController?
+    weak var coordinatorDelegate: CoordinatorDelegate?
     var viewController: UIViewController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
-    weak var delegate: CoordinatorDelegate?
 
 
     convenience init(product: Product,
@@ -31,9 +30,11 @@ class BumpUpCoordinator: Coordinator {
     }
 
     convenience init(product: Product,
-                     purchaseableProduct: PurchaseableProduct) {
+                     purchaseableProduct: PurchaseableProduct,
+                     paymentItemId: String?) {
         self.init(product: product,
                   purchaseableProduct: purchaseableProduct,
+                  paymentItemId: paymentItemId,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
     }
@@ -53,12 +54,15 @@ class BumpUpCoordinator: Coordinator {
         bumpUpVM.navigator = self
     }
 
+
     init(product: Product,
          purchaseableProduct: PurchaseableProduct,
+         paymentItemId: String?,
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager) {
 
-        let bumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct)
+        let bumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct,
+                                          paymentItemId: paymentItemId)
         let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
@@ -67,40 +71,22 @@ class BumpUpCoordinator: Coordinator {
         bumpUpVM.navigator = self
     }
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
-
-        parentViewController = parent
         parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func close(animated: Bool, completion: (() -> Void)?) {
-        closeBumpUp(animated: animated, completion: completion)
-    }
-
-    fileprivate func closeBumpUp(animated: Bool, completion: (() -> Void)?) {
-        let dismiss: () -> Void = { [weak self] in
-            self?.viewController.dismiss(animated: animated) { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.coordinatorDidClose(strongSelf)
-                completion?()
-            }
-        }
-
-        if let child = child {
-            child.close(animated: animated, completion: dismiss)
-        } else {
-            dismiss()
-        }
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 }
 
 extension BumpUpCoordinator : BumpUpNavigator {
     func bumpUpDidCancel() {
-        closeBumpUp(animated: true, completion: nil)
+        closeCoordinator(animated: true, completion: nil)
     }
 
     func bumpUpDidFinish(completion: (() -> Void)?) {
-        closeBumpUp(animated: true, completion: completion)
+        closeCoordinator(animated: true, completion: completion)
     }
 }

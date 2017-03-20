@@ -42,7 +42,7 @@ enum SessionRouter: URLRequestAuthenticable {
             params["credentials"] = email
             var urlRequest = try Router<BouncerBaseURL>.create(endpoint: SessionRouter.endpoint,
                                                                params: params, encoding: nil).asURLRequest()
-            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
+            if let token = InternalCore.tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
@@ -54,7 +54,7 @@ enum SessionRouter: URLRequestAuthenticable {
             params["credentials"] = provider.credentials
             var urlRequest = try Router<BouncerBaseURL>.create(endpoint: SessionRouter.endpoint,
                                                                params: params, encoding: nil).asURLRequest()
-            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
+            if let token = InternalCore.tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
@@ -88,7 +88,7 @@ enum SessionRouter: URLRequestAuthenticable {
             params["credentials"] = recaptchaToken
             var urlRequest = try Router<BouncerBaseURL>.create(endpoint: SessionRouter.endpoint, params: params,
                                                                encoding: nil).asURLRequest()
-            if let token = type(of: InternalCore).tokenDAO.get(level: .installation)?.value {
+            if let token = InternalCore.tokenDAO.get(level: .installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }

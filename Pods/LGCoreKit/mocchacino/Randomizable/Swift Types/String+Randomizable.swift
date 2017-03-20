@@ -1,6 +1,6 @@
 extension String: Randomizable {
     public static func makeRandom() -> String {
-        return String.makeRandom(length: Int.makeRandom())
+        return String.makeRandom(length: Int.makeRandom(min: 5, max: 10))
     }
 }
 

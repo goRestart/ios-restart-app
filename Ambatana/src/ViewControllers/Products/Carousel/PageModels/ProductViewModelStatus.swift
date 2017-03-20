@@ -132,9 +132,9 @@ enum ProductViewModelStatus {
 
     var isBumpeable: Bool {
         switch self {
-        case .available, .availableFree, .otherAvailable, .otherAvailableFree:
+        case .available, .availableFree:
             return true
-        case .pending, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
+        case .otherAvailable, .otherAvailableFree, .pending, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
             return false
         }
     }

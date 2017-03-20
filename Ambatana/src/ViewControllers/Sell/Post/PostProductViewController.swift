@@ -65,32 +65,27 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                   postingGallery: PostingGallery) {
         
         let tabPosition: LGViewPagerTabPosition
-        let topRightButtonIsUsePhoto: Bool
         switch postingGallery {
         case .singleSelection, .multiSelection:
             tabPosition = .hidden
             let postFooter = PostProductRedCamButtonFooter()
             self.footer = postFooter
             self.footerView = postFooter
-            topRightButtonIsUsePhoto = true
         case .multiSelectionWhiteButton:
             tabPosition = .hidden
             let postFooter = PostProductWhiteCamButtonFooter()
             self.footer = postFooter
             self.footerView = postFooter
-            topRightButtonIsUsePhoto = true
         case .multiSelectionTabs:
             tabPosition = .bottom(tabsOverPages: true)
             let postFooter = PostProductTabsFooter()
             self.footer = postFooter
             self.footerView = postFooter
-            topRightButtonIsUsePhoto = true
         case .multiSelectionPostBottom:
             tabPosition = .hidden
             let postFooter = PostProductPostFooter()
             self.footer = postFooter
             self.footerView = postFooter
-            topRightButtonIsUsePhoto = false
         }
         
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)

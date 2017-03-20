@@ -12,6 +12,7 @@ import LGCoreKit
 final class SurveysCoordinator: Coordinator {
     var child: Coordinator?
     var viewController = UIViewController()
+    weak var coordinatorDelegate: CoordinatorDelegate?
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -61,7 +62,7 @@ final class SurveysCoordinator: Coordinator {
         }
     }
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
 
         parentViewController = parent
@@ -71,33 +72,18 @@ final class SurveysCoordinator: Coordinator {
         }
     }
 
-    func close(animated: Bool, completion: (() -> Void)?) {
-        closeSurvey(animated: animated, messageToShow: nil, completion: completion)
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 
 
     // MARK: - Private
 
     fileprivate func closeSurvey(animated: Bool, messageToShow: String?, completion: (() -> Void)?) {
-        let dismiss: () -> Void = { [weak self] in
-            self?.viewController.dismiss(animated: animated) { [weak self] in
-                guard let strongSelf = self else { return }
-                let finalCompletion = {
-                    strongSelf.delegate?.coordinatorDidClose(strongSelf)
-                    completion?()
-                }
-                if let message = messageToShow {
-                    strongSelf.parentViewController?.vmShowAutoFadingMessage(message, completion: finalCompletion)
-                } else {
-                    finalCompletion()
-                }
-            }
-        }
-
-        if let child = child {
-            child.close(animated: animated, completion: dismiss)
-        } else {
-            dismiss()
+        let parentViewController = self.parentViewController
+        closeCoordinator(animated: animated) {
+            guard let message = messageToShow else { return }
+            parentViewController?.vmShowAutoFadingMessage(message, completion: nil)
         }
     }
 }
