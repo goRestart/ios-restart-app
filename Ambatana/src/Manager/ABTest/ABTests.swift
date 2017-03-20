@@ -20,6 +20,7 @@ struct ABTests {
     static var surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
     static var surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
+    static var websocketChat = BoolABDynamicVar(key: "websocketChat", defaultValue: false)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var contactSellerOnFavorite = BoolABDynamicVar(key: "contactSellerOnFavorite", defaultValue: false)
     static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
@@ -39,10 +40,12 @@ struct ABTests {
         var result = [ABVariable]()
 
         result.append(marketingPush)
+        
         result.append(showNPSSurvey)
         result.append(surveyURL)
         result.append(surveyEnabled)
 
+        result.append(websocketChat)
         result.append(userReviews)
         result.append(contactSellerOnFavorite)
         result.append(passiveBuyersShowKeyboard)

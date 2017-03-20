@@ -58,9 +58,9 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             self.websocketChat = Bumper.websocketChat
         } else {
-            self.websocketChat = false
+            self.websocketChat = ABTests.websocketChat.value
         }
-
+        
         self.locale = locale
         self.locationManager = locationManager
         self.carrierCountryInfo = countryInfo
