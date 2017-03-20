@@ -17,7 +17,6 @@ protocol EditLocationViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSearchTableWithResults(_ results: [String])
     func vmDidFailFindingSuggestions()
     func vmDidFailToFindLocationWithError(_ error: String)
-    func vmGoBack()
 }
 
 protocol EditLocationDelegate: class {
@@ -104,6 +103,7 @@ class EditLocationViewModel: BaseViewModel {
     }
     
     override func backButtonPressed() -> Bool {
+        guard let _ = navigator else { return false }
         closeLocation()
         return true
     }
@@ -335,7 +335,7 @@ class EditLocationViewModel: BaseViewModel {
         if let navigator = navigator {
             navigator.closeEditLocation()
         } else {
-            delegate?.vmGoBack()
+            delegate?.vmPop()
         }
     }
 
