@@ -32,6 +32,7 @@ class LGNotificationsManager: NotificationsManager {
 
     private let sessionManager: SessionManager
     private let chatRepository: ChatRepository
+    private var chatStatus: WSChatStatus?
     private let oldChatRepository: OldChatRepository
     private let notificationsRepository: NotificationsRepository
     fileprivate let keyValueStorage: KeyValueStorage
@@ -119,11 +120,22 @@ class LGNotificationsManager: NotificationsManager {
             }.bindNext{ [weak self] event in
                 self?.requestChatCounters()
             }.addDisposableTo(disposeBag)
-        } else {
-            DeepLinksRouter.sharedInstance.chatDeepLinks.bindNext { [weak self] _ in
-                self?.requestChatCounters()
+
+            chatRepository.chatStatus.bindNext { [weak self] in
+                self?.chatStatus = $0
             }.addDisposableTo(disposeBag)
         }
+
+        DeepLinksRouter.sharedInstance.chatDeepLinks.filter { [weak self] _ in
+            if let status = self?.chatStatus, status == .openAuthenticated { return false }
+            return true
+        }.bindNext { [weak self] _ in
+            self?.requestChatCounters()
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func observeWSChatPushes() {
+
     }
 
     dynamic private func applicationWillEnterForeground() {
