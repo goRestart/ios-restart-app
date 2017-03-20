@@ -137,8 +137,8 @@ fileprivate extension FilteredProductListRequester {
         return nil
     }
 
-    var retrieveProductsParams: RetrieveProductsParams {
-        var params: RetrieveProductsParams = RetrieveProductsParams()
+    var retrieveProductsParams: RetrieveListingParams {
+        var params: RetrieveListingParams = RetrieveListingParams()
         params.numProducts = itemsPerPage
         params.offset = offset
         params.coordinates = queryCoordinates

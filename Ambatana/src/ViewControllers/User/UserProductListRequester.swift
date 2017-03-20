@@ -118,8 +118,8 @@ class UserStatusesProductListRequester: UserProductListRequester {
         return r
     }
 
-    private var retrieveProductsParams: RetrieveProductsParams {
-        var params: RetrieveProductsParams = RetrieveProductsParams()
+    private var retrieveProductsParams: RetrieveListingParams {
+        var params: RetrieveListingParams = RetrieveListingParams()
         params.offset = offset
         params.numProducts = itemsPerPage
         if let currentLocation = locationManager.currentLocation {

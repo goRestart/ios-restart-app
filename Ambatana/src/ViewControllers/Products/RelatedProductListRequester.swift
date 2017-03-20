@@ -15,8 +15,8 @@ class RelatedProductListRequester: ProductListRequester {
     private let listingRepository: ListingRepository
     private var offset: Int = 0
 
-    private var retrieveProductParams: RetrieveProductsParams {
-        var params = RetrieveProductsParams()
+    private var retrieveProductParams: RetrieveListingParams {
+        var params = RetrieveListingParams()
         params.numProducts = itemsPerPage
         params.offset = offset
         return params
@@ -46,7 +46,7 @@ class RelatedProductListRequester: ProductListRequester {
     }
 
     func productsRetrieval(_ completion: ListingsCompletion?) {
-        listingRepository.indexRelated(productId: productObjectId, params: retrieveProductParams) {
+        listingRepository.indexRelated(listingId: productObjectId, params: retrieveProductParams) {
             [weak self] result in
             if let value = result.value {
                 self?.offset += value.count

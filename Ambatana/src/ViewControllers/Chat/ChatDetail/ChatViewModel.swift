@@ -1342,7 +1342,7 @@ extension ChatViewModel {
     fileprivate func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        listingRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
+        listingRepository.indexRelated(listingId: productId, params: RetrieveListingParams()) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
