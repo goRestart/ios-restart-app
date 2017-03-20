@@ -354,7 +354,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     newProduct.name = String.makeRandom()
                     newProduct.objectId = product.objectId
                     newProduct.user = product.user
-                    listingRepository.listingResult = ListingResult(newProduct)
+                    listingRepository.productResult = ProductResult(newProduct)
                     buildSut(initialProduct: product, firstProductSyncRequired: true)
                 }
                 it("product info title passes trough both items title") {

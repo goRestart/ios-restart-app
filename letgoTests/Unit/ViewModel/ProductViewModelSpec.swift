@@ -110,7 +110,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     listingRepository.markAsSoldVoidResult = ListingVoidResult(Void())
                     var soldProduct = MockProduct(product: product)
                     soldProduct.status = .sold
-                    listingRepository.listingResult = ListingResult(soldProduct)
+                    listingRepository.productResult = ProductResult(soldProduct)
                 }
                 context("buyer selection a/b enabled"){
                     beforeEach {
@@ -269,7 +269,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         product.favorite = false
                         savedProduct.favorite = true
-                        listingRepository.listingResult = ListingResult(savedProduct)
+                        listingRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
                     }
                     context("Contact the seller AB test enabled"){
@@ -305,7 +305,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         product.favorite = true
                         savedProduct.favorite = false
-                        listingRepository.listingResult = ListingResult(savedProduct)
+                        listingRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
                     }
 

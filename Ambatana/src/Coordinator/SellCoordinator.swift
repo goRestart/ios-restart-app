@@ -208,7 +208,7 @@ extension SellCoordinator: ProductPostedNavigator {
 // MARK: - Tracking
 
 fileprivate extension SellCoordinator {
-    func trackPost(_ result: ListingResult, trackingInfo: PostProductTrackingInfo) {
+    func trackPost(_ result: ProductResult, trackingInfo: PostProductTrackingInfo) {
         guard let product = result.value else { return }
         let event = TrackerEvent.productSellComplete(product, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
