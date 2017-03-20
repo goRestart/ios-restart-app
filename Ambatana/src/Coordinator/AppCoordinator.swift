@@ -63,7 +63,7 @@ final class AppCoordinator: NSObject, Coordinator {
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   pushPermissionsManager: PushPermissionsManager.sharedInstance,
                   ratingManager: RatingManager.sharedInstance,
-                  deepLinksRouter: DeepLinksRouter.sharedInstance,
+                  deepLinksRouter: LGDeepLinksRouter.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   productRepository: Core.productRepository,
                   userRepository: Core.userRepository,

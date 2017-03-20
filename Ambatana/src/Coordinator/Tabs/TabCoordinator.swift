@@ -298,7 +298,8 @@ fileprivate extension TabCoordinator {
     }
 
     func openChat(_ chat: Chat, source: EventParameterTypePage) {
-        guard let vm = OldChatViewModel(chat: chat, navigator: self, source: source) else { return }
+        guard let vm = OldChatViewModel(chat: chat, source: source) else { return }
+        vm.navigator = self
         let vc = OldChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
@@ -315,7 +316,8 @@ fileprivate extension TabCoordinator {
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         } else {
-            guard let chatVM = OldChatViewModel(product: product, navigator: self, source: .productDetail) else { return }
+            guard let chatVM = OldChatViewModel(product: product, source: .productDetail) else { return }
+            chatVM.navigator = self
             let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         }

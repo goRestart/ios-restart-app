@@ -875,6 +875,9 @@
 		C75C54401E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */; };
 		C75C54431E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */; };
 		C75C54441E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */; };
+		C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */; };
+		C765EE491E7FEA4500063750 /* DeepLink+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */; };
+		C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */; };
 		C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
 		C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
 		C7732F6A1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */; };
@@ -1930,6 +1933,9 @@
 		C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersViewController.swift; sourceTree = "<group>"; };
 		C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PassiveBuyersViewController.xib; sourceTree = "<group>"; };
 		C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersViewModel.swift; sourceTree = "<group>"; };
+		C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDeepLinksRouter.swift; sourceTree = "<group>"; };
+		C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeepLink+MockFactory.swift"; sourceTree = "<group>"; };
+		C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatEvent.swift; sourceTree = "<group>"; };
 		C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchDeepLink.swift; sourceTree = "<group>"; };
 		C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewController.swift; sourceTree = "<group>"; };
 		C7732F691D87FA3400EAD5B7 /* TourPostingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourPostingViewController.xib; sourceTree = "<group>"; };
@@ -2999,6 +3005,7 @@
 				50D08D681E69AF14009CC260 /* MockPurchasesShopper.swift */,
 				50D08D691E69AF14009CC260 /* Tracking */,
 				2EF0BB121E784468006808B5 /* MockPaymentQueue.swift */,
+				C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -3022,6 +3029,8 @@
 				50D08D711E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift */,
 				50D08D721E69AF14009CC260 /* MockPurchaseableProductsResponse+MockFactory.swift */,
 				50D08D731E69AF14009CC260 /* MockPurchaseableProductsResponse.swift */,
+				C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */,
+				C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4890,6 +4899,7 @@
 				C734AC891E6DB6A80053C383 /* QuickSpec+Wait.swift in Sources */,
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
 				50D08DBA1E69AF14009CC260 /* MockPurchaseableProduct.swift in Sources */,
+				C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */,
 				50D08DDF1E69AF14009CC260 /* MainProductsViewModelSpec.swift in Sources */,
 				50D08DDA1E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift in Sources */,
 				50D08DDC1E69AF14009CC260 /* ChangeEmailViewModelSpec.swift in Sources */,
@@ -4921,6 +4931,7 @@
 				C750AA8B1E6D76DC005F87C5 /* MockProductViewModelMaker.swift in Sources */,
 				50D08DE11E69AF14009CC260 /* ProductCarouselViewModelSpec.swift in Sources */,
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
+				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
 				50D08DE71E69AF14009CC260 /* TourLoginViewModelSpec.swift in Sources */,
 				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
@@ -4935,6 +4946,7 @@
 				2EC653B71E71744B00E23DDF /* MockExternalAuthHelper.swift in Sources */,
 				50D08DC31E69AF14009CC260 /* Int+LGSpec.swift in Sources */,
 				50D08DD31E69AF14009CC260 /* LocalChatSpec.swift in Sources */,
+				C765EE491E7FEA4500063750 /* DeepLink+MockFactory.swift in Sources */,
 				50D08DC71E69AF14009CC260 /* String+LGSpec.swift in Sources */,
 				50D08DBF1E69AF14009CC260 /* MockPurchaseableProductsResponse.swift in Sources */,
 				50D08DD11E69AF14009CC260 /* VersionCheckerSpec.swift in Sources */,

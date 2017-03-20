@@ -105,7 +105,7 @@ class WebSurveyViewModelSpec: BaseViewModelSpec {
                 beforeEach {
                     sut.active = true
                     tracker.trackedEvents.removeAll()
-                    shouldLoad = sut.shouldLoad(url: URL(string:"www.letgo.com"))
+                    shouldLoad = sut.shouldLoad(url: URL(string:"http://www.letgo.com"))
                 }
                 it("should load is false") {
                     expect(shouldLoad) == false

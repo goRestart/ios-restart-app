@@ -237,6 +237,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     fileprivate let configManager: ConfigManager
     fileprivate let sessionManager: SessionManager
     fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let deepLinksRouter: DeepLinksRouter
     fileprivate var shouldSendFirstMessageEvent: Bool = false
     fileprivate var chat: Chat
     fileprivate var product: Product
@@ -335,45 +336,42 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     
     // MARK: - Lifecycle
-
-    convenience init?(chat: Chat, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
-        self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance,
-                  sessionManager: Core.sessionManager, navigator: navigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance, source: source)
-    }
     
-    convenience init?(product: Product, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
+    convenience init?(product: Product, source: EventParameterTypePage) {
         let myUserRepository = Core.myUserRepository
         let chat = LocalChat(product: product, myUserProduct: LocalUser(user: myUserRepository.myUser))
-        let configManager = ConfigManager.sharedInstance
-        let sessionManager = Core.sessionManager
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(chat: chat, myUserRepository: myUserRepository,
-                  configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: featureFlags, source: source)
+        self.init(chat: chat, source: source)
     }
 
-    convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
-                      sessionManager: SessionManager, navigator: ChatDetailNavigator?, keyValueStorage: KeyValueStorage,
-						featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
-        let chatRepository = Core.oldChatRepository
-        let productRepository = Core.productRepository
-        let userRepository = Core.userRepository
-        let tracker = TrackerProxy.sharedInstance
-        let sessionManager = Core.sessionManager
-        let stickersRepository = Core.stickersRepository
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker,
-                  configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: keyValueStorage, featureFlags: featureFlags, source: source)
+    convenience init?(chat: Chat, source: EventParameterTypePage) {
+        self.init(chat: chat,
+                  source: source,
+                  myUserRepository: Core.myUserRepository,
+                  chatRepository: Core.oldChatRepository,
+                  productRepository: Core.productRepository,
+                  userRepository: Core.userRepository,
+                  stickersRepository: Core.stickersRepository,
+                  tracker: TrackerProxy.sharedInstance,
+                  configManager: ConfigManager.sharedInstance,
+                  sessionManager: Core.sessionManager,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  deepLinksRouter: LGDeepLinksRouter.sharedInstance)
     }
 
-    init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
-          keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
+    init?(chat: Chat,
+          source: EventParameterTypePage,
+          myUserRepository: MyUserRepository,
+          chatRepository: OldChatRepository,
+          productRepository: ProductRepository,
+          userRepository: UserRepository,
+          stickersRepository: StickersRepository,
+          tracker: Tracker,
+          configManager: ConfigManager,
+          sessionManager: SessionManager,
+          keyValueStorage: KeyValueStorage,
+          featureFlags: FeatureFlaggeable,
+          deepLinksRouter: DeepLinksRouter) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -385,8 +383,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         self.featureFlags = featureFlags
         self.configManager = configManager
         self.sessionManager = sessionManager
-        self.navigator = navigator
         self.keyValueStorage = keyValueStorage
+        self.deepLinksRouter = deepLinksRouter
         self.loadedMessages = []
         self.product = chat.product
         self.source = source
@@ -660,7 +658,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func setupDeepLinksRx() {
-        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
+        deepLinksRouter.chatDeepLinks.subscribeNext { [weak self] deepLink in
             switch deepLink.action {
             case .conversation(let data):
                 guard self?.isMatchingConversationData(data) ?? false else { return }
