@@ -12,16 +12,16 @@ class DiscoverProductListRequester {
 
     let itemsPerPage: Int
     fileprivate let productObjectId: String
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate var offset: Int = 0
 
     convenience init(productId: String, itemsPerPage: Int) {
-        self.init(productId: productId, itemsPerPage: itemsPerPage, productRepository: Core.productRepository)
+        self.init(productId: productId, itemsPerPage: itemsPerPage, listingRepository: Core.listingRepository)
     }
 
-    init(productId: String, itemsPerPage: Int, productRepository: ProductRepository) {
+    init(productId: String, itemsPerPage: Int, listingRepository: ListingRepository) {
         self.productObjectId = productId
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.itemsPerPage = itemsPerPage
     }
 }
@@ -68,7 +68,7 @@ fileprivate extension DiscoverProductListRequester {
     }
 
     func productsRetrieval(_ completion: ListingsCompletion?) {
-        productRepository.indexDiscover(productId: productObjectId, params: retrieveProductsParams) { [weak self] result in
+        listingRepository.indexDiscover(productId: productObjectId, params: retrieveProductsParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }

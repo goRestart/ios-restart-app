@@ -145,7 +145,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     
     // Repositories
     let myUserRepository: MyUserRepository
-    let productRepository: ProductRepository
+    let listingRepository: ListingRepository
     let categoryRepository: CategoryRepository
     let locationManager: LocationManager
     let tracker: Tracker
@@ -163,13 +163,13 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     
     convenience init(product: Product) {
         let myUserRepository = Core.myUserRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let categoryRepository = Core.categoryRepository
         let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(myUserRepository: myUserRepository,
-                  productRepository: productRepository,
+                  listingRepository: listingRepository,
                   categoryRepository: categoryRepository,
                   locationManager: locationManager,
                   tracker: tracker, product: product,
@@ -177,14 +177,14 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     init(myUserRepository: MyUserRepository,
-         productRepository: ProductRepository,
+         listingRepository: ListingRepository,
          categoryRepository: CategoryRepository,
          locationManager: LocationManager,
          tracker: Tracker,
          product: Product,
          featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.categoryRepository = categoryRepository
         self.locationManager = locationManager
         self.tracker = tracker
@@ -422,7 +422,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let priceAmount = isFreePosting.value && featureFlags.freePostingModeAllowed ? ProductPrice.free : ProductPrice.normal((price ?? "0").toPriceDouble())
         let currency = initialProduct.currency
 
-        let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,
+        let editedProduct = listingRepository.updateProduct(initialProduct, name: name, description: description,
                                                             price: priceAmount, currency: currency, location: location,
                                                             postalAddress: postalAddress, category: category)
         saveTheProduct(editedProduct, withImages: productImages)
@@ -451,12 +451,12 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let progressBlock: (Float) -> Void = { [weak self] progress in self?.loadingProgress.value = progress }
         
         if let _ = product.objectId {
-            productRepository.update(product, oldImages: remoteImages, newImages: localImages, progress: progressBlock, completion: commonCompletion)
+            listingRepository.update(product, oldImages: remoteImages, newImages: localImages, progress: progressBlock, completion: commonCompletion)
         } else {
             if localImages.isEmpty {
-                productRepository.create(product, images: remoteImages, completion: commonCompletion)
+                listingRepository.create(product, images: remoteImages, completion: commonCompletion)
             } else {
-                productRepository.create(product, images: localImages, progress: progressBlock, completion: commonCompletion)
+                listingRepository.create(product, images: localImages, progress: progressBlock, completion: commonCompletion)
             }
         }
     }
@@ -562,7 +562,7 @@ extension EditProductViewModel {
             return
         }
         titleDisclaimerStatus.value = .loading
-        productRepository.retrieve(productId) { [weak self] result in
+        listingRepository.retrieve(productId) { [weak self] result in
             if let value = result.value {
                 guard let proposedTitle = value.nameAuto else { return }
                 self?.stopTimer()

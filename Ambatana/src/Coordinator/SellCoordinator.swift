@@ -24,7 +24,7 @@ final class SellCoordinator: Coordinator {
     
     fileprivate var parentViewController: UIViewController?
 
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let tracker: Tracker
     fileprivate let featureFlags: FeatureFlaggeable
@@ -38,7 +38,7 @@ final class SellCoordinator: Coordinator {
 
     convenience init(source: PostingSource) {
         self.init(source: source,
-                  productRepository: Core.productRepository,
+                  listingRepository: Core.listingRepository,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
@@ -47,13 +47,13 @@ final class SellCoordinator: Coordinator {
     }
 
     init(source: PostingSource,
-         productRepository: ProductRepository,
+         listingRepository: ListingRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
          tracker: Tracker,
          featureFlags: FeatureFlags,
          sessionManager: SessionManager) {
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
@@ -94,7 +94,7 @@ extension SellCoordinator: PostProductNavigator {
     func closePostProductAndPostInBackground(_ product: Product, images: [File], showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo) {
         dismissViewController(animated: true) { [weak self] in
-            self?.productRepository.create(product, images: images) { result in
+            self?.listingRepository.create(product, images: images) { result in
                 self?.trackPost(result, trackingInfo: trackingInfo)
 
                 if let _ = result.value {

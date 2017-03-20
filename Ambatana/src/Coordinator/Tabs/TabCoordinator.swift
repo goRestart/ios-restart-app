@@ -26,7 +26,7 @@ class TabCoordinator: NSObject, Coordinator {
     let rootViewController: UIViewController
     let navigationController: UINavigationController
 
-    let productRepository: ProductRepository
+    let listingRepository: ListingRepository
     let userRepository: UserRepository
     let chatRepository: ChatRepository
     let oldChatRepository: OldChatRepository
@@ -44,12 +44,12 @@ class TabCoordinator: NSObject, Coordinator {
 
     // MARK: - Lifecycle
 
-    init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
+    init(listingRepository: ListingRepository, userRepository: UserRepository, chatRepository: ChatRepository,
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
          featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
@@ -164,7 +164,7 @@ fileprivate extension TabCoordinator {
     func openProduct(productId: String, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool) {
         navigationController.showLoadingMessageAlert()
-        productRepository.retrieve(productId) { [weak self] result in
+        listingRepository.retrieve(productId) { [weak self] result in
             if let product = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.openProduct(product: product, source: source, index: 0, discover: false,

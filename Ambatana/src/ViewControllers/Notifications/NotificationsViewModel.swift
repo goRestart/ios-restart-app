@@ -19,7 +19,7 @@ class NotificationsViewModel: BaseViewModel {
     private var notificationsData: [NotificationData] = []
 
     private let notificationsRepository: NotificationsRepository
-    private let productRepository: ProductRepository
+    private let listingRepository: ListingRepository
     private let userRepository: UserRepository
     fileprivate let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
@@ -30,7 +30,7 @@ class NotificationsViewModel: BaseViewModel {
 
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
-                  productRepository: Core.productRepository,
+                  listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
@@ -38,12 +38,12 @@ class NotificationsViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
+    init(notificationsRepository: NotificationsRepository, listingRepository: ListingRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository,
          notificationsManager: NotificationsManager, locationManager: LocationManager,
          tracker: Tracker, featureFlags: FeatureFlaggeable) {
         self.notificationsRepository = notificationsRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
         self.notificationsManager = notificationsManager

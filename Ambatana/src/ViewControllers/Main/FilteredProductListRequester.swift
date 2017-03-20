@@ -13,7 +13,7 @@ import CoreLocation
 class FilteredProductListRequester: ProductListRequester {
 
     let itemsPerPage: Int
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let locationManager: LocationManager
     fileprivate var queryFirstCallCoordinates: LGLocationCoordinates2D?
     fileprivate var queryFirstCallCountryCode: String?
@@ -24,12 +24,12 @@ class FilteredProductListRequester: ProductListRequester {
     var filters: ProductFilters?
 
     convenience init(itemsPerPage: Int, offset: Int = 0) {
-        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager,
+        self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager,
                   itemsPerPage: itemsPerPage, offset: offset)
     }
 
-    init(productRepository: ProductRepository, locationManager: LocationManager, itemsPerPage: Int, offset: Int) {
-        self.productRepository = productRepository
+    init(listingRepository: ListingRepository, locationManager: LocationManager, itemsPerPage: Int, offset: Int) {
+        self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.initialOffset = offset
         self.itemsPerPage = itemsPerPage
@@ -53,7 +53,7 @@ class FilteredProductListRequester: ProductListRequester {
                 completion?(result)
                 return
             }
-            self?.productRepository.indexLimbo { [weak self] limboResult in
+            self?.listingRepository.indexLimbo { [weak self] limboResult in
                 var finalProducts: [Product] = limboResult.value ?? []
                 finalProducts += indexProducts
                 self?.offset = indexProducts.count
@@ -72,7 +72,7 @@ class FilteredProductListRequester: ProductListRequester {
     }
     
     private func retrieve(_ completion: ListingsCompletion?) {
-        productRepository.index(retrieveProductsParams, completion: completion)
+        listingRepository.index(retrieveProductsParams, completion: completion)
     }
 
     func isLastPage(_ resultCount: Int) -> Bool {

@@ -91,7 +91,7 @@ class ChatViewModel: BaseViewModel {
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let chatRepository: ChatRepository
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
     fileprivate let stickersRepository: StickersRepository
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
@@ -181,7 +181,7 @@ class ChatViewModel: BaseViewModel {
     convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
@@ -191,7 +191,7 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository,
+                  listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source)
@@ -202,7 +202,7 @@ class ChatViewModel: BaseViewModel {
 
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
@@ -214,7 +214,7 @@ class ChatViewModel: BaseViewModel {
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository,
+                  listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source)
@@ -222,13 +222,13 @@ class ChatViewModel: BaseViewModel {
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
+          listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.tracker = tracker
         self.featureFlags = featureFlags
@@ -730,7 +730,7 @@ extension ChatViewModel {
             return
         }
         delegate?.vmShowLoading(nil)
-        productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+        listingRepository.possibleBuyersOf(productId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
@@ -746,7 +746,7 @@ extension ChatViewModel {
 
     private func markProductAsSold(productId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
-        productRepository.markProductAsSold(productId, buyerId: nil) { [weak self] result in
+        listingRepository.markProductAsSold(productId, buyerId: nil) { [weak self] result in
             if let _ = result.value {
                 self?.trackMarkAsSold(userSoldTo: userSoldTo)
             }
@@ -1342,7 +1342,7 @@ extension ChatViewModel {
     fileprivate func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
+        listingRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {

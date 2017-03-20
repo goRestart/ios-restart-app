@@ -28,7 +28,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var sut: ProductViewModel!
 
         var myUserRepository: MockMyUserRepository!
-        var productRepository: MockProductRepository!
+        var listingRepository: MockProductRepository!
         var commercializerRepository: MockCommercializerRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -52,7 +52,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 let socialSharer = SocialSharer()
                 sut = ProductViewModel(product: product,
                                         myUserRepository: myUserRepository,
-                                        productRepository: productRepository,
+                                        listingRepository: listingRepository,
                                         commercializerRepository: commercializerRepository,
                                         chatWrapper: chatWrapper,
                                         chatViewMessageAdapter: ChatViewMessageAdapter(),
@@ -74,7 +74,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
             beforeEach {
                 sut = nil
                 myUserRepository = MockMyUserRepository()
-                productRepository = MockProductRepository()
+                listingRepository = MockProductRepository()
                 commercializerRepository = MockCommercializerRepository()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
@@ -107,10 +107,10 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     product.user = userProduct
                     product.status = .approved
 
-                    productRepository.markAsSoldVoidResult = ListingVoidResult(Void())
+                    listingRepository.markAsSoldVoidResult = ListingVoidResult(Void())
                     var soldProduct = MockProduct(product: product)
                     soldProduct.status = .sold
-                    productRepository.listingResult = ListingResult(soldProduct)
+                    listingRepository.listingResult = ListingResult(soldProduct)
                 }
                 context("buyer selection a/b enabled"){
                     beforeEach {
@@ -123,7 +123,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             for _ in 0..<5 {
                                 possibleBuyers.append(MockUserProduct.makeMock())
                             }
-                            productRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
+                            listingRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
                         }
                         context("one is selected") {
                             beforeEach {
@@ -146,7 +146,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 expect(self.lastBuyersToRate?.count) == possibleBuyers.count
                             }
                             it("has called to mark as sold with correct buyerId") {
-                                expect(productRepository.markAsSoldBuyerId) == self.buyerToRateResult
+                                expect(listingRepository.markAsSoldBuyerId) == self.buyerToRateResult
                             }
                             it("has a mark as sold tracked event with correct user-sold-to") {
                                 let event = tracker.trackedEvents.last
@@ -175,7 +175,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 expect(self.lastBuyersToRate?.count) == possibleBuyers.count
                             }
                             it("has called to mark as sold with correct buyerId") {
-                                expect(productRepository.markAsSoldBuyerId).to(beNil())
+                                expect(listingRepository.markAsSoldBuyerId).to(beNil())
                             }
                             it("has a mark as sold tracked event with correct user-sold-to") {
                                 let event = tracker.trackedEvents.last
@@ -186,7 +186,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                     context("there are no possible buyers") {
                         beforeEach {
-                            productRepository.listingBuyersResult = ListingBuyersResult([])
+                            listingRepository.listingBuyersResult = ListingBuyersResult([])
 
                             buildProductViewModel()
                             sut.active = true
@@ -208,7 +208,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
                         }
                         it("has called to mark as sold with correct buyerId") {
-                            expect(productRepository.markAsSoldBuyerId).to(beNil())
+                            expect(listingRepository.markAsSoldBuyerId).to(beNil())
                         }
                         it("has a mark as sold tracked event with correct user-sold-to") {
                             let event = tracker.trackedEvents.last!
@@ -224,7 +224,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         for _ in 0..<5 {
                             possibleBuyers.append(MockUserProduct.makeMock())
                         }
-                        productRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
+                        listingRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
 
                         buildProductViewModel()
                         sut.active = true
@@ -246,7 +246,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
                     }
                     it("has called to mark as sold with correct buyerId") {
-                        expect(productRepository.markAsSoldBuyerId).to(beNil())
+                        expect(listingRepository.markAsSoldBuyerId).to(beNil())
                     }
                     it("has a mark as sold tracked event with no user-sold-to") {
                         let event = tracker.trackedEvents.last!
@@ -269,7 +269,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         product.favorite = false
                         savedProduct.favorite = true
-                        productRepository.listingResult = ListingResult(savedProduct)
+                        listingRepository.listingResult = ListingResult(savedProduct)
                         buildProductViewModel()
                     }
                     context("Contact the seller AB test enabled"){
@@ -305,7 +305,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         product.favorite = true
                         savedProduct.favorite = false
-                        productRepository.listingResult = ListingResult(savedProduct)
+                        listingRepository.listingResult = ListingResult(savedProduct)
                         buildProductViewModel()
                     }
 

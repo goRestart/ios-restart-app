@@ -94,7 +94,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let trendingSearchesRepository: TrendingSearchesRepository
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
 
@@ -149,13 +149,13 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         productRepository: ProductRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
+         listingRepository: ListingRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
          searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -185,14 +185,14 @@ class MainProductsViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  productRepository: productRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
+                  listingRepository: listingRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
                   searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
     
@@ -363,7 +363,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         productListRequester.filters = filters
         productListRequester.queryString = searchType?.query
 
-        productRepository.events.bindNext { [weak self] event in
+        listingRepository.events.bindNext { [weak self] event in
             switch event {
             case let .update(product):
                 self?.listViewModel.update(product: product)

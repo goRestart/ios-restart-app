@@ -12,7 +12,7 @@ class RelatedProductListRequester: ProductListRequester {
 
     let itemsPerPage: Int
     private let productObjectId: String
-    private let productRepository: ProductRepository
+    private let listingRepository: ListingRepository
     private var offset: Int = 0
 
     private var retrieveProductParams: RetrieveProductsParams {
@@ -23,12 +23,12 @@ class RelatedProductListRequester: ProductListRequester {
     }
 
     convenience init(productId: String, itemsPerPage: Int) {
-        self.init(productId: productId, itemsPerPage: itemsPerPage, productRepository: Core.productRepository)
+        self.init(productId: productId, itemsPerPage: itemsPerPage, listingRepository: Core.listingRepository)
     }
 
-    init(productId: String, itemsPerPage: Int, productRepository: ProductRepository) {
+    init(productId: String, itemsPerPage: Int, listingRepository: ListingRepository) {
         self.productObjectId = productId
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.itemsPerPage = itemsPerPage
     }
 
@@ -46,7 +46,7 @@ class RelatedProductListRequester: ProductListRequester {
     }
 
     func productsRetrieval(_ completion: ListingsCompletion?) {
-        productRepository.indexRelated(productId: productObjectId, params: retrieveProductParams) {
+        listingRepository.indexRelated(productId: productObjectId, params: retrieveProductParams) {
             [weak self] result in
             if let value = result.value {
                 self?.offset += value.count

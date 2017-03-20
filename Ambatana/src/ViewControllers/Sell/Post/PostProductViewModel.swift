@@ -56,7 +56,7 @@ class PostProductViewModel: BaseViewModel {
     let postProductCameraViewModel: PostProductCameraViewModel
     let postingSource: PostingSource
     
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
     fileprivate let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
@@ -69,19 +69,19 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource) {
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let fileRepository = Core.fileRepository
         let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
         let sessionManager = Core.sessionManager
-        self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
+        self.init(source: source, listingRepository: listingRepository, fileRepository: fileRepository,
                   commercializerRepository: commercializerRepository, tracker: tracker, sessionManager: sessionManager)
     }
 
-    init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
+    init(source: PostingSource, listingRepository: ListingRepository, fileRepository: FileRepository,
          commercializerRepository: CommercializerRepository, tracker: Tracker, sessionManager: SessionManager) {
         self.postingSource = source
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.commercializerRepository = commercializerRepository
         self.postDetailViewModel = PostProductDetailViewModel()
@@ -197,7 +197,7 @@ fileprivate extension PostProductViewModel {
         let price = isFreePosting ? ProductPrice.free : postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
-        return productRepository.buildNewProduct(title, description: description, price: price, category: .unassigned)
+        return listingRepository.buildNewProduct(title, description: description, price: price, category: .unassigned)
     }
 }
 

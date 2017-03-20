@@ -228,7 +228,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     fileprivate let chatRepository: OldChatRepository
     fileprivate let myUserRepository: MyUserRepository
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
     fileprivate let stickersRepository: StickersRepository
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
@@ -357,27 +357,27 @@ class OldChatViewModel: BaseViewModel, Paginable {
                       sessionManager: SessionManager, navigator: ChatDetailNavigator?, keyValueStorage: KeyValueStorage,
 						featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         let chatRepository = Core.oldChatRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let sessionManager = Core.sessionManager
         let stickersRepository = Core.stickersRepository
         let featureFlags = FeatureFlags.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository,
+                  listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
                   configManager: configManager, sessionManager: sessionManager, navigator: navigator,
                   keyValueStorage: keyValueStorage, featureFlags: featureFlags, source: source)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
+          listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
           keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
@@ -987,7 +987,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
         guard let productId = self.product.objectId else { return }
         delegate?.vmShowLoading(nil)
-        productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+        listingRepository.possibleBuyersOf(productId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
@@ -1003,7 +1003,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     private func markProductAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
-        productRepository.markProductAsSold(product, buyerId: buyerId) { [weak self] result in
+        listingRepository.markProductAsSold(product, buyerId: buyerId) { [weak self] result in
             self?.delegate?.vmHideLoading(nil) { [weak self] in
                 guard let strongSelf = self else { return }
                 if let value = result.value {
@@ -1309,7 +1309,7 @@ extension OldChatViewModel {
     fileprivate func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = product.objectId else { return }
-        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
+        listingRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {

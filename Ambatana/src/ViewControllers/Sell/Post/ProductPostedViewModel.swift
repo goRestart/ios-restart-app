@@ -26,7 +26,7 @@ class ProductPostedViewModel: BaseViewModel {
     weak var delegate: ProductPostedViewModelDelegate?
 
     private var status: ProductPostedStatus
-    private var productRepository: ProductRepository?
+    private var listingRepository: ListingRepository?
     private var trackingInfo: PostProductTrackingInfo
     private var featureFlags: FeatureFlaggeable
 
@@ -52,15 +52,15 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     convenience init(productToPost: Product, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let featureFlags = FeatureFlags.sharedInstance
-        self.init(productRepository: productRepository, productToPost: productToPost,
+        self.init(listingRepository: listingRepository, productToPost: productToPost,
                   productImages: productImages, trackingInfo: trackingInfo, featureFlags: featureFlags)
     }
 
-    init(productRepository: ProductRepository, productToPost: Product,
+    init(listingRepository: ListingRepository, productToPost: Product,
          productImages: [UIImage], trackingInfo: PostProductTrackingInfo, featureFlags: FeatureFlaggeable) {
-            self.productRepository = productRepository
+            self.listingRepository = listingRepository
             self.trackingInfo = trackingInfo
             self.featureFlags = featureFlags
             self.status = ProductPostedStatus(images: productImages, product: productToPost)
@@ -207,11 +207,11 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func postProduct(_ images: [UIImage], product: Product) {
-        guard let productRepository = productRepository else { return }
+        guard let listingRepository = listingRepository else { return }
 
         delegate?.productPostedViewModelSetupLoadingState(self)
 
-        productRepository.create(product, images: images, progress: nil) { [weak self] result in
+        listingRepository.create(product, images: images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
 
             // Tracking

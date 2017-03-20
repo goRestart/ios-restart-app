@@ -33,7 +33,7 @@ class UserViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let userRepository: UserRepository
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let tracker: Tracker
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let notificationsManager: NotificationsManager
@@ -103,22 +103,22 @@ class UserViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let notificationsManager = LGNotificationsManager.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  productRepository: productRepository, tracker: tracker, isMyProfile: isMyProfile, user: user, source: source,
+                  listingRepository: listingRepository, tracker: tracker, isMyProfile: isMyProfile, user: user, source: source,
                   featureFlags: featureFlags, notificationsManager: notificationsManager)
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-         productRepository: ProductRepository, tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource,
+         listingRepository: ListingRepository, tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource,
          featureFlags: FeatureFlaggeable, notificationsManager: NotificationsManager) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.tracker = tracker
         self.isMyProfile = isMyProfile
         self.user = Variable<User?>(user)
@@ -549,7 +549,7 @@ fileprivate extension UserViewModel {
         }.addDisposableTo(disposeBag)
 
         if itsMe {
-            productRepository.events.bindNext { [weak self] event in
+            listingRepository.events.bindNext { [weak self] event in
                 switch event {
                 case let .update(product):
                     self?.sellingProductListViewModel.update(product: product)

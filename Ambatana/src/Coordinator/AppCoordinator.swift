@@ -38,7 +38,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let tracker: Tracker
     fileprivate let deepLinksRouter: DeepLinksRouter
 
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let oldChatRepository: OldChatRepository
@@ -65,7 +65,7 @@ final class AppCoordinator: NSObject, Coordinator {
                   ratingManager: RatingManager.sharedInstance,
                   deepLinksRouter: DeepLinksRouter.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
-                  productRepository: Core.productRepository,
+                  listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository,
                   oldChatRepository: Core.oldChatRepository,
@@ -85,7 +85,7 @@ final class AppCoordinator: NSObject, Coordinator {
          ratingManager: RatingManager,
          deepLinksRouter: DeepLinksRouter,
          tracker: Tracker,
-         productRepository: ProductRepository,
+         listingRepository: ListingRepository,
          userRepository: UserRepository,
          myUserRepository: MyUserRepository,
          oldChatRepository: OldChatRepository,
@@ -114,7 +114,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
         self.deepLinksRouter = deepLinksRouter
 
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
         self.oldChatRepository = oldChatRepository
