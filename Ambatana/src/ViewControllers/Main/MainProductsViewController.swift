@@ -140,9 +140,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         guard viewModel.active else { return }
 
         if let tagsVC = self.tagsViewController, !tagsVC.tags.isEmpty {
-            showTagsView(!scrollDown)
+            showTagsView(!scrollDown, updateInsets: false)
         }
-        setBarsHidden(scrollDown)
+        setBars(hidden: scrollDown)
     }
 
     func productListView(_ productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
@@ -205,7 +205,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     // MARK: - Private methods
 
-    private func setBarsHidden(_ hidden: Bool, animated: Bool = true) {
+    private func setBars(hidden: Bool, animated: Bool = true) {
         self.tabBarController?.setTabBarHidden(hidden, animated: animated)
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
@@ -252,7 +252,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         
         tagsViewController?.updateTags(tags)
         let showTags = tags.count > 0
-        showTagsView(showTags)
+        showTagsView(showTags, updateInsets: true)
         
         //Update tags button
         setFiltersNavBarButton()
@@ -278,7 +278,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         viewModel.vmUserDidTapInvite()
     }
     
-    private func showTagsView(_ show: Bool) {
+    private func showTagsView(_ show: Bool, updateInsets: Bool) {
         if tagsAnimating || tagsShowing == show {
             return
         }
@@ -292,7 +292,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
         let tagsHeight = tagsCollectionView.frame.size.height
         tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight
-        topInset.value = show ? topBarHeight + tagsHeight : topBarHeight
+        if updateInsets {
+            topInset.value = show ? topBarHeight + tagsHeight : topBarHeight
+        }
 
         UIView.animate(
             withDuration: 0.2,
