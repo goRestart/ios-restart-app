@@ -18,6 +18,7 @@ class TabCoordinator: NSObject, Coordinator {
     var viewController: UIViewController {
         return navigationController
     }
+    weak var coordinatorDelegate: CoordinatorDelegate?
     weak var presentedAlertController: UIAlertController?
     var bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -66,9 +67,8 @@ class TabCoordinator: NSObject, Coordinator {
     }
 
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {}
-
-    func close(animated: Bool, completion: (() -> Void)?) {}
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {}
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {}
 
     func isShowingConversation(_ data: ConversationData) -> Bool {
         if let convDataDisplayer = navigationController.viewControllers.last as? ConversationDataDisplayer {
@@ -81,11 +81,6 @@ class TabCoordinator: NSObject, Coordinator {
         return !viewController.isRootViewController()
     }
 }
-
-
-// MARK: - LoginCoordinatorDelegate
-
-extension TabCoordinator: LoginCoordinatorDelegate {}
 
 
 // MARK: - TabNavigator
@@ -400,48 +395,33 @@ extension TabCoordinator: ProductDetailNavigator {
 
     func closeAfterDelete() {
         closeProductDetail()
-        switch featureFlags.postAfterDeleteMode {
-        case .original:
-            break
-        case .fullScreen:
-            openFullScreenPostAfterDelete()
-        case .alert:
-            let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
-                .primary(fontSize: .medium)), action: { [weak self] in
-                    self?.openSell(.deleteProduct)
-                }, accessibilityId: .postDeleteAlertButton)
-            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
-                                                    text: LGLocalizedString.productDeletePostSubtitle,
-                                                    alertType: .plainAlert, actions: [action])
-        }
-    }
-
-    private func openFullScreenPostAfterDelete() {
-        let openSellAction: (() -> Void) = { [weak self] in
-            self?.openSell(.deleteProduct)
-        }
-        let vm = PostAfterDeleteViewModel(action: openSellAction)
-        let vc = PostAfterDeleteViewController(viewModel: vm)
-        navigationController.present(vc, animated: true, completion: nil)
+        let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
+                                                 .primary(fontSize: .medium)), action: { [weak self] in
+                                                    self?.openSell(.deleteProduct)
+            }, accessibilityId: .postDeleteAlertButton)
+        navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                text: LGLocalizedString.productDeletePostSubtitle,
+                                                alertType: .plainAlert, actions: [action])
     }
 
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
         let bumpCoordinator = BumpUpCoordinator(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
-        bumpCoordinator.delegate = self
-        openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
+        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
-    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
-        let bumpCoordinator = BumpUpCoordinator(product: product, purchaseableProduct: purchaseableProduct)
-        bumpCoordinator.delegate = self
-        openCoordinator(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
+    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct,
+                                 withPaymentItemId paymentItemId: String) {
+        let bumpCoordinator = BumpUpCoordinator(product: product, purchaseableProduct: purchaseableProduct,
+                                                paymentItemId: paymentItemId)
+//        bumpCoordinator.delegate = self
+        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
     func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void) {
         selectBuyerToRateCompletion = completion
         let ratingCoordinator = UserRatingCoordinator(source: source, buyers: buyers)
         ratingCoordinator.delegate = self
-        openCoordinator(coordinator: ratingCoordinator, parent: rootViewController, animated: true, completion: nil)
+        openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
@@ -450,7 +430,7 @@ extension TabCoordinator: ProductDetailNavigator {
 
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction, delegate: self)
+        openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction)
     }
 }
 
@@ -474,12 +454,12 @@ extension TabCoordinator: ChatDetailNavigator {
     func openExpressChat(_ products: [Product], sourceProductId: String, manualOpen: Bool) {
         guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, manualOpen: manualOpen) else { return }
         expressChatCoordinator.delegate = self
-        openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
+        openChild(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.chatLoginPopupText),
-                          loggedInAction: loggedInAction, delegate: self)
+                          loggedInAction: loggedInAction)
     }
 }
 

@@ -113,11 +113,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         setAccessibilityIds()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        GIDSignIn.sharedInstance().uiDelegate = self
-    }
-
     override func viewWillFirstAppear(_ animated: Bool) {
         super.viewWillFirstAppear(animated)
         if keyboardFocus {
@@ -209,6 +204,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     }
     
     @IBAction func connectWithGoogleButtonPressed(_ sender: AnyObject) {
+        GIDSignIn.sharedInstance().uiDelegate = self
         viewModel.logInWithGoogle()
     }
     

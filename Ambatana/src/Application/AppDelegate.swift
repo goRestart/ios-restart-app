@@ -35,6 +35,7 @@ final class AppDelegate: UIResponder {
     fileprivate var locationManager: LocationManager?
     fileprivate var sessionManager: SessionManager?
     fileprivate var featureFlags: FeatureFlaggeable?
+    fileprivate var purchasesShopper: PurchasesShopper?
 
     fileprivate var navigator: AppNavigator?
 
@@ -51,6 +52,7 @@ extension AppDelegate: UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         ABTests.registerVariables()
         self.featureFlags = FeatureFlags.sharedInstance
+        self.purchasesShopper = LGPurchasesShopper.sharedInstance
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
         self.productRepository = Core.productRepository
@@ -135,6 +137,11 @@ extension AppDelegate: UIApplicationDelegate {
         LGCoreKit.applicationDidEnterBackground()
         productRepository?.updateProductViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
+
+        // stop observing payment transactions
+        if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
+            purchasesShopper?.stopObservingTransactions()
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -154,6 +161,10 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openSurveyIfNeeded()
+        // observe payment transactions
+        if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
+            purchasesShopper?.startObservingTransactions()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

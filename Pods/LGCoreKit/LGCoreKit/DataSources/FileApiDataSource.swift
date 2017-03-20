@@ -33,7 +33,12 @@ final class FileApiDataSource: FileDataSource {
             }
             multipart.append(data, withName: imageName, fileName: imageName+".jpg", mimeType: "image/jpg")
         }, completion: completion) { progressData in
-            let p = Float(progressData.completedUnitCount)/Float(progressData.totalUnitCount)
+            let p: Float
+            if progressData.totalUnitCount > 0 {
+                p = Float(progressData.completedUnitCount)/Float(progressData.totalUnitCount)
+            } else {
+                p = 0
+            }
             progress?(p)
         }
     }

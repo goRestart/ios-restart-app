@@ -221,15 +221,15 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    
-    var productsMarkAsFavorite: Int? {
+
+    var userPendingTransactionsProductIds: [String:String] {
         get {
-            return currentUserProperties?.productsMarkAsFavorite ??
-                UserDefaultsUser.productsMarkAsFavoriteDafaultValue
+            return currentUserProperties?.pendingTransactionsProductIds ??
+                UserDefaultsUser.transactionsProductIdsDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
-            userProperties.productsMarkAsFavorite = newValue
+            userProperties.pendingTransactionsProductIds = newValue
             currentUserProperties = userProperties
         }
     }

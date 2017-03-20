@@ -186,10 +186,6 @@ extension UserViewHeader {
         userRelationLabel.text = userRelationText
         updateInfoAndAccountsVisibility()
     }
-    
-    func setFavoriteTab() {
-        tab.value = .favorites
-    }
 
     fileprivate func modeUpdated() {
         verifiedSimpleContainer.isHidden = false

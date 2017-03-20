@@ -116,10 +116,6 @@ class TabBarViewModel: BaseViewModel {
             .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
             .bindTo(chatsBadge).addDisposableTo(disposeBag)
         
-        notificationsManager.favoriteCount.asObservable()
-            .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
-            .bindTo(favoriteBadge).addDisposableTo(disposeBag)
-
         Observable.combineLatest(myUserRepository.rx_myUser,
             notificationsManager.unreadNotificationsCount.asObservable(),
             resultSelector: { (myUser, count) -> String? in

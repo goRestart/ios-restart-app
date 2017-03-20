@@ -27,8 +27,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
-    @IBOutlet weak var editButton: UIButton!
-    @IBOutlet weak var editButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var productStatusView: UIView!
@@ -64,7 +62,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             chatContainerBottomConstraint?.constant = bottomItemsMargin
-            editButtonBottomConstraint?.constant = bottomItemsMargin
         }
     }
     fileprivate var bannerBottom: CGFloat = -CarouselUI.bannerHeight {
@@ -310,8 +307,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 
-        editButton.rounded = true
-
         CarouselUIHelper.setupShareButton(shareButton, text: LGLocalizedString.productShareNavbarButton, icon: UIImage(named:"ic_share"))
 
         mainResponder = chatTextView
@@ -332,7 +327,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
 
         view.bringSubview(toFront: buttonBottom)
-        view.bringSubview(toFront: editButton)
         view.bringSubview(toFront: chatContainer)
         view.bringSubview(toFront: bannerContainer)
         view.bringSubview(toFront: fullScreenAvatarEffectView)
@@ -399,7 +393,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(editButton.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(shareButton.rx.alpha).addDisposableTo(disposeBag)
@@ -588,26 +581,6 @@ extension ProductCarouselViewController {
                 topAction.action()
                 }.addDisposableTo(strongSelf.disposeBag)
 
-            }.addDisposableTo(disposeBag)
-
-        viewModel.editButtonState.asObservable().bindTo(editButton.rx.state).addDisposableTo(disposeBag)
-        editButton.rx.tap.bindNext { [weak self] in
-            self?.hideMoreInfo()
-            self?.viewModel.editButtonPressed()
-        }.addDisposableTo(disposeBag)
-
-        // When there's the edit button, the bottom button must adapt right margin to give space for it
-        let bottomRightButtonPresent = viewModel.editButtonState.asObservable().map { $0 != .hidden }
-        bottomRightButtonPresent.bindNext { [weak self] present in
-            self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
-            }.addDisposableTo(disposeBag)
-
-        // When there's the edit button and there are no actionButtons, header is at bottom and must not overlap edit button
-        let userViewCollapsed = Observable.combineLatest(
-            bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
-            resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
-        userViewCollapsed.bindNext { [weak self] collapsed in
-            self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
             }.addDisposableTo(disposeBag)
     }
 
@@ -1066,7 +1039,14 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
 extension ProductCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo){
-        guard !bumpUpBannerIsVisible else { return }
+        guard !bumpUpBannerIsVisible else {
+            // banner is already visible, but info changes
+            if bumpUpBanner.type != bumpInfo.type {
+                bumpUpBanner.updateInfo(info: bumpInfo)
+            }
+            return
+        }
+
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
         bannerContainer.isHidden = false
@@ -1171,7 +1151,6 @@ fileprivate extension ProductCarouselViewController {
         moreInfoView.accessibilityId = .productCarouselMoreInfoView
         productStatusLabel.accessibilityId = .productCarouselProductStatusLabel
         directChatTable.accessibilityId = .productCarouselDirectChatTable
-        editButton.accessibilityId = .productCarouselEditButton
         fullScreenAvatarView.accessibilityId = .productCarouselFullScreenAvatarView
         pageControl.accessibilityId = .productCarouselPageControl
         userView.accessibilityId = .productCarouselUserView

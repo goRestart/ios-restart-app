@@ -69,8 +69,13 @@ class MyUserApiDataSource: MyUserDataSource {
         apiClient.upload(request, decoder: MyUserApiDataSource.decoder, multipart: { multipartFormData in
                 multipartFormData.append(avatar, withName: "avatar", fileName: "avatar.jpg", mimeType: "image/jpg")
             }, completion: completion) { progress in
-                let p = progress.completedUnitCount*100/progress.totalUnitCount
-                progressBlock?(Int(p))
+                let percentProgress: Int
+                if progress.totalUnitCount > 0 {
+                    percentProgress = Int(progress.completedUnitCount*100/progress.totalUnitCount)
+                } else {
+                    percentProgress = 0
+                }
+                progressBlock?(percentProgress)
         }
     }
 

@@ -43,7 +43,6 @@ class ProductViewModel: BaseViewModel {
                                      socialSharer: SocialSharer(),
                                      featureFlags: FeatureFlags.sharedInstance,
                                      purchasesShopper: LGPurchasesShopper.sharedInstance,
-                                     notificationsManager: LGNotificationsManager.sharedInstance,
                                      monetizationRepository: Core.monetizationRepository,
                                      tracker: TrackerProxy.sharedInstance)
         }
@@ -69,7 +68,7 @@ class ProductViewModel: BaseViewModel {
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
         let isFree = product.value.price.free && featureFlags.freePostingModeAllowed
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, repeatingPlaceholderText: featureFlags.quickAnswersRepeatedTextField)
     }
 
     let navBarButtons = Variable<[UIAction]>([])
@@ -81,7 +80,6 @@ class ProductViewModel: BaseViewModel {
     }
     fileprivate let productIsFavoriteable = Variable<Bool>(false)
     let favoriteButtonState = Variable<ButtonState>(.enabled)
-    let editButtonState = Variable<ButtonState>(.hidden)
     let shareButtonState = Variable<ButtonState>(.hidden)
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
@@ -118,13 +116,10 @@ class ProductViewModel: BaseViewModel {
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let purchasesShopper: PurchasesShopper
-    fileprivate var notificationsManager: NotificationsManager
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
 
-    var isShowingFeaturedStripe: Bool {
-        return showFeaturedStripeHelper.shouldShowFeaturedStripeFor(product.value) && !status.value.shouldShowStatus
-    }
+    let isShowingFeaturedStripe = Variable<Bool>(false)
 
     // Retrieval status
     private var relationRetrieved = false
@@ -149,7 +144,6 @@ class ProductViewModel: BaseViewModel {
          socialSharer: SocialSharer,
          featureFlags: FeatureFlaggeable,
          purchasesShopper: PurchasesShopper,
-         notificationsManager: NotificationsManager,
          monetizationRepository: MonetizationRepository,
          tracker: Tracker) {
         self.product = Variable<Product>(product)
@@ -165,7 +159,6 @@ class ProductViewModel: BaseViewModel {
         self.chatViewMessageAdapter = chatViewMessageAdapter
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
-        self.notificationsManager = notificationsManager
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
 
@@ -231,6 +224,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+
         if let productId = product.value.objectId {
             productRepository.updateEventsFor(productId: productId).bindNext { [weak self] product in
                 self?.product.value = product
@@ -262,6 +256,9 @@ class ProductViewModel: BaseViewModel {
             strongSelf.trackHelper.product = product
             let isMine = product.isMine(myUserRepository: strongSelf.myUserRepository)
             strongSelf.status.value = ProductViewModelStatus(product: product, isMine: isMine, featureFlags: strongSelf.featureFlags)
+
+            strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(product) && !strongSelf.status.value.shouldShowStatus
+
             strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = product.favorite
             strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
@@ -276,9 +273,8 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
-            guard let flags = self?.featureFlags, let isMine = self?.isMine else { return }
-            self?.shareButtonState.value = flags.editDeleteItemUxImprovement && isMine ? .enabled : .hidden
-            self?.editButtonState.value = !flags.editDeleteItemUxImprovement && status.isEditable ? .enabled : .hidden
+            guard let isMine = self?.isMine else { return }
+            self?.shareButtonState.value = isMine ? .enabled : .hidden
         }.addDisposableTo(disposeBag)
 
         myUserRepository.rx_myUser.bindNext { [weak self] _ in
@@ -308,48 +304,79 @@ class ProductViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard let productId = product.value.objectId, isMine, status.value.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let productId = product.value.objectId, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
-        isUpdatingBumpUpBanner = true
-        monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.isUpdatingBumpUpBanner = false
-            if let bumpeableProduct = result.value {
-                self?.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
+
+        let isBumpUpPending = purchasesShopper.isBumpUpPending(productId: productId)
+
+        if isBumpUpPending {
+            createBumpeableBannerFor(productId: productId, withPrice: nil, paymentItemId: nil, bumpUpType: .restore)
+        } else {
+            isUpdatingBumpUpBanner = true
+            monetizationRepository.retrieveBumpeableProductInfo(productId: productId, completion: { [weak self] result in
+                guard let strongSelf = self else { return }
+                strongSelf.isUpdatingBumpUpBanner = false
+                guard let bumpeableProduct = result.value else { return }
+
+                strongSelf.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
                 let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
-                let paymentItemsIds = bumpeableProduct.paymentItems.filter { $0.provider == .apple }.map { $0.providerItemId }
-                if !paymentItemsIds.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
+                if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
                     // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                    strongSelf.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItemsIds)
+                    strongSelf.paymentItemId = paymentItems.first?.itemId
+                    // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                    // a useless request to apple
+                    if let _ = strongSelf.paymentItemId {
+                        strongSelf.purchasesShopper.productsRequestStartForProduct(productId, withIds: paymentItems.map { $0.providerItemId })
+                    }
                 } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
                     strongSelf.paymentItemId = freeItems.first?.itemId
-                    strongSelf.createBumpeableBannerFor(productId: productId, withPrice: nil, freeBumpUp: true)
+                    strongSelf.createBumpeableBannerFor(productId: productId, withPrice: nil,
+                                                        paymentItemId: strongSelf.paymentItemId, bumpUpType: .free)
                 }
-            }
-        })
+            })
+        }
     }
 
-    fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, freeBumpUp: Bool) {
-        guard let paymentItemId = self.paymentItemId else { return }
-        
-        let freeBlock = { [weak self] in
-            guard let product = self?.product.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
-            self?.trackBumpUpStarted(.free)
-            self?.navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage, withPaymentItemId: paymentItemId)
+    fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, paymentItemId: String?, bumpUpType: BumpUpType) {
+
+        var primaryBlock: (() -> ()?)
+        var buttonBlock: (() -> ()?)
+        switch bumpUpType {
+        case .free:
+            guard let paymentItemId = paymentItemId else { return }
+            let freeBlock = { [weak self] in
+                guard let product = self?.product.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
+                self?.trackBumpUpStarted(.free)
+                self?.navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage,
+                                                          withPaymentItemId: paymentItemId)
+            }
+            primaryBlock = freeBlock
+            buttonBlock = freeBlock
+        case .priced:
+            guard let paymentItemId = paymentItemId else { return }
+            let showPayViewBlock = { [weak self] in
+                guard let product = self?.product.value else { return }
+                guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
+                self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
+                self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct,
+                                                         withPaymentItemId: paymentItemId)
+            }
+            let payBumpUpBlock = { [weak self] in
+                self?.bumpUpProduct(productId: productId)
+            }
+            primaryBlock = showPayViewBlock
+            buttonBlock = payBumpUpBlock
+        case .restore:
+            let restoreBlock = { [weak self] in
+                logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for product: \(productId)")
+                self?.purchasesShopper.requestPricedBumpUpForProduct(productId: productId)
+            }
+            primaryBlock = restoreBlock
+            buttonBlock = restoreBlock
         }
 
-        let showPaymentViewBlock = { [weak self] in
-            guard let product = self?.product.value else { return }
-            guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-            self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
-            self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct)
-        }
-        let payBumpBlock = { [weak self] in
-            self?.bumpUpProduct()
-        }
-        let primaryBlock = freeBumpUp ? freeBlock : showPaymentViewBlock
-        let buttonBlock = freeBumpUp ? freeBlock : payBumpBlock
-        bumpUpBannerInfo.value = BumpUpInfo(free: freeBumpUp, timeSinceLastBump: timeSinceLastBump, price: withPrice,
+        bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType, timeSinceLastBump: timeSinceLastBump, price: withPrice,
                                       primaryBlock: primaryBlock, buttonBlock: buttonBlock)
     }
 }
@@ -416,10 +443,11 @@ extension ProductViewModel {
         }
     }
 
-    func bumpUpProduct() {
+    func bumpUpProduct(productId: String) {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
-        guard let purchase = bumpUpPurchaseableProduct else { return }
-        purchasesShopper.requestPaymentForProduct(purchase.productIdentifier)
+        guard let purchase = bumpUpPurchaseableProduct,
+            let paymentItemId = paymentItemId else { return }
+        purchasesShopper.requestPaymentForProduct(productId: productId, appstoreProduct: purchase, paymentItemId: paymentItemId)
     }
 }
 
@@ -435,20 +463,18 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && isMine {
+        if isMine {
             if status.value.isEditable {
                 navBarButtons.append(buildEditNavBarAction())
             }
             navBarButtons.append(buildMoreNavBarAction())
-        } else {
-            if (moreInfoState.value == .shown) {
-                if productIsFavoriteable.value {
-                    navBarButtons.append(buildFavoriteNavBarAction())
-                }
-                navBarButtons.append(buildMoreNavBarAction())
-            } else {
-                navBarButtons.append(buildShareNavBarAction())
+        } else if moreInfoState.value == .shown {
+            if productIsFavoriteable.value {
+                navBarButtons.append(buildFavoriteNavBarAction())
             }
+            navBarButtons.append(buildMoreNavBarAction())
+        } else {
+            navBarButtons.append(buildShareNavBarAction())
         }
         return navBarButtons
     }
@@ -490,7 +516,7 @@ extension ProductViewModel {
     private func showOptionsMenu() {
         var actions = [UIAction]()
 
-        if featureFlags.editDeleteItemUxImprovement && status.value.isEditable {
+        if status.value.isEditable {
             actions.append(buildEditAction())
         }
         actions.append(buildShareAction())
@@ -642,9 +668,7 @@ fileprivate extension ProductViewModel {
         if currentFavoriteValue {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
-                if let _ = result.value {
-                    strongSelf.notificationsManager.decreaseFavoriteCounter()
-                } else {
+                if let _ = result.error {
                     strongSelf.isFavorite.value = currentFavoriteValue
                 }
                 strongSelf.favoriteButtonState.value = .enabled
@@ -653,8 +677,7 @@ fileprivate extension ProductViewModel {
             productRepository.saveFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
-                    self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe)
-                    strongSelf.notificationsManager.increaseFavoriteCounter()
+                    self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
@@ -768,17 +791,9 @@ fileprivate extension ProductViewModel {
         trackHelper.trackDeleteStarted()
 
         productRepository.delete(product.value) { [weak self] result in
-            guard let strongSelf = self else { return }
-
-            var afterMessageAction: (() -> ())? = nil
             var message: String? = nil
+            var afterMessageAction: (() -> ())? = nil
             if let _ = result.value {
-                switch strongSelf.featureFlags.postAfterDeleteMode {
-                case .original:
-                    message = LGLocalizedString.productDeleteSuccessMessage
-                case .fullScreen, .alert:
-                    break
-                }
                 afterMessageAction = { [weak self] in
                     self?.navigator?.closeAfterDelete()
                 }
@@ -787,7 +802,7 @@ fileprivate extension ProductViewModel {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
 
-            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
         }
     }
 
@@ -803,7 +818,7 @@ fileprivate extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
+                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -845,7 +860,7 @@ fileprivate extension ProductViewModel {
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
                 strongSelf.trackHelper.trackMessageSent(firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
-                                                   messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe)
+                                                   messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
@@ -943,17 +958,11 @@ extension ProductViewModel: PurchasesShopperDelegate {
 
         bumpUpPurchaseableProduct = purchase
         createBumpeableBannerFor(productId: requestProdId, withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
-                                 freeBumpUp: false)
-    }
-
-    func shopperFailedProductsRequestForProductId(_ productId: String?, withError: Error) {
-        guard let requestProdId = productId, let currentProdId = product.value.objectId,
-            requestProdId == currentProdId else { return }
-        // update error UI
+                                 paymentItemId: paymentItemId, bumpUpType: .priced)
     }
 
 
-    // Payment
+    // Free Bump Up
     func freeBumpDidStart() {
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
@@ -963,10 +972,30 @@ extension ProductViewModel: PurchasesShopperDelegate {
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
         })
-
     }
 
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
+    }
+
+    // Priced Bump Up
+    func pricedBumpDidStart() {
+        delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
+    }
+
+    func pricedBumpDidSucceed() {
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
+            self?.delegate?.vmResetBumpUpBannerCountdown()
+        })
+    }
+
+    func pricedBumpDidFail() {
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: { [weak self] in
+            self?.refreshBumpeableBanner()
+        })
+    }
+
+    func pricedBumpPaymentDidFail() {
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
     }
 }

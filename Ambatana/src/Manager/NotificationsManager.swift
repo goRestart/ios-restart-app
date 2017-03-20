@@ -13,7 +13,6 @@ protocol NotificationsManager {
 
     // Rx
     var unreadMessagesCount: Variable<Int?> { get }
-    var favoriteCount: Variable<Int?> { get }
     var unreadNotificationsCount: Variable<Int?> { get }
     var globalCount: Observable<Int> { get }
     var marketingNotifications: Variable<Bool> { get }
@@ -23,8 +22,4 @@ protocol NotificationsManager {
     func updateCounters()
     func updateChatCounters()
     func updateNotificationCounters()
-    func requestFavoriteCounter()
-    func increaseFavoriteCounter()
-    func decreaseFavoriteCounter()
-    func clearFavoriteCounter()
 }

@@ -11,29 +11,34 @@ import CoreLocation
 import KeychainSwift
 import ReachabilitySwift
 
-
 final class CoreDI: InternalDI {
-    static let keychain = KeychainSwift()
-    
-    
     // MARK: - Lifecycle
     
-    init(backgroundEnabled: Bool) {
-        self.networkManager = Alamofire.SessionManager.lgManager(backgroundEnabled)
-        let tokenDAO = CoreDI.tokenDAO
-        let apiClient = AFApiClient(alamofireManager: self.networkManager, tokenDAO: tokenDAO)
+    init() {
+        if ProcessInfo.processInfo.environment["isRunningUnitTests"] != nil {
+            networkManager = Alamofire.SessionManager.lgManager(false)
+        } else {
+            networkManager = Alamofire.SessionManager.lgManager(true)
+        }
+        
+        keychain = KeychainSwift()
+        userDefaults = UserDefaults.standard
+        
+        let tokenKeychainDAO = TokenKeychainDAO(keychain: keychain)
+        let userDefaultsDAO = TokenUserDefaultsDAO(userDefaults: UserDefaults.standard)
+        tokenDAO = TokenRedundanceDAO(primaryDAO: tokenKeychainDAO, secondaryDAO: userDefaultsDAO)
+
+        let apiClient = AFApiClient(alamofireManager: networkManager, tokenDAO: tokenDAO)
         let reachability = LGReachability()
         let webSocketLibrary = LGWebSocketLibrary()
         self.webSocketLibrary = webSocketLibrary
         let webSocketClient = LGWebSocketClient(webSocket: webSocketLibrary, reachability: reachability)
-        
-        let userDefaults = UserDefaults.standard
 
         let appVersion = Bundle.main
         let locale = Locale.autoupdatingCurrent
         let timeZone = TimeZone.current
 
-        let deviceIdDAO = DeviceIdKeychainDAO(keychain: CoreDI.keychain)
+        let deviceIdDAO = DeviceIdKeychainDAO(keychain: keychain)
         let installationDAO = InstallationUserDefaultsDAO(userDefaults: userDefaults)
         let installationDataSource = InstallationApiDataSource(apiClient: apiClient)
         let installationRepository = LGInstallationRepository(deviceIdDao: deviceIdDAO, dao: installationDAO,
@@ -120,8 +125,6 @@ final class CoreDI: InternalDI {
         
         self.currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDAO, defaultLocale: locale)
         self.countryHelper = countryHelper
-        
-        self.userDefaults = userDefaults
 
         self.reporter = ReporterProxy()
     }
@@ -134,9 +137,7 @@ final class CoreDI: InternalDI {
     let webSocketClient: WebSocketClient
     let webSocketLibrary: WebSocketLibraryProtocol
     
-    var keychain: KeychainSwift {
-        return CoreDI.keychain
-    }
+    let keychain: KeychainSwift
 
     var networkBackgroundCompletion: (() -> Void)? {
         get {
@@ -206,11 +207,7 @@ final class CoreDI: InternalDI {
 
     // MARK: > DAO
     
-    static let tokenDAO: TokenDAO = {
-        let keychain = TokenKeychainDAO(keychain: CoreDI.keychain)
-        let userDefaults = TokenUserDefaultsDAO(userDefaults: UserDefaults.standard)
-        return TokenRedundanceDAO(primaryDAO: keychain, secondaryDAO: userDefaults)
-    }()
+    let tokenDAO: TokenDAO
     let deviceIdDAO: DeviceIdDAO
     let installationDAO: InstallationDAO
     let myUserDAO: MyUserDAO

@@ -16,6 +16,7 @@ final class AppCoordinator: NSObject, Coordinator {
     var viewController: UIViewController {
         return tabBarCtl
     }
+    weak var coordinatorDelegate: CoordinatorDelegate?
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -135,12 +136,11 @@ final class AppCoordinator: NSObject, Coordinator {
         openTab(tab, force: false, completion: completion)
     }
 
-    func open(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        // Cannot open as cannot have a parent view controller
+    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        // Cannot present as cannot have a parent view controller
     }
-
-    func close(animated: Bool, completion: (() -> Void)?) {
-        // Cannot close
+    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        // Cannot dismiss
     }
 }
 
@@ -168,7 +168,7 @@ extension AppCoordinator: AppNavigator {
 
         let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
-        openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        openChild(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
         return true
     }
 
@@ -192,13 +192,13 @@ extension AppCoordinator: AppNavigator {
     func openSell(_ source: PostingSource) {
         let sellCoordinator = SellCoordinator(source: source)
         sellCoordinator.delegate = self
-        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
         let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
         userRatingCoordinator.delegate = self
-        openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        openChild(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
     
     func openChangeLocation() {
@@ -220,9 +220,8 @@ extension AppCoordinator: AppNavigator {
         forceCloseCurrentChild() { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.tabBarCtl.clearAllPresented()
-            changePasswordCoordinator.delegate = strongSelf
-            strongSelf.openCoordinator(coordinator: changePasswordCoordinator, parent: strongSelf.tabBarCtl,
-                                       animated: true, completion: nil)
+            strongSelf.openChild(coordinator: changePasswordCoordinator, parent: strongSelf.tabBarCtl,
+                                 animated: true, completion: nil)
         }
     }
 
@@ -231,7 +230,7 @@ extension AppCoordinator: AppNavigator {
             guard let surveysCoordinator = SurveysCoordinator() else { return }
             guard let parent = self?.tabBarCtl else { return }
             surveysCoordinator.delegate = self
-            self?.openCoordinator(coordinator: surveysCoordinator, parent: parent, animated: true, completion: nil)
+            self?.openChild(coordinator: surveysCoordinator, parent: parent, animated: true, completion: nil)
         }
     }
 
@@ -467,15 +466,9 @@ fileprivate extension AppCoordinator {
     }
 
     func openLoginIfNeeded(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .fullScreen,
-                          loggedInAction: loggedInAction, delegate: self)
+        openLoginIfNeeded(from: from, style: .fullScreen, loggedInAction: loggedInAction)
     }
 }
-
-
-// MARK: - LoginCoordinatorDelegate
-
-extension AppCoordinator: LoginCoordinatorDelegate {}
 
 
 // MARK: - CustomLeanplumPresenter
@@ -532,16 +525,10 @@ fileprivate extension AppCoordinator {
 // MARK: > Navigation
 
 fileprivate extension AppCoordinator {
-    func openCoordinator(coordinator: Coordinator, parent: UIViewController, animated: Bool,
-                                     completion: (() -> Void)?) {
-        guard child == nil else { return }
-        child = coordinator
-        coordinator.open(parent: parent, animated: animated, completion: completion)
-    }
 
     func forceCloseCurrentChild(completion: (() -> Void)?) {
         if let child = child {
-            child.close(animated: false) { [weak self] in
+            child.closeCoordinator(animated: false) { [weak self] in
                 self?.child = nil
                 completion?()
             }
@@ -559,8 +546,7 @@ fileprivate extension AppCoordinator {
 
     func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> ()) {
         let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: afterLogInSuccessful)
-        coordinator.delegate = self
-        openCoordinator(coordinator: coordinator, parent: tabBarCtl, animated: true, completion: nil)
+        openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
     /**

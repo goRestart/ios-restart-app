@@ -20,11 +20,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
     var showOnboardingCalled: Bool?
     var removeMoreInfoTooltipCalled: Bool?
 
-    var lastBuyersToRate: [UserProduct]?
-    var buyerToRateResult: String?
-    var shownAlertText: String?
-    var shownFavoriteBubble: Bool?
-
     override func spec() {
         var sut: ProductCarouselViewModel!
 
@@ -64,7 +59,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var directChatEnabledObserver: TestableObserver<Bool>!
         var directChatPlaceholderObserver: TestableObserver<String>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
-        var editButtonStateObserver: TestableObserver<ButtonState>!
         var isFavoriteObserver: TestableObserver<Bool>!
         var favoriteButtonStateObserver: TestableObserver<ButtonState>!
         var shareButtonStateObserver: TestableObserver<ButtonState>!
@@ -94,7 +88,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                                imageDownloader: imageDownloader,
                                                productViewModelMaker: productViewModelMaker)
                 sut.delegate = self
-                sut.navigator = self
 
                 disposeBag = DisposeBag()
                 sut.objects.observable.bindTo(cellModelsObserver).addDisposableTo(disposeBag)
@@ -112,7 +105,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 sut.directChatEnabled.asObservable().bindTo(directChatEnabledObserver).addDisposableTo(disposeBag)
                 sut.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
                 sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
-                sut.editButtonState.asObservable().bindTo(editButtonStateObserver).addDisposableTo(disposeBag)
                 sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
                 sut.favoriteButtonState.asObservable().bindTo(favoriteButtonStateObserver).addDisposableTo(disposeBag)
                 sut.shareButtonState.asObservable().bindTo(shareButtonStateObserver).addDisposableTo(disposeBag)
@@ -147,7 +139,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                                                   countryHelper: countryHelper,
                                                                   featureFlags: featureFlags,
                                                                   purchasesShopper: purchasesShopper,
-                                                                  notificationsManager: notificationsManager,
                                                                   monetizationRepository: monetizationRepository,
                                                                   tracker: tracker)
 
@@ -168,7 +159,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 directChatEnabledObserver = scheduler.createObserver(Bool.self)
                 directChatPlaceholderObserver = scheduler.createObserver(String.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
-                editButtonStateObserver = scheduler.createObserver(ButtonState.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
                 favoriteButtonStateObserver = scheduler.createObserver(ButtonState.self)
                 shareButtonStateObserver = scheduler.createObserver(ButtonState.self)
@@ -548,9 +538,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("directChagEnabled changed twice") {
                             expect(directChatEnabledObserver.eventValues.count) == 3
                         }
-                        it("editButton changed twice") {
-                            expect(editButtonStateObserver.eventValues.count) == 3
-                        }
                         it("favoriteButton changed twice") {
                             expect(favoriteButtonStateObserver.eventValues.count) == 3
                         }
@@ -613,9 +600,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("directChagEnabled changed twice") {
                             expect(directChatEnabledObserver.eventValues.count) == 3
                         }
-                        it("editButton changed twice") {
-                            expect(editButtonStateObserver.eventValues.count) == 3
-                        }
                         it("favoriteButton changed twice") {
                             expect(favoriteButtonStateObserver.eventValues.count) == 3
                         }
@@ -638,7 +622,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     stats = MockProductStats.makeMock()
                     productRepository.statsResult = ProductStatsResult(stats)
                     commercializerRepository.indexResult = CommercializersResult([])
-                    featureFlags.editDeleteItemUxImprovement = true // already set as winners
                     product.status = .approved
                 }
                 context("user not logged in") {
@@ -658,9 +641,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     }
                     it("matches product favorites") {
                         expect(productStatsObserver.eventValues.flatMap {$0}.last?.favouritesCount) == stats.favouritesCount
-                    }
-                    it("edit button state is hidden") {
-                        expect(editButtonStateObserver.eventValues) == [.hidden]
                     }
                     it("share button state is hidden") {
                         expect(shareButtonStateObserver.eventValues) == [.hidden]
@@ -682,9 +662,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("product vm status updates otherAvailable") {
                             expect(statusObserver.eventValues) == [.otherAvailable, .otherAvailable]
-                        }
-                        it("edit button state updates to hidden again") {
-                            expect(editButtonStateObserver.eventValues) == [.hidden, .hidden]
                         }
                         it("share button state updates to hidden again") {
                             expect(shareButtonStateObserver.eventValues) == [.hidden, .hidden]
@@ -708,9 +685,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("product vm status updates available") {
                             expect(statusObserver.eventValues) == [.otherAvailable, .available]
-                        }
-                        it("edit button state stays hidden as it appears on navbar") {
-                            expect(editButtonStateObserver.eventValues) == [.hidden, .hidden]
                         }
                         it("share button state becomes enabled") {
                             expect(shareButtonStateObserver.eventValues) == [.hidden, .enabled]
@@ -739,7 +713,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     product.user = productUser
 
                     // Already selected as winners but not removed
-                    featureFlags.editDeleteItemUxImprovement = true
                     featureFlags.freePostingModeAllowed = true
                 }
                 context("product is mine") {
@@ -753,6 +726,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("pending") {
                         beforeEach {
                             product.status = .pending
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -784,9 +758,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is enabled") {
                             expect(shareButtonStateObserver.lastValue) == .enabled
                         }
@@ -798,6 +769,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .approved
                             product.price = .normal(25)
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -829,9 +801,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is enabled") {
                             expect(shareButtonStateObserver.lastValue) == .enabled
                         }
@@ -843,6 +812,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .approved
                             product.price = .free
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -874,9 +844,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is enabled") {
                             expect(shareButtonStateObserver.lastValue) == .enabled
                         }
@@ -888,6 +855,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .sold
                             product.price = .normal(25)
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -919,9 +887,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is enabled") {
                             expect(shareButtonStateObserver.lastValue) == .enabled
                         }
@@ -933,6 +898,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .sold
                             product.price = .free
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -964,9 +930,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is enabled") {
                             expect(shareButtonStateObserver.lastValue) == .enabled
                         }
@@ -979,6 +942,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("pending") {
                         beforeEach {
                             product.status = .pending
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -1010,9 +974,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is hidden") {
                             expect(shareButtonStateObserver.lastValue) == .hidden
                         }
@@ -1024,6 +985,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .approved
                             product.price = .normal(25)
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -1055,9 +1017,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is enabled") {
                             expect(directChatEnabledObserver.lastValue) == true
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is hidden") {
                             expect(shareButtonStateObserver.lastValue) == .hidden
                         }
@@ -1069,6 +1028,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .approved
                             product.price = .free
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -1100,9 +1060,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is enabled") {
                             expect(directChatEnabledObserver.lastValue) == true
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is hidden") {
                             expect(shareButtonStateObserver.lastValue) == .hidden
                         }
@@ -1114,6 +1071,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .sold
                             product.price = .normal(25)
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -1145,9 +1103,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
-                        }
                         it("sharebutton is hidden") {
                             expect(shareButtonStateObserver.lastValue) == .hidden
                         }
@@ -1159,6 +1114,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .sold
                             product.price = .free
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -1189,9 +1145,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
-                        }
-                        it("editButton is hidden") {
-                            expect(editButtonStateObserver.lastValue) == .hidden
                         }
                         it("sharebutton is hidden") {
                             expect(shareButtonStateObserver.lastValue) == .hidden
@@ -1225,19 +1178,9 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
     override func resetViewModelSpec() {
         super.resetViewModelSpec()
-        lastBuyersToRate = nil
-        buyerToRateResult = nil
-        shownAlertText = nil
 
         showOnboardingCalled = nil
         removeMoreInfoTooltipCalled = nil
-    }
-
-    override func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
-        shownAlertText = message
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
-            actions.last?.action()
-        }
     }
 }
 
@@ -1258,39 +1201,4 @@ extension ProductCarouselViewModelSpec: ProductCarouselViewModelDelegate {
         return (UIViewController(), nil)
     }
     func vmResetBumpUpBannerCountdown() {}
-}
-
-extension ProductCarouselViewModelSpec: ProductDetailNavigator {
-    func closeProductDetail() {
-
-    }
-    func editProduct(_ product: Product) {
-
-    }
-    func openProductChat(_ product: Product) {
-
-    }
-    func closeAfterDelete() {
-
-    }
-    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String) {
-
-    }
-    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct) {
-
-    }
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void) {
-        let result = self.buyerToRateResult
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
-            completion(result)
-            self.lastBuyersToRate = buyers
-        }
-    }
-    func showProductFavoriteBubble(with data: BubbleNotificationData) {
-        shownFavoriteBubble = true
-    }
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
-                                            loggedInAction: @escaping (() -> Void)) {
-        loggedInAction()
-    }
 }
