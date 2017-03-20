@@ -35,6 +35,7 @@ struct ABTests {
     static var postingGallery = IntABDynamicVar(key: "postingGallery", defaultValue: 0)
     static var quickAnswersRepeatedTextField = BoolABDynamicVar(key: "quickAnswersRepeatedTextField", defaultValue: false)
     static var carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
+    static var carsCategoryAfterPicture = BoolABDynamicVar(key: "carsCategoryAfterPicture", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -59,6 +60,7 @@ struct ABTests {
         result.append(postingGallery)
         result.append(quickAnswersRepeatedTextField)
         result.append(carsVerticalEnabled)
+        result.append(carsCategoryAfterPicture)
 
         return result
     }
