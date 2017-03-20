@@ -32,10 +32,12 @@ class LGNotificationsManager: NotificationsManager {
 
     private let sessionManager: SessionManager
     private let chatRepository: ChatRepository
+    private var chatStatus: WSChatStatus?
     private let oldChatRepository: OldChatRepository
     private let notificationsRepository: NotificationsRepository
     fileprivate let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable
+    private let deepLinksRouter: DeepLinksRouter
 
     fileprivate var loggedIn: Variable<Bool>
     private var requestingChat = false
@@ -45,19 +47,29 @@ class LGNotificationsManager: NotificationsManager {
     // MARK: - Lifecycle
 
     convenience init() {
-        self.init(sessionManager: Core.sessionManager, chatRepository: Core.chatRepository,
-                  oldChatRepository: Core.oldChatRepository, notificationsRepository: Core.notificationsRepository,
-                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
+        self.init(sessionManager: Core.sessionManager,
+                  chatRepository: Core.chatRepository,
+                  oldChatRepository: Core.oldChatRepository,
+                  notificationsRepository: Core.notificationsRepository,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  deepLinksRouter: LGDeepLinksRouter.sharedInstance)
     }
 
-    init(sessionManager: SessionManager, chatRepository: ChatRepository, oldChatRepository: OldChatRepository,
-         notificationsRepository: NotificationsRepository, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable) {
+    init(sessionManager: SessionManager,
+         chatRepository: ChatRepository,
+         oldChatRepository: OldChatRepository,
+         notificationsRepository: NotificationsRepository,
+         keyValueStorage: KeyValueStorage,
+         featureFlags: FeatureFlaggeable,
+         deepLinksRouter: DeepLinksRouter) {
         self.sessionManager = sessionManager
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.notificationsRepository = notificationsRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
+        self.deepLinksRouter = deepLinksRouter
         self.loggedIn = Variable<Bool>(sessionManager.loggedIn)
         let enabledMktNotifications = sessionManager.loggedIn && keyValueStorage.userMarketingNotifications
         self.marketingNotifications = Variable<Bool>(enabledMktNotifications)
@@ -119,11 +131,18 @@ class LGNotificationsManager: NotificationsManager {
             }.bindNext{ [weak self] event in
                 self?.requestChatCounters()
             }.addDisposableTo(disposeBag)
-        } else {
-            DeepLinksRouter.sharedInstance.chatDeepLinks.bindNext { [weak self] _ in
-                self?.requestChatCounters()
+
+            chatRepository.chatStatus.bindNext { [weak self] in
+                self?.chatStatus = $0
             }.addDisposableTo(disposeBag)
         }
+
+        deepLinksRouter.chatDeepLinks.filter { [weak self] _ in
+            if let status = self?.chatStatus, status == .openAuthenticated { return false }
+            return true
+        }.bindNext { [weak self] _ in
+            self?.requestChatCounters()
+        }.addDisposableTo(disposeBag)
     }
 
     dynamic private func applicationWillEnterForeground() {
