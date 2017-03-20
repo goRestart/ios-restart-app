@@ -84,5 +84,10 @@
         "name": "QuickAnswersRepeatedTextField",
         "values": ["no", "yes"],
         "description": "Quick anwers periscope include the one as textfield placeholder"
+    },
+    {
+        "name": "CarsVerticalEnabled",
+        "values": ["no", "yes"],
+        "description": "Cars vertical enabled"
     }
 ]

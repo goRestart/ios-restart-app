@@ -34,6 +34,7 @@ struct ABTests {
     static var hideTabBarOnFirstSession = BoolABDynamicVar(key: "hideTabBarOnFirstSession", defaultValue: false)
     static var postingGallery = IntABDynamicVar(key: "postingGallery", defaultValue: 0)
     static var quickAnswersRepeatedTextField = BoolABDynamicVar(key: "quickAnswersRepeatedTextField", defaultValue: false)
+    static var carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -57,6 +58,7 @@ struct ABTests {
         result.append(hideTabBarOnFirstSession)
         result.append(postingGallery)
         result.append(quickAnswersRepeatedTextField)
+        result.append(carsVerticalEnabled)
 
         return result
     }
