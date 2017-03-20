@@ -37,6 +37,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var hideTabBarOnFirstSession: Bool = false
     var postingGallery: PostingGallery = .singleSelection
     var quickAnswersRepeatedTextField: Bool = false
+    var carsVerticalEnabled: Bool = false
+    var carsCategoryAfterPicture: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false
