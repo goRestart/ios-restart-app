@@ -48,7 +48,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var productInfoObserver: TestableObserver<ProductVMProductInfo?>!
         var productImageUrlsObserver: TestableObserver<[URL]>!
         var userInfoObserver: TestableObserver<ProductVMUserInfo?>!
-        var productStatsObserver: TestableObserver<ProductStats?>!
+        var ListingStatsObserver: TestableObserver<ListingStats?>!
         var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
         var statusObserver: TestableObserver<ProductViewModelStatus>!
@@ -94,7 +94,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 sut.productInfo.asObservable().bindTo(productInfoObserver).addDisposableTo(disposeBag)
                 sut.productImageURLs.asObservable().bindTo(productImageUrlsObserver).addDisposableTo(disposeBag)
                 sut.userInfo.asObservable().bindTo(userInfoObserver).addDisposableTo(disposeBag)
-                sut.productStats.asObservable().bindTo(productStatsObserver).addDisposableTo(disposeBag)
+                sut.ListingStats.asObservable().bindTo(ListingStatsObserver).addDisposableTo(disposeBag)
                 sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
                 sut.actionButtons.asObservable().bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
                 sut.status.asObservable().bindTo(statusObserver).addDisposableTo(disposeBag)
@@ -148,7 +148,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 productInfoObserver = scheduler.createObserver(Optional<ProductVMProductInfo>.self)
                 productImageUrlsObserver = scheduler.createObserver(Array<URL>.self)
                 userInfoObserver = scheduler.createObserver(Optional<ProductVMUserInfo>.self)
-                productStatsObserver = scheduler.createObserver(Optional<ProductStats>.self)
+                ListingStatsObserver = scheduler.createObserver(Optional<ListingStats>.self)
                 navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 statusObserver = scheduler.createObserver(ProductViewModelStatus.self)
@@ -354,7 +354,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     newProduct.name = String.makeRandom()
                     newProduct.objectId = product.objectId
                     newProduct.user = product.user
-                    productRepository.productResult = ProductResult(newProduct)
+                    productRepository.productResult = ListingResult(newProduct)
                     buildSut(initialProduct: product, firstProductSyncRequired: true)
                 }
                 it("product info title passes trough both items title") {
@@ -613,14 +613,14 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("changes after myUser update") {
-                var stats: MockProductStats!
+                var stats: MockListingStats!
                 beforeEach {
                     var relation = MockUserProductRelation.makeMock()
                     relation.isFavorited = true
                     relation.isReported = false
-                    productRepository.userProductRelationResult = ProductUserRelationResult(relation)
-                    stats = MockProductStats.makeMock()
-                    productRepository.statsResult = ProductStatsResult(stats)
+                    productRepository.userProductRelationResult = ListingUserRelationResult(relation)
+                    stats = MockListingStats.makeMock()
+                    productRepository.statsResult = ListingStatsResult(stats)
                     commercializerRepository.indexResult = CommercializersResult([])
                     product.status = .approved
                 }
@@ -634,13 +634,13 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         expect(isFavoriteObserver.eventValues.count) == 1
                     }
                     it("updates product stats") {
-                        expect(productStatsObserver.eventValues.count) == 2
+                        expect(ListingStatsObserver.eventValues.count) == 2
                     }
                     it("matches product views") {
-                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.viewsCount) == stats.viewsCount
+                        expect(ListingStatsObserver.eventValues.flatMap {$0}.last?.viewsCount) == stats.viewsCount
                     }
                     it("matches product favorites") {
-                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.favouritesCount) == stats.favouritesCount
+                        expect(ListingStatsObserver.eventValues.flatMap {$0}.last?.favouritesCount) == stats.favouritesCount
                     }
                     it("share button state is hidden") {
                         expect(shareButtonStateObserver.eventValues) == [.hidden]

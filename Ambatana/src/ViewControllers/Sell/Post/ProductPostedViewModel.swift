@@ -44,7 +44,7 @@ class ProductPostedViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
+    init(postResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
         self.trackingInfo = trackingInfo
         self.featureFlags = FeatureFlags.sharedInstance
         self.status = ProductPostedStatus(result: postResult)
@@ -299,7 +299,7 @@ private enum ProductPostedStatus {
         self = .posting(images: images, product: product)
     }
 
-    init(result: ProductResult) {
+    init(result: ListingResult) {
         if let product = result.value {
             self = .success(product: product)
         } else if let error = result.error {

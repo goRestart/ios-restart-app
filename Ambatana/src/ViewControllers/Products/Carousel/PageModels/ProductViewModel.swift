@@ -58,7 +58,7 @@ class ProductViewModel: BaseViewModel {
         return product.value.isMine(myUserRepository: myUserRepository)
     }
     let isFavorite = Variable<Bool>(false)
-    let productStats = Variable<ProductStats?>(nil)
+    let ListingStats = Variable<ListingStats?>(nil)
 
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
@@ -185,10 +185,10 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        if productStats.value == nil {
+        if ListingStats.value == nil {
             productRepository.retrieveStats(product.value) { [weak self] result in
                 guard let stats = result.value else { return }
-                self?.productStats.value = stats
+                self?.ListingStats.value = stats
             }
         }
 

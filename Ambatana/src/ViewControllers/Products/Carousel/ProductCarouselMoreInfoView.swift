@@ -66,7 +66,7 @@ class ProductCarouselMoreInfoView: UIView {
     fileprivate let bigMapBottomMargin: CGFloat = 85
     fileprivate(set) var mapExpanded: Bool = false
     fileprivate var mapZoomBlocker: MapZoomBlocker?
-    fileprivate var statsView: ProductStatsView?
+    fileprivate var statsView: ListingStatsView?
 
     fileprivate let statsContainerViewHeight: CGFloat = 24
     fileprivate let statsContainerViewTop: CGFloat = 26
@@ -357,7 +357,7 @@ fileprivate extension ProductCarouselMoreInfoView {
         statsContainerViewHeightConstraint.constant = 0.0
         statsContainerViewTopConstraint.constant = 0.0
 
-        guard let statsView = ProductStatsView.productStatsView() else { return }
+        guard let statsView = ListingStatsView.ListingStatsView() else { return }
         self.statsView = statsView
         statsContainerView.addSubview(statsView)
 
@@ -413,7 +413,7 @@ fileprivate extension ProductCarouselMoreInfoView {
 
     func setupStatsRx(viewModel: ProductCarouselViewModel) {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
-        let statsAndCreation = Observable.combineLatest(viewModel.productStats.asObservable().unwrap(), productCreation) { $0 }
+        let statsAndCreation = Observable.combineLatest(viewModel.ListingStats.asObservable().unwrap(), productCreation) { $0 }
         let statsViewVisible = statsAndCreation.map { (stats, creation) in
             return stats.viewsCount >= Constants.minimumStatsCountToShow || stats.favouritesCount >= Constants.minimumStatsCountToShow || creation != nil
         }
