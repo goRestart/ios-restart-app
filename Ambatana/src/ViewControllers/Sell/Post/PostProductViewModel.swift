@@ -21,16 +21,8 @@ enum PostingSource {
     case deleteProduct
 }
 
-enum PostProductState {
-    case imageSelection
-    case uploadingImage
-    case errorUpload(message: String)
-    case detailsSelection
-}
-
 
 class PostProductViewModel: BaseViewModel {
-
     weak var delegate: PostProductViewModelDelegate?
     weak var navigator: PostProductNavigator?
     fileprivate let sessionManager: SessionManager
