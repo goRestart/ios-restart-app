@@ -21,7 +21,9 @@ enum PostProductState: Equatable {
     
     func nextState(featureFlags: FeatureFlaggeable) -> PostProductState? {
         switch self {
-        case .imageSelection, .uploadingImage, .errorUpload:
+        case .imageSelection, .errorUpload:
+            return .uploadingImage
+        case .uploadingImage:
             if featureFlags.carsVerticalEnabled {
                 return featureFlags.carsCategoryAfterPicture ? .detailsSelection : .carDetailsSelection(includePrice: true)
             } else {

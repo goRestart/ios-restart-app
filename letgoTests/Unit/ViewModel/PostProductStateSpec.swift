@@ -84,8 +84,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = .imageSelection
                         }
                         
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
+                        it("is uploading image") {
+                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
                         }
                     }
                     
@@ -104,8 +104,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = .errorUpload(message: "message")
                         }
                         
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
+                        it("is uploading image") {
+                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
                         }
                     }
                     
@@ -151,8 +151,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = .imageSelection
                         }
                         
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
+                        it("is uploading image") {
+                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
                         }
                     }
                     
@@ -171,8 +171,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = .errorUpload(message: "message")
                         }
                         
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
+                        it("is uploading image") {
+                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
                         }
                     }
                     
@@ -218,8 +218,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = .imageSelection
                         }
                         
-                        it("is car details selection with price") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .carDetailsSelection(includePrice: true)
+                        it("is uploading image") {
+                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
                         }
                     }
                     
@@ -238,8 +238,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = .errorUpload(message: "message")
                         }
                         
-                        it("is car details selection with price") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .carDetailsSelection(includePrice: true)
+                        it("is uploading image") {
+                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
                         }
                     }
                     
@@ -285,8 +285,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = .imageSelection
                         }
                         
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
+                        it("is uploading image") {
+                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
                         }
                     }
                     
@@ -305,8 +305,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = .errorUpload(message: "message")
                         }
                         
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
+                        it("is uploading image") {
+                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
                         }
                     }
                     
