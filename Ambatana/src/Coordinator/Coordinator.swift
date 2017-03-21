@@ -87,10 +87,18 @@ extension Coordinator {
             coordinator.presentViewController(parent: parent, animated: animated, completion: completion)
         }
 
-        if child == nil {
+        if let child = child {
+            let message: String
+            if forceCloseChild {
+                child.closeCoordinator(animated: false, completion: presentBlock)
+                message = "\(type(of:self)) is opening \(type(of:coordinator.self)) while child \(type(of:child.self)) was present"
+            } else {
+                message = "\(type(of:self)) couldn't open \(type(of:coordinator.self)) because child \(type(of:child.self)) was present"
+            }
+            logMessage(.error, type: [.navigation], message: message)
+            report(AppReport.navigation(error: .childCoordinatorPresent), message: message)
+        } else {
             presentBlock()
-        } else if forceCloseChild {
-            child?.closeCoordinator(animated: false, completion: presentBlock)
         }
     }
 
