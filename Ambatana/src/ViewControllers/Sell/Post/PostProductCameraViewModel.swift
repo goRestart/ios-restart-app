@@ -39,13 +39,9 @@ class PostProductCameraViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     private let keyValueStorage: KeyValueStorage   //cameraAlreadyShown
     let sourcePosting: PostingSource
-    private var firstTimeAlertTimer: Timer?
 
     private let featureFlags: FeatureFlaggeable
     
-    private var skipCustomPermissions: Bool {
-        return sourcePosting == .onboardingCamera || sourcePosting == .onboardingButton
-    }
 
     // MARK: - Lifecycle
 
@@ -126,7 +122,6 @@ class PostProductCameraViewModel: BaseViewModel {
     }
 
     func hideFirstTimeAlert() {
-        firstTimeAlertTimer?.invalidate()
         shouldShowFirstTimeAlert.value = false
     }
 
@@ -138,25 +133,20 @@ class PostProductCameraViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             switch state {
             case .missingPermissions(let msg):
-                guard !strongSelf.skipCustomPermissions else {
-                    strongSelf.shouldShowFirstTimeAlert.value = true
-                    return
-                }
                 strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
                 strongSelf.infoSubtitle.value = msg
                 strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
             case .pendingAskPermissions:
-                guard !strongSelf.skipCustomPermissions else {
-                    strongSelf.shouldShowFirstTimeAlert.value = true
-                    return
-                }
                 strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
                 strongSelf.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
                 strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
-            case .takingPhoto, .capture, .preview:
+            case .takingPhoto, .preview:
                 strongSelf.infoShown.value = false
+            case .capture:
+                strongSelf.infoShown.value = false
+                strongSelf.showFirstTimeAlertIfNeeded()
             }
         }.addDisposableTo(disposeBag)
         
@@ -173,8 +163,8 @@ class PostProductCameraViewModel: BaseViewModel {
             .addDisposableTo(disposeBag)
         
         shouldShowFirstTimeAlert.asObservable().filter {$0}.bindNext { [weak self] _ in
-            self?.showFirstTimeAlert()
-            }.addDisposableTo(disposeBag)
+            self?.firstTimeAlertDidShow()
+        }.addDisposableTo(disposeBag)
     }
     
     private func setupFirstShownLiterals() {
@@ -217,20 +207,25 @@ class PostProductCameraViewModel: BaseViewModel {
         case .pendingAskPermissions:
             askForPermissions()
         case .capture:
-            shouldShowFirstTimeAlert.value = !keyValueStorage[.cameraAlreadyShown]
+            showFirstTimeAlertIfNeeded()
         case .takingPhoto, .preview, .missingPermissions:
             break
         }
     }
-
-    private func showFirstTimeAlert() {
-        keyValueStorage[.cameraAlreadyShown] = true
-        firstTimeAlertTimer = Timer.scheduledTimer(timeInterval: 5, target: self,
-                                                                     selector: #selector(timerHideFirstTimeAlert),
-                                                                     userInfo: nil, repeats: false)
+    
+    fileprivate func showFirstTimeAlertIfNeeded() {
+        shouldShowFirstTimeAlert.value = !keyValueStorage[.cameraAlreadyShown]
     }
 
-    dynamic func timerHideFirstTimeAlert() {
+    
+    fileprivate func firstTimeAlertDidShow() {
+        keyValueStorage[.cameraAlreadyShown] = true
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) { [weak self] in
+            self?.shouldHideFirstTimeAlert()
+        }
+    }
+
+    dynamic func shouldHideFirstTimeAlert() {
         hideFirstTimeAlert()
     }
 }
