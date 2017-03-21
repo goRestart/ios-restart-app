@@ -25,7 +25,6 @@ enum PostingSource {
 class PostProductViewModel: BaseViewModel {
     weak var delegate: PostProductViewModelDelegate?
     weak var navigator: PostProductNavigator?
-    fileprivate let sessionManager: SessionManager
 
     var usePhotoButtonText: String {
         if sessionManager.loggedIn {
@@ -42,7 +41,7 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    let state = Variable<PostProductState>(.imageSelection)
+    let state: Variable<PostProductState>
 
     let postDetailViewModel: PostProductDetailViewModel
     let postProductCameraViewModel: PostProductCameraViewModel
@@ -51,7 +50,9 @@ class PostProductViewModel: BaseViewModel {
     fileprivate let productRepository: ProductRepository
     fileprivate let fileRepository: FileRepository
     fileprivate let tracker: Tracker
-    private let commercializerRepository: CommercializerRepository
+    fileprivate let sessionManager: SessionManager
+    fileprivate let featureFlags: FeatureFlaggeable
+    
     private var imagesSelected: [UIImage]?
     fileprivate var pendingToUploadImages: [UIImage]?
     fileprivate var uploadedImages: [File]?
@@ -61,25 +62,29 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource) {
-        let productRepository = Core.productRepository
-        let fileRepository = Core.fileRepository
-        let commercializerRepository = Core.commercializerRepository
-        let tracker = TrackerProxy.sharedInstance
-        let sessionManager = Core.sessionManager
-        self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
-                  commercializerRepository: commercializerRepository, tracker: tracker, sessionManager: sessionManager)
+        self.init(source: source,
+                  productRepository: Core.productRepository,
+                  fileRepository: Core.fileRepository,
+                  tracker: TrackerProxy.sharedInstance,
+                  sessionManager: Core.sessionManager,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         commercializerRepository: CommercializerRepository, tracker: Tracker, sessionManager: SessionManager) {
+    init(source: PostingSource,
+         productRepository: ProductRepository,
+         fileRepository: FileRepository,
+         tracker: Tracker,
+         sessionManager: SessionManager,
+         featureFlags: FeatureFlaggeable) {
+        self.state = Variable<PostProductState>(PostProductState.initialState(featureFlags: featureFlags))
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
-        self.commercializerRepository = commercializerRepository
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         self.tracker = tracker
         self.sessionManager = sessionManager
+        self.featureFlags = featureFlags
         super.init()
         self.postDetailViewModel.delegate = self
     }
