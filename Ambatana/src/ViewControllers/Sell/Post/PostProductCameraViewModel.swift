@@ -221,12 +221,8 @@ class PostProductCameraViewModel: BaseViewModel {
     fileprivate func firstTimeAlertDidShow() {
         keyValueStorage[.cameraAlreadyShown] = true
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) { [weak self] in
-            self?.shouldHideFirstTimeAlert()
+            self?.hideFirstTimeAlert()
         }
-    }
-
-    dynamic func shouldHideFirstTimeAlert() {
-        hideFirstTimeAlert()
     }
 }
 
