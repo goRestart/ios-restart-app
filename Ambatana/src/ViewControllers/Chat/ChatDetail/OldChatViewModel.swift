@@ -79,7 +79,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     var productPrice: String {
         return product.priceString()
     }
-    var productStatus: ProductStatus {
+    var listingStatus: ListingStatus {
         return product.status
     }
     var otherUserAvatarUrl: URL? {

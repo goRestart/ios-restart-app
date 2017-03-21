@@ -32,7 +32,7 @@ struct EmptyConversation: ChatConversation {
     var objectId: String?
     var unreadMessageCount: Int = 0
     var lastMessageSentAt: Date? = nil
-    var product: ChatProduct? = nil
+    var product: ChatListing? = nil
     var interlocutor: ChatInterlocutor? = nil
     var amISelling: Bool 
 }

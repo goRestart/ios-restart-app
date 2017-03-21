@@ -38,7 +38,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            var user = MockUserProduct.makeMock()
+                            var user = MockUserListing.makeMock()
                             user.objectId = "Mario"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -51,7 +51,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            var user = MockUserProduct.makeMock()
+                            var user = MockUserListing.makeMock()
                             user.objectId = "Luigi"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -69,7 +69,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            var user = MockUserProduct.makeMock()
+                            var user = MockUserListing.makeMock()
                             user.objectId = "Mario"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -82,7 +82,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            var user = MockUserProduct.makeMock()
+                            var user = MockUserListing.makeMock()
                             user.objectId = "Luigi"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -105,7 +105,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            var user = MockUserProduct.makeMock()
+                            var user = MockUserListing.makeMock()
                             user.objectId = "Mario"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -118,7 +118,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            var user = MockUserProduct.makeMock()
+                            var user = MockUserListing.makeMock()
                             user.objectId = "Luigi"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -136,7 +136,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            var user = MockUserProduct.makeMock()
+                            var user = MockUserListing.makeMock()
                             user.objectId = "Mario"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser
@@ -149,7 +149,7 @@ class ShowFeaturedStripeHelperSpec: QuickSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.objectId = "Mario"
-                            var user = MockUserProduct.makeMock()
+                            var user = MockUserListing.makeMock()
                             user.objectId = "Luigi"
                             product.user = user
                             myUserRepository.myUserVar.value = myUser

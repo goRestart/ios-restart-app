@@ -247,7 +247,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             let myUser = MockMyUser.makeMock()
                             myUserRepository.myUserVar.value = myUser
-                            var productUser = MockUserProduct.makeMock()
+                            var productUser = MockUserListing.makeMock()
                             productUser.objectId = myUser.objectId
                             product.user = productUser
                             product.status = .approved
@@ -615,7 +615,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             describe("changes after myUser update") {
                 var stats: MockListingStats!
                 beforeEach {
-                    var relation = MockUserProductRelation.makeMock()
+                    var relation = MockUserListingRelation.makeMock()
                     relation.isFavorited = true
                     relation.isReported = false
                     listingRepository.userProductRelationResult = ListingUserRelationResult(relation)
@@ -708,7 +708,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             describe("overlay elements state") {
                 beforeEach {
                     product.name = String.makeRandom()
-                    var productUser = MockUserProduct.makeMock()
+                    var productUser = MockUserListing.makeMock()
                     productUser.name = String.makeRandom()
                     product.user = productUser
 

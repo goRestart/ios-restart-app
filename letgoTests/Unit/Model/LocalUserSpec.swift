@@ -19,7 +19,7 @@ class LocalUserSpec: QuickSpec {
     override func spec() {
         
         var sut : LocalUser!
-        var mockUserProduct: MockUserProduct!
+        var mockUserListing: MockUserListing!
         var mockUser: MockUser!
         var chatInterlocutor: MockChatInterlocutor!
         
@@ -27,22 +27,22 @@ class LocalUserSpec: QuickSpec {
            
             context("init with userListing") {
                 beforeEach {
-                    mockUserProduct = MockUserProduct.makeMock()
-                    mockUserProduct.objectId = String.makeRandom()
-                    mockUserProduct.name = String.makeRandom()
-                    sut = LocalUser(userListing: mockUserProduct)
+                    mockUserListing = MockUserListing.makeMock()
+                    mockUserListing.objectId = String.makeRandom()
+                    mockUserListing.name = String.makeRandom()
+                    sut = LocalUser(userListing: mockUserListing)
                 }
                 it("object not nil") {
                     expect(sut).notTo(beNil())
                 }
                 it("object Id is equal") {
-                    expect(sut.objectId).to(equal(mockUserProduct.objectId))
+                    expect(sut.objectId).to(equal(mockUserListing.objectId))
                 }
                 it("name is equal") {
-                    expect(sut.name).to(equal(mockUserProduct.name))
+                    expect(sut.name).to(equal(mockUserListing.name))
                 }
                 it("postalAddress is equal") {
-                    expect(sut.postalAddress) == mockUserProduct.postalAddress
+                    expect(sut.postalAddress) == mockUserListing.postalAddress
                 }
                 it("accounts is empty") {
                     expect(sut.accounts.count) == 0

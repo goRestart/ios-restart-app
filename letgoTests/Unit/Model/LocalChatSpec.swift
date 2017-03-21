@@ -19,15 +19,15 @@ class LocalChatSpec: QuickSpec {
     override func spec() {
         
         var sut : LocalChat!
-        var myUserProduct: MockUserProduct!
+        var userListing: MockUserListing!
         var product: MockProduct!
         
         describe("init") {
-            context("init with myUserProduct nil") {
+            context("init with userListing nil") {
                 beforeEach {
                     product = MockProduct.makeMock()
-                    myUserProduct = nil
-                    sut = LocalChat(product: product, myUserProduct: myUserProduct)
+                    userListing = nil
+                    sut = LocalChat(product: product, userListing: userListing)
                 }
                 it("objectId in userTo is the user product") {
                     expect(sut.userTo.objectId) == product.user.objectId
@@ -38,18 +38,18 @@ class LocalChatSpec: QuickSpec {
                 }
             }
             
-            context("init with a myUserProduct") {
+            context("init with a userListing") {
                 beforeEach {
                     product = MockProduct.makeMock()
-                    myUserProduct = MockUserProduct.makeMock()
-                    sut = LocalChat(product: product, myUserProduct: myUserProduct)
+                    userListing = MockUserListing.makeMock()
+                    sut = LocalChat(product: product, userListing: userListing)
                 }
                 it("objectId in userTo is the user product") {
                     expect(sut.userTo.objectId) == product.user.objectId
                     
                 }
-                it("objectId userFrom is myUserProduct object Id") {
-                    expect(sut.userFrom.objectId) == myUserProduct.objectId
+                it("objectId userFrom is userListing object Id") {
+                    expect(sut.userFrom.objectId) == userListing.objectId
                 }
             }
         }

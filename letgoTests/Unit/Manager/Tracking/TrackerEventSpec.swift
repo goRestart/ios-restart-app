@@ -874,7 +874,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailVisit") {
                 beforeEach {
-                    var userListing = MockUserProduct.makeMock()
+                    var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
                     userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
@@ -947,7 +947,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailVisitMoreInfo") {
                 beforeEach {
-                    var userListing = MockUserProduct.makeMock()
+                    var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
                     userListing.isDummy = false
 
@@ -1019,7 +1019,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productFavorite") {
 
                 beforeEach {
-                    var userListing = MockUserProduct.makeMock()
+                    var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
                     userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
@@ -1084,7 +1084,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productShare") {
                 beforeEach {
-                    var userListing = MockUserProduct.makeMock()
+                    var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
                     userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
@@ -1161,7 +1161,7 @@ class TrackerEventSpec: QuickSpec {
                 var event: TrackerEvent!
                 beforeEach {
                     product = MockProduct.makeMock()
-                    var user = MockUserProduct.makeMock()
+                    var user = MockUserListing.makeMock()
                     user.objectId = "ABCDE"
                     user.isDummy = false
 
@@ -1198,7 +1198,7 @@ class TrackerEventSpec: QuickSpec {
                 var event: TrackerEvent!
                 beforeEach {
                     product = MockProduct.makeMock()
-                    var user = MockUserProduct.makeMock()
+                    var user = MockUserListing.makeMock()
                     user.objectId = "ABCDE"
                     user.isDummy = false
                     product.user = user
@@ -1238,7 +1238,7 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
                     mockProduct.category = .homeAndGarden
 
-                    var productOwner = MockUserProduct.makeMock()
+                    var productOwner = MockUserListing.makeMock()
                     productOwner.objectId = "67890"
                     productOwner.isDummy = false
                     mockProduct.user = productOwner
@@ -1348,10 +1348,10 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("product ask question (ChatProduct)") {
-                var product: ChatProduct!
+            describe("product ask question (ChatListing)") {
+                var product: ChatListing!
                 beforeEach {
-                    var mockProduct = MockChatProduct.makeMock()
+                    var mockProduct = MockChatListing.makeMock()
                     mockProduct.objectId = "12345"
                     mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
@@ -1469,7 +1469,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productMarkAsSold") {
                 beforeEach {
-                    var userListing = MockUserProduct.makeMock()
+                    var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
                     userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
@@ -1536,7 +1536,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("product-detail-unsold"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    var myUser = MockUserProduct.makeMock()
+                    var myUser = MockUserListing.makeMock()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
@@ -1583,7 +1583,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("product-detail-report"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    var userListing = MockUserProduct.makeMock()
+                    var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
                     userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
@@ -1992,10 +1992,10 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("userMessageSent") {
-                var userListing: MockUserProduct!
+                var userListing: MockUserListing!
                 var product: MockProduct!
                 beforeEach {
-                    userListing = MockUserProduct.makeMock()
+                    userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
                     userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)

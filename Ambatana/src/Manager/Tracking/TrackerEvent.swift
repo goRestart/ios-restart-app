@@ -336,7 +336,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .productOpenChat, params: params)
     }
 
-    static func productMarkAsSold(_ product: ChatProduct, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
+    static func productMarkAsSold(_ product: ChatListing, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
                                   freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         return productMarkAsSold(productId: product.objectId, price: product.price, currency: product.currency.code,
                                      categoryId: nil, typePage: typePage, soldTo: soldTo,
@@ -566,8 +566,8 @@ struct TrackerEvent {
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
-    // Duplicated method from the one above to support tracking using ChatProduct model
-    static func firstMessage(_ product: ChatProduct, messageType: EventParameterMessageType, quickAnswerType: EventParameterQuickAnswerType?,
+    // Duplicated method from the one above to support tracking using ChatListing model
+    static func firstMessage(_ product: ChatListing, messageType: EventParameterMessageType, quickAnswerType: EventParameterQuickAnswerType?,
                              interlocutorId: String?, typePage: EventParameterTypePage,
                              sellerRating: Float? = nil, freePostingModeAllowed: Bool,
                              isBumpedUp: EventParameterBoolean) -> TrackerEvent {
@@ -599,8 +599,8 @@ struct TrackerEvent {
         return TrackerEvent(name: .userMessageSent, params: params)
     }
     
-    // Duplicated method from the one above to support tracking using ChatProduct model
-    static func userMessageSent(_ product: ChatProduct, userToId: String?, messageType: EventParameterMessageType,
+    // Duplicated method from the one above to support tracking using ChatListing model
+    static func userMessageSent(_ product: ChatListing, userToId: String?, messageType: EventParameterMessageType,
                                        quickAnswerType: EventParameterQuickAnswerType?, typePage: EventParameterTypePage,
                                        freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()

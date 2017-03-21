@@ -761,7 +761,7 @@ struct EventParameters {
         params[.userToId] = product.user.objectId
     }
     
-    internal mutating func addChatProductParams(_ product: ChatProduct) {
+    internal mutating func addChatProductParams(_ product: ChatListing) {
         params[.productId] = product.objectId
         params[.productPrice] = product.price.value
         params[.productCurrency] = product.currency.code
