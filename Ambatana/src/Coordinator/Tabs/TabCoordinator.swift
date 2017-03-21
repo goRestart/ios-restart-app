@@ -408,22 +408,21 @@ extension TabCoordinator: ProductDetailNavigator {
 
     func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
         let bumpCoordinator = BumpUpCoordinator(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
+        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct,
                                  withPaymentItemId paymentItemId: String) {
         let bumpCoordinator = BumpUpCoordinator(product: product, purchaseableProduct: purchaseableProduct,
                                                 paymentItemId: paymentItemId)
-//        bumpCoordinator.delegate = self
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, completion: nil)
+        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void) {
         selectBuyerToRateCompletion = completion
         let ratingCoordinator = UserRatingCoordinator(source: source, buyers: buyers)
         ratingCoordinator.delegate = self
-        openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, completion: nil)
+        openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
@@ -456,7 +455,7 @@ extension TabCoordinator: ChatDetailNavigator {
     func openExpressChat(_ products: [Product], sourceProductId: String, manualOpen: Bool) {
         guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, manualOpen: manualOpen) else { return }
         expressChatCoordinator.delegate = self
-        openChild(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
+        openChild(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
     }
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
@@ -496,15 +495,6 @@ extension TabCoordinator: UINavigationControllerDelegate {
         tabCoordinatorDelegate?.tabCoordinator(self,
                                                setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
                                                animated: true)
-    }
-}
-
-
-// MARK: - CoordinatorDelegate
-
-extension TabCoordinator: CoordinatorDelegate {
-    func coordinatorDidClose(_ coordinator: Coordinator) {
-        child = nil
     }
 }
 
