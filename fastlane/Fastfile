@@ -284,7 +284,7 @@ platform :ios do
   lane :test do
     scan(
       scheme: "LetGoPROD",
-      device: "iPhone 6 (9.3)",
+      device: "iPhone 6 (10.2)",
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
