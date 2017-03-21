@@ -12,6 +12,7 @@ import LGCoreKit
 enum AppReport: ReportType {
 
     case monetization(error: MonetizationReportError)   // 1000..<2000
+    case navigation(error: NavigationReportError)       // 2000..<3000
 
     var domain: String {
         return Constants.appDomain
@@ -24,10 +25,19 @@ enum AppReport: ReportType {
             case .invalidAppstoreProductIdentifiers:
                 return 1001
             }
+        case .navigation(let error):
+            switch error {
+            case .childCoordinatorPresent:
+                return 2001
+            }
         }
     }
 }
 
 enum MonetizationReportError {
     case invalidAppstoreProductIdentifiers
+}
+
+enum NavigationReportError {
+    case childCoordinatorPresent
 }

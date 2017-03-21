@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,7 +18,6 @@
                 <outlet property="buttonBottom" destination="ibM-CY-XRt" id="VOT-6P-Mmb"/>
                 <outlet property="buttonBottomBottomConstraint" destination="xy2-xd-eOf" id="ifU-90-OpV"/>
                 <outlet property="buttonBottomHeight" destination="qTj-cW-IDe" id="4N1-Rl-PlK"/>
-                <outlet property="buttonBottomTrailingConstraint" destination="mUB-4Y-fBv" id="vgR-9d-PcT"/>
                 <outlet property="buttonTop" destination="Bn0-dg-QsD" id="A6s-ch-ER6"/>
                 <outlet property="buttonTopBottomConstraint" destination="hrM-0C-4HM" id="cqB-YP-aND"/>
                 <outlet property="buttonTopHeight" destination="dQK-Za-Zoq" id="4eR-dI-Sl8"/>
@@ -123,7 +122,7 @@
                     <state key="normal" title="_Share"/>
                 </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-dg-QsD">
-                    <rect key="frame" x="15" y="482" width="285" height="50"/>
+                    <rect key="frame" x="15" y="482" width="345" height="50"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="dQK-Za-Zoq"/>
@@ -131,7 +130,7 @@
                     <state key="normal" title="Button TOP"/>
                 </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibM-CY-XRt">
-                    <rect key="frame" x="15" y="542" width="285" height="50"/>
+                    <rect key="frame" x="15" y="542" width="345" height="50"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="qTj-cW-IDe"/>
@@ -196,7 +195,7 @@
                 <constraint firstAttribute="trailing" secondItem="nEH-Ai-mnV" secondAttribute="trailing" id="kDw-uK-k9I"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="lXW-NY-m3F"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mFD-eh-LD5"/>
-                <constraint firstAttribute="trailing" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="75" id="mUB-4Y-fBv"/>
+                <constraint firstAttribute="trailing" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="15" id="mUB-4Y-fBv"/>
                 <constraint firstAttribute="trailing" secondItem="PnK-9l-N8i" secondAttribute="trailing" id="qdB-aa-b70"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="sHR-tM-Laf"/>
                 <constraint firstItem="a9q-ok-5NH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vL5-JP-UE6"/>

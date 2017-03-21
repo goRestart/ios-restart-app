@@ -80,7 +80,7 @@ final class OnboardingCoordinator: Coordinator {
     }
 
     func openResetPassword(coordinator: ChangePasswordCoordinator) {
-        openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, completion: nil)
+        openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, forceCloseChild: true, completion: nil)
     }
 
     fileprivate func finish(withPosting posting: Bool, source: PostingSource?) {
