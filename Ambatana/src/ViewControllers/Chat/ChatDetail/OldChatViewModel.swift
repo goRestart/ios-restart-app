@@ -586,14 +586,14 @@ class OldChatViewModel: BaseViewModel, Paginable {
     fileprivate func initUsers() {
         if otherUser == nil || otherUser?.objectId == nil {
             if let myUser = myUserRepository.myUser {
-                self.otherUser = LocalUser(userProduct: chat.otherUser(myUser: myUser))
+                self.otherUser = LocalUser(userListing: chat.otherUser(myUser: myUser))
             } else {
-                self.otherUser = LocalUser(userProduct: chat.userTo)
+                self.otherUser = LocalUser(userListing: chat.userTo)
             }
         }
 
         if let _ = myUserRepository.myUser {
-            self.buyer = LocalUser(userProduct: chat.buyer)
+            self.buyer = LocalUser(userListing: chat.buyer)
         } else {
             self.buyer = nil
         }

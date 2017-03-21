@@ -768,7 +768,7 @@ struct EventParameters {
         params[.productType] = EventParameterProductItemType.real.rawValue
     }
     
-    internal mutating func addUserParams(_ user: UserProduct?) {
+    internal mutating func addUserParams(_ user: UserListing?) {
         params[.userToId] = user?.objectId
     }
 

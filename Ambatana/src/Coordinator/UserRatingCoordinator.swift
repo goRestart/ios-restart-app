@@ -43,7 +43,7 @@ final class UserRatingCoordinator: Coordinator {
     }
 
     convenience init(source: RateUserSource,
-                     buyers: [UserProduct]) {
+                     buyers: [UserListing]) {
         self.init(source: source,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
@@ -80,7 +80,7 @@ final class UserRatingCoordinator: Coordinator {
         return userRatingVC
     }
 
-    fileprivate func buildRateBuyers(buyers: [UserProduct]) -> RateBuyersViewController {
+    fileprivate func buildRateBuyers(buyers: [UserListing]) -> RateBuyersViewController {
         let rateBuyersVM = RateBuyersViewModel(buyers: buyers)
         let rateBuyersVC = RateBuyersViewController(with: rateBuyersVM)
         rateBuyersVM.navigator = self
@@ -97,7 +97,7 @@ extension UserRatingCoordinator: RateBuyersNavigator {
         }
     }
 
-    func rateBuyersFinish(withUser user: UserProduct) {
+    func rateBuyersFinish(withUser user: UserListing) {
         guard let data = RateUserData(user: user) else {
             rateBuyersFinishNotOnLetgo()
             return

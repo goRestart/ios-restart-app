@@ -21,14 +21,14 @@ struct LocalProduct: Product {
 
     let languageCode: String?
 
-    let category: ProductCategory
+    let category: ListingCategory
     let status: ProductStatus
 
     let thumbnail: File?
     let thumbnailSize: LGSize?
     let images: [File]
 
-    let user: UserProduct
+    let user: UserListing
 
     let updatedAt : Date?
     let createdAt : Date?

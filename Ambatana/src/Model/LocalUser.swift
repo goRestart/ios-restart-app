@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-struct LocalUser: User, UserProduct {
+struct LocalUser: User, UserListing {
     let objectId: String?
     let name: String?
     let avatar: File?
@@ -49,16 +49,16 @@ struct LocalUser: User, UserProduct {
         self.banned = nil
     }
     
-    init(userProduct: UserProduct) {
-        self.objectId = userProduct.objectId
-        self.name = userProduct.name
-        self.avatar = userProduct.avatar
-        self.postalAddress =  userProduct.postalAddress
+    init(userListing: UserListing) {
+        self.objectId = userListing.objectId
+        self.name = userListing.name
+        self.avatar = userListing.avatar
+        self.postalAddress =  userListing.postalAddress
         self.accounts = []
         self.ratingAverage = nil
         self.ratingCount = 0
-        self.status = userProduct.status
+        self.status = userListing.status
         self.isDummy = false
-        self.banned = userProduct.banned
+        self.banned = userListing.banned
     }
 }

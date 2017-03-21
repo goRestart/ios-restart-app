@@ -1,5 +1,5 @@
 //
-//  ProductCategory+LG.swift
+//  ListingCategory+LG.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 29/06/15.
@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-extension ProductCategory {
+extension ListingCategory {
     
     var name : String {
         switch(self) {
@@ -102,10 +102,10 @@ extension ProductCategory {
         }
     }
 
-    static func categoriesFromString(_ categories: String) -> [ProductCategory] {
+    static func categoriesFromString(_ categories: String) -> [ListingCategory] {
         return categories.components(separatedBy: ",").flatMap {
             guard let intValue = Int(String(describing: $0)) else { return nil }
-            return ProductCategory(rawValue: intValue)
+            return ListingCategory(rawValue: intValue)
         }
     }
 }

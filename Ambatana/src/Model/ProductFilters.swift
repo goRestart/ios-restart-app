@@ -53,7 +53,7 @@ struct ProductFilters {
     var place: Place?
     var distanceRadius: Int?
     var distanceType: DistanceType
-    var selectedCategories: [ProductCategory]
+    var selectedCategories: [ListingCategory]
     var selectedWithin: ProductTimeCriteria
     var selectedOrdering: ProductSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -73,7 +73,7 @@ struct ProductFilters {
         )
     }
     
-    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory],
+    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
          selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?, priceRange: FilterPriceRange){
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
@@ -84,7 +84,7 @@ struct ProductFilters {
         self.priceRange = priceRange
     }
     
-    mutating func toggleCategory(_ category: ProductCategory) {
+    mutating func toggleCategory(_ category: ListingCategory) {
         if let categoryIndex = indexForCategory(category) {
             selectedCategories.remove(at: categoryIndex)
         } else {
@@ -92,7 +92,7 @@ struct ProductFilters {
         }
     }
     
-    func hasSelectedCategory(_ category: ProductCategory) -> Bool {
+    func hasSelectedCategory(_ category: ListingCategory) -> Bool {
         return indexForCategory(category) != nil
     }
 
@@ -106,7 +106,7 @@ struct ProductFilters {
         return true
     }
     
-    private func indexForCategory(_ category: ProductCategory) -> Int? {
+    private func indexForCategory(_ category: ListingCategory) -> Int? {
         for i in 0..<selectedCategories.count {
             if(selectedCategories[i] == category){
                 return i

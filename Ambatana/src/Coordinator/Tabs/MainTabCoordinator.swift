@@ -36,7 +36,7 @@ class MainTabCoordinator: TabCoordinator {
     func openSearch(_ query: String, categoriesString: String?) {
         var filters = ProductFilters()
         if let categoriesString = categoriesString {
-            filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
+            filters.selectedCategories = ListingCategory.categoriesFromString(categoriesString)
         }
         let viewModel = MainProductsViewModel(searchType: .user(query: query), filters: filters)
         viewModel.navigator = self

@@ -162,7 +162,7 @@ class ProductViewModel: BaseViewModel {
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
 
-        self.userInfo = Variable<ProductVMUserInfo>(ProductVMUserInfo(userProduct: product.user, myUser: myUserRepository.myUser))
+        self.userInfo = Variable<ProductVMUserInfo>(ProductVMUserInfo(userListing: product.user, myUser: myUserRepository.myUser))
         self.disposeBag = DisposeBag()
 
         super.init()
@@ -387,7 +387,7 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        let data = UserDetailData.userAPI(user: LocalUser(userProduct: product.value.user), source: .productDetail)
+        let data = UserDetailData.userAPI(user: LocalUser(userListing: product.value.user), source: .productDetail)
         navigator?.openUser(data)
     }
 

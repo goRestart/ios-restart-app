@@ -108,7 +108,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
             checkChanges()
         }
     }
-    var category: ProductCategory? {
+    var category: ListingCategory? {
         didSet {
             checkChanges()
         }
@@ -140,7 +140,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     }
     fileprivate let initialProduct: Product
     fileprivate var savedProduct: Product?
-    fileprivate var categories: [ProductCategory] = []
+    fileprivate var categories: [ListingCategory] = []
     fileprivate var shouldTrack: Bool = true
     
     // Repositories

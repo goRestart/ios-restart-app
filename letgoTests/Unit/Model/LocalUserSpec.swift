@@ -25,12 +25,12 @@ class LocalUserSpec: QuickSpec {
         
         describe("init") {
            
-            context("init with userProduct") {
+            context("init with userListing") {
                 beforeEach {
                     mockUserProduct = MockUserProduct.makeMock()
                     mockUserProduct.objectId = String.makeRandom()
                     mockUserProduct.name = String.makeRandom()
-                    sut = LocalUser(userProduct: mockUserProduct)
+                    sut = LocalUser(userListing: mockUserProduct)
                 }
                 it("object not nil") {
                     expect(sut).notTo(beNil())

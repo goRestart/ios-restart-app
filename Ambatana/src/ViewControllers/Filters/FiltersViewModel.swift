@@ -11,10 +11,10 @@ import LGCoreKit
 import RxSwift
 
 enum FilterCategoryItem: Equatable {
-    case category(category: ProductCategory)
+    case category(category: ListingCategory)
     case free
 
-    init(category: ProductCategory) {
+    init(category: ListingCategory) {
         self = .category(category: category)
     }
 
@@ -234,7 +234,7 @@ class FiltersViewModel: BaseViewModel {
         }
     }
 
-    private func buildFilterCategoryItemsWithCategories(_ categories: [ProductCategory]) -> [FilterCategoryItem] {
+    private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
         let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories

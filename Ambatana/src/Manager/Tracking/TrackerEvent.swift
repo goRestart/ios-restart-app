@@ -162,7 +162,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func productList(_ user: User?, categories: [ProductCategory]?, searchQuery: String?,
+    static func productList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
                             feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
@@ -215,7 +215,7 @@ struct TrackerEvent {
     }
 
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
-                               distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
+                               distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ProductSortCriteria?,
                                postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
 
@@ -528,7 +528,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .productEditSharedFB, params: params)
     }
 
-    static func productEditComplete(_ user: User?, product: Product, category: ProductCategory?,
+    static func productEditComplete(_ user: User?, product: Product, category: ListingCategory?,
         editedFields: [EventParameterEditedFields]) -> TrackerEvent {
             var params = EventParameters()
             // Product
@@ -584,7 +584,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
-    static func userMessageSent(_ product: Product, userTo: UserProduct?, messageType: EventParameterMessageType,
+    static func userMessageSent(_ product: Product, userTo: UserListing?, messageType: EventParameterMessageType,
                                 quickAnswerType: EventParameterQuickAnswerType?, typePage: EventParameterTypePage,
                                 freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()

@@ -695,7 +695,7 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("productList") {
-                let categories: [ProductCategory] = [.homeAndGarden, .carsAndMotors]
+                let categories: [ListingCategory] = [.homeAndGarden, .carsAndMotors]
                 let searchQuery = "iPhone"
                 beforeEach {
                     sut = TrackerEvent.productList(nil, categories: categories, searchQuery: searchQuery, feedSource: .home, success: .trueParameter)
@@ -874,11 +874,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailVisit") {
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserProduct.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
 
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -886,7 +886,7 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                                                           state: "Catalonia", countryCode: "US", country: nil)
@@ -947,9 +947,9 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailVisitMoreInfo") {
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.isDummy = false
+                    var userListing = MockUserProduct.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.isDummy = false
 
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -957,7 +957,7 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
@@ -1019,11 +1019,11 @@ class TrackerEventSpec: QuickSpec {
             describe("productFavorite") {
 
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserProduct.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
                     
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -1031,7 +1031,7 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
@@ -1084,11 +1084,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productShare") {
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserProduct.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
                     
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -1096,7 +1096,7 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
@@ -1469,11 +1469,11 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productMarkAsSold") {
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserProduct.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
 
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -1481,7 +1481,7 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .free
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
@@ -1513,7 +1513,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains category-id param") {
                     let value = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(value) == ProductCategory.homeAndGarden.rawValue
+                    expect(value) == ListingCategory.homeAndGarden.rawValue
                 }
                 it("contains user-sold-to param") {
                     let value = sut.params!.stringKeyParams["user-sold-to"] as? String
@@ -1546,12 +1546,12 @@ class TrackerEventSpec: QuickSpec {
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = ProductCategory(rawValue: 4)!
+                    product.category = ListingCategory(rawValue: 4)!
                     product.user = myUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
-                    product.category = ProductCategory(rawValue: 4)!
+                    product.category = ListingCategory(rawValue: 4)!
                     
                     sut = TrackerEvent.productMarkAsUnsold(product)
                     expect(sut.params).notTo(beNil())
@@ -1583,11 +1583,11 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("product-detail-report"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserProduct.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
                     
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -1595,7 +1595,7 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
@@ -1934,7 +1934,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the product related params when passing by a product, name & category") {
                     var product = MockProduct.makeMock()
-                    let newCategory = ProductCategory.carsAndMotors
+                    let newCategory = ListingCategory.carsAndMotors
                     product.objectId = "q1w2e3"
 
                     sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory,
@@ -1992,14 +1992,14 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("userMessageSent") {
-                var userProduct: MockUserProduct!
+                var userListing: MockUserProduct!
                 var product: MockProduct!
                 beforeEach {
-                    userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    userListing = MockUserProduct.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
 
                     product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -2007,12 +2007,12 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.userMessageSent(product, userTo: userProduct, messageType: .text,
+                    sut = TrackerEvent.userMessageSent(product, userTo: userListing, messageType: .text,
                                                        quickAnswerType: nil, typePage: .chat, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
@@ -2032,7 +2032,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has category-id param") {
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(productCategory) == ProductCategory.homeAndGarden.rawValue
+                    expect(productCategory) == ListingCategory.homeAndGarden.rawValue
                 }
                 it("has coordinates params") {
                     let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
@@ -2059,7 +2059,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("text message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(product, userTo: userProduct, messageType: .text,
+                        sut = TrackerEvent.userMessageSent(product, userTo: userListing, messageType: .text,
                                                            quickAnswerType: nil, typePage: .chat,
                                                            freePostingModeAllowed: true)
                     }
@@ -2077,7 +2077,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("sticker message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(product, userTo: userProduct, messageType: .sticker,
+                        sut = TrackerEvent.userMessageSent(product, userTo: userListing, messageType: .sticker,
                                                            quickAnswerType: nil, typePage: .chat,
                                                            freePostingModeAllowed: true)
                     }
@@ -2095,7 +2095,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("quick answer message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(product, userTo: userProduct, messageType: .quickAnswer,
+                        sut = TrackerEvent.userMessageSent(product, userTo: userListing, messageType: .quickAnswer,
                                                            quickAnswerType: .notInterested, typePage: .chat,
                                                            freePostingModeAllowed: true)
                     }
