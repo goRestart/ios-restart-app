@@ -297,7 +297,7 @@ platform :ios do
   lane :ui_test do
     scan(
       scheme: "UITests",
-      device: "iPhone 6 (9.3)",
+      device: "iPhone 6 (10.2)",
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
