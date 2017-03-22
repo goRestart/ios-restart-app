@@ -21,7 +21,7 @@ protocol MediaPermissions {
     var videoAuthorizationStatus: AuthorizationStatus { get }
     var libraryAuthorizationStatus: AuthorizationStatus { get }
     func requestVideoAccess(completionHandler handler: @escaping ((Bool) -> Void))
-    func requestLibraryAuthorization(completionHandler handler: @escaping (PHAuthorizationStatus) -> Void)
+    func requestLibraryAuthorization(completionHandler handler: @escaping (AuthorizationStatus) -> Void)
    
 }
 
@@ -31,24 +31,27 @@ class LGMediaPermissions: MediaPermissions {
         return UIImagePickerController.isSourceTypeAvailable(.camera)
     }
     var videoAuthorizationStatus: AuthorizationStatus {
-        return getCameraAuthStatus(from: AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo))
+        return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo).authorizationStatus
     }
     
     var libraryAuthorizationStatus: AuthorizationStatus {
-        return getLibraryAuthStatus(from: PHPhotoLibrary.authorizationStatus())
+        return PHPhotoLibrary.authorizationStatus().authorizationStatus
     }
     
     func requestVideoAccess(completionHandler handler: @escaping ((Bool) -> Void)) {
         AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: handler)
     }
     
-    func requestLibraryAuthorization(completionHandler handler: @escaping (PHAuthorizationStatus) -> Void) {
-        
+    func requestLibraryAuthorization(completionHandler handler: @escaping (AuthorizationStatus) -> Void) {
+        PHPhotoLibrary.requestAuthorization { (granted) in
+            handler(granted.authorizationStatus)
+        }
     }
-    
-    
-    fileprivate func getCameraAuthStatus(from avAuthorizationStatus: AVAuthorizationStatus) -> AuthorizationStatus {
-        switch avAuthorizationStatus {
+}
+
+extension AVAuthorizationStatus {
+    var authorizationStatus: AuthorizationStatus {
+        switch self {
         case .notDetermined:
             return .notDetermined
         case .restricted:
@@ -59,9 +62,11 @@ class LGMediaPermissions: MediaPermissions {
             return .authorized
         }
     }
-    
-    fileprivate func getLibraryAuthStatus(from phAuthorizationStatus: PHAuthorizationStatus) -> AuthorizationStatus {
-        switch phAuthorizationStatus {
+}
+
+extension PHAuthorizationStatus {
+    var authorizationStatus: AuthorizationStatus {
+        switch self {
         case .notDetermined:
             return .notDetermined
         case .restricted:

@@ -1,3 +1,4 @@
+
 //
 //  MockMediaPermissions.swift
 //  LetGo
@@ -18,5 +19,5 @@ class MockMediaPermissions: MediaPermissions {
     var libraryAuthorizationStatus: AuthorizationStatus = .authorized
     
     func requestVideoAccess(completionHandler handler: @escaping ((Bool) -> Void)) { }
-    func requestLibraryAuthorization(completionHandler handler: @escaping (PHAuthorizationStatus) -> Void) { }
+    func requestLibraryAuthorization(completionHandler handler: @escaping (AuthorizationStatus) -> Void) { }
 }
