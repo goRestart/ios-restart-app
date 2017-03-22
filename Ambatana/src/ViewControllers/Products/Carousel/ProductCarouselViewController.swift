@@ -1047,6 +1047,7 @@ extension ProductCarouselViewController {
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)
         delay(0.1) { [weak self] in
+            guard let visible = self?.bumpUpBannerIsVisible, visible else { return }
             self?.bannerBottom = 0
             UIView.animate(withDuration: 0.3, animations: {
                 self?.view.layoutIfNeeded()
