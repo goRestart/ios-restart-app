@@ -140,7 +140,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         case 4:
             return Core.installationRepository.installation?.deviceToken ?? propertyNotFound
         case 5:
-            return "Next start will be as a 100% fresh install start"
+            return "Next start will be as a fresh install start (except system permissions)"
         case 6:
             return "Next start will be as re-install (keeping installation_id)"
         default:
