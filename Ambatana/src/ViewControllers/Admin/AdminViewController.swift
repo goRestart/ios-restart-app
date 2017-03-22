@@ -72,6 +72,10 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             openFlex()
         case 1:
             openFeatureToggle()
+        case 5:
+            cleanInstall(keepInstallation: false)
+        case 6:
+            cleanInstall(keepInstallation: true)
         default:
             UIPasteboard.general.string = subtitleForCellAtIndexPath(indexPath)
         }
@@ -79,7 +83,12 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        #if GOD_MODE
+            return 7
+        #else
+            return 5
+        #endif
+
     }
     
     // MARK: - Private
@@ -91,6 +100,15 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func openFeatureToggle() {
         let vc = BumperViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func cleanInstall(keepInstallation: Bool) {
+
+        
+
+        #if GOD_MODE
+        exit(0)
+        #endif
     }
     
     private func titleForCellAtIndexPath(_ indexPath: IndexPath) -> String {
@@ -105,6 +123,10 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             return "😎 User id"
         case 4:
             return "📲 Push token"
+        case 5:
+            return "🌪 New install"
+        case 6:
+            return "⏮ Remove & install"
         default:
             return "Not implemented"
         }
@@ -119,6 +141,10 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             return Core.myUserRepository.myUser?.objectId ?? propertyNotFound
         case 4:
             return Core.installationRepository.installation?.deviceToken ?? propertyNotFound
+        case 5:
+            return "Next start will be as a 100% fresh install start"
+        case 6:
+            return "Next start will be as re-install (keeping installation_id)"
         default:
             return ""
         }

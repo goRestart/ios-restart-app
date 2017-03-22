@@ -9,9 +9,11 @@
 import Foundation
 import Security
 
-class KeychainChecker {
+class GodModeManager {
 
-    private static let settingsKey = "god_mode_cleanup_keychain"
+    static let sharedInstance: GodModeManager = GodModeManager()
+
+    private static let cleanKeychainKey = "god_mode_cleanup_keychain"
 
     private let booleanDAO: BooleanDAO
     private let keychainCleaner: KeychainCleaner
@@ -32,12 +34,16 @@ class KeychainChecker {
         self.enabled = enabled
     }
 
-    func checkKeychain() {
+    func applicationDidFinishLaunching() {
+        checkKeychain()
+    }
+
+    private func checkKeychain() {
         guard enabled else { return }
-        let shouldClean = booleanDAO.bool(forKey: KeychainChecker.settingsKey)
+        let shouldClean = booleanDAO.bool(forKey: GodModeManager.cleanKeychainKey)
         guard shouldClean else { return }
         keychainCleaner.cleanKeychain()
-        booleanDAO.set(false, forKey: KeychainChecker.settingsKey)
+        booleanDAO.set(false, forKey: GodModeManager.cleanKeychainKey)
     }
 }
 

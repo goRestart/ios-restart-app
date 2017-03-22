@@ -51,6 +51,7 @@ final class AppDelegate: UIResponder {
 extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        GodModeManager.sharedInstance.applicationDidFinishLaunching()
         ABTests.registerVariables()
         self.featureFlags = FeatureFlags.sharedInstance
         self.purchasesShopper = LGPurchasesShopper.sharedInstance
@@ -242,7 +243,6 @@ fileprivate extension AppDelegate {
 
     func setupLibraries(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
 
-        KeychainChecker().checkKeychain()
         LGCacheManager().cleanIfNeeded()
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
