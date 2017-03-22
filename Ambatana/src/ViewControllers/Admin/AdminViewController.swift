@@ -103,10 +103,22 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func cleanInstall(keepInstallation: Bool) {
-        GodModeManager.sharedInstance.setCleanInstallOnNextStart(keepingInstallation: keepInstallation)
-        #if GOD_MODE
-        exit(0)
-        #endif
+        let message = keepInstallation ?
+            "You're about to reset stored state and bumper information. (Push, location, photos and camera permissions will remain)" :
+            "You're about to reset all stored state, bumper and keychain information, installation will be new. (Push, location, photos and camera permissions will remain)"
+
+        ask(message: message, andExecute: {
+            GodModeManager.sharedInstance.setCleanInstallOnNextStart(keepingInstallation: keepInstallation)
+            #if GOD_MODE
+                exit(0)
+            #endif
+        })
+    }
+
+    private func ask(message: String, andExecute action: @escaping () -> Void) {
+        let cancelAction = UIAction(interface: .styledText("Cancel", .cancel), action: {})
+        let okAction = UIAction(interface: .styledText("Do it!", .standard), action: action)
+        showAlert(nil, message: message, actions: [cancelAction, okAction])
     }
     
     private func titleForCellAtIndexPath(_ indexPath: IndexPath) -> String {
