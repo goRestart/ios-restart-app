@@ -340,8 +340,8 @@ class ProductViewModel: BaseViewModel {
 
     fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, paymentItemId: String?, bumpUpType: BumpUpType) {
 
-        var primaryBlock: (() -> ()?)
-        var buttonBlock: (() -> ()?)
+        var primaryBlock: () -> Void
+        var buttonBlock: () -> Void
         switch bumpUpType {
         case .free:
             guard let paymentItemId = paymentItemId else { return }
