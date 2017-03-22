@@ -8,7 +8,6 @@
 
 import Foundation
 import RxSwift
-import Photos
 
 enum CameraState {
     case pendingAskPermissions, missingPermissions(String), capture, takingPhoto, preview
@@ -41,24 +40,30 @@ class PostProductCameraViewModel: BaseViewModel {
     let sourcePosting: PostingSource
 
     private let featureFlags: FeatureFlaggeable
+    private let mediaPermissions: MediaPermissions
     
 
     // MARK: - Lifecycle
 
 
-    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable) {
+    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
         self.keyValueStorage = keyValueStorage
         self.sourcePosting = postingSource
         self.featureFlags = featureFlags
+        self.mediaPermissions = mediaPermissions
         super.init()
         setupFirstShownLiterals()
         setupRX()
     }
 
     convenience init(postingSource: PostingSource) {
+        let mediaPermissions: MediaPermissions = LGMediaPermissions()
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        self.init(postingSource: postingSource, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+        self.init(postingSource: postingSource,
+                  keyValueStorage: keyValueStorage,
+                  featureFlags: featureFlags,
+                  mediaPermissions: mediaPermissions)
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -173,11 +178,11 @@ class PostProductCameraViewModel: BaseViewModel {
     }
 
     private func checkCameraState() {
-        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+        guard mediaPermissions.isCameraAvailable else {
             cameraState.value = .missingPermissions(LGLocalizedString.productSellCameraRestrictedError)
             return
         }
-        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        let status = mediaPermissions.videoAuthorizationStatus
         switch (status) {
         case .authorized:
             cameraState.value = .capture
@@ -193,7 +198,7 @@ class PostProductCameraViewModel: BaseViewModel {
     }
 
     private func askForPermissions() {
-        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { granted in
+        mediaPermissions.requestVideoAccess { granted in
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
                 self?.cameraState.value = granted ?
@@ -281,3 +286,5 @@ fileprivate extension CameraSource {
         }
     }
 }
+
+
