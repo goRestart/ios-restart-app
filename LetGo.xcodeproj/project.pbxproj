@@ -621,6 +621,7 @@
 		72157A0B1E5F3798006AF997 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D57CD01E5767FC0009FA06 /* NotificationService.swift */; };
 		721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A83101E827FD300507E47 /* MediaPermissions.swift */; };
 		721A83121E827FD300507E47 /* MediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A83101E827FD300507E47 /* MediaPermissions.swift */; };
+		721A83141E82B52C00507E47 /* MockMediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A83131E82B52C00507E47 /* MockMediaPermissions.swift */; };
 		723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
@@ -1787,6 +1788,7 @@
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		721579FF1E5F34F7006AF997 /* notificationserviceGodMode.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notificationserviceGodMode.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		721A83101E827FD300507E47 /* MediaPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPermissions.swift; path = Ambatana/src/Manager/MediaPermissions.swift; sourceTree = SOURCE_ROOT; };
+		721A83131E82B52C00507E47 /* MockMediaPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMediaPermissions.swift; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
@@ -3001,6 +3003,7 @@
 				50D08D621E69AF14009CC260 /* MockBubbleNotificationManager.swift */,
 				50D08D631E69AF14009CC260 /* MockCountryHelper.swift */,
 				50D08D641E69AF14009CC260 /* MockFeatureFlags.swift */,
+				721A83131E82B52C00507E47 /* MockMediaPermissions.swift */,
 				C750AA8C1E6D77B7005F87C5 /* MockImageDownloader.swift */,
 				50D08D651E69AF14009CC260 /* MockKeychainChecker.swift */,
 				50D08D661E69AF14009CC260 /* MockKeyValueStorage.swift */,
@@ -4906,6 +4909,7 @@
 				C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */,
 				50D08DDF1E69AF14009CC260 /* MainProductsViewModelSpec.swift in Sources */,
 				50D08DDA1E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift in Sources */,
+				721A83141E82B52C00507E47 /* MockMediaPermissions.swift in Sources */,
 				50D08DDC1E69AF14009CC260 /* ChangeEmailViewModelSpec.swift in Sources */,
 				50D08DC61E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift in Sources */,
 				50D08DB91E69AF14009CC260 /* MockPurchaseableProduct+MockFactory.swift in Sources */,
