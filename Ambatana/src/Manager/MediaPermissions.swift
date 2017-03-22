@@ -43,8 +43,8 @@ class LGMediaPermissions: MediaPermissions {
     }
     
     func requestLibraryAuthorization(completionHandler handler: @escaping (AuthorizationStatus) -> Void) {
-        PHPhotoLibrary.requestAuthorization { (granted) in
-            handler(granted.authorizationStatus)
+        PHPhotoLibrary.requestAuthorization { (status) in
+            handler(status.authorizationStatus)
         }
     }
 }
