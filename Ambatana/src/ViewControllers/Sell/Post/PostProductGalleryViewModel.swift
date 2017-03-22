@@ -276,7 +276,8 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     private func askForPermissionsAndFetch() {
-        PHPhotoLibrary.requestAuthorization { newStatus in
+        
+        mediaPermissions.requestLibraryAuthorization { newStatus in
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
                 if newStatus == .authorized {

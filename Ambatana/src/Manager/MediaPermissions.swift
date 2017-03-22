@@ -8,23 +8,21 @@
 
 import Photos
 
-enum MediaType: String {
-    case video
-    case audio
-    case text
-    case closedCaption
-    case subtitle
-    case timecode
-    case metadata
-    case muxed
+enum AuthorizationStatus {
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
 }
 
 
 protocol MediaPermissions {
     var isCameraAvailable: Bool { get }
-    var libraryAuthorizationStatus: PHAuthorizationStatus { get }
-    func requestAccess(forMediaType mediaType: MediaType, completionHandler handler: @escaping ((Bool) -> Void))
-    func authorizationStatus(forMediaType mediaType: MediaType) -> AVAuthorizationStatus
+    var videoAuthorizationStatus: AuthorizationStatus { get }
+    var libraryAuthorizationStatus: AuthorizationStatus { get }
+    func requestVideoAccess(completionHandler handler: @escaping ((Bool) -> Void))
+    func requestLibraryAuthorization(completionHandler handler: @escaping (PHAuthorizationStatus) -> Void)
+   
 }
 
 
@@ -32,37 +30,46 @@ class LGMediaPermissions: MediaPermissions {
     var isCameraAvailable: Bool {
         return UIImagePickerController.isSourceTypeAvailable(.camera)
     }
-    
-    var libraryAuthorizationStatus: PHAuthorizationStatus {
-        return PHPhotoLibrary.authorizationStatus()
+    var videoAuthorizationStatus: AuthorizationStatus {
+        return getCameraAuthStatus(from: AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo))
     }
     
-    func requestAccess(forMediaType mediaType: MediaType, completionHandler handler: @escaping ((Bool) -> Void)) {
-        AVCaptureDevice.requestAccess(forMediaType: getAVMediaType(for: mediaType), completionHandler: handler)
+    var libraryAuthorizationStatus: AuthorizationStatus {
+        return getLibraryAuthStatus(from: PHPhotoLibrary.authorizationStatus())
     }
     
-    func authorizationStatus(forMediaType mediaType: MediaType) -> AVAuthorizationStatus {
-        return AVCaptureDevice.authorizationStatus(forMediaType: getAVMediaType(for: mediaType))
+    func requestVideoAccess(completionHandler handler: @escaping ((Bool) -> Void)) {
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: handler)
     }
     
-    private func getAVMediaType(for type: MediaType) -> String {
-        switch type {
-        case .video:
-            return AVMediaTypeVideo
-        case .audio:
-            return AVMediaTypeAudio
-        case .text:
-            return AVMediaTypeText
-        case .closedCaption:
-            return AVMediaTypeClosedCaption
-        case .subtitle:
-            return AVMediaTypeSubtitle
-        case .timecode:
-            return AVMediaTypeTimecode
-        case .metadata:
-            return AVMediaTypeMetadata
-        case .muxed:
-            return AVMediaTypeMuxed
+    func requestLibraryAuthorization(completionHandler handler: @escaping (PHAuthorizationStatus) -> Void) {
+        
+    }
+    
+    
+    fileprivate func getCameraAuthStatus(from avAuthorizationStatus: AVAuthorizationStatus) -> AuthorizationStatus {
+        switch avAuthorizationStatus {
+        case .notDetermined:
+            return .notDetermined
+        case .restricted:
+            return .restricted
+        case .denied:
+            return .denied
+        case .authorized:
+            return .authorized
+        }
+    }
+    
+    fileprivate func getLibraryAuthStatus(from phAuthorizationStatus: PHAuthorizationStatus) -> AuthorizationStatus {
+        switch phAuthorizationStatus {
+        case .notDetermined:
+            return .notDetermined
+        case .restricted:
+            return .restricted
+        case .denied:
+            return .denied
+        case .authorized:
+            return .authorized
         }
     }
 }

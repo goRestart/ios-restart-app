@@ -182,7 +182,7 @@ class PostProductCameraViewModel: BaseViewModel {
             cameraState.value = .missingPermissions(LGLocalizedString.productSellCameraRestrictedError)
             return
         }
-        let status = mediaPermissions.authorizationStatus(forMediaType: .video)
+        let status = mediaPermissions.videoAuthorizationStatus
         switch (status) {
         case .authorized:
             cameraState.value = .capture
@@ -198,7 +198,7 @@ class PostProductCameraViewModel: BaseViewModel {
     }
 
     private func askForPermissions() {
-        mediaPermissions.requestAccess(forMediaType: .video) { granted in
+        mediaPermissions.requestVideoAccess { granted in
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
                 self?.cameraState.value = granted ?

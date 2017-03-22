@@ -14,11 +14,9 @@ import Photos
 class MockMediaPermissions: MediaPermissions {
     
     var isCameraAvailable: Bool = false
-    var libraryAuthorizationStatus: PHAuthorizationStatus = .authorized
+    var videoAuthorizationStatus: AuthorizationStatus = .authorized
+    var libraryAuthorizationStatus: AuthorizationStatus = .authorized
     
-    func requestAccess(forMediaType mediaType: MediaType, completionHandler handler: @escaping ((Bool) -> Void)) { }
-    
-    func authorizationStatus(forMediaType mediaType: MediaType) -> AVAuthorizationStatus {
-        return .authorized
-    }
+    func requestVideoAccess(completionHandler handler: @escaping ((Bool) -> Void)) { }
+    func requestLibraryAuthorization(completionHandler handler: @escaping (PHAuthorizationStatus) -> Void) { }
 }
