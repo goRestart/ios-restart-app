@@ -44,7 +44,7 @@ class GodModeManager {
 
     func applicationDidFinishLaunching() {
         if checkFullClean() { return }
-        if checkReInstallClean() { return }
+        checkReInstallClean()
         checkKeychain()
     }
 
@@ -55,10 +55,9 @@ class GodModeManager {
         return true
     }
 
-    private func checkReInstallClean() -> Bool {
-        guard keyEnabled(.reinstallCleanStart) else { return false }
+    private func checkReInstallClean() {
+        guard keyEnabled(.reinstallCleanStart) else { return }
         storageCleaner.cleanKeyValueStorage()
-        return true
     }
 
     private func checkKeychain() {
