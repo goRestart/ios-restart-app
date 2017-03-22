@@ -105,11 +105,11 @@ class PostProductGalleryViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience override init() {
-        self.init(keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance, maxImageSelected: Constants.maxImageCount)
     }
 
-    required init(keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags) {
-        self.maxImagesSelected = Constants.maxImageCount
+    required init(keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags, maxImageSelected: Int = Constants.maxImageCount) {
+        self.maxImagesSelected = maxImageSelected
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         super.init()
