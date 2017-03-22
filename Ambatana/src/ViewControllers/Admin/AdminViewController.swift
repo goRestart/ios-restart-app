@@ -103,9 +103,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func cleanInstall(keepInstallation: Bool) {
-
-        
-
+        GodModeManager.sharedInstance.setCleanInstallOnNextStart(keepingInstallation: keepInstallation)
         #if GOD_MODE
         exit(0)
         #endif
