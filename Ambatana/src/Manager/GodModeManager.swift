@@ -67,13 +67,13 @@ class GodModeManager {
     }
 
     private func keyEnabled(_ key: GodModeKey) -> Bool {
-        guard enabled else { return false }
+        guard self.enabled else { return false }
         let keyEnabled = booleanDAO.bool(forKey: key.rawValue)
         return keyEnabled
     }
 
     private func set(key: GodModeKey, enabled: Bool) {
-        guard enabled else { return }
+        guard self.enabled else { return }
         booleanDAO.set(enabled, forKey: key.rawValue)
     }
 }
