@@ -19,6 +19,7 @@ enum MediaType: String {
     case muxed
 }
 
+
 protocol MediaPermissions {
     var isCameraAvailable: Bool { get }
     var libraryAuthorizationStatus: PHAuthorizationStatus { get }

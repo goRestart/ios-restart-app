@@ -43,8 +43,9 @@ enum AlbumSelectionIconState {
 class PostProductGalleryViewModel: BaseViewModel {
 
     let maxImagesSelected: Int
-    var keyValueStorage: KeyValueStorage
-    var featureFlags: FeatureFlags
+    var keyValueStorage: KeyValueStorageable
+    var featureFlags: FeatureFlaggeable
+    var mediaPermissions: MediaPermissions
 
     weak var delegate: PostProductGalleryViewModelDelegate?
     weak var galleryDelegate: PostProductGalleryViewDelegate?
@@ -105,13 +106,20 @@ class PostProductGalleryViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience override init() {
-        self.init(keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance, maxImageSelected: Constants.maxImageCount)
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  mediaPermissions: LGMediaPermissions(),
+                  maxImageSelected: Constants.maxImageCount)
     }
 
-    required init(keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags, maxImageSelected: Int = Constants.maxImageCount) {
+    required init(keyValueStorage: KeyValueStorage,
+                  featureFlags: FeatureFlags,
+                  mediaPermissions: MediaPermissions,
+                  maxImageSelected: Int = Constants.maxImageCount) {
         self.maxImagesSelected = maxImageSelected
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
+        self.mediaPermissions = mediaPermissions
         super.init()
         setupRX()
     }
@@ -253,7 +261,7 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     private func checkPermissionsAndFetch() {
-        let status = PHPhotoLibrary.authorizationStatus()
+        let status = mediaPermissions.libraryAuthorizationStatus
         switch (status) {
         case .authorized:
             fetchAlbums()
