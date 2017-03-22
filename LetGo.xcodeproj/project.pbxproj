@@ -392,7 +392,7 @@
 		50D08DB01E69AF14009CC260 /* MockBubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D621E69AF14009CC260 /* MockBubbleNotificationManager.swift */; };
 		50D08DB11E69AF14009CC260 /* MockCountryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D631E69AF14009CC260 /* MockCountryHelper.swift */; };
 		50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D641E69AF14009CC260 /* MockFeatureFlags.swift */; };
-		50D08DB31E69AF14009CC260 /* MockKeychainChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D651E69AF14009CC260 /* MockKeychainChecker.swift */; };
+		50D08DB31E69AF14009CC260 /* MockGodModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D651E69AF14009CC260 /* MockGodModeManager.swift */; };
 		50D08DB41E69AF14009CC260 /* MockKeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D661E69AF14009CC260 /* MockKeyValueStorage.swift */; };
 		50D08DB51E69AF14009CC260 /* MockNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D671E69AF14009CC260 /* MockNotificationsManager.swift */; };
 		50D08DB61E69AF14009CC260 /* MockPurchasesShopper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D681E69AF14009CC260 /* MockPurchasesShopper.swift */; };
@@ -417,7 +417,7 @@
 		50D08DC91E69AF14009CC260 /* TourLoginState+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */; };
 		50D08DCA1E69AF14009CC260 /* ConfigFileManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */; };
 		50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */; };
-		50D08DCC1E69AF14009CC260 /* KeychainCheckerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D831E69AF14009CC260 /* KeychainCheckerSpec.swift */; };
+		50D08DCC1E69AF14009CC260 /* GodModeManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */; };
 		50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D841E69AF14009CC260 /* NotificationsManagerSpec.swift */; };
 		50D08DCE1E69AF14009CC260 /* PurchasesShopperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D851E69AF14009CC260 /* PurchasesShopperSpec.swift */; };
 		50D08DCF1E69AF14009CC260 /* TrackerEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D871E69AF14009CC260 /* TrackerEventSpec.swift */; };
@@ -1080,8 +1080,8 @@
 		C7BAC9CD1E49E81E005BD0AF /* Product+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BAC9CC1E49E81E005BD0AF /* Product+LG.swift */; };
 		C7BAC9CE1E49E81E005BD0AF /* Product+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BAC9CC1E49E81E005BD0AF /* Product+LG.swift */; };
 		C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CD1E3613D500649396 /* VersionChecker.swift */; };
-		C7BB25D01E36153600649396 /* KeychainChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CF1E36153600649396 /* KeychainChecker.swift */; };
-		C7BB25D11E36153600649396 /* KeychainChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CF1E36153600649396 /* KeychainChecker.swift */; };
+		C7BB25D01E36153600649396 /* GodModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CF1E36153600649396 /* GodModeManager.swift */; };
+		C7BB25D11E36153600649396 /* GodModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CF1E36153600649396 /* GodModeManager.swift */; };
 		C7BB25D21E3618C700649396 /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BB25CD1E3613D500649396 /* VersionChecker.swift */; };
 		C7C328411C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
 		C7C328421C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
@@ -1634,7 +1634,7 @@
 		50D08D621E69AF14009CC260 /* MockBubbleNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBubbleNotificationManager.swift; sourceTree = "<group>"; };
 		50D08D631E69AF14009CC260 /* MockCountryHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCountryHelper.swift; sourceTree = "<group>"; };
 		50D08D641E69AF14009CC260 /* MockFeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFeatureFlags.swift; sourceTree = "<group>"; };
-		50D08D651E69AF14009CC260 /* MockKeychainChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockKeychainChecker.swift; sourceTree = "<group>"; };
+		50D08D651E69AF14009CC260 /* MockGodModeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockGodModeManager.swift; sourceTree = "<group>"; };
 		50D08D661E69AF14009CC260 /* MockKeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockKeyValueStorage.swift; sourceTree = "<group>"; };
 		50D08D671E69AF14009CC260 /* MockNotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNotificationsManager.swift; sourceTree = "<group>"; };
 		50D08D681E69AF14009CC260 /* MockPurchasesShopper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPurchasesShopper.swift; sourceTree = "<group>"; };
@@ -1659,7 +1659,7 @@
 		50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TourLoginState+LGSpec.swift"; sourceTree = "<group>"; };
 		50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigFileManagerSpec.swift; sourceTree = "<group>"; };
 		50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashManagerSpec.swift; sourceTree = "<group>"; };
-		50D08D831E69AF14009CC260 /* KeychainCheckerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainCheckerSpec.swift; sourceTree = "<group>"; };
+		50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GodModeManagerSpec.swift; sourceTree = "<group>"; };
 		50D08D841E69AF14009CC260 /* NotificationsManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManagerSpec.swift; sourceTree = "<group>"; };
 		50D08D851E69AF14009CC260 /* PurchasesShopperSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchasesShopperSpec.swift; sourceTree = "<group>"; };
 		50D08D871E69AF14009CC260 /* TrackerEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEventSpec.swift; sourceTree = "<group>"; };
@@ -2049,7 +2049,7 @@
 		C7BAC9C71E49D316005BD0AF /* PurchasesShopper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchasesShopper.swift; sourceTree = "<group>"; };
 		C7BAC9CC1E49E81E005BD0AF /* Product+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+LG.swift"; sourceTree = "<group>"; };
 		C7BB25CD1E3613D500649396 /* VersionChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionChecker.swift; sourceTree = "<group>"; };
-		C7BB25CF1E36153600649396 /* KeychainChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainChecker.swift; sourceTree = "<group>"; };
+		C7BB25CF1E36153600649396 /* GodModeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GodModeManager.swift; sourceTree = "<group>"; };
 		C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryViewModel.swift; sourceTree = "<group>"; };
 		C7C61DF31D63035400F9505D /* ProductCarouselMoreInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselMoreInfoView.swift; sourceTree = "<group>"; };
 		C7C61DF41D63035400F9505D /* ProductCarouselMoreInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCarouselMoreInfoView.xib; sourceTree = "<group>"; };
@@ -2752,7 +2752,7 @@
 				2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */,
 				C7BB25CD1E3613D500649396 /* VersionChecker.swift */,
 				C74BDB401D7F121600B59482 /* StickersManager.swift */,
-				C7BB25CF1E36153600649396 /* KeychainChecker.swift */,
+				C7BB25CF1E36153600649396 /* GodModeManager.swift */,
 				C7BAC9BB1E49BCC0005BD0AF /* LGBubbleNotificationManager.swift */,
 				C7BAC9B91E49BC8A005BD0AF /* BubbleNotificationManager.swift */,
 				C730FD0D1E76F93000175C27 /* CacheManager.swift */,
@@ -3005,7 +3005,7 @@
 				50D08D641E69AF14009CC260 /* MockFeatureFlags.swift */,
 				721A83131E82B52C00507E47 /* MockMediaPermissions.swift */,
 				C750AA8C1E6D77B7005F87C5 /* MockImageDownloader.swift */,
-				50D08D651E69AF14009CC260 /* MockKeychainChecker.swift */,
+				50D08D651E69AF14009CC260 /* MockGodModeManager.swift */,
 				50D08D661E69AF14009CC260 /* MockKeyValueStorage.swift */,
 				50D08D671E69AF14009CC260 /* MockNotificationsManager.swift */,
 				50D08D681E69AF14009CC260 /* MockPurchasesShopper.swift */,
@@ -3080,7 +3080,7 @@
 			children = (
 				50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */,
 				50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */,
-				50D08D831E69AF14009CC260 /* KeychainCheckerSpec.swift */,
+				50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */,
 				50D08D841E69AF14009CC260 /* NotificationsManagerSpec.swift */,
 				50D08D851E69AF14009CC260 /* PurchasesShopperSpec.swift */,
 				50D08D861E69AF14009CC260 /* Tracking */,
@@ -4935,7 +4935,7 @@
 				50D08DC51E69AF14009CC260 /* RxTest+LG.swift in Sources */,
 				50D08DDD1E69AF14009CC260 /* ChatViewModelSpec.swift in Sources */,
 				50D08DD61E69AF14009CC260 /* ProductListMultiRequesterSpec.swift in Sources */,
-				50D08DCC1E69AF14009CC260 /* KeychainCheckerSpec.swift in Sources */,
+				50D08DCC1E69AF14009CC260 /* GodModeManagerSpec.swift in Sources */,
 				C750AA8B1E6D76DC005F87C5 /* MockProductViewModelMaker.swift in Sources */,
 				50D08DE11E69AF14009CC260 /* ProductCarouselViewModelSpec.swift in Sources */,
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
@@ -4950,7 +4950,7 @@
 				2EC653B31E716C8800E23DDF /* Dictionary+FilterSpec.swift in Sources */,
 				50D08DB11E69AF14009CC260 /* MockCountryHelper.swift in Sources */,
 				50D08DB61E69AF14009CC260 /* MockPurchasesShopper.swift in Sources */,
-				50D08DB31E69AF14009CC260 /* MockKeychainChecker.swift in Sources */,
+				50D08DB31E69AF14009CC260 /* MockGodModeManager.swift in Sources */,
 				2EC653B71E71744B00E23DDF /* MockExternalAuthHelper.swift in Sources */,
 				50D08DC31E69AF14009CC260 /* Int+LGSpec.swift in Sources */,
 				50D08DD31E69AF14009CC260 /* LocalChatSpec.swift in Sources */,
@@ -5388,7 +5388,7 @@
 				C7DE8ACB1C888761005CF37E /* EditProductViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
-				C7BB25D01E36153600649396 /* KeychainChecker.swift in Sources */,
+				C7BB25D01E36153600649396 /* GodModeManager.swift in Sources */,
 				6A5E19F61D548F5400F92692 /* DeviceFamily.swift in Sources */,
 				C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */,
 				2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */,
@@ -5821,7 +5821,7 @@
 				C73FABBD1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
 				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
-				C7BB25D11E36153600649396 /* KeychainChecker.swift in Sources */,
+				C7BB25D11E36153600649396 /* GodModeManager.swift in Sources */,
 				6A5E19EF1D548F5400F92692 /* URL+LG.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
 				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
