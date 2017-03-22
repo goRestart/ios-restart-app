@@ -9,7 +9,7 @@
 
 @testable import LetGoGodMode
 import Foundation
-import RxSwift
+import Photos
 
 class MockMediaPermissions: MediaPermissions {
     
