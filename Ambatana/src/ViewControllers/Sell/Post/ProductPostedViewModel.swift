@@ -211,7 +211,7 @@ class ProductPostedViewModel: BaseViewModel {
 
         delegate?.productPostedViewModelSetupLoadingState(self)
 
-        listingRepository.create(product, images: images, progress: nil) { [weak self] result in
+        listingRepository.create(product: product, images: images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
 
             // Tracking

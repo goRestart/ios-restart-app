@@ -223,7 +223,7 @@ class ProductListViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
             self?.isLoading = false
-            if let newProducts = result.value {
+            if let newProducts = result.value?.flatMap({ $0.product }) {
                 let productCellModels = newProducts.map(ProductCellModel.init)
                 let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
                 let indexes: [Int]

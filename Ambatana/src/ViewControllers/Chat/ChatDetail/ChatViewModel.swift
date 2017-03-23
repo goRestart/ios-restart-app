@@ -79,7 +79,7 @@ class ChatViewModel: BaseViewModel {
     let messages = CollectionVariable<ChatViewMessage>([])
     let shouldShowReviewButton = Variable<Bool>(false)
     let userReviewTooltipVisible = Variable<Bool>(false)
-    var relatedProducts: [Product] = []
+    var relatedListings: [Listing] = []
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
 
@@ -273,9 +273,10 @@ class ChatViewModel: BaseViewModel {
     func wentBack() {
         guard sessionManager.loggedIn else { return }
         guard isBuyer else { return }
-        guard !relatedProducts.isEmpty else { return }
+        guard !relatedListings.isEmpty else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: false)
+        let products = relatedListings.flatMap { $0.product }
+        navigator?.openExpressChat(products, sourceProductId: productId, manualOpen: false)
     }
 
     func setupConversationFromProduct(_ product: Product) {
@@ -545,7 +546,8 @@ class ChatViewModel: BaseViewModel {
 
     func bannerActionButtonTapped() {
         guard let productId = conversation.value.product?.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: true)
+        let products = relatedListings.flatMap { $0.product }
+        navigator?.openExpressChat(products, sourceProductId: productId, manualOpen: true)
     }
 
     func directAnswersButtonPressed() {
@@ -730,7 +732,7 @@ extension ChatViewModel {
             return
         }
         delegate?.vmShowLoading(nil)
-        listingRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+        listingRepository.possibleBuyersOf(listingId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
@@ -746,7 +748,7 @@ extension ChatViewModel {
 
     private func markProductAsSold(productId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
-        listingRepository.markProductAsSold(productId, buyerId: nil) { [weak self] result in
+        listingRepository.markAsSold(productId, buyerId: nil) { [weak self] result in
             if let _ = result.value {
                 self?.trackMarkAsSold(userSoldTo: userSoldTo)
             }
@@ -1345,23 +1347,24 @@ extension ChatViewModel {
         listingRepository.indexRelated(listingId: productId, params: RetrieveListingParams()) {
             [weak self] result in
             guard let strongSelf = self else { return }
-            if let value = result.value {
-                strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
-                strongSelf.hasRelatedProducts.value = !strongSelf.relatedProducts.isEmpty
+            if let listings = result.value {
+                strongSelf.relatedListings = strongSelf.relatedWithoutMyListings(listings)
+                strongSelf.hasRelatedProducts.value = !strongSelf.relatedListings.isEmpty
             }
         }
     }
 
-    private func relatedWithoutMyProducts(_ products: [Product]) -> [Product] {
-        var cleanRelatedProducts: [Product] = []
-        for product in products {
-            if product.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedProducts.append(product) }
-            if cleanRelatedProducts.count == OldChatViewModel.maxRelatedProductsForExpressChat {
-                return cleanRelatedProducts
+    private func relatedWithoutMyListings(_ listings: [Listing]) -> [Listing] {
+        var cleanRelatedListings: [Listing] = []
+        for listing in listings {
+            if listing.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedListings.append(listing) }
+            if cleanRelatedListings.count == OldChatViewModel.maxRelatedProductsForExpressChat {
+                return cleanRelatedListings
             }
         }
-        return cleanRelatedProducts
+        return cleanRelatedListings
     }
+
 
     // Express Chat Banner methods
 

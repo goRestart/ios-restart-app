@@ -451,12 +451,12 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let progressBlock: (Float) -> Void = { [weak self] progress in self?.loadingProgress.value = progress }
         
         if let _ = product.objectId {
-            listingRepository.update(product, oldImages: remoteImages, newImages: localImages, progress: progressBlock, completion: commonCompletion)
+            listingRepository.update(product: product, oldImages: remoteImages, newImages: localImages, progress: progressBlock, completion: commonCompletion)
         } else {
             if localImages.isEmpty {
-                listingRepository.create(product, images: remoteImages, completion: commonCompletion)
+                listingRepository.create(product: product, images: remoteImages, completion: commonCompletion)
             } else {
-                listingRepository.create(product, images: localImages, progress: progressBlock, completion: commonCompletion)
+                listingRepository.create(product: product, images: localImages, progress: progressBlock, completion: commonCompletion)
             }
         }
     }

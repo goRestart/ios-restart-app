@@ -365,10 +365,20 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
 
         listingRepository.events.bindNext { [weak self] event in
             switch event {
-            case let .update(product):
-                self?.listViewModel.update(product: product)
-            case let .create(product):
-                self?.listViewModel.prepend(product: product)
+            case let .update(listing):
+                switch listing {
+                case .product(let product):
+                    self?.listViewModel.update(product: product)
+                case .car:
+                    break
+                }
+            case let .create(listing):
+                switch listing {
+                case .product(let product):
+                    self?.listViewModel.prepend(product: product)
+                case .car:
+                    break
+                }
             case let .delete(productId):
                 self?.listViewModel.delete(productId: productId)
             case .favorite, .unFavorite, .sold, .unSold:

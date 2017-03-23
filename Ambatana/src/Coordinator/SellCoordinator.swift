@@ -94,7 +94,7 @@ extension SellCoordinator: PostProductNavigator {
     func closePostProductAndPostInBackground(_ product: Product, images: [File], showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo) {
         dismissViewController(animated: true) { [weak self] in
-            self?.listingRepository.create(product, images: images) { result in
+            self?.listingRepository.create(product: product, images: images) { result in
                 self?.trackPost(result, trackingInfo: trackingInfo)
 
                 if let _ = result.value {

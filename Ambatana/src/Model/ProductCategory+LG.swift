@@ -30,6 +30,8 @@ extension ListingCategory {
             return LGLocalizedString.categoriesBabyAndChild
         case .other:
             return LGLocalizedString.categoriesOther
+        case .cars:
+            return LGLocalizedString.categoriesCar
         }
     }
         
@@ -53,6 +55,8 @@ extension ListingCategory {
             return UIImage(named: "categories_babies")
         case .other:
             return UIImage(named: "categories_others")
+        case .cars:
+            return UIImage(named: "categories_car")
         }
     }
     
@@ -76,6 +80,8 @@ extension ListingCategory {
             return UIImage(named: "categories_babies_inactive")
         case .other:
             return UIImage(named: "categories_others_inactive")
+        case .cars:
+            return UIImage(named: "categories_car_inactive")
         }
     }
     
@@ -99,6 +105,8 @@ extension ListingCategory {
             return UIColor.babyChildCategory
         case .other:
             return UIColor.otherCategory
+        case .cars:
+            return UIColor.carCategory
         }
     }
 

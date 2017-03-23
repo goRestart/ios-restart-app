@@ -48,16 +48,19 @@ class FilteredProductListRequester: ProductListRequester {
         }
         
         retrieve() { [weak self] result in
-            guard let indexProducts = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
+            guard let indexListings = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
                 completion?(result)
                 return
             }
+            let indexProducts = indexListings.flatMap { $0.product }
             self?.listingRepository.indexLimbo { [weak self] limboResult in
-                var finalProducts: [Product] = limboResult.value ?? []
+                let listings: [Listing] = limboResult.value ?? []
+                var finalProducts: [Product] = listings.flatMap { $0.product }
                 finalProducts += indexProducts
                 self?.offset = indexProducts.count
-                completion?(ListingsResult(finalProducts))
+                let finalListings: [Listing] = finalProducts.map { Listing.product($0) }
+                completion?(ListingsResult(finalListings))
             }
         }
     }

@@ -551,18 +551,28 @@ fileprivate extension UserViewModel {
         if itsMe {
             listingRepository.events.bindNext { [weak self] event in
                 switch event {
-                case let .update(product):
-                    self?.sellingProductListViewModel.update(product: product)
+                case let .update(listing):
+                    switch listing {
+                    case .product(let product):
+                        self?.sellingProductListViewModel.update(product: product)
+                    case .car:
+                        break;
+                    }
                 case .sold, .unSold:
                     self?.sellingProductListViewModel.refresh()
                     self?.soldProductListViewModel.refresh()
                 case .favorite, .unFavorite:
                     self?.favoritesProductListViewModel.refresh()
-                case let .create(product):
-                    self?.sellingProductListViewModel.prepend(product: product)
-                case let .delete(productId):
-                    self?.sellingProductListViewModel.delete(productId: productId)
-                    self?.soldProductListViewModel.delete(productId: productId)
+                case let .create(listing):
+                    switch listing {
+                    case .product(let product):
+                        self?.sellingProductListViewModel.prepend(product: product)
+                    case .car:
+                        break;
+                    }
+                case let .delete(listingId):
+                    self?.sellingProductListViewModel.delete(productId: listingId)
+                    self?.soldProductListViewModel.delete(productId: listingId)
                 }
             }.addDisposableTo(disposeBag)
         }

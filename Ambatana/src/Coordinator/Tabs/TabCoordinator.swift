@@ -165,7 +165,7 @@ fileprivate extension TabCoordinator {
                      showKeyboardOnFirstAppearIfNeeded: Bool) {
         navigationController.showLoadingMessageAlert()
         listingRepository.retrieve(productId) { [weak self] result in
-            if let product = result.value {
+            if let product = result.value?.product {
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.openProduct(product: product, source: source, index: 0, discover: false,
                                       showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)

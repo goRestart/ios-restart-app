@@ -135,7 +135,7 @@ extension AppDelegate: UIApplicationDelegate {
         keyValueStorage?[.didEnterBackground] = true
         appIsActive.value = false
         LGCoreKit.applicationDidEnterBackground()
-        listingRepository?.updateProductViewCounts()
+        listingRepository?.updateListingViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
 
         // stop observing payment transactions

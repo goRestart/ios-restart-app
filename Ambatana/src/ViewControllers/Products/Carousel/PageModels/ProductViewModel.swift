@@ -174,10 +174,10 @@ class ProductViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let productId = product.value.objectId else { return }
 
-        listingRepository.incrementViews(product.value, completion: nil)
+        listingRepository.incrementViews(listingId: productId, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
-            listingRepository.retrieveUserProductRelation(productId) { [weak self] result in
+            listingRepository.retrieveUserListingRelation(productId) { [weak self] result in
                 guard let value = result.value  else { return }
                 self?.relationRetrieved = true
                 self?.isFavorite.value = value.isFavorited
@@ -186,7 +186,7 @@ class ProductViewModel: BaseViewModel {
         }
 
         if ListingStats.value == nil {
-            listingRepository.retrieveStats(product.value) { [weak self] result in
+            listingRepository.retrieveStats(listingId: productId) { [weak self] result in
                 guard let stats = result.value else { return }
                 self?.ListingStats.value = stats
             }
@@ -216,8 +216,8 @@ class ProductViewModel: BaseViewModel {
     func syncProduct(_ completion: (() -> ())?) {
         guard let productId = product.value.objectId else { return }
         listingRepository.retrieve(productId) { [weak self] result in
-            if let value = result.value {
-                self?.product.value = value
+            if let product = result.value?.product {
+                self?.product.value = product
             }
             completion?()
         }
@@ -226,8 +226,10 @@ class ProductViewModel: BaseViewModel {
     private func setupRxBindings() {
 
         if let productId = product.value.objectId {
-            listingRepository.updateEventsFor(productId: productId).bindNext { [weak self] product in
-                self?.product.value = product
+            listingRepository.updateEvents(for: productId).bindNext { [weak self] listing in
+                if let product = listing.product {
+                    self?.product.value = product
+                }
             }.addDisposableTo(disposeBag)
         }
 
@@ -666,7 +668,7 @@ fileprivate extension ProductViewModel {
         let currentFavoriteValue = isFavorite.value
         isFavorite.value = !isFavorite.value
         if currentFavoriteValue {
-            listingRepository.deleteFavorite(product.value) { [weak self] result in
+            listingRepository.deleteFavorite(product: product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.error {
                     strongSelf.isFavorite.value = currentFavoriteValue
@@ -674,7 +676,7 @@ fileprivate extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .enabled
             }
         } else {
-            listingRepository.saveFavorite(product.value) { [weak self] result in
+            listingRepository.saveFavorite(product: product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
@@ -714,7 +716,7 @@ fileprivate extension ProductViewModel {
 
         guard let productId = product.value.objectId else { return }
         delegate?.vmShowLoading(nil)
-        listingRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+        listingRepository.possibleBuyersOf(listingId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers) { [weak self] buyerId in
@@ -765,13 +767,14 @@ fileprivate extension ProductViewModel {
     }
 
     func report() {
+        guard let productId = product.value.objectId else { return }
         if isReported.value {
             delegate?.vmHideLoading(LGLocalizedString.productReportedSuccessMessage, afterMessageCompletion: nil)
             return
         }
         delegate?.vmShowLoading(LGLocalizedString.productReportingLoadingMessage)
 
-        listingRepository.saveReport(product.value) { [weak self] result in
+        listingRepository.saveReport(productId) { [weak self] result in
             guard let strongSelf = self else { return }
 
             var message: String? = nil
@@ -787,10 +790,11 @@ fileprivate extension ProductViewModel {
     }
 
     func delete() {
+        guard let productId = product.value.objectId else { return }
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
         trackHelper.trackDeleteStarted()
 
-        listingRepository.delete(product.value) { [weak self] result in
+        listingRepository.delete(listingId: productId) { [weak self] result in
             var message: String? = nil
             var afterMessageAction: (() -> ())? = nil
             if let _ = result.value {
@@ -809,7 +813,7 @@ fileprivate extension ProductViewModel {
     func markAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo) {
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markProductAsSold(product.value, buyerId: buyerId) { [weak self] result in
+        listingRepository.markProductAsSold(product: product.value, buyerId: buyerId) { [weak self] result in
             guard let strongSelf = self else { return }
 
             var markAsSoldCompletion: (()->())? = nil
@@ -834,7 +838,7 @@ fileprivate extension ProductViewModel {
     func markUnsold() {
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markProductAsUnsold(product.value) { [weak self] result in
+        listingRepository.markProductAsUnsold(product: product.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
             let message: String
